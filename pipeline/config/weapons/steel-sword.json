@@ -1,0 +1,8 @@
+{
+  "id": "steel-sword",
+  "label": "Steel Sword",
+  "nif": "meshes/weapons/steel/steelsword.nif",
+  "dropShapesContaining": ["scb", "scabbard", "blood", "edgeblood"],
+  "targetLengthMeters": 0.98,
+  "output": "output/weapon-steel-sword.glb"
+}

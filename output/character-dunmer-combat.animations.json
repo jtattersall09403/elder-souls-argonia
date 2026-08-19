@@ -6,8 +6,9 @@
     "sockets": {
       "rightHand": "NPC Hand [Hnd].R",
       "leftHand": "NPC Hand [Hnd].L",
-      "weapon": "WeaponSword",
-      "weaponFallback": "Weapon"
+      "weapon": "Weapon",
+      "weaponFallback": "NPC Hand [Hnd].R",
+      "sheath": "WeaponSword"
     },
     "recommendedScale": 0.1496,
     "targetHeightMeters": 1.85

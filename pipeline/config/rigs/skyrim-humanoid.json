@@ -9,8 +9,9 @@
   "sockets": {
     "rightHand": "NPC Hand [Hnd].R",
     "leftHand": "NPC Hand [Hnd].L",
-    "weapon": "WeaponSword",
-    "weaponFallback": "Weapon"
+    "weapon": "Weapon",
+    "weaponFallback": "NPC Hand [Hnd].R",
+    "sheath": "WeaponSword"
   },
   "import": {
     "blender_xf": true,
