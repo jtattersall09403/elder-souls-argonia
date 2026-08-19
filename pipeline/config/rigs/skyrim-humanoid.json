@@ -1,0 +1,22 @@
+{
+  "id": "skyrim-humanoid",
+  "label": "Skyrim humanoid (99-bone)",
+  "skeleton": "skyrim-source/extracted/hkx-skeleton/skeleton.hkx",
+  "expectedBones": 99,
+  "armatureScale": 0.1,
+  "rootBone": "NPC Root [Root]",
+  "targetHeightMeters": 1.85,
+  "sockets": {
+    "rightHand": "NPC Hand [Hnd].R",
+    "leftHand": "NPC Hand [Hnd].L",
+    "weapon": "WeaponSword",
+    "weaponFallback": "Weapon"
+  },
+  "import": {
+    "blender_xf": true,
+    "rotate_bones_pretty": false,
+    "rename_bones": true,
+    "rename_bones_niftools": true
+  },
+  "notes": "Bone names are the niftools-renamed HKX names; sockets confirmed against the built GLB. Beast races will need a different rig profile."
+}

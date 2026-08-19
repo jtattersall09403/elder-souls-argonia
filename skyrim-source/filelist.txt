@@ -1,0 +1,2 @@
+Data/Skyrim - Meshes.bsa
+Data/Skyrim - Textures.bsa

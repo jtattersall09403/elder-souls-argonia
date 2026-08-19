@@ -1,0 +1,401 @@
+{
+  "character": "dunmer-combat",
+  "source": "Skyrim vanilla (regenerated from source; not redistributed)",
+  "rig": {
+    "rootBone": "NPC Root [Root]",
+    "sockets": {
+      "rightHand": "NPC Hand [Hnd].R",
+      "leftHand": "NPC Hand [Hnd].L",
+      "weapon": "WeaponSword",
+      "weaponFallback": "Weapon"
+    },
+    "recommendedScale": 0.1496,
+    "targetHeightMeters": 1.85
+  },
+  "animations": {
+    "IDLE": {
+      "looping": true,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 9.0,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla 1hm_idle (sword-drawn idle)"
+    },
+    "SWORD_IDLE": {
+      "looping": true,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 9.0,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla 1hm_idle; separate action so IDLE/SWORD_IDLE swap independently"
+    },
+    "WALK": {
+      "looping": true,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 1.5667,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla directional walk (real forward locomotion)"
+    },
+    "WALK_BACK": {
+      "looping": true,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 1.7667,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla directional walk-back (real, not reversed forward)"
+    },
+    "STRAFE_LEFT": {
+      "looping": true,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 1.5,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla left strafe"
+    },
+    "STRAFE_RIGHT": {
+      "looping": true,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 1.4667,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla right strafe"
+    },
+    "RUN": {
+      "looping": true,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 0.6333,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "provenance": "vanilla combat run forward"
+    },
+    "SPRINT": {
+      "looping": true,
+      "rootMotion": "strip",
+      "playbackRate": 1.35,
+      "sourceDuration": 0.6333,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "provenance": "vanilla run, faster; separate action, replaceable with a true sprint"
+    },
+    "JUMP_START": {
+      "looping": false,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 1.7333,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla jump launch"
+    },
+    "JUMP_IDLE": {
+      "looping": true,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 5.3333,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla airborne fall loop"
+    },
+    "JUMP_LAND": {
+      "looping": false,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 0.8667,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla landing"
+    },
+    "LIGHT_1": {
+      "looping": false,
+      "rootMotion": "consume",
+      "playbackRate": 1.0,
+      "sourceDuration": 1.3,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla right swing (combo hit 1)"
+    },
+    "LIGHT_2": {
+      "looping": false,
+      "rootMotion": "consume",
+      "playbackRate": 1.0,
+      "sourceDuration": 1.3,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla left swing (combo hit 2, alternating)"
+    },
+    "LIGHT_3": {
+      "looping": false,
+      "rootMotion": "consume",
+      "playbackRate": 1.0,
+      "sourceDuration": 1.3667,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla standing power attack (combo finisher)"
+    },
+    "HEAVY": {
+      "looping": false,
+      "rootMotion": "consume",
+      "playbackRate": 1.0,
+      "sourceDuration": 1.1667,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla right power attack"
+    },
+    "HEAVY_2": {
+      "looping": false,
+      "rootMotion": "consume",
+      "playbackRate": 1.0,
+      "sourceDuration": 1.3333,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla left power attack"
+    },
+    "ROLL": {
+      "looping": false,
+      "rootMotion": "consume",
+      "playbackRate": 1.0,
+      "sourceDuration": 0.8667,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla Silent Roll; deliberately replaceable with a mod clip later"
+    },
+    "BACKSTEP": {
+      "looping": false,
+      "rootMotion": "consume",
+      "playbackRate": 1.0,
+      "sourceDuration": 1.5667,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla small back stagger used as a quick backstep; replaceable"
+    },
+    "GUARD": {
+      "looping": true,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 3.7667,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla block idle (real guard)"
+    },
+    "PARRY": {
+      "looping": false,
+      "rootMotion": "consume",
+      "playbackRate": 1.0,
+      "sourceDuration": 0.2667,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla shield/weapon bash (parry)"
+    },
+    "RIPOSTE": {
+      "looping": false,
+      "rootMotion": "consume",
+      "playbackRate": 1.0,
+      "sourceDuration": 1.5,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla forward power attack (riposte follow-up)"
+    },
+    "BACKSTAB": {
+      "looping": false,
+      "rootMotion": "consume",
+      "playbackRate": 1.0,
+      "sourceDuration": 1.0667,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla sneak attack (backstab)"
+    },
+    "BACKSTABBED": {
+      "looping": false,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 3.0,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla largest forward stagger (backstab victim reaction)"
+    },
+    "HEAL": {
+      "looping": false,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 5.6667,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla drink-potion idle (estus heal)"
+    },
+    "EQUIP": {
+      "looping": false,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 2.8667,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla draw one-handed"
+    },
+    "UNEQUIP": {
+      "looping": false,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 2.0,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla sheathe one-handed"
+    },
+    "HIT": {
+      "looping": false,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 1.5667,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla small back stagger (light hit reaction)"
+    },
+    "HIT_HEAVY": {
+      "looping": false,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 2.4667,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla large back stagger (heavy hit reaction)"
+    },
+    "RECOIL": {
+      "looping": false,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 1.1333,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla weapon recoil (blocked/clashed)"
+    },
+    "GUARD_BREAK": {
+      "looping": false,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 3.1333,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla largest back stagger (guard broken)"
+    },
+    "GET_UP": {
+      "looping": false,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 5.6667,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla get-up from back"
+    },
+    "DEATH": {
+      "looping": false,
+      "rootMotion": "strip",
+      "playbackRate": 1.0,
+      "sourceDuration": 1.1667,
+      "rootMotionDelta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "provenance": "vanilla death A"
+    }
+  }
+}

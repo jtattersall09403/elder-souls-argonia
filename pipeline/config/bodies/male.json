@@ -1,0 +1,24 @@
+{
+  "id": "male",
+  "label": "Male humanoid body",
+  "meshDir": "meshes/actors/character/character assets",
+  "meshes": [
+    { "name": "body", "file": "malebody_1.nif" },
+    { "name": "hands", "file": "malehands_1.nif" },
+    { "name": "feet", "file": "malefeet_1.nif" },
+    { "name": "head", "file": "malehead.nif" },
+    { "name": "eyes", "file": "eyesmale.nif" },
+    { "name": "mouth", "file": "mouth/mouthhuman.nif" }
+  ],
+  "import": {
+    "create_bones": false,
+    "import_tris": false,
+    "import_animations": false,
+    "import_collisions": false,
+    "blender_xf": true,
+    "rotate_bones_pretty": false,
+    "rename_bones": true,
+    "rename_bones_niftools": true
+  },
+  "notes": "Mesh filenames are shared by all humanoid races; only textures/head morph differ per race. Future female body = a sibling body profile."
+}

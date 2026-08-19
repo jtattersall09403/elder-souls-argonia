@@ -1,0 +1,20 @@
+{
+  "id": "dunmer",
+  "label": "Dunmer (Dark Elf)",
+  "dataRoot": "skyrim-source/extracted/dunmer-source",
+  "morph": {
+    "tri": "skyrim-source/extracted/racemorphs/meshes/actors/character/character assets/maleheadraces.tri",
+    "targetMesh": "MaleHeadIMF",
+    "shapeKey": "DarkElfRace",
+    "value": 1.0
+  },
+  "materialOverrides": [
+    {
+      "matchTextureContains": "eyebrown",
+      "slot": "diffuse",
+      "replaceWith": "textures/actors/character/eyes/eyedarkelf.dds",
+      "note": "Preserve the Dunmer red-eye choice; support maps (normal/sk/env/cubemap) stay vanilla."
+    }
+  ],
+  "notes": "The curated dataRoot already substitutes the Dunmer head normal (malehead_msn.dds), eyedarkelf.dds and mouthhuman_darkelf.dds. Missing NIF-referenced textures are filled from Skyrim - Textures.bsa without overwriting these overrides."
+}

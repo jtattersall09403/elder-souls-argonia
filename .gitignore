@@ -1,0 +1,20 @@
+# --- Proprietary Bethesda source & generated assets (NEVER commit) ---
+skyrim-source/Data/
+skyrim-source/extracted/
+skyrim-source/.DepotDownloader/
+build/
+output/*.glb
+output/*.blend
+output/*.png
+output/*.gif
+output/*.svg
+output/**/
+
+# Keep the runtime animation manifest (metadata only, no Bethesda bytes)
+!output/
+!output/*.animations.json
+
+# --- Python ---
+__pycache__/
+*.pyc
+.venv/

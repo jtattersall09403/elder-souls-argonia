@@ -1,0 +1,43 @@
+{
+  "id": "humanoid-1h-combat",
+  "description": "Semantic combat + locomotion contract for a one-handed (sword drawn) humanoid. Every entry names a Skyrim vanilla source clip; the game only ever references the semantic key.",
+  "sourceDir": "meshes/actors/character/animations",
+  "localOverrides": {
+    "sneakrun_forwardroll": "skyrim-source/extracted/animation-tests/sneakrun_forwardroll.hkx"
+  },
+  "defaults": { "looping": false, "rootMotion": "strip", "playbackRate": 1.0 },
+  "animations": {
+    "IDLE":         { "source": "1hm_idle",              "looping": true,  "provenance": "vanilla 1hm_idle (sword-drawn idle)" },
+    "SWORD_IDLE":   { "source": "1hm_idle",              "looping": true,  "provenance": "vanilla 1hm_idle; separate action so IDLE/SWORD_IDLE swap independently" },
+    "WALK":         { "source": "1hm_walkforward",       "looping": true,  "provenance": "vanilla directional walk (real forward locomotion)" },
+    "WALK_BACK":    { "source": "1hm_walkbackward",      "looping": true,  "provenance": "vanilla directional walk-back (real, not reversed forward)" },
+    "STRAFE_LEFT":  { "source": "1hm_walkleft",          "looping": true,  "provenance": "vanilla left strafe" },
+    "STRAFE_RIGHT": { "source": "1hm_walkright",         "looping": true,  "provenance": "vanilla right strafe" },
+    "RUN":          { "source": "1hm_runforward",        "looping": true,  "provenance": "vanilla combat run forward" },
+    "SPRINT":       { "source": "1hm_runforward",        "looping": true,  "playbackRate": 1.35, "provenance": "vanilla run, faster; separate action, replaceable with a true sprint" },
+    "JUMP_START":   { "source": "mt_jump",               "provenance": "vanilla jump launch" },
+    "JUMP_IDLE":    { "source": "mt_jumpfall",           "looping": true,  "provenance": "vanilla airborne fall loop" },
+    "JUMP_LAND":    { "source": "mt_jumpland",           "provenance": "vanilla landing" },
+    "LIGHT_1":      { "source": "1hm_attackright",       "rootMotion": "consume", "combo": 1, "provenance": "vanilla right swing (combo hit 1)" },
+    "LIGHT_2":      { "source": "1hm_attackleft",        "rootMotion": "consume", "combo": 2, "provenance": "vanilla left swing (combo hit 2, alternating)" },
+    "LIGHT_3":      { "source": "1hm_attackpower",       "rootMotion": "consume", "combo": 3, "provenance": "vanilla standing power attack (combo finisher)" },
+    "HEAVY":        { "source": "1hm_attackpowerright",  "rootMotion": "consume", "provenance": "vanilla right power attack" },
+    "HEAVY_2":      { "source": "1hm_attackpowerleft",   "rootMotion": "consume", "provenance": "vanilla left power attack" },
+    "ROLL":         { "source": "sneakrun_forwardroll",  "rootMotion": "consume", "replaceable": true, "provenance": "vanilla Silent Roll; deliberately replaceable with a mod clip later" },
+    "BACKSTEP":     { "source": "1hm_staggerbacksmall",  "rootMotion": "consume", "replaceable": true, "provenance": "vanilla small back stagger used as a quick backstep; replaceable" },
+    "GUARD":        { "source": "1hm_blockidle",         "looping": true,  "provenance": "vanilla block idle (real guard)" },
+    "PARRY":        { "source": "1hm_blockbash",         "rootMotion": "consume", "provenance": "vanilla shield/weapon bash (parry)" },
+    "RIPOSTE":      { "source": "1hm_attackpowerfwd",    "rootMotion": "consume", "provenance": "vanilla forward power attack (riposte follow-up)" },
+    "BACKSTAB":     { "source": "1hm_sneakattackright",  "rootMotion": "consume", "provenance": "vanilla sneak attack (backstab)" },
+    "BACKSTABBED":  { "source": "1hm_staggerforwardlargest", "provenance": "vanilla largest forward stagger (backstab victim reaction)" },
+    "HEAL":         { "source": "idledrinkpotion",       "provenance": "vanilla drink-potion idle (estus heal)" },
+    "EQUIP":        { "source": "1hm_equip",             "provenance": "vanilla draw one-handed" },
+    "UNEQUIP":      { "source": "1hm_unequip",           "provenance": "vanilla sheathe one-handed" },
+    "HIT":          { "source": "1hm_staggerbacksmall",  "provenance": "vanilla small back stagger (light hit reaction)" },
+    "HIT_HEAVY":    { "source": "1hm_staggerbacklarge",  "provenance": "vanilla large back stagger (heavy hit reaction)" },
+    "RECOIL":       { "source": "1hm_recoiltimed",       "provenance": "vanilla weapon recoil (blocked/clashed)" },
+    "GUARD_BREAK":  { "source": "1hm_staggerbacklargest", "provenance": "vanilla largest back stagger (guard broken)" },
+    "GET_UP":       { "source": "mt_getupfromback",      "provenance": "vanilla get-up from back" },
+    "DEATH":        { "source": "deathanimationa",       "provenance": "vanilla death A" }
+  }
+}
