@@ -105,8 +105,17 @@ else:
         log("baked %s morph" % morph["shapeKey"])
 
 # ---------------------------------------------------------------------------
-# 4. Materials: fill + race overrides; verify no missing images (no magenta)
+# 4. Materials: fill + race overrides; rebuild as clean glTF-friendly Principled
 # ---------------------------------------------------------------------------
+# Suffixes marking a support map (never the base-colour diffuse).
+_MAP_SUFFIXES = ("_n", "_msn", "_s", "_sk", "_g", "_m", "_em", "_e")
+
+
+def _is_diffuse(img):
+    base = os.path.splitext(os.path.basename(img.filepath or img.name))[0].lower()
+    return not base.endswith(_MAP_SUFFIXES)
+
+
 def reload_all_images():
     missing = []
     for img in bpy.data.images:
@@ -126,13 +135,60 @@ for override in PLAN["material_overrides"]:
     replacement = override["replaceWith"]
     swapped = 0
     for img in bpy.data.images:
-        if match in os.path.basename(img.filepath).lower():
+        base = os.path.basename(img.filepath).lower()
+        # Only override the diffuse, never its normal/specular companions.
+        if match in base and _is_diffuse(img):
             img.filepath = replacement
             img.source = "FILE"
             swapped += 1
     log("material override '%s' -> %s (%d image(s))" % (match, os.path.basename(replacement), swapped))
 
 missing_images = reload_all_images()
+
+
+def rebuild_materials():
+    # PyNifly's Skyrim skin shader exports to glTF with white emission and BLEND
+    # alpha, washing the body out. Rebuild every material as a plain diffuse
+    # Principled BSDF so the real textures survive export intact.
+    rebuilt = []
+    seen = set()
+    for obj in meshes:
+        for slot in obj.material_slots:
+            mat = slot.material
+            if not mat or mat.name in seen:
+                continue
+            seen.add(mat.name)
+            diffuse = None
+            if mat.use_nodes:
+                images = [n.image for n in mat.node_tree.nodes
+                          if n.type == "TEX_IMAGE" and n.image]
+                diffuse = next((im for im in images if _is_diffuse(im)), None)
+                if diffuse is None and images:
+                    diffuse = images[0]
+            mat.use_nodes = True
+            nt = mat.node_tree
+            nt.nodes.clear()
+            out = nt.nodes.new("ShaderNodeOutputMaterial")
+            bsdf = nt.nodes.new("ShaderNodeBsdfPrincipled")
+            bsdf.inputs["Metallic"].default_value = 0.0
+            bsdf.inputs["Roughness"].default_value = 0.62
+            nt.links.new(bsdf.outputs["BSDF"], out.inputs["Surface"])
+            if diffuse is not None:
+                diffuse.colorspace_settings.name = "sRGB"
+                tex = nt.nodes.new("ShaderNodeTexImage")
+                tex.image = diffuse
+                nt.links.new(tex.outputs["Color"], bsdf.inputs["Base Color"])
+            if hasattr(mat, "blend_method"):
+                try:
+                    mat.blend_method = "OPAQUE"
+                except TypeError:
+                    pass
+            rebuilt.append((mat.name, diffuse.name if diffuse else None))
+    return rebuilt
+
+
+for name, diff in rebuild_materials():
+    log("material %s -> diffuse %s" % (name, diff))
 SUMMARY["missingImages"] = missing_images
 if missing_images:
     warn("missing/failed images: %s" % ", ".join(sorted(set(missing_images))))
