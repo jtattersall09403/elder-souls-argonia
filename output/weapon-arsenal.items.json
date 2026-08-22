@@ -533,6 +533,162 @@
         0.11931,
         0.62
       ]
+    },
+    "wood-shortbow": {
+      "class": "shortbow",
+      "material": "studded",
+      "sheathSocket": "WeaponBow",
+      "asset": "weapons/wood-shortbow.glb",
+      "icon": "weapon-icons/wood-shortbow.png",
+      "lengthMeters": 1.28,
+      "sizeMeters": [
+        0.18775,
+        0.03523,
+        1.28006
+      ]
+    },
+    "forsworn-shortbow": {
+      "class": "shortbow",
+      "material": "forsworn",
+      "sheathSocket": "WeaponBow",
+      "asset": "weapons/forsworn-shortbow.glb",
+      "icon": "weapon-icons/forsworn-shortbow.png",
+      "lengthMeters": 1.28,
+      "sizeMeters": [
+        0.25076,
+        0.08281,
+        1.28006
+      ]
+    },
+    "falmer-shortbow": {
+      "class": "shortbow",
+      "material": "falmer",
+      "sheathSocket": "WeaponBow",
+      "asset": "weapons/falmer-shortbow.glb",
+      "icon": "weapon-icons/falmer-shortbow.png",
+      "lengthMeters": 1.28,
+      "sizeMeters": [
+        0.28402,
+        0.07894,
+        1.28006
+      ]
+    },
+    "iron-longbow": {
+      "class": "longbow",
+      "material": "iron",
+      "sheathSocket": "WeaponBow",
+      "asset": "weapons/iron-longbow.glb",
+      "icon": "weapon-icons/iron-longbow.png",
+      "lengthMeters": 1.6,
+      "sizeMeters": [
+        0.26079,
+        0.05437,
+        1.60006
+      ]
+    },
+    "steel-longbow": {
+      "class": "longbow",
+      "material": "steel",
+      "sheathSocket": "WeaponBow",
+      "asset": "weapons/steel-longbow.glb",
+      "icon": "weapon-icons/steel-longbow.png",
+      "lengthMeters": 1.6,
+      "sizeMeters": [
+        0.307,
+        0.06405,
+        1.60006
+      ]
+    },
+    "elven-longbow": {
+      "class": "longbow",
+      "material": "elven",
+      "sheathSocket": "WeaponBow",
+      "asset": "weapons/elven-longbow.glb",
+      "icon": "weapon-icons/elven-longbow.png",
+      "lengthMeters": 1.6,
+      "sizeMeters": [
+        0.34337,
+        0.06808,
+        1.60006
+      ]
+    },
+    "glass-longbow": {
+      "class": "longbow",
+      "material": "glass",
+      "sheathSocket": "WeaponBow",
+      "asset": "weapons/glass-longbow.glb",
+      "icon": "weapon-icons/glass-longbow.png",
+      "lengthMeters": 1.6,
+      "sizeMeters": [
+        0.36381,
+        0.08185,
+        1.60006
+      ]
+    },
+    "orcish-warbow": {
+      "class": "warbow",
+      "material": "orcish",
+      "sheathSocket": "WeaponBow",
+      "asset": "weapons/orcish-warbow.glb",
+      "icon": "weapon-icons/orcish-warbow.png",
+      "lengthMeters": 1.75,
+      "sizeMeters": [
+        0.30323,
+        0.0585,
+        1.75006
+      ]
+    },
+    "dwarven-warbow": {
+      "class": "warbow",
+      "material": "dwarven",
+      "sheathSocket": "WeaponBow",
+      "asset": "weapons/dwarven-warbow.glb",
+      "icon": "weapon-icons/dwarven-warbow.png",
+      "lengthMeters": 1.75,
+      "sizeMeters": [
+        0.3266,
+        0.06793,
+        1.75006
+      ]
+    },
+    "nordhero-warbow": {
+      "class": "warbow",
+      "material": "nordhero",
+      "sheathSocket": "WeaponBow",
+      "asset": "weapons/nordhero-warbow.glb",
+      "icon": "weapon-icons/nordhero-warbow.png",
+      "lengthMeters": 1.75,
+      "sizeMeters": [
+        0.42876,
+        0.11474,
+        1.75006
+      ]
+    },
+    "ebony-warbow": {
+      "class": "warbow",
+      "material": "ebony",
+      "sheathSocket": "WeaponBow",
+      "asset": "weapons/ebony-warbow.glb",
+      "icon": "weapon-icons/ebony-warbow.png",
+      "lengthMeters": 1.75,
+      "sizeMeters": [
+        0.38229,
+        0.09473,
+        1.75007
+      ]
+    },
+    "daedric-warbow": {
+      "class": "warbow",
+      "material": "daedric",
+      "sheathSocket": "WeaponBow",
+      "asset": "weapons/daedric-warbow.glb",
+      "icon": "weapon-icons/daedric-warbow.png",
+      "lengthMeters": 1.75,
+      "sizeMeters": [
+        0.44912,
+        0.06026,
+        1.75006
+      ]
     }
   }
 }

@@ -11,7 +11,8 @@
     "leftHand": "NPC Hand [Hnd].L",
     "weapon": "Weapon",
     "weaponFallback": "NPC Hand [Hnd].R",
-    "sheath": "WeaponSword"
+    "sheath": "WeaponSword",
+    "head": "NPC Head [Head]"
   },
   "socketRotation": [
     -0.70710678,
@@ -34,5 +35,6 @@
       "parent": "NPC Pelvis [Pelv]",
       "notes": "Skyrim has no beast body skeleton: Khajiit and Argonians animate on this same 99-bone rig, and skeletonbeast.nif differs from skeleton.nif only by these five tail bones. Tails are driven by a parallel auxbone clip set whose files share their names with the body clips, so a tail animation is matched automatically. The tail skeleton's own coordinates are relative to its attach bone's head, which is how the chain lands in character space with no hand-measured offset."
     }
-  }
+  },
+  "socketNotes": "Named bones the game has to find by name. Most are attachment points; `head` is not \u2014 it is there so a first-person view can collapse the head the camera sits inside, without the game having to know which meshes are a face on which race."
 }

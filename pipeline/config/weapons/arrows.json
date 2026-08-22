@@ -1,0 +1,99 @@
+{
+  "id": "arrows",
+  "description": "Arrows, built one mesh per material. The *shaft* an arrow is (flight, war, hunting, blunt) is a physical archetype the game composes on top of these, so four kinds of iron arrow share one GLB rather than four identical ones.",
+  "outputDir": "output/arrows",
+  "iconDir": "output/arrow-icons",
+  "manifestOutput": "output/arrows.items.json",
+  "iconSizePixels": 160,
+  "dropShapesContaining": [
+    "blood",
+    "scb",
+    "trail",
+    "flow",
+    "glow",
+    "fx",
+    "streak",
+    "enchant"
+  ],
+  "classes": {
+    "arrow": {
+      "lengthMeters": 0.75,
+      "sheathSocket": "Quiver"
+    }
+  },
+  "items": [
+    {
+      "id": "iron-arrow",
+      "class": "arrow",
+      "material": "iron",
+      "nif": "meshes/weapons/iron/ironarrowflight.nif"
+    },
+    {
+      "id": "steel-arrow",
+      "class": "arrow",
+      "material": "steel",
+      "nif": "meshes/weapons/steel/steelarrowflight.nif"
+    },
+    {
+      "id": "elven-arrow",
+      "class": "arrow",
+      "material": "elven",
+      "nif": "meshes/weapons/elven/elvenarrowflight.nif"
+    },
+    {
+      "id": "glass-arrow",
+      "class": "arrow",
+      "material": "glass",
+      "nif": "meshes/weapons/glass/glassarrowflight.nif"
+    },
+    {
+      "id": "orcish-arrow",
+      "class": "arrow",
+      "material": "orcish",
+      "nif": "meshes/weapons/orcish/orcisharrowprojectile.nif"
+    },
+    {
+      "id": "dwarven-arrow",
+      "class": "arrow",
+      "material": "dwarven",
+      "nif": "meshes/weapons/dwarven/dwarvenarrowprojectile.nif"
+    },
+    {
+      "id": "ebony-arrow",
+      "class": "arrow",
+      "material": "ebony",
+      "nif": "meshes/weapons/ebony/ebonyarrowprojectile.nif"
+    },
+    {
+      "id": "daedric-arrow",
+      "class": "arrow",
+      "material": "daedric",
+      "nif": "meshes/weapons/daedric/daedricarrowprojectile.nif"
+    },
+    {
+      "id": "nordhero-arrow",
+      "class": "arrow",
+      "material": "nordhero",
+      "nif": "meshes/weapons/nordhero/nordheroarrowprojectile.nif"
+    },
+    {
+      "id": "forsworn-arrow",
+      "class": "arrow",
+      "material": "forsworn",
+      "nif": "meshes/weapons/forsworn/forswornarrowprojectile.nif"
+    },
+    {
+      "id": "falmer-arrow",
+      "class": "arrow",
+      "material": "falmer",
+      "nif": "meshes/weapons/falmer/falmerarrowinflight.nif"
+    },
+    {
+      "id": "draugr-arrow",
+      "class": "arrow",
+      "material": "draugr",
+      "nif": "meshes/weapons/draugr/draugrarrowprojectile.nif"
+    }
+  ],
+  "dropNotes": "The *arrowflight/*arrowprojectile NIFs are the in-flight *effect*, not just the arrow: they carry a motion-trail quad several times the shaft's length and a flare billboard. Left in, the length normalisation sizes the trail and the arrow itself comes out at a fifth of its proper length."
+}

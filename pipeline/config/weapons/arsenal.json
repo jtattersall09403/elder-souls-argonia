@@ -45,6 +45,18 @@
     "shield": {
       "lengthMeters": 0.62,
       "sheathSocket": "Shield"
+    },
+    "shortbow": {
+      "lengthMeters": 1.28,
+      "sheathSocket": "WeaponBow"
+    },
+    "longbow": {
+      "lengthMeters": 1.6,
+      "sheathSocket": "WeaponBow"
+    },
+    "warbow": {
+      "lengthMeters": 1.75,
+      "sheathSocket": "WeaponBow"
     }
   },
   "items": [
@@ -293,6 +305,78 @@
       "class": "shield",
       "material": "ebony",
       "nif": "meshes/weapons/ebony/ebonyshield.nif"
+    },
+    {
+      "id": "wood-shortbow",
+      "class": "shortbow",
+      "material": "studded",
+      "nif": "meshes/weapons/wooden/woodenbow.nif"
+    },
+    {
+      "id": "forsworn-shortbow",
+      "class": "shortbow",
+      "material": "forsworn",
+      "nif": "meshes/weapons/forsworn/forswornbow.nif"
+    },
+    {
+      "id": "falmer-shortbow",
+      "class": "shortbow",
+      "material": "falmer",
+      "nif": "meshes/weapons/falmer/falmerbow.nif"
+    },
+    {
+      "id": "iron-longbow",
+      "class": "longbow",
+      "material": "iron",
+      "nif": "meshes/weapons/iron/ironbow.nif"
+    },
+    {
+      "id": "steel-longbow",
+      "class": "longbow",
+      "material": "steel",
+      "nif": "meshes/weapons/steel/steelbow.nif"
+    },
+    {
+      "id": "elven-longbow",
+      "class": "longbow",
+      "material": "elven",
+      "nif": "meshes/weapons/elven/elvenbowskinned.nif"
+    },
+    {
+      "id": "glass-longbow",
+      "class": "longbow",
+      "material": "glass",
+      "nif": "meshes/weapons/glass/glassbowskinned.nif"
+    },
+    {
+      "id": "orcish-warbow",
+      "class": "warbow",
+      "material": "orcish",
+      "nif": "meshes/weapons/orcish/orcishbow.nif"
+    },
+    {
+      "id": "dwarven-warbow",
+      "class": "warbow",
+      "material": "dwarven",
+      "nif": "meshes/weapons/dwarven/dwarvenbowskinned.nif"
+    },
+    {
+      "id": "nordhero-warbow",
+      "class": "warbow",
+      "material": "nordhero",
+      "nif": "meshes/weapons/nordhero/nordherobow.nif"
+    },
+    {
+      "id": "ebony-warbow",
+      "class": "warbow",
+      "material": "ebony",
+      "nif": "meshes/weapons/ebony/ebonybowskinned.nif"
+    },
+    {
+      "id": "daedric-warbow",
+      "class": "warbow",
+      "material": "daedric",
+      "nif": "meshes/weapons/daedric/daedricbowskinned.nif"
     }
   ],
   "manifestOutput": "output/weapon-arsenal.items.json"

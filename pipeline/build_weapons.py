@@ -177,6 +177,14 @@ def build(set_id: str = "arsenal", only: list[str] | None = None) -> dict:
     manifest_path = (ROOT / config.get(
         "manifestOutput", "output/weapon-arsenal.items.json")).resolve()
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    if only and manifest_path.exists():
+        # A --only run rebuilds part of a set. Merging rather than replacing is
+        # what keeps "rebuild one sword" from quietly deleting the other forty
+        # items from the game's item manifest.
+        previous = json.loads(manifest_path.read_text())
+        merged = dict(previous.get("items", {}))
+        merged.update(manifest["items"])
+        manifest["items"] = merged
     manifest_path.write_text(json.dumps(manifest, indent=2))
     print(f"[weapons] manifest -> {manifest_path}")
     print(f"[weapons] GLBs -> {output_dir}")

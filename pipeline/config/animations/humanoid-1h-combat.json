@@ -346,6 +346,69 @@
       ],
       "provenance": "Rim Parry and Execution 1.1, (6254014) Knockdown/modernstaggerlock/1.HKX complete lethal reaction ending at the audited stable 1.9s prone pose; intentional flight is source 0.82\u20130.95s, followed by upward-only impact protection and floor contact from 1.10s",
       "tailSource": null
+    },
+    "BOW_IDLE": {
+      "source": "bow_idleheld",
+      "looping": true,
+      "preserveRootMotion": true,
+      "provenance": "vanilla bow_idleheld (standing with a bow in hand, string at rest)",
+      "tailSource": "mt_idle"
+    },
+    "BOW_WALK": {
+      "source": "bow_walkforward",
+      "looping": true,
+      "provenance": "vanilla bow-carry walk",
+      "tailSource": "mt_walkforward"
+    },
+    "BOW_WALK_BACK": {
+      "source": "bow_walkbackward",
+      "looping": true,
+      "provenance": "vanilla bow-carry walk-back",
+      "tailSource": "mt_walkbackward"
+    },
+    "BOW_STRAFE_LEFT": {
+      "source": "bow_walkleft",
+      "looping": true,
+      "provenance": "vanilla bow-carry left strafe",
+      "tailSource": "mt_walkleft"
+    },
+    "BOW_STRAFE_RIGHT": {
+      "source": "bow_walkright",
+      "looping": true,
+      "provenance": "vanilla bow-carry right strafe",
+      "tailSource": "mt_walkright"
+    },
+    "BOW_RUN": {
+      "source": "bow_runforward",
+      "looping": true,
+      "provenance": "vanilla bow-carry run",
+      "tailSource": "mt_runforward"
+    },
+    "BOW_DRAW": {
+      "source": "bow_drawlight",
+      "provenance": "vanilla bow_drawlight (nock through to full draw); the game scales it to the bow's own draw time",
+      "tailSource": "mt_idle"
+    },
+    "BOW_DRAWN": {
+      "source": "bow_idledrawn",
+      "looping": true,
+      "provenance": "vanilla bow_idledrawn (held at full draw)",
+      "tailSource": "mt_idle"
+    },
+    "BOW_RELEASE": {
+      "source": "bow_release",
+      "provenance": "vanilla bow_release (loose and follow-through)",
+      "tailSource": "mt_idle"
+    },
+    "BOW_EQUIP": {
+      "source": "bow_equip",
+      "provenance": "vanilla bow_equip (bow off the back into the hand)",
+      "tailSource": "mt_idle"
+    },
+    "BOW_UNEQUIP": {
+      "source": "bow_unequip",
+      "provenance": "vanilla bow_unequip (bow back onto the back)",
+      "tailSource": "mt_idle"
     }
   }
 }
