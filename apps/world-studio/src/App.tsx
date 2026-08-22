@@ -12,6 +12,38 @@ interface ProvinceMeta {
 
 const anchors = anchorsFile.anchors as SettlementAnchor[];
 
+/**
+ * Preview of Phase 3 "option 2" interior conditioning (decision 0005): land
+ * above a threshold is soft-compressed toward lore's low marsh heart, weighted
+ * by interiorness so border mountains and coasts keep their source shape. This
+ * is a visual preview only — real conditioning happens in the world compiler.
+ */
+type Conditioning = "off" | "mild" | "strong";
+const CONDITIONING: Record<Exclude<Conditioning, "off">, { threshold: number; keep: number }> = {
+  mild: { threshold: 20, keep: 0.5 },   // 100 m hill -> ~60 m
+  strong: { threshold: 12, keep: 0.25 }, // 100 m hill -> ~34 m
+};
+
+function conditionHeights(base: Float32Array, w: number, h: number, mode: Exclude<Conditioning, "off">): Float32Array {
+  const { threshold, keep } = CONDITIONING[mode];
+  const out = new Float32Array(base.length);
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const i = y * w + x;
+      const height = base[i];
+      // Interiorness: 0 within 10% of any map edge (border ranges untouched),
+      // ramping to 1 beyond 22% in, with a smoothstep between.
+      const edge = Math.min(x / w, (w - 1 - x) / w, y / h, (h - 1 - y) / h);
+      const t = Math.min(1, Math.max(0, (edge - 0.1) / 0.12));
+      const interior = t * t * (3 - 2 * t);
+      out[i] = height > threshold
+        ? threshold + (height - threshold) * (1 - interior * (1 - keep))
+        : height;
+    }
+  }
+  return out;
+}
+
 /** Elevation colouring: depth blues below sea level, marsh greens to upland
  * greys above, with a light east-west hillshade. */
 function colour(height: number, seaLevel: number, shade: number): [number, number, number] {
@@ -43,9 +75,23 @@ function colour(height: number, seaLevel: number, shade: number): [number, numbe
 export function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const heightsRef = useRef<Float32Array | null>(null);
+  const conditionedRef = useRef<Partial<Record<Conditioning, Float32Array>>>({});
   const [meta, setMeta] = useState<ProvinceMeta | null>(null);
   const [seaLevel, setSeaLevel] = useState(0);
+  const [conditioning, setConditioning] = useState<Conditioning>("off");
   const [readout, setReadout] = useState("");
+
+  function displayHeights(): Float32Array | null {
+    const base = heightsRef.current;
+    if (!base || !meta) return base;
+    if (conditioning === "off") return base;
+    let cached = conditionedRef.current[conditioning];
+    if (!cached) {
+      cached = conditionHeights(base, meta.imageWidth, meta.imageHeight, conditioning);
+      conditionedRef.current[conditioning] = cached;
+    }
+    return cached;
+  }
 
   // Load the height raster once; keep decoded heights for repaints and hover.
   useEffect(() => {
@@ -72,10 +118,10 @@ export function App() {
     })();
   }, []);
 
-  // Repaint terrain + anchors whenever data or sea level changes.
+  // Repaint terrain + anchors whenever data, sea level or conditioning changes.
   useEffect(() => {
     const canvas = canvasRef.current;
-    const heights = heightsRef.current;
+    const heights = displayHeights();
     if (!canvas || !heights || !meta) return;
     const { imageWidth: w, imageHeight: h } = meta;
     canvas.width = w;
@@ -113,11 +159,11 @@ export function App() {
       ctx.fillStyle = major ? "#ffe9b8" : "#d5e0ff";
       ctx.fillText(a.name, x + 8, y + 4);
     }
-  }, [meta, seaLevel]);
+  }, [meta, seaLevel, conditioning]);
 
   function onMove(e: React.MouseEvent<HTMLCanvasElement>) {
     const canvas = canvasRef.current;
-    const heights = heightsRef.current;
+    const heights = displayHeights();
     if (!canvas || !heights || !meta) return;
     const rect = canvas.getBoundingClientRect();
     const x = Math.floor(((e.clientX - rect.left) / rect.width) * meta.imageWidth);
@@ -149,12 +195,34 @@ export function App() {
         <span style={{ opacity: 0.75 }}>{extentKm} km across at raw Skyrim scale (rescale decision pending)</span>
         <span style={{ minWidth: 260 }}>{readout}</span>
       </div>
+      <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+        <span>Interior relief:</span>
+        {([
+          ["off", "As source"],
+          ["mild", "Compressed — mild (peaks ~60 m)"],
+          ["strong", "Compressed — strong (peaks ~34 m)"],
+        ] as [Conditioning, string][]).map(([mode, label]) => (
+          <button key={mode} onClick={() => setConditioning(mode)}
+            style={{
+              padding: "4px 10px", borderRadius: 5, cursor: "pointer",
+              border: "1px solid #4a5568",
+              background: conditioning === mode ? "#3b5bdb" : "#1c2430",
+              color: "#d8dee7", font: "13px system-ui",
+            }}>
+            {label}
+          </button>
+        ))}
+      </div>
       <canvas ref={canvasRef} onMouseMove={onMove}
         style={{ width: "min(92vmin, 900px)", imageRendering: "pixelated", borderRadius: 6 }} />
       <p style={{ maxWidth: 720, opacity: 0.8, margin: 0 }}>
         Terrain: Tamriel Worldspaces Argonia heightfield (coarse macro prior — not final terrain).
         Dashed rings are settlement-anchor placement tolerances; positions are first-pass
         estimates from lore maps and will be corrected from your feedback before hydrology work.
+        “Compressed” modes preview Phase 3 interior conditioning (decision 0005, option 2):
+        land above a threshold is squashed toward lore's low marsh heart, fading to no change
+        within ~10% of the map edges so border mountains and coasts keep their source shape.
+        Hover elevations reflect the selected mode.
       </p>
     </div>
   );

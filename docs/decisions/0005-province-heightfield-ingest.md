@@ -43,7 +43,10 @@ prior is therefore reshapeable: Phase 3 hydrological conditioning (master plan
 §33 step 3 already includes basin preservation) can soft-compress interior
 elevations while keeping border mountains and coastline. Amplitude of that
 compression (remove the hills vs keep reduced rootland rises) is an owner
-decision at Phase 3 start.
+decision at Phase 3 start. The world studio has a preview toggle for this
+("Interior relief": mild keep=0.5/threshold 20 m, strong keep=0.25/threshold
+12 m, edge-protected by an interiorness mask) — preview only; the real
+transform lands in the hydrology compiler.
 
 ## Also decided
 
