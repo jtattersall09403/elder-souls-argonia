@@ -13,7 +13,8 @@ def _hydro():
 def test_hand_zero_on_water_and_rises_away():
     z, hydro = _hydro()
     hand = height_above_drainage(z, hydro)
-    water = hydro.ocean | hydro.lakes | (hydro.rivers > 0)
+    # reference water for flooding is medium+ rivers, lakes and the sea
+    water = hydro.ocean | hydro.lakes | (hydro.rivers >= 2)
     assert np.allclose(hand[water], 0.0)
     assert float(hand[~water].max()) > 1.0
     assert (hand >= 0).all()

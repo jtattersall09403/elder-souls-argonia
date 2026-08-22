@@ -18,7 +18,7 @@ def _valley_world(n=60):
 
 def test_ocean_fill_and_flat_resolution_leave_no_pits():
     z = _valley_world()
-    ocean = ocean_mask(z)
+    ocean, _ = ocean_mask(z, metres_per_px=500.0)
     assert ocean[-1].all() and not ocean[0].any()
     drain = resolve_flats(fill_depressions(z, ocean), ocean)
     # every land cell has a strictly lower 8-neighbour (drains somewhere)

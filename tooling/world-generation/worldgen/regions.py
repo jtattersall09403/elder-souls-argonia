@@ -47,17 +47,27 @@ class RegionsResult:
 
 
 def height_above_drainage(z: np.ndarray, hydro: HydrologyResult) -> np.ndarray:
-    """HAND: trace each cell's flow path to its nearest water cell and take the
-    elevation difference. Water cells (ocean, lakes, rivers) have HAND 0."""
-    water = hydro.ocean | hydro.lakes | (hydro.rivers > 0)
-    drain_elev = np.where(water, z, np.nan).reshape(-1)
+    """HAND: trace each cell's flow path to its nearest flood-capable water and
+    take the elevation difference. Only medium+ rivers, lakes and the sea count
+    — minor creeks don't flood whole uplands, and using them as reference water
+    painted every gentle hillside as floodplain."""
+    water = hydro.ocean | hydro.lakes | (hydro.rivers >= 2)
+    # Reference is the water SURFACE, not the bed: sea surface is 0, a lake's
+    # surface is its spill level (filled), a river's bed ~ its surface here.
+    surface = np.where(hydro.ocean, 0.0, np.where(hydro.lakes, hydro.filled, z))
+    drain_elev = np.where(water, surface, np.nan).reshape(-1)
     order = np.argsort(hydro.filled, axis=None)  # ascending: downstream first
     flow = hydro.flow_to
     z_flat = z.reshape(-1)
     for i in order:
         if np.isnan(drain_elev[i]):
             j = flow[i]
-            drain_elev[i] = drain_elev[j] if j >= 0 and not np.isnan(drain_elev[j]) else z_flat[i]
+            if j >= 0 and not np.isnan(drain_elev[j]):
+                drain_elev[i] = drain_elev[j]
+            else:
+                # Path leaves the map without meeting water: not flood-prone.
+                # (A zero fallback here painted whole border catchments blue.)
+                drain_elev[i] = z_flat[i] - 1e6
     return np.maximum(z - drain_elev.reshape(z.shape), 0.0).astype(np.float32)
 
 

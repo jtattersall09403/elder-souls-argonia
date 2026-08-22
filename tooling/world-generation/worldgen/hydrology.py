@@ -62,12 +62,55 @@ def routing_noise(shape: tuple[int, int], amp_m: float = ROUTING_NOISE_AMP_M,
     return (field / max(field.std(), 1e-9) * amp_m).astype(np.float32)
 
 
-def ocean_mask(z: np.ndarray) -> np.ndarray:
-    """Below-sea-level cells connected to the map border are ocean."""
+DEEP_SEA_M = -15.0        # open-sea depth
+OCEAN_REACH_M = 2500.0    # how far through water 'ocean' extends from deep sea
+LAND_SALT_PENALTY = 4.0   # salinity travels 4x slower over land than water
+
+
+def ocean_mask(z: np.ndarray, metres_per_px: float) -> tuple[np.ndarray, np.ndarray]:
+    """(ocean, sea_geodesic_m).
+
+    Sea seeds only from the east/south map edges (north and west are the
+    Morrowind/Cyrodiil land borders). 'Ocean' is sea water that is deep, or
+    within OCEAN_REACH_M of deep water travelling through water — so long
+    below-sea channels winding inland become freshwater marsh-lakes instead of
+    arms of the sea. Also returns the land-penalised geodesic distance from
+    deep sea used for salinity.
+    """
     below = z <= SEA_LEVEL
     lab, _ = ndimage.label(below)
-    border_labels = np.unique(np.concatenate([lab[0], lab[-1], lab[:, 0], lab[:, -1]]))
-    return below & np.isin(lab, border_labels[border_labels != 0])
+    border_labels = np.unique(np.concatenate([lab[-1], lab[:, -1]]))  # south, east
+    sea = below & np.isin(lab, border_labels[border_labels != 0])
+    deep = sea & (z < DEEP_SEA_M)
+    if not deep.any():  # entirely shallow sea: treat all border sea as open
+        deep = sea
+    geodesic = _geodesic_from(deep, below, metres_per_px)
+    ocean = sea & (deep | (geodesic < OCEAN_REACH_M))
+    return ocean, geodesic
+
+
+def _geodesic_from(sources: np.ndarray, water: np.ndarray, metres_per_px: float) -> np.ndarray:
+    """Dijkstra distance from sources; steps over land cost LAND_SALT_PENALTY x."""
+    h, w = sources.shape
+    dist = np.full((h, w), np.inf, dtype=np.float64)
+    heap: list[tuple[float, int, int]] = []
+    for y, x in zip(*np.where(sources)):
+        dist[y, x] = 0.0
+        heapq.heappush(heap, (0.0, int(y), int(x)))
+    while heap:
+        d, y, x = heapq.heappop(heap)
+        if d > dist[y, x]:
+            continue
+        for dy, dx in NEIGHBOR_OFFSETS:
+            ny, nx = y + dy, x + dx
+            if 0 <= ny < h and 0 <= nx < w:
+                step = np.hypot(dy, dx) * metres_per_px
+                nd = d + (step if water[ny, nx] else step * LAND_SALT_PENALTY)
+                # beyond ~9 km salinity is nil; skip to keep the search bounded
+                if nd < dist[ny, nx] and nd < 9000.0:
+                    dist[ny, nx] = nd
+                    heapq.heappush(heap, (nd, ny, nx))
+    return dist
 
 
 def fill_depressions(z: np.ndarray, ocean: np.ndarray) -> np.ndarray:
@@ -217,7 +260,7 @@ def label_watersheds(filled: np.ndarray, flow_to: np.ndarray, ocean: np.ndarray,
 
 def compute(z: np.ndarray, metres_per_px: float) -> HydrologyResult:
     cell_km2 = (metres_per_px / 1000.0) ** 2
-    ocean = ocean_mask(z)
+    ocean, sea_geodesic_m = ocean_mask(z, metres_per_px)
     land = ~ocean
     # Lakes come from real depressions in the clean terrain.
     filled = fill_depressions(z, ocean)
@@ -247,9 +290,12 @@ def compute(z: np.ndarray, metres_per_px: float) -> HydrologyResult:
     # Despeckle so isolated single-cell wet/dry pixels don't read as noise.
     wetlands = ndimage.binary_opening(ndimage.binary_closing(wetlands))
 
-    dist_m = ndimage.distance_transform_edt(~ocean) * metres_per_px
-    tidal = land & (z <= TIDAL_MAX_ELEV) & (dist_m < 2.5 * SALINITY_DECAY_M)
-    salinity = np.exp(-dist_m / SALINITY_DECAY_M).astype(np.float32)
+    # Salinity decays with through-water distance from the deep open sea (land
+    # crossings are heavily penalised), so it climbs estuaries but cannot leap
+    # peninsulas or ride inland channels to the province heart.
+    salinity = np.exp(-sea_geodesic_m / SALINITY_DECAY_M).astype(np.float32)
+    salinity[np.isinf(sea_geodesic_m)] = 0.0
+    tidal = land & (z <= TIDAL_MAX_ELEV) & (salinity > 0.15)
     salinity[~(ocean | tidal | wetlands | (rivers > 0))] *= 0.0
 
     outlets = (flow_to.reshape(z.shape) == -1) & land
