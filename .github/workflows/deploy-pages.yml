@@ -24,14 +24,18 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      # A clean runner clone is also the proof that nothing depends on
+      # sibling-repository paths or the local asset vault.
       - run: npm ci
       - run: npm test
       - run: npm run typecheck
       - run: npm run build
+      # The combat sandbox is the playable build until apps/game exists;
+      # it deploys at the repo root path.
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: apps/combat-sandbox/dist
 
   deploy:
     environment:

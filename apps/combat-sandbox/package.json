@@ -1,5 +1,5 @@
 {
-  "name": "ecctrl-souls-combat",
+  "name": "@elder-souls/combat-sandbox",
   "private": true,
   "version": "0.1.0",
   "type": "module",

@@ -2,7 +2,14 @@
 
 Regenerates a **game-ready character GLB** from locally-owned Skyrim source data
 (NIF meshes, HKX animations, BSA-packed textures) using headless Wine + Blender
-4.4.3 + PyNifly. Output drops straight into the `ecctrl-souls-combat` sandbox.
+4.4.3 + PyNifly. Output drops straight into `apps/combat-sandbox`.
+
+Source archives and bulky intermediates live in a local **asset vault outside
+this repo**. Set `ELDER_SOULS_ASSET_ROOT` to a directory containing
+`skyrim-source/`, `build/` and `output/` (currently the old
+`../../../elder-scrolls-asset-pipeline` checkout — see docs/decisions/0001).
+Without the variable, paths resolve inside this directory, which holds only
+tracked manifests.
 
 Bethesda/mod source data and this pipeline's `build/`/`output/` products remain
 local and ignored. Under the project owner's explicit permission for personal

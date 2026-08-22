@@ -17,10 +17,16 @@ from __future__ import annotations
 
 import json
 import math
+import os
 from dataclasses import dataclass, field
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent.parent
+# Root for source archives, build intermediates and bulky outputs. The vault
+# lives outside this repo (docs/decisions/0001): point ELDER_SOULS_ASSET_ROOT at
+# a directory containing skyrim-source/, build/ and output/. Without it, paths
+# resolve inside tooling/asset-pipeline/, which holds only tracked manifests.
+_asset_root = os.environ.get("ELDER_SOULS_ASSET_ROOT")
+ROOT = Path(_asset_root).expanduser().resolve() if _asset_root else Path(__file__).resolve().parent.parent
 CONFIG = Path(__file__).resolve().parent / "config"
 SUPPORT_MODES = frozenset({"airborne", "penetration", "floor-contact"})
 

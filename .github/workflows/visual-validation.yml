@@ -27,11 +27,11 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps --only-shell chromium
       - name: Record production animation scenes
-        run: npm run visual:record -- ${{ inputs.scenarios }}
+        run: npm run visual:record -w @elder-souls/combat-sandbox -- ${{ inputs.scenarios }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: production-visual-validation
-          path: artifacts/visual-validation/latest
+          path: apps/combat-sandbox/artifacts/visual-validation/latest
           if-no-files-found: error
           retention-days: 7

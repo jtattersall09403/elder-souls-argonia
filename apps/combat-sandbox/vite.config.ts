@@ -9,7 +9,7 @@ const TUNNEL_PORT = 8081;
 export default defineConfig(({ command }) => ({
   // GitHub Pages serves the build from a subpath; local dev/preview through
   // the tunnel is accessed at its root, so only `vite build` uses the subpath.
-  base: command === "build" ? "/ecctrl-souls-combat/" : "/",
+  base: command === "build" ? "/elder-souls-argonia/" : "/",
   plugins: [react()],
   build: { target: "es2022", sourcemap: false, chunkSizeWarningLimit: 4000 },
   server: {

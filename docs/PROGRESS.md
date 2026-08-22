@@ -26,9 +26,9 @@ then open only the master-plan sections the active phase needs.
 | Milestone (plan §86) | Status | Evidence / current task |
 |---|---|---|
 | 0 — source, era, credits foundation | done | decisions 0001–0004; CREDITS.md; plan revised & renamed |
-| 1a — monorepo migration, CI, deployed sandbox | in progress | importing sandbox + pipeline with history; workspaces; Pages deploy |
+| 1a — monorepo migration, CI, deployed sandbox | done | subtree imports @ 0cdfd02/309fb23; 312 js tests + 21 py tests green from root; Pages deploy live; awaiting owner playtest |
 | 1b — package boundaries and contracts | todo | |
-| 2 — province source ingest | blocked | needs owner: Nexus heightmap downloads into asset vault (see plan §86 Phase 2) |
+| 2 — province source ingest | todo | heightmaps fetchable via owner's Nexus premium API key (plan §86 Phase 2); need key env-var name from owner |
 | 3 — province hydrology and region graph | todo | |
 | 4 — danger, cultures, transport | todo | |
 | 5 — World Studio foundation | todo | |
@@ -45,11 +45,12 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- Playtest of migrated combat sandbox after 1a deploys (agent will post instructions).
-- Nexus downloads for Phase 2: All Tamriel Heightmap (mod 573) and Tamriel
-  Worldspaces Argonia file (mod 118678) into the asset vault.
+- Playtest of migrated combat sandbox at
+  https://jtattersall09403.github.io/elder-souls-argonia/ (1a gate).
+- Name of the env variable holding the Nexus API key (for Phase 2 heightmap
+  downloads; agent shell doesn't see it).
 
 ## Next up
 
-Finish 1a → user playtest gate → 1b (contracts/package extraction) while Phase 2
-inputs are awaited.
+User playtest gate → 1b (contracts/package extraction); Phase 2 source ingest
+can start once the Nexus key variable is known.

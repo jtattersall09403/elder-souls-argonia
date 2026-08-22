@@ -2432,10 +2432,12 @@ discovery the combat sandbox stood on `enemy-health-bars`, 15 commits ahead of
 
 ### Phase 2 — province source ingest
 
-Nexus Mods downloads require an interactive logged-in browser session. Agents
-cannot fetch the heightmap files themselves: when this phase starts, ask the
-project owner to download the files into the local asset vault, stating the exact
-mod pages and filenames, then verify hashes and proceed.
+The project owner has a Nexus Mods **premium** account with an API key stored in
+an environment variable on the VM. Premium accounts may generate download links
+through the Nexus API (`api.nexusmods.com`, `apikey` header), so agents can fetch
+the heightmap files directly into the local asset vault; record file hashes in
+the source registry. If the key isn't visible in the agent shell, ask the owner
+for the variable name — never echo its value.
 
 Deliverables:
 
