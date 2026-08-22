@@ -1,0 +1,299 @@
+{
+  "id": "arsenal",
+  "description": "Every buildable hand-held item in one set. Adding an item is one line here: its class supplies the size and the sheath socket, its material supplies the stat tier, and the batch builder extracts the NIF and its textures itself. Ids are the runtime asset names the game's item registry refers to.",
+  "outputDir": "output/weapons",
+  "iconDir": "output/weapon-icons",
+  "dropShapesContaining": [
+    "scb",
+    "scabbard",
+    "blood",
+    "edgeblood"
+  ],
+  "classes": {
+    "dagger": {
+      "lengthMeters": 0.42,
+      "sheathSocket": "WeaponDagger"
+    },
+    "straightSword": {
+      "lengthMeters": 0.98,
+      "sheathSocket": "WeaponSword"
+    },
+    "scimitar": {
+      "lengthMeters": 0.95,
+      "sheathSocket": "WeaponSword"
+    },
+    "greatsword": {
+      "lengthMeters": 1.42,
+      "sheathSocket": "WeaponBack"
+    },
+    "waraxe": {
+      "lengthMeters": 0.78,
+      "sheathSocket": "WeaponAxe"
+    },
+    "battleaxe": {
+      "lengthMeters": 1.35,
+      "sheathSocket": "WeaponBack"
+    },
+    "mace": {
+      "lengthMeters": 0.8,
+      "sheathSocket": "WeaponMace"
+    },
+    "warhammer": {
+      "lengthMeters": 1.3,
+      "sheathSocket": "WeaponBack"
+    },
+    "shield": {
+      "lengthMeters": 0.62,
+      "sheathSocket": "Shield"
+    }
+  },
+  "items": [
+    {
+      "id": "iron-dagger",
+      "class": "dagger",
+      "material": "iron",
+      "nif": "meshes/weapons/iron/irondagger.nif"
+    },
+    {
+      "id": "steel-dagger",
+      "class": "dagger",
+      "material": "steel",
+      "nif": "meshes/weapons/steel/steeldagger.nif"
+    },
+    {
+      "id": "elven-dagger",
+      "class": "dagger",
+      "material": "elven",
+      "nif": "meshes/weapons/elven/elvendagger.nif"
+    },
+    {
+      "id": "ebony-dagger",
+      "class": "dagger",
+      "material": "ebony",
+      "nif": "meshes/weapons/ebony/ebonydagger.nif"
+    },
+    {
+      "id": "iron-sword",
+      "class": "straightSword",
+      "material": "iron",
+      "nif": "meshes/weapons/iron/longsword.nif"
+    },
+    {
+      "id": "steel-sword",
+      "class": "straightSword",
+      "material": "steel",
+      "nif": "meshes/weapons/steel/steelsword.nif"
+    },
+    {
+      "id": "imperial-sword",
+      "class": "straightSword",
+      "material": "imperial",
+      "nif": "meshes/weapons/imperial/imperialsword.nif"
+    },
+    {
+      "id": "silver-sword",
+      "class": "straightSword",
+      "material": "silver",
+      "nif": "meshes/weapons/silver/silversword.nif"
+    },
+    {
+      "id": "elven-sword",
+      "class": "straightSword",
+      "material": "elven",
+      "nif": "meshes/weapons/elven/elvensword.nif"
+    },
+    {
+      "id": "dwarven-sword",
+      "class": "straightSword",
+      "material": "dwarven",
+      "nif": "meshes/weapons/dwarven/dwarvensword.nif"
+    },
+    {
+      "id": "orcish-sword",
+      "class": "straightSword",
+      "material": "orcish",
+      "nif": "meshes/weapons/orcish/orcishsword.nif"
+    },
+    {
+      "id": "nordhero-sword",
+      "class": "straightSword",
+      "material": "nordhero",
+      "nif": "meshes/weapons/nordhero/nordherosword.nif"
+    },
+    {
+      "id": "glass-sword",
+      "class": "straightSword",
+      "material": "glass",
+      "nif": "meshes/weapons/glass/glasssword.nif"
+    },
+    {
+      "id": "ebony-sword",
+      "class": "straightSword",
+      "material": "ebony",
+      "nif": "meshes/weapons/ebony/ebonysword.nif"
+    },
+    {
+      "id": "daedric-sword",
+      "class": "straightSword",
+      "material": "daedric",
+      "nif": "meshes/weapons/daedric/daedricsword.nif"
+    },
+    {
+      "id": "blades-sword",
+      "class": "straightSword",
+      "material": "akaviri",
+      "nif": "meshes/weapons/akaviri/bladessword.nif"
+    },
+    {
+      "id": "steel-scimitar",
+      "class": "scimitar",
+      "material": "steel",
+      "nif": "meshes/weapons/scimitar/scimitar.nif"
+    },
+    {
+      "id": "iron-greatsword",
+      "class": "greatsword",
+      "material": "iron",
+      "nif": "meshes/weapons/iron/ironclaymore.nif"
+    },
+    {
+      "id": "steel-greatsword",
+      "class": "greatsword",
+      "material": "steel",
+      "nif": "meshes/weapons/steel/steelgreatsword.nif"
+    },
+    {
+      "id": "elven-greatsword",
+      "class": "greatsword",
+      "material": "elven",
+      "nif": "meshes/weapons/elven/elvengreatsword.nif"
+    },
+    {
+      "id": "ebony-greatsword",
+      "class": "greatsword",
+      "material": "ebony",
+      "nif": "meshes/weapons/ebony/ebonygreatsword.nif"
+    },
+    {
+      "id": "daedric-greatsword",
+      "class": "greatsword",
+      "material": "daedric",
+      "nif": "meshes/weapons/daedric/daedricgreatsword.nif"
+    },
+    {
+      "id": "iron-waraxe",
+      "class": "waraxe",
+      "material": "iron",
+      "nif": "meshes/weapons/iron/waraxe.nif"
+    },
+    {
+      "id": "steel-waraxe",
+      "class": "waraxe",
+      "material": "steel",
+      "nif": "meshes/weapons/steel/steelwaraxe.nif"
+    },
+    {
+      "id": "orcish-waraxe",
+      "class": "waraxe",
+      "material": "orcish",
+      "nif": "meshes/weapons/orcish/orcishhandaxe.nif"
+    },
+    {
+      "id": "nordhero-waraxe",
+      "class": "waraxe",
+      "material": "nordhero",
+      "nif": "meshes/weapons/nordhero/nordherohandaxe.nif"
+    },
+    {
+      "id": "iron-battleaxe",
+      "class": "battleaxe",
+      "material": "iron",
+      "nif": "meshes/weapons/iron/ironbattleaxe.nif"
+    },
+    {
+      "id": "steel-battleaxe",
+      "class": "battleaxe",
+      "material": "steel",
+      "nif": "meshes/weapons/steel/steelbattleaxe.nif"
+    },
+    {
+      "id": "dwarven-battleaxe",
+      "class": "battleaxe",
+      "material": "dwarven",
+      "nif": "meshes/weapons/dwarven/dwarvenbattleaxe.nif"
+    },
+    {
+      "id": "iron-mace",
+      "class": "mace",
+      "material": "iron",
+      "nif": "meshes/weapons/iron/ironmace.nif"
+    },
+    {
+      "id": "steel-mace",
+      "class": "mace",
+      "material": "steel",
+      "nif": "meshes/weapons/steel/steelmace.nif"
+    },
+    {
+      "id": "dwarven-mace",
+      "class": "mace",
+      "material": "dwarven",
+      "nif": "meshes/weapons/dwarven/dwarvenmace.nif"
+    },
+    {
+      "id": "iron-warhammer",
+      "class": "warhammer",
+      "material": "iron",
+      "nif": "meshes/weapons/iron/warhammer.nif"
+    },
+    {
+      "id": "steel-warhammer",
+      "class": "warhammer",
+      "material": "steel",
+      "nif": "meshes/weapons/steel/steelwarhammer.nif"
+    },
+    {
+      "id": "orcish-warhammer",
+      "class": "warhammer",
+      "material": "orcish",
+      "nif": "meshes/weapons/orcish/orcishwarhammer.nif"
+    },
+    {
+      "id": "iron-shield",
+      "class": "shield",
+      "material": "iron",
+      "nif": "meshes/armor/iron/shield.nif"
+    },
+    {
+      "id": "steel-shield",
+      "class": "shield",
+      "material": "steel",
+      "nif": "meshes/armor/steel/shield.nif"
+    },
+    {
+      "id": "dwarven-shield",
+      "class": "shield",
+      "material": "dwarven",
+      "nif": "meshes/armor/dwarven/dwarvenshield.nif"
+    },
+    {
+      "id": "elven-shield",
+      "class": "shield",
+      "material": "elven",
+      "nif": "meshes/armor/elven/elvenshield.nif"
+    },
+    {
+      "id": "orcish-shield",
+      "class": "shield",
+      "material": "orcish",
+      "nif": "meshes/armor/orcish/orcishshield.nif"
+    },
+    {
+      "id": "ebony-shield",
+      "class": "shield",
+      "material": "ebony",
+      "nif": "meshes/weapons/ebony/ebonyshield.nif"
+    }
+  ],
+  "manifestOutput": "output/weapon-arsenal.items.json"
+}

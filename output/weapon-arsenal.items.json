@@ -1,0 +1,538 @@
+{
+  "set": "arsenal",
+  "items": {
+    "iron-dagger": {
+      "class": "dagger",
+      "material": "iron",
+      "sheathSocket": "WeaponDagger",
+      "asset": "weapons/iron-dagger.glb",
+      "icon": "weapon-icons/iron-dagger.png",
+      "lengthMeters": 0.42,
+      "sizeMeters": [
+        0.13538,
+        0.02962,
+        0.42
+      ]
+    },
+    "steel-dagger": {
+      "class": "dagger",
+      "material": "steel",
+      "sheathSocket": "WeaponDagger",
+      "asset": "weapons/steel-dagger.glb",
+      "icon": "weapon-icons/steel-dagger.png",
+      "lengthMeters": 0.42,
+      "sizeMeters": [
+        0.08524,
+        0.01804,
+        0.42
+      ]
+    },
+    "elven-dagger": {
+      "class": "dagger",
+      "material": "elven",
+      "sheathSocket": "WeaponDagger",
+      "asset": "weapons/elven-dagger.glb",
+      "icon": "weapon-icons/elven-dagger.png",
+      "lengthMeters": 0.42,
+      "sizeMeters": [
+        0.07125,
+        0.01947,
+        0.42
+      ]
+    },
+    "ebony-dagger": {
+      "class": "dagger",
+      "material": "ebony",
+      "sheathSocket": "WeaponDagger",
+      "asset": "weapons/ebony-dagger.glb",
+      "icon": "weapon-icons/ebony-dagger.png",
+      "lengthMeters": 0.42,
+      "sizeMeters": [
+        0.05722,
+        0.0278,
+        0.42
+      ]
+    },
+    "iron-sword": {
+      "class": "straightSword",
+      "material": "iron",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/iron-sword.glb",
+      "icon": "weapon-icons/iron-sword.png",
+      "lengthMeters": 0.98,
+      "sizeMeters": [
+        0.16533,
+        0.0409,
+        0.98
+      ]
+    },
+    "steel-sword": {
+      "class": "straightSword",
+      "material": "steel",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/steel-sword.glb",
+      "icon": "weapon-icons/steel-sword.png",
+      "lengthMeters": 0.98,
+      "sizeMeters": [
+        0.19805,
+        0.03189,
+        0.98
+      ]
+    },
+    "imperial-sword": {
+      "class": "straightSword",
+      "material": "imperial",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/imperial-sword.glb",
+      "icon": "weapon-icons/imperial-sword.png",
+      "lengthMeters": 0.98,
+      "sizeMeters": [
+        0.1506,
+        0.03358,
+        0.98
+      ]
+    },
+    "silver-sword": {
+      "class": "straightSword",
+      "material": "silver",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/silver-sword.glb",
+      "icon": "weapon-icons/silver-sword.png",
+      "lengthMeters": 0.98,
+      "sizeMeters": [
+        0.23132,
+        0.0515,
+        0.98
+      ]
+    },
+    "elven-sword": {
+      "class": "straightSword",
+      "material": "elven",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/elven-sword.glb",
+      "icon": "weapon-icons/elven-sword.png",
+      "lengthMeters": 0.98,
+      "sizeMeters": [
+        0.22171,
+        0.03006,
+        0.98
+      ]
+    },
+    "dwarven-sword": {
+      "class": "straightSword",
+      "material": "dwarven",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/dwarven-sword.glb",
+      "icon": "weapon-icons/dwarven-sword.png",
+      "lengthMeters": 0.98,
+      "sizeMeters": [
+        0.12444,
+        0.04293,
+        0.98
+      ]
+    },
+    "orcish-sword": {
+      "class": "straightSword",
+      "material": "orcish",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/orcish-sword.glb",
+      "icon": "weapon-icons/orcish-sword.png",
+      "lengthMeters": 0.98,
+      "sizeMeters": [
+        0.23756,
+        0.07003,
+        0.98
+      ]
+    },
+    "nordhero-sword": {
+      "class": "straightSword",
+      "material": "nordhero",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/nordhero-sword.glb",
+      "icon": "weapon-icons/nordhero-sword.png",
+      "lengthMeters": 0.98,
+      "sizeMeters": [
+        0.2676,
+        0.03841,
+        0.98
+      ]
+    },
+    "glass-sword": {
+      "class": "straightSword",
+      "material": "glass",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/glass-sword.glb",
+      "icon": "weapon-icons/glass-sword.png",
+      "lengthMeters": 0.98,
+      "sizeMeters": [
+        0.2392,
+        0.02808,
+        0.98
+      ]
+    },
+    "ebony-sword": {
+      "class": "straightSword",
+      "material": "ebony",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/ebony-sword.glb",
+      "icon": "weapon-icons/ebony-sword.png",
+      "lengthMeters": 0.98,
+      "sizeMeters": [
+        0.08009,
+        0.05179,
+        0.98
+      ]
+    },
+    "daedric-sword": {
+      "class": "straightSword",
+      "material": "daedric",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/daedric-sword.glb",
+      "icon": "weapon-icons/daedric-sword.png",
+      "lengthMeters": 0.98,
+      "sizeMeters": [
+        0.15989,
+        0.04102,
+        0.98
+      ]
+    },
+    "blades-sword": {
+      "class": "straightSword",
+      "material": "akaviri",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/blades-sword.glb",
+      "icon": "weapon-icons/blades-sword.png",
+      "lengthMeters": 0.98,
+      "sizeMeters": [
+        0.1001,
+        0.07534,
+        0.98
+      ]
+    },
+    "steel-scimitar": {
+      "class": "scimitar",
+      "material": "steel",
+      "sheathSocket": "WeaponSword",
+      "asset": "weapons/steel-scimitar.glb",
+      "icon": "weapon-icons/steel-scimitar.png",
+      "lengthMeters": 0.95,
+      "sizeMeters": [
+        0.35371,
+        0.13726,
+        0.95
+      ]
+    },
+    "iron-greatsword": {
+      "class": "greatsword",
+      "material": "iron",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/iron-greatsword.glb",
+      "icon": "weapon-icons/iron-greatsword.png",
+      "lengthMeters": 1.42,
+      "sizeMeters": [
+        0.31861,
+        0.06268,
+        1.42
+      ]
+    },
+    "steel-greatsword": {
+      "class": "greatsword",
+      "material": "steel",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/steel-greatsword.glb",
+      "icon": "weapon-icons/steel-greatsword.png",
+      "lengthMeters": 1.42,
+      "sizeMeters": [
+        0.28262,
+        0.04776,
+        1.42
+      ]
+    },
+    "elven-greatsword": {
+      "class": "greatsword",
+      "material": "elven",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/elven-greatsword.glb",
+      "icon": "weapon-icons/elven-greatsword.png",
+      "lengthMeters": 1.42,
+      "sizeMeters": [
+        0.25487,
+        0.04783,
+        1.42
+      ]
+    },
+    "ebony-greatsword": {
+      "class": "greatsword",
+      "material": "ebony",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/ebony-greatsword.glb",
+      "icon": "weapon-icons/ebony-greatsword.png",
+      "lengthMeters": 1.42,
+      "sizeMeters": [
+        0.13655,
+        0.0651,
+        1.42
+      ]
+    },
+    "daedric-greatsword": {
+      "class": "greatsword",
+      "material": "daedric",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/daedric-greatsword.glb",
+      "icon": "weapon-icons/daedric-greatsword.png",
+      "lengthMeters": 1.42,
+      "sizeMeters": [
+        0.22484,
+        0.06961,
+        1.42
+      ]
+    },
+    "iron-waraxe": {
+      "class": "waraxe",
+      "material": "iron",
+      "sheathSocket": "WeaponAxe",
+      "asset": "weapons/iron-waraxe.glb",
+      "icon": "weapon-icons/iron-waraxe.png",
+      "lengthMeters": 0.78,
+      "sizeMeters": [
+        0.33562,
+        0.07162,
+        0.78
+      ]
+    },
+    "steel-waraxe": {
+      "class": "waraxe",
+      "material": "steel",
+      "sheathSocket": "WeaponAxe",
+      "asset": "weapons/steel-waraxe.glb",
+      "icon": "weapon-icons/steel-waraxe.png",
+      "lengthMeters": 0.78,
+      "sizeMeters": [
+        0.33193,
+        0.05598,
+        0.78
+      ]
+    },
+    "orcish-waraxe": {
+      "class": "waraxe",
+      "material": "orcish",
+      "sheathSocket": "WeaponAxe",
+      "asset": "weapons/orcish-waraxe.glb",
+      "icon": "weapon-icons/orcish-waraxe.png",
+      "lengthMeters": 0.78,
+      "sizeMeters": [
+        0.32797,
+        0.11747,
+        0.78
+      ]
+    },
+    "nordhero-waraxe": {
+      "class": "waraxe",
+      "material": "nordhero",
+      "sheathSocket": "WeaponAxe",
+      "asset": "weapons/nordhero-waraxe.glb",
+      "icon": "weapon-icons/nordhero-waraxe.png",
+      "lengthMeters": 0.78,
+      "sizeMeters": [
+        0.34045,
+        0.05354,
+        0.78
+      ]
+    },
+    "iron-battleaxe": {
+      "class": "battleaxe",
+      "material": "iron",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/iron-battleaxe.glb",
+      "icon": "weapon-icons/iron-battleaxe.png",
+      "lengthMeters": 1.35,
+      "sizeMeters": [
+        0.5816,
+        0.06654,
+        1.35
+      ]
+    },
+    "steel-battleaxe": {
+      "class": "battleaxe",
+      "material": "steel",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/steel-battleaxe.glb",
+      "icon": "weapon-icons/steel-battleaxe.png",
+      "lengthMeters": 1.35,
+      "sizeMeters": [
+        0.48509,
+        0.11474,
+        1.35
+      ]
+    },
+    "dwarven-battleaxe": {
+      "class": "battleaxe",
+      "material": "dwarven",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/dwarven-battleaxe.glb",
+      "icon": "weapon-icons/dwarven-battleaxe.png",
+      "lengthMeters": 1.35,
+      "sizeMeters": [
+        0.43504,
+        0.079,
+        1.35
+      ]
+    },
+    "iron-mace": {
+      "class": "mace",
+      "material": "iron",
+      "sheathSocket": "WeaponMace",
+      "asset": "weapons/iron-mace.glb",
+      "icon": "weapon-icons/iron-mace.png",
+      "lengthMeters": 0.8,
+      "sizeMeters": [
+        0.26971,
+        0.26961,
+        0.8
+      ]
+    },
+    "steel-mace": {
+      "class": "mace",
+      "material": "steel",
+      "sheathSocket": "WeaponMace",
+      "asset": "weapons/steel-mace.glb",
+      "icon": "weapon-icons/steel-mace.png",
+      "lengthMeters": 0.8,
+      "sizeMeters": [
+        0.17972,
+        0.17972,
+        0.8
+      ]
+    },
+    "dwarven-mace": {
+      "class": "mace",
+      "material": "dwarven",
+      "sheathSocket": "WeaponMace",
+      "asset": "weapons/dwarven-mace.glb",
+      "icon": "weapon-icons/dwarven-mace.png",
+      "lengthMeters": 0.8,
+      "sizeMeters": [
+        0.20317,
+        0.20143,
+        0.8
+      ]
+    },
+    "iron-warhammer": {
+      "class": "warhammer",
+      "material": "iron",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/iron-warhammer.glb",
+      "icon": "weapon-icons/iron-warhammer.png",
+      "lengthMeters": 1.3,
+      "sizeMeters": [
+        0.33338,
+        0.11857,
+        1.3
+      ]
+    },
+    "steel-warhammer": {
+      "class": "warhammer",
+      "material": "steel",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/steel-warhammer.glb",
+      "icon": "weapon-icons/steel-warhammer.png",
+      "lengthMeters": 1.3,
+      "sizeMeters": [
+        0.48715,
+        0.12712,
+        1.3
+      ]
+    },
+    "orcish-warhammer": {
+      "class": "warhammer",
+      "material": "orcish",
+      "sheathSocket": "WeaponBack",
+      "asset": "weapons/orcish-warhammer.glb",
+      "icon": "weapon-icons/orcish-warhammer.png",
+      "lengthMeters": 1.3,
+      "sizeMeters": [
+        0.32167,
+        0.10371,
+        1.3
+      ]
+    },
+    "iron-shield": {
+      "class": "shield",
+      "material": "iron",
+      "sheathSocket": "Shield",
+      "asset": "weapons/iron-shield.glb",
+      "icon": "weapon-icons/iron-shield.png",
+      "lengthMeters": 0.62,
+      "sizeMeters": [
+        0.62,
+        0.15029,
+        0.62
+      ]
+    },
+    "steel-shield": {
+      "class": "shield",
+      "material": "steel",
+      "sheathSocket": "Shield",
+      "asset": "weapons/steel-shield.glb",
+      "icon": "weapon-icons/steel-shield.png",
+      "lengthMeters": 0.62,
+      "sizeMeters": [
+        0.62,
+        0.15903,
+        0.61672
+      ]
+    },
+    "dwarven-shield": {
+      "class": "shield",
+      "material": "dwarven",
+      "sheathSocket": "Shield",
+      "asset": "weapons/dwarven-shield.glb",
+      "icon": "weapon-icons/dwarven-shield.png",
+      "lengthMeters": 0.62,
+      "sizeMeters": [
+        0.49113,
+        0.19553,
+        0.62
+      ]
+    },
+    "elven-shield": {
+      "class": "shield",
+      "material": "elven",
+      "sheathSocket": "Shield",
+      "asset": "weapons/elven-shield.glb",
+      "icon": "weapon-icons/elven-shield.png",
+      "lengthMeters": 0.62,
+      "sizeMeters": [
+        0.45739,
+        0.11917,
+        0.62
+      ]
+    },
+    "orcish-shield": {
+      "class": "shield",
+      "material": "orcish",
+      "sheathSocket": "Shield",
+      "asset": "weapons/orcish-shield.glb",
+      "icon": "weapon-icons/orcish-shield.png",
+      "lengthMeters": 0.62,
+      "sizeMeters": [
+        0.51775,
+        0.21023,
+        0.62
+      ]
+    },
+    "ebony-shield": {
+      "class": "shield",
+      "material": "ebony",
+      "sheathSocket": "Shield",
+      "asset": "weapons/ebony-shield.glb",
+      "icon": "weapon-icons/ebony-shield.png",
+      "lengthMeters": 0.62,
+      "sizeMeters": [
+        0.46863,
+        0.11931,
+        0.62
+      ]
+    }
+  }
+}
