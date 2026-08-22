@@ -26,4 +26,12 @@ describe("settlement anchors source data", () => {
       "lilmoth", "soulrest", "stormhold", "thorn",
     ]);
   });
+
+  it("suggested connections reference existing anchors", () => {
+    const ids = new Set(anchors.map((a) => a.id));
+    for (const c of anchorsFile.suggestedConnections) {
+      expect(ids.has(c.from), c.from).toBe(true);
+      expect(ids.has(c.to), c.to).toBe(true);
+    }
+  });
 });

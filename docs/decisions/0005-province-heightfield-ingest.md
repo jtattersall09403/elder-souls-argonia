@@ -1,6 +1,7 @@
 # 0005 — Province heightfield ingest and provisional scale
 
-**Date:** 2026-08-22 · **Status:** accepted (rescale factor still open)
+**Date:** 2026-08-22 · **Status:** accepted (rescale factor still open;
+interior conditioning and sea level decided — see below)
 
 ## What was ingested
 
@@ -31,7 +32,19 @@ scale multiplier (candidates ×3–×6) will be chosen at the start of Phase 3
 hydrology, informed by owner feedback on travel-time feel. Until then no code
 may bake in a metres-per-sample constant outside the generated meta files.
 
-## Open: central hill mass vs lore's low marsh heart
+## Decided at owner review (2026-08-22)
+
+- **Interior conditioning: option 2, mild** — land above 20 m keeps 50% of its
+  excess, weighted by the interiorness mask (no change within ~10% of map
+  edges). Peaks drop ~100 m → ~60 m. To be implemented in the Phase 3
+  hydrology compiler; the studio previews it as the default view.
+- **Sea level stays at 0 m** (owner-confirmed after fine-slider review).
+- **Anchor positions corrected** by the owner and terrain-verified (coastal
+  snapping, Gideon in the measured western pass; see
+  `world/sources/anchors/settlement-anchors.json` notes). A
+  Soulrest–Blackrose–Lilmoth suggested corridor is registered.
+
+## Resolved context: central hill mass vs lore's low marsh heart
 
 The heightfield has a genuine hill mass **south of Helstrom** (region roughly
 u 0.42–0.57, v 0.46–0.66: mean 41 m, 22% above 60 m, peaks ~101 m). Lore (PGE3,

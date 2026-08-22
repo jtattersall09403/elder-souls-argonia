@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import type { SettlementAnchor } from "@elder-souls/contracts";
+import type { SettlementAnchor, SuggestedConnection } from "@elder-souls/contracts";
 import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json";
 
 interface ProvinceMeta {
@@ -11,6 +11,7 @@ interface ProvinceMeta {
 }
 
 const anchors = anchorsFile.anchors as SettlementAnchor[];
+const connections = (anchorsFile.suggestedConnections ?? []) as SuggestedConnection[];
 
 /**
  * Preview of Phase 3 "option 2" interior conditioning (decision 0005): land
@@ -78,7 +79,8 @@ export function App() {
   const conditionedRef = useRef<Partial<Record<Conditioning, Float32Array>>>({});
   const [meta, setMeta] = useState<ProvinceMeta | null>(null);
   const [seaLevel, setSeaLevel] = useState(0);
-  const [conditioning, setConditioning] = useState<Conditioning>("off");
+  // Mild is the owner-chosen Phase 3 conditioning (decision 0005).
+  const [conditioning, setConditioning] = useState<Conditioning>("mild");
   const [readout, setReadout] = useState("");
 
   function displayHeights(): Float32Array | null {
@@ -138,6 +140,23 @@ export function App() {
       }
     }
     ctx.putImageData(out, 0, 0);
+
+    // Suggested transport connections (candidate edges, not road geometry).
+    const byId = new Map(anchors.map((a) => [a.id, a]));
+    ctx.strokeStyle = "rgba(255,255,255,0.45)";
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([2, 6]);
+    for (const c of connections) {
+      const from = byId.get(c.from);
+      const to = byId.get(c.to);
+      if (!from || !to) continue;
+      ctx.beginPath();
+      ctx.moveTo(from.u * w, from.v * h);
+      ctx.lineTo(to.u * w, to.v * h);
+      ctx.stroke();
+    }
+    ctx.setLineDash([]);
+    ctx.lineWidth = 1;
 
     for (const a of anchors) {
       const x = a.u * w;
@@ -199,8 +218,8 @@ export function App() {
         <span>Interior relief:</span>
         {([
           ["off", "As source"],
-          ["mild", "Compressed — mild (peaks ~60 m)"],
-          ["strong", "Compressed — strong (peaks ~34 m)"],
+          ["mild", "Compressed — mild (chosen)"],
+          ["strong", "Compressed — strong"],
         ] as [Conditioning, string][]).map(([mode, label]) => (
           <button key={mode} onClick={() => setConditioning(mode)}
             style={{
@@ -217,12 +236,11 @@ export function App() {
         style={{ width: "min(92vmin, 900px)", imageRendering: "pixelated", borderRadius: 6 }} />
       <p style={{ maxWidth: 720, opacity: 0.8, margin: 0 }}>
         Terrain: Tamriel Worldspaces Argonia heightfield (coarse macro prior — not final terrain).
-        Dashed rings are settlement-anchor placement tolerances; positions are first-pass
-        estimates from lore maps and will be corrected from your feedback before hydrology work.
-        “Compressed” modes preview Phase 3 interior conditioning (decision 0005, option 2):
-        land above a threshold is squashed toward lore's low marsh heart, fading to no change
-        within ~10% of the map edges so border mountains and coasts keep their source shape.
-        Hover elevations reflect the selected mode.
+        Dashed rings are anchor placement tolerances; positions were corrected at the owner
+        review (coastal anchors snapped to verified coast, Gideon to the measured western pass).
+        The faint dotted line is the suggested Soulrest–Blackrose–Lilmoth corridor (a candidate
+        graph edge, not road geometry). “Compressed — mild” is the owner-chosen Phase 3 interior
+        conditioning and the default view; hover elevations follow the selected mode.
       </p>
     </div>
   );

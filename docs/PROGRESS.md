@@ -28,7 +28,7 @@ then open only the master-plan sections the active phase needs.
 | 0 — source, era, credits foundation | done | decisions 0001–0004; CREDITS.md; plan revised & renamed |
 | 1a — monorepo migration, CI, deployed sandbox | done | owner playtest PASS 2026-08-22; gates green from root; Pages live |
 | 1b — package boundaries and contracts | done | packages/contracts + apps/game shell + apps/world-studio; inventory/items extraction deferred to Phase 7 (plan §86) |
-| 2 — province source ingest | in progress | heightfield extracted (decision 0005); preview + first-pass anchors live at /studio/ — awaiting owner review; remaining: anchor corrections, official/community map overlay registration |
+| 2 — province source ingest | in progress | heightfield extracted (0005); owner review done: mild conditioning + sea level 0 chosen, anchors corrected & terrain-verified, southern corridor registered; remaining: owner re-check of moved anchors, map overlay registration |
 | 3 — province hydrology and region graph | todo | |
 | 4 — danger, cultures, transport | todo | |
 | 5 — World Studio foundation | todo | |
@@ -45,13 +45,12 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- Review of the province preview at
-  https://jtattersall09403.github.io/elder-souls-argonia/studio/ — terrain
-  plausibility and settlement-anchor placement corrections (Phase 2 gate).
+- Re-check of corrected anchor positions + southern corridor at
+  https://jtattersall09403.github.io/elder-souls-argonia/studio/ (Phase 2 gate,
+  round 2).
 
 ## Next up
 
-Fold in anchor corrections → finish Phase 2 (map overlay registration) →
-Phase 3 hydrology. Phase 3 opens with two owner decisions recorded in 0005:
-horizontal rescale factor, and how far to flatten the central hill mass toward
-lore's low marsh heart.
+Owner re-check → finish Phase 2 (map overlay registration) → Phase 3 hydrology.
+Phase 3 opens with the one remaining owner decision in 0005: the horizontal
+rescale factor (conditioning + sea level now decided).

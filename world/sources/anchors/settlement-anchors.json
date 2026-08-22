@@ -1,6 +1,6 @@
 {
-  "$schema": "SettlementAnchor[] from @elder-souls/contracts",
-  "note": "u west->east, v north->south, fractions of the Argonia heightfield extent (4033x4033 grid, cells -62..63). First-pass placements estimated against the extracted coastline/relief and UESP + community lore maps; refine at the Phase 2 visual gate, then during georeferenced map registration.",
+  "$schema": "SettlementAnchor[] + SuggestedConnection[] from @elder-souls/contracts",
+  "note": "u west->east, v north->south, fractions of the Argonia heightfield extent (4033x4033 grid, cells -62..63). Positions corrected by the project owner at the Phase 2 visual gate (2026-08-22) and snapped to terrain (coastal anchors verified coastal, Gideon in the measured western pass). Refine further during georeferenced map registration.",
   "anchors": [
     {
       "id": "stormhold", "name": "Stormhold", "rank": "major",
@@ -18,52 +18,66 @@
     },
     {
       "id": "gideon", "name": "Gideon", "rank": "major",
-      "u": 0.10, "v": 0.62, "toleranceUV": 0.06,
+      "u": 0.18, "v": 0.42, "toleranceUV": 0.05,
       "confidence": "OFFICIAL_MAP_DERIVED",
       "sources": ["uesp:Lore:Gideon", "community-inkarnate-4e231"],
-      "notes": "Western frontier city near the Cyrodiil/Blackwood border, south of the border mountains."
+      "notes": "Owner-corrected: sits in the measured saddle of the western border belt (barrier ~46 m vs 60-87 m flanks) where the Cyrodiil road naturally crosses."
     },
     {
       "id": "helstrom", "name": "Helstrom", "rank": "major",
-      "u": 0.46, "v": 0.44, "toleranceUV": 0.08,
+      "u": 0.47, "v": 0.38, "toleranceUV": 0.06,
       "confidence": "LORE_INFERRED",
       "sources": ["uesp:Lore:Helstrom", "community-inkarnate-4e231"],
-      "notes": "Deep-interior heart city; canon fixes importance and rough centrality only."
+      "notes": "Owner-corrected northward into the wetland heart (64% of surrounding terrain is 0-6 m marsh)."
     },
     {
       "id": "archon", "name": "Archon", "rank": "major",
-      "u": 0.76, "v": 0.44, "toleranceUV": 0.06,
+      "u": 0.70, "v": 0.63, "toleranceUV": 0.05,
       "confidence": "OFFICIAL_MAP_DERIVED",
       "sources": ["uesp:Lore:Archon", "community-inkarnate-4e231"],
-      "notes": "Eastern coastal city where deep marsh meets the Padomaic coast."
+      "notes": "Owner-corrected: mainland east coast (not the offshore island), south of Helstrom and Gideon, north of Lilmoth/Blackrose. Coastal-verified."
     },
     {
       "id": "blackrose", "name": "Blackrose", "rank": "major",
-      "u": 0.36, "v": 0.76, "toleranceUV": 0.07,
+      "u": 0.32, "v": 0.87, "toleranceUV": 0.05,
       "confidence": "OFFICIAL_MAP_DERIVED",
       "sources": ["uesp:Lore:Blackrose", "community-inkarnate-4e231"],
-      "notes": "Southern interior lowland; ancient city and prison, dangerous surrounding marsh."
+      "notes": "Owner-corrected: southern lobe directly west of the Lilmoth peninsula, at the edge of the local hills; middle stop of the southern corridor."
     },
     {
       "id": "lilmoth", "name": "Lilmoth", "rank": "major",
-      "u": 0.60, "v": 0.84, "toleranceUV": 0.06,
+      "u": 0.51, "v": 0.87, "toleranceUV": 0.04,
       "confidence": "OFFICIAL_MAP_DERIVED",
       "sources": ["uesp:Lore:Lilmoth", "community-inkarnate-4e231"],
-      "notes": "Southeastern port on Oliis Bay; half-sunken Imperial districts (4E 201 state)."
+      "notes": "Owner-corrected: coast of the southern peninsula (coastal-verified; connected to the mainland). Half-sunken Imperial districts (4E 201 state)."
     },
     {
       "id": "soulrest", "name": "Soulrest", "rank": "major",
-      "u": 0.13, "v": 0.86, "toleranceUV": 0.07,
+      "u": 0.05, "v": 0.91, "toleranceUV": 0.05,
       "confidence": "OFFICIAL_MAP_DERIVED",
       "sources": ["uesp:Lore:Soulrest", "community-inkarnate-4e231"],
-      "notes": "Southwestern port toward Topal Bay; most demographically mixed zone."
+      "notes": "Owner-corrected: west-south-west coast toward Topal Bay (coastal-verified); western terminus of the southern corridor."
     },
     {
       "id": "alten-corimont", "name": "Alten Corimont", "rank": "secondary",
-      "u": 0.30, "v": 0.24, "toleranceUV": 0.10,
+      "u": 0.52, "v": 0.155, "toleranceUV": 0.08,
+      "confidence": "GAME_DERIVED",
+      "sources": ["uesp:Online:Alten_Corimont", "community-inkarnate-4e231"],
+      "notes": "ESO: port in eastern Shadowfen, ESE of the Hatching Pools, run by Argonian pirates/smugglers. Projected east of Stormhold into the measured low wetland corridor (49% of the area is 0-5 m); needs a navigable waterway when hydrology lands."
+    }
+  ],
+  "suggestedConnections": [
+    {
+      "from": "soulrest", "to": "blackrose",
       "confidence": "COMMUNITY_CONSENSUS",
-      "sources": ["eso:Shadowfen", "community-inkarnate-4e231"],
-      "notes": "ESO-era river trade post on a Gideon/Stormhold connection; era-specific importance."
+      "sources": ["community-inkarnate-4e231"],
+      "notes": "Southern corridor, western leg; owner requires the three cities to read as one connected corridor."
+    },
+    {
+      "from": "blackrose", "to": "lilmoth",
+      "confidence": "COMMUNITY_CONSENSUS",
+      "sources": ["community-inkarnate-4e231"],
+      "notes": "Southern corridor, eastern leg."
     }
   ]
 }

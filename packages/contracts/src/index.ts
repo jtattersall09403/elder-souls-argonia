@@ -71,6 +71,16 @@ export interface SettlementAnchor {
   notes?: string;
 }
 
+/** Candidate transport-graph edge between anchors (master plan §14.1); the
+ * route compiler later decides mode and geometry, or rejects it. */
+export interface SuggestedConnection {
+  from: string;
+  to: string;
+  confidence: SourceConfidence;
+  sources: string[];
+  notes?: string;
+}
+
 // ---------------------------------------------------------------------------
 // Environment and water queries (master plan §38, §61)
 // ---------------------------------------------------------------------------
