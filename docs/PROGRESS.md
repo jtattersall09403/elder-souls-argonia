@@ -29,7 +29,7 @@ then open only the master-plan sections the active phase needs.
 | 1a — monorepo migration, CI, deployed sandbox | done | owner playtest PASS 2026-08-22; gates green from root; Pages live |
 | 1b — package boundaries and contracts | done | packages/contracts + apps/game shell + apps/world-studio; inventory/items extraction deferred to Phase 7 (plan §86) |
 | 2 — province source ingest | done | anchors owner-approved 2026-08-22; conditioning/sea-level decided (0005); scale ×3 (0006); major-city road network required (§88) + candidate edges registered; community map archived w/ hash |
-| 3 — province hydrology and region graph | in progress | pass-1 solve done (ocean, priority-flood + G&M flats, D8 flow, rivers, 8 basins ≥5 km², wetlands, tidal/salinity) — studio layers live, awaiting owner review; remaining: flood frequency, soil stability, ecological region classes, lore river constraints, fuller validation report |
+| 3 — province hydrology and region graph | in progress | hydrology pass 2 owner-approved; flood (HAND), soil and ecological region classes compiled with stats in hydrology-meta.json — awaiting owner review of new layers; lore river constraints deferred to watershed refinement (no canon interior rivers to pin yet) |
 | 4 — danger, cultures, transport | todo | |
 | 5 — World Studio foundation | todo | |
 | 6 — reference watershed terrain | todo | |
@@ -45,12 +45,12 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- Review of pass-1 hydrology layers (rivers, wetlands, watersheds, salinity) at
-  https://jtattersall09403.github.io/elder-souls-argonia/studio/ (Phase 3 gate 1).
+- Review of region/flood/soil layers at
+  https://jtattersall09403.github.io/elder-souls-argonia/studio/ (Phase 3 gate 2
+  — region classes feed Phase 4 danger/culture fields, so approve before those).
 - Scale ×3 (0006) is provisional — owner may override any time before Phase 6.
 
 ## Next up
 
-Owner hydrology review → remaining Phase 3 deliverables (flood frequency, soil
-stability, ecological region classes, lore-required river constraints,
-validation report) → Phase 4 danger/cultures/transport fields.
+Owner region review → close Phase 3 → Phase 4: fixed danger profiles, tribe and
+culture territories, demographic priors, macro transport graph.

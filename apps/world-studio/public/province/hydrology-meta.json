@@ -17,11 +17,116 @@
     "4851": 5.1,
     "6510": 5.1
   },
+  "regionsLegend": {
+    "0": {
+      "name": "ocean",
+      "rgb": [
+        20,
+        45,
+        90
+      ]
+    },
+    "1": {
+      "name": "border mountains",
+      "rgb": [
+        150,
+        150,
+        160
+      ]
+    },
+    "2": {
+      "name": "upland hills",
+      "rgb": [
+        176,
+        160,
+        120
+      ]
+    },
+    "3": {
+      "name": "tidal delta",
+      "rgb": [
+        196,
+        176,
+        88
+      ]
+    },
+    "4": {
+      "name": "coastal lagoon & salt marsh",
+      "rgb": [
+        150,
+        190,
+        120
+      ]
+    },
+    "5": {
+      "name": "deep river corridor",
+      "rgb": [
+        70,
+        130,
+        200
+      ]
+    },
+    "6": {
+      "name": "rootland deep marsh",
+      "rgb": [
+        30,
+        110,
+        60
+      ]
+    },
+    "7": {
+      "name": "interior swamp",
+      "rgb": [
+        60,
+        150,
+        90
+      ]
+    },
+    "8": {
+      "name": "fringe marsh",
+      "rgb": [
+        110,
+        180,
+        110
+      ]
+    },
+    "9": {
+      "name": "seasonal floodplain",
+      "rgb": [
+        170,
+        200,
+        140
+      ]
+    },
+    "10": {
+      "name": "raised hammock",
+      "rgb": [
+        200,
+        150,
+        90
+      ]
+    },
+    "11": {
+      "name": "firm lowland",
+      "rgb": [
+        140,
+        160,
+        110
+      ]
+    }
+  },
+  "soilLegend": {
+    "1": "rock/upland firm",
+    "2": "firm lowland",
+    "3": "soft marsh",
+    "4": "peat",
+    "5": "mud"
+  },
   "cellKm2": 0.0002706209243136,
   "oceanFraction": 0.346,
   "lakeFraction": 0.0451,
   "wetlandFraction": 0.075,
-  "tidalFraction": 0.027,
+  "tidalFraction": 0.025,
   "riverCells": {
     "minor": 5475,
     "medium": 2311,
@@ -39,6 +144,39 @@
     ],
     "wetlandMaxElevM": 8.0,
     "tidalMaxElevM": 1.5,
-    "salinityDecayM": 3000.0
+    "salinityDecayM": 1500.0
+  },
+  "floodFractions": {
+    "none": 0.46,
+    "rare": 0.172,
+    "seasonal": 0.029,
+    "frequent": 0.339
+  },
+  "soilFractions": {
+    "rock/upland firm": 0.285,
+    "firm lowland": 0.284,
+    "soft marsh": 0.049,
+    "peat": 0.014,
+    "mud": 0.021
+  },
+  "regionFractions": {
+    "ocean": 0.3456,
+    "border mountains": 0.0859,
+    "upland hills": 0.0805,
+    "tidal delta": 0.0005,
+    "coastal lagoon & salt marsh": 0.0253,
+    "deep river corridor": 0.0009,
+    "rootland deep marsh": 0.0172,
+    "interior swamp": 0.0183,
+    "fringe marsh": 0.0377,
+    "seasonal floodplain": 0.0765,
+    "raised hammock": 0.0001,
+    "firm lowland": 0.3115
+  },
+  "handPercentilesM": {
+    "25": 0.0,
+    "50": 0.0,
+    "75": 2.86,
+    "95": 7.33
   }
 }

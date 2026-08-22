@@ -83,10 +83,13 @@ export function App() {
   const [conditioning, setConditioning] = useState<Conditioning>("mild");
   const [readout, setReadout] = useState("");
   const overlaysRef = useRef<Record<string, HTMLImageElement>>({});
+  const regionPxRef = useRef<Uint8ClampedArray | null>(null);
   const [layers, setLayers] = useState<Record<string, boolean>>({
-    rivers: true, wetlands: true, watersheds: false, salinity: false,
+    rivers: true, wetlands: true, regions: false, flood: false,
+    soil: false, watersheds: false, salinity: false,
   });
   const [overlaysReady, setOverlaysReady] = useState(false);
+  const [regionLegend, setRegionLegend] = useState<Record<string, { name: string; rgb: number[] }>>({});
 
   function displayHeights(): Float32Array | null {
     const base = heightsRef.current;
@@ -124,7 +127,7 @@ export function App() {
       setMeta(m);
       // Hydrology overlays (pass 1); missing files just leave a layer empty.
       await Promise.all(
-        ["rivers", "wetlands", "watersheds", "salinity"].map(async (name) => {
+        ["rivers", "wetlands", "regions", "flood", "soil", "watersheds", "salinity"].map(async (name) => {
           const overlay = new Image();
           overlay.src = `${base}province/hydro-${name}.png`;
           try {
@@ -135,6 +138,21 @@ export function App() {
           }
         }),
       );
+      try {
+        const hydroMeta = await (await fetch(`${base}province/hydrology-meta.json`)).json();
+        // Hydrology meta carries the decided world scale (×3, decision 0006);
+        // the terrain meta is raw extractor scale.
+        if (hydroMeta.metresPerPixel) setMeta({ ...m, metresPerPixel: hydroMeta.metresPerPixel });
+        setRegionLegend(hydroMeta.regionsLegend ?? {});
+        const regionsImg = overlaysRef.current.regions;
+        if (regionsImg) {
+          ctx.clearRect(0, 0, m.imageWidth, m.imageHeight);
+          ctx.drawImage(regionsImg, 0, 0);
+          regionPxRef.current = ctx.getImageData(0, 0, m.imageWidth, m.imageHeight).data;
+        }
+      } catch {
+        /* hydrology metadata not generated yet */
+      }
       setOverlaysReady(true);
     })();
   }, []);
@@ -161,7 +179,7 @@ export function App() {
     ctx.putImageData(out, 0, 0);
 
     // Hydrology overlays under the anchors, in back-to-front order.
-    for (const name of ["watersheds", "salinity", "wetlands", "rivers"]) {
+    for (const name of ["regions", "soil", "watersheds", "flood", "salinity", "wetlands", "rivers"]) {
       const img = overlaysRef.current[name];
       if (layers[name] && img) ctx.drawImage(img, 0, 0);
     }
@@ -215,7 +233,24 @@ export function App() {
     if (x < 0 || y < 0 || x >= meta.imageWidth || y >= meta.imageHeight) return;
     const hgt = heights[y * meta.imageWidth + x];
     const km = (v: number) => ((v * meta.metresPerPixel) / 1000).toFixed(2);
-    setReadout(`${km(x)} km E, ${km(y)} km S · elevation ${hgt.toFixed(1)} m`);
+    let region = "";
+    const px = regionPxRef.current;
+    if (px) {
+      const i = (y * meta.imageWidth + x) * 4;
+      if (px[i + 3] === 0) {
+        region = " · ocean";
+      } else {
+        // Canvas readback un-premultiplies alpha, so match the nearest colour.
+        let best: string | null = null;
+        let bestDist = 40;
+        for (const r of Object.values(regionLegend)) {
+          const dist = Math.abs(r.rgb[0] - px[i]) + Math.abs(r.rgb[1] - px[i + 1]) + Math.abs(r.rgb[2] - px[i + 2]);
+          if (dist < bestDist) { bestDist = dist; best = r.name; }
+        }
+        region = best ? ` · ${best}` : "";
+      }
+    }
+    setReadout(`${km(x)} km E, ${km(y)} km S · elevation ${hgt.toFixed(1)} m${region}`);
   }
 
   const extentKm = meta ? ((meta.imageWidth * meta.metresPerPixel) / 1000).toFixed(1) : "…";
@@ -236,12 +271,12 @@ export function App() {
             onChange={(e) => { const v = Number(e.target.value); if (Number.isFinite(v)) setSeaLevel(v); }} />
           {" "}m
         </label>
-        <span style={{ opacity: 0.75 }}>{extentKm} km across at raw Skyrim scale (rescale decision pending)</span>
+        <span style={{ opacity: 0.75 }}>{extentKm} km across at ×3 world scale (decision 0006)</span>
         <span style={{ minWidth: 260 }}>{readout}</span>
       </div>
       <div style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
         <span>Hydrology (pass 1):</span>
-        {(["rivers", "wetlands", "watersheds", "salinity"] as const).map((name) => (
+        {(["rivers", "wetlands", "regions", "flood", "soil", "watersheds", "salinity"] as const).map((name) => (
           <label key={name} style={{ cursor: "pointer" }}>
             <input type="checkbox" checked={layers[name]}
               onChange={(e) => setLayers({ ...layers, [name]: e.target.checked })} />{" "}
@@ -267,6 +302,16 @@ export function App() {
           </button>
         ))}
       </div>
+      {layers.regions && Object.keys(regionLegend).length > 0 && (
+        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center", maxWidth: 860 }}>
+          {Object.values(regionLegend).filter((r) => r.name !== "ocean").map((r) => (
+            <span key={r.name} style={{ display: "inline-flex", alignItems: "center", gap: 4, font: "12px system-ui" }}>
+              <span style={{ width: 11, height: 11, borderRadius: 2, background: `rgb(${r.rgb.join(",")})` }} />
+              {r.name}
+            </span>
+          ))}
+        </div>
+      )}
       <canvas ref={canvasRef} onMouseMove={onMove}
         style={{ width: "min(92vmin, 900px)", imageRendering: "pixelated", borderRadius: 6 }} />
       <p style={{ maxWidth: 720, opacity: 0.8, margin: 0 }}>

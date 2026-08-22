@@ -31,7 +31,7 @@ LAKE_MIN_DEPTH = 0.15          # filled - raw ground (m) that counts as standing
 WETLAND_MAX_ELEV = 8.0         # m; upper bound for marsh ground
 TWI_WETLAND_PERCENTILE = 70    # of land cells, above which low ground reads wet
 TIDAL_MAX_ELEV = 1.5           # m above sea level reachable by tide
-SALINITY_DECAY_M = 3000.0      # e-folding distance of brackish influence inland
+SALINITY_DECAY_M = 1500.0      # e-folding distance of brackish influence inland
 
 NEIGHBOR_OFFSETS = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
 

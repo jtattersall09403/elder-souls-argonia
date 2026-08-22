@@ -23,6 +23,7 @@ from scipy import ndimage
 
 from .condition import condition
 from .hydrology import compute
+from .regions import REGION_CLASSES, SOIL_CLASSES, compute_regions
 
 RAW_METRES_PER_SAMPLE = 4096.0 * 0.01428 / 32.0
 SCALE = 3.0  # decision 0006
@@ -53,6 +54,7 @@ def main() -> None:
     z = z_full[::STEP, ::STEP]
     metres_per_px = RAW_METRES_PER_SAMPLE * STEP * SCALE
     result = compute(z, metres_per_px)
+    reg = compute_regions(z, result, metres_per_px)
 
     np.savez_compressed(
         grid_path.parent / "hydrology-pass1.npz",
@@ -60,7 +62,8 @@ def main() -> None:
         flow_to=result.flow_to.astype(np.int32), accum_km2=result.accum_km2,
         rivers=result.rivers, watersheds=result.watersheds, twi=result.twi,
         wetlands=result.wetlands, lakes=result.lakes, tidal=result.tidal,
-        salinity=result.salinity,
+        salinity=result.salinity, hand=reg.hand, flood=reg.flood, soil=reg.soil,
+        regions=reg.regions,
     )
 
     shape = z.shape
@@ -100,6 +103,24 @@ def main() -> None:
     sal[m, 3] = (60 + 140 * s[m]).astype(np.uint8)
     save(sal, "hydro-salinity.png")
 
+    flood = rgba(shape)
+    for band, colour, alpha in ((1, (120, 170, 220), 60), (2, (80, 140, 220), 110), (3, (50, 100, 210), 160)):
+        flood[reg.flood == band] = (*colour, alpha)
+    save(flood, "hydro-flood.png")
+
+    soil = rgba(shape)
+    for cid, colour in ((1, (135, 135, 145)), (2, (165, 150, 105)), (3, (95, 140, 85)),
+                        (4, (80, 60, 40)), (5, (150, 110, 70))):
+        soil[reg.soil == cid] = (*colour, 110)
+    save(soil, "hydro-soil.png")
+
+    regions_img = rgba(shape)
+    for cid, (_, colour) in REGION_CLASSES.items():
+        if cid == 0:
+            continue
+        regions_img[reg.regions == cid] = (*colour, 120)
+    save(regions_img, "hydro-regions.png")
+
     meta = {
         "metresPerPixel": metres_per_px,
         "scaleApplied": SCALE,
@@ -107,7 +128,11 @@ def main() -> None:
         "imageWidth": shape[1],
         "imageHeight": shape[0],
         "topBasinsKm2": {str(b): round(areas[b], 1) for b in top},
+        "regionsLegend": {str(cid): {"name": name, "rgb": list(colour)}
+                          for cid, (name, colour) in REGION_CLASSES.items()},
+        "soilLegend": {str(cid): name for cid, name in SOIL_CLASSES.items()},
         **result.stats,
+        **reg.stats,
     }
     (PREVIEW_DIR / "hydrology-meta.json").write_text(json.dumps(meta, indent=2))
     print(json.dumps(meta, indent=2))
