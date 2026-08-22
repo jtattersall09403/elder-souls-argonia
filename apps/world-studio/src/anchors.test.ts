@@ -34,4 +34,21 @@ describe("settlement anchors source data", () => {
       expect(ids.has(c.to), c.to).toBe(true);
     }
   });
+
+  it("the suggested network connects every major city (owner requirement, plan §88)", () => {
+    const adjacency = new Map<string, string[]>();
+    for (const c of anchorsFile.suggestedConnections) {
+      adjacency.set(c.from, [...(adjacency.get(c.from) ?? []), c.to]);
+      adjacency.set(c.to, [...(adjacency.get(c.to) ?? []), c.from]);
+    }
+    const majors = anchors.filter((a) => a.rank === "major").map((a) => a.id);
+    const seen = new Set([majors[0]]);
+    const queue = [majors[0]];
+    while (queue.length) {
+      for (const next of adjacency.get(queue.pop()!) ?? []) {
+        if (!seen.has(next)) { seen.add(next); queue.push(next); }
+      }
+    }
+    for (const id of majors) expect(seen.has(id), id).toBe(true);
+  });
 });

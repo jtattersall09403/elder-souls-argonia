@@ -2632,6 +2632,11 @@ The province preview remains available throughout expansion.
 - Major settlement positions follow appropriate-era source maps.
 - Hist influence is spatial and systemic.
 - Waterways form the primary province structure.
+- **All major cities are connected by the road network** (owner requirement,
+  2026-08-22): the intended overland graph links all eight major cities, with
+  individual legs expressing the normal infrastructure life cycle (flood
+  damage, causeways, bridges, ferries bridging broken segments) rather than
+  being absent.
 
 ## 89. World causality
 

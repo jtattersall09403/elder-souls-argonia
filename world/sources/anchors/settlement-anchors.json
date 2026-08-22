@@ -1,6 +1,6 @@
 {
   "$schema": "SettlementAnchor[] + SuggestedConnection[] from @elder-souls/contracts",
-  "note": "u west->east, v north->south, fractions of the Argonia heightfield extent (4033x4033 grid, cells -62..63). Positions corrected by the project owner at the Phase 2 visual gate (2026-08-22) and snapped to terrain (coastal anchors verified coastal, Gideon in the measured western pass). Refine further during georeferenced map registration.",
+  "note": "u west->east, v north->south, fractions of the Argonia heightfield extent (4033x4033 grid, cells -62..63). Positions corrected and APPROVED by the project owner at the Phase 2 visual gate (2026-08-22); broad locations are settled but may be nudged during detailed placement phases. Owner requirement: all major cities are connected by the road network (see suggestedConnections; master plan §88).",
   "anchors": [
     {
       "id": "stormhold", "name": "Stormhold", "rank": "major",
@@ -78,6 +78,48 @@
       "confidence": "COMMUNITY_CONSENSUS",
       "sources": ["community-inkarnate-4e231"],
       "notes": "Southern corridor, eastern leg."
+    },
+    {
+      "from": "gideon", "to": "alten-corimont",
+      "confidence": "COMMUNITY_CONSENSUS",
+      "sources": ["community-inkarnate-4e231"],
+      "notes": "Western/northern connection, southern leg (via Murkmire-adjacent wetlands on the community map)."
+    },
+    {
+      "from": "alten-corimont", "to": "stormhold",
+      "confidence": "COMMUNITY_CONSENSUS",
+      "sources": ["community-inkarnate-4e231"],
+      "notes": "Western/northern connection, northern leg through Shadowfen."
+    },
+    {
+      "from": "stormhold", "to": "thorn",
+      "confidence": "LORE_INFERRED",
+      "sources": ["uesp:Lore:Black_Marsh"],
+      "notes": "Northern frontier road along the Morrowind-facing edge."
+    },
+    {
+      "from": "stormhold", "to": "helstrom",
+      "confidence": "COMMUNITY_CONSENSUS",
+      "sources": ["community-inkarnate-4e231"],
+      "notes": "North-to-heartland chain (community map routes it via Rockpoint)."
+    },
+    {
+      "from": "helstrom", "to": "archon",
+      "confidence": "COMMUNITY_CONSENSUS",
+      "sources": ["community-inkarnate-4e231"],
+      "notes": "Heartland-to-east-coast chain (via Greenglade/Riverbridge on the community map)."
+    },
+    {
+      "from": "helstrom", "to": "blackrose",
+      "confidence": "COMMUNITY_CONSENSUS",
+      "sources": ["community-inkarnate-4e231"],
+      "notes": "Heartland-to-south chain (via Alten Markmont/Greenspring/Crossroads on the community map)."
+    },
+    {
+      "from": "gideon", "to": "soulrest",
+      "confidence": "LORE_INFERRED",
+      "sources": ["uesp:Lore:Black_Marsh"],
+      "notes": "Southwestern frontier link along the Topal-facing lowlands; completes ring connectivity in the west."
     }
   ]
 }

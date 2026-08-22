@@ -82,6 +82,11 @@ export function App() {
   // Mild is the owner-chosen Phase 3 conditioning (decision 0005).
   const [conditioning, setConditioning] = useState<Conditioning>("mild");
   const [readout, setReadout] = useState("");
+  const overlaysRef = useRef<Record<string, HTMLImageElement>>({});
+  const [layers, setLayers] = useState<Record<string, boolean>>({
+    rivers: true, wetlands: true, watersheds: false, salinity: false,
+  });
+  const [overlaysReady, setOverlaysReady] = useState(false);
 
   function displayHeights(): Float32Array | null {
     const base = heightsRef.current;
@@ -117,6 +122,20 @@ export function App() {
       }
       heightsRef.current = heights;
       setMeta(m);
+      // Hydrology overlays (pass 1); missing files just leave a layer empty.
+      await Promise.all(
+        ["rivers", "wetlands", "watersheds", "salinity"].map(async (name) => {
+          const overlay = new Image();
+          overlay.src = `${base}province/hydro-${name}.png`;
+          try {
+            await overlay.decode();
+            overlaysRef.current[name] = overlay;
+          } catch {
+            /* layer not generated yet */
+          }
+        }),
+      );
+      setOverlaysReady(true);
     })();
   }, []);
 
@@ -140,6 +159,12 @@ export function App() {
       }
     }
     ctx.putImageData(out, 0, 0);
+
+    // Hydrology overlays under the anchors, in back-to-front order.
+    for (const name of ["watersheds", "salinity", "wetlands", "rivers"]) {
+      const img = overlaysRef.current[name];
+      if (layers[name] && img) ctx.drawImage(img, 0, 0);
+    }
 
     // Suggested transport connections (candidate edges, not road geometry).
     const byId = new Map(anchors.map((a) => [a.id, a]));
@@ -178,7 +203,7 @@ export function App() {
       ctx.fillStyle = major ? "#ffe9b8" : "#d5e0ff";
       ctx.fillText(a.name, x + 8, y + 4);
     }
-  }, [meta, seaLevel, conditioning]);
+  }, [meta, seaLevel, conditioning, layers, overlaysReady]);
 
   function onMove(e: React.MouseEvent<HTMLCanvasElement>) {
     const canvas = canvasRef.current;
@@ -214,6 +239,16 @@ export function App() {
         <span style={{ opacity: 0.75 }}>{extentKm} km across at raw Skyrim scale (rescale decision pending)</span>
         <span style={{ minWidth: 260 }}>{readout}</span>
       </div>
+      <div style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
+        <span>Hydrology (pass 1):</span>
+        {(["rivers", "wetlands", "watersheds", "salinity"] as const).map((name) => (
+          <label key={name} style={{ cursor: "pointer" }}>
+            <input type="checkbox" checked={layers[name]}
+              onChange={(e) => setLayers({ ...layers, [name]: e.target.checked })} />{" "}
+            {name}
+          </label>
+        ))}
+      </div>
       <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
         <span>Interior relief:</span>
         {([
@@ -238,9 +273,13 @@ export function App() {
         Terrain: Tamriel Worldspaces Argonia heightfield (coarse macro prior — not final terrain).
         Dashed rings are anchor placement tolerances; positions were corrected at the owner
         review (coastal anchors snapped to verified coast, Gideon to the measured western pass).
-        The faint dotted line is the suggested Soulrest–Blackrose–Lilmoth corridor (a candidate
-        graph edge, not road geometry). “Compressed — mild” is the owner-chosen Phase 3 interior
+        Faint dotted lines are the suggested major-city road network (candidate graph edges,
+        not road geometry). “Compressed — mild” is the owner-chosen Phase 3 interior
         conditioning and the default view; hover elevations follow the selected mode.
+        Hydrology layers are the first coarse province solve on the conditioned terrain:
+        rivers by drainage area (darker = larger, lakes filled), green wetlands and
+        olive tidal flats, top drainage basins, and brackish salinity reach. Note the
+        hydrology is computed on the mild terrain regardless of the relief toggle.
       </p>
     </div>
   );

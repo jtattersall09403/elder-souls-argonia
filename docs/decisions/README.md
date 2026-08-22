@@ -9,3 +9,4 @@ record and marking the old one superseded — don't rewrite history.
 - [0003 — coordinates and units](0003-coordinates-and-units.md)
 - [0004 — fixed difficulty is an architectural constraint](0004-fixed-difficulty-constraint.md)
 - [0005 — province heightfield ingest and provisional scale](0005-province-heightfield-ingest.md)
+- [0006 — provisional province scale ×3](0006-province-scale.md)
