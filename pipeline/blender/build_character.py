@@ -19,6 +19,7 @@ import copy
 import json
 import math
 import os
+import re
 import numpy as np
 from mathutils import Matrix, Vector
 
@@ -1043,6 +1044,19 @@ SUMMARY["armature"] = arm.name
 SUMMARY["boneCount"] = bone_count
 SUMMARY["boneNames"] = [b.name for b in arm.data.bones]
 SUMMARY["meshNames"] = [m.name for m in meshes]
+# Which biped slot each body mesh occupies, read from the NIF's own dismember
+# partitions. Armour reports the slots it covers the same way, so "does this
+# cuirass hide the torso" is answered by two pieces of art agreeing rather than
+# by a hand-written table of mesh names.
+_BIPED_SLOT = re.compile(r"^SBP_(\d+)_", re.IGNORECASE)
+SUMMARY["meshBipedSlots"] = {
+    mesh.name: sorted({
+        int(match.group(1)) % 100
+        for group in mesh.vertex_groups
+        for match in [_BIPED_SLOT.match(group.name)] if match
+    })
+    for mesh in meshes
+}
 SUMMARY["sockets"] = {}
 for key, bone_name in PLAN["sockets"].items():
     SUMMARY["sockets"][key] = bone_name in arm.data.bones

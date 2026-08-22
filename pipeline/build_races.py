@@ -113,6 +113,9 @@ def build(roster_id: str = "skyrim-playable", only: list[str] | None = None) -> 
             "description": description,
             "asset": f"{Path(roster['raceOutputDir']).name}/{race_id}.glb",
             "sha256": hashlib.sha256((ROOT / asset).read_bytes()).hexdigest(),
+            # Which biped slot each body mesh occupies, so armour can hide what
+            # it actually covers without a table of mesh names in game code.
+            "meshBipedSlots": summaries[race_id].get("meshBipedSlots", {}),
         }
     roster_path.parent.mkdir(parents=True, exist_ok=True)
     roster_path.write_text(json.dumps(manifest, indent=2))
