@@ -2,7 +2,8 @@
 
 Extracts the weapon NIF (Meshes.bsa) and its referenced textures (Textures.bsa)
 into a local data-root, then hands a resolved plan to headless Wine/Blender.
-Bethesda bytes stay local; the emitted GLB is gitignored in the game.
+Bethesda source bytes stay local. The pipeline output is ignored here; the game
+may version the copied runtime GLB under its explicit deployment authorization.
 
 Usage:
     python -m pipeline.build_weapon --weapon steel-sword
