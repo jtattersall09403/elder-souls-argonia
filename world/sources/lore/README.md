@@ -26,4 +26,4 @@ Province: [black-marsh-province.md](black-marsh-province.md) ·
 Cities: [helstrom](helstrom.md), [gideon](gideon.md), [archon](archon.md),
 [thorn](thorn.md), [blackrose](blackrose.md), [lilmoth](lilmoth.md),
 [stormhold](stormhold.md), [soulrest](soulrest.md),
-[alten-corimont](alten-corimont.md)
+[alten-corimont](alten-corimont.md) · [tribes](tribes.md)

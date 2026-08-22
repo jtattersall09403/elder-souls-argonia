@@ -71,17 +71,34 @@ DANGER_BANDS = {
     5: ("danger 5 — deep peril", (150, 55, 130)),
 }
 
-# Culture zones map to the master plan §82 demographic chart zones (see
-# world/sources/demographics/population-priors.json).
+# Culture zones, lore-grounded via world/sources/lore/ dossiers; mapped to the
+# §82 demographic chart zones in world/sources/demographics/.
+# seeds: anchor-city gaussians (sigma km). uvSeeds: non-city gaussians for
+# cultures whose centre is a territory, not a settlement. regionBoost: added
+# influence on ecological region classes (deep marsh belongs to its tribes).
 CULTURES = {
+    # Gideon: Nibenese Imperials + Argonian majority on the Blackwood road (Lore:Gideon)
     "imperial-fringe": {"colour": (200, 70, 60), "seeds": {"gideon": 3.0}},
+    # Stormhold/Thorn: Dres slavery history, Dunmer minorities (Lore:Stormhold, Lore:Thorn)
     "dunmer-north": {"colour": (150, 110, 200), "seeds": {"stormhold": 2.5, "thorn": 2.5}},
+    # Soulrest (3E capital, most mixed) and Lilmoth (merchant council) (Lore:Soulrest, Lore:Lilmoth)
     "mercantile-coast": {"colour": (220, 170, 60), "seeds": {"soulrest": 2.5, "lilmoth": 3.0}},
-    "argonian-settled": {"colour": (80, 170, 150), "seeds": {"blackrose": 2.5, "archon": 2.5}},
+    # Blackrose: "Argonians and the Imperials … lay claim"; Versidue-Shaie's
+    # prison institution to its south (Lore:Blackrose, ON:Blackrose Prison)
+    "imperial-penal-south": {"colour": (235, 130, 120), "seeds": {"blackrose": 2.2}},
+    # Archon: Argonian-majority east coast over a Cantemiric Velothi layer,
+    # Shadowscales facility (Lore:Archon)
+    "saxhleel-coast": {"colour": (80, 170, 150), "seeds": {"archon": 2.5}},
+    # Alten Corimont: Argonian pirate/smuggler river-port (ON:Alten Corimont)
     "pirate-freeholds": {"colour": (125, 125, 145), "seeds": {"alten-corimont": 1.4}},
-    "hist-heartland": {"colour": (50, 130, 60), "seeds": {"helstrom": 4.0}},
+    # Middle Argonia around Helstrom: Hist-bound tribes (Lore:Helstrom, Lore:Hist)
+    "hist-heartland": {"colour": (50, 130, 60), "seeds": {"helstrom": 4.0},
+                       "regionBoost": {6: 1.2, 7: 0.9, 8: 0.4}},
+    # Naga-Kur and tribeless Naga "control much of the inner swamps" of the
+    # south (northern Murkmire) (Lore:Naga, Lore:Naga-Kur)
+    "naga-kur-deeps": {"colour": (110, 125, 45), "uvSeeds": [[0.47, 0.68, 3.0]],
+                       "regionBoost": {6: 1.2, 7: 0.9}},
 }
-HEARTLAND_REGION_BOOST = {6: 1.2, 7: 0.9, 8: 0.4}  # deep marsh favours the Hist tribes
 
 
 @dataclass
@@ -137,7 +154,10 @@ def compute_society(regions: np.ndarray, anchors_px: dict[str, tuple[int, int]],
     if "helstrom" in anchors_px:
         d_heart = _distance_km_from([anchors_px["helstrom"]], shape, metres_per_px)
         danger += (HEART_BOOST * np.exp(-(d_heart ** 2) / (2 * HEART_SIGMA_KM ** 2))).astype(np.float32)
-    danger[regions == 1] = np.minimum(danger[regions == 1], MOUNTAIN_DANGER_CAP)
+    # Cap ALL high dry ground (mountains and upland hills) — capping only the
+    # mountain class left a hard straight seam along the class boundary.
+    high_ground = (regions == 1) | (regions == 2)
+    danger[high_ground] = np.minimum(danger[high_ground], MOUNTAIN_DANGER_CAP)
 
     road_km = ndimage.distance_transform_edt(~road_mask) * metres_per_px / 1000.0 \
         if road_mask.any() else np.full(shape, np.inf)
@@ -152,15 +172,18 @@ def compute_society(regions: np.ndarray, anchors_px: dict[str, tuple[int, int]],
 
     names = list(CULTURES.keys())
     influence = np.zeros((len(names), *shape), dtype=np.float32)
+    h, w = shape
     for ci, (name, spec) in enumerate(CULTURES.items()):
-        for seed, sigma_km in spec["seeds"].items():
+        for seed, sigma_km in spec.get("seeds", {}).items():
             if seed not in anchors_px:
                 continue
             d = _distance_km_from([anchors_px[seed]], shape, metres_per_px)
             influence[ci] += np.exp(-(d ** 2) / (2 * sigma_km ** 2))
-    hi = names.index("hist-heartland")
-    for cid, boost in HEARTLAND_REGION_BOOST.items():
-        influence[hi][regions == cid] += boost
+        for u, v, sigma_km in spec.get("uvSeeds", []):
+            d = _distance_km_from([(int(u * w), int(v * h))], shape, metres_per_px)
+            influence[ci] += np.exp(-(d ** 2) / (2 * sigma_km ** 2))
+        for cid, boost in spec.get("regionBoost", {}).items():
+            influence[ci][regions == cid] += boost
 
     dominant = np.argmax(influence, axis=0).astype(np.uint8) + 1
     dominant[influence.max(axis=0) < 0.06] = 0  # unclaimed hinterland

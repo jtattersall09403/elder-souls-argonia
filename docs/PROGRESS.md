@@ -30,7 +30,7 @@ then open only the master-plan sections the active phase needs.
 | 1b — package boundaries and contracts | done | packages/contracts + apps/game shell + apps/world-studio; inventory/items extraction deferred to Phase 7 (plan §86) |
 | 2 — province source ingest | done | anchors owner-approved 2026-08-22; conditioning/sea-level decided (0005); scale ×3 (0006); major-city road network required (§88) + candidate edges registered; community map archived w/ hash |
 | 3 — province hydrology and region graph | done | owner-approved 2026-08-22 (sea/salinity/flood corrections applied; lake region class added); stats in hydrology-meta.json |
-| 4 — danger, cultures, transport | in progress | pass 2 after owner review: depth-into-marsh danger model (edges safe, Helstrom heart deadliest), roads rerouted (no direct Helstrom-Gideon; Stormhold-Thorn off map edge), pirate-freeholds culture at Alten Corimont; UESP lore dossiers for all 9 anchors in world/sources/lore/ — awaiting owner re-review |
+| 4 — danger, cultures, transport | in progress | all deliverables compiled: danger (high-ground cap, no seams), 8 lore-grounded culture zones (Blackrose imperial-penal, Naga-Kur deeps), boat lanes (5, ≥83% water), rootworm network stub, settlement roles, access-progression model (0007), tribes dossier — awaiting owner combined gate |
 | 5 — World Studio foundation | todo | |
 | 6 — reference watershed terrain | todo | |
 | 7 — physical character integration | todo | |
@@ -45,12 +45,11 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- Phase 4 gate: review routes/danger/cultures layers at
-  https://jtattersall09403.github.io/elder-souls-argonia/studio/.
+- Phase 4 combined gate: danger polish, 8 culture zones, waterways and
+  rootways layers at https://jtattersall09403.github.io/elder-souls-argonia/studio/.
 - Scale ×3 (0006) is provisional — owner may override any time before Phase 6.
 
 ## Next up
 
-Owner Phase 4 review → remaining Phase 4 items (boat/root-transit graph,
-tribe subdivision of the heartland, access-progression writeup) → Phase 5
-World Studio spawn/fly foundations.
+Owner Phase 4 gate → close Phase 4 → Phase 5: World Studio spawn/fly
+foundations (map click-to-spawn, fly camera, reproducible URLs).

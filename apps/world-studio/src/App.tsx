@@ -86,8 +86,9 @@ export function App() {
   const overlaysRef = useRef<Record<string, HTMLImageElement>>({});
   const decodedPxRef = useRef<Record<string, Uint8ClampedArray>>({});
   const [layers, setLayers] = useState<Record<string, boolean>>({
-    rivers: true, wetlands: true, routes: true, danger: false, cultures: false,
-    regions: false, flood: false, soil: false, watersheds: false, salinity: false,
+    rivers: true, wetlands: true, routes: true, waterways: true, rootways: false,
+    danger: false, cultures: false, regions: false, flood: false, soil: false,
+    watersheds: false, salinity: false,
   });
   const [overlaysReady, setOverlaysReady] = useState(false);
   const [legends, setLegends] = useState<Record<string, Record<string, { name: string; rgb: number[] }>>>({});
@@ -133,6 +134,7 @@ export function App() {
         soil: "hydro-soil.png", watersheds: "hydro-watersheds.png",
         salinity: "hydro-salinity.png", routes: "soc-routes.png",
         danger: "soc-danger.png", cultures: "soc-cultures.png",
+        waterways: "soc-waterways.png", rootways: "soc-rootways.png",
       };
       await Promise.all(
         Object.entries(overlayFiles).map(async ([name, file]) => {
@@ -198,7 +200,8 @@ export function App() {
 
     // Generated overlays under the anchors, in back-to-front order.
     for (const name of ["regions", "soil", "watersheds", "flood", "salinity",
-                        "danger", "cultures", "wetlands", "rivers", "routes"]) {
+                        "danger", "cultures", "wetlands", "rivers", "waterways",
+                        "routes", "rootways"]) {
       const img = overlaysRef.current[name];
       if (layers[name] && img) ctx.drawImage(img, 0, 0);
     }
@@ -296,7 +299,7 @@ export function App() {
       </div>
       <div style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
         <span>Layers:</span>
-        {(["rivers", "wetlands", "routes", "danger", "cultures", "regions", "flood", "soil", "watersheds", "salinity"] as const).map((name) => (
+        {(["rivers", "wetlands", "routes", "waterways", "rootways", "danger", "cultures", "regions", "flood", "soil", "watersheds", "salinity"] as const).map((name) => (
           <label key={name} style={{ cursor: "pointer" }}>
             <input type="checkbox" checked={layers[name]}
               onChange={(e) => setLayers({ ...layers, [name]: e.target.checked })} />{" "}
@@ -354,7 +357,10 @@ export function App() {
         review (coastal anchors snapped to verified coast, Gideon to the measured western pass).
         Solid tan lines (“routes”) are computed least-cost road corridors for the owner's
         major-city network — they seek dry ground, passes and cheap crossings; dotted lines
-        are the underlying graph intent. “danger” shows the fixed 1–5 danger bands (never
+        are the underlying graph intent. Cyan lines (“waterways”) are solved boat lanes
+        (coastal shipping + navigable rivers; each is ≥83% on water). Green dotted arcs
+        (“rootways”) are the speculative rootworm Underground Express between deep-marsh
+        stations — schematic, re-authored with Hist placement later. “danger” shows the fixed 1–5 danger bands (never
         player-scaled) from region character, remoteness and road relief; “cultures” shows
         pass-1 dominant-culture territories. Hydrology layers are the coarse province solve
         on the owner-chosen mild terrain (regardless of the relief toggle): rivers by

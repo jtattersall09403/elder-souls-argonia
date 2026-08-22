@@ -1,118 +1,214 @@
 {
   "$schema": "SettlementAnchor[] + SuggestedConnection[] from @elder-souls/contracts",
-  "note": "u west->east, v north->south, fractions of the Argonia heightfield extent (4033x4033 grid, cells -62..63). Positions corrected and APPROVED by the project owner at the Phase 2 visual gate (2026-08-22); broad locations are settled but may be nudged during detailed placement phases. Owner requirement: all major cities are connected by the road network (see suggestedConnections; master plan §88).",
+  "note": "u west->east, v north->south, fractions of the Argonia heightfield extent (4033x4033 grid, cells -62..63). Positions corrected and APPROVED by the project owner at the Phase 2 visual gate (2026-08-22); broad locations are settled but may be nudged during detailed placement phases. Owner requirement: all major cities are connected by the road network (see suggestedConnections; master plan \u00a788).",
   "anchors": [
     {
-      "id": "stormhold", "name": "Stormhold", "rank": "major",
-      "u": 0.36, "v": 0.10, "toleranceUV": 0.06,
+      "id": "stormhold",
+      "name": "Stormhold",
+      "rank": "major",
+      "u": 0.36,
+      "v": 0.1,
+      "toleranceUV": 0.06,
       "confidence": "OFFICIAL_MAP_DERIVED",
-      "sources": ["uesp:Lore:Stormhold", "community-inkarnate-4e231"],
-      "notes": "Northern city, Shadowfen river network, Morrowind-facing."
+      "sources": [
+        "uesp:Lore:Stormhold",
+        "community-inkarnate-4e231"
+      ],
+      "notes": "Northern city, Shadowfen river network, Morrowind-facing.",
+      "role": "northern regional capital, Dunmer-frontier trade"
     },
     {
-      "id": "thorn", "name": "Thorn", "rank": "major",
-      "u": 0.84, "v": 0.08, "toleranceUV": 0.06,
+      "id": "thorn",
+      "name": "Thorn",
+      "rank": "major",
+      "u": 0.84,
+      "v": 0.08,
+      "toleranceUV": 0.06,
       "confidence": "OFFICIAL_MAP_DERIVED",
-      "sources": ["uesp:Lore:Thorn", "community-inkarnate-4e231"],
-      "notes": "Northeastern frontier city with delta/river access near the coast."
+      "sources": [
+        "uesp:Lore:Thorn",
+        "community-inkarnate-4e231"
+      ],
+      "notes": "Northeastern frontier city with delta/river access near the coast.",
+      "role": "northeastern frontier city, saltrice estates, Morrowind trade/war"
     },
     {
-      "id": "gideon", "name": "Gideon", "rank": "major",
-      "u": 0.18, "v": 0.42, "toleranceUV": 0.05,
+      "id": "gideon",
+      "name": "Gideon",
+      "rank": "major",
+      "u": 0.18,
+      "v": 0.42,
+      "toleranceUV": 0.05,
       "confidence": "OFFICIAL_MAP_DERIVED",
-      "sources": ["uesp:Lore:Gideon", "community-inkarnate-4e231"],
-      "notes": "Owner-corrected: sits in the measured saddle of the western border belt (barrier ~46 m vs 60-87 m flanks) where the Cyrodiil road naturally crosses."
+      "sources": [
+        "uesp:Lore:Gideon",
+        "community-inkarnate-4e231"
+      ],
+      "notes": "Owner-corrected: sits in the measured saddle of the western border belt (barrier ~46 m vs 60-87 m flanks) where the Cyrodiil road naturally crosses.",
+      "role": "western gateway city on the Blackwood Road to Leyawiin"
     },
     {
-      "id": "helstrom", "name": "Helstrom", "rank": "major",
-      "u": 0.47, "v": 0.38, "toleranceUV": 0.06,
+      "id": "helstrom",
+      "name": "Helstrom",
+      "rank": "major",
+      "u": 0.47,
+      "v": 0.38,
+      "toleranceUV": 0.06,
       "confidence": "LORE_INFERRED",
-      "sources": ["uesp:Lore:Helstrom", "community-inkarnate-4e231"],
-      "notes": "Owner-corrected northward into the wetland heart (64% of surrounding terrain is 0-6 m marsh)."
+      "sources": [
+        "uesp:Lore:Helstrom",
+        "community-inkarnate-4e231"
+      ],
+      "notes": "Owner-corrected northward into the wetland heart (64% of surrounding terrain is 0-6 m marsh).",
+      "role": "unconquered heart city, Hist-tribal centre (no outside access)"
     },
     {
-      "id": "archon", "name": "Archon", "rank": "major",
-      "u": 0.70, "v": 0.63, "toleranceUV": 0.05,
+      "id": "archon",
+      "name": "Archon",
+      "rank": "major",
+      "u": 0.7,
+      "v": 0.63,
+      "toleranceUV": 0.05,
       "confidence": "OFFICIAL_MAP_DERIVED",
-      "sources": ["uesp:Lore:Archon", "community-inkarnate-4e231"],
-      "notes": "Owner-corrected: mainland east coast (not the offshore island), south of Helstrom and Gideon, north of Lilmoth/Blackrose. Coastal-verified."
+      "sources": [
+        "uesp:Lore:Archon",
+        "community-inkarnate-4e231"
+      ],
+      "notes": "Owner-corrected: mainland east coast (not the offshore island), south of Helstrom and Gideon, north of Lilmoth/Blackrose. Coastal-verified.",
+      "role": "eastern port, estuary gateway to the interior, Shadowscale seat"
     },
     {
-      "id": "blackrose", "name": "Blackrose", "rank": "major",
-      "u": 0.32, "v": 0.87, "toleranceUV": 0.05,
+      "id": "blackrose",
+      "name": "Blackrose",
+      "rank": "major",
+      "u": 0.32,
+      "v": 0.87,
+      "toleranceUV": 0.05,
       "confidence": "OFFICIAL_MAP_DERIVED",
-      "sources": ["uesp:Lore:Blackrose", "community-inkarnate-4e231"],
-      "notes": "Owner-corrected: southern lobe directly west of the Lilmoth peninsula, at the edge of the local hills; middle stop of the southern corridor."
+      "sources": [
+        "uesp:Lore:Blackrose",
+        "community-inkarnate-4e231"
+      ],
+      "notes": "Owner-corrected: southern lobe directly west of the Lilmoth peninsula, at the edge of the local hills; middle stop of the southern corridor.",
+      "role": "lake city over Lilmothiit ruins; Imperial penal institution to its south"
     },
     {
-      "id": "lilmoth", "name": "Lilmoth", "rank": "major",
-      "u": 0.51, "v": 0.87, "toleranceUV": 0.04,
+      "id": "lilmoth",
+      "name": "Lilmoth",
+      "rank": "major",
+      "u": 0.51,
+      "v": 0.87,
+      "toleranceUV": 0.04,
       "confidence": "OFFICIAL_MAP_DERIVED",
-      "sources": ["uesp:Lore:Lilmoth", "community-inkarnate-4e231"],
-      "notes": "Owner-corrected: coast of the southern peninsula (coastal-verified; connected to the mainland). Half-sunken Imperial districts (4E 201 state)."
+      "sources": [
+        "uesp:Lore:Lilmoth",
+        "community-inkarnate-4e231"
+      ],
+      "notes": "Owner-corrected: coast of the southern peninsula (coastal-verified; connected to the mainland). Half-sunken Imperial districts (4E 201 state).",
+      "role": "southeastern merchant-council port, half-sunken Imperial districts"
     },
     {
-      "id": "soulrest", "name": "Soulrest", "rank": "major",
-      "u": 0.05, "v": 0.91, "toleranceUV": 0.05,
+      "id": "soulrest",
+      "name": "Soulrest",
+      "rank": "major",
+      "u": 0.05,
+      "v": 0.91,
+      "toleranceUV": 0.05,
       "confidence": "OFFICIAL_MAP_DERIVED",
-      "sources": ["uesp:Lore:Soulrest", "community-inkarnate-4e231"],
-      "notes": "Owner-corrected: west-south-west coast toward Topal Bay (coastal-verified); western terminus of the southern corridor."
+      "sources": [
+        "uesp:Lore:Soulrest",
+        "community-inkarnate-4e231"
+      ],
+      "notes": "Owner-corrected: west-south-west coast toward Topal Bay (coastal-verified); western terminus of the southern corridor.",
+      "role": "southwestern port, Third-Era provincial capital"
     },
     {
-      "id": "alten-corimont", "name": "Alten Corimont", "rank": "secondary",
-      "u": 0.52, "v": 0.155, "toleranceUV": 0.08,
+      "id": "alten-corimont",
+      "name": "Alten Corimont",
+      "rank": "secondary",
+      "u": 0.52,
+      "v": 0.155,
+      "toleranceUV": 0.08,
       "confidence": "GAME_DERIVED",
-      "sources": ["uesp:Online:Alten_Corimont", "community-inkarnate-4e231"],
-      "notes": "ESO: port in eastern Shadowfen, ESE of the Hatching Pools, run by Argonian pirates/smugglers. Projected east of Stormhold into the measured low wetland corridor (49% of the area is 0-5 m); needs a navigable waterway when hydrology lands."
+      "sources": [
+        "uesp:Online:Alten_Corimont",
+        "community-inkarnate-4e231"
+      ],
+      "notes": "ESO: port in eastern Shadowfen, ESE of the Hatching Pools, run by Argonian pirates/smugglers. Projected east of Stormhold into the measured low wetland corridor (49% of the area is 0-5 m); needs a navigable waterway when hydrology lands.",
+      "role": "smuggler/pirate river-port freehold"
     }
   ],
   "suggestedConnections": [
     {
-      "from": "soulrest", "to": "blackrose",
+      "from": "soulrest",
+      "to": "blackrose",
       "confidence": "COMMUNITY_CONSENSUS",
-      "sources": ["community-inkarnate-4e231"],
+      "sources": [
+        "community-inkarnate-4e231"
+      ],
       "notes": "Southern corridor, western leg; owner requires the three cities to read as one connected corridor."
     },
     {
-      "from": "blackrose", "to": "lilmoth",
+      "from": "blackrose",
+      "to": "lilmoth",
       "confidence": "COMMUNITY_CONSENSUS",
-      "sources": ["community-inkarnate-4e231"],
+      "sources": [
+        "community-inkarnate-4e231"
+      ],
       "notes": "Southern corridor, eastern leg."
     },
     {
-      "from": "alten-corimont", "to": "stormhold",
+      "from": "alten-corimont",
+      "to": "stormhold",
       "confidence": "COMMUNITY_CONSENSUS",
-      "sources": ["community-inkarnate-4e231"],
+      "sources": [
+        "community-inkarnate-4e231"
+      ],
       "notes": "Shadowfen link; Alten Corimont's overland tie into the network."
     },
     {
-      "from": "stormhold", "to": "thorn",
+      "from": "stormhold",
+      "to": "thorn",
       "confidence": "LORE_INFERRED",
-      "sources": ["uesp:Lore:Black_Marsh"],
+      "sources": [
+        "uesp:Lore:Black_Marsh"
+      ],
       "notes": "Northern frontier road along the Morrowind-facing edge."
     },
     {
-      "from": "gideon", "to": "stormhold",
+      "from": "gideon",
+      "to": "stormhold",
       "confidence": "PROJECT_REFERENCE",
-      "sources": ["owner-decision-2026-08-22"],
+      "sources": [
+        "owner-decision-2026-08-22"
+      ],
       "notes": "Owner-specified western frontier road north from the Gideon pass."
     },
     {
-      "from": "archon", "to": "gideon",
+      "from": "archon",
+      "to": "gideon",
       "confidence": "PROJECT_REFERENCE",
-      "sources": ["owner-decision-2026-08-22"],
-      "notes": "Owner-specified west-east trunk route. The Helstrom-Blackrose road crosses it at a crossroads (candidate site for the community map's 'Crossroads' settlement); both Archon-Helstrom and Gideon-Helstrom travel run via that junction — no direct Helstrom-Archon or Helstrom-Gideon edges exist (owner decisions 2026-08-22)."
+      "sources": [
+        "owner-decision-2026-08-22"
+      ],
+      "notes": "Owner-specified west-east trunk route. The Helstrom-Blackrose road crosses it at a crossroads (candidate site for the community map's 'Crossroads' settlement); both Archon-Helstrom and Gideon-Helstrom travel run via that junction \u2014 no direct Helstrom-Archon or Helstrom-Gideon edges exist (owner decisions 2026-08-22)."
     },
     {
-      "from": "helstrom", "to": "blackrose",
+      "from": "helstrom",
+      "to": "blackrose",
       "confidence": "COMMUNITY_CONSENSUS",
-      "sources": ["community-inkarnate-4e231"],
+      "sources": [
+        "community-inkarnate-4e231"
+      ],
       "notes": "Heartland-to-south chain; intersects the Archon-Gideon trunk at the crossroads."
     },
     {
-      "from": "gideon", "to": "soulrest",
+      "from": "gideon",
+      "to": "soulrest",
       "confidence": "LORE_INFERRED",
-      "sources": ["uesp:Lore:Black_Marsh"],
+      "sources": [
+        "uesp:Lore:Black_Marsh"
+      ],
       "notes": "Southwestern frontier link along the Topal-facing lowlands; completes ring connectivity in the west."
     }
   ]

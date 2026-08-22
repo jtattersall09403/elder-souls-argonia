@@ -16,11 +16,19 @@ import sys
 from pathlib import Path
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageFilter
 from scipy import ndimage
 
-from .routes import cost_surface, routes_from
+from .routes import BOAT_PORTAGE, boat_cost_surface, cost_surface, routes_from
 from .society import CULTURES, DANGER_BANDS, compute_society, depth_cost_surface
+
+# Candidate boat lanes between water-served anchors; kept only if the solved
+# path is genuinely waterborne (>=70% water cells) — else the pair has no
+# sensible pass-1 boat route.
+WATER_EDGES = [
+    ("soulrest", "lilmoth"), ("lilmoth", "archon"), ("archon", "thorn"),
+    ("stormhold", "alten-corimont"), ("blackrose", "lilmoth"),
+]
 
 RAW_METRES_PER_SAMPLE = 4096.0 * 0.01428 / 32.0
 SCALE = 3.0
@@ -69,10 +77,55 @@ def main() -> None:
     soc = compute_society(npz["regions"], anchors_px, road_mask, depth_cost,
                           npz["ocean"], metres_per_px)
 
+    # Boat lanes over the water network.
+    boat_cost = boat_cost_surface(npz["ocean"], npz["lakes"], npz["rivers"], npz["tidal"])
+    water = boat_cost < BOAT_PORTAGE
+    water_mask = np.zeros((h, w), dtype=bool)
+    water_routes = []
+    by_water_source: dict[str, list[str]] = {}
+    for a, b in WATER_EDGES:
+        by_water_source.setdefault(a, []).append(b)
+    for source, targets in by_water_source.items():
+        result = routes_from(boat_cost, anchors_px[source],
+                             [anchors_px[t] for t in targets], metres_per_px)
+        for t in targets:
+            path, length_m = result[anchors_px[t]]
+            if not path:
+                continue
+            water_frac = sum(water[y, x] for x, y in path) / len(path)
+            if water_frac < 0.7:
+                continue
+            for x, y in path:
+                water_mask[y, x] = True
+            water_routes.append({"from": source, "to": t,
+                                 "lengthKm": round(length_m / 1000.0, 2),
+                                 "waterFraction": round(float(water_frac), 2)})
+
+    # Rootworm transit (speculative pass 1, AGENT_AUTHORED — plan §19).
+    root_file = json.loads((ANCHORS_PATH.parent / "root-transit.json").read_text())
+    root_px = {s["id"]: (int(s["u"] * w), int(s["v"] * h)) for s in root_file["stations"]}
+
     routes_img = np.zeros((h, w, 4), dtype=np.uint8)
     wide = ndimage.binary_dilation(road_mask)
     routes_img[wide] = (225, 205, 160, 235)
     Image.fromarray(routes_img).save(PREVIEW_DIR / "soc-routes.png")
+
+    waterways_img = np.zeros((h, w, 4), dtype=np.uint8)
+    waterways_img[ndimage.binary_dilation(water_mask)] = (120, 215, 255, 220)
+    Image.fromarray(waterways_img).save(PREVIEW_DIR / "soc-waterways.png")
+
+    # Rootways drawn as straight faint arcs between stations (schematic only).
+    rootways_img = np.zeros((h, w, 4), dtype=np.uint8)
+    for e in root_file["edges"]:
+        (x0, y0), (x1, y1) = root_px[e["from"]], root_px[e["to"]]
+        n = int(max(abs(x1 - x0), abs(y1 - y0)))
+        for i in range(0, n, 4):  # dotted
+            t = i / n
+            rootways_img[int(y0 + (y1 - y0) * t), int(x0 + (x1 - x0) * t)] = (150, 240, 150, 235)
+    rootways_img = np.array(Image.fromarray(rootways_img).filter(ImageFilter.MaxFilter(3)))
+    for sid, (x, y) in root_px.items():
+        rootways_img[max(y-2,0):y+3, max(x-2,0):x+3] = (110, 230, 110, 255)
+    Image.fromarray(rootways_img).save(PREVIEW_DIR / "soc-rootways.png")
 
     danger_img = np.zeros((h, w, 4), dtype=np.uint8)
     for band, (_, colour) in DANGER_BANDS.items():
@@ -90,7 +143,9 @@ def main() -> None:
         "dangerLegend": {str(b): {"name": name, "rgb": list(rgb)} for b, (name, rgb) in DANGER_BANDS.items()},
         "cultureLegend": {name: {"name": name, "rgb": list(spec["colour"])} for name, spec in CULTURES.items()},
         "routeLengthsKm": {f"{r['from']}->{r['to']}": r["lengthKm"] for r in routes_out},
-        "dangerModel": "base(region) + 2.9*depth/12km(cost) - road relief; edges/coast seed access, Helstrom excluded (canon: unconquered heart)",
+        "waterRoutes": water_routes,
+        "rootStations": list(root_px.keys()),
+        "dangerModel": "base(region) + 2.9*depth/10km(cost) - road relief; edges/coast seed access, Helstrom excluded (canon: unconquered heart); high dry ground capped at band 3",
         **soc.stats,
     }
     (PREVIEW_DIR / "society-meta.json").write_text(json.dumps(meta, indent=2))

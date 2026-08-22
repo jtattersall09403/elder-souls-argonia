@@ -43,6 +43,26 @@ def cost_surface(z: np.ndarray, slope: np.ndarray, ocean: np.ndarray, lakes: np.
     return cost.astype(np.float64)
 
 
+# Boat travel: water is the road. Land is near-prohibitive (portage).
+BOAT_OPEN_SEA = 1.0
+BOAT_MAJOR_RIVER = 1.2
+BOAT_LAKE = 1.3
+BOAT_TIDAL = 1.5
+BOAT_MEDIUM_RIVER = 1.6
+BOAT_PORTAGE = 60.0
+
+
+def boat_cost_surface(ocean: np.ndarray, lakes: np.ndarray, rivers: np.ndarray,
+                      tidal: np.ndarray) -> np.ndarray:
+    cost = np.full(ocean.shape, BOAT_PORTAGE)
+    cost[tidal] = BOAT_TIDAL
+    cost[rivers == 2] = BOAT_MEDIUM_RIVER
+    cost[rivers == 3] = BOAT_MAJOR_RIVER
+    cost[lakes] = BOAT_LAKE
+    cost[ocean] = BOAT_OPEN_SEA
+    return cost.astype(np.float64)
+
+
 def cost_distance_field(cost: np.ndarray, seeds: list[tuple[int, int, float]],
                         metres_per_px: float) -> np.ndarray:
     """Dijkstra cost-distance (in cost-weighted km) from seeds (x, y, start_km).

@@ -11,7 +11,11 @@
   Kothringi and Yespest human tribes also lived in the region; now claimed by
   Argonians and Imperials.
 - **Blackrose Prison is NOT in the city** — it lies "a day's march south of it
-  in northern Murkmire" (separate maximum-security site; ESO-era arena).
+  in northern Murkmire". Built by **Imperial Potentate Versidue-Shaie** (2E) as
+  "a distant dungeon to house the most feared criminal and political prisoners
+  of the Second Empire", named after the ancient city to its north; ESO-era
+  garrison is Imperial (ON:Blackrose Prison). → Blackrose's present culture is
+  **Imperial-penal over Argonian/Lilmothiit layers**, not simply Argonian.
 - Neighbours: Longmont (SW), Rockspring (NW).
 
 **Build implications:** local authoring must give Blackrose its lake-and-

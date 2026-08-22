@@ -66,8 +66,16 @@
         60
       ]
     },
-    "argonian-settled": {
-      "name": "argonian-settled",
+    "imperial-penal-south": {
+      "name": "imperial-penal-south",
+      "rgb": [
+        235,
+        130,
+        120
+      ]
+    },
+    "saxhleel-coast": {
+      "name": "saxhleel-coast",
       "rgb": [
         80,
         170,
@@ -89,6 +97,14 @@
         130,
         60
       ]
+    },
+    "naga-kur-deeps": {
+      "name": "naga-kur-deeps",
+      "rgb": [
+        110,
+        125,
+        45
+      ]
     }
   },
   "routeLengthsKm": {
@@ -101,13 +117,51 @@
     "archon->gideon": 14.47,
     "helstrom->blackrose": 13.68
   },
-  "dangerModel": "base(region) + 2.9*depth/12km(cost) - road relief; edges/coast seed access, Helstrom excluded (canon: unconquered heart)",
+  "waterRoutes": [
+    {
+      "from": "soulrest",
+      "to": "lilmoth",
+      "lengthKm": 12.26,
+      "waterFraction": 0.99
+    },
+    {
+      "from": "lilmoth",
+      "to": "archon",
+      "lengthKm": 7.81,
+      "waterFraction": 0.98
+    },
+    {
+      "from": "archon",
+      "to": "thorn",
+      "lengthKm": 14.32,
+      "waterFraction": 0.91
+    },
+    {
+      "from": "stormhold",
+      "to": "alten-corimont",
+      "lengthKm": 7.39,
+      "waterFraction": 0.83
+    },
+    {
+      "from": "blackrose",
+      "to": "lilmoth",
+      "lengthKm": 9.05,
+      "waterFraction": 0.91
+    }
+  ],
+  "rootStations": [
+    "root-helstrom",
+    "root-north-shadowfen",
+    "root-naga-deeps",
+    "root-east-estuary"
+  ],
+  "dangerModel": "base(region) + 2.9*depth/10km(cost) - road relief; edges/coast seed access, Helstrom excluded (canon: unconquered heart); high dry ground capped at band 3",
   "dangerBandFractions": {
     "danger 1 \u2014 settled": 0.011,
     "danger 2 \u2014 travelled": 0.231,
-    "danger 3 \u2014 wild": 0.5,
-    "danger 4 \u2014 perilous": 0.198,
-    "danger 5 \u2014 deep peril": 0.06
+    "danger 3 \u2014 wild": 0.546,
+    "danger 4 \u2014 perilous": 0.164,
+    "danger 5 \u2014 deep peril": 0.049
   },
   "depthKmPercentiles": {
     "50": 4.9,
@@ -117,11 +171,13 @@
   },
   "cultureFractions": {
     "hinterland": 0.334,
-    "imperial-fringe": 0.139,
+    "imperial-fringe": 0.137,
     "dunmer-north": 0.149,
-    "mercantile-coast": 0.067,
-    "argonian-settled": 0.079,
+    "mercantile-coast": 0.054,
+    "imperial-penal-south": 0.033,
+    "saxhleel-coast": 0.024,
     "pirate-freeholds": 0.019,
-    "hist-heartland": 0.213
+    "hist-heartland": 0.166,
+    "naga-kur-deeps": 0.083
   }
 }
