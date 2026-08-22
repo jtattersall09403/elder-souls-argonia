@@ -103,16 +103,16 @@
   },
   "dangerModel": "base(region) + 2.9*depth/12km(cost) - road relief; edges/coast seed access, Helstrom excluded (canon: unconquered heart)",
   "dangerBandFractions": {
-    "danger 1 \u2014 settled": 0.014,
-    "danger 2 \u2014 travelled": 0.386,
-    "danger 3 \u2014 wild": 0.375,
-    "danger 4 \u2014 perilous": 0.195,
-    "danger 5 \u2014 deep peril": 0.029
+    "danger 1 \u2014 settled": 0.011,
+    "danger 2 \u2014 travelled": 0.231,
+    "danger 3 \u2014 wild": 0.5,
+    "danger 4 \u2014 perilous": 0.198,
+    "danger 5 \u2014 deep peril": 0.06
   },
   "depthKmPercentiles": {
-    "50": 4.7,
-    "75": 6.6,
-    "90": 8.6,
+    "50": 4.9,
+    "75": 6.8,
+    "90": 8.7,
     "99": 17.7
   },
   "cultureFractions": {

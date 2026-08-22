@@ -32,23 +32,23 @@ DANGER_BASE = {
     4: 1.7,   # coastal lagoon & salt marsh
     5: 1.6,   # deep river corridor
     6: 2.8,   # rootland deep marsh
-    7: 2.5,   # interior swamp
-    8: 1.9,   # fringe marsh
+    7: 2.7,   # interior swamp
+    8: 2.0,   # fringe marsh
     9: 1.8,   # seasonal floodplain
     10: 2.0,  # raised hammock
     11: 1.5,  # firm lowland
     12: 2.0,  # lake & standing water
 }
 DEPTH_GAIN = 2.9
-DEPTH_SCALE_KM = 12.0        # cost-km at which depth saturates
-COAST_ACCESS_KM = 2.0        # landing on a wild coast is possible but not free
+DEPTH_SCALE_KM = 10.0        # cost-km at which depth saturates
+COAST_ACCESS_KM = 3.0        # landing on a wild coast is possible but not free
 MINOR_PORT_ACCESS_KM = 3.0   # Alten Corimont: smuggler port, limited access
 ROAD_RELIEF = 0.6
 ROAD_RELIEF_RADIUS_M = 400.0
 CITY_SAFE_RADIUS_M = 1000.0  # majors except Helstrom — its approach stays wild
-# Border mountains are hard wilderness but not the province's deep peril
-# (canon: the marsh heart is the deadliest ground) — cap their band at 4.
-MOUNTAIN_DANGER_CAP = 4.0
+# Border mountains are chartable frontier hills, not the province's peril
+# (canon: the marsh heart is the deadliest ground) — cap their band at 3.
+MOUNTAIN_DANGER_CAP = 3.4  # band 3 max - frontier hills, not deep peril
 # "Middle Argonia": canon holds Helstrom's surrounds as the most dangerous part
 # of the province (Lore:Helstrom / PGE3) — explicit peril boost around it.
 HEART_BOOST = 1.2
