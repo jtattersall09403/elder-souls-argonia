@@ -30,7 +30,7 @@ then open only the master-plan sections the active phase needs.
 | 1b — package boundaries and contracts | done | packages/contracts + apps/game shell + apps/world-studio; inventory/items extraction deferred to Phase 7 (plan §86) |
 | 2 — province source ingest | done | anchors owner-approved 2026-08-22; conditioning/sea-level decided (0005); scale ×3 (0006); major-city road network required (§88) + candidate edges registered; community map archived w/ hash |
 | 3 — province hydrology and region graph | done | owner-approved 2026-08-22 (sea/salinity/flood corrections applied; lake region class added); stats in hydrology-meta.json |
-| 4 — danger, cultures, transport | in progress | pass 1 compiled: least-cost road corridors for the owner network, fixed danger bands 1–5, culture territories, demographic priors data — studio layers live, awaiting owner gate |
+| 4 — danger, cultures, transport | in progress | pass 2 after owner review: depth-into-marsh danger model (edges safe, Helstrom heart deadliest), roads rerouted (no direct Helstrom-Gideon; Stormhold-Thorn off map edge), pirate-freeholds culture at Alten Corimont; UESP lore dossiers for all 9 anchors in world/sources/lore/ — awaiting owner re-review |
 | 5 — World Studio foundation | todo | |
 | 6 — reference watershed terrain | todo | |
 | 7 — physical character integration | todo | |

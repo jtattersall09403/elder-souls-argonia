@@ -20,7 +20,7 @@ from PIL import Image
 from scipy import ndimage
 
 from .routes import cost_surface, routes_from
-from .society import CULTURES, DANGER_BANDS, compute_society
+from .society import CULTURES, DANGER_BANDS, compute_society, depth_cost_surface
 
 RAW_METRES_PER_SAMPLE = 4096.0 * 0.01428 / 32.0
 SCALE = 3.0
@@ -64,7 +64,10 @@ def main() -> None:
                 "px": [[int(x), int(y)] for x, y in path[::3]] + [[*path[-1]]] if path else [],
             })
 
-    soc = compute_society(npz["regions"], anchors_px, road_mask, metres_per_px)
+    depth_cost = depth_cost_surface(z, np.hypot(gx, gy), npz["ocean"], npz["lakes"],
+                                    npz["rivers"], npz["wetlands"], npz["flood"])
+    soc = compute_society(npz["regions"], anchors_px, road_mask, depth_cost,
+                          npz["ocean"], metres_per_px)
 
     routes_img = np.zeros((h, w, 4), dtype=np.uint8)
     wide = ndimage.binary_dilation(road_mask)
@@ -87,6 +90,7 @@ def main() -> None:
         "dangerLegend": {str(b): {"name": name, "rgb": list(rgb)} for b, (name, rgb) in DANGER_BANDS.items()},
         "cultureLegend": {name: {"name": name, "rgb": list(spec["colour"])} for name, spec in CULTURES.items()},
         "routeLengthsKm": {f"{r['from']}->{r['to']}": r["lengthKm"] for r in routes_out},
+        "dangerModel": "base(region) + 2.9*depth/12km(cost) - road relief; edges/coast seed access, Helstrom excluded (canon: unconquered heart)",
         **soc.stats,
     }
     (PREVIEW_DIR / "society-meta.json").write_text(json.dumps(meta, indent=2))

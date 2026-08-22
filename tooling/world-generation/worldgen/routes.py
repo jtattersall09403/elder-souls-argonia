@@ -21,6 +21,10 @@ COST_MOUNTAIN = 3.0        # z above 40 m
 COST_RIVER_CROSSING = 8.0  # medium+ river cell (bridge/ford)
 COST_OPEN_WATER = 25.0     # lake or sea cell (ferry/causeway)
 SLOPE_FACTOR = 30.0
+# Roads avoid the world border: ramping penalty inside this edge fraction, so
+# corridors skirt the higher ground instead of hugging the map rim.
+EDGE_MARGIN = 0.06
+EDGE_PENALTY = 5.0
 
 
 def cost_surface(z: np.ndarray, slope: np.ndarray, ocean: np.ndarray, lakes: np.ndarray,
@@ -31,7 +35,38 @@ def cost_surface(z: np.ndarray, slope: np.ndarray, ocean: np.ndarray, lakes: np.
     cost = np.where(z > 40.0, cost * COST_MOUNTAIN, cost)
     cost = np.where(rivers >= 2, cost * COST_RIVER_CROSSING, cost)
     cost = np.where(ocean | lakes, cost * COST_OPEN_WATER, cost)
+    h, w = z.shape
+    xs = np.arange(w) / w
+    ys = np.arange(h) / h
+    edge = np.minimum(np.minimum(xs, 1 - xs)[None, :], np.minimum(ys, 1 - ys)[:, None])
+    cost *= 1.0 + EDGE_PENALTY * np.clip(1.0 - edge / EDGE_MARGIN, 0.0, 1.0)
     return cost.astype(np.float64)
+
+
+def cost_distance_field(cost: np.ndarray, seeds: list[tuple[int, int, float]],
+                        metres_per_px: float) -> np.ndarray:
+    """Dijkstra cost-distance (in cost-weighted km) from seeds (x, y, start_km).
+    Used for the danger model's 'depth into the marsh' measure."""
+    h, w = cost.shape
+    dist = np.full((h, w), np.inf)
+    heap: list[tuple[float, int, int]] = []
+    for x, y, start in seeds:
+        if start < dist[y, x]:
+            dist[y, x] = start
+            heapq.heappush(heap, (start, y, x))
+    km = metres_per_px / 1000.0
+    while heap:
+        d, y, x = heapq.heappop(heap)
+        if d > dist[y, x]:
+            continue
+        for dy, dx in NEIGHBOR_OFFSETS:
+            ny, nx = y + dy, x + dx
+            if 0 <= ny < h and 0 <= nx < w:
+                nd = d + np.hypot(dy, dx) * km * 0.5 * (cost[y, x] + cost[ny, nx])
+                if nd < dist[ny, nx]:
+                    dist[ny, nx] = nd
+                    heapq.heappush(heap, (nd, ny, nx))
+    return dist
 
 
 def routes_from(cost: np.ndarray, source: tuple[int, int],

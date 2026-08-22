@@ -98,16 +98,10 @@
       "notes": "Owner-specified western frontier road north from the Gideon pass."
     },
     {
-      "from": "helstrom", "to": "gideon",
-      "confidence": "PROJECT_REFERENCE",
-      "sources": ["owner-decision-2026-08-22"],
-      "notes": "Owner-specified heartland-to-western-frontier road."
-    },
-    {
       "from": "archon", "to": "gideon",
       "confidence": "PROJECT_REFERENCE",
       "sources": ["owner-decision-2026-08-22"],
-      "notes": "Owner-specified west-east trunk route. The Helstrom-Blackrose road crosses it at a crossroads (candidate site for the community map's 'Crossroads' settlement); Archon-Helstrom travel runs via that junction, so no separate direct edge exists."
+      "notes": "Owner-specified west-east trunk route. The Helstrom-Blackrose road crosses it at a crossroads (candidate site for the community map's 'Crossroads' settlement); both Archon-Helstrom and Gideon-Helstrom travel run via that junction — no direct Helstrom-Archon or Helstrom-Gideon edges exist (owner decisions 2026-08-22)."
     },
     {
       "from": "helstrom", "to": "blackrose",
