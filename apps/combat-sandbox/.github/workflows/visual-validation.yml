@@ -1,0 +1,37 @@
+name: Production visual validation
+
+# Manual only. The animation recordings exist for the project owner's review,
+# not as a merge gate, and a full 28-scene capture is far too slow to run on
+# every push. Dispatch this when you want CI-rendered evidence to download.
+on:
+  workflow_dispatch:
+    inputs:
+      scenarios:
+        description: "Scenario ids or group names (blank = all)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps --only-shell chromium
+      - name: Record production animation scenes
+        run: npm run visual:record -- ${{ inputs.scenarios }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: production-visual-validation
+          path: artifacts/visual-validation/latest
+          if-no-files-found: error
+          retention-days: 7

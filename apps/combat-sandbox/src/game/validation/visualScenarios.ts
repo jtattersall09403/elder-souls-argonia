@@ -1,0 +1,732 @@
+import type { AnimationState } from "../core/types";
+import type { EnemyIntent } from "../ai/enemyAi";
+import type { InputAction, InputController } from "../io/input";
+import { CHARACTER_BODY_CENTER_HEIGHT } from "../physics/characterPhysics";
+import { COMBAT_TUNING } from "../combat/weapon";
+
+export const VISUAL_SCENARIO_IDS = [
+  "locomotion-free",
+  "locomotion-lock-on",
+  "equip-cycle",
+  "light-chain",
+  "heavy-chain",
+  "guard-defense",
+  "parry",
+  "heal",
+  "hit-reactions",
+  "death",
+  "backstab",
+  "riposte",
+  "riposte-lethal",
+  "backstab-lethal",
+  "guard-break",
+  "offense-outcomes",
+  "enemy-block",
+  "enemy-parry",
+  "enemy-light-combo",
+  "enemy-heavy-attack",
+  "enemy-approach",
+  "enemy-evasion",
+  "enemy-utility",
+  "dodge-followups",
+  "roll",
+  "backstep",
+  "stationary-landing",
+  "moving-landing",
+  "bow-shot",
+  "bow-partial-draw",
+  "bow-aim-tracking",
+  "riposte-queued",
+] as const;
+
+export type VisualScenarioId = typeof VISUAL_SCENARIO_IDS[number];
+export type VisualScenarioEnemyState = "watching" | "attack" | "parried" | "guard";
+export type VisualScenarioAttack = "light1" | "heavy" | "heavy2";
+
+/** A deterministic choice fed through the same enemy-intent dispatcher as AI. */
+export type VisualScenarioEnemyCue = {
+  intent: EnemyIntent;
+  /** Removes random attack-variant selection without starting an animation directly. */
+  attack?: VisualScenarioAttack;
+  /** Remaining light-chain successors: 0 is standalone, 2 exercises all three hits. */
+  comboRemaining?: 0 | 1 | 2;
+  /** Deterministic side for strafe/dodge choices that production normally randomises. */
+  side?: -1 | 1;
+};
+
+type InputCue = {
+  from: number;
+  to: number;
+  actions?: readonly InputAction[];
+  move?: readonly [number, number];
+  /**
+   * Camera stick, in the same units the touch/mouse path accumulates.
+   *
+   * Applied per second rather than per frame, so a cue means the same thing at
+   * any capture rate. Needed to exercise anything that answers the *look*
+   * input rather than the movement one — an aimed bow leaning to where the
+   * player is looking, for instance, which nothing else in the driver can
+   * reach.
+   */
+  camera?: readonly [number, number];
+};
+
+type EnemyCue = VisualScenarioEnemyCue & {
+  at: number;
+};
+
+export type VisualScenario = {
+  id: VisualScenarioId;
+  label: string;
+  warmup: number;
+  duration: number;
+  player: {
+    position: readonly [number, number, number];
+    yaw: number;
+    health?: number;
+    equipped?: boolean;
+    /**
+     * Item to hold, when the scene is about a weapon the player does not start
+     * with. Equipped through the ordinary inventory, so the scene exercises the
+     * same path a player does rather than a validation-only shortcut.
+     */
+    weaponId?: string;
+    /** Ammunition to nock, for the same reason. */
+    ammoId?: string;
+  };
+  enemy: {
+    enabled: boolean;
+    position: readonly [number, number, number];
+    yaw: number;
+    state: VisualScenarioEnemyState;
+    animation: AnimationState;
+    attack?: VisualScenarioAttack;
+    health?: number;
+    stamina?: number;
+    holdInitialState?: boolean;
+  };
+  cues: readonly InputCue[];
+  enemyCues?: readonly EnemyCue[];
+};
+
+const Y = CHARACTER_BODY_CENTER_HEIGHT;
+const SOLO_ENEMY = {
+  enabled: false,
+  position: [8, Y, -8] as const,
+  yaw: 0,
+  state: "watching" as const,
+  animation: "SWORD_IDLE" as const,
+};
+const FACING_ENEMY = {
+  enabled: true,
+  position: [0, Y, 0] as const,
+  yaw: 0,
+  state: "watching" as const,
+  animation: "SWORD_IDLE" as const,
+};
+// A shallow diagonal preserves normal melee distance/facing while preventing
+// the rear production camera from hiding one actor directly behind the other.
+const REVIEW_PLAYER = { position: [0, Y, 1.2] as const, yaw: Math.atan2(0.65, -1.2) };
+const REVIEW_ENEMY = {
+  ...FACING_ENEMY,
+  position: [0.65, Y, 0] as const,
+  yaw: Math.atan2(-0.65, 1.2),
+};
+// Focused two-actor reviews start outside the old 1.365 m showcase spacing.
+// A normal attack's production lunge can consume roughly 0.6 m before the
+// authored contact; this arrangement keeps both torsos readable instead of
+// letting the navigation capsules become the visible staging constraint.
+// The riposte review opens wider than the other two-actor scenes. The enemy
+// spends about 0.6 m of it lunging into the parry, and the execution then
+// anchors the attacker at its measured 0.9 m reach; from the normal spacing
+// that anchor would shove the attacker backwards as the execution begins.
+const RIPOSTE_REVIEW_PLAYER = {
+  position: [0, Y, 1.55] as const,
+  yaw: Math.atan2(0.65, -1.55),
+};
+const RIPOSTE_REVIEW_ENEMY = {
+  ...FACING_ENEMY,
+  position: [0.65, Y, 0] as const,
+  yaw: Math.atan2(-0.65, 1.55),
+};
+const FOCUSED_CONTACT_PLAYER = {
+  position: [0, Y, 1.58] as const,
+  yaw: Math.atan2(0.72, -1.58),
+};
+const FOCUSED_CONTACT_ENEMY = {
+  ...FACING_ENEMY,
+  position: [0.72, Y, 0] as const,
+  yaw: Math.atan2(-0.72, 1.58),
+};
+const FOCUSED_REVIEW_PLAYER = {
+  position: [0, Y, 2.45] as const,
+  yaw: Math.atan2(0.85, -2.45),
+};
+const FOCUSED_REVIEW_ENEMY = {
+  ...FACING_ENEMY,
+  position: [0.85, Y, 0] as const,
+  yaw: Math.atan2(-0.85, 2.45),
+};
+// The focused parry starts farther apart than REVIEW_PLAYER/REVIEW_ENEMY.
+// Its cue centres the 0.10–0.29 s production parry window on the blade
+// approach. This is the measured LIGHT_1 contact on the corrected-grip rig
+// (source 0.508–0.542 s, taken at its centre); the previous 0.75 s was an
+// estimate made while the weapon was still mounted 90° out of true.
+export const FOCUSED_LIGHT_1_CONTACT_TIME = 0.53;
+
+/**
+ * Data-only arrangements for browser visual tests. Cues provide the same
+ * virtual inputs as the HUD; they do not invoke combat outcomes or animations.
+ * Battle setup may seed a prerequisite state, while enemy cues replace only
+ * the utility-AI choice. The production combat FSM, Rapier bodies, hitboxes,
+ * damage resolution, and actor renderer still execute every resulting action.
+ */
+export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
+  "locomotion-free": {
+    id: "locomotion-free",
+    label: "Free movement → walk, run, and sword sprint",
+    warmup: 0.5,
+    duration: 5.4,
+    player: { position: [0, Y, 3], yaw: Math.PI },
+    enemy: SOLO_ENEMY,
+    cues: [
+      { from: 0.15, to: 1.55, move: [0, 0.45] },
+      { from: 1.7, to: 3.0, move: [0, 1] },
+      { from: 3.15, to: 4.2, actions: ["dodge"], move: [0, 1] },
+      { from: 4.2, to: 4.65, move: [0, 1] },
+    ],
+  },
+  "locomotion-lock-on": {
+    id: "locomotion-lock-on",
+    label: "Lock-on movement → advance, retreat, and both strafes",
+    warmup: 0.5,
+    duration: 5.15,
+    player: { position: [0, Y, 4], yaw: Math.PI },
+    enemy: FACING_ENEMY,
+    cues: [
+      { from: 0.1, to: 0.19, actions: ["lockOn"] },
+      { from: 0.38, to: 1.35, move: [0, 0.42] },
+      { from: 1.5, to: 2.48, move: [0, -0.42] },
+      { from: 2.65, to: 3.63, move: [-0.42, 0] },
+      { from: 3.8, to: 4.78, move: [0.42, 0] },
+    ],
+  },
+  "equip-cycle": {
+    id: "equip-cycle",
+    label: "Sheathe → unarmed idle → draw sword",
+    warmup: 0.5,
+    duration: 4.45,
+    player: { position: [0, Y, 0], yaw: Math.PI },
+    enemy: SOLO_ENEMY,
+    cues: [
+      { from: 0.15, to: 0.24, actions: ["equip"] },
+      { from: 2.45, to: 2.54, actions: ["equip"] },
+    ],
+  },
+  "light-chain": {
+    id: "light-chain",
+    label: "Three-input light combo → complete three-hit chain",
+    warmup: 0.5,
+    duration: 4.05,
+    player: { position: [0, Y, 0], yaw: Math.PI },
+    enemy: SOLO_ENEMY,
+    cues: [
+      { from: 0.15, to: 0.24, actions: ["light"] },
+      { from: 0.62, to: 0.71, actions: ["light"] },
+      { from: 1.72, to: 1.81, actions: ["light"] },
+    ],
+  },
+  "heavy-chain": {
+    id: "heavy-chain",
+    label: "Two-input heavy combo → complete two-hit chain",
+    warmup: 0.5,
+    duration: 3.45,
+    player: { position: [0, Y, 0], yaw: Math.PI },
+    enemy: SOLO_ENEMY,
+    cues: [
+      { from: 0.15, to: 0.24, actions: ["heavy"] },
+      // Queue input opens when the swing commits, which is now the measured
+      // blade sweep rather than a flat fraction of the clip.
+      { from: 0.82, to: 0.91, actions: ["heavy"] },
+    ],
+  },
+  "guard-defense": {
+    id: "guard-defense",
+    label: "Guard → two blocks, release during block-stun, and complete recovery",
+    warmup: 0.5,
+    duration: 5.95,
+    player: REVIEW_PLAYER,
+    enemy: REVIEW_ENEMY,
+    // Hold through the first complete hit and return to GUARD. Release shortly
+    // after the second impact; production must still finish GUARD_HIT_B before
+    // returning to idle instead of cancelling the reaction on button-up.
+    cues: [{ from: 0.05, to: 4.4, actions: ["guard"] }],
+    enemyCues: [
+      { at: 1.05, intent: "lightCombo", attack: "light1", comboRemaining: 0 },
+      { at: 3.25, intent: "lightCombo", attack: "light1", comboRemaining: 0 },
+    ],
+  },
+  parry: {
+    id: "parry",
+    label: "Parry input → catch and follow-through",
+    warmup: 0.5,
+    duration: 2.05,
+    player: { position: [0, Y, 0], yaw: Math.PI },
+    enemy: SOLO_ENEMY,
+    cues: [{ from: 0.2, to: 0.29, actions: ["parry"] }],
+  },
+  heal: {
+    id: "heal",
+    label: "Damaged player uses Estus → heal animation and health recovery",
+    warmup: 0.5,
+    duration: 2.8,
+    player: { position: [0, Y, 0], yaw: Math.PI, health: 24 },
+    enemy: SOLO_ENEMY,
+    cues: [{ from: 0.2, to: 0.29, actions: ["heal"] }],
+  },
+  "hit-reactions": {
+    id: "hit-reactions",
+    label: "Enemy light and heavy strikes → both player hit reactions",
+    warmup: 0.5,
+    duration: 5.7,
+    player: REVIEW_PLAYER,
+    enemy: REVIEW_ENEMY,
+    // The opening light closes the initial gap. Walk backward through the
+    // normal player controller after recovery so the later heavy's wider arc
+    // reaches cleanly instead of passing around a target only 0.68 m away.
+    cues: [{ from: 2.05, to: 2.42, move: [0, -0.4] }],
+    enemyCues: [
+      { at: 0.25, intent: "lightCombo", attack: "light1", comboRemaining: 0 },
+      { at: 2.7, intent: "heavy", attack: "heavy" },
+    ],
+  },
+  death: {
+    id: "death",
+    label: "Enemy setup strike → lethal repeat strike → player death",
+    warmup: 0.5,
+    // Reuse the production strike that demonstrably contacts from this setup:
+    // the first hit establishes overlap/facing and the second is lethal. Leave
+    // the 1.9s fall plus at least one full second of its clamped prone pose.
+    duration: 7,
+    player: { ...REVIEW_PLAYER, health: 34 },
+    enemy: REVIEW_ENEMY,
+    cues: [],
+    enemyCues: [
+      { at: 0.25, intent: "lightCombo", attack: "light1", comboRemaining: 0 },
+      { at: 2.7, intent: "lightCombo", attack: "light1", comboRemaining: 0 },
+    ],
+  },
+  backstab: {
+    id: "backstab",
+    label: "Rear light input → complete paired backstab and authored victim recovery",
+    warmup: 0.5,
+    duration: 7.6,
+    player: { position: [0, Y, -1.15], yaw: 0 },
+    enemy: FACING_ENEMY,
+    cues: [{ from: 0.55, to: 0.64, actions: ["light"] }],
+  },
+  riposte: {
+    id: "riposte",
+    label: "Enemy attack → real parry → riposte hit reaction and full recovery",
+    warmup: 0.5,
+    duration: 8.8,
+    player: RIPOSTE_REVIEW_PLAYER,
+    enemy: RIPOSTE_REVIEW_ENEMY,
+    cues: [
+      // LIGHT_1's contact window is the measured blade sweep, which opens
+      // about 0.42s into the enemy's lunge and closes 0.25s later. Centre the
+      // 0.10–0.29s parry window on it, then wait for the complete intro +
+      // follow-through before requesting the riposte.
+      { from: 0.6, to: 0.69, actions: ["parry"] },
+      // Let the deflection settle before asking for the execution. Requested
+      // any earlier, the parry's own follow-through blade is still sweeping
+      // back across the victim while the RIPOSTE command is already live,
+      // which reads as a contact beat that never resolves into damage.
+      { from: 2.3, to: 2.39, actions: ["light"] },
+    ],
+    enemyCues: [{ at: 0.25, intent: "lightCombo", attack: "light1", comboRemaining: 0 }],
+  },
+  "riposte-lethal": {
+    id: "riposte-lethal",
+    label: "Lethal riposte → immediate hit reaction and held prone outcome",
+    warmup: 0.5,
+    duration: 6.4,
+    player: { position: [0, Y, 1.45], yaw: Math.PI },
+    enemy: {
+      ...FACING_ENEMY,
+      state: "parried",
+      animation: "GUARD_BREAK",
+      health: 26,
+      holdInitialState: true,
+    },
+    cues: [{ from: 0.55, to: 0.64, actions: ["light"] }],
+  },
+  "backstab-lethal": {
+    id: "backstab-lethal",
+    label: "Lethal rear input → paired backstab and held prone outcome",
+    warmup: 0.5,
+    duration: 6.5,
+    player: { position: [0, Y, -1.15], yaw: 0 },
+    enemy: { ...FACING_ENEMY, health: 26 },
+    cues: [{ from: 0.55, to: 0.64, actions: ["light"] }],
+  },
+  "riposte-queued": {
+    id: "riposte-queued",
+    label: "Riposte requested *during* the parry → still lands when the window opens",
+    warmup: 0.5,
+    duration: 8.8,
+    player: RIPOSTE_REVIEW_PLAYER,
+    enemy: RIPOSTE_REVIEW_ENEMY,
+    cues: [
+      { from: 0.6, to: 0.69, actions: ["parry"] },
+      // Pressed while the parry clip is still running, which is when a player
+      // reading the deflection actually presses it. The queue has to carry it
+      // to the reward window rather than dropping it on the floor.
+      { from: 0.95, to: 1.04, actions: ["light"] },
+    ],
+    enemyCues: [{ at: 0.25, intent: "lightCombo", attack: "light1", comboRemaining: 0 }],
+  },
+  "guard-break": {
+    id: "guard-break",
+    label: "Light input against depleted guard → posture break",
+    warmup: 0.5,
+    duration: 4.1,
+    player: FOCUSED_CONTACT_PLAYER,
+    enemy: { ...FOCUSED_CONTACT_ENEMY, state: "guard", animation: "GUARD", stamina: 1, holdInitialState: true },
+    cues: [{ from: 0.12, to: 0.21, actions: ["light"] }],
+  },
+  "offense-outcomes": {
+    id: "offense-outcomes",
+    label: "Real player hits → enemy light/heavy reactions and ordinary death",
+    warmup: 0.5,
+    // The final hit lands around 5.37 s; retain the full 1.9 s authored fall
+    // plus at least one second of the clamped prone outcome.
+    duration: 8.4,
+    player: REVIEW_PLAYER,
+    enemy: { ...REVIEW_ENEMY, health: 62 },
+    cues: [
+      { from: 0.05, to: 0.14, actions: ["lockOn"] },
+      { from: 0.25, to: 0.34, actions: ["light"] },
+      { from: 2.2, to: 2.29, actions: ["heavy"] },
+      { from: 4.3, to: 4.39, actions: ["light"] },
+    ],
+  },
+  "enemy-block": {
+    id: "enemy-block",
+    label: "Enemy guard → one real blade block and player recoil",
+    warmup: 0.5,
+    duration: 3.35,
+    player: FOCUSED_CONTACT_PLAYER,
+    enemy: FOCUSED_CONTACT_ENEMY,
+    cues: [
+      // Swing late enough that the blade arrives after GUARD is established
+      // and before the tactical hold expires. The light attack's contact was
+      // re-measured on the corrected grip and now lands 0.22 s earlier in the
+      // clip, so the cue moved with it.
+      { from: 0.62, to: 0.71, actions: ["light"] },
+    ],
+    enemyCues: [{ at: 0.12, intent: "guard" }],
+  },
+  "enemy-parry": {
+    id: "enemy-parry",
+    label: "Enemy parry → one real blade intercept and player guard break",
+    warmup: 0.5,
+    // The guard-break stagger now plays at its authored 2.47s rather than a
+    // compressed 1.75s, so the recording has to stay open long enough to show
+    // the player recover from it.
+    duration: 4.5,
+    player: FOCUSED_CONTACT_PLAYER,
+    enemy: FOCUSED_CONTACT_ENEMY,
+    cues: [{ from: 0.35, to: 0.44, actions: ["light"] }],
+    enemyCues: [
+      {
+        at: 0.35 + FOCUSED_LIGHT_1_CONTACT_TIME
+          - (COMBAT_TUNING.parryActiveStart + COMBAT_TUNING.parryActiveEnd) / 2,
+        intent: "parry",
+      },
+    ],
+  },
+  "enemy-light-combo": {
+    id: "enemy-light-combo",
+    label: "Enemy light intent → complete three-hit production combo",
+    warmup: 0.5,
+    // The production three-hit chain reaches recover around 3.8 s and returns
+    // to watching around 4.6 s; keep that final readable idle in-frame.
+    duration: 4.9,
+    player: { ...FOCUSED_CONTACT_PLAYER, health: 150 },
+    enemy: FOCUSED_CONTACT_ENEMY,
+    cues: [],
+    enemyCues: [{ at: 0.2, intent: "lightCombo", attack: "light1", comboRemaining: 2 }],
+  },
+  "enemy-heavy-attack": {
+    id: "enemy-heavy-attack",
+    label: "Enemy heavy intent → HEAVY_2 contact and recovery",
+    warmup: 0.5,
+    duration: 3.2,
+    player: { ...FOCUSED_CONTACT_PLAYER, health: 150 },
+    enemy: FOCUSED_CONTACT_ENEMY,
+    cues: [],
+    enemyCues: [{ at: 0.2, intent: "heavy", attack: "heavy2" }],
+  },
+  "enemy-approach": {
+    id: "enemy-approach",
+    label: "Enemy approach intent → turn, walk, and accelerate to run",
+    warmup: 0.5,
+    // Show the whole gait arc: turn, walk, accelerate to a run as the player
+    // retreats through the run threshold, then drop back to a walk when the
+    // enemy closes through the hysteresis band. Ending before that last
+    // transition hid the half of the behaviour most likely to be wrong.
+    duration: 3.6,
+    player: {
+      position: [0, Y, 3.7],
+      yaw: Math.atan2(1.8, -5),
+    },
+    enemy: {
+      ...FACING_ENEMY,
+      position: [1.8, Y, -1.3],
+      // Begin about 60 degrees off-target so the review includes a real turn,
+      // not merely a straight treadmill pass.
+      yaw: -1.4,
+    },
+    cues: [
+      { from: 0.05, to: 0.14, actions: ["lockOn"] },
+      // Lock-on retreat grows the initial 5.31 m gap through the production
+      // six-metre run threshold; the curved second leg keeps turning visible.
+      { from: 0.45, to: 2, move: [0, -0.75] },
+      { from: 2, to: 3.15, move: [0.35, -0.75] },
+    ],
+    enemyCues: [{ at: 0.2, intent: "approach" }],
+  },
+  "enemy-evasion": {
+    id: "enemy-evasion",
+    label: "Enemy movement intents → both strafes, dodge, and backstep",
+    warmup: 0.5,
+    duration: 5.55,
+    player: FOCUSED_REVIEW_PLAYER,
+    enemy: FOCUSED_REVIEW_ENEMY,
+    cues: [{ from: 0.05, to: 0.14, actions: ["lockOn"] }],
+    enemyCues: [
+      { at: 0.2, intent: "strafe", side: -1 },
+      { at: 1.2, intent: "strafe", side: 1 },
+      { at: 2.2, intent: "dodge", side: -1 },
+      { at: 3.9, intent: "backstep" },
+    ],
+  },
+  "enemy-utility": {
+    id: "enemy-utility",
+    label: "Enemy utility intents → heal, guard, and parry",
+    warmup: 0.5,
+    duration: 6.8,
+    player: FOCUSED_REVIEW_PLAYER,
+    enemy: { ...FOCUSED_REVIEW_ENEMY, health: 40 },
+    cues: [{ from: 0.05, to: 0.14, actions: ["lockOn"] }],
+    enemyCues: [
+      { at: 0.2, intent: "heal" },
+      { at: 2.7, intent: "guard" },
+      { at: 4.65, intent: "parry" },
+    ],
+  },
+  "dodge-followups": {
+    id: "dodge-followups",
+    label: "Roll follow-ups and interrupted backstep visual tail",
+    warmup: 0.5,
+    duration: 8.8,
+    player: { position: [0, Y, 2], yaw: Math.PI },
+    enemy: SOLO_ENEMY,
+    cues: [
+      { from: 0.1, to: 1.1, move: [0, 1] },
+      { from: 0.35, to: 0.51, actions: ["dodge"], move: [0, 1] },
+      { from: 0.65, to: 0.74, actions: ["light"], move: [0, 1] },
+      { from: 3.2, to: 4.45, move: [0, 1] },
+      { from: 3.45, to: 3.61, actions: ["dodge"], move: [0, 1] },
+      { from: 3.75, to: 3.84, actions: ["heavy"], move: [0, 1] },
+      { from: 6.4, to: 6.56, actions: ["dodge"] },
+      // Leave a reviewable production-idle bridge after the backstep release;
+      // two render samples were too short to judge that boundary honestly.
+      { from: 7.3, to: 8.1, move: [0, 1] },
+    ],
+  },
+  roll: {
+    id: "roll",
+    label: "Forward movement + dodge release → roll",
+    warmup: 0.5,
+    duration: 2.2,
+    player: { position: [0, Y, 2], yaw: Math.PI },
+    enemy: SOLO_ENEMY,
+    cues: [
+      { from: 0.1, to: 1.6, move: [0, 1] },
+      { from: 0.35, to: 0.51, actions: ["dodge"], move: [0, 1] },
+    ],
+  },
+  backstep: {
+    id: "backstep",
+    label: "Stationary dodge release → backstep",
+    warmup: 0.5,
+    duration: 2.1,
+    player: { position: [0, Y, 0], yaw: Math.PI },
+    enemy: SOLO_ENEMY,
+    cues: [{ from: 0.35, to: 0.51, actions: ["dodge"] }],
+  },
+  "stationary-landing": {
+    id: "stationary-landing",
+    label: "Stationary jump → launch, airborne loop, and grounded landing",
+    warmup: 0.5,
+    duration: 3.8,
+    player: { position: [0, Y, 0], yaw: Math.PI },
+    enemy: SOLO_ENEMY,
+    cues: [{ from: 0.45, to: 0.58, actions: ["jump"] }],
+  },
+  "moving-landing": {
+    id: "moving-landing",
+    label: "Run and sprint jumps → physical touchdown → moving landings",
+    warmup: 0.5,
+    duration: 5.4,
+    // The long run+sprint sequence travels about 20m. Start on the far half of
+    // the 30m arena so the second recovery remains on the real collider instead
+    // of silently turning into an off-platform fall after its valid landing.
+    // Keep the real pillar ring present, but offset the production run line so
+    // the north pillar does not sit directly between the third-person camera
+    // and actor for the entire first jump.
+    player: { position: [2, Y, 9], yaw: Math.PI },
+    enemy: SOLO_ENEMY,
+    cues: [
+      { from: 0.1, to: 4.8, move: [0, 1] },
+      { from: 0.45, to: 0.58, actions: ["jump"], move: [0, 1] },
+      { from: 2.25, to: 4.2, actions: ["dodge"], move: [0, 1] },
+      { from: 2.75, to: 2.88, actions: ["dodge", "jump"], move: [0, 1] },
+    ],
+  },
+  "bow-shot": {
+    id: "bow-shot",
+    label: "Bow → raise to first person, draw to full, and loose",
+    warmup: 0.5,
+    // A longbow is 1.7 s to nock and 2.4 s to full draw, and the scene has to
+    // show the follow-through as well.
+    duration: 8.2,
+    player: {
+      position: [0, Y, 6],
+      yaw: Math.PI,
+      weaponId: "steel-longbow",
+      ammoId: "steel-war-arrow",
+    },
+    enemy: { ...FACING_ENEMY, holdInitialState: true },
+    cues: [
+      // Tap to raise, release, then hold all the way to full draw and let go.
+      { from: 0.15, to: 0.24, actions: ["light"] },
+      { from: 0.6, to: 5.2, actions: ["light"] },
+    ],
+  },
+  "bow-aim-tracking": {
+    id: "bow-aim-tracking",
+    label: "Bow → draw, then look up and down while holding at full draw",
+    warmup: 0.5,
+    duration: 8.6,
+    player: {
+      position: [0, Y, 6],
+      yaw: Math.PI,
+      weaponId: "steel-longbow",
+      ammoId: "steel-war-arrow",
+    },
+    enemy: { ...FACING_ENEMY, holdInitialState: true },
+    cues: [
+      { from: 0.15, to: 0.24, actions: ["light"] },
+      { from: 0.6, to: 7.4, actions: ["light"] },
+      // Look up, then back down, while the string is held.
+      { from: 4.6, to: 5.8, camera: [0, -22] },
+      { from: 5.9, to: 7.1, camera: [0, 26] },
+    ],
+  },
+  "bow-partial-draw": {
+    id: "bow-partial-draw",
+    label: "Bow → half draw, weak shot, then lower the bow",
+    warmup: 0.5,
+    duration: 6.4,
+    player: {
+      position: [0, Y, 6],
+      yaw: Math.PI,
+      weaponId: "steel-longbow",
+      ammoId: "steel-war-arrow",
+    },
+    enemy: { ...FACING_ENEMY, holdInitialState: true },
+    cues: [
+      { from: 0.15, to: 0.24, actions: ["light"] },
+      // Let go halfway through the pull: the shot leaves, and it is weaker.
+      { from: 0.6, to: 3.4, actions: ["light"] },
+      // Guard doubles as "lower the bow".
+      { from: 5.2, to: 5.3, actions: ["guard"] },
+    ],
+  },
+};
+
+const SCRIPTABLE_ACTIONS: readonly InputAction[] = [
+  "light", "heavy", "guard", "parry", "dodge", "lockOn", "heal", "equip",
+  "jump", "targetLeft", "targetRight",
+];
+
+export class VisualScenarioDriver {
+  elapsed = 0;
+  private totalElapsed = 0;
+  private nextEnemyCueIndex = 0;
+  private readyLatched = false;
+
+  get ready() {
+    return this.readyLatched;
+  }
+
+  constructor(readonly scenario: VisualScenario) {}
+
+  reset() {
+    this.elapsed = 0;
+    this.totalElapsed = 0;
+    this.nextEnemyCueIndex = 0;
+    this.readyLatched = false;
+  }
+
+  apply(delta: number, input: InputController) {
+    const step = Math.max(0, delta);
+    this.totalElapsed += step;
+    if (!this.readyLatched && this.totalElapsed + 1e-9 >= this.scenario.warmup) {
+      this.readyLatched = true;
+      // A 30 Hz capture must expose a real scenario frame zero. Floating-point
+      // accumulation can otherwise cross a 0.5 s warm-up at 0.033 s, making
+      // the first pixel/telemetry code frame 1. Preserve deliberate large-step
+      // unit/driver calls, but snap the fixed render clock at its boundary.
+      if (step <= 1 / 30 + 1e-9) this.totalElapsed = this.scenario.warmup;
+    }
+    this.elapsed = Math.max(0, this.totalElapsed - this.scenario.warmup);
+    const active = new Set<InputAction>();
+    let moveX = 0;
+    let moveY = 0;
+    let cameraX = 0;
+    let cameraY = 0;
+    for (const cue of this.scenario.cues) {
+      if (!this.ready || this.elapsed < cue.from || this.elapsed >= cue.to) continue;
+      for (const action of cue.actions ?? []) active.add(action);
+      if (cue.move) [moveX, moveY] = cue.move;
+      if (cue.camera) [cameraX, cameraY] = cue.camera;
+    }
+    for (const action of SCRIPTABLE_ACTIONS) input.setVirtual(action, active.has(action));
+    input.setTouchMovement({ x: moveX, y: moveY });
+    if (cameraX || cameraY) input.addTouchCamera({ x: cameraX * step, y: cameraY * step });
+  }
+
+  /** Returns a due opponent choice once; combat code still starts/resolves it. */
+  takeEnemyCue(): VisualScenarioEnemyCue | null {
+    const cue = this.scenario.enemyCues?.[this.nextEnemyCueIndex];
+    if (!cue || this.elapsed < cue.at) return null;
+    this.nextEnemyCueIndex += 1;
+    return {
+      intent: cue.intent,
+      attack: cue.attack,
+      comboRemaining: cue.comboRemaining,
+      side: cue.side,
+    };
+  }
+}
+
+export function visualScenarioFromSearch(search: string): VisualScenario | null {
+  const id = new URLSearchParams(search).get("scenario");
+  return id && VISUAL_SCENARIO_IDS.includes(id as VisualScenarioId)
+    ? VISUAL_SCENARIOS[id as VisualScenarioId]
+    : null;
+}

@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "framesPerSecond": 30,
+  "syncBits": [1, 0],
+  "dataBits": 16,
+  "cellPixels": 6,
+  "rows": 2
+}

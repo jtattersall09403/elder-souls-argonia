@@ -1,0 +1,171 @@
+import * as THREE from "three";
+
+/**
+ * Wearing armour on a skinned actor.
+ *
+ * A piece of armour is not a prop bolted to a bone: it is its own skinned mesh,
+ * authored against the same rig the body is, and it has to be driven by *this*
+ * actor's skeleton rather than the one it shipped with. That is the whole job
+ * here — rebind, parent, and hide whatever the piece now covers.
+ *
+ * Deliberately free of React and of this repo's components: it takes three.js
+ * objects and returns three.js objects, so the real game can mount armour on
+ * an actor, a paper doll, a shop preview or a cutscene rig with the same call.
+ */
+
+/** What the caller must know about a piece to mount it. */
+export type ArmourPiece = {
+  id: string;
+  /**
+   * A *fresh* clone of the piece's GLB scene. Mounting rebinds and reparents
+   * it, so a shared cache instance must not be handed in.
+   */
+  scene: THREE.Object3D;
+  /** Biped slots the piece occupies, from the pipeline manifest. */
+  coversBipedSlots: readonly number[];
+};
+
+/** Biped slots, in Bethesda's numbering. */
+export const TORSO_BIPED_SLOT = 32;
+export const HANDS_BIPED_SLOT = 33;
+
+export type MountedArmour = {
+  /** Meshes now bound to the actor's skeleton, in mount order. */
+  meshes: THREE.SkinnedMesh[];
+  /** Meshes covering the torso, which a first-person view puts the camera in. */
+  torsoMeshes: THREE.SkinnedMesh[];
+  /** Meshes on the hands, which sit at arm's length from a first-person eye. */
+  handMeshes: THREE.SkinnedMesh[];
+  /** Body meshes hidden underneath, so they can be restored on unequip. */
+  hidden: THREE.Mesh[];
+  /** Pieces that could not bind, with the reason. Never throws on bad content. */
+  problems: { id: string; reason: string }[];
+};
+
+function bonesByName(root: THREE.Object3D) {
+  const bones = new Map<string, THREE.Bone>();
+  root.traverse((object) => {
+    if (object instanceof THREE.Bone) bones.set(object.name, object);
+  });
+  return bones;
+}
+
+function firstSkinnedMesh(root: THREE.Object3D): THREE.SkinnedMesh | null {
+  let found: THREE.SkinnedMesh | null = null;
+  root.traverse((object) => {
+    if (!found && object instanceof THREE.SkinnedMesh) found = object;
+  });
+  return found;
+}
+
+/**
+ * Mount armour onto an actor's model root.
+ *
+ * `bodyMeshSlots` maps body mesh name to the biped slots it occupies (the race
+ * roster's `meshBipedSlots`). Any body mesh sharing a slot with a worn piece is
+ * hidden rather than removed, because unequipping has to be free and because a
+ * removed mesh would take its bounding box out of the hurtbox fit.
+ */
+export function mountArmour(
+  modelRoot: THREE.Object3D,
+  pieces: readonly ArmourPiece[],
+  bodyMeshSlots: Readonly<Record<string, readonly number[]>>,
+): MountedArmour {
+  const result: MountedArmour = {
+    meshes: [], hidden: [], problems: [], torsoMeshes: [], handMeshes: [],
+  };
+  const bones = bonesByName(modelRoot);
+  const bodyMesh = firstSkinnedMesh(modelRoot);
+  if (!bodyMesh) {
+    result.problems.push({ id: "*", reason: "actor has no skinned mesh to mount onto" });
+    return result;
+  }
+  // Parent armour beside the body meshes, not at the model root: the two share
+  // whatever armature transform the exporter wrote, and a skinned mesh's world
+  // matrix still positions its bind space.
+  const parent = bodyMesh.parent ?? modelRoot;
+
+  // glTF mesh names are sanitised on load ("MaleUnderwearBody:0" arrives as
+  // "MaleUnderwearBody0"), while the roster records the authored names. Key the
+  // lookup by the sanitised form so both sides agree.
+  const slotsByMesh = new Map<string, readonly number[]>();
+  for (const [name, slots] of Object.entries(bodyMeshSlots)) {
+    slotsByMesh.set(THREE.PropertyBinding.sanitizeNodeName(name), slots);
+  }
+
+  const covered = new Set<number>();
+  for (const piece of pieces) {
+    const mounted: THREE.SkinnedMesh[] = [];
+    let failure: string | null = null;
+    piece.scene.traverse((object) => {
+      if (failure || !(object instanceof THREE.SkinnedMesh)) return;
+      const mapped: THREE.Bone[] = [];
+      for (const bone of object.skeleton.bones) {
+        const match = bones.get(bone.name);
+        if (!match) {
+          failure = `bone "${bone.name}" is not on the actor's skeleton`;
+          return;
+        }
+        mapped.push(match);
+      }
+      // Same bind matrix and same inverses: the piece was authored against this
+      // rig, so only the bone *instances* change.
+      object.bind(new THREE.Skeleton(mapped, object.skeleton.boneInverses), object.bindMatrix);
+      mounted.push(object);
+    });
+
+    if (failure) {
+      result.problems.push({ id: piece.id, reason: failure });
+      continue;
+    }
+    if (mounted.length === 0) {
+      result.problems.push({ id: piece.id, reason: "piece contains no skinned mesh" });
+      continue;
+    }
+
+    for (const mesh of mounted) {
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+      // Skinned bounds are recomputed per frame by the hurtbox pass; a stale
+      // authored sphere would cull the piece the moment the actor moves.
+      mesh.frustumCulled = false;
+      parent.add(mesh);
+      result.meshes.push(mesh);
+      if (piece.coversBipedSlots.includes(TORSO_BIPED_SLOT)) result.torsoMeshes.push(mesh);
+      if (piece.coversBipedSlots.includes(HANDS_BIPED_SLOT)) result.handMeshes.push(mesh);
+    }
+    for (const slot of piece.coversBipedSlots) covered.add(slot);
+  }
+
+  if (covered.size > 0) {
+    modelRoot.traverse((object) => {
+      if (!(object instanceof THREE.Mesh)) return;
+      if (result.meshes.includes(object as THREE.SkinnedMesh)) return;
+      const slots = slotsByMesh.get(THREE.PropertyBinding.sanitizeNodeName(object.name));
+      if (!slots?.some((slot) => covered.has(slot))) return;
+      if (!object.visible) return;
+      object.visible = false;
+      result.hidden.push(object);
+    });
+  }
+
+  return result;
+}
+
+/**
+ * A note on grounding, because it looks like a bug and is not.
+ *
+ * A boot sole reaches a centimetre or two below bare skin, so a shod actor's
+ * sole clips the floor by that much. Lifting the actor to compensate is worse:
+ * the grounding solve reads the pose back out of the scene graph and cancels a
+ * root-position lift, and raising the plane it aims at instead breaks *paired*
+ * animations, which align two actors whose boots are not the same thickness.
+ * Skyrim ships the same small clip for the same reason.
+
+/** Undo `mountArmour`, leaving the actor exactly as it was found. */
+export function unmountArmour(mounted: MountedArmour) {
+  for (const mesh of mounted.meshes) mesh.removeFromParent();
+  for (const mesh of mounted.hidden) mesh.visible = true;
+  mounted.meshes.length = 0;
+  mounted.hidden.length = 0;
+}

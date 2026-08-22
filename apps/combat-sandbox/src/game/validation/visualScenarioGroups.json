@@ -1,0 +1,52 @@
+{
+  "locomotion": [
+    "locomotion-free",
+    "locomotion-lock-on",
+    "enemy-approach"
+  ],
+  "evasion": [
+    "roll",
+    "backstep",
+    "dodge-followups",
+    "enemy-evasion"
+  ],
+  "airborne": [
+    "stationary-landing",
+    "moving-landing"
+  ],
+  "attacks": [
+    "light-chain",
+    "heavy-chain",
+    "offense-outcomes",
+    "enemy-light-combo",
+    "enemy-heavy-attack"
+  ],
+  "defense": [
+    "guard-defense",
+    "parry",
+    "guard-break",
+    "enemy-block",
+    "enemy-parry"
+  ],
+  "reactions": [
+    "hit-reactions",
+    "death"
+  ],
+  "criticals": [
+    "backstab",
+    "backstab-lethal",
+    "riposte",
+    "riposte-lethal",
+    "riposte-queued"
+  ],
+  "utility": [
+    "equip-cycle",
+    "heal",
+    "enemy-utility"
+  ],
+  "ranged": [
+    "bow-shot",
+    "bow-partial-draw",
+    "bow-aim-tracking"
+  ]
+}

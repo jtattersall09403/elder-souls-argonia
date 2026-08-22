@@ -1,0 +1,131 @@
+:root {
+  color: #e4dfd3;
+  background: #090a0b;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-synthesis: none;
+  --gold: #a99062;
+  --panel: rgba(10, 10, 10, 0.82);
+}
+
+* { box-sizing: border-box; }
+html, body, #root { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+body { overscroll-behavior: none; touch-action: none; user-select: none; }
+button { color: inherit; font: inherit; }
+.game-shell { width: 100%; height: 100%; position: relative; background: #090a0b; }
+.game-shell canvas { display: block; outline: none; }
+.hud { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+.damage-vignette { position: absolute; inset: 0; pointer-events: none; z-index: 4; background: radial-gradient(ellipse at center, transparent 42%, rgba(76, 0, 0, .16) 63%, rgba(43, 0, 0, .66) 83%, rgba(5, 0, 0, .92) 100%); box-shadow: inset 0 0 9vw rgba(68, 0, 0, .72); animation: damage-vignette-hit .7s cubic-bezier(.16,.7,.2,1) forwards; }
+@keyframes damage-vignette-hit {
+  0% { opacity: 0; }
+  9% { opacity: 1; }
+  32% { opacity: .72; }
+  100% { opacity: 0; }
+}
+
+/* A way back into mouse-look. Escape is the browser's key, not ours, so there
+   has to be something on screen that takes the camera back. */
+.look-hint { position: absolute; left: 50%; bottom: 12%; transform: translateX(-50%); z-index: 6; padding: 7px 16px; font: 600 12px Cinzel, serif; letter-spacing: .16em; color: #e8dcc0; background: rgba(8,8,8,.72); border: 1px solid #6d5c3a; border-radius: 2px; cursor: pointer; }
+.look-hint:hover { background: rgba(30,26,18,.9); }
+
+/* --- aiming reticle ------------------------------------------------------
+   Deliberately small and unlit: it marks where the arrow goes, and nothing
+   else. The ticks close onto the dot as the string comes back, which is the
+   only readout of draw strength a player needs while looking at a target. */
+.crosshair { position: absolute; left: 50%; top: 50%; width: 0; height: 0; z-index: 5; pointer-events: none; }
+.crosshair-dot { position: absolute; left: -1.5px; top: -1.5px; width: 3px; height: 3px; border-radius: 50%; background: rgba(255,246,226,.95); box-shadow: 0 0 3px rgba(0,0,0,.9); }
+.crosshair-tick { position: absolute; background: rgba(255,246,226,.82); box-shadow: 0 0 3px rgba(0,0,0,.9); transition: transform .06s linear; }
+.crosshair-tick.up, .crosshair-tick.down { left: -1px; width: 2px; height: 9px; }
+.crosshair-tick.left, .crosshair-tick.right { top: -1px; height: 2px; width: 9px; }
+.crosshair-tick.up { top: 0; transform: translateY(calc(-1 * var(--spread) - 9px)); }
+.crosshair-tick.down { top: 0; transform: translateY(var(--spread)); }
+.crosshair-tick.left { left: 0; transform: translateX(calc(-1 * var(--spread) - 9px)); }
+.crosshair-tick.right { left: 0; transform: translateX(var(--spread)); }
+.crosshair-count { position: absolute; left: 14px; top: 20px; font: 600 12px Cinzel, serif; color: rgba(255,246,226,.7); text-shadow: 0 0 4px #000; }
+
+.player-vitals { position: absolute; left: max(22px, env(safe-area-inset-left)); top: max(20px, env(safe-area-inset-top)); width: min(340px, 44vw); }
+.vital-row { display: flex; gap: 8px; align-items: center; }
+.level-orb { width: 34px; height: 34px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 50%; border: 1px solid #9d875a; background: radial-gradient(circle, #29302d 20%, #0b0c0c 66%); font: 600 12px Cinzel, serif; box-shadow: 0 0 0 2px #171717; }
+.meter { position: relative; height: 14px; width: 100%; border: 2px solid rgba(5,5,5,.9); outline: 1px solid rgba(150,140,120,.55); background: rgba(5,5,5,.78); overflow: hidden; box-shadow: 0 2px 5px #000; }
+.meter span { display: block; width: 100%; height: 100%; transform-origin: left; transition: transform .12s linear; }
+.health { height: 16px; }
+.health span { background: linear-gradient(#9b302b, #621813); }
+.stamina { width: calc(100% - 42px); margin: 5px 0 0 42px; height: 10px; }
+.stamina span { background: linear-gradient(#5d9550, #315d31); }
+
+.combat-message { position: absolute; top: 25%; left: 50%; transform: translateX(-50%); font: 600 14px Cinzel, serif; letter-spacing: .16em; color: #d3c6aa; text-shadow: 0 2px 4px #000; white-space: nowrap; }
+.combat-message.major { top: 40%; font-size: clamp(34px, 7vw, 76px); color: #a53c32; letter-spacing: .2em; text-shadow: 0 3px 12px #000; }
+.combat-message.victory { top: 17%; font-size: clamp(18px, 3vw, 34px); color: #b46b5c; letter-spacing: .18em; text-shadow: 0 3px 9px #000; }
+.visual-scenario-label { position: absolute; left: 50%; top: 18px; transform: translateX(-50%); padding: 7px 12px; border: 1px solid rgba(169,144,98,.48); background: rgba(9,10,11,.72); color: #d3c6aa; font: 600 10px Cinzel, serif; letter-spacing: .12em; white-space: nowrap; }
+.visual-frame-marker { position: absolute; left: 0; z-index: 30; pointer-events: none; image-rendering: pixelated; }
+.visual-scenario .connection, .visual-scenario .quick-slots { display: none; }
+
+.quick-slots { position: absolute; left: max(24px, env(safe-area-inset-left)); bottom: max(26px, env(safe-area-inset-bottom)); display: grid; grid-template-columns: 48px 48px; grid-template-rows: 48px auto; gap: 5px; align-items: center; }
+.slot { width: 48px; height: 48px; border: 1px solid #736a58; background: radial-gradient(circle at 50% 45%, #2f2e2a, #10100f 70%); box-shadow: 0 0 0 2px #080808; position: relative; display: grid; place-items: center; }
+.quick-slots > span { grid-column: 1 / 3; font: 10px Cinzel, serif; color: #b9ad94; text-shadow: 0 1px 2px #000; }
+.sword-icon i { width: 4px; height: 37px; background: linear-gradient(90deg, #777, #ddd, #666); transform: rotate(42deg); box-shadow: 0 0 2px #000; }
+.sword-icon i::after { content: ""; position: absolute; width: 18px; height: 3px; background: #826a43; left: -7px; top: 28px; }
+.flask-icon i { width: 19px; height: 27px; border-radius: 4px 4px 9px 9px; background: radial-gradient(circle at 60% 45%, #ffd28a, #a74a11 48%, #321408); box-shadow: 0 0 12px #bd5b1c; }
+.flask-icon b { position: absolute; right: 3px; bottom: 1px; font-size: 12px; }
+.connection { position: absolute; right: max(18px, env(safe-area-inset-right)); top: max(18px, env(safe-area-inset-top)); color: #777; font-size: 9px; letter-spacing: .13em; }
+.connection.connected { color: #8baa7e; }
+.help-button { pointer-events: auto; position: absolute; right: max(18px, env(safe-area-inset-right)); top: max(40px, calc(env(safe-area-inset-top) + 40px)); width: 32px; height: 32px; border-radius: 50%; border: 1px solid #8a806d; background: rgba(10,10,10,.72); cursor: pointer; }
+.debug-panel { pointer-events: auto; position: absolute; right: max(18px, env(safe-area-inset-right)); top: max(82px, calc(env(safe-area-inset-top) + 82px)); width: 176px; padding: 0; border: 1px solid rgba(138,128,109,.72); background: rgba(10,10,10,.88); color: #c3b79f; z-index: 12; font-size: 11px; box-shadow: 0 6px 22px rgba(0,0,0,.48); }
+.debug-panel summary { cursor: pointer; padding: 8px 10px; font: 600 9px Cinzel, serif; letter-spacing: .16em; color: #a99c83; }
+.debug-panel[open] { padding-bottom: 9px; }
+.debug-panel label { display: flex; align-items: center; gap: 8px; padding: 5px 10px; cursor: pointer; }
+.debug-panel label:has(input:disabled) { opacity: .45; cursor: default; }
+.debug-panel input { accent-color: #8f805f; }
+.debug-panel button { display: block; width: calc(100% - 18px); margin: 8px 9px 0; padding: 7px 6px; border: 1px solid #695f4d; background: #1b1916; font: 600 9px Cinzel, serif; letter-spacing: .08em; cursor: pointer; }
+.help-panel { pointer-events: auto; position: absolute; inset: 50% auto auto 50%; transform: translate(-50%, -50%); width: min(620px, calc(100% - 40px)); padding: 28px; border: 1px solid #7b705d; background: rgba(10,10,10,.96); box-shadow: 0 15px 70px #000; z-index: 20; }
+.help-panel h2 { margin: 0 0 18px; font: 600 25px Cinzel, serif; color: #c7b48c; letter-spacing: .12em; }
+.help-panel > button { position: absolute; right: 10px; top: 7px; border: 0; background: none; font-size: 24px; cursor: pointer; }
+.control-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.control-columns dl { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; margin: 0; font-size: 12px; }
+.control-columns dt { color: #a99c83; }.control-columns dd { margin: 0; text-align: right; color: #eee8db; }
+.help-panel p { color: #928a7c; font-size: 11px; line-height: 1.5; margin: 20px 0 0; }
+
+.title-screen { position: absolute; inset: 0; z-index: 15; display: flex; flex-direction: column; align-items: center; justify-content: center; background: radial-gradient(circle at 50% 48%, rgba(27,26,24,.38), rgba(5,6,7,.88) 70%); text-align: center; padding: 24px; }
+.title-screen::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(100deg, transparent 0 5px, rgba(255,255,255,.008) 6px); pointer-events: none; }
+.title-rule { width: min(420px, 72vw); height: 1px; background: linear-gradient(90deg, transparent, #8c7d60, transparent); }
+.title-screen p { font: 500 10px Cinzel, serif; letter-spacing: .28em; color: #9f957f; margin: 18px 0 6px; }
+.title-screen h1 { font: 600 clamp(46px, 10vw, 98px) Cinzel, serif; letter-spacing: .11em; margin: 0; color: #c9b993; text-shadow: 0 4px 24px #000; }
+.title-screen .subtitle { font: 500 13px Cinzel, serif; letter-spacing: .1em; color: #7d7568; margin: 4px 0 32px; }
+.title-screen button, .retry-button { pointer-events: auto; min-width: 220px; border: 1px solid #8f805f; background: rgba(17,17,16,.82); padding: 13px 24px; font: 500 12px Cinzel, serif; letter-spacing: .14em; cursor: pointer; box-shadow: inset 0 0 18px rgba(169,144,98,.08); }
+.title-screen button:hover, .retry-button:hover { background: #24211c; border-color: #b6a277; }
+.title-screen small { margin-top: 14px; color: #655f55; font-size: 9px; letter-spacing: .12em; }
+.retry-button { position: absolute; pointer-events: auto; left: 50%; top: 58%; transform: translateX(-50%); z-index: 10; }
+
+.touch-controls { position: absolute; inset: 0; pointer-events: none; }
+.fullscreen-entry { margin-top: 12px; font-size: .66rem; letter-spacing: .16em; }
+.camera-zone { pointer-events: auto; position: absolute; inset: 15% 0 18% 42%; }
+.touch-stick { pointer-events: auto; position: absolute; left: max(18px, env(safe-area-inset-left)); bottom: max(78px, calc(env(safe-area-inset-bottom) + 62px)); width: 128px; height: 128px; border-radius: 50%; border: 1px solid rgba(215,205,182,.2); background: radial-gradient(circle, rgba(255,255,255,.035) 0 38%, rgba(0,0,0,.18) 40%); }
+.touch-stick span { position: absolute; left: 50%; top: 50%; width: 50px; height: 50px; margin: -25px; border-radius: 50%; border: 1px solid rgba(215,205,182,.35); background: rgba(20,20,18,.45); box-shadow: 0 4px 12px rgba(0,0,0,.5); }
+.touch-actions { pointer-events: none; position: absolute; right: max(12px, env(safe-area-inset-right)); bottom: max(68px, calc(env(safe-area-inset-bottom) + 56px)); width: 226px; height: 194px; }
+.action-button { pointer-events: auto; position: absolute; width: 55px; height: 55px; padding: 0; border-radius: 50%; border: 1px solid rgba(215,205,182,.4); background: rgba(13,13,12,.58); display: flex; flex-direction: column; align-items: center; justify-content: center; text-shadow: 0 1px 2px #000; box-shadow: 0 3px 10px rgba(0,0,0,.42); }
+.action-button:active { transform: scale(.94); background: rgba(126,104,69,.55); }
+.action-button strong { font: 600 13px Cinzel, serif; }.action-button small { font-size: 7px; color: #aaa18f; letter-spacing: .06em; margin-top: 2px; }
+.action-button.light { right: 0; top: 56px; }.action-button.heavy { right: 42px; top: 0; }.action-button.dodge { right: 51px; top: 112px; }
+.action-button.guard { left: 0; top: 38px; }.action-button.parry { left: 21px; top: 100px; }
+.action-button.lock { left: 72px; top: 63px; width: 48px; height: 48px; }
+.action-button.heal { right: 0; top: 121px; width: 44px; height: 44px; }.action-button.equip { right: 101px; top: 0; width: 43px; height: 43px; }
+.action-button.jump { left: 88px; top: 150px; width: 43px; height: 43px; }
+
+@media (max-width: 760px) {
+  .player-vitals { width: 42vw; min-width: 190px; }
+  .quick-slots { transform: scale(.78); transform-origin: bottom left; bottom: 8px; }
+  .help-button { top: 32px; }
+  .debug-panel { top: 72px; right: 10px; }
+  .connection { display: none; }
+  .combat-message { top: 19%; font-size: 10px; }
+  .control-columns { grid-template-columns: 1fr; }
+  .help-panel { padding: 20px; max-height: 88vh; overflow: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .damage-vignette { animation-duration: .22s; }
+}
+
+@media (orientation: portrait) and (pointer: coarse) {
+  .touch-stick { bottom: 12%; }
+  .touch-actions { bottom: 10%; transform: scale(.9); transform-origin: bottom right; }
+}

@@ -1,0 +1,363 @@
+/*
+ * Morrowind inventory skin.
+ *
+ * The whole look lives in this file, keyed off `[data-inventory-theme]`. The
+ * screen component names semantic parts (`inv-window`, `inv-grid`, `inv-cell`)
+ * and nothing else, so a second theme is a second block here rather than an
+ * edit to the layout. Modern where it costs nothing — real shadows, crisp
+ * borders, hover states — while keeping the original's silhouette: tiled
+ * ornamental frame, centred title, encumbrance bar over a paper doll, and a
+ * black grid of item art with worn things framed and first.
+ */
+
+.inv-root {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 40;
+  background: rgba(4, 5, 6, 0.55);
+  backdrop-filter: blur(2px);
+  font-family: "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+}
+
+.inv-root[data-inventory-theme="morrowind"] {
+  --frame: #b39858;
+  --frame-dark: #6d5a30;
+  --frame-light: #e2cf9a;
+  --panel: #0b0b0a;
+  --panel-edge: #2a2418;
+  --ink: #e6dcc0;
+  --ink-dim: #a2977a;
+  --select: #3a5fb0;
+  --warn: #c9903f;
+}
+
+.inv-window {
+  width: min(1180px, 94vw);
+  height: min(660px, 90vh);
+  display: flex;
+  flex-direction: column;
+  color: var(--ink);
+  background: var(--panel);
+  border: 3px solid var(--frame);
+  border-radius: 4px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7), inset 0 0 0 1px rgba(0, 0, 0, 0.8);
+}
+
+/* The original's border is a tiled stone-and-gold ribbon. Repeating gradients
+   give the same read without shipping a texture. */
+.inv-titlebar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  border-bottom: 2px solid var(--frame-dark);
+  background:
+    repeating-linear-gradient(90deg,
+      #6b5c3c 0 6px, #8a7749 6px 11px, #4e4229 11px 16px),
+    linear-gradient(#8a7749, #5d4f30);
+  box-shadow: inset 0 1px 0 rgba(255, 240, 200, 0.25);
+}
+
+.inv-title {
+  padding: 2px 26px;
+  font-size: 20px;
+  letter-spacing: 0.06em;
+  color: var(--frame-light);
+  background: #100f0c;
+  border: 2px solid var(--frame);
+  border-radius: 3px;
+  text-shadow: 0 1px 2px #000;
+}
+
+.inv-close {
+  position: absolute;
+  right: 8px;
+  width: 28px;
+  height: 26px;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--frame-light);
+  background: #100f0c;
+  border: 2px solid var(--frame);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.inv-close:hover { background: #1e1a12; }
+
+.inv-body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 10px;
+  padding: 10px;
+}
+
+/* ---- left column: encumbrance, paper doll, armour rating ---------------- */
+
+.inv-doll-column {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 8px;
+  min-height: 0;
+}
+
+.inv-encumbrance {
+  position: relative;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: 2px solid var(--frame);
+  border-radius: 3px;
+  background: #07070a;
+  overflow: hidden;
+}
+
+.inv-encumbrance-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: linear-gradient(#4a6fc4, #26407e);
+  transition: width 140ms ease-out;
+}
+
+.inv-encumbrance[data-over] .inv-encumbrance-fill {
+  background: linear-gradient(#a8402f, #6d2417);
+}
+
+.inv-encumbrance-label {
+  position: relative;
+  font-size: 15px;
+  text-shadow: 0 1px 2px #000;
+}
+
+.inv-doll {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  border: 2px solid var(--frame);
+  border-radius: 3px;
+  background: radial-gradient(circle at 50% 35%, #1d1c18, #080807 70%);
+  overflow: hidden;
+}
+
+.inv-slots {
+  margin: 0;
+  padding: 6px 8px;
+  list-style: none;
+  font-size: 12px;
+  border-top: 1px solid var(--panel-edge);
+  background: rgba(0, 0, 0, 0.5);
+  display: grid;
+  /* One column, not two: two columns in a panel this narrow truncate every
+     worn item to "Steel S...", which is worse than a slightly shorter doll. */
+  grid-template-columns: 1fr;
+  gap: 1px;
+}
+
+/* min-width: 0 twice, deliberately: a grid item and a flex item both default to
+   min-content width, and either one alone leaves the name clipped at the panel
+   edge instead of ellipsised. */
+.inv-slots li { display: flex; justify-content: space-between; gap: 6px; color: var(--ink-dim); min-width: 0; }
+.inv-slots li[data-filled] { color: var(--ink); }
+.inv-slot-value { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.inv-slot-label { flex: none; }
+
+.inv-armor {
+  margin: 0;
+  text-align: center;
+  font-size: 16px;
+  padding: 5px;
+  border: 2px solid var(--frame);
+  border-radius: 3px;
+  background: #100f0c;
+}
+
+/* ---- right column: tabs, grid, detail ---------------------------------- */
+
+.inv-items {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 8px;
+}
+
+.inv-toolbar {
+  display: flex;
+  gap: 6px;
+  align-items: stretch;
+}
+
+.inv-tab {
+  padding: 5px 16px;
+  font: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  background: #100f0c;
+  border: 2px solid var(--frame);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.inv-tab:hover { background: #1e1a12; }
+.inv-tab[data-active] { color: #a8c4ff; border-color: var(--frame-light); }
+
+.inv-search {
+  flex: 1;
+  min-width: 80px;
+  padding: 5px 10px;
+  font: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  background: #100f0c;
+  border: 2px solid var(--frame);
+  border-radius: 3px;
+}
+
+.inv-search:focus { outline: none; border-color: var(--frame-light); }
+
+.inv-grid {
+  position: relative;
+  min-height: 0;
+  overflow-y: auto;
+  align-content: start;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+  gap: 4px;
+  padding: 6px;
+  border: 2px solid var(--frame);
+  border-radius: 3px;
+  background: #050505;
+}
+
+.inv-cell {
+  position: relative;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  padding: 2px;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.inv-cell:hover { border-color: var(--frame-dark); background: rgba(255, 236, 190, 0.06); }
+.inv-cell:focus-visible { outline: 2px solid var(--select); outline-offset: -2px; }
+
+/* Worn items keep the original's framed cell. */
+.inv-cell[data-equipped] {
+  border-color: var(--frame);
+  background:
+    linear-gradient(rgba(74, 111, 196, 0.22), rgba(38, 64, 126, 0.22)),
+    #0a0c12;
+}
+
+.inv-cell[data-blocked] .inv-cell-art,
+.inv-cell[data-blocked] .inv-cell-initials { opacity: 0.42; }
+.inv-cell[data-blocked] { cursor: not-allowed; }
+
+.inv-cell[data-provisional]::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--warn);
+}
+
+.inv-cell-art {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: auto;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.8));
+}
+
+.inv-cell-initials {
+  font-size: 19px;
+  letter-spacing: 0.04em;
+  color: var(--ink-dim);
+  border: 1px dashed var(--panel-edge);
+  border-radius: 3px;
+  width: 82%;
+  height: 82%;
+  display: grid;
+  place-items: center;
+}
+
+.inv-cell-count {
+  position: absolute;
+  right: 3px;
+  bottom: 1px;
+  font-size: 12px;
+  color: var(--ink);
+  text-shadow: 0 1px 2px #000, 0 0 3px #000;
+}
+
+.inv-empty { grid-column: 1 / -1; margin: 12px; color: var(--ink-dim); }
+
+.inv-footer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 56px;
+  padding: 6px 10px;
+  border: 2px solid var(--frame);
+  border-radius: 3px;
+  background: #100f0c;
+}
+
+.inv-detail { margin: 0; display: grid; gap: 1px; font-size: 13px; }
+.inv-detail strong { font-size: 15px; color: var(--frame-light); }
+.inv-detail-stats { color: var(--ink-dim); }
+.inv-detail-flavour { color: var(--ink-dim); font-style: italic; }
+.inv-detail-warning { color: var(--warn); }
+.inv-detail-hint { color: var(--ink-dim); font-style: italic; }
+.inv-gold { white-space: nowrap; color: var(--frame-light); }
+
+@media (max-width: 780px) {
+  .inv-body { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .inv-doll-column { grid-template-rows: auto auto auto; }
+  .inv-doll { height: 180px; }
+}
+
+/* --- the item card -------------------------------------------------------
+   Morrowind put an item's whole stat block in a bordered panel beside the
+   cursor. Floating over the grid on a pointer device, docked to the bottom on
+   a touch screen where there is no cursor to sit beside. */
+.inv-card {
+  position: absolute; right: 10px; bottom: 10px; width: 250px; z-index: 3;
+  padding: 8px 10px 9px; pointer-events: none;
+  background: linear-gradient(#171512, #0d0c0a);
+  border: 2px solid var(--frame); border-radius: 3px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .75);
+  color: var(--ink); font-size: 12px;
+}
+.inv-card[data-docked] {
+  position: fixed; left: 50%; right: auto; bottom: 12px;
+  transform: translateX(-50%); width: min(94vw, 420px);
+}
+.inv-card-title {
+  display: flex; justify-content: space-between; gap: 8px; align-items: baseline;
+  font: 600 14px Cinzel, serif; color: var(--ink-bright);
+  border-bottom: 1px solid var(--panel-edge); padding-bottom: 4px; margin-bottom: 5px;
+}
+.inv-card-count { color: var(--ink-dim); font-size: 12px; }
+.inv-card-stats { margin: 0; display: grid; gap: 1px; }
+.inv-card-stat { display: flex; justify-content: space-between; gap: 10px; }
+.inv-card-stat dt { color: var(--ink-dim); margin: 0; }
+.inv-card-stat dd { margin: 0; color: var(--ink-bright); text-align: right; }
+.inv-card-flavour { margin: 6px 0 0; color: var(--ink-dim); font-style: italic; line-height: 1.35; }
+.inv-card-action { margin: 5px 0 0; color: #cbb27a; font-size: 11px; letter-spacing: .05em; }
+.inv-card-warning { margin: 4px 0 0; color: #c8933f; font-size: 11px; }
+
+/* The cursor a pad or the arrow keys drive. Distinct from the worn frame, which
+   means something else entirely. */
+.inv-cell[data-cursor] { outline: 2px solid #d8c48a; outline-offset: -2px; }

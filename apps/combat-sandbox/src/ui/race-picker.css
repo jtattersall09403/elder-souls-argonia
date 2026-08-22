@@ -1,0 +1,61 @@
+/* Race selection on the title screen. Shares the title screen's restraint:
+   a row of chips and one line of flavour, nothing that competes with it. */
+
+.race-picker {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  max-width: 620px;
+  margin: 4px auto 10px;
+}
+
+.race-picker-prompt {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  opacity: 0.55;
+}
+
+.race-picker-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+}
+
+/* The title screen sizes its own buttons for a single call to action; a row of
+   race chips is the opposite shape, so it opts out of that width explicitly. */
+.title-screen .race-chip,
+.race-chip {
+  min-width: 0;
+  padding: 5px 13px;
+  font: inherit;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: #cdc3ab;
+  background: rgba(12, 12, 11, 0.7);
+  border: 1px solid #4a4231;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: border-color 120ms, color 120ms, background 120ms;
+  box-shadow: none;
+}
+
+.race-chip:hover { border-color: #8a7749; color: #efe4c6; }
+
+.race-chip[data-active] {
+  color: #0d0c0a;
+  background: #cbb87f;
+  border-color: #e2cf9a;
+}
+
+.race-picker-flavour {
+  margin: 0;
+  min-height: 2.4em;
+  max-width: 46ch;
+  text-align: center;
+  font-size: 13px;
+  font-style: italic;
+  opacity: 0.7;
+}

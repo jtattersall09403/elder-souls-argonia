@@ -1,0 +1,12 @@
+{
+  "JUMP_LAND_LEFT": "Audition-only source clip: its authored quarter-turn conflicts with controller-owned facing, so production landing selection never returns it.",
+  "JUMP_LAND_RIGHT": "Audition-only source clip: its authored quarter-turn conflicts with controller-owned facing, so production landing selection never returns it.",
+  "CRITICAL_KNOCKDOWN": "Legacy audition semantic retained in the current generated asset; its unrelated stand-up/arms-up opening is explicitly rejected for production critical choreography.",
+  "BOW_WALK": "Carrying a bow out of aim; the aim itself is planted, so a walk with a bow drawn has no scene yet.",
+  "BOW_WALK_BACK": "As BOW_WALK.",
+  "BOW_STRAFE_LEFT": "As BOW_WALK.",
+  "BOW_STRAFE_RIGHT": "As BOW_WALK.",
+  "BOW_RUN": "As BOW_WALK.",
+  "BOW_EQUIP": "Bow draw/stow shares the equip-cycle scene's inputs; that scene holds a sword.",
+  "BOW_UNEQUIP": "As BOW_EQUIP."
+}

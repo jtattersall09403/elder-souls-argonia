@@ -1,0 +1,2125 @@
+{
+  "locomotion-free": {
+    "playerActions": [
+      "idle"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "WALK",
+      "RUN",
+      "SPRINT"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "WALK",
+        "SWORD_IDLE",
+        "RUN",
+        "SWORD_IDLE",
+        "RUN",
+        "SPRINT",
+        "RUN",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "SWORD_IDLE",
+        "WALK",
+        "RUN",
+        "SPRINT"
+      ]
+    }
+  },
+  "locomotion-lock-on": {
+    "playerActions": [
+      "idle"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "WALK",
+      "WALK_BACK",
+      "STRAFE_LEFT",
+      "STRAFE_RIGHT"
+    ],
+    "enemyActions": [
+      "watching"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE"
+    ],
+    "requiredActionRuns": {
+      "player": [
+        "idle"
+      ],
+      "enemy": [
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "WALK",
+        "SWORD_IDLE",
+        "WALK_BACK",
+        "SWORD_IDLE",
+        "STRAFE_LEFT",
+        "SWORD_IDLE",
+        "STRAFE_RIGHT",
+        "SWORD_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "WALK",
+        "WALK_BACK",
+        "STRAFE_LEFT",
+        "STRAFE_RIGHT"
+      ]
+    }
+  },
+  "equip-cycle": {
+    "playerActions": [
+      "unequip",
+      "idle",
+      "equip"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "UNEQUIP",
+      "IDLE",
+      "EQUIP"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "unequip",
+        "idle",
+        "equip",
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "UNEQUIP",
+        "IDLE",
+        "EQUIP",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "UNEQUIP",
+        "IDLE",
+        "EQUIP"
+      ]
+    }
+  },
+  "light-chain": {
+    "playerActions": [
+      "light1",
+      "light2",
+      "light3"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "LIGHT_1",
+      "LIGHT_2",
+      "LIGHT_3"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "light1",
+        "light2",
+        "light3",
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "LIGHT_2",
+        "LIGHT_3",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "LIGHT_1",
+        "LIGHT_2",
+        "LIGHT_3"
+      ]
+    },
+    "groundingLimits": {
+      "maxBlendedGroundCorrectionMeters": 0.13,
+      "note": "Attack clips crouch into their lunge, and now that both the idle and the swing are correctly grounded that stance-height difference is real geometry rather than a hover: while the two are blended the solver lifts the actor to keep the soles out of the floor. The deformed-mesh penetration gate, which is what proves grounding, is unchanged."
+    }
+  },
+  "heavy-chain": {
+    "playerActions": [
+      "heavy",
+      "heavy2"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "HEAVY",
+      "HEAVY_2"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "heavy",
+        "heavy2",
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "HEAVY",
+        "HEAVY_2",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "HEAVY",
+        "HEAVY_2"
+      ]
+    },
+    "groundingLimits": {
+      "maxBlendedGroundCorrectionMeters": 0.13,
+      "note": "Attack clips crouch into their lunge, and now that both the idle and the swing are correctly grounded that stance-height difference is real geometry rather than a hover: while the two are blended the solver lifts the actor to keep the soles out of the floor. The deformed-mesh penetration gate, which is what proves grounding, is unchanged."
+    }
+  },
+  "guard-defense": {
+    "playerActions": [
+      "guard"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "GUARD_ENTER",
+      "GUARD",
+      "GUARD_HIT_A",
+      "GUARD_HIT_B"
+    ],
+    "enemyActions": [
+      "attack",
+      "recoil"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "LIGHT_1",
+      "RECOIL"
+    ],
+    "playerHealthLessThan": 100,
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "guard",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "attack",
+        "recoil",
+        "watching",
+        "attack",
+        "recoil",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        {
+          "state": "SWORD_IDLE",
+          "minSamples": 1
+        },
+        "GUARD_ENTER",
+        "GUARD",
+        "GUARD_HIT_A",
+        "GUARD",
+        {
+          "state": "GUARD_HIT_B",
+          "minClipSpanSeconds": 0.78
+        },
+        "SWORD_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "RECOIL",
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "RECOIL",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "GUARD_ENTER",
+        "GUARD",
+        "GUARD_HIT_A",
+        "GUARD_HIT_B"
+      ],
+      "enemy": [
+        "LIGHT_1",
+        "RECOIL"
+      ]
+    },
+    "groundingLimits": {
+      "maxBlendedGroundCorrectionMeters": 0.19,
+      "maxGroundCorrectionSpeedMetersPerSecond": 4.2
+    }
+  },
+  "parry": {
+    "playerActions": [
+      "parry"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "PARRY",
+      "PARRY_FOLLOW_THROUGH"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "parry",
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "PARRY",
+        "PARRY_FOLLOW_THROUGH",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "PARRY",
+        "PARRY_FOLLOW_THROUGH"
+      ]
+    }
+  },
+  "heal": {
+    "playerActions": [
+      "heal"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "HEAL"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "playerHealthGreaterThan": 35,
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "heal",
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "HEAL",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "HEAL"
+      ]
+    }
+  },
+  "hit-reactions": {
+    "playerActions": [
+      "hit",
+      "hitHeavy"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "WALK",
+      "HIT",
+      "HIT_HEAVY"
+    ],
+    "enemyActions": [
+      "attack"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "LIGHT_1",
+      "HEAVY"
+    ],
+    "playerHealthLessThan": 100,
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "hit",
+        "idle",
+        "hitHeavy",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "attack",
+        "recover",
+        "watching",
+        "attack",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "HIT",
+        "SWORD_IDLE",
+        "WALK",
+        "SWORD_IDLE",
+        "HIT_HEAVY",
+        "SWORD_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "SWORD_IDLE",
+        "HEAVY",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "HIT",
+        "HIT_HEAVY"
+      ],
+      "enemy": [
+        "LIGHT_1",
+        "HEAVY"
+      ]
+    }
+  },
+  "death": {
+    "playerActions": [
+      "hit",
+      "dead"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "HIT",
+      "DEATH"
+    ],
+    "enemyActions": [
+      "attack"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "LIGHT_1"
+    ],
+    "playerHealthEquals": 0,
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "hit",
+        "idle",
+        "dead"
+      ],
+      "enemy": [
+        "watching",
+        "attack",
+        "recover",
+        "watching",
+        "attack",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "HIT",
+        "SWORD_IDLE",
+        "DEATH"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "HIT",
+        "DEATH"
+      ],
+      "enemy": [
+        "LIGHT_1"
+      ]
+    },
+    "criticalDeathHold": {
+      "actor": "player",
+      "animation": "DEATH",
+      "minStartClipTimeSeconds": 0,
+      "maxStartClipTimeSeconds": 0.08,
+      "minEndClipTimeSeconds": 1.85,
+      "maxEndClipTimeSeconds": 1.91,
+      "floorContactStartClipTimeSeconds": 1.1,
+      "maxFloorSurfaceGapMeters": 0.12,
+      "maxProneHeadHeightMeters": 0.9,
+      "minProneHoldSeconds": 1,
+      "maxClipStepSeconds": 0.15,
+      "forbiddenRecoveryAnimations": [
+        "SWORD_IDLE",
+        "GET_UP"
+      ]
+    }
+  },
+  "backstab": {
+    "playerActions": [
+      "backstab"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "BACKSTAB"
+    ],
+    "enemyActions": [
+      "critical",
+      "criticalRecovery",
+      "recover"
+    ],
+    "enemyAnimations": [
+      "BACKSTABBED",
+      "SWORD_IDLE"
+    ],
+    "enemyHealthLessThan": 150,
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "backstab",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "critical",
+        "criticalRecovery",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "BACKSTAB",
+        "SWORD_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "BACKSTABBED",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "BACKSTAB"
+      ],
+      "enemy": [
+        "BACKSTABBED"
+      ]
+    },
+    "backstabWeaponRole": {
+      "maxAttackerBladeDistanceMeters": 0.55,
+      "minRoleSeparationMeters": 0.08,
+      "minApproachMeters": 0.08
+    },
+    "transitionMotionChecks": [
+      {
+        "actor": "enemy",
+        "fromAnimation": "BACKSTABBED",
+        "fromOccurrence": 1,
+        "toAnimation": "SWORD_IDLE",
+        "toOccurrence": 2,
+        "transitionWindowSeconds": 0.3,
+        "bones": [
+          "spine2",
+          "head",
+          "upperArmL",
+          "forearmL",
+          "handL",
+          "upperArmR",
+          "forearmR",
+          "handR"
+        ],
+        "maxPelvisRelativeBoneStepMeters": 0.18,
+        "maxBoneAngularStepDegrees": 20,
+        "maxWeaponTipStepMeters": 0.3
+      }
+    ],
+    "criticalRecovery": {
+      "animation": "BACKSTABBED",
+      "minStartClipTimeSeconds": 0,
+      "maxStartClipTimeSeconds": 0.08,
+      "minEndClipTimeSeconds": 3.12,
+      "maxClipStepSeconds": 0.15
+    }
+  },
+  "riposte": {
+    "playerActions": [
+      "parry",
+      "riposte"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "PARRY",
+      "PARRY_FOLLOW_THROUGH",
+      "RIPOSTE"
+    ],
+    "enemyActions": [
+      "attack",
+      "parried",
+      "critical",
+      "criticalRecovery",
+      "recover"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "LIGHT_1",
+      "GUARD_BREAK",
+      "RIPOSTED_HIT1"
+    ],
+    "enemyHealthLessThan": 150,
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "parry",
+        "idle",
+        "riposte",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "attack",
+        "parried",
+        "critical",
+        "criticalRecovery",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "PARRY",
+        "PARRY_FOLLOW_THROUGH",
+        "SWORD_IDLE",
+        "RIPOSTE",
+        "SWORD_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "GUARD_BREAK",
+        "RIPOSTED_HIT1",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "PARRY",
+        "PARRY_FOLLOW_THROUGH",
+        "RIPOSTE"
+      ],
+      "enemy": [
+        "LIGHT_1",
+        "GUARD_BREAK",
+        "RIPOSTED_HIT1"
+      ]
+    },
+    "ripostePhases": {
+      "minStableLeadInSeconds": 0.2,
+      "minVictimStartClipTimeSeconds": 0.12,
+      "maxVictimStartClipTimeSeconds": 0.21,
+      "victimReactionAnimation": "RIPOSTED_HIT1",
+      "expectedAttackerContactElapsedSeconds": 0.4,
+      "expectedAttackerContactClipTimeSeconds": 0.5667,
+      "attackerReleaseClipTimeSeconds": 0.7,
+      "expectedAttackerReleaseWallElapsedSeconds": 0.6667,
+      "expectedVictimReleaseClipTimeSeconds": 0.2666,
+      "maxPhaseTimingErrorSeconds": 0.06
+    },
+    "riposteWeaponContact": {
+      "attackerActor": "player",
+      "victimActor": "enemy",
+      "victimHealthField": "enemyHealth",
+      "attackerAnimation": "RIPOSTE",
+      "victimReactionAnimation": "RIPOSTED_HIT1",
+      "maxAttackerBladeDistanceMeters": 0.25,
+      "minRoleSeparationMeters": 0.15,
+      "maxEarlyContactLeadSeconds": 0.08
+    },
+    "transitionMotionChecks": [
+      {
+        "actor": "player",
+        "fromAnimation": "RIPOSTE",
+        "fromOccurrence": 1,
+        "toAnimation": "SWORD_IDLE",
+        "toOccurrence": 3,
+        "transitionWindowSeconds": 0.3,
+        "bones": [
+          "spine2",
+          "head",
+          "upperArmL",
+          "forearmL",
+          "handL",
+          "upperArmR",
+          "forearmR",
+          "handR"
+        ],
+        "maxPelvisRelativeBoneStepMeters": 0.13,
+        "maxBoneAngularStepDegrees": 22,
+        "maxWeaponTipStepMeters": 0.3
+      }
+    ],
+    "criticalRecovery": {
+      "animation": "RIPOSTED_HIT1",
+      "minStartClipTimeSeconds": 0.12,
+      "maxStartClipTimeSeconds": 0.21,
+      "minEndClipTimeSeconds": 1.95,
+      "maxClipStepSeconds": 0.15
+    }
+  },
+  "riposte-lethal": {
+    "playerActions": [
+      "riposte"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "RIPOSTE"
+    ],
+    "enemyActions": [
+      "parried",
+      "critical",
+      "dead"
+    ],
+    "enemyAnimations": [
+      "GUARD_BREAK",
+      "CRITICAL_DEATH"
+    ],
+    "enemyHealthLessThan": 1,
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "riposte",
+        "idle"
+      ],
+      "enemy": [
+        "parried",
+        "critical",
+        "dead"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "RIPOSTE",
+        "SWORD_IDLE"
+      ],
+      "enemy": [
+        "GUARD_BREAK",
+        "CRITICAL_DEATH"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "RIPOSTE"
+      ],
+      "enemy": [
+        "GUARD_BREAK",
+        "CRITICAL_DEATH"
+      ]
+    },
+    "riposteWeaponContact": {
+      "attackerActor": "player",
+      "victimActor": "enemy",
+      "victimHealthField": "enemyHealth",
+      "attackerAnimation": "RIPOSTE",
+      "victimReactionAnimation": "CRITICAL_DEATH",
+      "maxAttackerBladeDistanceMeters": 0.25,
+      "minRoleSeparationMeters": 0.15,
+      "maxEarlyContactLeadSeconds": 0.08
+    },
+    "transitionMotionChecks": [
+      {
+        "actor": "player",
+        "fromAnimation": "RIPOSTE",
+        "fromOccurrence": 1,
+        "toAnimation": "SWORD_IDLE",
+        "toOccurrence": 2,
+        "transitionWindowSeconds": 0.3,
+        "bones": [
+          "spine2",
+          "head",
+          "upperArmL",
+          "forearmL",
+          "handL",
+          "upperArmR",
+          "forearmR",
+          "handR"
+        ],
+        "maxPelvisRelativeBoneStepMeters": 0.13,
+        "maxBoneAngularStepDegrees": 22,
+        "maxWeaponTipStepMeters": 0.3
+      }
+    ],
+    "criticalDeathHold": {
+      "animation": "CRITICAL_DEATH",
+      "minStartClipTimeSeconds": 0.55,
+      "maxStartClipTimeSeconds": 0.65,
+      "minEndClipTimeSeconds": 1.85,
+      "maxEndClipTimeSeconds": 1.91,
+      "floorContactStartClipTimeSeconds": 1.1,
+      "maxFloorSurfaceGapMeters": 0.12,
+      "maxProneHeadHeightMeters": 0.9,
+      "minProneHoldSeconds": 1,
+      "maxClipStepSeconds": 0.15
+    }
+  },
+  "backstab-lethal": {
+    "playerActions": [
+      "backstab"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "BACKSTAB"
+    ],
+    "enemyActions": [
+      "critical",
+      "dead"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "BACKSTABBED",
+      "CRITICAL_DEATH"
+    ],
+    "enemyHealthLessThan": 1,
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "backstab",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "critical",
+        "dead"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "BACKSTAB",
+        "SWORD_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "BACKSTABBED",
+        "CRITICAL_DEATH"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "BACKSTAB"
+      ],
+      "enemy": [
+        "BACKSTABBED",
+        "CRITICAL_DEATH"
+      ]
+    },
+    "backstabWeaponRole": {
+      "maxAttackerBladeDistanceMeters": 0.55,
+      "minRoleSeparationMeters": 0.08,
+      "minApproachMeters": 0.08
+    },
+    "transitionMotionChecks": [
+      {
+        "actor": "enemy",
+        "fromAnimation": "BACKSTABBED",
+        "fromOccurrence": 1,
+        "toAnimation": "CRITICAL_DEATH",
+        "toOccurrence": 1,
+        "transitionWindowSeconds": 0.7,
+        "bones": [
+          "spine2",
+          "head",
+          "upperArmL",
+          "forearmL",
+          "handL",
+          "upperArmR",
+          "forearmR",
+          "handR"
+        ],
+        "maxPelvisRelativeBoneStepMeters": 0.18,
+        "maxBoneAngularStepDegrees": 20,
+        "maxWeaponTipStepMeters": 0.3
+      }
+    ],
+    "criticalDeathHold": {
+      "animation": "CRITICAL_DEATH",
+      "minStartClipTimeSeconds": 0,
+      "maxStartClipTimeSeconds": 0.08,
+      "minEndClipTimeSeconds": 1.85,
+      "maxEndClipTimeSeconds": 1.91,
+      "floorContactStartClipTimeSeconds": 1.1,
+      "maxFloorSurfaceGapMeters": 0.12,
+      "maxProneHeadHeightMeters": 0.9,
+      "minProneHoldSeconds": 1,
+      "maxClipStepSeconds": 0.15
+    }
+  },
+  "guard-break": {
+    "playerActions": [
+      "light1"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "LIGHT_1"
+    ],
+    "enemyActions": [
+      "parried"
+    ],
+    "enemyAnimations": [
+      "GUARD",
+      "GUARD_BREAK",
+      "SWORD_IDLE"
+    ],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "light1",
+        "idle"
+      ],
+      "enemy": [
+        "guard",
+        "parried",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "SWORD_IDLE"
+      ],
+      "enemy": [
+        "GUARD",
+        "GUARD_BREAK",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "LIGHT_1"
+      ],
+      "enemy": [
+        "GUARD_BREAK"
+      ]
+    },
+    "actorSeparation": {
+      "minDistanceMeters": 0.78
+    },
+    "standingPosture": {
+      "minHeadHeightMeters": 1.25,
+      "kneelingKneeHeightMeters": 0.24,
+      "maxKneelingFrameRatio": 0.2
+    },
+    "groundingLimits": {
+      "maxBlendedGroundCorrectionMeters": 0.19,
+      "maxGroundCorrectionSpeedMetersPerSecond": 4.2
+    }
+  },
+  "offense-outcomes": {
+    "playerActions": [
+      "light1",
+      "heavy"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "LIGHT_1",
+      "HEAVY"
+    ],
+    "enemyActions": [
+      "watching",
+      "stagger",
+      "recover",
+      "dead"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "HIT",
+      "HIT_HEAVY",
+      "DEATH"
+    ],
+    "enemyHealthLessThan": 1,
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "light1",
+        "idle",
+        "heavy",
+        "idle",
+        "light1",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "stagger",
+        "recover",
+        "watching",
+        "stagger",
+        "recover",
+        "watching",
+        "dead"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "SWORD_IDLE",
+        "HEAVY",
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "SWORD_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "HIT",
+        "SWORD_IDLE",
+        "HIT_HEAVY",
+        "SWORD_IDLE",
+        "DEATH"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "LIGHT_1",
+        "HEAVY"
+      ],
+      "enemy": [
+        "HIT",
+        "HIT_HEAVY",
+        "DEATH"
+      ]
+    },
+    "criticalDeathHold": {
+      "actor": "enemy",
+      "animation": "DEATH",
+      "minStartClipTimeSeconds": 0,
+      "maxStartClipTimeSeconds": 0.08,
+      "minEndClipTimeSeconds": 1.85,
+      "maxEndClipTimeSeconds": 1.91,
+      "floorContactStartClipTimeSeconds": 1.1,
+      "maxFloorSurfaceGapMeters": 0.12,
+      "maxProneHeadHeightMeters": 0.9,
+      "minProneHoldSeconds": 1,
+      "maxClipStepSeconds": 0.15,
+      "forbiddenRecoveryAnimations": [
+        "SWORD_IDLE"
+      ]
+    },
+    "groundingLimits": {
+      "maxBlendedGroundCorrectionMeters": 0.13,
+      "note": "Attack clips crouch into their lunge, and now that both the idle and the swing are correctly grounded that stance-height difference is real geometry rather than a hover: while the two are blended the solver lifts the actor to keep the soles out of the floor. The deformed-mesh penetration gate, which is what proves grounding, is unchanged."
+    }
+  },
+  "enemy-block": {
+    "playerActions": [
+      "light1",
+      "recoil"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "LIGHT_1",
+      "RECOIL"
+    ],
+    "enemyActions": [
+      "watching",
+      "guard"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "GUARD_ENTER",
+      "GUARD",
+      "GUARD_HIT_A"
+    ],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "light1",
+        "recoil",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "guard",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "RECOIL",
+        "SWORD_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "GUARD_ENTER",
+        "GUARD",
+        "GUARD_HIT_A",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "LIGHT_1",
+        "RECOIL"
+      ],
+      "enemy": [
+        "GUARD_ENTER",
+        "GUARD",
+        "GUARD_HIT_A"
+      ]
+    },
+    "actorSeparation": {
+      "minDistanceMeters": 0.78
+    },
+    "groundingLimits": {
+      "maxBlendedGroundCorrectionMeters": 0.19,
+      "maxGroundCorrectionSpeedMetersPerSecond": 4.2
+    }
+  },
+  "enemy-parry": {
+    "playerActions": [
+      "light1",
+      "guardBreak"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "LIGHT_1",
+      "GUARD_BREAK"
+    ],
+    "enemyActions": [
+      "watching",
+      "parry",
+      "recover"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "PARRY",
+      "PARRY_FOLLOW_THROUGH"
+    ],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "light1",
+        "guardBreak",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "parry",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "GUARD_BREAK",
+        "SWORD_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "PARRY",
+        "PARRY_FOLLOW_THROUGH",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "LIGHT_1",
+        "GUARD_BREAK"
+      ],
+      "enemy": [
+        "PARRY",
+        "PARRY_FOLLOW_THROUGH"
+      ]
+    },
+    "actorSeparation": {
+      "minDistanceMeters": 0.62,
+      "note": "A defender that has just parried closes on the victim it stunned, and the stun is now the authored 2.47s rather than a compressed 1.75s, so it gets there inside the recording. 0.62 m is the navigation capsules' own contact distance; the scene's lateral offset keeps both actors readable at it."
+    },
+    "groundingLimits": {
+      "maxBlendedGroundCorrectionMeters": 0.19,
+      "maxGroundCorrectionSpeedMetersPerSecond": 4.2
+    }
+  },
+  "enemy-light-combo": {
+    "playerActions": [
+      "idle",
+      "hit"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "HIT"
+    ],
+    "enemyActions": [
+      "watching",
+      "attack",
+      "recover"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "LIGHT_1",
+      "LIGHT_2",
+      "LIGHT_3"
+    ],
+    "playerHealthLessThan": 150,
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "hit",
+        "idle",
+        "hit",
+        "idle",
+        "hit",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "attack",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "HIT",
+        "SWORD_IDLE",
+        "HIT",
+        "SWORD_IDLE",
+        "HIT",
+        "SWORD_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "LIGHT_2",
+        "LIGHT_3",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "HIT"
+      ],
+      "enemy": [
+        "LIGHT_1",
+        "LIGHT_2",
+        "LIGHT_3"
+      ]
+    },
+    "actorSeparation": {
+      "minDistanceMeters": 0.6,
+      "note": "An attacker's lunge carries it to the navigation capsules' own contact distance now that its wind-up commits later and it no longer re-decides on the way in. 0.6 m is that physical minimum; the scenes' lateral offset keeps both actors readable at it."
+    }
+  },
+  "enemy-heavy-attack": {
+    "playerActions": [
+      "idle",
+      "hitHeavy"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "HIT_HEAVY"
+    ],
+    "enemyActions": [
+      "watching",
+      "attack",
+      "recover"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "HEAVY_2"
+    ],
+    "playerHealthLessThan": 150,
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "hitHeavy",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "attack",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "HIT_HEAVY",
+        "SWORD_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "HEAVY_2",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "HIT_HEAVY"
+      ],
+      "enemy": [
+        "HEAVY_2"
+      ]
+    },
+    "actorSeparation": {
+      "minDistanceMeters": 0.6,
+      "note": "An attacker's lunge carries it to the navigation capsules' own contact distance now that its wind-up commits later and it no longer re-decides on the way in. 0.6 m is that physical minimum; the scenes' lateral offset keeps both actors readable at it."
+    }
+  },
+  "enemy-approach": {
+    "playerActions": [],
+    "playerAnimations": [],
+    "enemyActions": [
+      "watching",
+      "approach"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "WALK",
+      "RUN"
+    ],
+    "requiredActionRuns": {
+      "enemy": [
+        "watching",
+        "approach"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "enemy": [
+        "SWORD_IDLE",
+        "WALK",
+        "RUN",
+        "WALK"
+      ]
+    },
+    "evidenceAnimations": {
+      "enemy": [
+        "WALK",
+        "RUN"
+      ]
+    },
+    "motionChecks": [
+      {
+        "actor": "enemy",
+        "animations": [
+          "WALK",
+          "RUN"
+        ],
+        "bones": [
+          "pelvis",
+          "head",
+          "footL",
+          "footR"
+        ],
+        "minLoopSeams": 2,
+        "minLoopPoseBoneAngularStepDegrees": 1,
+        "maxLoopBoneAngularStepDegrees": 40,
+        "maxLoopBonePositionStepMeters": 0.4,
+        "maxRootAngularStepDegrees": 8,
+        "maxRootAngularJerkDegreesPerSecondSquared": 6000,
+        "maxBonePositionStepMeters": 0.4,
+        "maxBoneAngularStepDegrees": 35
+      }
+    ]
+  },
+  "enemy-evasion": {
+    "playerActions": [],
+    "playerAnimations": [],
+    "enemyActions": [
+      "watching",
+      "strafe",
+      "dodge",
+      "recover",
+      "backstep"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "STRAFE_LEFT",
+      "STRAFE_RIGHT",
+      "ROLL",
+      "BACKSTEP"
+    ],
+    "requiredActionRuns": {
+      "enemy": [
+        "watching",
+        "strafe",
+        "watching",
+        "strafe",
+        "watching",
+        "dodge",
+        "recover",
+        "watching",
+        "backstep",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "enemy": [
+        "SWORD_IDLE",
+        "STRAFE_LEFT",
+        "SWORD_IDLE",
+        "STRAFE_RIGHT",
+        "SWORD_IDLE",
+        "ROLL",
+        "SWORD_IDLE",
+        "BACKSTEP",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "enemy": [
+        "STRAFE_LEFT",
+        "STRAFE_RIGHT",
+        "ROLL",
+        "BACKSTEP"
+      ]
+    }
+  },
+  "enemy-utility": {
+    "playerActions": [],
+    "playerAnimations": [],
+    "enemyActions": [
+      "watching",
+      "heal",
+      "recover",
+      "guard",
+      "parry"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "HEAL",
+      "GUARD_ENTER",
+      "GUARD",
+      "PARRY",
+      "PARRY_FOLLOW_THROUGH"
+    ],
+    "enemyHealthGreaterThan": 60,
+    "requiredActionRuns": {
+      "enemy": [
+        "watching",
+        "heal",
+        "recover",
+        "watching",
+        "guard",
+        "watching",
+        "parry",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "enemy": [
+        "SWORD_IDLE",
+        "HEAL",
+        "SWORD_IDLE",
+        "GUARD_ENTER",
+        "GUARD",
+        "SWORD_IDLE",
+        "PARRY",
+        "PARRY_FOLLOW_THROUGH",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "enemy": [
+        "HEAL",
+        "GUARD_ENTER",
+        "GUARD",
+        "PARRY",
+        "PARRY_FOLLOW_THROUGH"
+      ]
+    }
+  },
+  "dodge-followups": {
+    "playerActions": [
+      "idle",
+      "roll",
+      "light1",
+      "heavy",
+      "backstep"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "RUN",
+      "ROLL",
+      "LIGHT_1",
+      "HEAVY",
+      "BACKSTEP"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "roll",
+        "light1",
+        "idle",
+        "roll",
+        "heavy",
+        "idle",
+        "backstep",
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "RUN",
+        "ROLL",
+        "LIGHT_1",
+        "SWORD_IDLE",
+        "RUN",
+        "ROLL",
+        "HEAVY",
+        "SWORD_IDLE",
+        "BACKSTEP",
+        "SWORD_IDLE",
+        "RUN",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "ROLL",
+        "LIGHT_1",
+        "HEAVY",
+        "BACKSTEP"
+      ]
+    },
+    "groundingLimits": {
+      "maxGroundCorrectionSpeedMetersPerSecond": 2.7,
+      "note": "Recalibrated after locomotion clips stopped floating. ROLL blends out of a WALK/RUN whose authored vertical COM is now preserved, so the actor enters the tuck from a genuinely lower, correctly-grounded pose and the support solve does more work over the entry frames than it did against a hovering one. The deformed-mesh penetration gate, which is what actually proves the roll stays out of the floor, is unchanged."
+    },
+    "motionLimits": {
+      "maxBonePositionStepMeters": 0.95,
+      "note": "The tuck roll is the fastest authored motion in the game and the actor is travelling at 10 m/s underneath it. Recalibrated with the grounding limits above, from a known-good rendered roll."
+    }
+  },
+  "roll": {
+    "playerActions": [
+      "roll"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "RUN",
+      "ROLL"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "roll",
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "RUN",
+        "ROLL",
+        "RUN",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "ROLL"
+      ]
+    },
+    "motionChecks": [
+      {
+        "actor": "player",
+        "animations": [
+          "ROLL"
+        ],
+        "bones": [
+          "pelvis",
+          "head",
+          "footL",
+          "footR"
+        ],
+        "maxGroundCorrectionRangeMeters": 0.09,
+        "maxRootCorrectionSpeedMetersPerSecond": 2.7,
+        "maxBonePositionStepMeters": 0.95
+      }
+    ],
+    "groundingLimits": {
+      "maxGroundCorrectionSpeedMetersPerSecond": 2.7,
+      "note": "Recalibrated after locomotion clips stopped floating. ROLL blends out of a WALK/RUN whose authored vertical COM is now preserved, so the actor enters the tuck from a genuinely lower, correctly-grounded pose and the support solve does more work over the entry frames than it did against a hovering one. The deformed-mesh penetration gate, which is what actually proves the roll stays out of the floor, is unchanged."
+    },
+    "motionLimits": {
+      "maxBonePositionStepMeters": 0.95,
+      "note": "The tuck roll is the fastest authored motion in the game and the actor is travelling at 10 m/s underneath it. Recalibrated with the grounding limits above, from a known-good rendered roll."
+    }
+  },
+  "backstep": {
+    "playerActions": [
+      "backstep"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "BACKSTEP"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "backstep",
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "BACKSTEP",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "BACKSTEP"
+      ]
+    },
+    "motionChecks": [
+      {
+        "actor": "player",
+        "animations": [
+          "BACKSTEP"
+        ],
+        "bones": [
+          "pelvis",
+          "head",
+          "footL",
+          "footR"
+        ],
+        "maxGroundCorrectionRangeMeters": 0.08,
+        "maxRootCorrectionStepMeters": 0.04,
+        "maxRootCorrectionSpeedMetersPerSecond": 2,
+        "maxBonePositionStepMeters": 0.4,
+        "maxBoneAngularStepDegrees": 30,
+        "maxBoneAngularJerkDegreesPerSecondSquared": 20000
+      }
+    ]
+  },
+  "stationary-landing": {
+    "playerActions": [
+      "idle"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "JUMP_START",
+      "JUMP_IDLE",
+      "JUMP_LAND"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "JUMP_START",
+        "JUMP_IDLE",
+        "JUMP_LAND",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "JUMP_START",
+        "JUMP_IDLE",
+        "JUMP_LAND"
+      ]
+    },
+    "motionChecks": [
+      {
+        "actor": "player",
+        "animations": [
+          "JUMP_START",
+          "JUMP_IDLE",
+          "JUMP_LAND"
+        ],
+        "bones": [
+          "upperArmL",
+          "forearmL",
+          "handL",
+          "upperArmR",
+          "forearmR",
+          "handR"
+        ],
+        "maxBoneAngularStepDegrees": 35,
+        "maxBoneAngularJerkDegreesPerSecondSquared": 20000,
+        "maxBonePositionStepMeters": 0.25,
+        "maxBoneVerticalSpeedMetersPerSecond": 8
+      },
+      {
+        "actor": "player",
+        "animations": [
+          "JUMP_START"
+        ],
+        "bones": [],
+        "maxClipTimeSeconds": 0.6
+      }
+    ],
+    "transitionMotionChecks": [
+      {
+        "actor": "player",
+        "fromAnimation": "JUMP_START",
+        "fromOccurrence": 1,
+        "toAnimation": "JUMP_IDLE",
+        "toOccurrence": 1,
+        "transitionWindowSeconds": 0.22,
+        "bones": [
+          "spine2",
+          "upperArmL",
+          "forearmL",
+          "handL",
+          "upperArmR",
+          "forearmR",
+          "handR"
+        ],
+        "maxPelvisRelativeBoneStepMeters": 0.1,
+        "maxBoneAngularStepDegrees": 15,
+        "maxWeaponTipStepMeters": 0.18,
+        "weaponTipSpace": "pelvis-relative"
+      }
+    ]
+  },
+  "moving-landing": {
+    "playerActions": [
+      "idle"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "RUN",
+      "SPRINT",
+      "JUMP_START",
+      "JUMP_IDLE",
+      "JUMP_LAND"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "RUN",
+        "JUMP_START",
+        "JUMP_IDLE",
+        "JUMP_LAND",
+        "RUN",
+        "SPRINT",
+        "JUMP_START",
+        "JUMP_IDLE",
+        "JUMP_LAND",
+        "SPRINT",
+        "RUN",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "JUMP_START",
+        "JUMP_IDLE",
+        "JUMP_LAND"
+      ]
+    },
+    "motionChecks": [
+      {
+        "actor": "player",
+        "animations": [
+          "JUMP_START",
+          "JUMP_IDLE",
+          "JUMP_LAND"
+        ],
+        "bones": [
+          "upperArmL",
+          "forearmL",
+          "handL",
+          "upperArmR",
+          "forearmR",
+          "handR"
+        ],
+        "maxBoneAngularStepDegrees": 35,
+        "maxBoneAngularJerkDegreesPerSecondSquared": 20000,
+        "maxBonePositionStepMeters": 0.25,
+        "maxBoneVerticalSpeedMetersPerSecond": 8
+      },
+      {
+        "actor": "player",
+        "animations": [
+          "JUMP_START"
+        ],
+        "bones": [],
+        "maxClipTimeSeconds": 0.6
+      }
+    ],
+    "transitionMotionChecks": [
+      {
+        "actor": "player",
+        "fromAnimation": "JUMP_START",
+        "fromOccurrence": 1,
+        "toAnimation": "JUMP_IDLE",
+        "toOccurrence": 1,
+        "transitionWindowSeconds": 0.22,
+        "bones": [
+          "spine2",
+          "upperArmL",
+          "forearmL",
+          "handL",
+          "upperArmR",
+          "forearmR",
+          "handR"
+        ],
+        "maxPelvisRelativeBoneStepMeters": 0.1,
+        "maxBoneAngularStepDegrees": 15,
+        "maxWeaponTipStepMeters": 0.18,
+        "weaponTipSpace": "pelvis-relative"
+      },
+      {
+        "actor": "player",
+        "fromAnimation": "JUMP_START",
+        "fromOccurrence": 2,
+        "toAnimation": "JUMP_IDLE",
+        "toOccurrence": 2,
+        "transitionWindowSeconds": 0.22,
+        "bones": [
+          "spine2",
+          "upperArmL",
+          "forearmL",
+          "handL",
+          "upperArmR",
+          "forearmR",
+          "handR"
+        ],
+        "maxPelvisRelativeBoneStepMeters": 0.1,
+        "maxBoneAngularStepDegrees": 15,
+        "maxWeaponTipStepMeters": 0.18,
+        "weaponTipSpace": "pelvis-relative"
+      }
+    ]
+  },
+  "bow-shot": {
+    "playerActions": [
+      "idle",
+      "aim"
+    ],
+    "playerAnimations": [
+      "BOW_IDLE",
+      "BOW_DRAW",
+      "BOW_DRAWN",
+      "BOW_RELEASE"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "aim"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "BOW_IDLE",
+        "BOW_DRAW",
+        "BOW_DRAWN",
+        "BOW_RELEASE",
+        "BOW_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "BOW_DRAW",
+        "BOW_DRAWN",
+        "BOW_RELEASE"
+      ]
+    },
+    "motionChecks": [
+      {
+        "actor": "player",
+        "animations": [
+          "BOW_IDLE",
+          "BOW_DRAW",
+          "BOW_DRAWN",
+          "BOW_RELEASE"
+        ],
+        "bones": [
+          "upperArmL",
+          "forearmL",
+          "handL",
+          "upperArmR",
+          "forearmR",
+          "handR"
+        ],
+        "maxBoneAngularStepDegrees": 35,
+        "maxBoneAngularJerkDegreesPerSecondSquared": 20000,
+        "maxBonePositionStepMeters": 0.25,
+        "maxBoneVerticalSpeedMetersPerSecond": 8
+      }
+    ],
+    "transitionMotionChecks": []
+  },
+  "bow-partial-draw": {
+    "playerActions": [
+      "idle",
+      "aim"
+    ],
+    "playerAnimations": [
+      "BOW_IDLE",
+      "BOW_DRAW",
+      "BOW_RELEASE"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "aim",
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "BOW_IDLE",
+        "BOW_DRAW",
+        "BOW_RELEASE",
+        "BOW_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "BOW_DRAW",
+        "BOW_RELEASE"
+      ]
+    },
+    "motionChecks": [],
+    "transitionMotionChecks": []
+  },
+  "bow-aim-tracking": {
+    "playerActions": [
+      "idle",
+      "aim"
+    ],
+    "playerAnimations": [
+      "BOW_IDLE",
+      "BOW_DRAW",
+      "BOW_DRAWN",
+      "BOW_RELEASE"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "aim"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "BOW_IDLE",
+        "BOW_DRAW",
+        "BOW_DRAWN",
+        "BOW_RELEASE",
+        "BOW_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "BOW_DRAWN"
+      ]
+    },
+    "motionChecks": [],
+    "transitionMotionChecks": []
+  },
+  "riposte-queued": {
+    "playerActions": [
+      "parry",
+      "riposte"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "PARRY",
+      "PARRY_FOLLOW_THROUGH",
+      "RIPOSTE"
+    ],
+    "enemyActions": [
+      "attack",
+      "parried",
+      "critical",
+      "criticalRecovery",
+      "recover"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "LIGHT_1",
+      "GUARD_BREAK",
+      "RIPOSTED_HIT1"
+    ],
+    "enemyHealthLessThan": 150,
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "parry",
+        "idle",
+        "riposte",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "attack",
+        "parried",
+        "critical",
+        "criticalRecovery",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "PARRY",
+        "PARRY_FOLLOW_THROUGH",
+        {
+          "state": "SWORD_IDLE",
+          "minSamples": 1
+        },
+        "RIPOSTE",
+        "SWORD_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "GUARD_BREAK",
+        "RIPOSTED_HIT1",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "PARRY",
+        "PARRY_FOLLOW_THROUGH",
+        "RIPOSTE"
+      ],
+      "enemy": [
+        "LIGHT_1",
+        "GUARD_BREAK",
+        "RIPOSTED_HIT1"
+      ]
+    },
+    "ripostePhases": {
+      "minStableLeadInSeconds": 0.2,
+      "minVictimStartClipTimeSeconds": 0.12,
+      "maxVictimStartClipTimeSeconds": 0.21,
+      "victimReactionAnimation": "RIPOSTED_HIT1",
+      "expectedAttackerContactElapsedSeconds": 0.4,
+      "expectedAttackerContactClipTimeSeconds": 0.5667,
+      "attackerReleaseClipTimeSeconds": 0.7,
+      "expectedAttackerReleaseWallElapsedSeconds": 0.6667,
+      "expectedVictimReleaseClipTimeSeconds": 0.2666,
+      "maxPhaseTimingErrorSeconds": 0.06
+    },
+    "riposteWeaponContact": {
+      "attackerActor": "player",
+      "victimActor": "enemy",
+      "victimHealthField": "enemyHealth",
+      "attackerAnimation": "RIPOSTE",
+      "victimReactionAnimation": "RIPOSTED_HIT1",
+      "maxAttackerBladeDistanceMeters": 0.25,
+      "minRoleSeparationMeters": 0.15,
+      "maxEarlyContactLeadSeconds": 0.08
+    },
+    "transitionMotionChecks": [
+      {
+        "actor": "player",
+        "fromAnimation": "RIPOSTE",
+        "fromOccurrence": 1,
+        "toAnimation": "SWORD_IDLE",
+        "toOccurrence": 3,
+        "transitionWindowSeconds": 0.3,
+        "bones": [
+          "spine2",
+          "head",
+          "upperArmL",
+          "forearmL",
+          "handL",
+          "upperArmR",
+          "forearmR",
+          "handR"
+        ],
+        "maxPelvisRelativeBoneStepMeters": 0.13,
+        "maxBoneAngularStepDegrees": 22,
+        "maxWeaponTipStepMeters": 0.3
+      }
+    ],
+    "criticalRecovery": {
+      "animation": "RIPOSTED_HIT1",
+      "minStartClipTimeSeconds": 0.12,
+      "maxStartClipTimeSeconds": 0.21,
+      "minEndClipTimeSeconds": 1.95,
+      "maxClipStepSeconds": 0.15
+    }
+  }
+}
