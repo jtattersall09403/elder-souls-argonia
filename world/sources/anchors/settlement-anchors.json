@@ -80,16 +80,10 @@
       "notes": "Southern corridor, eastern leg."
     },
     {
-      "from": "gideon", "to": "alten-corimont",
-      "confidence": "COMMUNITY_CONSENSUS",
-      "sources": ["community-inkarnate-4e231"],
-      "notes": "Western/northern connection, southern leg (via Murkmire-adjacent wetlands on the community map)."
-    },
-    {
       "from": "alten-corimont", "to": "stormhold",
       "confidence": "COMMUNITY_CONSENSUS",
       "sources": ["community-inkarnate-4e231"],
-      "notes": "Western/northern connection, northern leg through Shadowfen."
+      "notes": "Shadowfen link; Alten Corimont's overland tie into the network."
     },
     {
       "from": "stormhold", "to": "thorn",
@@ -98,22 +92,28 @@
       "notes": "Northern frontier road along the Morrowind-facing edge."
     },
     {
-      "from": "stormhold", "to": "helstrom",
-      "confidence": "COMMUNITY_CONSENSUS",
-      "sources": ["community-inkarnate-4e231"],
-      "notes": "North-to-heartland chain (community map routes it via Rockpoint)."
+      "from": "gideon", "to": "stormhold",
+      "confidence": "PROJECT_REFERENCE",
+      "sources": ["owner-decision-2026-08-22"],
+      "notes": "Owner-specified western frontier road north from the Gideon pass."
     },
     {
-      "from": "helstrom", "to": "archon",
-      "confidence": "COMMUNITY_CONSENSUS",
-      "sources": ["community-inkarnate-4e231"],
-      "notes": "Heartland-to-east-coast chain (via Greenglade/Riverbridge on the community map)."
+      "from": "helstrom", "to": "gideon",
+      "confidence": "PROJECT_REFERENCE",
+      "sources": ["owner-decision-2026-08-22"],
+      "notes": "Owner-specified heartland-to-western-frontier road."
+    },
+    {
+      "from": "archon", "to": "gideon",
+      "confidence": "PROJECT_REFERENCE",
+      "sources": ["owner-decision-2026-08-22"],
+      "notes": "Owner-specified west-east trunk route. The Helstrom-Blackrose road crosses it at a crossroads (candidate site for the community map's 'Crossroads' settlement); Archon-Helstrom travel runs via that junction, so no separate direct edge exists."
     },
     {
       "from": "helstrom", "to": "blackrose",
       "confidence": "COMMUNITY_CONSENSUS",
       "sources": ["community-inkarnate-4e231"],
-      "notes": "Heartland-to-south chain (via Alten Markmont/Greenspring/Crossroads on the community map)."
+      "notes": "Heartland-to-south chain; intersects the Archon-Gideon trunk at the crossroads."
     },
     {
       "from": "gideon", "to": "soulrest",

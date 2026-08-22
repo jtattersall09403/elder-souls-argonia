@@ -19,9 +19,14 @@ from scipy import ndimage
 
 SEA_LEVEL = 0.0
 # Drainage-area thresholds (km^2, at world scale) for the river hierarchy.
-RIVER_MAJOR_KM2 = 30.0
-RIVER_MEDIUM_KM2 = 8.0
-RIVER_MINOR_KM2 = 2.0
+RIVER_MAJOR_KM2 = 15.0
+RIVER_MEDIUM_KM2 = 4.0
+RIVER_MINOR_KM2 = 1.0
+# Routing noise: correlated field added to the routing surface (not the real
+# terrain) so channels meander and converge instead of running geometrically
+# straight across flats. Deterministic seed for reproducible builds.
+ROUTING_NOISE_SEED = 20260822
+ROUTING_NOISE_AMP_M = 1.2
 LAKE_MIN_DEPTH = 0.15          # filled - raw ground (m) that counts as standing water
 WETLAND_MAX_ELEV = 8.0         # m; upper bound for marsh ground
 TWI_WETLAND_PERCENTILE = 70    # of land cells, above which low ground reads wet
@@ -45,6 +50,16 @@ class HydrologyResult:
     tidal: np.ndarray          # bool
     salinity: np.ndarray       # float32 0..1
     stats: dict = field(default_factory=dict)
+
+
+def routing_noise(shape: tuple[int, int], amp_m: float = ROUTING_NOISE_AMP_M,
+                  seed: int = ROUTING_NOISE_SEED) -> np.ndarray:
+    """Two-octave smoothed gaussian field, std ≈ amp_m."""
+    rng = np.random.default_rng(seed)
+    coarse = ndimage.gaussian_filter(rng.standard_normal(shape), 8)
+    fine = ndimage.gaussian_filter(rng.standard_normal(shape), 2)
+    field = coarse / max(coarse.std(), 1e-9) + 0.35 * fine / max(fine.std(), 1e-9)
+    return (field / max(field.std(), 1e-9) * amp_m).astype(np.float32)
 
 
 def ocean_mask(z: np.ndarray) -> np.ndarray:
@@ -203,13 +218,16 @@ def label_watersheds(filled: np.ndarray, flow_to: np.ndarray, ocean: np.ndarray,
 def compute(z: np.ndarray, metres_per_px: float) -> HydrologyResult:
     cell_km2 = (metres_per_px / 1000.0) ** 2
     ocean = ocean_mask(z)
+    land = ~ocean
+    # Lakes come from real depressions in the clean terrain.
     filled = fill_depressions(z, ocean)
-    lakes = (~ocean) & ((filled - z) > LAKE_MIN_DEPTH)
-    drain = resolve_flats(filled, ocean)
+    lakes = land & ((filled - z) > LAKE_MIN_DEPTH)
+    # Routing runs on a noised copy so channels meander and converge.
+    z_route = z + routing_noise(z.shape)
+    drain = resolve_flats(fill_depressions(z_route, ocean), ocean)
     flow_to = d8_flow(drain, ocean)
     accum = accumulate(drain, flow_to, ocean, cell_km2)
     rivers = np.zeros(z.shape, dtype=np.uint8)
-    land = ~ocean
     rivers[land & (accum >= RIVER_MINOR_KM2)] = 1
     rivers[land & (accum >= RIVER_MEDIUM_KM2)] = 2
     rivers[land & (accum >= RIVER_MAJOR_KM2)] = 3
@@ -218,9 +236,16 @@ def compute(z: np.ndarray, metres_per_px: float) -> HydrologyResult:
     gy, gx = np.gradient(filled, metres_per_px)
     slope = np.hypot(gx, gy)
     twi = np.log((accum * 1e6 / metres_per_px + 1.0) / (slope + 0.005))
-    land_twi = twi[land & (z < WETLAND_MAX_ELEV)]
+    # Smooth the wetness field before thresholding: raw TWI carries the D8
+    # drainage stripes that read as a circuit-board texture when masked.
+    twi_smooth = ndimage.gaussian_filter(twi, 2.5)
+    land_twi = twi_smooth[land & (z < WETLAND_MAX_ELEV)]
     twi_cut = float(np.percentile(land_twi, TWI_WETLAND_PERCENTILE)) if land_twi.size else 0.0
-    wetlands = land & (z > SEA_LEVEL) & (z < WETLAND_MAX_ELEV) & ((twi > twi_cut) | lakes)
+    near_water = ndimage.binary_dilation(lakes | (rivers >= 2), iterations=2)
+    wetlands = land & (z > SEA_LEVEL) & (z < WETLAND_MAX_ELEV) & (slope < 0.03) & \
+        ((twi_smooth > twi_cut) | lakes | near_water)
+    # Despeckle so isolated single-cell wet/dry pixels don't read as noise.
+    wetlands = ndimage.binary_opening(ndimage.binary_closing(wetlands))
 
     dist_m = ndimage.distance_transform_edt(~ocean) * metres_per_px
     tidal = land & (z <= TIDAL_MAX_ELEV) & (dist_m < 2.5 * SALINITY_DECAY_M)
@@ -247,4 +272,4 @@ def compute(z: np.ndarray, metres_per_px: float) -> HydrologyResult:
         },
     }
     return HydrologyResult(ocean, filled, lakes, flow_to, accum, rivers,
-                           watersheds, twi.astype(np.float32), wetlands, tidal, salinity, stats)
+                           watersheds, twi_smooth.astype(np.float32), wetlands, tidal, salinity, stats)

@@ -5,34 +5,37 @@
   "imageWidth": 1345,
   "imageHeight": 1345,
   "topBasinsKm2": {
-    "22755": 32.0,
-    "22754": 20.4,
-    "25056": 14.3,
-    "8337": 13.5,
-    "16653": 12.7,
-    "7833": 9.0,
-    "25510": 6.5,
-    "16508": 5.7
+    "4662": 59.8,
+    "832": 14.3,
+    "25057": 14.3,
+    "15912": 11.6,
+    "2207": 11.4,
+    "445": 10.7,
+    "25242": 7.9,
+    "632": 7.4,
+    "25486": 7.4,
+    "4851": 5.1,
+    "6510": 5.1
   },
   "cellKm2": 0.0002706209243136,
   "oceanFraction": 0.346,
   "lakeFraction": 0.0451,
-  "wetlandFraction": 0.082,
+  "wetlandFraction": 0.075,
   "tidalFraction": 0.027,
   "riverCells": {
-    "minor": 2968,
-    "medium": 948,
-    "major": 45
+    "minor": 5475,
+    "medium": 2311,
+    "major": 493
   },
-  "basinCount": 8,
+  "basinCount": 11,
   "landOutletCells": 2159,
   "maxFillDepthM": 11.65,
-  "twiWetlandCut": 10.05,
+  "twiWetlandCut": 9.31,
   "thresholds": {
     "riverKm2": [
-      2.0,
-      8.0,
-      30.0
+      1.0,
+      4.0,
+      15.0
     ],
     "wetlandMaxElevM": 8.0,
     "tidalMaxElevM": 1.5,

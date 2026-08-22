@@ -19,6 +19,7 @@ from pathlib import Path
 
 import numpy as np
 from PIL import Image
+from scipy import ndimage
 
 from .condition import condition
 from .hydrology import compute
@@ -63,10 +64,16 @@ def main() -> None:
     )
 
     shape = z.shape
-    # Rivers: line weight/alpha by hierarchy; lakes filled.
+    # Rivers: line weight/alpha by hierarchy (majors drawn wider); lakes filled.
     rivers = rgba(shape)
-    for band, colour, alpha in ((1, (90, 170, 235), 130), (2, (70, 150, 230), 190), (3, (50, 120, 225), 255)):
+    for band, colour, alpha, widen in (
+        (1, (95, 172, 235), 120, 0),
+        (2, (70, 150, 230), 200, 0),
+        (3, (45, 115, 225), 255, 1),
+    ):
         m = result.rivers == band
+        if widen:
+            m = ndimage.binary_dilation(m, iterations=widen)
         rivers[m] = (*colour, alpha)
     rivers[result.lakes] = (60, 130, 215, 210)
     save(rivers, "hydro-rivers.png")
