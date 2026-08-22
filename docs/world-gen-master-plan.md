@@ -2423,12 +2423,15 @@ discovery the combat sandbox stood on `enemy-health-bars`, 15 commits ahead of
 **Milestone 1b — package boundaries:**
 
 - `packages/` structure and package boundary rules from Section 59–60;
-- extracted contracts;
+- extracted contracts (grown deliberately: a contract lands when a second
+  consumer exists, not speculatively);
 - integrated empty `apps/game`;
-- world studio shell;
-- current tests passing in package form;
-- inventory/items systems validated through the shared package boundaries;
-- semantic asset registry/manifests plus lightweight source/credits references.
+- world studio shell.
+
+Extraction of the sandbox's inventory/items/combat internals into packages is
+deliberately **deferred to Phase 7**, when the world first consumes them —
+extracting before a second consumer exists would be refactoring against an
+unknown target. The semantic asset registry belongs to Phase 10.
 
 ### Phase 2 — province source ingest
 
@@ -2497,6 +2500,9 @@ Deliverables:
 
 Deliverables:
 
+- combat sandbox inventory/items and character systems extracted into shared
+  packages (deferred here from Milestone 1b) and consumed by both sandbox and
+  world studio;
 - sandbox character and camera in world studio;
 - current ecctrl/Rapier grounded movement;
 - environment query contract;

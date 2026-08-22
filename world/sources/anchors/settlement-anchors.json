@@ -1,0 +1,69 @@
+{
+  "$schema": "SettlementAnchor[] from @elder-souls/contracts",
+  "note": "u west->east, v north->south, fractions of the Argonia heightfield extent (4033x4033 grid, cells -62..63). First-pass placements estimated against the extracted coastline/relief and UESP + community lore maps; refine at the Phase 2 visual gate, then during georeferenced map registration.",
+  "anchors": [
+    {
+      "id": "stormhold", "name": "Stormhold", "rank": "major",
+      "u": 0.36, "v": 0.10, "toleranceUV": 0.06,
+      "confidence": "OFFICIAL_MAP_DERIVED",
+      "sources": ["uesp:Lore:Stormhold", "community-inkarnate-4e231"],
+      "notes": "Northern city, Shadowfen river network, Morrowind-facing."
+    },
+    {
+      "id": "thorn", "name": "Thorn", "rank": "major",
+      "u": 0.84, "v": 0.08, "toleranceUV": 0.06,
+      "confidence": "OFFICIAL_MAP_DERIVED",
+      "sources": ["uesp:Lore:Thorn", "community-inkarnate-4e231"],
+      "notes": "Northeastern frontier city with delta/river access near the coast."
+    },
+    {
+      "id": "gideon", "name": "Gideon", "rank": "major",
+      "u": 0.10, "v": 0.62, "toleranceUV": 0.06,
+      "confidence": "OFFICIAL_MAP_DERIVED",
+      "sources": ["uesp:Lore:Gideon", "community-inkarnate-4e231"],
+      "notes": "Western frontier city near the Cyrodiil/Blackwood border, south of the border mountains."
+    },
+    {
+      "id": "helstrom", "name": "Helstrom", "rank": "major",
+      "u": 0.46, "v": 0.44, "toleranceUV": 0.08,
+      "confidence": "LORE_INFERRED",
+      "sources": ["uesp:Lore:Helstrom", "community-inkarnate-4e231"],
+      "notes": "Deep-interior heart city; canon fixes importance and rough centrality only."
+    },
+    {
+      "id": "archon", "name": "Archon", "rank": "major",
+      "u": 0.76, "v": 0.44, "toleranceUV": 0.06,
+      "confidence": "OFFICIAL_MAP_DERIVED",
+      "sources": ["uesp:Lore:Archon", "community-inkarnate-4e231"],
+      "notes": "Eastern coastal city where deep marsh meets the Padomaic coast."
+    },
+    {
+      "id": "blackrose", "name": "Blackrose", "rank": "major",
+      "u": 0.36, "v": 0.76, "toleranceUV": 0.07,
+      "confidence": "OFFICIAL_MAP_DERIVED",
+      "sources": ["uesp:Lore:Blackrose", "community-inkarnate-4e231"],
+      "notes": "Southern interior lowland; ancient city and prison, dangerous surrounding marsh."
+    },
+    {
+      "id": "lilmoth", "name": "Lilmoth", "rank": "major",
+      "u": 0.60, "v": 0.84, "toleranceUV": 0.06,
+      "confidence": "OFFICIAL_MAP_DERIVED",
+      "sources": ["uesp:Lore:Lilmoth", "community-inkarnate-4e231"],
+      "notes": "Southeastern port on Oliis Bay; half-sunken Imperial districts (4E 201 state)."
+    },
+    {
+      "id": "soulrest", "name": "Soulrest", "rank": "major",
+      "u": 0.13, "v": 0.86, "toleranceUV": 0.07,
+      "confidence": "OFFICIAL_MAP_DERIVED",
+      "sources": ["uesp:Lore:Soulrest", "community-inkarnate-4e231"],
+      "notes": "Southwestern port toward Topal Bay; most demographically mixed zone."
+    },
+    {
+      "id": "alten-corimont", "name": "Alten Corimont", "rank": "secondary",
+      "u": 0.30, "v": 0.24, "toleranceUV": 0.10,
+      "confidence": "COMMUNITY_CONSENSUS",
+      "sources": ["eso:Shadowfen", "community-inkarnate-4e231"],
+      "notes": "ESO-era river trade post on a Gideon/Stormhold connection; era-specific importance."
+    }
+  ]
+}

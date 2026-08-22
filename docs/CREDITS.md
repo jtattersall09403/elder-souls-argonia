@@ -11,13 +11,14 @@ in-game credits list is generated from this file plus the asset registry.
 - Skyrim vanilla assets (Bethesda) — processed via `tooling/asset-pipeline` for
   this non-commercial fan project; source archives stay out of the repo.
 - Full runtime dependency licences: see `apps/combat-sandbox/THIRD_PARTY_NOTICES.md`.
+- **Tamriel Worldspaces — Argonia worldspace** (Nexus SSE mod 118678, author
+  SqueeblySplat; derived from Transbot9's heightmap) — province macro terrain
+  prior.
+- **Transbot9 — All Tamriel Heightmap** Beta06 (Nexus SSE mod 573, CC BY-NC
+  4.0) — cross-border context terrain.
 
 ## Planned (recorded before ingestion; move up when used)
 
-- **Transbot9 — All Tamriel Heightmap** (Nexus mod 573, CC BY-NC 4.0) — macro
-  terrain prior.
-- **Tamriel Worldspaces — Argonia worldspace** (Nexus mod 118678; credit author
-  and Transbot9) — Black Marsh heightmap.
 - **Argonian Xanmeer Tileset — Modder's Resource** (Nexus mod 181193) — Xanmeer
   architecture kit.
 - Water rendering references (MIT): WaterThreeJS, SeedOcean,

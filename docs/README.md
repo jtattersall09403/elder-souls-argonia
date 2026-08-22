@@ -18,3 +18,9 @@ per file; edit and delete, don't only append).
 - `apps/combat-sandbox/docs/` — the combat/animation/physics sandbox's own docs
   (architecture, animation playbook, validation). Read there when working on
   combat, character, animation or input.
+- `../world/sources/` — registered world-generation inputs (anchors, source
+  hashes, provenance).
+- `../tooling/world-generation/` — offline extractors/compilers (heightfield
+  ingest lives here).
+- `../apps/world-studio/` — browser province preview/inspection app
+  (deployed at `/studio/` on the Pages site).

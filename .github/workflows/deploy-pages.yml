@@ -30,12 +30,17 @@ jobs:
       - run: npm test
       - run: npm run typecheck
       - run: npm run build
-      # The combat sandbox is the playable build until apps/game exists;
-      # it deploys at the repo root path.
+      # Compose the Pages site: combat sandbox at the root path (the playable
+      # build until apps/game is real), world studio under /studio/.
+      - name: Compose site
+        run: |
+          mkdir -p site/studio
+          cp -r apps/combat-sandbox/dist/* site/
+          cp -r apps/world-studio/dist/* site/studio/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: apps/combat-sandbox/dist
+          path: site
 
   deploy:
     environment:

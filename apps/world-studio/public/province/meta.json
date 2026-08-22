@@ -1,0 +1,23 @@
+{
+  "cellRange": {
+    "minX": -62,
+    "maxX": 63,
+    "minY": -62,
+    "maxY": 63
+  },
+  "cellCount": 15876,
+  "samplesPerCell": 32,
+  "metresPerSample": 1.82784,
+  "gridWidth": 4033,
+  "gridHeight": 4033,
+  "units": "metres",
+  "yAxis": "row 0 is the southernmost sample (north is up when flipped)",
+  "downsampleStep": 3,
+  "metresPerPixel": 5.4835199999999995,
+  "heightMinMetres": -85.68000030517578,
+  "heightMaxMetres": 121.89408111572266,
+  "imageWidth": 1345,
+  "imageHeight": 1345,
+  "imageOrientation": "row 0 is north",
+  "source": "Tamriel Worldspaces (Nexus SSE mod 118678), Argonia.esp, via worldgen.extract_province"
+}
