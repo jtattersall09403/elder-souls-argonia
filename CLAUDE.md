@@ -1,0 +1,53 @@
+# CLAUDE.md
+
+Guidance for AI agents working in this repo. Keep it lean — this file is loaded
+into every agent's context. Detail lives in [docs/](docs/README.md); link, don't
+duplicate.
+
+You are operating in the elder-souls-argonia repo, within elder-souls-dev/. elder-souls-argonia will be the canonical repo for the real game, amongst other things (see the master plan doc referenced below).
+
+## GOAL
+
+Elder Souls: Argonia - a standalone overhaul mod game based on Skyrim, with systems primarily inspired by TES III Morrowind, Dark Souls -like combat, Breath-of-the-wild climbing, set in Tamriel's Black Marsh, played in the browser.
+
+The overall goal at this point is to build the province-scale world, in a way that enables us to then build out the full game from there once the world is completed. (At that point I will change this file to set the next goal). Its world structure should carry the geographic coherence, regional distinctiveness, cultural density and exploratory character of *The Elder Scrolls III: Morrowind*. Its playable systems should incorporate the evolving character, input, animation, physics, combat, equipment and inventory work being proved in `ecctrl-souls-combat`, alongside Dark Souls-style combat, extensive swimming and underwater exploration, player-sailable boats, fixed regional danger, and Breath of the Wild-style climbing.
+
+docs/world-gen-master-plan.md describes what we are building, how and why. It is
+~2,700 lines: read its part index at the top and open only the sections your
+task needs — never the whole file.
+
+## Where are we up to? (start here every session)
+
+1. Read [docs/PROGRESS.md](docs/PROGRESS.md) — small, always current. It shows
+   the active phase, what's blocked on the user, and the update protocol.
+2. Run `git status` and `git log -5`. A dirty tree or an `in progress` row means
+   a previous agent stopped mid-work — follow the crash-recovery protocol in
+   PROGRESS.md before starting anything new.
+3. Update PROGRESS.md as you work (statuses commit together with the work).
+   Record non-obvious choices as short records in docs/decisions/.
+
+
+## GOLDEN RULES - you must obey all of these
+
+- **Plan for scaling**. The game that we are building within this repo will be very big, with many systems, objects, playable races, animations, quests, factions, stats, UI screens, etc etc etc - on the scale of Skyrim or Morrowind. So whatever you are doing, do it in a way that will scale *effectively*, *efficiently* and with *minimal context bloat* for future agents. You may inherit poor previous decisions on this - you can fix them as you go. e.g. if you're working on weapons and you find that the current way of architecting weapons data will scale poorly to Morrowind/Skyrim level, don't just continue with it because it's there - rearchitect it and improve it as you go.
+- **Plan for agentic coding.** Assume that this repo will be almost entirely coded by coding agents, most of whom will be starting from fresh context. It is essential that we make our repo(s) modular, easy and *efficient* to navigate for coding agents. This goes for **docs as well as code**. We need to ensure we don't have lots of clashing documents or instructions, and that agents neither need to read huge amounts of context to work effectively nor miss important context they genuinely need for their task. I don't know what else to think of so you should do the thinking - "how do I do my work in such a way as to maximise the chances that future work will be able to continue smoothly and efficiently for other agents picking up bits of this project?"
+- **Fix root causes.** If you're fixing bugs, find the root cause and fix it, don't do sticking plasters.
+- **Prevent context bloat.** Read only what you need; docs/ are modular so filenames are the map. Whatever you are doing, consider how to do it in a way that prevents context bloat and keeps future agents able to run in a token-efficient way, processing what they need and only what they need.
+- **Game played from github pages.** The game will be built from github actions and played in the browser at github pages. So the code must work for that context. e.g. make sure animation files that are needed in the game are included.
+- **Controller-independent.** Combat/input/lock-on/animation depend on
+  `PlayerMovementController`, not ecctrl directly (ecctrl is behind `EcctrlAdapter`). This is so we can easily change the controller later if we need to
+- **Don't casually retune gameplay** (damage, stamina, i-frames, hit/parry windows,
+  speeds) unless asked to. Fix visual/animation timing on the animation side instead.
+- **Don't over-validate.** `npm test` and `npm run typecheck` are the routine
+  gates. If you touched animation/movement/physics/camera code, also run
+  `npm run visual:check -- <group>` (fast, no video). Nothing else is required
+  and nothing visual gates CI or deploy.
+- **Don't do expensive ingestions unless explicitly told to**. e.g. don't natively ingest images or video unless the user has told to. For validating visual things, do what you can with tooling, measurements, data, probes etc. For things that need visually inspecting, batch them up and pause at sensible points to present them to the user, telling them what to playtest/check and how to feedback.
+- **Research known solutions.** We aren't working on something particularly unique or unusual. For any task, decide if it would be worth researching online to find if there are already known-good or proven solutions, or whether the thing you're doing is simple enough that you can just get straight to it. If it would be worth researching, first check the filenames in docs/ and it's sub-folders to see if any other agent has done the research already. If yes, read it, then think about whether further research is necessary or if you now have what you need. If you do need to do further online research, do it, and record key findings in docs/ . Use and create sub-directories as appropriate, and remember that future agents will go off filenames when deciding whether to read a doc you've written.
+**Update and improve the docs**. When you work, always think about whether something you're doing means the docs should be changed or updated. If you're editing a doc, don't think you have to just append - this will lead to context bloat. You can edit, delete and overwrite as well. Same goes for the structure of docs/ itself. You might be the first agent that has ever run in this folder or you might be the 100th - it doesn't matter, you should be thinking about how docs/ is structured, what's in the README, what's needed (including whether the file map needs to be updated in the README), what you've changed (if anything), and make fixes/improvements as required. This goes for docs/world-gen-master-plan.md as well: you are a more capable model than the one that wrote that plan, and you may find flaws in it that need correcting; or as you work, you may make discoveries that mean something in it needs to be tweaked. Make those changes when needed. Similarly, you can update claude.md itself if necessary - but whilst being very conscious of the golden rule on preventing context bloat. Same goes for overall project README.
+- **Use git sensibly and safely**. You are an experienced lead, you know what this means in practical terms.
+- **Update on progress**. While you're working, give the user frequent, short, plain-english progress updates. Assume that they are not experienced in the techical aspects of this project so use plain non-jargon english.
+
+## Map
+
+Start at [docs/README.md](docs/README.md). Explore filenames and directory names from there.
