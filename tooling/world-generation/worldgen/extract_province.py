@@ -68,8 +68,13 @@ def write_preview(grid: np.ndarray, meta: dict) -> dict:
     norm = np.flipud((small - lo) / (hi - lo))  # flip so image row 0 is north
     PREVIEW_DIR.mkdir(parents=True, exist_ok=True)
     Image.fromarray((norm * 65535.0).astype(np.uint16)).save(PREVIEW_DIR / "height16.png")
-    # 8-bit copy for the browser: canvas pixel reads are 8-bit per channel.
-    Image.fromarray((norm * 255.0).astype(np.uint8)).save(PREVIEW_DIR / "height8.png")
+    # Browser copy at full 16-bit precision: canvas pixel reads are 8-bit per
+    # channel, so pack high byte -> R, low byte -> G (losslessly PNG-encoded).
+    q = np.round(norm * 65535.0).astype(np.uint16)
+    rg = np.zeros((*q.shape, 3), dtype=np.uint8)
+    rg[..., 0] = q >> 8
+    rg[..., 1] = q & 0xFF
+    Image.fromarray(rg).save(PREVIEW_DIR / "height-rg.png")
     preview_meta = {
         **meta,
         "downsampleStep": step,

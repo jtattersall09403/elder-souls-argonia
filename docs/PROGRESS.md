@@ -52,4 +52,6 @@ then open only the master-plan sections the active phase needs.
 ## Next up
 
 Fold in anchor corrections → finish Phase 2 (map overlay registration) →
-Phase 3 hydrology (starts with the horizontal rescale decision, 0005).
+Phase 3 hydrology. Phase 3 opens with two owner decisions recorded in 0005:
+horizontal rescale factor, and how far to flatten the central hill mass toward
+lore's low marsh heart.

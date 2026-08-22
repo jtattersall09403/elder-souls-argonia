@@ -16,8 +16,14 @@ const anchors = anchorsFile.anchors as SettlementAnchor[];
  * greys above, with a light east-west hillshade. */
 function colour(height: number, seaLevel: number, shade: number): [number, number, number] {
   if (height < seaLevel) {
-    const d = Math.min(1, (seaLevel - height) / 60);
-    return [18 + 30 * (1 - d), 60 + 70 * (1 - d), 120 + 60 * (1 - d)];
+    const depth = seaLevel - height;
+    if (depth < 2) {
+      // Marsh shallows get their own band so sub-metre sea-level changes read.
+      const t = depth / 2; // waterlogged green -> teal
+      return [60 - 30 * t, 110 - 15 * t, 90 + 40 * t];
+    }
+    const d = Math.min(1, (depth - 2) / 60);
+    return [18 + 12 * (1 - d), 60 + 35 * (1 - d), 120 + 40 * (1 - d)];
   }
   const a = Math.min(1, (height - seaLevel) / 110);
   let r: number, g: number, b: number;
@@ -47,7 +53,7 @@ export function App() {
     (async () => {
       const m: ProvinceMeta = await (await fetch(`${base}province/meta.json`)).json();
       const img = new Image();
-      img.src = `${base}province/height8.png`;
+      img.src = `${base}province/height-rg.png`;
       await img.decode();
       const off = document.createElement("canvas");
       off.width = m.imageWidth;
@@ -57,7 +63,10 @@ export function App() {
       const px = ctx.getImageData(0, 0, m.imageWidth, m.imageHeight).data;
       const heights = new Float32Array(m.imageWidth * m.imageHeight);
       const span = m.heightMaxMetres - m.heightMinMetres;
-      for (let i = 0; i < heights.length; i++) heights[i] = m.heightMinMetres + (px[i * 4] / 255) * span;
+      // 16-bit height packed as high byte -> R, low byte -> G (~3 mm steps).
+      for (let i = 0; i < heights.length; i++) {
+        heights[i] = m.heightMinMetres + ((px[i * 4] * 256 + px[i * 4 + 1]) / 65535) * span;
+      }
       heightsRef.current = heights;
       setMeta(m);
     })();
@@ -125,9 +134,17 @@ export function App() {
       <h1 style={{ font: "600 18px system-ui", margin: 0 }}>Argonia province preview — Phase 2 source ingest</h1>
       <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
         <label>
-          Sea level {seaLevel} m{" "}
-          <input type="range" min={-20} max={20} step={1} value={seaLevel}
+          Sea level {seaLevel.toFixed(2)} m{" "}
+          <input type="range" min={-1} max={3} step={0.05} value={seaLevel}
+            style={{ width: 260 }}
             onChange={(e) => setSeaLevel(Number(e.target.value))} />
+        </label>
+        <label>
+          exact:{" "}
+          <input type="number" min={-90} max={125} step={0.1} value={seaLevel}
+            style={{ width: 70 }}
+            onChange={(e) => { const v = Number(e.target.value); if (Number.isFinite(v)) setSeaLevel(v); }} />
+          {" "}m
         </label>
         <span style={{ opacity: 0.75 }}>{extentKm} km across at raw Skyrim scale (rescale decision pending)</span>
         <span style={{ minWidth: 260 }}>{readout}</span>

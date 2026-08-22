@@ -31,6 +31,20 @@ scale multiplier (candidates ×3–×6) will be chosen at the start of Phase 3
 hydrology, informed by owner feedback on travel-time feel. Until then no code
 may bake in a metres-per-sample constant outside the generated meta files.
 
+## Open: central hill mass vs lore's low marsh heart
+
+The heightfield has a genuine hill mass **south of Helstrom** (region roughly
+u 0.42–0.57, v 0.46–0.66: mean 41 m, 22% above 60 m, peaks ~101 m). Lore (PGE3,
+The Argonian Account) reads the interior as low inundated morass. There is no
+independent alternative source — the All Tamriel Heightmap Beta06 archive
+contains two 16-bit PNGs of the *same* terrain family the Argonia worldspace
+was derived from, and Beyond Skyrim: Argonia has released no worldspace. The
+prior is therefore reshapeable: Phase 3 hydrological conditioning (master plan
+§33 step 3 already includes basin preservation) can soft-compress interior
+elevations while keeping border mountains and coastline. Amplitude of that
+compression (remove the hills vs keep reduced rootland rises) is an owner
+decision at Phase 3 start.
+
 ## Also decided
 
 The All Tamriel Heightmap Beta06 archive is downloaded and registered as a
