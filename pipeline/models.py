@@ -354,6 +354,12 @@ def resolve_character(character_id: str, overrides: dict | None = None) -> Build
     meshes = [
         MeshSpec(m["name"], data_root / mesh_dir / m["file"]) for m in body["meshes"]
     ]
+    # Hair, horns and beards are the race's, not the body's: they are skinned to
+    # the same head bone the face is, so they ride along in the race GLB rather
+    # than needing a mount of their own. Paths are archive-relative like every
+    # other mesh, so the data-root assembler extracts them and their textures.
+    for extra in race.get("extraMeshes", []):
+        meshes.append(MeshSpec(extra["name"], data_root / extra["file"]))
 
     morph = dict(race["morph"]) if race.get("morph") else None
     if morph:

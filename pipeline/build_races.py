@@ -41,8 +41,12 @@ def _load_roster(roster_id: str) -> dict:
     return json.loads((CONFIG / "characters" / f"{roster_id}.json").read_text())
 
 
+def _race_config(race_id: str) -> dict:
+    return json.loads((CONFIG / "races" / f"{race_id}.json").read_text())
+
+
 def _race_label(race_id: str) -> tuple[str, str]:
-    race = json.loads((CONFIG / "races" / f"{race_id}.json").read_text())
+    race = _race_config(race_id)
     return race.get("label", race_id), race.get("description", "")
 
 
@@ -76,7 +80,11 @@ def build_race(roster: dict, race_id: str, *, reference: bool) -> dict:
     return summary
 
 
-def build(roster_id: str = "skyrim-playable", only: list[str] | None = None) -> dict:
+def build(
+    roster_id: str = "skyrim-playable",
+    only: list[str] | None = None,
+    skip_reference: bool = False,
+) -> dict:
     roster = _load_roster(roster_id)
     reference = roster["referenceRace"]
     wanted = list(only or roster["races"])
@@ -86,7 +94,15 @@ def build(roster_id: str = "skyrim-playable", only: list[str] | None = None) -> 
     # The reference race always goes first: it produces the rig and the manifest
     # everything else is validated against.
     ordered = [reference] + [race for race in wanted if race != reference]
-    if only and reference not in only:
+    if skip_reference and reference not in wanted:
+        # The rig and the manifest come from the reference race, so it is
+        # normally rebuilt with every batch. Skipping it is for the case where
+        # nothing about the rig has changed and only bodies are being redone —
+        # which is most of them, and the difference between a two-minute run
+        # and a six-minute one.
+        ordered = [race for race in wanted if race != reference]
+        print(f"[races] reusing the existing rig: {reference} not rebuilt")
+    elif only and reference not in only:
         print(f"[races] including reference race {reference}: the rig and manifest come from it")
 
     summaries = {}
@@ -105,6 +121,13 @@ def build(roster_id: str = "skyrim-playable", only: list[str] | None = None) -> 
         "referenceRace": reference,
         "races": {},
     }
+    if only and roster_path.exists():
+        # A partial run updates the races it built and leaves the rest alone.
+        # Rebuilding ten races to change one is not a workflow, and a roster
+        # that silently forgets the nine you did not ask for is worse.
+        previous = json.loads(roster_path.read_text())
+        manifest["races"] = dict(previous.get("races", {}))
+
     for race_id in ordered:
         label, description = _race_label(race_id)
         asset = Path(roster["raceOutputDir"]) / f"{race_id}.glb"
@@ -116,6 +139,17 @@ def build(roster_id: str = "skyrim-playable", only: list[str] | None = None) -> 
             # Which biped slot each body mesh occupies, so armour can hide what
             # it actually covers without a table of mesh names in game code.
             "meshBipedSlots": summaries[race_id].get("meshBipedSlots", {}),
+            # A race is a *tint*, not a texture set: the same body art coloured
+            # differently, which is how the game itself does it. The tints are
+            # applied at runtime, so a character creator can move them without
+            # rebuilding anything, and these two lists are what tells the game
+            # which meshes they apply to.
+            "appearance": {
+                "skinTint": _race_config(race_id).get("skinTint", [1, 1, 1]),
+                "hairTint": _race_config(race_id).get("hairTint", [1, 1, 1]),
+                "skinMeshes": summaries[race_id].get("skinMeshes", []),
+                "hairMeshes": summaries[race_id].get("hairMeshes", []),
+            },
         }
     roster_path.parent.mkdir(parents=True, exist_ok=True)
     roster_path.write_text(json.dumps(manifest, indent=2))
@@ -127,8 +161,10 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Build every playable race on one rig.")
     parser.add_argument("--roster", default="skyrim-playable")
     parser.add_argument("--only", nargs="*", default=None)
+    parser.add_argument("--skip-reference", action="store_true",
+                        help="reuse the existing rig instead of rebuilding it")
     args = parser.parse_args()
-    build(args.roster, args.only)
+    build(args.roster, args.only, skip_reference=args.skip_reference)
 
 
 if __name__ == "__main__":

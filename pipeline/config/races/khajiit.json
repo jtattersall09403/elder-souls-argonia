@@ -18,5 +18,16 @@
     "textures/actors/character/male/malehands_1_s.dds": "textures/actors/character/khajiitmale/handsmale_s.dds",
     "textures/actors/character/eyes/eyebrown.dds": "textures/actors/character/eyes/eyekhajiit.dds"
   },
-  "notes": "Beast races carry their own head, eye and mouth meshes and their own body textures, so they substitute rather than tint. Tails are not built: the 99-bone humanoid skeleton this rig is cut from has no tail bones, and Skyrim animates tails from a separate auxbone skeleton and clip set."
+  "notes": "Beast races carry their own head, eye and mouth meshes and their own body textures, so they substitute rather than tint. Tails are not built: the 99-bone humanoid skeleton this rig is cut from has no tail bones, and Skyrim animates tails from a separate auxbone skeleton and clip set.",
+  "extraMeshes": [
+    {
+      "name": "hair",
+      "file": "meshes/actors/character/character assets/hair/khajiitmalehair02.nif"
+    }
+  ],
+  "hairTint": [
+    0.35,
+    0.27,
+    0.16
+  ]
 }

@@ -104,10 +104,11 @@ def assemble_data_root(plan: BuildPlan) -> Path:
         dest.mkdir(parents=True, exist_ok=True)
         mesh_bsa = BSAArchive(ROOT / TOOLCHAIN["bsaDir"] / "Skyrim - Meshes.bsa")
         for mesh in plan.meshes:
-            archive_path = f"{plan.mesh_dir}/{mesh.file.name}"
-            if mesh.file.parent.name != Path(plan.mesh_dir).name:
-                # A mesh in a sub-folder of the body's mesh dir (mouth/...).
-                archive_path = f"{plan.mesh_dir}/{mesh.file.parent.name}/{mesh.file.name}"
+            # The path a mesh sits at inside the data root *is* its path inside
+            # the archive. Deriving it that way rather than reassembling it from
+            # the body's mesh directory is what lets a race pull in something
+            # that lives somewhere else entirely — hair, two folders down.
+            archive_path = mesh.file.relative_to(plan.data_root).as_posix()
             if not mesh_bsa.contains(archive_path):
                 raise KeyError(f"{mesh.name}: {archive_path} not in the mesh archive")
             mesh_bsa.extract([archive_path], dest)

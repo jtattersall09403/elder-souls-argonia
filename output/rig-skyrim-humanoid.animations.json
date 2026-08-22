@@ -1,6 +1,6 @@
 {
   "character": "skyrim-playable-dunmer",
-  "assetSha256": "f1c71e2c80686f966fcb06a34bc4c54ab2cad3db39dace107b958f505d43ec25",
+  "assetSha256": "86d58c15d894ca002ff70d907973b39f33f019da969d50e71743daf7fb681e5f",
   "source": "Skyrim vanilla + permitted mod HKX (locally regenerated authorized runtime build)",
   "rig": {
     "rootBone": "NPC Root [Root]",

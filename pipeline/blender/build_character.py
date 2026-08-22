@@ -145,13 +145,28 @@ SUMMARY["boneCountWithAuxiliary"] = bone_count
 # 2. Geometry
 # ---------------------------------------------------------------------------
 MESH_IMPORT = PLAN["mesh_import"]
+# Which mesh came from which part of the body. The game tints skin and hair at
+# runtime — a race is a tint, not a texture set — and it can only do that if
+# something tells it which meshes are which.
+MESH_ROLES = {}
 for mesh in PLAN["meshes"]:
+    before = {o.name for o in bpy.data.objects if o.type == "MESH"}
     select_only(arm)
     result = bpy.ops.import_scene.pynifly(filepath=mesh["file"], **MESH_IMPORT)
     if "FINISHED" not in result:
         raise RuntimeError("mesh import failed: %s -> %s" % (mesh["name"], result))
+    for name in {o.name for o in bpy.data.objects if o.type == "MESH"} - before:
+        MESH_ROLES[name] = mesh["name"]
 meshes = [o for o in bpy.data.objects if o.type == "MESH"]
-log("meshes=%d" % len(meshes))
+# The body proper: everything the character *is*, without the hairstyle.
+#
+# Hair is skinned to the head bone, so anything that measures the character from
+# its skin — its height, its hurtbox — will happily take a long braid as part of
+# the skull. Height decides the scale every actor is built to, and the hurtbox
+# decides what a sword can touch; neither should move when someone changes their
+# hair.
+BODY_MESHES = [o for o in meshes if MESH_ROLES.get(o.name, "body") != "hair"]
+log("meshes=%d (body=%d)" % (len(meshes), len(BODY_MESHES)))
 
 # validate skin binding
 for obj in meshes:
@@ -276,19 +291,16 @@ def rebuild_materials():
                 diffuse.colorspace_settings.name = "sRGB"
                 tex = nt.nodes.new("ShaderNodeTexImage")
                 tex.image = diffuse
-                if SKIN_TINT != (1.0, 1.0, 1.0) and _is_skin(diffuse):
-                    # Skyrim colours a race by tinting shared skin textures
-                    # rather than shipping a diffuse per race, so a Redguard and
-                    # a Nord are one texture and two numbers. Doing the same
-                    # keeps ten races from becoming ten sets of body art.
-                    mix = nt.nodes.new("ShaderNodeMixRGB")
-                    mix.blend_type = "MULTIPLY"
-                    mix.inputs["Fac"].default_value = 1.0
-                    mix.inputs["Color2"].default_value = (*SKIN_TINT, 1.0)
-                    nt.links.new(tex.outputs["Color"], mix.inputs["Color1"])
-                    nt.links.new(mix.outputs["Color"], bsdf.inputs["Base Color"])
-                else:
-                    nt.links.new(tex.outputs["Color"], bsdf.inputs["Base Color"])
+                # No tint node here on purpose.
+                #
+                # Skyrim colours a race by tinting shared skin textures rather
+                # than shipping a diffuse per race, and that is still what
+                # happens — but at *runtime*, not here. A multiply node between
+                # a texture and Base Color is not a shape the glTF exporter
+                # knows how to write, so it was silently dropped and every race
+                # shipped at full white. Tinting in the game also happens to be
+                # what a character creator needs.
+                nt.links.new(tex.outputs["Color"], bsdf.inputs["Base Color"])
             if hasattr(mat, "blend_method"):
                 try:
                     mat.blend_method = "OPAQUE"
@@ -929,7 +941,7 @@ HURTBOX_CLAIM_WEIGHT = 0.3
 def _bind_pose_vertices_by_bone():
     """Bind-pose world coordinates grouped by the bones that move them."""
     claims = {}
-    for obj in meshes:
+    for obj in BODY_MESHES:
         index_to_bone = {group.index: group.name for group in obj.vertex_groups}
         matrix = obj.matrix_world
         for vertex in obj.data.vertices:
@@ -1044,6 +1056,17 @@ SUMMARY["armature"] = arm.name
 SUMMARY["boneCount"] = bone_count
 SUMMARY["boneNames"] = [b.name for b in arm.data.bones]
 SUMMARY["meshNames"] = [m.name for m in meshes]
+SUMMARY["meshRoles"] = {m.name: MESH_ROLES.get(m.name, "body") for m in meshes}
+SUMMARY["skinMeshes"] = sorted(
+    m.name for m in meshes
+    if any(_is_skin(s.material.node_tree.nodes[n].image)
+           for s in m.material_slots if s.material and s.material.use_nodes
+           for n in [nd.name for nd in s.material.node_tree.nodes
+                     if nd.type == "TEX_IMAGE" and nd.image])
+)
+SUMMARY["hairMeshes"] = sorted(
+    m.name for m in meshes if MESH_ROLES.get(m.name) == "hair"
+)
 # Which biped slot each body mesh occupies, read from the NIF's own dismember
 # partitions. Armour reports the slots it covers the same way, so "does this
 # cuirass hide the torso" is answered by two pieces of art agreeing rather than
@@ -1102,7 +1125,7 @@ bpy.context.view_layer.update()
 mins = [1e9, 1e9, 1e9]
 maxs = [-1e9, -1e9, -1e9]
 depsgraph = bpy.context.evaluated_depsgraph_get()
-for obj in meshes:
+for obj in BODY_MESHES:
     evaluated = obj.evaluated_get(depsgraph)
     deformed = evaluated.to_mesh()
     try:
@@ -1122,6 +1145,7 @@ for obj in meshes:
     finally:
         evaluated.to_mesh_clear()
 SUMMARY["bboxSize"] = [round(maxs[i] - mins[i], 4) for i in range(3)]
+SUMMARY["bboxExcludes"] = sorted(m.name for m in meshes if m not in BODY_MESHES)
 reset_armature_pose(arm)
 
 # ---------------------------------------------------------------------------

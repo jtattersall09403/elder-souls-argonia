@@ -18,5 +18,16 @@
     "textures/actors/character/eyes/eyebrown.dds": "textures/actors/character/eyes/eyebrown.dds",
     "textures/actors/character/male/malehead_msn.dds": "textures/actors/character/imperialmale/malehead_msn.dds"
   },
-  "notes": "Skin colour is a tint on the shared vanilla body textures, which is how the game itself does it: every humanoid race uses the same meshes and the same diffuse, and differs by head morph, head normal, eyes and tint. No curated per-race texture tree is needed or wanted."
+  "notes": "Skin colour is a tint on the shared vanilla body textures, which is how the game itself does it: every humanoid race uses the same meshes and the same diffuse, and differs by head morph, head normal, eyes and tint. No curated per-race texture tree is needed or wanted.",
+  "extraMeshes": [
+    {
+      "name": "hair",
+      "file": "meshes/actors/character/character assets/hair/male/hair04.nif"
+    }
+  ],
+  "hairTint": [
+    0.24,
+    0.17,
+    0.12
+  ]
 }
