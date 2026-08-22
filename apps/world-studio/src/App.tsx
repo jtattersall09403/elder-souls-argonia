@@ -82,6 +82,7 @@ export function App() {
   // Mild is the owner-chosen Phase 3 conditioning (decision 0005).
   const [conditioning, setConditioning] = useState<Conditioning>("mild");
   const [readout, setReadout] = useState("");
+  const [tip, setTip] = useState<{ x: number; y: number; text: string } | null>(null);
   const overlaysRef = useRef<Record<string, HTMLImageElement>>({});
   const regionPxRef = useRef<Uint8ClampedArray | null>(null);
   const [layers, setLayers] = useState<Record<string, boolean>>({
@@ -223,7 +224,7 @@ export function App() {
     }
   }, [meta, seaLevel, conditioning, layers, overlaysReady]);
 
-  function onMove(e: React.MouseEvent<HTMLCanvasElement>) {
+  function onMove(e: React.PointerEvent<HTMLCanvasElement>) {
     const canvas = canvasRef.current;
     const heights = displayHeights();
     if (!canvas || !heights || !meta) return;
@@ -250,7 +251,9 @@ export function App() {
         region = best ? ` · ${best}` : "";
       }
     }
-    setReadout(`${km(x)} km E, ${km(y)} km S · elevation ${hgt.toFixed(1)} m${region}`);
+    const text = `${km(x)} km E, ${km(y)} km S · elevation ${hgt.toFixed(1)} m${region}`;
+    setReadout(text);
+    setTip({ x: e.clientX - rect.left, y: e.clientY - rect.top, text });
   }
 
   const extentKm = meta ? ((meta.imageWidth * meta.metresPerPixel) / 1000).toFixed(1) : "…";
@@ -312,8 +315,20 @@ export function App() {
           ))}
         </div>
       )}
-      <canvas ref={canvasRef} onMouseMove={onMove}
-        style={{ width: "min(92vmin, 900px)", imageRendering: "pixelated", borderRadius: 6 }} />
+      <div style={{ position: "relative" }}>
+        <canvas ref={canvasRef} onPointerMove={onMove} onPointerLeave={() => setTip(null)}
+          style={{ width: "min(92vmin, 900px)", imageRendering: "pixelated", borderRadius: 6, touchAction: "none" }} />
+        {tip && (
+          <div style={{
+            position: "absolute", left: tip.x + 14, top: tip.y + 10, pointerEvents: "none",
+            background: "rgba(10, 14, 20, 0.88)", color: "#e6ecf5", padding: "4px 8px",
+            borderRadius: 5, font: "12px system-ui", whiteSpace: "nowrap", zIndex: 2,
+            transform: tip.x > 560 ? "translateX(calc(-100% - 26px))" : undefined,
+          }}>
+            {tip.text}
+          </div>
+        )}
+      </div>
       <p style={{ maxWidth: 720, opacity: 0.8, margin: 0 }}>
         Terrain: Tamriel Worldspaces Argonia heightfield (coarse macro prior — not final terrain).
         Dashed rings are anchor placement tolerances; positions were corrected at the owner
