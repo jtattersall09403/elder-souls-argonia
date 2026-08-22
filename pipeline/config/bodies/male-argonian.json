@@ -1,6 +1,6 @@
 {
-  "id": "male",
-  "label": "Male humanoid body",
+  "id": "male-argonian",
+  "label": "Male Argonian body",
   "meshDir": "meshes/actors/character/character assets",
   "meshes": [
     {
@@ -9,7 +9,7 @@
     },
     {
       "name": "hands",
-      "file": "malehands_1.nif"
+      "file": "malehandsargonian_1.nif"
     },
     {
       "name": "feet",
@@ -17,15 +17,19 @@
     },
     {
       "name": "head",
-      "file": "malehead.nif"
+      "file": "maleheadargonian.nif"
     },
     {
       "name": "eyes",
-      "file": "eyesmale.nif"
+      "file": "eyesargonian.nif"
     },
     {
       "name": "mouth",
-      "file": "mouth/mouthhuman.nif"
+      "file": "mouth/mouthargonian.nif"
+    },
+    {
+      "name": "tail",
+      "file": "maletailargonian.nif"
     }
   ],
   "import": {
@@ -38,5 +42,5 @@
     "rename_bones": true,
     "rename_bones_niftools": true
   },
-  "notes": "Mesh filenames are shared by every humanoid race; races differ by head morph, head normal, eye texture and skin tint. A female body is a sibling profile."
+  "notes": "Argonians have clawed hands of their own plus their own head, eyes and mouth. The tail mesh binds to the rig's five auxiliary tail bones."
 }

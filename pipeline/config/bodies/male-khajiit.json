@@ -1,6 +1,6 @@
 {
-  "id": "male",
-  "label": "Male humanoid body",
+  "id": "male-khajiit",
+  "label": "Male Khajiit body",
   "meshDir": "meshes/actors/character/character assets",
   "meshes": [
     {
@@ -17,15 +17,19 @@
     },
     {
       "name": "head",
-      "file": "malehead.nif"
+      "file": "maleheadkhajiit.nif"
     },
     {
       "name": "eyes",
-      "file": "eyesmale.nif"
+      "file": "eyeskhajiit.nif"
     },
     {
       "name": "mouth",
-      "file": "mouth/mouthhuman.nif"
+      "file": "mouth/mouthkhajiit.nif"
+    },
+    {
+      "name": "tail",
+      "file": "maletailkhajiit.nif"
     }
   ],
   "import": {
@@ -38,5 +42,5 @@
     "rename_bones": true,
     "rename_bones_niftools": true
   },
-  "notes": "Mesh filenames are shared by every humanoid race; races differ by head morph, head normal, eye texture and skin tint. A female body is a sibling profile."
+  "notes": "Khajiit share the humanoid body, hands and feet meshes and differ in head, eyes and mouth. The tail mesh binds to the rig's five auxiliary tail bones."
 }

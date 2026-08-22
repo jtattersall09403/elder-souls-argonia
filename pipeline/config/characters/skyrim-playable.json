@@ -1,0 +1,25 @@
+{
+  "id": "skyrim-playable",
+  "label": "Playable races on the Skyrim humanoid rig",
+  "description": "One roster instead of a character file per race. The rig and its animations are built once and shared; each race builds only its own skin. A new race is one entry here plus one races/<id>.json.",
+  "rig": "skyrim-humanoid",
+  "animations": "humanoid-1h-combat",
+  "referenceRace": "dunmer",
+  "rigOutput": "output/rig-skyrim-humanoid.glb",
+  "manifestOutput": "output/rig-skyrim-humanoid.animations.json",
+  "raceOutputDir": "output/races",
+  "rosterOutput": "output/races.json",
+  "referenceNotes": "The reference race is the one whose meshes the support envelopes and fitted hurtbox are measured from. Every playable race here shares the same body, hands and feet meshes, so the lowest visible surface — which is what grounding and the hurtbox depend on — is identical across all of them. Change this only if that stops being true.",
+  "races": [
+    "nord",
+    "imperial",
+    "breton",
+    "redguard",
+    "altmer",
+    "bosmer",
+    "dunmer",
+    "orsimer",
+    "khajiit",
+    "argonian"
+  ]
+}

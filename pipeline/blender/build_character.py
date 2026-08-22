@@ -20,7 +20,7 @@ import json
 import math
 import os
 import numpy as np
-from mathutils import Vector
+from mathutils import Matrix, Vector
 
 PLAN = json.loads(open(os.environ["BUILD_PLAN"], "r", encoding="utf-8").read())
 SUMMARY = {"warnings": []}
@@ -82,6 +82,65 @@ if bone_count != PLAN["expected_bones"]:
     warn("bone count %d != expected %d" % (bone_count, PLAN["expected_bones"]))
 
 # ---------------------------------------------------------------------------
+# 1b. Auxiliary bone chains (the beast tail)
+# ---------------------------------------------------------------------------
+# Skyrim animates a tail on its own five-bone skeleton, in parallel with the
+# body clip and under the same filename. The tail mesh, though, is skinned to
+# both those bones *and* the pelvis, spine and thighs, so it can only deform
+# correctly inside one armature. Graft the chain onto the rig and keep its
+# source armature alive to import the paired clips against, because an HKX
+# carries track indices rather than bone names and only lines up with the
+# skeleton it was authored for.
+aux_armatures = {}
+
+
+def graft_auxiliary_chain(aux_id, aux):
+    parent_name = aux["parent"]
+    parent_bone = arm.data.bones.get(parent_name)
+    if parent_bone is None:
+        warn("auxiliary chain %s: parent bone %s is missing" % (aux_id, parent_name))
+        return None
+    before = set(bpy.data.objects)
+    bpy.ops.object.select_all(action="DESELECT")
+    bpy.ops.import_scene.pynifly_hkx(filepath=aux["skeleton"], **RIG)
+    source = next((o for o in bpy.data.objects
+                   if o not in before and o.type == "ARMATURE"), None)
+    if source is None:
+        warn("auxiliary chain %s: no armature imported" % aux_id)
+        return None
+
+    # The chain's own coordinates are relative to its attach bone's head, which
+    # is what lands it in character space with no hand-measured offset.
+    offset = Matrix.Translation(parent_bone.head_local)
+    chain = [(b.name, b.parent.name if b.parent else None, b.matrix_local.copy())
+             for b in source.data.bones]
+    select_only(arm)
+    bpy.ops.object.mode_set(mode="EDIT")
+    try:
+        for name, source_parent, matrix in chain:
+            if name in arm.data.edit_bones:
+                continue
+            bone = arm.data.edit_bones.new(name)
+            bone.head = (0, 0, 0)
+            bone.tail = (0, 1, 0)
+            bone.matrix = offset @ matrix
+            bone.parent = arm.data.edit_bones.get(source_parent or parent_name)
+            bone.use_connect = False
+    finally:
+        bpy.ops.object.mode_set(mode="OBJECT")
+    log("auxiliary chain %s: grafted %d bone(s) onto %s"
+        % (aux_id, len(chain), parent_name))
+    return source
+
+
+for aux_id, aux in (PLAN.get("auxiliary_bones") or {}).items():
+    grafted = graft_auxiliary_chain(aux_id, aux)
+    if grafted is not None:
+        aux_armatures[aux_id] = grafted
+bone_count = len(arm.data.bones)
+SUMMARY["boneCountWithAuxiliary"] = bone_count
+
+# ---------------------------------------------------------------------------
 # 2. Geometry
 # ---------------------------------------------------------------------------
 MESH_IMPORT = PLAN["mesh_import"]
@@ -105,8 +164,12 @@ for obj in meshes:
 # 3. Race head morph (baked)
 # ---------------------------------------------------------------------------
 morph = PLAN["morph"]
-head = bpy.data.objects.get(morph["targetMesh"])
-if head is None:
+head = bpy.data.objects.get(morph["targetMesh"]) if morph else None
+if not morph:
+    # Beast races carry their own head mesh rather than a morph of the shared
+    # human one, so there is nothing to blend.
+    log("no head morph for this race; using the authored head mesh")
+elif head is None:
     warn("morph target %s not found; skipping morph" % morph["targetMesh"])
 else:
     select_only(head)
@@ -135,6 +198,20 @@ _MAP_SUFFIXES = ("_n", "_msn", "_s", "_sk", "_g", "_m", "_em", "_e")
 def _is_diffuse(img):
     base = os.path.splitext(os.path.basename(img.filepath or img.name))[0].lower()
     return not base.endswith(_MAP_SUFFIXES)
+
+
+#: Skin tint applies to bare flesh, not to eyes or worn things: tinting an iris
+#: or a loincloth with the body colour is how a tinted character stops looking
+#: like a person.
+_SKIN_TEXTURES = ("malebody", "malehands", "malefeet", "malehead", "mouth", "orctusks",
+                  "bodymale", "handsmale", "argonianmalebody", "argonianmalehands",
+                  "argonianmalehead", "khajiitmalehead")
+SKIN_TINT = tuple(PLAN.get("skin_tint") or (1.0, 1.0, 1.0))
+
+
+def _is_skin(img):
+    base = os.path.splitext(os.path.basename(img.filepath or img.name))[0].lower()
+    return any(base.startswith(name) for name in _SKIN_TEXTURES)
 
 
 def reload_all_images():
@@ -198,7 +275,19 @@ def rebuild_materials():
                 diffuse.colorspace_settings.name = "sRGB"
                 tex = nt.nodes.new("ShaderNodeTexImage")
                 tex.image = diffuse
-                nt.links.new(tex.outputs["Color"], bsdf.inputs["Base Color"])
+                if SKIN_TINT != (1.0, 1.0, 1.0) and _is_skin(diffuse):
+                    # Skyrim colours a race by tinting shared skin textures
+                    # rather than shipping a diffuse per race, so a Redguard and
+                    # a Nord are one texture and two numbers. Doing the same
+                    # keeps ten races from becoming ten sets of body art.
+                    mix = nt.nodes.new("ShaderNodeMixRGB")
+                    mix.blend_type = "MULTIPLY"
+                    mix.inputs["Fac"].default_value = 1.0
+                    mix.inputs["Color2"].default_value = (*SKIN_TINT, 1.0)
+                    nt.links.new(tex.outputs["Color"], mix.inputs["Color1"])
+                    nt.links.new(mix.outputs["Color"], bsdf.inputs["Base Color"])
+                else:
+                    nt.links.new(tex.outputs["Color"], bsdf.inputs["Base Color"])
             if hasattr(mat, "blend_method"):
                 try:
                     mat.blend_method = "OPAQUE"
@@ -275,8 +364,58 @@ def strip_root_motion(action, primary, keep_axes=()):
     return delta
 
 
+def merge_auxiliary_animation(semantic, action):
+    """Fold the paired auxiliary-bone clip into this semantic action.
+
+    Skyrim authors a tail clip alongside the body clip of the same name and
+    plays both from one behaviour state, so they share a clock but not
+    necessarily a key count — the tail is often keyed more sparsely. The merge
+    therefore maps the tail onto the body's frame range rather than demanding
+    equal lengths, which is what "the same clip" actually means here. Keys are
+    laid down linearly: their Bezier handles belong to the source's timing and
+    would be wrong once remapped, and at 30 Hz the difference is not visible.
+    """
+    merged = 0
+    for aux_id, aux in (PLAN.get("auxiliary_bones") or {}).items():
+        source_path = (aux.get("animations") or {}).get(semantic)
+        source_armature = aux_armatures.get(aux_id)
+        if not source_path or source_armature is None:
+            continue
+        known = set(bpy.data.actions.keys())
+        select_only(source_armature)
+        bpy.ops.import_scene.pynifly_hkx(filepath=source_path, **RIG)
+        imported = [a for a in bpy.data.actions if a.name not in known]
+        if not imported:
+            warn("%s: auxiliary %s produced no action" % (semantic, aux_id))
+            continue
+        aux_action = imported[0]
+        retime_to_native_duration(aux_action, source_path)
+        body_start, body_end = action.frame_range
+        aux_start, aux_end = aux_action.frame_range
+        aux_span = aux_end - aux_start
+        scale = (body_end - body_start) / aux_span if aux_span > 1e-6 else 1.0
+        for source_curve in aux_action.fcurves:
+            curve = action.fcurves.new(source_curve.data_path,
+                                       index=source_curve.array_index)
+            curve.keyframe_points.add(len(source_curve.keyframe_points))
+            for target, origin in zip(curve.keyframe_points,
+                                      source_curve.keyframe_points):
+                target.co = (body_start + (origin.co[0] - aux_start) * scale,
+                             origin.co[1])
+                target.interpolation = "LINEAR"
+            curve.update()
+            merged += 1
+        log("%s: merged %s over %.0f->%.0f frames (%.2fx)"
+            % (semantic, aux_id, aux_span, body_end - body_start, scale))
+        bpy.data.actions.remove(aux_action)
+        if source_armature.animation_data:
+            source_armature.animation_data.action = None
+    return merged
+
+
 durations = {}
 root_deltas = {}
+auxiliary_merges = {}
 primary_root = PLAN["root_bone"] if PLAN["root_bone"] in {b.name for b in arm.data.bones} else (root_bones[0] if root_bones else None)
 
 
@@ -478,6 +617,9 @@ for spec in PLAN["animations"]:
         delta = strip_root_motion(action, primary_root)
     else:
         delta = strip_root_motion(action, primary_root, keep_axes=DEFAULT_KEEP_AXES)
+    merged = merge_auxiliary_animation(semantic, action)
+    if merged:
+        auxiliary_merges[semantic] = merged
     action.name = semantic
     action.use_fake_user = True
     fr = action.frame_range
@@ -490,6 +632,7 @@ SUMMARY["durations"] = durations
 SUMMARY["rootMotionDeltas"] = root_deltas
 SUMMARY["animationNames"] = [s["semantic"] for s in PLAN["animations"]]
 SUMMARY["curveConditioning"] = curve_conditioning
+SUMMARY["auxiliaryMerges"] = auxiliary_merges
 log("imported %d animations" % len(durations))
 
 # ---------------------------------------------------------------------------
@@ -721,7 +864,8 @@ for semantic in SUMMARY["animationNames"]:
     }
     log("%s: sampled %d visible-surface support poses" % (semantic, sample_count))
 
-arm.animation_data.action = None
+if arm.animation_data is not None:
+    arm.animation_data.action = None
 bpy.context.scene.frame_set(0)
 bpy.context.view_layer.update()
 SUMMARY["supportEnvelopes"] = support_envelopes
@@ -934,7 +1078,8 @@ if scale_action is not None:
         "sourceTime": scale_source_time,
     }
 else:
-    arm.animation_data.action = None
+    if arm.animation_data is not None:
+        arm.animation_data.action = None
     arm.data.pose_position = "REST"
     SUMMARY["bboxReference"] = {"mode": "bind-pose"}
     if scale_semantic:
@@ -968,25 +1113,55 @@ reset_armature_pose(arm)
 # ---------------------------------------------------------------------------
 # 8. Export GLB (no cameras/lights)
 # ---------------------------------------------------------------------------
-out = PLAN["output_glb"]
-log("exporting GLB -> %s" % out)
-bpy.ops.export_scene.gltf(
-    filepath=out,
-    export_format="GLB",
-    use_selection=False,
-    export_cameras=False,
-    export_lights=False,
-    export_yup=True,
-    export_apply=False,
-    export_skins=True,
-    export_morph=False,
-    export_animations=True,
-    export_animation_mode="ACTIONS",
-    export_nla_strips=False,
-    export_bake_animation=False,
-    export_optimize_animation_size=True,
-)
+def export_glb(path, *, animations, meshes_included):
+    """Export one GLB.
 
+    Animations and skinned bodies are separable products of the same build: a
+    rig carries the motion every character shares, a race carries only its own
+    skin. Keeping them in one file would duplicate three megabytes of authored
+    animation for every race that exists, so the plan names which of the two
+    (or both) it wants.
+    """
+    bpy.ops.object.select_all(action="DESELECT")
+    arm.select_set(True)
+    if meshes_included:
+        for obj in meshes:
+            obj.select_set(True)
+    bpy.context.view_layer.objects.active = arm
+    log("exporting GLB (animations=%s meshes=%s) -> %s" % (animations, meshes_included, path))
+    bpy.ops.export_scene.gltf(
+        filepath=path,
+        export_format="GLB",
+        use_selection=True,
+        export_cameras=False,
+        export_lights=False,
+        export_yup=True,
+        export_apply=False,
+        export_skins=True,
+        export_morph=False,
+        export_animations=animations,
+        export_animation_mode="ACTIONS",
+        export_nla_strips=False,
+        export_bake_animation=False,
+        export_optimize_animation_size=True,
+        # Skin and armour diffuses are opaque and rebuilt base-colour only.
+        # PNG made the character five times the size it needs to be.
+        export_image_format="JPEG",
+        export_jpeg_quality=88,
+    )
+
+
+exports = PLAN.get("exports") or [{
+    "path": PLAN["output_glb"], "animations": True, "meshes": True,
+}]
+out = PLAN["output_glb"]
+for export in exports:
+    export_glb(
+        export["path"],
+        animations=bool(export.get("animations", True)) and bool(PLAN["animations"]),
+        meshes_included=bool(export.get("meshes", True)),
+    )
+SUMMARY["exports"] = [export["path"] for export in exports]
 SUMMARY["outputGlb"] = out
 open(os.environ.get("SUMMARY_JSON", PLAN["summary_json"]), "w", encoding="utf-8").write(
     json.dumps(SUMMARY, indent=2)

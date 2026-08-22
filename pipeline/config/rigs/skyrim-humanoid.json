@@ -13,7 +13,12 @@
     "weaponFallback": "NPC Hand [Hnd].R",
     "sheath": "WeaponSword"
   },
-  "socketRotation": [-0.70710678, 0, 0, 0.70710678],
+  "socketRotation": [
+    -0.70710678,
+    0,
+    0,
+    0.70710678
+  ],
   "socketRotationNotes": "Quaternion XYZW taking weapon-asset space into ANY socket bone's local space on this rig. Weapon GLBs preserve their native NIF node axes (Skyrim authors a weapon along its attach node's +Z), while the imported armature stores bones in Blender's convention (bone +Y along the node's +Z for a Z-axis game). That is a fixed -90 degrees about X between the two frames, so it belongs to the rig, not to any one weapon: every weapon and every socket on this rig needs exactly this rotation and nothing else. Verified against the built GLB - the corrected blade axis tracks the hand's pinky-to-index grip axis to within 12 degrees across SWORD_IDLE, GUARD and LIGHT_1, and hangs the sheathed sword down and back off the left hip.",
   "import": {
     "blender_xf": true,
@@ -21,5 +26,13 @@
     "rename_bones": true,
     "rename_bones_niftools": true
   },
-  "notes": "Bone names are the niftools-renamed HKX names; sockets confirmed against the built GLB. Beast races will need a different rig profile."
+  "notes": "Bone names are the niftools-renamed HKX names; sockets confirmed against the built GLB. Beast races share this rig: Skyrim ships no beast body skeleton, only the five auxiliary tail bones declared below.",
+  "auxiliaryBones": {
+    "tail": {
+      "skeleton": "skyrim-source/extracted/hkx-skeleton/tailskeleton.hkx",
+      "animationDir": "meshes/auxbones/tail/animations",
+      "parent": "NPC Pelvis [Pelv]",
+      "notes": "Skyrim has no beast body skeleton: Khajiit and Argonians animate on this same 99-bone rig, and skeletonbeast.nif differs from skeleton.nif only by these five tail bones. Tails are driven by a parallel auxbone clip set whose files share their names with the body clips, so a tail animation is matched automatically. The tail skeleton's own coordinates are relative to its attach bone's head, which is how the chain lands in character space with no hand-measured offset."
+    }
+  }
 }

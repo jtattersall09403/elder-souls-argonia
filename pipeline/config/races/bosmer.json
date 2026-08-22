@@ -1,23 +1,22 @@
 {
-  "id": "dunmer",
-  "label": "Dunmer",
-  "description": "Ash-grey and red-eyed. The old blood of Morrowind.",
+  "id": "bosmer",
+  "label": "Bosmer",
+  "description": "Valenwood-born, small and quick.",
   "body": "male",
   "morph": {
     "tri": "skyrim-source/extracted/racemorphs/meshes/actors/character/character assets/maleheadraces.tri",
     "targetMesh": "MaleHeadIMF",
-    "shapeKey": "DarkElfRace",
+    "shapeKey": "WoodElfRace",
     "value": 1.0
   },
   "skinTint": [
-    0.55,
-    0.5,
-    0.51
+    0.8,
+    0.66,
+    0.48
   ],
   "textureSubstitutions": {
-    "textures/actors/character/eyes/eyebrown.dds": "textures/actors/character/eyes/eyedarkelf.dds",
-    "textures/actors/character/male/malehead_msn.dds": "textures/actors/character/darkelfmale/malehead_msn.dds",
-    "textures/actors/character/mouth/mouthhuman.dds": "textures/actors/character/mouth/mouthhuman_darkelf.dds"
+    "textures/actors/character/eyes/eyebrown.dds": "textures/actors/character/eyes/eyewoodelf.dds",
+    "textures/actors/character/male/malehead_msn.dds": "textures/actors/character/woodelfmale/malehead_msn.dds"
   },
   "notes": "Skin colour is a tint on the shared vanilla body textures, which is how the game itself does it: every humanoid race uses the same meshes and the same diffuse, and differs by head morph, head normal, eyes and tint. No curated per-race texture tree is needed or wanted."
 }

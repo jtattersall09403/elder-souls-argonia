@@ -141,13 +141,25 @@ def render_icon(objects, path):
     scene = bpy.context.scene
     camera_data = bpy.data.cameras.new("IconCam")
     camera_data.type = "ORTHO"
-    camera_data.ortho_scale = reach * 0.78
     camera = bpy.data.objects.new("IconCam", camera_data)
     scene.collection.objects.link(camera)
     direction = Vector((0.62, -1.0, 0.42)).normalized()
     camera.location = centre + direction * reach * 2.0
     camera.rotation_euler = (centre - camera.location).to_track_quat("-Z", "Y").to_euler()
     scene.camera = camera
+
+    # Frame by what the camera actually sees, not by the diagonal: a long thin
+    # sword measured by its diagonal renders as a sliver in the middle of an
+    # empty tile, while every item framed to its own projected extent fills the
+    # cell and a grid of them reads as one set.
+    basis = camera.matrix_world.to_3x3()
+    right, up = basis.col[0].normalized(), basis.col[1].normalized()
+    extent = 0.0
+    for obj in objects:
+        for corner in obj.bound_box:
+            offset = (obj.matrix_world @ Vector(corner)) - centre
+            extent = max(extent, abs(offset.dot(right)), abs(offset.dot(up)))
+    camera_data.ortho_scale = max(extent * 2.12, 1e-3)
 
     lights = []
     # Skyrim weapon textures are dark and the materials are metallic, so an

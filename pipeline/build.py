@@ -89,11 +89,28 @@ def _referenced_textures(nif: Path) -> set[str]:
 
 
 def assemble_data_root(plan: BuildPlan) -> Path:
-    """Copy the curated race tree, then fill missing NIF textures from the BSA."""
+    """Build the race's data-root, then fill missing NIF textures from the BSA.
+
+    A race may name a curated tree, but it does not have to: with none, the body
+    meshes come straight out of the mesh archive. That is the only version of
+    this that survives ten races, let alone a game's worth.
+    """
     dest = BUILD_DIR / plan.character_id / "data-root"
     if dest.exists():
         shutil.rmtree(dest)
-    shutil.copytree(plan.data_root, dest, copy_function=_copy_curated_file)
+    if plan.data_root.exists() and plan.data_root != dest:
+        shutil.copytree(plan.data_root, dest, copy_function=_copy_curated_file)
+    else:
+        dest.mkdir(parents=True, exist_ok=True)
+        mesh_bsa = BSAArchive(ROOT / TOOLCHAIN["bsaDir"] / "Skyrim - Meshes.bsa")
+        for mesh in plan.meshes:
+            archive_path = f"{plan.mesh_dir}/{mesh.file.name}"
+            if mesh.file.parent.name != Path(plan.mesh_dir).name:
+                # A mesh in a sub-folder of the body's mesh dir (mouth/...).
+                archive_path = f"{plan.mesh_dir}/{mesh.file.parent.name}/{mesh.file.name}"
+            if not mesh_bsa.contains(archive_path):
+                raise KeyError(f"{mesh.name}: {archive_path} not in the mesh archive")
+            mesh_bsa.extract([archive_path], dest)
 
     texture_bsa = BSAArchive(ROOT / TOOLCHAIN["bsaDir"] / TOOLCHAIN["textureBsa"])
     wanted: set[str] = set()
@@ -108,10 +125,25 @@ def assemble_data_root(plan: BuildPlan) -> Path:
             filled.append(tex)
         else:
             absent.append(tex)
+    # A race's own head normal, eyes or beast skin arrive as a substitution:
+    # extract the archive's file *into the path the NIF asks for*, so no mesh
+    # or material has to know which race it is being built for.
+    substituted = []
+    for referenced, source in plan.texture_substitutions.items():
+        if not texture_bsa.contains(source):
+            raise KeyError(f"texture substitution source missing: {source}")
+        target = dest / referenced
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(texture_bsa.read(source))
+        substituted.append(f"{Path(source).name} -> {referenced.split('/')[-1]}")
+
     print(f"[data-root] textures referenced={len(wanted)} filled={len(filled)} "
-          f"already-present={len(wanted) - len(missing)} unresolved={len(absent)}")
+          f"already-present={len(wanted) - len(missing)} unresolved={len(absent)} "
+          f"substituted={len(substituted)}")
     for tex in absent:
         print(f"[data-root]   UNRESOLVED texture: {tex}")
+    for swap in substituted:
+        print(f"[data-root]   substituted {swap}")
     return dest
 
 
@@ -141,11 +173,48 @@ def assemble_animations(plan: BuildPlan) -> dict[str, Path]:
     return resolved
 
 
+def assemble_auxiliary_animations(plan: BuildPlan) -> dict[str, dict[str, Path]]:
+    """Resolve the auxiliary-bone clip that pairs with each semantic animation.
+
+    Skyrim authors a tail clip alongside the body clip it belongs to, under the
+    same filename, so the pairing needs no configuration: look for the body
+    clip's own name in the auxiliary directory and use it if it is there. A
+    clip with no partner simply leaves those bones in their rest pose.
+    """
+    resolved: dict[str, dict[str, Path]] = {}
+    animation_bsa = BSAArchive(ROOT / TOOLCHAIN["bsaDir"] / TOOLCHAIN["animationBsa"])
+    for aux_id, aux in plan.auxiliary_bones.items():
+        directory = aux.get("animationDir")
+        if not directory:
+            continue
+        aux_dir = BUILD_DIR / plan.character_id / "aux" / aux_id
+        aux_dir.mkdir(parents=True, exist_ok=True)
+        found: dict[str, Path] = {}
+        for spec in plan.animations:
+            if not spec.tail_source:
+                continue
+            archive_path = f"{directory}/{spec.tail_source}.hkx"
+            if not animation_bsa.contains(archive_path):
+                continue
+            dest = aux_dir / f"{spec.tail_source}.hkx"
+            if not dest.exists():
+                dest.write_bytes(animation_bsa.read(archive_path))
+            found[spec.semantic] = dest
+        resolved[aux_id] = found
+        print(f"[anims] {aux_id}: {len(found)}/{len(plan.animations)} clips have an authored partner")
+    return resolved
+
+
 # ---------------------------------------------------------------------------
 # Blender invocation
 # ---------------------------------------------------------------------------
 
-def write_blender_plan(plan: BuildPlan, data_root: Path, anims: dict[str, Path]) -> Path:
+def write_blender_plan(
+    plan: BuildPlan,
+    data_root: Path,
+    anims: dict[str, Path],
+    aux_anims: dict[str, dict[str, Path]] | None = None,
+) -> Path:
     """Serialise a Windows-path plan the in-Blender script consumes verbatim."""
     plan_path = BUILD_DIR / plan.character_id / "blender-plan.json"
     payload = {
@@ -155,6 +224,22 @@ def write_blender_plan(plan: BuildPlan, data_root: Path, anims: dict[str, Path])
         "sockets": plan.sockets,
         "skeleton": to_windows(plan.skeleton),
         "rig_import": plan.rig_import,
+        "auxiliary_bones": {
+            aux_id: {
+                **{k: v for k, v in aux.items() if k != "skeleton"},
+                "skeleton": to_windows(Path(aux["skeleton"])),
+                "animations": {
+                    semantic: to_windows(path)
+                    for semantic, path in (aux_anims or {}).get(aux_id, {}).items()
+                },
+            }
+            for aux_id, aux in plan.auxiliary_bones.items()
+        },
+        "skin_tint": list(plan.skin_tint),
+        "exports": [
+            {**export, "path": to_windows((ROOT / export["path"]).resolve())}
+            for export in plan.exports
+        ],
         "data_root_win": to_windows(data_root),
         "meshes": [
             {"name": m.name,
@@ -162,7 +247,8 @@ def write_blender_plan(plan: BuildPlan, data_root: Path, anims: dict[str, Path])
             for m in plan.meshes
         ],
         "mesh_import": plan.mesh_import,
-        "morph": {**plan.morph, "tri": to_windows(Path(plan.morph["tri"]))},
+        "morph": ({**plan.morph, "tri": to_windows(Path(plan.morph["tri"]))}
+                  if plan.morph else None),
         "material_overrides": [
             {**ov, "replaceWith": to_windows(data_root / ov["replaceWith"])}
             for ov in plan.material_overrides
@@ -452,7 +538,8 @@ def build(character_id: str) -> dict:
     (BUILD_DIR / plan.character_id).mkdir(parents=True, exist_ok=True)
     data_root = assemble_data_root(plan)
     anims = assemble_animations(plan)
-    plan_path = write_blender_plan(plan, data_root, anims)
+    aux_anims = assemble_auxiliary_animations(plan)
+    plan_path = write_blender_plan(plan, data_root, anims, aux_anims)
     summary = run_blender(plan_path, plan.output_glb)
     write_runtime_manifest(plan, summary)
     print(f"[build] GLB -> {plan.output_glb}")

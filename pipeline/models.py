@@ -84,6 +84,10 @@ class AnimationSpec:
     support_sample_rate: int = 30
     remove_quaternion_keys: tuple[QuaternionKeyRemoval, ...] = ()
     exported_continuity: tuple[ExportedContinuityCheck, ...] = ()
+    #: Auxiliary-bone clip to merge into this action, by base filename. Defaults
+    #: to this clip's own source name, because Skyrim authors the pair together.
+    #: Explicitly null opts a clip out.
+    tail_source: str | None = None
     extra: dict = field(default_factory=dict)
 
 
@@ -94,6 +98,18 @@ class BuildPlan:
     skeleton: Path
     expected_bones: int
     rig_import: dict
+    #: Auxiliary bone chains grafted onto this rig (the beast tail), keyed by id.
+    auxiliary_bones: dict
+    mesh_dir: str
+    #: Referenced texture path -> archive path to extract into it. How a race
+    #: gets its own head normal, eyes or beast skin without a curated tree.
+    texture_substitutions: dict
+    #: Multiplied into every skin base colour. Skyrim tints rather than
+    #: shipping a diffuse per race, and so do we.
+    skin_tint: tuple[float, float, float]
+    #: GLBs this build should emit. A rig carries the shared motion, a race
+    #: carries only its own skin, and both is the single-file legacy shape.
+    exports: tuple[dict, ...]
     sockets: dict
     #: Quaternion XYZW from weapon-asset space into any socket bone's local
     #: space on this rig. A rig-level convention offset, never per weapon.
@@ -105,7 +121,7 @@ class BuildPlan:
     meshes: list[MeshSpec]
     mesh_import: dict
     # race
-    morph: dict
+    morph: dict | None
     material_overrides: list[dict]
     # animations
     animations: list[AnimationSpec]
@@ -123,6 +139,11 @@ class BuildPlan:
             "skeleton": str(self.skeleton),
             "expected_bones": self.expected_bones,
             "rig_import": self.rig_import,
+            "auxiliary_bones": self.auxiliary_bones,
+            "mesh_dir": self.mesh_dir,
+            "texture_substitutions": self.texture_substitutions,
+            "skin_tint": list(self.skin_tint),
+            "exports": [dict(export) for export in self.exports],
             "sockets": self.sockets,
             "socket_rotation": list(self.socket_rotation),
             "root_bone": self.root_bone,
@@ -300,21 +321,43 @@ def parse_exported_continuity(
     return tuple(checks)
 
 
-def resolve_character(character_id: str) -> BuildPlan:
-    char = _load("characters", character_id)
+def parse_skin_tint(raw: object) -> tuple[float, float, float]:
+    if raw is None:
+        return (1.0, 1.0, 1.0)
+    if (not isinstance(raw, list) or len(raw) != 3
+            or any(isinstance(v, bool) or not isinstance(v, (int, float)) or v < 0 or v > 2
+                   for v in raw)):
+        raise ValueError("skinTint must be three numbers between 0 and 2")
+    return tuple(float(v) for v in raw)  # type: ignore[return-value]
+
+
+def resolve_character(character_id: str, overrides: dict | None = None) -> BuildPlan:
+    """Resolve a character config, optionally overriding the race and outputs.
+
+    The override hook is what lets one roster build ten races without ten
+    near-identical character files.
+    """
+    char = dict(_load("characters", character_id))
+    char.update(overrides or {})
     race = _load("races", char["race"])
-    body = _load("bodies", char["body"])
+    body = _load("bodies", char.get("body") or race.get("body", "male"))
     rig = _load("rigs", char["rig"])
     anim = _load("animations", char["animations"])
 
-    data_root = (ROOT / race["dataRoot"]).resolve()
+    # A race with no curated tree is assembled from the archives at build time,
+    # which is the only version of this that scales past a handful of races.
+    data_root = (
+        (ROOT / race["dataRoot"]).resolve() if race.get("dataRoot")
+        else ROOT / "build" / char["id"] / "data-root"
+    )
     mesh_dir = body["meshDir"]
     meshes = [
         MeshSpec(m["name"], data_root / mesh_dir / m["file"]) for m in body["meshes"]
     ]
 
-    morph = dict(race["morph"])
-    morph["tri"] = str((ROOT / morph["tri"]).resolve())
+    morph = dict(race["morph"]) if race.get("morph") else None
+    if morph:
+        morph["tri"] = str((ROOT / morph["tri"]).resolve())
 
     defaults = anim.get("defaults", {})
     support_calibration = anim.get("supportCalibration", {})
@@ -445,6 +488,10 @@ def resolve_character(character_id: str) -> BuildPlan:
                 playback_start_time=entry.get("playbackStartTime"),
                 playback_end_time=entry.get("playbackEndTime"),
                 provenance=entry.get("provenance", ""),
+                tail_source=(
+                    entry["tailSource"] if "tailSource" in entry
+                    else entry["source"].split("/")[-1]
+                ),
                 preserve_root_motion=entry.get("preserveRootMotion", False),
                 strip_vertical_root_motion=entry.get("stripVerticalRootMotion", False),
                 preserve_root_motion_axes=tuple(explicit_axes or ()),
@@ -454,7 +501,7 @@ def resolve_character(character_id: str) -> BuildPlan:
                 remove_quaternion_keys=remove_quaternion_keys,
                 exported_continuity=exported_continuity,
                 extra={k: v for k, v in entry.items()
-                       if k not in {"source", "looping", "rootMotion", "playbackRate", "crossFadeDuration", "crossFadeOutDuration", "playbackStartTime", "playbackEndTime", "provenance", "preserveRootMotion", "stripVerticalRootMotion", "preserveRootMotionAxes", "supportMode", "supportPhases", "supportSampleRate", "curveConditioning"}},
+                       if k not in {"source", "looping", "rootMotion", "playbackRate", "crossFadeDuration", "crossFadeOutDuration", "playbackStartTime", "playbackEndTime", "provenance", "preserveRootMotion", "stripVerticalRootMotion", "preserveRootMotionAxes", "tailSource", "supportMode", "supportPhases", "supportSampleRate", "curveConditioning"}},
             )
         )
 
@@ -463,11 +510,19 @@ def resolve_character(character_id: str) -> BuildPlan:
         skeleton=(ROOT / rig["skeleton"]).resolve(),
         expected_bones=rig["expectedBones"],
         rig_import=rig["import"],
+        auxiliary_bones={
+            aux_id: {**aux, "skeleton": str((ROOT / aux["skeleton"]).resolve())}
+            for aux_id, aux in rig.get("auxiliaryBones", {}).items()
+        },
         sockets=rig["sockets"],
         socket_rotation=parse_socket_rotation(rig.get("socketRotation")),
         root_bone=rig["rootBone"],
         target_height=rig.get("targetHeightMeters", 1.85),
         data_root=data_root,
+        mesh_dir=mesh_dir,
+        texture_substitutions=dict(race.get("textureSubstitutions", {})),
+        skin_tint=parse_skin_tint(race.get("skinTint")),
+        exports=tuple(char.get("exports", ())),
         meshes=meshes,
         mesh_import=body["import"],
         morph=morph,

@@ -1,0 +1,70 @@
+{
+  "roster": "skyrim-playable",
+  "rig": {
+    "asset": "rig-skyrim-humanoid.glb",
+    "sha256": "75e34707e64000ec7da9070c1fe9633a3d6eb4f43efea61b732919f536bf15b7"
+  },
+  "referenceRace": "dunmer",
+  "races": {
+    "dunmer": {
+      "label": "Dunmer",
+      "description": "Ash-grey and red-eyed. The old blood of Morrowind.",
+      "asset": "races/dunmer.glb",
+      "sha256": "f1c71e2c80686f966fcb06a34bc4c54ab2cad3db39dace107b958f505d43ec25"
+    },
+    "nord": {
+      "label": "Nord",
+      "description": "Skyrim's own: pale, broad and made for cold.",
+      "asset": "races/nord.glb",
+      "sha256": "e9c56404bc967c4b7e7f58eb49d302f76606240733dc9e96c5ace8e1c63a2699"
+    },
+    "imperial": {
+      "label": "Imperial",
+      "description": "Cyrodiil-born, and it shows in the bearing.",
+      "asset": "races/imperial.glb",
+      "sha256": "3da2679d816c9f0cf539cd4a475dfeb6dfbc148ab39e2420c034fbc8b1ce4ab8"
+    },
+    "breton": {
+      "label": "Breton",
+      "description": "High Rock stock, with a little elf far back.",
+      "asset": "races/breton.glb",
+      "sha256": "bc90dd03b25e3bb3dcd755b3291fd8f8c6162719529a7ab0c1a14f25228d48d8"
+    },
+    "redguard": {
+      "label": "Redguard",
+      "description": "Yokudan blood. The finest swords in Tamriel came with it.",
+      "asset": "races/redguard.glb",
+      "sha256": "131b4c5da15ba029220a75ad45aee11d2d0cac06a794ace47dbffa936f781b9f"
+    },
+    "altmer": {
+      "label": "Altmer",
+      "description": "Tall, golden, and quietly certain of it.",
+      "asset": "races/altmer.glb",
+      "sha256": "9db7f16418cfa1dceb040e01675a320fe9a09889c9036f3dede68ed863a86def"
+    },
+    "bosmer": {
+      "label": "Bosmer",
+      "description": "Valenwood-born, small and quick.",
+      "asset": "races/bosmer.glb",
+      "sha256": "f792fea0f182f2be886de594947f7871b972514c1bb1a3dafadd394faa39399a"
+    },
+    "orsimer": {
+      "label": "Orsimer",
+      "description": "Orc, and unbothered by what that has cost.",
+      "asset": "races/orsimer.glb",
+      "sha256": "c1a8d9891aaada992502ae7efbe1372085d2a0bc7762330eae4fe26e555c909b"
+    },
+    "khajiit": {
+      "label": "Khajiit",
+      "description": "Elsweyr-born. Watches the room before it enters it.",
+      "asset": "races/khajiit.glb",
+      "sha256": "229cc5f3eab9184c34365b39b514225b41e0a3412267102553ba594829a09f4a"
+    },
+    "argonian": {
+      "label": "Argonian",
+      "description": "Saxhleel. Black Marsh raised it, and Black Marsh is not gentle.",
+      "asset": "races/argonian.glb",
+      "sha256": "bfff947ad055bb8c26e4b4c91082b5db1dee15ec8569b9c6303a251272a4cd26"
+    }
+  }
+}
