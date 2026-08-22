@@ -1,0 +1,243 @@
+{
+  "id": "armour",
+  "description": "Wearable armour. Adding a piece is one line here: its slot supplies the equip slot and the body parts it hides, its material supplies the stat tier. The builder reads which biped slots a mesh actually occupies out of the NIF itself, so nothing about coverage is hand-declared.",
+  "outputDir": "output/armour",
+  "iconDir": "output/armour-icons",
+  "manifestOutput": "output/armour.items.json",
+  "rig": "skyrim-humanoid",
+  "body": "male",
+  "slots": {
+    "cuirass": {
+      "equipSlot": "chest",
+      "baseWeightKg": 12,
+      "baseRating": 30
+    },
+    "gauntlets": {
+      "equipSlot": "hands",
+      "baseWeightKg": 2.5,
+      "baseRating": 10
+    },
+    "boots": {
+      "equipSlot": "feet",
+      "baseWeightKg": 3.5,
+      "baseRating": 10
+    },
+    "helmet": {
+      "equipSlot": "head",
+      "baseWeightKg": 3,
+      "baseRating": 12
+    }
+  },
+  "items": [
+    {
+      "id": "iron-cuirass",
+      "slot": "cuirass",
+      "material": "iron",
+      "nif": "meshes/armor/iron/male/cuirassheavy_1.nif"
+    },
+    {
+      "id": "iron-gauntlets",
+      "slot": "gauntlets",
+      "material": "iron",
+      "nif": "meshes/armor/iron/male/gauntlets_1.nif"
+    },
+    {
+      "id": "iron-boots",
+      "slot": "boots",
+      "material": "iron",
+      "nif": "meshes/armor/iron/male/boots_1.nif"
+    },
+    {
+      "id": "iron-helmet",
+      "slot": "helmet",
+      "material": "iron",
+      "nif": "meshes/armor/iron/male/helmet.nif"
+    },
+    {
+      "id": "steel-cuirass",
+      "slot": "cuirass",
+      "material": "steel",
+      "nif": "meshes/armor/steel/cuirass_1.nif"
+    },
+    {
+      "id": "steel-gauntlets",
+      "slot": "gauntlets",
+      "material": "steel",
+      "nif": "meshes/armor/steel/gauntlets_1.nif"
+    },
+    {
+      "id": "steel-boots",
+      "slot": "boots",
+      "material": "steel",
+      "nif": "meshes/armor/steel/boots_1.nif"
+    },
+    {
+      "id": "steel-helmet",
+      "slot": "helmet",
+      "material": "steel",
+      "nif": "meshes/armor/steel/helmet_1.nif"
+    },
+    {
+      "id": "elven-cuirass",
+      "slot": "cuirass",
+      "material": "elven",
+      "nif": "meshes/armor/elven/m/cuirass_1.nif"
+    },
+    {
+      "id": "elven-gauntlets",
+      "slot": "gauntlets",
+      "material": "elven",
+      "nif": "meshes/armor/elven/m/gauntlets_1.nif"
+    },
+    {
+      "id": "elven-boots",
+      "slot": "boots",
+      "material": "elven",
+      "nif": "meshes/armor/elven/m/boots_1.nif"
+    },
+    {
+      "id": "elven-helmet",
+      "slot": "helmet",
+      "material": "elven",
+      "nif": "meshes/armor/elven/m/helmet_1.nif"
+    },
+    {
+      "id": "dwarven-cuirass",
+      "slot": "cuirass",
+      "material": "dwarven",
+      "nif": "meshes/armor/dwarven/dwarvenarmor_1.nif"
+    },
+    {
+      "id": "dwarven-boots",
+      "slot": "boots",
+      "material": "dwarven",
+      "nif": "meshes/armor/dwarven/dwarvenboots_1.nif"
+    },
+    {
+      "id": "dwarven-helmet",
+      "slot": "helmet",
+      "material": "dwarven",
+      "nif": "meshes/armor/dwarven/dwarvenhelmet_1.nif"
+    },
+    {
+      "id": "orcish-cuirass",
+      "slot": "cuirass",
+      "material": "orcish",
+      "nif": "meshes/armor/orcish/cuirassf_1.nif"
+    },
+    {
+      "id": "orcish-gauntlets",
+      "slot": "gauntlets",
+      "material": "orcish",
+      "nif": "meshes/armor/orcish/gauntletsf_1.nif"
+    },
+    {
+      "id": "orcish-boots",
+      "slot": "boots",
+      "material": "orcish",
+      "nif": "meshes/armor/orcish/bootsf_1.nif"
+    },
+    {
+      "id": "orcish-helmet",
+      "slot": "helmet",
+      "material": "orcish",
+      "nif": "meshes/armor/orcish/helmetma_1.nif"
+    },
+    {
+      "id": "ebony-cuirass",
+      "slot": "cuirass",
+      "material": "ebony",
+      "nif": "meshes/armor/ebony/m/cuirass_1.nif"
+    },
+    {
+      "id": "ebony-gauntlets",
+      "slot": "gauntlets",
+      "material": "ebony",
+      "nif": "meshes/armor/ebony/m/gauntlets_1.nif"
+    },
+    {
+      "id": "ebony-boots",
+      "slot": "boots",
+      "material": "ebony",
+      "nif": "meshes/armor/ebony/m/boots_1.nif"
+    },
+    {
+      "id": "ebony-helmet",
+      "slot": "helmet",
+      "material": "ebony",
+      "nif": "meshes/armor/ebony/m/helmet_1.nif"
+    },
+    {
+      "id": "glass-cuirass",
+      "slot": "cuirass",
+      "material": "glass",
+      "nif": "meshes/armor/glass/m/cuirass_1.nif"
+    },
+    {
+      "id": "glass-gauntlets",
+      "slot": "gauntlets",
+      "material": "glass",
+      "nif": "meshes/armor/glass/m/gauntlets_1.nif"
+    },
+    {
+      "id": "glass-boots",
+      "slot": "boots",
+      "material": "glass",
+      "nif": "meshes/armor/glass/m/boots_1.nif"
+    },
+    {
+      "id": "glass-helmet",
+      "slot": "helmet",
+      "material": "glass",
+      "nif": "meshes/armor/glass/m/helmet_1.nif"
+    },
+    {
+      "id": "daedric-cuirass",
+      "slot": "cuirass",
+      "material": "daedric",
+      "nif": "meshes/armor/daedric/daedrictorsof_1.nif"
+    },
+    {
+      "id": "daedric-gauntlets",
+      "slot": "gauntlets",
+      "material": "daedric",
+      "nif": "meshes/armor/daedric/daedricglovesf_1.nif"
+    },
+    {
+      "id": "daedric-boots",
+      "slot": "boots",
+      "material": "daedric",
+      "nif": "meshes/armor/daedric/daedricboots_1.nif"
+    },
+    {
+      "id": "daedric-helmet",
+      "slot": "helmet",
+      "material": "daedric",
+      "nif": "meshes/armor/daedric/daedrichelmet_1.nif"
+    },
+    {
+      "id": "studded-cuirass",
+      "slot": "cuirass",
+      "material": "studded",
+      "nif": "meshes/armor/studded/male/body_1.nif"
+    },
+    {
+      "id": "studded-gauntlets",
+      "slot": "gauntlets",
+      "material": "studded",
+      "nif": "meshes/armor/studded/male/gloves_1.nif"
+    },
+    {
+      "id": "studded-boots",
+      "slot": "boots",
+      "material": "studded",
+      "nif": "meshes/armor/studded/male/boots_1.nif"
+    },
+    {
+      "id": "studded-helmet",
+      "slot": "helmet",
+      "material": "studded",
+      "nif": "meshes/armor/studded/male/helmet_1.nif"
+    }
+  ]
+}

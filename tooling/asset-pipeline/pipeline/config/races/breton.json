@@ -1,0 +1,33 @@
+{
+  "id": "breton",
+  "label": "Breton",
+  "description": "High Rock stock, with a little elf far back.",
+  "body": "male",
+  "morph": {
+    "tri": "skyrim-source/extracted/racemorphs/meshes/actors/character/character assets/maleheadraces.tri",
+    "targetMesh": "MaleHeadIMF",
+    "shapeKey": "BretonRace",
+    "value": 1.0
+  },
+  "skinTint": [
+    1.0,
+    0.92,
+    0.85
+  ],
+  "textureSubstitutions": {
+    "textures/actors/character/eyes/eyebrown.dds": "textures/actors/character/eyes/eyegreen.dds",
+    "textures/actors/character/male/malehead_msn.dds": "textures/actors/character/bretonmale/malehead_msn.dds"
+  },
+  "notes": "Skin colour is a tint on the shared vanilla body textures, which is how the game itself does it: every humanoid race uses the same meshes and the same diffuse, and differs by head morph, head normal, eyes and tint. No curated per-race texture tree is needed or wanted.",
+  "extraMeshes": [
+    {
+      "name": "hair",
+      "file": "meshes/actors/character/character assets/hair/male/hair09.nif"
+    }
+  ],
+  "hairTint": [
+    0.36,
+    0.26,
+    0.17
+  ]
+}

@@ -1,0 +1,552 @@
+{
+  "set": "armour",
+  "slots": {
+    "cuirass": {
+      "equipSlot": "chest",
+      "baseWeightKg": 12,
+      "baseRating": 30
+    },
+    "gauntlets": {
+      "equipSlot": "hands",
+      "baseWeightKg": 2.5,
+      "baseRating": 10
+    },
+    "boots": {
+      "equipSlot": "feet",
+      "baseWeightKg": 3.5,
+      "baseRating": 10
+    },
+    "helmet": {
+      "equipSlot": "head",
+      "baseWeightKg": 3,
+      "baseRating": 12
+    }
+  },
+  "items": {
+    "iron-cuirass": {
+      "slot": "cuirass",
+      "material": "iron",
+      "asset": "armour/iron-cuirass.glb",
+      "icon": "armour-icons/iron-cuirass.png",
+      "coversBipedSlots": [
+        32,
+        34,
+        38
+      ],
+      "sizeMeters": [
+        5.8481,
+        10.94258,
+        3.06231
+      ]
+    },
+    "iron-gauntlets": {
+      "slot": "gauntlets",
+      "material": "iron",
+      "asset": "armour/iron-gauntlets.glb",
+      "icon": "armour-icons/iron-gauntlets.png",
+      "coversBipedSlots": [
+        33,
+        34
+      ],
+      "sizeMeters": [
+        6.5919,
+        2.94519,
+        1.9463
+      ]
+    },
+    "iron-boots": {
+      "slot": "boots",
+      "material": "iron",
+      "asset": "armour/iron-boots.glb",
+      "icon": "armour-icons/iron-boots.png",
+      "coversBipedSlots": [
+        37,
+        38
+      ],
+      "sizeMeters": [
+        3.83529,
+        3.19365,
+        2.12844
+      ]
+    },
+    "iron-helmet": {
+      "slot": "helmet",
+      "material": "iron",
+      "asset": "armour/iron-helmet.glb",
+      "icon": "armour-icons/iron-helmet.png",
+      "coversBipedSlots": [
+        31
+      ],
+      "sizeMeters": [
+        2.714,
+        1.89574,
+        2.34274
+      ]
+    },
+    "steel-cuirass": {
+      "slot": "cuirass",
+      "material": "steel",
+      "asset": "armour/steel-cuirass.glb",
+      "icon": "armour-icons/steel-cuirass.png",
+      "coversBipedSlots": [
+        32,
+        34,
+        38
+      ],
+      "sizeMeters": [
+        5.8481,
+        10.8481,
+        2.78108
+      ]
+    },
+    "steel-gauntlets": {
+      "slot": "gauntlets",
+      "material": "steel",
+      "asset": "armour/steel-gauntlets.glb",
+      "icon": "armour-icons/steel-gauntlets.png",
+      "coversBipedSlots": [
+        33,
+        34
+      ],
+      "sizeMeters": [
+        6.70941,
+        3.25061,
+        2.52178
+      ]
+    },
+    "steel-boots": {
+      "slot": "boots",
+      "material": "steel",
+      "asset": "armour/steel-boots.glb",
+      "icon": "armour-icons/steel-boots.png",
+      "coversBipedSlots": [
+        37,
+        38
+      ],
+      "sizeMeters": [
+        3.78866,
+        3.42619,
+        2.28891
+      ]
+    },
+    "steel-helmet": {
+      "slot": "helmet",
+      "material": "steel",
+      "asset": "armour/steel-helmet.glb",
+      "icon": "armour-icons/steel-helmet.png",
+      "coversBipedSlots": [
+        31
+      ],
+      "sizeMeters": [
+        3.66718,
+        2.88878,
+        2.15449
+      ]
+    },
+    "elven-cuirass": {
+      "slot": "cuirass",
+      "material": "elven",
+      "asset": "armour/elven-cuirass.glb",
+      "icon": "armour-icons/elven-cuirass.png",
+      "coversBipedSlots": [
+        32,
+        34,
+        38
+      ],
+      "sizeMeters": [
+        6.34316,
+        11.40509,
+        3.01352
+      ]
+    },
+    "elven-gauntlets": {
+      "slot": "gauntlets",
+      "material": "elven",
+      "asset": "armour/elven-gauntlets.glb",
+      "icon": "armour-icons/elven-gauntlets.png",
+      "coversBipedSlots": [
+        33,
+        34
+      ],
+      "sizeMeters": [
+        6.93969,
+        3.36075,
+        2.19035
+      ]
+    },
+    "elven-boots": {
+      "slot": "boots",
+      "material": "elven",
+      "asset": "armour/elven-boots.glb",
+      "icon": "armour-icons/elven-boots.png",
+      "coversBipedSlots": [
+        37,
+        38
+      ],
+      "sizeMeters": [
+        4.07415,
+        3.95525,
+        2.77646
+      ]
+    },
+    "elven-helmet": {
+      "slot": "helmet",
+      "material": "elven",
+      "asset": "armour/elven-helmet.glb",
+      "icon": "armour-icons/elven-helmet.png",
+      "coversBipedSlots": [
+        31
+      ],
+      "sizeMeters": [
+        1.74173,
+        2.48056,
+        2.08149
+      ]
+    },
+    "dwarven-cuirass": {
+      "slot": "cuirass",
+      "material": "dwarven",
+      "asset": "armour/dwarven-cuirass.glb",
+      "icon": "armour-icons/dwarven-cuirass.png",
+      "coversBipedSlots": [
+        32,
+        34,
+        38
+      ],
+      "sizeMeters": [
+        6.3162,
+        10.80957,
+        3.29231
+      ]
+    },
+    "dwarven-boots": {
+      "slot": "boots",
+      "material": "dwarven",
+      "asset": "armour/dwarven-boots.glb",
+      "icon": "armour-icons/dwarven-boots.png",
+      "coversBipedSlots": [
+        37,
+        38
+      ],
+      "sizeMeters": [
+        4.33933,
+        3.98817,
+        2.72501
+      ]
+    },
+    "dwarven-helmet": {
+      "slot": "helmet",
+      "material": "dwarven",
+      "asset": "armour/dwarven-helmet.glb",
+      "icon": "armour-icons/dwarven-helmet.png",
+      "coversBipedSlots": [
+        30
+      ],
+      "sizeMeters": [
+        1.68409,
+        3.68039,
+        2.77144
+      ]
+    },
+    "orcish-cuirass": {
+      "slot": "cuirass",
+      "material": "orcish",
+      "asset": "armour/orcish-cuirass.glb",
+      "icon": "armour-icons/orcish-cuirass.png",
+      "coversBipedSlots": [
+        32,
+        34,
+        38
+      ],
+      "sizeMeters": [
+        5.77137,
+        10.49163,
+        2.83424
+      ]
+    },
+    "orcish-gauntlets": {
+      "slot": "gauntlets",
+      "material": "orcish",
+      "asset": "armour/orcish-gauntlets.glb",
+      "icon": "armour-icons/orcish-gauntlets.png",
+      "coversBipedSlots": [
+        0,
+        33,
+        34
+      ],
+      "sizeMeters": [
+        6.77997,
+        3.19995,
+        2.15713
+      ]
+    },
+    "orcish-boots": {
+      "slot": "boots",
+      "material": "orcish",
+      "asset": "armour/orcish-boots.glb",
+      "icon": "armour-icons/orcish-boots.png",
+      "coversBipedSlots": [
+        37,
+        38
+      ],
+      "sizeMeters": [
+        4.22675,
+        3.87664,
+        2.39473
+      ]
+    },
+    "orcish-helmet": {
+      "slot": "helmet",
+      "material": "orcish",
+      "asset": "armour/orcish-helmet.glb",
+      "icon": "armour-icons/orcish-helmet.png",
+      "coversBipedSlots": [
+        31
+      ],
+      "sizeMeters": [
+        2.2593,
+        4.19424,
+        3.76111
+      ]
+    },
+    "ebony-cuirass": {
+      "slot": "cuirass",
+      "material": "ebony",
+      "asset": "armour/ebony-cuirass.glb",
+      "icon": "armour-icons/ebony-cuirass.png",
+      "coversBipedSlots": [
+        32,
+        34,
+        38
+      ],
+      "sizeMeters": [
+        6.34604,
+        10.92656,
+        3.22639
+      ]
+    },
+    "ebony-gauntlets": {
+      "slot": "gauntlets",
+      "material": "ebony",
+      "asset": "armour/ebony-gauntlets.glb",
+      "icon": "armour-icons/ebony-gauntlets.png",
+      "coversBipedSlots": [
+        33,
+        34
+      ],
+      "sizeMeters": [
+        6.89866,
+        3.88206,
+        2.04805
+      ]
+    },
+    "ebony-boots": {
+      "slot": "boots",
+      "material": "ebony",
+      "asset": "armour/ebony-boots.glb",
+      "icon": "armour-icons/ebony-boots.png",
+      "coversBipedSlots": [
+        37,
+        38
+      ],
+      "sizeMeters": [
+        4.14589,
+        4.29814,
+        2.65582
+      ]
+    },
+    "ebony-helmet": {
+      "slot": "helmet",
+      "material": "ebony",
+      "asset": "armour/ebony-helmet.glb",
+      "icon": "armour-icons/ebony-helmet.png",
+      "coversBipedSlots": [
+        30
+      ],
+      "sizeMeters": [
+        1.84252,
+        2.83677,
+        2.08638
+      ]
+    },
+    "glass-cuirass": {
+      "slot": "cuirass",
+      "material": "glass",
+      "asset": "armour/glass-cuirass.glb",
+      "icon": "armour-icons/glass-cuirass.png",
+      "coversBipedSlots": [
+        32,
+        34,
+        38
+      ],
+      "sizeMeters": [
+        6.08697,
+        11.21925,
+        3.39298
+      ]
+    },
+    "glass-gauntlets": {
+      "slot": "gauntlets",
+      "material": "glass",
+      "asset": "armour/glass-gauntlets.glb",
+      "icon": "armour-icons/glass-gauntlets.png",
+      "coversBipedSlots": [
+        33,
+        34
+      ],
+      "sizeMeters": [
+        6.57254,
+        3.34373,
+        2.00328
+      ]
+    },
+    "glass-boots": {
+      "slot": "boots",
+      "material": "glass",
+      "asset": "armour/glass-boots.glb",
+      "icon": "armour-icons/glass-boots.png",
+      "coversBipedSlots": [
+        37,
+        38
+      ],
+      "sizeMeters": [
+        4.04356,
+        4.07836,
+        2.06245
+      ]
+    },
+    "glass-helmet": {
+      "slot": "helmet",
+      "material": "glass",
+      "asset": "armour/glass-helmet.glb",
+      "icon": "armour-icons/glass-helmet.png",
+      "coversBipedSlots": [
+        31
+      ],
+      "sizeMeters": [
+        1.76709,
+        2.36935,
+        2.36691
+      ]
+    },
+    "daedric-cuirass": {
+      "slot": "cuirass",
+      "material": "daedric",
+      "asset": "armour/daedric-cuirass.glb",
+      "icon": "armour-icons/daedric-cuirass.png",
+      "coversBipedSlots": [
+        32,
+        34,
+        38
+      ],
+      "sizeMeters": [
+        6.02617,
+        12.00729,
+        3.08549
+      ]
+    },
+    "daedric-gauntlets": {
+      "slot": "gauntlets",
+      "material": "daedric",
+      "asset": "armour/daedric-gauntlets.glb",
+      "icon": "armour-icons/daedric-gauntlets.png",
+      "coversBipedSlots": [
+        33,
+        34
+      ],
+      "sizeMeters": [
+        6.76125,
+        3.5281,
+        2.11624
+      ]
+    },
+    "daedric-boots": {
+      "slot": "boots",
+      "material": "daedric",
+      "asset": "armour/daedric-boots.glb",
+      "icon": "armour-icons/daedric-boots.png",
+      "coversBipedSlots": [
+        38
+      ],
+      "sizeMeters": [
+        4.00947,
+        4.05002,
+        2.63947
+      ]
+    },
+    "daedric-helmet": {
+      "slot": "helmet",
+      "material": "daedric",
+      "asset": "armour/daedric-helmet.glb",
+      "icon": "armour-icons/daedric-helmet.png",
+      "coversBipedSlots": [
+        30
+      ],
+      "sizeMeters": [
+        2.36344,
+        3.9425,
+        3.03967
+      ]
+    },
+    "studded-cuirass": {
+      "slot": "cuirass",
+      "material": "studded",
+      "asset": "armour/studded-cuirass.glb",
+      "icon": "armour-icons/studded-cuirass.png",
+      "coversBipedSlots": [
+        32,
+        34,
+        36,
+        38
+      ],
+      "sizeMeters": [
+        5.8481,
+        10.77292,
+        2.87957
+      ]
+    },
+    "studded-gauntlets": {
+      "slot": "gauntlets",
+      "material": "studded",
+      "asset": "armour/studded-gauntlets.glb",
+      "icon": "armour-icons/studded-gauntlets.png",
+      "coversBipedSlots": [
+        32
+      ],
+      "sizeMeters": [
+        6.46178,
+        3.36167,
+        2.09187
+      ]
+    },
+    "studded-boots": {
+      "slot": "boots",
+      "material": "studded",
+      "asset": "armour/studded-boots.glb",
+      "icon": "armour-icons/studded-boots.png",
+      "coversBipedSlots": [
+        37,
+        38
+      ],
+      "sizeMeters": [
+        4.1058,
+        3.65414,
+        2.25594
+      ]
+    },
+    "studded-helmet": {
+      "slot": "helmet",
+      "material": "studded",
+      "asset": "armour/studded-helmet.glb",
+      "icon": "armour-icons/studded-helmet.png",
+      "coversBipedSlots": [
+        31
+      ],
+      "sizeMeters": [
+        1.96731,
+        2.0162,
+        2.2007
+      ]
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "male-argonian",
+  "label": "Male Argonian body",
+  "meshDir": "meshes/actors/character/character assets",
+  "meshes": [
+    {
+      "name": "body",
+      "file": "malebody_1.nif"
+    },
+    {
+      "name": "hands",
+      "file": "malehandsargonian_1.nif"
+    },
+    {
+      "name": "feet",
+      "file": "malefeet_1.nif"
+    },
+    {
+      "name": "head",
+      "file": "maleheadargonian.nif"
+    },
+    {
+      "name": "eyes",
+      "file": "eyesargonian.nif"
+    },
+    {
+      "name": "mouth",
+      "file": "mouth/mouthargonian.nif"
+    },
+    {
+      "name": "tail",
+      "file": "maletailargonian.nif"
+    }
+  ],
+  "import": {
+    "create_bones": false,
+    "import_tris": false,
+    "import_animations": false,
+    "import_collisions": false,
+    "blender_xf": true,
+    "rotate_bones_pretty": false,
+    "rename_bones": true,
+    "rename_bones_niftools": true
+  },
+  "notes": "Argonians have clawed hands of their own plus their own head, eyes and mouth. The tail mesh binds to the rig's five auxiliary tail bones."
+}

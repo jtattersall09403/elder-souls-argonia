@@ -1,0 +1,414 @@
+{
+  "id": "humanoid-1h-combat",
+  "description": "Semantic combat + locomotion contract for a one-handed (sword drawn) humanoid. Every entry names a Skyrim vanilla source clip; the game only ever references the semantic key.",
+  "scaleReference": {
+    "semantic": "SWORD_IDLE",
+    "sourceTime": 0.0
+  },
+  "supportCalibration": {
+    "airborneImpactProximityMeters": 0.02,
+    "crossFadeSoleSafetyMarginMeters": 0.025
+  },
+  "sourceDir": "meshes/actors/character/animations",
+  "localOverrides": {
+    "dynamic_dodge_roll_1hm": "skyrim-source/mod-sources/extracted/dynamic-dodge-1.5/Dynamic Dodge/Roll to cancel attack/Dynamic Dodge - DMCO-0.9.6/meshes/actors/character/animations/OpenAnimationReplacer/Dynamic Dodge DMCO-0.9.6/6000/MCO_DodgeForward2.hkx",
+    "rim_parry_intro_1hm": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/SK1hMBO/9900433bb/1hm_blockbashintro.HKX",
+    "rim_parry_follow_1hm": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/SK1hMBO/9900433bb/1hm_blockbash.HKX",
+    "rim_riposte_1hm": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/1Execution/(2130000018)1hmzl/1.hkx",
+    "rim_riposted_hit1_1hm": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/0LtStaggerREP/(6141037)sword hit1/modernstaggerlock/1.hkx",
+    "rim_critical_knockdown_1hm": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/0LtStaggerREP/(6254014)Knockdown/modernstaggerlock/1.HKX",
+    "backstab_paired_1hm": "skyrim-source/mod-sources/extracted/backstab-1/Backstab animation for sneak killmove/meshes/actors/character/animations/paired_1hmsneakkillbacka.hkx"
+  },
+  "defaults": {
+    "looping": false,
+    "rootMotion": "strip",
+    "playbackRate": 1.0,
+    "crossFadeDuration": 0.12,
+    "supportMode": "penetration"
+  },
+  "animations": {
+    "IDLE": {
+      "source": "mt_idle_a_base",
+      "looping": true,
+      "preserveRootMotion": true,
+      "provenance": "vanilla mt_idle_a_base (neutral unarmed standing idle, not a combat stance)",
+      "tailSource": "mt_idle"
+    },
+    "SWORD_IDLE": {
+      "source": "1hm_idle",
+      "looping": true,
+      "preserveRootMotion": true,
+      "provenance": "vanilla 1hm_idle (sword-drawn idle); separate action so IDLE/SWORD_IDLE swap independently"
+    },
+    "WALK": {
+      "source": "1hm_walkforward",
+      "looping": true,
+      "provenance": "vanilla directional walk (real forward locomotion)"
+    },
+    "WALK_BACK": {
+      "source": "1hm_walkbackward",
+      "looping": true,
+      "provenance": "vanilla directional walk-back (real, not reversed forward)",
+      "tailSource": "mt_walkbackward"
+    },
+    "STRAFE_LEFT": {
+      "source": "1hm_walkleft",
+      "looping": true,
+      "provenance": "vanilla left strafe",
+      "tailSource": "mt_walkleft"
+    },
+    "STRAFE_RIGHT": {
+      "source": "1hm_walkright",
+      "looping": true,
+      "provenance": "vanilla right strafe",
+      "tailSource": "mt_walkright"
+    },
+    "RUN": {
+      "source": "male/mt_runforward",
+      "looping": true,
+      "provenance": "vanilla male mt_runforward. Replaces 1hm_runforward, whose combat carriage holds both arms near the body: measured on the production rig its upper arms swing only 24/19 degrees against 88/79 degrees of thigh swing, which reads as shoulders bobbing with no arm swing. mt_runforward swings 43/35 degrees at the shoulder and 32/37 at the elbow over the identical stride."
+    },
+    "SPRINT": {
+      "source": "male/mt_sprintforward",
+      "looping": true,
+      "provenance": "vanilla male mt_sprintforward. mt_sprintforwardsword is the same sprint with the sword arm damped - measured on the production rig the two are identical on the left arm (49.2/50.8 degrees) and legs, and differ only on the right, which drops from 63.8 to 51.1 at the shoulder and 30.9 to 27.3 at the elbow. That asymmetry is exactly the reported 'left arm swings, right arm bobs'."
+    },
+    "JUMP_START": {
+      "source": "mt_jump",
+      "playbackEndTime": 0.5667,
+      "crossFadeDuration": 0.18,
+      "crossFadeOutDuration": 0.03,
+      "supportMode": "airborne",
+      "provenance": "vanilla mt_jump launch through source 0.5667s; exhaustive production-rig pose comparison selected a short 0.03s outgoing handoff into the continuation cut from mt_jumpfast; vertical COM stripped because the physics controller owns the jump arc",
+      "stripVerticalRootMotion": true
+    },
+    "JUMP_IDLE": {
+      "source": "mt_jumpfast",
+      "looping": false,
+      "playbackStartTime": 0.5667,
+      "playbackEndTime": 0.8333,
+      "playbackRate": 1.3333,
+      "supportMode": "airborne",
+      "provenance": "vanilla mt_jumpfast source 0.5667-0.8333, a sword-bearing continuation whose launch seam differs by at most 1.01 degrees on the audited production skeleton; fitted to the observed 0.20s airborne interval and clamped for longer falls without entering an authored landing; vertical COM stripped because the physics controller owns the jump arc",
+      "stripVerticalRootMotion": true
+    },
+    "JUMP_LAND": {
+      "source": "mt_jumpland",
+      "crossFadeDuration": 0.18,
+      "supportMode": "floor-contact",
+      "provenance": "vanilla stationary landing with a production-audited 0.18s entry blend and exact visible-surface contact"
+    },
+    "JUMP_LAND_LEFT": {
+      "source": "mt_jumplandleft",
+      "supportMode": "floor-contact",
+      "provenance": "vanilla directional landing, left-foot transition with exact visible-surface contact",
+      "tailSource": "mt_jumpland"
+    },
+    "JUMP_LAND_RIGHT": {
+      "source": "mt_jumplandright",
+      "supportMode": "floor-contact",
+      "provenance": "vanilla directional landing, right-foot transition with exact visible-surface contact",
+      "tailSource": "mt_jumpland"
+    },
+    "LIGHT_1": {
+      "source": "1hm_attackright",
+      "rootMotion": "consume",
+      "combo": 1,
+      "provenance": "vanilla right swing (combo hit 1)"
+    },
+    "LIGHT_2": {
+      "source": "1hm_attackleft",
+      "rootMotion": "consume",
+      "combo": 2,
+      "provenance": "vanilla left swing (combo hit 2, alternating)"
+    },
+    "LIGHT_3": {
+      "source": "1hm_attackpower",
+      "rootMotion": "consume",
+      "combo": 3,
+      "provenance": "vanilla standing power attack (combo finisher)"
+    },
+    "HEAVY": {
+      "source": "1hm_attackpowerright",
+      "rootMotion": "consume",
+      "provenance": "vanilla right power attack"
+    },
+    "HEAVY_2": {
+      "source": "1hm_attackpowerleft",
+      "rootMotion": "consume",
+      "provenance": "vanilla left power attack"
+    },
+    "ROLL": {
+      "source": "dynamic_dodge_roll_1hm",
+      "rootMotion": "consume",
+      "playbackRate": 1.35422,
+      "crossFadeOutDuration": 0.08,
+      "supportSampleRate": 120,
+      "curveConditioning": {
+        "removeQuaternionKeys": [
+          {
+            "bone": "NPC Hand [Hnd].L",
+            "sourceTime": 0.1
+          },
+          {
+            "bone": "NPC Hand [Hnd].L",
+            "sourceTime": 0.1333333
+          }
+        ],
+        "exportedContinuity": [
+          {
+            "bone": "NPC Hand [Hnd].L",
+            "startTime": 0.0666667,
+            "endTime": 0.1666667,
+            "maxAngularStepDegrees": 8.0
+          }
+        ]
+      },
+      "provenance": "Dynamic Dodge Animation 1.5, DMCO 0.9.6 base OAR 6000 MCO_DodgeForward2.hkx; exhaustive weapon-mounted FOMOD/OAR audition retained this semantically correct one-handed tuck roll, fitted to a 0.64s authored-motion span so the exported leading pose and at least 0.055s of its clean upright endpoint both render inside the unchanged 0.72s gameplay lock; source frames 3 and 4 are an isolated left-hand quaternion spike that leaves and returns to its neighbours (70/20/100 degree steps between poses only 13.6 degrees apart), so both keys are removed declaratively and runtime slerp follows the untouched frame 2 and frame 5 neighbours; 120Hz visible-surface sampling protects the fast nonlinear tuck from between-keyframe floor penetration",
+      "tailSource": "mt_jump"
+    },
+    "BACKSTEP": {
+      "source": "1hm_walkbackward",
+      "looping": false,
+      "rootMotion": "consume",
+      "playbackRate": 3.3975,
+      "crossFadeDuration": 0.08,
+      "crossFadeOutDuration": 0.08,
+      "supportMode": "penetration",
+      "provenance": "vanilla Skyrim - Animations.bsa meshes/actors/character/animations/1hm_walkbackward.hkx, full guarded two-step retreat fitted exactly to the 0.52s gameplay lock; selected after exhaustive weapon-mounted review rejected Dynamic Dodge Backward1/TK StepDodgeBack as the same floaty hop and Backward2/TK DodgeBack as a somersault",
+      "tailSource": "mt_walkbackward"
+    },
+    "GUARD_ENTER": {
+      "source": "1hm_blockanticipate",
+      "provenance": "vanilla one-handed sword block anticipate/guard entry. Its stance sits 0.174 m lower at the COM than the sword idle it blends from; now that both clips are correctly grounded that difference is real geometry rather than a hover, so the entry blend is lengthened to spread the support solve over more frames instead of stepping it in one.",
+      "crossFadeDuration": 0.2,
+      "tailSource": "2hm_blockanticipate"
+    },
+    "GUARD": {
+      "source": "1hm_blockidle",
+      "looping": true,
+      "preserveRootMotion": true,
+      "provenance": "vanilla one-handed sword block idle",
+      "tailSource": "2hm_idle"
+    },
+    "GUARD_HIT_A": {
+      "source": "1hm_blockhita",
+      "provenance": "vanilla one-handed sword block-hit variant A",
+      "tailSource": "2hm_blockhit"
+    },
+    "GUARD_HIT_B": {
+      "source": "1hm_blockhitb",
+      "provenance": "vanilla one-handed sword block-hit variant B",
+      "tailSource": "2hm_blockhit"
+    },
+    "PARRY": {
+      "source": "rim_parry_intro_1hm",
+      "rootMotion": "consume",
+      "crossFadeDuration": 0.06,
+      "crossFadeOutDuration": 0.05,
+      "provenance": "Rim Parry and Execution 1.1, OAR (9900433) one-handed sword block-bash intro; exact 9900433bb/1hm_blockbashintro.HKX catch, with short production-candidate entry/handoff blends so the 0.1667s authored catch remains readable",
+      "tailSource": "2hm_blockbash"
+    },
+    "PARRY_FOLLOW_THROUGH": {
+      "source": "rim_parry_follow_1hm",
+      "rootMotion": "consume",
+      "crossFadeDuration": 0.05,
+      "crossFadeOutDuration": 0.14,
+      "provenance": "Rim Parry and Execution 1.1, OAR (9900433) one-handed sword block-bash follow-through; exact 9900433bb/1hm_blockbash.HKX deflection/recovery, with a production-candidate 0.14s return to combat idle",
+      "tailSource": "2hm_blockbash"
+    },
+    "RIPOSTE": {
+      "source": "rim_riposte_1hm",
+      "rootMotion": "consume",
+      "playbackStartTime": 0.1667,
+      "playbackEndTime": 1.3,
+      "crossFadeDuration": 0.18,
+      "crossFadeOutDuration": 0.24,
+      "provenance": "Rim Parry and Execution 1.1, one-handed sword execution attacker (2130000018)/1.hkx, CQC02 lunge selected from source 0.1667\u20131.3s; exhaustive production-paired review rejected the source 0.10s stray blade pass and established 0.1667s as the first robust anticipation frame, retaining the authored source 0.5667s contact and 0.7s withdrawal; production-audited 0.18s entry and 0.24s exit blends",
+      "tailSource": null
+    },
+    "RIPOSTED_HIT1": {
+      "source": "rim_riposted_hit1_1hm",
+      "rootMotion": "consume",
+      "playbackStartTime": 0.1333,
+      "playbackRate": 1.0,
+      "crossFadeDuration": 0.08,
+      "crossFadeOutDuration": 0.2,
+      "supportMode": "penetration",
+      "provenance": "Rim Parry and Execution 1.1, OAR (6141037) sword hit1/modernstaggerlock/1.hkx; exhaustive paired normal-speed and dense-frame audition selected the source from 0.1333s through its untrimmed 2.0s endpoint as the coherent nonlethal riposte contact-and-recovery reaction, with a 0.08s entry and 0.20s exit blend",
+      "tailSource": null
+    },
+    "CRITICAL_KNOCKDOWN": {
+      "source": "rim_critical_knockdown_1hm",
+      "rootMotion": "consume",
+      "supportMode": "penetration",
+      "supportPhases": [
+        {
+          "startTime": 0.82,
+          "endTime": 0.95,
+          "mode": "airborne"
+        },
+        {
+          "startTime": 1.1,
+          "endTime": 2.55,
+          "mode": "floor-contact"
+        }
+      ],
+      "provenance": "Rim Parry and Execution 1.1, (6254014) Knockdown/modernstaggerlock/1.HKX victim reaction, selected by production render audit as one authored impact-to-fall-to-supine-to-get-up recovery; intentional flight is source 0.82\u20130.95s, upward-only penetration prevention protects the impact/rebound through 1.10s, then visible body contact is floor-bound through early get-up",
+      "tailSource": null
+    },
+    "CRITICAL_DEATH": {
+      "source": "rim_critical_knockdown_1hm",
+      "rootMotion": "consume",
+      "playbackEndTime": 1.9,
+      "supportMode": "penetration",
+      "supportPhases": [
+        {
+          "startTime": 0.82,
+          "endTime": 0.95,
+          "mode": "airborne"
+        },
+        {
+          "startTime": 1.1,
+          "endTime": 1.9,
+          "mode": "floor-contact"
+        }
+      ],
+      "provenance": "Rim Parry and Execution 1.1, (6254014) Knockdown/modernstaggerlock/1.HKX victim reaction ending at the full-frame-audited 1.9s stable prone pose for lethal criticals; intentional flight is source 0.82\u20130.95s, followed by upward-only impact protection until floor contact at 1.10s",
+      "tailSource": null
+    },
+    "BACKSTAB": {
+      "source": "backstab_paired_1hm",
+      "rootMotion": "consume",
+      "pairedTrackPrefix": "",
+      "provenance": "Backstab animation for sneak killmove SE 1, paired_1hmsneakkillbacka unprefixed attacker tracks",
+      "tailSource": null
+    },
+    "BACKSTABBED": {
+      "source": "backstab_paired_1hm",
+      "rootMotion": "consume",
+      "pairedTrackPrefix": "2_",
+      "crossFadeOutDuration": 0.2,
+      "provenance": "Backstab animation for sneak killmove SE 1, paired_1hmsneakkillbacka 2_-prefixed victim tracks; nonlethal criticals retain the complete authored wounded recovery before a 0.2s return to combat idle",
+      "tailSource": null
+    },
+    "HEAL": {
+      "source": "idledrinkpotion",
+      "playbackRate": 3.65594,
+      "provenance": "vanilla drink-potion idle (estus heal, full clip fitted to the 1.55s gameplay window)",
+      "tailSource": "mt_idle"
+    },
+    "EQUIP": {
+      "source": "1hm_equip",
+      "provenance": "vanilla draw one-handed"
+    },
+    "UNEQUIP": {
+      "source": "1hm_unequip",
+      "provenance": "vanilla sheathe one-handed"
+    },
+    "HIT": {
+      "source": "1hm_staggerbacksmall",
+      "playbackRate": 2.52694,
+      "provenance": "vanilla small back stagger (full clip fitted to the 0.62s light-hit reaction window)"
+    },
+    "HIT_HEAVY": {
+      "source": "1hm_staggerbacklarge",
+      "playbackRate": 3.97855,
+      "provenance": "vanilla large back stagger (full clip fitted to the 0.62s heavy-hit reaction window)"
+    },
+    "RECOIL": {
+      "source": "1hm_recoiltimed",
+      "playbackRate": 2.69833,
+      "provenance": "vanilla weapon recoil (full clip fitted to the 0.42s blocked/clashed window)",
+      "tailSource": "2hm_recoiltimed"
+    },
+    "GUARD_BREAK": {
+      "source": "1hm_staggerbacklarge",
+      "playbackRate": 1.0,
+      "provenance": "vanilla 1hm_staggerbacklarge standing recoil, played at its native 2.4667s so the guard-break opening reads as a full Souls-style stagger instead of a 1.4x-compressed 1.75s window; selected over the kneeling OAR largest-stagger candidate"
+    },
+    "DEATH": {
+      "source": "rim_critical_knockdown_1hm",
+      "rootMotion": "consume",
+      "playbackEndTime": 1.9,
+      "supportMode": "penetration",
+      "supportPhases": [
+        {
+          "startTime": 0.82,
+          "endTime": 0.95,
+          "mode": "airborne"
+        },
+        {
+          "startTime": 1.1,
+          "endTime": 1.9,
+          "mode": "floor-contact"
+        }
+      ],
+      "provenance": "Rim Parry and Execution 1.1, (6254014) Knockdown/modernstaggerlock/1.HKX complete lethal reaction ending at the audited stable 1.9s prone pose; intentional flight is source 0.82\u20130.95s, followed by upward-only impact protection and floor contact from 1.10s",
+      "tailSource": null
+    },
+    "BOW_IDLE": {
+      "source": "bow_idleheld",
+      "looping": true,
+      "preserveRootMotion": true,
+      "provenance": "vanilla bow_idleheld (standing with a bow in hand, string at rest)",
+      "tailSource": "mt_idle"
+    },
+    "BOW_WALK": {
+      "source": "bow_walkforward",
+      "looping": true,
+      "provenance": "vanilla bow-carry walk",
+      "tailSource": "mt_walkforward"
+    },
+    "BOW_WALK_BACK": {
+      "source": "bow_walkbackward",
+      "looping": true,
+      "provenance": "vanilla bow-carry walk-back",
+      "tailSource": "mt_walkbackward"
+    },
+    "BOW_STRAFE_LEFT": {
+      "source": "bow_walkleft",
+      "looping": true,
+      "provenance": "vanilla bow-carry left strafe",
+      "tailSource": "mt_walkleft"
+    },
+    "BOW_STRAFE_RIGHT": {
+      "source": "bow_walkright",
+      "looping": true,
+      "provenance": "vanilla bow-carry right strafe",
+      "tailSource": "mt_walkright"
+    },
+    "BOW_RUN": {
+      "source": "bow_runforward",
+      "looping": true,
+      "provenance": "vanilla bow-carry run",
+      "tailSource": "mt_runforward"
+    },
+    "BOW_DRAW": {
+      "source": "bow_drawlight",
+      "provenance": "vanilla bow_drawlight (nock through to full draw); the game scales it to the bow's own draw time",
+      "tailSource": "mt_idle"
+    },
+    "BOW_DRAWN": {
+      "source": "bow_idledrawn",
+      "looping": true,
+      "provenance": "vanilla bow_idledrawn (held at full draw)",
+      "tailSource": "mt_idle"
+    },
+    "BOW_RELEASE": {
+      "source": "bow_release",
+      "provenance": "vanilla bow_release (loose and follow-through)",
+      "tailSource": "mt_idle"
+    },
+    "BOW_EQUIP": {
+      "source": "bow_equip",
+      "provenance": "vanilla bow_equip (bow off the back into the hand)",
+      "tailSource": "mt_idle"
+    },
+    "BOW_UNEQUIP": {
+      "source": "bow_unequip",
+      "provenance": "vanilla bow_unequip (bow back onto the back)",
+      "tailSource": "mt_idle"
+    }
+  }
+}

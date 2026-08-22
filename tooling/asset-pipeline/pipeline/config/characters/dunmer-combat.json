@@ -1,0 +1,10 @@
+{
+  "id": "dunmer-combat",
+  "label": "Dunmer combat character",
+  "race": "dunmer",
+  "body": "male",
+  "rig": "skyrim-humanoid",
+  "animations": "humanoid-1h-combat",
+  "output": "output/character-dunmer-combat.glb",
+  "manifestOutput": "output/character-dunmer-combat.animations.json"
+}

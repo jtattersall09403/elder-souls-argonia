@@ -1,0 +1,46 @@
+{
+  "id": "male-khajiit",
+  "label": "Male Khajiit body",
+  "meshDir": "meshes/actors/character/character assets",
+  "meshes": [
+    {
+      "name": "body",
+      "file": "malebody_1.nif"
+    },
+    {
+      "name": "hands",
+      "file": "malehands_1.nif"
+    },
+    {
+      "name": "feet",
+      "file": "malefeet_1.nif"
+    },
+    {
+      "name": "head",
+      "file": "maleheadkhajiit.nif"
+    },
+    {
+      "name": "eyes",
+      "file": "eyeskhajiit.nif"
+    },
+    {
+      "name": "mouth",
+      "file": "mouth/mouthkhajiit.nif"
+    },
+    {
+      "name": "tail",
+      "file": "maletailkhajiit.nif"
+    }
+  ],
+  "import": {
+    "create_bones": false,
+    "import_tris": false,
+    "import_animations": false,
+    "import_collisions": false,
+    "blender_xf": true,
+    "rotate_bones_pretty": false,
+    "rename_bones": true,
+    "rename_bones_niftools": true
+  },
+  "notes": "Khajiit share the humanoid body, hands and feet meshes and differ in head, eyes and mouth. The tail mesh binds to the rig's five auxiliary tail bones."
+}

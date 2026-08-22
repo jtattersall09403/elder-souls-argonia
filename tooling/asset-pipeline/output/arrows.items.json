@@ -1,0 +1,161 @@
+{
+  "set": "arrows",
+  "items": {
+    "iron-arrow": {
+      "class": "arrow",
+      "material": "iron",
+      "sheathSocket": "Quiver",
+      "asset": "arrows/iron-arrow.glb",
+      "icon": "arrow-icons/iron-arrow.png",
+      "lengthMeters": 0.75,
+      "sizeMeters": [
+        0.05908,
+        0.0675,
+        0.75
+      ]
+    },
+    "steel-arrow": {
+      "class": "arrow",
+      "material": "steel",
+      "sheathSocket": "Quiver",
+      "asset": "arrows/steel-arrow.glb",
+      "icon": "arrow-icons/steel-arrow.png",
+      "lengthMeters": 0.75,
+      "sizeMeters": [
+        0.04878,
+        0.05005,
+        0.75
+      ]
+    },
+    "elven-arrow": {
+      "class": "arrow",
+      "material": "elven",
+      "sheathSocket": "Quiver",
+      "asset": "arrows/elven-arrow.glb",
+      "icon": "arrow-icons/elven-arrow.png",
+      "lengthMeters": 0.75,
+      "sizeMeters": [
+        0.05195,
+        0.05195,
+        0.75
+      ]
+    },
+    "glass-arrow": {
+      "class": "arrow",
+      "material": "glass",
+      "sheathSocket": "Quiver",
+      "asset": "arrows/glass-arrow.glb",
+      "icon": "arrow-icons/glass-arrow.png",
+      "lengthMeters": 0.75,
+      "sizeMeters": [
+        0.07072,
+        0.04894,
+        0.75
+      ]
+    },
+    "orcish-arrow": {
+      "class": "arrow",
+      "material": "orcish",
+      "sheathSocket": "Quiver",
+      "asset": "arrows/orcish-arrow.glb",
+      "icon": "arrow-icons/orcish-arrow.png",
+      "lengthMeters": 0.75,
+      "sizeMeters": [
+        0.04789,
+        0.04761,
+        0.75
+      ]
+    },
+    "dwarven-arrow": {
+      "class": "arrow",
+      "material": "dwarven",
+      "sheathSocket": "Quiver",
+      "asset": "arrows/dwarven-arrow.glb",
+      "icon": "arrow-icons/dwarven-arrow.png",
+      "lengthMeters": 0.75,
+      "sizeMeters": [
+        0.05909,
+        0.03911,
+        0.75
+      ]
+    },
+    "ebony-arrow": {
+      "class": "arrow",
+      "material": "ebony",
+      "sheathSocket": "Quiver",
+      "asset": "arrows/ebony-arrow.glb",
+      "icon": "arrow-icons/ebony-arrow.png",
+      "lengthMeters": 0.75,
+      "sizeMeters": [
+        0.02013,
+        0.08475,
+        0.75
+      ]
+    },
+    "daedric-arrow": {
+      "class": "arrow",
+      "material": "daedric",
+      "sheathSocket": "Quiver",
+      "asset": "arrows/daedric-arrow.glb",
+      "icon": "arrow-icons/daedric-arrow.png",
+      "lengthMeters": 0.75,
+      "sizeMeters": [
+        0.04957,
+        0.06619,
+        0.75
+      ]
+    },
+    "nordhero-arrow": {
+      "class": "arrow",
+      "material": "nordhero",
+      "sheathSocket": "Quiver",
+      "asset": "arrows/nordhero-arrow.glb",
+      "icon": "arrow-icons/nordhero-arrow.png",
+      "lengthMeters": 0.75,
+      "sizeMeters": [
+        0.04664,
+        0.04046,
+        0.75
+      ]
+    },
+    "forsworn-arrow": {
+      "class": "arrow",
+      "material": "forsworn",
+      "sheathSocket": "Quiver",
+      "asset": "arrows/forsworn-arrow.glb",
+      "icon": "arrow-icons/forsworn-arrow.png",
+      "lengthMeters": 0.75,
+      "sizeMeters": [
+        0.05731,
+        0.01306,
+        0.75
+      ]
+    },
+    "falmer-arrow": {
+      "class": "arrow",
+      "material": "falmer",
+      "sheathSocket": "Quiver",
+      "asset": "arrows/falmer-arrow.glb",
+      "icon": "arrow-icons/falmer-arrow.png",
+      "lengthMeters": 0.75,
+      "sizeMeters": [
+        0.07051,
+        0.07228,
+        0.75
+      ]
+    },
+    "draugr-arrow": {
+      "class": "arrow",
+      "material": "draugr",
+      "sheathSocket": "Quiver",
+      "asset": "arrows/draugr-arrow.glb",
+      "icon": "arrow-icons/draugr-arrow.png",
+      "lengthMeters": 0.75,
+      "sizeMeters": [
+        0.04664,
+        0.04046,
+        0.75
+      ]
+    }
+  }
+}
