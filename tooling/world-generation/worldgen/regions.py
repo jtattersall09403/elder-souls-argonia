@@ -34,6 +34,7 @@ REGION_CLASSES = {
     9: ("seasonal floodplain", (170, 200, 140)),
     10: ("raised hammock", (200, 150, 90)),
     11: ("firm lowland", (140, 160, 110)),
+    12: ("lake & standing water", (70, 140, 215)),
 }
 
 
@@ -117,6 +118,7 @@ def compute_regions(z: np.ndarray, hydro: HydrologyResult, metres_per_px: float)
     regions[(hydro.tidal | hydro.wetlands) & land & river_mouth] = 3
     regions[land & (z > 30)] = 2
     regions[land & (z > 40) & (interiorness(*z.shape) < 0.35)] = 1
+    regions[hydro.lakes] = 12
     regions[~land] = 0
 
     fractions = {name: round(float((regions == cid).mean()), 4) for cid, (name, _) in REGION_CLASSES.items()}

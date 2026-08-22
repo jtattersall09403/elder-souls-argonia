@@ -84,13 +84,13 @@ export function App() {
   const [readout, setReadout] = useState("");
   const [tip, setTip] = useState<{ x: number; y: number; text: string } | null>(null);
   const overlaysRef = useRef<Record<string, HTMLImageElement>>({});
-  const regionPxRef = useRef<Uint8ClampedArray | null>(null);
+  const decodedPxRef = useRef<Record<string, Uint8ClampedArray>>({});
   const [layers, setLayers] = useState<Record<string, boolean>>({
-    rivers: true, wetlands: true, regions: false, flood: false,
-    soil: false, watersheds: false, salinity: false,
+    rivers: true, wetlands: true, routes: true, danger: false, cultures: false,
+    regions: false, flood: false, soil: false, watersheds: false, salinity: false,
   });
   const [overlaysReady, setOverlaysReady] = useState(false);
-  const [regionLegend, setRegionLegend] = useState<Record<string, { name: string; rgb: number[] }>>({});
+  const [legends, setLegends] = useState<Record<string, Record<string, { name: string; rgb: number[] }>>>({});
 
   function displayHeights(): Float32Array | null {
     const base = heightsRef.current;
@@ -126,11 +126,18 @@ export function App() {
       }
       heightsRef.current = heights;
       setMeta(m);
-      // Hydrology overlays (pass 1); missing files just leave a layer empty.
+      // Generated overlays; missing files just leave a layer empty.
+      const overlayFiles: Record<string, string> = {
+        rivers: "hydro-rivers.png", wetlands: "hydro-wetlands.png",
+        regions: "hydro-regions.png", flood: "hydro-flood.png",
+        soil: "hydro-soil.png", watersheds: "hydro-watersheds.png",
+        salinity: "hydro-salinity.png", routes: "soc-routes.png",
+        danger: "soc-danger.png", cultures: "soc-cultures.png",
+      };
       await Promise.all(
-        ["rivers", "wetlands", "regions", "flood", "soil", "watersheds", "salinity"].map(async (name) => {
+        Object.entries(overlayFiles).map(async ([name, file]) => {
           const overlay = new Image();
-          overlay.src = `${base}province/hydro-${name}.png`;
+          overlay.src = `${base}province/${file}`;
           try {
             await overlay.decode();
             overlaysRef.current[name] = overlay;
@@ -139,18 +146,28 @@ export function App() {
           }
         }),
       );
+      const decode = (name: string) => {
+        const img = overlaysRef.current[name];
+        if (!img) return;
+        ctx.clearRect(0, 0, m.imageWidth, m.imageHeight);
+        ctx.drawImage(img, 0, 0);
+        decodedPxRef.current[name] = ctx.getImageData(0, 0, m.imageWidth, m.imageHeight).data;
+      };
       try {
         const hydroMeta = await (await fetch(`${base}province/hydrology-meta.json`)).json();
         // Hydrology meta carries the decided world scale (×3, decision 0006);
         // the terrain meta is raw extractor scale.
         if (hydroMeta.metresPerPixel) setMeta({ ...m, metresPerPixel: hydroMeta.metresPerPixel });
-        setRegionLegend(hydroMeta.regionsLegend ?? {});
-        const regionsImg = overlaysRef.current.regions;
-        if (regionsImg) {
-          ctx.clearRect(0, 0, m.imageWidth, m.imageHeight);
-          ctx.drawImage(regionsImg, 0, 0);
-          regionPxRef.current = ctx.getImageData(0, 0, m.imageWidth, m.imageHeight).data;
-        }
+        const collected: typeof legends = { regions: hydroMeta.regionsLegend ?? {} };
+        try {
+          const socMeta = await (await fetch(`${base}province/society-meta.json`)).json();
+          collected.danger = socMeta.dangerLegend ?? {};
+          collected.cultures = socMeta.cultureLegend ?? {};
+        } catch { /* society pass not generated yet */ }
+        setLegends(collected);
+        decode("regions");
+        decode("danger");
+        decode("cultures");
       } catch {
         /* hydrology metadata not generated yet */
       }
@@ -179,8 +196,9 @@ export function App() {
     }
     ctx.putImageData(out, 0, 0);
 
-    // Hydrology overlays under the anchors, in back-to-front order.
-    for (const name of ["regions", "soil", "watersheds", "flood", "salinity", "wetlands", "rivers"]) {
+    // Generated overlays under the anchors, in back-to-front order.
+    for (const name of ["regions", "soil", "watersheds", "flood", "salinity",
+                        "danger", "cultures", "wetlands", "rivers", "routes"]) {
       const img = overlaysRef.current[name];
       if (layers[name] && img) ctx.drawImage(img, 0, 0);
     }
@@ -234,24 +252,23 @@ export function App() {
     if (x < 0 || y < 0 || x >= meta.imageWidth || y >= meta.imageHeight) return;
     const hgt = heights[y * meta.imageWidth + x];
     const km = (v: number) => ((v * meta.metresPerPixel) / 1000).toFixed(2);
-    let region = "";
-    const px = regionPxRef.current;
-    if (px) {
+    // Canvas readback un-premultiplies alpha, so match the nearest colour.
+    const lookup = (layer: string, whenEmpty = ""): string => {
+      const px = decodedPxRef.current[layer];
+      const legend = legends[layer];
+      if (!px || !legend) return "";
       const i = (y * meta.imageWidth + x) * 4;
-      if (px[i + 3] === 0) {
-        region = " · ocean";
-      } else {
-        // Canvas readback un-premultiplies alpha, so match the nearest colour.
-        let best: string | null = null;
-        let bestDist = 40;
-        for (const r of Object.values(regionLegend)) {
-          const dist = Math.abs(r.rgb[0] - px[i]) + Math.abs(r.rgb[1] - px[i + 1]) + Math.abs(r.rgb[2] - px[i + 2]);
-          if (dist < bestDist) { bestDist = dist; best = r.name; }
-        }
-        region = best ? ` · ${best}` : "";
+      if (px[i + 3] === 0) return whenEmpty;
+      let best: string | null = null;
+      let bestDist = 40;
+      for (const r of Object.values(legend)) {
+        const dist = Math.abs(r.rgb[0] - px[i]) + Math.abs(r.rgb[1] - px[i + 1]) + Math.abs(r.rgb[2] - px[i + 2]);
+        if (dist < bestDist) { bestDist = dist; best = r.name; }
       }
-    }
-    const text = `${km(x)} km E, ${km(y)} km S · elevation ${hgt.toFixed(1)} m${region}`;
+      return best ? ` · ${best}` : "";
+    };
+    const info = lookup("regions", " · ocean") + lookup("danger") + lookup("cultures", " · hinterland");
+    const text = `${km(x)} km E, ${km(y)} km S · elevation ${hgt.toFixed(1)} m${info}`;
     setReadout(text);
     setTip({ x: e.clientX - rect.left, y: e.clientY - rect.top, text });
   }
@@ -278,8 +295,8 @@ export function App() {
         <span style={{ minWidth: 260 }}>{readout}</span>
       </div>
       <div style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
-        <span>Hydrology (pass 1):</span>
-        {(["rivers", "wetlands", "regions", "flood", "soil", "watersheds", "salinity"] as const).map((name) => (
+        <span>Layers:</span>
+        {(["rivers", "wetlands", "routes", "danger", "cultures", "regions", "flood", "soil", "watersheds", "salinity"] as const).map((name) => (
           <label key={name} style={{ cursor: "pointer" }}>
             <input type="checkbox" checked={layers[name]}
               onChange={(e) => setLayers({ ...layers, [name]: e.target.checked })} />{" "}
@@ -305,15 +322,17 @@ export function App() {
           </button>
         ))}
       </div>
-      {layers.regions && Object.keys(regionLegend).length > 0 && (
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center", maxWidth: 860 }}>
-          {Object.values(regionLegend).filter((r) => r.name !== "ocean").map((r) => (
-            <span key={r.name} style={{ display: "inline-flex", alignItems: "center", gap: 4, font: "12px system-ui" }}>
-              <span style={{ width: 11, height: 11, borderRadius: 2, background: `rgb(${r.rgb.join(",")})` }} />
-              {r.name}
-            </span>
-          ))}
-        </div>
+      {(["regions", "danger", "cultures"] as const).map((layer) =>
+        layers[layer] && legends[layer] && Object.keys(legends[layer]).length > 0 ? (
+          <div key={layer} style={{ display: "flex", gap: 10, flexWrap: "wrap", justifyContent: "center", maxWidth: 860 }}>
+            {Object.values(legends[layer]).filter((r) => r.name !== "ocean").map((r) => (
+              <span key={r.name} style={{ display: "inline-flex", alignItems: "center", gap: 4, font: "12px system-ui" }}>
+                <span style={{ width: 11, height: 11, borderRadius: 2, background: `rgb(${r.rgb.join(",")})` }} />
+                {r.name}
+              </span>
+            ))}
+          </div>
+        ) : null,
       )}
       <div style={{ position: "relative" }}>
         <canvas ref={canvasRef} onPointerMove={onMove} onPointerLeave={() => setTip(null)}
@@ -333,13 +352,14 @@ export function App() {
         Terrain: Tamriel Worldspaces Argonia heightfield (coarse macro prior — not final terrain).
         Dashed rings are anchor placement tolerances; positions were corrected at the owner
         review (coastal anchors snapped to verified coast, Gideon to the measured western pass).
-        Faint dotted lines are the suggested major-city road network (candidate graph edges,
-        not road geometry). “Compressed — mild” is the owner-chosen Phase 3 interior
-        conditioning and the default view; hover elevations follow the selected mode.
-        Hydrology layers are the first coarse province solve on the conditioned terrain:
-        rivers by drainage area (darker = larger, lakes filled), green wetlands and
-        olive tidal flats, top drainage basins, and brackish salinity reach. Note the
-        hydrology is computed on the mild terrain regardless of the relief toggle.
+        Solid tan lines (“routes”) are computed least-cost road corridors for the owner's
+        major-city network — they seek dry ground, passes and cheap crossings; dotted lines
+        are the underlying graph intent. “danger” shows the fixed 1–5 danger bands (never
+        player-scaled) from region character, remoteness and road relief; “cultures” shows
+        pass-1 dominant-culture territories. Hydrology layers are the coarse province solve
+        on the owner-chosen mild terrain (regardless of the relief toggle): rivers by
+        drainage area, wetlands and tidal flats, flood frequency, soils, basins, salinity.
+        The hover tooltip reports region, danger and culture wherever you point.
       </p>
     </div>
   );

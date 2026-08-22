@@ -111,6 +111,14 @@
         160,
         110
       ]
+    },
+    "12": {
+      "name": "lake & standing water",
+      "rgb": [
+        70,
+        140,
+        215
+      ]
     }
   },
   "soilLegend": {
@@ -159,17 +167,18 @@
   },
   "regionFractions": {
     "ocean": 0.3214,
-    "border mountains": 0.0859,
-    "upland hills": 0.0805,
+    "border mountains": 0.0815,
+    "upland hills": 0.0768,
     "tidal delta": 0.0004,
-    "coastal lagoon & salt marsh": 0.0041,
-    "deep river corridor": 0.0025,
-    "rootland deep marsh": 0.0302,
-    "interior swamp": 0.0153,
-    "fringe marsh": 0.0249,
+    "coastal lagoon & salt marsh": 0.0006,
+    "deep river corridor": 0.0017,
+    "rootland deep marsh": 0.0269,
+    "interior swamp": 0.0139,
+    "fringe marsh": 0.0236,
     "seasonal floodplain": 0.0165,
     "raised hammock": 0.0001,
-    "firm lowland": 0.418
+    "firm lowland": 0.39,
+    "lake & standing water": 0.0465
   },
   "handPercentilesM": {
     "25": 1000000.0,

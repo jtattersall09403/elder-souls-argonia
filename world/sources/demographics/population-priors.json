@@ -1,0 +1,22 @@
+{
+  "$schema": "community demographic priors, master plan §82 (r/ElderScrolls charts; image hashes recorded there)",
+  "confidence": "COMMUNITY_CONSENSUS",
+  "note": "Zone shares are rounded community estimates and do not sum cleanly; location-specific causal history overrides these priors (plan §82). Zones map to culture territories and anchor hinterlands.",
+  "provinceHeadline": { "argonian": 72, "dunmer": 10, "imperial": 8, "khajiit": 5, "nord": 2, "bosmer": 2, "altmer": 1, "redguard": 1 },
+  "zones": {
+    "stormhold": { "argonian": 75, "dunmer": 22, "imperial": 2, "khajiit": 2, "nord": 7, "bosmer": 2, "altmer": 2, "redguard": 2 },
+    "thorn": { "argonian": 75, "dunmer": 20, "imperial": 2, "khajiit": 1, "nord": 3, "bosmer": 1, "altmer": 1, "redguard": 1 },
+    "helstrom": { "argonian": 97, "dunmer": 1, "imperial": 1, "khajiit": 1, "nord": 1, "bosmer": 1, "altmer": 1, "redguard": 1 },
+    "gideon": { "argonian": 70, "dunmer": 3, "imperial": 22, "khajiit": 6, "nord": 1, "bosmer": 1, "altmer": 1, "redguard": 3 },
+    "soulrest": { "argonian": 60, "dunmer": 1, "imperial": 13, "khajiit": 19, "nord": 1, "bosmer": 5, "altmer": 1, "redguard": 1 },
+    "archon": { "argonian": 79, "dunmer": 15, "imperial": 5, "khajiit": 0.5, "nord": 0.5, "bosmer": 0.5, "altmer": 0.5, "redguard": 0.5 },
+    "blackrose-lilmoth": { "argonian": 80, "dunmer": 3, "imperial": 7, "khajiit": 6, "nord": 0.5, "bosmer": 10, "altmer": 3, "redguard": 1 }
+  },
+  "cultureZoneMap": {
+    "imperial-fringe": "gideon",
+    "dunmer-north": ["stormhold", "thorn"],
+    "mercantile-coast": ["soulrest", "blackrose-lilmoth"],
+    "argonian-settled": ["archon", "blackrose-lilmoth"],
+    "hist-heartland": "helstrom"
+  }
+}

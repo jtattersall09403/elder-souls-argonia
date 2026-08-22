@@ -1,0 +1,112 @@
+{
+  "dangerLegend": {
+    "1": {
+      "name": "danger 1 \u2014 settled",
+      "rgb": [
+        90,
+        180,
+        90
+      ]
+    },
+    "2": {
+      "name": "danger 2 \u2014 travelled",
+      "rgb": [
+        170,
+        200,
+        90
+      ]
+    },
+    "3": {
+      "name": "danger 3 \u2014 wild",
+      "rgb": [
+        225,
+        185,
+        70
+      ]
+    },
+    "4": {
+      "name": "danger 4 \u2014 perilous",
+      "rgb": [
+        220,
+        110,
+        60
+      ]
+    },
+    "5": {
+      "name": "danger 5 \u2014 deep peril",
+      "rgb": [
+        150,
+        55,
+        130
+      ]
+    }
+  },
+  "cultureLegend": {
+    "imperial-fringe": {
+      "name": "imperial-fringe",
+      "rgb": [
+        200,
+        70,
+        60
+      ]
+    },
+    "dunmer-north": {
+      "name": "dunmer-north",
+      "rgb": [
+        150,
+        110,
+        200
+      ]
+    },
+    "mercantile-coast": {
+      "name": "mercantile-coast",
+      "rgb": [
+        220,
+        170,
+        60
+      ]
+    },
+    "argonian-settled": {
+      "name": "argonian-settled",
+      "rgb": [
+        80,
+        170,
+        150
+      ]
+    },
+    "hist-heartland": {
+      "name": "hist-heartland",
+      "rgb": [
+        50,
+        130,
+        60
+      ]
+    }
+  },
+  "routeLengthsKm": {
+    "soulrest->blackrose": 6.91,
+    "blackrose->lilmoth": 5.45,
+    "alten-corimont->stormhold": 4.37,
+    "stormhold->thorn": 12.71,
+    "gideon->stormhold": 9.59,
+    "gideon->soulrest": 12.77,
+    "helstrom->gideon": 7.76,
+    "helstrom->blackrose": 13.68,
+    "archon->gideon": 14.47
+  },
+  "dangerBandFractions": {
+    "danger 1 \u2014 settled": 0.008,
+    "danger 2 \u2014 travelled": 0.158,
+    "danger 3 \u2014 wild": 0.415,
+    "danger 4 \u2014 perilous": 0.309,
+    "danger 5 \u2014 deep peril": 0.11
+  },
+  "cultureFractions": {
+    "hinterland": 0.334,
+    "imperial-fringe": 0.139,
+    "dunmer-north": 0.147,
+    "mercantile-coast": 0.089,
+    "argonian-settled": 0.079,
+    "hist-heartland": 0.212
+  }
+}
