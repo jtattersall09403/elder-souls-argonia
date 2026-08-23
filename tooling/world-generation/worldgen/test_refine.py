@@ -40,8 +40,8 @@ def test_blackrose_lake_bed_island_and_feeders():
     assert (out[:140, :] < h[:140, :] - 0.5).any()  # a feeder carved northward
 
 
-def test_carve_polyline_connects_two_points():
+def test_carve_polyline_reaches_bed_level():
     h = np.full((100, 100), 3.0, dtype=np.float32)
-    out = carve_polyline(h.copy(), (10, 10), (90, 90), 12.0, 2.0, np.random.default_rng(3))
-    line_cells = (out < 2.0).sum()
-    assert line_cells > 50
+    out = carve_polyline(h.copy(), (10, 10), (90, 90), 12.0, -1.0, np.random.default_rng(3))
+    assert (out < -0.5).sum() > 50   # floor reaches near bed along the line
+    assert out.min() >= -1.01        # never carves below the bed level

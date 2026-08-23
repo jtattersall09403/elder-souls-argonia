@@ -53,11 +53,18 @@ LAKE_RADII_M = (470.0, 360.0)
 LAKE_BED_M = -4.0
 ISLAND_R_M = 130.0
 ISLAND_TOP_M = 2.6
-FEEDER_SECTORS = {  # canon: rivers from NE (Murkwood), W (Blackwood), S (Oliis Bay)
-    "ne": (20, 80), "w": (150, 225), "s": (250, 300)
+# Feeder channels (a0, a1, half-width m, bed level m). Canon: rivers converge
+# from NE (Murkwood) and W (Blackwood); the S channel is the lake's short
+# outlet into Oliis Bay (the sea is ~1 km south — probe 2026-08-23), so it
+# resolves to the nearest sea cell when no river exists in-sector. Pass 2:
+# feeders carve TO a bed level (not a fixed depth) so channels stay wet even
+# through higher ground — the pass-1 W feeder read as a dry gulley for its
+# first kilometre; S connects toward the bay instead of dead-ending.
+FEEDER_SECTORS = {
+    "ne": (20, 80, 28.0, -2.2),
+    "w": (150, 225, 38.0, -1.8),
+    "s": (250, 300, 30.0, -2.8),
 }
-FEEDER_HALF_W_M = 28.0
-FEEDER_DEPTH_M = 3.2
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 STUDIO_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "basin"
@@ -91,7 +98,9 @@ def carve_channels(h, rivers_up):
     return h, dist_all
 
 
-def carve_polyline(h, p0, p1, half_w_m, depth_m, rng):
+def carve_polyline(h, p0, p1, half_w_m, bed_m, rng):
+    """Carve a wiggly channel whose floor reaches bed_m along the line —
+    to-a-level, not by-a-depth, so it stays wet through higher ground."""
     n = int(np.hypot(p1[0] - p0[0], p1[1] - p0[1])) * 2 + 2
     t = np.linspace(0, 1, n)
     wiggle = ndimage.gaussian_filter1d(rng.standard_normal(n), 8) * 6.0
@@ -102,8 +111,8 @@ def carve_polyline(h, p0, p1, half_w_m, depth_m, rng):
     ys = np.clip(ys.astype(int), 0, h.shape[0] - 1)
     mask[ys, xs] = True
     d = ndimage.distance_transform_edt(~mask) * RAW_M
-    h -= (depth_m * np.exp(-((d / half_w_m) ** 2))).astype(np.float32)
-    return h
+    w = np.exp(-((d / half_w_m) ** 2)).astype(np.float32)
+    return np.minimum(h, bed_m * w + h * (1 - w)).astype(np.float32)
 
 
 def impose_blackrose_lake(h, origin_full, rivers_up, rng):
@@ -132,23 +141,32 @@ def impose_blackrose_lake(h, origin_full, rivers_up, rng):
     ri = np.sqrt(idx_ ** 2 + idy ** 2) / (ISLAND_R_M * iwob)
     island = np.clip(np.cos(np.clip(ri, 0, 1) * np.pi / 2), 0, 1) ** 1.5 * (ISLAND_TOP_M - LAKE_BED_M)
     h = np.where(ri < 1.0, np.maximum(h, (LAKE_BED_M + island).astype(np.float32)), h)
-    # three feeder channels toward canon directions: connect to nearest river
-    # cell in each sector, else carve ~2 km outward anyway
+    # three feeder channels toward canon directions: connect to the nearest
+    # river cell in each sector, else to the sea (Oliis Bay for the S outlet),
+    # else carve ~2 km outward as a marsh-fading stub
     riv_ys, riv_xs = np.where(rivers_up > 0)
     ang = np.degrees(np.arctan2(-(riv_ys - cy_full), riv_xs - cx_full)) % 360
     dist = np.hypot(riv_ys - cy_full, riv_xs - cx_full) * RAW_M
+    sea_ys, sea_xs = np.where(h < -1.0)
+    sea_ang = np.degrees(np.arctan2(-(sea_ys - cy_full), sea_xs - cx_full)) % 360
+    sea_dist = np.hypot(sea_ys - cy_full, sea_xs - cx_full) * RAW_M
     rim = np.array([LAKE_RADII_M[0], LAKE_RADII_M[1]]).mean() / RAW_M
-    for name, (a0, a1) in FEEDER_SECTORS.items():
-        sel = (ang >= a0) & (ang <= a1) & (dist > rim * RAW_M * 1.1) & (dist < 3000)
+    for name, (a0, a1, half_w, depth) in FEEDER_SECTORS.items():
+        min_d = rim * RAW_M * 1.1
+        sel = (ang >= a0) & (ang <= a1) & (dist > min_d) & (dist < 3000)
+        sea_sel = (sea_ang >= a0) & (sea_ang <= a1) & (sea_dist > min_d) & (sea_dist < 4500)
         if sel.any():
             i = np.argmin(np.where(sel, dist, np.inf))
             target = (riv_xs[i], riv_ys[i])
+        elif sea_sel.any():
+            i = np.argmin(np.where(sea_sel, sea_dist, np.inf))
+            target = (sea_xs[i], sea_ys[i])
         else:
             mid = np.radians((a0 + a1) / 2)
             target = (cx_full + np.cos(mid) * 2000 / RAW_M, cy_full - np.sin(mid) * 2000 / RAW_M)
         start = (cx_full + (target[0] - cx_full) * rim / max(np.hypot(target[0] - cx_full, target[1] - cy_full), 1e-9),
                  cy_full + (target[1] - cy_full) * rim / max(np.hypot(target[0] - cx_full, target[1] - cy_full), 1e-9))
-        h = carve_polyline(h, start, target, FEEDER_HALF_W_M, FEEDER_DEPTH_M, rng)
+        h = carve_polyline(h, start, target, half_w, depth, rng)
     return h
 
 
@@ -175,6 +193,11 @@ def main() -> None:
     h, channel_dist = carve_channels(h, rivers_up)
     h += detail_noise(h.shape, regions_up, channel_dist, rng)
     h = impose_blackrose_lake(h, (fy0, fx0), rivers_up, rng)
+    # pass 2: shoreline smoothing — soften noisy banks in a band around the
+    # waterline so shores read as mud gradients, not jagged noise spikes
+    hs = ndimage.gaussian_filter(h, 2.5)
+    band = np.clip(1.0 - np.abs(h - 0.2) / 1.4, 0.0, 1.0)
+    h = h * (1 - 0.7 * band) + hs * (0.7 * band)
 
     vault_dir = height_path.parent / "blackrose-basin"
     vault_dir.mkdir(exist_ok=True)
