@@ -27,6 +27,7 @@ deliberate. When in doubt, read one extra row rather than guessing.
 | Lore/canon for any place, culture, name, history | [../world/sources/lore/README.md](../world/sources/lore/README.md) — dossiers + sourcing rules. The CLAUDE.md lore golden rule is mandatory |
 | World source data: anchors, roads graph, demographics, climate states, authored region overrides | [../world/sources/README.md](../world/sources/README.md) |
 | The studio map/flyover UI | [../apps/world-studio/README.md](../apps/world-studio/README.md) |
+| Terrain ground texturing: splat/materials, granularity, texture sources | decision [0011](decisions/0011-ground-material-system.md) + `docs/research/` (Bethesda [granularity](research/skyrim-morrowind-landscape-texture-granularity.md), [WebGL rendering](research/webgl-terrain-many-material-splatting.md), [texture sources](research/black-marsh-ground-texture-sources.md)) |
 | Combat, character, animation, physics, input, inventory | [../apps/combat-sandbox/CLAUDE.md](../apps/combat-sandbox/CLAUDE.md) then its [docs/README.md](../apps/combat-sandbox/docs/README.md) |
 | Asset pipeline: GLB/skeleton/Blender/Skyrim data | [../tooling/asset-pipeline/README.md](../tooling/asset-pipeline/README.md) |
 | "Why is X the way it is?" | [decisions/README.md](decisions/README.md) — short numbered records |

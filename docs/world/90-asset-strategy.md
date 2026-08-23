@@ -112,6 +112,20 @@ All candidates in Sections 75–79 are available for use in this personal projec
 
 ## 76. Flora, terrain and underwater candidates
 
+### 76.0 Ground/landscape textures (terrain splat palette)
+
+Vetted 2026-08-23 with permissions verified — full shortlist, vanilla keep-list
+and ruled-out list in
+[docs/research/black-marsh-ground-texture-sources.md](../research/black-marsh-ground-texture-sources.md)
+(don't re-research; system design is decision 0011). Top sources: **ambientCG
+and Poly Haven CC0 PBR sets** (black mud, puddled shallows, wet clay, mud+leaf
+litter, moss), **A Cathedralist's PBR Landscape** (SSE 137333, open
+permissions, full PBR marsh/river family), **Cathedral Landscapes** (SSE
+21954, share-alike), plus the retained vanilla wet/mossy set (frozenmarsh
+grass/dirtslopes, rivermud/riverbottom, reachmoss, hue-shifted
+fallforestleaves). Needs owner sign-off: Project Rainforest (TW3-derived
+provenance); Vanaheimr – Marsh (author permission required).
+
 | Candidate | Useful material |
 | --- | --- |
 | [Depths of Skyrim — An Underwater Overhaul](https://www.nexusmods.com/skyrim/mods/98331) and SSE versions | underwater grass, seaweed, kelp, coral, fish, treasure, wreck and submerged-POI dressing |

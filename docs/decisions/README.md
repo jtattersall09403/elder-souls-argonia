@@ -14,3 +14,4 @@ record and marking the old one superseded — don't rewrite history.
 - [0008 — retained reference watershed: the Blackrose basin](0008-reference-watershed.md)
 - [0009 — quest master plan reviewed, modularised and integrated](0009-quest-plan-integration.md)
 - [0010 — world-generation master plan modularised](0010-world-plan-modularised.md)
+- [0011 — two-level ground-material system (land cover × regional palette)](0011-ground-material-system.md)

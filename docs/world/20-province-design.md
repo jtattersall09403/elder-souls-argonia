@@ -229,5 +229,16 @@ The generator can use internal ecological classes independent of political names
 
 Each class modifies terrain, hydrology, asset weights, danger, sound, visibility and movement.
 
+**Ground materials (`RegionGrammar.materialPalette`) are two-level** (decision
+0011): worldgen compiles a per-texel semantic **land-cover class** (waterline
+mud, riverbank, reed bed, hummock top, peat bank, leaf litter, path…) from the
+hydrology/soil/route fields, and each region's palette maps those classes to
+**concrete textures** from a global ~40–60-texture library — so the same land
+cover resolves differently north vs south, and palettes blend at region
+borders. Research grounding and the runtime representation live in
+[docs/research/](../research/skyrim-morrowind-landscape-texture-granularity.md)
+(granularity, [rendering](../research/webgl-terrain-many-material-splatting.md),
+[texture sources](../research/black-marsh-ground-texture-sources.md)).
+
 ---
 
