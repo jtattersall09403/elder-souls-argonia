@@ -40,7 +40,17 @@ CC0_CACHE = MOD_SOURCES / "cc0-ground-textures"
 # (Morrowind 59713, credit-only) — renewed Bitter Coast swamp ground set.
 PR_DIR = MOD_SOURCES / "project-rainforest-20636" / "extracted"
 AEND_DIR = MOD_SOURCES / "aendemika-59713" / "extracted"
-OUT_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "textures" / "ground"
+
+# Material SETS: each build writes textures/ground/<set>/ + its manifest, and
+# registers itself in textures/ground/index.json. The studio picks a set via
+# ?mats=<name> (default from the index) — so palette experiments (e.g. the
+# Black Marsh & Valenwood mining) are A/B-comparable and instantly revertible
+# (owner request 2026-08-23). Material NAMES/ids must stay aligned across
+# sets; only the concrete textures change.
+SET_NAME = "aendemika-v1"
+SET_LABEL = "Aendemika BC + Rainforest + CC0"
+GROUND_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "textures" / "ground"
+OUT_DIR = GROUND_DIR / SET_NAME
 UA = {"User-Agent": "elder-souls-argonia world tooling (personal fan project)"}
 
 # The global library. Index order IS the material id in the control map —
@@ -84,10 +94,10 @@ MATERIALS = [
     ("tidal_sand",    "pr",  "coastbeach01.dds",                            8.0, None, 72),
     ("salt_flat",     "acg", "Ground054",                                   9.0, None, 78),
     ("dry_clay",      "ph",  "mud_cracked_dry_riverbed_002",                7.0, None, 75),
-    ("dirt_path",     "pr",  "dirtpath01.dds",                              6.0, None, 62),
+    ("dirt_path",     "pr",  "dirtpath01.dds",                              6.0, None, 68),
     ("peat_slope",    "bsa", "textures/landscape/frozenmarshdirtslopes01.dds", 8.0, (14, 1.08, 1.0), 45),
     ("track_mud",     "ph",  "aerial_mud_1",                                6.0, None, 55),
-    ("bc_road",       "aend", "Tx_BC_mainroad_01.dds",                      6.0, None, 62),
+    ("bc_road",       "aend", "Tx_BC_mainroad_01.dds",                      6.0, None, 74),
 ]
 
 
@@ -172,7 +182,11 @@ def main() -> None:
                          "tileM": tile_m, "avgColor": avg, "source": source})
         print(f"{idx:2d} {name:14s} <- {source}")
     (OUT_DIR / "materials.json").write_text(json.dumps({"materials": manifest}, indent=1))
-    print(f"{len(manifest)} materials -> {OUT_DIR}")
+    index_path = GROUND_DIR / "index.json"
+    index = json.loads(index_path.read_text()) if index_path.exists() else {"default": SET_NAME, "sets": {}}
+    index["sets"][SET_NAME] = {"label": SET_LABEL}
+    index_path.write_text(json.dumps(index, indent=1))
+    print(f"{len(manifest)} materials -> {OUT_DIR} (set '{SET_NAME}', default '{index['default']}')")
 
 
 if __name__ == "__main__":

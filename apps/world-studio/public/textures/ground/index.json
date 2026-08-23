@@ -1,0 +1,8 @@
+{
+ "default": "aendemika-v1",
+ "sets": {
+  "aendemika-v1": {
+   "label": "Aendemika BC + Rainforest + CC0"
+  }
+ }
+}

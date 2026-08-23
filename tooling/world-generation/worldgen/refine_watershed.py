@@ -190,7 +190,8 @@ def rasterize_roads(shape, origin_full):
             ys = np.linspace(y0, y1, steps).round().astype(int)
             ok = (xs >= 0) & (xs < shape[1]) & (ys >= 0) & (ys < shape[0])
             mask[ys[ok], xs[ok]] = True
-    return ndimage.binary_dilation(mask, iterations=1)
+    # ~27 m corridor: trunk roads must read from flyover altitude
+    return ndimage.binary_dilation(mask, iterations=2)
 
 
 def main() -> None:

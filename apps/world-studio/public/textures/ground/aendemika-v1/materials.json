@@ -330,9 +330,9 @@
    "file": "27-dirt_path.png",
    "tileM": 6.0,
    "avgColor": [
-    89,
-    58,
-    36
+    98,
+    64,
+    40
    ],
    "source": "Project Rainforest SE (dirtpath01.dds)"
   },
@@ -366,9 +366,9 @@
    "file": "30-bc_road.png",
    "tileM": 6.0,
    "avgColor": [
-    71,
-    67,
-    47
+    84,
+    80,
+    56
    ],
    "source": "Aendemika of Vvardenfell (Tx_BC_mainroad_01.dds)"
   }

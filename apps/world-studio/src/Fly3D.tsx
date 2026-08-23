@@ -30,13 +30,14 @@ export interface Fly3DProps {
   exaggeration: number;
   mode: "fly" | "orbit";
   detail?: DetailPatch | null;
+  matSet?: string;
   onPosition?: (xKm: number, zKm: number, altM: number) => void;
 }
 
 /** Refined-watershed mesh overlaid on the province mesh (biased up slightly
  * so the coarse terrain doesn't poke through; edge seams are a known pass-1
  * artefact until province-wide refinement). */
-function DetailTerrain({ patch, exaggeration }: { patch: DetailPatch; exaggeration: number }) {
+function DetailTerrain({ patch, exaggeration, matSet }: { patch: DetailPatch; exaggeration: number; matSet?: string }) {
   const MESH_STEP_D = 2;
   const geometry = useMemo(() => {
     const { heights, width, height, metresPerPixel, originM } = patch;
@@ -79,9 +80,9 @@ function DetailTerrain({ patch, exaggeration }: { patch: DetailPatch; exaggerati
   // BotW/Terrain3D-style rendering: texture array indexed by texelFetched ids
   // with manual bilinear blending — constant cost at any material count.
   const base = import.meta.env.BASE_URL;
-  const manifest = useGroundManifest(base);
+  const { set, manifest } = useGroundManifest(base, matSet);
   const images = useLoader(THREE.ImageLoader,
-    manifest.materials.map((m) => `${base}textures/ground/${m.file}`));
+    manifest.materials.map((m) => `${base}textures/ground/${set}/${m.file}`));
   const ctrl = useLoader(THREE.TextureLoader, `${base}province/basin/ground-control.png`);
   const tintTex = useLoader(THREE.TextureLoader, `${base}province/basin/ground-tint.png`);
   const material = useMemo(() => {
@@ -185,15 +186,26 @@ function DetailTerrain({ patch, exaggeration }: { patch: DetailPatch; exaggerati
 interface GroundManifest {
   materials: { id: number; name: string; file: string; tileM: number; avgColor: number[] }[];
 }
-let groundManifest: GroundManifest | null = null;
-let groundManifestPromise: Promise<void> | null = null;
-/** Suspense-style loader for the ground-material manifest. */
-function useGroundManifest(base: string): GroundManifest {
-  if (groundManifest) return groundManifest;
-  groundManifestPromise ??= fetch(`${base}textures/ground/materials.json`)
-    .then((r) => r.json())
-    .then((j) => { groundManifest = j; });
-  throw groundManifestPromise;
+interface GroundIndex { default: string; sets: Record<string, { label: string }> }
+let groundIndex: GroundIndex | null = null;
+const groundCache: Record<string, GroundManifest> = {};
+const groundPending: Record<string, Promise<void>> = {};
+/** Suspense-style loader for the ground-material set index + manifest.
+ * Sets live under textures/ground/<set>/ and are switchable via ?mats=
+ * so palette experiments stay A/B-comparable (owner request). */
+function useGroundManifest(base: string, requested?: string): { set: string; manifest: GroundManifest } {
+  if (!groundIndex) {
+    groundPending.__index ??= fetch(`${base}textures/ground/index.json`)
+      .then((r) => r.json()).then((j) => { groundIndex = j; });
+    throw groundPending.__index;
+  }
+  const set = requested && groundIndex.sets[requested] ? requested : groundIndex.default;
+  if (!groundCache[set]) {
+    groundPending[set] ??= fetch(`${base}textures/ground/${set}/materials.json`)
+      .then((r) => r.json()).then((j) => { groundCache[set] = j; });
+    throw groundPending[set];
+  }
+  return { set, manifest: groundCache[set] };
 }
 
 /** City beacons + name labels above the terrain, so anchors stay findable
@@ -366,7 +378,7 @@ export function Fly3D(props: Fly3DProps) {
         textureCanvas={props.textureCanvas} exaggeration={props.exaggeration} detail={props.detail} />
       {props.detail && (
         <Suspense fallback={null}>
-          <DetailTerrain patch={props.detail} exaggeration={props.exaggeration} />
+          <DetailTerrain patch={props.detail} exaggeration={props.exaggeration} matSet={props.matSet} />
         </Suspense>
       )}
       <CityMarkers heights={props.heights} size={props.size}

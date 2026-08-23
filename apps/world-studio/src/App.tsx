@@ -68,6 +68,16 @@ export function App() {
   const [exaggeration, setExaggeration] = useState(Number(urlParams.get("ex")) || 5);
   const [flyPos, setFlyPos] = useState("");
   const [detail, setDetail] = useState<DetailPatch | null>(null);
+  // Ground-material set (?mats=): A/B palette comparison + instant revert.
+  const [matSet, setMatSet] = useState<string>(urlParams.get("mats") || "");
+  const [matSets, setMatSets] = useState<Record<string, { label: string }>>({});
+  useEffect(() => {
+    fetch(`${import.meta.env.BASE_URL}textures/ground/index.json`)
+      .then((r) => r.json())
+      .then((j) => { setMatSets(j.sets); if (!urlParams.get("mats")) setMatSet(j.default); })
+      .catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Reproducible URLs: keep view state in the query string.
   useEffect(() => {
@@ -78,10 +88,11 @@ export function App() {
       q.set("x", spawnKm.x.toFixed(2));
       q.set("z", spawnKm.z.toFixed(2));
       q.set("ex", String(exaggeration));
+      if (matSet) q.set("mats", matSet);
     }
     const qs = q.toString();
     window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
-  }, [view, camMode, spawnKm, exaggeration]);
+  }, [view, camMode, spawnKm, exaggeration, matSet]);
   const overlaysRef = useRef<Record<string, HTMLImageElement>>({});
   const decodedPxRef = useRef<Record<string, Uint8ClampedArray>>({});
   const [layers, setLayers] = useState<Record<string, boolean>>({
@@ -329,6 +340,7 @@ export function App() {
       <Fly3D heights={displayHeights()!} size={meta.imageWidth}
         metresPerPixel={meta.metresPerPixel} textureCanvas={canvasRef.current}
         spawnKm={spawnKm} exaggeration={exaggeration} mode={camMode} detail={detail}
+        matSet={matSet || undefined}
         onPosition={(x, z, alt) => setFlyPos(`${x.toFixed(2)} km E · ${z.toFixed(2)} km S · alt ${Math.round(alt)} m`)} />
       <div style={{
         position: "absolute", top: 10, left: 10, display: "flex", gap: 10, alignItems: "center",
@@ -343,6 +355,13 @@ export function App() {
           <input type="range" min={1} max={6} step={0.5} value={exaggeration}
             onChange={(e) => setExaggeration(Number(e.target.value))} />
         </label>
+        {Object.keys(matSets).length > 1 && (
+          <label>materials{" "}
+            <select value={matSet} onChange={(e) => setMatSet(e.target.value)}>
+              {Object.entries(matSets).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
+            </select>
+          </label>
+        )}
         <span style={{ opacity: 0.85 }}>{flyPos}</span>
       </div>
       <div style={{

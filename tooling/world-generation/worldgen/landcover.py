@@ -127,22 +127,9 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     else:
         salty = np.isin(region, [0, 3, 4])
 
-    # Roads: Phase 4 corridors painted where they touch ground; water rules
-    # come later so crossings stay unpainted (fords/ferries/bridges are
-    # placed features, not textures). The macro corridors are all major-city
-    # trunk roads (§88), but wear varies along their length: built road
-    # surface by default, degrading to dirt path and to churned mud where the
-    # ground is wet — semantic per-segment road classes densify in Phase 11+.
-    if roads is not None:
-        wear = _noise(shape, 120.0 / m_per_px, rng)   # ~120 m wear stretches
-        road_mat = np.full(shape, BC_ROAD, dtype=np.int16)
-        road_mat[wear > 0.35] = PATH
-        road_mat[wet_score > 1.0] = PATH
-        road_mat[(wet_score > 1.0) & (wear > 0.2)] = TRACK
-        mat = np.where(roads, road_mat, mat)
-
     # Channel gradient (the Bethesda 3-stage water edge, scaled per band):
     # bed silt -> wet river mud waterline -> region bank material.
+    channel_bed = np.zeros(shape, dtype=bool)
     for band, half_w in BAND_HALF_W.items():
         m = rivers == band
         if not m.any():
@@ -151,6 +138,7 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
         mat = np.where(d < half_w + 26.0, _region_map(region, "bank"), mat)
         mat = np.where(d < half_w + 10.0, RIVER_MUD, mat)
         mat = np.where(d < half_w, SILT, mat)
+        channel_bed |= d < half_w
 
     # Standing-water gradient around every water contact (sea, lakes, carved
     # channels below y=0) — contour-following distance bands, highest
@@ -168,6 +156,19 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     shallow = (height >= -0.7) & water
     mat = np.where(shallow, np.where(salty, SAND, np.where(marshy, SCUM, PUDDLE)), mat)
     mat = np.where(height < -0.7, SILT, mat)
+
+    # Roads LAST so the wet fringes can't swallow them (they previously ran
+    # before the shore bands and vanished — owner report): Phase 4 corridors
+    # are all major-city trunk roads (§88); built road surface degrading to
+    # dirt path / churned mud by wear noise + ground wetness. Painted only on
+    # dry ground — crossings over water/channel beds stay unpainted
+    # (bridges/ferries/boardwalks are placed features, Phase 11+).
+    if roads is not None:
+        wear = _noise(shape, 120.0 / m_per_px, rng)   # ~120 m wear stretches
+        road_mat = np.full(shape, BC_ROAD, dtype=np.int16)
+        road_mat[wear > 0.55] = PATH
+        road_mat[(wet_score > 1.2) & (wear > 0.3)] = TRACK
+        mat = np.where(roads & ~water & ~channel_bed, road_mat, mat)
 
     # Control map: blur each material's mask a little and keep the top two per
     # texel -> (id0, id1, blend), tracked incrementally so a full-res compile
