@@ -21,6 +21,13 @@ in-game credits list is generated from this file plus the asset registry.
 
 ## Planned (recorded before ingestion; move up when used)
 
+- **Narrative asset pool** — 25 mods (A01–A25) and 12 vanilla families
+  (V01–V12) catalogued with URLs in
+  [quests/70-assets.md](quests/70-assets.md); move entries here as ingested.
+- **Fan-story inspirations** — Matthew Aaron Evans (Eye treasure-hunt core)
+  and named Eye-interpretation contributors, per
+  [quests/99-sources-credits.md](quests/99-sources-credits.md).
+
 - **Argonian Xanmeer Tileset — Modder's Resource** (Nexus mod 181193) — Xanmeer
   architecture kit.
 - Water rendering references (MIT): WaterThreeJS, SeedOcean,

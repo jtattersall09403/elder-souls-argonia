@@ -27,6 +27,12 @@ part index below is for re-finding sections afterwards, not for skipping:
 | XIII | 85–87 | Revised build sequence (the phase plan) |
 | XIV | 88–92 | Non-negotiable acceptance rules |
 
+The **quest/narrative master plan** lives in [docs/quests/](quests/README.md)
+(added 2026-08-23). Its per-quest world-generation provisions are requirements
+on Phases 2–15: consult its
+[20-world-provisions module](quests/20-world-provisions.md) whenever placing
+locations, settlements, dungeons, routes or sockets.
+
 ## Summary of the overall goal and request
 
 The overall goal is to build the province-scale world for an **Elder Souls** game set in Argonia/Black Marsh. Its world structure should carry the geographic coherence, regional distinctiveness, cultural density and exploratory character of *The Elder Scrolls III: Morrowind*. Its playable systems should incorporate the evolving character, input, animation, physics, combat, equipment and inventory work being proved in `ecctrl-souls-combat`, alongside Dark Souls-style combat, extensive swimming and underwater exploration, player-sailable boats, fixed regional danger, and Breath of the Wild-style climbing.
@@ -565,6 +571,10 @@ It can function as:
 - an explanation for rapid local movement with few roads.
 
 Each station should have a biological and social reason to exist. Rootworm routes can connect Hist settlements, egg pools, deep shrines and isolated cities while bypassing surface hazards.
+
+Narrative requirement (quests 30, MQ05): a protected rootworm line from the
+Stormhold/Alten Corimont opening region into Helstrom must exist early — it is
+how the main quest introduces the safe heart city while its basin stays lethal.
 
 ## 20. The Hist as a spatial, cultural and systemic layer
 
@@ -2592,7 +2602,13 @@ Deliverables:
 - Hist-centred settlement grammar;
 - Imperial-fringe settlement grammar;
 - location-orphan validator;
-- retained reference settlement.
+- retained reference settlement;
+- **quest location roster**: the per-quest World-generation provisions in
+  docs/quests/ are the demand schedule — stable semantic IDs, approach
+  alternatives, scene/NPC/evidence/container sockets, and the
+  `QuestWorldProvision` packet per substantial location (quests 20 §13);
+- **D0 safe interiors** authored per settlement (quests 20 §12 mapping);
+  Helstrom interior D0 with gates against the band-5 basin.
 
 ### Phase 12 — dungeons and interior programmes
 
@@ -2603,7 +2619,12 @@ Deliverables:
 - cave/root/smuggler grammar;
 - underwater entrances;
 - interior streaming contract;
-- one full retained production dungeon.
+- one full retained production dungeon;
+- **quest dungeon reservations** (sites + causal records now, geometry per
+  regional packet): the submerged Eye observatory, Blackrose prison
+  archive/tunnels, Lilmoth Tidal Palace heist complex, the two optional
+  Eye-route chains, and the **Lost City reserved in the deep basin beyond
+  Helstrom** (near-final D5 complex; quests 30).
 
 ### Phase 13 — ecology, encounters and fixed loot
 
@@ -2626,7 +2647,10 @@ Deliverables:
 - LOD and instance batching;
 - compressed textures and geometry;
 - performance budgets by device class;
-- GitHub Pages build containing approved runtime content only.
+- GitHub Pages build containing approved runtime content only;
+- **sparse local state variant support** in bundles (2–3 authored variants per
+  quest location: occupants, barricades, banners, clutter, ambience — the
+  quest consequence budget, quests 20 §14; never terrain/hydrology).
 
 ### Phase 15 — expansion by watershed and region
 
@@ -2673,6 +2697,10 @@ The province preview remains available throughout expansion.
   individual legs expressing the normal infrastructure life cycle (flood
   damage, causeways, bridges, ferries bridging broken segments) rather than
   being absent.
+- **The world satisfies the quest plan's Milestone-1 provisions** (2026-08-23):
+  every location, route, socket, portal and state variant demanded by the
+  docs/quests/ tables for Milestone 1 exists with stable IDs before narrative
+  production begins (exit gate in quests 20 §15).
 - **The province has canon exit roads but closed edges** (owner requirement,
   2026-08-23): the Blackwood Road leaves Gideon westward to Leyawiin and the
   Tear road leaves Thorn northward into Morrowind (both CANON_FIXED); border

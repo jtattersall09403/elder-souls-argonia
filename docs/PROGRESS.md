@@ -32,7 +32,7 @@ then open only the master-plan sections the active phase needs.
 | 3 — province hydrology and region graph | done | owner-approved 2026-08-22 (sea/salinity/flood corrections applied; lake region class added); stats in hydrology-meta.json |
 | 4 — danger, cultures, transport | done | owner-approved 2026-08-23: strong terrain, jungle region, 8 culture zones, danger model, road/boat/root graphs, climate profiles, access model (0007), lore dossiers |
 | 5 — World Studio foundation | done | owner flyover gate PASS 2026-08-23 (shape/size/feel/mist approved); map+13 layers, 3D fly/orbit, click-to-spawn, reproducible URLs; chunk overlays + probe framework mature with Phase 6 |
-| 6 — reference watershed terrain | in progress | watershed chosen: Blackrose basin (0008, veto window open); next: high-res terrain refinement + chunking for it |
+| 6 — reference watershed terrain | in progress | Blackrose basin chosen (0008) and reinforced by quest demand (0009); next: high-res terrain refinement + chunking, honouring quests/20 provisions |
 | 7 — physical character integration | todo | |
 | 8 — water renderer and interaction | todo | |
 | 9 — swimming, climbing, boats | todo | |
@@ -49,5 +49,7 @@ then open only the master-plan sections the active phase needs.
 
 ## Next up
 
-Phase 6: choose + compile the retained reference watershed at high detail
-(plan §85.2 criteria); chunk overlays and the probe framework mature here.
+Phase 6: compile the Blackrose basin at high detail (quest-aware: Blackrose
+city sites, canon lake-with-three-rivers, corridor roads, portage
+resolutions). Stormhold/AC opening region is the designated second packet
+(0009). Quest plan lives in docs/quests/ — provisions bind Phases 11+.

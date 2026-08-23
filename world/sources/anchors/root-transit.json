@@ -1,16 +1,45 @@
 {
   "$schema": "rootworm transit stations + edges; u/v as settlement-anchors.json",
   "confidence": "AGENT_AUTHORED",
-  "note": "Pass-1 speculative network for the canonical rootworm 'Underground Express' (The Argonian Account, master plan §19). Canon gives the mechanism and its deep-marsh association, not station positions: these are placed where Hist/root density is generated (rootland classes) and will be re-authored with Hist-node placement in Phase 11. Deliberately unreachable-by-road deep-marsh points — the network bypasses surface danger for those granted access.",
+  "note": "Pass-1 speculative network for the canonical rootworm 'Underground Express' (The Argonian Account, master plan \u00a719). Canon gives the mechanism and its deep-marsh association, not station positions: these are placed where Hist/root density is generated (rootland classes) and will be re-authored with Hist-node placement in Phase 11. Deliberately unreachable-by-road deep-marsh points \u2014 the network bypasses surface danger for those granted access. The Stormhold/AC->Helstrom protected line is required early by the main quest (MQ05).",
   "stations": [
-    { "id": "root-helstrom", "u": 0.47, "v": 0.38, "notes": "Hub beneath the heart city." },
-    { "id": "root-north-shadowfen", "u": 0.49, "v": 0.24, "notes": "Deep marsh between Helstrom and Alten Corimont." },
-    { "id": "root-naga-deeps", "u": 0.47, "v": 0.66, "notes": "Inner southern swamps, Naga-Kur country." },
-    { "id": "root-east-estuary", "u": 0.60, "v": 0.47, "notes": "Toward Archon's estuary that feeds the provincial centre (Lore:Archon)." }
+    {
+      "id": "root-helstrom",
+      "u": 0.47,
+      "v": 0.38,
+      "notes": "Hub beneath the heart city."
+    },
+    {
+      "id": "root-north-shadowfen",
+      "u": 0.49,
+      "v": 0.24,
+      "notes": "Deep marsh between Helstrom and Alten Corimont. QUEST REQUIREMENT (MQ05, docs/quests/30): this station serves the protected Stormhold/Alten-Corimont -> Helstrom route used in Act I; Phase 11 must give it a guarded surface access near the opening region."
+    },
+    {
+      "id": "root-naga-deeps",
+      "u": 0.47,
+      "v": 0.66,
+      "notes": "Inner southern swamps, Naga-Kur country."
+    },
+    {
+      "id": "root-east-estuary",
+      "u": 0.6,
+      "v": 0.47,
+      "notes": "Toward Archon's estuary that feeds the provincial centre (Lore:Archon)."
+    }
   ],
   "edges": [
-    { "from": "root-helstrom", "to": "root-north-shadowfen" },
-    { "from": "root-helstrom", "to": "root-naga-deeps" },
-    { "from": "root-helstrom", "to": "root-east-estuary" }
+    {
+      "from": "root-helstrom",
+      "to": "root-north-shadowfen"
+    },
+    {
+      "from": "root-helstrom",
+      "to": "root-naga-deeps"
+    },
+    {
+      "from": "root-helstrom",
+      "to": "root-east-estuary"
+    }
   ]
 }

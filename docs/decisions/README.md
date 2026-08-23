@@ -12,3 +12,4 @@ record and marking the old one superseded — don't rewrite history.
 - [0006 — provisional province scale ×3](0006-province-scale.md)
 - [0007 — deep-marsh access progression model](0007-access-progression.md)
 - [0008 — retained reference watershed: the Blackrose basin](0008-reference-watershed.md)
+- [0009 — quest master plan reviewed, modularised and integrated](0009-quest-plan-integration.md)
