@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import type { SettlementAnchor, SuggestedConnection } from "@elder-souls/contracts";
 import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json";
+import { Fly3D } from "./Fly3D";
+
+const urlParams = new URLSearchParams(window.location.search);
 
 interface ProvinceMeta {
   metresPerPixel: number;
@@ -83,6 +86,27 @@ export function App() {
   const [conditioning, setConditioning] = useState<Conditioning>("strong");
   const [readout, setReadout] = useState("");
   const [tip, setTip] = useState<{ x: number; y: number; text: string } | null>(null);
+  const [view, setView] = useState<"map" | "fly3d">(urlParams.get("view") === "fly3d" ? "fly3d" : "map");
+  const [camMode, setCamMode] = useState<"fly" | "orbit">(urlParams.get("cam") === "orbit" ? "orbit" : "fly");
+  const [spawnKm, setSpawnKm] = useState<{ x: number; z: number }>({
+    x: Number(urlParams.get("x")) || 10.4, z: Number(urlParams.get("z")) || 8.4,
+  });
+  const [exaggeration, setExaggeration] = useState(Number(urlParams.get("ex")) || 2);
+  const [flyPos, setFlyPos] = useState("");
+
+  // Reproducible URLs: keep view state in the query string.
+  useEffect(() => {
+    const q = new URLSearchParams();
+    if (view === "fly3d") {
+      q.set("view", "fly3d");
+      q.set("cam", camMode);
+      q.set("x", spawnKm.x.toFixed(2));
+      q.set("z", spawnKm.z.toFixed(2));
+      q.set("ex", String(exaggeration));
+    }
+    const qs = q.toString();
+    window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
+  }, [view, camMode, spawnKm, exaggeration]);
   const overlaysRef = useRef<Record<string, HTMLImageElement>>({});
   const decodedPxRef = useRef<Record<string, Uint8ClampedArray>>({});
   const [layers, setLayers] = useState<Record<string, boolean>>({
@@ -276,9 +300,60 @@ export function App() {
     setTip({ x: e.clientX - rect.left, y: e.clientY - rect.top, text });
   }
 
+  function enterFly(xKm: number, zKm: number) {
+    setSpawnKm({ x: xKm, z: zKm });
+    setView("fly3d");
+  }
+
+  function onDoubleClick(e: React.MouseEvent<HTMLCanvasElement>) {
+    const canvas = canvasRef.current;
+    if (!canvas || !meta) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * meta.imageWidth;
+    const y = ((e.clientY - rect.top) / rect.height) * meta.imageHeight;
+    enterFly((x * meta.metresPerPixel) / 1000, (y * meta.metresPerPixel) / 1000);
+  }
+
   const extentKm = meta ? ((meta.imageWidth * meta.metresPerPixel) / 1000).toFixed(1) : "…";
+
+  // The map canvas must STAY MOUNTED while flying — it is both the terrain
+  // texture and the hover data source — so the 3D view overlays it.
+  const flyOverlay = view === "fly3d" && meta && heightsRef.current && canvasRef.current && overlaysReady ? (
+    <div style={{ position: "fixed", inset: 0, zIndex: 5, background: "#10141a" }}>
+      <Fly3D heights={displayHeights()!} size={meta.imageWidth}
+        metresPerPixel={meta.metresPerPixel} textureCanvas={canvasRef.current}
+        spawnKm={spawnKm} exaggeration={exaggeration} mode={camMode}
+        onPosition={(x, z, alt) => setFlyPos(`${x.toFixed(2)} km E · ${z.toFixed(2)} km S · alt ${Math.round(alt)} m`)} />
+      <div style={{
+        position: "absolute", top: 10, left: 10, display: "flex", gap: 10, alignItems: "center",
+        background: "rgba(10,14,20,0.8)", padding: "8px 12px", borderRadius: 8, flexWrap: "wrap",
+      }}>
+        <button onClick={() => setView("map")} style={{ padding: "4px 10px", cursor: "pointer" }}>← Map</button>
+        <button onClick={() => setCamMode(camMode === "fly" ? "orbit" : "fly")}
+          style={{ padding: "4px 10px", cursor: "pointer" }}>
+          {camMode === "fly" ? "Switch to orbit" : "Switch to fly"}
+        </button>
+        <label>exaggeration ×{exaggeration}{" "}
+          <input type="range" min={1} max={6} step={0.5} value={exaggeration}
+            onChange={(e) => setExaggeration(Number(e.target.value))} />
+        </label>
+        <span style={{ opacity: 0.85 }}>{flyPos}</span>
+      </div>
+      <div style={{
+        position: "absolute", bottom: 10, left: "50%", transform: "translateX(-50%)",
+        background: "rgba(10,14,20,0.75)", padding: "6px 12px", borderRadius: 8,
+        font: "13px system-ui", whiteSpace: "nowrap",
+      }}>
+        {camMode === "fly"
+          ? "Click the view to capture the mouse (Esc releases) · WASD move · E/Q up/down · Shift = 4× speed"
+          : "Drag to pan · right-drag to rotate · wheel to zoom"}
+      </div>
+    </div>
+  ) : null;
+
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: 16 }}>
+      {flyOverlay}
       <h1 style={{ font: "600 18px system-ui", margin: 0 }}>Argonia province preview — Phase 2 source ingest</h1>
       <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
         <label>
@@ -294,6 +369,10 @@ export function App() {
             onChange={(e) => { const v = Number(e.target.value); if (Number.isFinite(v)) setSeaLevel(v); }} />
           {" "}m
         </label>
+        <button onClick={() => enterFly(spawnKm.x, spawnKm.z)}
+          style={{ padding: "4px 12px", borderRadius: 5, cursor: "pointer", border: "1px solid #4a5568", background: "#2b5b3f", color: "#d8dee7", font: "13px system-ui" }}>
+          ✈ Fly the province
+        </button>
         <span style={{ opacity: 0.75 }}>{extentKm} km across at ×3 world scale (decision 0006)</span>
         <span style={{ minWidth: 260 }}>{readout}</span>
       </div>
@@ -339,6 +418,7 @@ export function App() {
       )}
       <div style={{ position: "relative" }}>
         <canvas ref={canvasRef} onPointerMove={onMove} onPointerLeave={() => setTip(null)}
+          onDoubleClick={onDoubleClick}
           style={{ width: "min(92vmin, 900px)", imageRendering: "pixelated", borderRadius: 6, touchAction: "none" }} />
         {tip && (
           <div style={{
@@ -366,6 +446,9 @@ export function App() {
         on the owner-chosen strong terrain (regardless of the relief toggle): rivers by
         drainage area, wetlands and tidal flats, flood frequency, soils, basins, salinity.
         The hover tooltip reports region, danger and culture wherever you point.
+        <strong> Double-click anywhere on the map to fly there in 3D</strong> (the flyover
+        drapes the currently-toggled layers over the terrain, so pick layers first);
+        the URL captures the view for sharing.
       </p>
     </div>
   );
