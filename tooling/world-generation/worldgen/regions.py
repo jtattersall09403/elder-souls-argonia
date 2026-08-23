@@ -26,16 +26,28 @@ OVERRIDES_PATH = Path(__file__).resolve().parents[3] / "world" / "sources" / "re
 def apply_authored_overrides(regions: np.ndarray) -> np.ndarray:
     """Rasterize owner-authored region polygons over the rule-based classes.
     Each override replaces only its listed source classes, so hydrological
-    classes (wetland, lakes, rivers' corridors) survive inside the shape."""
+    classes (wetland, lakes, rivers' corridors) survive inside the shape.
+    Polygon boundaries are noised (deterministic) so authored straight edges
+    read as organic ecotones, not ruled lines (owner feedback 2026-08-23)."""
     if not OVERRIDES_PATH.exists():
         return regions
     spec = json.loads(OVERRIDES_PATH.read_text())
     h, w = regions.shape
     out = regions.copy()
+    rng = np.random.default_rng(20260823)
     for ov in spec.get("overrides", []):
         img = Image.new("L", (w, h), 0)
         ImageDraw.Draw(img).polygon([(u * w, v * h) for u, v in ov["polygonUV"]], fill=1)
-        mask = np.array(img, dtype=bool) & np.isin(out, ov["appliesToClasses"])
+        poly = np.array(img, dtype=bool)
+        # organic boundary: signed distance to the polygon edge + smooth noise
+        d_out = ndimage.distance_transform_edt(~poly)
+        d_in = ndimage.distance_transform_edt(poly)
+        signed = d_in - d_out  # px, >0 inside
+        noise = np.zeros((h, w), dtype=np.float32)
+        for sigma, amp in ((28, 22.0), (7, 7.0)):  # ~460 m waves + ~115 m fingers
+            octv = ndimage.gaussian_filter(rng.standard_normal((h, w)), sigma)
+            noise += amp * octv / max(octv.std(), 1e-9)
+        mask = (signed + noise > 0) & np.isin(out, ov["appliesToClasses"])
         out[mask] = ov["regionClass"]
     return out
 

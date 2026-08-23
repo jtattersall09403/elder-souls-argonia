@@ -31,40 +31,62 @@ from pipeline.bsa import BSAArchive  # noqa: E402
 
 DEFAULT_DATA = Path("/home/analyticalplatform/workspace/elder-souls-dev/"
                     "elder-scrolls-asset-pipeline/skyrim-source/Data")
-CC0_CACHE = Path("/home/analyticalplatform/workspace/elder-souls-dev/"
-                 "elder-scrolls-asset-pipeline/skyrim-source/mod-sources/"
-                 "cc0-ground-textures")
+MOD_SOURCES = Path("/home/analyticalplatform/workspace/elder-souls-dev/"
+                   "elder-scrolls-asset-pipeline/skyrim-source/mod-sources")
+CC0_CACHE = MOD_SOURCES / "cc0-ground-textures"
+# Extracted mod archives (downloaded via the Nexus API, cached in the vault):
+# Project Rainforest SE (SSE 20636, owner-approved) — tropical repaints of the
+# vanilla landscape set under vanilla filenames; Aendemika of Vvardenfell
+# (Morrowind 59713, credit-only) — renewed Bitter Coast swamp ground set.
+PR_DIR = MOD_SOURCES / "project-rainforest-20636" / "extracted"
+AEND_DIR = MOD_SOURCES / "aendemika-59713" / "extracted"
 OUT_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "textures" / "ground"
 UA = {"User-Agent": "elder-souls-argonia world tooling (personal fan project)"}
 
 # The global library. Index order IS the material id in the control map —
-# append-only once shipped. tileM = world metres per texture repeat.
+# keep stable once a control map ships beyond the current gate packet.
+# tileM = world metres per texture repeat.
 # tint: (hue shift deg, saturation mul, value mul) applied in HSV — used to
 # tropicalise cold-biome vanilla sources (canonical climate, module 50 §33.1).
-# lum: target mean luminance (0-255). Vanilla landscape textures are authored
-# very dark and CC0 photo textures very bright; normalising each to a
-# semantic target (wet=dark, dry/sandy=bright) makes the palette cohere
-# under the studio's simple sun+ambient shading.
+# lum: target mean luminance (0-255). Sources are authored at wildly
+# different exposures; normalising each to a semantic target (wet=dark,
+# dry/sandy=bright) makes the palette cohere under the studio's shading.
+# Owner feedback 2026-08-23: vanilla fieldgrass02/Ground037 read alpine —
+# tropical grass/swamp slots now come from Project Rainforest ("pr") and
+# Aendemika's Bitter Coast set ("aend", the Morrowind swamp vocabulary:
+# bank/mud/muck/scum/moss/undergrowth).
 MATERIALS = [
-    # id, name,           kind,  source ref,                                tileM, tint,            lum
-    ("water_silt",    "bsa", "textures/landscape/riverbottom.dds",           7.0, None,             45),
-    ("black_mud",     "acg", "Ground051",                                    6.0, None,             48),
-    ("puddle_mud",    "acg", "Ground050",                                    8.0, None,             62),
-    ("clay_bank",     "acg", "Ground026",                                    6.0, None,             70),
-    ("peat",          "acg", "Ground024",                                    7.0, None,             55),
-    ("mud_leaves",    "acg", "Ground040",                                    7.0, None,             55),
-    ("marsh_grass",   "bsa", "textures/landscape/frozenmarshgrass01.dds",    8.0, (18, 1.15, 1.0),  60),
-    ("hummock_grass", "acg", "Ground037",                                    8.0, (8, 1.05, 1.0),   68),
-    ("field_grass",   "bsa", "textures/landscape/fieldgrass02.dds",          9.0, None,             62),
-    ("moss",          "bsa", "textures/landscape/reachmoss01.dds",           8.0, None,             52),
-    ("mossy_rock",    "bsa", "textures/landscape/reachmossyrocks01.dds",    14.0, None,             52),
-    ("jungle_floor",  "ph",  "mud_forest",                                   8.0, None,             42),
-    ("leaf_litter",   "ph",  "forest_leaves_02",                             8.0, (6, 1.0, 1.0),    62),
-    ("tidal_sand",    "bsa", "textures/landscape/coastbeach01.dds",          8.0, None,             78),
-    ("salt_flat",     "acg", "Ground054",                                    9.0, None,             80),
-    ("track_mud",     "ph",  "aerial_mud_1",                                 6.0, None,             58),
+    # name,            kind,  source ref,                                  tileM, tint, lum
+    ("water_silt",    "pr",  "riverbottom.dds",                             7.0, None, 45),
+    ("river_mud",     "pr",  "rivermud.dds",                                6.0, None, 50),
+    ("bank_wet",      "aend", "Tx_BC_bank.dds",                             6.0, None, 52),
+    ("scum",          "aend", "Tx_BC_scum.dds",                             7.0, None, 48),
+    ("black_mud",     "acg", "Ground051",                                   6.0, None, 48),
+    ("puddle_mud",    "acg", "Ground050",                                   8.0, None, 60),
+    ("clay_bank",     "acg", "Ground026",                                   6.0, None, 66),
+    ("muck",          "aend", "Tx_BC_muck_01.dds",                          7.0, None, 50),
+    ("bc_mud",        "aend", "Tx_BC_mud.dds",                              6.0, None, 52),
+    ("peat",          "acg", "Ground024",                                   7.0, None, 55),
+    ("mud_leaves",    "acg", "Ground040",                                   7.0, None, 55),
+    ("marsh_grass",   "pr",  "frozenmarshgrass01.dds",                      8.0, None, 58),
+    ("undergrowth",   "aend", "Tx_BC_undergrowth.dds",                      7.0, None, 50),
+    ("bc_moss",       "aend", "Tx_BC_moss.dds",                             7.0, None, 52),
+    ("moss",          "bsa", "textures/landscape/reachmoss01.dds",          8.0, None, 52),
+    ("swamp_grass",   "aend", "Tx_BC_grass.dds",                            8.0, None, 58),
+    ("trop_grass",    "pr",  "fieldgrass02.dds",                            9.0, None, 60),
+    ("grass_dirt",    "pr",  "fielddirtgrass01.dds",                        8.0, None, 58),
+    ("scrub",         "aend", "Tx_BC_scrub.dds",                            8.0, None, 58),
+    ("jungle_floor",  "ph",  "mud_forest",                                  8.0, None, 42),
+    ("forest_floor",  "pr",  "pineforest01.dds",                            8.0, None, 48),
+    ("leaf_litter",   "pr",  "fallforestleaves01.dds",                      8.0, None, 55),
+    ("mossy_rock",    "bsa", "textures/landscape/reachmossyrocks01.dds",   14.0, None, 52),
+    ("bc_rock",       "aend", "Tx_BC_rock_01.dds",                         12.0, None, 50),
+    ("tidal_sand",    "pr",  "coastbeach01.dds",                            8.0, None, 72),
+    ("salt_flat",     "acg", "Ground054",                                   9.0, None, 78),
+    ("dry_clay",      "ph",  "mud_cracked_dry_riverbed_002",                7.0, None, 75),
+    ("dirt_path",     "pr",  "dirtpath01.dds",                              6.0, None, 62),
     ("peat_slope",    "bsa", "textures/landscape/frozenmarshdirtslopes01.dds", 8.0, (14, 1.08, 1.0), 45),
-    ("dry_clay",      "ph",  "mud_cracked_dry_riverbed_002",                 7.0, None,             75),
+    ("track_mud",     "ph",  "aerial_mud_1",                                6.0, None, 55),
 ]
 
 
@@ -99,6 +121,13 @@ def ph_image(slug: str) -> Image.Image:
     return Image.open(cache).convert("RGB")
 
 
+def _find(root: Path, name: str) -> Path:
+    hits = [p for p in root.rglob("*") if p.name.lower() == name.lower()]
+    if not hits:
+        raise FileNotFoundError(f"{name} not found under {root}")
+    return hits[0]
+
+
 def apply_tint(img: Image.Image, tint) -> Image.Image:
     hue_deg, sat_mul, val_mul = tint
     hsv = np.asarray(img.convert("HSV"), dtype=np.float32)
@@ -120,6 +149,12 @@ def main() -> None:
         elif kind == "acg":
             img = acg_image(ref)
             source = f"ambientCG {ref} (CC0)"
+        elif kind == "pr":
+            img = Image.open(_find(PR_DIR, ref)).convert("RGB")
+            source = f"Project Rainforest SE ({ref})"
+        elif kind == "aend":
+            img = Image.open(_find(AEND_DIR, ref)).convert("RGB")
+            source = f"Aendemika of Vvardenfell ({ref})"
         else:
             img = ph_image(ref)
             source = f"Poly Haven {ref} (CC0)"

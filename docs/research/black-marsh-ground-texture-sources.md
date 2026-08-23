@@ -38,14 +38,19 @@ Grounds decision 0011. Companions:
    entire vanilla landscape set tropical under vanilla filenames** (~1K).
    **Owner ruling 2026-08-23: approved — use it wherever it's the best fit**
    (provenance caveat — credits include LorSakyamuni's TW3 Landscape Resource
-   and Vurt's SFO — was accepted). Preferred order still: CC0 + open mods
-   first, pull Rainforest textures when they fill a gap or beat the
-   alternatives; credit per its page.
+   and Vurt's SFO — was accepted). **INGESTED 2026-08-23**: archive cached in
+   the vault (`mod-sources/project-rainforest-20636/`), tropical
+   riverbottom/rivermud/fieldgrass02/fielddirtgrass01/frozenmarshgrass01/
+   pineforest01/fallforestleaves01/coastbeach01/dirtpath01 in the ground
+   library.
 6. **Vanilla Skyrim wet/mossy set (keep, some with hue shifts)** — see below.
 7. **Landscape – Aendemika of Vvardenfell** — [Morrowind 59713](https://www.nexusmods.com/morrowind/mods/59713)
    — credit-only; renews 73 textures incl. **Bitter Coast swamp mud, muck,
-   moss, swamp soil, undergrowth** — most lore-adjacent open swamp set
-   (Morrowind-tier resolution; use as palette reference/gap-filler).
+   moss, swamp soil, undergrowth** — most lore-adjacent open swamp set.
+   **INGESTED 2026-08-23** (promoted above the Skyrim mods in practice: the
+   BC set carries the swamp water-edge vocabulary): vault
+   `mod-sources/aendemika-59713/`; bank/scum/muck/mud/moss/undergrowth/
+   grass/scrub/rock in the ground library.
 8. ~~**Vanaheimr – Marsh** — [SSE 121602](https://www.nexusmods.com/skyrimspecialedition/mods/121602)~~
    — **rejected by owner 2026-08-23: it's a cold-climate marsh set, and Black
    Marsh is canonically hot/humid tropical swamp** (binding statement in

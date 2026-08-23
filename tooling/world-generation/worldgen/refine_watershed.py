@@ -170,6 +170,27 @@ def impose_blackrose_lake(h, origin_full, rivers_up, rng):
     return h
 
 
+def rasterize_roads(shape, origin_full):
+    """Rasterize the Phase 4 road corridors (routes.json, macro [x, y] px)
+    into the full-res crop as a bool mask ~11-16 m wide. Water rules override
+    later, so crossings stay unpainted (bridges/ferries are placed features)."""
+    routes_path = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "routes.json"
+    mask = np.zeros(shape, dtype=bool)
+    if not routes_path.exists():
+        return mask
+    for route in json.loads(routes_path.read_text()).get("routes", []):
+        px = route.get("px", [])
+        for (x0m, y0m), (x1m, y1m) in zip(px, px[1:]):
+            x0, y0 = x0m * STEP - origin_full[1], y0m * STEP - origin_full[0]
+            x1, y1 = x1m * STEP - origin_full[1], y1m * STEP - origin_full[0]
+            steps = int(max(abs(x1 - x0), abs(y1 - y0))) + 1
+            xs = np.linspace(x0, x1, steps).round().astype(int)
+            ys = np.linspace(y0, y1, steps).round().astype(int)
+            ok = (xs >= 0) & (xs < shape[1]) & (ys >= 0) & (ys < shape[0])
+            mask[ys[ok], xs[ok]] = True
+    return ndimage.binary_dilation(mask, iterations=1)
+
+
 def main() -> None:
     height_path, npz_path = Path(sys.argv[1]), Path(sys.argv[2])
     raw = np.load(height_path)
@@ -183,6 +204,26 @@ def main() -> None:
     basin = np.isin(sheds, list(labels))
     ys, xs = np.where(ndimage.binary_dilation(basin, iterations=MARGIN_COARSE))
     cy0, cy1, cx0, cx1 = ys.min(), ys.max() + 1, xs.min(), xs.max() + 1
+
+    # Pass 2 (owner 2026-08-23): extend the crop to the nearby coastline and
+    # offshore islands — push each edge outward until a border line is ~all
+    # sea (so beaches and the SE island fall inside), capped at ~4 km.
+    ocean = npz["ocean"]
+    CAP = 250
+
+    def _seaward(start, step, line_at, bound):
+        for k in range(1, CAP):
+            j = start + step * k
+            if j < 0 or j >= bound:
+                break
+            if 1.0 - line_at(j).mean() < 0.03:
+                return j + step * 4  # small offshore margin
+        return start
+
+    cy1 = min(max(cy1, _seaward(cy1 - 1, +1, lambda j: ocean[j, cx0:cx1], n) + 1), n)
+    cy0 = max(min(cy0, _seaward(cy0, -1, lambda j: ocean[j, cx0:cx1], n)), 0)
+    cx1 = min(max(cx1, _seaward(cx1 - 1, +1, lambda j: ocean[cy0:cy1, j], n) + 1), n)
+    cx0 = max(min(cx0, _seaward(cx0, -1, lambda j: ocean[cy0:cy1, j], n)), 0)
     # full-res crop aligned to the 3x macro grid
     fy0, fy1, fx0, fx1 = cy0 * STEP, min(cy1 * STEP, full.shape[0]), cx0 * STEP, min(cx1 * STEP, full.shape[1])
     h = full[fy0:fy1, fx0:fx1].copy()
@@ -216,16 +257,15 @@ def main() -> None:
 
     # Ground-material control map (decision 0011): semantic land cover ×
     # per-region material palettes -> (id0, id1, blend, macro) consumed by the
-    # studio's texture-array shader. Detail lives in landcover.py.
-    reg_h = regions_up[::2, ::2][: half.shape[0], : half.shape[1]]
-    riv_h = rivers_up[::2, ::2][: half.shape[0], : half.shape[1]]
-    gy2, gx2 = np.gradient(half, RAW_M * 2)
-    slope_h = np.hypot(gx2, gy2)
-    up_h = lambda a: up(a)[::2, ::2][: half.shape[0], : half.shape[1]]
+    # studio's texture-array shader, compiled at full resolution (~5.5 m/texel
+    # — owner: finer micro variation). Detail lives in landcover.py.
+    gy2, gx2 = np.gradient(h, RAW_M)
+    slope_f = np.hypot(gx2, gy2).astype(np.float32)
+    roads = rasterize_roads(h.shape, (fy0, fx0))
     _, control = compile_ground_control(
-        half, reg_h, riv_h, slope_h, RAW_M * 2, rng,
-        salinity=up_h(npz["salinity"]), twi=up_h(npz["twi"]),
-        wetlands=up_h(npz["wetlands"]))
+        h, regions_up, rivers_up, slope_f, RAW_M, rng,
+        salinity=up(npz["salinity"]), twi=up(npz["twi"]),
+        wetlands=up(npz["wetlands"]), roads=roads)
     Image.fromarray(control, "RGBA").save(STUDIO_DIR / "ground-control.png")
     meta = {
         "originFullPx": [int(fx0), int(fy0)],

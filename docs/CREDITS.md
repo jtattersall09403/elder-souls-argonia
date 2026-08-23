@@ -19,10 +19,15 @@ in-game credits list is generated from this file plus the asset registry.
 - **Transbot9 — All Tamriel Heightmap** Beta06 (Nexus SSE mod 573, CC BY-NC
   4.0) — cross-border context terrain.
 - **ambientCG** (ambientcg.com, CC0) — ground textures in the terrain
-  material library (Ground024/025/026/037/040/050/051/054).
+  material library (Ground024/025/026/040/050/051/054).
 - **Poly Haven** (polyhaven.com, CC0) — ground textures in the terrain
-  material library (mud_forest, forest_leaves_02, aerial_mud_1,
-  mud_cracked_dry_riverbed_002).
+  material library (mud_forest, aerial_mud_1, mud_cracked_dry_riverbed_002).
+- **Project Rainforest SE** (Nexus SSE mod 20636, sa547; credits incl.
+  LorSakyamuni's TW3 Landscape Resource and Vurt's SFO) — tropical ground
+  textures in the terrain material library (owner-approved 2026-08-23).
+- **Landscape – Aendemika of Vvardenfell** (Nexus Morrowind mod 59713) —
+  Bitter Coast swamp ground set in the terrain material library
+  (bank/scum/muck/mud/moss/undergrowth/grass/scrub/rock).
 
 ## Planned (recorded before ingestion; move up when used)
 
@@ -38,7 +43,7 @@ in-game credits list is generated from this file plus the asset registry.
 - **Ground-texture mod pool** (vetted in
   [research/black-marsh-ground-texture-sources.md](research/black-marsh-ground-texture-sources.md)):
   A Cathedralist's PBR Landscape (SSE 137333), Cathedral Landscapes (SSE
-  21954, share-alike), Project Rainforest SE (SSE 20636, owner-approved).
+  21954, share-alike) — candidates for PBR-map upgrades in Phase 8+.
 - Water rendering references (MIT): WaterThreeJS, SeedOcean,
   jeantimex/threejs-water, ABYSSAL ocean.
 - Community priors: Inkarnate Black Marsh map ("Argonian State 4E 231", Reddit)

@@ -52,13 +52,15 @@ Climate is a first-class macro layer alongside hydrology, because Black Marsh's
 identity is as much air as water: heat, humidity, mist, rot and gloom.
 
 **Canonical climate (binding, owner-confirmed 2026-08-23):** Black Marsh is
-**hot, humid, swampy tropical/subtropical** — monsoonal wet, never cold
-(UESP Lore:Black Marsh via the [province dossier](../../world/sources/lore/black-marsh-province.md):
+**hot, humid, swampy tropical/subtropical** — monsoonal wet, never cold in
+the lowlands (UESP Lore:Black Marsh via the [province dossier](../../world/sources/lore/black-marsh-province.md):
 "tropical climate defeats cultivation"). No frozen/boreal/cold-marsh visual or
-asset language anywhere in the province: cold-climate texture/asset sets are
-ruled out on sight (e.g. Vanaheimr – Marsh), and borrowed cold-biome assets
-(Skyrim frozen-marsh textures etc.) must be re-tinted/re-dressed to read
-tropical before shipping.
+asset language in the wetland province floor: cold-climate texture/asset sets
+are ruled out on sight (e.g. Vanaheimr – Marsh), and borrowed cold-biome
+assets (Skyrim frozen-marsh textures etc.) must be re-tinted/re-dressed to
+read tropical before shipping. Exception (owner 2026-08-23): the high border
+mountains may cool with altitude — montane/cloud-forest language is allowed
+there when those regions are built, but never frost at the marsh floor.
 
 - **Macro fields (Phase 3/4 data):** each ecological region class carries a
   climate profile — humidity, mist propensity, rain regime, characteristic

@@ -249,7 +249,9 @@ function Terrain({ heights, size, metresPerPixel, textureCanvas, exaggeration, d
         let y = heights[py * size + px] * exaggeration;
         if (d && x > d.x0 && x < d.x1 && z > d.z0 && z < d.z1) {
           const edge = Math.min(x - d.x0, d.x1 - x, z - d.z0, d.z1 - z);
-          y -= 18 * Math.min(1, edge / ramp);
+          // depression must scale with exaggeration or the coarse mesh pokes
+          // through deep authored features (the Blackrose lake) at high ×
+          y -= 22 * exaggeration * Math.min(1, edge / ramp);
         }
         pos[i * 3] = x;
         pos[i * 3 + 1] = y;

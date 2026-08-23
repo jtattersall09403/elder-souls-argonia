@@ -269,11 +269,11 @@
     "rootland deep marsh": 0.0269,
     "interior swamp": 0.0139,
     "fringe marsh": 0.0236,
-    "seasonal floodplain": 0.0134,
+    "seasonal floodplain": 0.0133,
     "raised hammock": 0.0001,
-    "firm lowland": 0.3814,
+    "firm lowland": 0.3771,
     "lake & standing water": 0.0467,
-    "tropical jungle": 0.047
+    "tropical jungle": 0.0513
   },
   "handPercentilesM": {
     "25": 1000000.0,

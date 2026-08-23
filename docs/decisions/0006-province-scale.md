@@ -28,3 +28,8 @@ Convention: world data stays in TRUE metres; the ×4 vertical scale is a
 geometry transform applied wherever terrain becomes mesh/collision (studio
 flyover default slider = 4 = canonical; production terrain compilers apply it
 at Phase 6 pass 2+). Water surfaces scale with heights (sea stays y=0).
+
+**Addendum 2026-08-23 (later same day):** owner is trialling **×5** on the
+flyover ("feels a bit more interesting"); the studio default slider is now 5.
+×4 remains the recorded decision until the owner confirms ×5 after flying —
+whichever is confirmed becomes the value the Phase 6+ compilers bake.
