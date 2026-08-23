@@ -56,21 +56,25 @@ def main() -> None:
                         npz["rivers"], npz["wetlands"], npz["flood"])
     cost = np.where(jungle & ~npz["wetlands"], cost * 2.0, cost)  # dense canopy slows roads
 
-    # Group edges by source so each city needs only one Dijkstra run.
-    by_source: dict[str, list[str]] = {}
+    # Group edges by source so each city needs only one Dijkstra run. External
+    # roads (canon exits to Cyrodiil/Morrowind) route to map-edge gate points.
+    by_source: dict[str, list[tuple[str, tuple[int, int]]]] = {}
     for a, b in edges:
-        by_source.setdefault(a, []).append(b)
+        by_source.setdefault(a, []).append((b, anchors_px[b]))
+    for ext in anchors_file.get("externalConnections", []):
+        exit_px = (int(ext["exitUV"][0] * w), int(ext["exitUV"][1] * h))
+        by_source.setdefault(ext["from"], []).append((ext["id"], exit_px))
     road_mask = np.zeros((h, w), dtype=bool)
     routes_out = []
     for source, targets in by_source.items():
         result = routes_from(cost, anchors_px[source],
-                             [anchors_px[t] for t in targets], metres_per_px)
-        for t in targets:
-            path, length_m = result[anchors_px[t]]
+                             [px for _, px in targets], metres_per_px)
+        for name, px in targets:
+            path, length_m = result[px]
             for x, y in path:
                 road_mask[y, x] = True
             routes_out.append({
-                "from": source, "to": t, "lengthKm": round(length_m / 1000.0, 2),
+                "from": source, "to": name, "lengthKm": round(length_m / 1000.0, 2),
                 # every 3rd point is plenty for drawing at province scale
                 "px": [[int(x), int(y)] for x, y in path[::3]] + [[*path[-1]]] if path else [],
             })
@@ -89,6 +93,7 @@ def main() -> None:
     by_water_source: dict[str, list[str]] = {}
     for a, b in WATER_EDGES:
         by_water_source.setdefault(a, []).append(b)
+    portage_mask = np.zeros((h, w), dtype=bool)
     for source, targets in by_water_source.items():
         result = routes_from(boat_cost, anchors_px[source],
                              [anchors_px[t] for t in targets], metres_per_px)
@@ -100,7 +105,9 @@ def main() -> None:
             if water_frac < 0.7:
                 continue
             for x, y in path:
-                water_mask[y, x] = True
+                # land hops are portages — drawn amber so refinement passes
+                # know where to carve channels or place boardwalks (plan §45)
+                (water_mask if water[y, x] else portage_mask)[y, x] = True
             water_routes.append({"from": source, "to": t,
                                  "lengthKm": round(length_m / 1000.0, 2),
                                  "waterFraction": round(float(water_frac), 2)})
@@ -116,6 +123,7 @@ def main() -> None:
 
     waterways_img = np.zeros((h, w, 4), dtype=np.uint8)
     waterways_img[ndimage.binary_dilation(water_mask)] = (120, 215, 255, 220)
+    waterways_img[ndimage.binary_dilation(portage_mask)] = (245, 180, 90, 230)
     Image.fromarray(waterways_img).save(PREVIEW_DIR / "soc-waterways.png")
 
     # Rootways drawn as straight faint arcs between stations (schematic only).

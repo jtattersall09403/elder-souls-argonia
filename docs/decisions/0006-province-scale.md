@@ -20,3 +20,10 @@ generated outputs — no resampling, no code constants. Vertical exaggeration fo
 *visual* relief in previews stays a renderer concern.
 
 Confirmed at the flyover gate; revisit only if Phase 6+ streaming budgets force it.
+
+**Vertical scale (open, Phase 6):** at the flyover the owner judged ×6 preview
+exaggeration "reasonably like a real world". Expected: ×3 horizontal scaling
+flattens slopes 3×, and games conventionally exaggerate relief ~2× anyway
+(×6 preview ≈ ×2 effective vs the source). Phase 6 detailed terrain should
+therefore evaluate baking ~×1.5–2 vertical scale into compiled heights (plus
+micro-relief), with the flyover default exaggeration raised to ×4 meanwhile.

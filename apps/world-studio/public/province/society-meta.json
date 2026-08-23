@@ -114,8 +114,10 @@
     "stormhold->thorn": 13.11,
     "gideon->stormhold": 9.21,
     "gideon->soulrest": 13.13,
+    "gideon->blackwood-road": 5.09,
     "archon->gideon": 15.08,
-    "helstrom->blackrose": 14.2
+    "helstrom->blackrose": 14.2,
+    "thorn->tear-road": 2.84
   },
   "waterRoutes": [
     {
@@ -164,9 +166,9 @@
   "dangerModel": "base(region) + 2.9*depth/10km(cost) - road relief; edges/coast seed access, Helstrom excluded (canon: unconquered heart); high dry ground capped at band 3",
   "dangerBandFractions": {
     "danger 1 \u2014 settled": 0.011,
-    "danger 2 \u2014 travelled": 0.226,
-    "danger 3 \u2014 wild": 0.511,
-    "danger 4 \u2014 perilous": 0.204,
+    "danger 2 \u2014 travelled": 0.227,
+    "danger 3 \u2014 wild": 0.51,
+    "danger 4 \u2014 perilous": 0.203,
     "danger 5 \u2014 deep peril": 0.049
   },
   "depthKmPercentiles": {

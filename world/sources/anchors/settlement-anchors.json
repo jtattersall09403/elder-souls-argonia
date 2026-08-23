@@ -138,6 +138,26 @@
       "role": "smuggler/pirate river-port freehold"
     }
   ],
+  "externalConnections": [
+    {
+      "id": "blackwood-road",
+      "from": "gideon",
+      "exitUV": [0.005, 0.42],
+      "to": "Cyrodiil (Leyawiin)",
+      "confidence": "CANON_FIXED",
+      "sources": ["uesp:Lore:Gideon"],
+      "notes": "Canon: Gideon is 'the first settlement on the Blackwood Road, which comes in from the west through the hills that form the southernmost provincial border'. Exits through the measured western pass. Province edges are closed in play (plan §88): the gate is scenery/lore, not a walkable exit."
+    },
+    {
+      "id": "tear-road",
+      "from": "thorn",
+      "exitUV": [0.87, 0.005],
+      "to": "Morrowind (Tear)",
+      "confidence": "CANON_FIXED",
+      "sources": ["uesp:Lore:Thorn"],
+      "notes": "Canon: Thorn is neighboured by 'Morrowind to the north, toward Tear'; House Dres trade/slave history rides this road. Closed border gate in play. (Stormhold's Shadowfen also borders Morrowind northward but no named road is attested - candidate only.)"
+    }
+  ],
   "suggestedConnections": [
     {
       "from": "soulrest",

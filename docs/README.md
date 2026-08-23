@@ -8,11 +8,19 @@ from this page or from a README it links — keep it that way.
 
 ## Find context by task
 
+**Rows compose — most tasks need two or three.** In particular: the **lore row
+is mandatory for any task that decides what the world is like** (a place, a
+route, a danger value, a name, a culture, an encounter…), whatever code it
+lives in — a hydrology agent carving a river near Blackrose needs the
+Blackrose dossier. Likewise "why is X like this" (decisions) applies whenever
+you're about to change something that looks deliberate. When in doubt, skim
+one extra row rather than guessing.
+
 | Your task touches… | Read |
 |---|---|
 | Where we're up to / what's next | [PROGRESS.md](PROGRESS.md) (always) |
 | Any world/design decision — goals, method, phases | [world-gen-master-plan.md](world-gen-master-plan.md) — use its part index, read only the sections your phase needs (~2,700 lines total; never read it all) |
-| World generation code: terrain, hydrology, regions, climate, danger, cultures, roads/boat lanes | [../tooling/world-generation/README.md](../tooling/world-generation/README.md) (pipeline, modules, rerun rules) + the relevant plan parts (V, IV, XIII) |
+| World generation code: terrain, hydrology, regions, climate, danger, cultures, roads/boat lanes | [../tooling/world-generation/README.md](../tooling/world-generation/README.md) (pipeline, modules, rerun rules) + the relevant plan parts (V, IV, XIII) **+ the lore row** for whatever ground/places your change affects |
 | Lore/canon for any place, culture, name, history | [../world/sources/lore/README.md](../world/sources/lore/README.md) — dossiers + sourcing rules. The CLAUDE.md lore golden rule is mandatory |
 | World source data: anchors, roads graph, demographics, climate states, authored region overrides | [../world/sources/README.md](../world/sources/README.md) |
 | The studio map/flyover UI | [../apps/world-studio/README.md](../apps/world-studio/README.md) |

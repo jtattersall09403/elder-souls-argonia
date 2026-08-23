@@ -1305,7 +1305,10 @@ cities and are deliberately sparse. As settlements populate (Phases 11/15) the
 transport network **densifies**: minor roads, jungle paths, boardwalks, levee
 tracks, ferry hops, canoe channels and additional fast-travel services grow
 around every placed settlement, always as least-cost responses to the same
-terrain fields (owner direction, 2026-08-23).
+terrain fields (owner direction, 2026-08-23). Where a macro boat lane crosses
+land (portage hops, drawn amber in the studio), watershed refinement must
+resolve the hop explicitly: carve a navigable channel, or make it a real
+portage/boardwalk feature.
 
 ## 46. Climbing and world generation
 
@@ -2669,6 +2672,12 @@ The province preview remains available throughout expansion.
   individual legs expressing the normal infrastructure life cycle (flood
   damage, causeways, bridges, ferries bridging broken segments) rather than
   being absent.
+- **The province has canon exit roads but closed edges** (owner requirement,
+  2026-08-23): the Blackwood Road leaves Gideon westward to Leyawiin and the
+  Tear road leaves Thorn northward into Morrowind (both CANON_FIXED); border
+  gates, mountains and open sea prevent actually leaving the playable
+  province — exits are scenery, lore hooks and arrival framing, never
+  walkable world edges.
 
 ## 89. World causality
 

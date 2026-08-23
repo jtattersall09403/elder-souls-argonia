@@ -91,7 +91,7 @@ export function App() {
   const [spawnKm, setSpawnKm] = useState<{ x: number; z: number }>({
     x: Number(urlParams.get("x")) || 10.4, z: Number(urlParams.get("z")) || 8.4,
   });
-  const [exaggeration, setExaggeration] = useState(Number(urlParams.get("ex")) || 2);
+  const [exaggeration, setExaggeration] = useState(Number(urlParams.get("ex")) || 4);
   const [flyPos, setFlyPos] = useState("");
 
   // Reproducible URLs: keep view state in the query string.
