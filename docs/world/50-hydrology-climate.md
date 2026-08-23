@@ -66,6 +66,16 @@ there when those regions are built, but never frost at the marsh floor.
   climate profile — humidity, mist propensity, rain regime, characteristic
   visibility. These drive fog density, ambient palettes, insect/disease
   intensity and encounter sight-lines long before detailed rendering exists.
+- **Macro climate model (researched + lore-grounded, 2026-08-23):** climate
+  varies with coast distance, latitude, elevation/aspect, salinity and
+  wetness via six computable fields (temperature, humidity, mist, rain
+  amplitude, storm exposure, flood pulse with downstream lag) — the full
+  model, canon citations, seasonal calendar (Argonian season names) and
+  per-area expectations live in
+  [docs/research/black-marsh-climatology.md](../research/black-marsh-climatology.md).
+  First implemented slice: the basin ground-tint colormap (palette drift by
+  coast/wetness/latitude). Weather frequencies, foliage and flood states must
+  consume the same fields when they land (Phases 8/13).
 - **Weather system (with Phase 8 rendering):** province-scale weather states
   (monsoonal downpour, sea squall, dry-season haze, ground mist, storm) with
   region-weighted frequencies; weather modifies wetness, flood state, grip,

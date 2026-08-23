@@ -50,9 +50,9 @@ decision 0008), (3) small disposable laboratories.
    materials, sound and danger — not just colours. Materials/asset choices
    link to region classes (RegionGrammar.materialPalette).
 8. **Conventions**: metres, Y-up, sea level y=0 (0003); ×3 horizontal scale
-   (~22 km province) and ×4 vertical scale applied where terrain becomes
-   geometry (0006); deterministic compilers with fixed seeds; stable semantic
-   IDs for everything quests or code may reference.
+   (~22 km province) and ×5 vertical scale applied where terrain becomes
+   geometry (0006 + addendum); deterministic compilers with fixed seeds;
+   stable semantic IDs for everything quests or code may reference.
 9. **Agents read measurements; the owner is the visual authority.** Validate
    with probes/stats/screenshots-by-tooling; pause at studio gates for owner
    review (Module 85). Update PROGRESS.md per its protocol.

@@ -2,6 +2,7 @@ import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { MapControls, PointerLockControls } from "@react-three/drei";
 import * as THREE from "three";
+import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json";
 
 /** High-detail terrain patch (Phase 6 refined watershed). */
 export interface DetailPatch {
@@ -82,6 +83,7 @@ function DetailTerrain({ patch, exaggeration }: { patch: DetailPatch; exaggerati
   const images = useLoader(THREE.ImageLoader,
     manifest.materials.map((m) => `${base}textures/ground/${m.file}`));
   const ctrl = useLoader(THREE.TextureLoader, `${base}province/basin/ground-control.png`);
+  const tintTex = useLoader(THREE.TextureLoader, `${base}province/basin/ground-tint.png`);
   const material = useMemo(() => {
     const n = images.length;
     const size = 512;
@@ -106,12 +108,14 @@ function DetailTerrain({ patch, exaggeration }: { patch: DetailPatch; exaggerati
     ctrl.magFilter = THREE.NearestFilter;
     ctrl.generateMipmaps = false;
     ctrl.colorSpace = THREE.NoColorSpace;
+    tintTex.colorSpace = THREE.NoColorSpace;
     const img = ctrl.image as { width: number; height: number };
     const mat = new THREE.ShaderMaterial({
       glslVersion: THREE.GLSL3,
       uniforms: {
         uTex: { value: tex },
         uCtrl: { value: ctrl },
+        uTint: { value: tintTex },
         uCtrlSize: { value: new THREE.Vector2(img.width, img.height) },
         uTileM: { value: new Float32Array(manifest.materials.map((m) => m.tileM)) },
         uAvgCol: { value: new Float32Array(manifest.materials.flatMap((m) => m.avgColor.map((c) => c / 255))) },
@@ -127,6 +131,7 @@ function DetailTerrain({ patch, exaggeration }: { patch: DetailPatch; exaggerati
         #define N ${n}
         uniform highp sampler2DArray uTex;
         uniform sampler2D uCtrl;
+        uniform sampler2D uTint;
         uniform vec2 uCtrlSize;
         uniform float uTileM[N];
         uniform vec3 uAvgCol[N];
@@ -158,13 +163,15 @@ function DetailTerrain({ patch, exaggeration }: { patch: DetailPatch; exaggerati
             f.y);
           float macro = texture(uCtrl, vUv).a;
           col *= 0.84 + 0.32 * macro;
+          // macro climate tint (coastal/wetness/latitude palette drift)
+          col *= texture(uTint, vUv).rgb * 2.0;
           float light = 0.62 + 0.85 * max(dot(normalize(vNormal), sunDir), 0.0);
           outColor = vec4(col * light, 1.0);
         }`,
     });
     mat.userData.tex = tex;
     return mat;
-  }, [images, ctrl, manifest]);
+  }, [images, ctrl, tintTex, manifest]);
 
   useEffect(() => () => {
     geometry.dispose();
@@ -187,6 +194,52 @@ function useGroundManifest(base: string): GroundManifest {
     .then((r) => r.json())
     .then((j) => { groundManifest = j; });
   throw groundManifestPromise;
+}
+
+/** City beacons + name labels above the terrain, so anchors stay findable
+ * now that the detail patch covers the map drape's dots (owner request). */
+function CityMarkers({ heights, size, metresPerPixel, exaggeration }: {
+  heights: Float32Array; size: number; metresPerPixel: number; exaggeration: number;
+}) {
+  const markers = useMemo(() => {
+    const anchors = (anchorsFile.anchors as { name: string; u: number; v: number; rank?: string }[]);
+    return anchors.map((a) => {
+      const px = Math.min(Math.round(a.u * size), size - 1);
+      const py = Math.min(Math.round(a.v * size), size - 1);
+      const ground = Math.max(heights[py * size + px] * exaggeration, 0);
+      const label = document.createElement("canvas");
+      label.width = 512; label.height = 128;
+      const g = label.getContext("2d")!;
+      g.font = "bold 72px system-ui, sans-serif";
+      g.textAlign = "center";
+      g.lineWidth = 10; g.strokeStyle = "rgba(0,0,0,0.85)";
+      g.strokeText(a.name, 256, 88);
+      g.fillStyle = a.rank === "major" ? "#ffd76a" : "#d9e2ea";
+      g.fillText(a.name, 256, 88);
+      const tex = new THREE.CanvasTexture(label);
+      return {
+        key: a.name, major: a.rank === "major",
+        x: a.u * size * metresPerPixel, z: a.v * size * metresPerPixel,
+        ground, tex,
+      };
+    });
+  }, [heights, size, metresPerPixel, exaggeration]);
+  useEffect(() => () => markers.forEach((m) => m.tex.dispose()), [markers]);
+  return (
+    <group>
+      {markers.map((m) => (
+        <group key={m.key} position={[m.x, m.ground, m.z]}>
+          <mesh position={[0, 400, 0]}>
+            <cylinderGeometry args={[14, 14, 800, 6]} />
+            <meshBasicMaterial color={m.major ? "#ffd76a" : "#b9c4cc"} transparent opacity={0.55} depthWrite={false} />
+          </mesh>
+          <sprite position={[0, 950, 0]} scale={[1400, 350, 1]}>
+            <spriteMaterial map={m.tex} transparent depthTest={false} />
+          </sprite>
+        </group>
+      ))}
+    </group>
+  );
 }
 
 function FlyRig({ speedRef, onPosition, extentM }: {
@@ -316,6 +369,8 @@ export function Fly3D(props: Fly3DProps) {
           <DetailTerrain patch={props.detail} exaggeration={props.exaggeration} />
         </Suspense>
       )}
+      <CityMarkers heights={props.heights} size={props.size}
+        metresPerPixel={props.metresPerPixel} exaggeration={props.exaggeration} />
       {/* sea */}
       <mesh position={[extentM / 2, 0, extentM / 2]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[extentM * 1.5, extentM * 1.5]} />

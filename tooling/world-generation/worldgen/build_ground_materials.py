@@ -87,6 +87,7 @@ MATERIALS = [
     ("dirt_path",     "pr",  "dirtpath01.dds",                              6.0, None, 62),
     ("peat_slope",    "bsa", "textures/landscape/frozenmarshdirtslopes01.dds", 8.0, (14, 1.08, 1.0), 45),
     ("track_mud",     "ph",  "aerial_mud_1",                                6.0, None, 55),
+    ("bc_road",       "aend", "Tx_BC_mainroad_01.dds",                      6.0, None, 62),
 ]
 
 

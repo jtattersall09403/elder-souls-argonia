@@ -21,3 +21,6 @@ __pycache__/
 *.pyc
 .venv/
 shots/
+
+# --- Black Marsh & Valenwood mod source (huge, never commit; see module 90) ---
+black-marsh-mod-source/

@@ -29,7 +29,7 @@ geometry transform applied wherever terrain becomes mesh/collision (studio
 flyover default slider = 4 = canonical; production terrain compilers apply it
 at Phase 6 pass 2+). Water surfaces scale with heights (sea stays y=0).
 
-**Addendum 2026-08-23 (later same day):** owner is trialling **×5** on the
-flyover ("feels a bit more interesting"); the studio default slider is now 5.
-×4 remains the recorded decision until the owner confirms ×5 after flying —
-whichever is confirmed becomes the value the Phase 6+ compilers bake.
+**Addendum 2026-08-23 (later same day):** after flying, the owner confirmed
+**×5** ("let's keep 5x"). ×5 is the canonical vertical scale: studio default
+slider = 5, and the Phase 6+ compilers bake ×5 wherever terrain becomes
+geometry/collision. Data stays true metres, as before.

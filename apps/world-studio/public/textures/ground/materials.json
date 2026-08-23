@@ -359,6 +359,18 @@
     50
    ],
    "source": "Poly Haven aerial_mud_1 (CC0)"
+  },
+  {
+   "id": 30,
+   "name": "bc_road",
+   "file": "30-bc_road.png",
+   "tileM": 6.0,
+   "avgColor": [
+    71,
+    67,
+    47
+   ],
+   "source": "Aendemika of Vvardenfell (Tx_BC_mainroad_01.dds)"
   }
  ]
 }

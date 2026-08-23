@@ -1,23 +1,23 @@
 {
   "originFullPx": [
-    237,
-    1728
+    126,
+    1458
   ],
   "originM": [
-    1299.6,
-    9475.5
+    690.9,
+    7995.0
   ],
   "metresPerPixel": 10.967039999999999,
-  "imageWidth": 1442,
-  "imageHeight": 1080,
+  "imageWidth": 1449,
+  "imageHeight": 1202,
   "heightMinMetres": -68.0870361328125,
-  "heightMaxMetres": 85.65937042236328,
+  "heightMaxMetres": 77.13660430908203,
   "basinLabels": [
     2275
   ],
   "extentKm": [
-    15.81,
-    11.84
+    15.89,
+    13.18
   ],
   "groundControl": "ground-control.png",
   "note": "true metres, no vertical bake (x4 applied in the studio, 0006); pass 2 in progress - no collision/LOD/chunking yet"

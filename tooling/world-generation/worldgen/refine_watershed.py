@@ -71,8 +71,10 @@ STUDIO_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "basi
 
 
 def detail_noise(shape, regions_up, channel_dist_m, rng):
+    # Octaves down to ~11 m wavelength: the finest two are the person-scale
+    # micro-relief (owner 2026-08-23: ground felt too flat between contours).
     field = np.zeros(shape, dtype=np.float32)
-    for sigma, weight in ((32, 1.0), (8, 0.45), (2, 0.18)):
+    for sigma, weight in ((32, 1.0), (8, 0.45), (2, 0.30), (1, 0.16)):
         octave = ndimage.gaussian_filter(rng.standard_normal(shape), sigma)
         field += weight * octave / max(octave.std(), 1e-9)
     field /= max(field.std(), 1e-9)
@@ -205,9 +207,17 @@ def main() -> None:
     ys, xs = np.where(ndimage.binary_dilation(basin, iterations=MARGIN_COARSE))
     cy0, cy1, cx0, cx1 = ys.min(), ys.max() + 1, xs.min(), xs.max() + 1
 
-    # Pass 2 (owner 2026-08-23): extend the crop to the nearby coastline and
-    # offshore islands — push each edge outward until a border line is ~all
-    # sea (so beaches and the SE island fall inside), capped at ~4 km.
+    # Pass 2 (owner 2026-08-23): pull any anchor city just outside the bbox
+    # into the crop (Soulrest sat ~1 km beyond the west edge), then extend
+    # each edge seaward until a border line is nearly all sea — so beaches,
+    # headland cities and the SE island fall inside. Capped at ~4 km.
+    anchors_spec = json.loads((REPO_ROOT / "world" / "sources" / "anchors" /
+                               "settlement-anchors.json").read_text())
+    for a in anchors_spec.get("anchors", []):
+        ay, ax = a["v"] * n, a["u"] * n
+        if cy0 - 70 < ay < cy1 + 70 and cx0 - 70 < ax < cx1 + 70:
+            cy0, cy1 = min(cy0, int(ay) - 25), max(cy1, int(ay) + 25)
+            cx0, cx1 = min(cx0, int(ax) - 25), max(cx1, int(ax) + 25)
     ocean = npz["ocean"]
     CAP = 250
 
@@ -216,7 +226,7 @@ def main() -> None:
             j = start + step * k
             if j < 0 or j >= bound:
                 break
-            if 1.0 - line_at(j).mean() < 0.03:
+            if 1.0 - line_at(j).mean() < 0.15:  # mostly sea (coasts run diagonally)
                 return j + step * 4  # small offshore margin
         return start
 
@@ -224,6 +234,8 @@ def main() -> None:
     cy0 = max(min(cy0, _seaward(cy0, -1, lambda j: ocean[j, cx0:cx1], n)), 0)
     cx1 = min(max(cx1, _seaward(cx1 - 1, +1, lambda j: ocean[cy0:cy1, j], n) + 1), n)
     cx0 = max(min(cx0, _seaward(cx0, -1, lambda j: ocean[cy0:cy1, j], n)), 0)
+    cy0, cy1 = max(cy0, 0), min(cy1, n)
+    cx0, cx1 = max(cx0, 0), min(cx1, n)
     # full-res crop aligned to the 3x macro grid
     fy0, fy1, fx0, fx1 = cy0 * STEP, min(cy1 * STEP, full.shape[0]), cx0 * STEP, min(cx1 * STEP, full.shape[1])
     h = full[fy0:fy1, fx0:fx1].copy()
@@ -267,6 +279,34 @@ def main() -> None:
         salinity=up(npz["salinity"]), twi=up(npz["twi"]),
         wetlands=up(npz["wetlands"]), roads=roads)
     Image.fromarray(control, "RGBA").save(STUDIO_DIR / "ground-control.png")
+
+    # Macro climate tint (first slice of the §33.1 climate model): low-res RGB
+    # multipliers over the albedo so the palette drifts with geography —
+    # warmer/paler toward the coast and dry ground, greener/darker where wet,
+    # subtly greener southward — plus ~700 m colour patchiness so large
+    # same-region areas stop reading as one repeated palette (owner feedback).
+    qstep = 4
+    hq = h[::qstep, ::qstep]
+
+    def qf(a):
+        return up(a)[::qstep, ::qstep][: hq.shape[0], : hq.shape[1]].astype(np.float32)
+
+    oc_q = qf(npz["ocean"]) > 0.5
+    twi_q = np.nan_to_num(qf(npz["twi"]))
+    wet_q = np.clip((twi_q - twi_q.mean()) / max(twi_q.std(), 1e-9) * 0.35 + 0.5, 0, 1)
+    coast = np.exp(-ndimage.distance_transform_edt(~oc_q) * RAW_M * qstep / 2500.0).astype(np.float32)
+    south = ((np.arange(hq.shape[0], dtype=np.float32) * qstep + fy0) / 4033.0)[:, None]
+    south = (south - south.min()) / max(south.max() - south.min(), 1e-9)
+
+    def tnoise():
+        m = ndimage.gaussian_filter(rng.standard_normal(hq.shape), 32)
+        return (m / max(m.std(), 1e-9)).astype(np.float32)
+
+    tr = 1.0 + 0.06 * coast + 0.05 * (1 - wet_q) - 0.03 * south + 0.05 * tnoise()
+    tg = 1.0 + 0.06 * wet_q + 0.04 * south - 0.02 * coast + 0.05 * tnoise()
+    tb = 1.0 - 0.03 * wet_q + 0.02 * coast + 0.04 * tnoise()
+    tint = np.stack([tr, tg, tb], -1).clip(0.0, 2.0)
+    Image.fromarray((tint * 127.5).astype(np.uint8)).save(STUDIO_DIR / "ground-tint.png")
     meta = {
         "originFullPx": [int(fx0), int(fy0)],
         "originM": [round(fx0 * RAW_M, 1), round(fy0 * RAW_M, 1)],

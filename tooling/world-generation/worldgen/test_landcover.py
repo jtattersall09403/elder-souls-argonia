@@ -1,7 +1,7 @@
 import numpy as np
 
-from .landcover import (BANK_WET, MARSH_GRASS, MUCK, N_MATERIALS, PATH,
-                        RIVER_MUD, SILT, SWAMP_GRASS, TROP_GRASS,
+from .landcover import (BANK_WET, BC_ROAD, MARSH_GRASS, MUCK, N_MATERIALS,
+                        PATH, RIVER_MUD, SILT, SWAMP_GRASS, TRACK, TROP_GRASS,
                         compile_ground_control)
 
 M_PER_PX = 5.5  # production full-res texel size
@@ -66,5 +66,6 @@ def test_standing_water_edge_never_grass():
 
 def test_roads_painted_on_ground_not_water():
     mat, _ = _compile(with_roads=True)
-    assert (mat[149, 10:60] == PATH).mean() > 0.7         # road on dry ground
+    road = np.isin(mat[149, 10:60], [BC_ROAD, PATH, TRACK])
+    assert road.mean() > 0.7                              # road on dry ground
     assert (mat[149, 120:122] == SILT).all()              # channel wins at crossing

@@ -29,8 +29,8 @@ from scipy import ndimage
 (SILT, RIVER_MUD, BANK_WET, SCUM, BLACK_MUD, PUDDLE, CLAY, MUCK, BC_MUD,
  PEAT, MUD_LEAVES, MARSH_GRASS, UNDERGROWTH, BC_MOSS, MOSS, SWAMP_GRASS,
  TROP_GRASS, GRASS_DIRT, SCRUB, JUNGLE, FOREST_FLOOR, LITTER, MOSSY_ROCK,
- BC_ROCK, SAND, SALT, DRY_CLAY, PATH, PEAT_SLOPE, TRACK) = range(30)
-N_MATERIALS = 30
+ BC_ROCK, SAND, SALT, DRY_CLAY, PATH, PEAT_SLOPE, TRACK, BC_ROAD) = range(31)
+N_MATERIALS = 31
 
 # Per-region palettes (regions.py class ids). Slots: base ground, damp patch
 # (mid wetness), wet patch (hollows), channel/shore bank, local-high ground,
@@ -129,9 +129,17 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
 
     # Roads: Phase 4 corridors painted where they touch ground; water rules
     # come later so crossings stay unpainted (fords/ferries/bridges are
-    # placed features, not textures).
+    # placed features, not textures). The macro corridors are all major-city
+    # trunk roads (§88), but wear varies along their length: built road
+    # surface by default, degrading to dirt path and to churned mud where the
+    # ground is wet — semantic per-segment road classes densify in Phase 11+.
     if roads is not None:
-        mat = np.where(roads, PATH, mat)
+        wear = _noise(shape, 120.0 / m_per_px, rng)   # ~120 m wear stretches
+        road_mat = np.full(shape, BC_ROAD, dtype=np.int16)
+        road_mat[wear > 0.35] = PATH
+        road_mat[wet_score > 1.0] = PATH
+        road_mat[(wet_score > 1.0) & (wear > 0.2)] = TRACK
+        mat = np.where(roads, road_mat, mat)
 
     # Channel gradient (the Bethesda 3-stage water edge, scaled per band):
     # bed silt -> wet river mud waterline -> region bank material.

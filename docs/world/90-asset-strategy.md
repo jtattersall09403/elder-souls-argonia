@@ -79,6 +79,22 @@ High-value source families:
 | Dawnguard/Falmer cave material | selected underground infrastructure and organic clutter |
 | Ruins and tombs | later cultural reuse, crypts and generic structural components |
 
+### 74.1b Black Marsh & Valenwood (ModDB) — VERY HIGH priority source
+
+[Black Marsh & Valenwood](https://www.moddb.com/mods/black-marsh-valenwood)
+(Skyrim SE new-land mod): an art-directed large Black Marsh environment
+starting at Lilmoth — **the closest existing asset base to our game**.
+Two archives: Part1 (ModDB download id 231175 — meshes + ESPs) and part2
+(id 231215, ~7.6 GB — all Black Marsh + Valenwood textures). Owner directive
+2026-08-23: mine it before finalising the ground-material library; later a
+mesh source for world building. Local copy lives at
+`tooling/asset-pipeline/black-marsh-mod-source/` — **gitignored, never
+commit** (huge). Process: manifest -> separate BM from Valenwood -> contact
+sheets by family (landscape/mud/grass/rock/shore/roots/moss/forest floor) ->
+rank vs CC0/PBR -> map winners into the semantic material catalogue. NOTE:
+ModDB is Cloudflare-gated for this VM; downloads may need owner-supplied
+mirror links.
+
 ### 74.2 Argonian Xanmeer Tileset
 
 [Argonian Xanmeer Tileset — Modder's Resource](https://www.nexusmods.com/skyrimspecialedition/mods/181193) contains 85 modular meshes covering structural and damaged Xanmeer components.[^A1] The kit is available for this project.
