@@ -72,63 +72,121 @@ function DetailTerrain({ patch, exaggeration }: { patch: DetailPatch; exaggerati
     return g;
   }, [patch, exaggeration]);
 
-  // Skyrim ground textures (extracted from the vault BSA by
-  // worldgen.export_terrain_textures) blended by the compiled splatmap —
-  // the terrain preview's look derives from game assets, per the asset plan.
+  // Ground materials (decision 0011): the land-cover control map compiled by
+  // worldgen.landcover picks per-texel material pairs from the global library
+  // built by worldgen.build_ground_materials (CC0 + vanilla Skyrim sources).
+  // BotW/Terrain3D-style rendering: texture array indexed by texelFetched ids
+  // with manual bilinear blending — constant cost at any material count.
   const base = import.meta.env.BASE_URL;
-  const [grass, marsh, rock, mud, jungle, sand, splat, splat2] = useLoader(THREE.TextureLoader, [
-    `${base}textures/terrain/grass.png`, `${base}textures/terrain/marsh.png`,
-    `${base}textures/terrain/rock.png`, `${base}textures/terrain/mud.png`,
-    `${base}textures/terrain/jungle.png`, `${base}textures/terrain/sand.png`,
-    `${base}province/basin/splat.png`, `${base}province/basin/splat2.png`,
-  ]);
+  const manifest = useGroundManifest(base);
+  const images = useLoader(THREE.ImageLoader,
+    manifest.materials.map((m) => `${base}textures/ground/${m.file}`));
+  const ctrl = useLoader(THREE.TextureLoader, `${base}province/basin/ground-control.png`);
   const material = useMemo(() => {
-    for (const t of [grass, marsh, rock, mud, jungle, sand]) {
-      t.wrapS = t.wrapT = THREE.RepeatWrapping;
-      t.colorSpace = THREE.NoColorSpace;
-      t.anisotropy = 4;
-    }
-    splat.colorSpace = THREE.NoColorSpace;
-    splat2.colorSpace = THREE.NoColorSpace;
-    return new THREE.ShaderMaterial({
+    const n = images.length;
+    const size = 512;
+    const data = new Uint8Array(size * size * 4 * n);
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = size;
+    const g2d = canvas.getContext("2d")!;
+    images.forEach((img, i) => {
+      g2d.drawImage(img, 0, 0, size, size);
+      data.set(g2d.getImageData(0, 0, size, size).data, size * size * 4 * i);
+    });
+    const tex = new THREE.DataArrayTexture(data, size, size, n);
+    tex.format = THREE.RGBAFormat;
+    tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+    tex.minFilter = THREE.LinearMipmapLinearFilter;
+    tex.magFilter = THREE.LinearFilter;
+    tex.generateMipmaps = true;
+    tex.anisotropy = 4;
+    tex.needsUpdate = true;
+    // integer ids: never let the GPU filter or mip the control map
+    ctrl.minFilter = THREE.NearestFilter;
+    ctrl.magFilter = THREE.NearestFilter;
+    ctrl.generateMipmaps = false;
+    ctrl.colorSpace = THREE.NoColorSpace;
+    const img = ctrl.image as { width: number; height: number };
+    const mat = new THREE.ShaderMaterial({
+      glslVersion: THREE.GLSL3,
       uniforms: {
-        tGrass: { value: grass }, tMarsh: { value: marsh },
-        tRock: { value: rock }, tMud: { value: mud },
-        tJungle: { value: jungle }, tSand: { value: sand },
-        tSplat: { value: splat }, tSplat2: { value: splat2 },
+        uTex: { value: tex },
+        uCtrl: { value: ctrl },
+        uCtrlSize: { value: new THREE.Vector2(img.width, img.height) },
+        uTileM: { value: new Float32Array(manifest.materials.map((m) => m.tileM)) },
+        uAvgCol: { value: new Float32Array(manifest.materials.flatMap((m) => m.avgColor.map((c) => c / 255))) },
         sunDir: { value: new THREE.Vector3(0.45, 0.8, 0.3).normalize() },
       },
       vertexShader: `
-        varying vec2 vUv; varying vec3 vNormal; varying vec3 vWorld;
+        out vec2 vUv; out vec3 vNormal; out vec3 vWorld;
         void main() {
           vUv = uv; vNormal = normal; vWorld = position;
           gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }`,
       fragmentShader: `
-        uniform sampler2D tGrass, tMarsh, tRock, tMud, tJungle, tSand, tSplat, tSplat2;
+        #define N ${n}
+        uniform highp sampler2DArray uTex;
+        uniform sampler2D uCtrl;
+        uniform vec2 uCtrlSize;
+        uniform float uTileM[N];
+        uniform vec3 uAvgCol[N];
         uniform vec3 sunDir;
-        varying vec2 vUv; varying vec3 vNormal; varying vec3 vWorld;
+        in vec2 vUv; in vec3 vNormal; in vec3 vWorld;
+        out vec4 outColor;
+        // near: tiled texture of the texel's two materials; far: their flat
+        // average colours (kills distant tiling, Frostbite near/far pattern)
+        vec3 texelCol(ivec2 tc, float fade) {
+          vec4 c = texelFetch(uCtrl, clamp(tc, ivec2(0), ivec2(uCtrlSize) - 1), 0);
+          int i0 = int(c.r * 255.0 + 0.5);
+          int i1 = int(c.g * 255.0 + 0.5);
+          vec3 near0 = texture(uTex, vec3(vWorld.xz / uTileM[i0], float(i0))).rgb;
+          vec3 near1 = texture(uTex, vec3(vWorld.xz / uTileM[i1], float(i1))).rgb;
+          vec3 n = mix(near0, near1, c.b);
+          vec3 f = mix(uAvgCol[i0], uAvgCol[i1], c.b);
+          return mix(n, f, fade);
+        }
         void main() {
-          vec4 w = texture2D(tSplat, vUv);
-          vec4 w2 = texture2D(tSplat2, vUv);
-          float total = max(w.r + w.g + w.b + w.a + w2.r + w2.g, 1e-4);
-          vec3 col = ( w.r  * texture2D(tGrass,  vWorld.xz / 9.0).rgb
-                     + w.g  * texture2D(tMarsh,  vWorld.xz / 8.0).rgb
-                     + w.b  * texture2D(tRock,   vWorld.xz / 14.0).rgb
-                     + w.a  * texture2D(tMud,    vWorld.xz / 7.0).rgb
-                     + w2.r * texture2D(tJungle, vWorld.xz / 10.0).rgb
-                     + w2.g * texture2D(tSand,   vWorld.xz / 8.0).rgb ) / total;
-          // macro mottle (splat2.b) breaks up tiling monotony at distance
-          col *= 0.82 + 0.36 * w2.b;
+          float dist = length(vWorld - cameraPosition);
+          float fade = smoothstep(1200.0, 5500.0, dist);
+          vec2 p = vUv * uCtrlSize - 0.5;
+          ivec2 p0 = ivec2(floor(p));
+          vec2 f = fract(p);
+          // ids can't be hardware-filtered: manual bilinear over 4 texels
+          vec3 col = mix(
+            mix(texelCol(p0, fade), texelCol(p0 + ivec2(1, 0), fade), f.x),
+            mix(texelCol(p0 + ivec2(0, 1), fade), texelCol(p0 + ivec2(1, 1), fade), f.x),
+            f.y);
+          float macro = texture(uCtrl, vUv).a;
+          col *= 0.84 + 0.32 * macro;
           float light = 0.62 + 0.85 * max(dot(normalize(vNormal), sunDir), 0.0);
-          gl_FragColor = vec4(col * light, 1.0);
+          outColor = vec4(col * light, 1.0);
         }`,
     });
-  }, [grass, marsh, rock, mud, jungle, sand, splat, splat2]);
+    mat.userData.tex = tex;
+    return mat;
+  }, [images, ctrl, manifest]);
 
-  useEffect(() => () => { geometry.dispose(); material.dispose(); }, [geometry, material]);
+  useEffect(() => () => {
+    geometry.dispose();
+    (material.userData.tex as THREE.DataArrayTexture).dispose();
+    material.dispose();
+  }, [geometry, material]);
 
   return <mesh geometry={geometry} material={material} />;
+}
+
+interface GroundManifest {
+  materials: { id: number; name: string; file: string; tileM: number; avgColor: number[] }[];
+}
+let groundManifest: GroundManifest | null = null;
+let groundManifestPromise: Promise<void> | null = null;
+/** Suspense-style loader for the ground-material manifest. */
+function useGroundManifest(base: string): GroundManifest {
+  if (groundManifest) return groundManifest;
+  groundManifestPromise ??= fetch(`${base}textures/ground/materials.json`)
+    .then((r) => r.json())
+    .then((j) => { groundManifest = j; });
+  throw groundManifestPromise;
 }
 
 function FlyRig({ speedRef, onPosition, extentM }: {

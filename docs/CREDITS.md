@@ -18,6 +18,11 @@ in-game credits list is generated from this file plus the asset registry.
   prior.
 - **Transbot9 — All Tamriel Heightmap** Beta06 (Nexus SSE mod 573, CC BY-NC
   4.0) — cross-border context terrain.
+- **ambientCG** (ambientcg.com, CC0) — ground textures in the terrain
+  material library (Ground024/025/026/037/040/050/051/054).
+- **Poly Haven** (polyhaven.com, CC0) — ground textures in the terrain
+  material library (mud_forest, forest_leaves_02, aerial_mud_1,
+  mud_cracked_dry_riverbed_002).
 
 ## Planned (recorded before ingestion; move up when used)
 
@@ -30,6 +35,10 @@ in-game credits list is generated from this file plus the asset registry.
 
 - **Argonian Xanmeer Tileset — Modder's Resource** (Nexus mod 181193) — Xanmeer
   architecture kit.
+- **Ground-texture mod pool** (vetted in
+  [research/black-marsh-ground-texture-sources.md](research/black-marsh-ground-texture-sources.md)):
+  A Cathedralist's PBR Landscape (SSE 137333), Cathedral Landscapes (SSE
+  21954, share-alike), Project Rainforest SE (SSE 20636, owner-approved).
 - Water rendering references (MIT): WaterThreeJS, SeedOcean,
   jeantimex/threejs-water, ABYSSAL ocean.
 - Community priors: Inkarnate Black Marsh map ("Argonian State 4E 231", Reddit)

@@ -19,5 +19,6 @@
     12.17,
     10.69
   ],
-  "note": "true metres, no vertical bake (decision 0006 judged at gate); pass 1 - no collision/LOD/chunking yet"
+  "groundControl": "ground-control.png",
+  "note": "true metres, no vertical bake (x4 applied in the studio, 0006); pass 2 in progress - no collision/LOD/chunking yet"
 }

@@ -31,6 +31,7 @@ import numpy as np
 from scipy import ndimage
 
 from .condition import condition
+from .landcover import compile_ground_control
 
 RAW_M = 4096.0 * 0.01428 / 32.0 * 3.0  # full-res sample size at world scale (~5.48 m)
 STEP = 3                               # macro rasters are 1/3 of full res
@@ -190,60 +191,19 @@ def main() -> None:
     STUDIO_DIR.mkdir(parents=True, exist_ok=True)
     Image.fromarray(rg).save(STUDIO_DIR / "height-rg.png")
 
-    # Splatmaps for Skyrim ground textures. splat.png RGBA = grass/marsh/rock/
-    # mud; splat2.png = jungle (R), shore sand (G), macro brightness mottle (B).
-    # Weights come from region classes, water/channel proximity, slope — plus a
-    # medium-scale noise that mottles grass<->marsh so no material reads as one
-    # continuous carpet (owner feedback: the basin looked like a single texture).
+    # Ground-material control map (decision 0011): semantic land cover ×
+    # per-region material palettes -> (id0, id1, blend, macro) consumed by the
+    # studio's texture-array shader. Detail lives in landcover.py.
     reg_h = regions_up[::2, ::2][: half.shape[0], : half.shape[1]]
-    dist_h = channel_dist[::2, ::2][: half.shape[0], : half.shape[1]]
+    riv_h = rivers_up[::2, ::2][: half.shape[0], : half.shape[1]]
     gy2, gx2 = np.gradient(half, RAW_M * 2)
     slope_h = np.hypot(gx2, gy2)
-    mottle = ndimage.gaussian_filter(rng.standard_normal(half.shape), 8)
-    mottle /= max(mottle.std(), 1e-9)
-    water_dist = ndimage.distance_transform_edt(half >= 0) * RAW_M * 2  # to any water
-
-    # Per-region-class material palette — the semantic link the plan's §16
-    # RegionGrammar.materialPalette describes. Base mixes per ecological class;
-    # physical modifiers (slope, channels, shorelines) and mottle layer on top.
-    # Channel order: grass, marsh, rock, mud, jungle, sand.
-    PALETTE = {
-        0:  (0.00, 0.00, 0.00, 0.70, 0.00, 0.30),  # ocean floor
-        1:  (0.15, 0.00, 0.80, 0.05, 0.00, 0.00),  # border mountains
-        2:  (0.50, 0.05, 0.45, 0.00, 0.00, 0.00),  # upland hills
-        3:  (0.05, 0.35, 0.00, 0.25, 0.00, 0.35),  # tidal delta
-        4:  (0.10, 0.45, 0.00, 0.20, 0.00, 0.25),  # lagoon & salt marsh
-        5:  (0.45, 0.25, 0.00, 0.30, 0.00, 0.00),  # deep river corridor
-        6:  (0.05, 0.70, 0.00, 0.15, 0.10, 0.00),  # rootland deep marsh
-        7:  (0.10, 0.65, 0.00, 0.15, 0.10, 0.00),  # interior swamp
-        8:  (0.30, 0.55, 0.00, 0.15, 0.00, 0.00),  # fringe marsh
-        9:  (0.55, 0.30, 0.00, 0.15, 0.00, 0.00),  # seasonal floodplain
-        10: (0.55, 0.05, 0.15, 0.00, 0.25, 0.00),  # raised hammock
-        11: (0.80, 0.10, 0.05, 0.05, 0.00, 0.00),  # firm lowland
-        12: (0.00, 0.30, 0.00, 0.70, 0.00, 0.00),  # lake bed
-        13: (0.20, 0.00, 0.00, 0.10, 0.70, 0.00),  # tropical jungle
-    }
-    stack = np.zeros((*half.shape, 6), dtype=np.float32)
-    for cid, weights in PALETTE.items():
-        stack[reg_h == cid] = weights
-    # physical modifiers
-    stack[..., 2] = np.maximum(stack[..., 2], np.clip((slope_h - 0.10) / 0.18, 0, 1))       # steep -> rock
-    stack[..., 3] = np.maximum(stack[..., 3], np.clip(1.0 - dist_h / 45.0, 0, 1))           # channels -> mud
-    stack[..., 3] = np.maximum(stack[..., 3], (half < -0.3).astype(np.float32))             # beds -> mud
-    stack[..., 5] = np.maximum(stack[..., 5], ((np.abs(half - 0.3) < 1.0) & (water_dist < 40)).astype(np.float32) * 0.8)  # shorelines -> sand
-    # mottle: shift grass<->marsh and thin the jungle so nothing is a carpet
-    shift = 0.25 * mottle
-    stack[..., 0] = np.clip(stack[..., 0] - shift * (stack[..., 1] > 0.1), 0, 1)
-    stack[..., 1] = np.clip(stack[..., 1] + shift * (stack[..., 1] > 0.1), 0, 1)
-    stack[..., 4] *= np.clip(1.0 + 0.4 * mottle, 0.4, 1.3)
-    stack = ndimage.gaussian_filter(stack, (1.5, 1.5, 0))
-    stack /= np.maximum(stack.sum(-1, keepdims=True), 1e-6)
-    Image.fromarray((stack[..., :4] * 255).astype(np.uint8), "RGBA").save(STUDIO_DIR / "splat.png")
-    macro = ndimage.gaussian_filter(rng.standard_normal(half.shape), 40)
-    macro = (macro / max(macro.std(), 1e-9)).clip(-2, 2) / 4 + 0.5  # 0..1
-    splat2 = np.stack([stack[..., 4], stack[..., 5], macro,
-                       np.ones_like(macro)], -1)
-    Image.fromarray((splat2 * 255).astype(np.uint8), "RGBA").save(STUDIO_DIR / "splat2.png")
+    up_h = lambda a: up(a)[::2, ::2][: half.shape[0], : half.shape[1]]
+    _, control = compile_ground_control(
+        half, reg_h, riv_h, slope_h, RAW_M * 2, rng,
+        salinity=up_h(npz["salinity"]), twi=up_h(npz["twi"]),
+        wetlands=up_h(npz["wetlands"]))
+    Image.fromarray(control, "RGBA").save(STUDIO_DIR / "ground-control.png")
     meta = {
         "originFullPx": [int(fx0), int(fy0)],
         "originM": [round(fx0 * RAW_M, 1), round(fy0 * RAW_M, 1)],
@@ -252,7 +212,8 @@ def main() -> None:
         "heightMinMetres": lo, "heightMaxMetres": hi,
         "basinLabels": sorted(labels),
         "extentKm": [round(q.shape[1] * RAW_M * 2 / 1000, 2), round(q.shape[0] * RAW_M * 2 / 1000, 2)],
-        "note": "true metres, no vertical bake (decision 0006 judged at gate); pass 1 - no collision/LOD/chunking yet",
+        "groundControl": "ground-control.png",
+        "note": "true metres, no vertical bake (x4 applied in the studio, 0006); pass 2 in progress - no collision/LOD/chunking yet",
     }
     (STUDIO_DIR / "meta.json").write_text(json.dumps(meta, indent=2))
     print(json.dumps(meta, indent=2))

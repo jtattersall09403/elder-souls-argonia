@@ -1,0 +1,220 @@
+{
+ "materials": [
+  {
+   "id": 0,
+   "name": "water_silt",
+   "file": "00-water_silt.png",
+   "tileM": 7.0,
+   "avgColor": [
+    47,
+    50,
+    36
+   ],
+   "source": "Skyrim (textures/landscape/riverbottom.dds)"
+  },
+  {
+   "id": 1,
+   "name": "black_mud",
+   "file": "01-black_mud.png",
+   "tileM": 6.0,
+   "avgColor": [
+    59,
+    49,
+    35
+   ],
+   "source": "ambientCG Ground051 (CC0)"
+  },
+  {
+   "id": 2,
+   "name": "puddle_mud",
+   "file": "02-puddle_mud.png",
+   "tileM": 8.0,
+   "avgColor": [
+    74,
+    63,
+    48
+   ],
+   "source": "ambientCG Ground050 (CC0)"
+  },
+  {
+   "id": 3,
+   "name": "clay_bank",
+   "file": "03-clay_bank.png",
+   "tileM": 6.0,
+   "avgColor": [
+    86,
+    70,
+    53
+   ],
+   "source": "ambientCG Ground026 (CC0)"
+  },
+  {
+   "id": 4,
+   "name": "peat",
+   "file": "04-peat.png",
+   "tileM": 7.0,
+   "avgColor": [
+    58,
+    56,
+    49
+   ],
+   "source": "ambientCG Ground024 (CC0)"
+  },
+  {
+   "id": 5,
+   "name": "mud_leaves",
+   "file": "05-mud_leaves.png",
+   "tileM": 7.0,
+   "avgColor": [
+    69,
+    53,
+    42
+   ],
+   "source": "ambientCG Ground040 (CC0)"
+  },
+  {
+   "id": 6,
+   "name": "marsh_grass",
+   "file": "06-marsh_grass.png",
+   "tileM": 8.0,
+   "avgColor": [
+    62,
+    61,
+    55
+   ],
+   "source": "Skyrim (textures/landscape/frozenmarshgrass01.dds)"
+  },
+  {
+   "id": 7,
+   "name": "hummock_grass",
+   "file": "07-hummock_grass.png",
+   "tileM": 8.0,
+   "avgColor": [
+    78,
+    79,
+    45
+   ],
+   "source": "ambientCG Ground037 (CC0)"
+  },
+  {
+   "id": 8,
+   "name": "field_grass",
+   "file": "08-field_grass.png",
+   "tileM": 9.0,
+   "avgColor": [
+    70,
+    73,
+    42
+   ],
+   "source": "Skyrim (textures/landscape/fieldgrass02.dds)"
+  },
+  {
+   "id": 9,
+   "name": "moss",
+   "file": "09-moss.png",
+   "tileM": 8.0,
+   "avgColor": [
+    54,
+    62,
+    39
+   ],
+   "source": "Skyrim (textures/landscape/reachmoss01.dds)"
+  },
+  {
+   "id": 10,
+   "name": "mossy_rock",
+   "file": "10-mossy_rock.png",
+   "tileM": 14.0,
+   "avgColor": [
+    52,
+    57,
+    46
+   ],
+   "source": "Skyrim (textures/landscape/reachmossyrocks01.dds)"
+  },
+  {
+   "id": 11,
+   "name": "jungle_floor",
+   "file": "11-jungle_floor.png",
+   "tileM": 8.0,
+   "avgColor": [
+    61,
+    42,
+    21
+   ],
+   "source": "Poly Haven mud_forest (CC0)"
+  },
+  {
+   "id": 12,
+   "name": "leaf_litter",
+   "file": "12-leaf_litter.png",
+   "tileM": 8.0,
+   "avgColor": [
+    82,
+    69,
+    34
+   ],
+   "source": "Poly Haven forest_leaves_02 (CC0)"
+  },
+  {
+   "id": 13,
+   "name": "tidal_sand",
+   "file": "13-tidal_sand.png",
+   "tileM": 8.0,
+   "avgColor": [
+    78,
+    75,
+    67
+   ],
+   "source": "Skyrim (textures/landscape/coastbeach01.dds)"
+  },
+  {
+   "id": 14,
+   "name": "salt_flat",
+   "file": "14-salt_flat.png",
+   "tileM": 9.0,
+   "avgColor": [
+    92,
+    82,
+    65
+   ],
+   "source": "ambientCG Ground054 (CC0)"
+  },
+  {
+   "id": 15,
+   "name": "track_mud",
+   "file": "15-track_mud.png",
+   "tileM": 6.0,
+   "avgColor": [
+    63,
+    57,
+    53
+   ],
+   "source": "Poly Haven aerial_mud_1 (CC0)"
+  },
+  {
+   "id": 16,
+   "name": "peat_slope",
+   "file": "16-peat_slope.png",
+   "tileM": 8.0,
+   "avgColor": [
+    49,
+    47,
+    38
+   ],
+   "source": "Skyrim (textures/landscape/frozenmarshdirtslopes01.dds)"
+  },
+  {
+   "id": 17,
+   "name": "dry_clay",
+   "file": "17-dry_clay.png",
+   "tileM": 7.0,
+   "avgColor": [
+    89,
+    74,
+    60
+   ],
+   "source": "Poly Haven mud_cracked_dry_riverbed_002 (CC0)"
+  }
+ ]
+}

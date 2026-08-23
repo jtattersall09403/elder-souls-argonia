@@ -17,7 +17,12 @@ python3 -m worldgen.compile_hydrology "<...>/argonia-heightfield/heightfield-f32
 # 3. Phase 4: roads, boat lanes, danger, cultures + overlays (reads step 2's npz)
 python3 -m worldgen.compile_society "<...>/argonia-heightfield/hydrology-pass1.npz"
 
-# 4. Phase 6: refine the reference watershed (Blackrose basin) at ~5.5 m/sample
+# 4. Ground-material library (rerun only when the palette changes): CC0
+#    downloads (cached in vault) + vanilla BSA -> studio textures + manifest
+python3 -m worldgen.build_ground_materials
+
+# 5. Phase 6: refine the reference watershed (Blackrose basin) at ~5.5 m/sample
+#    (also compiles the land-cover ground-control map, decision 0011)
 python3 -m worldgen.refine_watershed "<...>/heightfield-f32.npy" "<...>/hydrology-pass1.npz"
 
 python3 -m pytest -q   # tests over the algorithmic cores
@@ -43,5 +48,10 @@ culture rules. Outputs are deterministic (fixed noise seed).
   0004/0007) and lore-grounded culture territories.
 - `worldgen/refine_watershed.py` — Phase 6 watershed refinement (detail noise,
   channel carving, authored Blackrose lake per Lore:Blackrose).
+- `worldgen/landcover.py` — semantic land cover × per-region material
+  palettes -> ground-control map (decision 0011).
+- `worldgen/build_ground_materials.py` — ground-texture library builder
+  (CC0 ambientCG/Poly Haven + vanilla BSA; luminance-normalised 512px PNGs
+  + materials.json).
 - `worldgen/compile_hydrology.py`, `worldgen/compile_society.py`,
   `worldgen/refine_watershed.py` — the compile entry points above.
