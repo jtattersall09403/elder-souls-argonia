@@ -51,4 +51,8 @@ task needs — never the whole file.
 
 ## Map
 
-Start at [docs/README.md](docs/README.md). Explore filenames and directory names from there.
+[docs/README.md](docs/README.md) is the **task router**: a small table mapping
+"what your task touches" to the exact docs to read (and, implicitly, everything
+you can skip). Use it instead of exploring directories. It also defines where
+to record decisions, research, lore and how-tos as you work — follow that so
+the next agent can navigate the same way.

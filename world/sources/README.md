@@ -24,6 +24,9 @@ the vault; the browser preview raster is committed at
   generation and later quest/dialogue authoring.
 - [climate/weather-states.json](climate/weather-states.json) — province weather
   states, seasonal calendar and lighting notes (plan §33.1).
+- [regions/authored-overrides.json](regions/authored-overrides.json) —
+  owner-authored region polygons applied over rule-based classing (e.g. the
+  central tropical jungle).
 - [demographics/population-priors.json](demographics/population-priors.json) —
   community demographic priors by zone (plan §82).
 

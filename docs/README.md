@@ -1,26 +1,39 @@
-# Docs index
+# Docs router
 
-Modular notes for agents working on elder-souls-argonia. **Read this file and
-[PROGRESS.md](PROGRESS.md) first**, then open only the specific file you need —
-filenames are the map. Keep docs short; treat them like code (DRY, one concern
-per file; edit and delete, don't only append).
+You are probably a fresh agent. Read this file and [PROGRESS.md](PROGRESS.md)
+(both small), then use the table below to read **only** what your task needs.
+Docs live next to the thing they document; `docs/` holds only cross-cutting
+material (status, plan, decisions, credits). Every doc in the repo is reachable
+from this page or from a README it links — keep it that way.
 
-## Map
+## Find context by task
 
-- [PROGRESS.md](PROGRESS.md) — where we are in the build sequence + the
-  update/crash-recovery protocol. Always current; always read.
-- [world-gen-master-plan.md](world-gen-master-plan.md) — the reference plan for
-  the whole world build (~2,700 lines). Never read end to end; use its part
-  index at the top to jump to the sections your phase needs.
-- [decisions/](decisions/README.md) — short numbered decision records (era,
-  coordinates, migration sources, fixed difficulty, …).
-- [CREDITS.md](CREDITS.md) — third-party sources and credits, one line each.
-- `apps/combat-sandbox/docs/` — the combat/animation/physics sandbox's own docs
-  (architecture, animation playbook, validation). Read there when working on
-  combat, character, animation or input.
-- `../world/sources/` — registered world-generation inputs (anchors, source
-  hashes, provenance).
-- `../tooling/world-generation/` — offline extractors/compilers (heightfield
-  ingest lives here).
-- `../apps/world-studio/` — browser province preview/inspection app
-  (deployed at `/studio/` on the Pages site).
+| Your task touches… | Read |
+|---|---|
+| Where we're up to / what's next | [PROGRESS.md](PROGRESS.md) (always) |
+| Any world/design decision — goals, method, phases | [world-gen-master-plan.md](world-gen-master-plan.md) — use its part index, read only the sections your phase needs (~2,700 lines total; never read it all) |
+| World generation code: terrain, hydrology, regions, climate, danger, cultures, roads/boat lanes | [../tooling/world-generation/README.md](../tooling/world-generation/README.md) (pipeline, modules, rerun rules) + the relevant plan parts (V, IV, XIII) |
+| Lore/canon for any place, culture, name, history | [../world/sources/lore/README.md](../world/sources/lore/README.md) — dossiers + sourcing rules. The CLAUDE.md lore golden rule is mandatory |
+| World source data: anchors, roads graph, demographics, climate states, authored region overrides | [../world/sources/README.md](../world/sources/README.md) |
+| The studio map/flyover UI | [../apps/world-studio/README.md](../apps/world-studio/README.md) |
+| Combat, character, animation, physics, input, inventory | [../apps/combat-sandbox/CLAUDE.md](../apps/combat-sandbox/CLAUDE.md) then its [docs/README.md](../apps/combat-sandbox/docs/README.md) |
+| Asset pipeline: GLB/skeleton/Blender/Skyrim data | [../tooling/asset-pipeline/README.md](../tooling/asset-pipeline/README.md) |
+| "Why is X the way it is?" | [decisions/README.md](decisions/README.md) — short numbered records |
+| Credits/licensing of any external source | [CREDITS.md](CREDITS.md) |
+| CI, deploy, site layout | root [README.md](../README.md) + `.github/workflows/` |
+
+## Where to record what you learn
+
+- **A decision that isn't obvious from code** → `decisions/NNNN-topic.md` (next
+  number, few paragraphs max) + one line in its index.
+- **Reusable research findings** (e.g. "how X engine problem is usually
+  solved") → `docs/research/<topic>.md`; create the directory on first use;
+  name files so a future agent can judge relevance from the filename alone.
+- **Canon/lore for a place, tribe, faction** → `world/sources/lore/` dossier,
+  following its README's sourcing rules.
+- **How to run/change a specific app or tool** → the README **next to that
+  code**, not here.
+- **Status** → PROGRESS.md only, per its protocol. Never duplicate status
+  into other docs.
+- When you add a doc, link it (here or in the README that owns its area). When
+  a doc goes stale, **edit or delete it** — pruning is part of the job.
