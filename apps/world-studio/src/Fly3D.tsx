@@ -76,22 +76,26 @@ function DetailTerrain({ patch, exaggeration }: { patch: DetailPatch; exaggerati
   // worldgen.export_terrain_textures) blended by the compiled splatmap —
   // the terrain preview's look derives from game assets, per the asset plan.
   const base = import.meta.env.BASE_URL;
-  const [grass, marsh, rock, mud, splat] = useLoader(THREE.TextureLoader, [
+  const [grass, marsh, rock, mud, jungle, sand, splat, splat2] = useLoader(THREE.TextureLoader, [
     `${base}textures/terrain/grass.png`, `${base}textures/terrain/marsh.png`,
     `${base}textures/terrain/rock.png`, `${base}textures/terrain/mud.png`,
-    `${base}province/basin/splat.png`,
+    `${base}textures/terrain/jungle.png`, `${base}textures/terrain/sand.png`,
+    `${base}province/basin/splat.png`, `${base}province/basin/splat2.png`,
   ]);
   const material = useMemo(() => {
-    for (const t of [grass, marsh, rock, mud]) {
+    for (const t of [grass, marsh, rock, mud, jungle, sand]) {
       t.wrapS = t.wrapT = THREE.RepeatWrapping;
       t.colorSpace = THREE.NoColorSpace;
       t.anisotropy = 4;
     }
     splat.colorSpace = THREE.NoColorSpace;
+    splat2.colorSpace = THREE.NoColorSpace;
     return new THREE.ShaderMaterial({
       uniforms: {
         tGrass: { value: grass }, tMarsh: { value: marsh },
-        tRock: { value: rock }, tMud: { value: mud }, tSplat: { value: splat },
+        tRock: { value: rock }, tMud: { value: mud },
+        tJungle: { value: jungle }, tSand: { value: sand },
+        tSplat: { value: splat }, tSplat2: { value: splat2 },
         sunDir: { value: new THREE.Vector3(0.45, 0.8, 0.3).normalize() },
       },
       vertexShader: `
@@ -101,21 +105,26 @@ function DetailTerrain({ patch, exaggeration }: { patch: DetailPatch; exaggerati
           gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }`,
       fragmentShader: `
-        uniform sampler2D tGrass, tMarsh, tRock, tMud, tSplat;
+        uniform sampler2D tGrass, tMarsh, tRock, tMud, tJungle, tSand, tSplat, tSplat2;
         uniform vec3 sunDir;
         varying vec2 vUv; varying vec3 vNormal; varying vec3 vWorld;
         void main() {
           vec4 w = texture2D(tSplat, vUv);
-          w /= max(w.r + w.g + w.b + w.a, 1e-4);
-          vec3 col = w.r * texture2D(tGrass, vWorld.xz / 9.0).rgb
-                   + w.g * texture2D(tMarsh, vWorld.xz / 8.0).rgb
-                   + w.b * texture2D(tRock, vWorld.xz / 14.0).rgb
-                   + w.a * texture2D(tMud, vWorld.xz / 7.0).rgb;
+          vec4 w2 = texture2D(tSplat2, vUv);
+          float total = max(w.r + w.g + w.b + w.a + w2.r + w2.g, 1e-4);
+          vec3 col = ( w.r  * texture2D(tGrass,  vWorld.xz / 9.0).rgb
+                     + w.g  * texture2D(tMarsh,  vWorld.xz / 8.0).rgb
+                     + w.b  * texture2D(tRock,   vWorld.xz / 14.0).rgb
+                     + w.a  * texture2D(tMud,    vWorld.xz / 7.0).rgb
+                     + w2.r * texture2D(tJungle, vWorld.xz / 10.0).rgb
+                     + w2.g * texture2D(tSand,   vWorld.xz / 8.0).rgb ) / total;
+          // macro mottle (splat2.b) breaks up tiling monotony at distance
+          col *= 0.82 + 0.36 * w2.b;
           float light = 0.62 + 0.85 * max(dot(normalize(vNormal), sunDir), 0.0);
           gl_FragColor = vec4(col * light, 1.0);
         }`,
     });
-  }, [grass, marsh, rock, mud, splat]);
+  }, [grass, marsh, rock, mud, jungle, sand, splat, splat2]);
 
   useEffect(() => () => { geometry.dispose(); material.dispose(); }, [geometry, material]);
 

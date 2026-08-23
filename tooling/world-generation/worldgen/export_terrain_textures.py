@@ -29,6 +29,8 @@ OUT_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "textures" / "terrain
 # splat channel -> BSA texture (Skyrim landscape set)
 TEXTURES = {
     "grass": "textures/landscape/fieldgrass02.dds",
+    "jungle": "textures/landscape/fallforestleaves01.dds",
+    "sand": "textures/landscape/coastbeach01.dds",
     "marsh": "textures/landscape/reachmoss01.dds",
     "rock": "textures/landscape/reachmossyrocks01.dds",
     "mud": "textures/landscape/riverbottom.dds",

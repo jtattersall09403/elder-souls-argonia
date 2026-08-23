@@ -21,9 +21,10 @@ generated outputs — no resampling, no code constants. Vertical exaggeration fo
 
 Confirmed at the flyover gate; revisit only if Phase 6+ streaming budgets force it.
 
-**Vertical scale (open, Phase 6):** at the flyover the owner judged ×6 preview
-exaggeration "reasonably like a real world". Expected: ×3 horizontal scaling
-flattens slopes 3×, and games conventionally exaggerate relief ~2× anyway
-(×6 preview ≈ ×2 effective vs the source). Phase 6 detailed terrain should
-therefore evaluate baking ~×1.5–2 vertical scale into compiled heights (plus
-micro-relief), with the flyover default exaggeration raised to ×4 meanwhile.
+**Vertical scale: ×4 (DECIDED at the Phase 6 basin gate, 2026-08-23).** The
+owner judged ×4 correct on the refined basin (net ×4/3 ≈ 1.33 slope
+exaggeration vs the raw Skyrim-scale source — modest and conventional).
+Convention: world data stays in TRUE metres; the ×4 vertical scale is a
+geometry transform applied wherever terrain becomes mesh/collision (studio
+flyover default slider = 4 = canonical; production terrain compilers apply it
+at Phase 6 pass 2+). Water surfaces scale with heights (sea stays y=0).
