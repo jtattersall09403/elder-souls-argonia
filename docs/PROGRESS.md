@@ -32,7 +32,7 @@ then open only the master-plan sections the active phase needs.
 | 3 — province hydrology and region graph | done | owner-approved 2026-08-22 (sea/salinity/flood corrections applied; lake region class added); stats in hydrology-meta.json |
 | 4 — danger, cultures, transport | done | owner-approved 2026-08-23: strong terrain, jungle region, 8 culture zones, danger model, road/boat/root graphs, climate profiles, access model (0007), lore dossiers |
 | 5 — World Studio foundation | done | owner flyover gate PASS 2026-08-23 (shape/size/feel/mist approved); map+13 layers, 3D fly/orbit, click-to-spawn, reproducible URLs; chunk overlays + probe framework mature with Phase 6 |
-| 6 — reference watershed terrain | in progress | pass 1 compiled: 12×11 km basin refined (channels, region detail noise, canon Blackrose lake+island+3 feeders), flyable, splat-textured. Owner gate feedback 2026-08-23: texturing too coarse + too vanilla → ground-material system redesigned (decision 0011, research recorded). Pass 2 progress: 0011 implemented and reworked on owner render feedback — 30-material library (Rainforest tropical + Aendemika Bitter Coast + CC0 + vanilla), full-res (~5.5 m) control map, contour-following water-edge gradients, wetlands mud-first, roads painted, organic authored-region borders, crop extended to coast+island, poke-through fixed, default ×5 (0006 addendum). Round 3 on owner feedback: 31 materials (+trunk road), crop includes Soulrest+coast, 3D city markers, road wear classes, person-scale height micro-relief, macro climate tint (climatology researched: docs/research/black-marsh-climatology.md), ×5 confirmed. BM&V textures uploaded+mined (module 90 §74.1b): `bmv-v1` material set live as default, `aendemika-v1` selectable in the fly HUD for A/B — owner to pick. Part1 (meshes+plugins) uploaded & catalogued. Remaining: portage resolutions (module 60 §45), collision/LOD/chunking, wet-season flood states, river water rendering (Phase 8) |
+| 6 — reference watershed terrain | in progress | Pass 1 (basin refine + Blackrose lake) and pass-2 texturing done through 3 owner-feedback rounds: 0011 ground-material system (31 materials, full-res control map, water-edge gradients, roads w/ wear, climate tint — research in docs/research/), 15.9×13.2 km crop w/ coast+Soulrest, city markers, ×5 canonical, BM&V mined (§74.1b) → `bmv-v1` default vs `aendemika-v1` A/B in fly HUD. Remaining: owner picks material set; portage resolutions (module 60 §45); collision/LOD/chunking; wet-season flood states; river water (Phase 8) |
 | 7 — physical character integration | todo | |
 | 8 — water renderer and interaction | todo | |
 | 9 — swimming, climbing, boats | todo | |
@@ -45,11 +45,9 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- Phase 6 gate: owner will fly the deployed studio (no shot batches needed)
-  once pass 2 texturing is live — judging terrain detail/shape, the Blackrose
-  lake site and the new ground materials. Vertical scale settled (×4, 0006);
-  texture-source rulings settled (0011: Rainforest approved, Vanaheimr
-  rejected as cold-climate).
+- Phase 6 gate: owner flies the deployed studio — judge terrain detail/shape,
+  the Blackrose lake site, and **pick the material set** (`bmv-v1` default vs
+  `aendemika-v1`, HUD dropdown). Vertical scale settled (×5, 0006 addendum).
 
 ## Next up
 
