@@ -1,0 +1,23 @@
+{
+  "originFullPx": [
+    237,
+    1728
+  ],
+  "originM": [
+    1299.6,
+    9475.5
+  ],
+  "metresPerPixel": 10.967039999999999,
+  "imageWidth": 1110,
+  "imageHeight": 975,
+  "heightMinMetres": -53.464317321777344,
+  "heightMaxMetres": 79.80907440185547,
+  "basinLabels": [
+    2275
+  ],
+  "extentKm": [
+    12.17,
+    10.69
+  ],
+  "note": "true metres, no vertical bake (decision 0006 judged at gate); pass 1 - no collision/LOD/chunking yet"
+}

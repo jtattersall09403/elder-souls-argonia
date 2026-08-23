@@ -21,7 +21,7 @@ The player begins as an unnamed prisoner on a penal work detail travelling throu
 
 The investigation concerns several Hist communities that have suffered deliberate acts of ritual interference. The movement responsible—the **Unbound Root**—argues that the Hist–Argonian relationship has been converted into a political instrument by the An-Xileel. Its members seek the legendary **Eye of Argonia**, an established but scarcely described king’s jewel said to be the key to a Lost City. The Eye is treated as a gem, cipher and perceptive key, following the official fragment and several credited fan interpretations.
 
-The player follows a province-wide treasure hunt through prisons, drowned archives, auctions, mixed cities, underwater Xanmeers and disputed histories — and the hunt is a race: a courteous rival collector shadows the same leads, a second Hist withdraws mid-hunt, and the cult's method is being tested while the player reads maps. Helstrom is introduced during the first act through protected rootworm travel. The city itself is safe and becomes a recurring political and religious hub, while its surrounding dark basin remains D5 endgame country from the start. Players may walk out of the gates early; the world does not scale down for them.
+The player follows a province-wide treasure hunt through prisons, drowned archives, auctions, mixed cities, underwater Xanmeers and disputed histories — and the hunt is a race: a courteous rival collector shadows the same leads, a second Hist withdraws mid-hunt, and the cult's method is being tested while the player reads maps. Helstrom is introduced during the first act by escorted boat convoy up the guarded marsh channels. The city itself is safe and becomes a recurring political and religious hub, while its surrounding dark basin remains D5 endgame country from the start. Players may walk out of the gates early; the world does not scale down for them.
 
 After recovering the Eye, the Veiled Reed orders the player to infiltrate the Unbound Root. The player may remain loyal, become a genuine double agent for the cult, pursue an independent course, or work toward a difficult reform outcome. Most of the questline shares the same locations and stages. Branching is implemented through hidden objectives, evidence, trust, cover integrity and a small number of late scene variations.
 
@@ -60,7 +60,7 @@ These are end-state targets. The world-generation programme builds the spaces an
 - The protagonist is a classic Elder Scrolls blank slate of any playable race.
 - Their imprisonment reason, birthplace, family, tribe and prior loyalties are unspecified.
 - The opening is a prisoner tutorial in the marsh near Stormhold/Alten Corimont.
-- Helstrom is accessible during Act I by protected fast travel; the city is safe, the surrounding basin is permanently high danger.
+- Helstrom is accessible during Act I by protected fast travel (escorted boat convoy; owner decision 2026-08-23); the city is safe, the surrounding basin is permanently high danger.
 - External enemies, loot and containers never scale to player level.
 - Main-quest required destinations broadly rise from D1/D2 to D3/D4 and finally D5.
 - Dialogue is predominantly text-led and Morrowind-like, with limited staged scenes.

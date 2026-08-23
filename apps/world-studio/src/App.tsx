@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import type { SettlementAnchor, SuggestedConnection } from "@elder-souls/contracts";
 import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json";
-import { Fly3D } from "./Fly3D";
+import { Fly3D, type DetailPatch } from "./Fly3D";
+import { colour } from "./terrainColor";
 
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -48,33 +49,6 @@ function conditionHeights(base: Float32Array, w: number, h: number, mode: Exclud
   return out;
 }
 
-/** Elevation colouring: depth blues below sea level, marsh greens to upland
- * greys above, with a light east-west hillshade. */
-function colour(height: number, seaLevel: number, shade: number): [number, number, number] {
-  if (height < seaLevel) {
-    const depth = seaLevel - height;
-    if (depth < 2) {
-      // Marsh shallows get their own band so sub-metre sea-level changes read.
-      const t = depth / 2; // waterlogged green -> teal
-      return [60 - 30 * t, 110 - 15 * t, 90 + 40 * t];
-    }
-    const d = Math.min(1, (depth - 2) / 60);
-    return [18 + 12 * (1 - d), 60 + 35 * (1 - d), 120 + 40 * (1 - d)];
-  }
-  const a = Math.min(1, (height - seaLevel) / 110);
-  let r: number, g: number, b: number;
-  if (a < 0.25) {
-    const t = a / 0.25; // wet lowland: dark green -> green
-    r = 44 + 30 * t; g = 92 + 40 * t; b = 52 + 10 * t;
-  } else if (a < 0.6) {
-    const t = (a - 0.25) / 0.35; // hills: green -> ochre
-    r = 74 + 86 * t; g = 132 - 22 * t; b = 62 - 4 * t;
-  } else {
-    const t = (a - 0.6) / 0.4; // uplands: ochre -> pale grey
-    r = 160 + 60 * t; g = 110 + 90 * t; b = 58 + 130 * t;
-  }
-  return [r * shade, g * shade, b * shade];
-}
 
 export function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -93,6 +67,7 @@ export function App() {
   });
   const [exaggeration, setExaggeration] = useState(Number(urlParams.get("ex")) || 4);
   const [flyPos, setFlyPos] = useState("");
+  const [detail, setDetail] = useState<DetailPatch | null>(null);
 
   // Reproducible URLs: keep view state in the query string.
   useEffect(() => {
@@ -201,6 +176,28 @@ export function App() {
         /* hydrology metadata not generated yet */
       }
       setOverlaysReady(true);
+      // Phase 6 basin detail patch (optional; absent until compiled).
+      try {
+        const bm = await (await fetch(`${base}province/basin/meta.json`)).json();
+        const bimg = new Image();
+        bimg.src = `${base}province/basin/height-rg.png`;
+        await bimg.decode();
+        const off = document.createElement("canvas");
+        off.width = bm.imageWidth;
+        off.height = bm.imageHeight;
+        const bctx = off.getContext("2d", { willReadFrequently: true })!;
+        bctx.drawImage(bimg, 0, 0);
+        const bpx = bctx.getImageData(0, 0, bm.imageWidth, bm.imageHeight).data;
+        const bh = new Float32Array(bm.imageWidth * bm.imageHeight);
+        const bspan = bm.heightMaxMetres - bm.heightMinMetres;
+        for (let i = 0; i < bh.length; i++) {
+          bh[i] = bm.heightMinMetres + ((bpx[i * 4] * 256 + bpx[i * 4 + 1]) / 65535) * bspan;
+        }
+        setDetail({
+          heights: bh, width: bm.imageWidth, height: bm.imageHeight,
+          metresPerPixel: bm.metresPerPixel, originM: bm.originM as [number, number],
+        });
+      } catch { /* basin not compiled yet */ }
     })();
   }, []);
 
@@ -331,7 +328,7 @@ export function App() {
     <div style={{ position: "fixed", inset: 0, zIndex: 5, background: "#10141a" }}>
       <Fly3D heights={displayHeights()!} size={meta.imageWidth}
         metresPerPixel={meta.metresPerPixel} textureCanvas={canvasRef.current}
-        spawnKm={spawnKm} exaggeration={exaggeration} mode={camMode}
+        spawnKm={spawnKm} exaggeration={exaggeration} mode={camMode} detail={detail}
         onPosition={(x, z, alt) => setFlyPos(`${x.toFixed(2)} km E · ${z.toFixed(2)} km S · alt ${Math.round(alt)} m`)} />
       <div style={{
         position: "absolute", top: 10, left: 10, display: "flex", gap: 10, alignItems: "center",

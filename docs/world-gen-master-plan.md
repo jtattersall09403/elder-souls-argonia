@@ -572,9 +572,11 @@ It can function as:
 
 Each station should have a biological and social reason to exist. Rootworm routes can connect Hist settlements, egg pools, deep shrines and isolated cities while bypassing surface hazards.
 
-Narrative requirement (quests 30, MQ05): a protected rootworm line from the
-Stormhold/Alten Corimont opening region into Helstrom must exist early — it is
-how the main quest introduces the safe heart city while its basin stays lethal.
+Narrative requirement (quests 30, MQ05; owner decision 2026-08-23): an
+**escorted boat convoy** from the Stormhold/Alten Corimont opening region into
+Helstrom must exist early — realised on the solved AC–Helstrom marsh channel —
+introducing the safe heart city while its basin stays lethal. Rootworm transit
+remains the deeper, access-restricted network (Waykeepers, tribes, late game).
 
 ## 20. The Hist as a spatial, cultural and systemic layer
 

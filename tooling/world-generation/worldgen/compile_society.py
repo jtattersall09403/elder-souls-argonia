@@ -28,6 +28,7 @@ from .society import CULTURES, DANGER_BANDS, compute_society, depth_cost_surface
 WATER_EDGES = [
     ("soulrest", "lilmoth"), ("lilmoth", "archon"), ("archon", "thorn"),
     ("stormhold", "alten-corimont"), ("blackrose", "lilmoth"),
+    # MQ05 escorted convoy line into Helstrom (owner decision 2026-08-23)
     ("alten-corimont", "helstrom"),
 ]
 

@@ -17,8 +17,10 @@ substantially intact.
    uncommitted draft image (`78950.png`) as controlling input; replaced by the
    generated, owner-approved danger field (the plan's own D-tier city table
    was consistent with it and stands).
-3. **Rootworm opening route registered:** MQ05's protected Stormhold/AC →
-   Helstrom line recorded as a requirement on the root-transit network data.
+3. **Opening route to Helstrom:** MQ05's protected Stormhold/AC → Helstrom
+   line is an **escorted boat convoy** on the solved AC–Helstrom waterway
+   (owner amendment 2026-08-23; originally rootworm). Rootworm remains the
+   deeper restricted network.
 
 ## World-plan amendments driven by the quest plan
 

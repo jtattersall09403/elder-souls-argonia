@@ -17,7 +17,10 @@ python3 -m worldgen.compile_hydrology "<...>/argonia-heightfield/heightfield-f32
 # 3. Phase 4: roads, boat lanes, danger, cultures + overlays (reads step 2's npz)
 python3 -m worldgen.compile_society "<...>/argonia-heightfield/hydrology-pass1.npz"
 
-python3 -m pytest -q   # 10 tests over the algorithmic cores
+# 4. Phase 6: refine the reference watershed (Blackrose basin) at ~5.5 m/sample
+python3 -m worldgen.refine_watershed "<...>/heightfield-f32.npy" "<...>/hydrology-pass1.npz"
+
+python3 -m pytest -q   # tests over the algorithmic cores
 ```
 
 Rerun 2 (then 3) after changing conditioning, thresholds or authored region
@@ -38,5 +41,7 @@ culture rules. Outputs are deterministic (fixed noise seed).
   cost-distance fields.
 - `worldgen/society.py` — fixed danger (depth-into-marsh model, decision
   0004/0007) and lore-grounded culture territories.
-- `worldgen/compile_hydrology.py`, `worldgen/compile_society.py` — the two
-  compile entry points above.
+- `worldgen/refine_watershed.py` — Phase 6 watershed refinement (detail noise,
+  channel carving, authored Blackrose lake per Lore:Blackrose).
+- `worldgen/compile_hydrology.py`, `worldgen/compile_society.py`,
+  `worldgen/refine_watershed.py` — the compile entry points above.

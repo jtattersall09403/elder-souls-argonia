@@ -32,7 +32,7 @@ then open only the master-plan sections the active phase needs.
 | 3 — province hydrology and region graph | done | owner-approved 2026-08-22 (sea/salinity/flood corrections applied; lake region class added); stats in hydrology-meta.json |
 | 4 — danger, cultures, transport | done | owner-approved 2026-08-23: strong terrain, jungle region, 8 culture zones, danger model, road/boat/root graphs, climate profiles, access model (0007), lore dossiers |
 | 5 — World Studio foundation | done | owner flyover gate PASS 2026-08-23 (shape/size/feel/mist approved); map+13 layers, 3D fly/orbit, click-to-spawn, reproducible URLs; chunk overlays + probe framework mature with Phase 6 |
-| 6 — reference watershed terrain | in progress | Blackrose basin chosen (0008) and reinforced by quest demand (0009); next: high-res terrain refinement + chunking, honouring quests/20 provisions |
+| 6 — reference watershed terrain | in progress | pass 1 compiled: 12×11 km basin refined (channel carving, region detail noise, canon Blackrose lake+island+3 feeders) and flyable in the studio detail mesh — awaiting owner gate; pass 2: collision/LOD/chunking, W-feeder strengthening, portage resolutions |
 | 7 — physical character integration | todo | |
 | 8 — water renderer and interaction | todo | |
 | 9 — swimming, climbing, boats | todo | |
@@ -45,7 +45,9 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- Nothing — Phase 6 underway. (Scale ×3 confirmed at the flyover gate, 0006.)
+- Phase 6 gate 1: fly the refined Blackrose basin (studio, spawn ~7.1 km E /
+  18.5 km S); judge terrain detail, the Blackrose lake site, and the vertical
+  scale question (0006) live on the slider.
 
 ## Next up
 
