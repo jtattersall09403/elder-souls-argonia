@@ -31,8 +31,8 @@ then open only the master-plan sections the active phase needs.
 | 2 — province source ingest | done | anchors owner-approved 2026-08-22; conditioning/sea-level decided (0005); scale ×3 (0006); major-city road network required (§88) + candidate edges registered; community map archived w/ hash |
 | 3 — province hydrology and region graph | done | owner-approved 2026-08-22 (sea/salinity/flood corrections applied; lake region class added); stats in hydrology-meta.json |
 | 4 — danger, cultures, transport | done | owner-approved 2026-08-23: strong terrain, jungle region, 8 culture zones, danger model, road/boat/root graphs, climate profiles, access model (0007), lore dossiers |
-| 5 — World Studio foundation | in progress | 3D fly/orbit view live (conditioned terrain, draped layers, double-click spawn, reproducible URLs) — awaiting owner flyover gate; chunk overlays + probe framework mature with Phase 6 |
-| 6 — reference watershed terrain | todo | |
+| 5 — World Studio foundation | done | owner flyover gate PASS 2026-08-23 (shape/size/feel/mist approved); map+13 layers, 3D fly/orbit, click-to-spawn, reproducible URLs; chunk overlays + probe framework mature with Phase 6 |
+| 6 — reference watershed terrain | in progress | watershed chosen: Blackrose basin (0008, veto window open); next: high-res terrain refinement + chunking for it |
 | 7 — physical character integration | todo | |
 | 8 — water renderer and interaction | todo | |
 | 9 — swimming, climbing, boats | todo | |
@@ -45,10 +45,9 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- Phase 5 gate (when posted): 3D flyover of the province in the studio.
-- Scale ×3 (0006) is provisional — owner may override any time before Phase 6.
+- Nothing — Phase 6 underway. (Scale ×3 confirmed at the flyover gate, 0006.)
 
 ## Next up
 
-Phase 5 3D view → owner flyover gate → Phase 6 reference watershed terrain
-(first high-detail ground; chunk overlays + probe framework mature there).
+Phase 6: choose + compile the retained reference watershed at high detail
+(plan §85.2 criteria); chunk overlays and the probe framework mature here.

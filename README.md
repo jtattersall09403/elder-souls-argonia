@@ -6,7 +6,10 @@ Breath-of-the-wild climbing, extensive swimming, sailing and underwater
 exploration — set in Tamriel's Black Marsh and played **in the browser**.
 
 Built with Three.js / React Three Fiber / Rapier, deployed to GitHub Pages by
-GitHub Actions. Assets derive from locally-owned Skyrim data and credited
+GitHub Actions — playable combat sandbox at
+[the Pages root](https://jtattersall09403.github.io/elder-souls-argonia/), the
+province map/flyover at
+[/studio/](https://jtattersall09403.github.io/elder-souls-argonia/studio/). Assets derive from locally-owned Skyrim data and credited
 community mods (see [docs/CREDITS.md](docs/CREDITS.md)); source archives never
 enter this repository.
 

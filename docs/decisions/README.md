@@ -11,3 +11,4 @@ record and marking the old one superseded — don't rewrite history.
 - [0005 — province heightfield ingest and provisional scale](0005-province-heightfield-ingest.md)
 - [0006 — provisional province scale ×3](0006-province-scale.md)
 - [0007 — deep-marsh access progression model](0007-access-progression.md)
+- [0008 — retained reference watershed: the Blackrose basin](0008-reference-watershed.md)

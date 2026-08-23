@@ -27,5 +27,5 @@ the vault; the browser preview raster is committed at
 - [demographics/population-priors.json](demographics/population-priors.json) —
   community demographic priors by zone (plan §82).
 
-Lore citations live in the master plan's source register until a structured
-registry is needed (Phase 2 completion).
+General lore citations live in the master plan's source register; per-location
+canon lives in `lore/`.

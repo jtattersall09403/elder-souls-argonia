@@ -1,7 +1,7 @@
 # 0006 — Provisional province scale: ×3 horizontal
 
-**Date:** 2026-08-22 · **Status:** provisional (cheap to change until Phase 6
-detail terrain lands; owner may override)
+**Date:** 2026-08-22 · **Status:** confirmed (owner approved the province's
+size and feel at the Phase 5 flyover gate, 2026-08-23)
 
 The raw heightfield extent is 7.37 km × 7.37 km (Skyrim map scale). Chosen
 horizontal multiplier: **×3 → ~22 km × 22 km**, giving:
@@ -19,4 +19,4 @@ appropriate for marsh). Implemented as `metresPerSample` metadata scaling in
 generated outputs — no resampling, no code constants. Vertical exaggeration for
 *visual* relief in previews stays a renderer concern.
 
-Revisit trigger: Phase 6 streaming budgets or owner travel-time feedback.
+Confirmed at the flyover gate; revisit only if Phase 6+ streaming budgets force it.

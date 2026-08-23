@@ -1,18 +1,42 @@
 # World generation tooling
 
-Offline compilers and extractors that turn vault source data into world data.
-Nothing here ships to the browser; runtime consumables are written into app
-`public/` directories or `world/` manifests.
+Offline compilers that turn vault source data into world data. Nothing here
+ships to the browser; runtime consumables are written into
+`apps/world-studio/public/province/` (preview rasters, overlay PNGs, meta
+JSONs) and cached full-resolution arrays stay in the vault next to the esp.
 
-- `worldgen/esp.py` — minimal Skyrim SE plugin reader (GRUP walking, compressed
-  records, CELL/XCLC + LAND/VHGT decoding).
-- `worldgen/extract_province.py` — stitches the Argonia worldspace heightfield
-  (Tamriel Worldspaces, Nexus SSE mod 118678) into a float32 grid in the vault
-  plus a downsampled browser preview in `apps/world-studio/public/province/`.
-
-Run from this directory:
+## Pipeline (run from this directory)
 
 ```bash
+# 1. Source extraction (rarely re-run): esp -> stitched heightfield + preview rasters
 python3 -m worldgen.extract_province "<vault>/mod-sources/tamriel-worldspaces-118678/extracted/Argonia Worldspace/Argonia.esp"
-python3 -m pytest -q
+
+# 2. Phase 3: conditioning, hydrology, flood/soil/region/climate fields + overlays
+python3 -m worldgen.compile_hydrology "<...>/argonia-heightfield/heightfield-f32.npy"
+
+# 3. Phase 4: roads, boat lanes, danger, cultures + overlays (reads step 2's npz)
+python3 -m worldgen.compile_society "<...>/argonia-heightfield/hydrology-pass1.npz"
+
+python3 -m pytest -q   # 10 tests over the algorithmic cores
 ```
+
+Rerun 2 (then 3) after changing conditioning, thresholds or authored region
+overrides; rerun 3 alone after changing anchors, connections, danger or
+culture rules. Outputs are deterministic (fixed noise seed).
+
+## Modules
+
+- `worldgen/esp.py` — minimal Skyrim SE plugin reader (LAND/VHGT decoding).
+- `worldgen/extract_province.py` — heightfield stitching + browser rasters.
+- `worldgen/condition.py` — owner-chosen strong interior compression (0005).
+- `worldgen/hydrology.py` — ocean/sea geodesics, priority-flood + G&M flat
+  resolution, noised D8 routing, rivers/lakes/watersheds, wetness, salinity.
+- `worldgen/regions.py` — HAND/flood, soils, ecological region classes,
+  climate profiles (§33.1), authored overrides from
+  `world/sources/regions/authored-overrides.json` (e.g. the jungle).
+- `worldgen/routes.py` — least-cost road corridors, boat cost surface,
+  cost-distance fields.
+- `worldgen/society.py` — fixed danger (depth-into-marsh model, decision
+  0004/0007) and lore-grounded culture territories.
+- `worldgen/compile_hydrology.py`, `worldgen/compile_society.py` — the two
+  compile entry points above.

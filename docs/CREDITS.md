@@ -11,6 +11,8 @@ in-game credits list is generated from this file plus the asset registry.
 - Skyrim vanilla assets (Bethesda) — processed via `tooling/asset-pipeline` for
   this non-commercial fan project; source archives stay out of the repo.
 - Full runtime dependency licences: see `apps/combat-sandbox/THIRD_PARTY_NOTICES.md`.
+- **UESP (en.uesp.net)** — lore reference for all canon dossiers (wiki content
+  CC-BY-SA; we cite page names, no wiki text ships in the game).
 - **Tamriel Worldspaces — Argonia worldspace** (Nexus SSE mod 118678, author
   SqueeblySplat; derived from Transbot9's heightmap) — province macro terrain
   prior.
