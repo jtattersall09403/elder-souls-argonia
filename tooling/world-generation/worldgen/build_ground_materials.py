@@ -41,16 +41,19 @@ CC0_CACHE = MOD_SOURCES / "cc0-ground-textures"
 PR_DIR = MOD_SOURCES / "project-rainforest-20636" / "extracted"
 AEND_DIR = MOD_SOURCES / "aendemika-59713" / "extracted"
 
+# Black Marsh & Valenwood (ModDB, owner-directed VERY HIGH priority source —
+# module 90 §74.1b). Ground candidates extracted from Data2.rar by the mining
+# pass 2026-08-23 (contact-sheet ranked); the archive itself is gitignored.
+BMV_DIR = REPO_ROOT / "tooling" / "asset-pipeline" / "black-marsh-mod-source" / "extracted-ground"
+
 # Material SETS: each build writes textures/ground/<set>/ + its manifest, and
 # registers itself in textures/ground/index.json. The studio picks a set via
 # ?mats=<name> (default from the index) — so palette experiments (e.g. the
 # Black Marsh & Valenwood mining) are A/B-comparable and instantly revertible
 # (owner request 2026-08-23). Material NAMES/ids must stay aligned across
 # sets; only the concrete textures change.
-SET_NAME = "aendemika-v1"
-SET_LABEL = "Aendemika BC + Rainforest + CC0"
+DEFAULT_SET = "bmv-v1"
 GROUND_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "textures" / "ground"
-OUT_DIR = GROUND_DIR / SET_NAME
 UA = {"User-Agent": "elder-souls-argonia world tooling (personal fan project)"}
 
 # The global library. Index order IS the material id in the control map —
@@ -100,6 +103,36 @@ MATERIALS = [
     ("bc_road",       "aend", "Tx_BC_mainroad_01.dds",                      6.0, None, 74),
 ]
 
+# bmv-v1: Black Marsh & Valenwood winners (contact-sheet ranked 2026-08-23)
+# override the base list per slot; everything else carries over so the two
+# sets stay comparable. The BM&V landscape pack is dark/mossy/moody — the
+# mod's actual art-directed swamp look.
+BMV_OVERRIDES = {
+    "water_silt": ("bmv", "riverbottom.dds",        7.0, None, 45),
+    "river_mud":  ("bmv", "rivermud.dds",           6.0, None, 50),
+    "bank_wet":   ("bmv", "riverbededge.dds",       6.0, None, 52),
+    "mud_leaves": ("bmv", "fallforestdirt01.dds",   7.0, None, 55),
+    "marsh_grass": ("bmv", "fieldgrass01.dds",      8.0, None, 58),
+    "moss":       ("bmv", "reachmoss01.dds",        8.0, None, 52),
+    "swamp_grass": ("bmv", "fielddirtgrass01.dds",  8.0, None, 58),
+    "trop_grass": ("bmv", "fieldgrass02.dds",       9.0, None, 60),
+    "grass_dirt": ("bmv", "reachgrass01.dds",       8.0, None, 58),
+    "jungle_floor": ("bmv", "pineforest02.dds",     8.0, None, 42),
+    "forest_floor": ("bmv", "pineforest03.dds",     8.0, None, 48),
+    "mossy_rock": ("bmv", "reachmossyrocks01.dds", 14.0, None, 52),
+    "tidal_sand": ("bmv", "coastbeach01.dds",       8.0, None, 72),
+    "salt_flat":  ("bmv", "mineralpoolterrace.dds", 9.0, None, 78),
+    "peat_slope": ("bmv", "dirtcliffsroots01.dds",  8.0, None, 45),
+    "bc_road":    ("bmv", "roads/road01reach01.dds", 6.0, None, 74),
+}
+
+MATERIAL_SETS = {
+    "aendemika-v1": ("Aendemika BC + Rainforest + CC0", MATERIALS),
+    "bmv-v1": ("Black Marsh & Valenwood mix",
+               [(n, *BMV_OVERRIDES[n]) if n in BMV_OVERRIDES else (n, k, r, t, ti, lu)
+                for (n, k, r, t, ti, lu) in MATERIALS]),
+}
+
 
 def fetch(url: str) -> bytes:
     req = urllib.request.Request(url, headers=UA)
@@ -148,12 +181,11 @@ def apply_tint(img: Image.Image, tint) -> Image.Image:
     return Image.fromarray(hsv.astype(np.uint8), "HSV").convert("RGB")
 
 
-def main() -> None:
-    data_dir = Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_DATA
-    archive = BSAArchive(data_dir / "Skyrim - Textures.bsa")
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
+def build_set(set_name: str, label: str, materials, archive) -> None:
+    out_dir = GROUND_DIR / set_name
+    out_dir.mkdir(parents=True, exist_ok=True)
     manifest = []
-    for idx, (name, kind, ref, tile_m, tint, lum) in enumerate(MATERIALS):
+    for idx, (name, kind, ref, tile_m, tint, lum) in enumerate(materials):
         if kind == "bsa":
             img = Image.open(io.BytesIO(archive.read(ref))).convert("RGB")
             source = f"Skyrim ({ref})"
@@ -166,6 +198,9 @@ def main() -> None:
         elif kind == "aend":
             img = Image.open(_find(AEND_DIR, ref)).convert("RGB")
             source = f"Aendemika of Vvardenfell ({ref})"
+        elif kind == "bmv":
+            img = Image.open(_find(BMV_DIR, ref.split("/")[-1])).convert("RGB")
+            source = f"Black Marsh & Valenwood ({ref})"
         else:
             img = ph_image(ref)
             source = f"Poly Haven {ref} (CC0)"
@@ -175,18 +210,25 @@ def main() -> None:
         arr = np.clip(arr * (lum / max(arr.mean(), 1e-6)), 0, 255)
         img = Image.fromarray(arr.astype(np.uint8))
         img = img.resize((512, 512), Image.LANCZOS)
-        out = OUT_DIR / f"{idx:02d}-{name}.png"
+        out = out_dir / f"{idx:02d}-{name}.png"
         img.save(out)
         avg = [round(c) for c in np.asarray(img).reshape(-1, 3).mean(0)]
         manifest.append({"id": idx, "name": name, "file": out.name,
                          "tileM": tile_m, "avgColor": avg, "source": source})
         print(f"{idx:2d} {name:14s} <- {source}")
-    (OUT_DIR / "materials.json").write_text(json.dumps({"materials": manifest}, indent=1))
-    index_path = GROUND_DIR / "index.json"
-    index = json.loads(index_path.read_text()) if index_path.exists() else {"default": SET_NAME, "sets": {}}
-    index["sets"][SET_NAME] = {"label": SET_LABEL}
-    index_path.write_text(json.dumps(index, indent=1))
-    print(f"{len(manifest)} materials -> {OUT_DIR} (set '{SET_NAME}', default '{index['default']}')")
+    (out_dir / "materials.json").write_text(json.dumps({"materials": manifest}, indent=1))
+    print(f"set '{set_name}' ({label}): {len(manifest)} materials -> {out_dir}")
+
+
+def main() -> None:
+    data_dir = Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_DATA
+    archive = BSAArchive(data_dir / "Skyrim - Textures.bsa")
+    index = {"default": DEFAULT_SET, "sets": {}}
+    for set_name, (label, materials) in MATERIAL_SETS.items():
+        build_set(set_name, label, materials, archive)
+        index["sets"][set_name] = {"label": label}
+    (GROUND_DIR / "index.json").write_text(json.dumps(index, indent=1))
+    print(f"default set: {DEFAULT_SET}")
 
 
 if __name__ == "__main__":

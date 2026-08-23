@@ -1,8 +1,11 @@
 {
- "default": "aendemika-v1",
+ "default": "bmv-v1",
  "sets": {
   "aendemika-v1": {
    "label": "Aendemika BC + Rainforest + CC0"
+  },
+  "bmv-v1": {
+   "label": "Black Marsh & Valenwood mix"
   }
  }
 }

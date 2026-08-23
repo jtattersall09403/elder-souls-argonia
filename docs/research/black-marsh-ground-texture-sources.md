@@ -56,6 +56,18 @@ Grounds decision 0011. Companions:
    Marsh is canonically hot/humid tropical swamp** (binding statement in
    world module 50 §33.1). Permission ask not pursued.
 
+## Black Marsh & Valenwood (ModDB) — INGESTED 2026-08-23
+
+[BM&V](https://www.moddb.com/mods/black-marsh-valenwood) (owner-directed
+top-priority source; module 90 §74.1b has the mining record). Its
+`TEXTUREPACK/landscape/` is a full vanilla-named 512px repaint — dark, mossy,
+moody, the mod's art-directed swamp look; roads/dirt-cliffs at 1024. 16
+winners form the **`bmv-v1` material set** (default; A/B vs `aendemika-v1`
+in the studio HUD). Its `Terrain/*` folders are LOD tiles — ignore. Grass
+billboard families (EGrass, V_reeds, bittercoastgrass01) catalogued for
+Phase 13 groundcover. Archives + manifest live gitignored under
+`tooling/asset-pipeline/black-marsh-mod-source/`.
+
 ## Vanilla Skyrim textures that remain suitable (owner: don't write vanilla off)
 
 - **Keep as-is**: `frozenmarshgrass01` (hummocky marsh grass w/ waterlogged

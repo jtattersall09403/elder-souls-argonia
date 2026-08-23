@@ -1,0 +1,376 @@
+{
+ "materials": [
+  {
+   "id": 0,
+   "name": "water_silt",
+   "file": "00-water_silt.png",
+   "tileM": 7.0,
+   "avgColor": [
+    50,
+    54,
+    29
+   ],
+   "source": "Black Marsh & Valenwood (riverbottom.dds)"
+  },
+  {
+   "id": 1,
+   "name": "river_mud",
+   "file": "01-river_mud.png",
+   "tileM": 6.0,
+   "avgColor": [
+    58,
+    57,
+    33
+   ],
+   "source": "Black Marsh & Valenwood (rivermud.dds)"
+  },
+  {
+   "id": 2,
+   "name": "bank_wet",
+   "file": "02-bank_wet.png",
+   "tileM": 6.0,
+   "avgColor": [
+    48,
+    57,
+    50
+   ],
+   "source": "Black Marsh & Valenwood (riverbededge.dds)"
+  },
+  {
+   "id": 3,
+   "name": "scum",
+   "file": "03-scum.png",
+   "tileM": 7.0,
+   "avgColor": [
+    56,
+    58,
+    29
+   ],
+   "source": "Aendemika of Vvardenfell (Tx_BC_scum.dds)"
+  },
+  {
+   "id": 4,
+   "name": "black_mud",
+   "file": "04-black_mud.png",
+   "tileM": 6.0,
+   "avgColor": [
+    59,
+    49,
+    35
+   ],
+   "source": "ambientCG Ground051 (CC0)"
+  },
+  {
+   "id": 5,
+   "name": "puddle_mud",
+   "file": "05-puddle_mud.png",
+   "tileM": 8.0,
+   "avgColor": [
+    71,
+    61,
+    46
+   ],
+   "source": "ambientCG Ground050 (CC0)"
+  },
+  {
+   "id": 6,
+   "name": "clay_bank",
+   "file": "06-clay_bank.png",
+   "tileM": 6.0,
+   "avgColor": [
+    81,
+    66,
+    50
+   ],
+   "source": "ambientCG Ground026 (CC0)"
+  },
+  {
+   "id": 7,
+   "name": "muck",
+   "file": "07-muck.png",
+   "tileM": 7.0,
+   "avgColor": [
+    58,
+    52,
+    39
+   ],
+   "source": "Aendemika of Vvardenfell (Tx_BC_muck_01.dds)"
+  },
+  {
+   "id": 8,
+   "name": "bc_mud",
+   "file": "08-bc_mud.png",
+   "tileM": 6.0,
+   "avgColor": [
+    58,
+    53,
+    43
+   ],
+   "source": "Aendemika of Vvardenfell (Tx_BC_mud.dds)"
+  },
+  {
+   "id": 9,
+   "name": "peat",
+   "file": "09-peat.png",
+   "tileM": 7.0,
+   "avgColor": [
+    58,
+    56,
+    49
+   ],
+   "source": "ambientCG Ground024 (CC0)"
+  },
+  {
+   "id": 10,
+   "name": "mud_leaves",
+   "file": "10-mud_leaves.png",
+   "tileM": 7.0,
+   "avgColor": [
+    64,
+    59,
+    41
+   ],
+   "source": "Black Marsh & Valenwood (fallforestdirt01.dds)"
+  },
+  {
+   "id": 11,
+   "name": "marsh_grass",
+   "file": "11-marsh_grass.png",
+   "tileM": 8.0,
+   "avgColor": [
+    89,
+    70,
+    14
+   ],
+   "source": "Black Marsh & Valenwood (fieldgrass01.dds)"
+  },
+  {
+   "id": 12,
+   "name": "undergrowth",
+   "file": "12-undergrowth.png",
+   "tileM": 7.0,
+   "avgColor": [
+    57,
+    55,
+    36
+   ],
+   "source": "Aendemika of Vvardenfell (Tx_BC_undergrowth.dds)"
+  },
+  {
+   "id": 13,
+   "name": "bc_moss",
+   "file": "13-bc_moss.png",
+   "tileM": 7.0,
+   "avgColor": [
+    59,
+    61,
+    35
+   ],
+   "source": "Aendemika of Vvardenfell (Tx_BC_moss.dds)"
+  },
+  {
+   "id": 14,
+   "name": "moss",
+   "file": "14-moss.png",
+   "tileM": 8.0,
+   "avgColor": [
+    57,
+    69,
+    29
+   ],
+   "source": "Black Marsh & Valenwood (reachmoss01.dds)"
+  },
+  {
+   "id": 15,
+   "name": "swamp_grass",
+   "file": "15-swamp_grass.png",
+   "tileM": 8.0,
+   "avgColor": [
+    77,
+    72,
+    24
+   ],
+   "source": "Black Marsh & Valenwood (fielddirtgrass01.dds)"
+  },
+  {
+   "id": 16,
+   "name": "trop_grass",
+   "file": "16-trop_grass.png",
+   "tileM": 9.0,
+   "avgColor": [
+    75,
+    81,
+    22
+   ],
+   "source": "Black Marsh & Valenwood (fieldgrass02.dds)"
+  },
+  {
+   "id": 17,
+   "name": "grass_dirt",
+   "file": "17-grass_dirt.png",
+   "tileM": 8.0,
+   "avgColor": [
+    67,
+    72,
+    34
+   ],
+   "source": "Black Marsh & Valenwood (reachgrass01.dds)"
+  },
+  {
+   "id": 18,
+   "name": "scrub",
+   "file": "18-scrub.png",
+   "tileM": 8.0,
+   "avgColor": [
+    68,
+    61,
+    43
+   ],
+   "source": "Aendemika of Vvardenfell (Tx_BC_scrub.dds)"
+  },
+  {
+   "id": 19,
+   "name": "jungle_floor",
+   "file": "19-jungle_floor.png",
+   "tileM": 8.0,
+   "avgColor": [
+    47,
+    48,
+    30
+   ],
+   "source": "Black Marsh & Valenwood (pineforest02.dds)"
+  },
+  {
+   "id": 20,
+   "name": "forest_floor",
+   "file": "20-forest_floor.png",
+   "tileM": 8.0,
+   "avgColor": [
+    57,
+    68,
+    18
+   ],
+   "source": "Black Marsh & Valenwood (pineforest03.dds)"
+  },
+  {
+   "id": 21,
+   "name": "leaf_litter",
+   "file": "21-leaf_litter.png",
+   "tileM": 8.0,
+   "avgColor": [
+    73,
+    56,
+    34
+   ],
+   "source": "Project Rainforest SE (fallforestleaves01.dds)"
+  },
+  {
+   "id": 22,
+   "name": "mossy_rock",
+   "file": "22-mossy_rock.png",
+   "tileM": 14.0,
+   "avgColor": [
+    52,
+    60,
+    43
+   ],
+   "source": "Black Marsh & Valenwood (reachmossyrocks01.dds)"
+  },
+  {
+   "id": 23,
+   "name": "bc_rock",
+   "file": "23-bc_rock.png",
+   "tileM": 12.0,
+   "avgColor": [
+    57,
+    53,
+    39
+   ],
+   "source": "Aendemika of Vvardenfell (Tx_BC_rock_01.dds)"
+  },
+  {
+   "id": 24,
+   "name": "tidal_sand",
+   "file": "24-tidal_sand.png",
+   "tileM": 8.0,
+   "avgColor": [
+    75,
+    72,
+    60
+   ],
+   "source": "Black Marsh & Valenwood (coastbeach01.dds)"
+  },
+  {
+   "id": 25,
+   "name": "salt_flat",
+   "file": "25-salt_flat.png",
+   "tileM": 9.0,
+   "avgColor": [
+    87,
+    81,
+    64
+   ],
+   "source": "Black Marsh & Valenwood (mineralpoolterrace.dds)"
+  },
+  {
+   "id": 26,
+   "name": "dry_clay",
+   "file": "26-dry_clay.png",
+   "tileM": 7.0,
+   "avgColor": [
+    89,
+    74,
+    60
+   ],
+   "source": "Poly Haven mud_cracked_dry_riverbed_002 (CC0)"
+  },
+  {
+   "id": 27,
+   "name": "dirt_path",
+   "file": "27-dirt_path.png",
+   "tileM": 6.0,
+   "avgColor": [
+    98,
+    64,
+    40
+   ],
+   "source": "Project Rainforest SE (dirtpath01.dds)"
+  },
+  {
+   "id": 28,
+   "name": "peat_slope",
+   "file": "28-peat_slope.png",
+   "tileM": 8.0,
+   "avgColor": [
+    51,
+    45,
+    38
+   ],
+   "source": "Black Marsh & Valenwood (dirtcliffsroots01.dds)"
+  },
+  {
+   "id": 29,
+   "name": "track_mud",
+   "file": "29-track_mud.png",
+   "tileM": 6.0,
+   "avgColor": [
+    60,
+    54,
+    50
+   ],
+   "source": "Poly Haven aerial_mud_1 (CC0)"
+  },
+  {
+   "id": 30,
+   "name": "bc_road",
+   "file": "30-bc_road.png",
+   "tileM": 6.0,
+   "avgColor": [
+    77,
+    77,
+    67
+   ],
+   "source": "Black Marsh & Valenwood (roads/road01reach01.dds)"
+  }
+ ]
+}

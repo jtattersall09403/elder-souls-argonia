@@ -28,6 +28,9 @@ in-game credits list is generated from this file plus the asset registry.
 - **Landscape – Aendemika of Vvardenfell** (Nexus Morrowind mod 59713) —
   Bitter Coast swamp ground set in the terrain material library
   (bank/scum/muck/mud/moss/undergrowth/grass/scrub/rock).
+- **Black Marsh & Valenwood** (https://www.moddb.com/mods/black-marsh-valenwood;
+  itself bundling many credited modder resources — see its page) — ground
+  textures in the `bmv-v1` terrain material set; mesh pool for later phases.
 
 ## Planned (recorded before ingestion; move up when used)
 

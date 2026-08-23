@@ -84,16 +84,23 @@ High-value source families:
 [Black Marsh & Valenwood](https://www.moddb.com/mods/black-marsh-valenwood)
 (Skyrim SE new-land mod): an art-directed large Black Marsh environment
 starting at Lilmoth — **the closest existing asset base to our game**.
-Two archives: Part1 (ModDB download id 231175 — meshes + ESPs) and part2
-(id 231215, ~7.6 GB — all Black Marsh + Valenwood textures). Owner directive
-2026-08-23: mine it before finalising the ground-material library; later a
-mesh source for world building. Local copy lives at
-`tooling/asset-pipeline/black-marsh-mod-source/` — **gitignored, never
-commit** (huge). Process: manifest -> separate BM from Valenwood -> contact
-sheets by family (landscape/mud/grass/rock/shore/roots/moss/forest floor) ->
-rank vs CC0/PBR -> map winners into the semantic material catalogue. NOTE:
-ModDB is Cloudflare-gated for this VM; downloads may need owner-supplied
-mirror links.
+Two archives: Part1 (ModDB download id 231175 — meshes + ESPs, **not yet
+uploaded**) and part2 (id 231215, 7.6 GB — all textures, **mined
+2026-08-23**). Local copy: `tooling/asset-pipeline/black-marsh-mod-source/`
+— **gitignored, never commit** (huge); `manifest.txt` lists all 24.6k
+textures, ground candidates extracted under `extracted-ground/`.
+
+Mining results: the ground look lives in `textures/TEXTUREPACK/landscape/`
+(a full vanilla-named 512px repaint — dark/mossy/moody, the mod's
+art-directed swamp character; roads/cliffs at 1024). `textures/Terrain/*`
+are auto-generated LOD tiles (ignore). 16 winners are in the **`bmv-v1`
+ground-material set** (mossy cobble road, roots-in-mudbank slopes, dark
+river mud/edge/bottom, rooty forest floors, dark tidal sand, limestone
+terraces, mossy grasses) — A/B-comparable with `aendemika-v1` in the studio.
+Also catalogued for later phases: large grass/reed billboard families
+(EGrass pack, V_reeds, bittercoastgrass01 — Phase 13 groundcover), tree
+textures, and Part1's meshes (Phase 10+). NOTE: ModDB is Cloudflare-gated
+for this VM; archives arrive via the owner's resumable uploader.
 
 ### 74.2 Argonian Xanmeer Tileset
 
