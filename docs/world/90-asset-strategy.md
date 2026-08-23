@@ -84,9 +84,16 @@ High-value source families:
 [Black Marsh & Valenwood](https://www.moddb.com/mods/black-marsh-valenwood)
 (Skyrim SE new-land mod): an art-directed large Black Marsh environment
 starting at Lilmoth — **the closest existing asset base to our game**.
-Two archives: Part1 (ModDB download id 231175 — meshes + ESPs, **not yet
-uploaded**) and part2 (id 231215, 7.6 GB — all textures, **mined
-2026-08-23**). Local copy: `tooling/asset-pipeline/black-marsh-mod-source/`
+Two archives, both in the vault since 2026-08-23: Part1 (meshes + plugins,
+1.3 GB, catalogued — `manifest-data1.txt`) and part2 (7.6 GB, all textures,
+mined — `manifest.txt`). Part1 highlights: **12.8k NIF meshes** (2.4k
+architecture, 2.4k landscape incl. ~700 swamp/tropical tree meshes, 1.3k
+clutter, dungeons, creature packs) for Phases 10–12, and the **worldspace
+plugins** (`plugins/Black Marsh.esm`, `Black Marsh North.esp`,
+`Valenwood.esp`) — the mod's authored heightmaps, landscape-texture painting
+and object placements, readable with our `worldgen/esp.py`; mine their LTEX
+painting and Lilmoth-area composition as references when building
+settlements and refining the ground palette. Local copy: `tooling/asset-pipeline/black-marsh-mod-source/`
 — **gitignored, never commit** (huge); `manifest.txt` lists all 24.6k
 textures, ground candidates extracted under `extracted-ground/`.
 
