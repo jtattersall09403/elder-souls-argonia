@@ -4,10 +4,11 @@
 
 ## How to use this document
 
-This is the reference plan, not a progress tracker. **Do not read it end to end** —
-it is ~2,700 lines. Current build status lives in [docs/PROGRESS.md](PROGRESS.md);
-read that first, then open only the parts of this document relevant to the active
-phase:
+This is the reference plan, not a progress tracker (status lives in
+[docs/PROGRESS.md](PROGRESS.md)). **Every agent reads this document in full,
+once, at session start** — owner decision, 2026-08-23: the global picture is
+worth the tokens, because local decisions must serve the whole design. The
+part index below is for re-finding sections afterwards, not for skipping:
 
 | Part | Sections | Covers |
 |---|---|---|
