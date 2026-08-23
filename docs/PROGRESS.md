@@ -32,7 +32,7 @@ then open only the master-plan sections the active phase needs.
 | 3 — province hydrology and region graph | done | owner-approved 2026-08-22 (sea/salinity/flood corrections applied; lake region class added); stats in hydrology-meta.json |
 | 4 — danger, cultures, transport | done | owner-approved 2026-08-23: strong terrain, jungle region, 8 culture zones, danger model, road/boat/root graphs, climate profiles, access model (0007), lore dossiers |
 | 5 — World Studio foundation | done | owner flyover gate PASS 2026-08-23 (shape/size/feel/mist approved); map+13 layers, 3D fly/orbit, click-to-spawn, reproducible URLs; chunk overlays + probe framework mature with Phase 6 |
-| 6 — reference watershed terrain | in progress | pass 1 compiled: 12×11 km basin refined (channels, region detail noise, canon Blackrose lake+island+3 feeders), flyable, splat-textured. Owner gate feedback 2026-08-23: texturing too coarse + too vanilla → ground-material system redesigned (decision 0011, research recorded). Pass 2: implement 0011 (land-cover raster, regional palettes, ID-map splat, CC0/mod textures), collision/LOD/chunking, W-feeder strengthening, portage resolutions, shoreline smoothing |
+| 6 — reference watershed terrain | in progress | pass 1 compiled: 12×11 km basin refined (channels, region detail noise, canon Blackrose lake+island+3 feeders), flyable, splat-textured. Owner gate feedback 2026-08-23: texturing too coarse + too vanilla → ground-material system redesigned (decision 0011, research recorded). Pass 2 **current task: implementing 0011** (land-cover raster, regional palettes, ID-map splat, CC0/mod textures); then W-feeder strengthening, portage resolutions, shoreline smoothing, collision/LOD/chunking |
 | 7 — physical character integration | todo | |
 | 8 — water renderer and interaction | todo | |
 | 9 — swimming, climbing, boats | todo | |
@@ -45,12 +45,11 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- Phase 6 gate 1 (partially answered): texturing feedback received 2026-08-23
-  (→ decision 0011); still to judge on the flyover: terrain detail/shape and
-  the Blackrose lake site. Vertical scale is settled (×4, 0006).
-- Decision 0011 owner sign-offs: Project Rainforest textures (Witcher-3-derived
-  provenance — ship or skip?); whether to ask Vanaheimr's author for
-  permission.
+- Phase 6 gate: owner will fly the deployed studio (no shot batches needed)
+  once pass 2 texturing is live — judging terrain detail/shape, the Blackrose
+  lake site and the new ground materials. Vertical scale settled (×4, 0006);
+  texture-source rulings settled (0011: Rainforest approved, Vanaheimr
+  rejected as cold-climate).
 
 ## Next up
 

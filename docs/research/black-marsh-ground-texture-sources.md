@@ -36,18 +36,20 @@ Grounds decision 0011. Companions:
 5. **Project Rainforest SE (BASE loose files)** — [SSE 20636](https://www.nexusmods.com/skyrimspecialedition/mods/20636)
    — credit-only open, non-commercial; **113 ground DDS re-painting the
    entire vanilla landscape set tropical under vanilla filenames** (~1K).
-   ⚠️ Provenance caveat: credits include LorSakyamuni's *TW3 Landscape
-   Resource* (Witcher 3 extractions) and Vurt's SFO — **flag to owner before
-   shipping any of its textures**.
+   **Owner ruling 2026-08-23: approved — use it wherever it's the best fit**
+   (provenance caveat — credits include LorSakyamuni's TW3 Landscape Resource
+   and Vurt's SFO — was accepted). Preferred order still: CC0 + open mods
+   first, pull Rainforest textures when they fill a gap or beat the
+   alternatives; credit per its page.
 6. **Vanilla Skyrim wet/mossy set (keep, some with hue shifts)** — see below.
 7. **Landscape – Aendemika of Vvardenfell** — [Morrowind 59713](https://www.nexusmods.com/morrowind/mods/59713)
    — credit-only; renews 73 textures incl. **Bitter Coast swamp mud, muck,
    moss, swamp soil, undergrowth** — most lore-adjacent open swamp set
    (Morrowind-tier resolution; use as palette reference/gap-filler).
-8. **Vanaheimr – Marsh** — [SSE 121602](https://www.nexusmods.com/skyrimspecialedition/mods/121602)
-   — best dedicated modern marsh retexture (2K/4K + complex parallax) but
-   **permission-required**; author (Cl3mus) is credit-only on their Ice mod,
-   so worth one ask. **Do not use without a yes.**
+8. ~~**Vanaheimr – Marsh** — [SSE 121602](https://www.nexusmods.com/skyrimspecialedition/mods/121602)~~
+   — **rejected by owner 2026-08-23: it's a cold-climate marsh set, and Black
+   Marsh is canonically hot/humid tropical swamp** (binding statement in
+   world module 50 §33.1). Permission ask not pursued.
 
 ## Vanilla Skyrim textures that remain suitable (owner: don't write vanilla off)
 

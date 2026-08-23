@@ -123,8 +123,10 @@ litter, moss), **A Cathedralist's PBR Landscape** (SSE 137333, open
 permissions, full PBR marsh/river family), **Cathedral Landscapes** (SSE
 21954, share-alike), plus the retained vanilla wet/mossy set (frozenmarsh
 grass/dirtslopes, rivermud/riverbottom, reachmoss, hue-shifted
-fallforestleaves). Needs owner sign-off: Project Rainforest (TW3-derived
-provenance); Vanaheimr – Marsh (author permission required).
+fallforestleaves). Owner rulings 2026-08-23: **Project Rainforest approved**
+(use wherever it's the best fit; CC0/open-mod sources first, Rainforest for
+gaps); **Vanaheimr – Marsh rejected** (cold-climate set — Black Marsh is
+canonically hot tropical swamp, module 50 §33.1).
 
 | Candidate | Useful material |
 | --- | --- |

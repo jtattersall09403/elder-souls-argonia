@@ -36,8 +36,11 @@ Terrain ground texturing is restructured on the Bethesda pattern (research:
    Cathedralist's PBR Landscape, Cathedral Landscapes) + the retained vanilla
    wet/mossy set, some hue-shifted
    ([black-marsh-ground-texture-sources](../research/black-marsh-ground-texture-sources.md)).
-   Owner flags before shipping: Project Rainforest's Witcher-3-derived
-   provenance; Vanaheimr – Marsh needs author permission.
+   Owner rulings 2026-08-23: **Project Rainforest approved** (provenance
+   caveat accepted; use it wherever an agent judges it the best fit, with CC0
+   + open mods tried first). **Vanaheimr – Marsh rejected** — cold-climate
+   set; Black Marsh is canonically hot/humid tropical swamp (binding
+   statement added to module 50 §33.1).
 
 ## Why
 
