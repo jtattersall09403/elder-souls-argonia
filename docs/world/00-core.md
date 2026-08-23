@@ -1,0 +1,98 @@
+# World generation — core principles (read this IN FULL, every session)
+
+This is the universal short version of the world-generation master plan. Every
+world-gen agent reads all of it (~4k tokens); the full detail lives in the
+modules listed in [README.md](README.md) — read the ones your task touches.
+
+## What we are building
+
+A province-scale Black Marsh / Argonia for a browser-played, standalone
+total-conversion-style Skyrim fan game: Morrowind's geographic coherence,
+regional distinctiveness, cultural density and exploratory character; Dark
+Souls combat; BotW climbing; deep swimming/underwater play; sailable boats;
+fixed regional danger. Production model:
+
+> canonical maps & lore anchors → province terrain & hydrology → regional
+> ecology/culture/danger/transport fields → causal semantic world graph →
+> agent-authored important places → deterministic asset compilers → gameplay
+> and performance validation → streamed runtime world bundles
+
+Three simultaneous scales: (1) whole-province production data from day one,
+(2) one retained reference watershed at full detail (the Blackrose basin,
+decision 0008), (3) small disposable laboratories.
+
+## The rules that bind every task
+
+1. **Every location has a causal reason to exist** — geography, hydrology,
+   ecology, history, culture, politics, economics, individual motive. Causes
+   determine layout, occupants, encounters, loot and state of repair. A
+   location without a causal record is a validation failure. (Module 40.)
+2. **The world never receives the player's level.** Danger, populations and
+   loot are fixed by place, era and explicit world state (decisions 0004,
+   0007). Capability and knowledge open depth; the world never softens.
+3. **Hydrology first.** Water is the province's primary structure; terrain and
+   water are solved together; routes, settlements and ecology follow from
+   drainage. (Module 50; climate/atmosphere is a first-class layer, §33.1.)
+4. **Ground everything in lore** (CLAUDE.md golden rule): dossiers in
+   `world/sources/lore/` first, extend from UESP when thin, cite pages,
+   respect era 4E 201 (decision 0002). Community material is a prior.
+5. **Quests bind the world build**: the per-quest world provisions in
+   [docs/quests/20-world-provisions.md](../quests/20-world-provisions.md) are
+   requirements on every phase; Milestone-1 provisions must exist before
+   narrative production (acceptance rule).
+6. **No new art, and terrain identity comes from placed assets** (§9): the
+   base heightfield is coarse; rocks, vegetation, kits, clutter and water
+   carry the perceived detail. Visuals derive from vanilla Skyrim + credited
+   mods via the asset pipeline (Module 90 lists candidate sources —
+   check it before hunting new assets).
+7. **Region grammar drives everything** (§16): each ecological region class
+   changes movement, visibility, settlement forms, routes, encounters,
+   materials, sound and danger — not just colours. Materials/asset choices
+   link to region classes (RegionGrammar.materialPalette).
+8. **Conventions**: metres, Y-up, sea level y=0 (0003); ×3 horizontal scale
+   (~22 km province) and ×4 vertical scale applied where terrain becomes
+   geometry (0006); deterministic compilers with fixed seeds; stable semantic
+   IDs for everything quests or code may reference.
+9. **Agents read measurements; the owner is the visual authority.** Validate
+   with probes/stats/screenshots-by-tooling; pause at studio gates for owner
+   review (Module 85). Update PROGRESS.md per its protocol.
+
+## Acceptance rules (Part XIV — binding)
+
+**World identity:** deep interior physically/culturally/mechanically distinct;
+Imperial/foreign influence concentrated where geography and history support
+it; visible ecological and cultural variation; major settlements follow
+era-appropriate source maps; Hist influence spatial and systemic; waterways
+are the primary structure; all eight major cities connected by the road
+network (legs may be flood-damaged/bridged/ferried, never absent); canon exit
+roads (Blackwood Road, Tear road) but closed playable edges; the world
+satisfies the quest plan's Milestone-1 provisions before narrative production.
+
+**World causality:** every POI has a causal model; layout and content derive
+from it; occupants have motives and logistics; loot has provenance; roads and
+waterways connect real needs; historical layers stay distinguishable.
+
+**Gameplay:** no player-level scaling anywhere; deep areas stay fixed high
+danger; swimming/breath/climbing/boats create access progression; Argonian
+physiology materially changes underwater play; underwater POIs throughout
+appropriate regions; large logical surfaces climbable by default; combat
+spaces and critical-animation clearance validated.
+
+**Technology:** ecctrl stays behind the controller adapter; Rapier is
+authoritative physics; rendering and gameplay sample the same water data;
+world bundles deterministic and versioned; apps consume packages, never each
+other; the studio uses the same runtime packages as the game.
+
+**Assets:** no bespoke art assumed; vanilla Skyrim + permitted mod pool via
+semantic kits and deterministic compilers; simple source-and-credits records
+(docs/CREDITS.md); reproducible pipeline builds.
+
+## Phases at a glance (status: docs/PROGRESS.md; detail: Module 95)
+
+0 sources/era/credits · 1 monorepo+contracts · 2 province ingest ·
+3 hydrology+regions · 4 danger/cultures/transport · 5 World Studio ·
+6 reference watershed detail · 7 physical character · 8 water/atmosphere
+renderer · 9 swim/climb/boats · 10 asset catalogue+kits · 11 causal
+locations+settlements · 12 dungeons+interiors · 13 ecology/encounters/loot ·
+14 streaming+deploy · 15 expansion by watershed. Phases 0–5 are owner-approved
+done; 6 is active.

@@ -21,8 +21,8 @@ deliberate. When in doubt, read one extra row rather than guessing.
 | Your task touches… | Read |
 |---|---|
 | Where we're up to / what's next | [PROGRESS.md](PROGRESS.md) (always) |
-| (Everything — read at session start) | [world-gen-master-plan.md](world-gen-master-plan.md) **in full, once per session** (owner mandate; ~45k tokens). The part index is for re-lookup during work |
-| World generation code: terrain, hydrology, regions, climate, danger, cultures, roads/boat lanes | [../tooling/world-generation/README.md](../tooling/world-generation/README.md) (pipeline, modules, rerun rules) + the relevant plan parts (V, IV, XIII) **+ the lore row** for whatever ground/places your change affects **+ [quests/20-world-provisions.md](quests/20-world-provisions.md)** when placing locations/settlements/dungeons/routes |
+| (Everything — read at session start) | [world/00-core.md](world/00-core.md) **in full, every session** (~4k tokens — the world plan's universal core), then route to modules via [world/README.md](world/README.md) |
+| World generation code: terrain, hydrology, regions, climate, danger, cultures, roads/boat lanes | [../tooling/world-generation/README.md](../tooling/world-generation/README.md) (pipeline, modules, rerun rules) + the relevant world modules (world/50, 40, 95 via [world/README.md](world/README.md)) **+ the lore row** for whatever ground/places your change affects **+ [quests/20-world-provisions.md](quests/20-world-provisions.md)** when placing locations/settlements/dungeons/routes |
 | Quest/narrative design: story, factions, side quests, dialogue, what quests need from the world | [quests/README.md](quests/README.md) — modular quest master plan with its own who-reads-what table |
 | Lore/canon for any place, culture, name, history | [../world/sources/lore/README.md](../world/sources/lore/README.md) — dossiers + sourcing rules. The CLAUDE.md lore golden rule is mandatory |
 | World source data: anchors, roads graph, demographics, climate states, authored region overrides | [../world/sources/README.md](../world/sources/README.md) |

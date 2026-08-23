@@ -20,10 +20,12 @@ The overall goal at this point is to build the province-scale world, in a way th
    the world build must satisfy its per-quest world provisions — its
    `20-world-provisions.md` module is required reading when placing anything
    (locations, settlements, POIs, dungeons, routes, sockets).
-2. **Read [docs/world-gen-master-plan.md](docs/world-gen-master-plan.md) IN
-   FULL, once, at session start** (~45k tokens — the owner has decided the
-   global picture is worth it; every agent must hold the whole design, not
-   just its own corner). Use its part index afterwards to re-find sections.
+2. **Read [docs/world/00-core.md](docs/world/00-core.md) IN FULL, every
+   session** (~4k tokens: goals, binding rules, acceptance criteria — the
+   universal core of the world-generation master plan). Then use
+   [docs/world/README.md](docs/world/README.md) to route to the detail
+   modules your task touches (owner decision 2026-08-23, superseding the
+   earlier full-plan read; decision 0010).
 3. Run `git status` and `git log -5`. A dirty tree or an `in progress` row means
    a previous agent stopped mid-work — follow the crash-recovery protocol in
    PROGRESS.md before starting anything new.
@@ -42,8 +44,7 @@ The overall goal at this point is to build the province-scale world, in a way th
 - **Plan for agentic coding.** Assume that this repo will be almost entirely coded by coding agents, most of whom will be starting from fresh context. It is essential that we make our repo(s) modular, easy and *efficient* to navigate for coding agents. This goes for **docs as well as code**. We need to ensure we don't have lots of clashing documents or instructions, and that agents neither need to read huge amounts of context to work effectively nor miss important context they genuinely need for their task. I don't know what else to think of so you should do the thinking - "how do I do my work in such a way as to maximise the chances that future work will be able to continue smoothly and efficiently for other agents picking up bits of this project?"
 - **Ground decisions in lore.** Any world/design decision (places, cultures, danger, routes, names, history) must be grounded in canon. Check the dossiers in `world/sources/lore/` first; if they're thin for your topic, extract more from the vault UESP extract (`mod-sources/lore/uesp_morrowind_blackmarsh_extract.jsonl.xz`) or the UESP MediaWiki API (`en.uesp.net/w/api.php`, works with a project user-agent; plain page fetches get 403), and record a new dossier *before* deciding. Cite UESP page names; respect the era policy (decision 0002). Community/fan material is a prior, never canon.
 - **Fix root causes.** If you're fixing bugs, find the root cause and fix it, don't do sticking plasters.
-- **Prevent context bloat.** Read only what you need (the session-start full
-  read of the master plan is the deliberate exception); docs/ are modular so filenames are the map. Whatever you are doing, consider how to do it in a way that prevents context bloat and keeps future agents able to run in a token-efficient way, processing what they need and only what they need.
+- **Prevent context bloat.** Read only what you need (the session-start read of docs/world/00-core.md is the deliberate exception); docs/ are modular so filenames are the map. Whatever you are doing, consider how to do it in a way that prevents context bloat and keeps future agents able to run in a token-efficient way, processing what they need and only what they need.
 - **Game played from github pages.** The game will be built from github actions and played in the browser at github pages. So the code must work for that context. e.g. make sure animation files that are needed in the game are included.
 - **Controller-independent.** Combat/input/lock-on/animation depend on
   `PlayerMovementController`, not ecctrl directly (ecctrl is behind `EcctrlAdapter`). This is so we can easily change the controller later if we need to
