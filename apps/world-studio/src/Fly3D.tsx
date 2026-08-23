@@ -1,8 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
 import { MapControls, PointerLockControls } from "@react-three/drei";
 import * as THREE from "three";
-import { paintTerrainCanvas } from "./terrainColor";
 
 /** High-detail terrain patch (Phase 6 refined watershed). */
 export interface DetailPatch {
@@ -73,21 +72,54 @@ function DetailTerrain({ patch, exaggeration }: { patch: DetailPatch; exaggerati
     return g;
   }, [patch, exaggeration]);
 
-  const texture = useMemo(() => {
-    const canvas = paintTerrainCanvas(patch.heights, patch.width, patch.height);
-    const t = new THREE.CanvasTexture(canvas);
-    t.colorSpace = THREE.SRGBColorSpace;
-    t.anisotropy = 4;
-    return t;
-  }, [patch]);
+  // Skyrim ground textures (extracted from the vault BSA by
+  // worldgen.export_terrain_textures) blended by the compiled splatmap —
+  // the terrain preview's look derives from game assets, per the asset plan.
+  const base = import.meta.env.BASE_URL;
+  const [grass, marsh, rock, mud, splat] = useLoader(THREE.TextureLoader, [
+    `${base}textures/terrain/grass.png`, `${base}textures/terrain/marsh.png`,
+    `${base}textures/terrain/rock.png`, `${base}textures/terrain/mud.png`,
+    `${base}province/basin/splat.png`,
+  ]);
+  const material = useMemo(() => {
+    for (const t of [grass, marsh, rock, mud]) {
+      t.wrapS = t.wrapT = THREE.RepeatWrapping;
+      t.colorSpace = THREE.NoColorSpace;
+      t.anisotropy = 4;
+    }
+    splat.colorSpace = THREE.NoColorSpace;
+    return new THREE.ShaderMaterial({
+      uniforms: {
+        tGrass: { value: grass }, tMarsh: { value: marsh },
+        tRock: { value: rock }, tMud: { value: mud }, tSplat: { value: splat },
+        sunDir: { value: new THREE.Vector3(0.45, 0.8, 0.3).normalize() },
+      },
+      vertexShader: `
+        varying vec2 vUv; varying vec3 vNormal; varying vec3 vWorld;
+        void main() {
+          vUv = uv; vNormal = normal; vWorld = position;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }`,
+      fragmentShader: `
+        uniform sampler2D tGrass, tMarsh, tRock, tMud, tSplat;
+        uniform vec3 sunDir;
+        varying vec2 vUv; varying vec3 vNormal; varying vec3 vWorld;
+        void main() {
+          vec4 w = texture2D(tSplat, vUv);
+          w /= max(w.r + w.g + w.b + w.a, 1e-4);
+          vec3 col = w.r * texture2D(tGrass, vWorld.xz / 9.0).rgb
+                   + w.g * texture2D(tMarsh, vWorld.xz / 8.0).rgb
+                   + w.b * texture2D(tRock, vWorld.xz / 14.0).rgb
+                   + w.a * texture2D(tMud, vWorld.xz / 7.0).rgb;
+          float light = 0.62 + 0.85 * max(dot(normalize(vNormal), sunDir), 0.0);
+          gl_FragColor = vec4(col * light, 1.0);
+        }`,
+    });
+  }, [grass, marsh, rock, mud, splat]);
 
-  useEffect(() => () => { geometry.dispose(); texture.dispose(); }, [geometry, texture]);
+  useEffect(() => () => { geometry.dispose(); material.dispose(); }, [geometry, material]);
 
-  return (
-    <mesh geometry={geometry}>
-      <meshStandardMaterial map={texture} roughness={0.95} metalness={0} />
-    </mesh>
-  );
+  return <mesh geometry={geometry} material={material} />;
 }
 
 function FlyRig({ speedRef, onPosition, extentM }: {
@@ -210,7 +242,11 @@ export function Fly3D(props: Fly3DProps) {
       <directionalLight position={[extentM * 0.3, 8000, extentM * 0.2]} intensity={1.4} />
       <Terrain heights={props.heights} size={props.size} metresPerPixel={props.metresPerPixel}
         textureCanvas={props.textureCanvas} exaggeration={props.exaggeration} detail={props.detail} />
-      {props.detail && <DetailTerrain patch={props.detail} exaggeration={props.exaggeration} />}
+      {props.detail && (
+        <Suspense fallback={null}>
+          <DetailTerrain patch={props.detail} exaggeration={props.exaggeration} />
+        </Suspense>
+      )}
       {/* sea */}
       <mesh position={[extentM / 2, 0, extentM / 2]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[extentM * 1.5, extentM * 1.5]} />

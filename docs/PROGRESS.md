@@ -32,7 +32,7 @@ then open only the master-plan sections the active phase needs.
 | 3 — province hydrology and region graph | done | owner-approved 2026-08-22 (sea/salinity/flood corrections applied; lake region class added); stats in hydrology-meta.json |
 | 4 — danger, cultures, transport | done | owner-approved 2026-08-23: strong terrain, jungle region, 8 culture zones, danger model, road/boat/root graphs, climate profiles, access model (0007), lore dossiers |
 | 5 — World Studio foundation | done | owner flyover gate PASS 2026-08-23 (shape/size/feel/mist approved); map+13 layers, 3D fly/orbit, click-to-spawn, reproducible URLs; chunk overlays + probe framework mature with Phase 6 |
-| 6 — reference watershed terrain | in progress | pass 1 compiled: 12×11 km basin refined (channel carving, region detail noise, canon Blackrose lake+island+3 feeders) and flyable in the studio detail mesh — awaiting owner gate; pass 2: collision/LOD/chunking, W-feeder strengthening, portage resolutions |
+| 6 — reference watershed terrain | in progress | pass 1 compiled: 12×11 km basin refined (channel carving, region detail noise, canon Blackrose lake+island+3 feeders) and flyable in the studio detail mesh **textured with Skyrim ground textures** (BSA-extracted splat: fieldgrass02/reachmoss01/reachmossyrocks01/riverbottom) — awaiting owner gate; pass 2: collision/LOD/chunking, W-feeder strengthening, portage resolutions, shoreline smoothing |
 | 7 — physical character integration | todo | |
 | 8 — water renderer and interaction | todo | |
 | 9 — swimming, climbing, boats | todo | |

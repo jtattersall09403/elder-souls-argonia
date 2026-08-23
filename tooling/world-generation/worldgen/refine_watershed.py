@@ -189,6 +189,24 @@ def main() -> None:
     rg[..., 1] = q & 0xFF
     STUDIO_DIR.mkdir(parents=True, exist_ok=True)
     Image.fromarray(rg).save(STUDIO_DIR / "height-rg.png")
+
+    # Splatmap for Skyrim ground textures (R=grass, G=marsh, B=rock, A=mud),
+    # from region classes, water proximity and slope, at raster resolution.
+    reg_h = regions_up[::2, ::2][: half.shape[0], : half.shape[1]]
+    dist_h = channel_dist[::2, ::2][: half.shape[0], : half.shape[1]]
+    gy2, gx2 = np.gradient(half, RAW_M * 2)
+    slope_h = np.hypot(gx2, gy2)
+    marsh_w = np.isin(reg_h, (6, 7, 8, 9, 12)).astype(np.float32)
+    marsh_w = np.maximum(marsh_w, (half < 0.6).astype(np.float32) * 0.8)
+    rock_w = np.isin(reg_h, (1, 2)).astype(np.float32)
+    rock_w = np.maximum(rock_w, np.clip((slope_h - 0.12) / 0.2, 0, 1))
+    mud_w = np.clip(1.0 - dist_h / 70.0, 0, 1)
+    mud_w = np.maximum(mud_w, (half < -0.3).astype(np.float32))
+    grass_w = np.clip(1.0 - marsh_w - rock_w - mud_w, 0, 1) + 0.15
+    splat = np.stack([grass_w, marsh_w, rock_w, mud_w], -1)
+    splat = ndimage.gaussian_filter(splat, (2, 2, 0))
+    splat /= np.maximum(splat.sum(-1, keepdims=True), 1e-6)
+    Image.fromarray((splat * 255).astype(np.uint8), "RGBA").save(STUDIO_DIR / "splat.png")
     meta = {
         "originFullPx": [int(fx0), int(fy0)],
         "originM": [round(fx0 * RAW_M, 1), round(fy0 * RAW_M, 1)],
