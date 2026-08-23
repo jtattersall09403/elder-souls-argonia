@@ -28,6 +28,7 @@ from .society import CULTURES, DANGER_BANDS, compute_society, depth_cost_surface
 WATER_EDGES = [
     ("soulrest", "lilmoth"), ("lilmoth", "archon"), ("archon", "thorn"),
     ("stormhold", "alten-corimont"), ("blackrose", "lilmoth"),
+    ("alten-corimont", "helstrom"),
 ]
 
 RAW_METRES_PER_SAMPLE = 4096.0 * 0.01428 / 32.0
@@ -49,9 +50,11 @@ def main() -> None:
     anchors_px = {a["id"]: (int(a["u"] * w), int(a["v"] * h)) for a in anchors_file["anchors"]}
     edges = [(c["from"], c["to"]) for c in anchors_file["suggestedConnections"]]
 
+    jungle = npz["regions"] == 13
     gy, gx = np.gradient(z, metres_per_px)
     cost = cost_surface(z, np.hypot(gx, gy), npz["ocean"], npz["lakes"],
                         npz["rivers"], npz["wetlands"], npz["flood"])
+    cost = np.where(jungle & ~npz["wetlands"], cost * 2.0, cost)  # dense canopy slows roads
 
     # Group edges by source so each city needs only one Dijkstra run.
     by_source: dict[str, list[str]] = {}
@@ -73,12 +76,13 @@ def main() -> None:
             })
 
     depth_cost = depth_cost_surface(z, np.hypot(gx, gy), npz["ocean"], npz["lakes"],
-                                    npz["rivers"], npz["wetlands"], npz["flood"])
+                                    npz["rivers"], npz["wetlands"], npz["flood"], jungle)
     soc = compute_society(npz["regions"], anchors_px, road_mask, depth_cost,
                           npz["ocean"], metres_per_px)
 
-    # Boat lanes over the water network.
-    boat_cost = boat_cost_surface(npz["ocean"], npz["lakes"], npz["rivers"], npz["tidal"])
+    # Boat lanes over the water network (canoe channels + marsh poling count).
+    boat_cost = boat_cost_surface(npz["ocean"], npz["lakes"], npz["rivers"],
+                                  npz["tidal"], npz["wetlands"])
     water = boat_cost < BOAT_PORTAGE
     water_mask = np.zeros((h, w), dtype=bool)
     water_routes = []

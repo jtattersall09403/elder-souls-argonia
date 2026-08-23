@@ -16,13 +16,38 @@
   greatly feared by surrounding villages"; hostile to outsiders; adorn arms
   with bones of fallen comrades. → Drives the `naga-kur-deeps` culture zone.
 
-## Murkmire tribes (Lore:Tribes of Murkmire + ON book series)
+## Murkmire tribes (Lore:Tribes of Murkmire book series, fetched 2026-08-23)
 
-Attested tribes: **Bright-Throats** (Bright-Throat Village), **Ghost People
-(Veeskhleel)**, **Black-Tongues**, **Root-House People (Tum-Taleel)**,
-**Miredancers**, **Dead-Water**; plus Root-Whisper Village. Era: ESO (2E) —
-tribal survival to 4E 201 is plausible continuity, mark AGENT_AUTHORED per
-tribe when placed.
+Hurrent's survey counted "at least twelve distinct tribal groups in Murkmire
+alone … scores more exist" — tribal density far beyond the named set. Named:
+
+- **Bright-Throats** — diplomats and artisans; village with hatching pools,
+  Tree-Minder; the "friendly port of contact" tribe.
+- **Ghost People (Veeskhleel)** — pale, nocturnal, dwell "entirely in the
+  dark", stalk and abduct the unwary; territory Veeskhleel-Tzel / Blight Bog;
+  horror-flavour tribe.
+- **Black-Tongues (Kota-Vimleel)** — soft-spoken master alchemists who mark
+  territory with alchemical flasks, kill trespassers without hesitation, and
+  "dedicate almost all their resources" to producing **Shadowscales**.
+- **Root-House People (Tum-Taleel)** — belligerent village-takers: attack
+  peaceful villages, drive off inhabitants, occupy their huts; "own" the
+  **Keel-Sakka river bridge** and toll/ambush it.
+- **Miredancers (Gee-Rusleel)** — pious, pleasant, reclusive; amber/eggshell
+  artisans, "peerless navigators, master weavers, skilled cartographers";
+  their piety earns the right to name a **Sap-Speaker** (Hist intermediary).
+- **Dead-Water (Naga-Kur)** — see above.
+- **Root-Whisper** — destroyed by a Barsaebic Ayleid incursion; souls kept in
+  the Remnant of Argon at the cost of their Hist's sleep; village between the
+  pre-Duskfall twin temples Xul-Thuxis and Vakka-Bok (ON:Root-Whisper Village).
+
+Region facts (Lore:Murkmire): the **Keel-Sakka River** runs here; Murkmire had
+no central authority and stayed autonomous of the Ebonheart Pact (2E); Umbriel
+passed over in 4E 48, killing inhabitants below (population history for our
+4E 201 state). Travel colour: cypress and torchbugs, flesh-fly clouds
+thickening toward the interior, "the deep murk devours outsiders".
+
+Era: ESO (2E) — tribal survival to 4E 201 is plausible continuity, mark
+AGENT_AUTHORED per tribe when placed.
 
 ## Archeins (Lore:Gideon, Lore:Thorn)
 

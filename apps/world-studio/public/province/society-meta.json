@@ -111,42 +111,48 @@
     "soulrest->blackrose": 6.91,
     "blackrose->lilmoth": 5.45,
     "alten-corimont->stormhold": 4.37,
-    "stormhold->thorn": 12.91,
-    "gideon->stormhold": 9.59,
-    "gideon->soulrest": 12.78,
-    "archon->gideon": 14.47,
-    "helstrom->blackrose": 13.68
+    "stormhold->thorn": 13.11,
+    "gideon->stormhold": 9.21,
+    "gideon->soulrest": 13.13,
+    "archon->gideon": 15.08,
+    "helstrom->blackrose": 14.2
   },
   "waterRoutes": [
     {
       "from": "soulrest",
       "to": "lilmoth",
-      "lengthKm": 12.26,
+      "lengthKm": 12.3,
       "waterFraction": 0.99
     },
     {
       "from": "lilmoth",
       "to": "archon",
-      "lengthKm": 7.81,
-      "waterFraction": 0.98
+      "lengthKm": 7.87,
+      "waterFraction": 0.99
     },
     {
       "from": "archon",
       "to": "thorn",
-      "lengthKm": 14.32,
-      "waterFraction": 0.91
+      "lengthKm": 14.34,
+      "waterFraction": 0.95
     },
     {
       "from": "stormhold",
       "to": "alten-corimont",
-      "lengthKm": 7.39,
-      "waterFraction": 0.83
+      "lengthKm": 5.57,
+      "waterFraction": 0.84
     },
     {
       "from": "blackrose",
       "to": "lilmoth",
-      "lengthKm": 9.05,
-      "waterFraction": 0.91
+      "lengthKm": 7.34,
+      "waterFraction": 0.97
+    },
+    {
+      "from": "alten-corimont",
+      "to": "helstrom",
+      "lengthKm": 13.64,
+      "waterFraction": 0.93
     }
   ],
   "rootStations": [
@@ -158,26 +164,26 @@
   "dangerModel": "base(region) + 2.9*depth/10km(cost) - road relief; edges/coast seed access, Helstrom excluded (canon: unconquered heart); high dry ground capped at band 3",
   "dangerBandFractions": {
     "danger 1 \u2014 settled": 0.011,
-    "danger 2 \u2014 travelled": 0.231,
-    "danger 3 \u2014 wild": 0.546,
-    "danger 4 \u2014 perilous": 0.164,
+    "danger 2 \u2014 travelled": 0.226,
+    "danger 3 \u2014 wild": 0.511,
+    "danger 4 \u2014 perilous": 0.204,
     "danger 5 \u2014 deep peril": 0.049
   },
   "depthKmPercentiles": {
-    "50": 4.9,
-    "75": 6.8,
-    "90": 8.7,
-    "99": 17.7
+    "50": 5.0,
+    "75": 6.9,
+    "90": 9.6,
+    "99": 17.5
   },
   "cultureFractions": {
     "hinterland": 0.334,
-    "imperial-fringe": 0.137,
+    "imperial-fringe": 0.139,
     "dunmer-north": 0.149,
-    "mercantile-coast": 0.054,
-    "imperial-penal-south": 0.033,
-    "saxhleel-coast": 0.024,
+    "mercantile-coast": 0.071,
+    "imperial-penal-south": 0.037,
+    "saxhleel-coast": 0.031,
     "pirate-freeholds": 0.019,
-    "hist-heartland": 0.166,
-    "naga-kur-deeps": 0.083
+    "hist-heartland": 0.19,
+    "naga-kur-deeps": 0.031
   }
 }

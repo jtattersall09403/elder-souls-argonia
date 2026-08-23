@@ -956,6 +956,31 @@ Province-wide fields should include:
 
 The full province receives a coarse hydrological solution immediately. Detailed meshes and local refinements expand by watershed.
 
+### 33.1 Climate, atmosphere and light
+
+Climate is a first-class macro layer alongside hydrology, because Black Marsh's
+identity is as much air as water: heat, humidity, mist, rot and gloom.
+
+- **Macro fields (Phase 3/4 data):** each ecological region class carries a
+  climate profile — humidity, mist propensity, rain regime, characteristic
+  visibility. These drive fog density, ambient palettes, insect/disease
+  intensity and encounter sight-lines long before detailed rendering exists.
+- **Weather system (with Phase 8 rendering):** province-scale weather states
+  (monsoonal downpour, sea squall, dry-season haze, ground mist, storm) with
+  region-weighted frequencies; weather modifies wetness, flood state, grip,
+  visibility and AI perception — world state, never player-scaled.
+- **Time of day and light:** full day/night cycle; canopy classes darken and
+  diffuse daylight (jungle/rootland interiors read as permanent dusk);
+  bioluminescence (torchbugs, fungi, sap) is the deep-marsh night palette,
+  per the Murkmire travel accounts.
+- **"Steaminess":** low ground mist, heat shimmer over water, drifting spore
+  and pollen particles are biome-driven atmospheric VFX tied to the climate
+  profile, concentrated in jungle, rootland and stagnant-water classes.
+- Renderer implementation (volumetric fog tiers, sky model, wet-surface
+  response) lands with the Phase 8 water/atmosphere stack; the semantic
+  climate data must exist from the province passes so all later systems
+  consume one source.
+
 ## 35. Causal landscape example
 
 A major river creates sediment deposition. Deposition creates natural levees. Levees supply relatively stable ground. A path follows the levee. A village grows where a tributary, levee and fishery meet. Its dock occupies a navigable bank. Reeds occupy slower backwater. An older ruin in the former floodplain becomes partially submerged. Smugglers use an abandoned channel to bypass the landing.
@@ -1274,6 +1299,13 @@ Gameplay components:
 - boat combat hooks.
 
 Boat navigation uses depth, channel width, bend radius, current, tide, bridge clearance, submerged obstacles, docking space and vessel capability.
+
+The Phase 4 macro graphs (roads, boat lanes, rootways) connect only the anchor
+cities and are deliberately sparse. As settlements populate (Phases 11/15) the
+transport network **densifies**: minor roads, jungle paths, boardwalks, levee
+tracks, ferry hops, canoe channels and additional fast-travel services grow
+around every placed settlement, always as least-cost responses to the same
+terrain fields (owner direction, 2026-08-23).
 
 ## 46. Climbing and world generation
 

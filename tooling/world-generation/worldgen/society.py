@@ -38,7 +38,11 @@ DANGER_BASE = {
     10: 2.0,  # raised hammock
     11: 1.5,  # firm lowland
     12: 2.0,  # lake & standing water
+    13: 2.6,  # tropical jungle — dense, low visibility, predator country
 }
+# Naga are deep-swamp people (Lore:Naga) — their influence exists only on
+# swampy ground, never on firm lowland/jungle/uplands.
+SWAMP_CLASSES = (6, 7, 8, 9, 12)
 DEPTH_GAIN = 2.9
 DEPTH_SCALE_KM = 10.0        # cost-km at which depth saturates
 COAST_ACCESS_KM = 3.0        # landing on a wild coast is possible but not free
@@ -97,7 +101,7 @@ CULTURES = {
     # Naga-Kur and tribeless Naga "control much of the inner swamps" of the
     # south (northern Murkmire) (Lore:Naga, Lore:Naga-Kur)
     "naga-kur-deeps": {"colour": (110, 125, 45), "uvSeeds": [[0.47, 0.68, 3.0]],
-                       "regionBoost": {6: 1.2, 7: 0.9}},
+                       "regionBoost": {6: 1.2, 7: 0.9}, "swampOnly": True},
 }
 
 
@@ -112,9 +116,12 @@ class SocietyResult:
 
 
 def depth_cost_surface(z: np.ndarray, slope: np.ndarray, ocean: np.ndarray, lakes: np.ndarray,
-                       rivers: np.ndarray, wetlands: np.ndarray, flood: np.ndarray) -> np.ndarray:
+                       rivers: np.ndarray, wetlands: np.ndarray, flood: np.ndarray,
+                       jungle: np.ndarray | None = None) -> np.ndarray:
     cost = 1.0 + slope * DEPTH_SLOPE_FACTOR
     cost = np.where(wetlands, cost * DEPTH_WETLAND, cost)
+    if jungle is not None:  # dense canopy: harder than open ground, softer than marsh
+        cost = np.where(jungle & ~wetlands, cost * 2.5, cost)
     cost = np.where(flood == 3, cost * DEPTH_FLOOD_FREQUENT, cost)
     cost = np.where(z > 40.0, cost * DEPTH_MOUNTAIN, cost)
     cost = np.where(rivers >= 2, cost * DEPTH_RIVER, cost)
@@ -158,6 +165,8 @@ def compute_society(regions: np.ndarray, anchors_px: dict[str, tuple[int, int]],
     # mountain class left a hard straight seam along the class boundary.
     high_ground = (regions == 1) | (regions == 2)
     danger[high_ground] = np.minimum(danger[high_ground], MOUNTAIN_DANGER_CAP)
+    # Jungle is perilous but the marsh heart stays the province's deadliest.
+    danger[regions == 13] = np.minimum(danger[regions == 13], 4.4)
 
     road_km = ndimage.distance_transform_edt(~road_mask) * metres_per_px / 1000.0 \
         if road_mask.any() else np.full(shape, np.inf)
@@ -184,6 +193,8 @@ def compute_society(regions: np.ndarray, anchors_px: dict[str, tuple[int, int]],
             influence[ci] += np.exp(-(d ** 2) / (2 * sigma_km ** 2))
         for cid, boost in spec.get("regionBoost", {}).items():
             influence[ci][regions == cid] += boost
+        if spec.get("swampOnly"):
+            influence[ci][~np.isin(regions, SWAMP_CLASSES)] = 0.0
 
     dominant = np.argmax(influence, axis=0).astype(np.uint8) + 1
     dominant[influence.max(axis=0) < 0.06] = 0  # unclaimed hinterland

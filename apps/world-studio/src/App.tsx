@@ -79,8 +79,8 @@ export function App() {
   const conditionedRef = useRef<Partial<Record<Conditioning, Float32Array>>>({});
   const [meta, setMeta] = useState<ProvinceMeta | null>(null);
   const [seaLevel, setSeaLevel] = useState(0);
-  // Mild is the owner-chosen Phase 3 conditioning (decision 0005).
-  const [conditioning, setConditioning] = useState<Conditioning>("mild");
+  // Strong is the owner-chosen conditioning (decision 0005, revised).
+  const [conditioning, setConditioning] = useState<Conditioning>("strong");
   const [readout, setReadout] = useState("");
   const [tip, setTip] = useState<{ x: number; y: number; text: string } | null>(null);
   const overlaysRef = useRef<Record<string, HTMLImageElement>>({});
@@ -311,8 +311,8 @@ export function App() {
         <span>Interior relief:</span>
         {([
           ["off", "As source"],
-          ["mild", "Compressed — mild (chosen)"],
-          ["strong", "Compressed — strong"],
+          ["mild", "Compressed — mild"],
+          ["strong", "Compressed — strong (chosen)"],
         ] as [Conditioning, string][]).map(([mode, label]) => (
           <button key={mode} onClick={() => setConditioning(mode)}
             style={{
@@ -363,7 +363,7 @@ export function App() {
         stations — schematic, re-authored with Hist placement later. “danger” shows the fixed 1–5 danger bands (never
         player-scaled) from region character, remoteness and road relief; “cultures” shows
         pass-1 dominant-culture territories. Hydrology layers are the coarse province solve
-        on the owner-chosen mild terrain (regardless of the relief toggle): rivers by
+        on the owner-chosen strong terrain (regardless of the relief toggle): rivers by
         drainage area, wetlands and tidal flats, flood frequency, soils, basins, salinity.
         The hover tooltip reports region, danger and culture wherever you point.
       </p>

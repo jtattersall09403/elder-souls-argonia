@@ -1,17 +1,17 @@
 {
   "metresPerPixel": 16.45056,
   "scaleApplied": 3.0,
-  "conditioning": "mild (decision 0005)",
+  "conditioning": "strong (decision 0005, revised 2026-08-23)",
   "imageWidth": 1345,
   "imageHeight": 1345,
   "topBasinsKm2": {
-    "2275": 59.8,
-    "1649": 45.4,
-    "13219": 14.3,
-    "1032": 11.4,
-    "13403": 7.9,
-    "13647": 7.4,
-    "719": 6.4,
+    "2275": 59.3,
+    "1649": 50.2,
+    "13219": 12.2,
+    "1031": 11.4,
+    "13647": 8.3,
+    "13403": 6.9,
+    "720": 6.4,
     "2374": 5.1,
     "3281": 5.1
   },
@@ -119,6 +119,100 @@
         140,
         215
       ]
+    },
+    "13": {
+      "name": "tropical jungle",
+      "rgb": [
+        55,
+        175,
+        45
+      ]
+    }
+  },
+  "climateProfiles": {
+    "ocean": {
+      "humidity": 0.7,
+      "mist": 0.2,
+      "rain": "sea squalls",
+      "visibility": 2000
+    },
+    "border mountains": {
+      "humidity": 0.5,
+      "mist": 0.4,
+      "rain": "orographic",
+      "visibility": 1200
+    },
+    "upland hills": {
+      "humidity": 0.6,
+      "mist": 0.3,
+      "rain": "showers",
+      "visibility": 1000
+    },
+    "tidal delta": {
+      "humidity": 0.9,
+      "mist": 0.6,
+      "rain": "tidal storms",
+      "visibility": 500
+    },
+    "coastal lagoon & salt marsh": {
+      "humidity": 0.9,
+      "mist": 0.6,
+      "rain": "tidal storms",
+      "visibility": 600
+    },
+    "deep river corridor": {
+      "humidity": 0.8,
+      "mist": 0.5,
+      "rain": "monsoonal",
+      "visibility": 700
+    },
+    "rootland deep marsh": {
+      "humidity": 1.0,
+      "mist": 0.9,
+      "rain": "constant drip",
+      "visibility": 120
+    },
+    "interior swamp": {
+      "humidity": 1.0,
+      "mist": 0.8,
+      "rain": "monsoonal",
+      "visibility": 200
+    },
+    "fringe marsh": {
+      "humidity": 0.9,
+      "mist": 0.6,
+      "rain": "monsoonal",
+      "visibility": 350
+    },
+    "seasonal floodplain": {
+      "humidity": 0.8,
+      "mist": 0.5,
+      "rain": "seasonal flood rains",
+      "visibility": 600
+    },
+    "raised hammock": {
+      "humidity": 0.7,
+      "mist": 0.4,
+      "rain": "showers",
+      "visibility": 700
+    },
+    "firm lowland": {
+      "humidity": 0.7,
+      "mist": 0.3,
+      "rain": "seasonal",
+      "visibility": 900
+    },
+    "lake & standing water": {
+      "humidity": 1.0,
+      "mist": 0.8,
+      "rain": "monsoonal",
+      "visibility": 300
+    },
+    "tropical jungle": {
+      "humidity": 0.95,
+      "mist": 0.7,
+      "rain": "monsoonal downpour",
+      "visibility": 90
     }
   },
   "soilLegend": {
@@ -130,13 +224,13 @@
   },
   "cellKm2": 0.0002706209243136,
   "oceanFraction": 0.321,
-  "lakeFraction": 0.0465,
+  "lakeFraction": 0.0467,
   "wetlandFraction": 0.072,
   "tidalFraction": 0.004,
   "riverCells": {
-    "minor": 6505,
-    "medium": 3080,
-    "major": 749
+    "minor": 6462,
+    "medium": 3114,
+    "major": 789
   },
   "basinCount": 9,
   "landOutletCells": 2164,
@@ -153,37 +247,38 @@
     "salinityDecayM": 1500.0
   },
   "floodFractions": {
-    "none": 0.941,
-    "rare": 0.021,
-    "seasonal": 0.002,
-    "frequent": 0.036
+    "none": 0.955,
+    "rare": 0.015,
+    "seasonal": 0.003,
+    "frequent": 0.027
   },
   "soilFractions": {
-    "rock/upland firm": 0.293,
-    "firm lowland": 0.318,
-    "soft marsh": 0.036,
+    "rock/upland firm": 0.241,
+    "firm lowland": 0.37,
+    "soft marsh": 0.037,
     "peat": 0.025,
     "mud": 0.006
   },
   "regionFractions": {
     "ocean": 0.3214,
-    "border mountains": 0.0815,
-    "upland hills": 0.0768,
+    "border mountains": 0.0809,
+    "upland hills": 0.0419,
     "tidal delta": 0.0004,
     "coastal lagoon & salt marsh": 0.0006,
-    "deep river corridor": 0.0017,
+    "deep river corridor": 0.0018,
     "rootland deep marsh": 0.0269,
     "interior swamp": 0.0139,
     "fringe marsh": 0.0236,
-    "seasonal floodplain": 0.0165,
+    "seasonal floodplain": 0.0134,
     "raised hammock": 0.0001,
-    "firm lowland": 0.39,
-    "lake & standing water": 0.0465
+    "firm lowland": 0.3814,
+    "lake & standing water": 0.0467,
+    "tropical jungle": 0.047
   },
   "handPercentilesM": {
     "25": 1000000.0,
     "50": 1000000.0,
-    "75": 1000002.88,
-    "95": 1000005.94
+    "75": 1000001.44,
+    "95": 1000005.81
   }
 }

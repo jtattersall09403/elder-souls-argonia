@@ -49,13 +49,18 @@ BOAT_MAJOR_RIVER = 1.2
 BOAT_LAKE = 1.3
 BOAT_TIDAL = 1.5
 BOAT_MEDIUM_RIVER = 1.6
+BOAT_MINOR_RIVER = 2.5   # canoe channels — the local deep-marsh mode
+BOAT_MARSH_POLE = 6.0    # poling through wetland off-channel
 BOAT_PORTAGE = 60.0
 
 
 def boat_cost_surface(ocean: np.ndarray, lakes: np.ndarray, rivers: np.ndarray,
-                      tidal: np.ndarray) -> np.ndarray:
+                      tidal: np.ndarray, wetlands: np.ndarray | None = None) -> np.ndarray:
     cost = np.full(ocean.shape, BOAT_PORTAGE)
+    if wetlands is not None:
+        cost[wetlands] = BOAT_MARSH_POLE
     cost[tidal] = BOAT_TIDAL
+    cost[rivers == 1] = BOAT_MINOR_RIVER
     cost[rivers == 2] = BOAT_MEDIUM_RIVER
     cost[rivers == 3] = BOAT_MAJOR_RIVER
     cost[lakes] = BOAT_LAKE

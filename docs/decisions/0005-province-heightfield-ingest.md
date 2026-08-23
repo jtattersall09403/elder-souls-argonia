@@ -34,10 +34,11 @@ may bake in a metres-per-sample constant outside the generated meta files.
 
 ## Decided at owner review (2026-08-22)
 
-- **Interior conditioning: option 2, mild** — land above 20 m keeps 50% of its
-  excess, weighted by the interiorness mask (no change within ~10% of map
-  edges). Peaks drop ~100 m → ~60 m. To be implemented in the Phase 3
-  hydrology compiler; the studio previews it as the default view.
+- **Interior conditioning: strong** (revised from mild 2026-08-23 after the
+  owner reviewed both live) — land above 12 m keeps 25% of its excess,
+  weighted by the interiorness mask (no change within ~10% of map edges).
+  Peaks drop ~100 m → ~34 m. Implemented in `worldgen/condition.py`; the whole
+  Phase 3/4 chain compiles on this terrain.
 - **Sea level stays at 0 m** (owner-confirmed after fine-slider review).
 - **Anchor positions corrected** by the owner and terrain-verified (coastal
   snapping, Gideon in the measured western pass; see

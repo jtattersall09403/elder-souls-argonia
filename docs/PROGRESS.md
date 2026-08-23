@@ -30,7 +30,7 @@ then open only the master-plan sections the active phase needs.
 | 1b — package boundaries and contracts | done | packages/contracts + apps/game shell + apps/world-studio; inventory/items extraction deferred to Phase 7 (plan §86) |
 | 2 — province source ingest | done | anchors owner-approved 2026-08-22; conditioning/sea-level decided (0005); scale ×3 (0006); major-city road network required (§88) + candidate edges registered; community map archived w/ hash |
 | 3 — province hydrology and region graph | done | owner-approved 2026-08-22 (sea/salinity/flood corrections applied; lake region class added); stats in hydrology-meta.json |
-| 4 — danger, cultures, transport | in progress | all deliverables compiled: danger (high-ground cap, no seams), 8 lore-grounded culture zones (Blackrose imperial-penal, Naga-Kur deeps), boat lanes (5, ≥83% water), rootworm network stub, settlement roles, access-progression model (0007), tribes dossier — awaiting owner combined gate |
+| 4 — danger, cultures, transport | in progress | owner round 2 applied: STRONG conditioning adopted (0005 revised) + full recompile; authored tropical-jungle region (class 13, world/sources/regions/); naga confined to swamps; AC-Helstrom canoe lane (93% water); climate profiles per region (plan §33.1); Murkmire tribe books fetched into tribes dossier — awaiting owner gate |
 | 5 — World Studio foundation | todo | |
 | 6 — reference watershed terrain | todo | |
 | 7 — physical character integration | todo | |

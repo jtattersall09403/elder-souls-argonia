@@ -23,7 +23,7 @@ from scipy import ndimage
 
 from .condition import condition
 from .hydrology import compute
-from .regions import REGION_CLASSES, SOIL_CLASSES, compute_regions
+from .regions import CLIMATE, REGION_CLASSES, SOIL_CLASSES, compute_regions
 
 RAW_METRES_PER_SAMPLE = 4096.0 * 0.01428 / 32.0
 SCALE = 3.0  # decision 0006
@@ -124,12 +124,13 @@ def main() -> None:
     meta = {
         "metresPerPixel": metres_per_px,
         "scaleApplied": SCALE,
-        "conditioning": "mild (decision 0005)",
+        "conditioning": "strong (decision 0005, revised 2026-08-23)",
         "imageWidth": shape[1],
         "imageHeight": shape[0],
         "topBasinsKm2": {str(b): round(areas[b], 1) for b in top},
         "regionsLegend": {str(cid): {"name": name, "rgb": list(colour)}
                           for cid, (name, colour) in REGION_CLASSES.items()},
+        "climateProfiles": {REGION_CLASSES[cid][0]: prof for cid, prof in CLIMATE.items()},
         "soilLegend": {str(cid): name for cid, name in SOIL_CLASSES.items()},
         **result.stats,
         **reg.stats,
