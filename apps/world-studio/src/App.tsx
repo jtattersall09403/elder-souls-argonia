@@ -111,9 +111,10 @@ export function App() {
   const decodedPxRef = useRef<Record<string, Uint8ClampedArray>>({});
   const [layers, setLayers] = useState<Record<string, boolean>>({
     rivers: true, wetlands: true, routes: true, waterways: true, rootways: false,
-    danger: false, cultures: false, regions: false, flood: false, soil: false,
-    watersheds: false, salinity: false,
+    danger: false, cultures: false, regions: false, mist: false, flood: false,
+    soil: false, watersheds: false, salinity: false,
   });
+  const climateRef = useRef<Record<string, { humidity: number; mist: number; rain: string; visibility: number }>>({});
   const [overlaysReady, setOverlaysReady] = useState(false);
   const [legends, setLegends] = useState<Record<string, Record<string, { name: string; rgb: number[] }>>>({});
 
@@ -159,6 +160,7 @@ export function App() {
         salinity: "hydro-salinity.png", routes: "soc-routes.png",
         danger: "soc-danger.png", cultures: "soc-cultures.png",
         waterways: "soc-waterways.png", rootways: "soc-rootways.png",
+        mist: "hydro-mist.png",
       };
       await Promise.all(
         Object.entries(overlayFiles).map(async ([name, file]) => {
@@ -185,6 +187,7 @@ export function App() {
         // the terrain meta is raw extractor scale.
         if (hydroMeta.metresPerPixel) setMeta({ ...m, metresPerPixel: hydroMeta.metresPerPixel });
         const collected: typeof legends = { regions: hydroMeta.regionsLegend ?? {} };
+        climateRef.current = hydroMeta.climateProfiles ?? {};
         try {
           const socMeta = await (await fetch(`${base}province/society-meta.json`)).json();
           collected.danger = socMeta.dangerLegend ?? {};
@@ -225,7 +228,7 @@ export function App() {
     // Generated overlays under the anchors, in back-to-front order.
     for (const name of ["regions", "soil", "watersheds", "flood", "salinity",
                         "danger", "cultures", "wetlands", "rivers", "waterways",
-                        "routes", "rootways"]) {
+                        "routes", "rootways", "mist"]) {
       const img = overlaysRef.current[name];
       if (layers[name] && img) ctx.drawImage(img, 0, 0);
     }
@@ -294,7 +297,13 @@ export function App() {
       }
       return best ? ` · ${best}` : "";
     };
-    const info = lookup("regions", " · ocean") + lookup("danger") + lookup("cultures", " · hinterland");
+    const regionPart = lookup("regions", " · ocean");
+    const regionName = regionPart.replace(" · ", "");
+    const climate = climateRef.current[regionName];
+    const climatePart = climate
+      ? ` · humidity ${Math.round(climate.humidity * 100)}% · vis ~${climate.visibility} m`
+      : "";
+    const info = regionPart + lookup("danger") + lookup("cultures", " · hinterland") + climatePart;
     const text = `${km(x)} km E, ${km(y)} km S · elevation ${hgt.toFixed(1)} m${info}`;
     setReadout(text);
     setTip({ x: e.clientX - rect.left, y: e.clientY - rect.top, text });
@@ -378,7 +387,7 @@ export function App() {
       </div>
       <div style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
         <span>Layers:</span>
-        {(["rivers", "wetlands", "routes", "waterways", "rootways", "danger", "cultures", "regions", "flood", "soil", "watersheds", "salinity"] as const).map((name) => (
+        {(["rivers", "wetlands", "routes", "waterways", "rootways", "danger", "cultures", "regions", "mist", "flood", "soil", "watersheds", "salinity"] as const).map((name) => (
           <label key={name} style={{ cursor: "pointer" }}>
             <input type="checkbox" checked={layers[name]}
               onChange={(e) => setLayers({ ...layers, [name]: e.target.checked })} />{" "}

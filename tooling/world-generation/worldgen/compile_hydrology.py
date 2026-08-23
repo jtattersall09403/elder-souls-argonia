@@ -121,6 +121,19 @@ def main() -> None:
         regions_img[reg.regions == cid] = (*colour, 120)
     save(regions_img, "hydro-regions.png")
 
+    # Macro mist/steaminess field (plan §33.1): per-region mist propensity,
+    # smoothed so it reads as air, not class boundaries.
+    mist_lookup = np.zeros(max(CLIMATE) + 1, dtype=np.float32)
+    for cid, prof in CLIMATE.items():
+        mist_lookup[cid] = prof["mist"]
+    mist = ndimage.gaussian_filter(mist_lookup[reg.regions], 4)
+    mist_img = rgba(shape)
+    mist_img[..., 0] = 225
+    mist_img[..., 1] = 232
+    mist_img[..., 2] = 238
+    mist_img[..., 3] = (mist * 150).astype(np.uint8)
+    save(mist_img, "hydro-mist.png")
+
     meta = {
         "metresPerPixel": metres_per_px,
         "scaleApplied": SCALE,

@@ -1,0 +1,39 @@
+{
+  "$schema": "province weather states + seasonal calendar (master plan §33.1); consumed by the Phase 8 atmosphere/renderer stack and by hazard calendars (plan §26)",
+  "confidence": "AGENT_AUTHORED",
+  "loreBasis": "Tropical climate (Lore:Black Marsh); seasonal hatching/breeding hazards and travel-season advice (Tips for Black Marsh Travel); permanent gloom and torchbug nights in deep canopy (Tribes of Murkmire); fire risk in dry season (Blackwater War lore).",
+  "states": [
+    { "id": "clear-humid", "name": "Humid haze", "visibilityFactor": 1.0, "wetness": 0.0 },
+    { "id": "ground-mist", "name": "Ground mist", "visibilityFactor": 0.45, "wetness": 0.1,
+      "notes": "Dawn/dusk default in marsh classes; mist field gives local density." },
+    { "id": "monsoon-downpour", "name": "Monsoon downpour", "visibilityFactor": 0.35, "wetness": 1.0,
+      "notes": "Raises flood state one band while active; rivers swell." },
+    { "id": "sea-squall", "name": "Sea squall", "visibilityFactor": 0.5, "wetness": 0.7,
+      "notes": "Coastal/tidal classes; dangerous small-boat conditions." },
+    { "id": "storm", "name": "Storm", "visibilityFactor": 0.3, "wetness": 0.9,
+      "notes": "Lightning; wamasu-territory synergy (plan §27)." },
+    { "id": "dry-haze", "name": "Dry-season haze", "visibilityFactor": 0.8, "wetness": -0.3,
+      "notes": "Dry season only; peat-fire risk in burned/peat soils." }
+  ],
+  "regionFrequencies": {
+    "note": "Relative weights per ecological region class; renderer/world-state sampler normalises.",
+    "coastal (ocean, delta, lagoon)": { "clear-humid": 3, "sea-squall": 2, "monsoon-downpour": 2, "ground-mist": 1, "storm": 1 },
+    "marsh (fringe/interior/rootland/lakes)": { "ground-mist": 3, "clear-humid": 2, "monsoon-downpour": 2, "storm": 1 },
+    "jungle": { "clear-humid": 2, "monsoon-downpour": 3, "ground-mist": 2, "storm": 1 },
+    "uplands & mountains": { "clear-humid": 3, "storm": 1, "ground-mist": 1, "dry-haze": 1 },
+    "firm lowland & floodplain": { "clear-humid": 3, "ground-mist": 1, "monsoon-downpour": 1, "dry-haze": 1 }
+  },
+  "seasons": [
+    { "id": "wet", "name": "Wet season", "share": 0.5,
+      "effects": "flood states high, monsoon/storm weights x2, insect hatching peaks (travel-advice hazard calendar), boats favoured" },
+    { "id": "dry", "name": "Dry season", "share": 0.35,
+      "effects": "flood states low, dry-haze enabled, some shallow crossings open, peat-fire risk, overland travel favoured" },
+    { "id": "hatching", "name": "Hatching turn", "share": 0.15,
+      "effects": "transition weeks: giant-snake and insect breeding hazards spike (Tips for Black Marsh Travel); guides advise against deep travel" }
+  ],
+  "lighting": {
+    "dayNight": "full cycle (Phase 8); canopy classes darken and diffuse daylight - jungle/rootland interiors read as permanent dusk",
+    "night": "bioluminescence is the deep-marsh night palette: torchbugs, fungi, Hist sap glow",
+    "verticalExaggerationNote": "visual-only; lighting/climate operate on true heights"
+  }
+}

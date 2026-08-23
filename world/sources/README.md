@@ -22,6 +22,8 @@ the vault; the browser preview raster is committed at
   tolerances and confidence. Owner-approved; refined at visual gates.
 - [lore/](lore/README.md) — per-location canon dossiers (UESP-sourced) feeding
   generation and later quest/dialogue authoring.
+- [climate/weather-states.json](climate/weather-states.json) — province weather
+  states, seasonal calendar and lighting notes (plan §33.1).
 - [demographics/population-priors.json](demographics/population-priors.json) —
   community demographic priors by zone (plan §82).
 
