@@ -29,9 +29,18 @@ export class ChunkWorld implements EnvironmentQuery {
     private readonly regionResolver?: (xM: number, zM: number) => { regionId: string; biomeId: string },
   ) {}
 
-  async init(materialSet: string): Promise<void> {
+  /**
+   * Set the live vertical scale (owner tuning; canonical value is decision
+   * 0006's ×5, `chunks-web-manifest.verticalScaleAtGeometry`). Must match the
+   * collider and render-mesh scale — CharacterMode keeps them in lockstep.
+   */
+  setVerticalScale(scale: number): void {
+    this.verticalScale = scale;
+  }
+
+  async init(materialSet: string, verticalScale?: number): Promise<void> {
     this.manifest = await this.store.manifest();
-    this.verticalScale = this.manifest.verticalScaleAtGeometry;
+    this.verticalScale = verticalScale ?? this.manifest.verticalScaleAtGeometry;
     this.cellMetres = this.manifest.chunkMetres;
     this.grid = this.manifest.grid;
     try {

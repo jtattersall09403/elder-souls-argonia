@@ -17,7 +17,7 @@ import {
 import { resolveCapabilityProfile } from "@elder-souls/game-core/physics/capabilityProfiles";
 import { useEquippedLoadout, useWornArmour } from "@elder-souls/game-core/inventory/store";
 import { RACE_IDS, type RaceId } from "@elder-souls/game-core/actors/races";
-import { ChunkStore, type ChunksManifest } from "./chunkStore";
+import { sharedChunkStore, type ChunksManifest } from "./chunkStore";
 import { ChunkWorld } from "./chunkWorld";
 import { ChunkTerrain } from "./ChunkTerrain";
 import { ChunkColliders } from "./ChunkColliders";
@@ -44,12 +44,17 @@ export interface CharacterHudState {
   grounded: boolean;
 }
 
-export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength, lookupRegion, onPositionKm, onExit, onFlyHere }: {
+export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength, exaggeration, onExaggeration, lookupRegion, onPositionKm, onExit, onFlyHere }: {
   spawnKm: { x: number; z: number };
   raceId?: string;
   profileId?: string;
   matSet?: string;
   tintStrength?: number;
+  /** Vertical scale for terrain geometry/colliders/queries. Canonical is ×5
+   * (decision 0006); the live control exists so the owner can re-judge the
+   * scale at ground level. Changing it remounts physics at the same spot. */
+  exaggeration?: number;
+  onExaggeration?: (value: number) => void;
   /** Region/biome names at a world position, from the studio's map rasters. */
   lookupRegion?: (xM: number, zM: number) => { regionId: string; biomeId: string };
   onPositionKm: (xKm: number, zKm: number) => void;
@@ -57,7 +62,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   onFlyHere: (xKm: number, zKm: number) => void;
 }) {
   const base = import.meta.env.BASE_URL;
-  const store = useMemo(() => new ChunkStore(base), [base]);
+  const store = useMemo(() => sharedChunkStore(base), [base]);
+  const verticalScale = exaggeration ?? 5;
   // The resolver rides in a ref so a parent re-render (e.g. late raster loads)
   // can never recreate the world and re-run the spawn effect.
   const lookupRef = useRef(lookupRegion);
@@ -77,6 +83,23 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // Physics stays paused until the collider ring around the spawn is mounted;
   // otherwise the capsule falls through where the terrain hasn't landed yet.
   const [collidersReady, setCollidersReady] = useState(false);
+  const verticalScaleRef = useRef(verticalScale);
+  verticalScaleRef.current = verticalScale;
+
+  // Re-scale in place: keep the world query, colliders and meshes in lockstep,
+  // and re-seat the character on the re-scaled ground where it stands.
+  const scaleInitialised = useRef(false);
+  useEffect(() => {
+    if (!scaleInitialised.current) { scaleInitialised.current = true; return; }
+    if (!manifest) return;
+    world.setVerticalScale(verticalScale);
+    const { x, z } = focusRef.current;
+    const ground = world.groundHeight(x, z) ?? 50;
+    supportYRef.current = ground;
+    setCollidersReady(false);
+    setSpawn({ x, y: Math.max(ground, 0) + CHARACTER_BODY_CENTER_HEIGHT + 0.5, z });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [verticalScale]);
 
   const race: RaceId = (RACE_IDS as readonly string[]).includes(raceId ?? "")
     ? (raceId as RaceId)
@@ -88,6 +111,10 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const animationCommandRef = useRef(locomotion.animationCommand);
   const animationTimeRef = useRef(0);
   const speedMultiplierRef = useRef(1);
+  // Live terrain height under the actor — the grounding solve's support plane.
+  // Feeding a stale/static plane makes floor-contact clip phases (landings,
+  // parts of locomotion) snap the model to it and vanish underground.
+  const supportYRef = useRef(0);
 
   useEffect(() => {
     const query = window.matchMedia("(pointer: coarse)");
@@ -102,7 +129,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
     (async () => {
       try {
         const m = await store.manifest();
-        await world.init(matSet ?? "bmv-v1");
+        await world.init(matSet ?? "bmv-v1", verticalScaleRef.current);
         const x = spawnKm.x * 1000;
         const z = spawnKm.z * 1000;
         const [cx, cy] = world.chunkCellAt(x, z);
@@ -115,6 +142,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
         await Promise.all(ring);
         if (cancelled) return;
         const ground = world.groundHeight(x, z) ?? 50;
+        supportYRef.current = ground;
         setSpawn({ x, y: Math.max(ground, 0) + CHARACTER_BODY_CENTER_HEIGHT + 0.5, z });
         focusRef.current = { x, z };
         setManifest(m);
@@ -164,6 +192,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               focusRef={focusRef}
               matSet={matSet}
               tintStrength={tintStrength}
+              verticalScale={verticalScale}
             />
           </Suspense>
           {/* sea */}
@@ -171,9 +200,9 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             <planeGeometry args={[extentM * 1.5, extentM * 1.5]} />
             <meshStandardMaterial color="#2a5b8a" transparent opacity={0.82} roughness={0.35} side={THREE.DoubleSide} />
           </mesh>
-          <Physics gravity={[0, -9.81, 0]} timeStep={1 / 60} interpolate paused={!collidersReady}>
+          <Physics key={verticalScale} gravity={[0, -9.81, 0]} timeStep={1 / 60} interpolate paused={!collidersReady}>
             <ChunkColliders store={store} manifest={manifest} focusRef={focusRef}
-              onReady={() => setCollidersReady(true)} />
+              verticalScale={verticalScale} onReady={() => setCollidersReady(true)} />
             <PlayerBody handleRef={player} position={[spawn.x, spawn.y, spawn.z]} rotationY={Math.PI}>
               <Suspense fallback={null}>
                 <SkyrimFighter
@@ -186,7 +215,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                   raceId={race}
                   modelOffsetY={CHARACTER_MODEL_OFFSET}
                   equipped={false}
-                  visualSupportY={0}
+                  visualSupportYRef={supportYRef}
                 />
               </Suspense>
             </PlayerBody>
@@ -197,6 +226,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               locomotion={locomotion}
               animationTimeRef={animationTimeRef}
               speedMultiplierRef={speedMultiplierRef}
+              supportYRef={supportYRef}
               focusRef={focusRef}
               onHud={setHud}
               onPositionKm={onPositionKm}
@@ -215,6 +245,12 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
       }}>
         <button onClick={onExit} style={{ padding: "4px 10px", cursor: "pointer" }}>← Map</button>
         <button onClick={() => hud && onFlyHere(hud.xKm, hud.zKm)} style={{ padding: "4px 10px", cursor: "pointer" }}>✈ Fly here</button>
+        {onExaggeration && (
+          <label>vertical ×{verticalScale}{" "}
+            <input type="range" min={1} max={6} step={0.5} value={verticalScale}
+              onChange={(e) => onExaggeration(Number(e.target.value))} />
+          </label>
+        )}
         <span>race {race} · profile {profile.id}</span>
         {hud && (
           <span style={{ opacity: 0.9 }}>
@@ -257,13 +293,14 @@ declare global {
   }
 }
 
-function CharacterDriver({ handleRef, world, spawn, locomotion, animationTimeRef, speedMultiplierRef, focusRef, onHud, onPositionKm }: {
+function CharacterDriver({ handleRef, world, spawn, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, onHud, onPositionKm }: {
   handleRef: React.RefObject<EcctrlHandle | null>;
   world: ChunkWorld;
   spawn: Vec3;
   locomotion: ExplorerLocomotion;
   animationTimeRef: React.MutableRefObject<number>;
   speedMultiplierRef: React.MutableRefObject<number>;
+  supportYRef: React.MutableRefObject<number>;
   focusRef: React.MutableRefObject<{ x: number; z: number }>;
   onHud: (state: CharacterHudState) => void;
   onPositionKm: (xKm: number, zKm: number) => void;
@@ -336,6 +373,9 @@ function CharacterDriver({ handleRef, world, spawn, locomotion, animationTimeRef
     }
     locomotion.update(adapter, intent, camera3P.yaw, delta);
     speedMultiplierRef.current = locomotion.animationSpeed;
+    // Keep the grounding solve's support plane on the terrain under the actor.
+    supportYRef.current = world.groundHeight(position.x, position.z)
+      ?? position.y - CHARACTER_BODY_CENTER_HEIGHT;
     camera3P.update(intent.camera, position, delta);
     const cameraGround = world.groundHeight(camera3P.position.x, camera3P.position.z);
     if (cameraGround !== null && camera3P.position.y < cameraGround + 0.6) {

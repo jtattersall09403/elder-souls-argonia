@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { SettlementAnchor, SuggestedConnection } from "@elder-souls/contracts";
 import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json";
-import { Fly3D, type DetailPatch } from "./Fly3D";
+import { Fly3D } from "./Fly3D";
 import { CharacterMode } from "./character/CharacterMode";
 import { colour } from "./terrainColor";
 
@@ -73,7 +73,6 @@ export function App() {
   const [exaggeration, setExaggeration] = useState(Number(urlParams.get("ex")) || 5);
   const [flyPos, setFlyPos] = useState("");
   const flyKmRef = useRef<{ x: number; z: number }>({ x: 10.4, z: 8.4 });
-  const [detail, setDetail] = useState<DetailPatch | null>(null);
   // Ground-material set (?mats=): A/B palette comparison + instant revert.
   const [matSet, setMatSet] = useState<string>(urlParams.get("mats") || "");
   const [matSets, setMatSets] = useState<Record<string, { label: string }>>({});
@@ -115,6 +114,7 @@ export function App() {
       q.set("view", "character");
       q.set("x", spawnKm.x.toFixed(2));
       q.set("z", spawnKm.z.toFixed(2));
+      q.set("ex", String(exaggeration));
       const race = urlParams.get("race");
       const profile = urlParams.get("profile");
       if (race) q.set("race", race);
@@ -219,28 +219,6 @@ export function App() {
         /* hydrology metadata not generated yet */
       }
       setOverlaysReady(true);
-      // Phase 6 basin detail patch (optional; absent until compiled).
-      try {
-        const bm = await (await fetch(`${base}province/refined/meta.json`)).json();
-        const bimg = new Image();
-        bimg.src = `${base}province/refined/height-rg.png`;
-        await bimg.decode();
-        const off = document.createElement("canvas");
-        off.width = bm.imageWidth;
-        off.height = bm.imageHeight;
-        const bctx = off.getContext("2d", { willReadFrequently: true })!;
-        bctx.drawImage(bimg, 0, 0);
-        const bpx = bctx.getImageData(0, 0, bm.imageWidth, bm.imageHeight).data;
-        const bh = new Float32Array(bm.imageWidth * bm.imageHeight);
-        const bspan = bm.heightMaxMetres - bm.heightMinMetres;
-        for (let i = 0; i < bh.length; i++) {
-          bh[i] = bm.heightMinMetres + ((bpx[i * 4] * 256 + bpx[i * 4 + 1]) / 65535) * bspan;
-        }
-        setDetail({
-          heights: bh, width: bm.imageWidth, height: bm.imageHeight,
-          metresPerPixel: bm.metresPerPixel, originM: bm.originM as [number, number],
-        });
-      } catch { /* basin not compiled yet */ }
     })();
   }, []);
 
@@ -399,6 +377,8 @@ export function App() {
       profileId={urlParams.get("profile") ?? undefined}
       matSet={matSet || undefined}
       tintStrength={tintStrength}
+      exaggeration={exaggeration}
+      onExaggeration={setExaggeration}
       lookupRegion={lookupRegionAt}
       onPositionKm={(x, z) => setSpawnKm({ x, z })}
       onExit={() => setView("map")}
@@ -412,7 +392,7 @@ export function App() {
     <div style={{ position: "fixed", inset: 0, zIndex: 5, background: "#10141a" }}>
       <Fly3D heights={displayHeights()!} size={meta.imageWidth}
         metresPerPixel={meta.metresPerPixel} textureCanvas={canvasRef.current}
-        spawnKm={spawnKm} exaggeration={exaggeration} mode={camMode} detail={detail}
+        spawnKm={spawnKm} exaggeration={exaggeration} mode={camMode}
         matSet={matSet || undefined} waterLevelM={wetSeason ? wetAmplitude : 0}
         tintStrength={tintStrength} showLanes={showLanes}
         onPosition={(x, z, alt) => {

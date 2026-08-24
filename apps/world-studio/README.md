@@ -8,22 +8,26 @@ port 8081 with the combat sandbox (run one at a time).
   routes, waterways, rootways, danger, cultures, regions, mist, flood, soil,
   watersheds, salinity), anchor markers, sea-level and relief controls, and a
   hover tooltip reporting region / danger / culture / climate per pixel.
-- **3D flyover**: double-click the map (or "Fly the province") — terrain mesh
-  from the conditioned heightfield with the current map canvas draped as
-  texture. Fly (pointer-lock WASD, E/Q, Shift) or orbit; exaggeration slider.
+- **3D flyover**: double-click the map (or "Fly the province"). Terrain is
+  the same streamed chunk data the character mode uses (identical sampling and
+  splat material, LOD follows the camera), so relief judged from the air is
+  ground truth; the old coarse drape mesh remains only as a fallback while the
+  chunk manifest loads. Fly (pointer-lock WASD, E/Q, Shift) or orbit;
+  exaggeration slider.
 - **Physical character mode (Phase 7)**: "Walk the province" (map) or "Walk
   here" (fly HUD). The combat sandbox's character (`@elder-souls/character` +
   `@elder-souls/game-core`) walking the real terrain: Rapier heightfield
-  colliders per chunk from `public/province/chunks/` (LOD-1 grids, ×5 vertical
-  at geometry per decision 0006 — the exaggeration slider does not apply here),
-  chunked LOD render meshes sharing the same data and splat material
+  colliders per chunk from `public/province/chunks/` (LOD-1 grids; the
+  vertical-scale slider applies here too — colliders, meshes and environment
+  queries re-scale in lockstep, canonical ×5 per decision 0006), chunked LOD
+  render meshes sharing the same data and splat material
   (`src/groundMaterial.ts`), the sandbox's grounded ecctrl movement behind
   `PlayerMovementController`, its follow camera, and keyboard/touch/gamepad
   input parity. The HUD is the live environment-query probe: position, chunk,
   ground material, region, water depth, speed. WASD moves, hold Space to
   sprint, J jumps.
 - **Reproducible URLs**: `?view=fly3d&cam=fly|orbit&x=<km>&z=<km>&ex=<n>&mats=<set>`
-  and `?view=character&x=<km>&z=<km>&race=<raceId>&profile=<capabilityProfileId>`.
+  and `?view=characterand `?view=character&x=<km>&z=<km>&race=<raceId>&profile=<capabilityProfileId>`.x=<km>and `?view=character&x=<km>&z=<km>&race=<raceId>&profile=<capabilityProfileId>`.z=<km>and `?view=character&x=<km>&z=<km>&race=<raceId>&profile=<capabilityProfileId>`.ex=<n>and `?view=character&x=<km>&z=<km>&race=<raceId>&profile=<capabilityProfileId>`.race=<raceId>and `?view=character&x=<km>&z=<km>&race=<raceId>&profile=<capabilityProfileId>`.profile=<capabilityProfileId>`.
 - **Ground-material sets**: terrain texture palettes are versioned under
   `public/textures/ground/<set>/` (registry: `index.json`; built by
   `worldgen.build_ground_materials`). The fly HUD shows a selector when more

@@ -205,6 +205,7 @@ function PosedActor({
   validationTint,
   visualProbe,
   visualSupportY = 0,
+  visualSupportYRef,
 }: {
   animationCommandRef: MutableRefObject<AnimationCommand>;
   equipped: boolean;
@@ -263,6 +264,13 @@ function PosedActor({
   visualProbe?: ActorVisualProbe;
   /** Known world-space support plane used by the upward-only penetration guard and validation. */
   visualSupportY?: number;
+  /**
+   * Live world-space support height, read every frame — for actors standing on
+   * varying terrain (the world studio). Takes precedence over the static
+   * `visualSupportY`; feeding the wrong plane makes floor-contact clip phases
+   * snap the model to it (a character 170 m up vanishes underground).
+   */
+  visualSupportYRef?: MutableRefObject<number>;
 }) {
   const race = raceById(raceId);
   const rig = useGLTF(RIG_URL);
@@ -860,7 +868,7 @@ function PosedActor({
       probedUncorrectedSurfaceY = baseRootWorldY + surfaceMinY;
       const supportTarget = resolveSupportCorrection(
         activeSupportMode,
-        visualSupportY,
+        visualSupportYRef?.current ?? visualSupportY,
         actorBaseY,
         baseRootWorldY + surfaceMinY,
         AIRBORNE_IMPACT_PROXIMITY_METERS,
@@ -898,7 +906,7 @@ function PosedActor({
           }
           required = Math.max(required, requiredSupportCorrection(
             activeSupportMode,
-            visualSupportY,
+            visualSupportYRef?.current ?? visualSupportY,
             uncorrectedMarkerSurfaceY,
           ));
         }
@@ -919,7 +927,7 @@ function PosedActor({
       }
       groundCorrection.current = nextUpwardGroundCorrection(
         groundCorrection.current,
-        visualSupportY,
+        visualSupportYRef?.current ?? visualSupportY,
         soleY,
         mixerDelta,
       );
@@ -939,7 +947,7 @@ function PosedActor({
       const actorBaseY = parent
         ? (parent.getWorldPosition(bodyTmp.current).y - CHARACTER_BODY_CENTER_HEIGHT)
         : 0;
-      const groundY = visualSupportY;
+      const groundY = visualSupportYRef?.current ?? visualSupportY;
       let soleY = Infinity;
       for (const { bone } of soleBones) {
         bone.getWorldPosition(soleTmp.current);

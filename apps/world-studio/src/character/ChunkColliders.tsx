@@ -35,10 +35,12 @@ function colliderFor(grid: ChunkGrid, verticalScale: number) {
   };
 }
 
-export function ChunkColliders({ store, manifest, focusRef, onReady }: {
+export function ChunkColliders({ store, manifest, focusRef, verticalScale, onReady }: {
   store: ChunkStore;
   manifest: ChunksManifest;
   focusRef: React.MutableRefObject<{ x: number; z: number }>;
+  /** Vertical scale for the collider y — must equal the render-mesh scale. */
+  verticalScale?: number;
   /** Fires once the collider ring around the current focus is mounted. */
   onReady?: () => void;
 }) {
@@ -85,10 +87,11 @@ export function ChunkColliders({ store, manifest, focusRef, onReady }: {
   return (
     <>
       {grids.map((grid) => {
-        const { args, position } = colliderFor(grid, manifest.verticalScaleAtGeometry);
+        const scale = verticalScale ?? manifest.verticalScaleAtGeometry;
+        const { args, position } = colliderFor(grid, scale);
         return (
           <RigidBody
-            key={`${grid.meta.cx},${grid.meta.cy}`}
+            key={`${grid.meta.cx},${grid.meta.cy},${scale}`}
             type="fixed"
             colliders={false}
             position={position}

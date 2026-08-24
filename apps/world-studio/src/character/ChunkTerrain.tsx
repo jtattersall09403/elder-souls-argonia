@@ -81,12 +81,16 @@ function ChunkMesh({ grid, material, verticalScale, uvExtentM }: {
   return <mesh geometry={geometry} material={material} />;
 }
 
-export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, onLodMap }: {
+export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, verticalScale, onLodMap }: {
   store: ChunkStore;
   manifest: ChunksManifest;
   focusRef: React.MutableRefObject<{ x: number; z: number }>;
   matSet?: string;
   tintStrength?: number;
+  /** Vertical scale applied at geometry; defaults to the canonical manifest
+   * value (decision 0006 ×5). The character mode must keep this equal to its
+   * collider scale. */
+  verticalScale?: number;
   /** Diagnostic callback: chunk cell of the focus + the lod rendered there. */
   onLodMap?: (focusCell: [number, number]) => void;
 }) {
@@ -154,12 +158,13 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
           ?? store.loaded(chunk.cx, chunk.cy, "2")
           ?? store.loaded(chunk.cx, chunk.cy, "1");
         if (!grid) return null;
+        const scale = verticalScale ?? manifest.verticalScaleAtGeometry;
         return (
           <ChunkMesh
             key={`${chunk.cx},${chunk.cy},${grid.lod}`}
             grid={grid}
             material={material}
-            verticalScale={manifest.verticalScaleAtGeometry}
+            verticalScale={scale}
             uvExtentM={uvExtentM}
           />
         );

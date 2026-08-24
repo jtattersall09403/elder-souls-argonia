@@ -1,26 +1,19 @@
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
-import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { MapControls, PointerLockControls } from "@react-three/drei";
 import * as THREE from "three";
 import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json";
-import { createGroundMaterial, useGroundManifest } from "./groundMaterial";
-
-/** High-detail terrain patch (Phase 6 refined watershed). */
-export interface DetailPatch {
-  heights: Float32Array;
-  width: number;
-  height: number;
-  metresPerPixel: number;
-  originM: [number, number]; // [x east, z south] of the patch's NW corner
-}
+import { sharedChunkStore, type ChunksManifest } from "./character/chunkStore";
+import { ChunkTerrain } from "./character/ChunkTerrain";
 
 /**
- * Province flyover: a preview mesh built straight from the conditioned
- * heightfield with the 2D map canvas draped as its texture. Inspection only —
- * production terrain streaming is Phase 6/14.
+ * Province flyover. Terrain comes from the same streamed chunks as the
+ * character mode (same sampling, same splat material) so relief judged from
+ * the air matches the ground truth; the coarse macro mesh is only a fallback
+ * while the chunk manifest loads.
  */
 
-const MESH_STEP = 3; // sample every 3rd height pixel for the preview mesh
+const MESH_STEP = 3; // sample every 3rd height pixel for the fallback mesh
 
 export interface Fly3DProps {
   heights: Float32Array;
@@ -30,79 +23,11 @@ export interface Fly3DProps {
   spawnKm: { x: number; z: number };
   exaggeration: number;
   mode: "fly" | "orbit";
-  detail?: DetailPatch | null;
   matSet?: string;
   waterLevelM?: number; // wet-season water rise (true metres; ×exaggeration at render)
   tintStrength?: number; // 0..2 multiplier on the macro climate tint
   showLanes?: boolean;   // boat-lane overlay (cyan water / amber portage)
   onPosition?: (xKm: number, zKm: number, altM: number) => void;
-}
-
-/** Refined-watershed mesh overlaid on the province mesh (biased up slightly
- * so the coarse terrain doesn't poke through; edge seams are a known pass-1
- * artefact until province-wide refinement). */
-function DetailTerrain({ patch, exaggeration, matSet, tintStrength }: {
-  patch: DetailPatch; exaggeration: number; matSet?: string; tintStrength?: number;
-}) {
-  const MESH_STEP_D = 2;
-  const geometry = useMemo(() => {
-    const { heights, width, height, metresPerPixel, originM } = patch;
-    const nx = Math.floor((width - 1) / MESH_STEP_D) + 1;
-    const ny = Math.floor((height - 1) / MESH_STEP_D) + 1;
-    const pos = new Float32Array(nx * ny * 3);
-    const uv = new Float32Array(nx * ny * 2);
-    for (let r = 0; r < ny; r++) {
-      for (let c = 0; c < nx; c++) {
-        const i = r * nx + c;
-        const px = Math.min(c * MESH_STEP_D, width - 1);
-        const py = Math.min(r * MESH_STEP_D, height - 1);
-        pos[i * 3] = originM[0] + px * metresPerPixel;
-        pos[i * 3 + 1] = heights[py * width + px] * exaggeration + 0.6;
-        pos[i * 3 + 2] = originM[1] + py * metresPerPixel;
-        uv[i * 2] = px / (width - 1);
-        uv[i * 2 + 1] = 1 - py / (height - 1);
-      }
-    }
-    const idx = new Uint32Array((nx - 1) * (ny - 1) * 6);
-    let j = 0;
-    for (let r = 0; r < ny - 1; r++) {
-      for (let c = 0; c < nx - 1; c++) {
-        const a = r * nx + c;
-        idx[j++] = a; idx[j++] = a + nx; idx[j++] = a + 1;
-        idx[j++] = a + 1; idx[j++] = a + nx; idx[j++] = a + nx + 1;
-      }
-    }
-    const g = new THREE.BufferGeometry();
-    g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-    g.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
-    g.setIndex(new THREE.BufferAttribute(idx, 1));
-    g.computeVertexNormals();
-    return g;
-  }, [patch, exaggeration]);
-
-  // Ground materials (decision 0011): shared splat shader — see groundMaterial.ts.
-  const base = import.meta.env.BASE_URL;
-  const { set, manifest } = useGroundManifest(base, matSet);
-  const images = useLoader(THREE.ImageLoader,
-    manifest.materials.map((m) => `${base}textures/ground/${set}/${m.file}`));
-  const ctrl = useLoader(THREE.TextureLoader, `${base}province/refined/ground-control.png`);
-  const tintTex = useLoader(THREE.TextureLoader, `${base}province/refined/ground-tint.png`);
-  const material = useMemo(
-    () => createGroundMaterial(images, ctrl, tintTex, manifest),
-    [images, ctrl, tintTex, manifest],
-  );
-
-  useEffect(() => () => {
-    geometry.dispose();
-    (material.userData.tex as THREE.DataArrayTexture).dispose();
-    material.dispose();
-  }, [geometry, material]);
-
-  useEffect(() => {
-    (material.uniforms.uTintStrength as { value: number }).value = tintStrength ?? 1.0;
-  }, [material, tintStrength]);
-
-  return <mesh geometry={geometry} material={material} />;
 }
 
 /** Boat-lane overlay: cyan where the lane is on water, amber over land
@@ -194,6 +119,16 @@ function CityMarkers({ heights, size, metresPerPixel, exaggeration }: {
   );
 }
 
+/** Feeds the camera's ground position to the chunk LOD selector each frame. */
+function FocusTracker({ focusRef }: { focusRef: React.MutableRefObject<{ x: number; z: number }> }) {
+  const { camera } = useThree();
+  useFrame(() => {
+    focusRef.current.x = camera.position.x;
+    focusRef.current.z = camera.position.z;
+  });
+  return null;
+}
+
 function FlyRig({ speedRef, onPosition, extentM }: {
   speedRef: React.MutableRefObject<number>;
   onPosition?: Fly3DProps["onPosition"];
@@ -229,21 +164,11 @@ function FlyRig({ speedRef, onPosition, extentM }: {
   return null;
 }
 
-function Terrain({ heights, size, metresPerPixel, textureCanvas, exaggeration, detail }: Omit<Fly3DProps, "spawnKm" | "mode">) {
+function Terrain({ heights, size, metresPerPixel, textureCanvas, exaggeration }: Omit<Fly3DProps, "spawnKm" | "mode">) {
   const geometry = useMemo(() => {
     const n = Math.floor((size - 1) / MESH_STEP) + 1;
     const pos = new Float32Array(n * n * 3);
     const uv = new Float32Array(n * n * 2);
-    // Depress the coarse mesh under the detail patch so carved channels and
-    // lakes in the refined terrain aren't poked through from below.
-    const d = detail
-      ? {
-          x0: detail.originM[0], z0: detail.originM[1],
-          x1: detail.originM[0] + (detail.width - 1) * detail.metresPerPixel,
-          z1: detail.originM[1] + (detail.height - 1) * detail.metresPerPixel,
-        }
-      : null;
-    const ramp = 600; // m over which the depression fades at the patch edge
     for (let r = 0; r < n; r++) {
       for (let c = 0; c < n; c++) {
         const i = r * n + c;
@@ -251,15 +176,8 @@ function Terrain({ heights, size, metresPerPixel, textureCanvas, exaggeration, d
         const py = Math.min(r * MESH_STEP, size - 1);
         const x = px * metresPerPixel;
         const z = py * metresPerPixel;
-        let y = heights[py * size + px] * exaggeration;
-        if (d && x > d.x0 && x < d.x1 && z > d.z0 && z < d.z1) {
-          const edge = Math.min(x - d.x0, d.x1 - x, z - d.z0, d.z1 - z);
-          // depression must scale with exaggeration or the coarse mesh pokes
-          // through deep authored features (the Blackrose lake) at high ×
-          y -= 22 * exaggeration * Math.min(1, edge / ramp);
-        }
         pos[i * 3] = x;
-        pos[i * 3 + 1] = y;
+        pos[i * 3 + 1] = heights[py * size + px] * exaggeration;
         pos[i * 3 + 2] = z;
         uv[i * 2] = px / (size - 1);
         uv[i * 2 + 1] = 1 - py / (size - 1);
@@ -281,7 +199,7 @@ function Terrain({ heights, size, metresPerPixel, textureCanvas, exaggeration, d
     g.setIndex(new THREE.BufferAttribute(idx, 1));
     g.computeVertexNormals();
     return g;
-  }, [heights, size, metresPerPixel, exaggeration, detail]);
+  }, [heights, size, metresPerPixel, exaggeration]);
 
   const texture = useMemo(() => {
     const t = new THREE.CanvasTexture(textureCanvas);
@@ -301,14 +219,18 @@ function Terrain({ heights, size, metresPerPixel, textureCanvas, exaggeration, d
 
 export function Fly3D(props: Fly3DProps) {
   const extentM = props.size * props.metresPerPixel;
-  // When the refined detail covers the whole province, the coarse drape mesh
-  // is fully hidden beneath it — skip it so it can't peek around map edges
-  // (owner report 2026-08-24, north rim).
-  const detailCoversAll = !!props.detail &&
-    props.detail.width * props.detail.metresPerPixel >= extentM * 0.97;
   const speedRef = useRef(300);
   const [locked, setLocked] = useState(false);
   const start: [number, number, number] = [props.spawnKm.x * 1000, 700, props.spawnKm.z * 1000];
+  // The flyover renders the SAME chunked terrain as the character mode (same
+  // sampling, same splat material), so relief judged from the air matches
+  // what the character walks on. LOD follows the camera.
+  const store = useMemo(() => sharedChunkStore(import.meta.env.BASE_URL), []);
+  const [chunkManifest, setChunkManifest] = useState<ChunksManifest | null>(null);
+  useEffect(() => {
+    store.manifest().then(setChunkManifest).catch(() => setChunkManifest(null));
+  }, [store]);
+  const focusRef = useRef({ x: start[0], z: start[2] });
   return (
     <Canvas
       camera={{ position: start, fov: 60, near: 2, far: 60000, up: [0, 1, 0] }}
@@ -319,13 +241,16 @@ export function Fly3D(props: Fly3DProps) {
       <fog attach="fog" args={["#7c8fa0", 4000, 40000]} />
       <hemisphereLight args={["#cfd8e8", "#3c4636", 0.9]} />
       <directionalLight position={[extentM * 0.3, 8000, extentM * 0.2]} intensity={1.4} />
-      {!detailCoversAll && <Terrain heights={props.heights} size={props.size} metresPerPixel={props.metresPerPixel}
-        textureCanvas={props.textureCanvas} exaggeration={props.exaggeration} detail={props.detail} />}
-      {props.detail && (
+      {chunkManifest ? (
         <Suspense fallback={null}>
-          <DetailTerrain patch={props.detail} exaggeration={props.exaggeration}
-            matSet={props.matSet} tintStrength={props.tintStrength} />
+          <FocusTracker focusRef={focusRef} />
+          <ChunkTerrain store={store} manifest={chunkManifest} focusRef={focusRef}
+            matSet={props.matSet} tintStrength={props.tintStrength}
+            verticalScale={props.exaggeration} />
         </Suspense>
+      ) : (
+        <Terrain heights={props.heights} size={props.size} metresPerPixel={props.metresPerPixel}
+          textureCanvas={props.textureCanvas} exaggeration={props.exaggeration} />
       )}
       <CityMarkers heights={props.heights} size={props.size}
         metresPerPixel={props.metresPerPixel} exaggeration={props.exaggeration} />

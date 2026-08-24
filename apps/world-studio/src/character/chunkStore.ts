@@ -30,6 +30,13 @@ export interface ChunksManifest {
   chunks: ChunkMeta[];
 }
 
+let shared: ChunkStore | null = null;
+/** One store per app: the flyover and character mode share decoded chunks. */
+export function sharedChunkStore(baseUrl: string): ChunkStore {
+  if (!shared || shared.baseUrl !== baseUrl) shared = new ChunkStore(baseUrl);
+  return shared;
+}
+
 export interface ChunkGrid {
   meta: ChunkMeta;
   lod: string;
@@ -46,7 +53,7 @@ export class ChunkStore {
   private grids = new Map<string, ChunkGrid>();
   private pending = new Map<string, Promise<ChunkGrid>>();
 
-  constructor(private readonly baseUrl: string) {}
+  constructor(readonly baseUrl: string) {}
 
   manifest(): Promise<ChunksManifest> {
     this.manifestPromise ??= fetch(`${this.baseUrl}province/chunks/chunks-web-manifest.json`)
