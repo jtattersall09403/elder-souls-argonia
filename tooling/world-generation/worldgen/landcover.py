@@ -29,8 +29,9 @@ from scipy import ndimage
 (SILT, RIVER_MUD, BANK_WET, SCUM, BLACK_MUD, PUDDLE, CLAY, MUCK, BC_MUD,
  PEAT, MUD_LEAVES, MARSH_GRASS, UNDERGROWTH, BC_MOSS, MOSS, SWAMP_GRASS,
  TROP_GRASS, GRASS_DIRT, SCRUB, JUNGLE, FOREST_FLOOR, LITTER, MOSSY_ROCK,
- BC_ROCK, SAND, SALT, DRY_CLAY, PATH, PEAT_SLOPE, TRACK, BC_ROAD) = range(31)
-N_MATERIALS = 31
+ BC_ROCK, SAND, SALT, DRY_CLAY, PATH, PEAT_SLOPE, TRACK, BC_ROAD,
+ MOUNTAIN_ROCK) = range(32)
+N_MATERIALS = 32
 
 # Per-region palettes (regions.py class ids). Slots: base ground, damp patch
 # (mid wetness), wet patch (hollows), channel/shore bank, local-high ground,
@@ -77,7 +78,7 @@ NORTH_V = 0.45              # province v-fraction where the northern zone ends
 LAKE_MIN_KM2 = 0.15         # fresh water bigger than this shores like a lake
 # Mountain elevation belts (region 1; climatology: foothill forest ->
 # low cloud-forest belt -> crag; montane cooling allowed, never frost).
-MONT_FOREST_M, MONT_CLOUD_M, MONT_CRAG_M = 18.0, 45.0, 78.0
+MONT_FOREST_M, MONT_CLOUD_M, MONT_CRAG_M = 18.0, 45.0, 70.0  # crag lowered: peaks rockier (owner round 6)
 
 
 def _noise(shape, sigma, rng):
@@ -185,7 +186,7 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
         belt_wob = 6.0 * _noise(shape, 320.0 / m_per_px, rng)
         mat = np.where(mont & (height > MONT_FOREST_M + belt_wob), FOREST_FLOOR, mat)
         mat = np.where(mont & (height > MONT_CLOUD_M + belt_wob), BC_MOSS, mat)
-        mat = np.where(mont & (height > MONT_CRAG_M + belt_wob), MOSSY_ROCK, mat)
+        mat = np.where(mont & (height > MONT_CRAG_M + belt_wob), MOUNTAIN_ROCK, mat)
 
     # Raised ground: local prominence (~30 m window) reads drier everywhere.
     prom = height - ndimage.gaussian_filter(height, 28.0 / m_per_px)
@@ -194,7 +195,8 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
 
     # Slope: wet peat banks on marsh slopes; humid rock on steep ground.
     mat = np.where(marshy & (slope_lf > 0.07), PEAT_SLOPE, mat)
-    mat = np.where(slope_lf > 0.14, np.where(marshy | (region == 13), BC_ROCK, MOSSY_ROCK), mat)
+    mat = np.where(slope_lf > 0.14, np.where(marshy | (region == 13), BC_ROCK,
+                   np.where(region == 1, MOUNTAIN_ROCK, MOSSY_ROCK)), mat)
 
     # Salt flats where brackish, flat and low (noise-broken).
     if salinity is not None:

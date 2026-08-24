@@ -59,15 +59,15 @@ STUDIO_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "refi
 
 
 def deterrace(h):
-    """Slope-adaptive smoothing that removes staircase terraces the upscaled
-    source heightmap bakes into gentle slopes (owner report 2026-08-23: the
-    land-cover slope rules were decorating every terrace riser). Gentle
-    ground is smoothed hard (legitimate micro-detail comes from our noise);
-    steep ground keeps its source shape."""
-    sm = ndimage.gaussian_filter(h, 4.0)
-    gy, gx = np.gradient(sm, RAW_M)
-    gentle = np.clip(1.0 - np.hypot(gx, gy) / 0.05, 0.0, 1.0) * 0.85
-    return (h * (1 - gentle) + sm * gentle).astype(np.float32)
+    """Remove the staircase terraces the upscaled source heightmap bakes into
+    every slope (owner reports 2026-08-23/24: contour-parallel steps banded
+    the materials on flats, moderate slopes AND mountain flanks — earlier
+    slope-gated versions kept missing whichever band the gate spared). The
+    source has no sub-45 m detail worth preserving at any steepness — it is
+    an upscaled coarse map — so smooth uniformly; per-region noise octaves
+    and, later, placed rock meshes (§9) supply real relief character."""
+    sm = ndimage.gaussian_filter(h, 8.0)
+    return (h * 0.08 + sm * 0.92).astype(np.float32)
 
 
 def detail_noise(shape, regions_up, channel_dist_m, rng):

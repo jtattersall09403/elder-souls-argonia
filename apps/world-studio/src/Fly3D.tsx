@@ -416,6 +416,11 @@ function Terrain({ heights, size, metresPerPixel, textureCanvas, exaggeration, d
 
 export function Fly3D(props: Fly3DProps) {
   const extentM = props.size * props.metresPerPixel;
+  // When the refined detail covers the whole province, the coarse drape mesh
+  // is fully hidden beneath it — skip it so it can't peek around map edges
+  // (owner report 2026-08-24, north rim).
+  const detailCoversAll = !!props.detail &&
+    props.detail.width * props.detail.metresPerPixel >= extentM * 0.97;
   const speedRef = useRef(300);
   const [locked, setLocked] = useState(false);
   const start: [number, number, number] = [props.spawnKm.x * 1000, 700, props.spawnKm.z * 1000];
@@ -429,8 +434,8 @@ export function Fly3D(props: Fly3DProps) {
       <fog attach="fog" args={["#7c8fa0", 4000, 40000]} />
       <hemisphereLight args={["#cfd8e8", "#3c4636", 0.9]} />
       <directionalLight position={[extentM * 0.3, 8000, extentM * 0.2]} intensity={1.4} />
-      <Terrain heights={props.heights} size={props.size} metresPerPixel={props.metresPerPixel}
-        textureCanvas={props.textureCanvas} exaggeration={props.exaggeration} detail={props.detail} />
+      {!detailCoversAll && <Terrain heights={props.heights} size={props.size} metresPerPixel={props.metresPerPixel}
+        textureCanvas={props.textureCanvas} exaggeration={props.exaggeration} detail={props.detail} />}
       {props.detail && (
         <Suspense fallback={null}>
           <DetailTerrain patch={props.detail} exaggeration={props.exaggeration}

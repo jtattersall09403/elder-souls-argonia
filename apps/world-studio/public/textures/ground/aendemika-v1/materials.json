@@ -371,6 +371,18 @@
     56
    ],
    "source": "Aendemika of Vvardenfell (Tx_BC_mainroad_01.dds)"
+  },
+  {
+   "id": 31,
+   "name": "mountain_rock",
+   "file": "31-mountain_rock.png",
+   "tileM": 16.0,
+   "avgColor": [
+    60,
+    63,
+    61
+   ],
+   "source": "Skyrim (textures/landscape/mountains/mountainslab01.dds)"
   }
  ]
 }

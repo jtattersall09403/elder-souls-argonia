@@ -306,11 +306,11 @@
    "file": "25-salt_flat.png",
    "tileM": 9.0,
    "avgColor": [
-    87,
-    81,
-    64
+    90,
+    80,
+    63
    ],
-   "source": "Black Marsh & Valenwood (mineralpoolterrace.dds)"
+   "source": "ambientCG Ground054 (CC0)"
   },
   {
    "id": 26,
@@ -371,6 +371,18 @@
     66
    ],
    "source": "Black Marsh & Valenwood (roads/road01fallforest01.dds)"
+  },
+  {
+   "id": 31,
+   "name": "mountain_rock",
+   "file": "31-mountain_rock.png",
+   "tileM": 16.0,
+   "avgColor": [
+    59,
+    64,
+    61
+   ],
+   "source": "Black Marsh & Valenwood (mountains/mountainslab01.dds)"
   }
  ]
 }

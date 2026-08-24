@@ -101,6 +101,7 @@ MATERIALS = [
     ("peat_slope",    "bsa", "textures/landscape/frozenmarshdirtslopes01.dds", 8.0, (14, 1.08, 1.0), 45),
     ("track_mud",     "ph",  "aerial_mud_1",                                6.0, None, 55),
     ("bc_road",       "aend", "Tx_BC_mainroad_01.dds",                      6.0, None, 74),
+    ("mountain_rock", "bsa", "textures/landscape/mountains/mountainslab01.dds", 16.0, None, 62),
 ]
 
 # bmv-v1: Black Marsh & Valenwood winners — contact-sheet ranked 2026-08-23,
@@ -130,6 +131,10 @@ BMV_OVERRIDES = {
     "salt_flat":  ("bmv", "mineralpoolterrace.dds", 9.0, None, 78),
     "peat_slope": ("bmv", "dirtcliffsroots01.dds",  8.0, None, 45),
     "bc_road":    ("bmv", "roads/road01fallforest01.dds", 6.0, None, 74),
+    # salt_flat: mineralpoolterrace's terraced look read as stripes from the
+    # air (owner round 6) — use the flat CC0 tidal mud-sand in this set too
+    "salt_flat":  ("acg", "Ground054",                    9.0, None, 78),
+    "mountain_rock": ("bmv", "mountains/mountainslab01.dds", 16.0, None, 62),
 }
 
 MATERIAL_SETS = {

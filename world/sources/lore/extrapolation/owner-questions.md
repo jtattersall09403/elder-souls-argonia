@@ -237,3 +237,26 @@ are calm about it; the horror should live in specific places (Veeskhleel
 territory, Mazzatun, Deepmire, the Rose, Stillrise) so it stays frightening.
 Flagging because it affects music, light, dialogue register and encounter design
 across the whole build.
+
+---
+
+## OWNER DECISIONS (2026-08-24)
+
+All five recommendations **accepted**:
+
+- **Q1**: An-Xileel **successor state** — inherited offices/titles/name
+  (Archwardens, the Organism), not the mandate. Movement broke at 4E 48.
+- **Q2**: the Hist speak through **Root Talk extended into an occasional
+  great convocation at Helstrom** — an occasion, not a council.
+- **Q3**: Blackrose Prison is a **ruin reoccupied by the Blackguards' heirs**.
+- **Q4**: Lilmoth **rebuilt but not restored**, on a mass grave, third Hist
+  grown from the second's root. (Trusted/feared/quarantined sub-question
+  still open — workstream may propose with reasoning.)
+- **Q5**: tone **melancholy and dignified province-wide, horror kept local** —
+  PLUS an owner addition: **generational trauma from 4E 48 plays out in
+  backstories and politics at the emotional distance our world in 2026 has
+  from the First World War** — 153 years: no living witnesses, but
+  memorials, family stories, place-names, politics shaped by it, and
+  institutions still visibly bent around the wound.
+
+These are now binding for all lore, world and quest work.
