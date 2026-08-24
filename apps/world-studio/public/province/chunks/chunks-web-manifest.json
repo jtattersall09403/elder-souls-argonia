@@ -1,4 +1,12 @@
 {
+ "gradients": {
+  "file": "normal-grad.png",
+  "clamp": 1.0,
+  "size": [
+   4033,
+   4033
+  ]
+ },
  "chunkSamples": 256,
  "chunkMetres": 1403.8,
  "verticalScaleAtGeometry": 5,

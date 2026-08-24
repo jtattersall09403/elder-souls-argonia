@@ -35,7 +35,7 @@ then open only the master-plan sections the active phase needs.
 | 6 — province terrain (scope extended from basin to whole province at gate, 0008 addendum) | done | owner province gate PASS 2026-08-24 (6 gate rounds; bmv-v1 materials, de-terracing, north/south distinctness, mountain belts, shore types, tint slider, lanes, Blackrose channels). refine_province + 256 chunks x3 LODs in vault (chunks-manifest.json) |
 | L — lore extrapolation loop (parallel workstream, module 45) | done | Packets 1–3 done (Opus, 2026-08-24): ~140-page UESP sweep, 15 new dossiers + 12 extended, gap register (~50 gaps), 4E-201 province synthesis, 10 quest-plan deltas (proposed, not applied). **Complete 2026-08-24**: 39 files (~405 kB) — full sweep, gap register ZERO open (5 DEFER technical, 7 MYSTERY intentional), per-settlement Hist placement (Phase 11 unblocked), settlement register, guilds, ecology/encounter/loot feed, 4E-201 synthesis w/ owner decisions + trauma directive woven in. 4 non-blocking Round-2 owner questions (owner-questions.md). Round-2 decisions accepted; quest-plan deltas D1-D16 APPLIED to docs/quests/ (consistency greps clean; 6 application notes in quest-plan-deltas.md). Workstream closed — future lore gaps route via module 45 process |
 | 6b — province rescale + mountain relief (0015; plan §86 Phase 6b) | todo (queued after Phase 7 feedback fixes) | ×1 horizontal / ×1 vertical, classifier-threshold re-tune, orogeny + erosion in the border ranges, carved passes + reachability/POI-shelf probes, mountain materials; all terrain-feel gates on foot (0015) |
-| 7 — physical character integration | done (awaiting owner playtest) | Packages extracted (0013): game-core/character/character-assets, sandbox repointed, all 33 visual probes pass. Studio character mode: Rapier heightfield chunks (RG16 PNG encoding 0014), sandbox character+camera behind PlayerMovementController, desktop/touch/gamepad parity, env-query contract implemented (HUD probe), actor registry, capability profiles from live tuning + anchor-spawn validation (pytest). Headless e2e probe PASS (walk 51 m @ 4.2 m/s, mm-exact collider/query agreement) |
+| 7 — physical character integration | done | owner playtest PASS 2026-08-24. Packages extracted (0013): game-core/character/character-assets; studio character mode on Rapier heightfield chunks (0014) behind PlayerMovementController with desktop/touch/gamepad parity; env-query contract implemented; actor registry; capability profiles + anchor-spawn validation. Feedback rounds fixed: live support plane, unified fly/walk chunk terrain + vertical-scale slider, grounded coyote debounce, gradient-map lighting (no chunk seams), FIX_INTERNAL_EDGES colliders. All gates + 33 visual probes + e2e probe green |
 | 8 — water renderer and interaction | todo | |
 | 9 — swimming, climbing, boats | todo | |
 | 10 — asset catalogue and kits | todo | |
@@ -47,10 +47,7 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- **Phase 7 playtest**: owner walks the deployed studio character mode
-  (checklist in-conversation 2026-08-24) — spawn/`Walk the province`, feel of
-  movement/camera vs sandbox, terrain collision on slopes, chunk streaming
-  while sprinting, touch/gamepad, sandbox regression. Pass → strike this line.
+- Nothing — Phase 7 closed; Phase 6b (0015) is next, for a fresh agent.
 
 ## Next up
 

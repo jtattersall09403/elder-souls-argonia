@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { HeightfieldCollider, RigidBody } from "@react-three/rapier";
+import { HeightFieldFlags } from "@dimforge/rapier3d-compat";
 import type { ChunkGrid, ChunkStore, ChunksManifest } from "./chunkStore";
 
 /**
@@ -26,7 +27,13 @@ function colliderFor(grid: ChunkGrid, verticalScale: number) {
   const extentX = (nx - 1) * metresPerSample;
   const extentZ = (ny - 1) * metresPerSample;
   return {
-    args: [ny - 1, nx - 1, data, { x: extentX, y: verticalScale, z: extentZ }] as const,
+    // FIX_INTERNAL_EDGES: without it the capsule catches phantom bumps on the
+    // heightfield's internal triangle edges — felt as stumbles while running.
+    args: [
+      ny - 1, nx - 1, data,
+      { x: extentX, y: verticalScale, z: extentZ },
+      HeightFieldFlags.FIX_INTERNAL_EDGES,
+    ] as const,
     position: [
       grid.meta.originM[0] + extentX / 2,
       0,

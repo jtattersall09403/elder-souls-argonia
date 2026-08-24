@@ -17,7 +17,11 @@ Why this encoding:
   deploy builds from a clean checkout (repo already tracks larger rasters).
 
 Exporter: `worldgen.export_web_chunks` (deterministic; pytest round-trips the
-PNGs against the vault float32 grids). Decoder: the studio's
+PNGs against the vault float32 grids). It also writes `normal-grad.png` — one
+province-wide slope-gradient texture (R = dh/dx, G = dh/dz, true m/m) that
+the terrain shader lights every chunk from, scaled by the live vertical
+scale. Per-chunk vertex normals disagree along shared edges and painted a
+seam down every chunk border; one continuous texture cannot. Decoder: the studio's
 `character/chunkStore.ts`. Heights stay true metres; ×5 vertical (0006
 addendum) is applied only where data becomes geometry — mesh vertices and the
 Rapier heightfield collider's y-scale. Phase 14's production bundle format

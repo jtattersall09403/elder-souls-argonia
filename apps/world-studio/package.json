@@ -14,6 +14,7 @@
     "prebuild": "npm run assets"
   },
   "dependencies": {
+    "@dimforge/rapier3d-compat": "^0.19.2",
     "@elder-souls/character": "^0.1.0",
     "@elder-souls/contracts": "^0.1.0",
     "@elder-souls/game-core": "^0.1.0",

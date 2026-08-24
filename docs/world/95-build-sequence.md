@@ -232,11 +232,11 @@ through 6b.2–6b.3 (diff-checked) — the owner-approved marsh is not renegotia
   practice; research/implement with the land-cover slope bands;
 - ground-material sets stay versioned (A/B selector) for the gate.
 
-### Phase 7 — physical character integration
+### Phase 7a — physical character integration
 
 Deliverables:
 
-- combat sandbox inventory/items and character systems extracted into shared
+- combat sandbox character system and basic locomotion (run + sprint + jump) extracted into shared
   packages (deferred here from Milestone 1b) and consumed by both sandbox and
   world studio;
 - sandbox character and camera in world studio;
@@ -245,6 +245,11 @@ Deliverables:
 - combat actor and target registration;
 - input parity across desktop, touch and controller;
 - capability-profile validation.
+
+### Phase 7b - remaining character integration
+- All remaining combat sandbox inventory, items and character systems extracted into shared
+  packages (if not already done so) and consumed by both sandbox and
+  world studio. When completed, as a character you can do everything in the world studio that you can do in the sandbox.
 
 ### Phase 8 — water renderer and physical interaction
 

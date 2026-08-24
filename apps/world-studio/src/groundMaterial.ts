@@ -40,12 +40,19 @@ export function useGroundManifest(base: string, requested?: string): { set: stri
 }
 
 /** Builds the splat ShaderMaterial. The caller owns disposal of the material
- * and of `material.userData.tex` (the albedo array texture). */
+ * and of `material.userData.tex` (the albedo array texture).
+ *
+ * Lighting comes from one province-wide slope-gradient texture (`gradTex`,
+ * written by `worldgen.export_web_chunks`) scaled by `uVerticalScale` — NOT
+ * from vertex normals, which are computed per chunk and disagree along shared
+ * edges, painting a visible seam down every chunk border. */
 export function createGroundMaterial(
   images: HTMLImageElement[],
   ctrl: THREE.Texture,
   tintTex: THREE.Texture,
+  gradTex: THREE.Texture,
   manifest: GroundManifest,
+  verticalScale: number,
 ): THREE.ShaderMaterial {
   const n = images.length;
   const size = 512;
@@ -71,6 +78,8 @@ export function createGroundMaterial(
   ctrl.generateMipmaps = false;
   ctrl.colorSpace = THREE.NoColorSpace;
   tintTex.colorSpace = THREE.NoColorSpace;
+  gradTex.colorSpace = THREE.NoColorSpace;
+  gradTex.wrapS = gradTex.wrapT = THREE.ClampToEdgeWrapping;
   const img = ctrl.image as { width: number; height: number };
   const material = new THREE.ShaderMaterial({
     glslVersion: THREE.GLSL3,
@@ -78,6 +87,9 @@ export function createGroundMaterial(
       uTex: { value: tex },
       uCtrl: { value: ctrl },
       uTint: { value: tintTex },
+      uGrad: { value: gradTex },
+      uVerticalScale: { value: verticalScale },
+      uGradClamp: { value: 1.0 },
       uTintStrength: { value: 1.0 },
       uCtrlSize: { value: new THREE.Vector2(img.width, img.height) },
       uTileM: { value: new Float32Array(manifest.materials.map((m) => m.tileM)) },
@@ -85,9 +97,9 @@ export function createGroundMaterial(
       sunDir: { value: new THREE.Vector3(0.45, 0.8, 0.3).normalize() },
     },
     vertexShader: `
-      out vec2 vUv; out vec3 vNormal; out vec3 vWorld;
+      out vec2 vUv; out vec3 vWorld;
       void main() {
-        vUv = uv; vNormal = normal; vWorld = position;
+        vUv = uv; vWorld = position;
         gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
       }`,
     fragmentShader: `
@@ -95,12 +107,15 @@ export function createGroundMaterial(
       uniform highp sampler2DArray uTex;
       uniform sampler2D uCtrl;
       uniform sampler2D uTint;
+      uniform sampler2D uGrad;
+      uniform float uVerticalScale;
+      uniform float uGradClamp;
       uniform float uTintStrength;
       uniform vec2 uCtrlSize;
       uniform float uTileM[N];
       uniform vec3 uAvgCol[N];
       uniform vec3 sunDir;
-      in vec2 vUv; in vec3 vNormal; in vec3 vWorld;
+      in vec2 vUv; in vec3 vWorld;
       out vec4 outColor;
       // near: tiled texture of the texel's two materials; far: their flat
       // average colours (kills distant tiling, Frostbite near/far pattern)
@@ -130,7 +145,10 @@ export function createGroundMaterial(
         // macro climate tint (coastal/wetness/latitude palette drift),
         // with a live strength control for owner tuning
         col *= mix(vec3(1.0), texture(uTint, vUv).rgb * 2.0, uTintStrength);
-        float light = 0.62 + 0.85 * max(dot(normalize(vNormal), sunDir), 0.0);
+        // continuous lighting: slope gradients (true m/m) x live vertical scale
+        vec2 g = (texture(uGrad, vUv).rg * 2.0 - 1.0) * uGradClamp;
+        vec3 n = normalize(vec3(-g.x * uVerticalScale, 1.0, -g.y * uVerticalScale));
+        float light = 0.62 + 0.85 * max(dot(n, sunDir), 0.0);
         outColor = vec4(col * light, 1.0);
       }`,
   });

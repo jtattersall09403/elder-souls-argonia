@@ -45,6 +45,31 @@ def decode_rg16(image: Image.Image, min_m: float, max_m: float) -> np.ndarray:
     return (q.astype(np.float32) / 65535.0) * (max_m - min_m) + min_m
 
 
+GRADIENT_CLAMP = 1.0  # |dh/dx| in true m/m; source data peaks around 0.55
+
+
+def export_gradients(mps: float) -> dict:
+    """One province-wide slope-gradient texture (R = dh/dx, G = dh/dz, true
+    metres per metre, mapped [-clamp, clamp] -> [0, 255]).
+
+    The terrain shader lights every chunk mesh from this single continuous
+    texture (scaled by the live vertical scale) instead of per-chunk vertex
+    normals — per-chunk normals disagree along shared edges and painted a
+    visible seam down every chunk border.
+    """
+    heights = np.load(DEFAULT_HEIGHTS)
+    gz, gx = np.gradient(heights, mps)
+    rgb = np.zeros((*heights.shape, 3), dtype=np.uint8)
+    for channel, g in ((0, gx), (1, gz)):
+        rgb[..., channel] = np.clip(
+            np.round((np.clip(g, -GRADIENT_CLAMP, GRADIENT_CLAMP) / GRADIENT_CLAMP + 1.0) * 127.5),
+            0, 255,
+        ).astype(np.uint8)
+    name = "normal-grad.png"
+    Image.fromarray(rgb, mode="RGB").save(OUT_DIR / name, optimize=True)
+    return {"file": name, "clamp": GRADIENT_CLAMP, "size": list(heights.shape)}
+
+
 def main() -> None:
     chunks_dir = Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_HEIGHTS.parent / "chunks"
     manifest = json.loads((chunks_dir / "chunks-manifest.json").read_text())
@@ -75,7 +100,11 @@ def main() -> None:
             }
         web_chunks.append(web_entry)
 
+    first_lod = manifest["chunks"][0]["lods"]["1"]
+    gradients = export_gradients(first_lod["metresPerSample"])
+
     web_manifest = {
+        "gradients": gradients,
         "chunkSamples": manifest["chunkSamples"],
         "chunkMetres": manifest["chunkMetres"],
         "verticalScaleAtGeometry": manifest["verticalScaleAtGeometry"],

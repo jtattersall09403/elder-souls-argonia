@@ -27,10 +27,12 @@ function buildChunkGeometry(
 ): THREE.BufferGeometry {
   const { heights, nx, ny, metresPerSample } = grid;
   const [ox, oz] = grid.meta.originM;
-  // One extra ring of vertices dropped below the edge: the skirt. Deep enough
-  // to bridge LOD-border cracks (a few metres after smoothing ×5), shallow
-  // enough not to read as walls when seen side-on.
-  const skirtDrop = 6;
+  // One extra ring of vertices dropped below the edge: the skirt. LOD-border
+  // height mismatches scale with the vertical scale (gaussian-smoothed LOD2/4
+  // edges differ from LOD1 by up to ~2.5 m true), so the drop does too. The
+  // shader lights skirts from the shared gradient texture, so an exposed
+  // skirt takes the surface's own shading instead of reading as a dark wall.
+  const skirtDrop = 2.5 * verticalScale;
   const gx = nx + 2;
   const gz = ny + 2;
   const pos = new Float32Array(gx * gz * 3);
@@ -63,7 +65,8 @@ function buildChunkGeometry(
   g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
   g.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
   g.setIndex(new THREE.BufferAttribute(idx, 1));
-  g.computeVertexNormals();
+  // No vertex normals: the splat shader lights from the province-wide
+  // gradient texture (seamless across chunk borders and LODs).
   return g;
 }
 
@@ -100,10 +103,17 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     ground.materials.map((m) => `${base}textures/ground/${set}/${m.file}`));
   const ctrl = useLoader(THREE.TextureLoader, `${base}province/refined/ground-control.png`);
   const tintTex = useLoader(THREE.TextureLoader, `${base}province/refined/ground-tint.png`);
+  const gradTex = useLoader(THREE.TextureLoader, `${base}province/chunks/normal-grad.png`);
   const material = useMemo(
-    () => createGroundMaterial(images, ctrl, tintTex, ground),
-    [images, ctrl, tintTex, ground],
+    () => createGroundMaterial(images, ctrl, tintTex, gradTex, ground,
+      verticalScale ?? manifest.verticalScaleAtGeometry),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [images, ctrl, tintTex, gradTex, ground],
   );
+  useEffect(() => {
+    (material.uniforms.uVerticalScale as { value: number }).value =
+      verticalScale ?? manifest.verticalScaleAtGeometry;
+  }, [material, verticalScale, manifest]);
   useEffect(() => () => {
     (material.userData.tex as THREE.DataArrayTexture).dispose();
     material.dispose();

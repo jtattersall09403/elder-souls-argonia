@@ -36,6 +36,7 @@ export class ExplorerLocomotion {
 
   private dodgeHold = 0;
   private jumpStartTimer = 0;
+  private airborneTime = 0;
   private landingArmed = false;
   private maximumDownwardSpeed = 0;
   private landingTimer = 0;
@@ -54,6 +55,7 @@ export class ExplorerLocomotion {
     this.moveMagnitude = 0;
     this.dodgeHold = 0;
     this.jumpStartTimer = 0;
+    this.airborneTime = 0;
     this.landingArmed = false;
     this.maximumDownwardSpeed = 0;
     this.landingTimer = 0;
@@ -70,13 +72,22 @@ export class ExplorerLocomotion {
     this.landingTimer = Math.max(0, this.landingTimer - delta);
     this.jumpStartTimer = Math.max(0, this.jumpStartTimer - delta);
 
+    // Coyote window: on real terrain the suspension loses its ray for a few
+    // frames whenever the ground falls away underfoot (downhill running, chunk
+    // seams, small bumps). Treating every flicker as flight played the falling
+    // pose downhill and a landing stumble after each bump — only sustained
+    // loss of ground counts as airborne. (The sandbox's flat arena never
+    // exercised this; keep in mind if its inline FSM meets terrain later.)
+    this.airborneTime = grounded ? 0 : this.airborneTime + delta;
+    const airborne = this.airborneTime > 0.15;
+
     const moveMagnitude = Math.min(1, Math.hypot(intent.move.x, intent.move.y));
     this.moveMagnitude = moveMagnitude;
 
     // Landing: arm while airborne, remember the fastest descent, and pick the
     // touchdown reaction from it — same rule as the sandbox.
-    if (!grounded) this.landingArmed = true;
-    if (this.landingArmed || !grounded) {
+    if (airborne) this.landingArmed = true;
+    if (this.landingArmed || airborne) {
       this.maximumDownwardSpeed = Math.max(
         this.maximumDownwardSpeed,
         -controller.verticalVelocity(),
@@ -137,7 +148,7 @@ export class ExplorerLocomotion {
       ? "JUMP_START"
       : this.landingTimer > 0
         ? this.landingAnimation
-        : !grounded
+        : airborne
           ? "JUMP_IDLE"
           : this.sprinting
             ? "SPRINT"

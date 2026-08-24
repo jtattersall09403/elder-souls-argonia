@@ -36,6 +36,25 @@ def test_exported_manifest_covers_full_grid():
             assert meta["maxM"] >= meta["minM"]
 
 
+@pytest.mark.skipif(not DEFAULT_HEIGHTS.exists(), reason="vault heights unavailable")
+@pytest.mark.skipif(not (OUT_DIR / "normal-grad.png").exists(),
+                    reason="gradient map not exported")
+def test_gradient_map_matches_vault_slopes():
+    manifest = json.loads((OUT_DIR / "chunks-web-manifest.json").read_text())
+    grad_meta = manifest["gradients"]
+    heights = np.load(DEFAULT_HEIGHTS)
+    mps = manifest["chunks"][0]["lods"]["1"]["metresPerSample"]
+    gz, gx = np.gradient(heights, mps)
+    rgb = np.asarray(Image.open(OUT_DIR / grad_meta["file"]).convert("RGB"), dtype=np.float32)
+    clamp = grad_meta["clamp"]
+    decoded_gx = (rgb[..., 0] / 127.5 - 1.0) * clamp
+    decoded_gz = (rgb[..., 1] / 127.5 - 1.0) * clamp
+    tolerance = clamp / 127.5 + 1e-3
+    for decoded, source in ((decoded_gx, gx), (decoded_gz, gz)):
+        clipped = np.clip(source, -clamp, clamp)
+        assert np.abs(decoded - clipped).max() <= tolerance
+
+
 @pytest.mark.skipif(not VAULT_CHUNKS.exists(), reason="vault chunks unavailable")
 @pytest.mark.skipif(not (OUT_DIR / "chunks-web-manifest.json").exists(),
                     reason="web chunks not exported")
