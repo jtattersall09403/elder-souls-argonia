@@ -173,13 +173,16 @@ Deliverables:
 - collision and LOD;
 - province-to-local deterministic refinement.
 
-### Phase 6b — province rescale and mountain relief (decision 0015; runs after Phase 7)
+### Phase 6b — province rescale, mountain relief and character-scale naturalness (decision 0015; runs after Phase 7a)
 
 Reopens province terrain to apply decision 0015 (×1 horizontal, ×1 vertical,
 drama in the data). **All feel judgements and gates happen on foot in
-"Walk the province" (Phase 7's character mode); the flyover is secondary.**
-Lowlands outside the mountain masks + blend margin must stay byte-identical
-through 6b.2–6b.3 (diff-checked) — the owner-approved marsh is not renegotiated.
+"Walk the province" (Phase 7a's character mode); the flyover is secondary.**
+Orogeny uplift stays inside the mountain masks + blend margin. The
+naturalness pass (below) touches the whole province but is amplitude-bounded
+and feature-protected — the owner-approved marsh *character* is not
+renegotiated, verified by region/flood/soil fraction stats and the
+channel-preservation probe, not by eye.
 
 **6b.1 — rescale (×1/×1):**
 
@@ -217,8 +220,29 @@ through 6b.2–6b.3 (diff-checked) — the owner-approved marsh is not renegotia
   anchor-bound); **standing probes**, run on every recompile: all eight
   cities road-connected; per-peak reachability (walkable/climbable path to
   an agreed fraction of its height); bench-area count per mountain block
-  (candidate POI shelves); lowland byte-identity diff;
-- **owner walk gate(s)** in the ranges.
+  (candidate POI shelves); lowland uplift-mask containment diff;
+- **character-scale naturalness pass (owner requirement 2026-08-24),
+  province-wide, in the same base-terrain stage:**
+  - *intelligent de-terracing*: the source LAND heights are quantised, which
+    reads as artificial steps on foot at ×1/×1 — remove with edge-preserving,
+    region- and slope-aware smoothing (strong in marsh/floodplain and rolling
+    lowland, weak-to-none in mountains, benches and authored features), so
+    deliberate shelving and sharp gradient changes survive where they are
+    geologically right and vanish where they are artefacts;
+  - *local micro-undulation*: real ground is rarely flat for long — add
+    region-weighted undulation (rolling countryside gets gentle 20–80 m
+    swells; marsh stays near-flat with subtle hummock relief; mountains get
+    crag/talus texture from the erosion pass instead), extending the existing
+    per-region detail-noise amplitudes;
+  - *feature protection is by construction and by probe*: the pass runs on
+    the base terrain BEFORE hydrology re-solves and BEFORE refine carves
+    channels/the authored Blackrose lake/feeders/portage and canoe channels —
+    so authored and simulated water features are carved after it and cannot
+    be erased; a channel-preservation probe additionally asserts carved depth
+    along every solved river course, canoe channel and portage, and a
+    course-stability check compares the re-solved river network against the
+    approved waterways;
+- **owner walk gate(s)** in the ranges and the lowlands.
 
 **6b.3 — mountain materials and rendering:**
 
