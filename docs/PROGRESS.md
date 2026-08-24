@@ -32,9 +32,9 @@ then open only the master-plan sections the active phase needs.
 | 3 — province hydrology and region graph | done | owner-approved 2026-08-22 (sea/salinity/flood corrections applied; lake region class added); stats in hydrology-meta.json |
 | 4 — danger, cultures, transport | done | owner-approved 2026-08-23: strong terrain, jungle region, 8 culture zones, danger model, road/boat/root graphs, climate profiles, access model (0007), lore dossiers |
 | 5 — World Studio foundation | done | owner flyover gate PASS 2026-08-23 (shape/size/feel/mist approved); map+13 layers, 3D fly/orbit, click-to-spawn, reproducible URLs; chunk overlays + probe framework mature with Phase 6 |
-| 6 — province terrain (scope extended from basin to whole province at gate, 0008 addendum) | in progress | Basin passed 5 gate rounds (bmv-v1 materials chosen; fixes: de-terracing, feeders-through-rim, stronger tint+slider, lane overlay, multi-scale patchiness, mild conditioning 0005). **Province-wide build complete & deployed**: refine_province (terrain w/ de-terracing, land cover w/ north palette zone + mountain belts + per-water-type shores, 21 portages 0012, flood states, tint) + 256 chunks x3 LODs (Phase 7-ready, chunks-manifest.json in vault). Awaiting owner province gate (checklist in-conversation). Phase 7 can start on the chunk manifest in parallel |
+| 6 — province terrain (scope extended from basin to whole province at gate, 0008 addendum) | done | owner province gate PASS 2026-08-24 (6 gate rounds; bmv-v1 materials, de-terracing, north/south distinctness, mountain belts, shore types, tint slider, lanes, Blackrose channels). refine_province + 256 chunks x3 LODs in vault (chunks-manifest.json) |
 | L — lore extrapolation loop (parallel workstream, module 45) | done | Packets 1–3 done (Opus, 2026-08-24): ~140-page UESP sweep, 15 new dossiers + 12 extended, gap register (~50 gaps), 4E-201 province synthesis, 10 quest-plan deltas (proposed, not applied). **Complete 2026-08-24**: 39 files (~405 kB) — full sweep, gap register ZERO open (5 DEFER technical, 7 MYSTERY intentional), per-settlement Hist placement (Phase 11 unblocked), settlement register, guilds, ecology/encounter/loot feed, 4E-201 synthesis w/ owner decisions + trauma directive woven in. 4 non-blocking Round-2 owner questions (owner-questions.md). Round-2 decisions accepted; quest-plan deltas D1-D16 APPLIED to docs/quests/ (consistency greps clean; 6 application notes in quest-plan-deltas.md). Workstream closed — future lore gaps route via module 45 process |
-| 7 — physical character integration | todo | |
+| 7 — physical character integration | in progress | Extract sandbox character/inventory to packages; character + camera into world studio on Rapier heightfield chunks; env query contract; capability profiles |
 | 8 — water renderer and interaction | todo | |
 | 9 — swimming, climbing, boats | todo | |
 | 10 — asset catalogue and kits | todo | |
@@ -46,11 +46,7 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- **Phase 6 province gate**: owner flies the deployed whole-province studio
-  with the review checklist (in-conversation 2026-08-24) — mild-conditioning
-  relief, de-terracing, north/south distinctness, mountains, shoreline
-  types, tint slider, lanes overlay, Blackrose channels/island. Pass → flip
-  Phase 6 to done.
+- Nothing — Phase 7 in progress; owner review at end of phase.
 
 ## Next up
 
@@ -58,5 +54,4 @@ Phase 7 (physical character in the refined province) — consume the chunk
 manifest (`province-refined/chunks/chunks-manifest.json` in the vault; true
 metres, ×5 at geometry time, Rapier heightfield per chunk, 257-sample
 overlap edges). Combat/character work lives behind PlayerMovementController
-(CLAUDE.md). The lore workstream (row L) runs in parallel; commit its output
-after review. Quest plan provisions bind Phases 11+.
+(CLAUDE.md). Quest plan provisions bind Phases 11+.
