@@ -4,28 +4,29 @@
 
 ## 5. Political overview of Argonia in 4E 201
 
-Black Marsh is independent of the Mede Empire. The **An-Xileel** remain the strongest known Fourth-Era nationalist movement, with legitimacy rooted in resistance to Imperial rule, the Oblivion Crisis and the long history of Dunmeri enslavement and raiding. Their precise constitutional position in 4E 201 is not established. The game should use that uncertainty.
+Black Marsh is independent of the Mede Empire. The **An-Xileel** of 4E 201 are **not the movement of 4E 6**. The Umbriel catastrophe of 4E 48 — which their own leadership caused, through a Hist that was using them — destroyed their seat at Lilmoth and broke their hold on the Argonian people; canon records nothing of them afterwards. What governs Argonia now is a **successor administration** that inherited the party's offices, titles and name, but not its mandate (owner decision Q1; lore: extrapolation/argonia-4e201-state.md §1).
 
 Project interpretation:
 
-- the An-Xileel are a powerful province-wide movement and security/state network;
-- they are not a single personality or perfectly centralised bureaucracy;
+- the successor state keeps the inherited apparatus: **Archwardens**, a ruling council still styled **the Organism**, a customs regime at the recognised ports, and the frontier screen facing Morrowind; its formal seat is Helstrom, its working offices Stormhold and Archon;
+- its writ is real at the borders and the ports and thin everywhere else; its legitimacy is openly contested — most sharply in **Gideon** and **Lilmoth**, the two cities its predecessor's weapon killed;
+- officially it still calls itself An-Xileel; ordinary people use the office titles or "the Wardens" — who says "An-Xileel" out loud, and in what tone, places a speaker politically in one word;
 - cities retain councils, merchants, militias, old offices and local political traditions;
 - Hist communities and Tree-Minders possess authority the state cannot simply replace;
-- Helstrom functions as an interior political/religious centre with its own coalitions;
-- Lilmoth is a major An-Xileel and commercial centre whose Umbriel history remains politically sensitive;
-- Gideon contains the strongest Imperial-descended civic and estate presence;
+- Helstrom functions as an interior political/religious centre with its own coalitions, host of the occasional **great Root Talk convocation** in the month of Hist-Tsoko (owner decision Q2);
+- Lilmoth was **destroyed in 4E 48** and rebuilt smaller and lower on the same ground; its drowned Imperial quarter is unrepaired, its third Hist grew from the second's root and is watched with open fear, and the city's politics are inseparable from the fact that its own government summoned the thing that killed it (lore: extrapolation/argonia-4e201-state.md §4);
+- Gideon is canonically **majority Lukiul** — the Lukiul city — and it lost that population to the An-Xileel's own weapon in 4E 48 (lore: gideon.md);
 - Soulrest is a cosmopolitan maritime port;
 - Stormhold, Alten Corimont and Thorn face Dunmer-border and mixed-community politics;
 - Archon is an eastern trade and cultural interface;
-- Blackrose’s prison remains a contested institution;
+- Blackrose Prison ("the Rose") is **not a working prison and not the state's**: a ruin reoccupied by the **Blackguards' heirs** — prison-born families three generations deep, with Umbriel's undead below and a claim to their own legitimacy (owner decision Q3; lore: topics/prisons.md);
 - Lukiul and other urban or culturally mixed Argonians disagree over what sovereignty and “authentic” Argonian identity require.
 
-The An-Xileel must contain genuine defenders, administrators, veterans, reformers, opportunists and authoritarian centralisers. The Unbound Root must contain genuine victims of state abuse, philosophical radicals, fanatics, frightened converts and political infiltrators. Neither side is a single moral answer.
+The An-Xileel must contain genuine defenders, administrators, veterans, reformers, opportunists and authoritarian centralisers. The Unbound Root must contain genuine victims of state abuse, philosophical radicals, fanatics, frightened converts and political infiltrators. Neither side is a single moral answer. The successor-state framing sharpens both: the Unbound Root's claim that "the An-Xileel cannot claim to speak for all Hist or all Argonians" is *demonstrably true*, not merely arguable, and the province's worst enemy in living memory was its own state.
 
 ## 6. The Veiled Reed
 
-The **Veiled Reed** is project-original and lore-inferred: a covert An-Xileel intelligence and internal-security office operating through regional handlers, records investigators, informants and deniable agents.
+The **Veiled Reed** is project-original and lore-inferred: a covert intelligence and internal-security office of the An-Xileel successor state, operating through regional handlers, records investigators, informants and deniable agents.
 
 Its functions include:
 
@@ -38,7 +39,7 @@ Its functions include:
 
 The Veiled Reed provides a Morrowind-like main-quest handler structure. It recruits the player because the opening attack destroys the work roll and leaves the player officially dead. A blank-slate prisoner of any race can plausibly become a deniable agent.
 
-The organisation’s internal contradiction is central: it protects an independent province with real enemies while using secrecy, classification and sap-derived testimony in ways that can become coercive.
+The organisation’s internal contradiction is central: it protects an independent province with real enemies while using secrecy, classification and sap-derived testimony in ways that can become coercive — and the state it protects is the heir of the government whose founding crime, the summoning of Umbriel, is public record (lore: extrapolation/argonia-4e201-state.md §1–2).
 
 ## 7. Mainstream Sithis belief and the Unbound Root
 
@@ -64,7 +65,7 @@ Project interpretation:
 - it reveals prepared route marks and inscriptions invisible to ordinary sight;
 - it acts as a cipher/translator for selected pre-Duskfall systems;
 - it opens the Lost City and its sanctuary;
-- possession carries political symbolism but does not make the bearer king;
+- possession carries political symbolism but does not make the bearer king — canon itself holds that the Scalded Throne "has supposedly been empty for centuries (if it existed at all)" (lore: topics/sithis-nisswo-shadowscales.md);
 - it does not control rivers, Hist or the province.
 
 The **Root of Accord** is project-original and lore-consistent. It is not “the Hist hive mind” and is not the natural source of all Argonian life. It is an ancient living root/graft within the Lost City through which a limited set of Hist communities voluntarily coordinated warnings, ritual recognition and memory after a historical crisis. Participation was intended to be renewed and conditional.
@@ -91,15 +92,15 @@ danger-tier vocabulary below maps onto that field via the table in
 
 | Region/city | Danger | Broad cultural presence in 4E 201 | Narrative/world role |
 |---|---|---|---|
-| Helstrom and central basin | City D0; surrounding D5 | About 97% Argonian in supplied community prior; numerous Hist affiliations, Nisswo traditions, An-Xileel offices and interior communities; tiny protected outsider presence. | Safe interior political/religious city reached early by rootworm or escorted transport. Gates provide a visible, credible boundary with the lethal basin. The Lost City is a separate D5 site beyond Helstrom. |
-| Stormhold / north-west | D0–D2; selected D3 ruins | About 75% Argonian; large Dunmer minority (~22% prior), some Nord, Imperial and Khajiit residents. | Opening region. An-Xileel administration, old Imperial/Ayleid layers, Dunmer trade and managed marsh create an accessible cultural cross-section. |
+| Helstrom and central basin | City D0; surrounding D5 | About 97% Argonian in supplied community prior; numerous Hist affiliations, Nisswo traditions, the successor state's largely ignored formal seat, and interior communities; tiny protected outsider presence. | Safe interior political/religious city reached early by rootworm or escorted transport. Host of the great Root Talk convocation (Hist-Tsoko). Gates provide a visible, credible boundary with the lethal basin. The Lost City is a separate D5 site beyond Helstrom. |
+| Stormhold / north-west | D0–D2; selected D3 ruins | About 75% Argonian; large Dunmer minority (~22% prior), some Nord, Imperial and Khajiit residents. | Opening region. The successor state's working offices (customs, frontier), old Imperial/Ayleid layers, Dunmer trade and managed marsh create an accessible cultural cross-section. |
 | Alten Corimont and connected managed marsh | D0–D2 | Argonian-majority river population with Dunmer traders, boatfolk and transient outsiders. | Penal work route/opening location, ferries, early Hist settlement and first Veiled Reed recruitment. |
-| Thorn / north-east | D0–D3 | About 75% Argonian; large Dunmer minority (~20%), smaller Nord/Imperial presence. | Border-security city shaped by slavery, the Accession War, trade and mixed families; later treasure-hunt lead and independent Accord line. |
-| Gideon / western frontier | D0–D2 | About 70% Argonian; strongest Imperial-descended presence (~22%), Khajiit traders and smaller Dunmer/Redguard groups. | Civic, estate and intelligence centre. Imported roads, forts and records support investigations without making the Empire the main plot. |
+| Thorn / north-east | D0–D3 | About 75% Argonian; large Dunmer minority (~20%), smaller Nord/Imperial presence. | Border-security city shaped by slavery, the Accession War, trade and mixed families; later treasure-hunt lead and independent Accord line. **Region note:** Thornmarsh is temperate **grassland with saltrice plantations**, not swamp — the world build must not default it to marsh (lore: regions/thornmarsh-and-east.md). |
+| Gideon / western frontier | D0–D2 | Canonically **majority Lukiul** Argonian — the Lukiul city — plus the strongest Imperial-descended presence (~22% prior), Khajiit traders and smaller Dunmer/Redguard groups. | Civic, estate and intelligence centre. Imported roads, forts and records support investigations without making the Empire the main plot. Gideon lost its Lukiul majority to the An-Xileel's own weapon in 4E 48 — the strongest grounding for the plan's Lukiul-versus-sovereignty theme (lore: gideon.md). |
 | Soulrest / south-west | D0–D2; coastal D3 | About 60% Argonian; high Khajiit presence (~19%), Imperial-descended population (~13%), Bosmer and maritime minorities. | Most cosmopolitan port. Heists, salvage, trade, pirates and Reed-Sail/Thieves content. |
-| Blackrose / south | D0–D2 | Argonian-majority regional population; prison staff, former prisoners, soldiers, traders and coerced migrants create unusual diversity. | Infamous prison city used by main treasure-hunt and Chainbreakers, without being mandatory opening location. |
-| Lilmoth / south-east | D0–D2 | About 80% Argonian in the southern prior, with Imperial-descended, Khajiit, Bosmer, Dunmer and Altmer communities. | Large An-Xileel and commercial centre, Umbriel legacy, Pusbottom, major Thieves Guild heist and civic disputes. |
-| Archon / east | D0–D3 | About 79% Argonian; substantial Dunmer minority (~15%) and smaller Imperial presence. | Eastern port and mixed maritime city; lighthouse, pilots, smugglers and route research. |
+| Blackrose / south | D0–D2 | Argonian-majority regional population; descendants of prison staff, ex-prisoners, deserters, refugees and coerced migrants create unusual diversity. | Infamous city beside the Rose — a prison **ruin** a day's march south, reoccupied by the Blackguards' heirs with Umbriel's undead below (owner decision Q3) — used by main treasure-hunt and Chainbreakers, without being mandatory opening location. |
+| Lilmoth / south-east | D0–D2 | About 80% Argonian in the southern prior, with Imperial-descended, Khajiit, Bosmer, Dunmer and Altmer communities on the docks. | Rebuilt-but-not-restored port on the site of its own 4E 48 destruction: commercially significant, politically hostile to the successor state, drowned Imperial quarter unrepaired, feared third Hist, Pusbottom, major Thieves Guild heist and civic disputes (lore: extrapolation/argonia-4e201-state.md §4). |
+| Archon / east | D0–D3 | About 79% Argonian; substantial Dunmer minority (~15%) and smaller Imperial presence. | Eastern port and mixed maritime city; lighthouse, pilots, smugglers and route research. Founded by the Barsaebic Ayleids — the same substratum as Stormhold, Gideon and Thorn (lore: archon.md). |
 | Outer central rim | D2–D4 | Predominantly Argonian, with culturally specific villages and limited specialist outsiders. | Mid/late expeditions, protected ruins, affected Hist and route markers. More dangerous than the cities but not the final core. |
 | Deep basin and Lost City | D5 | No ordinary permanent cosmopolitan population; cult expedition, guardians and rare interior specialists only. | Near-final main-quest space. Static, hand-authored endgame wilderness and dungeon; foreshadowed from the first Helstrom visit. |
 

@@ -99,6 +99,35 @@ no safe halo; its walls/gates are the boundary, realised in city authoring.
 Other major cities get their D0 interiors from the same authoring pass; their
 surrounding field already reads bands 1–2.
 
+## 12b. Canon-supplied locations and systems the plan claims
+
+These are canon places and mechanisms the quest lines above depend on. None
+requires invention — their character is already written — so the world build
+should place them as named provisions rather than rediscover them. (Lore:
+extrapolation/settlement-register.md; topics/hist-placement.md;
+topics/ecology-encounters-loot.md; topics/guilds-and-orders.md;
+extrapolation/quest-plan-deltas.md D8/D16.)
+
+| Place / system | Canon character | Serves |
+|---|---|---|
+| **Hissmir** (S Shadowfen) | Pilgrimage xanmeer; Trials of the Burnished Scales; **Root Stewards who cannot refuse a comer**; Fish Boon Feast | League of Open Water (LW01), Many-Root Conclave |
+| **Glenbridge** (SE Blackwood) | Village around a ruined Sithis xanmeer whose Nisswo read its decay as the god's sermon; the voriplasm-sorcerer Rectavius sealed beneath | Nisswo of the Turning Path |
+| **Teeth of Sithis** (Murkmire) | Largest Sithis temple; still tended by the Clutch of Nisswo | Nisswo (NI05) |
+| **Deepmire, "the Refuge"** | Cursed plateau even locals avoid; the tribes' shelter of last resort; xanmeers and swamp-leviathan bones; site of the province's **Umbriel memorial** | Umbriel Witness Society; a D4/D5 space that is not the Lost City |
+| **Stonewastes** (Blackwood) | Hist in the town centre, a xanmeer keep, and the **Four Winds** hereditary defenders | Marsh Charter — a canon-native martial tradition |
+| **Alten Meerhleel** (Murkmire) | Port built to trade with outsiders; tribes placated with a **Teeba-Enoo court** | League of Open Water, Reed-Sail |
+| **Bramman's river** (Soulrest→Blackrose) | Concealed navigable mangrove channel a fleet once sailed | Reed-Sail Compact / Salt-Teeth |
+| **Murkwood** | The forest that ever moves; located only by the **Conclave of Baal at Stormhold** reading the Elder Scrolls with an ancient tablet | Sunken Archive, artifact quests |
+| **White Rose Prison** (W burn country) | Abandoned, structurally sound, full of Argonian dead whose bones must be brought to the dirt | Blackrose Chainbreakers (BC05) |
+| **The Archon Shadowscale facility** | Closed 4E 187; standing, sealed; the Cheydinhal Listener wanted it back | The Empty Cradle (SS01) |
+| **The great Root Talk at Helstrom**, month of Hist-Tsoko | Owner decision Q2; extends the canon Root Talk into an occasional convocation — an occasion, not a council | Main quest, Many-Root Conclave, Nisswo |
+| **Grave-stakes (xul-vaat)** province-wide interactable | Each carries the dead one's whole life story; pulling one raises a **bog blight** | Every line — the province's signature diegetic system |
+| **Wamasu electrify the water around them** | Canon: the beast "curs[ed] all the water to deadly convulsions" | Encounter design; swimming systems |
+| **Miregaunts return when killed, loot with provenance** | "Part of the land"; the midsection cavity may hold a relic "taken in to protect or imprison it" | Fixed-danger guardians, Phase 13 |
+| **Wintertide rootworm migration south to Gideon** | Canon-named; red clay marks the stop | Rootworm Waykeepers; seasonal fast travel |
+| **Fort Swampmoth**, held but not by the Empire | Canon fort, never located; placed on the Blackwood Road | Border content, Marsh Charter |
+| **Cyrodilic Collections, refounded at Gideon** | Its museum was never built | A foreign presence Argonians can argue with rather than fight |
+
 ## 13. Quest-ready location packet
 
 Before narrative implementation begins, every substantial quest location should expose a compact machine-readable packet equivalent to:

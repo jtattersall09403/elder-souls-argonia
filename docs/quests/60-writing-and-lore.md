@@ -17,6 +17,39 @@ Every narrative datum should use the existing source-confidence categories:
 
 The Veiled Reed, Unbound Root and Root of Accord are project-original. The Eye of Argonia, Hist, Sithis, Nisswo, An-Xileel, Shadowscales, Duskfall, Xanmeers, Lilmoth/Umbriel and Black Marsh cities are grounded in established lore.
 
+## 45b. Argonian register
+
+Canon Argonian speech habits bind dialogue authoring; the full set lives in the
+lore dossier — read it before writing Argonian dialogue rather than
+rediscovering it per quest (lore: topics/material-culture.md § *Language notes
+for dialogue*). Headlines: Jel has no past or future tense; body language
+carries grammar, which is why Argonians speaking Tamrielic preface statements
+with emotional qualifiers ("I erect the spine of…", "My rage-quill is
+engorged!"); farewell "Stay moist.", curse "Hist piss!", exclamation "Host of
+Stormhold."; outsiders are **ojel** (not derogatory) — the An-Xileel's
+**Lukiul** very much is.
+
+## 45c. The 4E 48 calibration (binding tone rule)
+
+The owner's directive: the generational trauma of Umbriel plays at the
+emotional distance our own 2026 has from the First World War (lore:
+extrapolation/argonia-4e201-state.md §9). For every quest touching Umbriel, the
+An-Xileel, the Lukiul question or the southern cities:
+
+- **No living witnesses.** Argonian lifespans are human-like; anyone claiming
+  to remember Umbriel is lying, mistaken, or not what they seem.
+- **An NPC may be bored by it.** 153 years makes it history — argued about,
+  politicised, taught badly, exploited, shrugged at by the young. Playing it
+  that way is what makes the places where it *is* still raw land properly.
+- **It is not universal.** Thornmarsh and Archon were barely touched; Murkmire,
+  Lilmoth, Gideon and Stormhold carry it. Do not assume a province-wide wound.
+- **The Nisswo counter-argument is sympathetic.** A Nisswo telling a grieving
+  community to let go is preaching *shunatei*, not being callous;
+  memorial-versus-letting-go must be argued honestly on both sides.
+
+Province-wide register: **melancholy and dignified, horror kept local** (owner
+decision Q5).
+
 ## 46. Dialogue model
 
 Most dialogue should use Morrowind-like text and topics:

@@ -129,7 +129,10 @@ BMV_OVERRIDES = {
     "bc_rock":    ("bmv", "rocksgrasswater01.dds", 10.0, None, 52),
     "tidal_sand": ("bmv", "coastbeach01.dds",       8.0, None, 72),
     "salt_flat":  ("bmv", "mineralpoolterrace.dds", 9.0, None, 78),
-    "peat_slope": ("bmv", "dirtcliffsroots01.dds",  8.0, None, 45),
+    # peat_slope was dirtcliffsroots01 — a CLIFF texture whose horizontal
+    # strata tiled as parallel stripes on the ground (the owner's persistent
+    # "stripes"; the terracing theories were wrong). reachdirt01 is isotropic.
+    "peat_slope": ("bmv", "reachdirt01.dds",        8.0, None, 45),
     "bc_road":    ("bmv", "roads/road01fallforest01.dds", 6.0, None, 74),
     # salt_flat: mineralpoolterrace's terraced look read as stripes from the
     # air (owner round 6) — use the flat CC0 tidal mud-sand in this set too

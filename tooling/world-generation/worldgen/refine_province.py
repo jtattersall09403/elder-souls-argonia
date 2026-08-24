@@ -59,15 +59,12 @@ STUDIO_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "refi
 
 
 def deterrace(h):
-    """Remove the staircase terraces the upscaled source heightmap bakes into
-    every slope (owner reports 2026-08-23/24: contour-parallel steps banded
-    the materials on flats, moderate slopes AND mountain flanks — earlier
-    slope-gated versions kept missing whichever band the gate spared). The
-    source has no sub-45 m detail worth preserving at any steepness — it is
-    an upscaled coarse map — so smooth uniformly; per-region noise octaves
-    and, later, placed rock meshes (§9) supply real relief character."""
-    sm = ndimage.gaussian_filter(h, 8.0)
-    return (h * 0.08 + sm * 0.92).astype(np.float32)
+    """Reverted to a no-op (owner 2026-08-24): the persistent "stripes" were
+    never terracing — they were the dirtcliffsroots01 cliff texture tiling
+    its strata across the ground (bmv peat_slope slot, since swapped). The
+    smoothing passes built to chase that theory erased legitimate local
+    height variation; the source relief plus our noise octaves stay as-is."""
+    return h
 
 
 def detail_noise(shape, regions_up, channel_dist_m, rng):
