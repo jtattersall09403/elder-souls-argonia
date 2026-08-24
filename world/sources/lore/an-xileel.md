@@ -75,20 +75,31 @@ selected, whether cities answer to them, what they call their law — is ours.
 | 4E 48 | The Umbriel disaster, self-inflicted, which destroyed their own seat of power and their own city tree's people. |
 | after 4E 48 | Lore:An-Xileel: "The status of the An-Xileel following the Umbriel Crisis is **unknown**." Lore:Accession War: "This disaster appears to have **broken the hold the An-Xileel held over the Argonian people**, and the mysterious party **receives no mention in the following centuries**." |
 
-### Why this matters to us
+### The An-Xileel in 4E 201 — `OWNER DECISION Q1, BINDING`
 
 Our production era is **4E 201 — 153 years after the last mention of the party.**
-The quest plan's political frame currently treats the An-Xileel as "the strongest
-known Fourth-Era nationalist movement" and "a powerful province-wide movement and
-security/state network" in 4E 201. That is defensible as an interpretation of
-"status unknown", but it runs against the grain of the two sentences above, and it
-is a **province-scale identity decision**, not an authoring detail.
+Owner decision of 2026-08-24: **the An-Xileel as a movement broke at 4E 48. What
+governs Argonia is a successor administration that inherited the party's offices,
+titles and name, but not its mandate.**
 
-The options, the reasoning and a recommendation are set out in
-[extrapolation/owner-questions.md](extrapolation/owner-questions.md) **Q1**, and the
-recommended reading — a **successor state that still uses the name and inherited
-its offices, but is not the movement of 4E 6 and is not trusted the way it was** —
-is developed in
-[extrapolation/argonia-4e201-state.md](extrapolation/argonia-4e201-state.md) §1–2.
-Proposed quest-plan wording is in
+- **Inherited**: the office of **Archwarden**; the ruling council still styled
+  **the Organism**; a customs regime at the recognised ports; the frontier screen
+  facing Morrowind. All of these are canon terms (Lore:Kingdom of Black Marsh).
+- **Not inherited**: the mandate. Its writ is real at the borders and the ports
+  and thin everywhere else, and its legitimacy is openly contested — most sharply
+  in **Gideon** and **Lilmoth**, the two cities its predecessor's weapon killed.
+- **What it is called**: officially still *the An-Xileel*; in ordinary speech,
+  *the Archwardens*, *the Organism*, or "the Wardens". Who says "An-Xileel" aloud,
+  and in what tone, places them politically in one word.
+- **Its rhetoric outlived its base**: it still speaks of the **Wild Ones** as its
+  constituency — a category the An-Xileel themselves named and claimed, and which
+  never agreed to be spoken for. See
+  [topics/guilds-and-orders.md](topics/guilds-and-orders.md) §5.
+- **Its internal contradiction** is now historical fact rather than argument: an
+  administration that exists to defend Argonian sovereignty, founded by a movement
+  that used that sovereignty to try to exterminate a section of its own people.
+
+Developed in
+[extrapolation/argonia-4e201-state.md](extrapolation/argonia-4e201-state.md) §1–2,
+with §9 on how the resulting trauma is played. Proposed quest-plan wording:
 [extrapolation/quest-plan-deltas.md](extrapolation/quest-plan-deltas.md) D1.

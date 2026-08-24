@@ -8,11 +8,15 @@ consume when raw canon runs out.
 `EXTRAPOLATED`, the reasoning and its anchors are given inline. Nothing here
 overrides a cited dossier fact.
 
-**Two things are held back for the owner** and are marked `PENDING Q1` / `Q2` /
-`Q3` throughout: the status of the An-Xileel, who speaks for the Hist, and the
-state of Blackrose Prison. See [owner-questions.md](owner-questions.md). The rest
-of this document is written so that it survives *any* of the offered answers —
-the Q-dependent parts are isolated.
+**Owner decisions of 2026-08-24 are applied and binding** throughout — see the
+decisions block at the foot of [owner-questions.md](owner-questions.md). In
+summary: the An-Xileel are a **successor state** (Q1); the Hist speak through an
+occasional **great Root Talk convocation at Helstrom** (Q2); **Blackrose Prison is
+a ruin reoccupied by the Blackguards' heirs** (Q3); **Lilmoth is rebuilt but not
+restored** (Q4); the province's register is **melancholy and dignified, horror
+kept local**, and the trauma of 4E 48 sits at the emotional distance our own 2026
+has from the First World War (Q5, with the owner's addition). The last of these
+is developed in **§9**, which binds every dossier and every quest.
 
 ---
 
@@ -53,9 +57,15 @@ singular nation" (Lore:Black Marsh). So:
   you something about their politics. That is free characterisation and it is
   canon-true.
 
-### Is there a state? — `PENDING Q1`, but the shape holds either way
+### The state — the An-Xileel successor administration `OWNER DECISION Q1`
 
-Whatever the owner decides about the An-Xileel, the following is stable:
+**Binding**: the An-Xileel as a *movement* broke at 4E 48. What governs Argonia in
+4E 201 is a **successor administration that inherited the party's offices, titles
+and name** — **Archwardens**, the ruling council still styled **the Organism**, a
+customs regime at the recognised ports, and the frontier screen facing Morrowind
+— **but not its mandate**. Its legitimacy is contested everywhere and openly
+denied in **Gideon** and **Lilmoth**, the two cities its predecessor's weapon
+killed. Its reach ends where the water gets deep.
 
 `EXTRAPOLATED` — **There is a state, and it is thinner than it claims to be.**
 Reasoning: (a) canon requires *something* to have kept the Empire out of southern
@@ -71,13 +81,13 @@ regime at the recognised ports, a claim to speak for the province abroad, and
 almost no writ inland. Everything else is done by cities, tribes and Hist
 communities exactly as it was before.
 
-`AGENT_INVENTED` (flagged for owner) — a serviceable name for what such a state
-calls itself, whoever runs it: **the Root Concord**, or simply *the Concord*,
-with its officers styled **Archwardens** (the one An-Xileel office title canon
-gives us, Lore:Kingdom of Black Marsh) and its council still called **the
-Organism** if the An-Xileel line is unbroken. Recommend reusing the canon terms
-rather than inventing: *Archwarden* and *the Organism* cost nothing and buy
-continuity.
+**What it calls itself.** `EXTRAPOLATED` — officially, still **the An-Xileel**:
+states rarely rename themselves after a disaster they would rather not discuss.
+In ordinary speech people use the office titles instead — **the Archwardens**,
+**the Organism** — or simply "the Wardens", which lets a speaker refer to the
+government without invoking the party. That asymmetry is itself characterisation:
+who says "An-Xileel" out loud, and in what tone, places them politically in one
+word. (Canon supplies both titles: Lore:Kingdom of Black Marsh, Lore:An-Xileel.)
 
 ### Where its seat is — `EXTRAPOLATED`
 
@@ -155,7 +165,17 @@ Second Empire.** That is the least inventive consequence of 4E 48.
 - **Hist communities** `CANON_DERIVED`: possess an authority the state cannot
   replace, because eggs, names, souls, morphology and burial all run through the
   Hist. Any city with a city tree has a second government whose writ is
-  biological. `PENDING Q2` for whether that authority is coordinated province-wide.
+  biological.
+- **The great Root Talk** `OWNER DECISION Q2`: there is **no standing Hist
+  institution and no Hist government**. What exists is an *occasion* — the canon
+  **Root Talk**, held in the holiest month (**Hist-Tsoko**), extended into a
+  **great convocation at Helstrom** where the naheesh and tree-minders of the
+  interior tribes gather. It has no executive power and issues no orders; it is
+  where the Hist's alignment becomes audible. A convocation rather than a
+  hierarchy is faithful to a people who do not consider themselves a nation, and
+  it is the direct institutional lesson of 4E 48: never again should one tree
+  speak to one faction alone. Placement detail:
+  [../topics/hist-placement.md](../topics/hist-placement.md).
 
 ### 3. Armed force — `EXTRAPOLATED`
 
@@ -256,12 +276,13 @@ the quest plan's community priors ([docs/quests/10-political-frame.md](../../../
   province. The **3E interior settlements** built around it by the fourth century
   are the part that decayed — a ring of half-swallowed 3E villages on the
   approaches is the right ruin texture here.
-- **Who runs it** `EXTRAPOLATED` `PENDING Q2`: a coalition, not a monarch. The
-  Scalded Throne is empty and canon doubts it ever wasn't. Recommend: a standing
+- **Who runs it** `EXTRAPOLATED`, under `OWNER DECISION Q2`: a coalition, not a
+  monarch. The Scalded Throne is empty and canon doubts it ever wasn't. A standing
   assembly of **interior tribes' naheesh and tree-minders** plus the city's own
-  offices, meeting in the month of **Hist-Tsoko** for the Root Talk and
-  functioning by consensus the rest of the year — with the state's formal seat
-  lodged here and largely ignored by it. The "**dangerous city guard**" is
+  offices, which becomes the **great Root Talk convocation** in the month of
+  **Hist-Tsoko** and functions by consensus the rest of the year — with the
+  state's formal seat lodged here and largely ignored by it. The "**dangerous city
+  guard**" is
   `CANON_EXPLICIT` and should be a *tribal* levy answerable to the assembly, not
   a professional force: dangerous because it is not accountable to strangers.
 - **Economy** `EXTRAPOLATED`: it does not trade outward. It receives — the rivers
@@ -319,10 +340,10 @@ the quest plan's community priors ([docs/quests/10-political-frame.md](../../../
   This city has the strongest possible reason to distrust nativists, and it is
   the reason the quest plan's Lukiul/sovereignty argument belongs here.
 
-### Lilmoth — `PENDING Q1`
+### Lilmoth — `OWNER DECISION Q4`
 
 - **Condition** `CANON_EXPLICIT`: **destroyed in 4E 48**. Canon says nothing after.
-- **Recommended reading** `EXTRAPOLATED`: rebuilt, but not restored. Reasoning:
+- **Binding**: **rebuilt, but not restored.** `EXTRAPOLATED` reasoning:
   the site is the best natural harbour on the south coast, has a Hist, and sits at
   the mouth of a bay whose whole hinterland must trade *somewhere*; abandonment of
   such a site for 150 years is less likely than reoccupation. But the *city* that
@@ -336,8 +357,16 @@ the quest plan's community priors ([docs/quests/10-political-frame.md](../../../
 - **Who runs it**: a merchant council again, `CANON_DERIVED` from the fact that a
   ruler-less trade port reconstituted one twice before.
 - **People**: Argonian-majority with a working foreign dock population. The quest
-  plan's ~80% Argonian is right; its "large An-Xileel and commercial centre"
-  framing is `PENDING Q1`.
+  plan's ~80% Argonian is right. Its "large An-Xileel and commercial centre"
+  framing needs correcting under Q1/Q4: Lilmoth is **commercially significant and
+  politically hostile to the successor state**, not one of its strongholds. It was
+  the An-Xileel's seat, and the An-Xileel killed it. See
+  [quest-plan-deltas.md](quest-plan-deltas.md) D2.
+- **The Hist**: the third tree is **feared and tended anyway** — walled and open,
+  a rotating tree-minder's post so no one person ever holds sole communion again,
+  a second tender always present when the first listens, and a city rule
+  forbidding any faction exclusive access. Reasoning in
+  [../topics/hist-placement.md](../topics/hist-placement.md) §4.
 - **Outsiders**: the "unlicensed foreigners stay on the docks" rule is the single
   best piece of political texture canon gives us here. Recommend keeping it as a
   **lapsed law that some officials still enforce** — which is more playable than
@@ -421,7 +450,12 @@ the quest plan's community priors ([docs/quests/10-political-frame.md](../../../
 - **People**: Argonian-majority with the province's oddest mix — prison staff and
   their descendants, ex-prisoners, deserters, refugees, coerced migrants. The
   quest plan's "unusual diversity" framing is exactly right and is well anchored.
-- **The Rose**: `PENDING Q3`.
+- **The Rose** `OWNER DECISION Q3`: a **ruin reoccupied by the Blackguards'
+  heirs** — prison-born families three generations deep, exiles and outlaws, with
+  Umbriel's undead still in the lower levels. It has a claim to its own
+  legitimacy and resents being called a prison. Blackrose city's relationship
+  with it is the city's central external problem: the Rose is a day's march away,
+  it is not the city's, and everyone outside the province assumes it is.
 
 ### Alten Corimont — the neutral port
 
@@ -559,18 +593,59 @@ some encounter tables keyed to it.
 
 ---
 
-## 8. What this synthesis does *not* settle
+## 8. Where the rest of the detail lives
 
-Open items are listed in [gap-register.md](gap-register.md) with status `OPEN`.
-The most load-bearing for the next agent, in order:
+The gap register is closed — see [gap-register.md](gap-register.md) for the
+status of every gap. The items this synthesis deliberately hands off:
 
-1. **G2.10 / G5.7 — Hist placement.** Every settlement needs its Hist named and
-   its state described, and the province needs a placement rule. Nothing else in
-   Phase 11 can be finished without this.
-2. **G4.10 — the Synod, the College of Whispers and the old Mages Guild halls.**
-   Canon gives one hard datum ("no Synod presence for roughly 400 miles") and the
-   quest plan cites three lore sources here.
-3. **G4.5 — the Wild Ones.** Two canon mentions, no definition, complete freedom,
-   and they sit at the centre of the 4E 48 story.
-4. **G2.11 / G2.12 — settlement magnitude and whether coin works inland.**
-5. **G3.6 / G3.7 — placing White Rose Prison and Fort Swampmoth.**
+| Topic | File |
+|---|---|
+| Which Hist stands where, in what state, and who speaks for it | [../topics/hist-placement.md](../topics/hist-placement.md) |
+| Every settlement's 4E 201 status, magnitude class, ruler and economy | [settlement-register.md](settlement-register.md) |
+| Guilds, orders, foreign magical interests and the Wild Ones | [../topics/guilds-and-orders.md](../topics/guilds-and-orders.md) |
+| Encounter composition, loot provenance, seasonal keying | [../topics/ecology-encounters-loot.md](../topics/ecology-encounters-loot.md) |
+| Proposed quest-plan changes (not applied) | [quest-plan-deltas.md](quest-plan-deltas.md) |
+
+---
+
+## 9. The wound — how 4E 48 is played `OWNER DIRECTIVE, BINDING`
+
+The owner's calibration (2026-08-24): **the generational trauma of 4E 48 sits at
+the emotional distance our own world in 2026 has from the First World War.** One
+hundred and fifty-three years. This is a *directive*, not a suggestion, and it
+binds every dossier, every settlement record and every line of dialogue.
+
+### What that distance actually means
+
+| | Consequence for Argonia in 4E 201 |
+|---|---|
+| **No living witnesses** | Nobody alive saw Umbriel. Argonian lifespans are human-like `CANON_EXPLICIT`, so the last survivors died four or five generations back. Anyone who claims to remember it is lying, mistaken, or not what they appear to be — and that itself is a usable hook. |
+| **But family stories, verbatim** | Everyone has a great-great-grandparent's account, worn smooth by retelling and probably wrong in detail. The grave-stake tradition means many of those accounts are **physically carved on a post in the mud** and can be read. This is the single best fit between a canon institution and the owner's directive: Argonia's war memorials are its graveyards, and they are *legible*. |
+| **Memorials, and arguments about them** | Every affected settlement has one, and no two agree on what it is for. The most important is at **Deepmire** — "the Refuge", where Murkmire's survivors sheltered while the island passed. Argues with the Nisswo doctrine of letting go, which is the point. |
+| **Place-names carry it** | Quarters, channels and fields named for what happened there or who was lost. The drowned Imperial quarter of Lilmoth has a name nobody uses in front of strangers. |
+| **Politics shaped by it** | The successor state's whole legitimacy problem. Gideon and Lilmoth's hostility. The Lukiul-versus-sovereignty argument. Who is allowed to say "An-Xileel" out loud. |
+| **Institutions visibly bent around the wound** | The clearest tells: Lilmoth's **rotating tree-minder's post and two-tender rule** (nobody holds sole communion again); the **great Root Talk convocation** at Helstrom (no tree speaks to one faction alone); the state's inability to use the party's own name comfortably. Each is a rule that only makes sense if you know what it was written after. |
+| **Not raw grief** | It is *history* now, and history is argued about, politicised, taught badly, exploited and occasionally forgotten by the young. An NPC should be able to be **bored** by it. That is what 153 years does, and playing it that way is what makes the places where it *is* still raw land properly. |
+
+### How it should not be played
+
+- Not as fresh mourning. Nobody weeps about it in the street.
+- Not as universal. **Thornmarsh and Archon were barely touched**; the north-east's
+  relationship to 4E 48 is the relationship of a region that read about it.
+  Murkmire, Lilmoth, Gideon and Stormhold carry it; the rest have opinions.
+- Not as a mystery. What happened is **known and documented**; what is argued about
+  is blame, meaning and inheritance.
+- Not against the Nisswo. Their doctrine — *shunatei*, the refusal to hold on to
+  what has passed — is the province's own counter-argument to its own obsession,
+  and a Nisswo telling a grieving community to let go is **sympathetic**, not
+  callous. That tension is the most Argonian thing in the setting and should be
+  argued honestly on both sides.
+
+### The register, province-wide `OWNER DECISION Q5`
+
+**Melancholy and dignified, with horror kept local.** A people who have survived
+three extinctions — the Great Burn, the Knahaten Flu, Umbriel — and are calm about
+it. The horror lives in **specific named places** (Veeskhleel-Tzel, Mazzatun,
+Deepmire, the Rose, Stillrise, the drowned quarter of Lilmoth) so that it stays
+frightening when it arrives. This governs music, light, dialogue register and
+encounter design across the whole build.

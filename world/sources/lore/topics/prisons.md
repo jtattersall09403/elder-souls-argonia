@@ -46,8 +46,28 @@ Empress **Tavia** (Gideon, 1E 2899). Named prisons: **Blackrose Prison**,
   sealed and mended. The Empire believed none of them could survive inner Black
   Marsh. → That is the second population of prison-descended outlaws canon has
   seeded into Murkmire, one era after the first.
-- **Canon says nothing about the Rose after 3E 432.** Its 4E 201 state is ours.
-  See [../extrapolation/owner-questions.md](../extrapolation/owner-questions.md) Q3.
+- **Canon says nothing about the Rose after 3E 432.**
+
+### The Rose in 4E 201 — `OWNER DECISION Q3, BINDING`
+
+**A ruin reoccupied by the Blackguards' heirs.** The cycle canon already ran
+twice — abandoned by a collapsing empire, occupied by its inmates' descendants —
+ran a third time after **Umbriel passed directly over it in 4E 48**, on its way up
+from Lilmoth into northern Murkmire.
+
+- **Who is there**: prison-born families three generations deep, exiles, outlaws,
+  and people with nowhere else to go. They have their own idea of legitimacy and
+  **resent being called a prison**.
+- **What is below**: Umbriel's undead, still in the lower levels, alongside the
+  vampires and undead canon already placed there in the 2E.
+- **Its relationship to Blackrose city**: a day's march apart, no shared
+  government, and every outsider assumes otherwise. That confusion is the city's
+  standing external problem and is worth playing.
+- **The state does not hold it.** A people who spent 1,300 years as the Empire's
+  prisoners did not inherit the Empire's prison and keep it running. If the owner
+  later wants a live coercive institution, the recommendation is a **separate
+  state work-camp**, sited at White Rose — see below and
+  [../extrapolation/settlement-register.md](../extrapolation/settlement-register.md) §6.
 
 ## White Rose Prison — CANON_EXPLICIT (thin)
 

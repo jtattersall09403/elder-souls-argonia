@@ -44,10 +44,31 @@ That is itself a finding: those places are ours to author.
 | 1 | UESP sweep → dossiers | **done** (2026-08-24) |
 | 2 | Gap register | **done** (2026-08-24) |
 | 3 | Province-level 4E 201 synthesis | **done** (2026-08-24) |
-| 4 | Per-settlement 4E 201 extrapolation | **partial** — 8 majors + Alten Corimont done in [argonia-4e201-state.md](argonia-4e201-state.md) §4; secondary settlements outlined only |
-| 5 | Per-faction extrapolation | **partial** — An-Xileel, Archeins, Shadowscales/Nisswo, Dres, Imperial remnant done; guilds (Mages/Fighters/Synod/College/Thieves/DB) outlined only |
-| 6 | Ecology/encounter/loot lore feed (Phase 13) | not started |
-| 7 | Re-verify + quest-plan delta application | deltas recorded, **not applied** (follow-up agent owns `docs/quests/`) |
+| 4 | Per-settlement 4E 201 extrapolation | **done** — [settlement-register.md](settlement-register.md): magnitude ladder, every canon settlement's 4E 201 status, the 15 Arena-name placements, drifting villages, xanmeer states, currency, White Rose, Fort Swampmoth |
+| 5 | Per-faction extrapolation | **done** — [../topics/guilds-and-orders.md](../topics/guilds-and-orders.md): Synod, College of Whispers, Fighters/Thieves Guild, Dark Brotherhood, Cyrodilic Collections, the Conclaves, the Wild Ones |
+| — | **Hist placement** (G2.10/G5.7, Phase 11 blocker) | **done** — [../topics/hist-placement.md](../topics/hist-placement.md): rules R1–R6 + a per-settlement register |
+| 6 | Ecology/encounter/loot lore feed (Phase 13) | **done** — [../topics/ecology-encounters-loot.md](../topics/ecology-encounters-loot.md) |
+| 7 | Re-verify + quest-plan deltas | **done** — D1–D16 in [quest-plan-deltas.md](quest-plan-deltas.md); **not applied** (a follow-up agent owns `docs/quests/`) |
+
+**Gap register status: zero `OPEN`.** Everything is `FILLED`, `DECIDED`, `DEFER`
+(with a phase and a reason) or `MYSTERY`. See [gap-register.md](gap-register.md).
+
+## Owner decisions in force
+
+Round 1 (2026-08-24) — all five recommendations accepted and **binding**:
+An-Xileel **successor state** (Q1); Hist speak through a **great Root Talk
+convocation at Helstrom** (Q2); Blackrose Prison is a **ruin reoccupied by the
+Blackguards' heirs** (Q3); Lilmoth **rebuilt but not restored** (Q4); register
+**melancholy and dignified, horror kept local** (Q5) — plus the owner's addition
+that **the trauma of 4E 48 plays at the emotional distance our 2026 has from the
+First World War**, which is developed in
+[argonia-4e201-state.md](argonia-4e201-state.md) **§9** and binds all lore, world
+and quest work.
+
+Round 2 (raised 2026-08-24, awaiting owner): **Q6** Wild One vigil-communities ·
+**Q7** whether the state runs a live coercive institution · **Q8** whether
+Mazzatun's Hist is waking · **Q9** Gideon's disputed Hist cutting. All four have
+a working tiered answer in the dossiers, so nothing is blocked.
 
 ## Packet 1 — UESP sweep log
 
@@ -101,24 +122,61 @@ Lore:Miregaunt, Lore:Wamasu, Lore:Haj Mota, Lore:Voriplasm, Lore:Swamp Leviathan
 Lore:Kotu Gava, Lore:Stormhold Crystal (in Lore:Jasper)
 → `topics/fauna-hazards.md`.
 
+## Packet 4–6 sweep log (second fetch round)
+
+**Guilds and orders**: Lore:Mages Guild, Lore:Synod, Lore:College of Whispers,
+Lore:Fighters Guild, Lore:Thieves Guild, Lore:Dark Brotherhood, Lore:Fourth Era,
+Lore:Cyrodilic Collections → `topics/guilds-and-orders.md`.
+*Key finds*: the Mages Guild dissolved at the start of the 4E into the Synod and
+the College of Whispers; **Hierem — the Imperial minister who performed the
+Umbriel ritual at the Lilmoth city tree in 4E 47 — was the Synod's most
+influential patron**; the Fighters Guild had no active chapters by the 4E and
+Black Marsh was never on its Council of Province Generals; the Thieves Guild
+"operates along provincial lines with little if any apparent coordination".
+
+**Fauna / flora detail for Phase 13**: Lore:Hackwing, Lore:Death Hopper,
+Lore:Bog Dog, Lore:Swamp Jelly, Lore:Ripper Eel, Lore:Sea-Drake, Lore:Crocodile,
+Lore:Alit, Lore:Guar, Lore:Giant Snake, Lore:Lamia, Lore:Dreugh, Lore:Voriplasm,
+Lore:Terror Bird (not native), Lore:Argonian Cuisine, Lore:Solstice (island),
+Lore:Keshu the Black Fin, Lore:Heita-Meen, Lore:Drugs
+→ `topics/ecology-encounters-loot.md`.
+*Key finds*: hackwings wound-and-return "when the victim is almost dead from
+blood loss"; death hoppers ambush from under water and spit poison at range;
+**ripper eels are trained to hunt Argonians crossing Lilmoth's canals, countered
+by eel-slime**; swamp jellies are docile and flavour-named, except in Deepmire
+where they kill on contact; crocodiles are *rormasu* in Jel and are domesticated
+by the Dead-Water tribe; Solstice is **Oztet-Ta**, "Sprouting Root".
+
+*Pages fetched and found to add nothing Black Marsh-relevant*: Lore:Vicecanon,
+Lore:Shellback, Lore:Diamond Marines (all missing/stubs), Lore:Nightbloom,
+Lore:Dragon's Tongue, Lore:Flint Vine, Lore:Somnalius Fern (catch-all flora
+lists), Lore:Great War, Lore:Thalmor (no in-province presence recorded).
+
 ### Sweep gaps still open (next agent: fetch these)
 
 - `Lore:Tribes of Murkmire` book series (individual volumes), `Lore:Tribes of
   Blackwood` volumes — partly mined via `tribes.md` already; volumes not
-  individually fetched this run.
-- `Lore:Varieties of Faith: The Argonians` (quest-plan source L33), `Lore:Argonian
-  Cuisine`, `Lore:The Seasons of Argonia`, `Lore:Loremaster's Archive: Murkmire
-  Q&A` Pts 1–2 (returned stubs via `extracts`; retry with `action=parse`).
-- `Lore:Solstice` / Izta-Ahuak (off-map but the Tide-Born rites are a useful
-  contrast for our coastal Argonians).
+  individually fetched.
+- `Lore:Varieties of Faith: The Argonians` (quest-plan source L33) and
+  `Lore:The Seasons of Argonia` — returned stubs via `extracts`; **retry with
+  `action=parse`**. `Lore:Argonian Cuisine` was recovered this round.
 - ESO `Online:` namespace zone pages for Shadowfen/Murkmire/Blackwood — richer
   local detail than `Lore:`, era-tag hard as 2E.
 - The two Greg Keyes novels are not on UESP in full; our 4E 40s detail comes via
   `Lore:Lilmoth`, `Lore:An-Xileel`, `Lore:Umbriel`, `Lore:Kingdom of Black Marsh`.
 
-## Packet 2–3 outputs
+**Note for whoever picks these up**: none of them is blocking. The gap register is
+closed and every remaining fetch is enrichment, not a dependency.
 
-- [gap-register.md](gap-register.md) — what the game must know that canon doesn't say.
-- [argonia-4e201-state.md](argonia-4e201-state.md) — the province synthesis.
-- [owner-questions.md](owner-questions.md) — decisions escalated, with recommendations.
-- [quest-plan-deltas.md](quest-plan-deltas.md) — proposed `docs/quests/` changes (not applied).
+## Outputs by packet
+
+| Packet | File |
+|---|---|
+| 2 | [gap-register.md](gap-register.md) — closed, zero `OPEN` |
+| 3 | [argonia-4e201-state.md](argonia-4e201-state.md) — the province synthesis; **§9 is the binding trauma directive** |
+| 4 | [settlement-register.md](settlement-register.md) |
+| 5 | [../topics/guilds-and-orders.md](../topics/guilds-and-orders.md) |
+| Blocker | [../topics/hist-placement.md](../topics/hist-placement.md) |
+| 6 | [../topics/ecology-encounters-loot.md](../topics/ecology-encounters-loot.md) |
+| 7 | [quest-plan-deltas.md](quest-plan-deltas.md) — D1–D16, **not applied** |
+| — | [owner-questions.md](owner-questions.md) — Round 1 decided, Round 2 open |

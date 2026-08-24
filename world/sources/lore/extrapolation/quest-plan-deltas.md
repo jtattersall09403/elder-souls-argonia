@@ -5,8 +5,11 @@ changes the Packet 1–3 sweep says are needed, with the reasoning and the citat
 that justifies each. A follow-up agent applies them, with a pointer back to the
 lore file named in the "Justified by" column.
 
-Raised 2026-08-24. **D1 is blocked on owner answer to
-[owner-questions.md](owner-questions.md) Q1.** The rest are safe to apply.
+Raised 2026-08-24, extended after packets 4–7. **All deltas are now unblocked**:
+the owner accepted all five Round-1 recommendations on 2026-08-24, so D1 and D2
+are approved in substance and need only wording. D1–D10 came from the sweep and
+the synthesis; **D11–D16 came from the settlement, Hist, guild and ecology
+packets.**
 
 **Overall assessment first, because it matters**: the quest plan holds up
 extremely well against a full canon sweep. `The Empty Cradle` correctly builds on
@@ -18,7 +21,7 @@ Most of what follows is **sharpening and dating**, not correction.
 
 ---
 
-## D1 — `10-political-frame.md` §5: the An-Xileel in 4E 201 `BLOCKED ON Q1`
+## D1 — `10-political-frame.md` §5: the An-Xileel in 4E 201 `APPROVED — Q1 accepted`
 
 **Current text**: "The **An-Xileel** remain the strongest known Fourth-Era
 nationalist movement… Project interpretation: the An-Xileel are a powerful
@@ -256,3 +259,139 @@ for dialogue* rather than duplicating it.
 
 **Justified by**: [../archon.md](../archon.md);
 [../topics/sithis-nisswo-shadowscales.md](../topics/sithis-nisswo-shadowscales.md).
+
+---
+---
+
+# From packets 4–7
+
+## D11 — `60-writing-and-lore.md` and all faction lines: the trauma calibration
+
+The owner's binding directive (2026-08-24): **the generational trauma of 4E 48
+plays at the emotional distance our own 2026 has from the First World War.** This
+is now the governing tone rule for every quest that touches Umbriel, the
+An-Xileel, the Lukiul question or the southern cities, and it changes how several
+existing lines should be written:
+
+- **No living witnesses.** Argonian lifespans are human-like `CANON_EXPLICIT`, so
+  anyone claiming to remember Umbriel is lying, mistaken, or not what they seem.
+  The **Umbriel Witness Society** (§41) is therefore an organisation of
+  *inheritors and archivists*, not survivors — which is a stronger premise and
+  should be stated in its description.
+- **An NPC should be able to be bored by it.** 153 years makes it history:
+  argued about, politicised, taught badly, exploited, and occasionally shrugged
+  at by the young. Playing it that way is what makes the places where it *is*
+  still raw land properly.
+- **It is not universal.** Thornmarsh and Archon were barely touched; Murkmire,
+  Lilmoth, Gideon and Stormhold carry it. Faction content should not assume a
+  province-wide wound.
+- **The Nisswo counter-argument is sympathetic.** A Nisswo telling a grieving
+  community to let go is preaching *shunatei*, not being callous. Any quest that
+  frames memorial-versus-letting-go should argue both sides honestly — this is
+  the most Argonian tension in the setting.
+
+**Justified by**: [argonia-4e201-state.md](argonia-4e201-state.md) §9.
+
+## D12 — `40-factions.md` §36 (Many-Root Conclave): MR03 now has a site and a mechanism
+
+MR03 "The Borrowed Tree" can be sited concretely: **Gideon's Hist is a planted
+cutting in the city gardens among the Ayleid ruins, of disputed provenance**, and
+a Gloommire tribe claims it was taken. Canon permits transplanting (the Blackwood
+Company smuggled an entire Hist to Leyawiin), and Gideon is `CANON_EXPLICIT`
+majority **Lukiul** — a population that cannot hear the Hist — which is exactly
+why a cutting would have been planted.
+
+The stakes are canon and severe: through **gloor**, the district's children now
+belong physically and spiritually to a tree the tribe says was stolen; and souls
+return to the tree they came from.
+
+**Justified by**: [../topics/hist-placement.md](../topics/hist-placement.md) §3;
+owner Round-2 **Q9** (flagged, recommendation A).
+
+## D13 — `40-factions.md` §32 (Night-Reed Chapter): two canon gifts
+
+1. **The Night-Reed should be native, not a franchise.** Canon: the Thieves Guild
+   "operates along provincial lines, with little if any apparent coordination",
+   and "guilds in some of the provinces have been unheard of for centuries". There
+   is no Imperial chapter in Argonia and never really was — the native equivalents
+   canon *does* name are **Pusbottom**, **Alten Corimont**, the **Blackguards**
+   and the **tribeless Naga**. Reading the Night-Reed as a native organisation a
+   Cyrodiilic guild would recognise as a peer is more distinctive and better
+   grounded.
+2. **A heist mechanic, free**: in Lilmoth, **ripper eels are trained to hunt
+   Argonians illegally crossing the canals — "though they do not attack people who
+   have rubbed themselves with eel-slime"** (Lore:Ripper Eel). A security system
+   that is a trained animal with a known, obtainable, revolting counter is ideal
+   for the major Lilmoth heist the plan already wants.
+
+**Justified by**: [../topics/guilds-and-orders.md](../topics/guilds-and-orders.md) §3;
+[../topics/ecology-encounters-loot.md](../topics/ecology-encounters-loot.md) §2.
+
+## D14 — `40-factions.md` §34 (The Sunken Archive) and §26: the two live foreign magical interests
+
+Canon leaves Argonia with **no magical institutions at all** — the hard datum is
+that the Synod had "no presence at all for roughly 400 miles" of Lilmoth in the
+4E 40s. Both Mages Guild successors should therefore operate through
+intermediaries, and each has a distinct, canon-anchored motive:
+
+- **The Synod** — artefact-hunting. Its declared 4E 201 project is locating
+  objects of great magical power, in a province full of vakka stones, keystones,
+  Zaht stones, Stormhold Crystals, Mnemic Eggs and the Eye of Argonia.
+- **The College of Whispers** — **Umbrielic necromancy**. It "had the most
+  up-to-date information on Umbriel" and practises necromancy openly. Umbriel's
+  dead still lie under the Murkmire mud and in the lower levels of the Rose. A
+  College scholar seeking those remains is doing exactly what the College does,
+  and from the Argonian side is committing grave desecration on a mass-grave
+  scale. **Recommended as the province's most legible foreign magical antagonist**
+  — harder to refuse cleanly than the Thalmor, because the motive is scholarly.
+
+**And a free connection**: **Hierem**, the Imperial minister who made the secret
+4E 47 trip to Black Marsh and performed the Umbriel ritual at the Lilmoth city
+tree, "was a member of the Synod, and reportedly held **vast influence** over it"
+(Lore:Synod). Any Argonian who knows this — and the Veiled Reed's records would —
+has a permanent reason to refuse the Synod anything.
+
+**Justified by**: [../topics/guilds-and-orders.md](../topics/guilds-and-orders.md) §2.
+
+## D15 — `40-factions.md` §39 (Blackrose Chainbreakers): retarget
+
+Owner decision Q3: **Blackrose Prison is not a working prison and is not the
+state's.** It is a ruin reoccupied by the **Blackguards' heirs** — prison-born
+families three generations deep, with Umbriel's undead below and a claim to their
+own legitimacy. The plan's "contested institution" framing needs rewording.
+
+What the Chainbreakers oppose instead (see owner Round-2 **Q7**, recommendation A):
+**informal bondage** — debt servitude on the ex-Archein estates, tolled crossings
+that trap people, indentured dock labour, and the Rose's own prison-born
+hierarchy. Diffuse, deniable and much harder to abolish than a building.
+
+**And the better quest canon already wrote**: Argonians who die away from the
+Hist, "even in stone prisons **such as White Rose**", can return **if their bones
+are brought to the dirt**. White Rose is placed inland in the western burn
+country, abandoned and structurally sound, **full of Argonian dead who never got
+home**. That is a Chainbreakers objective with more moral weight than a prison
+break, and it is `CANON_EXPLICIT`.
+
+**Justified by**: [../topics/prisons.md](../topics/prisons.md);
+[settlement-register.md](settlement-register.md) §6.
+
+## D16 — `20-world-provisions.md`: further locations and systems canon supplies
+
+Additions to the D8 table, from packets 4–6:
+
+| Place / system | Canon | Serves |
+|---|---|---|
+| **Hissmir's Root Stewards cannot refuse a comer** | They could not bar even a hostile Dominion captain from the Trials | League of Open Water (LW01), Many-Root Conclave |
+| **The great Root Talk at Helstrom**, month of Hist-Tsoko | Owner decision Q2; extends the canon Root Talk | Main quest, Many-Root Conclave, Nisswo |
+| **Deepmire, "the Refuge"** | Canon shelter of last resort; the workstream sites the province's **Umbriel memorial** here | Umbriel Witness Society; a D4/D5 space that is not the Lost City |
+| **Grave-stakes (xul-vaat)** as a province-wide interactable | Each carries the dead one's whole life story; pulling one raises a **bog blight** | Every line — this is the province's signature diegetic system |
+| **Wamasu electrify the water around them** | A Nord account: the beast "curs[ed] all the water to deadly convulsions" | Encounter design; swimming systems |
+| **Miregaunts return when killed and carry loot with provenance** | "Part of the land"; the midsection cavity may hold a relic "taken in to protect or imprison it" | Fixed-danger guardians, Phase 13 |
+| **The wintertide rootworm migration south to Gideon** | Canon-named; red clay marks the stop | Rootworm Waykeepers; seasonal fast travel |
+| **Fort Swampmoth**, held but not by the Empire | Canon fort, never located; placed on the Blackwood Road | Border content, Marsh Charter |
+| **Cyrodilic Collections, refounded at Gideon** | Its museum was never built | A foreign presence Argonians can argue with rather than fight |
+
+**Justified by**: [settlement-register.md](settlement-register.md);
+[../topics/hist-placement.md](../topics/hist-placement.md);
+[../topics/ecology-encounters-loot.md](../topics/ecology-encounters-loot.md);
+[../topics/guilds-and-orders.md](../topics/guilds-and-orders.md).

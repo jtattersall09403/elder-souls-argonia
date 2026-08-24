@@ -95,16 +95,36 @@ unless marked.
    and foreign races indiscriminately**. The **"Slaughter at Lilmoth" culminated in
    the city's destruction.**
 
-### What this means for 4E 201 — the single biggest open question
+### Lilmoth in 4E 201 — `OWNER DECISION Q4, BINDING`
 
 Canon says Lilmoth was **destroyed in 4E 48** and never revisits it. It does not
-say the site was abandoned. Our era is **153 years later**. This is escalated to
-the owner as
-[extrapolation/owner-questions.md](extrapolation/owner-questions.md) **Q1**, and
-the recommended reading (a rebuilt, deliberately un-Imperial, politically
-haunted city on a mass grave, with the third Hist growing from the second's root)
-is set out in
-[extrapolation/argonia-4e201-state.md](extrapolation/argonia-4e201-state.md) §4.
+say the site was abandoned. Our era is **153 years later**. The owner's decision
+of 2026-08-24: **rebuilt, but not restored.**
+
+- A **smaller, lower, wholly Argonian stilt town over a mass grave.** The site is
+  the best natural harbour on the south coast and the mouth of a bay whose whole
+  hinterland must trade somewhere; abandoning it for 150 years was never likely.
+- The **Old Imperial quarter is left drowned and unrepaired** because nobody will
+  build there. Its local name is not used in front of strangers.
+- **Pusbottom is repopulated**, because slums always are.
+- The **third Hist** grew from the second's root. It is **feared and tended
+  anyway**: walled and open, with a **rotating tree-minder's post** so no one
+  person ever holds sole communion again, a second tender always present when the
+  first listens, and a city rule forbidding any faction exclusive access. Every
+  one of those clauses is a legible reaction to 4E 48 — an institution visibly
+  bent around the wound. Reasoning in
+  [topics/hist-placement.md](topics/hist-placement.md) §4.
+- The **Ixtaxh Xanmeer** the An-Xileel pumped dry has silted and flooded again.
+- **Government**: a merchant council, reconstituted — a ruler-less trade port has
+  produced one twice before.
+- **Politics**: Lilmoth is commercially significant and **politically hostile to
+  the An-Xileel successor state**. It was the party's seat, and the party killed
+  it. Correction to the quest plan recorded at
+  [extrapolation/quest-plan-deltas.md](extrapolation/quest-plan-deltas.md) D2.
+
+Province context:
+[extrapolation/argonia-4e201-state.md](extrapolation/argonia-4e201-state.md) §4
+and §9 (how the trauma is played).
 
 ### Notes for authoring
 

@@ -260,3 +260,146 @@ All five recommendations **accepted**:
   institutions still visibly bent around the wound.
 
 These are now binding for all lore, world and quest work.
+
+---
+---
+
+# ROUND 2 — raised 2026-08-24 after packets 4–7
+
+Four decisions that arose while closing the gap register. Each is smaller than
+Round 1, but each either **invents something** or **reshapes a named place**, so
+none was taken unilaterally. All four have a working answer in the dossiers,
+clearly tiered, so the build is not blocked while they wait.
+
+---
+
+## Q6 — Are there surviving "Wild One" vigil-communities?
+
+**Canon** gives the Wild Ones exactly three mentions, all about Lilmoth, all
+An-Xileel-framed. The workstream's reading — that they are **a category the
+An-Xileel named and claimed**, the opposite number to *Lukiul*, not an
+organisation — is `EXTRAPOLATED` and safe: it is what the words say, it explains
+why the term appears only in An-Xileel contexts, and it invents nothing.
+
+**The invention on top of it** is this. Canon says the An-Xileel and the Wild Ones
+"went away, intending to come back when the ordeal was all over and the Imperial
+taint had been scrubbed from the province". The plainest consequence is that
+**some of them are still waiting** — interior communities founded on the promise
+of a purified Argonia that never arrived, now three or four generations deep,
+confronted with a province that rebuilt itself full of exactly the people they
+withdrew from.
+
+- **A. Include them.** A superb, sad, **non-villainous** antagonist faction:
+  people whose great-grandparents were told to wait, who kept the vigil, and who
+  are now the last believers in a purge everyone else is ashamed of. Directly
+  serves the owner's Q5 trauma directive — an institution visibly bent around the
+  wound, from the *other* side.
+- **B. Leave the category and drop the communities.** Zero invention; the Wild
+  Ones remain a contested word and nothing more.
+
+**Recommendation: A**, with the communities kept **small, few and geographically
+remote** (two or three settlements in the deep interior). It is `AGENT_INVENTED`
+and should be owner-blessed before it propagates into quests.
+Currently written up as flagged invention in
+[../topics/guilds-and-orders.md](../topics/guilds-and-orders.md) §5.
+
+---
+
+## Q7 — Does the state run a live coercive institution?
+
+Q3 settled that **Blackrose Prison is not the state's** — a people who spent 1,300
+years as the Empire's prisoners did not inherit its prison and keep it running.
+That leaves a question the quest plan's **Chainbreakers** line needs answered:
+is there *anything* in 4E 201 for an abolitionist movement to oppose?
+
+- **A. No formal institution.** What the Chainbreakers fight is **informal
+  bondage** — debt servitude on the ex-Archein estates, tolled crossings that
+  trap people, indentured dock labour at the ports, and the Blackguards'
+  prison-born hierarchy at the Rose. Diffuse, deniable, and much harder to
+  abolish than a building.
+- **B. A state work-camp at White Rose.** The workstream has already placed White
+  Rose Prison inland in the western burn country and left it **abandoned**.
+  Making it a live state camp gives the Chainbreakers a target with a gate, and
+  gives the successor state a visible coercive apparatus that sharpens the Veiled
+  Reed's internal contradiction.
+- **C. Both** — informal bondage province-wide, plus one small state camp.
+
+**Recommendation: A**, with **C available** if playtesting finds the Chainbreakers
+line needs a concrete objective. Reasoning: option A is the least inventive and
+the most uncomfortable, and it fits a state canon never once shows administering
+anything. It also keeps White Rose's far stronger canon hook intact — the
+Argonian dead in it still need their bones brought to the dirt, which is a
+better quest than a prison break.
+
+---
+
+## Q8 — Is Mazzatun's Hist waking up?
+
+**Canon**: the Su-Zahleel elders put the mad Hist **Tsono-Xuhil** into "a deep
+slumber that lasted for an **indeterminate** amount of time", explicitly framed as
+convalescence — "hoping that with rest and clean water, it would remember what it
+is like to be a Hist". That was ~2E 582. Our era is roughly **350 years later**,
+and canon never returns to it.
+
+- **A. Still sleeping.** Mazzatun is a silent stone labyrinth. Safe, and a little
+  inert.
+- **B. Stirring.** The Amber Plasm seep has resumed slowly and the Xit-Xaht — or
+  what is left of them — have begun building again. The question of whether the
+  tree healed or merely rested is **live and unresolved**, which is the most
+  playable state and the one canon's own phrasing invites.
+- **C. Healed.** Mazzatun is a normal, if odd, tribal settlement. Removes a
+  landmark horror location.
+
+**Recommendation: B**, currently written into
+[settlement-register.md](settlement-register.md) §3 as `EXTRAPOLATED`. Flagged
+because "one of the province's landmark horror sites is waking up" is a
+world-state decision with obvious quest consequences.
+
+---
+
+## Q9 — Does Gideon have a Hist, and is it stolen?
+
+Gideon is `CANON_EXPLICIT` **majority Lukiul** — a population that by definition
+cannot hear the Hist — but it is an Argonian-majority city on the western root
+network, and canon puts the rootworm line's terminus there.
+
+The workstream's answer is a **planted cutting in the city gardens, of disputed
+provenance**: canon permits transplanting (the Blackwood Company smuggled an
+entire Hist to Leyawiin), and the quest plan's **MR03 "The Borrowed Tree"** already
+assumes exactly this premise. It gives Gideon a live grievance requiring no
+foreign villain, and it sites MR03 with a canon mechanism.
+
+- **A. A disputed cutting** (recommended, and already written up).
+- **B. No Hist at all.** Gideon's Argonians travel to a Gloommire tribe's tree for
+  every hatching, naming and burial. Bleaker, and it makes the city's Lukiul
+  identity structural rather than cultural — but it removes MR03's setting.
+- **C. An old, undisputed tree** predating the city. Simplest, least interesting,
+  and hard to reconcile with a Lukiul majority.
+
+**Recommendation: A.** Flagged because it materially adds an institution to a
+major city and hands a quest its location.
+
+---
+
+## Decided by the workstream, flagged for visibility only
+
+These were taken under the least-inventive rule and do not need a decision, but
+they change named places and the owner should know:
+
+- **Stillrise Village**: canon never records which ending happened in 2E 582, so
+  the workstream chose **the array was preserved** — the skeletal Kothringi still
+  stand, 350 years into an immortality none of them chose, their argument
+  fossilised. Reasoning: the alternative ending deletes a unique location.
+- **Rockpark**: given a **dead Hist** as the reason nobody ever returned, which
+  canon's pestilence-plague-curse sequence leaves unexplained.
+- **Soulrest has no Hist in the city** — its Argonians must go inland, into the
+  territory of the people who burned the plantations, to hatch, name and bury.
+  This is the workstream's explanation for the canon "struggle for regional
+  hegemony".
+- **Blackrose's Hist is drowned in the lake**, reachable only by boat and dive,
+  with access controlled by whoever holds the island core.
+- **Septims still circulate** two centuries after the Empire left, because nobody
+  minted a replacement. The claim that Argonia has no mint is ours.
+- **Fort Swampmoth is held, but not by the Empire**, on the Blackwood Road.
+- The **Conclave of Baal at Stormhold survives** as the one indispensable foreign
+  scholarly institution, because only it can locate Murkwood.
