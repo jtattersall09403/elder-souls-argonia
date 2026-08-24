@@ -84,6 +84,16 @@ High-value source families:
 [Black Marsh & Valenwood](https://www.moddb.com/mods/black-marsh-valenwood)
 (Skyrim SE new-land mod): an art-directed large Black Marsh environment
 starting at Lilmoth — **the closest existing asset base to our game**.
+
+**Binding principle (owner, 2026-08-23): we are building OUR OWN world.**
+Never lift-and-shift their authored Black Marsh (their worldspace, layout,
+places) as ours — our world comes from our own canonical maps, hydrology and
+causal generation. BM&V is (a) an asset pool (textures, meshes) and (b) a
+*reference to learn from*: how an art team dressed a Lilmoth-adjacent swamp,
+what they painted where (readable via `worldgen.esp_landtex`), how they
+composed settlements. Every agent using this source should reflect on which
+side of that line their use falls; bring genuinely borderline cases (e.g.
+reusing a whole composed location) to the owner.
 Two archives, both in the vault since 2026-08-23: Part1 (meshes + plugins,
 1.3 GB, catalogued — `manifest-data1.txt`) and part2 (7.6 GB, all textures,
 mined — `manifest.txt`). Part1 highlights: **12.8k NIF meshes** (2.4k

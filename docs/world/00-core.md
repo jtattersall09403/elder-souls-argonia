@@ -44,7 +44,9 @@ decision 0008), (3) small disposable laboratories.
    base heightfield is coarse; rocks, vegetation, kits, clutter and water
    carry the perceived detail. Visuals derive from vanilla Skyrim + credited
    mods via the asset pipeline (Module 90 lists candidate sources —
-   check it before hunting new assets).
+   check it before hunting new assets). Mod *worlds* (e.g. Black Marsh &
+   Valenwood, §74.1b) are asset pools and references to learn from — never
+   lift-and-shift their authored places as ours; we build our own world.
 7. **Region grammar drives everything** (§16): each ecological region class
    changes movement, visibility, settlement forms, routes, encounters,
    materials, sound and danger — not just colours. Materials/asset choices

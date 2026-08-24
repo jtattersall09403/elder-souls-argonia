@@ -198,11 +198,11 @@
    "file": "16-trop_grass.png",
    "tileM": 9.0,
    "avgColor": [
-    75,
-    81,
-    22
+    80,
+    72,
+    26
    ],
-   "source": "Black Marsh & Valenwood (fieldgrass02.dds)"
+   "source": "Black Marsh & Valenwood (tundra01.dds)"
   },
   {
    "id": 17,
@@ -258,11 +258,11 @@
    "file": "21-leaf_litter.png",
    "tileM": 8.0,
    "avgColor": [
-    73,
-    56,
-    34
+    57,
+    54,
+    44
    ],
-   "source": "Project Rainforest SE (fallforestleaves01.dds)"
+   "source": "Black Marsh & Valenwood (pineforest01.dds)"
   },
   {
    "id": 22,
@@ -280,13 +280,13 @@
    "id": 23,
    "name": "bc_rock",
    "file": "23-bc_rock.png",
-   "tileM": 12.0,
+   "tileM": 10.0,
    "avgColor": [
-    57,
-    53,
-    39
+    66,
+    66,
+    22
    ],
-   "source": "Aendemika of Vvardenfell (Tx_BC_rock_01.dds)"
+   "source": "Black Marsh & Valenwood (rocksgrasswater01.dds)"
   },
   {
    "id": 24,
@@ -367,10 +367,10 @@
    "tileM": 6.0,
    "avgColor": [
     77,
-    77,
-    67
+    78,
+    66
    ],
-   "source": "Black Marsh & Valenwood (roads/road01reach01.dds)"
+   "source": "Black Marsh & Valenwood (roads/road01fallforest01.dds)"
   }
  ]
 }

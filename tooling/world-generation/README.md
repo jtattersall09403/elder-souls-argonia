@@ -35,6 +35,8 @@ culture rules. Outputs are deterministic (fixed noise seed).
 ## Modules
 
 - `worldgen/esp.py` — minimal Skyrim SE plugin reader (LAND/VHGT decoding).
+- `worldgen/esp_landtex.py` — report a plugin's landscape-texture painting
+  (LTEX usage counts; used to mine the BM&V worldspace, module 90 §74.1b).
 - `worldgen/extract_province.py` — heightfield stitching + browser rasters.
 - `worldgen/condition.py` — owner-chosen strong interior compression (0005).
 - `worldgen/hydrology.py` — ocean/sea geodesics, priority-flood + G&M flat

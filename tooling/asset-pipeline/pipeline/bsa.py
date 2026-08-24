@@ -86,7 +86,11 @@ class BSAArchive:
         return name.replace("\\", "/").lower().lstrip("/")
 
     def _parse_index(self) -> None:
-        raw = self.path.read_bytes()
+        # The index (folder/file records + name blocks) sits at the front of
+        # the archive — read only that region, never the whole file (a 1.4 GB
+        # read_bytes + name-block slice spiked ~4 GB and got OOM-killed).
+        with self.path.open("rb") as fh:
+            raw = fh.read(64 * 1024 * 1024)
         magic = raw[:4]
         if magic != _MAGIC:
             raise ValueError(f"{self.path} is not a BSA (magic={magic!r})")

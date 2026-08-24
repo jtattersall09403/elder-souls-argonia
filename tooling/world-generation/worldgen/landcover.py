@@ -95,12 +95,33 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     region = _warp_regions(region, m_per_px, rng)
     mat = _region_map(region, "base")
 
-    patch = _noise(shape, 35.0 / m_per_px, rng)   # ~35 m patches (owner: finer)
+    # Landform-scale slope for material rules (micro-relief bumps must not
+    # paint slope bands — they striped the basin, owner report 2026-08-23).
+    slope_lf = ndimage.gaussian_filter(slope, 22.0 / m_per_px)
+
+    # Multi-scale patchiness (owner 2026-08-23: uniform ~35 m blobs read as
+    # camouflage). Fine-grained variation only where the ground is "doing
+    # something" — near water, channels and on slopes; calm interior ground
+    # gets broad coherent patches instead.
+    water = height < 0.05
+    shore_d = ndimage.distance_transform_edt(~water) * m_per_px
+    chan_d = np.full(shape, 1e9, dtype=np.float32)
+    for band in BAND_HALF_W:
+        m = rivers == band
+        if m.any():
+            chan_d = np.minimum(chan_d, ndimage.distance_transform_edt(~m) * m_per_px)
+    activity = np.clip(
+        np.clip(1.0 - shore_d / 130.0, 0, 1)
+        + np.clip(1.0 - chan_d / 110.0, 0, 1)
+        + np.clip(slope_lf / 0.05, 0, 1), 0, 1).astype(np.float32)
+    broad = _noise(shape, 200.0 / m_per_px, rng)  # ~200 m stable patches
+    patch = _noise(shape, 35.0 / m_per_px, rng)   # ~35 m active patches
     fine = _noise(shape, 14.0 / m_per_px, rng)    # ~14 m speckle
+    patch_mix = broad + patch * (0.25 + 0.75 * activity)
 
     # Wetness patches: TWI + wetlands push ground to each region's damp/wet
     # materials; dry pans on the seasonal floodplain.
-    wet_score = 0.8 * patch
+    wet_score = 0.8 * patch_mix
     if twi is not None:
         t = np.nan_to_num(twi.astype(np.float32))
         wet_score = wet_score + (t - t.mean()) / max(t.std(), 1e-9)
@@ -108,7 +129,7 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
         wet_score = wet_score + 0.8 * wetlands.astype(np.float32)
     mat = np.where(wet_score > 0.6, _region_map(region, "damp"), mat)
     mat = np.where(wet_score > 1.5, _region_map(region, "wet"), mat)
-    mat = np.where(fine > 1.1, _region_map(region, "litter"), mat)
+    mat = np.where(fine > 1.05 + 0.55 * (1.0 - activity), _region_map(region, "litter"), mat)
     mat = np.where((region == 9) & (wet_score < -0.9), DRY_CLAY, mat)
 
     # Raised ground: local prominence (~30 m window) reads drier everywhere.
@@ -117,13 +138,13 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     mat = np.where(prom > 0.35, _region_map(region, "high"), mat)
 
     # Slope: wet peat banks on marsh slopes; humid rock on steep ground.
-    mat = np.where(marshy & (slope > 0.08), PEAT_SLOPE, mat)
-    mat = np.where(slope > 0.16, np.where(marshy | (region == 13), BC_ROCK, MOSSY_ROCK), mat)
+    mat = np.where(marshy & (slope_lf > 0.07), PEAT_SLOPE, mat)
+    mat = np.where(slope_lf > 0.14, np.where(marshy | (region == 13), BC_ROCK, MOSSY_ROCK), mat)
 
     # Salt flats where brackish, flat and low (noise-broken).
     if salinity is not None:
         salty = salinity > 0.45
-        mat = np.where(salty & (height < 1.5) & (slope < 0.03) & (patch > 0.55), SALT, mat)
+        mat = np.where(salty & (height < 1.5) & (slope_lf < 0.03) & (patch > 0.55), SALT, mat)
     else:
         salty = np.isin(region, [0, 3, 4])
 
@@ -144,8 +165,7 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     # channels below y=0) — contour-following distance bands, highest
     # priority so nothing dry ever touches the waterline (owner feedback):
     # submerged silt -> scum/puddle/sand shallows -> wet bank -> mud -> muck.
-    water = height < 0.05
-    shore_d = ndimage.distance_transform_edt(~water) * m_per_px
+    # (water/shore_d computed above for the activity field.)
     low = height < 2.5
     band2 = (~water) & (shore_d < 58.0) & low          # damp fringe
     band1 = (~water) & (shore_d < 32.0) & low          # wet mud

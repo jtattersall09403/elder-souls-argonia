@@ -73,8 +73,10 @@ STUDIO_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "basi
 def detail_noise(shape, regions_up, channel_dist_m, rng):
     # Octaves down to ~11 m wavelength: the finest two are the person-scale
     # micro-relief (owner 2026-08-23: ground felt too flat between contours).
+    # The σ=1 octave is kept subtle — at high weight it aliased into regular
+    # moiré stripes through the half-res studio raster (owner report).
     field = np.zeros(shape, dtype=np.float32)
-    for sigma, weight in ((32, 1.0), (8, 0.45), (2, 0.30), (1, 0.16)):
+    for sigma, weight in ((32, 1.0), (8, 0.45), (2, 0.30), (1, 0.08)):
         octave = ndimage.gaussian_filter(rng.standard_normal(shape), sigma)
         field += weight * octave / max(octave.std(), 1e-9)
     field /= max(field.std(), 1e-9)
@@ -257,9 +259,11 @@ def main() -> None:
     vault_dir.mkdir(exist_ok=True)
     np.save(vault_dir / "refined-height-f32.npy", h)
 
-    # studio raster at half resolution (RG 16-bit packing, as the province)
+    # studio raster at half resolution (RG 16-bit packing, as the province).
+    # Low-pass before decimating: naive [::2] aliased the finest relief
+    # octave into regular moiré stripes (owner report 2026-08-23).
     from PIL import Image
-    half = h[::2, ::2]
+    half = ndimage.gaussian_filter(h, 1.0)[::2, ::2]
     lo, hi = float(half.min()), float(half.max())
     q = np.round((half - lo) / (hi - lo) * 65535.0).astype(np.uint16)
     rg = np.zeros((*q.shape, 3), dtype=np.uint8)

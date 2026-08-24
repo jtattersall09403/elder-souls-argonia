@@ -103,10 +103,14 @@ MATERIALS = [
     ("bc_road",       "aend", "Tx_BC_mainroad_01.dds",                      6.0, None, 74),
 ]
 
-# bmv-v1: Black Marsh & Valenwood winners (contact-sheet ranked 2026-08-23)
-# override the base list per slot; everything else carries over so the two
-# sets stay comparable. The BM&V landscape pack is dark/mossy/moody — the
-# mod's actual art-directed swamp look.
+# bmv-v1: Black Marsh & Valenwood winners — contact-sheet ranked 2026-08-23,
+# then corrected against the mod's ACTUAL painting (worldgen.esp_landtex over
+# Black Marsh.esm: ~90% vanilla slots seen through the TEXTUREPACK replacer,
+# plus custom grounds rocksgrasswater01 [1.6k paints — their signature wet
+# mossy-stone ground] and road01fallforest01 [their road]). fieldgrass02 was
+# dropped from trop_grass — it keeps vanilla's daisy-meadow look (owner
+# report). Overrides apply per slot; everything else carries over so sets
+# stay comparable.
 BMV_OVERRIDES = {
     "water_silt": ("bmv", "riverbottom.dds",        7.0, None, 45),
     "river_mud":  ("bmv", "rivermud.dds",           6.0, None, 50),
@@ -115,15 +119,17 @@ BMV_OVERRIDES = {
     "marsh_grass": ("bmv", "fieldgrass01.dds",      8.0, None, 58),
     "moss":       ("bmv", "reachmoss01.dds",        8.0, None, 52),
     "swamp_grass": ("bmv", "fielddirtgrass01.dds",  8.0, None, 58),
-    "trop_grass": ("bmv", "fieldgrass02.dds",       9.0, None, 60),
+    "trop_grass": ("bmv", "tundra01.dds",           9.0, None, 60),
     "grass_dirt": ("bmv", "reachgrass01.dds",       8.0, None, 58),
     "jungle_floor": ("bmv", "pineforest02.dds",     8.0, None, 42),
     "forest_floor": ("bmv", "pineforest03.dds",     8.0, None, 48),
+    "leaf_litter": ("bmv", "pineforest01.dds",      8.0, None, 52),
     "mossy_rock": ("bmv", "reachmossyrocks01.dds", 14.0, None, 52),
+    "bc_rock":    ("bmv", "rocksgrasswater01.dds", 10.0, None, 52),
     "tidal_sand": ("bmv", "coastbeach01.dds",       8.0, None, 72),
     "salt_flat":  ("bmv", "mineralpoolterrace.dds", 9.0, None, 78),
     "peat_slope": ("bmv", "dirtcliffsroots01.dds",  8.0, None, 45),
-    "bc_road":    ("bmv", "roads/road01reach01.dds", 6.0, None, 74),
+    "bc_road":    ("bmv", "roads/road01fallforest01.dds", 6.0, None, 74),
 }
 
 MATERIAL_SETS = {
