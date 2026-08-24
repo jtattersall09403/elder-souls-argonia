@@ -15,3 +15,4 @@ record and marking the old one superseded — don't rewrite history.
 - [0009 — quest master plan reviewed, modularised and integrated](0009-quest-plan-integration.md)
 - [0010 — world-generation master plan modularised](0010-world-plan-modularised.md)
 - [0011 — two-level ground-material system (land cover × regional palette)](0011-ground-material-system.md)
+- [0012 — portage resolution policy (boat-lane land hops)](0012-portage-resolution-policy.md)

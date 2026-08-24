@@ -71,6 +71,16 @@ export function App() {
   // Ground-material set (?mats=): A/B palette comparison + instant revert.
   const [matSet, setMatSet] = useState<string>(urlParams.get("mats") || "");
   const [matSets, setMatSets] = useState<Record<string, { label: string }>>({});
+  // Wet season (?wet=1): raises the water plane by the basin's seasonal
+  // amplitude (flood-states.json, §36) for flood-state review.
+  const [wetSeason, setWetSeason] = useState(urlParams.get("wet") === "1");
+  const [wetAmplitude, setWetAmplitude] = useState(1.4);
+  useEffect(() => {
+    fetch(`${import.meta.env.BASE_URL}province/basin/flood-states.json`)
+      .then((r) => r.json())
+      .then((j) => setWetAmplitude(j.basins?.[0]?.seasonalAmplitudeM ?? 1.4))
+      .catch(() => {});
+  }, []);
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}textures/ground/index.json`)
       .then((r) => r.json())
@@ -89,10 +99,11 @@ export function App() {
       q.set("z", spawnKm.z.toFixed(2));
       q.set("ex", String(exaggeration));
       if (matSet) q.set("mats", matSet);
+      if (wetSeason) q.set("wet", "1");
     }
     const qs = q.toString();
     window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
-  }, [view, camMode, spawnKm, exaggeration, matSet]);
+  }, [view, camMode, spawnKm, exaggeration, matSet, wetSeason]);
   const overlaysRef = useRef<Record<string, HTMLImageElement>>({});
   const decodedPxRef = useRef<Record<string, Uint8ClampedArray>>({});
   const [layers, setLayers] = useState<Record<string, boolean>>({
@@ -340,7 +351,7 @@ export function App() {
       <Fly3D heights={displayHeights()!} size={meta.imageWidth}
         metresPerPixel={meta.metresPerPixel} textureCanvas={canvasRef.current}
         spawnKm={spawnKm} exaggeration={exaggeration} mode={camMode} detail={detail}
-        matSet={matSet || undefined}
+        matSet={matSet || undefined} waterLevelM={wetSeason ? wetAmplitude : 0}
         onPosition={(x, z, alt) => setFlyPos(`${x.toFixed(2)} km E · ${z.toFixed(2)} km S · alt ${Math.round(alt)} m`)} />
       <div style={{
         position: "absolute", top: 10, left: 10, display: "flex", gap: 10, alignItems: "center",
@@ -362,6 +373,10 @@ export function App() {
             </select>
           </label>
         )}
+        <label>
+          <input type="checkbox" checked={wetSeason} onChange={(e) => setWetSeason(e.target.checked)} />
+          {" "}wet season (+{wetAmplitude} m)
+        </label>
         <span style={{ opacity: 0.85 }}>{flyPos}</span>
       </div>
       <div style={{

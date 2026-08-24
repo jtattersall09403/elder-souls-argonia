@@ -174,6 +174,67 @@ def impose_blackrose_lake(h, origin_full, rivers_up, rng):
     return h
 
 
+# Portage resolution (module 60 §45): short boat-lane land hops through low
+# ground become carved canoe channels (the swamp's cut channels, §16); longer
+# or higher hops stay real portages — recorded for Phase 11 boardwalk/drag-
+# path placement and painted as a track on the ground.
+PORTAGE_CARVE_MAX_M = 450.0
+PORTAGE_CARVE_MAX_GROUND_M = 3.0
+CANOE_HALF_W_M = 8.0
+CANOE_BED_M = -1.2
+
+
+def resolve_portages(h, origin_full, rng):
+    """Resolve waterway land hops inside the crop. Returns (h, features,
+    track_mask): heights with canoe channels carved, portage feature records,
+    and a bool mask of portage drag-paths for the land cover."""
+    lanes_path = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "waterways.json"
+    features = []
+    track = np.zeros(h.shape, dtype=bool)
+    canoe = np.zeros(h.shape, dtype=bool)
+    if not lanes_path.exists():
+        return h, features, track
+    for lane in json.loads(lanes_path.read_text()).get("lanes", []):
+        px, land = lane["px"], lane["land"]
+        run = []
+        for i in range(len(px) + 1):
+            if i < len(px) and land[i]:
+                run.append(px[i])
+                continue
+            if not run:
+                continue
+            # macro px -> full-res crop coords; keep the in-crop part
+            pts = [(x * STEP - origin_full[1], y * STEP - origin_full[0]) for x, y in run]
+            pts = [(x, y) for x, y in pts if 0 <= x < h.shape[1] and 0 <= y < h.shape[0]]
+            run = []
+            if len(pts) < 2:
+                continue
+            length_m = sum(np.hypot(x1 - x0, y1 - y0)
+                           for (x0, y0), (x1, y1) in zip(pts, pts[1:])) * RAW_M
+            ground = float(np.mean([h[y, x] for x, y in pts]))
+            mask = canoe if (length_m <= PORTAGE_CARVE_MAX_M
+                             and ground < PORTAGE_CARVE_MAX_GROUND_M) else track
+            for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
+                n = int(max(abs(x1 - x0), abs(y1 - y0))) + 1
+                xs = np.linspace(x0, x1, n).round().astype(int)
+                ys = np.linspace(y0, y1, n).round().astype(int)
+                mask[ys, xs] = True
+            features.append({
+                "lane": f"{lane['from']}-{lane['to']}",
+                "mode": "canoe-channel" if mask is canoe else "portage",
+                "startKm": [round((origin_full[1] + pts[0][0]) * RAW_M / 1000, 2),
+                            round((origin_full[0] + pts[0][1]) * RAW_M / 1000, 2)],
+                "lengthM": round(length_m), "meanGroundM": round(ground, 1),
+            })
+    if canoe.any():
+        d = ndimage.distance_transform_edt(~canoe) * RAW_M
+        w = np.exp(-((d / CANOE_HALF_W_M) ** 2)).astype(np.float32)
+        h = np.minimum(h, CANOE_BED_M * w + h * (1 - w)).astype(np.float32)
+    if track.any():
+        track = ndimage.binary_dilation(track, iterations=1)
+    return h, features, track
+
+
 def rasterize_roads(shape, origin_full):
     """Rasterize the Phase 4 road corridors (routes.json, macro [x, y] px)
     into the full-res crop as a bool mask ~11-16 m wide. Water rules override
@@ -249,6 +310,7 @@ def main() -> None:
     h, channel_dist = carve_channels(h, rivers_up)
     h += detail_noise(h.shape, regions_up, channel_dist, rng)
     h = impose_blackrose_lake(h, (fy0, fx0), rivers_up, rng)
+    h, portage_features, portage_track = resolve_portages(h, (fy0, fx0), rng)
     # pass 2: shoreline smoothing — soften noisy banks in a band around the
     # waterline so shores read as mud gradients, not jagged noise spikes
     hs = ndimage.gaussian_filter(h, 2.5)
@@ -278,12 +340,41 @@ def main() -> None:
     # — owner: finer micro variation). Detail lives in landcover.py.
     gy2, gx2 = np.gradient(h, RAW_M)
     slope_f = np.hypot(gx2, gy2).astype(np.float32)
-    roads = rasterize_roads(h.shape, (fy0, fx0))
-    _, control = compile_ground_control(
+    roads = rasterize_roads(h.shape, (fy0, fx0)) | portage_track
+    landcover_mat, control = compile_ground_control(
         h, regions_up, rivers_up, slope_f, RAW_M, rng,
         salinity=up(npz["salinity"]), twi=up(npz["twi"]),
         wetlands=up(npz["wetlands"]), roads=roads)
     Image.fromarray(control, "RGBA").save(STUDIO_DIR / "ground-control.png")
+    # local biome fields are production data (Phase 6 deliverable): the
+    # semantic land-cover raster is the source of truth for materials and,
+    # later, footsteps/groundcover/encounters.
+    np.save(vault_dir / "landcover-i16.npy", landcover_mat)
+    (STUDIO_DIR / "portages.json").write_text(json.dumps(
+        {"features": portage_features}, indent=1))
+
+    # Flood states (Phase 6 deliverable; §36 FloodBasin + climatology doc):
+    # wet-season water rises ~1.4 m in the fresh basins (canon: rivers
+    # "seasonally flood several feet"), tides ±0.5 m where brackish. The
+    # inundation mask counts only low ground connected to standing water.
+    WET_RISE_M = 1.4
+    current_water = h < 0.05
+    below = h < 0.05 + WET_RISE_M
+    lbl, _ = ndimage.label(below)
+    wet_ids = np.unique(lbl[current_water])
+    inund = np.isin(lbl, wet_ids[wet_ids > 0])
+    newly = inund & ~current_water
+    Image.fromarray((newly[::2, ::2] * 255).astype(np.uint8)).save(STUDIO_DIR / "flood-wet.png")
+    (STUDIO_DIR / "flood-states.json").write_text(json.dumps({
+        "basins": [{
+            "id": "blackrose-basin-fresh", "meanLevelM": 0.0,
+            "seasonalAmplitudeM": WET_RISE_M, "tidalAmplitudeM": 0.5,
+            "surgeProfile": "monsoon-pulse-lagged",
+            "inundationMask": "flood-wet.png",
+            "note": "flood pulse lags the rains 1-2 months (docs/research/black-marsh-climatology.md)",
+        }],
+        "wetSeasonNewlyFloodedFracOfLand": round(float(newly.sum() / max((~current_water).sum(), 1)), 4),
+    }, indent=1))
 
     # Macro climate tint (first slice of the §33.1 climate model): low-res RGB
     # multipliers over the albedo so the palette drifts with geography —
@@ -321,7 +412,11 @@ def main() -> None:
         "basinLabels": sorted(labels),
         "extentKm": [round(q.shape[1] * RAW_M * 2 / 1000, 2), round(q.shape[0] * RAW_M * 2 / 1000, 2)],
         "groundControl": "ground-control.png",
-        "note": "true metres, no vertical bake (x4 applied in the studio, 0006); pass 2 in progress - no collision/LOD/chunking yet",
+        "portages": {
+            "canoeChannels": sum(1 for f in portage_features if f["mode"] == "canoe-channel"),
+            "portages": sum(1 for f in portage_features if f["mode"] == "portage"),
+        },
+        "note": "true metres, no vertical bake (x5 applied at geometry time, 0006 addendum); chunks/LOD via worldgen.compile_chunks",
     }
     (STUDIO_DIR / "meta.json").write_text(json.dumps(meta, indent=2))
     print(json.dumps(meta, indent=2))

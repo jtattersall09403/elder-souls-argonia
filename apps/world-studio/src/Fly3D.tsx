@@ -31,6 +31,7 @@ export interface Fly3DProps {
   mode: "fly" | "orbit";
   detail?: DetailPatch | null;
   matSet?: string;
+  waterLevelM?: number; // wet-season water rise (true metres; ×exaggeration at render)
   onPosition?: (xKm: number, zKm: number, altM: number) => void;
 }
 
@@ -383,8 +384,9 @@ export function Fly3D(props: Fly3DProps) {
       )}
       <CityMarkers heights={props.heights} size={props.size}
         metresPerPixel={props.metresPerPixel} exaggeration={props.exaggeration} />
-      {/* sea */}
-      <mesh position={[extentM / 2, 0, extentM / 2]} rotation={[-Math.PI / 2, 0, 0]}>
+      {/* sea (rises with the wet-season toggle, §36 flood states) */}
+      <mesh position={[extentM / 2, (props.waterLevelM ?? 0) * props.exaggeration, extentM / 2]}
+        rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[extentM * 1.5, extentM * 1.5]} />
         <meshStandardMaterial color="#2a5b8a" transparent opacity={0.82} roughness={0.35} />
       </mesh>

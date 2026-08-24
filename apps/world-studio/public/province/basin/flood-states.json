@@ -1,0 +1,14 @@
+{
+ "basins": [
+  {
+   "id": "blackrose-basin-fresh",
+   "meanLevelM": 0.0,
+   "seasonalAmplitudeM": 1.4,
+   "tidalAmplitudeM": 0.5,
+   "surgeProfile": "monsoon-pulse-lagged",
+   "inundationMask": "flood-wet.png",
+   "note": "flood pulse lags the rains 1-2 months (docs/research/black-marsh-climatology.md)"
+  }
+ ],
+ "wetSeasonNewlyFloodedFracOfLand": 0.0452
+}

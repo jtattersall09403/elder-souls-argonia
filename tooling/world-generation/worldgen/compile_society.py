@@ -95,6 +95,7 @@ def main() -> None:
     for a, b in WATER_EDGES:
         by_water_source.setdefault(a, []).append(b)
     portage_mask = np.zeros((h, w), dtype=bool)
+    waterway_paths = []
     for source, targets in by_water_source.items():
         result = routes_from(boat_cost, anchors_px[source],
                              [anchors_px[t] for t in targets], metres_per_px)
@@ -112,6 +113,12 @@ def main() -> None:
             water_routes.append({"from": source, "to": t,
                                  "lengthKm": round(length_m / 1000.0, 2),
                                  "waterFraction": round(float(water_frac), 2)})
+            # persist the ordered path with per-px land flags so watershed
+            # refinement can resolve each portage hop explicitly (plan §45)
+            waterway_paths.append({"from": source, "to": t,
+                                   "px": [[int(x), int(y)] for x, y in path],
+                                   "land": [0 if water[y, x] else 1 for x, y in path]})
+    (PREVIEW_DIR / "waterways.json").write_text(json.dumps({"lanes": waterway_paths}))
 
     # Rootworm transit (speculative pass 1, AGENT_AUTHORED — plan §19).
     root_file = json.loads((ANCHORS_PATH.parent / "root-transit.json").read_text())

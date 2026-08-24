@@ -32,7 +32,7 @@ then open only the master-plan sections the active phase needs.
 | 3 — province hydrology and region graph | done | owner-approved 2026-08-22 (sea/salinity/flood corrections applied; lake region class added); stats in hydrology-meta.json |
 | 4 — danger, cultures, transport | done | owner-approved 2026-08-23: strong terrain, jungle region, 8 culture zones, danger model, road/boat/root graphs, climate profiles, access model (0007), lore dossiers |
 | 5 — World Studio foundation | done | owner flyover gate PASS 2026-08-23 (shape/size/feel/mist approved); map+13 layers, 3D fly/orbit, click-to-spawn, reproducible URLs; chunk overlays + probe framework mature with Phase 6 |
-| 6 — reference watershed terrain | in progress | Pass 1 (basin refine + Blackrose lake) and pass-2 texturing done through 3 owner-feedback rounds: 0011 ground-material system (31 materials, full-res control map, water-edge gradients, roads w/ wear, climate tint — research in docs/research/), 15.9×13.2 km crop w/ coast+Soulrest, city markers, ×5 canonical, BM&V mined (§74.1b) → `bmv-v1` default vs `aendemika-v1` A/B in fly HUD. Remaining: owner picks material set; portage resolutions (module 60 §45); collision/LOD/chunking; wet-season flood states; river water (Phase 8) |
+| 6 — reference watershed terrain | in progress (all deliverables built — awaiting owner gate) | §95 deliverables: hi-res terrain+channels ✓ (4 feedback rounds; 0011 materials, BM&V mined §74.1b, bmv-v1/aendemika-v1 A/B); flood states ✓ (flood-states.json + wet-season studio toggle, +4.5% land floods); biome fields ✓ (landcover raster in vault); collision+LOD ✓ (compile_chunks: 120 chunks ×3 AA'd LODs, manifest+hash); deterministic refinement ✓; portages resolved ✓ (0012: 8 canoe channels, 0 boardwalks). River water rendering = Phase 8 |
 | 7 — physical character integration | todo | |
 | 8 — water renderer and interaction | todo | |
 | 9 — swimming, climbing, boats | todo | |
@@ -45,9 +45,11 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- Phase 6 gate: owner flies the deployed studio — judge terrain detail/shape,
-  the Blackrose lake site, and **pick the material set** (`bmv-v1` default vs
-  `aendemika-v1`, HUD dropdown). Vertical scale settled (×5, 0006 addendum).
+- **Phase 6 full gate**: owner flies the deployed studio with the review
+  checklist (given in-conversation 2026-08-23) — terrain/lake/materials
+  (pick `bmv-v1` vs `aendemika-v1`), water edges, roads, micro-variation,
+  wet-season toggle, city markers. Pass → Phase 6 done; Stormhold/AC packet
+  (0009) or Phase 7 next.
 
 ## Next up
 

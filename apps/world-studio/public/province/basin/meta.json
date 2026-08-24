@@ -20,5 +20,9 @@
     13.18
   ],
   "groundControl": "ground-control.png",
-  "note": "true metres, no vertical bake (x4 applied in the studio, 0006); pass 2 in progress - no collision/LOD/chunking yet"
+  "portages": {
+    "canoeChannels": 8,
+    "portages": 0
+  },
+  "note": "true metres, no vertical bake (x5 applied at geometry time, 0006 addendum); chunks/LOD via worldgen.compile_chunks"
 }

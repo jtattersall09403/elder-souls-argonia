@@ -22,8 +22,12 @@ python3 -m worldgen.compile_society "<...>/argonia-heightfield/hydrology-pass1.n
 python3 -m worldgen.build_ground_materials
 
 # 5. Phase 6: refine the reference watershed (Blackrose basin) at ~5.5 m/sample
-#    (also compiles the land-cover ground-control map, decision 0011)
+#    (land-cover control map 0011, portage resolution 0012, flood states,
+#    biome-field export)
 python3 -m worldgen.refine_watershed "<...>/heightfield-f32.npy" "<...>/hydrology-pass1.npz"
+
+# 6. Phase 6: chunk the refined basin for collision/LOD (Phase 7 consumes)
+python3 -m worldgen.compile_chunks
 
 python3 -m pytest -q   # tests over the algorithmic cores
 ```
@@ -52,6 +56,9 @@ culture rules. Outputs are deterministic (fixed noise seed).
   channel carving, authored Blackrose lake per Lore:Blackrose).
 - `worldgen/landcover.py` — semantic land cover × per-region material
   palettes -> ground-control map (decision 0011).
+- `worldgen/compile_chunks.py` — chunked terrain + AA'd LOD pyramid +
+  collision grids for the refined basin (Phase 6 deliverable; Phase 7
+  consumes; ×5 applied at geometry time).
 - `worldgen/build_ground_materials.py` — ground-texture library builder
   (CC0 ambientCG/Poly Haven + vanilla BSA; luminance-normalised 512px PNGs
   + materials.json).

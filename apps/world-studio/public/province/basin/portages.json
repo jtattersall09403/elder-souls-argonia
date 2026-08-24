@@ -1,0 +1,84 @@
+{
+ "features": [
+  {
+   "lane": "soulrest-lilmoth",
+   "mode": "canoe-channel",
+   "startKm": [
+    1.1,
+    20.12
+   ],
+   "lengthM": 103,
+   "meanGroundM": 1.9
+  },
+  {
+   "lane": "soulrest-lilmoth",
+   "mode": "canoe-channel",
+   "startKm": [
+    11.29,
+    19.33
+   ],
+   "lengthM": 16,
+   "meanGroundM": 2.5
+  },
+  {
+   "lane": "lilmoth-archon",
+   "mode": "canoe-channel",
+   "startKm": [
+    11.27,
+    19.33
+   ],
+   "lengthM": 16,
+   "meanGroundM": 2.5
+  },
+  {
+   "lane": "lilmoth-archon",
+   "mode": "canoe-channel",
+   "startKm": [
+    15.51,
+    13.93
+   ],
+   "lengthM": 33,
+   "meanGroundM": 1.2
+  },
+  {
+   "lane": "archon-thorn",
+   "mode": "canoe-channel",
+   "startKm": [
+    15.48,
+    13.93
+   ],
+   "lengthM": 33,
+   "meanGroundM": 1.2
+  },
+  {
+   "lane": "blackrose-lilmoth",
+   "mode": "canoe-channel",
+   "startKm": [
+    7.07,
+    19.25
+   ],
+   "lengthM": 47,
+   "meanGroundM": 1.6
+  },
+  {
+   "lane": "blackrose-lilmoth",
+   "mode": "canoe-channel",
+   "startKm": [
+    7.16,
+    19.16
+   ],
+   "lengthM": 99,
+   "meanGroundM": -4.0
+  },
+  {
+   "lane": "blackrose-lilmoth",
+   "mode": "canoe-channel",
+   "startKm": [
+    11.29,
+    19.33
+   ],
+   "lengthM": 16,
+   "meanGroundM": 2.5
+  }
+ ]
+}
