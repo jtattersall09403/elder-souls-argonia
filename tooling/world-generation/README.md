@@ -29,6 +29,11 @@ python3 -m worldgen.refine_province "<...>/heightfield-f32.npy" "<...>/hydrology
 # 6. Phase 6: chunk the refined province for collision/LOD (Phase 7 consumes)
 python3 -m worldgen.compile_chunks
 
+# 7. Phase 7: encode chunks for the browser (RG16 PNGs + web manifest into
+#    apps/world-studio/public/province/chunks/ — committed, since CI/Pages
+#    never see the vault)
+python3 -m worldgen.export_web_chunks
+
 python3 -m pytest -q   # tests over the algorithmic cores
 ```
 
@@ -60,6 +65,9 @@ culture rules. Outputs are deterministic (fixed noise seed).
 - `worldgen/compile_chunks.py` — chunked terrain + AA'd LOD pyramid +
   collision grids for the refined province (Phase 6 deliverable; Phase 7
   consumes; ×5 applied at geometry time).
+- `worldgen/export_web_chunks.py` — re-encodes the vault chunks as
+  16-bit-quantised RG PNGs + `chunks-web-manifest.json` for the studio's
+  character mode (Rapier heightfields + chunked render meshes).
 - `worldgen/build_ground_materials.py` — ground-texture library builder
   (CC0 ambientCG/Poly Haven + vanilla BSA; luminance-normalised 512px PNGs
   + materials.json).
