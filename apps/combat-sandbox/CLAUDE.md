@@ -28,8 +28,10 @@ real game (master plan Part VIII). It must always stay independently runnable.
 
 Game assets are built from owned Skyrim data by `tooling/asset-pipeline`
 (reading a local asset vault via `ELDER_SOULS_ASSET_ROOT`) and copied into
-`public/` — the runtime GLBs are intentionally versioned so a clean GitHub
-Pages checkout works. To rebuild/replace, see
+`packages/character-assets/files/` — versioned there and served/copied into
+every consuming app by that package's vite plugin, so a clean GitHub Pages
+checkout works. Generated data manifests live beside the code in
+`packages/game-core/src/**/generated/`. To rebuild/replace, see
 [docs/assets/rebuilding-the-character.md](docs/assets/rebuilding-the-character.md).
 
 ## Commands
@@ -43,6 +45,9 @@ npm test            # vitest
 npm run build       # tsc -b && vite build
 
 # Animation only. Both take scenario ids or group names (blank = all scenes).
+# Measured 2026-08-24: a group ≈ 2 min incl. build; the full 33-scene suite
+# ≈ 7 min. Run the affected group for animation/movement changes; run the
+# full suite only for cross-cutting refactors.
 npm run visual:check  -- locomotion  # fast probes, no video — run freely
 npm run visual:record -- locomotion  # recordings for the owner to watch
 ```

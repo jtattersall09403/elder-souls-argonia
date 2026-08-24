@@ -4,8 +4,8 @@ Three layers, with hard seams between them. The seams are the point: the rules
 are what the real game keeps, and the sandbox's look is not.
 
 ```
-src/game/equipment/   what an item IS      (class x material -> stats)
-src/game/inventory/   what carrying MEANS  (rules + a view model)
+packages/game-core/src/equipment/   what an item IS      (class x material -> stats)
+packages/game-core/src/inventory/   what carrying MEANS  (rules + a view model)
 src/ui/inventory/     what it LOOKS like   (layout + one stylesheet)
 ```
 
@@ -63,7 +63,7 @@ calls `Shield`.
 
 Armour is skinned to the same rig the bodies are, so a piece is not a prop on a
 bone: it is rebound onto *this* actor's skeleton and parented beside the body
-meshes. `src/game/actors/armourMounting.ts` does that, and it is deliberately
+meshes. `packages/game-core/src/actors/armourMounting.ts` does that, and it is deliberately
 plain three.js — an actor, a paper doll, a shop preview and a cutscene rig all
 mount armour with the same call.
 

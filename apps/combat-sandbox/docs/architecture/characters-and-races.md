@@ -24,7 +24,7 @@ here is that a race body records which biped slots each of its meshes occupies
 
 ## What a race is
 
-`src/game/actors/races.ts` reads the generated roster. A race is a body:
+`packages/game-core/src/actors/races.ts` reads the generated roster. A race is a body:
 meshes, textures and a skin tone. It is not a stat block, a moveset or a
 loadout, and no combat, animation or inventory code knows which one is loaded.
 
@@ -91,7 +91,7 @@ rather than a pairing.
 3. `python3 -m pipeline.build_races --only <id>` (the reference race is built
    too; it owns the rig and the manifest).
 4. Copy `output/races/*.glb` into `public/races/`, `output/races.json` into
-   `src/game/actors/generated/`, and run `npm run assets`.
+   `packages/game-core/src/actors/generated/`, and run `npm run assets`.
 
 ## The reference race
 

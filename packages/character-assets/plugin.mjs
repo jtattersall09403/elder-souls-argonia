@@ -24,11 +24,15 @@ const CONTENT_TYPES = {
 export default function characterAssets() {
   let outDir = "dist";
   let root = process.cwd();
+  let isBuild = false;
   return {
     name: "elder-souls-character-assets",
     configResolved(config) {
       outDir = config.build.outDir;
       root = config.root;
+      // Vitest also resolves the config (with a placeholder outDir) and closes
+      // a bundle on teardown — only a real `vite build` should copy assets.
+      isBuild = config.command === "build";
     },
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
@@ -48,7 +52,7 @@ export default function characterAssets() {
       });
     },
     closeBundle() {
-      cpSync(FILES_ROOT, join(root, outDir), { recursive: true });
+      if (isBuild) cpSync(FILES_ROOT, join(root, outDir), { recursive: true });
     },
   };
 }

@@ -10,15 +10,15 @@
 
 Required modes:
 
-| Mode | Purpose |
-|---|---|
-| Overworld map | Inspect province layers and choose a spawn point |
-| First-person fly | Fast visual inspection without collision |
-| Orbit/survey | Inspect settlements, terrain and hydrology from above |
-| Physical character | Test actual movement, combat, swimming and climbing |
-| Boat | Test channels, currents, docks and clearance |
-| Underwater free camera | Inspect submerged routes and entrances |
-| Diagnostic render | Show collision, IDs, normals, depth, flow and LOD |
+| Mode | Purpose | Status |
+|---|---|---|
+| Overworld map | Inspect province layers and choose a spawn point | Phase 5 ✓ |
+| First-person fly | Fast visual inspection without collision | Phase 5 ✓ |
+| Orbit/survey | Inspect settlements, terrain and hydrology from above | Phase 5 ✓ |
+| Physical character | Test actual movement, combat, swimming and climbing | Phase 7 ✓ grounded movement (`?view=character&x&z&race&profile`; HUD = live environment-query probe; swimming/climbing land with Phase 9) |
+| Boat | Test channels, currents, docks and clearance | Phase 9 |
+| Underwater free camera | Inspect submerged routes and entrances | Phase 8 |
+| Diagnostic render | Show collision, IDs, normals, depth, flow and LOD | partial: character HUD reports chunk/LOD/material; `window.__STUDIO_CHARACTER_DEBUG__` exposes collider/raycast probes |
 
 ## 67. Spawn workflow
 

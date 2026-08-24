@@ -23,7 +23,7 @@ physics-side velocity, and clip speed is a purely visual multiplier.
 
 | Clip(s) | Where | Notes |
 | --- | --- | --- |
-| `WALK`, `WALK_BACK`, `STRAFE_LEFT`, `STRAFE_RIGHT`, `RUN`, `SPRINT` (base rate) | `playbackRate` field per state in [`character-dunmer-combat.animations.json`](../../src/game/anim/character-dunmer-combat.animations.json) | Plain data, safe to hand-edit; pipeline-generated but not geometry, won't be touched unless the pipeline reruns |
+| `WALK`, `WALK_BACK`, `STRAFE_LEFT`, `STRAFE_RIGHT`, `RUN`, `SPRINT` (base rate) | `playbackRate` field per state in [`rig-skyrim-humanoid.animations.json`](../../../../packages/game-core/src/anim/generated/rig-skyrim-humanoid.animations.json) | Plain data, safe to hand-edit; pipeline-generated but not geometry, won't be touched unless the pipeline reruns |
 | Locked-on `WALK`/`WALK_BACK`/`STRAFE_LEFT`/`STRAFE_RIGHT` extra multiplier | Flat `1.4` in the `playerAnimationSpeed.current = ... lockedLocomotion ? 1.4 : 1` assignment in `CombatScene.tsx` | Applies on top of each clip's own `playbackRate`; currently one shared value for all four directions (not per-clip) |
 | Any other one-shot clip (attacks, roll, backstep, guard, etc.) | That state's own `playbackRate` in the manifest JSON | Duration in `tuning.ts`/`weapon.ts` is derived from `sourceDuration / playbackRate` (`clipPlaybackDuration`), so changing `playbackRate` also changes the action's gameplay duration unless something else clamps it |
 

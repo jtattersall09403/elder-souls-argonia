@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { SettlementAnchor, SuggestedConnection } from "@elder-souls/contracts";
 import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json";
 import { Fly3D, type DetailPatch } from "./Fly3D";
+import { CharacterMode } from "./character/CharacterMode";
 import { colour } from "./terrainColor";
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -56,17 +57,22 @@ export function App() {
   const conditionedRef = useRef<Partial<Record<Conditioning, Float32Array>>>({});
   const [meta, setMeta] = useState<ProvinceMeta | null>(null);
   const [seaLevel, setSeaLevel] = useState(0);
-  // Strong is the owner-chosen conditioning (decision 0005, revised).
+  // Mild is the owner-chosen conditioning (decision 0005, 2026-08-23 addendum).
   const [conditioning, setConditioning] = useState<Conditioning>("mild");
   const [readout, setReadout] = useState("");
   const [tip, setTip] = useState<{ x: number; y: number; text: string } | null>(null);
-  const [view, setView] = useState<"map" | "fly3d">(urlParams.get("view") === "fly3d" ? "fly3d" : "map");
+  const [view, setView] = useState<"map" | "fly3d" | "character">(
+    urlParams.get("view") === "fly3d" ? "fly3d"
+      : urlParams.get("view") === "character" ? "character"
+        : "map",
+  );
   const [camMode, setCamMode] = useState<"fly" | "orbit">(urlParams.get("cam") === "orbit" ? "orbit" : "fly");
   const [spawnKm, setSpawnKm] = useState<{ x: number; z: number }>({
     x: Number(urlParams.get("x")) || 10.4, z: Number(urlParams.get("z")) || 8.4,
   });
   const [exaggeration, setExaggeration] = useState(Number(urlParams.get("ex")) || 5);
   const [flyPos, setFlyPos] = useState("");
+  const flyKmRef = useRef<{ x: number; z: number }>({ x: 10.4, z: 8.4 });
   const [detail, setDetail] = useState<DetailPatch | null>(null);
   // Ground-material set (?mats=): A/B palette comparison + instant revert.
   const [matSet, setMatSet] = useState<string>(urlParams.get("mats") || "");
@@ -105,6 +111,16 @@ export function App() {
       if (wetSeason) q.set("wet", "1");
       if (tintStrength !== 1) q.set("tint", String(tintStrength));
       if (!showLanes) q.set("lanes", "0");
+    } else if (view === "character") {
+      q.set("view", "character");
+      q.set("x", spawnKm.x.toFixed(2));
+      q.set("z", spawnKm.z.toFixed(2));
+      const race = urlParams.get("race");
+      const profile = urlParams.get("profile");
+      if (race) q.set("race", race);
+      if (profile) q.set("profile", profile);
+      if (matSet) q.set("mats", matSet);
+      if (tintStrength !== 1) q.set("tint", String(tintStrength));
     }
     const qs = q.toString();
     window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
@@ -338,6 +354,33 @@ export function App() {
     setView("fly3d");
   }
 
+  function enterCharacter(xKm: number, zKm: number) {
+    setSpawnKm({ x: xKm, z: zKm });
+    setView("character");
+  }
+
+  /** Region name at a world position, from the decoded map rasters (used by
+   * the character mode's environment-query HUD). Stable identity — the
+   * character mode keys its world instance on it. */
+  const lookupRegionAt = useCallback((xM: number, zM: number): { regionId: string; biomeId: string } => {
+    const m = meta;
+    const px = decodedPxRef.current.regions;
+    const legend = legends.regions;
+    if (!m || !px || !legend) return { regionId: "unknown", biomeId: "unknown" };
+    const x = Math.max(0, Math.min(m.imageWidth - 1, Math.floor(xM / m.metresPerPixel)));
+    const y = Math.max(0, Math.min(m.imageHeight - 1, Math.floor(zM / m.metresPerPixel)));
+    const i = (y * m.imageWidth + x) * 4;
+    if (px[i + 3] === 0) return { regionId: "ocean", biomeId: "ocean" };
+    let best = "unknown";
+    let bestDist = 40;
+    for (const r of Object.values(legend)) {
+      const dist = Math.abs(r.rgb[0] - px[i]) + Math.abs(r.rgb[1] - px[i + 1]) + Math.abs(r.rgb[2] - px[i + 2]);
+      if (dist < bestDist) { bestDist = dist; best = r.name; }
+    }
+    return { regionId: best, biomeId: best };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [meta, legends]);
+
   function onDoubleClick(e: React.MouseEvent<HTMLCanvasElement>) {
     const canvas = canvasRef.current;
     if (!canvas || !meta) return;
@@ -349,6 +392,20 @@ export function App() {
 
   const extentKm = meta ? ((meta.imageWidth * meta.metresPerPixel) / 1000).toFixed(1) : "…";
 
+  const characterOverlay = view === "character" ? (
+    <CharacterMode
+      spawnKm={spawnKm}
+      raceId={urlParams.get("race") ?? undefined}
+      profileId={urlParams.get("profile") ?? undefined}
+      matSet={matSet || undefined}
+      tintStrength={tintStrength}
+      lookupRegion={lookupRegionAt}
+      onPositionKm={(x, z) => setSpawnKm({ x, z })}
+      onExit={() => setView("map")}
+      onFlyHere={(x, z) => enterFly(x, z)}
+    />
+  ) : null;
+
   // The map canvas must STAY MOUNTED while flying — it is both the terrain
   // texture and the hover data source — so the 3D view overlays it.
   const flyOverlay = view === "fly3d" && meta && heightsRef.current && canvasRef.current && overlaysReady ? (
@@ -358,12 +415,17 @@ export function App() {
         spawnKm={spawnKm} exaggeration={exaggeration} mode={camMode} detail={detail}
         matSet={matSet || undefined} waterLevelM={wetSeason ? wetAmplitude : 0}
         tintStrength={tintStrength} showLanes={showLanes}
-        onPosition={(x, z, alt) => setFlyPos(`${x.toFixed(2)} km E · ${z.toFixed(2)} km S · alt ${Math.round(alt)} m`)} />
+        onPosition={(x, z, alt) => {
+          flyKmRef.current = { x, z };
+          setFlyPos(`${x.toFixed(2)} km E · ${z.toFixed(2)} km S · alt ${Math.round(alt)} m`);
+        }} />
       <div style={{
         position: "absolute", top: 10, left: 10, display: "flex", gap: 10, alignItems: "center",
         background: "rgba(10,14,20,0.8)", padding: "8px 12px", borderRadius: 8, flexWrap: "wrap",
       }}>
         <button onClick={() => setView("map")} style={{ padding: "4px 10px", cursor: "pointer" }}>← Map</button>
+        <button onClick={() => enterCharacter(flyKmRef.current.x, flyKmRef.current.z)}
+          style={{ padding: "4px 10px", cursor: "pointer" }}>🚶 Walk here</button>
         <button onClick={() => setCamMode(camMode === "fly" ? "orbit" : "fly")}
           style={{ padding: "4px 10px", cursor: "pointer" }}>
           {camMode === "fly" ? "Switch to orbit" : "Switch to fly"}
@@ -407,6 +469,7 @@ export function App() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: 16 }}>
+      {characterOverlay}
       {flyOverlay}
       <h1 style={{ font: "600 18px system-ui", margin: 0 }}>Argonia province preview — Phase 2 source ingest</h1>
       <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
@@ -427,6 +490,10 @@ export function App() {
           style={{ padding: "4px 12px", borderRadius: 5, cursor: "pointer", border: "1px solid #4a5568", background: "#2b5b3f", color: "#d8dee7", font: "13px system-ui" }}>
           ✈ Fly the province
         </button>
+        <button onClick={() => enterCharacter(spawnKm.x, spawnKm.z)}
+          style={{ padding: "4px 12px", borderRadius: 5, cursor: "pointer", border: "1px solid #4a5568", background: "#5b3f2b", color: "#d8dee7", font: "13px system-ui" }}>
+          🚶 Walk the province
+        </button>
         <span style={{ opacity: 0.75 }}>{extentKm} km across at ×3 world scale (decision 0006)</span>
         <span style={{ minWidth: 260 }}>{readout}</span>
       </div>
@@ -444,8 +511,8 @@ export function App() {
         <span>Interior relief:</span>
         {([
           ["off", "As source"],
-          ["mild", "Compressed — mild"],
-          ["strong", "Compressed — strong (chosen)"],
+          ["mild", "Compressed — mild (chosen)"],
+          ["strong", "Compressed — strong"],
         ] as [Conditioning, string][]).map(([mode, label]) => (
           <button key={mode} onClick={() => setConditioning(mode)}
             style={{

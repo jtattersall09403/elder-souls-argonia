@@ -17,8 +17,8 @@ cd ../elder-scrolls-asset-pipeline
 python3 -m pipeline.build    --character dunmer-combat
 python3 -m pipeline.validate --character dunmer-combat
 
-cp output/character-dunmer-combat.glb            ../ecctrl-souls-combat/public/
-cp output/character-dunmer-combat.animations.json ../ecctrl-souls-combat/src/game/anim/
+cp output/rig-skyrim-humanoid.glb                 ../elder-souls-argonia/packages/character-assets/files/
+cp output/rig-skyrim-humanoid.animations.json     ../elder-souls-argonia/packages/game-core/src/anim/generated/
 ```
 
 - The `.glb` lands in `public/` and must remain versioned with the deployment.

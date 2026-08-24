@@ -138,7 +138,7 @@ export function defineArrow(
  * download size and adding a material costs one line of pipeline config.
  */
 export const ARROWS: Readonly<Record<string, ArrowDefinition>> = Object.fromEntries(
-  Object.entries(BUILT).flatMap(([builtId, built]) =>
+  Object.values(BUILT).flatMap((built) =>
     (Object.keys(ARROW_SHAFTS) as ArrowShaftId[]).map((shaftId) => {
       const id = `${built.material}-${shaftId}-arrow`;
       return [id, defineArrow(id, shaftId, built.material as MaterialId, built.asset, built.icon)];

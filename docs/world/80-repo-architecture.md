@@ -42,6 +42,14 @@ The monorepo uses plain **npm workspaces** — no additional monorepo tooling
 (pnpm, turborepo, nx) until a measured need appears. Directories are created
 when their phase needs them, not speculatively.
 
+> **Actual `packages/` layout (Phase 7, decision 0013):** the tree below is
+> the *direction*, not the current state. Today's packages are coarser, cut
+> along the real seams: `contracts`, `game-core` (the framework-free game
+> layer: combat/anim/equipment/inventory/actors/input/physics boundary),
+> `character` (R3F/Rapier/ecctrl actor layer) and `character-assets` (tracked
+> runtime GLBs + a vite plugin). Split further only when a consumer needs a
+> slice without the rest.
+
 ```text
 elder-souls-argonia/
 ├─ apps/

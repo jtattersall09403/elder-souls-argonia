@@ -7,10 +7,10 @@ controller-independent interface so gameplay code never depends on ecctrl APIs.
 combat / input / lock-on / animation
             │  (depends on)
             ▼
-   PlayerMovementController      src/game/physics/PlayerMovementController.ts
+   PlayerMovementController      packages/game-core/src/physics/PlayerMovementController.ts
             ▲  (implements)
             │
-      EcctrlAdapter              src/game/physics/EcctrlAdapter.ts
+      EcctrlAdapter              packages/character/src/EcctrlAdapter.ts
             │  (wraps)
             ▼
       ecctrl EcctrlHandle
@@ -32,7 +32,15 @@ and the net delta per clip is recorded in the manifest for future use.
 
 ## Status / follow-up
 
-The interface + adapter exist and the new actor path is controller-agnostic.
+Phase 7 made the boundary real: the world studio's character mode drives
+ecctrl **only** through `EcctrlAdapter` (`packages/character`), using the
+shared `PlayerBody` ecctrl config, `ExplorerLocomotion` and `FollowCamera`
+(`packages/game-core`). The interface gained `steer()` (smooth free-roam
+facing, distinct from `faceDirection`'s snap-and-hold).
+
 `CombatScene.tsx` still holds the raw `EcctrlHandle` for its large existing
-useFrame; migrating those internal calls to `EcctrlAdapter` is a mechanical
-follow-up pass (no behaviour change intended).
+useFrame; migrating those internal calls to `EcctrlAdapter` — and its inline
+free-orbit camera/locomotion onto the shared modules — is a mechanical
+follow-up pass when the scene orchestration is next reworked (master plan
+§53). Until then, do not retune the shared modules' constants without the
+matching inline CombatScene values.

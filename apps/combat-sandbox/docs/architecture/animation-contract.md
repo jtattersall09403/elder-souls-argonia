@@ -1,6 +1,6 @@
 # Animation contract
 
-The game speaks in **semantic** animation states (`src/game/core/types.ts`
+The game speaks in **semantic** animation states (`packages/game-core/src/core/types.ts`
 `AnimationState`): `IDLE`, `WALK`, `WALK_BACK`, `STRAFE_LEFT/RIGHT`, `RUN`,
 `SPRINT`, jump trio, `LIGHT_1/2/3`, `HEAVY`, `HEAVY_2`, `ROLL`, `BACKSTEP`,
 `GUARD`, `PARRY`, `RIPOSTE`, `CRITICAL_KNOCKDOWN`, `CRITICAL_DEATH`, `BACKSTAB`,
@@ -8,8 +8,8 @@ The game speaks in **semantic** animation states (`src/game/core/types.ts`
 
 ## Manifest-driven
 
-`src/game/anim/animationManifest.ts` loads
-`character-dunmer-combat.animations.json` (emitted by the asset pipeline). Per
+`packages/game-core/src/anim/animationManifest.ts` loads
+`generated/rig-skyrim-humanoid.animations.json` (emitted by the asset pipeline). Per
 state it exposes `looping`, `playbackRate`, `crossFadeDuration`, optional
 `crossFadeOutDuration`, `rootMotion`
 policy, `sourceDuration` and `rootMotionDelta`, plus support policy/envelopes,
@@ -80,7 +80,7 @@ through the fist, and any contact timing audited against it is stale.
 ## Weapon-type scalability
 
 Every weapon-specific animation is data on `WeaponDefinition.animations`
-(`src/game/equipment/`): combat idle/sprint override, guard enter/loop/hit
+(`packages/game-core/src/equipment/`): combat idle/sprint override, guard enter/loop/hit
 variants, two-stage parry, light/heavy actions, guard break, equip, and paired
 critical actions. A critical profile also owns victim action, alignment,
 separation, facing, damage point, release point, and root-motion policy. Combat
@@ -178,7 +178,7 @@ controller facing.
 
 `LIGHT_1/2/3` are three distinct clips forming the light chain (and `HEAVY`,
 `HEAVY_2`). The combo/queue timing is combat logic in
-`src/game/combat/weapon.ts`; the actor just plays whichever state it is told,
+`packages/game-core/src/combat/weapon.ts`; the actor just plays whichever state it is told,
 timed by the gameplay action clock.
 
 ## Timing rule
@@ -216,7 +216,7 @@ source motion at a manifest-defined rate; leaving them at rate 1 visibly cut
 the clips at 27–40% completion.
 
 The reverse mistake also happens: a *fixed* gameplay duration (`ACTION_DURATIONS`
-in `src/game/combat/tuning.ts`) shorter than the clip's actual `sourceDuration`
+in `packages/game-core/src/combat/tuning.ts`) shorter than the clip's actual `sourceDuration`
 cuts the animation off mid-motion (this happened to `EQUIP`/`UNEQUIP`, both
 fixed at ~0.6s against 2-2.9s clips). Prefer deriving the duration from
 `clipConfig(...).sourceDuration` over a hand-picked constant for any action

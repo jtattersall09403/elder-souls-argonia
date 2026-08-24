@@ -6,23 +6,19 @@ short; treat them like code (DRY, one concern per file).
 
 ## What this project is
 
-A **portable combat + character sandbox**. The goal is to prove fun, good-looking
-Souls-like melee combat with Skyrim-derived visuals/animations, then lift the
-*portable core* into a full game. Some things here are deliberately throwaway
-(the stage/arena, intro screen, debug panel). The **core to keep** is the combat,
-character, animation and movement architecture.
+A **combat + character proving ground**. Fun, good-looking Souls-like combat
+with Skyrim-derived visuals/animations is proved here, and the portable core
+now **lives in shared packages** (extracted at Phase 7, decision 0013):
 
-## Portability boundaries (what to keep vs throw away)
-
-| Keep (portable core) | Throwaway (sandbox scaffolding) |
+| Where the core lives now | Still sandbox-only (scaffolding) |
 | --- | --- |
-| `src/game/combat/*`, `src/game/anim/*`, `src/game/physics/*` | `Arena.tsx`, intro screen, debug HUD/panel |
-| `src/game/equipment/*`, `src/game/inventory/*`, `src/game/actors/*` | enemy spawn layout, arena lighting |
-| `SkyrimFighter` actor + animation manifest | the inventory's Morrowind *skin* |
-| `PlayerMovementController` boundary | |
+| `packages/game-core` — combat, anim, equipment, inventory logic, actors, input, `PlayerMovementController` boundary | `Arena.tsx`, intro screen, debug HUD/panel |
+| `packages/character` — `SkyrimFighter`, hurtbox/armour/arrow attachments, `EcctrlAdapter`, `PlayerBody` | enemy spawn layout, arena lighting, `CombatScene`'s scene orchestration (§53 migration debt) |
+| `packages/character-assets` — runtime GLBs + icons | the inventory's Morrowind *skin* |
 
-The inventory is a deliberate example of the split: its rules and view model are
-core, its stylesheet is not. See
+Changing anything in those packages changes the world studio too — run both
+apps' gates. The inventory is a deliberate example of the split: its rules and
+view model are core, its stylesheet is not. See
 [architecture/items-and-inventory.md](architecture/items-and-inventory.md).
 
 ## Map

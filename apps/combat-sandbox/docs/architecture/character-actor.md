@@ -7,7 +7,7 @@ root-motion stripping — that is resolved in the asset pipeline).
 
 ## What it does
 
-- Loads the versioned deployment asset `public/character-dunmer-combat.glb` (see
+- Loads the versioned deployment asset `packages/character-assets/files/rig-skyrim-humanoid.glb` + per-race body GLBs (see
   [../assets/rebuilding-the-character.md](../assets/rebuilding-the-character.md)).
 - Its GLB actions are already named with **semantic** game states, so playback is
   `actions[state]` with no name mapping.

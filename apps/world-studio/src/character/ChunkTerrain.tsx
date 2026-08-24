@@ -1,0 +1,169 @@
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useFrame, useLoader } from "@react-three/fiber";
+import * as THREE from "three";
+import { createGroundMaterial, useGroundManifest } from "../groundMaterial";
+import type { ChunkGrid, ChunkStore, ChunksManifest } from "./chunkStore";
+
+/**
+ * Chunked terrain renderer for the character mode: every province chunk as its
+ * own mesh, LOD chosen by chunk distance from the player (LOD 1 ≈5.5 m near,
+ * 2 mid, 4 far), textured by the shared splat material. Near geometry is the
+ * SAME LOD-1 grid the Rapier colliders use, so feet and ground agree exactly.
+ * Each mesh gets a short dropped skirt to hide hairline gaps at LOD borders.
+ */
+
+const NEAR_RING = 1;  // Chebyshev chunk distance rendered at LOD 1
+const MID_RING = 3;   // … at LOD 2; beyond renders at LOD 4
+
+function desiredLod(dx: number, dy: number): string {
+  const d = Math.max(Math.abs(dx), Math.abs(dy));
+  return d <= NEAR_RING ? "1" : d <= MID_RING ? "2" : "4";
+}
+
+function buildChunkGeometry(
+  grid: ChunkGrid,
+  verticalScale: number,
+  uvExtentM: number,
+): THREE.BufferGeometry {
+  const { heights, nx, ny, metresPerSample } = grid;
+  const [ox, oz] = grid.meta.originM;
+  // One extra ring of vertices dropped below the edge: the skirt. Deep enough
+  // to bridge LOD-border cracks (a few metres after smoothing ×5), shallow
+  // enough not to read as walls when seen side-on.
+  const skirtDrop = 6;
+  const gx = nx + 2;
+  const gz = ny + 2;
+  const pos = new Float32Array(gx * gz * 3);
+  const uv = new Float32Array(gx * gz * 2);
+  for (let r = 0; r < gz; r++) {
+    for (let c = 0; c < gx; c++) {
+      const i = r * gx + c;
+      const sx = Math.max(0, Math.min(nx - 1, c - 1));
+      const sz = Math.max(0, Math.min(ny - 1, r - 1));
+      const onSkirt = c === 0 || r === 0 || c === gx - 1 || r === gz - 1;
+      const x = ox + sx * metresPerSample;
+      const z = oz + sz * metresPerSample;
+      pos[i * 3] = x;
+      pos[i * 3 + 1] = heights[sz * nx + sx] * verticalScale - (onSkirt ? skirtDrop : 0);
+      pos[i * 3 + 2] = z;
+      uv[i * 2] = x / uvExtentM;
+      uv[i * 2 + 1] = 1 - z / uvExtentM;
+    }
+  }
+  const idx = new Uint32Array((gx - 1) * (gz - 1) * 6);
+  let j = 0;
+  for (let r = 0; r < gz - 1; r++) {
+    for (let c = 0; c < gx - 1; c++) {
+      const a = r * gx + c;
+      idx[j++] = a; idx[j++] = a + gx; idx[j++] = a + 1;
+      idx[j++] = a + 1; idx[j++] = a + gx; idx[j++] = a + gx + 1;
+    }
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+  g.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
+  g.setIndex(new THREE.BufferAttribute(idx, 1));
+  g.computeVertexNormals();
+  return g;
+}
+
+function ChunkMesh({ grid, material, verticalScale, uvExtentM }: {
+  grid: ChunkGrid;
+  material: THREE.Material;
+  verticalScale: number;
+  uvExtentM: number;
+}) {
+  const geometry = useMemo(
+    () => buildChunkGeometry(grid, verticalScale, uvExtentM),
+    [grid, verticalScale, uvExtentM],
+  );
+  useEffect(() => () => geometry.dispose(), [geometry]);
+  return <mesh geometry={geometry} material={material} />;
+}
+
+export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, onLodMap }: {
+  store: ChunkStore;
+  manifest: ChunksManifest;
+  focusRef: React.MutableRefObject<{ x: number; z: number }>;
+  matSet?: string;
+  tintStrength?: number;
+  /** Diagnostic callback: chunk cell of the focus + the lod rendered there. */
+  onLodMap?: (focusCell: [number, number]) => void;
+}) {
+  const base = import.meta.env.BASE_URL;
+  const { set, manifest: ground } = useGroundManifest(base, matSet);
+  const images = useLoader(THREE.ImageLoader,
+    ground.materials.map((m) => `${base}textures/ground/${set}/${m.file}`));
+  const ctrl = useLoader(THREE.TextureLoader, `${base}province/refined/ground-control.png`);
+  const tintTex = useLoader(THREE.TextureLoader, `${base}province/refined/ground-tint.png`);
+  const material = useMemo(
+    () => createGroundMaterial(images, ctrl, tintTex, ground),
+    [images, ctrl, tintTex, ground],
+  );
+  useEffect(() => () => {
+    (material.userData.tex as THREE.DataArrayTexture).dispose();
+    material.dispose();
+  }, [material]);
+  useEffect(() => {
+    (material.uniforms.uTintStrength as { value: number }).value = tintStrength ?? 1.0;
+  }, [material, tintStrength]);
+
+  // The control map spans the refined sample grid exactly.
+  const uvExtentM = useMemo(() => {
+    let max = 0;
+    for (const c of manifest.chunks) {
+      const lod = c.lods["1"];
+      max = Math.max(max, c.originM[0] + (lod.shape[1] - 1) * lod.metresPerSample);
+    }
+    return max;
+  }, [manifest]);
+
+  const [focusCell, setFocusCell] = useState<[number, number]>([-99, -99]);
+  const [, setLoadedVersion] = useState(0);
+  useFrame(() => {
+    const f = focusRef.current;
+    const cx = Math.max(0, Math.min(manifest.grid[0] - 1, Math.floor(f.x / manifest.chunkMetres)));
+    const cy = Math.max(0, Math.min(manifest.grid[1] - 1, Math.floor(f.z / manifest.chunkMetres)));
+    if (cx !== focusCell[0] || cy !== focusCell[1]) {
+      setFocusCell([cx, cy]);
+      onLodMap?.([cx, cy]);
+    }
+  });
+
+  // Ensure desired LODs are loading; bump a version when any decode lands.
+  const requested = useRef(new Set<string>());
+  useEffect(() => {
+    for (const chunk of manifest.chunks) {
+      const lod = desiredLod(chunk.cx - focusCell[0], chunk.cy - focusCell[1]);
+      const key = `${chunk.cx},${chunk.cy},${lod}`;
+      if (requested.current.has(key)) continue;
+      requested.current.add(key);
+      store.load(chunk.cx, chunk.cy, lod)
+        .then(() => setLoadedVersion((v) => v + 1))
+        .catch(() => requested.current.delete(key));
+    }
+  }, [store, manifest, focusCell]);
+
+  return (
+    <group>
+      {manifest.chunks.map((chunk) => {
+        const want = desiredLod(chunk.cx - focusCell[0], chunk.cy - focusCell[1]);
+        // Render the desired LOD if decoded; otherwise the best fallback we have.
+        const grid = store.loaded(chunk.cx, chunk.cy, want)
+          ?? store.loaded(chunk.cx, chunk.cy, "4")
+          ?? store.loaded(chunk.cx, chunk.cy, "2")
+          ?? store.loaded(chunk.cx, chunk.cy, "1");
+        if (!grid) return null;
+        return (
+          <ChunkMesh
+            key={`${chunk.cx},${chunk.cy},${grid.lod}`}
+            grid={grid}
+            material={material}
+            verticalScale={manifest.verticalScaleAtGeometry}
+            uvExtentM={uvExtentM}
+          />
+        );
+      })}
+    </group>
+  );
+}
