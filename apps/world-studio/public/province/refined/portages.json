@@ -1,0 +1,214 @@
+{
+ "features": [
+  {
+   "lane": "soulrest-lilmoth",
+   "mode": "canoe-channel",
+   "startKm": [
+    1.1,
+    20.12
+   ],
+   "lengthM": 103,
+   "meanGroundM": 1.4
+  },
+  {
+   "lane": "soulrest-lilmoth",
+   "mode": "canoe-channel",
+   "startKm": [
+    11.29,
+    19.33
+   ],
+   "lengthM": 16,
+   "meanGroundM": 2.3
+  },
+  {
+   "lane": "lilmoth-archon",
+   "mode": "canoe-channel",
+   "startKm": [
+    11.27,
+    19.33
+   ],
+   "lengthM": 16,
+   "meanGroundM": 2.3
+  },
+  {
+   "lane": "lilmoth-archon",
+   "mode": "canoe-channel",
+   "startKm": [
+    15.51,
+    13.93
+   ],
+   "lengthM": 33,
+   "meanGroundM": 2.2
+  },
+  {
+   "lane": "archon-thorn",
+   "mode": "canoe-channel",
+   "startKm": [
+    15.48,
+    13.93
+   ],
+   "lengthM": 33,
+   "meanGroundM": 2.2
+  },
+  {
+   "lane": "archon-thorn",
+   "mode": "portage",
+   "startKm": [
+    18.62,
+    2.32
+   ],
+   "lengthM": 580,
+   "meanGroundM": 15.8
+  },
+  {
+   "lane": "stormhold-alten-corimont",
+   "mode": "portage",
+   "startKm": [
+    7.96,
+    2.2
+   ],
+   "lengthM": 428,
+   "meanGroundM": 12.5
+  },
+  {
+   "lane": "stormhold-alten-corimont",
+   "mode": "portage",
+   "startKm": [
+    8.65,
+    2.5
+   ],
+   "lengthM": 63,
+   "meanGroundM": 3.4
+  },
+  {
+   "lane": "stormhold-alten-corimont",
+   "mode": "canoe-channel",
+   "startKm": [
+    11.24,
+    2.6
+   ],
+   "lengthM": 56,
+   "meanGroundM": 2.3
+  },
+  {
+   "lane": "stormhold-alten-corimont",
+   "mode": "canoe-channel",
+   "startKm": [
+    11.2,
+    2.81
+   ],
+   "lengthM": 93,
+   "meanGroundM": -0.5
+  },
+  {
+   "lane": "stormhold-alten-corimont",
+   "mode": "canoe-channel",
+   "startKm": [
+    11.47,
+    3.21
+   ],
+   "lengthM": 49,
+   "meanGroundM": 1.7
+  },
+  {
+   "lane": "stormhold-alten-corimont",
+   "mode": "canoe-channel",
+   "startKm": [
+    11.5,
+    3.31
+   ],
+   "lengthM": 115,
+   "meanGroundM": 1.7
+  },
+  {
+   "lane": "blackrose-lilmoth",
+   "mode": "canoe-channel",
+   "startKm": [
+    7.07,
+    19.25
+   ],
+   "lengthM": 47,
+   "meanGroundM": 1.1
+  },
+  {
+   "lane": "blackrose-lilmoth",
+   "mode": "canoe-channel",
+   "startKm": [
+    7.16,
+    19.16
+   ],
+   "lengthM": 99,
+   "meanGroundM": -3.5
+  },
+  {
+   "lane": "blackrose-lilmoth",
+   "mode": "canoe-channel",
+   "startKm": [
+    11.29,
+    19.33
+   ],
+   "lengthM": 16,
+   "meanGroundM": 2.3
+  },
+  {
+   "lane": "alten-corimont-helstrom",
+   "mode": "canoe-channel",
+   "startKm": [
+    11.5,
+    3.42
+   ],
+   "lengthM": 115,
+   "meanGroundM": 1.7
+  },
+  {
+   "lane": "alten-corimont-helstrom",
+   "mode": "canoe-channel",
+   "startKm": [
+    11.47,
+    3.26
+   ],
+   "lengthM": 49,
+   "meanGroundM": 1.7
+  },
+  {
+   "lane": "alten-corimont-helstrom",
+   "mode": "canoe-channel",
+   "startKm": [
+    11.27,
+    2.88
+   ],
+   "lengthM": 93,
+   "meanGroundM": -0.5
+  },
+  {
+   "lane": "alten-corimont-helstrom",
+   "mode": "canoe-channel",
+   "startKm": [
+    11.22,
+    2.65
+   ],
+   "lengthM": 56,
+   "meanGroundM": 2.4
+  },
+  {
+   "lane": "alten-corimont-helstrom",
+   "mode": "portage",
+   "startKm": [
+    8.04,
+    5.45
+   ],
+   "lengthM": 214,
+   "meanGroundM": 9.8
+  },
+  {
+   "lane": "alten-corimont-helstrom",
+   "mode": "canoe-channel",
+   "startKm": [
+    10.36,
+    7.75
+   ],
+   "lengthM": 226,
+   "meanGroundM": -0.4
+  }
+ ]
+}

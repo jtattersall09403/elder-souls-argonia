@@ -54,8 +54,8 @@ def test_condition_matches_studio_formula():
     g = np.full((200, 200), 100.0, dtype=np.float32)
     out = condition(g)
     centre = out[100, 100]
-    # deep interior, strong conditioning: 12 + 88 * 0.25
-    assert abs(centre - 34.0) < 1e-3
+    # deep interior, mild conditioning (0005 addendum): 20 + 80 * 0.5
+    assert abs(centre - 60.0) < 1e-3
     # map edge: untouched
     assert abs(out[0, 0] - 100.0) < 1e-3
     # below threshold never changes

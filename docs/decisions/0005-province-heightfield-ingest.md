@@ -67,3 +67,8 @@ transform lands in the hydrology compiler.
 The All Tamriel Heightmap Beta06 archive is downloaded and registered as a
 cross-border context source, but the dedicated Argonia worldspace is the
 primary macro prior (finer local detail, already clipped to the province).
+
+**Addendum 2026-08-23 (Phase 6 gate):** owner switched interior conditioning
+back to **mild** (threshold 20 m, keep 0.5) from strong — taller interior
+relief. `worldgen/condition.py` and the studio preview default both updated;
+all downstream compiles (hydrology, society, refinement, chunks) re-run.

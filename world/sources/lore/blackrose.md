@@ -25,5 +25,14 @@ Blackrose Prison becomes a distinct POI south of the city toward Lilmoth's
 region; Lilmothiit foundations under the city; "few ever leave" supports its
 penal-colony infamy and quest tone.
 
+**Phase 11 site guidance (owner + lore review at the Phase 6 gate,
+2026-08-23):** "situated in a lake" + walls + Lilmothiit foundations supports
+a **walled island core** (the refined terrain's lake island, enlarged to
+~190 m radius for a core keep/temple block) with **most of the city as
+stilt/boardwalk districts spreading over the lake** and shore quarters at the
+feeder mouths — an amphibious city, not a landlocked one. Design it for the
+flood cycle (module 40 binding note): boardwalk decks above wet-season level,
+lake commerce by canoe.
+
 **Confidence:** CANON_FIXED (lake site, prison separation), era care: prison
 arena state is ESO (2E) — decide its 4E 201 state explicitly.

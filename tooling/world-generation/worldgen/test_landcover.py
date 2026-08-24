@@ -1,6 +1,6 @@
 import numpy as np
 
-from .landcover import (BANK_WET, BC_ROAD, MARSH_GRASS, MUCK, N_MATERIALS,
+from .landcover import (BC_ROAD, BLACK_MUD, MARSH_GRASS, MUCK, N_MATERIALS,
                         PATH, RIVER_MUD, SILT, SWAMP_GRASS, TRACK, TROP_GRASS,
                         compile_ground_control)
 
@@ -56,9 +56,11 @@ def test_regional_palettes_differ_and_wetlands_not_grassy():
 
 
 def test_standing_water_edge_never_grass():
+    # the fixture's water strip is a small fresh pool -> black-mud waterline
+    # (per-water-type shoreline grammar), never grass near water
     mat, _ = _compile()
     edge = mat[12:14, 20:80]                              # first ~10 m ashore
-    assert (edge == BANK_WET).mean() > 0.5                # wet bank band
+    assert (edge == BLACK_MUD).mean() > 0.5               # pool mud waterline
     near = mat[12:18, 20:80]                              # first ~30 m ashore
     grassy = np.isin(near, [TROP_GRASS, SWAMP_GRASS, MARSH_GRASS])
     assert grassy.mean() < 0.02

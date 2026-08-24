@@ -4,6 +4,15 @@
 > and [00-core.md](00-core.md) for the universal principles. Section numbers (§NN)
 > preserved from the original plan; cross-doc references resolve via the README map.
 
+> **Binding (owner 2026-08-23): every settlement, city and POI must be
+> designed for the flood cycle.** The world has wet/dry seasons and tides
+> (§36, flood-states data): no one builds a city that stops functioning — or
+> looks ridiculous — in the wet season. Location blueprints must state their
+> wet-season state (stilts, platforms, boardwalks, upper-floor life, ferry
+> access, flooded quarters as a *feature*) and their causal record must show
+> the builders knew their water. Blackrose is the template case: island core
+> + boardwalk districts over the lake (see its dossier).
+
 ## 28. Every location requires a backstory that changes geometry
 
 A location record should contain more than flavour text.

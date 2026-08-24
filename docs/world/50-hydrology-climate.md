@@ -130,6 +130,14 @@ Changing levels can alter:
 
 Dynamic changes should be bounded, readable and reproducible from world state.
 
+**Phase 8 note (owner question 2026-08-23, answered):** the wet/dry season
+transition needs no re-authored textures — the land-cover water-edge gradient
+already encodes the progression (silt → shallows → wet bank → mud → damp
+fringe), so the renderer animates the *water level* (flood-states data) and
+adds a shader "wetness band" that darkens/wets the strip between the current
+and recent waterline, sampling the same flood data. Seasonal texture
+*swapping* is not planned; seasonal vegetation states are Phase 13.
+
 ## 37. Routes follow hydrology
 
 The route solver evaluates:

@@ -32,13 +32,17 @@ export interface Fly3DProps {
   detail?: DetailPatch | null;
   matSet?: string;
   waterLevelM?: number; // wet-season water rise (true metres; ×exaggeration at render)
+  tintStrength?: number; // 0..2 multiplier on the macro climate tint
+  showLanes?: boolean;   // boat-lane overlay (cyan water / amber portage)
   onPosition?: (xKm: number, zKm: number, altM: number) => void;
 }
 
 /** Refined-watershed mesh overlaid on the province mesh (biased up slightly
  * so the coarse terrain doesn't poke through; edge seams are a known pass-1
  * artefact until province-wide refinement). */
-function DetailTerrain({ patch, exaggeration, matSet }: { patch: DetailPatch; exaggeration: number; matSet?: string }) {
+function DetailTerrain({ patch, exaggeration, matSet, tintStrength }: {
+  patch: DetailPatch; exaggeration: number; matSet?: string; tintStrength?: number;
+}) {
   const MESH_STEP_D = 2;
   const geometry = useMemo(() => {
     const { heights, width, height, metresPerPixel, originM } = patch;
@@ -84,8 +88,8 @@ function DetailTerrain({ patch, exaggeration, matSet }: { patch: DetailPatch; ex
   const { set, manifest } = useGroundManifest(base, matSet);
   const images = useLoader(THREE.ImageLoader,
     manifest.materials.map((m) => `${base}textures/ground/${set}/${m.file}`));
-  const ctrl = useLoader(THREE.TextureLoader, `${base}province/basin/ground-control.png`);
-  const tintTex = useLoader(THREE.TextureLoader, `${base}province/basin/ground-tint.png`);
+  const ctrl = useLoader(THREE.TextureLoader, `${base}province/refined/ground-control.png`);
+  const tintTex = useLoader(THREE.TextureLoader, `${base}province/refined/ground-tint.png`);
   const material = useMemo(() => {
     const n = images.length;
     const size = 512;
@@ -118,6 +122,7 @@ function DetailTerrain({ patch, exaggeration, matSet }: { patch: DetailPatch; ex
         uTex: { value: tex },
         uCtrl: { value: ctrl },
         uTint: { value: tintTex },
+        uTintStrength: { value: 1.0 },
         uCtrlSize: { value: new THREE.Vector2(img.width, img.height) },
         uTileM: { value: new Float32Array(manifest.materials.map((m) => m.tileM)) },
         uAvgCol: { value: new Float32Array(manifest.materials.flatMap((m) => m.avgColor.map((c) => c / 255))) },
@@ -134,6 +139,7 @@ function DetailTerrain({ patch, exaggeration, matSet }: { patch: DetailPatch; ex
         uniform highp sampler2DArray uTex;
         uniform sampler2D uCtrl;
         uniform sampler2D uTint;
+        uniform float uTintStrength;
         uniform vec2 uCtrlSize;
         uniform float uTileM[N];
         uniform vec3 uAvgCol[N];
@@ -165,8 +171,9 @@ function DetailTerrain({ patch, exaggeration, matSet }: { patch: DetailPatch; ex
             f.y);
           float macro = texture(uCtrl, vUv).a;
           col *= 0.84 + 0.32 * macro;
-          // macro climate tint (coastal/wetness/latitude palette drift)
-          col *= texture(uTint, vUv).rgb * 2.0;
+          // macro climate tint (coastal/wetness/latitude palette drift),
+          // with a live strength control for owner tuning
+          col *= mix(vec3(1.0), texture(uTint, vUv).rgb * 2.0, uTintStrength);
           float light = 0.62 + 0.85 * max(dot(normalize(vNormal), sunDir), 0.0);
           outColor = vec4(col * light, 1.0);
         }`,
@@ -181,7 +188,54 @@ function DetailTerrain({ patch, exaggeration, matSet }: { patch: DetailPatch; ex
     material.dispose();
   }, [geometry, material]);
 
+  useEffect(() => {
+    (material.uniforms.uTintStrength as { value: number }).value = tintStrength ?? 1.0;
+  }, [material, tintStrength]);
+
   return <mesh geometry={geometry} material={material} />;
+}
+
+/** Boat-lane overlay: cyan where the lane is on water, amber over land
+ * (portage hops / carved canoe channels) — the painted ground hid them
+ * (owner request). Elevated lines above the terrain. */
+function LanesOverlay({ heights, size, metresPerPixel, exaggeration }: {
+  heights: Float32Array; size: number; metresPerPixel: number; exaggeration: number;
+}) {
+  const [lanes, setLanes] = useState<{ px: number[][]; land: number[] }[] | null>(null);
+  useEffect(() => {
+    fetch(`${import.meta.env.BASE_URL}province/waterways.json`)
+      .then((r) => r.json()).then((j) => setLanes(j.lanes)).catch(() => setLanes([]));
+  }, []);
+  const object = useMemo(() => {
+    if (!lanes || !lanes.length) return null;
+    const extentM = size * metresPerPixel;
+    const pos: number[] = [];
+    const col: number[] = [];
+    const water = [0.35, 0.8, 1.0];
+    const amber = [1.0, 0.7, 0.3];
+    const at = (mx: number, my: number) => {
+      const u = mx / 1345, v = my / 1345; // macro grid -> uv
+      const px = Math.min(Math.round(u * size), size - 1);
+      const py = Math.min(Math.round(v * size), size - 1);
+      return [u * extentM, Math.max(heights[py * size + px], 0) * exaggeration + 10, v * extentM];
+    };
+    for (const lane of lanes) {
+      for (let i = 0; i + 1 < lane.px.length; i++) {
+        const c = lane.land[i] || lane.land[i + 1] ? amber : water;
+        pos.push(...at(lane.px[i][0], lane.px[i][1]), ...at(lane.px[i + 1][0], lane.px[i + 1][1]));
+        col.push(...c, ...c);
+      }
+    }
+    const g = new THREE.BufferGeometry();
+    g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+    g.setAttribute("color", new THREE.Float32BufferAttribute(col, 3));
+    const m = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.85 });
+    return new THREE.LineSegments(g, m);
+  }, [lanes, heights, size, metresPerPixel, exaggeration]);
+  useEffect(() => () => {
+    if (object) { object.geometry.dispose(); (object.material as THREE.Material).dispose(); }
+  }, [object]);
+  return object ? <primitive object={object} /> : null;
 }
 
 interface GroundManifest {
@@ -379,11 +433,16 @@ export function Fly3D(props: Fly3DProps) {
         textureCanvas={props.textureCanvas} exaggeration={props.exaggeration} detail={props.detail} />
       {props.detail && (
         <Suspense fallback={null}>
-          <DetailTerrain patch={props.detail} exaggeration={props.exaggeration} matSet={props.matSet} />
+          <DetailTerrain patch={props.detail} exaggeration={props.exaggeration}
+            matSet={props.matSet} tintStrength={props.tintStrength} />
         </Suspense>
       )}
       <CityMarkers heights={props.heights} size={props.size}
         metresPerPixel={props.metresPerPixel} exaggeration={props.exaggeration} />
+      {props.showLanes !== false && (
+        <LanesOverlay heights={props.heights} size={props.size}
+          metresPerPixel={props.metresPerPixel} exaggeration={props.exaggeration} />
+      )}
       {/* sea (rises with the wet-season toggle, §36 flood states) */}
       <mesh position={[extentM / 2, (props.waterLevelM ?? 0) * props.exaggeration, extentM / 2]}
         rotation={[-Math.PI / 2, 0, 0]}>

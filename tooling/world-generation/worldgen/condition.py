@@ -1,5 +1,5 @@
-"""Interior terrain conditioning — owner-chosen 'strong' (decision 0005,
-revised 2026-08-23 after map review; was mild).
+"""Interior terrain conditioning — owner-chosen 'mild' (decision 0005,
+re-revised 2026-08-23 at the Phase 6 gate; was strong, before that mild).
 
 Land above THRESHOLD keeps KEEP of its excess height, weighted by an
 interiorness mask so border mountains and coasts keep their source shape.
@@ -10,8 +10,8 @@ from __future__ import annotations
 
 import numpy as np
 
-THRESHOLD = 12.0
-KEEP = 0.25
+THRESHOLD = 20.0
+KEEP = 0.5
 EDGE_PROTECT = 0.10   # no change within this fraction of any map edge
 EDGE_RAMP_END = 0.22  # full effect beyond this fraction
 

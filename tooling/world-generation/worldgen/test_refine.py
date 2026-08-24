@@ -1,6 +1,6 @@
 import numpy as np
 
-from .refine_watershed import (CHANNELS, LAKE_BED_M, RAW_M, carve_channels,
+from .refine_province import (CHANNELS, LAKE_BED_M, RAW_M, carve_channels,
                                carve_polyline, detail_noise,
                                impose_blackrose_lake)
 

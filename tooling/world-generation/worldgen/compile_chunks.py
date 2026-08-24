@@ -34,9 +34,9 @@ RAW_M = 4096.0 * 0.01428 / 32.0 * 3.0
 DEFAULT_HEIGHTS = Path(
     "/home/analyticalplatform/workspace/elder-souls-dev/elder-scrolls-asset-pipeline/"
     "skyrim-source/mod-sources/tamriel-worldspaces-118678/extracted/"
-    "Argonia Worldspace/argonia-heightfield/blackrose-basin/refined-height-f32.npy")
+    "Argonia Worldspace/argonia-heightfield/province-refined/refined-height-f32.npy")
 REPO_ROOT = Path(__file__).resolve().parents[3]
-META_PATH = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "basin" / "meta.json"
+META_PATH = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "refined" / "meta.json"
 
 
 def chunk_grid(h: np.ndarray):

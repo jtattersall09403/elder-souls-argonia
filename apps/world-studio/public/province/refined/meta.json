@@ -1,0 +1,25 @@
+{
+  "originFullPx": [
+    0,
+    0
+  ],
+  "originM": [
+    0.0,
+    0.0
+  ],
+  "metresPerPixel": 10.967039999999999,
+  "imageWidth": 2017,
+  "imageHeight": 2017,
+  "heightMinMetres": -85.67979431152344,
+  "heightMaxMetres": 126.49699401855469,
+  "extentKm": [
+    22.12,
+    22.12
+  ],
+  "groundControl": "ground-control.png",
+  "portages": {
+    "canoeChannels": 17,
+    "portages": 4
+  },
+  "note": "whole province, true metres (x5 at geometry time, 0006); mild conditioning (0005); chunks via worldgen.compile_chunks"
+}

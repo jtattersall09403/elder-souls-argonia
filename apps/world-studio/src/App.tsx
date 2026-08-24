@@ -57,7 +57,7 @@ export function App() {
   const [meta, setMeta] = useState<ProvinceMeta | null>(null);
   const [seaLevel, setSeaLevel] = useState(0);
   // Strong is the owner-chosen conditioning (decision 0005, revised).
-  const [conditioning, setConditioning] = useState<Conditioning>("strong");
+  const [conditioning, setConditioning] = useState<Conditioning>("mild");
   const [readout, setReadout] = useState("");
   const [tip, setTip] = useState<{ x: number; y: number; text: string } | null>(null);
   const [view, setView] = useState<"map" | "fly3d">(urlParams.get("view") === "fly3d" ? "fly3d" : "map");
@@ -75,8 +75,11 @@ export function App() {
   // amplitude (flood-states.json, §36) for flood-state review.
   const [wetSeason, setWetSeason] = useState(urlParams.get("wet") === "1");
   const [wetAmplitude, setWetAmplitude] = useState(1.4);
+  // Live tuning knobs (owner): climate-tint strength; boat-lane overlay.
+  const [tintStrength, setTintStrength] = useState(Number(urlParams.get("tint") ?? 1));
+  const [showLanes, setShowLanes] = useState(urlParams.get("lanes") !== "0");
   useEffect(() => {
-    fetch(`${import.meta.env.BASE_URL}province/basin/flood-states.json`)
+    fetch(`${import.meta.env.BASE_URL}province/refined/flood-states.json`)
       .then((r) => r.json())
       .then((j) => setWetAmplitude(j.basins?.[0]?.seasonalAmplitudeM ?? 1.4))
       .catch(() => {});
@@ -100,10 +103,12 @@ export function App() {
       q.set("ex", String(exaggeration));
       if (matSet) q.set("mats", matSet);
       if (wetSeason) q.set("wet", "1");
+      if (tintStrength !== 1) q.set("tint", String(tintStrength));
+      if (!showLanes) q.set("lanes", "0");
     }
     const qs = q.toString();
     window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
-  }, [view, camMode, spawnKm, exaggeration, matSet, wetSeason]);
+  }, [view, camMode, spawnKm, exaggeration, matSet, wetSeason, tintStrength, showLanes]);
   const overlaysRef = useRef<Record<string, HTMLImageElement>>({});
   const decodedPxRef = useRef<Record<string, Uint8ClampedArray>>({});
   const [layers, setLayers] = useState<Record<string, boolean>>({
@@ -200,9 +205,9 @@ export function App() {
       setOverlaysReady(true);
       // Phase 6 basin detail patch (optional; absent until compiled).
       try {
-        const bm = await (await fetch(`${base}province/basin/meta.json`)).json();
+        const bm = await (await fetch(`${base}province/refined/meta.json`)).json();
         const bimg = new Image();
-        bimg.src = `${base}province/basin/height-rg.png`;
+        bimg.src = `${base}province/refined/height-rg.png`;
         await bimg.decode();
         const off = document.createElement("canvas");
         off.width = bm.imageWidth;
@@ -352,6 +357,7 @@ export function App() {
         metresPerPixel={meta.metresPerPixel} textureCanvas={canvasRef.current}
         spawnKm={spawnKm} exaggeration={exaggeration} mode={camMode} detail={detail}
         matSet={matSet || undefined} waterLevelM={wetSeason ? wetAmplitude : 0}
+        tintStrength={tintStrength} showLanes={showLanes}
         onPosition={(x, z, alt) => setFlyPos(`${x.toFixed(2)} km E · ${z.toFixed(2)} km S · alt ${Math.round(alt)} m`)} />
       <div style={{
         position: "absolute", top: 10, left: 10, display: "flex", gap: 10, alignItems: "center",
@@ -376,6 +382,14 @@ export function App() {
         <label>
           <input type="checkbox" checked={wetSeason} onChange={(e) => setWetSeason(e.target.checked)} />
           {" "}wet season (+{wetAmplitude} m)
+        </label>
+        <label>tint ×{tintStrength.toFixed(1)}{" "}
+          <input type="range" min={0} max={2} step={0.1} value={tintStrength}
+            onChange={(e) => setTintStrength(Number(e.target.value))} />
+        </label>
+        <label>
+          <input type="checkbox" checked={showLanes} onChange={(e) => setShowLanes(e.target.checked)} />
+          {" "}lanes
         </label>
         <span style={{ opacity: 0.85 }}>{flyPos}</span>
       </div>

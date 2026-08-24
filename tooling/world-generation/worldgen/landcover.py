@@ -54,13 +54,35 @@ REGION_PALETTES = {
     13: dict(base=JUNGLE, damp=BLACK_MUD, wet=BLACK_MUD, bank=BC_MUD, high=FOREST_FLOOR, litter=LITTER),  # tropical jungle
 }
 MARSHY = {3, 4, 6, 7, 8, 12}          # regions where wet-ground micro rules dominate
-# Channel bed half-widths (m) by river band, matching refine_watershed.CHANNELS.
+# Channel bed half-widths (m) by river band, matching the refine CHANNELS.
 BAND_HALF_W = {1: 10.0, 2: 22.0, 3: 45.0}
+
+# Northern palette zone (owner 2026-08-23: the northern half — including the
+# second big river basin around Helstrom's approaches — must feel distinct
+# from the south while staying coherent). Climatology (docs/research/
+# black-marsh-climatology.md): the north grades drier and duller toward
+# Deshaan — so northern swamps read as peat/moss blackwater bog, firm ground
+# as olive grass-dirt, versus the south's green muck-and-scum marsh. Shared
+# vocabulary (same material library) keeps the world coherent.
+NORTH_PALETTES = {
+    2:  dict(base=GRASS_DIRT, damp=MUD_LEAVES, wet=PEAT, bank=CLAY, high=SCRUB, litter=LITTER),
+    5:  dict(base=GRASS_DIRT, damp=MUD_LEAVES, wet=BC_MUD, bank=CLAY, high=SCRUB, litter=LITTER),
+    6:  dict(base=MOSS, damp=PEAT, wet=BLACK_MUD, bank=PEAT, high=BC_MOSS, litter=UNDERGROWTH),
+    7:  dict(base=PEAT, damp=MUCK, wet=BLACK_MUD, bank=BC_MUD, high=MOSS, litter=BC_MOSS),
+    8:  dict(base=SWAMP_GRASS, damp=PEAT, wet=BC_MUD, bank=CLAY, high=GRASS_DIRT, litter=MOSS),
+    9:  dict(base=GRASS_DIRT, damp=SWAMP_GRASS, wet=PUDDLE, bank=CLAY, high=GRASS_DIRT, litter=LITTER),
+    11: dict(base=GRASS_DIRT, damp=SWAMP_GRASS, wet=PEAT, bank=CLAY, high=SCRUB, litter=MUD_LEAVES),
+}
+NORTH_V = 0.45              # province v-fraction where the northern zone ends
+LAKE_MIN_KM2 = 0.15         # fresh water bigger than this shores like a lake
+# Mountain elevation belts (region 1; climatology: foothill forest ->
+# low cloud-forest belt -> crag; montane cooling allowed, never frost).
+MONT_FOREST_M, MONT_CLOUD_M, MONT_CRAG_M = 18.0, 45.0, 78.0
 
 
 def _noise(shape, sigma, rng):
-    n = ndimage.gaussian_filter(rng.standard_normal(shape), sigma)
-    return n / max(n.std(), 1e-9)
+    n = ndimage.gaussian_filter(rng.standard_normal(shape, dtype=np.float32), sigma)
+    return (n / max(n.std(), 1e-9)).astype(np.float32)
 
 
 def _region_map(region, slot):
@@ -78,22 +100,45 @@ def _warp_regions(region, m_per_px, rng):
     amp2_px = 45.0 / m_per_px       # ~45 m fine fingers
     dy = _noise(shape, 24, rng) * amp_px + _noise(shape, 5, rng) * amp2_px
     dx = _noise(shape, 24, rng) * amp_px + _noise(shape, 5, rng) * amp2_px
-    yy, xx = np.mgrid[0:shape[0], 0:shape[1]].astype(np.float32)
-    return ndimage.map_coordinates(region, [yy + dy, xx + dx], order=0, mode="nearest")
+    yy = np.arange(shape[0], dtype=np.float32)[:, None] + dy
+    xx = np.arange(shape[1], dtype=np.float32)[None, :] + dx
+    del dy, dx
+    return ndimage.map_coordinates(region, [yy, xx], order=0, mode="nearest")
 
 
 def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
-                           salinity=None, twi=None, wetlands=None, roads=None):
+                           salinity=None, twi=None, wetlands=None, roads=None,
+                           v_frac=None):
     """Return (landcover material raster int16, control RGBA uint8).
 
     height: metres relative to sea level (water surface y=0); region: region
     class raster; rivers: river band raster (0/1/2/3); slope: rise/run;
-    salinity/twi/wetlands: optional macro fields, roads: optional bool mask —
-    all at the same resolution as height.
+    salinity/twi/wetlands: optional macro fields, roads: optional bool mask;
+    v_frac: optional 0(north)..1(south) province-latitude raster enabling the
+    northern palette zone — all at the same resolution as height.
     """
     shape = height.shape
     region = _warp_regions(region, m_per_px, rng)
-    mat = _region_map(region, "base")
+
+    # Palette zone: northern regions bind land-cover slots to different
+    # materials (NORTH_PALETTES); the boundary is noise-blended so the two
+    # halves interdigitate over ~1.5 km instead of switching on a line.
+    if v_frac is not None:
+        north = (v_frac + 0.06 * _noise(shape, 260.0 / m_per_px, rng)) < NORTH_V
+    else:
+        north = np.zeros(shape, dtype=bool)
+
+    def rmap(slot):
+        out = _region_map(region, slot)
+        if north.any():
+            out_n = out.copy()
+            for rid, p in NORTH_PALETTES.items():
+                if slot in p:
+                    out_n[region == rid] = p[slot]
+            out = np.where(north, out_n, out)
+        return out
+
+    mat = rmap("base")
 
     # Landform-scale slope for material rules (micro-relief bumps must not
     # paint slope bands — they striped the basin, owner report 2026-08-23).
@@ -104,12 +149,12 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     # something" — near water, channels and on slopes; calm interior ground
     # gets broad coherent patches instead.
     water = height < 0.05
-    shore_d = ndimage.distance_transform_edt(~water) * m_per_px
+    shore_d = (ndimage.distance_transform_edt(~water) * m_per_px).astype(np.float32)
     chan_d = np.full(shape, 1e9, dtype=np.float32)
     for band in BAND_HALF_W:
         m = rivers == band
         if m.any():
-            chan_d = np.minimum(chan_d, ndimage.distance_transform_edt(~m) * m_per_px)
+            chan_d = np.minimum(chan_d, (ndimage.distance_transform_edt(~m) * m_per_px).astype(np.float32))
     activity = np.clip(
         np.clip(1.0 - shore_d / 130.0, 0, 1)
         + np.clip(1.0 - chan_d / 110.0, 0, 1)
@@ -127,15 +172,25 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
         wet_score = wet_score + (t - t.mean()) / max(t.std(), 1e-9)
     if wetlands is not None:
         wet_score = wet_score + 0.8 * wetlands.astype(np.float32)
-    mat = np.where(wet_score > 0.6, _region_map(region, "damp"), mat)
-    mat = np.where(wet_score > 1.5, _region_map(region, "wet"), mat)
-    mat = np.where(fine > 1.05 + 0.55 * (1.0 - activity), _region_map(region, "litter"), mat)
+    mat = np.where(wet_score > 0.6, rmap("damp"), mat)
+    mat = np.where(wet_score > 1.5, rmap("wet"), mat)
+    mat = np.where(fine > 1.05 + 0.55 * (1.0 - activity), rmap("litter"), mat)
     mat = np.where((region == 9) & (wet_score < -0.9), DRY_CLAY, mat)
+
+    # Mountain elevation belts (region 1; climatology §33.1): foothill forest
+    # -> cloud-forest moss belt -> crag, with noise-wobbled belt edges. The
+    # cloud belt sits low (small coastal-adjacent ranges) per the research.
+    mont = region == 1
+    if mont.any():
+        belt_wob = 6.0 * _noise(shape, 320.0 / m_per_px, rng)
+        mat = np.where(mont & (height > MONT_FOREST_M + belt_wob), FOREST_FLOOR, mat)
+        mat = np.where(mont & (height > MONT_CLOUD_M + belt_wob), BC_MOSS, mat)
+        mat = np.where(mont & (height > MONT_CRAG_M + belt_wob), MOSSY_ROCK, mat)
 
     # Raised ground: local prominence (~30 m window) reads drier everywhere.
     prom = height - ndimage.gaussian_filter(height, 28.0 / m_per_px)
     marshy = np.isin(region, list(MARSHY))
-    mat = np.where(prom > 0.35, _region_map(region, "high"), mat)
+    mat = np.where(prom > 0.35, rmap("high"), mat)
 
     # Slope: wet peat banks on marsh slopes; humid rock on steep ground.
     mat = np.where(marshy & (slope_lf > 0.07), PEAT_SLOPE, mat)
@@ -149,32 +204,50 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
         salty = np.isin(region, [0, 3, 4])
 
     # Channel gradient (the Bethesda 3-stage water edge, scaled per band):
-    # bed silt -> wet river mud waterline -> region bank material.
+    # bed silt -> wet river mud waterline -> bank. Streams (band 1) bank in
+    # mossy pebbles; bigger rivers use the regional bank material — part of
+    # the per-water-type shoreline grammar (owner 2026-08-23).
     channel_bed = np.zeros(shape, dtype=bool)
     for band, half_w in BAND_HALF_W.items():
         m = rivers == band
         if not m.any():
             continue
-        d = ndimage.distance_transform_edt(~m) * m_per_px
-        mat = np.where(d < half_w + 26.0, _region_map(region, "bank"), mat)
+        d = (ndimage.distance_transform_edt(~m) * m_per_px).astype(np.float32)
+        bank_mat = np.full(shape, BANK_WET, dtype=np.int16) if band == 1 else rmap("bank")
+        mat = np.where(d < half_w + 26.0, bank_mat, mat)
         mat = np.where(d < half_w + 10.0, RIVER_MUD, mat)
         mat = np.where(d < half_w, SILT, mat)
         channel_bed |= d < half_w
 
-    # Standing-water gradient around every water contact (sea, lakes, carved
-    # channels below y=0) — contour-following distance bands, highest
-    # priority so nothing dry ever touches the waterline (owner feedback):
-    # submerged silt -> scum/puddle/sand shallows -> wet bank -> mud -> muck.
-    # (water/shore_d computed above for the activity field.)
+    # Standing-water gradient around every water contact — contour-following
+    # distance bands, highest priority so nothing dry ever touches a
+    # waterline. Each WATER TYPE gets its own progression (owner 2026-08-23):
+    #   sea coast (salty):  sand beach -> salt/sand -> damp fringe;
+    #                       rocky cove where the shore is steep;
+    #   lake (big fresh):   wet pebble bank -> regional bank mud -> damp;
+    #   swamp pool (small): black mud -> muck -> damp (no pebble bank);
+    # shallows likewise: sea sand / lake puddle-mud / marsh-pool scum.
+    _, (iy, ix) = ndimage.distance_transform_edt(~water, return_indices=True)
+    near_salty = salty[iy, ix] if isinstance(salty, np.ndarray) else np.full(shape, bool(salty))
+    lblw, _n = ndimage.label(water)
+    areas = np.bincount(lblw.ravel())
+    big = np.zeros_like(areas, dtype=bool)
+    big[areas * (m_per_px ** 2) / 1e6 >= LAKE_MIN_KM2] = True
+    near_big = big[lblw[iy, ix]]
+    rocky = ndimage.gaussian_filter(slope_lf, 20.0 / m_per_px) > 0.045
     low = height < 2.5
     band2 = (~water) & (shore_d < 58.0) & low          # damp fringe
-    band1 = (~water) & (shore_d < 32.0) & low          # wet mud
-    band0 = (~water) & (shore_d < 13.0) & (height < 3.0)  # waterline bank
-    mat = np.where(band2, _region_map(region, "damp"), mat)
-    mat = np.where(band1, np.where(salty, SALT, _region_map(region, "bank")), mat)
-    mat = np.where(band0, np.where(salty, SAND, BANK_WET), mat)
+    band1 = (~water) & (shore_d < 32.0) & low          # wet mud / salt / rock
+    band0 = (~water) & (shore_d < 13.0) & (height < 3.0)  # waterline
+    mat = np.where(band2, rmap("damp"), mat)
+    b1 = np.where(near_salty, SALT, np.where(near_big, rmap("bank"), MUCK))
+    mat = np.where(band1, b1, mat)
+    b0 = np.where(near_salty, SAND, np.where(near_big, BANK_WET, BLACK_MUD))
+    mat = np.where(band0, b0, mat)
+    mat = np.where((band0 | band1) & near_salty & rocky, BC_ROCK, mat)  # rocky coves
     shallow = (height >= -0.7) & water
-    mat = np.where(shallow, np.where(salty, SAND, np.where(marshy, SCUM, PUDDLE)), mat)
+    sh = np.where(near_salty, SAND, np.where(near_big & ~marshy, PUDDLE, SCUM))
+    mat = np.where(shallow, sh, mat)
     mat = np.where(height < -0.7, SILT, mat)
 
     # Roads LAST so the wet fringes can't swallow them (they previously ran

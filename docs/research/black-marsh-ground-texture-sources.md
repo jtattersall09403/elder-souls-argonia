@@ -62,8 +62,9 @@ Grounds decision 0011. Companions:
 top-priority source; module 90 §74.1b has the mining record). Its
 `TEXTUREPACK/landscape/` is a full vanilla-named 512px repaint — dark, mossy,
 moody, the mod's art-directed swamp look; roads/dirt-cliffs at 1024. 16
-winners form the **`bmv-v1` material set** (default; A/B vs `aendemika-v1`
-in the studio HUD). Its `Terrain/*` folders are LOD tiles — ignore. Grass
+winners form the **`bmv-v1` material set** (**owner-chosen canonical set at
+the Phase 6 gate 2026-08-23**; `aendemika-v1` retained for A/B in the studio
+HUD). Its `Terrain/*` folders are LOD tiles — ignore. Grass
 billboard families (EGrass, V_reeds, bittercoastgrass01) catalogued for
 Phase 13 groundcover. Archives + manifest live gitignored under
 `tooling/asset-pipeline/black-marsh-mod-source/`.

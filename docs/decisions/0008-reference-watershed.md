@@ -28,3 +28,11 @@ largest), scored against every §85.2 criterion:
 
 Runner-up: the Alten Corimont/Shadowfen channel (50.2 km²) — strong pirate/
 Ayleid material but thinner tribal lore and only one adjacent city.
+
+**Addendum 2026-08-23 (Phase 6 gate):** with the Blackrose basin proven
+through the gate's feedback rounds, the owner directed Phase 6 refinement to
+run over the **whole province** in one pass (`worldgen.refine_province`
+supersedes `refine_watershed`). The Blackrose basin remains the retained
+*quality reference* — new refinement features are judged there first — but
+terrain, land cover, flood states, portages and chunks now ship
+province-wide. The three-scales model otherwise stands.

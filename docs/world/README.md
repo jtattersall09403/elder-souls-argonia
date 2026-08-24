@@ -11,6 +11,7 @@ across the repo resolve via the map below.
 | Province macro structure, danger/access philosophy, era, settlement anchors, region taxonomy | [20-province-design.md](20-province-design.md) (§11–16) — §16 region grammar is the semantic backbone |
 | Turning lore into systems: infrastructure decay, drifting settlements, rootworms, Hist, tribes, pirates, disease, fauna | [30-lore-systems.md](30-lore-systems.md) (§17–27) |
 | Causal location records, agent blueprints, review loop, orphan validation | [40-causal-authoring.md](40-causal-authoring.md) (§28–32) |
+| Filling 4E 201 canon gaps: sweep → gap register → tiered extrapolation ("headcanon") | [45-lore-extrapolation.md](45-lore-extrapolation.md) — standing workstream, state in `world/sources/lore/extrapolation/` |
 | Terrain, rivers, flood, wetness, salinity, climate/atmosphere/weather/light | [50-hydrology-climate.md](50-hydrology-climate.md) (§33–37, §33.1) |
 | Water rendering, swimming, underwater play, boats, climbing | [60-water-traversal.md](60-water-traversal.md) (§38–46) — incl. the reference water repos to adapt |
 | Dungeon families, interiors, combat spaces, encounters | [70-dungeons-interiors.md](70-dungeons-interiors.md) (§47–50) |
