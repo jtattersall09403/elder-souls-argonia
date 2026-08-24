@@ -403,3 +403,12 @@ they change named places and the owner should know:
 - **Fort Swampmoth is held, but not by the Empire**, on the Blackwood Road.
 - The **Conclave of Baal at Stormhold survives** as the one indispensable foreign
   scholarly institution, because only it can locate Murkwood.
+
+---
+
+## OWNER DECISIONS — ROUND 2 (2026-08-24)
+
+All four Round-2 recommendations **accepted** (Q6 Wild One vigil-communities,
+small and remote; Q7 informal bondage as the Chainbreakers' target; Q8
+Mazzatun's Hist stirring; Q9 Gideon's disputed planted cutting). The seven
+least-inventive calls listed for visibility stand as taken. These are binding.
