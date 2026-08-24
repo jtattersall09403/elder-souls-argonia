@@ -173,6 +173,65 @@ Deliverables:
 - collision and LOD;
 - province-to-local deterministic refinement.
 
+### Phase 6b — province rescale and mountain relief (decision 0015; runs after Phase 7)
+
+Reopens province terrain to apply decision 0015 (×1 horizontal, ×1 vertical,
+drama in the data). **All feel judgements and gates happen on foot in
+"Walk the province" (Phase 7's character mode); the flyover is secondary.**
+Lowlands outside the mountain masks + blend margin must stay byte-identical
+through 6b.2–6b.3 (diff-checked) — the owner-approved marsh is not renegotiated.
+
+**6b.1 — rescale (×1/×1):**
+
+- flip the horizontal-scale constants (`RAW_M`-style, in
+  `tooling/world-generation/worldgen/`) to ×1; studio exaggeration default and
+  canonical geometry scale to ×1; ground resolution returns to 1.83 m/sample;
+- re-tune classifier thresholds implicitly tuned at ×3 (wetland slope < 0.03,
+  rocky-soil slope > 0.08, distance-to-sea bands, route slope costs, mist)
+  so region character is preserved — validated by comparing region/soil/flood
+  fraction stats before/after, not by eye;
+- recompile the full chain (condition → hydrology → regions → society →
+  refine_province → compile_chunks → export_web_chunks) and re-run the
+  capability-spawn pytest against ×1 geometry;
+- sweep docs/tooling for stale ×3/×5/"22 km" references;
+- **owner walk gate**: relief and scale feel on foot at ×1/×1.
+
+**6b.2 — orogeny (mountain drama in the height data):**
+
+- research first, recorded in docs/research/: (a) geology — tropical
+  swamp-adjacent high relief analogues (Kinabalu/Borneo, New Guinea ranges,
+  tepuis, karst towers for sheer faces); (b) technique — heightmap uplift
+  masks + ridge-aligned synthesis + fluvial (stream-power) erosion, the
+  proven pipeline for carving dendritic valleys/gorges with plausible
+  drainage by construction;
+- uplift masks over the existing border-mountain belts only, preserving the
+  source prior's ridge topology; summit target set at the gate (0015: proper
+  tall-mountain feel; drama primarily from local relief contrast — deep
+  valleys, ravines, cliff bands — not summit altitude alone);
+- erosion carving; structural benching for near-vertical cliff bands
+  separated by walkable ledges (heightfields carry ~85° faces at 1.83
+  m/sample; true overhangs come later from placed rock assets, §9);
+- hydrology re-solves on the new terrain so mountain streams feed the
+  existing lowland rivers and valley floors read as river valleys;
+- carved road passes as max-grade corridors (Gideon's western pass is
+  anchor-bound); **standing probes**, run on every recompile: all eight
+  cities road-connected; per-peak reachability (walkable/climbable path to
+  an agreed fraction of its height); bench-area count per mountain block
+  (candidate POI shelves); lowland byte-identity diff;
+- **owner walk gate(s)** in the ranges.
+
+**6b.3 — mountain materials and rendering:**
+
+- audit the 32-material ground library (0011) for the new relief: cliff-face
+  strata, scree/talus, exposed crag, montane/cloud-forest floor (climate
+  exception in §33.1 — montane cooling allowed, never frost); source
+  additions per Module 90; extend the altitude belts in `landcover.py`
+  (currently 18/45/70 m) to the new height range;
+- fix steep-slope texel stretching: near-vertical faces need triplanar (or
+  slope-aware) projection in the studio splat shader — standard heightmap
+  practice; research/implement with the land-cover slope bands;
+- ground-material sets stay versioned (A/B selector) for the gate.
+
 ### Phase 7 — physical character integration
 
 Deliverables:

@@ -1,7 +1,9 @@
 # 0006 — Provisional province scale: ×3 horizontal
 
-**Date:** 2026-08-22 · **Status:** confirmed (owner approved the province's
-size and feel at the Phase 5 flyover gate, 2026-08-23)
+**Date:** 2026-08-22 · **Status:** SUPERSEDED by
+[0015](0015-province-rescale-and-mountain-relief.md) (2026-08-24: horizontal
+×1, vertical ×1, drama moves into the height data; note 0015's correction of
+the Skyrim-area comparison below)
 
 The raw heightfield extent is 7.37 km × 7.37 km (Skyrim map scale). Chosen
 horizontal multiplier: **×3 → ~22 km × 22 km**, giving:

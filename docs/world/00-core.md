@@ -51,13 +51,17 @@ decision 0008), (3) small disposable laboratories.
    changes movement, visibility, settlement forms, routes, encounters,
    materials, sound and danger — not just colours. Materials/asset choices
    link to region classes (RegionGrammar.materialPalette).
-8. **Conventions**: metres, Y-up, sea level y=0 (0003); ×3 horizontal scale
-   (~22 km province) and ×5 vertical scale applied where terrain becomes
-   geometry (0006 + addendum); deterministic compilers with fixed seeds;
-   stable semantic IDs for everything quests or code may reference.
+8. **Conventions**: metres, Y-up, sea level y=0 (0003); **×1 horizontal
+   (~7.4 km province, ≈ Skyrim's land area) and ×1 vertical** (decision 0015,
+   supersedes 0006 — applied by Phase 6b; until 6b lands the published
+   rasters/chunks still carry ×3/×5-era values); heights stored in true
+   metres always; deterministic compilers with fixed seeds; stable semantic
+   IDs for everything quests or code may reference.
 9. **Agents read measurements; the owner is the visual authority.** Validate
    with probes/stats/screenshots-by-tooling; pause at studio gates for owner
-   review (Module 85). Update PROGRESS.md per its protocol.
+   review (Module 85). **Terrain scale/relief/exaggeration is judged and
+   gated on foot ("Walk the province"), never from the flyover** (0015).
+   Update PROGRESS.md per its protocol.
 
 ## Acceptance rules (Part XIV — binding)
 
@@ -93,8 +97,8 @@ semantic kits and deterministic compilers; simple source-and-credits records
 
 0 sources/era/credits · 1 monorepo+contracts · 2 province ingest ·
 3 hydrology+regions · 4 danger/cultures/transport · 5 World Studio ·
-6 reference watershed detail · 7 physical character · 8 water/atmosphere
-renderer · 9 swim/climb/boats · 10 asset catalogue+kits · 11 causal
-locations+settlements · 12 dungeons+interiors · 13 ecology/encounters/loot ·
-14 streaming+deploy · 15 expansion by watershed. Phases 0–5 are owner-approved
-done; 6 is active.
+6 province terrain · 6b rescale+mountain relief (0015, after 7) ·
+7 physical character · 8 water/atmosphere renderer · 9 swim/climb/boats ·
+10 asset catalogue+kits · 11 causal locations+settlements ·
+12 dungeons+interiors · 13 ecology/encounters/loot · 14 streaming+deploy ·
+15 expansion by watershed. Statuses live only in PROGRESS.md.

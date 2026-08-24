@@ -18,3 +18,4 @@ record and marking the old one superseded — don't rewrite history.
 - [0012 — portage resolution policy (boat-lane land hops)](0012-portage-resolution-policy.md)
 - [0013 — Phase 7 package extraction shape (game-core / character / character-assets)](0013-phase7-package-extraction-shape.md)
 - [0014 — browser encoding of terrain chunks (RG16 PNGs, committed)](0014-browser-chunk-encoding.md)
+- [0015 — province scale ×1, vertical ×1, mountain drama into the data (Phase 6b)](0015-province-rescale-and-mountain-relief.md)
