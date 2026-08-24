@@ -1,5 +1,9 @@
 # Proposed changes to docs/quests/ — for a follow-up agent to apply
 
+> **STATUS: ALL 16 DELTAS APPLIED to docs/quests/ on 2026-08-24.** Each delta
+> below carries an `APPLIED:` line; tensions and judgement calls are recorded
+> under "## Application notes" at the bottom.
+
 The lore workstream **does not edit `docs/quests/`**. This file records the
 changes the Packet 1–3 sweep says are needed, with the reasoning and the citation
 that justifies each. A follow-up agent applies them, with a pointer back to the
@@ -60,6 +64,12 @@ enemy in living memory **was its own state**.
 [../topics/history-timeline.md](../topics/history-timeline.md) 4E section;
 [argonia-4e201-state.md](argonia-4e201-state.md) §1–2.
 
+**APPLIED:** `10-political-frame.md` §5 intro and first bullets replaced with the
+successor-state framing (Archwardens, the Organism, contested legitimacy, naming
+asymmetry); §6 Veiled Reed reworded as an office of the successor state with the
+sharpened founding-crime contradiction; §9 Helstrom/Stormhold rows updated;
+`00-overview.md` Veiled Reed description updated.
+
 ---
 
 ## D2 — `10-political-frame.md` §5: Lilmoth's description
@@ -82,6 +92,10 @@ that killed it."
 **Justified by**: [../lilmoth.md](../lilmoth.md) sweep addendum;
 [argonia-4e201-state.md](argonia-4e201-state.md) §4; see also
 [owner-questions.md](owner-questions.md) Q4 for the one owner decision inside it.
+
+**APPLIED:** `10-political-frame.md` §5 Lilmoth bullet and §9 Lilmoth row
+rewritten to destroyed-in-4E 48, rebuilt-not-restored, hostile to the successor
+state, drowned quarter unrepaired, feared third Hist.
 
 ---
 
@@ -114,6 +128,12 @@ premise and to SS01's and SS08's source columns; add a Black-Tongue quest beat.
 **Justified by**: [../topics/sithis-nisswo-shadowscales.md](../topics/sithis-nisswo-shadowscales.md);
 [../archon.md](../archon.md) sweep addendum.
 
+**APPLIED:** `40-factions.md` §31 premise dated (4E 187 closure, last Shadowscale
+dies 4E 201) with Dupre/Rasha and the Black-Tongue hook; SS01 is now that death
+and sites the safehouse ruin at the Archon facility; SS04 gains the Black-Tongue
+claimant beat; SS05 tied to the Cheydinhal revival plan; SS08 framed as the third
+bidder.
+
 ---
 
 ## D4 — `40-factions.md` §35 NI05 ("Teeth of Sithis"): two canon facts to fold in
@@ -136,6 +156,10 @@ premise and to SS01's and SS08's source columns; add a Black-Tongue quest beat.
 
 **Justified by**: [../topics/sithis-nisswo-shadowscales.md](../topics/sithis-nisswo-shadowscales.md);
 [../tribes.md](../tribes.md) sweep addendum.
+
+**APPLIED:** `40-factions.md` NI05 rewritten around the canon Teeth of Sithis
+temple (tended by the Clutch), a Sul-Xan splinter as the violent sect, and the
+Shuxaltsei precedent; provision now `LOC murkmire.teeth_of_sithis`.
 
 ---
 
@@ -164,6 +188,10 @@ consider a Hissmir location requirement in `20-world-provisions.md`.
 **Justified by**: [../regions/shadowfen.md](../regions/shadowfen.md);
 [../topics/hist-and-sap.md](../topics/hist-and-sap.md).
 
+**APPLIED:** `40-factions.md` LW01 narrative and provisions gained Hissmir, the
+Trials and the Root Stewards ("a pilgrimage certificate is not proof"); Hissmir
+added to the new canon-locations table in `20-world-provisions.md` §12b.
+
 ---
 
 ## D6 — `40-factions.md` §36 MR03 ("The Borrowed Tree"): the mechanism is canon
@@ -184,6 +212,10 @@ belong, physically and spiritually, to a tree the tribe says was stolen.**
 
 **Justified by**: [../topics/hist-and-sap.md](../topics/hist-and-sap.md).
 
+**APPLIED (with D12):** `40-factions.md` MR03 rewritten to carry the canon stakes
+— gloor, souls returning to the tree, and the Blackwood Company / Veeskhleel
+precedents.
+
 ---
 
 ## D7 — `10-political-frame.md` §9 table: two regional corrections
@@ -201,6 +233,10 @@ belong, physically and spiritually, to a tree the tribe says was stolen.**
 
 **Justified by**: [../regions/thornmarsh-and-east.md](../regions/thornmarsh-and-east.md);
 [../gideon.md](../gideon.md) sweep addendum.
+
+**APPLIED:** `10-political-frame.md` §9 Thorn row now carries the
+grassland/saltrice region note; the Gideon §5 bullet and §9 row state canon
+majority-Lukiul and the 4E 48 loss of that population.
 
 ---
 
@@ -223,6 +259,9 @@ their character is already written.
 | **White Rose Prison** (unlocated) | Named twice; Argonians who died there still need their bones brought to the dirt | Blackrose Chainbreakers |
 | **The Archon Shadowscale facility** | Closed 4E 187; the Cheydinhal Listener wants it back | The Empty Cradle |
 
+**APPLIED (with D16):** merged into a single canon-locations-and-systems table
+as new §12b of `20-world-provisions.md`, with per-row "serves" pointers.
+
 ---
 
 ## D9 — `60-writing-and-lore.md`: register and idiom
@@ -240,6 +279,9 @@ engorged!"). Farewell: "**Stay moist.**" Curse: "**Hist piss!**" Exclamation:
 **Proposed change**: add a short "Argonian register" subsection pointing at
 [../topics/material-culture.md](../topics/material-culture.md) § *Language notes
 for dialogue* rather than duplicating it.
+
+**APPLIED:** `60-writing-and-lore.md` new §45b "Argonian register" — headline
+habits plus a binding pointer to the dossier section.
 
 ---
 
@@ -259,6 +301,12 @@ for dialogue* rather than duplicating it.
 
 **Justified by**: [../archon.md](../archon.md);
 [../topics/sithis-nisswo-shadowscales.md](../topics/sithis-nisswo-shadowscales.md).
+
+**APPLIED:** (1) no quest module claimed a non-Ayleid Archon origin; a one-clause
+Barsaebic-Ayleid foundation note was added to the §9 Archon row to lock it in.
+(2) `10-political-frame.md` §8 Eye bullet and `40-factions.md` SS02 now carry
+the empty-Scalded-Throne caveat (royal command a claim the order made about
+itself).
 
 ---
 ---
@@ -292,6 +340,12 @@ existing lines should be written:
 
 **Justified by**: [argonia-4e201-state.md](argonia-4e201-state.md) §9.
 
+**APPLIED:** `60-writing-and-lore.md` new §45c "The 4E 48 calibration" (binding
+tone rule: no living witnesses, boredom allowed, not universal, Nisswo
+counter-argument sympathetic, melancholy-and-dignified register);
+`40-factions.md` §41 Umbriel Witness Society intro rewritten as inheritors and
+archivists, not survivors.
+
 ## D12 — `40-factions.md` §36 (Many-Root Conclave): MR03 now has a site and a mechanism
 
 MR03 "The Borrowed Tree" can be sited concretely: **Gideon's Hist is a planted
@@ -307,6 +361,9 @@ return to the tree they came from.
 
 **Justified by**: [../topics/hist-placement.md](../topics/hist-placement.md) §3;
 owner Round-2 **Q9** (flagged, recommendation A).
+
+**APPLIED (with D6):** MR03 sited at Gideon — `LOC gideon.hist_garden` among the
+Ayleid ruins, Gloommire tribal claimant — citing owner decision Q9.
 
 ## D13 — `40-factions.md` §32 (Night-Reed Chapter): two canon gifts
 
@@ -326,6 +383,10 @@ owner Round-2 **Q9** (flagged, recommendation A).
 
 **Justified by**: [../topics/guilds-and-orders.md](../topics/guilds-and-orders.md) §3;
 [../topics/ecology-encounters-loot.md](../topics/ecology-encounters-loot.md) §2.
+
+**APPLIED:** `40-factions.md` §32 premise rewritten as a native organisation (a
+peer, not a franchise; canon precedents named); TG10 gains the ripper-eel canal
+hazard with the eel-slime counter, in narrative and provisions.
 
 ## D14 — `40-factions.md` §34 (The Sunken Archive) and §26: the two live foreign magical interests
 
@@ -353,6 +414,11 @@ has a permanent reason to refuse the Synod anything.
 
 **Justified by**: [../topics/guilds-and-orders.md](../topics/guilds-and-orders.md) §2.
 
+**APPLIED:** `40-factions.md` §34 premise gains the no-resident-institutions
+datum, both motives (Synod artefact-hunting; College Umbrielic necromancy as the
+most legible foreign magical antagonist) and the Hierem–Synod connection; SA04
+and SA05 sharpened accordingly. See Application notes on the "§26" citation.
+
 ## D15 — `40-factions.md` §39 (Blackrose Chainbreakers): retarget
 
 Owner decision Q3: **Blackrose Prison is not a working prison and is not the
@@ -375,6 +441,13 @@ break, and it is `CANON_EXPLICIT`.
 **Justified by**: [../topics/prisons.md](../topics/prisons.md);
 [settlement-register.md](settlement-register.md) §6.
 
+**APPLIED:** `40-factions.md` §39 rewritten — Chainbreakers now target informal
+bondage; BC01–BC04 retargeted (estates, the Rose's registers, a labour broker,
+an uprising inside the Rose); new BC05 "Bones to the Dirt" (White Rose); finale
+renumbered BC06. Knock-ons: MQ09 (`30-main-quest.md`) reworked around the
+Blackguard heirs; LQ04 (`50-side-quests.md`) reworked; NI08 assets note fixed;
+`10-political-frame.md` §5 bullet and §9 Blackrose row updated.
+
 ## D16 — `20-world-provisions.md`: further locations and systems canon supplies
 
 Additions to the D8 table, from packets 4–6:
@@ -395,3 +468,42 @@ Additions to the D8 table, from packets 4–6:
 [../topics/hist-placement.md](../topics/hist-placement.md);
 [../topics/ecology-encounters-loot.md](../topics/ecology-encounters-loot.md);
 [../topics/guilds-and-orders.md](../topics/guilds-and-orders.md).
+
+**APPLIED (with D8):** merged into `20-world-provisions.md` §12b; the great Root
+Talk and White Rose rows also surface in `10-political-frame.md` §9 (Helstrom)
+and `40-factions.md` BC05 respectively.
+
+---
+
+## Application notes (2026-08-24, applying agent)
+
+Recorded per the application protocol: places where a delta needed a judgement
+call or met something it did not anticipate.
+
+1. **D3 (Black-Tongue beat).** Folded into SS04's claimant list rather than
+   added as an eleventh quest row, to respect the deep-line 10–12 quest budget;
+   SS08 references it. A standalone Black-Tongue quest remains an obvious wave-2
+   extension.
+2. **D10.1 (Archon's Ayleid founding).** No quest module actually made the
+   contrary claim, so there was nothing to correct; a one-clause note was added
+   to the §9 Archon row purely to prevent future error.
+3. **D14's "§26" citation.** `30-main-quest.md` §26 (persistent regional
+   consequences) never mentions the Synod or College, so there was nothing to
+   change there; the §29 incompatibility table already matched. Applied to §34
+   and its quest rows only.
+4. **D15 (Chainbreaker IDs).** Inserting the White Rose quest mid-line
+   renumbered the finale BC05→BC06. Grep confirmed no BC-ID references exist
+   outside `40-factions.md`. The line grows 5→6 quests, inside the 4–6 band for
+   compact lines in `00-overview.md`.
+5. **D2 knock-on left open.** TG10's "Tidal Palace / Crown Ledger" names were
+   kept, read as the rebuilt merchant-council seat of the smaller Lilmoth; if
+   the world build finds the names too grand for a stilt town, rename at
+   Phase 11 authoring — nothing else depends on them.
+6. **Q7 tension the deltas did not anticipate.** The main-quest opening (MQ01,
+   penal work barge/detail near Alten Corimont) survives all deltas, but under
+   owner decision Q7 ("no formal state coercive institution") it should be
+   authored at Phase 11 as a *local* arrangement — city debt-and-sentence labour
+   of the Stormhold/Alten Corimont kind, i.e. an instance of the informal
+   bondage the Chainbreakers oppose — not an arm of a province-wide penal
+   system. No quest text currently contradicts this; it constrains future
+   authoring only.
