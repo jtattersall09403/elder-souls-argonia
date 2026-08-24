@@ -70,7 +70,7 @@ export function App() {
   const [spawnKm, setSpawnKm] = useState<{ x: number; z: number }>({
     x: Number(urlParams.get("x")) || 10.4, z: Number(urlParams.get("z")) || 8.4,
   });
-  const [exaggeration, setExaggeration] = useState(Number(urlParams.get("ex")) || 5);
+  const [exaggeration, setExaggeration] = useState(Number(urlParams.get("ex")) || 1);
   const [flyPos, setFlyPos] = useState("");
   const flyKmRef = useRef<{ x: number; z: number }>({ x: 10.4, z: 8.4 });
   // Ground-material set (?mats=): A/B palette comparison + instant revert.

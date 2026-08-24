@@ -21,6 +21,7 @@ import numpy as np
 from scipy import ndimage
 
 from .routes import cost_distance_field
+from .scale import TUNE
 
 # Terrain-hazard base per region class id (regions.REGION_CLASSES); the depth
 # term carries the main gradient, so these stay modest.
@@ -44,23 +45,24 @@ DANGER_BASE = {
 # swampy ground, never on firm lowland/jungle/uplands.
 SWAMP_CLASSES = (6, 7, 8, 9, 12)
 DEPTH_GAIN = 2.9
-DEPTH_SCALE_KM = 10.0        # cost-km at which depth saturates
-COAST_ACCESS_KM = 3.0        # landing on a wild coast is possible but not free
-MINOR_PORT_ACCESS_KM = 3.0   # Alten Corimont: smuggler port, limited access
+# Distance/km constants tuned at x3 convert via scale.TUNE (0015 — scale.py).
+DEPTH_SCALE_KM = 10.0 * TUNE     # cost-km at which depth saturates
+COAST_ACCESS_KM = 3.0 * TUNE     # landing on a wild coast is possible but not free
+MINOR_PORT_ACCESS_KM = 3.0 * TUNE  # Alten Corimont: smuggler port, limited access
 ROAD_RELIEF = 0.6
-ROAD_RELIEF_RADIUS_M = 400.0
-CITY_SAFE_RADIUS_M = 1000.0  # majors except Helstrom — its approach stays wild
+ROAD_RELIEF_RADIUS_M = 400.0 * TUNE
+CITY_SAFE_RADIUS_M = 1000.0 * TUNE  # majors except Helstrom — its approach stays wild
 # Border mountains are chartable frontier hills, not the province's peril
 # (canon: the marsh heart is the deadliest ground) — cap their band at 3.
 MOUNTAIN_DANGER_CAP = 3.4  # band 3 max - frontier hills, not deep peril
 # "Middle Argonia": canon holds Helstrom's surrounds as the most dangerous part
 # of the province (Lore:Helstrom / PGE3) — explicit peril boost around it.
 HEART_BOOST = 1.2
-HEART_SIGMA_KM = 2.5
+HEART_SIGMA_KM = 2.5 * TUNE
 
 # Depth travel cost: marsh is the true barrier (impenetrable, disease-ridden),
 # mountains hard but chartable, big rivers/lakes crossable by boat.
-DEPTH_SLOPE_FACTOR = 20.0
+DEPTH_SLOPE_FACTOR = 20.0 * TUNE
 DEPTH_WETLAND = 5.0
 DEPTH_FLOOD_FREQUENT = 2.0
 DEPTH_MOUNTAIN = 1.8
@@ -187,10 +189,10 @@ def compute_society(regions: np.ndarray, anchors_px: dict[str, tuple[int, int]],
             if seed not in anchors_px:
                 continue
             d = _distance_km_from([anchors_px[seed]], shape, metres_per_px)
-            influence[ci] += np.exp(-(d ** 2) / (2 * sigma_km ** 2))
+            influence[ci] += np.exp(-(d ** 2) / (2 * (sigma_km * TUNE) ** 2))
         for u, v, sigma_km in spec.get("uvSeeds", []):
             d = _distance_km_from([(int(u * w), int(v * h))], shape, metres_per_px)
-            influence[ci] += np.exp(-(d ** 2) / (2 * sigma_km ** 2))
+            influence[ci] += np.exp(-(d ** 2) / (2 * (sigma_km * TUNE) ** 2))
         for cid, boost in spec.get("regionBoost", {}).items():
             influence[ci][regions == cid] += boost
         if spec.get("swampOnly"):

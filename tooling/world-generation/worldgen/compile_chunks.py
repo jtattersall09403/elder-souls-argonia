@@ -30,7 +30,7 @@ from scipy import ndimage
 
 CHUNK = 256          # samples per chunk edge (LOD0), ~1.4 km at 5.48 m
 LODS = (1, 2, 4)     # decimation factors
-RAW_M = 4096.0 * 0.01428 / 32.0 * 3.0
+from .scale import RAW_M, VERTICAL_SCALE_AT_GEOMETRY
 DEFAULT_HEIGHTS = Path(
     "/home/analyticalplatform/workspace/elder-souls-dev/elder-scrolls-asset-pipeline/"
     "skyrim-source/mod-sources/tamriel-worldspaces-118678/extracted/"
@@ -81,7 +81,7 @@ def main() -> None:
     manifest = {
         "chunkSamples": CHUNK,
         "chunkMetres": round(CHUNK * RAW_M, 1),
-        "verticalScaleAtGeometry": 5,
+        "verticalScaleAtGeometry": VERTICAL_SCALE_AT_GEOMETRY,
         "heightsAre": "true metres, y-up, sea level 0 (0003/0006)",
         "collision": "Rapier heightfield per chunk from lod1 grid (overlap row/col included for stitching)",
         "grid": [max(c["cx"] for c in chunks) + 1, max(c["cy"] for c in chunks) + 1],

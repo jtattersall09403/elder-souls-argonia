@@ -4,7 +4,9 @@ from .landcover import (BC_ROAD, BLACK_MUD, MARSH_GRASS, MUCK, N_MATERIALS,
                         PATH, RIVER_MUD, SILT, SWAMP_GRASS, TRACK, TROP_GRASS,
                         compile_ground_control)
 
-M_PER_PX = 5.5  # production full-res texel size
+from .scale import RAW_M
+
+M_PER_PX = RAW_M  # production full-res texel size (scale.py, 0015)
 
 
 def _fixture(seed=1, with_roads=False):

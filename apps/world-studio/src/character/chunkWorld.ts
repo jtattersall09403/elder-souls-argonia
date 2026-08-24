@@ -13,7 +13,7 @@ import type { ChunkStore, ChunksManifest } from "./chunkStore";
  */
 export class ChunkWorld implements EnvironmentQuery {
   private manifest: ChunksManifest | null = null;
-  private verticalScale = 5;
+  private verticalScale = 1;
   private cellMetres = 1403.8;
   private grid: [number, number] = [16, 16];
   /** Dominant land-cover material id per control texel (id0 channel). */
@@ -31,7 +31,7 @@ export class ChunkWorld implements EnvironmentQuery {
 
   /**
    * Set the live vertical scale (owner tuning; canonical value is decision
-   * 0006's ×5, `chunks-web-manifest.verticalScaleAtGeometry`). Must match the
+   * 0015's ×1, `chunks-web-manifest.verticalScaleAtGeometry`). Must match the
    * collider and render-mesh scale — CharacterMode keeps them in lockstep.
    */
   setVerticalScale(scale: number): void {

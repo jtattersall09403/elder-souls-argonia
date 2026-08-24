@@ -17,11 +17,15 @@ from dataclasses import dataclass, field
 import numpy as np
 from scipy import ndimage
 
+from .scale import TUNE, TUNE_A, TUNE_S
+
 SEA_LEVEL = 0.0
 # Drainage-area thresholds (km^2, at world scale) for the river hierarchy.
-RIVER_MAJOR_KM2 = 15.0
-RIVER_MEDIUM_KM2 = 4.0
-RIVER_MINOR_KM2 = 1.0
+# x3-era tuning values convert via scale.TUNE* so the approved pixel-space
+# rasters survive rescales (0015) — see scale.py.
+RIVER_MAJOR_KM2 = 15.0 * TUNE_A
+RIVER_MEDIUM_KM2 = 4.0 * TUNE_A
+RIVER_MINOR_KM2 = 1.0 * TUNE_A
 # Routing noise: correlated field added to the routing surface (not the real
 # terrain) so channels meander and converge instead of running geometrically
 # straight across flats. Deterministic seed for reproducible builds.
@@ -31,7 +35,8 @@ LAKE_MIN_DEPTH = 0.15          # filled - raw ground (m) that counts as standing
 WETLAND_MAX_ELEV = 8.0         # m; upper bound for marsh ground
 TWI_WETLAND_PERCENTILE = 70    # of land cells, above which low ground reads wet
 TIDAL_MAX_ELEV = 1.5           # m above sea level reachable by tide
-SALINITY_DECAY_M = 1500.0      # e-folding distance of brackish influence inland
+SALINITY_DECAY_M = 1500.0 * TUNE   # e-folding distance of brackish influence inland
+WETLAND_MAX_SLOPE = 0.03 * TUNE_S  # rise/run; marsh ground is near-flat
 
 NEIGHBOR_OFFSETS = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
 
@@ -63,7 +68,8 @@ def routing_noise(shape: tuple[int, int], amp_m: float = ROUTING_NOISE_AMP_M,
 
 
 DEEP_SEA_M = -15.0        # open-sea depth
-OCEAN_REACH_M = 2500.0    # how far through water 'ocean' extends from deep sea
+OCEAN_REACH_M = 2500.0 * TUNE   # how far through water 'ocean' extends from deep sea
+SALT_SEARCH_MAX_M = 9000.0 * TUNE  # beyond this salinity is nil; bounds the search
 LAND_SALT_PENALTY = 4.0   # salinity travels 4x slower over land than water
 
 
@@ -106,8 +112,7 @@ def _geodesic_from(sources: np.ndarray, water: np.ndarray, metres_per_px: float)
             if 0 <= ny < h and 0 <= nx < w:
                 step = np.hypot(dy, dx) * metres_per_px
                 nd = d + (step if water[ny, nx] else step * LAND_SALT_PENALTY)
-                # beyond ~9 km salinity is nil; skip to keep the search bounded
-                if nd < dist[ny, nx] and nd < 9000.0:
+                if nd < dist[ny, nx] and nd < SALT_SEARCH_MAX_M:
                     dist[ny, nx] = nd
                     heapq.heappush(heap, (nd, ny, nx))
     return dist
@@ -274,7 +279,7 @@ def compute(z: np.ndarray, metres_per_px: float) -> HydrologyResult:
     rivers[land & (accum >= RIVER_MINOR_KM2)] = 1
     rivers[land & (accum >= RIVER_MEDIUM_KM2)] = 2
     rivers[land & (accum >= RIVER_MAJOR_KM2)] = 3
-    watersheds = label_watersheds(drain, flow_to, ocean, accum, min_basin_km2=5.0, cell_km2=cell_km2)
+    watersheds = label_watersheds(drain, flow_to, ocean, accum, min_basin_km2=5.0 * TUNE_A, cell_km2=cell_km2)
 
     gy, gx = np.gradient(filled, metres_per_px)
     slope = np.hypot(gx, gy)
@@ -285,7 +290,7 @@ def compute(z: np.ndarray, metres_per_px: float) -> HydrologyResult:
     land_twi = twi_smooth[land & (z < WETLAND_MAX_ELEV)]
     twi_cut = float(np.percentile(land_twi, TWI_WETLAND_PERCENTILE)) if land_twi.size else 0.0
     near_water = ndimage.binary_dilation(lakes | (rivers >= 2), iterations=2)
-    wetlands = land & (z > SEA_LEVEL) & (z < WETLAND_MAX_ELEV) & (slope < 0.03) & \
+    wetlands = land & (z > SEA_LEVEL) & (z < WETLAND_MAX_ELEV) & (slope < WETLAND_MAX_SLOPE) & \
         ((twi_smooth > twi_cut) | lakes | near_water)
     # Despeckle so isolated single-cell wet/dry pixels don't read as noise.
     wetlands = ndimage.binary_opening(ndimage.binary_closing(wetlands))

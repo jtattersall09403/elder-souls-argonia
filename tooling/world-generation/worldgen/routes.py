@@ -12,6 +12,8 @@ import heapq
 
 import numpy as np
 
+from .scale import TUNE
+
 NEIGHBOR_OFFSETS = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
 
 # Relative per-metre traversal costs for road building.
@@ -20,7 +22,7 @@ COST_FLOOD_FREQUENT = 2.0
 COST_MOUNTAIN = 3.0        # z above 40 m
 COST_RIVER_CROSSING = 8.0  # medium+ river cell (bridge/ford)
 COST_OPEN_WATER = 25.0     # lake or sea cell (ferry/causeway)
-SLOPE_FACTOR = 30.0
+SLOPE_FACTOR = 30.0 * TUNE  # per-slope cost, tuned at x3 (0015 — see scale.py)
 # Roads avoid the world border: ramping penalty inside this edge fraction, so
 # corridors skirt the higher ground instead of hugging the map rim.
 EDGE_MARGIN = 0.06

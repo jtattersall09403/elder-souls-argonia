@@ -15,13 +15,14 @@ import numpy as np
 import pytest
 
 from .compile_chunks import DEFAULT_HEIGHTS
+from .scale import RAW_M, VERTICAL_SCALE_AT_GEOMETRY
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 ANCHORS = REPO_ROOT / "world" / "sources" / "anchors" / "settlement-anchors.json"
 REFINED = DEFAULT_HEIGHTS
 
-MPS = 5.48352            # metres/sample, refined grid (×3 baked)
-VERTICAL_SCALE = 5       # decision 0006 addendum: applied where data -> geometry
+MPS = RAW_M              # metres/sample, refined grid (scale.py, 0015)
+VERTICAL_SCALE = VERTICAL_SCALE_AT_GEOMETRY  # applied where data -> geometry
 MAX_WALKABLE_SLOPE_DEG = 57.3   # ecctrl slopeMaxAngle default (1 rad)
 MIN_WALKABLE_PATCH_SAMPLES = 9  # ~3x3 samples ≈ 16 m × 16 m of standable ground
 

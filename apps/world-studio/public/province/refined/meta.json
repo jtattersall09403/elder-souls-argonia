@@ -7,19 +7,19 @@
     0.0,
     0.0
   ],
-  "metresPerPixel": 10.967039999999999,
+  "metresPerPixel": 3.65568,
   "imageWidth": 2017,
   "imageHeight": 2017,
   "heightMinMetres": -85.68000030517578,
   "heightMaxMetres": 126.49735260009766,
   "extentKm": [
-    22.12,
-    22.12
+    7.37,
+    7.37
   ],
   "groundControl": "ground-control.png",
   "portages": {
-    "canoeChannels": 17,
-    "portages": 4
+    "canoeChannels": 15,
+    "portages": 5
   },
-  "note": "whole province, true metres (x5 at geometry time, 0006); mild conditioning (0005); chunks via worldgen.compile_chunks"
+  "note": "whole province, true metres (x1 at geometry time, 0015); mild conditioning (0005); chunks via worldgen.compile_chunks"
 }

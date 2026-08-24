@@ -25,6 +25,8 @@ from __future__ import annotations
 import numpy as np
 from scipy import ndimage
 
+from .scale import TUNE, TUNE_A
+
 # Material ids — index order of build_ground_materials.MATERIALS.
 (SILT, RIVER_MUD, BANK_WET, SCUM, BLACK_MUD, PUDDLE, CLAY, MUCK, BC_MUD,
  PEAT, MUD_LEAVES, MARSH_GRASS, UNDERGROWTH, BC_MOSS, MOSS, SWAMP_GRASS,
@@ -56,7 +58,7 @@ REGION_PALETTES = {
 }
 MARSHY = {3, 4, 6, 7, 8, 12}          # regions where wet-ground micro rules dominate
 # Channel bed half-widths (m) by river band, matching the refine CHANNELS.
-BAND_HALF_W = {1: 10.0, 2: 22.0, 3: 45.0}
+BAND_HALF_W = {1: 10.0 * TUNE, 2: 22.0 * TUNE, 3: 45.0 * TUNE}
 
 # Northern palette zone (owner 2026-08-23: the northern half — including the
 # second big river basin around Helstrom's approaches — must feel distinct
@@ -75,7 +77,9 @@ NORTH_PALETTES = {
     11: dict(base=GRASS_DIRT, damp=SWAMP_GRASS, wet=PEAT, bank=CLAY, high=SCRUB, litter=MUD_LEAVES),
 }
 NORTH_V = 0.45              # province v-fraction where the northern zone ends
-LAKE_MIN_KM2 = 0.15         # fresh water bigger than this shores like a lake
+# Metre/area literals in this module were tuned at x3 and convert via
+# scale.TUNE/TUNE_A so the approved control map survives rescales (0015).
+LAKE_MIN_KM2 = 0.15 * TUNE_A  # fresh water bigger than this shores like a lake
 # Mountain elevation belts (region 1; climatology: foothill forest ->
 # low cloud-forest belt -> crag; montane cooling allowed, never frost).
 MONT_FOREST_M, MONT_CLOUD_M, MONT_CRAG_M = 18.0, 45.0, 70.0  # crag lowered: peaks rockier (owner round 6)
@@ -97,8 +101,8 @@ def _warp_regions(region, m_per_px, rng):
     """Domain-warp the region raster so borders (including authored straight
     polygon edges) read as organic interdigitated ecotones."""
     shape = region.shape
-    amp_px = 160.0 / m_per_px       # ~160 m broad waves
-    amp2_px = 45.0 / m_per_px       # ~45 m fine fingers
+    amp_px = 160.0 * TUNE / m_per_px       # ~160 m broad waves
+    amp2_px = 45.0 * TUNE / m_per_px       # ~45 m fine fingers
     dy = _noise(shape, 24, rng) * amp_px + _noise(shape, 5, rng) * amp2_px
     dx = _noise(shape, 24, rng) * amp_px + _noise(shape, 5, rng) * amp2_px
     yy = np.arange(shape[0], dtype=np.float32)[:, None] + dy
@@ -125,7 +129,7 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     # materials (NORTH_PALETTES); the boundary is noise-blended so the two
     # halves interdigitate over ~1.5 km instead of switching on a line.
     if v_frac is not None:
-        north = (v_frac + 0.06 * _noise(shape, 260.0 / m_per_px, rng)) < NORTH_V
+        north = (v_frac + 0.06 * _noise(shape, 260.0 * TUNE / m_per_px, rng)) < NORTH_V
     else:
         north = np.zeros(shape, dtype=bool)
 
@@ -143,7 +147,7 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
 
     # Landform-scale slope for material rules (micro-relief bumps must not
     # paint slope bands — they striped the basin, owner report 2026-08-23).
-    slope_lf = ndimage.gaussian_filter(slope, 22.0 / m_per_px)
+    slope_lf = ndimage.gaussian_filter(slope, 22.0 * TUNE / m_per_px)
 
     # Multi-scale patchiness (owner 2026-08-23: uniform ~35 m blobs read as
     # camouflage). Fine-grained variation only where the ground is "doing
@@ -157,12 +161,12 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
         if m.any():
             chan_d = np.minimum(chan_d, (ndimage.distance_transform_edt(~m) * m_per_px).astype(np.float32))
     activity = np.clip(
-        np.clip(1.0 - shore_d / 130.0, 0, 1)
-        + np.clip(1.0 - chan_d / 110.0, 0, 1)
+        np.clip(1.0 - shore_d / (130.0 * TUNE), 0, 1)
+        + np.clip(1.0 - chan_d / (110.0 * TUNE), 0, 1)
         + np.clip(slope_lf / 0.05, 0, 1), 0, 1).astype(np.float32)
-    broad = _noise(shape, 200.0 / m_per_px, rng)  # ~200 m stable patches
-    patch = _noise(shape, 35.0 / m_per_px, rng)   # ~35 m active patches
-    fine = _noise(shape, 14.0 / m_per_px, rng)    # ~14 m speckle
+    broad = _noise(shape, 200.0 * TUNE / m_per_px, rng)  # ~200 m stable patches
+    patch = _noise(shape, 35.0 * TUNE / m_per_px, rng)   # ~35 m active patches
+    fine = _noise(shape, 14.0 * TUNE / m_per_px, rng)    # ~14 m speckle
     patch_mix = broad + patch * (0.25 + 0.75 * activity)
 
     # Wetness patches: TWI + wetlands push ground to each region's damp/wet
@@ -183,13 +187,13 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     # cloud belt sits low (small coastal-adjacent ranges) per the research.
     mont = region == 1
     if mont.any():
-        belt_wob = 6.0 * _noise(shape, 320.0 / m_per_px, rng)
+        belt_wob = 6.0 * _noise(shape, 320.0 * TUNE / m_per_px, rng)
         mat = np.where(mont & (height > MONT_FOREST_M + belt_wob), FOREST_FLOOR, mat)
         mat = np.where(mont & (height > MONT_CLOUD_M + belt_wob), BC_MOSS, mat)
         mat = np.where(mont & (height > MONT_CRAG_M + belt_wob), MOUNTAIN_ROCK, mat)
 
     # Raised ground: local prominence (~30 m window) reads drier everywhere.
-    prom = height - ndimage.gaussian_filter(height, 28.0 / m_per_px)
+    prom = height - ndimage.gaussian_filter(height, 28.0 * TUNE / m_per_px)
     marshy = np.isin(region, list(MARSHY))
     mat = np.where(prom > 0.35, rmap("high"), mat)
 
@@ -216,8 +220,8 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
             continue
         d = (ndimage.distance_transform_edt(~m) * m_per_px).astype(np.float32)
         bank_mat = np.full(shape, BANK_WET, dtype=np.int16) if band == 1 else rmap("bank")
-        mat = np.where(d < half_w + 26.0, bank_mat, mat)
-        mat = np.where(d < half_w + 10.0, RIVER_MUD, mat)
+        mat = np.where(d < half_w + 26.0 * TUNE, bank_mat, mat)
+        mat = np.where(d < half_w + 10.0 * TUNE, RIVER_MUD, mat)
         mat = np.where(d < half_w, SILT, mat)
         channel_bed |= d < half_w
 
@@ -236,11 +240,11 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     big = np.zeros_like(areas, dtype=bool)
     big[areas * (m_per_px ** 2) / 1e6 >= LAKE_MIN_KM2] = True
     near_big = big[lblw[iy, ix]]
-    rocky = ndimage.gaussian_filter(slope_lf, 20.0 / m_per_px) > 0.045
+    rocky = ndimage.gaussian_filter(slope_lf, 20.0 * TUNE / m_per_px) > 0.045
     low = height < 2.5
-    band2 = (~water) & (shore_d < 58.0) & low          # damp fringe
-    band1 = (~water) & (shore_d < 32.0) & low          # wet mud / salt / rock
-    band0 = (~water) & (shore_d < 13.0) & (height < 3.0)  # waterline
+    band2 = (~water) & (shore_d < 58.0 * TUNE) & low          # damp fringe
+    band1 = (~water) & (shore_d < 32.0 * TUNE) & low          # wet mud / salt / rock
+    band0 = (~water) & (shore_d < 13.0 * TUNE) & (height < 3.0)  # waterline
     mat = np.where(band2, rmap("damp"), mat)
     b1 = np.where(near_salty, SALT, np.where(near_big, rmap("bank"), MUCK))
     mat = np.where(band1, b1, mat)
@@ -259,7 +263,7 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     # dry ground — crossings over water/channel beds stay unpainted
     # (bridges/ferries/boardwalks are placed features, Phase 11+).
     if roads is not None:
-        wear = _noise(shape, 120.0 / m_per_px, rng)   # ~120 m wear stretches
+        wear = _noise(shape, 120.0 * TUNE / m_per_px, rng)   # ~120 m wear stretches
         road_mat = np.full(shape, BC_ROAD, dtype=np.int16)
         road_mat[wear > 0.55] = PATH
         road_mat[(wet_score > 1.2) & (wear > 0.3)] = TRACK

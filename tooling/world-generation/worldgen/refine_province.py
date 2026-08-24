@@ -27,30 +27,33 @@ from scipy import ndimage
 
 from .condition import condition
 from .landcover import compile_ground_control
+from .scale import RAW_M, TUNE
 
-RAW_M = 4096.0 * 0.01428 / 32.0 * 3.0  # full-res sample size at world scale (~5.48 m)
 STEP = 3                               # macro rasters are 1/3 of full res
 SEED = 20260823
 
-# Detail-noise amplitude (m) by region class id.
+# Metre-denominated carve/tuning constants below were tuned at x3 and convert
+# via scale.TUNE so the approved pixel-space terrain survives rescales (0015).
+# Detail-noise amplitude (m) by region class id (vertical — no conversion).
 NOISE_AMP = {0: 0.0, 1: 3.0, 2: 2.0, 3: 0.3, 4: 0.3, 5: 0.4, 6: 0.35, 7: 0.35,
              8: 0.4, 9: 0.5, 10: 0.9, 11: 0.8, 12: 0.15, 13: 1.2}
 # Channel cross-sections by river band: (half-width m, depth m).
-CHANNELS = {1: (10.0, 1.4), 2: (22.0, 2.6), 3: (45.0, 4.2)}
+CHANNELS = {1: (10.0 * TUNE, 1.4), 2: (22.0 * TUNE, 2.6), 3: (45.0 * TUNE, 4.2)}
+CHANNEL_NOISE_FADE_M = 90.0 * TUNE   # detail noise fades within ~2 channel widths
 
 BLACKROSE_UV = (0.32, 0.87)
-LAKE_RADII_M = (470.0, 360.0)
+LAKE_RADII_M = (470.0 * TUNE, 360.0 * TUNE)
 LAKE_BED_M = -4.0
-ISLAND_R_M = 190.0   # enlarged at the gate: room for a walled island core;
+ISLAND_R_M = 190.0 * TUNE  # enlarged at the gate: room for a walled island core;
 ISLAND_TOP_M = 2.6   # the city spreads over lake boardwalks + shore quarters
 # Feeder channels (a0, a1, half-width m, bed level m). Canon: rivers converge
 # from NE (Murkwood) and W (Blackwood); the S channel is the lake's outlet
 # into Oliis Bay. Feeders carve TO a bed level and START INSIDE the lake
 # (rim lip previously blocked two of the three — owner gate report).
 FEEDER_SECTORS = {
-    "ne": (20, 80, 28.0, -2.2),
-    "w": (150, 225, 38.0, -1.8),
-    "s": (250, 300, 30.0, -2.8),
+    "ne": (20, 80, 28.0 * TUNE, -2.2),
+    "w": (150, 225, 38.0 * TUNE, -1.8),
+    "s": (250, 300, 30.0 * TUNE, -2.8),
 }
 FEEDER_START_FRAC = 0.55   # start radius as a fraction of the lake rim
 
@@ -81,7 +84,7 @@ def detail_noise(shape, regions_up, channel_dist_m, rng):
     for cid, a in NOISE_AMP.items():
         amp[regions_up == cid] = a
     # keep drainage: fade detail out within ~2 channel widths
-    amp *= np.clip(channel_dist_m / 90.0, 0.25, 1.0)
+    amp *= np.clip(channel_dist_m / CHANNEL_NOISE_FADE_M, 0.25, 1.0)
     return field * amp
 
 
@@ -133,8 +136,8 @@ def impose_blackrose_lake(h, origin_full, rivers_up, rng):
     lake_target = LAKE_BED_M * (1 - blend) + h * blend
     h = np.where(r < 1.0, np.minimum(h, lake_target).astype(np.float32), h)
     # city island, offset from centre and irregular
-    icx = cx_full + rng.uniform(-60, 60) / RAW_M
-    icy = cy_full + rng.uniform(-60, 60) / RAW_M
+    icx = cx_full + rng.uniform(-60 * TUNE, 60 * TUNE) / RAW_M
+    icy = cy_full + rng.uniform(-60 * TUNE, 60 * TUNE) / RAW_M
     idy = (np.arange(h.shape[0], dtype=np.float32)[:, None] - icy) * RAW_M * np.ones((1, h.shape[1]), np.float32)
     idx_ = (np.arange(h.shape[1], dtype=np.float32)[None, :] - icx) * RAW_M * np.ones((h.shape[0], 1), np.float32)
     del dy, dx, theta, wobble, r, t, blend, lake_target
@@ -156,8 +159,8 @@ def impose_blackrose_lake(h, origin_full, rivers_up, rng):
     rim = np.array([LAKE_RADII_M[0], LAKE_RADII_M[1]]).mean() / RAW_M
     for name, (a0, a1, half_w, depth) in FEEDER_SECTORS.items():
         min_d = rim * RAW_M * 1.1
-        sel = (ang >= a0) & (ang <= a1) & (dist > min_d) & (dist < 3000)
-        sea_sel = (sea_ang >= a0) & (sea_ang <= a1) & (sea_dist > min_d) & (sea_dist < 4500)
+        sel = (ang >= a0) & (ang <= a1) & (dist > min_d) & (dist < 3000 * TUNE)
+        sea_sel = (sea_ang >= a0) & (sea_ang <= a1) & (sea_dist > min_d) & (sea_dist < 4500 * TUNE)
         if sel.any():
             i = np.argmin(np.where(sel, dist, np.inf))
             target = (riv_xs[i], riv_ys[i])
@@ -166,7 +169,8 @@ def impose_blackrose_lake(h, origin_full, rivers_up, rng):
             target = (sea_xs[i], sea_ys[i])
         else:
             mid = np.radians((a0 + a1) / 2)
-            target = (cx_full + np.cos(mid) * 2000 / RAW_M, cy_full - np.sin(mid) * 2000 / RAW_M)
+            target = (cx_full + np.cos(mid) * 2000 * TUNE / RAW_M,
+                      cy_full - np.sin(mid) * 2000 * TUNE / RAW_M)
         span = max(np.hypot(target[0] - cx_full, target[1] - cy_full), 1e-9)
         start = (cx_full + (target[0] - cx_full) * rim * FEEDER_START_FRAC / span,
                  cy_full + (target[1] - cy_full) * rim * FEEDER_START_FRAC / span)
@@ -178,9 +182,9 @@ def impose_blackrose_lake(h, origin_full, rivers_up, rng):
 # hops through low ground become carved canoe channels; longer or higher hops
 # stay real portages — recorded for Phase 11 boardwalk/drag-path placement
 # and painted as a track on the ground.
-PORTAGE_CARVE_MAX_M = 450.0
+PORTAGE_CARVE_MAX_M = 450.0 * TUNE
 PORTAGE_CARVE_MAX_GROUND_M = 3.0
-CANOE_HALF_W_M = 8.0
+CANOE_HALF_W_M = 8.0 * TUNE
 CANOE_BED_M = -1.2
 
 
@@ -343,7 +347,7 @@ def main() -> None:
     oc_q = qf(npz["ocean"]) > 0.5
     twi_q = np.nan_to_num(qf(npz["twi"]))
     wet_q = np.clip((twi_q - twi_q.mean()) / max(twi_q.std(), 1e-9) * 0.35 + 0.5, 0, 1)
-    coast = np.exp(-(ndimage.distance_transform_edt(~oc_q) * (RAW_M * qstep)).astype(np.float32) / 2500.0)
+    coast = np.exp(-(ndimage.distance_transform_edt(~oc_q) * (RAW_M * qstep)).astype(np.float32) / (2500.0 * TUNE))
     south = (np.arange(hq.shape[0], dtype=np.float32) / hq.shape[0])[:, None] * np.ones_like(hq)
 
     def tnoise():
@@ -369,7 +373,7 @@ def main() -> None:
             "canoeChannels": sum(1 for f in portage_features if f["mode"] == "canoe-channel"),
             "portages": sum(1 for f in portage_features if f["mode"] == "portage"),
         },
-        "note": "whole province, true metres (x5 at geometry time, 0006); mild conditioning (0005); chunks via worldgen.compile_chunks",
+        "note": "whole province, true metres (x1 at geometry time, 0015); mild conditioning (0005); chunks via worldgen.compile_chunks",
     }
     (STUDIO_DIR / "meta.json").write_text(json.dumps(meta, indent=2))
     print(json.dumps(meta, indent=2))

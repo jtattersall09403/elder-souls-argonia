@@ -19,6 +19,13 @@ from PIL import Image, ImageDraw
 
 from .condition import interiorness
 from .hydrology import HydrologyResult
+from .scale import TUNE, TUNE_S
+
+# x3-era tuned constants converted via scale.TUNE* (0015) — see scale.py.
+SOIL_ROCK_SLOPE = 0.08 * TUNE_S
+PEAT_MIN_SEA_DIST_M = 2500 * TUNE
+SWAMP_MIN_SEA_DIST_M = 1200 * TUNE
+DEEP_MARSH_MIN_SEA_DIST_M = 2500 * TUNE
 
 OVERRIDES_PATH = Path(__file__).resolve().parents[3] / "world" / "sources" / "regions" / "authored-overrides.json"
 
@@ -146,10 +153,10 @@ def compute_regions(z: np.ndarray, hydro: HydrologyResult, metres_per_px: float)
 
     soil = np.full(z.shape, 2, dtype=np.uint8)
     soil[hydro.wetlands] = 3
-    soil[hydro.wetlands & (hydro.salinity < 0.2) & (dist_sea_m > 2500)] = 4
+    soil[hydro.wetlands & (hydro.salinity < 0.2) & (dist_sea_m > PEAT_MIN_SEA_DIST_M)] = 4
     near_river = ndimage.binary_dilation(hydro.rivers >= 2, iterations=2)
     soil[hydro.tidal | ((flood == 3) & near_river)] = 5
-    soil[(slope > 0.08) | (z > 35)] = 1
+    soil[(slope > SOIL_ROCK_SLOPE) | (z > 35)] = 1
     soil[~land] = 0
 
     # Raised hammocks: locally prominent dry ground surrounded by wetland.
@@ -165,8 +172,8 @@ def compute_regions(z: np.ndarray, hydro: HydrologyResult, metres_per_px: float)
 
     regions = np.full(z.shape, 11, dtype=np.uint8)  # default firm lowland
     regions[hydro.wetlands] = 8
-    regions[hydro.wetlands & (dist_sea_m > 1200)] = 7
-    regions[hydro.wetlands & (dist_sea_m > 2500)] = 6
+    regions[hydro.wetlands & (dist_sea_m > SWAMP_MIN_SEA_DIST_M)] = 7
+    regions[hydro.wetlands & (dist_sea_m > DEEP_MARSH_MIN_SEA_DIST_M)] = 6
     regions[(flood >= 2) & ~hydro.wetlands & land & near_water] = 9
     regions[land & near_major & ~hydro.tidal] = 5
     regions[hammock] = 10

@@ -4,7 +4,7 @@ Usage:
   python3 -m worldgen.compile_hydrology <path-to-heightfield-f32.npy>
 
 Reads the raw stitched heightfield from the vault, applies the owner-chosen
-mild conditioning (decision 0005) and the ×3 provisional scale (decision 0006),
+mild conditioning (decision 0005) and the world scale from scale.py (decision 0015),
 runs worldgen.hydrology, then writes:
 
 - full arrays -> <heightfield dir>/hydrology-pass1.npz (vault build cache)
@@ -24,9 +24,8 @@ from scipy import ndimage
 from .condition import condition
 from .hydrology import compute
 from .regions import CLIMATE, REGION_CLASSES, SOIL_CLASSES, compute_regions
+from .scale import HSCALE as SCALE, RAW_METRES_PER_SAMPLE
 
-RAW_METRES_PER_SAMPLE = 4096.0 * 0.01428 / 32.0
-SCALE = 3.0  # decision 0006
 STEP = 3     # work at preview resolution (1345^2)
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -137,7 +136,7 @@ def main() -> None:
     meta = {
         "metresPerPixel": metres_per_px,
         "scaleApplied": SCALE,
-        "conditioning": "strong (decision 0005, revised 2026-08-23)",
+        "conditioning": "mild (decision 0005, re-revised 2026-08-23 at the Phase 6 gate)",
         "imageWidth": shape[1],
         "imageHeight": shape[0],
         "topBasinsKm2": {str(b): round(areas[b], 1) for b in top},

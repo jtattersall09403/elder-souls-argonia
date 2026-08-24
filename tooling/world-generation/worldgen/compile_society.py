@@ -32,8 +32,8 @@ WATER_EDGES = [
     ("alten-corimont", "helstrom"),
 ]
 
-RAW_METRES_PER_SAMPLE = 4096.0 * 0.01428 / 32.0
-SCALE = 3.0
+from .scale import HSCALE as SCALE, RAW_METRES_PER_SAMPLE
+
 STEP = 3
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
