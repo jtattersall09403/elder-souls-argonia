@@ -23,7 +23,7 @@ import * as THREE from "three";
  */
 
 const GLB = new URL("../public/rig-skyrim-humanoid.glb", import.meta.url);
-const MANIFEST = new URL("../src/game/anim/generated/rig-skyrim-humanoid.animations.json", import.meta.url);
+const MANIFEST = new URL("../../../packages/game-core/src/anim/generated/rig-skyrim-humanoid.animations.json", import.meta.url);
 
 /** Blade tip, in metres along the weapon frame's +Z from the grip. */
 const BLADE_LENGTH = 0.92;

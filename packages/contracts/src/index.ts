@@ -101,12 +101,29 @@ export interface WaterSample {
 
 export interface EnvironmentContact {
   groundMaterial?: string;
+  /** Terrain surface height at the query (x, z), runtime metres. */
+  groundHeight?: number;
   supportNormal?: Vec3;
   water?: WaterSample;
   mudDepth: number;
   biomeId: string;
   regionId: string;
   hazardIds: string[];
+}
+
+/**
+ * The world side of the character/world boundary (master plan §61, grown as
+ * consumers appear — Phase 7 lands the environment query; streaming, portals
+ * and spawn search join it in later phases).
+ *
+ * Positions are runtime world space: metres from the province origin, X east,
+ * Z south, vertical ×5 already applied where terrain became geometry
+ * (decision 0006 addendum). Sea level stays y = 0 in both spaces.
+ */
+export interface EnvironmentQuery {
+  queryEnvironment(position: Vec3): EnvironmentContact;
+  /** Terrain surface height at (x, z), or null outside loaded coverage. */
+  groundHeight(x: number, z: number): number | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -131,3 +148,48 @@ export type CapabilityProfileId =
   | "highBurden"
   | "boatSmall"
   | "boatCargo";
+
+/**
+ * Named movement capability data the world compilers validate against
+ * (master plan §52). Values are generated from live gameplay tuning — never
+ * hand-copied — so world validation cannot drift from the shipped controller.
+ * Swim/climb fields stay 0 until Phase 9 implements those modes.
+ */
+export interface CapabilityProfile {
+  id: CapabilityProfileId;
+  /** Sustained flat-ground walk speed, m/s. */
+  walkSpeed: number;
+  sprintSpeed: number;
+  /** Standing jump apex height, metres. */
+  jumpApexHeight: number;
+  /** Navigation capsule: cylinder half-height / radius / suspension float, metres. */
+  capsuleHalfHeight: number;
+  capsuleRadius: number;
+  floatHeight: number;
+  /** Steepest ground slope the profile can walk up, degrees. */
+  maxWalkableSlopeDeg: number;
+  swimSpeed: number;
+  breathSeconds: number;
+  climbSpeed: number;
+}
+
+// ---------------------------------------------------------------------------
+// Combat actor registration (master plan §53, §61)
+// ---------------------------------------------------------------------------
+
+export type CombatActorKind = "player" | "enemy" | "npc" | "creature";
+
+/**
+ * A live actor registered with the shared actor registry: the world-side
+ * handle that targeting, encounters and AI perception enumerate. Position is
+ * read through a callback so registration never copies per-frame state.
+ */
+export interface CombatActorRef {
+  id: string;
+  kind: CombatActorKind;
+  /** Live world position; writes into `out` and returns it. */
+  position(out: Vec3): Vec3;
+  /** Whether lock-on may select this actor right now. */
+  targetable(): boolean;
+  alive(): boolean;
+}

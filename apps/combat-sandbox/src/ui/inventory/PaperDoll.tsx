@@ -1,11 +1,11 @@
 import { Canvas } from "@react-three/fiber";
 import { Suspense, useMemo, useRef } from "react";
 import * as THREE from "three";
-import { createAnimationCommand } from "../../game/anim/animationCommand";
-import { CHARACTER_MODEL_OFFSET } from "../../game/physics/characterPhysics";
-import { SkyrimFighter } from "../../components/SkyrimFighter";
-import { useEquippedLoadout, useWornArmour } from "../../game/inventory/store";
-import { usePlayerRace } from "../../game/actors/raceStore";
+import { createAnimationCommand } from "@elder-souls/game-core/anim/animationCommand";
+import { CHARACTER_MODEL_OFFSET } from "@elder-souls/game-core/physics/characterPhysics";
+import { SkyrimFighter } from "@elder-souls/character";
+import { useEquippedLoadout, useWornArmour } from "@elder-souls/game-core/inventory/store";
+import { usePlayerRace } from "@elder-souls/game-core/actors/raceStore";
 
 /**
  * The character panel: the real production actor, holding what is actually

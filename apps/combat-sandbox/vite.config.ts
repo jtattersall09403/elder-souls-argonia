@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import characterAssets from "@elder-souls/character-assets/plugin";
 
 // The Analytical Platform exposes local dev servers through this fixed
 // VS Code tunnel host, terminating TLS in front of a plain-http dev server.
@@ -10,7 +11,7 @@ export default defineConfig(({ command }) => ({
   // GitHub Pages serves the build from a subpath; local dev/preview through
   // the tunnel is accessed at its root, so only `vite build` uses the subpath.
   base: command === "build" ? "/elder-souls-argonia/" : "/",
-  plugins: [react()],
+  plugins: [react(), characterAssets()],
   build: { target: "es2022", sourcemap: false, chunkSizeWarningLimit: 4000 },
   server: {
     host: "0.0.0.0",

@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { input, type InputAction } from "../game/io/input";
-import { useGameStore } from "../game/core/store";
-import { MAX_ENEMIES } from "../game/combat/tuning";
+import { input, type InputAction } from "@elder-souls/game-core/io/input";
+import { useGameStore } from "@elder-souls/game-core/core/store";
+import { MAX_ENEMIES } from "@elder-souls/game-core/combat/tuning";
 import { FullscreenButton } from "./FullscreenButton";
-import type { VisualScenario } from "../game/validation/visualScenarios";
+import type { VisualScenario } from "@elder-souls/game-core/validation/visualScenarios";
 
 function Bar({ value, max, className, label }: { value: number; max: number; className: string; label: string }) {
   return (

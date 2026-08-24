@@ -1,0 +1,26 @@
+{
+  "name": "@elder-souls/game-core",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit --pretty false"
+  },
+  "dependencies": {
+    "@elder-souls/contracts": "^0.1.0",
+    "react": "^19.2.7",
+    "three": "^0.184.0",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.13",
+    "@types/react": "^19.2.16",
+    "@types/three": "^0.184.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.0.18"
+  }
+}

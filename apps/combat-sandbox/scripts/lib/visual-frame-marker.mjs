@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 
 export const VISUAL_FRAME_MARKER_PROTOCOL = JSON.parse(readFileSync(
-  new URL("../../src/game/validation/visualFrameMarkerProtocol.json", import.meta.url),
+  new URL("../../../../packages/game-core/src/validation/visualFrameMarkerProtocol.json", import.meta.url),
   "utf8",
 ));
 

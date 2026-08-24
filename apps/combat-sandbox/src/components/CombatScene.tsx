@@ -4,26 +4,26 @@ import { Ecctrl, type EcctrlHandle } from "ecctrl";
 import { useGLTF } from "@react-three/drei";
 import { Suspense, useCallback, useEffect, useMemo, useRef, type MutableRefObject, type RefObject } from "react";
 import * as THREE from "three";
-import { createAnimationCommand, updateAnimationCommand, type AnimationCommand } from "../game/anim/animationCommand";
+import { createAnimationCommand, updateAnimationCommand, type AnimationCommand } from "@elder-souls/game-core/anim/animationCommand";
 import {
   CHARACTER_TARGET_HEIGHT,
   clipConfig,
   clipPlaybackDuration,
   clipPlaybackSourceSpan,
-} from "../game/anim/animationManifest";
-import { landingAnimationSpeed, selectLandingAnimation } from "../game/anim/landing";
-import { combatAudio } from "../game/fx/audio";
+} from "@elder-souls/game-core/anim/animationManifest";
+import { landingAnimationSpeed, selectLandingAnimation } from "@elder-souls/game-core/anim/landing";
+import { combatAudio } from "@elder-souls/game-core/fx/audio";
 import {
   BLOCK_RECOIL_DURATION,
   PARRY_RECOIL_SPEED,
   blockRecoilVelocity,
   resolveGuardImpact,
-} from "../game/combat/blockReaction";
-import { enemyGuardTacticalDuration, resolveEnemyGuardVisualStep } from "../game/combat/enemyGuard";
-import { createHitShake, sampleHitShake, type HitShakeImpulse, type HitShakeKind } from "../game/fx/cameraShake";
-import { isHeavyAttack, resolveHit } from "../game/combat/resolveHit";
-import { createFighter, resetFighter, type EnemyMode, type Fighter } from "../game/combat/fighter";
-import { CombatEventBus } from "../game/combat/events";
+} from "@elder-souls/game-core/combat/blockReaction";
+import { enemyGuardTacticalDuration, resolveEnemyGuardVisualStep } from "@elder-souls/game-core/combat/enemyGuard";
+import { createHitShake, sampleHitShake, type HitShakeImpulse, type HitShakeKind } from "@elder-souls/game-core/fx/cameraShake";
+import { isHeavyAttack, resolveHit } from "@elder-souls/game-core/combat/resolveHit";
+import { createFighter, resetFighter, type EnemyMode, type Fighter } from "@elder-souls/game-core/combat/fighter";
+import { CombatEventBus } from "@elder-souls/game-core/combat/events";
 import {
   ACTION_DURATIONS,
   BACKSTEP_ATTACK_DASH_FRACTION,
@@ -32,15 +32,15 @@ import {
   MAX_ENEMIES,
   PLAYER_DODGE_SPEED,
   RIPOSTE_WINDOW,
-} from "../game/combat/tuning";
-import { itemAsset } from "../game/inventory/registry";
+} from "@elder-souls/game-core/combat/tuning";
+import { itemAsset } from "@elder-souls/game-core/inventory/registry";
 import {
   useEquippedArrow,
   useEquippedLoadout,
   useInventoryStore,
   useWornArmour,
   wornArmourFor,
-} from "../game/inventory/store";
+} from "@elder-souls/game-core/inventory/store";
 import {
   IDLE_BOW_CYCLE,
   advanceBowCycle,
@@ -49,21 +49,21 @@ import {
   bowTravelFor,
   isAiming,
   type BowCycle,
-} from "../game/combat/bowShot";
-import { launchSpeed, resolveArrowImpact } from "../game/combat/ballistics";
-import { hitZoneForBone } from "../game/combat/hitZones";
-import { nearestHurtboxBone, stickArrow } from "../game/combat/stuckArrows";
-import { totalArmourRating } from "../game/equipment/armour";
-import { clearArrows, fireArrow } from "../game/combat/arrowStore";
+} from "@elder-souls/game-core/combat/bowShot";
+import { launchSpeed, resolveArrowImpact } from "@elder-souls/game-core/combat/ballistics";
+import { hitZoneForBone } from "@elder-souls/game-core/combat/hitZones";
+import { nearestHurtboxBone, stickArrow } from "@elder-souls/game-core/combat/stuckArrows";
+import { totalArmourRating } from "@elder-souls/game-core/equipment/armour";
+import { clearArrows, fireArrow } from "@elder-souls/game-core/combat/arrowStore";
 import { ActorHealthBar } from "./ActorHealthBar";
 import { Arrows, type ArrowHit } from "./Arrows";
-import { usePlayerRace } from "../game/actors/raceStore";
+import { usePlayerRace } from "@elder-souls/game-core/actors/raceStore";
 import {
   DEFAULT_ENEMY_ARCHETYPE,
   type EnemyArchetype,
-} from "../game/actors/enemyArchetypes";
-import { activeGuardProfile } from "../game/equipment/guard";
-import { locomotionSpeedMultiplier } from "../game/anim/locomotionCadence";
+} from "@elder-souls/game-core/actors/enemyArchetypes";
+import { activeGuardProfile } from "@elder-souls/game-core/equipment/guard";
+import { locomotionSpeedMultiplier } from "@elder-souls/game-core/anim/locomotionCadence";
 import {
   CHARACTER_CAPSULE_HALF_HEIGHT,
   CHARACTER_CAPSULE_RADIUS,
@@ -83,14 +83,14 @@ import {
   JUMP_VELOCITY,
   combatHurtboxCenterOffset,
   combatHurtboxHalfHeight,
-} from "../game/physics/characterPhysics";
-import { selectEnemyIntent, type EnemyIntent } from "../game/ai/enemyAi";
-import { analogueMoveSpeed, cameraRelativeDirection, input, PLAYER_LOCK_ON_WALK_SPEED, PLAYER_SPRINT_SPEED, PLAYER_WALK_SPEED, resolveAttackDirection } from "../game/io/input";
-import { inputToIntent } from "../game/combat/intent";
-import { lockOnLocomotionAnimation, lockOnOrientationWarp, lockOnSprintAllowed, lockOnYaws } from "../game/anim/lockOn";
-import { useGameStore } from "../game/core/store";
-import type { AnimationState, CombatAction } from "../game/core/types";
-import type { AttackDefinition } from "../game/equipment/types";
+} from "@elder-souls/game-core/physics/characterPhysics";
+import { selectEnemyIntent, type EnemyIntent } from "@elder-souls/game-core/ai/enemyAi";
+import { analogueMoveSpeed, cameraRelativeDirection, input, PLAYER_LOCK_ON_WALK_SPEED, PLAYER_SPRINT_SPEED, PLAYER_WALK_SPEED, resolveAttackDirection } from "@elder-souls/game-core/io/input";
+import { inputToIntent } from "@elder-souls/game-core/combat/intent";
+import { lockOnLocomotionAnimation, lockOnOrientationWarp, lockOnSprintAllowed, lockOnYaws } from "@elder-souls/game-core/anim/lockOn";
+import { useGameStore } from "@elder-souls/game-core/core/store";
+import type { AnimationState, CombatAction } from "@elder-souls/game-core/core/types";
+import type { AttackDefinition } from "@elder-souls/game-core/equipment/types";
 import {
   COMBAT_TUNING,
   attackDuration,
@@ -109,22 +109,21 @@ import {
   isRollInvulnerable,
   isWeaponHitboxActive,
   phaseAt,
-} from "../game/combat/weapon";
+} from "@elder-souls/game-core/combat/weapon";
 import {
   executionAnchor,
   executionBladeIntersectsVictim,
   executionFacingYaw,
-} from "../game/anim/weaponMotion";
-import { VisualScenarioDriver, type VisualScenario } from "../game/validation/visualScenarios";
+} from "@elder-souls/game-core/anim/weaponMotion";
+import { VisualScenarioDriver, type VisualScenario } from "@elder-souls/game-core/validation/visualScenarios";
 import {
   publishVisualFrameMarker,
   VISUAL_FRAME_PHASE_PRIORITY,
   visualFrameMarkerIndex,
-} from "../game/validation/visualFrameMarker";
-import { createActorVisualProbe, type ActorVisualProbe } from "../game/validation/actorVisualMetrics";
-import { OverlapCounter } from "../game/combat/overlaps";
-import { HAS_SKELETAL_HURTBOX, SkeletalHurtbox, type HurtboxBone } from "./SkeletalHurtbox";
-import { SkyrimFighter } from "./SkyrimFighter";
+} from "@elder-souls/game-core/validation/visualFrameMarker";
+import { createActorVisualProbe, type ActorVisualProbe } from "@elder-souls/game-core/validation/actorVisualMetrics";
+import { OverlapCounter } from "@elder-souls/game-core/combat/overlaps";
+import { HAS_SKELETAL_HURTBOX, PlayerBody, SkeletalHurtbox, SkyrimFighter, type HurtboxBone } from "@elder-souls/character";
 import { Arena } from "./Arena";
 
 const UP = new THREE.Vector3(0, 1, 0);
@@ -2708,34 +2707,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
 
   return (
     <>
-      <Ecctrl
-        ref={player}
-        position={playerStart}
-        rotation={[0, playerStartYaw, 0]}
-        maxWalkVel={PLAYER_WALK_SPEED}
-        maxRunVel={PLAYER_SPRINT_SPEED}
-        accDeltaTime={0.16}
-        decDeltaTime={0.13}
-        rejectVelFactor={0.92}
-        airDragFactor={0.06}
-        gravityScale={JUMP_GRAVITY_SCALE}
-        fallingGravityScale={FALLING_GRAVITY_SCALE}
-        enableToggleRun={false}
-        capsuleHalfHeight={CHARACTER_CAPSULE_HALF_HEIGHT}
-        capsuleRadius={CHARACTER_CAPSULE_RADIUS}
-        floatHeight={CHARACTER_FLOAT_HEIGHT}
-        rayRadius={CHARACTER_RAY_RADIUS}
-        rayHitForgiveness={CHARACTER_RAY_HIT_FORGIVENESS}
-        springK={CHARACTER_SPRING_K}
-        dampingC={CHARACTER_DAMPING_C}
-        jumpVel={JUMP_VELOCITY}
-        jumpDuration={JUMP_IMPULSE_DURATION}
-        colliders={false}
-        useCustomForward
-        autoBalance={false}
-        enabledRotations={[false, true, false]}
-        name="player"
-      >
+      <PlayerBody handleRef={player} position={playerStart} rotationY={playerStartYaw}>
         <Suspense fallback={null}>
         <SkyrimFighter
           animationCommandRef={playerAnimationCommand}
@@ -2758,7 +2730,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           visualSupportY={0}
         />
         </Suspense>
-      </Ecctrl>
+      </PlayerBody>
       {HAS_SKELETAL_HURTBOX
         ? <SkeletalHurtbox rig={playerHurtbox} name={PLAYER_HURTBOX_NAME} probe={Boolean(visualScenario)} />
         : <CapsuleHurtbox controller={player} name={PLAYER_HURTBOX_NAME} />}

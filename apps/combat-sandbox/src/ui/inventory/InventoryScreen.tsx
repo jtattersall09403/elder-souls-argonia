@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
-import { useInventoryStore } from "../../game/inventory/store";
-import { EQUIP_SLOTS } from "../../game/inventory/types";
-import { buildInventoryView, type InventoryCell, type InventoryView } from "../../game/inventory/view";
+import { useInventoryStore } from "@elder-souls/game-core/inventory/store";
+import { EQUIP_SLOTS } from "@elder-souls/game-core/inventory/types";
+import { buildInventoryView, type InventoryCell, type InventoryView } from "@elder-souls/game-core/inventory/view";
 import { PaperDoll } from "./PaperDoll";
 import { useInventoryCursor, type CursorDirection } from "./useInventoryCursor";
 import "./inventory.css";

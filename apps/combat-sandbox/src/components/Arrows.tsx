@@ -11,9 +11,9 @@ import {
   arrowMassSplit,
   dragLeverMeters,
   impactObliquity,
-} from "../game/combat/arrowFlight";
-import { useArrowStore, type LiveArrow } from "../game/combat/arrowStore";
-import type { ArrowDefinition } from "../game/equipment/arrows";
+} from "@elder-souls/game-core/combat/arrowFlight";
+import { useArrowStore, type LiveArrow } from "@elder-souls/game-core/combat/arrowStore";
+import type { ArrowDefinition } from "@elder-souls/game-core/equipment/arrows";
 
 /**
  * Arrows in flight.

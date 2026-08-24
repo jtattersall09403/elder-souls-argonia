@@ -39,19 +39,19 @@ import { buildReviewMarkdown, REVIEW_PROMPTS } from "./lib/visual-review.mjs";
 import { assertVisualRunId, visualRunDirectory } from "./lib/visual-run-directory.mjs";
 
 const expectations = JSON.parse(await readFile(
-  new URL("../src/game/validation/visualScenarioExpectations.json", import.meta.url),
+  new URL("../../../packages/game-core/src/validation/visualScenarioExpectations.json", import.meta.url),
   "utf8",
 ));
 const scenarioGroups = JSON.parse(await readFile(
-  new URL("../src/game/validation/visualScenarioGroups.json", import.meta.url),
+  new URL("../../../packages/game-core/src/validation/visualScenarioGroups.json", import.meta.url),
   "utf8",
 ));
 const animationExclusions = JSON.parse(await readFile(
-  new URL("../src/game/validation/visualAnimationExclusions.json", import.meta.url),
+  new URL("../../../packages/game-core/src/validation/visualAnimationExclusions.json", import.meta.url),
   "utf8",
 ));
 const animationManifest = JSON.parse(await readFile(
-  new URL("../src/game/anim/generated/rig-skyrim-humanoid.animations.json", import.meta.url),
+  new URL("../../../packages/game-core/src/anim/generated/rig-skyrim-humanoid.animations.json", import.meta.url),
   "utf8",
 ));
 const ALL_SCENARIOS = Object.keys(expectations);
@@ -98,7 +98,7 @@ if (!Number.isInteger(serverPort) || serverPort < 1024 || serverPort > 65535) {
   throw new Error("VISUAL_PORT must be an integer from 1024 through 65535");
 }
 const serverOrigin = `http://127.0.0.1:${serverPort}`;
-const gameUrl = `${serverOrigin}/ecctrl-souls-combat/`;
+const gameUrl = `${serverOrigin}/elder-souls-argonia/`;
 const outputDir = visualRunDirectory(root, runId);
 const videoScratch = await mkdtemp(join(tmpdir(), "combat-visual-"));
 // A named run is an atomic evidence bundle. Mixing old scenario files with a
@@ -648,7 +648,7 @@ if (!prebuilt) {
 
 const vite = spawn(
   process.execPath,
-  [viteBin, "preview", "--base", "/ecctrl-souls-combat/", "--host", "127.0.0.1", "--port", String(serverPort), "--strictPort"],
+  [viteBin, "preview", "--base", "/elder-souls-argonia/", "--host", "127.0.0.1", "--port", String(serverPort), "--strictPort"],
   { cwd: root, stdio: ["ignore", "pipe", "pipe"] },
 );
 let serverLog = "";

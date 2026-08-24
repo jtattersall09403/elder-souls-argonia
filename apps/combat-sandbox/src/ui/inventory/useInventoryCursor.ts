@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import { SWITCH_GAMEPAD } from "../../game/io/input";
+import { SWITCH_GAMEPAD } from "@elder-souls/game-core/io/input";
 
 /**
  * Moving around the inventory without a mouse.

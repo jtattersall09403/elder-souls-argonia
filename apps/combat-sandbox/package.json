@@ -4,19 +4,21 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "assets": "node scripts/fetch-assets.mjs",
+    "assets": "node ../../packages/character-assets/verify.mjs",
     "predev": "npm run assets",
     "dev": "vite --host 0.0.0.0",
     "prebuild": "npm run assets",
     "build": "tsc -b && vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "test": "vitest run",
+    "test": "vitest run --passWithNoTests",
     "typecheck": "tsc -b --pretty false",
     "visual:install": "playwright install chromium",
     "visual:check": "npm run build && node scripts/capture-visual-scenarios.mjs --prebuilt --tiny --no-video",
     "visual:record": "npm run build && node scripts/capture-visual-scenarios.mjs --prebuilt"
   },
   "dependencies": {
+    "@elder-souls/character": "^0.1.0",
+    "@elder-souls/game-core": "^0.1.0",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.6.1",
     "@react-three/rapier": "^2.2.0",

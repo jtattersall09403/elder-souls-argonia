@@ -1,5 +1,5 @@
-import { RACE_IDS, RACES } from "../game/actors/races";
-import { useRaceStore } from "../game/actors/raceStore";
+import { RACE_IDS, RACES } from "@elder-souls/game-core/actors/races";
+import { useRaceStore } from "@elder-souls/game-core/actors/raceStore";
 import "./race-picker.css";
 
 /**

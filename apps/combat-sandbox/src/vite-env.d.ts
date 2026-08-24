@@ -36,8 +36,8 @@ type VisualScenarioTelemetry = {
     captureWallTimeMs: number;
     /** Horizontal rigid-body centre distance sampled with this rendered pose. */
     actorDistance: number | null;
-    player: import("./game/validation/actorVisualMetrics").ActorVisualSample | null;
-    enemy: import("./game/validation/actorVisualMetrics").ActorVisualSample | null;
+    player: import("@elder-souls/game-core/validation/actorVisualMetrics").ActorVisualSample | null;
+    enemy: import("@elder-souls/game-core/validation/actorVisualMetrics").ActorVisualSample | null;
   }>;
 };
 

@@ -1,18 +1,18 @@
 import { Canvas, advance } from "@react-three/fiber";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { BASE_FIELD_OF_VIEW } from "./game/physics/characterPhysics";
+import { BASE_FIELD_OF_VIEW } from "@elder-souls/game-core/physics/characterPhysics";
 import { CombatScene } from "./components/CombatScene";
-import { input } from "./game/io/input";
+import { input } from "@elder-souls/game-core/io/input";
 import { InventoryScreen } from "./ui/inventory/InventoryScreen";
 import { RacePicker } from "./ui/RacePicker";
 import { enterFullscreen, FullscreenButton } from "./components/FullscreenButton";
 import { Hud } from "./components/Hud";
 import { VisualFrameMarker } from "./components/VisualFrameMarker";
-import { combatAudio } from "./game/fx/audio";
-import { useGameStore } from "./game/core/store";
-import { useInventoryStore } from "./game/inventory/store";
-import { visualScenarioFromSearch } from "./game/validation/visualScenarios";
-import { VISUAL_FRAME_MARKER_HEIGHT } from "./game/validation/visualFrameMarker";
+import { combatAudio } from "@elder-souls/game-core/fx/audio";
+import { useGameStore } from "@elder-souls/game-core/core/store";
+import { useInventoryStore } from "@elder-souls/game-core/inventory/store";
+import { visualScenarioFromSearch } from "@elder-souls/game-core/validation/visualScenarios";
+import { VISUAL_FRAME_MARKER_HEIGHT } from "@elder-souls/game-core/validation/visualFrameMarker";
 
 /** Recorded-capture only: wall-clock dwell per 30 Hz pose, past presentation. */
 const RECORDER_POSE_HOLD_MS = 90;

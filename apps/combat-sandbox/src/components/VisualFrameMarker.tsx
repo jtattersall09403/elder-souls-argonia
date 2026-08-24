@@ -4,7 +4,7 @@ import {
   VISUAL_FRAME_MARKER_HEIGHT,
   VISUAL_FRAME_MARKER_ID,
   VISUAL_FRAME_MARKER_WIDTH,
-} from "../game/validation/visualFrameMarker";
+} from "@elder-souls/game-core/validation/visualFrameMarker";
 
 /** Test-only in-pixel clock; present only for deterministic visual scenarios. */
 export function VisualFrameMarker() {

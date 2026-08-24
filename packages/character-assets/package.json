@@ -1,0 +1,12 @@
+{
+  "name": "@elder-souls/character-assets",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    "./plugin": "./plugin.mjs"
+  },
+  "scripts": {
+    "test": "node verify.mjs"
+  }
+}
