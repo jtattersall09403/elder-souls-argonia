@@ -22,3 +22,73 @@ this movement.
 
 **Confidence:** CANON_FIXED (formation, independence, nativism, Lukiul term);
 4E 201 detail LORE_INFERRED.
+
+---
+
+## Sweep addendum (UESP re-fetch 2026-08-24)
+
+### Structure — CANON_EXPLICIT, and it is thinner than it looks
+
+> "The exact structure of the An-Xileel is unknown, but they were known to have
+> had an **Archwarden** by the name of **Qajalil** in 4E 48, and were led by
+> **The Organism**, the ruling council based in **Lilmoth**."
+> — Lore:Kingdom of Black Marsh, Lore:An-Xileel
+
+That is the entirety of canon on their institutions: one office title, one
+officer's name, one council name, one seat. Everything else — how members are
+selected, whether cities answer to them, what they call their law — is ours.
+
+### Behaviour — CANON_EXPLICIT
+
+- **They govern by exclusion.** In Lilmoth they **defeated the Imperial garrison
+  and looted the Old Imperial Quarter**, then **forbade all but licensed
+  foreigners from entering the city**, confining the unlicensed to the docks.
+- **They monopolised the Hist.** "Only the An-Xileel and wild Argonians have
+  complete access to the Lilmoth city-tree, and the An-Xileel talk only to
+  Lilmoth's city tree." They took counsel from **no other Hist**, and were
+  observed **singing to it in a long, awful cacophonous chant**.
+- **They had internal enemies.** "Political enemies of the An-Xileel hid out in
+  the **Pusbottom** district of Lilmoth."
+- **They are engineers as well as zealots**: they excavated the drowned **Ixtaxh
+  Xanmeer** west of Lilmoth room by room, pumping it out and laying magicks to
+  keep the water from returning.
+- **They negotiated with the Empire.** In **4E 47** Imperial Prime Minister
+  **Hierem** came secretly to treat with the An-Xileel leadership, apparently
+  proposing an **alliance against the Thalmor**; the deal was sealed by a ritual
+  at the city tree involving the word "Umbriel".
+- **Their war aim in 4E 48 was internal as much as external**: Umbriel was summoned
+  to "exterminate all foreign taint **and 'assimilated' Argonians**". The
+  An-Xileel and the **Wild Ones** intended to hide until Black Marsh was "clean".
+  Mind-controlled An-Xileel and undead then **killed lukiul Argonians and
+  foreigners indiscriminately**, and the city was destroyed.
+- **They were being used.** The rogue Hist of Lilmoth "was psychotic, and had
+  **controlled the An-Xileel**, using them to help grow Umbriel's undead army."
+- Non-Argonian staff are "**rare, poorly paid advisors**"; those who dealt with
+  them found them "**uniformly rude and arrogant**".
+
+### Trajectory — CANON_EXPLICIT, and it points down
+
+| Date | State |
+|---|---|
+| 3E 433 – 4E 6 | Formed, credited with the Oblivion Crisis victory, "successfully united most of the Argonian people under their rule", declared independence, sacked the Imperial colonies, invaded Morrowind. Peak. |
+| 4E 6 – 4E 28 | Advance halted by House Redoran. "**Haven't shown the slightest interest in doing anything since then.** They have, however, prevented the Empire from reclaiming that territory." Frozen. |
+| 4E 48 | The Umbriel disaster, self-inflicted, which destroyed their own seat of power and their own city tree's people. |
+| after 4E 48 | Lore:An-Xileel: "The status of the An-Xileel following the Umbriel Crisis is **unknown**." Lore:Accession War: "This disaster appears to have **broken the hold the An-Xileel held over the Argonian people**, and the mysterious party **receives no mention in the following centuries**." |
+
+### Why this matters to us
+
+Our production era is **4E 201 — 153 years after the last mention of the party.**
+The quest plan's political frame currently treats the An-Xileel as "the strongest
+known Fourth-Era nationalist movement" and "a powerful province-wide movement and
+security/state network" in 4E 201. That is defensible as an interpretation of
+"status unknown", but it runs against the grain of the two sentences above, and it
+is a **province-scale identity decision**, not an authoring detail.
+
+The options, the reasoning and a recommendation are set out in
+[extrapolation/owner-questions.md](extrapolation/owner-questions.md) **Q1**, and the
+recommended reading — a **successor state that still uses the name and inherited
+its offices, but is not the movement of 4E 6 and is not trusted the way it was** —
+is developed in
+[extrapolation/argonia-4e201-state.md](extrapolation/argonia-4e201-state.md) §1–2.
+Proposed quest-plan wording is in
+[extrapolation/quest-plan-deltas.md](extrapolation/quest-plan-deltas.md) D1.
