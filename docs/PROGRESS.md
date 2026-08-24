@@ -46,15 +46,17 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- **Phase 6 full gate**: owner flies the deployed studio with the review
-  checklist (given in-conversation 2026-08-23) — terrain/lake/materials
-  (pick `bmv-v1` vs `aendemika-v1`), water edges, roads, micro-variation,
-  wet-season toggle, city markers. Pass → Phase 6 done; Stormhold/AC packet
-  (0009) or Phase 7 next.
+- **Phase 6 province gate**: owner flies the deployed whole-province studio
+  with the review checklist (in-conversation 2026-08-24) — mild-conditioning
+  relief, de-terracing, north/south distinctness, mountains, shoreline
+  types, tint slider, lanes overlay, Blackrose channels/island. Pass → flip
+  Phase 6 to done.
 
 ## Next up
 
-Phase 6: compile the Blackrose basin at high detail (quest-aware: Blackrose
-city sites, canon lake-with-three-rivers, corridor roads, portage
-resolutions). Stormhold/AC opening region is the designated second packet
-(0009). Quest plan lives in docs/quests/ — provisions bind Phases 11+.
+Phase 7 (physical character in the refined province) — consume the chunk
+manifest (`province-refined/chunks/chunks-manifest.json` in the vault; true
+metres, ×5 at geometry time, Rapier heightfield per chunk, 257-sample
+overlap edges). Combat/character work lives behind PlayerMovementController
+(CLAUDE.md). The lore workstream (row L) runs in parallel; commit its output
+after review. Quest plan provisions bind Phases 11+.
