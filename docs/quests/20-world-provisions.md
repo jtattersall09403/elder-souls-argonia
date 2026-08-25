@@ -68,6 +68,23 @@ Do not create speculative cross-system TypeScript contracts solely because this 
 | PORTAL | Exterior/interior or submerged portal with stable identity. |
 | PERF | Explicit streaming, actor-count, draw-call or water-performance budget. |
 
+### Delivery-tier rule (added 2026-08-25)
+
+Quest briefs also declare a **delivery tier** — D-A (static), D-B (one bounded
+dynamic element), D-C (bespoke runtime behaviour) —
+[00-overview.md](00-overview.md) §4. This bears on world generation in one
+concrete way: **the world must make the cheap patterns possible.** Where a quest
+would otherwise want a chase, an escort or a crowd, the world provides instead
+
+- **static intercept points** with more than one route to them and a shared
+  sightline, so "cut them off" works without pathing a runner;
+- **fixed alternative moorings/configurations** for anything that would otherwise
+  move (the accepted TG04 fix, generalised);
+- **readable trails** — a dry stair that takes a wet print, a boat ring, a roof
+  the birds sit on — so pursuit can be solved by inference;
+- **retreat geometry**: an adjoining chamber that can be cleared for a fight, and
+  a return route that hostiles can walk toward the player.
+
 ### Traversal-feature fallback rule
 
 Nearly every quest in this plan leans on swimming, diving, boats or climbing — the engine features with the highest remaining delivery risk in a Three.js build. Therefore: **any quest whose only listed approaches require WATER, BOAT or CLIMB must also define a degraded fallback approach** (walk, social, combat or fastTransit) in its provision packet. The fallback may be slower, more dangerous or less rewarding, but it must exist, so that quest production never blocks on traversal-feature maturity and a regression in one traversal system never soft-locks a questline. Validators enforce this (Section 63).
@@ -127,6 +144,10 @@ extrapolation/quest-plan-deltas.md D8/D16.)
 | **Wintertide rootworm migration south to Gideon** | Canon-named; red clay marks the stop | Rootworm Waykeepers; seasonal fast travel |
 | **Fort Swampmoth**, held but not by the Empire | Canon fort, never located; placed on the Blackwood Road | Border content, Marsh Charter |
 | **Cyrodilic Collections, refounded at Gideon** | Its museum was never built | A foreign presence Argonians can argue with rather than fight |
+| **The Owing** — owed-labour gangs, ledger offices, hiring halls | `EXTRAPOLATED` from canon penal labour ("Tunnel Rats" worked for limited freedom), owed labour as currency, and surviving Archein brokerage (lore: topics/labour-and-bondage.md) | The Chainbreakers, MQ01, MQ11, TA03, TG03, RS-line, LW-line, and **every tolled crossing in the route graph** |
+| **`washed-out` NPC material variant** | Canon *gloor*: Argonian traits fade with distance from their Hist and return on coming home | The single cheapest legible-injustice signifier in the build — one material variant, usable province-wide on anyone held long in an Owing, and on MQ19's subject |
+| **Deepmire, "the Refuge"** as a D4 destination with an approach route | Canon cursed plateau, caretaker few, swamp-leviathan bones; the province's Umbriel memorial | UW04 — the Umbriel Witness Society's only traversal spike |
+| **Stonewastes and the Four Winds hall** | Canon hereditary defenders, xanmeer keep, Hist in the town centre | FG08 and the Marsh Charter's re-anchored premise |
 
 ## 13. Quest-ready location packet
 

@@ -184,9 +184,34 @@ Required automated checks:
 
 - no objective chain consists solely of repeated retrieval;
 - every substantial quest includes at least two required design dimensions from Section 4;
+- every quest declares a reversal (the boredom test, [00-overview.md](00-overview.md) §4) and every S-tier quest declares a quest-giver with a stated want and vivid trait;
+- no run of three consecutive quests in a line shares the same dramatic centrepiece tag;
 - every twist is seeded and actionable;
 - dialogue does not assert an unchosen player biography;
 - project-original lore carries source-confidence and author notes.
+
+### Cast integrity ([35-cast.md](35-cast.md) §60)
+
+- every named NPC record declares a depth tier C1–C4;
+- no two characters in a faction line share a relationship type *and* an institutional role *and* a register;
+- ≥4 distinct relationship types among the recurring cast of each major line, ≥3 for compact lines;
+- ≤⅓ of any cast list uses the Verb-the-Noun translated name form, and no core image (reed/root/water/stone/shadow) repeats within a list;
+- non-Argonian names conform to their province's conventions;
+- each major line declares ≥3 recurring characters appearing in ≥3 of its quests, and ≥1 who can die, leave or turn;
+- every region packet reuses ≥2 recurring characters from elsewhere and contains ≥1 oddity;
+- every C1/C2 has a successor or documentary fail-forward path and a voice sheet before dialogue authoring;
+- ≤1 flagged cliché per line, 0 in C1, each declaring its subversion;
+- cast-wide: ≥3 characters flagged `correct-but-hard`, ≥3 flagged `wrong-but-honourable`, 0 flagged wrong about everything;
+- C4 records carry no authored history and no main-quest opinions.
+
+### Deliverability
+
+- every quest declares a delivery tier D-A/D-B/D-C;
+- D-C quests are ≤10% of the total, ≤1 per faction line, and each names an engineering owner and a D-B fallback authored alongside it;
+- **no quest brief contains a free-roaming fleeing NPC, an escort through hostile space, protect-the-NPC combat, vessel-versus-vessel pursuit, or more than six simultaneously active actors** — the validator matches on the brief's centrepiece tags and provision text and fails the brief until it is converted (§4 conversion table);
+- every follower or guide movement is declared as waypoint-leash or teleport-to-mark, never free navmesh pursuit, and is invulnerable in transit;
+- every scene survives an actor failing to reach a mark;
+- named-NPC casualties are authored at fixed points, never emergent from allied combat AI.
 
 ### Fail-forward
 

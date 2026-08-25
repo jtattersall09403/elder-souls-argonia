@@ -214,6 +214,107 @@ Rules:
 - the Eye of Argonia is not a purely instrumental key. From MQ16 onward it occasionally reveals marks, inscriptions or brief visions the player did not ask for, including at least one that is never explained;
 - opacity is preserved deliberately: some questions raised by wonder content stay unanswered, and no single NPC is authorised to resolve them.
 
+### Cast
+
+The province needs to be **populated**, not merely staffed. The character-design
+rules, naming system, depth tiers, principal cast, per-faction recurring cast,
+cross-line faces and oddities roster all live in **[35-cast.md](35-cast.md)** —
+read it before writing any named NPC. The four headline rules:
+
+- **depth is proportionate to discoverability** (C1–C4 tiers); a character the
+  player meets once gets one vivid detail and no backstory;
+- **every recurring character carries a contradiction *and* a cheap quirk** — a
+  contradiction alone is a position paper, a quirk alone is a mascot;
+- **relationship variety is the anti-sameiness tool**: every major line needs at
+  least four distinct relationship types among its recurring cast (patron, peer,
+  mentor-who-is-wrong, nemesis, dependent, friend, ex, ward-turned-judge,
+  institution-in-a-person, oddity);
+- **cliché budget**: at most one deliberate stock type per faction line, each
+  carrying a subversion that changes how the quest is written, and none at all in
+  the principal cast.
+
+### Deliverability tiers — scripting complexity is a design constraint
+
+This game is built by coding agents. A quest that needs an NPC to reliably run
+across rooftops is not a more ambitious quest than one that doesn't; it is a
+*worse* one, because it will consume weeks and still be flaky. Morrowind's whole
+toolkit was cheap, and it was not less exciting for it.
+
+**Every quest brief declares a delivery tier alongside its S/M/L cost tier.**
+
+| Tier | Meaning | Share |
+|---|---|---|
+| **D-A — static** | Solvable with placed objects, dialogue topics, doors/locks, journal state, item checks and local state swaps. No AI behaviour beyond stock idle/patrol/combat. | ~55% |
+| **D-B — assisted** | One bounded dynamic element: a timed sequence, a leashed follower on a waypoint spline, a scripted prop, a fixed-position boat, hostiles that come to the player. | ~35% |
+| **D-C — bespoke** | Genuinely new runtime behaviour. Requires an explicit engineering budget, a named owner and a fallback that still ships if it fails. | ~10%, and never more than one per faction line |
+
+**Cheap patterns — prefer these** (they are what Morrowind actually used):
+
+- the world stays still and the *evidence* moves (state swaps);
+- the same NPC in the same place with different dialogue (schedule swaps);
+- **aftermath, not event** — show the result of a riot, a battle, a flood or a
+  ritual, with bodies, damage and survivors, rather than staging it live;
+- the player travels; NPCs stay where they are;
+- enemies come to the player;
+- doors, keys, locks, water, height and darkness as the obstacle;
+- reading, testimony and physical evidence as the puzzle;
+- timers and item-in-inventory checks;
+- disguise and reputation as **flags**, not as AI perception;
+- retrieval instead of escort — *they have already gone; go and find them.*
+
+**Expensive patterns — convert them.** Each of these has a standard conversion:
+
+| Instead of | Do this |
+|---|---|
+| A fleeing NPC chased across complex geometry | **Pursuit by inference**: the runner is gone through one of three exits; the player reads which (a wet print on a dry stair, a startled bird, a boat missing from its ring) and arrives at a *static* intercept. Wrong guess costs the best evidence, not the quest |
+| Escorting a fragile NPC through hostile country | The guide **leads**, on a waypoint leash, invulnerable in transit. Cost is expressed in supplies, shelter and route state. Any casualty is authored at a fixed point, never emergent |
+| Protect-the-NPC combat in a crowded scene | Fight in an **adjoining cleared chamber**; who survives is decided by where the player stood and who they pulled through the door, not by allied combat AI |
+| Boat-versus-boat pursuit | The pursued craft runs a **fixed spline**; the player's problem is navigation — shortcuts, tide gates, a low bridge — not AI |
+| A simulated crowd, riot or mass ritual | A **corridor of small authored pockets** with crowd audio and set dressing, in the Helgen model. Six active actors is the ceiling |
+| A moving building, vehicle or route | **Two or three static configurations** selected by schedule or state (already the accepted fix for TG04's floating house — generalise it) |
+| An NPC using the player's traversal verbs (climb, swim, sail) | They took the mundane route and are already there, or they wait at the top |
+
+**Rules**: a quest may not be blocked by an actor failing to reach a mark
+(existing §47 rule, now enforced by tier); a D-C beat needs a D-B fallback
+authored at the same time; and any brief that names a chase, escort or crowd goes
+back for conversion before it is costed.
+
+### The boredom test
+
+"Mundane" is allowed and wanted — roughly 40% of quests are deliberately modest
+S-tier texture, and Morrowind's showpieces only stood out because of them. But
+mundane is not the same as boring, and the difference is specific.
+
+Community consensus on why Morrowind's small quests worked, and Tamriel Rebuilt's
+own design guidance after they tried the alternative: **light instructions and
+several viable approaches rather than a railroad; the value sitting in navigation,
+world knowledge and faction politics wrapped around the objective; and the reward
+often being standing, access or knowledge rather than gold.** CD Projekt's rule
+from the other direction is the one-line version: no quest, however small, ships
+without one twist or one thing you would remember it by.
+
+Applied here:
+
+1. **In an S-tier quest, the quest-giver is the payload.** The objective may be
+   trivial; the person must not be. If the player would not repeat one sentence of
+   theirs to a friend, rewrite the person, not the objective.
+2. **One turn, minimum.** Every quest contains at least one thing that is not what
+   it appeared to be — a second claimant, a wrong assumption, an inconvenient
+   truth, a reason that is worse or sadder than expected.
+3. **Never "collect N of X" as the whole quest.** A recovery objective is fine when
+   ownership, route, danger, interpretation or disposition is the actual problem.
+4. **Conflict is the essence of drama, and conflict is not only physical.**
+   Internal, political, ecological, spiritual, generational, economic and
+   procedural conflicts all qualify — but a quest whose conflict is *entirely*
+   procedural must earn it by being short and by having a memorable person in it.
+5. **Reward with the world**: access, a route, a safehouse, a permission, a
+   standing, a name people now know, a fixed unique object with a history. Gold is
+   the least interesting thing we can give.
+6. **Vary the verb across a run of quests.** Six investigations in a row is a
+   structural boredom risk even when each is individually good; the Act II
+   treasure hunt is the plan's most exposed stretch and is handled explicitly in
+   [30-main-quest.md](30-main-quest.md) §21b.
+
 ---
 
 ---
@@ -249,3 +350,9 @@ The narrative programme succeeds when:
 25. Any quest whose approaches all require swimming, boats or climbing has a validated degraded fallback.
 26. Milestone 1 (full main quest, four deep factions, four standard factions at 6–8 quests, two compact lines, 60–80 standalones, DQ01–DQ04) is completable and coherent before any wave-2 content lands.
 27. The dramatic-register ratios hold: every main-quest act and every major faction line meets its physical set-piece minimums, and no line or region packet is more than two-thirds SOCIAL/INVESTIGATE among M/L quests.
+28. The province is populated rather than staffed: every major faction line carries 3–4 named recurring characters present from its first quest to its last, with at least four distinct relationship types between them, and every region packet reuses at least two recurring characters from elsewhere.
+29. No two characters in a line occupy the same archetypal slot; name forms, ages, races and registers are spread per [35-cast.md](35-cast.md) §54–55; and the cliché budget holds (≤1 flagged stock type per line, each with a declared subversion, none in the principal cast).
+30. At least three cast members are correct in ways that are hard to accept, and at least three are wrong for honourable reasons; no character, including cult leadership, is wrong about everything.
+31. Every region contains at least one purely strange non-political *person* as well as one strange place, and none of them is explained by any NPC or by the epilogue.
+32. Every quest declares a delivery tier (D-A/D-B/D-C); D-C beats are ≤10% of quests, never more than one per faction line, and each has a D-B fallback authored alongside it. No quest brief ships containing an unconverted free-roaming chase, escort or simulated crowd.
+33. Every quest passes the boredom test: it contains at least one reversal, no quest is a bare collection objective, and every S-tier quest has a quest-giver worth quoting.

@@ -88,6 +88,34 @@ Community discussion is qualitative evidence, not a representative poll. Themes 
 - [UESP — Skyrim: Factions](https://en.uesp.net/wiki/Skyrim:Factions)
 - [HowLongToBeat search — Skyrim](https://howlongtobeat.com/?q=The%20Elder%20Scrolls%20V%3A%20Skyrim)
 
+## 75b. Character, quest-design and deliverability research (2026-08-25)
+
+Gathered for the cast/fun/deliverability review that produced
+[35-cast.md](35-cast.md) and the design rules in [00-overview.md](00-overview.md) §4.
+
+### Character and cast design
+
+- [Michael Ghelfi Studios — Stop Making Bad Characters: Complete Guide to NPC Creation](https://michaelghelfistudios.com/complete-guide-to-npc-creation/) — the "one distinctive thing, one clear want, doing something" formula; the rule-of-three (physical / personality / quirk); the von Restorff argument for 2–3 vivid sensory traits; and the budget rule that an NPC replaceable by a door, a sign or a die roll needs no backstory.
+- [Hire a Writer — Building Relatable Characters: The Art of Writing People, Not Stereotypes](https://www.hireawriter.us/storytelling/building-relatable-characters-the-art-of-writing-people-not-stereotypes) — stereotype vs cliché; the archetype-plus-contradiction fix; the ten-second description test.
+- [The DM Lair — Rivals & Foils](https://thedmlair.com/blogs/news/using-rivals-and-foils-in-d-d) — a rival *opposes* what a character wants; a foil *exposes* what they are; the best rivals are both.
+- [Characters.biz — Character Archetypes](https://characters.biz/character-archetypes) — the ensemble-slot diagnostic (two characters in the same slot means one gets quietly written out of plot relevance) and the rival-decay problem in long-form work.
+- [Vaguely — 5 Foundational Principles for Creating Memorable Character Designs](https://www.vaguely.xyz/posts/5-foundational-principles-for-creating-memorable-character-designs) — functional design (profession legible in the character) and roster-level variety/contrast.
+- [Medium — How to Write NPCs That Feel Alive](https://medium.com/@nicholasyeager2020/how-to-write-npcs-that-feel-alive-and-add-depth-to-your-story-226342eb1ade) — motivation-first authoring; personality driving speech pattern.
+
+### Quest design: mundane without boring
+
+- [Tamriel Rebuilt — Design Philosophy FAQ](https://www.tamriel-rebuilt.org/about/frequently-asked-questions/design) — the decisive source: TR deliberately moved *back* toward vanilla Morrowind's mundane job-shaped quests with light instructions and many approaches, after roleplayers complained about railroading in their more complex questlines; credited as the main reason a whole expansion shipped in a year.
+- [Tamriel Rebuilt — Guidelines for TR Questers](https://www.tamriel-rebuilt.org/old_forum/viewtopic.php?t=21296) and [Making a Simple Quest: "Kevaar Finds a Shiny"](https://www.tamriel-rebuilt.org/content/making-simple-quest-kevaar-finds-shiny) — the baseline mundane template and its practical pitfalls.
+- [Project Tamriel — Quest Design Proposal](https://www.project-tamriel.com/viewtopic.php?t=621) — every quest needs a reason (tell a story; teach the world; give a special reward), and *more important quests must be more unique*.
+- [Steam — "Morrowind quests are boring and repetitive"](https://steamcommunity.com/app/22320/discussions/0/5281042383594772480/) and [related thread](https://steamcommunity.com/app/22320/discussions/0/141136086931556977) — the honest counter-case, and the defences that matter: value sits in navigation, world knowledge and faction politics wrapped around the objective, not in the objective.
+- [PCGamesN — "We know you aren't stupid": a quest design masterclass from CD Projekt RED](https://www.pcgamesn.com/the-witcher-3-wild-hunt/the-witcher-quest-design-cd-projekt-masterclass) and [GDC Vault — 10 Key Quest Design Lessons from The Witcher 3 and Cyberpunk 2077 (Paweł Sasko)](https://gdcvault.com/play/1028897/10-Key-Quest-Design-Lessons) — the "no FedEx quests" rule: every quest, however small, carries one twist or one memorable thing. Also the standing critique that the twist can live in framing while the mechanical loop stays identical — which is why our rule pairs the reversal with the verb-variety requirement.
+
+### Deliverability
+
+- [MMORPG.com — The problem with escort quests](https://forums.mmorpg.com/discussion/466612/the-problem-with-escort-quests-and-its-not-really-because-its-an-escort) — the failure taxonomy, and the key argument for us: the bug class recurs across so many shipped games that it is a property of the pattern, not of any one team.
+- [Game Developer / Game Wisdom — Can we Fix Escort Mission Game Design?](https://www.gamedeveloper.com/design/can-we-fix-escort-mission-game-design-) and [Nomad's Reviews — How to Make a Good Escort Quest (And How Not To)](https://www.nomadsreviews.co.uk/post/how-to-make-a-good-escort-quest-and-how-not-to) — the mitigations we adopted: waypoint-leash or teleport-to-mark over free navmesh, invulnerable in transit, optional wherever possible.
+- [Ask a Game Dev — on escort missions](https://askagamedev.tumblr.com/post/186703648731/whats-the-deal-with-escort-missionsexposition) — escort speed is an unsolvable tuning problem because it must be balanced for the slowest viable build and the least skilled player.
+
 ## 76. Current project references
 
 - [Elder Souls: Argonia repository](https://github.com/jtattersall09403/elder-souls-argonia)

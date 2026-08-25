@@ -20,7 +20,8 @@ Project interpretation:
 - Stormhold, Alten Corimont and Thorn face Dunmer-border and mixed-community politics;
 - Archon is an eastern trade and cultural interface;
 - Blackrose Prison ("the Rose") is **not a working prison and not the state's**: a ruin reoccupied by the **Blackguards' heirs** — prison-born families three generations deep, with Umbriel's undead below and a claim to their own legitimacy (owner decision Q3; lore: topics/prisons.md);
-- Lukiul and other urban or culturally mixed Argonians disagree over what sovereignty and “authentic” Argonian identity require.
+- Lukiul and other urban or culturally mixed Argonians disagree over what sovereignty and “authentic” Argonian identity require;
+- there are no courts, no treasury and no state prisons, so punishment and civil damages are paid in **owed labour** — **the Owing** — assessed by whoever holds the crossing, the estate or the hiring office, which in much of the province means the surviving ex-**Archein** families. It is native in origin, humane where it works, and has drifted into transferable, extendable, effectively heritable bondage where it does not (lore: topics/labour-and-bondage.md). It is the province's central *civilian* political question and it is not universal — never write it as a province-wide grey.
 
 The An-Xileel must contain genuine defenders, administrators, veterans, reformers, opportunists and authoritarian centralisers. The Unbound Root must contain genuine victims of state abuse, philosophical radicals, fanatics, frightened converts and political infiltrators. Neither side is a single moral answer. The successor-state framing sharpens both: the Unbound Root's claim that "the An-Xileel cannot claim to speak for all Hist or all Argonians" is *demonstrably true*, not merely arguable, and the province's worst enemy in living memory was its own state.
 
@@ -54,6 +55,30 @@ The **Unbound Root** is a radical movement, not the definitive Argonian faith. I
 - the An-Xileel cannot claim to speak for all Hist or all Argonians.
 
 Its critique is partly supported by evidence. Its planned **Unbinding** would nevertheless impose irreversible spiritual and social harm on communities that did not consent.
+
+**The Nisswo counter-argument, and it must be the one the game leads with.** The
+lore is explicit that a cult treating Sithis as capital-E Evil breaks the setting's
+tone, and that any project-original radical group must be *characterised as wrong
+by the Nisswo* in Argonian terms rather than by the state in political ones (lore:
+topics/sithis-nisswo-shadowscales.md). The terms exist and they are devastating:
+post-Duskfall Argonian religion defines itself against ***shunatei*** — "the pain
+caused by holding on too tightly to that which has come to pass". Ei-Tuja's
+position, delivered at MQ18 and again at MQ25, is therefore that **the Unbound
+Root is not a movement of change but the purest case of shunatei in the province**:
+they cannot let go of an injury, so they intend to destroy the thing that caused
+it, permanently, on behalf of people who did not ask. *Vastei* is change;
+*ku-vastei* is one who brings **necessary** change; severance is neither. That
+argument costs nothing, is entirely canon-native, cannot be answered by pointing
+at state abuses — because the state abuses are real — and is a far better critique
+than "cultists are dangerous". It also cuts back: a Nisswo who says this must
+also say it to the Umbriel Witness Society and to the Chainbreakers' oldest
+grudges, and mean it.
+
+**And the cult's grievance has a civilian twin.** The Root of Accord is
+participation converted into compulsion by paperwork and custom drift; **the
+Owing** (lore: topics/labour-and-bondage.md) is the same crime at ordinary scale,
+visible from the opening quest. The player meets the small version before anyone
+explains the large one.
 
 ## 8. The Eye and the Root
 

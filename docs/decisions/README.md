@@ -21,3 +21,4 @@ record and marking the old one superseded — don't rewrite history.
 - [0015 — province scale ×1, vertical ×1, mountain drama into the data (Phase 6b)](0015-province-rescale-and-mountain-relief.md)
 - [0016 — natural light, sky and world time as a first-class system, before water (Phase 8a)](0016-natural-light-and-world-time.md)
 - [0017 — full sandbox parity in the studio moves from Phase 7b to Phase 10b](0017-sandbox-parity-moved-to-phase-10b.md)
+- [0018 — quest-plan review: cast, lore, deliverability and fun](0018-cast-lore-deliverability-review.md)

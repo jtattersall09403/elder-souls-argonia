@@ -10,7 +10,8 @@ until then this plan's job is to tell the world build what to provide.
 | You are… | Read |
 |---|---|
 | **Any world-generation agent** (terrain, settlements, POIs, dungeons, routes, danger, ecology) | [20-world-provisions.md](20-world-provisions.md) — handoff contract, provision tags, danger tiers (incl. the D↔danger-band mapping), location packet, consequence budget, exit gate. Then the quest tables for whatever region/city you're building: [30-main-quest.md](30-main-quest.md), [40-factions.md](40-factions.md), [50-side-quests.md](50-side-quests.md) each carry per-quest **World-generation provision** columns — those are requirements. |
-| Anyone needing the story/design picture | [00-overview.md](00-overview.md) — summary, content targets, frozen decisions, design rules (cost tiers, dramatic register, wonder budget), acceptance criteria. |
+| Anyone needing the story/design picture | [00-overview.md](00-overview.md) — summary, content targets, frozen decisions, design rules (cost tiers, dramatic register, wonder budget, **cast rules, delivery tiers, the boredom test**), acceptance criteria. |
+| **Writing any named NPC** — main quest, faction, local, texture | [35-cast.md](35-cast.md) — **mandatory before naming anybody**: depth tiers, the six character rules, the canon naming system, the principal cast, per-faction recurring casts, cross-line faces, the oddities roster, the texture kit. |
 | Political/cultural framing for places or NPCs | [10-political-frame.md](10-political-frame.md) (+ the lore dossiers, per the CLAUDE.md lore rule). |
 | Writing, dialogue, lore-confidence layers | [60-writing-and-lore.md](60-writing-and-lore.md). |
 | Asset planning/ingestion | [70-assets.md](70-assets.md) (A/V codes cited by every quest). |
@@ -27,3 +28,10 @@ until then this plan's job is to tell the world build what to provide.
   (decision 0009): danger tiers mapped to the built danger field, the old
   standalone danger-map image superseded by the generated danger layer, and
   the rootworm opening route registered in world data.
+- A cast, lore, deliverability and fun review landed on 2026-08-25
+  (decision [0018](../decisions/0018-cast-lore-deliverability-review.md)):
+  added [35-cast.md](35-cast.md); introduced the Owing
+  (`world/sources/lore/topics/labour-and-bondage.md`); grounded the cult's method
+  on the canon Mnemic Egg; re-anchored the Marsh Charter and Sunken Archive on
+  canon; and converted every chase, escort and crowd beat in the plan into a
+  cheap pattern.

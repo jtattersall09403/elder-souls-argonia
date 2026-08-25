@@ -63,6 +63,7 @@ everything below the eight majors, plus the canon adjacency graph)
 | [topics/foreign-powers.md](topics/foreign-powers.md) | Empire, Dres/Morrowind, Pact, Dominion, EEC, Cyrodilic Collections, pirates and criminals |
 | [topics/lost-peoples.md](topics/lost-peoples.md) | Kothringi, Lilmothiit, Orma, Yespest, Horwalli, Barsaebic Ayleids (and Fenlords), Cantemiric Velothi |
 | [topics/prisons.md](topics/prisons.md) | Blackrose Prison, White Rose, Stormhold's prison — the province as prison state |
+| [topics/labour-and-bondage.md](topics/labour-and-bondage.md) | **The Owing** — how a cash-poor province with no courts punishes and coerces in 4E 201; the ex-Archein brokerage; the washed-out tell; the honest argument on both sides. Read before writing debt, tolls, docks, estates or the Chainbreakers |
 | [tribes.md](tribes.md) | Argonian tribes, breeds and tribal politics |
 | [an-xileel.md](an-xileel.md) · [duskfall.md](duskfall.md) · [eye-of-argonia.md](eye-of-argonia.md) | Faction and mystery dossiers |
 

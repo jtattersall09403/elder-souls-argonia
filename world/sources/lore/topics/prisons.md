@@ -114,6 +114,10 @@ opponents).
 - "Argonian bones in stone prisons still need to come home" is the most
   emotionally legible quest premise canon offers, and it works at any scale from
   a single side-quest to a faction line.
+- **How the province punishes now, with no prisons and no courts**, is in
+  [labour-and-bondage.md](labour-and-bondage.md) — **the Owing**. Warden Varus's
+  "Tunnel Rats", who dug for crystals "in return for limited freedom", are the
+  canon precedent it is built on.
 - The Rose's siting logic (**the swamp itself is the wall**) is exactly our
   fixed-danger model, stated by canon. Reuse it as the justification for why our
   D4–D5 interior needs no fences.

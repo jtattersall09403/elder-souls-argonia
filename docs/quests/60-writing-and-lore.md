@@ -73,6 +73,41 @@ Avoid:
 - choices labelled as obviously good/evil;
 - plot twists dependent on characters withholding facts for no reason.
 
+## 46b. Voice — how a character is told apart in text
+
+There is no full voice acting, so **the prose is the performance**. Who a
+character *is* lives in [35-cast.md](35-cast.md); this is how they sound.
+
+Every C1 and C2 gets a one-page voice sheet before any dialogue is written,
+carrying exactly five things:
+
+1. **Sentence length and rhythm.** The cast's registers must not converge:
+   Sings-Over-Stone corrects in clauses; Never-Writes-Twice speaks in finished
+   sentences she could defend under oath; Spills-The-Ink starts twice; Ei-Tuja
+   answers a different question than the one asked and it turns out to be better.
+2. **Their Jel register habit** (§45b). *Which* emotional qualifier a character
+   reaches for is characterisation: an office-hardened Argonian may have dropped
+   them entirely when speaking to *ojel*, and that loss is worth a line
+   somewhere. A **lukiul** cannot use them naturally and it shows.
+3. **What they will not say.** Every character has one subject they change
+   direction around, and the player can notice it long before they find out why.
+4. **How they address the player** — and whether it changes across the game. This
+   is where trust, rank and the branch state become audible without a meter.
+5. **One repeatable formula** the player will recognise on sight after three
+   meetings. Cheap, and it is most of what memorability actually is.
+
+Additional rules:
+
+- **No two characters in a scene may share a register.** A scene with three grave
+  people in it is one character having an argument with itself.
+- **A character's name form constrains their voice** (35-cast §54): a Jel-named
+  interior elder and a translated-name city clerk should not be
+  interchangeable in a blind read.
+- **Comic characters carry real information.** Ei-Tuja and Sings-Over-Stone are
+  funny *and* are the two people who tell the player what the Eye and the cult
+  actually are. Humour is not a decoration on the texture tier.
+- **C4 texture NPCs get one line of specificity and no worldview** (35-cast §59).
+
 ## 47. Staged scenes
 
 Use staged scenes sparingly for:

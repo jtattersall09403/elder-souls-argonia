@@ -18,6 +18,21 @@ geography + hydrology + ecology
 
 No local quest should consist only of collecting an arbitrary number of objects. A recovery objective is acceptable when ownership, route, danger, interpretation or disposition creates the real problem.
 
+Three additions from the 2026-08-25 review, binding on every regional packet:
+
+- **The quest-giver is the payload.** In an S-tier local quest the objective may
+  be trivial and the person may not be. Build them from the C4 texture kit in
+  [35-cast.md](35-cast.md) §59 — an occupation that only exists here, a food
+  opinion, a team, a grooming fashion, one Jel register habit — and give them one
+  want stated in one sentence.
+- **Reuse faces.** Every region packet must include at least two recurring
+  characters from [35-cast.md](35-cast.md) §56–57 and at least one **oddity** from
+  §58, whose encounter has no faction stakes, no meaningful reward, and no
+  explanation anywhere in the game.
+- **Declare a delivery tier** ([00-overview.md](00-overview.md) §4). Local quests
+  should be overwhelmingly D-A: static world, moved evidence, schedule swaps,
+  aftermath rather than event, retrieval rather than escort.
+
 The following are worked concepts. They can become regional production packets after the world locations exist.
 
 | ID | Quest | Region | Danger | Premise and choice | World-generation provision | Lore/assets |
@@ -26,7 +41,7 @@ The following are worked concepts. They can become regional production packets a
 | LQ02 | One Boat, Two Funerals | Alten Corimont | D1 | Two families need the only ceremonial boat at the same tide; their dead were enemies whose final acts complicate both narratives. | P3/P9/P11/P12: ceremonial dock, boat, two homes and shared burial site. | L04–L05, L13; A13, V07 |
 | LQ03 | The Crocodile Bell | Managed marsh village | D1–D2 | A warning bell rings nightly although no crocodiles appear. A fisher is staging danger to drive rivals from a channel that hides contraband. | P11/P13: village bell, fishing channel, contraband cache and crocodile habitat. | L12; A08, A19, V07 |
 | LQ04 | The Prisoner Who Stayed | Blackrose | D1 | A prison-born resident of the Rose — the Blackguard-heir ruin, not a state prison (owner decision Q3; lore: topics/prisons.md) — refuses to leave for the city because the marsh outside is more dangerous and the Rose provides identity, food and family three generations deep. City relatives, the Rose's hierarchy and Chainbreakers offer incompatible futures. | P11/P12/P13: inhabited cell-home in the Rose, hierarchy meeting space, city family room and safe lodging option. | L30; V06, A21–A22 |
-| LQ05 | Dinner Outside the Walls | Helstrom gate | D0/D5 boundary | A Helstrom host invites outsiders to dine just beyond the gate as proof the danger is exaggerated. The feast is sincere, politically staged and genuinely unsafe. | P4/P11/P13: safe gate plaza, D5 picnic site within retreat distance, guard warnings and predator approach lanes. | L21, L32; A07–A08, A17, V01 |
+| LQ05 | Dinner Outside the Walls | Helstrom gate | D0/D5 boundary | A Helstrom host invites outsiders to dine just beyond the gate as proof the danger is exaggerated. The feast is sincere, politically staged and genuinely unsafe. When it goes wrong the quest is **getting the party back through the gate**, not defending a picnic. | P4/P11/P13: safe gate plaza, D5 picnic site within retreat distance, guard warnings and predator approach lanes. **Delivery D-B**: guests are seated props until the retreat begins, then move as one leashed group; **casualties are authored at a fixed point**, chosen by how fast the player moved, never emergent from allied combat AI. | L21, L32; A07–A08, A17, V01 |
 | LQ06 | The City Map That Lies | Helstrom | D0 | A tourist map omits poor districts, sacred closures and dangerous exits. Its author says the omissions save lives; residents say they erase them. | P5/P11/P12/P13: map office, 4 city observation points and updated map/rumour states. | L32; A20 |
 | LQ07 | A Rootworm’s Fare | Helstrom transit | D0 | A passenger cannot pay the official fare but possesses knowledge the Waykeepers need. Officials, smugglers and a sick relative all make claims on the journey. | P9/P11/P12: station, waiting hall and destination room; no new route. | L19–L20; A24 |
 | LQ08 | The House with Three Floors of Water | Lilmoth | D1–D2 | Three families occupy different levels of one sinking building and dispute ownership, repairs and access to an underwater cellar. | P3/P8/P11/P12: stilt building with dry/part-flooded/submerged levels, exterior dock and ownership evidence. | L14–L16; A10, A15, A18–A20 |
@@ -51,7 +66,7 @@ The following are worked concepts. They can become regional production packets a
 | LQ27 | A Grave Below the Root | Interior rim | D3 | Roots expose a mass grave that several communities claim. Evidence identifies victims from opposing sides and one person still celebrated as a hero. | P6/P11/P12/P13: grave site, root cavern, three community memorial spaces and evidence sockets. | L01, L03; A20, A24, V04 |
 | LQ28 | The Last Dry Room | Flooded inn on trade route | D2 | Travellers fight over the only dry room during a storm. One is carrying disease, one stolen medicine, and one a warrant for another guest. | P8/P11/P12/P13: flooded inn with dry upper room, dock, stable/boat shelter and 6 NPC marks. | L17–L21; A15, A19, V07 |
 | LQ29 | A Wreck with Living Cargo | Topal coast | D2–D3 | A wreck contains trafficked animals, contraband relics and survivors from a pirate crew. Salvage law and rescue priorities conflict. | P8/P9/P11/P13: shipwreck, shoreline camp, cargo holds and animal-release route. | L01; A09–A14, A19 |
-| LQ30 | The Gates of Helstrom | Helstrom | D0/D5 boundary | A young resident plans to walk alone into the basin to prove adulthood. Family, guards and the resident disagree on courage, preparation and coercion. | P4/P11/P13: gatehouse, training path, short D5 test loop and rescue/return points. | L21, L32; A07–A08, A17, V01 |
+| LQ30 | The Gates of Helstrom | Helstrom | D0/D5 boundary | A young resident **has already gone** into the basin alone to prove adulthood, four hours ago, and the gate guards will not follow. The player tracks and retrieves — and finds someone who does not want retrieving and is not, by the standards of their own tribe's maturity trial, wrong. Family, guards and the resident disagree on courage, preparation and coercion; the player decides what to report at the gate. | P4/P11/P13: gatehouse, a short D5 test loop with a readable trail of their preparations, one shelter, and a return route. **Delivery D-B: retrieval, never escort** — on the way back they lead, on a waypoint leash, and are invulnerable in transit. | L21, L32; A07–A08, A17, V01 |
 
 ---
 

@@ -260,7 +260,7 @@ channel-preservation probe, not by eye.
 
 Deliverables:
 
-- combat sandbox character system - everything intended to be 'portable' from the sandbox - extracted into shared
+- portable core from the combat sandbox extracted into shared
   packages (deferred here from Milestone 1b) and consumed by both sandbox and
   world studio. *As shipped (decision 0013): the portable **core** —
   `game-core` / `character` / `character-assets`. Scene orchestration (§53),
