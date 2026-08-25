@@ -34,7 +34,7 @@ then open only the master-plan sections the active phase needs.
 | 5 — World Studio foundation | done | owner flyover gate PASS 2026-08-23 (shape/size/feel/mist approved); map+13 layers, 3D fly/orbit, click-to-spawn, reproducible URLs. (Correction 2026-08-24: chunk overlays/probe framework were NOT built at Phase 5; character-mode HUD + debug hooks now cover part of that, rest tracked in module 85) |
 | 6 — province terrain (scope extended from basin to whole province at gate, 0008 addendum) | done | owner province gate PASS 2026-08-24 (6 gate rounds; bmv-v1 materials, de-terracing, north/south distinctness, mountain belts, shore types, tint slider, lanes, Blackrose channels). refine_province + 256 chunks x3 LODs in vault (chunks-manifest.json) |
 | L — lore extrapolation loop (parallel workstream, module 45) | done | Packets 1–3 done (Opus, 2026-08-24): ~140-page UESP sweep, 15 new dossiers + 12 extended, gap register (~50 gaps), 4E-201 province synthesis, 10 quest-plan deltas (proposed, not applied). **Complete 2026-08-24**: 39 files (~405 kB) — full sweep, gap register ZERO open (5 DEFER technical, 7 MYSTERY intentional), per-settlement Hist placement (Phase 11 unblocked), settlement register, guilds, ecology/encounter/loot feed, 4E-201 synthesis w/ owner decisions + trauma directive woven in. 4 non-blocking Round-2 owner questions (owner-questions.md). Round-2 decisions accepted; quest-plan deltas D1-D16 APPLIED to docs/quests/ (consistency greps clean; 6 application notes in quest-plan-deltas.md). Workstream closed — future lore gaps route via module 45 process |
-| 6b — province rescale + mountain relief + naturalness (0015; plan §86 Phase 6b) | in progress | ×1/×1 rescale + threshold re-tune; orogeny + erosion in border ranges; province-wide de-terracing/micro-undulation (channel-protected); passes + probes; mountain materials/triplanar. Owner review at phase end, on foot |
+| 6b — province rescale + mountain relief + naturalness (0015; plan §86 Phase 6b) | done (awaiting owner walk review) | ×1/×1 shipped; sculpt stage (uplift+erosion, 651 m summit, ~257 m median belt relief, cliff benches, talus); province de-terraced (source shelf-and-wall lowland) + micro-undulation; classifiers recalibrated w/ mechanism notes; triplanar + belts 100/280/440; fly-speed slider; 8 standing probes (test_sculpt.py); 91% of lowland marsh preserved, tidal fringe revealed (was hidden by the 2 m quantised shelf); gates green |
 | 7 — physical character integration | done | owner playtest PASS 2026-08-24. Packages extracted (0013): game-core/character/character-assets, consumed by both apps; studio character mode (grounded movement only — full sandbox parity is Phase 7b) on Rapier heightfield chunks (0014) behind PlayerMovementController; desktop/touch/gamepad parity; env-query contract implemented; actor registry; capability profiles + anchor-spawn validation. Feedback rounds fixed: live support plane, unified fly/walk chunk terrain + vertical-scale slider, grounded coyote debounce, gradient-map lighting (no chunk seams), FIX_INTERNAL_EDGES colliders. All gates + 33 visual probes + e2e probe green |
 | 7b — remaining character integration (plan §86 Phase 7b) | todo | Everything the character can do in the sandbox works in the world studio: combat scene orchestration extraction (§53), inventory/equipment UI, enemies/targeting, bow. Not started — queued behind 6b |
 | 8 — water renderer and interaction | todo | |
@@ -48,7 +48,11 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- Nothing — Phase 7 closed (7b split out for later); Phase 6b (0015) is next, for a fresh agent.
+- **Phase 6b walk review**: owner walks the sculpted province (checklist
+  in-conversation 2026-08-24) — mountain drama/summit height (650 m default,
+  single constant `SUMMIT_TARGET_M` to retune), passes, marsh naturalness,
+  de-terraced lowland, new tidal fringe + mountain tarns, cliff textures.
+  Pass → strike this line and flip 6b to done.
 
 ## Next up
 

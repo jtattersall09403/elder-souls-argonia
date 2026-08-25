@@ -38,6 +38,18 @@ scale choices in [0006](0006-province-scale.md)
 
 ## Mechanics
 
+**Addendum 2026-08-24 (6b implementation):** summit target defaulted to
+**650 m** (`sculpt.SUMMIT_TARGET_M`, one constant — owner retunes at the walk
+review); drama is delivered mainly as local relief (~257 m median valley-ridge
+contrast in the belts). Two classifier recalibrations were forced by
+de-quantising the source's shelf-and-wall lowland and are documented at the
+constants: wetland ceiling 8→9.5 m (`hydrology.WETLAND_MAX_ELEV`) and a
+grey-closing lowland-context gate (gorge floors ≠ marsh). The near-empty
+tidal/salt-marsh classes of the approved world turn out to have been an
+artefact (the whole coast sat on one quantised 2 m shelf — no land existed
+below 1.5 m); 6b reveals a real tidal fringe, presented to the owner as a
+correction, not a regression.
+
 Heights stay true metres (0003/0006 convention, unchanged). The horizontal
 scale is metadata + a small set of `RAW_M`-style constants in
 `tooling/world-generation/worldgen/` (never resampled, so reverting is

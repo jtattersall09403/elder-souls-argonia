@@ -40,7 +40,9 @@ try {
   page.on("requestfailed", (r) => errors.push(`requestfailed: ${r.url()}`));
 
   // Spawn near Helstrom-ish mid-province on land.
-  await page.goto(`${BASE}?view=character&x=10.40&z=8.40`, { waitUntil: "domcontentloaded" });
+  // Same relative spot as the Phase 7 probe point, at the x1 map scale
+  // (10.40/8.40 km on the old 22 km map -> 3.47/2.80 km on 7.37 km, 0015).
+  await page.goto(`${BASE}?view=character&x=3.47&z=2.80`, { waitUntil: "domcontentloaded" });
 
   // Wait for the HUD to report a chunk (terrain + physics + rig all up).
   await page.waitForFunction(
