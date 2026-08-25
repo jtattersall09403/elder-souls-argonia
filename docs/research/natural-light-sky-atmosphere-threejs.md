@@ -223,3 +223,15 @@ floors (clips to a flat white circle). Author the discs **display-referred**
 view-angle limb darkening and procedural maria noise. Phase realism note: a
 moon high at midnight IS near-full (same geometry as Earth's Moon —
 crescents are daytime companions); don't "fix" that with fake phases.
+
+### 8b. Sunlight CCT vs solar elevation (round-4 research)
+
+Measured anchors: ~2000 K with the sun on the horizon, ~3000–3500 K in the
+golden band (0–10°), ~5400–5750 K above ~30–40° (Granada daylight-spectra
+study; lighting patents; PhotoPills). The warm shift CONCENTRATES near the
+horizon (air mass ∝ 1/sin(elevation) — do not interpolate linearly across the
+day). Implemented as a three-stop ramp in `lightRig.ts` (HORIZON_SUN 2000 K →
+GOLDEN_SUN 3400 K by 10° → NOON_SUN 5500 K by ~42°), plus a low-sun turbidity
+boost so the Preetham disc/halo redden together with the light. Sources:
+rp-photonics.com/color_temperature.html, link.springer.com/article/10.1186/
+1687-5281-2013-14, photopills.com golden-hour article.

@@ -113,3 +113,34 @@ defects lived entirely in its own canvas wiring.
   altitude, fading by 16° — the humidity raster localises the golden glow to
   the humid lowlands. (The r/threejs custom-fog approach the owner linked is
   architecturally what `aerial.ts` already does.)
+
+## Round 4 (owner, same day)
+
+- **Moon phases**: the ephemeris is VERIFIED correct (numeric table: full
+  moon up all night mid-cycle, half at midnight rise/set, crescents pre-dawn/
+  early evening, ~51 min/night rise drift — the owner's own description).
+  "Always full at night" was the RENDERER: terminator softening (pow 0.75)
+  washed gibbous discs into full-looking circles → pow 1.35 sharpening,
+  earthshine cut, peak lowered. Never "fix" phases in the ephemeris.
+- **Sunlight tone/curve**: three-stop CCT ramp (2000 K horizon → 3400 K
+  golden band → 5500 K by ~35°, warm shift concentrated near the horizon per
+  measured curves — research doc §8b) replaces the near-white ramp; the
+  Preetham disc/halo also reddens at low sun via a turbidity boost. Exposure
+  curve reshaped to a mid-day PLATEAU (noon peaked too hot while mid-day sat
+  dim) with more stops; dusk stops (-8: 2.5e-2, -12: 0.8) close the
+  pitch-black window between sunset and starlight.
+- **Daytime moons are not light sources**: moonlight lux gated to zero while
+  the sun is up; disc day-wash strengthened + low-altitude extinction (a
+  rising daytime moon must not visibly lighten the sky).
+- **World edge**: the dome's sub-horizon zone renders a distance-haze band
+  (colour-matched to the aerial term) before fading to ground-bounce, and
+  the interim sea plane extends ×8 the province — looking off a border
+  mountain reads as hazy distance/ocean, not a flat brown void.
+- **Load-period fps**: only the LOD-1 ring casts shadows (the 300 m shadow
+  frustum never saw the rest), and chunk-decode re-renders coalesce to one
+  per 250 ms (was: one full re-render per arriving chunk, ~hundreds).
+- **Skyfall loop hardened**: the streaming safety net now requires the CPU
+  height claim AND a physics ray agreeing there is no floor below, plus a
+  1.5 s rate limit (CPU heights can disagree with colliders on slopes /
+  streaming edges — teleporting on the CPU's word alone looped the character
+  through the sky). Spawn clearance 0.4 m. Stars doubled to ~2 200.

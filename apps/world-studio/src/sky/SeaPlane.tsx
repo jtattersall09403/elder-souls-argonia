@@ -24,8 +24,11 @@ export function SeaPlane({ extentM, levelM }: { extentM: number; levelM: number 
   }, [csm]);
   useEffect(() => () => material.dispose(), [material]);
   return (
+    // ×8 the province: beyond the playable edge the world reads as open
+    // ocean to the horizon (with the dome's sub-horizon haze band picking up
+    // the landward edges) instead of ending at a visible rim (owner round 4).
     <mesh position={[extentM / 2, levelM, extentM / 2]} rotation={[-Math.PI / 2, 0, 0]} material={material}>
-      <planeGeometry args={[extentM * 1.5, extentM * 1.5]} />
+      <planeGeometry args={[extentM * 8, extentM * 8]} />
     </mesh>
   );
 }

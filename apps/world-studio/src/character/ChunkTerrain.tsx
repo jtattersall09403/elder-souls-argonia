@@ -82,9 +82,10 @@ function ChunkMesh({ grid, material, verticalScale, uvExtentM }: {
     [grid, verticalScale, uvExtentM],
   );
   useEffect(() => () => geometry.dispose(), [geometry]);
-  // Near LODs cast sun shadows; distant chunks only receive (research doc:
-  // cascade cost scales with objects re-rendered per cascade).
-  const casts = grid.lod !== "4";
+  // ONLY the near ring casts sun shadows: the character-mode shadow frustum
+  // ends at 300 m, so mid/far chunks drawn into the cascades were pure waste
+  // — a large share of the post-load jerky-fps period (owner round 4).
+  const casts = grid.lod === "1";
   return <mesh geometry={geometry} material={material} castShadow={casts} receiveShadow />;
 }
 
@@ -163,8 +164,20 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     }
   });
 
-  // Ensure desired LODs are loading; bump a version when any decode lands.
+  // Ensure desired LODs are loading. Decode arrivals COALESCE into one
+  // re-render per 250 ms window: during initial load ~hundreds of chunks
+  // land, and a full re-render (and mesh mounts) per arrival was a large
+  // part of the minutes-long jerky period (owner round 4).
   const requested = useRef(new Set<string>());
+  const bumpTimer = useRef<number | null>(null);
+  const bump = () => {
+    if (bumpTimer.current !== null) return;
+    bumpTimer.current = window.setTimeout(() => {
+      bumpTimer.current = null;
+      setLoadedVersion((v) => v + 1);
+    }, 250);
+  };
+  useEffect(() => () => { if (bumpTimer.current !== null) window.clearTimeout(bumpTimer.current); }, []);
   useEffect(() => {
     for (const chunk of manifest.chunks) {
       const lod = desiredLod(chunk.cx - focusCell[0], chunk.cy - focusCell[1]);
@@ -172,9 +185,10 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
       if (requested.current.has(key)) continue;
       requested.current.add(key);
       store.load(chunk.cx, chunk.cy, lod)
-        .then(() => setLoadedVersion((v) => v + 1))
+        .then(bump)
         .catch(() => requested.current.delete(key));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store, manifest, focusCell]);
 
   return (

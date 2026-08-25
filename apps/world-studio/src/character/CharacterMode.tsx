@@ -106,7 +106,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
     const ground = world.groundHeight(x, z) ?? 50;
     supportYRef.current = ground;
     setCollidersReady(false);
-    setSpawn({ x, y: Math.max(ground, 0) + CHARACTER_BODY_CENTER_HEIGHT + 0.15, z });
+    setSpawn({ x, y: Math.max(ground, 0) + CHARACTER_BODY_CENTER_HEIGHT + 0.4, z });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [verticalScale]);
 
@@ -152,7 +152,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
         if (cancelled) return;
         const ground = world.groundHeight(x, z) ?? 50;
         supportYRef.current = ground;
-        setSpawn({ x, y: Math.max(ground, 0) + CHARACTER_BODY_CENTER_HEIGHT + 0.15, z });
+        setSpawn({ x, y: Math.max(ground, 0) + CHARACTER_BODY_CENTER_HEIGHT + 0.4, z });
         focusRef.current = { x, z };
         setManifest(m);
       } catch (e) {
@@ -356,6 +356,7 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   const position = useMemo(() => new THREE.Vector3(), []);
   const lastPosition = useRef(new THREE.Vector3());
   const stepAccum = useRef(0);
+  const netTimer = useRef(0);
   const initialised = useRef(false);
   const hudTimer = useRef(0);
   const urlTimer = useRef(0);
@@ -457,11 +458,26 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
     camera3P.applyTo(camera);
     focusRef.current = { x: position.x, z: position.z };
 
-    // Streaming safety net: anything that slips under the terrain (or off the
-    // loaded area entirely) is set back on the surface.
+    // Streaming safety net: anything that truly slips under the terrain is
+    // set back on the surface. The CPU height alone must NOT trigger it —
+    // on slopes/streaming edges it can disagree with the colliders, and
+    // teleporting onto a CPU height with no collider under it loops the
+    // character through the sky (owner round 4). Require the PHYSICS world
+    // to agree there is no floor below, and rate-limit.
+    netTimer.current -= rawDelta;
     const groundBelow = world.groundHeight(position.x, position.z);
-    if ((groundBelow !== null && position.y < groundBelow - 60) || position.y < -600) {
-      adapter.teleport({ x: position.x, y: (groundBelow ?? 100) + CHARACTER_BODY_CENTER_HEIGHT + 1, z: position.z });
+    const cpuSaysUnder =
+      (groundBelow !== null && position.y < groundBelow - 60) || position.y < -600;
+    if (cpuSaysUnder && netTimer.current <= 0) {
+      const ray = new rapier.rapier.Ray(
+        { x: position.x, y: position.y - CHARACTER_BODY_CENTER_HEIGHT - 0.2, z: position.z },
+        { x: 0, y: -1, z: 0 },
+      );
+      const support = rapier.world.castRay(ray, 150, true);
+      if (!support || position.y < -600) {
+        netTimer.current = 1.5;
+        adapter.teleport({ x: position.x, y: (groundBelow ?? 100) + CHARACTER_BODY_CENTER_HEIGHT + 1, z: position.z });
+      }
     }
 
     // Wall-clock timers (rawDelta): the HUD must stay live even when the

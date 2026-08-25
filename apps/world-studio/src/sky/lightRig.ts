@@ -57,10 +57,16 @@ export interface LightRig {
   /** Twilight glow: luminance (nits, exposure-anchored) + sun azimuth dir. */
   dawnLum: number;
   dawnDir: [number, number];
+  /** Sub-horizon distance-haze band colour (nits) — the world-edge veil. */
+  horizonHaze: [number, number, number];
 }
 
-const NOON_SUN: [number, number, number] = [1.0, 0.96, 0.9];
-const HORIZON_SUN: [number, number, number] = [1.0, 0.38, 0.12];
+// Sunlight colour anchors from measured CCT vs solar elevation (research doc
+// §8: ~2000 K at the horizon, ~3400 K in the 0–10° golden band, ~5500 K by
+// ~35° — the warm shift CONCENTRATES near the horizon, it is not linear).
+const NOON_SUN: [number, number, number] = [1.0, 0.925, 0.85];
+const GOLDEN_SUN: [number, number, number] = [1.0, 0.7, 0.42];
+const HORIZON_SUN: [number, number, number] = [1.0, 0.4, 0.1];
 const MOONLIGHT: [number, number, number] = [0.62, 0.72, 1.0];
 
 function daylightOf(altDeg: number): number {
@@ -90,24 +96,29 @@ function skyIlluminance(sunAltDeg: number): number {
   return 400 * Math.pow(10, sunAltDeg / 2.9);
 }
 
-/** Sun altitude (deg) → renderer exposure, log-interpolated. Day sits ~¾ stop
- * under the round-2 tuning (owner: "much much softer"); night is bounded so a
- * moonless marsh reads dim-but-navigable, a full moon ~2 stops brighter. */
+/** Sun altitude (deg) → renderer exposure, log-interpolated. Shaped so the
+ * on-screen ground brightness is a gentle PLATEAU through the day (round 3:
+ * noon peaked too hot while mid-day sat dim) that eases down toward the warm
+ * low-sun hours; the -12/-8 stops keep dusk from going pitch black before
+ * the stars arrive; night is bounded (moonless dim-readable, full moon ~2
+ * stops brighter). */
 const EXPOSURE_CURVE: [number, number][] = [
-  [-12, 0.12],
-  [-8, 1.5e-2],
-  [-4, 2e-3],
-  [0, 3e-4],
-  [3, 1.1e-4],
-  [10, 5e-5],
-  [30, 2.6e-5],
+  [-12, 0.8],
+  [-8, 2.5e-2],
+  [-4, 3.5e-3],
+  [0, 1.4e-3],
+  [3, 6e-4],
+  [10, 2.4e-4],
+  [25, 8.5e-5],
+  [45, 3.9e-5],
+  [75, 2.3e-5],
 ];
 
 function authoredExposure(altDeg: number, moonIntensity: number): number {
   // Moonlight (0..~0.3 lx) pulls the night exposure down from the moonless
   // ceiling; the -12° pivot keeps the astronomical-twilight hand-off smooth.
   const nightExposure = 14 / (1 + 11 * moonIntensity);
-  if (altDeg >= 30) return EXPOSURE_CURVE[EXPOSURE_CURVE.length - 1][1];
+  if (altDeg >= 75) return EXPOSURE_CURVE[EXPOSURE_CURVE.length - 1][1];
   if (altDeg <= -18) return nightExposure;
   const curve: [number, number][] = [[-18, nightExposure], ...EXPOSURE_CURVE];
   for (let i = 0; i < curve.length - 1; i++) {
@@ -132,18 +143,26 @@ export function computeLightRig(
   const altDeg = (sun.altitude * 180) / Math.PI;
   const sinAlt = Math.max(0, Math.sin(sun.altitude));
 
-  // Sun: reddened and dimmed through the long low-sun optical path. The warm
-  // band reaches well into the morning/evening (owner round 2: sunrise and
-  // sunset light read too white).
-  const warmth = smoothstep(0, 30, altDeg);
-  const sunColor = mix3(HORIZON_SUN, NOON_SUN, warmth);
+  // Sun: reddened and dimmed through the long low-sun optical path — a
+  // three-stop ramp (horizon red → golden → warm noon white) whose change
+  // concentrates near the horizon, per the measured CCT curve (round 3: the
+  // light's tone must visibly warm through the day, not just the sky's).
+  const warmth = smoothstep(10, 42, altDeg);
+  const sunColor =
+    altDeg < 10
+      ? mix3(HORIZON_SUN, GOLDEN_SUN, smoothstep(-1, 10, altDeg))
+      : mix3(GOLDEN_SUN, NOON_SUN, warmth);
   const aboveHorizon = smoothstep(-1.5, 0.5, altDeg);
   const sunIntensity = (100_000 * Math.pow(sinAlt, 1.15) + 350 * aboveHorizon) * aboveHorizon;
 
   // Moonlight: Masser is the key; full Masser high in a clear sky ≈ 0.3 lx.
+  // Gated OFF while the sun is up (round 3: a daytime moon must not be a
+  // light source at all — its 0.3 lx is real but the *perception* of the sky
+  // brightening as it rises must never happen).
   const masser = moons[0];
   const moonUp = Math.max(0, Math.sin(masser.altitude));
-  const moonIntensity = 0.3 * masser.illuminatedFraction * Math.sqrt(moonUp);
+  const sunUpFactor = 1 - smoothstep(-6, 0, altDeg);
+  const moonIntensity = 0.3 * masser.illuminatedFraction * Math.sqrt(moonUp) * sunUpFactor;
 
   // Preetham degrades below the horizon: crossfade to the night dome.
   const skyFade = smoothstep(-9, -1, altDeg);
@@ -171,7 +190,10 @@ export function computeLightRig(
   // the single most sensitive constant in the dome). The humid-lowland glow
   // belongs to the aerial haze term, not the dome.
   const h = Math.min(1, Math.max(0, humidityAtCamera));
-  const turbidity = 1.8 + 2.7 * h * h;
+  // Low-sun boost: the longer optical path reddens the DISC and its
+  // circumsolar glow through the Preetham model itself (round 3: the sun's
+  // own colour must transition through the day, not just the sky's).
+  const turbidity = 1.8 + 2.7 * h * h + 3.2 * (1 - smoothstep(2, 25, altDeg));
   const mieCoefficient = 0.005;
 
   // Hemisphere ambient: a SUPPLEMENT (regional ground bounce + night floor),
@@ -234,7 +256,7 @@ export function computeLightRig(
   // the shader; its luminance is anchored AGAINST the exposure curve so its
   // on-screen brightness follows one smooth authored bell (no flashes).
   // Palette anchors: docs/research/natural-light-sky-atmosphere-threejs.md §8.
-  const dawnBellAmount = Math.exp(-Math.pow((altDeg + 1) / 6.5, 2));
+  const dawnBellAmount = Math.exp(-Math.pow((altDeg + 1) / 8.5, 2));
   const dawnLum = (0.58 / exposureTarget) * dawnBellAmount;
   const azLen = Math.hypot(sun.direction.x, sun.direction.z) || 1;
   const dawnDir: [number, number] = [sun.direction.x / azLen, sun.direction.z / azLen];
@@ -248,6 +270,15 @@ export function computeLightRig(
     bounce * 1.15,
     bounce * 1.0,
     bounce * 0.78,
+  ];
+  // Horizon-band colour: the first degrees below the horizon render as thick
+  // distance haze (same colour family the aerial term fades terrain into),
+  // so looking off the province edge reads as hazy distance, not a flat
+  // brown void (owner round 3, "edge of the world").
+  const horizonHaze: [number, number, number] = [
+    hazeAmbient[0] * 4 + hazeSunLight[0] * 0.015 + nightHorizon[0] * 2,
+    hazeAmbient[1] * 4 + hazeSunLight[1] * 0.015 + nightHorizon[1] * 2,
+    hazeAmbient[2] * 4 + hazeSunLight[2] * 0.015 + nightHorizon[2] * 2,
   ];
 
   return {
@@ -278,5 +309,6 @@ export function computeLightRig(
     groundBounce,
     dawnLum,
     dawnDir,
+    horizonHaze,
   };
 }

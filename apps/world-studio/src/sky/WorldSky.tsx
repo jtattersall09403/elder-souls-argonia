@@ -89,6 +89,7 @@ interface SkyExtras {
   uNightZenith: { value: THREE.Color };
   uNightHorizon: { value: THREE.Color };
   uGroundLum: { value: THREE.Color };
+  uHorizonLum: { value: THREE.Color };
   uDawnLum: { value: number };
   uDawnDir: { value: THREE.Vector2 };
 }
@@ -103,13 +104,14 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
     uNightZenith: { value: new THREE.Color(0, 0, 0) },
     uNightHorizon: { value: new THREE.Color(0, 0, 0) },
     uGroundLum: { value: new THREE.Color(0, 0, 0) },
+    uHorizonLum: { value: new THREE.Color(0, 0, 0) },
     uDawnLum: { value: 0 },
     uDawnDir: { value: new THREE.Vector2(0, 1) },
   };
   Object.assign(mat.uniforms, extras);
   mat.uniforms.cloudCoverage.value = 0; // clouds are Phase 8c
   mat.fragmentShader =
-    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\n" +
+    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform vec3 uHorizonLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\n" +
     mat.fragmentShader.replace(
       "gl_FragColor = vec4( texColor, 1.0 );",
       /* glsl */ `
@@ -144,11 +146,15 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
           + vec3(0.95, 0.24, 0.30) * pow(esAz, 2.0) * 0.50
           + vec3(0.20, 0.13, 0.38) * 0.16);
       }
-      // Hard branch, not mix(): mix(ground, NaN, 0.0) is still NaN.
+      // Below the horizon (hard branch, not mix(): mix(x, NaN, 0.0) is still
+      // NaN): first a distance-haze band — so looking off the province edge
+      // reads as hazy distance, not a flat brown void (owner round 3) — then
+      // the ground-bounce colour for the IBL's deep lower hemisphere.
       if (direction.y < -0.02) {
-        texColor = uGroundLum;
+        float esToGround = 1.0 - smoothstep(-0.34, -0.08, direction.y);
+        texColor = mix(uHorizonLum, uGroundLum, esToGround);
       } else {
-        texColor = mix(uGroundLum, texColor, smoothstep(-0.02, 0.005, direction.y));
+        texColor = mix(uHorizonLum, texColor, smoothstep(-0.02, 0.012, direction.y));
       }
       // Stay below the half-float ceiling (65504): the PMREM env bake renders
       // into a HalfFloat target, and any overflow becomes Infinity there and
@@ -170,6 +176,7 @@ function copySkyUniforms(from: Sky & { material: THREE.ShaderMaterial }, to: Sky
   (b.uNightZenith.value as THREE.Color).copy(a.uNightZenith.value as THREE.Color);
   (b.uNightHorizon.value as THREE.Color).copy(a.uNightHorizon.value as THREE.Color);
   (b.uGroundLum.value as THREE.Color).copy(a.uGroundLum.value as THREE.Color);
+  (b.uHorizonLum.value as THREE.Color).copy(a.uHorizonLum.value as THREE.Color);
 }
 
 // ---------- authored stars ----------
@@ -211,7 +218,7 @@ function flattenCatalogue(): FlatStar[] {
     seed = (seed * 1664525 + 1013904223) >>> 0;
     return seed / 4294967296;
   };
-  for (let i = 0; i < 1100; i++) {
+  for (let i = 0; i < 2200; i++) {
     out.push({
       ra: 2 * Math.PI * rnd(),
       dec: Math.asin(2 * rnd() - 1), // uniform on the sphere
@@ -290,14 +297,18 @@ void main() {
   // the lit side glows over the night dome. uDayDim washes the disc against
   // the bright day dome (round 2's "moons add light" report).
   vec3 n = normalize(vN);
-  float lit = pow(max(dot(n, uSunDir), 0.0), 0.75); // soft terminator
+  // pow > 1 SHARPENS the terminator: the round-3 report "moons always look
+  // full at night" was gibbous phases washing out under the old softening —
+  // the ephemeris itself is verified correct (crescents pre-dawn, halves at
+  // midnight rise/set, ~51 min/night rise drift).
+  float lit = pow(max(dot(n, uSunDir), 0.0), 1.35);
   // Procedural maria/highlands mottling, stable on the sphere; limb
   // darkening from the view angle so the disc reads as a globe.
   float esMar = esMoonNoise(n * 3.1) + 0.5 * esMoonNoise(n * 7.7) + 0.25 * esMoonNoise(n * 16.3);
   float esPat = 0.68 + 0.32 * smoothstep(0.55, 1.15, esMar);
   vec3 esView = normalize(cameraPosition - vWp);
   float esLimb = 0.45 + 0.55 * pow(max(dot(n, esView), 0.0), 0.6);
-  gl_FragColor = vec4(uTint * (0.012 + 0.75 * lit) * esPat * esLimb * uDayDim, 1.0);
+  gl_FragColor = vec4(uTint * (0.005 + 0.68 * lit) * esPat * esLimb * uDayDim, 1.0);
   #include <colorspace_fragment>
 }`;
 
@@ -616,6 +627,7 @@ void main() {
     extras.uNightZenith.value.setRGB(...rig.nightZenith);
     extras.uNightHorizon.value.setRGB(...rig.nightHorizon);
     extras.uGroundLum.value.setRGB(...rig.groundBounce);
+    extras.uHorizonLum.value.setRGB(...rig.horizonHaze);
     extras.uDawnLum.value = rig.dawnLum;
     extras.uDawnDir.value.set(rig.dawnDir[0], rig.dawnDir[1]);
 
@@ -682,11 +694,13 @@ void main() {
       const radius = Math.tan(m.angularDiameter / 2) * MOON_RADIUS;
       mesh.scale.setScalar(radius);
       (moonMats[i].uniforms.uSunDir.value as THREE.Vector3).copy(sunDir);
-      // Day wash × a rise/set fade — a 10° disc snapping on at the horizon
-      // read as a white flash in twilight (owner round 3).
+      // Day wash (stronger after round 3 — a rising daytime moon must not
+      // visibly lighten the sky) × rise/set fade × low-altitude extinction
+      // (a moon in the horizon murk is barely there, day or night).
       const horizonFade = THREE.MathUtils.smoothstep(m.altitude, -0.06, 0.06);
+      const extinction = 0.3 + 0.7 * THREE.MathUtils.smoothstep(m.altitude, 0.0, 0.3);
       (moonMats[i].uniforms.uDayDim as { value: number }).value =
-        (1 - 0.8 * rig.skyFade) * horizonFade;
+        (1 - 0.88 * rig.skyFade) * horizonFade * extinction;
       mesh.visible = m.altitude > -0.1;
     });
 

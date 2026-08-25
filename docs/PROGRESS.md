@@ -57,17 +57,18 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- **Phase 8a owner re-gate, round 4** (round-3 feedback applied, decision
-  0021 §Round 3: bounded physics stepping — the load bobbing/skyfall loop;
-  authored exposure curve — sunrise/sunset blowout + softer day; tropical
-  twilight glow — no more "pinned" pre-dawn sky; darker night gradient;
-  background star field; textured display-referred moons; golden-hour haze).
-  **Restart the dev server and hard-refresh first.** Check: load settles
-  cleanly; a full sunrise AND sunset at rate ~30 (smooth, warm, no flashes,
-  no post-sunrise blowout); day light soft; night sky deep with faint stars
-  between constellations; a full moon looks like a moon. Moons being
-  near-full at night is real phase geometry (crescents ride with the sun by
-  day) — say if you want it cheated anyway.
+- **Phase 8a owner re-gate, round 5** (round-4 feedback applied, decision
+  0021 §Round 4: warm CCT sunlight ramp + mid-day exposure plateau; moon
+  phases render sharply (ephemeris verified right — check ~04:00 or ~20:00
+  for crescents); daytime moons emit nothing; dusk no longer pitch-black
+  before starlight; ~2 200 background stars; world edge reads as haze/ocean;
+  LOD-1-only shadow casting + batched chunk arrivals for the load-period
+  fps; skyfall safety net needs physics agreement + rate limit). **Restart
+  dev server + hard refresh.** Check: noon vs mid-morning brightness (plateau,
+  no noon spike); light tone warms through the day and the sun disc reddens
+  toward the horizon; load-to-smooth time; off-edge view from a border
+  mountain; dusk → starfield hand-off; a gibbous moon at ~22:00 clearly not
+  full.
 
 (There is no "next up" section: the first `todo` row above is what's next.
 Phase-ordering rationale lives in the plan §86, not here.)
