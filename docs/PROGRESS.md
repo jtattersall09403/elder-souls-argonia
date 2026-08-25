@@ -43,6 +43,8 @@ then open only the master-plan sections the active phase needs.
 | 9 — swimming, climbing, boats | todo | |
 | 10 — asset catalogue and kits | todo | |
 | 10b — full portable-sandbox parity in studio (was 7b; moved 2026-08-25, decision 0017) | todo | Scene orchestration extraction (§53), inventory/equipment UI, enemies/targeting, bow, combat-space probes against real kits. Deferred past the riskier world systems; must precede 11–13 |
+| S — stats, progression and character-systems **design** (parallel workstream, module 76; decision 0019) | todo | Docs + owner decisions only, no code. Runnable any time alongside 8a–10; must conclude before 10c. Morrowind/Skyrim/Souls axis choices, attributes/skills/derived stats, races, birthsign prep, levelling, the fixed-danger numeric spine |
+| 10c — stats and progression implementation (module 76; decision 0019) | todo | Implements workstream S in `packages/game-core`, wrapping today's tuning as the neutral baseline. After 10b, **before 11–13**: fixed danger (0004) means every enemy and every loot item is authored as an absolute number, so the scale must exist first |
 | 11 — causal locations and settlements | todo | |
 | 12 — dungeons and interiors | todo | |
 | 13 — ecology, encounters, fixed loot | todo | |
