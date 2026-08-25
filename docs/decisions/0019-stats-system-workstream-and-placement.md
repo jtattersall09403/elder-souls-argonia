@@ -80,6 +80,16 @@ Split it in two, and put it in the plan explicitly:
   month, come free from the world clock (module 55 §95); design the hook now,
   ship the content later.
 
+## Owner steer, 2026-08-25 (second amendment): the skeleton is chosen
+
+**"Morrowind chassis with a Souls combat layer"** is the shape — workstream S
+does not choose it, it works out what it *means*: the chassis↔layer seams, the
+mapping of our Skyrim-taxonomy items and rig onto Morrowind-style categories,
+the keep/drop of Morrowind-only categories by sourceable assets+movesets
+(spears are recoverable — verified leads in module 76 §103.0), and an explicit
+**completeness duty** to surface the mapping decisions the owner hasn't
+thought to ask about. Round 1 presents mapping decisions, not a shape choice.
+
 ## How to start it
 
 Workstream S is startable from a single instruction ("kick off workstream S"):

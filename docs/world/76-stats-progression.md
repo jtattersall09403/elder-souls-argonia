@@ -121,6 +121,60 @@ Runs as docs + decisions (`docs/decisions/`, research in `docs/research/`), in
 parallel with Phases 8a–10. Deliverable: a decided design, axis by axis, with
 the reasoning and the rejected options recorded.
 
+### 103.0 The chosen shape (owner steer, 2026-08-25) and the mapping exercise
+
+The skeleton is effectively decided: **"Morrowind chassis with a Souls combat
+layer."** Do not re-litigate the shape — if the prior genuinely breaks
+somewhere, report it as a finding. The workstream's real job is working out
+**what this means in practice**: the mapping between the two systems against
+our actual asset base, and **finding the decisions the owner hasn't thought to
+ask about**. Three strands:
+
+1. **Chassis↔layer seams.** Wherever Morrowind and Souls claim the same
+   territory, decide which wins and how the loser is re-expressed. Known
+   seams (find the rest): Morrowind fatigue vs Souls stamina — one resource
+   or two?; weapon skill with no to-hit dice — what does Long Blade *do*
+   (damage, stamina cost, poise damage, moveset/heavy-attack access)?; armour
+   skill vs equip-load roll tiers; Morrowind spell failure vs real-time
+   casting; acrobatics/athletics vs Souls movement; Morrowind enchant/
+   soul-gem economy vs the bounded-loop concerns in §102.
+2. **The asset base constrains the design** — we ship the Skyrim rig,
+   Skyrim/mod animations and Skyrim/mod items (no new art, module 90):
+   - sourced items arrive in *Skyrim's* taxonomy (1H/2H, light/heavy) with
+     Skyrim's stat scales; the Morrowind chassis wants its own categories
+     (short/long blade, blunt, axe, spear, marksman; light/**medium**/heavy
+     armour). Produce the **item-mapping table**: every sourced item class →
+     chassis skill/category → stat derivation (mapped from Skyrim values,
+     re-derived from our material tiers in `equipment/materials.ts`, or
+     hand-authored);
+   - produce the **keep/drop table** for Morrowind categories absent from
+     vanilla Skyrim (spears, throwing weapons, medium armour, unarmoured,
+     crossbows…): keep a category only if the mod scene provides assets
+     *and* movesets. Verified leads (2026-08-25):
+     [Animated Armoury (DAR)](https://www.nexusmods.com/skyrimspecialedition/mods/35978)
+     — rapiers, pikes, halberds, quarterstaves, parrying daggers, claws,
+     whips, katanas, with player+NPC movesets;
+     [Animated Heavy Armory](https://www.nexusmods.com/skyrimspecialedition/mods/51100)
+     — shortspears/half-pikes/tridents/short staffs (javelin anims from
+     Skyrim Spear Mechanic) — **so spears are recoverable**. Record sourcing
+     evidence per category in module 90 (§74.3 pattern) as it is verified;
+   - item properties Morrowind had that Skyrim items don't carry (condition/
+     durability, per-item enchant capacity): keep, re-derive or cut — each an
+     explicit decision;
+   - anything the shared rig/moveset framework makes cheap or expensive
+     (e.g. a category is only viable if its moveset retargets cleanly —
+     flag per-category risk, don't assume).
+3. **Completeness duty.** Sweep the planned systems and surface every mapping
+   this touches that nobody has asked about: disease/blight (module 30),
+   alchemy + regional ingredients (lore feeds), enchanting and spellmaking,
+   birthsigns (55 §95), speech/persuasion/reputation and quest gates
+   (docs/quests/), training/services and the Owing economy, barter and
+   mercantile, crime/bounty, rest and levelling mechanics, swim/climb/boat
+   stat hooks (module 60), Argonian physiology and the playable-race roster,
+   marksman ammunition (our arrow/ballistics code), followers/creature
+   scaling. The owner expects round 1 to contain decisions they did not know
+   existed — surfacing those is a core deliverable, not garnish.
+
 **Research first** (module 90/CLAUDE.md rule): how the three reference games
 actually work and what is known to fail — Morrowind's use-based skills and
 attribute multipliers, Skyrim's perk trees and level scaling, the Souls
@@ -180,19 +234,26 @@ round 2. Record accepted answers as decision records (format precedent:
 
 1. **Set the PROGRESS row `S` to `in progress`** with your current packet, and
    commit that before the work (PROGRESS protocol).
-2. **Research packet.** The three reference games, axis by axis, plus known
-   failure modes. Record in `docs/research/` (suggested:
+2. **Research packet.** How Morrowind actually works mechanically (attributes,
+   skills, use-based levelling, fatigue, spell failure, item condition,
+   enchant capacity), the Souls layer's mechanics, known failure modes of
+   each, **and the mod-scene availability sweep for Morrowind-only item
+   categories** (start from the verified leads in §103.0; verify, don't
+   trust). Record in `docs/research/` (suggested:
    `stats-progression-reference-games.md`) — findings and *implications for
    us*, not a wiki dump.
-3. **Skeleton first — do not detail axes yet.** The axes compose: attributes
-   shape the damage model, progression shapes both, class shapes chargen.
-   Write one page giving 2–3 coherent overall *shapes* for the whole system
-   (e.g. "Morrowind chassis with a Souls combat layer" vs "classless
-   use-based" vs …), each with its knock-on consequences.
-4. **Owner round 1 — direction.** One batch, one sitting: the skeleton choice
-   plus the handful of axis calls that shape everything downstream
-   (attributes yes/no and how many; progression model; class/background
-   yes/no; death/loss; magic's overall shape). Everything else waits.
+3. **Mapping inventory — do not detail axes yet.** The skeleton is given
+   (§103.0). Stress-test it briefly, then enumerate every seam and mapping
+   decision it creates: the chassis↔layer seams, the item-mapping and
+   keep/drop tables in draft, and everything the completeness sweep
+   surfaces. This inventory is what round 1 is built from.
+4. **Owner round 1 — the key mapping decisions.** One batch, one sitting:
+   the seams where Morrowind and Souls claim the same territory, the shaping
+   axis calls (attributes and their count; progression model;
+   class/background; death/loss; magic's overall shape), the keep/drop
+   recommendations for Morrowind-only categories with their sourcing
+   evidence, and the unasked-question finds. Everything else waits or
+   becomes a proposed default.
 5. **Detail every axis under the chosen shape.** The **decided design**
    extends this module (the plan is the deliverable); option analysis and
    rejected alternatives go in the research doc — keep this module lean
