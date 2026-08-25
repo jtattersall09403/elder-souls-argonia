@@ -83,21 +83,25 @@ REGION_CLASSES = {
 
 # Macro climate/atmosphere profile per region class (master plan §33.1):
 # humidity and mist 0..1, visibility in rough metres under canopy/weather.
+# canopy = canopy closure 0..1 (module 55 §96: "canopy is a light property of
+# place") — permanent-dusk forest classes (rootland deep marsh, tropical
+# jungle) near 1.0; swamp forest / mangrove fringe / tree-island hammock mid;
+# open marsh, floodplain, delta reed low; crag, mountains and open water ~0.
 CLIMATE = {
-    0: {"humidity": 0.7, "mist": 0.2, "rain": "sea squalls", "visibility": 2000},
-    1: {"humidity": 0.5, "mist": 0.4, "rain": "orographic", "visibility": 1200},
-    2: {"humidity": 0.6, "mist": 0.3, "rain": "showers", "visibility": 1000},
-    3: {"humidity": 0.9, "mist": 0.6, "rain": "tidal storms", "visibility": 500},
-    4: {"humidity": 0.9, "mist": 0.6, "rain": "tidal storms", "visibility": 600},
-    5: {"humidity": 0.8, "mist": 0.5, "rain": "monsoonal", "visibility": 700},
-    6: {"humidity": 1.0, "mist": 0.9, "rain": "constant drip", "visibility": 120},
-    7: {"humidity": 1.0, "mist": 0.8, "rain": "monsoonal", "visibility": 200},
-    8: {"humidity": 0.9, "mist": 0.6, "rain": "monsoonal", "visibility": 350},
-    9: {"humidity": 0.8, "mist": 0.5, "rain": "seasonal flood rains", "visibility": 600},
-    10: {"humidity": 0.7, "mist": 0.4, "rain": "showers", "visibility": 700},
-    11: {"humidity": 0.7, "mist": 0.3, "rain": "seasonal", "visibility": 900},
-    12: {"humidity": 1.0, "mist": 0.8, "rain": "monsoonal", "visibility": 300},
-    13: {"humidity": 0.95, "mist": 0.7, "rain": "monsoonal downpour", "visibility": 90},
+    0: {"humidity": 0.7, "mist": 0.2, "rain": "sea squalls", "visibility": 2000, "canopy": 0.0},
+    1: {"humidity": 0.5, "mist": 0.4, "rain": "orographic", "visibility": 1200, "canopy": 0.05},
+    2: {"humidity": 0.6, "mist": 0.3, "rain": "showers", "visibility": 1000, "canopy": 0.25},
+    3: {"humidity": 0.9, "mist": 0.6, "rain": "tidal storms", "visibility": 500, "canopy": 0.2},
+    4: {"humidity": 0.9, "mist": 0.6, "rain": "tidal storms", "visibility": 600, "canopy": 0.5},
+    5: {"humidity": 0.8, "mist": 0.5, "rain": "monsoonal", "visibility": 700, "canopy": 0.4},
+    6: {"humidity": 1.0, "mist": 0.9, "rain": "constant drip", "visibility": 120, "canopy": 0.95},
+    7: {"humidity": 1.0, "mist": 0.8, "rain": "monsoonal", "visibility": 200, "canopy": 0.65},
+    8: {"humidity": 0.9, "mist": 0.6, "rain": "monsoonal", "visibility": 350, "canopy": 0.3},
+    9: {"humidity": 0.8, "mist": 0.5, "rain": "seasonal flood rains", "visibility": 600, "canopy": 0.15},
+    10: {"humidity": 0.7, "mist": 0.4, "rain": "showers", "visibility": 700, "canopy": 0.6},
+    11: {"humidity": 0.7, "mist": 0.3, "rain": "seasonal", "visibility": 900, "canopy": 0.35},
+    12: {"humidity": 1.0, "mist": 0.8, "rain": "monsoonal", "visibility": 300, "canopy": 0.05},
+    13: {"humidity": 0.95, "mist": 0.7, "rain": "monsoonal downpour", "visibility": 90, "canopy": 1.0},
 }
 
 

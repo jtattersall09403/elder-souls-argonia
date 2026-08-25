@@ -132,6 +132,33 @@ def main() -> None:
     mist_img[..., 3] = (mist * 150).astype(np.uint8)
     save(mist_img, "hydro-mist.png")
 
+    # Province "air" raster (Phase 8a, module 55 §97): data channels for the
+    # studio's aerial-perspective haze shader. R humidity, G mist propensity,
+    # B canopy closure, each 0..1 -> 0..255. Humidity is a continuous field
+    # (black-marsh-climatology §3: H = 0.55 + 0.3·wet + 0.2·exp(−dCoast/15km)
+    # − altitude term; the seasonal term is applied at runtime) blended 50/50
+    # with the smoothed per-class CLIMATE humidity so the authored class
+    # character (dry border ranges, saturated basins) survives.
+    wet01 = np.clip((result.twi - 3.0) / 5.5, 0.0, 1.0)
+    wet01 = np.maximum(wet01, ndimage.gaussian_filter(
+        (result.wetlands | result.lakes | (result.rivers >= 1)).astype(np.float32), 6))
+    dist_coast_m = ndimage.distance_transform_edt(~result.ocean) * metres_per_px
+    alt01 = np.clip(z / 400.0, 0.0, 1.0)  # sculpted border peaks reach ~650 m
+    hum_phys = 0.55 + 0.3 * wet01 + 0.2 * np.exp(-dist_coast_m / 15000.0) - 0.5 * alt01
+    hum_phys = ndimage.gaussian_filter(hum_phys.astype(np.float32), 2)
+    hum_lookup = np.zeros(max(CLIMATE) + 1, dtype=np.float32)
+    canopy_lookup = np.zeros(max(CLIMATE) + 1, dtype=np.float32)
+    for cid, prof in CLIMATE.items():
+        hum_lookup[cid] = prof["humidity"]
+        canopy_lookup[cid] = prof["canopy"]
+    humidity = np.clip(0.5 * hum_phys + 0.5 * ndimage.gaussian_filter(hum_lookup[reg.regions], 4), 0.0, 1.0)
+    canopy = np.clip(ndimage.gaussian_filter(canopy_lookup[reg.regions], 4), 0.0, 1.0)
+    air = np.zeros((*shape, 3), dtype=np.uint8)
+    air[..., 0] = np.round(humidity * 255).astype(np.uint8)
+    air[..., 1] = np.round(np.clip(mist, 0.0, 1.0) * 255).astype(np.uint8)
+    air[..., 2] = np.round(canopy * 255).astype(np.uint8)
+    save(air, "climate-air.png")
+
     meta = {
         "metresPerPixel": metres_per_px,
         "scaleApplied": SCALE,
@@ -142,6 +169,17 @@ def main() -> None:
         "regionsLegend": {str(cid): {"name": name, "rgb": list(colour)}
                           for cid, (name, colour) in REGION_CLASSES.items()},
         "climateProfiles": {REGION_CLASSES[cid][0]: prof for cid, prof in CLIMATE.items()},
+        "climateAir": {
+            "file": "climate-air.png",
+            "metresPerPixel": metres_per_px,
+            "channels": {
+                "R": "relative humidity 0..1 (byte/255): continuous climatology field blended with per-class humidity; seasonal term applied at runtime",
+                "G": "mist propensity 0..1 (byte/255): same smoothed field as hydro-mist.png's alpha",
+                "B": "canopy closure 0..1 (byte/255): per-class canopy (module 55 §96), gaussian-smoothed",
+            },
+            "boundaryLayerHeightM": 60,
+            "note": "renderer uses boundaryLayerHeightM as the Mie haze scale height (boundary-layer Mie is shallow; Rayleigh scale height ~8 km)",
+        },
         "soilLegend": {str(cid): name for cid, name in SOIL_CLASSES.items()},
         **result.stats,
         **reg.stats,

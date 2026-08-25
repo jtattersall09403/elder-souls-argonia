@@ -108,7 +108,9 @@ Hist-Deek) → Monsoon (Second–Last Seed) → Flood peak (Hearthfire–Frostfa
 ## Status of implementation
 
 The first slice is live: the basin's `ground-tint.png` (refine_watershed)
-applies coastal/wetness/latitude palette drift to terrain albedo. Next
-slices (Phase 8a light/haze, 8c weather/atmosphere, Phase 13 ecology): compile the six
-fields province-wide as rasters + the season scalar, and point weather-state
-frequencies, foliage and flood states at them, per the tables above.
+applies coastal/wetness/latitude palette drift to terrain albedo. Phase 8a's
+air raster now ships too: `climate-air.png` (compile_hydrology) bakes R =
+humidity (the §3 H formula, minus the runtime seasonal term, blended with
+per-class climate), G = mist propensity, B = canopy closure — see the
+`climateAir` block in `hydrology-meta.json`. Next slices (8c weather, Phase
+13 ecology): the remaining fields + the season scalar, per the tables above.

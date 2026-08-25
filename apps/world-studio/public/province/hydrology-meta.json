@@ -133,86 +133,111 @@
       "humidity": 0.7,
       "mist": 0.2,
       "rain": "sea squalls",
-      "visibility": 2000
+      "visibility": 2000,
+      "canopy": 0.0
     },
     "border mountains": {
       "humidity": 0.5,
       "mist": 0.4,
       "rain": "orographic",
-      "visibility": 1200
+      "visibility": 1200,
+      "canopy": 0.05
     },
     "upland hills": {
       "humidity": 0.6,
       "mist": 0.3,
       "rain": "showers",
-      "visibility": 1000
+      "visibility": 1000,
+      "canopy": 0.25
     },
     "tidal delta": {
       "humidity": 0.9,
       "mist": 0.6,
       "rain": "tidal storms",
-      "visibility": 500
+      "visibility": 500,
+      "canopy": 0.2
     },
     "coastal lagoon & salt marsh": {
       "humidity": 0.9,
       "mist": 0.6,
       "rain": "tidal storms",
-      "visibility": 600
+      "visibility": 600,
+      "canopy": 0.5
     },
     "deep river corridor": {
       "humidity": 0.8,
       "mist": 0.5,
       "rain": "monsoonal",
-      "visibility": 700
+      "visibility": 700,
+      "canopy": 0.4
     },
     "rootland deep marsh": {
       "humidity": 1.0,
       "mist": 0.9,
       "rain": "constant drip",
-      "visibility": 120
+      "visibility": 120,
+      "canopy": 0.95
     },
     "interior swamp": {
       "humidity": 1.0,
       "mist": 0.8,
       "rain": "monsoonal",
-      "visibility": 200
+      "visibility": 200,
+      "canopy": 0.65
     },
     "fringe marsh": {
       "humidity": 0.9,
       "mist": 0.6,
       "rain": "monsoonal",
-      "visibility": 350
+      "visibility": 350,
+      "canopy": 0.3
     },
     "seasonal floodplain": {
       "humidity": 0.8,
       "mist": 0.5,
       "rain": "seasonal flood rains",
-      "visibility": 600
+      "visibility": 600,
+      "canopy": 0.15
     },
     "raised hammock": {
       "humidity": 0.7,
       "mist": 0.4,
       "rain": "showers",
-      "visibility": 700
+      "visibility": 700,
+      "canopy": 0.6
     },
     "firm lowland": {
       "humidity": 0.7,
       "mist": 0.3,
       "rain": "seasonal",
-      "visibility": 900
+      "visibility": 900,
+      "canopy": 0.35
     },
     "lake & standing water": {
       "humidity": 1.0,
       "mist": 0.8,
       "rain": "monsoonal",
-      "visibility": 300
+      "visibility": 300,
+      "canopy": 0.05
     },
     "tropical jungle": {
       "humidity": 0.95,
       "mist": 0.7,
       "rain": "monsoonal downpour",
-      "visibility": 90
+      "visibility": 90,
+      "canopy": 1.0
     }
+  },
+  "climateAir": {
+    "file": "climate-air.png",
+    "metresPerPixel": 5.4835199999999995,
+    "channels": {
+      "R": "relative humidity 0..1 (byte/255): continuous climatology field blended with per-class humidity; seasonal term applied at runtime",
+      "G": "mist propensity 0..1 (byte/255): same smoothed field as hydro-mist.png's alpha",
+      "B": "canopy closure 0..1 (byte/255): per-class canopy (module 55 \u00a796), gaussian-smoothed"
+    },
+    "boundaryLayerHeightM": 60,
+    "note": "renderer uses boundaryLayerHeightM as the Mie haze scale height (boundary-layer Mie is shallow; Rayleigh scale height ~8 km)"
   },
   "soilLegend": {
     "1": "rock/upland firm",

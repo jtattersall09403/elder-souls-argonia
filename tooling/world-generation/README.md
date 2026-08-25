@@ -12,6 +12,8 @@ JSONs) and cached full-resolution arrays stay in the vault next to the esp.
 python3 -m worldgen.extract_province "<vault>/mod-sources/tamriel-worldspaces-118678/extracted/Argonia Worldspace/Argonia.esp"
 
 # 2. Phase 3: conditioning, hydrology, flood/soil/region/climate fields + overlays
+#    (also climate-air.png — R humidity / G mist / B canopy air raster for the
+#    Phase 8a aerial-perspective haze shader)
 python3 -m worldgen.compile_hydrology "<...>/argonia-heightfield/heightfield-f32.npy"
 
 # 3. Phase 4: roads, boat lanes, danger, cultures + overlays (reads step 2's npz)
