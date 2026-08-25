@@ -5,15 +5,14 @@
   "imageWidth": 1345,
   "imageHeight": 1345,
   "topBasinsKm2": {
-    "2275": 6.6,
-    "1649": 5.0,
-    "13219": 1.6,
-    "1032": 1.3,
-    "13403": 0.9,
-    "13647": 0.8,
-    "719": 0.7,
-    "2374": 0.6,
-    "3281": 0.6
+    "1279": 6.2,
+    "5131": 3.2,
+    "11104": 1.5,
+    "1093": 1.5,
+    "3701": 1.1,
+    "13195": 1.0,
+    "210": 0.8,
+    "13000": 0.6
   },
   "regionsLegend": {
     "0": {
@@ -223,62 +222,62 @@
     "5": "mud"
   },
   "cellKm2": 3.0068991590399994e-05,
-  "oceanFraction": 0.321,
-  "lakeFraction": 0.0465,
-  "wetlandFraction": 0.073,
-  "tidalFraction": 0.004,
+  "oceanFraction": 0.322,
+  "lakeFraction": 0.0609,
+  "wetlandFraction": 0.051,
+  "tidalFraction": 0.013,
   "riverCells": {
-    "minor": 6505,
-    "medium": 3080,
-    "major": 749
+    "minor": 5900,
+    "medium": 2373,
+    "major": 1006
   },
-  "basinCount": 9,
-  "landOutletCells": 2164,
-  "maxFillDepthM": 11.65,
-  "twiWetlandCut": 8.21,
+  "basinCount": 8,
+  "landOutletCells": 2161,
+  "maxFillDepthM": 146.28,
+  "twiWetlandCut": 7.45,
   "thresholds": {
     "riverKm2": [
       0.1111111111111111,
       0.4444444444444444,
       1.6666666666666665
     ],
-    "wetlandMaxElevM": 8.0,
+    "wetlandMaxElevM": 9.5,
     "tidalMaxElevM": 1.5,
     "salinityDecayM": 500.0
   },
   "floodFractions": {
-    "none": 0.941,
-    "rare": 0.021,
-    "seasonal": 0.002,
-    "frequent": 0.036
+    "none": 0.899,
+    "rare": 0.034,
+    "seasonal": 0.029,
+    "frequent": 0.038
   },
   "soilFractions": {
-    "rock/upland firm": 0.293,
-    "firm lowland": 0.317,
-    "soft marsh": 0.037,
-    "peat": 0.025,
-    "mud": 0.006
+    "rock/upland firm": 0.327,
+    "firm lowland": 0.288,
+    "soft marsh": 0.03,
+    "peat": 0.019,
+    "mud": 0.015
   },
   "regionFractions": {
-    "ocean": 0.3214,
-    "border mountains": 0.0815,
-    "upland hills": 0.067,
+    "ocean": 0.3216,
+    "border mountains": 0.1821,
+    "upland hills": 0.0924,
     "tidal delta": 0.0004,
-    "coastal lagoon & salt marsh": 0.0006,
-    "deep river corridor": 0.0017,
-    "rootland deep marsh": 0.0268,
-    "interior swamp": 0.0144,
-    "fringe marsh": 0.0241,
-    "seasonal floodplain": 0.0154,
-    "raised hammock": 0.0001,
-    "firm lowland": 0.3487,
-    "lake & standing water": 0.0465,
-    "tropical jungle": 0.0513
+    "coastal lagoon & salt marsh": 0.0092,
+    "deep river corridor": 0.0019,
+    "rootland deep marsh": 0.0145,
+    "interior swamp": 0.0101,
+    "fringe marsh": 0.0136,
+    "seasonal floodplain": 0.0291,
+    "raised hammock": 0.0,
+    "firm lowland": 0.2141,
+    "lake & standing water": 0.0609,
+    "tropical jungle": 0.0502
   },
   "handPercentilesM": {
-    "25": 1000000.0,
-    "50": 1000000.0,
-    "75": 1000002.88,
-    "95": 1000005.94
+    "25": 4.81,
+    "50": 117.81,
+    "75": 1000002.06,
+    "95": 1000063.62
   }
 }

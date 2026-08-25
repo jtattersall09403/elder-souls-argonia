@@ -25,7 +25,7 @@ from __future__ import annotations
 import numpy as np
 from scipy import ndimage
 
-from .scale import TUNE, TUNE_A
+from .scale import TUNE, TUNE_A, TUNE_S
 
 # Material ids — index order of build_ground_materials.MATERIALS.
 (SILT, RIVER_MUD, BANK_WET, SCUM, BLACK_MUD, PUDDLE, CLAY, MUCK, BC_MUD,
@@ -82,7 +82,9 @@ NORTH_V = 0.45              # province v-fraction where the northern zone ends
 LAKE_MIN_KM2 = 0.15 * TUNE_A  # fresh water bigger than this shores like a lake
 # Mountain elevation belts (region 1; climatology: foothill forest ->
 # low cloud-forest belt -> crag; montane cooling allowed, never frost).
-MONT_FOREST_M, MONT_CLOUD_M, MONT_CRAG_M = 18.0, 45.0, 70.0  # crag lowered: peaks rockier (owner round 6)
+# Phase 6b: belts rescaled to the sculpted ranges (summits ~650 m; foothill
+# tropical forest -> cloud-forest belt -> crag, climatology exception 33.1).
+MONT_FOREST_M, MONT_CLOUD_M, MONT_CRAG_M = 100.0, 280.0, 440.0
 
 
 def _noise(shape, sigma, rng):
@@ -163,7 +165,7 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     activity = np.clip(
         np.clip(1.0 - shore_d / (130.0 * TUNE), 0, 1)
         + np.clip(1.0 - chan_d / (110.0 * TUNE), 0, 1)
-        + np.clip(slope_lf / 0.05, 0, 1), 0, 1).astype(np.float32)
+        + np.clip(slope_lf / (0.05 * TUNE_S), 0, 1), 0, 1).astype(np.float32)
     broad = _noise(shape, 200.0 * TUNE / m_per_px, rng)  # ~200 m stable patches
     patch = _noise(shape, 35.0 * TUNE / m_per_px, rng)   # ~35 m active patches
     fine = _noise(shape, 14.0 * TUNE / m_per_px, rng)    # ~14 m speckle
@@ -187,7 +189,7 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     # cloud belt sits low (small coastal-adjacent ranges) per the research.
     mont = region == 1
     if mont.any():
-        belt_wob = 6.0 * _noise(shape, 320.0 * TUNE / m_per_px, rng)
+        belt_wob = 28.0 * _noise(shape, 320.0 * TUNE / m_per_px, rng)  # 6b: wobble scaled to the taller belts
         mat = np.where(mont & (height > MONT_FOREST_M + belt_wob), FOREST_FLOOR, mat)
         mat = np.where(mont & (height > MONT_CLOUD_M + belt_wob), BC_MOSS, mat)
         mat = np.where(mont & (height > MONT_CRAG_M + belt_wob), MOUNTAIN_ROCK, mat)
@@ -198,14 +200,14 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     mat = np.where(prom > 0.35, rmap("high"), mat)
 
     # Slope: wet peat banks on marsh slopes; humid rock on steep ground.
-    mat = np.where(marshy & (slope_lf > 0.07), PEAT_SLOPE, mat)
-    mat = np.where(slope_lf > 0.14, np.where(marshy | (region == 13), BC_ROCK,
+    mat = np.where(marshy & (slope_lf > 0.07 * TUNE_S), PEAT_SLOPE, mat)
+    mat = np.where(slope_lf > 0.14 * TUNE_S, np.where(marshy | (region == 13), BC_ROCK,
                    np.where(region == 1, MOUNTAIN_ROCK, MOSSY_ROCK)), mat)
 
     # Salt flats where brackish, flat and low (noise-broken).
     if salinity is not None:
         salty = salinity > 0.45
-        mat = np.where(salty & (height < 1.5) & (slope_lf < 0.03) & (patch > 0.55), SALT, mat)
+        mat = np.where(salty & (height < 1.5) & (slope_lf < 0.03 * TUNE_S) & (patch > 0.55), SALT, mat)
     else:
         salty = np.isin(region, [0, 3, 4])
 
@@ -240,7 +242,7 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     big = np.zeros_like(areas, dtype=bool)
     big[areas * (m_per_px ** 2) / 1e6 >= LAKE_MIN_KM2] = True
     near_big = big[lblw[iy, ix]]
-    rocky = ndimage.gaussian_filter(slope_lf, 20.0 * TUNE / m_per_px) > 0.045
+    rocky = ndimage.gaussian_filter(slope_lf, 20.0 * TUNE / m_per_px) > 0.045 * TUNE_S
     low = height < 2.5
     band2 = (~water) & (shore_d < 58.0 * TUNE) & low          # damp fringe
     band1 = (~water) & (shore_d < 32.0 * TUNE) & low          # wet mud / salt / rock

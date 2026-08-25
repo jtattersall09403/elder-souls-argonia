@@ -2,8 +2,8 @@
 
 Every settlement anchor must offer a walkable spawn for the baseline grounded
 capability profile: some ground inside the anchor's tolerance radius that is
-above sea level and whose slope, on the runtime ×5 geometry, stays within the
-profile's max walkable slope. Values cross-reference
+above sea level and whose slope, on the runtime geometry (scale.py), stays
+within the profile's max walkable slope. Values cross-reference
 `packages/game-core/src/physics/capabilityProfiles.ts` (derived from live
 movement tuning; ecctrl default slopeMaxAngle = 1 rad ≈ 57.3°).
 """

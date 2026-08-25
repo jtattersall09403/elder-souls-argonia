@@ -53,8 +53,8 @@ decision 0008), (3) small disposable laboratories.
    link to region classes (RegionGrammar.materialPalette).
 8. **Conventions**: metres, Y-up, sea level y=0 (0003); **×1 horizontal
    (~7.4 km province, ≈ Skyrim's land area) and ×1 vertical** (decision 0015,
-   supersedes 0006 — applied by Phase 6b; until 6b lands the published
-   rasters/chunks still carry ×3/×5-era values); heights stored in true
+   supersedes 0006; single source of truth
+   `tooling/world-generation/worldgen/scale.py`); heights stored in true
    metres always; deterministic compilers with fixed seeds; stable semantic
    IDs for everything quests or code may reference.
 9. **Agents read measurements; the owner is the visual authority.** Validate

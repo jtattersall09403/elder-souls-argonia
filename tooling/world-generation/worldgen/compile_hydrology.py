@@ -21,7 +21,7 @@ import numpy as np
 from PIL import Image
 from scipy import ndimage
 
-from .condition import condition
+from .condition import base_terrain
 from .hydrology import compute
 from .regions import CLIMATE, REGION_CLASSES, SOIL_CLASSES, compute_regions
 from .scale import HSCALE as SCALE, RAW_METRES_PER_SAMPLE
@@ -48,8 +48,7 @@ def save(img: np.ndarray, name: str) -> None:
 
 def main() -> None:
     grid_path = Path(sys.argv[1])
-    raw = np.load(grid_path)
-    z_full = condition(np.flipud(raw))  # image orientation: row 0 = north
+    z_full = base_terrain(grid_path)  # image orientation: row 0 = north; sculpted if present (6b)
     z = z_full[::STEP, ::STEP]
     metres_per_px = RAW_METRES_PER_SAMPLE * STEP * SCALE
     result = compute(z, metres_per_px)

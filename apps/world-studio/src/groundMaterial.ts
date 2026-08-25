@@ -89,7 +89,7 @@ export function createGroundMaterial(
       uTint: { value: tintTex },
       uGrad: { value: gradTex },
       uVerticalScale: { value: verticalScale },
-      uGradClamp: { value: 1.0 },
+      uGradClamp: { value: 8.0 }, // must match export_web_chunks.GRADIENT_CLAMP (signed-sqrt encoding)
       uTintStrength: { value: 1.0 },
       uCtrlSize: { value: new THREE.Vector2(img.width, img.height) },
       uTileM: { value: new Float32Array(manifest.materials.map((m) => m.tileM)) },
@@ -117,38 +117,51 @@ export function createGroundMaterial(
       uniform vec3 sunDir;
       in vec2 vUv; in vec3 vWorld;
       out vec4 outColor;
+      // Triplanar sample (Phase 6b): planar top projection stretches to smears
+      // on near-vertical faces, so blend the two side projections in by the
+      // surface normal. Weights are pixel-constant, sharpened so flat ground
+      // stays a single cheap top sample.
+      vec3 triSample(int i, vec3 w) {
+        vec3 c = w.y * texture(uTex, vec3(vWorld.xz / uTileM[i], float(i))).rgb;
+        if (w.x > 0.004) c += w.x * texture(uTex, vec3(vWorld.zy / uTileM[i], float(i))).rgb;
+        if (w.z > 0.004) c += w.z * texture(uTex, vec3(vWorld.xy / uTileM[i], float(i))).rgb;
+        return c;
+      }
       // near: tiled texture of the texel's two materials; far: their flat
       // average colours (kills distant tiling, Frostbite near/far pattern)
-      vec3 texelCol(ivec2 tc, float fade) {
+      vec3 texelCol(ivec2 tc, float fade, vec3 w) {
         vec4 c = texelFetch(uCtrl, clamp(tc, ivec2(0), ivec2(uCtrlSize) - 1), 0);
         int i0 = int(c.r * 255.0 + 0.5);
         int i1 = int(c.g * 255.0 + 0.5);
-        vec3 near0 = texture(uTex, vec3(vWorld.xz / uTileM[i0], float(i0))).rgb;
-        vec3 near1 = texture(uTex, vec3(vWorld.xz / uTileM[i1], float(i1))).rgb;
-        vec3 n = mix(near0, near1, c.b);
+        vec3 n = mix(triSample(i0, w), triSample(i1, w), c.b);
         vec3 f = mix(uAvgCol[i0], uAvgCol[i1], c.b);
         return mix(n, f, fade);
       }
       void main() {
         float dist = length(vWorld - cameraPosition);
         float fade = smoothstep(1200.0, 5500.0, dist);
+        // surface normal from the province gradient map (shared by lighting);
+        // signed-sqrt decode: g = sign(s) * s^2 * clamp (see export_gradients)
+        vec2 s = texture(uGrad, vUv).rg * 2.0 - 1.0;
+        vec2 g = sign(s) * s * s * uGradClamp;
+        vec3 nrm = normalize(vec3(-g.x * uVerticalScale, 1.0, -g.y * uVerticalScale));
+        vec3 w = pow(abs(nrm), vec3(6.0));
+        w /= (w.x + w.y + w.z);
         vec2 p = vUv * uCtrlSize - 0.5;
         ivec2 p0 = ivec2(floor(p));
         vec2 f = fract(p);
         // ids can't be hardware-filtered: manual bilinear over 4 texels
         vec3 col = mix(
-          mix(texelCol(p0, fade), texelCol(p0 + ivec2(1, 0), fade), f.x),
-          mix(texelCol(p0 + ivec2(0, 1), fade), texelCol(p0 + ivec2(1, 1), fade), f.x),
+          mix(texelCol(p0, fade, w), texelCol(p0 + ivec2(1, 0), fade, w), f.x),
+          mix(texelCol(p0 + ivec2(0, 1), fade, w), texelCol(p0 + ivec2(1, 1), fade, w), f.x),
           f.y);
         float macro = texture(uCtrl, vUv).a;
         col *= 0.84 + 0.32 * macro;
         // macro climate tint (coastal/wetness/latitude palette drift),
         // with a live strength control for owner tuning
         col *= mix(vec3(1.0), texture(uTint, vUv).rgb * 2.0, uTintStrength);
-        // continuous lighting: slope gradients (true m/m) x live vertical scale
-        vec2 g = (texture(uGrad, vUv).rg * 2.0 - 1.0) * uGradClamp;
-        vec3 n = normalize(vec3(-g.x * uVerticalScale, 1.0, -g.y * uVerticalScale));
-        float light = 0.62 + 0.85 * max(dot(n, sunDir), 0.0);
+        // continuous lighting: same gradient-map normal as the triplanar blend
+        float light = 0.62 + 0.85 * max(dot(nrm, sunDir), 0.0);
         outColor = vec4(col * light, 1.0);
       }`,
   });

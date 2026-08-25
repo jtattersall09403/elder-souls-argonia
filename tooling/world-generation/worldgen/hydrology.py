@@ -32,8 +32,16 @@ RIVER_MINOR_KM2 = 1.0 * TUNE_A
 ROUTING_NOISE_SEED = 20260822
 ROUTING_NOISE_AMP_M = 1.2
 LAKE_MIN_DEPTH = 0.15          # filled - raw ground (m) that counts as standing water
-WETLAND_MAX_ELEV = 8.0         # m; upper bound for marsh ground
-TWI_WETLAND_PERCENTILE = 70    # of land cells, above which low ground reads wet
+WETLAND_MAX_ELEV = 9.5         # m; upper bound for marsh ground. 9.5 not 8:
+                               # the source parked ~5% of the map on one
+                               # quantised shelf just under 8 m; 6b's
+                               # de-quantisation spreads it to ~6-10 m, and the
+                               # base has NO other land in 8-10 m, so 9.5 keeps
+                               # that original marsh population without
+                               # admitting anything new (probe: region stats)
+TWI_WETLAND_PERCENTILE = 70    # of lowland cells, above which low ground reads wet
+LOWLAND_RELIEF_WIN_M = 500.0   # window for the lowland-context enclosure test (6b)
+LOWLAND_RELIEF_MAX_M = 25.0    # enclosed deeper than this = gorge floor, not marsh
 TIDAL_MAX_ELEV = 1.5           # m above sea level reachable by tide
 SALINITY_DECAY_M = 1500.0 * TUNE   # e-folding distance of brackish influence inland
 WETLAND_MAX_SLOPE = 0.03 * TUNE_S  # rise/run; marsh ground is near-flat
@@ -287,11 +295,20 @@ def compute(z: np.ndarray, metres_per_px: float) -> HydrologyResult:
     # Smooth the wetness field before thresholding: raw TWI carries the D8
     # drainage stripes that read as a circuit-board texture when masked.
     twi_smooth = ndimage.gaussian_filter(twi, 2.5)
-    land_twi = twi_smooth[land & (z < WETLAND_MAX_ELEV)]
+    # Lowland context (6b): marsh classification only competes among true
+    # lowland — mountain valley floors concentrate enormous drainage and
+    # would otherwise hog the TWI percentile budget and read as "fringe
+    # marsh" up a gorge. Enclosure via grey closing, NOT windowed relief:
+    # closing fills valley floors walled on all sides by their wall height,
+    # while open plains at the FOOT of hills (fringe marsh) close to
+    # themselves and stay eligible.
+    win = max(int(round(LOWLAND_RELIEF_WIN_M / metres_per_px)) | 1, 3)
+    lowland_ctx = (ndimage.grey_closing(z, size=(win, win)) - z) < LOWLAND_RELIEF_MAX_M
+    land_twi = twi_smooth[land & (z < WETLAND_MAX_ELEV) & lowland_ctx]
     twi_cut = float(np.percentile(land_twi, TWI_WETLAND_PERCENTILE)) if land_twi.size else 0.0
     near_water = ndimage.binary_dilation(lakes | (rivers >= 2), iterations=2)
     wetlands = land & (z > SEA_LEVEL) & (z < WETLAND_MAX_ELEV) & (slope < WETLAND_MAX_SLOPE) & \
-        ((twi_smooth > twi_cut) | lakes | near_water)
+        lowland_ctx & ((twi_smooth > twi_cut) | lakes | near_water)
     # Despeckle so isolated single-cell wet/dry pixels don't read as noise.
     wetlands = ndimage.binary_opening(ndimage.binary_closing(wetlands))
 

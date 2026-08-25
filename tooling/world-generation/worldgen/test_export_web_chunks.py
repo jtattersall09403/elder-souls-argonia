@@ -47,12 +47,16 @@ def test_gradient_map_matches_vault_slopes():
     gz, gx = np.gradient(heights, mps)
     rgb = np.asarray(Image.open(OUT_DIR / grad_meta["file"]).convert("RGB"), dtype=np.float32)
     clamp = grad_meta["clamp"]
-    decoded_gx = (rgb[..., 0] / 127.5 - 1.0) * clamp
-    decoded_gz = (rgb[..., 1] / 127.5 - 1.0) * clamp
-    tolerance = clamp / 127.5 + 1e-3
+    # signed-sqrt encoding (6b): s in [-1,1]; g = sign(s) * s^2 * clamp.
+    s_x = rgb[..., 0] / 127.5 - 1.0
+    s_z = rgb[..., 1] / 127.5 - 1.0
+    decoded_gx = np.sign(s_x) * s_x * s_x * clamp
+    decoded_gz = np.sign(s_z) * s_z * s_z * clamp
     for decoded, source in ((decoded_gx, gx), (decoded_gz, gz)):
         clipped = np.clip(source, -clamp, clamp)
-        assert np.abs(decoded - clipped).max() <= tolerance
+        # step size grows with |g| under sqrt encoding: bound relative to it
+        tol = 2.0 * np.sqrt(np.abs(clipped) * clamp + 1e-6) / 127.5 + 5e-3
+        assert (np.abs(decoded - clipped) <= tol).all()
 
 
 @pytest.mark.skipif(not VAULT_CHUNKS.exists(), reason="vault chunks unavailable")

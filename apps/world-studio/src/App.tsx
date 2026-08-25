@@ -71,6 +71,7 @@ export function App() {
     x: Number(urlParams.get("x")) || 10.4, z: Number(urlParams.get("z")) || 8.4,
   });
   const [exaggeration, setExaggeration] = useState(Number(urlParams.get("ex")) || 1);
+  const [flySpeed, setFlySpeed] = useState(Number(urlParams.get("spd")) || 60);
   const [flyPos, setFlyPos] = useState("");
   const flyKmRef = useRef<{ x: number; z: number }>({ x: 10.4, z: 8.4 });
   // Ground-material set (?mats=): A/B palette comparison + instant revert.
@@ -106,6 +107,7 @@ export function App() {
       q.set("x", spawnKm.x.toFixed(2));
       q.set("z", spawnKm.z.toFixed(2));
       q.set("ex", String(exaggeration));
+      if (flySpeed !== 60) q.set("spd", String(flySpeed));
       if (matSet) q.set("mats", matSet);
       if (wetSeason) q.set("wet", "1");
       if (tintStrength !== 1) q.set("tint", String(tintStrength));
@@ -124,7 +126,7 @@ export function App() {
     }
     const qs = q.toString();
     window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
-  }, [view, camMode, spawnKm, exaggeration, matSet, wetSeason, tintStrength, showLanes]);
+  }, [view, camMode, spawnKm, exaggeration, flySpeed, matSet, wetSeason, tintStrength, showLanes]);
   const overlaysRef = useRef<Record<string, HTMLImageElement>>({});
   const decodedPxRef = useRef<Record<string, Uint8ClampedArray>>({});
   const [layers, setLayers] = useState<Record<string, boolean>>({
@@ -394,7 +396,7 @@ export function App() {
         metresPerPixel={meta.metresPerPixel} textureCanvas={canvasRef.current}
         spawnKm={spawnKm} exaggeration={exaggeration} mode={camMode}
         matSet={matSet || undefined} waterLevelM={wetSeason ? wetAmplitude : 0}
-        tintStrength={tintStrength} showLanes={showLanes}
+        tintStrength={tintStrength} showLanes={showLanes} flySpeed={flySpeed}
         onPosition={(x, z, alt) => {
           flyKmRef.current = { x, z };
           setFlyPos(`${x.toFixed(2)} km E · ${z.toFixed(2)} km S · alt ${Math.round(alt)} m`);
@@ -413,6 +415,12 @@ export function App() {
         <label>exaggeration ×{exaggeration}{" "}
           <input type="range" min={1} max={6} step={0.5} value={exaggeration}
             onChange={(e) => setExaggeration(Number(e.target.value))} />
+        </label>
+        <label>speed {flySpeed} m/s{" "}
+          {/* log scale: running pace (~5) up to fast skim (500); Shift still x4 */}
+          <input type="range" min={0.7} max={2.7} step={0.05}
+            value={Math.log10(flySpeed)}
+            onChange={(e) => setFlySpeed(Math.round(10 ** Number(e.target.value)))} />
         </label>
         {Object.keys(matSets).length > 1 && (
           <label>materials{" "}

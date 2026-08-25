@@ -36,3 +36,19 @@ def condition(grid: np.ndarray) -> np.ndarray:
         THRESHOLD + excess * (1.0 - w * (1.0 - KEEP)),
         grid,
     ).astype(np.float32)
+
+
+def base_terrain(height_path) -> np.ndarray:
+    """The authoritative base heightfield (image orientation, true metres).
+
+    Phase 6b: if worldgen.sculpt_province has produced a sculpted base next to
+    the raw heightfield, every compiler consumes that one surface (orogeny +
+    naturalness already applied); otherwise fall back to conditioning the raw
+    source. Keeps hydrology and refinement solving on the same terrain.
+    """
+    from pathlib import Path
+    height_path = Path(height_path)
+    sculpted = height_path.parent / "heightfield-sculpted-f32.npy"
+    if sculpted.exists():
+        return np.load(sculpted)
+    return condition(np.flipud(np.load(height_path)))

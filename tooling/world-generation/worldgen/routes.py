@@ -31,7 +31,10 @@ EDGE_PENALTY = 5.0
 
 def cost_surface(z: np.ndarray, slope: np.ndarray, ocean: np.ndarray, lakes: np.ndarray,
                  rivers: np.ndarray, wetlands: np.ndarray, flood: np.ndarray) -> np.ndarray:
-    cost = 1.0 + slope * SLOPE_FACTOR
+    # Linear term prefers gentle ground; the quadratic term (Phase 6b) makes
+    # cliff faces near-prohibitive so passes take saddles and gorge crossings
+    # approach along gentler banks instead of straight up the wall.
+    cost = 1.0 + slope * SLOPE_FACTOR + 30.0 * (slope / 0.5) ** 2
     cost = np.where(wetlands, cost * COST_WETLAND, cost)
     cost = np.where(flood == 3, cost * COST_FLOOD_FREQUENT, cost)
     cost = np.where(z > 40.0, cost * COST_MOUNTAIN, cost)

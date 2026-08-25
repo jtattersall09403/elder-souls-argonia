@@ -7,8 +7,8 @@ studio's established height encoding) into `apps/world-studio/public/`, plus a
 web manifest with per-LOD min/max for exact dequantisation. Quantisation error
 is bounded by (maxM - minM) / 65535 per chunk — millimetres.
 
-Heights stay true metres (×5 vertical applied only where data becomes
-geometry/collision, decision 0006 addendum); sea level y = 0.
+Heights stay true metres (vertical scale, ×1 per decision 0015, applied where
+data becomes geometry/collision); sea level y = 0.
 
 Usage:
   python3 -m worldgen.export_web_chunks [vault-chunks-dir]
@@ -45,12 +45,14 @@ def decode_rg16(image: Image.Image, min_m: float, max_m: float) -> np.ndarray:
     return (q.astype(np.float32) / 65535.0) * (max_m - min_m) + min_m
 
 
-GRADIENT_CLAMP = 1.0  # |dh/dx| in true m/m; source data peaks around 0.55
+GRADIENT_CLAMP = 8.0  # |dh/dx| in true m/m; 6b cliffs reach ~5-6 (was 1.0 pre-orogeny)
 
 
 def export_gradients(mps: float) -> dict:
     """One province-wide slope-gradient texture (R = dh/dx, G = dh/dz, true
-    metres per metre, mapped [-clamp, clamp] -> [0, 255]).
+    metres per metre, signed-sqrt encoded: byte = (sign(g)*sqrt(|g|/clamp)+1)
+    * 127.5. The sqrt keeps marsh-flat precision (~0.5 deg) while the clamp
+    reaches cliff gradients; the shader decodes with sign(s)*s*s*clamp.
 
     The terrain shader lights every chunk mesh from this single continuous
     texture (scaled by the live vertical scale) instead of per-chunk vertex
@@ -61,13 +63,12 @@ def export_gradients(mps: float) -> dict:
     gz, gx = np.gradient(heights, mps)
     rgb = np.zeros((*heights.shape, 3), dtype=np.uint8)
     for channel, g in ((0, gx), (1, gz)):
-        rgb[..., channel] = np.clip(
-            np.round((np.clip(g, -GRADIENT_CLAMP, GRADIENT_CLAMP) / GRADIENT_CLAMP + 1.0) * 127.5),
-            0, 255,
-        ).astype(np.uint8)
+        s = np.sign(g) * np.sqrt(np.clip(np.abs(g) / GRADIENT_CLAMP, 0.0, 1.0))
+        rgb[..., channel] = np.clip(np.round((s + 1.0) * 127.5), 0, 255).astype(np.uint8)
     name = "normal-grad.png"
     Image.fromarray(rgb, mode="RGB").save(OUT_DIR / name, optimize=True)
-    return {"file": name, "clamp": GRADIENT_CLAMP, "size": list(heights.shape)}
+    return {"file": name, "clamp": GRADIENT_CLAMP, "encoding": "signed-sqrt",
+            "size": list(heights.shape)}
 
 
 def main() -> None:

@@ -1,12 +1,12 @@
 """Phase 6 deliverable: chunked terrain + LOD + collision data for the
 refined watershed.
 
-Splits the refined full-resolution height grid (true metres, ~5.5 m/sample)
+Splits the refined full-resolution height grid (true metres, scale.RAW_M/sample)
 into fixed chunks with anti-aliased LOD pyramids and writes a deterministic
 manifest. Consumers:
 
 - **Collision (Phase 7)**: Rapier heightfield colliders take the LOD-0 grid
-  per chunk directly (apply the ×5 vertical scale of decision 0006 when the
+  per chunk directly (apply scale.VERTICAL_SCALE_AT_GEOMETRY, decision 0015, when the
   data becomes geometry — the stored data stays true metres).
 - **Rendering/streaming (Phases 7/14)**: LODs 1/2 are 2×/4× decimated with a
   low-pass filter (never naive slicing — that aliases, see 2026-08-23).

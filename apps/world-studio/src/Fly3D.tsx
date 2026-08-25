@@ -27,6 +27,7 @@ export interface Fly3DProps {
   waterLevelM?: number; // wet-season water rise (true metres; ×exaggeration at render)
   tintStrength?: number; // 0..2 multiplier on the macro climate tint
   showLanes?: boolean;   // boat-lane overlay (cyan water / amber portage)
+  flySpeed?: number;     // m/s (owner slider: running pace up to fast skim)
   onPosition?: (xKm: number, zKm: number, altM: number) => void;
 }
 
@@ -219,7 +220,8 @@ function Terrain({ heights, size, metresPerPixel, textureCanvas, exaggeration }:
 
 export function Fly3D(props: Fly3DProps) {
   const extentM = props.size * props.metresPerPixel;
-  const speedRef = useRef(300);
+  const speedRef = useRef(props.flySpeed ?? 60);
+  speedRef.current = props.flySpeed ?? 60;
   const [locked, setLocked] = useState(false);
   const start: [number, number, number] = [props.spawnKm.x * 1000, 700, props.spawnKm.z * 1000];
   // The flyover renders the SAME chunked terrain as the character mode (same

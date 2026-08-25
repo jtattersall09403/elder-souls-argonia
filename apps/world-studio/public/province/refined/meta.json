@@ -11,14 +11,14 @@
   "imageWidth": 2017,
   "imageHeight": 2017,
   "heightMinMetres": -85.68000030517578,
-  "heightMaxMetres": 126.49735260009766,
+  "heightMaxMetres": 654.1064453125,
   "extentKm": [
     7.37,
     7.37
   ],
   "groundControl": "ground-control.png",
   "portages": {
-    "canoeChannels": 15,
+    "canoeChannels": 8,
     "portages": 5
   },
   "note": "whole province, true metres (x1 at geometry time, 0015); mild conditioning (0005); chunks via worldgen.compile_chunks"

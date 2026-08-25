@@ -21,7 +21,11 @@ python3 -m worldgen.compile_society "<...>/argonia-heightfield/hydrology-pass1.n
 #    downloads (cached in vault) + vanilla BSA -> studio textures + manifest
 python3 -m worldgen.build_ground_materials
 
-# 5. Phase 6: refine the WHOLE PROVINCE at ~5.5 m/sample (de-terracing,
+# 4b. Phase 6b: sculpt the base terrain (orogeny + erosion in the border
+#     ranges, province-wide de-terracing + micro-undulation). Rerun 2-7 after.
+python3 -m worldgen.sculpt_province "<...>/argonia-heightfield/heightfield-f32.npy"
+
+# 5. Phase 6: refine the WHOLE PROVINCE at full resolution (sculpted base,
 #    detail noise, channels, Blackrose lake, land cover 0011 w/ north zone +
 #    mountain belts + shoreline types, portages 0012, flood states, exports)
 python3 -m worldgen.refine_province "<...>/heightfield-f32.npy" "<...>/hydrology-pass1.npz"
@@ -47,7 +51,11 @@ culture rules. Outputs are deterministic (fixed noise seed).
 - `worldgen/esp_landtex.py` — report a plugin's landscape-texture painting
   (LTEX usage counts; used to mine the BM&V worldspace, module 90 §74.1b).
 - `worldgen/extract_province.py` — heightfield stitching + browser rasters.
-- `worldgen/condition.py` — owner-chosen strong interior compression (0005).
+- `worldgen/condition.py` — mild interior compression (0005) + base_terrain loader (6b).
+- `worldgen/sculpt.py` / `sculpt_province.py` — Phase 6b base-terrain
+  sculpting: uplift + stream-power erosion mountains (Braun & Willett),
+  talus, cliff benching, pass/anchor protection, province-wide de-terracing
+  and micro-undulation (research: docs/research/mountain-terrain-synthesis.md).
 - `worldgen/hydrology.py` — ocean/sea geodesics, priority-flood + G&M flat
   resolution, noised D8 routing, rivers/lakes/watersheds, wetness, salinity.
 - `worldgen/regions.py` — HAND/flood, soils, ecological region classes,
@@ -64,7 +72,7 @@ culture rules. Outputs are deterministic (fixed noise seed).
   palettes -> ground-control map (decision 0011).
 - `worldgen/compile_chunks.py` — chunked terrain + AA'd LOD pyramid +
   collision grids for the refined province (Phase 6 deliverable; Phase 7
-  consumes; ×5 applied at geometry time).
+  consumes; scale.py vertical scale applied at geometry time).
 - `worldgen/export_web_chunks.py` — re-encodes the vault chunks as
   16-bit-quantised RG PNGs + `chunks-web-manifest.json` for the studio's
   character mode (Rapier heightfields + chunked render meshes).

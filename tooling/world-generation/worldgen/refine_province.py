@@ -2,15 +2,15 @@
 
 Owner decision 2026-08-23 (extends decision 0008): with the Blackrose basin
 proven through its gate rounds, the same deterministic refinement now runs
-over the full 22 km province in one pass — de-terracing, region-conditioned
+over the full province in one pass — sculpted base (6b), region-conditioned
 detail noise, channel carving, the authored Blackrose lake, portage
 resolution (0012), land cover (0011 — with northern palette zone, mountain
 belts and per-water-type shorelines), flood states, climate tint, and the
 production exports (refined heights, land-cover raster; chunks via
 worldgen.compile_chunks).
 
-Heights stay TRUE metres (×5 vertical scale applied only where terrain
-becomes geometry, 0006 addendum).
+Heights stay TRUE metres (vertical scale applied only where terrain
+becomes geometry — ×1, decision 0015).
 
 Usage:
   python3 -m worldgen.refine_province <heightfield-f32.npy> <hydrology-pass1.npz>
@@ -25,7 +25,7 @@ from pathlib import Path
 import numpy as np
 from scipy import ndimage
 
-from .condition import condition
+from .condition import base_terrain
 from .landcover import compile_ground_control
 from .scale import RAW_M, TUNE
 
@@ -62,11 +62,10 @@ STUDIO_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "refi
 
 
 def deterrace(h):
-    """Reverted to a no-op (owner 2026-08-24): the persistent "stripes" were
-    never terracing — they were the dirtcliffsroots01 cliff texture tiling
-    its strata across the ground (bmv peat_slope slot, since swapped). The
-    smoothing passes built to chase that theory erased legitimate local
-    height variation; the source relief plus our noise octaves stay as-is."""
+    """No-op: real de-terracing now happens in the sculpted base
+    (worldgen.sculpt naturalness pass, Phase 6b) — feature-preserving and
+    region-weighted, before channels are carved. (History: an earlier smoothing
+    chase here turned out to be hunting a texture artefact, not terracing.)"""
     return h
 
 
@@ -259,8 +258,7 @@ def rasterize_roads(shape, origin_full):
 
 def main() -> None:
     height_path, npz_path = Path(sys.argv[1]), Path(sys.argv[2])
-    raw = np.load(height_path)
-    full = condition(np.flipud(raw))  # image orientation, conditioned, true metres
+    full = base_terrain(height_path)  # image orientation, true metres; sculpted if present (6b)
     npz = np.load(npz_path)
     rivers, regions = npz["rivers"], npz["regions"]
 
