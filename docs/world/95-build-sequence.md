@@ -256,6 +256,11 @@ channel-preservation probe, not by eye.
   practice; research/implement with the land-cover slope bands;
 - ground-material sets stay versioned (A/B selector) for the gate.
 
+Deferred from 6b (pick up with the ranges' asset pass, Phase 10+): a
+dedicated scree/gravel ground material (Module 90 sourcing — v1 reuses
+mountain_rock/bc_rock under triplanar); owner re-reviews overall terrain
+feel after the water phases (8b) land.
+
 ### Phase 7a — physical character integration
 
 Deliverables:

@@ -34,7 +34,7 @@ then open only the master-plan sections the active phase needs.
 | 5 — World Studio foundation | done | owner flyover gate PASS 2026-08-23 (shape/size/feel/mist approved); map+13 layers, 3D fly/orbit, click-to-spawn, reproducible URLs. (Correction 2026-08-24: chunk overlays/probe framework were NOT built at Phase 5; character-mode HUD + debug hooks now cover part of that, rest tracked in module 85) |
 | 6 — province terrain (scope extended from basin to whole province at gate, 0008 addendum) | done | owner province gate PASS 2026-08-24 (6 gate rounds; bmv-v1 materials, de-terracing, north/south distinctness, mountain belts, shore types, tint slider, lanes, Blackrose channels). refine_province + 256 chunks x3 LODs in vault (chunks-manifest.json) |
 | L — lore extrapolation loop (parallel workstream, module 45) | done | Packets 1–3 done (Opus, 2026-08-24): ~140-page UESP sweep, 15 new dossiers + 12 extended, gap register (~50 gaps), 4E-201 province synthesis, 10 quest-plan deltas (proposed, not applied). **Complete 2026-08-24**: 39 files (~405 kB) — full sweep, gap register ZERO open (5 DEFER technical, 7 MYSTERY intentional), per-settlement Hist placement (Phase 11 unblocked), settlement register, guilds, ecology/encounter/loot feed, 4E-201 synthesis w/ owner decisions + trauma directive woven in. 4 non-blocking Round-2 owner questions (owner-questions.md). Round-2 decisions accepted; quest-plan deltas D1-D16 APPLIED to docs/quests/ (consistency greps clean; 6 application notes in quest-plan-deltas.md). Workstream closed — future lore gaps route via module 45 process |
-| 6b — province rescale + mountain relief + naturalness (0015; plan §86 Phase 6b) | done (awaiting owner walk review) | ×1/×1 shipped; sculpt stage (uplift+erosion, 651 m summit, ~257 m median belt relief, cliff benches, talus); province de-terraced (source shelf-and-wall lowland) + micro-undulation; classifiers recalibrated w/ mechanism notes; triplanar + belts 100/280/440; fly-speed slider; 8 standing probes (test_sculpt.py); 91% of lowland marsh preserved, tidal fringe revealed (was hidden by the 2 m quantised shelf); gates green |
+| 6b — province rescale + mountain relief + naturalness (0015; plan §86 Phase 6b) | done | owner walk review PASS 2026-08-25 ("absolutely perfect"). ×1/×1; sculpt stage (uplift+erosion, 651 m summit, ~257 m median belt relief, cliff benches, talus); province de-terraced + micro-undulation; classifiers recalibrated; triplanar + belts 100/280/440; fly-speed slider; 8 standing probes (test_sculpt.py). **Owner: re-review terrain feel after the water phases (8b) land** |
 | 7a — physical character integration | done | owner playtest PASS 2026-08-24. Packages extracted (0013): game-core/character/character-assets, consumed by both apps; studio character mode (grounded movement only — full sandbox parity is Phase 10b, moved from 7b by 0017) on Rapier heightfield chunks (0014) behind PlayerMovementController; desktop/touch/gamepad parity; env-query contract implemented; actor registry; capability profiles + anchor-spawn validation. Feedback rounds fixed: live support plane, unified fly/walk chunk terrain + vertical-scale slider, grounded coyote debounce, gradient-map lighting (no chunk seams), FIX_INTERNAL_EDGES colliders. All gates + 33 visual probes + e2e probe green |
 | N — quest-plan cast/lore/deliverability/fun review (parallel workstream, decision 0018) | done | 2026-08-25 (Opus): new `docs/quests/35-cast.md` — depth tiers, six character rules, canon naming system, rewritten principal cast (3 new: Never-Writes-Twice, Spills-The-Ink, Ahnjazzi; 2 renamed), named recurring cast for all 12 faction lines, 6 cross-line faces, oddities roster, C4 texture kit. New lore dossier `topics/labour-and-bondage.md` — **the Owing**, the province's coerced-labour institution (closes the Chainbreakers' shapeless target and the open Archein gap; `washed-out` NPC variant is free canon signposting). Cult method re-grounded on the canon **Mnemic Egg**; Hierem/Synod file moved into the main quest; Marsh Charter re-anchored on the Four Winds, Sunken Archive on folk-literacy magic + the Conclave of Baal; Nisswo *shunatei* critique of the cult added. **Delivery tiers D-A/D-B/D-C** + conversion table; all 9 chase/escort/crowd/riot beats converted. **Boredom test** added; ~12 read-and-talk quests rewritten; Act II verb-variety rule (§21b); Thorn and Umbriel lines diversified. Acceptance criteria 28–33 + cast/deliverability validator sections |
 | 8a — world time, natural light and sky | todo | planned 2026-08-25 (decision 0016, module 55): world clock/calendar package, sun/moon/star model, physical light rig + CSM + tone mapping, aerial-perspective haze from climate fields, studio time-of-day tooling. Runs **before** water |
@@ -51,22 +51,15 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- **Phase 6b walk review**: owner walks the sculpted province (checklist
-  in-conversation 2026-08-24) — mountain drama/summit height (650 m default,
-  single constant `SUMMIT_TARGET_M` to retune), passes, marsh naturalness,
-  de-terraced lowland, new tidal fringe + mountain tarns, cliff textures.
-  Pass → strike this line and flip 6b to done.
+- Nothing — Phase 8a is next, for a fresh agent.
 
 ## Next up
 
-**Phase 6b** (after the Phase 7 playtest feedback is resolved): decision 0015
-+ plan §86 Phase 6b — rescale to ×1 horizontal / ×1 vertical, re-tune
-slope/distance classifier thresholds to preserve region character, then the
-orogeny pass (uplift + erosion in the border ranges, carved passes,
-reachability/POI-shelf probes, mountain materials/triplanar). Terrain feel is
-judged on foot in character mode from now on (0015). Then Phase 8a (world time
-+ natural light/sky — decision 0016, module 55; lands before water because
-water shading consumes sun/sky/IBL, and before Phases 10/11 so no material or
-kit is approved under placeholder light), then 8b (water renderer; the env-query
-WaterSample is sea-level-only until then) and 8c (weather). Quest plan
-provisions bind Phases 11+.
+**Phase 8a — world time, natural light and sky** (decision 0016, module 55):
+world clock/calendar package, sun/moon/star model, physical light rig + CSM +
+tone mapping, aerial-perspective haze from the climate fields, studio
+time-of-day tooling. Lands before water because water shading consumes
+sun/sky/IBL, and before Phases 10/11 so no material or kit is approved under
+placeholder light. Then 8b (water renderer — the env-query WaterSample is
+sea-level-only until then; owner will re-review 6b terrain feel once water is
+in) and 8c (weather). Quest plan provisions bind Phases 11+.
