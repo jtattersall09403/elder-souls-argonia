@@ -133,10 +133,12 @@ Record findings in `docs/research/` before deciding.
 |---|---|
 | Attributes | Do we have them? How many? What do they *do* mechanically? |
 | Skills | Breadth (Morrowind's 27) vs focus; what each gates |
-| Progression | Use-based vs point-buy vs souls-spend; what levelling means with no world scaling |
+| Class / background | Does character creation include a class or background (Morrowind major/minor skills, Souls starting classes, classless Skyrim)? What it seeds and what it locks |
+| Progression | Use-based vs point-buy vs souls-spend; what levelling means with no world scaling; trainers, skill books and services as levers (ties into the Owing economy — quests lore) |
+| Movement | Do stats change run/swim/climb speed, jump, burden (Morrowind athletics/acrobatics vs fixed Souls movement)? Every answer must stay inside capability-profile ranges (§52) |
 | Power ceiling | Which systems combine to make a god-build, how much work it takes, and how the world holds together when someone gets there |
 | Damage model | How skill/attributes/weapon scaling combine; no to-hit dice (§102) |
-| Defence | Armour rating, resistances, poise/stagger, equip load and roll speed |
+| Defence | Armour rating, resistances — including disease and poison, a Black Marsh pillar (module 30) — poise/stagger, equip load and fast/mid/fat roll tiers |
 | Stamina | Costs, regen, and whether stats change them |
 | Encumbrance | Carry weight and its movement/swim/climb consequences |
 | Magic | Whether schools mirror skills; cost model; enchanting bounds |
@@ -150,17 +152,31 @@ Record findings in `docs/research/` before deciding.
 the existing enemy archetypes; it can express the access-progression model
 (decision 0007) and the D0–D5 danger bands; it gives Phase 13 authors a scale
 to write loot and populations against; it can express the quest plan's skill,
-faction and reputation gating (docs/quests/); it reproduces today's feel at
-the reference loadout.
+faction and reputation gating (docs/quests/); any stat that changes movement,
+swim/climb speed or burden maps into capability-profile *ranges* so the
+world's traversal validation still brackets what real characters can be
+(§52); it reproduces today's feel at the reference loadout.
 
 ### 103.1 How to run workstream S (an agent can start from this section alone)
 
-Told only "kick off workstream S", start here. Read: this module, decision
+Told only "kick off workstream S" or "deliver workstream S", start here.
+Read: this module, decision
 [0019](../decisions/0019-stats-system-workstream-and-placement.md),
 [75 §51–52](75-combat-compatibility.md), decisions 0004 (fixed difficulty) and
-0007 (access progression), and skim `packages/game-core/src/combat/` +
-`equipment/` + `actors/` to see what the numbers actually are today. You do not
-need the world modules.
+0007 (access progression); skim `packages/game-core/src/combat/` +
+`equipment/` + `actors/` to see what the numbers actually are today; and skim
+what the quest plan already assumes of character systems (speech, sneak,
+lockpicking, disease, reputation gates — route via
+[quests/README](../quests/README.md)). You do not need the world modules.
+
+**The owner-interaction contract: exactly two decision rounds by default.**
+The owner has asked to be consulted at key points with decisions batched, not
+drip-fed. Every question is self-contained — options A/B/C in plain
+non-technical language, one recommendation the owner can simply accept, what
+it costs elsewhere in one line. Minor calls are **never questions**: decide
+them yourself and record them as *proposed defaults* the owner can veto at
+round 2. Record accepted answers as decision records (format precedent:
+`world/sources/lore/extrapolation/owner-questions.md`).
 
 1. **Set the PROGRESS row `S` to `in progress`** with your current packet, and
    commit that before the work (PROGRESS protocol).
@@ -168,22 +184,29 @@ need the world modules.
    failure modes. Record in `docs/research/` (suggested:
    `stats-progression-reference-games.md`) — findings and *implications for
    us*, not a wiki dump.
-3. **Proposal packet.** For each axis in the table above: the options, a
-   recommendation with reasoning, and what it costs elsewhere. The **decided
-   design** extends this module (the plan is the deliverable); the option
-   analysis and rejected alternatives go in the research doc — keep this
-   module lean enough that every stats-adjacent agent can afford to read it.
-4. **Owner decision round.** Batch the questions — no more than ~10 at a time,
-   each with a recommendation the owner can simply accept, in plain
-   non-technical language (CLAUDE.md). Record answers as decision records.
-   Precedent for the format:
-   `world/sources/lore/extrapolation/owner-questions.md`.
-5. **Numbers packet.** The absolute power ladder (what D0–D5 means), the
+3. **Skeleton first — do not detail axes yet.** The axes compose: attributes
+   shape the damage model, progression shapes both, class shapes chargen.
+   Write one page giving 2–3 coherent overall *shapes* for the whole system
+   (e.g. "Morrowind chassis with a Souls combat layer" vs "classless
+   use-based" vs …), each with its knock-on consequences.
+4. **Owner round 1 — direction.** One batch, one sitting: the skeleton choice
+   plus the handful of axis calls that shape everything downstream
+   (attributes yes/no and how many; progression model; class/background
+   yes/no; death/loss; magic's overall shape). Everything else waits.
+5. **Detail every axis under the chosen shape.** The **decided design**
+   extends this module (the plan is the deliverable); option analysis and
+   rejected alternatives go in the research doc — keep this module lean
+   enough that every stats-adjacent agent can afford to read it. Minor calls
+   become proposed defaults, not questions.
+6. **Numbers packet.** The absolute power ladder (what D0–D5 means), the
    progression curve, worked examples: a starting character, a competent
    mid-game one, a god-build, and three enemy archetypes restated.
-6. **Done when**: every axis is decided, the cross-checks above pass, and Phase
-   10c could be implemented by an agent reading only this module and the
-   decisions. Flip the PROGRESS row to `done`.
+7. **Owner round 2 — confirmation.** The assembled design, the numbers, the
+   worked examples and the full list of proposed defaults, reviewed in one
+   sitting; fold any genuinely remaining questions into this round.
+8. **Done when**: every axis is decided or default-accepted, the §103
+   cross-checks pass, and Phase 10c could be implemented by an agent reading
+   only this module and the decisions. Flip the PROGRESS row to `done`.
 
 **Code is out of scope.** Workstream S is docs and decisions; implementation is
 Phase 10c and must not start early — it would land in the same files as Phase
@@ -192,7 +215,10 @@ Phase 10c and must not start early — it would land in the same files as Phase
 ## 104. Phase 10c — implementation
 
 Implements the accepted design in `packages/game-core` (stats live with the
-game layer, consumed by both apps), then:
+game layer, consumed by both apps). Stat, skill and progression definitions
+land as **data files consumed like `races.json`/`enemyArchetypes`**, not code
+sprawl — the scaling golden rule; Phase 13 authors and validators read the
+same data. Then:
 
 - **reference-loadout equivalence asserted**: one named default character
   reproduces today's timing and weight; deliberate stat/load-driven timing

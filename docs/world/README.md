@@ -14,7 +14,7 @@ across the repo resolve via the map below.
 | Filling 4E 201 canon gaps: sweep → gap register → tiered extrapolation ("headcanon") | [45-lore-extrapolation.md](45-lore-extrapolation.md) — standing workstream, state in `world/sources/lore/extrapolation/` |
 | Terrain, rivers, flood, wetness, salinity, climate fields | [50-hydrology-climate.md](50-hydrology-climate.md) (§33–37, §33.1) |
 | Time of day, calendar, sun/moons/stars, natural light, sky, haze/mist, weather | [55-light-sky-time.md](55-light-sky-time.md) (§93–98) — the world clock and everything lit by it |
-| Water rendering, swimming, underwater play, boats, climbing | [60-water-traversal.md](60-water-traversal.md) (§38–46) — incl. the reference water repos to adapt |
+| Water rendering, swimming, underwater play, boats, climbing | [60-water-traversal.md](60-water-traversal.md) (§38–46) — incl. the reference water repos to adapt. Any swim/climb/boat *animation* need: the sourced-clip gap table is [90 §74.3](90-asset-strategy.md); the light stack it renders under is Module 55 |
 | Dungeon families, interiors, combat spaces, encounters | [70-dungeons-interiors.md](70-dungeons-interiors.md) (§47–50) |
 | Anything touching combat/character/inventory/physics contracts | [75-combat-compatibility.md](75-combat-compatibility.md) (§51–57) — incl. §51.1: the sandbox systems are not frozen |
 | Character statistics, attributes, skills, progression, levelling, birthsigns, the fixed-danger power scale | [76-stats-progression.md](76-stats-progression.md) (§100–104) — design workstream S then Phase 10c |
