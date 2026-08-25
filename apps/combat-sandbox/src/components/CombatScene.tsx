@@ -2510,7 +2510,10 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       }
     } else {
       cameraYaw.current -= intent.camera.x * delta * 2.35;
-      cameraPitch.current = THREE.MathUtils.clamp(cameraPitch.current + intent.camera.y * delta * 1.7, 0.08, 0.78);
+      // Negative pitch = sky look-up (owner 2026-08-25: shared behaviour —
+      // keep in step with game-core's FollowCamera, which is the extracted
+      // copy of this path).
+      cameraPitch.current = THREE.MathUtils.clamp(cameraPitch.current + intent.camera.y * delta * 1.7, -1.15, 0.78);
       if (!playerAttack.current) {
         handle.setLockForward(false);
         const freeForward = cameraRelativeDirection({ x: 0, y: 1 }, cameraYaw.current);
@@ -2572,13 +2575,19 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         .addScaledVector(tmp.current.aimDirection, AIM_LOOK_DISTANCE_METERS);
     } else {
       const camDistance = lockedOn.current ? 6.7 : 5.8;
-      const horizontal = Math.cos(cameraPitch.current) * camDistance;
+      // Sky look-up: below posPitch the camera BODY stays at shoulder height
+      // (diving underground fights terrain clamps) and the LOOK target rises
+      // instead. Identical maths to game-core FollowCamera.computeDesired.
+      const posPitch = Math.max(cameraPitch.current, 0.06);
+      const horizontal = Math.cos(posPitch) * camDistance;
       tmp.current.desiredCamera.set(
         playerPos.x + Math.sin(cameraYaw.current) * horizontal,
-        playerPos.y + 1.15 + Math.sin(cameraPitch.current) * camDistance,
+        playerPos.y + 1.15 + Math.sin(posPitch) * camDistance,
         playerPos.z + Math.cos(cameraYaw.current) * horizontal,
       );
-      tmp.current.desiredLook.set(playerPos.x, playerPos.y + 0.55, playerPos.z);
+      const skyPitch = Math.max(0, posPitch - cameraPitch.current);
+      const lookRise = Math.tan(Math.min(skyPitch, 1.35)) * camDistance * 1.5;
+      tmp.current.desiredLook.set(playerPos.x, playerPos.y + 0.55 + lookRise, playerPos.z);
       if (lockTargetActive && lockTarget) tmp.current.desiredLook.lerp(lockTarget.position, 0.62).setY(playerPos.y + 0.55);
     }
     // An aimed camera has to answer the stick immediately: the smoothing that

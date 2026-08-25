@@ -57,7 +57,7 @@ export interface LightRig {
 }
 
 const NOON_SUN: [number, number, number] = [1.0, 0.96, 0.9];
-const HORIZON_SUN: [number, number, number] = [1.0, 0.45, 0.18];
+const HORIZON_SUN: [number, number, number] = [1.0, 0.38, 0.12];
 const MOONLIGHT: [number, number, number] = [0.62, 0.72, 1.0];
 
 function daylightOf(altDeg: number): number {
@@ -98,8 +98,10 @@ export function computeLightRig(
   const altDeg = (sun.altitude * 180) / Math.PI;
   const sinAlt = Math.max(0, Math.sin(sun.altitude));
 
-  // Sun: reddened and dimmed through the long low-sun optical path.
-  const warmth = smoothstep(-2, 22, altDeg);
+  // Sun: reddened and dimmed through the long low-sun optical path. The warm
+  // band reaches well into the morning/evening (owner round 2: sunrise and
+  // sunset light read too white).
+  const warmth = smoothstep(0, 30, altDeg);
   const sunColor = mix3(HORIZON_SUN, NOON_SUN, warmth);
   const aboveHorizon = smoothstep(-1.5, 0.5, altDeg);
   const sunIntensity = (100_000 * Math.pow(sinAlt, 1.15) + 350 * aboveHorizon) * aboveHorizon;
@@ -122,24 +124,29 @@ export function computeLightRig(
     800 * skyFade +
     moonIntensity * 4 +
     0.02;
-  const exposureTarget = Math.min(8, Math.max(3e-5, 4.5 / sceneIlluminance));
+  // Key 3.4 ≈ ⅔ stop under the first build (day read too bright/harsh);
+  // ceiling 30 so a moonless night is dim-but-readable, never pitch black
+  // (module 55 §96: a floor on night exposure is part of the system).
+  const exposureTarget = Math.min(30, Math.max(3e-5, 3.4 / sceneIlluminance));
 
-  // Sky dome: turbidity/Mie from the climate humidity at the camera —
-  // border-mountain air is crisp, lowland air glows (module 55 §97).
-  // Mie stays NEAR the library's default (0.005): at 0.03+ the forward
-  // scattering lobe turns the whole circumsolar sky into a white glare
-  // (owner gate defect 2026-08-25 — "huge white blur where the sun is").
-  // The humid-lowland glow belongs to the aerial haze term, not the dome.
+  // Sky dome: turbidity from the climate humidity at the camera —
+  // border-mountain air is crisp, lowland air milky (module 55 §97). Mie is
+  // PINNED at the library default: any more and the forward lobe turns the
+  // circumsolar sky into a huge white glare (owner rounds 1 AND 2 — this is
+  // the single most sensitive constant in the dome). The humid-lowland glow
+  // belongs to the aerial haze term, not the dome.
   const h = Math.min(1, Math.max(0, humidityAtCamera));
-  const turbidity = 1.8 + 5.7 * h * h;
-  const mieCoefficient = 0.004 + 0.008 * h * h;
+  const turbidity = 1.8 + 2.7 * h * h;
+  const mieCoefficient = 0.005;
 
   // Hemisphere ambient: a SUPPLEMENT (regional ground bounce + night floor),
   // NOT a second sky — the PMREM sky IBL is the one ambient authority, and a
   // full-strength hemisphere on top double-counts it, flattening all shading
   // and overexposing twilight (owner gate defect 2026-08-25).
   const daylight = smoothstep(-6, 12, altDeg);
-  const hemiIntensity = 1_400 * daylight + 0.06 * masser.illuminatedFraction + 0.02;
+  // Night floor 0.05 lx ≈ starlight+airglow, deliberately generous: with the
+  // exposure ceiling it keeps a moonless marsh readable (owner round 2).
+  const hemiIntensity = 2_000 * daylight + 0.1 * masser.illuminatedFraction + 0.05;
 
   // Radiation ground mist pools at dawn (and lightly at dusk) and is a
   // dry/recession-season phenomenon (climatology §2): mist peaks when s(t) < 0.
@@ -165,19 +172,20 @@ export function computeLightRig(
     hazeSky[2] * skyE * 0.1,
   ];
 
-  // Night dome: moonlit sky reads pale over black canopy; moonless nights stay
-  // near-black with a faint warm airglow ring at the horizon (§96: night has a
-  // palette, not just less light).
+  // Night dome: moonlit sky reads pale over black canopy; moonless nights are
+  // dark blue with a clear zenith→horizon airglow gradient — the real night
+  // sky is never flat black (§96: night has a palette, not just less light;
+  // owner round 2). Bases sized against the exposure ceiling (30).
   const moonGlow = masser.illuminatedFraction * Math.sqrt(moonUp);
   const nightZenith: [number, number, number] = [
-    0.0004 + 0.006 * moonGlow * MOONLIGHT[0],
-    0.0006 + 0.006 * moonGlow * MOONLIGHT[1],
-    0.0012 + 0.007 * moonGlow * MOONLIGHT[2],
+    0.003 + 0.006 * moonGlow * MOONLIGHT[0],
+    0.0045 + 0.006 * moonGlow * MOONLIGHT[1],
+    0.009 + 0.007 * moonGlow * MOONLIGHT[2],
   ];
   const nightHorizon: [number, number, number] = [
-    nightZenith[0] * 2.4 + 0.0006,
-    nightZenith[1] * 2.2 + 0.0005,
-    nightZenith[2] * 2.0 + 0.0004,
+    nightZenith[0] * 2.2 + 0.004,
+    nightZenith[1] * 2.0 + 0.0035,
+    nightZenith[2] * 1.8 + 0.003,
   ];
 
   // Ground bounce for the dome's lower hemisphere (marsh-earth albedo ≈ 0.22,
@@ -199,9 +207,10 @@ export function computeLightRig(
     moonColor: MOONLIGHT,
     moonIntensity,
     turbidity,
-    rayleigh: 1.1,
+    // More Rayleigh at low sun deepens the sunrise/sunset colour ramp.
+    rayleigh: 1.1 + 1.3 * (1 - warmth),
     mieCoefficient,
-    mieDirectionalG: 0.8,
+    mieDirectionalG: 0.72,
     skyLuminance: 16_000,
     skyFade,
     hemiSky: mix3([0.05, 0.07, 0.12], [0.55, 0.72, 1.0], daylight),

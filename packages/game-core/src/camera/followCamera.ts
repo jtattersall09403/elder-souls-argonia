@@ -16,8 +16,14 @@ export const FOLLOW_CAMERA = {
   distance: 5.8,
   yawRate: 2.35,
   pitchRate: 1.7,
-  minPitch: 0.08,
+  /** Negative pitch = looking up. Below `minPosPitch` the camera BODY stops
+   * descending (it would dive underground and fight terrain clamps — the
+   * 2026-08-25 "haywire camera") and the LOOK target rises instead, tilting
+   * the view skyward. Owner decision 2026-08-25: sky look-up is a shared
+   * behaviour (studio, sandbox and the real game), not a studio override. */
+  minPitch: -1.15,
   maxPitch: 0.78,
+  minPosPitch: 0.06,
   initialPitch: 0.34,
   heightOffset: 1.15,
   lookHeightOffset: 0.55,
@@ -53,6 +59,9 @@ export class FollowCamera {
   }
 
   update(cameraInput: Vec2, playerPosition: THREE.Vector3, delta: number): void {
+    // Never ingest a non-finite player position (a physics blow-up must not
+    // corrupt the camera — it recovers as soon as the body is teleported back).
+    if (!Number.isFinite(playerPosition.x + playerPosition.y + playerPosition.z)) return;
     this.yaw -= cameraInput.x * delta * this.cfg.yawRate;
     this.pitch = THREE.MathUtils.clamp(
       this.pitch + cameraInput.y * delta * this.cfg.pitchRate,
@@ -73,18 +82,21 @@ export class FollowCamera {
   }
 
   private computeDesired(playerPosition: THREE.Vector3): void {
-    const horizontal = Math.cos(this.pitch) * this.cfg.distance;
+    // The camera BODY never goes below minPosPitch (≈ shoulder height): below
+    // that it would sink into the terrain and fight ground clamps. Looking
+    // further up is done by raising the LOOK target instead.
+    const posPitch = Math.max(this.pitch, this.cfg.minPosPitch);
+    const horizontal = Math.cos(posPitch) * this.cfg.distance;
     this.desiredPosition.set(
       playerPosition.x + Math.sin(this.yaw) * horizontal,
-      playerPosition.y + this.cfg.heightOffset + Math.sin(this.pitch) * this.cfg.distance,
+      playerPosition.y + this.cfg.heightOffset + Math.sin(posPitch) * this.cfg.distance,
       playerPosition.z + Math.cos(this.yaw) * horizontal,
     );
-    // Looking up (negative pitch): raise the look point toward the sky so the
-    // camera actually tilts above the horizon instead of orbiting underground.
-    const lookUp = Math.max(0, -this.pitch) * this.cfg.distance * 1.4;
+    const skyPitch = Math.max(0, posPitch - this.pitch); // how far past the floor
+    const lookRise = Math.tan(Math.min(skyPitch, 1.35)) * this.cfg.distance * 1.5;
     this.desiredLook.set(
       playerPosition.x,
-      playerPosition.y + this.cfg.lookHeightOffset + lookUp,
+      playerPosition.y + this.cfg.lookHeightOffset + lookRise,
       playerPosition.z,
     );
   }

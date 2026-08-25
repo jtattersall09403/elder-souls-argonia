@@ -57,14 +57,14 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- **Phase 8a owner re-gate — walk the light** (defects from the first gate
-  fixed, decision 0021). In walk mode you can now look up at the sky. Check:
-  dawn → noon → dusk → night at a lowland spot and a mountain spot (time
-  panel, top right; presets teleport you); moons show phases and read through
-  daylight; night is dark (moonless) or dimly moonlit, never day-bright; the
-  sun is a bright disc + modest glow, not a half-sky white blur; load feels
-  quick and the character settles without jerking. Say what feels wrong, not
-  how to fix it — every brightness/size constant is a one-line retune.
+- **Phase 8a owner re-gate, round 3** (round-2 feedback applied, decision
+  0021 §Round 2). **Restart the dev server and hard-refresh first** — the
+  round-2 session was hot-patched mid-edit. Check: sun = bright disc + modest
+  glow; day light softer; sunrise/sunset warm; sunset smooth (no flashes);
+  moons don't visibly add light by day; moonless night dim-but-readable with
+  a graded (not black) sky and clear stars; look up works everywhere (also in
+  the combat sandbox); load + settle smooth; camera sane when moving. Say
+  what feels wrong, not how to fix it.
 
 (There is no "next up" section: the first `todo` row above is what's next.
 Phase-ordering rationale lives in the plan §86, not here.)

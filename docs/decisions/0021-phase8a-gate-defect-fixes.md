@@ -53,3 +53,29 @@ first — all are classes of bug, not one-offs:
 **Meta-lesson** (for every future visual system): probe the mode the owner
 actually plays. The fly-view probes were green throughout because walk mode's
 defects lived entirely in its own canvas wiring.
+
+## Round 2 (owner, same day)
+
+- **Dome Mie is now PINNED at the addon default (0.005)** — even the capped
+  humidity mapping still read as a huge white blur around the sun. Turbidity
+  capped ≈4.5; sunrise/sunset warmed instead via a wider sun-colour band,
+  deeper horizon red and altitude-varying Rayleigh ("sunrise light too white").
+- **Exposure key 3.4** (day read too bright/harsh) and **ceiling 30** with a
+  raised night floor + a real zenith→horizon **airglow gradient** in the night
+  dome, brighter stars ×3.7 — a moonless night is dim-but-readable, never
+  pitch black.
+- **Sunset flashes (18:25–18:34)**: the PMREM IBL re-bake threshold tightens
+  ~6× while the sun is within ±0.25 of the horizon — coarse ambient steps
+  against a continuously-adapting exposure read as bright flashes.
+- **Moon "light stacking"**: the additive discs are dimmed ×0.2 against the
+  day dome (`uDayDim`) — full disc luminance only as the day dome fades.
+- **Sky look-up is a shared behaviour** (owner): `FOLLOW_CAMERA.minPitch`
+  −1.15 in game-core AND the sandbox's inline CombatScene copy. Stable form:
+  the camera BODY never drops below `minPosPitch` (it dove underground and
+  fought the terrain clamp — the "haywire camera"); extra look-up raises the
+  LOOK target instead. Blow-up guards: non-finite player positions are
+  rejected by the camera and reseat the body; >40 m single-frame jumps hard-
+  reset the camera. Character cascades 3→2 (perf), spawn drop 0.5→0.15 m.
+- Owner sessions ran against a live-edited dev server (HMR) — future agents:
+  ask for a dev-server restart + hard refresh before trusting a defect report
+  taken during editing.

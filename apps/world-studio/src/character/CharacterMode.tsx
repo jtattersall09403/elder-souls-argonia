@@ -106,7 +106,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
     const ground = world.groundHeight(x, z) ?? 50;
     supportYRef.current = ground;
     setCollidersReady(false);
-    setSpawn({ x, y: Math.max(ground, 0) + CHARACTER_BODY_CENTER_HEIGHT + 0.5, z });
+    setSpawn({ x, y: Math.max(ground, 0) + CHARACTER_BODY_CENTER_HEIGHT + 0.15, z });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [verticalScale]);
 
@@ -152,7 +152,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
         if (cancelled) return;
         const ground = world.groundHeight(x, z) ?? 50;
         supportYRef.current = ground;
-        setSpawn({ x, y: Math.max(ground, 0) + CHARACTER_BODY_CENTER_HEIGHT + 0.5, z });
+        setSpawn({ x, y: Math.max(ground, 0) + CHARACTER_BODY_CENTER_HEIGHT + 0.15, z });
         focusRef.current = { x, z };
         setManifest(m);
       } catch (e) {
@@ -338,12 +338,12 @@ function CharacterDriver({ handleRef, world, spawn, locomotion, animationTimeRef
   onPositionKm: (xKm: number, zKm: number) => void;
 }) {
   const adapter = useMemo(() => new EcctrlAdapter(handleRef), [handleRef]);
-  // Studio override: allow looking well above the horizon (sky/light checks,
-  // module 55 tooling). The sandbox's combat clamp is unchanged.
-  const camera3P = useMemo(() => new FollowCamera({ minPitch: -1.25 }), []);
+  // Sky look-up is the shared default (owner 2026-08-25) — no override needed.
+  const camera3P = useMemo(() => new FollowCamera(), []);
   const { camera } = useThree();
   const rapier = useRapier();
   const position = useMemo(() => new THREE.Vector3(), []);
+  const lastPosition = useRef(new THREE.Vector3());
   const initialised = useRef(false);
   const hudTimer = useRef(0);
   const urlTimer = useRef(0);
@@ -399,12 +399,27 @@ function CharacterDriver({ handleRef, world, spawn, locomotion, animationTimeRef
     if (!adapter.ready) return;
     adapter.position(position);
     animationTimeRef.current += delta;
+    // Blow-up recovery: a physics excursion (NaN or a >40 m single-frame
+    // jump) must never leave the camera lerping across the province — reseat
+    // the body on the ground and hard-reset the camera behind it.
+    if (!Number.isFinite(position.x + position.y + position.z)) {
+      const f = focusRef.current;
+      const ground = world.groundHeight(f.x, f.z) ?? 100;
+      adapter.teleport({ x: f.x, y: ground + CHARACTER_BODY_CENTER_HEIGHT + 0.15, z: f.z });
+      initialised.current = false;
+      return;
+    }
     if (!initialised.current) {
       initialised.current = true;
+      lastPosition.current.copy(position);
       camera3P.reset(position, Math.PI);
       camera3P.applyTo(camera);
       return;
     }
+    if (position.distanceToSquared(lastPosition.current) > 1600) {
+      camera3P.reset(position, camera3P.yaw - Math.PI);
+    }
+    lastPosition.current.copy(position);
     locomotion.update(adapter, intent, camera3P.yaw, delta);
     speedMultiplierRef.current = locomotion.animationSpeed;
     // Keep the grounding solve's support plane on the terrain under the actor.

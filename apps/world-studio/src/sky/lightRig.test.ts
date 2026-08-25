@@ -18,9 +18,10 @@ describe("light rig (module 55 §96)", () => {
     const night = computeLightRig(at(7, 17, 1), 0.6, 0.5);
     expect(night.sunIntensity).toBe(0);
     expect(night.sceneIlluminance).toBeLessThan(5);
-    // Exposure floor keeps night readable instead of physically exact.
+    // Exposure floor keeps night readable instead of physically exact
+    // (ceiling 30 after owner round 2: moonless night must not be pitch black).
     expect(night.exposureTarget).toBeGreaterThan(0.5);
-    expect(night.exposureTarget).toBeLessThanOrEqual(8);
+    expect(night.exposureTarget).toBeLessThanOrEqual(30);
   });
 
   it("reddens and dims the sun at the horizon", () => {
@@ -33,8 +34,11 @@ describe("light rig (module 55 §96)", () => {
   it("derives air clarity from the humidity field: mountains crisp, swamps hazy", () => {
     const crisp = computeLightRig(at(2, 10, 15), 0.25, -0.6);
     const soup = computeLightRig(at(2, 10, 15), 0.95, -0.6);
-    expect(soup.turbidity).toBeGreaterThan(crisp.turbidity + 3);
-    expect(soup.mieCoefficient).toBeGreaterThan(crisp.mieCoefficient * 2);
+    expect(soup.turbidity).toBeGreaterThan(crisp.turbidity + 1.8);
+    // Mie is PINNED at the Sky addon default — humidity above it turns the
+    // circumsolar sky into a white glare (owner rounds 1 and 2, decision
+    // 0021). The humid glow belongs to the aerial haze, not the dome.
+    expect(soup.mieCoefficient).toBeCloseTo(crisp.mieCoefficient, 5);
   });
 
   it("pools ground mist at dawn in the dry season, not at monsoon noon", () => {

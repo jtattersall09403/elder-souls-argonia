@@ -220,6 +220,7 @@ const MOON_FRAGMENT = /* glsl */ `
 uniform vec3 uSunDir;
 uniform vec3 uTint;
 uniform float uLum;
+uniform float uDayDim;
 varying vec3 vN;
 void main() {
   // Real sun direction (even below the local horizon — the moons are in
@@ -229,8 +230,11 @@ void main() {
   // ADDITIVELY over the dome: the lit limb reads through daylight like the
   // real Moon, the dark side vanishes into the sky instead of punching a
   // black hole in it, and at night the disc glows over the near-black dome.
+  // uDayDim: by day the air in front of the moon washes most of its contrast
+  // out — without it the additive discs visibly "add light to the sky" as
+  // they rise (owner round 2's stacking report).
   float lit = max(dot(normalize(vN), uSunDir), 0.0);
-  gl_FragColor = vec4(uTint * uLum * (lit + 0.008), 1.0);
+  gl_FragColor = vec4(uTint * uLum * uDayDim * (lit + 0.008), 1.0);
   #include <tonemapping_fragment>
   #include <colorspace_fragment>
 }`;
@@ -298,10 +302,13 @@ export function WorldSky({
   const csm = useMemo(() => {
     // ?smsize= lets headless probes shrink the cascade maps (software GL).
     const smsize = Number(new URLSearchParams(window.location.search).get("smsize")) || 2048;
+    // Character play: 2 cascades cover 300 m fine and shave a whole shadow
+    // pass per frame (load/perf, owner round 2). The flyover keeps 3 for
+    // mountain-scale reach.
     const c = new CSM({
       camera: camera as THREE.PerspectiveCamera,
       parent: scene,
-      cascades: 3,
+      cascades: mode === "character" ? 2 : 3,
       shadowMapSize: smsize,
       maxFar: mode === "character" ? 300 : 6000,
       mode: "practical",
@@ -392,8 +399,10 @@ export function WorldSky({
     const size = new Float32Array(stars.length);
     const lum = new Float32Array(stars.length);
     stars.forEach((s, i) => {
-      size[i] = Math.max(1.2, 4.6 - s.mag) * Math.min(2, window.devicePixelRatio || 1);
-      lum[i] = 0.3 * Math.pow(10, -0.4 * s.mag);
+      size[i] = Math.max(1.4, 5.2 - s.mag) * Math.min(2, window.devicePixelRatio || 1);
+      // Bright enough to read as constellations under the night exposures
+      // (owner round 2); daylight exposure still drowns them automatically.
+      lum[i] = 1.1 * Math.pow(10, -0.4 * s.mag);
     });
     g.setAttribute("aSize", new THREE.BufferAttribute(size, 1));
     g.setAttribute("aLum", new THREE.BufferAttribute(lum, 1));
@@ -462,6 +471,7 @@ void main() {
               uSunDir: { value: new THREE.Vector3(0, 1, 0) },
               uTint: { value: d.tint },
               uLum: { value: d.lum },
+              uDayDim: { value: 1 },
             },
             vertexShader: MOON_VERTEX,
             fragmentShader: MOON_FRAGMENT,
@@ -610,6 +620,8 @@ void main() {
       const radius = Math.tan(m.angularDiameter / 2) * MOON_RADIUS;
       mesh.scale.setScalar(radius);
       (moonMats[i].uniforms.uSunDir.value as THREE.Vector3).copy(sunDir);
+      (moonMats[i].uniforms.uDayDim as { value: number }).value =
+        1 - 0.8 * rig.skyFade;
       mesh.visible = m.altitude > -0.1;
     });
 
@@ -632,10 +644,15 @@ void main() {
       gl.toneMappingExposure += (rig.exposureTarget - gl.toneMappingExposure) * k;
     }
 
-    // Sky IBL: throttled PMREM re-bake (research doc: never per-frame).
+    // Sky IBL: throttled PMREM re-bake (research doc: never per-frame). The
+    // threshold tightens through twilight: sky light falls orders of
+    // magnitude across a few degrees there, and coarse re-bake steps against
+    // a continuously-adapting exposure read as bright FLASHES at sunset
+    // (owner round 2, 18:25–18:34 report).
+    const bakeStep = Math.abs(sunDir.y) < 0.25 ? 0.004 : 0.025;
     if (
       !Number.isFinite(state.current.lastBakeSunY) ||
-      Math.abs(sunDir.y - state.current.lastBakeSunY) > 0.025
+      Math.abs(sunDir.y - state.current.lastBakeSunY) > bakeStep
     ) {
       state.current.lastBakeSunY = sunDir.y;
       copySkyUniforms(sky as Sky & { material: THREE.ShaderMaterial }, bake.sky);

@@ -72,9 +72,10 @@ const SCENARIOS = [
     q: "view=character&x=2.94&z=5.46&ex=1&t=01:08&d=6-7",
     sunAlt: [-90, -12],
     phase: ["night", "astronomical", "nautical"],
-    // Moonless night ground must be near-black — leaked scene lights showed
+    // Moonless night: dim-but-readable (exposure ceiling + airglow gradient,
+    // owner round 2) yet nowhere near daylight — leaked scene lights showed
     // up here first (ground lit like day while the sky was black).
-    brightness: [0, 40],
+    brightness: [2, 70],
   },
 ];
 
@@ -182,9 +183,11 @@ try {
     if (Math.abs(dbg.exposure - dbg.exposureTarget) < dbg.exposureTarget * 0.05 + 1e-6)
       ok(`exposure converged (${dbg.exposure.toExponential(2)})`);
     else fail(`exposure ${dbg.exposure.toExponential(2)} != target ${dbg.exposureTarget.toExponential(2)}`);
-    if (lightCensus.dir === 4 && lightCensus.hemi === 1)
-      ok(`light census 3 cascades + moon + hemi`);
-    else fail(`light census wrong: ${JSON.stringify(lightCensus)} (leaked CSM lights?)`);
+    // fly: 3 cascades + moon; character: 2 cascades + moon.
+    const expectDir = s.q.includes("view=character") ? 3 : 4;
+    if (lightCensus.dir === expectDir && lightCensus.hemi === 1)
+      ok(`light census ${expectDir - 1} cascades + moon + hemi`);
+    else fail(`light census wrong: ${JSON.stringify(lightCensus)} expected dir=${expectDir} (leaked CSM lights?)`);
     if (brightness.mean >= s.brightness[0] && brightness.mean <= s.brightness[1])
       ok(`screen brightness ${brightness.mean.toFixed(1)} in [${s.brightness}] (sky ${brightness.sky.toFixed(0)} / ground ${brightness.ground.toFixed(0)})`);
     else fail(`screen brightness ${brightness.mean.toFixed(1)} outside [${s.brightness}] (sky ${brightness.sky.toFixed(0)} / ground ${brightness.ground.toFixed(0)})`);
