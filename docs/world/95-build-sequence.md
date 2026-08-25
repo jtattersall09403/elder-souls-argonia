@@ -275,7 +275,35 @@ Deliverables:
   packages (if not already done so) and consumed by both sandbox and
   world studio. When completed, as a character you can do everything in the world studio that you can do in the sandbox.
 
-### Phase 8 — water renderer and physical interaction
+### Phase 8a — world time, natural light and sky (decision 0016; module 55)
+
+Runs **before** the water renderer: water consumes sun, sky and IBL
+(reflections, specular, refraction, underwater scattering) and would otherwise
+be tuned twice. It also lands before the asset catalogue (10) and settlement
+authoring (11) so no material or kit is ever approved under placeholder light.
+
+Deliverables:
+
+- `packages/world-time` — deterministic world clock and canon calendar (365
+  days, 12 months w/ Jel names, 7-day week, 28-night lunar cycle), season
+  scalar `s(t)`, pausable/scrubbable, no rendering dependency;
+- sun/moon ephemeris (one latitude constant), altitude-defined twilight bands,
+  Masser/Secunda with correct relative size and phase;
+- authored star field: the thirteen canonical constellations rotating with the
+  calendar, the drifting Serpent, the Southron pole star;
+- physically-valued light rig (sun/moon lux curves, sky IBL via throttled
+  PMREM, regional ground bounce), tone mapping + eye-adaptation exposure;
+- cascaded shadow maps across the province terrain;
+- aerial perspective: Rayleigh distance term + boundary-layer Mie haze driven
+  by the climate humidity/mist fields (mountain crispness vs lowland glow);
+- first ground-mist pass; canopy sky-visibility darkening;
+- studio tooling: time-of-day scrubber, date/season field, region light
+  presets, debug sliders, all in the reproducible URL, plus fixed-instant
+  screenshot probes for lit material A/B;
+- **owner gate**: dawn → noon → dusk → night walked in at least a lowland
+  basin and a mountain belt.
+
+### Phase 8b — water renderer and physical interaction
 
 Deliverables:
 
@@ -285,7 +313,25 @@ Deliverables:
 - underwater rendering;
 - CPU/Rapier water query;
 - object buoyancy and interaction events;
-- quality tiers and benchmark scenes.
+- quality tiers and benchmark scenes;
+- sun/sky-consuming water shading (reflection, specular, refraction,
+  underwater scattering) and moon-driven tidal amplitude wired to
+  `FloodBasin` (module 55 §95).
+
+### Phase 8c — weather and atmosphere (module 55 §97–98)
+
+Deliverables:
+
+- weather state machine with region-weighted frequencies and volatility from
+  the climate fields, seeded/reproducible transitions;
+- computed (not hand-authored) weather parameter blocks on the Bethesda `WTHR`
+  checklist, with an override layer for authored moments;
+- cloud layers, rain/squall/thunderstorm, wet-surface response;
+- the three mist regimes as distinct systems (radiation basin mist, advection
+  sea fog, cloud-forest whiteout); god rays through canopy;
+- weather ↔ wetness ↔ flood ↔ tide ↔ grip ↔ visibility ↔ AI-perception
+  coupling, published through the environment query;
+- quality tiers as one declarative table (volumetrics high-tier only).
 
 ### Phase 9 — swimming, climbing and boats
 
@@ -355,7 +401,11 @@ Deliverables:
 - encounter sockets;
 - fixed loot provenance;
 - no-level-scaling tests;
-- arrows and physical materials.
+- arrows and physical materials;
+- **light/atmosphere tier 3** (module 55): bioluminescent night ecology as the
+  deep-marsh night palette, seasonal foliage response to `s(t)`, calendared
+  Vampire-Day (eclipse) world states, volumetric (froxel) fog on the high
+  quality tier.
 
 ### Phase 14 — streaming and deployment
 

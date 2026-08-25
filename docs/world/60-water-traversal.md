@@ -3,6 +3,13 @@
 > Module of the world-generation master plan — see [README](README.md) for the router
 > and [00-core.md](00-core.md) for the universal principles. Section numbers (§NN)
 > preserved from the original plan; cross-doc references resolve via the README map.
+>
+> **Water rendering depends on the light stack** (module
+> [55](55-light-sky-time.md), Phase 8a — decision 0016): sun direction and
+> colour, sky IBL, exposure and the aerial-perspective term drive reflection,
+> specular, refraction and underwater scattering, and moon phase drives tidal
+> amplitude. Build water (8b) against that system, not against placeholder
+> lights.
 
 ## 38. One authoritative water model
 

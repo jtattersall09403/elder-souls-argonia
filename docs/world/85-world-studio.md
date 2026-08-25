@@ -17,8 +17,17 @@ Required modes:
 | Orbit/survey | Inspect settlements, terrain and hydrology from above | Phase 5 ✓ |
 | Physical character | Test actual movement, combat, swimming and climbing | Phase 7 ✓ grounded movement (`?view=character&x&z&race&profile`; HUD = live environment-query probe; swimming/climbing land with Phase 9) |
 | Boat | Test channels, currents, docks and clearance | Phase 9 |
-| Underwater free camera | Inspect submerged routes and entrances | Phase 8 |
+| Underwater free camera | Inspect submerged routes and entrances | Phase 8b |
 | Diagnostic render | Show collision, IDs, normals, depth, flow and LOD | partial: character HUD reports chunk/LOD/material; `window.__STUDIO_CHARACTER_DEBUG__` exposes collider/raycast probes |
+| Sky and light | Scrub time of day/date/season, pick weather, compare regional light presets | Phase 8a (module 55) |
+
+**Lighting control is a studio requirement, not a nicety** (module 55 §93): a
+time-of-day scrubber, date/season field, weather selector and named region
+light presets ("Blackrose basin, dawn mist"; "Padomaic coast, storm noon";
+"cloud-forest belt, clear afternoon"), all captured in the reproducible URL.
+From Phase 8a onward, ground materials, kits, settlements and dungeons are
+reviewed under the light of their own region and hour, and screenshot probes
+pin a fixed `WorldInstant` so A/B comparisons are lit identically every run.
 
 ## 67. Spawn workflow
 

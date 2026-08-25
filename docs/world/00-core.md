@@ -32,7 +32,9 @@ decision 0008), (3) small disposable laboratories.
    0007). Capability and knowledge open depth; the world never softens.
 3. **Hydrology first.** Water is the province's primary structure; terrain and
    water are solved together; routes, settlements and ecology follow from
-   drainage. (Module 50; climate/atmosphere is a first-class layer, §33.1.)
+   drainage. (Module 50; climate fields are a first-class layer, §33.1, and
+   **time/light/sky/weather is its own first-class system, Module 55** — one
+   deterministic world clock, light and air derived from the climate fields.)
 4. **Ground everything in lore** (CLAUDE.md golden rule): dossiers in
    `world/sources/lore/` first, extend from UESP when thin, cite pages,
    respect era 4E 201 (decision 0002). Community material is a prior.
@@ -79,7 +81,8 @@ from it; occupants have motives and logistics; loot has provenance; roads and
 waterways connect real needs; historical layers stay distinguishable.
 
 **Gameplay:** no player-level scaling anywhere; deep areas stay fixed high
-danger; swimming/breath/climbing/boats create access progression; Argonian
+danger; darkness, weather and tides are calendared world state and no visual
+work is approved under placeholder light (Module 55); swimming/breath/climbing/boats create access progression; Argonian
 physiology materially changes underwater play; underwater POIs throughout
 appropriate regions; large logical surfaces climbable by default; combat
 spaces and critical-animation clearance validated.
@@ -99,7 +102,8 @@ semantic kits and deterministic compilers; simple source-and-credits records
 3 hydrology+regions · 4 danger/cultures/transport · 5 World Studio ·
 6 province terrain · 6b rescale+mountain relief+naturalness (0015, after 7a) ·
 7a physical character · 7b full sandbox parity in studio ·
-8 water/atmosphere renderer · 9 swim/climb/boats ·
+8a world time/natural light/sky (0016) · 8b water renderer ·
+8c weather/atmosphere · 9 swim/climb/boats ·
 10 asset catalogue+kits · 11 causal locations+settlements ·
 12 dungeons+interiors · 13 ecology/encounters/loot · 14 streaming+deploy ·
 15 expansion by watershed. Statuses live only in PROGRESS.md.

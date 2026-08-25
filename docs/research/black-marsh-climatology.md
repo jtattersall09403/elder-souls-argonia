@@ -109,6 +109,6 @@ Hist-Deek) → Monsoon (Second–Last Seed) → Flood peak (Hearthfire–Frostfa
 
 The first slice is live: the basin's `ground-tint.png` (refine_watershed)
 applies coastal/wetness/latitude palette drift to terrain albedo. Next
-slices (Phase 8 weather/atmosphere, Phase 13 ecology): compile the six
+slices (Phase 8a light/haze, 8c weather/atmosphere, Phase 13 ecology): compile the six
 fields province-wide as rasters + the season scalar, and point weather-state
 frequencies, foliage and flood states at them, per the tables above.

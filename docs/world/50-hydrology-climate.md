@@ -75,22 +75,18 @@ there when those regions are built, but never frost at the marsh floor.
   [docs/research/black-marsh-climatology.md](../research/black-marsh-climatology.md).
   First implemented slice: the basin ground-tint colormap (palette drift by
   coast/wetness/latitude). Weather frequencies, foliage and flood states must
-  consume the same fields when they land (Phases 8/13).
-- **Weather system (with Phase 8 rendering):** province-scale weather states
-  (monsoonal downpour, sea squall, dry-season haze, ground mist, storm) with
-  region-weighted frequencies; weather modifies wetness, flood state, grip,
-  visibility and AI perception — world state, never player-scaled.
-- **Time of day and light:** full day/night cycle; canopy classes darken and
-  diffuse daylight (jungle/rootland interiors read as permanent dusk);
-  bioluminescence (torchbugs, fungi, sap) is the deep-marsh night palette,
-  per the Murkmire travel accounts.
+  consume the same fields when they land (Phases 8a/8c/13, module 55).
 - **"Steaminess":** low ground mist, heat shimmer over water, drifting spore
   and pollen particles are biome-driven atmospheric VFX tied to the climate
   profile, concentrated in jungle, rootland and stagnant-water classes.
-- Renderer implementation (volumetric fog tiers, sky model, wet-surface
-  response) lands with the Phase 8 water/atmosphere stack; the semantic
-  climate data must exist from the province passes so all later systems
-  consume one source.
+- **Time, light, sky and weather are their own first-class system** —
+  **[Module 55](55-light-sky-time.md) (§93–98)**: the world clock and calendar,
+  sun/moon ephemeris and phases, star field, physically-valued light rig,
+  aerial perspective/haze, mist regimes and the weather state machine. This
+  module owns the *fields*; module 55 owns everything that consumes them over
+  time. The semantic climate data must exist from the province passes so all
+  later systems consume one source; the season scalar `s(t)` used above is
+  produced by module 55's clock (§94).
 
 ## 35. Causal landscape example
 
@@ -130,7 +126,7 @@ Changing levels can alter:
 
 Dynamic changes should be bounded, readable and reproducible from world state.
 
-**Phase 8 note (owner question 2026-08-23, answered):** the wet/dry season
+**Phase 8b note (owner question 2026-08-23, answered):** the wet/dry season
 transition needs no re-authored textures — the land-cover water-edge gradient
 already encodes the progression (silt → shallows → wet bank → mud → damp
 fringe), so the renderer animates the *water level* (flood-states data) and
