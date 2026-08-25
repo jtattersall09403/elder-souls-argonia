@@ -79,3 +79,37 @@ defects lived entirely in its own canvas wiring.
 - Owner sessions ran against a live-edited dev server (HMR) — future agents:
   ask for a dev-server restart + hard refresh before trusting a defect report
   taken during editing.
+
+## Round 3 (owner, same day)
+
+- **Physics stepping is now manual and bounded.** r3f-rapier's fixed-timestep
+  loop runs an *uncapped* catch-up (`while (accumulator >= timeStep)`, dt
+  clamped at 0.5 s): on a machine that stalls during load, one 500 ms frame
+  bursts 30 steps, stalling the next frame — a spiral that snapped the
+  ecctrl hover-spring (the "bobbing") and fed the safety-net teleporter
+  garbage (the 5-second skyfall loop). The sandbox at 60 fps never grows the
+  accumulator, which is why combat never showed it. Studio: `<Physics
+  paused>` always; `CharacterDriver` steps ≤3×1/60 s per frame via
+  `rapier.step()`, excess time DROPPED (brief slow-motion under load, never
+  instability). Port this pattern to the game shell later.
+- **Exposure is an authored log-interpolated curve over sun altitude**
+  (research doc §8) — the illuminance-derived form diverged from the dome's
+  real output right after sunrise (the "most over-exposed ever" spike, and
+  its mirror before sunset). Day ~¾ stop softer again; night =
+  `14/(1+11·moonlight)`, so moonless ≈ dim-readable, full moon ~2 stops up.
+- **Twilight glow layer** in the dome (fixes the colour-static night dome
+  "pinning" the pre-dawn sky): tropical palette (molten orange core at the
+  sun's azimuth → coral/magenta spread → violet-indigo wash), luminance
+  exposure-anchored CPU-side so it cannot flash. Palette + sources: research
+  doc §8. Night gradient darkened ~×0.55 (round-2 night read too light).
+- **Moons display-referred** (physical luminance clips to flat white under
+  night exposure floors): soft terminator, limb darkening, procedural maria,
+  rise/set fade (the horizon pop was part of the pre-dawn flashing). Note:
+  moons near-full at midnight is CORRECT phase geometry — crescents are
+  daytime companions.
+- **Background star field**: ~1 100 seeded faint stars sharing the
+  constellation buffer (so the whole sky wheels together).
+- **Golden-hour haze**: sun-scatter gain of the aerial term ×~3 at 0–4° sun
+  altitude, fading by 16° — the humidity raster localises the golden glow to
+  the humid lowlands. (The r/threejs custom-fog approach the owner linked is
+  architecturally what `aerial.ts` already does.)

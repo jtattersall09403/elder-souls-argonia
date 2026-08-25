@@ -57,14 +57,17 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- **Phase 8a owner re-gate, round 3** (round-2 feedback applied, decision
-  0021 §Round 2). **Restart the dev server and hard-refresh first** — the
-  round-2 session was hot-patched mid-edit. Check: sun = bright disc + modest
-  glow; day light softer; sunrise/sunset warm; sunset smooth (no flashes);
-  moons don't visibly add light by day; moonless night dim-but-readable with
-  a graded (not black) sky and clear stars; look up works everywhere (also in
-  the combat sandbox); load + settle smooth; camera sane when moving. Say
-  what feels wrong, not how to fix it.
+- **Phase 8a owner re-gate, round 4** (round-3 feedback applied, decision
+  0021 §Round 3: bounded physics stepping — the load bobbing/skyfall loop;
+  authored exposure curve — sunrise/sunset blowout + softer day; tropical
+  twilight glow — no more "pinned" pre-dawn sky; darker night gradient;
+  background star field; textured display-referred moons; golden-hour haze).
+  **Restart the dev server and hard-refresh first.** Check: load settles
+  cleanly; a full sunrise AND sunset at rate ~30 (smooth, warm, no flashes,
+  no post-sunrise blowout); day light soft; night sky deep with faint stars
+  between constellations; a full moon looks like a moon. Moons being
+  near-full at night is real phase geometry (crescents ride with the sun by
+  day) — say if you want it cheated anyway.
 
 (There is no "next up" section: the first `todo` row above is what's next.
 Phase-ordering rationale lives in the plan §86, not here.)

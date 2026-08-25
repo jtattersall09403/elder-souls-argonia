@@ -54,6 +54,9 @@ export interface LightRig {
   /** Below-horizon dome/IBL colour (nits): lit-ground bounce, replacing the
    * Preetham model's garbage lower hemisphere deterministically. */
   groundBounce: [number, number, number];
+  /** Twilight glow: luminance (nits, exposure-anchored) + sun azimuth dir. */
+  dawnLum: number;
+  dawnDir: [number, number];
 }
 
 const NOON_SUN: [number, number, number] = [1.0, 0.96, 0.9];
@@ -85,6 +88,37 @@ function skyIlluminance(sunAltDeg: number): number {
   // Twilight decay: ~2.9° of sun depression per decade of light hits the
   // civil (3.4 lx) and nautical (0.03 lx) reference points from 400.
   return 400 * Math.pow(10, sunAltDeg / 2.9);
+}
+
+/** Sun altitude (deg) → renderer exposure, log-interpolated. Day sits ~¾ stop
+ * under the round-2 tuning (owner: "much much softer"); night is bounded so a
+ * moonless marsh reads dim-but-navigable, a full moon ~2 stops brighter. */
+const EXPOSURE_CURVE: [number, number][] = [
+  [-12, 0.12],
+  [-8, 1.5e-2],
+  [-4, 2e-3],
+  [0, 3e-4],
+  [3, 1.1e-4],
+  [10, 5e-5],
+  [30, 2.6e-5],
+];
+
+function authoredExposure(altDeg: number, moonIntensity: number): number {
+  // Moonlight (0..~0.3 lx) pulls the night exposure down from the moonless
+  // ceiling; the -12° pivot keeps the astronomical-twilight hand-off smooth.
+  const nightExposure = 14 / (1 + 11 * moonIntensity);
+  if (altDeg >= 30) return EXPOSURE_CURVE[EXPOSURE_CURVE.length - 1][1];
+  if (altDeg <= -18) return nightExposure;
+  const curve: [number, number][] = [[-18, nightExposure], ...EXPOSURE_CURVE];
+  for (let i = 0; i < curve.length - 1; i++) {
+    const [a0, e0] = curve[i];
+    const [a1, e1] = curve[i + 1];
+    if (altDeg <= a1) {
+      const t = (altDeg - a0) / (a1 - a0);
+      return Math.exp(Math.log(e0) + (Math.log(e1) - Math.log(e0)) * t);
+    }
+  }
+  return EXPOSURE_CURVE[EXPOSURE_CURVE.length - 1][1];
 }
 
 export function computeLightRig(
@@ -124,10 +158,11 @@ export function computeLightRig(
     800 * skyFade +
     moonIntensity * 4 +
     0.02;
-  // Key 3.4 ≈ ⅔ stop under the first build (day read too bright/harsh);
-  // ceiling 30 so a moonless night is dim-but-readable, never pitch black
-  // (module 55 §96: a floor on night exposure is part of the system).
-  const exposureTarget = Math.min(30, Math.max(3e-5, 3.4 / sceneIlluminance));
+  // Exposure is an AUTHORED curve over sun altitude (log-interpolated), not
+  // derived from an illuminance model: the derived form diverged from what
+  // the dome/IBL actually emit right after sunrise and blew the scene out
+  // (owner round 3). Smooth by construction; every stop is a one-line tune.
+  const exposureTarget = authoredExposure(altDeg, moonIntensity);
 
   // Sky dome: turbidity from the climate humidity at the camera —
   // border-mountain air is crisp, lowland air milky (module 55 §97). Mie is
@@ -157,8 +192,12 @@ export function computeLightRig(
   const mistStrength = (dawnBell + duskBell) * (0.25 + 0.75 * drySeason);
 
   // Haze feeds (module 55 §97): the same sun/moon and sky that light surfaces
-  // also light the air, on the same lux scale.
-  const kHaze = 0.06;
+  // also light the air, on the same lux scale. The GOLDEN-HOUR boost (owner
+  // round 3) strengthens the warm forward-scatter while the sun is low —
+  // humid lowlands already scatter more (the Mie density reads the humidity
+  // raster), so the "golden glowing air" lands hardest exactly there.
+  const golden = (1 - smoothstep(4, 16, altDeg)) * smoothstep(-3, 1, altDeg);
+  const kHaze = 0.06 * (1 + 2.2 * golden);
   const skyE = skyIlluminance(altDeg);
   const hazeSunLight: [number, number, number] = [
     (sunColor[0] * sunIntensity + MOONLIGHT[0] * moonIntensity * 4) * kHaze,
@@ -173,20 +212,32 @@ export function computeLightRig(
   ];
 
   // Night dome: moonlit sky reads pale over black canopy; moonless nights are
-  // dark blue with a clear zenith→horizon airglow gradient — the real night
-  // sky is never flat black (§96: night has a palette, not just less light;
-  // owner round 2). Bases sized against the exposure ceiling (30).
+  // deep blue with a zenith→horizon airglow gradient — the real night sky is
+  // never flat black (§96; owner round 2), but deep, not washed (round 3:
+  // darkened ~×0.55). Bases sized against the night exposure (≤14).
   const moonGlow = masser.illuminatedFraction * Math.sqrt(moonUp);
   const nightZenith: [number, number, number] = [
-    0.003 + 0.006 * moonGlow * MOONLIGHT[0],
-    0.0045 + 0.006 * moonGlow * MOONLIGHT[1],
-    0.009 + 0.007 * moonGlow * MOONLIGHT[2],
+    0.0016 + 0.004 * moonGlow * MOONLIGHT[0],
+    0.0025 + 0.004 * moonGlow * MOONLIGHT[1],
+    0.005 + 0.005 * moonGlow * MOONLIGHT[2],
   ];
   const nightHorizon: [number, number, number] = [
-    nightZenith[0] * 2.2 + 0.004,
-    nightZenith[1] * 2.0 + 0.0035,
-    nightZenith[2] * 1.8 + 0.003,
+    nightZenith[0] * 2.0 + 0.0022,
+    nightZenith[1] * 1.9 + 0.0019,
+    nightZenith[2] * 1.7 + 0.0017,
   ];
+
+  // Twilight glow (owner round 3): the authored night dome is otherwise
+  // colour-static, which "pinned" the pre-dawn sky while the land brightened.
+  // A tropical dawn/dusk gradient — molten orange at the sun's azimuth,
+  // coral/magenta spread, violet-indigo wash — is layered over the dome in
+  // the shader; its luminance is anchored AGAINST the exposure curve so its
+  // on-screen brightness follows one smooth authored bell (no flashes).
+  // Palette anchors: docs/research/natural-light-sky-atmosphere-threejs.md §8.
+  const dawnBellAmount = Math.exp(-Math.pow((altDeg + 1) / 6.5, 2));
+  const dawnLum = (0.58 / exposureTarget) * dawnBellAmount;
+  const azLen = Math.hypot(sun.direction.x, sun.direction.z) || 1;
+  const dawnDir: [number, number] = [sun.direction.x / azLen, sun.direction.z / azLen];
 
   // Ground bounce for the dome's lower hemisphere (marsh-earth albedo ≈ 0.22,
   // luminance = illuminance × albedo / π), on the same nit scale as the dome.
@@ -225,5 +276,7 @@ export function computeLightRig(
     nightZenith,
     nightHorizon,
     groundBounce,
+    dawnLum,
+    dawnDir,
   };
 }

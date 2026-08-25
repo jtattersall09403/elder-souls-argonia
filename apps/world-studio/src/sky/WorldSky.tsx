@@ -89,6 +89,8 @@ interface SkyExtras {
   uNightZenith: { value: THREE.Color };
   uNightHorizon: { value: THREE.Color };
   uGroundLum: { value: THREE.Color };
+  uDawnLum: { value: number };
+  uDawnDir: { value: THREE.Vector2 };
 }
 
 function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
@@ -101,11 +103,13 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
     uNightZenith: { value: new THREE.Color(0, 0, 0) },
     uNightHorizon: { value: new THREE.Color(0, 0, 0) },
     uGroundLum: { value: new THREE.Color(0, 0, 0) },
+    uDawnLum: { value: 0 },
+    uDawnDir: { value: new THREE.Vector2(0, 1) },
   };
   Object.assign(mat.uniforms, extras);
   mat.uniforms.cloudCoverage.value = 0; // clouds are Phase 8c
   mat.fragmentShader =
-    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\n" +
+    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\n" +
     mat.fragmentShader.replace(
       "gl_FragColor = vec4( texColor, 1.0 );",
       /* glsl */ `
@@ -126,6 +130,20 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
       vec3 esNight = uNightZenith
         + (uNightHorizon - uNightZenith) * pow(1.0 - clamp(direction.y, 0.0, 1.0), 3.0);
       texColor = mix(esNight, texColor, uSkyFade);
+      // Twilight glow (owner round 3): tropical dawn/dusk gradient anchored
+      // at the sun's azimuth — molten orange core, coral/magenta spread,
+      // violet-indigo wash opposite. uDawnLum is exposure-anchored on the
+      // CPU so the on-screen brightness follows one smooth authored bell.
+      {
+        vec2 esAzDir = direction.xz;
+        float esAzLen = max(length(esAzDir), 1e-4);
+        float esAz = clamp(dot(esAzDir / esAzLen, uDawnDir), -1.0, 1.0) * 0.5 + 0.5;
+        float esHz = pow(1.0 - clamp(direction.y, 0.0, 1.0), 3.0);
+        texColor += uDawnLum * esHz * (
+            vec3(1.00, 0.30, 0.10) * pow(esAz, 5.0) * 1.35
+          + vec3(0.95, 0.24, 0.30) * pow(esAz, 2.0) * 0.50
+          + vec3(0.20, 0.13, 0.38) * 0.16);
+      }
       // Hard branch, not mix(): mix(ground, NaN, 0.0) is still NaN.
       if (direction.y < -0.02) {
         texColor = uGroundLum;
@@ -144,9 +162,10 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
 function copySkyUniforms(from: Sky & { material: THREE.ShaderMaterial }, to: Sky): void {
   const a = from.material.uniforms;
   const b = to.material.uniforms;
-  for (const k of ["turbidity", "rayleigh", "mieCoefficient", "mieDirectionalG", "uSkyLum", "uSkyFade"]) {
+  for (const k of ["turbidity", "rayleigh", "mieCoefficient", "mieDirectionalG", "uSkyLum", "uSkyFade", "uDawnLum"]) {
     b[k].value = a[k].value;
   }
+  (b.uDawnDir.value as THREE.Vector2).copy(a.uDawnDir.value as THREE.Vector2);
   (b.sunPosition.value as THREE.Vector3).copy(a.sunPosition.value as THREE.Vector3);
   (b.uNightZenith.value as THREE.Color).copy(a.uNightZenith.value as THREE.Color);
   (b.uNightHorizon.value as THREE.Color).copy(a.uNightHorizon.value as THREE.Color);
@@ -182,6 +201,23 @@ function flattenCatalogue(): FlatStar[] {
     dec: catalogue.poleStar.decDeg * DEG,
     mag: catalogue.poleStar.magnitude,
   });
+  // Background field (owner round 3): the sky between the thirteen authored
+  // constellations must not be empty. ~1100 faint stars from a SEEDED
+  // generator (deterministic — same sky every night), magnitudes below the
+  // constellation stars so the authored figures still lead. They share the
+  // buffer, so they wheel with the constellations automatically.
+  let seed = 0x5eed5;
+  const rnd = () => {
+    seed = (seed * 1664525 + 1013904223) >>> 0;
+    return seed / 4294967296;
+  };
+  for (let i = 0; i < 1100; i++) {
+    out.push({
+      ra: 2 * Math.PI * rnd(),
+      dec: Math.asin(2 * rnd() - 1), // uniform on the sphere
+      mag: 2.6 + 2.8 * Math.pow(rnd(), 0.7),
+    });
+  }
   return out;
 }
 
@@ -211,31 +247,57 @@ void main() {
 
 const MOON_VERTEX = /* glsl */ `
 varying vec3 vN;
+varying vec3 vWp;
 void main() {
   vN = normalize(position);
+  vWp = (modelMatrix * vec4(position, 1.0)).xyz;
   gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 }`;
 
 const MOON_FRAGMENT = /* glsl */ `
 uniform vec3 uSunDir;
 uniform vec3 uTint;
-uniform float uLum;
 uniform float uDayDim;
 varying vec3 vN;
+varying vec3 vWp;
+
+float esMoonHash(vec3 p) {
+  return fract(sin(dot(p, vec3(127.1, 311.7, 74.7))) * 43758.5453);
+}
+float esMoonNoise(vec3 p) {
+  vec3 i = floor(p);
+  vec3 f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  float n000 = esMoonHash(i);
+  float n100 = esMoonHash(i + vec3(1, 0, 0));
+  float n010 = esMoonHash(i + vec3(0, 1, 0));
+  float n110 = esMoonHash(i + vec3(1, 1, 0));
+  float n001 = esMoonHash(i + vec3(0, 0, 1));
+  float n101 = esMoonHash(i + vec3(1, 0, 1));
+  float n011 = esMoonHash(i + vec3(0, 1, 1));
+  float n111 = esMoonHash(i + vec3(1, 1, 1));
+  return mix(mix(mix(n000, n100, f.x), mix(n010, n110, f.x), f.y),
+             mix(mix(n001, n101, f.x), mix(n011, n111, f.x), f.y), f.z);
+}
+
 void main() {
   // Real sun direction (even below the local horizon — the moons are in
-  // space), so phase, terminator and relative size are correct by
-  // construction (module 55 §95). uLum is on the scene's lux/nit scale
-  // (uSkyLum-lifted dome ≈ thousands by day) and the disc blends
-  // ADDITIVELY over the dome: the lit limb reads through daylight like the
-  // real Moon, the dark side vanishes into the sky instead of punching a
-  // black hole in it, and at night the disc glows over the near-black dome.
-  // uDayDim: by day the air in front of the moon washes most of its contrast
-  // out — without it the additive discs visibly "add light to the sky" as
-  // they rise (owner round 2's stacking report).
-  float lit = max(dot(normalize(vN), uSunDir), 0.0);
-  gl_FragColor = vec4(uTint * uLum * uDayDim * (lit + 0.008), 1.0);
-  #include <tonemapping_fragment>
+  // space), so phase and terminator are correct by construction (§95). The
+  // disc is DISPLAY-REFERRED (scene tone mapping deliberately skipped): the
+  // night exposure floor clips any physically-scaled luminance to a flat
+  // white circle (owner round 3), so the moon is authored in output space
+  // like most games do. Additive blend: the dark side melts into daylight,
+  // the lit side glows over the night dome. uDayDim washes the disc against
+  // the bright day dome (round 2's "moons add light" report).
+  vec3 n = normalize(vN);
+  float lit = pow(max(dot(n, uSunDir), 0.0), 0.75); // soft terminator
+  // Procedural maria/highlands mottling, stable on the sphere; limb
+  // darkening from the view angle so the disc reads as a globe.
+  float esMar = esMoonNoise(n * 3.1) + 0.5 * esMoonNoise(n * 7.7) + 0.25 * esMoonNoise(n * 16.3);
+  float esPat = 0.68 + 0.32 * smoothstep(0.55, 1.15, esMar);
+  vec3 esView = normalize(cameraPosition - vWp);
+  float esLimb = 0.45 + 0.55 * pow(max(dot(n, esView), 0.0), 0.6);
+  gl_FragColor = vec4(uTint * (0.012 + 0.75 * lit) * esPat * esLimb * uDayDim, 1.0);
   #include <colorspace_fragment>
 }`;
 
@@ -452,13 +514,12 @@ void main() {
     [],
   );
 
-  // Moons. Disc luminances are physical (full-moon disc ≈ 2 500 cd/m², the
-  // same scale the uSkyLum-lifted dome renders in) — NOT small relative
-  // numbers, which the day exposure (~1e-4) would crush to a black disc.
+  // Moons. Display-referred discs (see MOON_FRAGMENT) — tints carry the
+  // canon identities: Masser rust-red, Secunda pale.
   const moonDefs = useMemo(
     () => [
-      { id: "masser", tint: new THREE.Color(1.0, 0.62, 0.5), lum: 2_600 },
-      { id: "secunda", tint: new THREE.Color(0.88, 0.92, 1.0), lum: 3_200 },
+      { id: "masser", tint: new THREE.Color(1.0, 0.58, 0.44) },
+      { id: "secunda", tint: new THREE.Color(0.86, 0.9, 1.0) },
     ],
     [],
   );
@@ -470,7 +531,6 @@ void main() {
             uniforms: {
               uSunDir: { value: new THREE.Vector3(0, 1, 0) },
               uTint: { value: d.tint },
-              uLum: { value: d.lum },
               uDayDim: { value: 1 },
             },
             vertexShader: MOON_VERTEX,
@@ -556,6 +616,8 @@ void main() {
     extras.uNightZenith.value.setRGB(...rig.nightZenith);
     extras.uNightHorizon.value.setRGB(...rig.nightHorizon);
     extras.uGroundLum.value.setRGB(...rig.groundBounce);
+    extras.uDawnLum.value = rig.dawnLum;
+    extras.uDawnDir.value.set(rig.dawnDir[0], rig.dawnDir[1]);
 
     // Sun (CSM's cascade lights ARE the sun).
     csm.lightDirection.copy(sunDir).negate();
@@ -620,8 +682,11 @@ void main() {
       const radius = Math.tan(m.angularDiameter / 2) * MOON_RADIUS;
       mesh.scale.setScalar(radius);
       (moonMats[i].uniforms.uSunDir.value as THREE.Vector3).copy(sunDir);
+      // Day wash × a rise/set fade — a 10° disc snapping on at the horizon
+      // read as a white flash in twilight (owner round 3).
+      const horizonFade = THREE.MathUtils.smoothstep(m.altitude, -0.06, 0.06);
       (moonMats[i].uniforms.uDayDim as { value: number }).value =
-        1 - 0.8 * rig.skyFade;
+        (1 - 0.8 * rig.skyFade) * horizonFade;
       mesh.visible = m.altitude > -0.1;
     });
 

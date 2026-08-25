@@ -209,7 +209,15 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               remounts the whole canvas tree — WorldSky included, leaking one
               CSM light set per remount (owner gate defect 2026-08-25). */}
           <Suspense fallback={null}>
-          <Physics key={verticalScale} gravity={[0, -9.81, 0]} timeStep={1 / 60} interpolate paused={!collidersReady || !renderWarm}>
+          {/* ALWAYS paused: stepping is manual and bounded (CharacterDriver).
+              r3f-rapier's built-in loop runs an UNCAPPED catch-up
+              (`while (accumulator >= timeStep)`, dt clamp 0.5 s): on a
+              machine that stalls during load, one 500 ms frame bursts 30
+              physics steps, which stalls the next frame — the load-time
+              death spiral, hover-spring snapping and skyfall loop (owner
+              round 3). The combat sandbox at 60 fps never grows the
+              accumulator, which is why it never showed there. */}
+          <Physics key={verticalScale} gravity={[0, -9.81, 0]} timeStep={1 / 60} paused>
             <ChunkColliders store={store} manifest={manifest} focusRef={focusRef}
               verticalScale={verticalScale} onReady={() => setCollidersReady(true)} />
             <PlayerBody handleRef={player} position={[spawn.x, spawn.y, spawn.z]} rotationY={Math.PI}>
@@ -231,6 +239,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             <CharacterDriver
               handleRef={player}
               world={world}
+              active={collidersReady && renderWarm}
               spawn={spawn}
               locomotion={locomotion}
               animationTimeRef={animationTimeRef}
@@ -325,9 +334,11 @@ declare global {
   }
 }
 
-function CharacterDriver({ handleRef, world, spawn, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, onHud, onPositionKm }: {
+function CharacterDriver({ handleRef, world, active, spawn, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, onHud, onPositionKm }: {
   handleRef: React.RefObject<EcctrlHandle | null>;
   world: ChunkWorld;
+  /** Colliders mounted AND rendering warm — physics steps only when true. */
+  active: boolean;
   spawn: Vec3;
   locomotion: ExplorerLocomotion;
   animationTimeRef: React.MutableRefObject<number>;
@@ -344,6 +355,7 @@ function CharacterDriver({ handleRef, world, spawn, locomotion, animationTimeRef
   const rapier = useRapier();
   const position = useMemo(() => new THREE.Vector3(), []);
   const lastPosition = useRef(new THREE.Vector3());
+  const stepAccum = useRef(0);
   const initialised = useRef(false);
   const hudTimer = useRef(0);
   const urlTimer = useRef(0);
@@ -394,6 +406,18 @@ function CharacterDriver({ handleRef, world, spawn, locomotion, animationTimeRef
   useFrame((_, rawDelta) => {
     frameCount.current += 1;
     const delta = Math.min(rawDelta, 1 / 30);
+    // Bounded fixed-step physics (Physics is mounted `paused`): at most 3
+    // steps of 1/60 s per rendered frame, EXCESS TIME DROPPED — a slow frame
+    // makes the world run briefly slow, never burst-step. See the <Physics>
+    // comment for why the library's own loop cannot be used here.
+    if (active) {
+      const DT = 1 / 60;
+      stepAccum.current = Math.min(stepAccum.current + rawDelta, 3 * DT);
+      while (stepAccum.current >= DT) {
+        rapier.step(DT);
+        stepAccum.current -= DT;
+      }
+    }
     input.update();
     const intent = inputToIntent(input);
     if (!adapter.ready) return;

@@ -182,3 +182,44 @@ disabled during the bake.
 - Whether canopy darkening is a light-probe/volume term or a per-chunk
   occlusion raster baked at compile time (the latter is cheaper and matches
   "permanent dusk" being a *place* property, not a dynamic one).
+
+## 8. Twilight palettes, golden hour and the display-referred moon (2026-08-25, round-3 research)
+
+**Tropical dawn/dusk palette** (photography-derived, applied in the dome's
+twilight-glow layer, `WorldSky.tsx`): horizon core molten orange
+(#FC6A38-class → linear ≈ (1.0, 0.30, 0.10)), mid-sky coral→magenta spread
+(#F5406D-class), zenith violet→indigo wash (#50366F/#32334D-class). Physics:
+golden-hour colour temperature is ~2 000–4 000 K only while the sun is within
+±6° of the horizon; deep orange/red belongs to the last degrees; after
+sunset comes the uniformly cool "blue hour". Implementation notes: the glow is
+anchored at the sun's azimuth (pow(azimuthDot, 5) core + pow(2) spread +
+isotropic wash) and its luminance is computed CPU-side as
+`k / exposureTarget × bell(sunAlt)` so its **on-screen** brightness follows
+one smooth authored bell — that pattern is flash-proof by construction.
+Sources: taskmate.digital/palettes/tropical-sunset-gradient,
+schemecolor.com/sunset-sky-gradient.php, photopills.com "Mastering Golden
+Hour", Wikipedia "Golden hour (photography)".
+
+**Golden-hour ground haze**: the community-standard approach (e.g. the
+r/threejs terrain post the owner referenced, 2025: "override the default fog
+implementation … customizations of MeshStandardMaterial, you still get proper
+lighting/shadows") is architecturally identical to our `aerial.ts`
+(onBeforeCompile height-fog with a sun-forward Mie phase term). The missing
+ingredient was tuning, not plumbing: boost the haze's sun-scatter gain
+(~×3 at sun altitude 0–4°, fading by ~16°) so humid lowlands glow gold at low
+sun — the humidity raster already localises it.
+
+**Exposure**: derive-from-illuminance models diverge from what the
+Preetham dome + IBL actually emit around sunrise (we shipped a severe
+overexposure spike that way, twice). The robust pattern is an **authored
+log-interpolated exposure curve over sun altitude** with a night value driven
+by moonlight. Related: any stepped ambient (throttled PMREM bakes) against a
+continuously-adapting exposure reads as flashes — tighten the bake threshold
+through twilight (ours: 0.004 sun-y within ±0.25, else 0.025).
+
+**Moons**: physically-scaled disc luminance cannot survive night exposure
+floors (clips to a flat white circle). Author the discs **display-referred**
+(skip scene tone mapping), additive over the dome, with soft-pow terminator,
+view-angle limb darkening and procedural maria noise. Phase realism note: a
+moon high at midnight IS near-full (same geometry as Earth's Moon —
+crescents are daytime companions); don't "fix" that with fake phases.
