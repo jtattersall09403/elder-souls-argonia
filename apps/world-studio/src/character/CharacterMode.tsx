@@ -22,6 +22,8 @@ import { ChunkWorld } from "./chunkWorld";
 import { ChunkTerrain } from "./ChunkTerrain";
 import { ChunkColliders } from "./ChunkColliders";
 import { TouchControls } from "./TouchControls";
+import { WorldSky } from "../sky/WorldSky";
+import { SeaPlane } from "../sky/SeaPlane";
 
 /**
  * Physical-character mode (master plan §66 "Physical character", Phase 7):
@@ -40,6 +42,9 @@ export interface CharacterHudState {
   groundMaterial?: string;
   region?: string;
   waterDepth?: number;
+  /** From the environment query's TimeLightSample (module 55 §94). */
+  dayPhase?: string;
+  visibilityM?: number;
   speed: number;
   grounded: boolean;
 }
@@ -83,6 +88,10 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // Physics stays paused until the collider ring around the spawn is mounted;
   // otherwise the capsule falls through where the terrain hasn't landed yet.
   const [collidersReady, setCollidersReady] = useState(false);
+  // …and until rendering is smooth: during load, shader compiles stall frames
+  // for 100s of ms, and integrating the capsule through those stalls makes its
+  // hover-spring oscillate visibly (the settle "jerking", owner 2026-08-25).
+  const [renderWarm, setRenderWarm] = useState(false);
   const verticalScaleRef = useRef(verticalScale);
   verticalScaleRef.current = verticalScale;
 
@@ -173,18 +182,15 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
       {manifest && spawn ? (
         <Canvas
           camera={{ fov: FOLLOW_CAMERA.fieldOfView, near: 0.3, far: 60000, up: [0, 1, 0] }}
+          shadows="soft"
           style={{ width: "100%", height: "100%" }}
           onCreated={({ gl }) => { glRef.current = gl.domElement; }}
           onPointerDown={() => { if (!touch) glRef.current?.requestPointerLock(); }}
         >
-          <color attach="background" args={["#7c8fa0"]} />
-          <fog attach="fog" args={["#7c8fa0", 900, 14000]} />
-          {/* The terrain's splat shader carries its own lighting; these lights
-              exist for the character/props, matched to the sandbox's rig so
-              the actor reads the same in both apps. */}
-          <ambientLight intensity={0.85} color="#ffffff" />
-          <hemisphereLight args={["#f0f6fc", "#5a6456", 1.1]} />
-          <directionalLight position={[extentM * 0.3, 8000, extentM * 0.2]} intensity={2.4} color="#fff6e4" />
+          {/* Natural light and sky (Phase 8a): terrain, character and sea are
+              lit by the same sun/moon/sky rig, shadows and exposure as the
+              flyover — WorldSky replaces the old per-mode light sets. */}
+          <WorldSky mode="character" extentM={extentM}>
           <Suspense fallback={null}>
             <ChunkTerrain
               store={store}
@@ -196,11 +202,14 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             />
           </Suspense>
           {/* sea */}
-          <mesh position={[extentM / 2, 0, extentM / 2]} rotation={[-Math.PI / 2, 0, 0]}>
-            <planeGeometry args={[extentM * 1.5, extentM * 1.5]} />
-            <meshStandardMaterial color="#2a5b8a" transparent opacity={0.82} roughness={0.35} side={THREE.DoubleSide} />
-          </mesh>
-          <Physics key={verticalScale} gravity={[0, -9.81, 0]} timeStep={1 / 60} interpolate paused={!collidersReady}>
+          <SeaPlane extentM={extentM} levelM={0} />
+          <RenderWarmup armed={collidersReady} onWarm={() => setRenderWarm(true)} />
+          {/* Own Suspense boundary: rapier's WASM init and collider loads
+              suspend, and without a boundary HERE each suspension unmounts and
+              remounts the whole canvas tree — WorldSky included, leaking one
+              CSM light set per remount (owner gate defect 2026-08-25). */}
+          <Suspense fallback={null}>
+          <Physics key={verticalScale} gravity={[0, -9.81, 0]} timeStep={1 / 60} interpolate paused={!collidersReady || !renderWarm}>
             <ChunkColliders store={store} manifest={manifest} focusRef={focusRef}
               verticalScale={verticalScale} onReady={() => setCollidersReady(true)} />
             <PlayerBody handleRef={player} position={[spawn.x, spawn.y, spawn.z]} rotationY={Math.PI}>
@@ -232,6 +241,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               onPositionKm={onPositionKm}
             />
           </Physics>
+          </Suspense>
+          </WorldSky>
         </Canvas>
       ) : (
         <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", color: "#e6ecf5" }}>
@@ -259,6 +270,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             {hud.groundMaterial ? ` · ${hud.groundMaterial}` : ""}
             {hud.region && hud.region !== "unknown" ? ` · ${hud.region}` : ""}
             {hud.waterDepth !== undefined ? ` · water ${hud.waterDepth.toFixed(1)} m deep` : ""}
+            {hud.dayPhase ? ` · ${hud.dayPhase}` : ""}
+            {hud.visibilityM !== undefined ? ` · vis ~${hud.visibilityM} m` : ""}
             {" · "}{hud.grounded ? `${hud.speed.toFixed(1)} m/s` : "airborne"}
           </span>
         )}
@@ -275,6 +288,25 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
       {touch && <TouchControls />}
     </div>
   );
+}
+
+/** Unpauses physics only once frames flow smoothly: `armed` (colliders ready)
+ * plus a run of consecutive sub-100 ms frames. A hard 3 s cap guarantees the
+ * gate opens even on very slow devices. */
+function RenderWarmup({ armed, onWarm }: { armed: boolean; onWarm: () => void }) {
+  const smooth = useRef(0);
+  const waited = useRef(0);
+  const done = useRef(false);
+  useFrame((_, delta) => {
+    if (done.current || !armed) return;
+    waited.current += delta;
+    smooth.current = delta < 0.1 ? smooth.current + 1 : 0;
+    if (smooth.current >= 5 || waited.current > 3) {
+      done.current = true;
+      onWarm();
+    }
+  });
+  return null;
 }
 
 /** The per-frame driver: input → locomotion → camera → HUD. Lives inside
@@ -306,7 +338,9 @@ function CharacterDriver({ handleRef, world, spawn, locomotion, animationTimeRef
   onPositionKm: (xKm: number, zKm: number) => void;
 }) {
   const adapter = useMemo(() => new EcctrlAdapter(handleRef), [handleRef]);
-  const camera3P = useMemo(() => new FollowCamera(), []);
+  // Studio override: allow looking well above the horizon (sky/light checks,
+  // module 55 tooling). The sandbox's combat clamp is unchanged.
+  const camera3P = useMemo(() => new FollowCamera({ minPitch: -1.25 }), []);
   const { camera } = useThree();
   const rapier = useRapier();
   const position = useMemo(() => new THREE.Vector3(), []);
@@ -405,6 +439,8 @@ function CharacterDriver({ handleRef, world, spawn, locomotion, animationTimeRef
         groundMaterial: contact.groundMaterial,
         region: contact.regionId,
         waterDepth: contact.water?.depth,
+        dayPhase: contact.light?.dayPhase,
+        visibilityM: contact.light?.visibilityM,
         speed: adapter.moveSpeed(),
         grounded: adapter.isGrounded(),
       });

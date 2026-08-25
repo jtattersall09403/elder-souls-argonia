@@ -5,6 +5,8 @@ import * as THREE from "three";
 import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json";
 import { sharedChunkStore, type ChunksManifest } from "./character/chunkStore";
 import { ChunkTerrain } from "./character/ChunkTerrain";
+import { WorldSky } from "./sky/WorldSky";
+import { SeaPlane } from "./sky/SeaPlane";
 
 /**
  * Province flyover. Terrain comes from the same streamed chunks as the
@@ -236,36 +238,34 @@ export function Fly3D(props: Fly3DProps) {
   return (
     <Canvas
       camera={{ position: start, fov: 60, near: 2, far: 60000, up: [0, 1, 0] }}
+      shadows="soft"
       style={{ width: "100%", height: "100%" }}
       onCreated={({ camera }) => camera.lookAt(start[0], 0, start[2] - 4000)}
     >
-      <color attach="background" args={["#7c8fa0"]} />
-      <fog attach="fog" args={["#7c8fa0", 4000, 40000]} />
-      <hemisphereLight args={["#cfd8e8", "#3c4636", 0.9]} />
-      <directionalLight position={[extentM * 0.3, 8000, extentM * 0.2]} intensity={1.4} />
-      {chunkManifest ? (
-        <Suspense fallback={null}>
-          <FocusTracker focusRef={focusRef} />
-          <ChunkTerrain store={store} manifest={chunkManifest} focusRef={focusRef}
-            matSet={props.matSet} tintStrength={props.tintStrength}
-            verticalScale={props.exaggeration} />
-        </Suspense>
-      ) : (
-        <Terrain heights={props.heights} size={props.size} metresPerPixel={props.metresPerPixel}
-          textureCanvas={props.textureCanvas} exaggeration={props.exaggeration} />
-      )}
-      <CityMarkers heights={props.heights} size={props.size}
-        metresPerPixel={props.metresPerPixel} exaggeration={props.exaggeration} />
-      {props.showLanes !== false && (
-        <LanesOverlay heights={props.heights} size={props.size}
+      {/* Natural light and sky (Phase 8a): sun/moons/stars, CSM shadows,
+          exposure and the aerial haze all come from WorldSky — the old fixed
+          hemisphere+directional pair and hand-tuned fog are gone. */}
+      <WorldSky mode="fly" extentM={extentM}>
+        {chunkManifest ? (
+          <Suspense fallback={null}>
+            <FocusTracker focusRef={focusRef} />
+            <ChunkTerrain store={store} manifest={chunkManifest} focusRef={focusRef}
+              matSet={props.matSet} tintStrength={props.tintStrength}
+              verticalScale={props.exaggeration} />
+          </Suspense>
+        ) : (
+          <Terrain heights={props.heights} size={props.size} metresPerPixel={props.metresPerPixel}
+            textureCanvas={props.textureCanvas} exaggeration={props.exaggeration} />
+        )}
+        <CityMarkers heights={props.heights} size={props.size}
           metresPerPixel={props.metresPerPixel} exaggeration={props.exaggeration} />
-      )}
-      {/* sea (rises with the wet-season toggle, §36 flood states) */}
-      <mesh position={[extentM / 2, (props.waterLevelM ?? 0) * props.exaggeration, extentM / 2]}
-        rotation={[-Math.PI / 2, 0, 0]}>
-        <planeGeometry args={[extentM * 1.5, extentM * 1.5]} />
-        <meshStandardMaterial color="#2a5b8a" transparent opacity={0.82} roughness={0.35} />
-      </mesh>
+        {props.showLanes !== false && (
+          <LanesOverlay heights={props.heights} size={props.size}
+            metresPerPixel={props.metresPerPixel} exaggeration={props.exaggeration} />
+        )}
+        {/* sea (rises with the wet-season toggle, §36 flood states) */}
+        <SeaPlane extentM={extentM} levelM={(props.waterLevelM ?? 0) * props.exaggeration} />
+      </WorldSky>
       {props.mode === "fly" ? (
         <>
           <PointerLockControls onLock={() => setLocked(true)} onUnlock={() => setLocked(false)} />

@@ -1,5 +1,7 @@
 import type { EnvironmentContact, EnvironmentQuery, Vec3, WaterSample } from "@elder-souls/contracts";
 import { SEA_LEVEL_Y } from "@elder-souls/contracts";
+import { dayPhaseAt, moonAt, MOONS, sunAt } from "@elder-souls/world-time";
+import { worldClock } from "../sky/timeState";
 import type { ChunkStore, ChunksManifest } from "./chunkStore";
 
 /**
@@ -21,6 +23,8 @@ export class ChunkWorld implements EnvironmentQuery {
   private controlSize = 0;
   private controlMetresPerTexel = 5.48352;
   private materialNames = new Map<number, string>();
+  /** Region-class visibility (m) from the compiled climate profiles. */
+  private regionVisibility = new Map<string, number>();
 
   constructor(
     private readonly store: ChunkStore,
@@ -64,6 +68,15 @@ export class ChunkWorld implements EnvironmentQuery {
       this.controlMetresPerTexel = (this.grid[0] * this.cellMetres) / size;
     } catch {
       /* material identification degrades gracefully to undefined */
+    }
+    try {
+      const hydroMeta = await (await fetch(`${this.baseUrl}province/hydrology-meta.json`)).json();
+      for (const [name, profile] of Object.entries(hydroMeta.climateProfiles ?? {})) {
+        const vis = (profile as { visibility?: number }).visibility;
+        if (typeof vis === "number") this.regionVisibility.set(name, vis);
+      }
+    } catch {
+      /* visibility degrades gracefully to undefined */
     }
   }
 
@@ -110,6 +123,15 @@ export class ChunkWorld implements EnvironmentQuery {
       biomeId: region?.biomeId ?? "unknown",
       regionId: region?.regionId ?? "unknown",
       hazardIds: [],
+    };
+    // World time and light (module 55 §94): the one clock the renderer uses.
+    const epoch = worldClock.epochMinutes();
+    contact.light = {
+      dayPhase: dayPhaseAt(epoch),
+      sunAltitudeDeg: (sunAt(epoch).altitude * 180) / Math.PI,
+      moonPhaseFraction: moonAt(epoch, MOONS[0]).illuminatedFraction,
+      seasonScalar: worldClock.season().s,
+      visibilityM: region ? this.regionVisibility.get(region.regionId) : undefined,
     };
     if (ground === null) return contact;
     contact.groundHeight = ground;

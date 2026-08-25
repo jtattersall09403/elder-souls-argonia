@@ -4,8 +4,25 @@ import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json"
 import { Fly3D } from "./Fly3D";
 import { CharacterMode } from "./character/CharacterMode";
 import { colour } from "./terrainColor";
+import { TimePanel } from "./sky/TimePanel";
+import {
+  applyTimeParams,
+  formatDateParam,
+  formatTimeParam,
+  worldClock,
+  type LightPreset,
+} from "./sky/timeState";
+import { getLatitudeOverrideDeg, setLatitudeOverrideDeg } from "./sky/WorldSky";
 
 const urlParams = new URLSearchParams(window.location.search);
+// World time from the URL (t=HH:MM, d=M-D, rate; lat is a debug override).
+applyTimeParams(urlParams);
+{
+  const lat = Number(urlParams.get("lat"));
+  if (Number.isFinite(lat) && urlParams.get("lat") !== null && lat !== -10) {
+    setLatitudeOverrideDeg(lat);
+  }
+}
 
 interface ProvinceMeta {
   metresPerPixel: number;
@@ -84,6 +101,16 @@ export function App() {
   // Live tuning knobs (owner): climate-tint strength; boat-lane overlay.
   const [tintStrength, setTintStrength] = useState(Number(urlParams.get("tint") ?? 1));
   const [showLanes, setShowLanes] = useState(urlParams.get("lanes") !== "0");
+  // World-time changes (scrub/date/rate/preset) bump this so the URL effect
+  // reserialises; the clock itself lives in sky/timeState.
+  const [timeVersion, setTimeVersion] = useState(0);
+  const onTimeChanged = useCallback(() => setTimeVersion((v) => v + 1), []);
+  // Presets teleport: bump the nonce to remount the 3D view at the new spawn.
+  const [presetNonce, setPresetNonce] = useState(0);
+  const onLightPreset = useCallback((p: LightPreset) => {
+    setSpawnKm({ x: p.xKm, z: p.zKm });
+    setPresetNonce((v) => v + 1);
+  }, []);
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}province/refined/flood-states.json`)
       .then((r) => r.json())
@@ -124,9 +151,18 @@ export function App() {
       if (matSet) q.set("mats", matSet);
       if (tintStrength !== 1) q.set("tint", String(tintStrength));
     }
+    if (view !== "map") {
+      // World time: every 3D URL pins an exact instant (module 55 §94).
+      const instant = worldClock.now();
+      q.set("t", formatTimeParam(instant.minuteOfDay));
+      q.set("d", formatDateParam(instant));
+      if (worldClock.rate > 0) q.set("rate", String(worldClock.rate));
+      const lat = getLatitudeOverrideDeg();
+      if (lat !== null) q.set("lat", String(lat));
+    }
     const qs = q.toString();
     window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
-  }, [view, camMode, spawnKm, exaggeration, flySpeed, matSet, wetSeason, tintStrength, showLanes]);
+  }, [view, camMode, spawnKm, exaggeration, flySpeed, matSet, wetSeason, tintStrength, showLanes, timeVersion]);
   const overlaysRef = useRef<Record<string, HTMLImageElement>>({});
   const decodedPxRef = useRef<Record<string, Uint8ClampedArray>>({});
   const [layers, setLayers] = useState<Record<string, boolean>>({
@@ -374,6 +410,7 @@ export function App() {
 
   const characterOverlay = view === "character" ? (
     <CharacterMode
+      key={presetNonce}
       spawnKm={spawnKm}
       raceId={urlParams.get("race") ?? undefined}
       profileId={urlParams.get("profile") ?? undefined}
@@ -392,7 +429,7 @@ export function App() {
   // texture and the hover data source — so the 3D view overlays it.
   const flyOverlay = view === "fly3d" && meta && heightsRef.current && canvasRef.current && overlaysReady ? (
     <div style={{ position: "fixed", inset: 0, zIndex: 5, background: "#10141a" }}>
-      <Fly3D heights={displayHeights()!} size={meta.imageWidth}
+      <Fly3D key={presetNonce} heights={displayHeights()!} size={meta.imageWidth}
         metresPerPixel={meta.metresPerPixel} textureCanvas={canvasRef.current}
         spawnKm={spawnKm} exaggeration={exaggeration} mode={camMode}
         matSet={matSet || undefined} waterLevelM={wetSeason ? wetAmplitude : 0}
@@ -459,6 +496,7 @@ export function App() {
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: 16 }}>
       {characterOverlay}
       {flyOverlay}
+      {view !== "map" && <TimePanel onChanged={onTimeChanged} onPreset={onLightPreset} />}
       <h1 style={{ font: "600 18px system-ui", margin: 0 }}>Argonia province preview — Phase 2 source ingest</h1>
       <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
         <label>

@@ -1,7 +1,8 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
-import { createGroundMaterial, useGroundManifest } from "../groundMaterial";
+import { createGroundMaterial, useGroundManifest, type GroundUniforms } from "../groundMaterial";
+import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
 import type { ChunkGrid, ChunkStore, ChunksManifest } from "./chunkStore";
 
 /**
@@ -81,7 +82,10 @@ function ChunkMesh({ grid, material, verticalScale, uvExtentM }: {
     [grid, verticalScale, uvExtentM],
   );
   useEffect(() => () => geometry.dispose(), [geometry]);
-  return <mesh geometry={geometry} material={material} />;
+  // Near LODs cast sun shadows; distant chunks only receive (research doc:
+  // cascade cost scales with objects re-rendered per cascade).
+  const casts = grid.lod !== "4";
+  return <mesh geometry={geometry} material={material} castShadow={casts} receiveShadow />;
 }
 
 export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, verticalScale, onLodMap }: {
@@ -104,23 +108,38 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   const ctrl = useLoader(THREE.TextureLoader, `${base}province/refined/ground-control.png`);
   const tintTex = useLoader(THREE.TextureLoader, `${base}province/refined/ground-tint.png`);
   const gradTex = useLoader(THREE.TextureLoader, `${base}province/chunks/normal-grad.png`);
+  const { csm } = useContext(SkyContext);
   const material = useMemo(
     () => createGroundMaterial(images, ctrl, tintTex, gradTex, ground,
-      verticalScale ?? manifest.verticalScaleAtGeometry),
+      verticalScale ?? manifest.verticalScaleAtGeometry, sharedAerialUniforms, csm),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [images, ctrl, tintTex, gradTex, ground],
+    [images, ctrl, tintTex, gradTex, ground, csm],
   );
+  const groundUniforms = material.userData.groundUniforms as GroundUniforms;
   useEffect(() => {
-    (material.uniforms.uVerticalScale as { value: number }).value =
+    groundUniforms.uVerticalScale.value =
       verticalScale ?? manifest.verticalScaleAtGeometry;
-  }, [material, verticalScale, manifest]);
-  useEffect(() => () => {
-    (material.userData.tex as THREE.DataArrayTexture).dispose();
-    material.dispose();
-  }, [material]);
+  }, [groundUniforms, verticalScale, manifest]);
   useEffect(() => {
-    (material.uniforms.uTintStrength as { value: number }).value = tintStrength ?? 1.0;
-  }, [material, tintStrength]);
+    // Probe/diagnostics hook: exposes what the material patch actually did.
+    const w = window as unknown as {
+      __GROUND_DEBUG__?: () => unknown;
+      __GROUND_MATERIAL__?: THREE.Material;
+    };
+    w.__GROUND_MATERIAL__ = material;
+    w.__GROUND_DEBUG__ = () => ({
+      patchInfo: material.userData.patchInfo ?? { compiled: false },
+      hasCsm: !!csm,
+      type: material.type,
+    });
+    return () => {
+      (material.userData.tex as THREE.DataArrayTexture).dispose();
+      material.dispose();
+    };
+  }, [material, csm]);
+  useEffect(() => {
+    groundUniforms.uTintStrength.value = tintStrength ?? 1.0;
+  }, [groundUniforms, tintStrength]);
 
   // The control map spans the refined sample grid exactly.
   const uvExtentM = useMemo(() => {

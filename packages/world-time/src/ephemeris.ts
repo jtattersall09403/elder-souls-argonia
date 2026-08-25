@@ -129,16 +129,20 @@ function normalize(angle: number): number {
 }
 
 /** Declination + hour angle → altitude/azimuth/direction at the province latitude. */
-export function toHorizontal(declination: number, hourAngle: number): HorizontalPosition {
+export function toHorizontal(
+  declination: number,
+  hourAngle: number,
+  latitude: number = LATITUDE,
+): HorizontalPosition {
   const sinAlt =
-    Math.sin(LATITUDE) * Math.sin(declination) +
-    Math.cos(LATITUDE) * Math.cos(declination) * Math.cos(hourAngle);
+    Math.sin(latitude) * Math.sin(declination) +
+    Math.cos(latitude) * Math.cos(declination) * Math.cos(hourAngle);
   const altitude = Math.asin(Math.min(1, Math.max(-1, sinAlt)));
   // atan2 form measured from south, positive westward; +π converts to from-north clockwise.
   const azimuth = normalize(
     Math.atan2(
       Math.sin(hourAngle),
-      Math.cos(hourAngle) * Math.sin(LATITUDE) - Math.tan(declination) * Math.cos(LATITUDE),
+      Math.cos(hourAngle) * Math.sin(latitude) - Math.tan(declination) * Math.cos(latitude),
     ) + Math.PI,
   );
   const cosAlt = Math.cos(altitude);
@@ -170,24 +174,28 @@ export function localSiderealAngle(epochMinutes: number): number {
 }
 
 /** Sun position and orbital state at an instant. */
-export function sunAt(epochMinutes: number): SunState {
+export function sunAt(epochMinutes: number, latitude: number = LATITUDE): SunState {
   const day = epochDays(epochMinutes);
   const eclipticLongitude = sunEclipticLongitude(day);
   const declination = Math.asin(Math.sin(AXIAL_TILT) * Math.sin(eclipticLongitude));
   const minuteOfDay = ((epochMinutes % MINUTES_PER_DAY) + MINUTES_PER_DAY) % MINUTES_PER_DAY;
   const hourAngle = (TAU * (minuteOfDay - 720)) / MINUTES_PER_DAY;
-  return { ...toHorizontal(declination, hourAngle), eclipticLongitude, declination };
+  return { ...toHorizontal(declination, hourAngle, latitude), eclipticLongitude, declination };
 }
 
 /** Moon position and phase at an instant. */
-export function moonAt(epochMinutes: number, moon: MoonDef): MoonState {
+export function moonAt(
+  epochMinutes: number,
+  moon: MoonDef,
+  latitude: number = LATITUDE,
+): MoonState {
   const day = epochDays(epochMinutes);
   const phaseAge = mod(day - NEW_MOON_EPOCH_DAY, SYNODIC_NIGHTS);
   const sunLon = sunEclipticLongitude(day);
   const elongation = normalize((TAU * phaseAge) / SYNODIC_NIGHTS + moon.longitudeOffset);
   const eclipticLongitude = normalize(sunLon + elongation);
   const declination = moon.inclination * Math.sin(eclipticLongitude - moon.node);
-  const position = toHorizontal(declination, hourAngleOf(epochMinutes, eclipticLongitude));
+  const position = toHorizontal(declination, hourAngleOf(epochMinutes, eclipticLongitude), latitude);
   return {
     ...position,
     id: moon.id,
@@ -202,8 +210,8 @@ export function moonAt(epochMinutes: number, moon: MoonDef): MoonState {
 }
 
 /** All moons at an instant. */
-export function moonsAt(epochMinutes: number): MoonState[] {
-  return MOONS.map((m) => moonAt(epochMinutes, m));
+export function moonsAt(epochMinutes: number, latitude: number = LATITUDE): MoonState[] {
+  return MOONS.map((m) => moonAt(epochMinutes, m, latitude));
 }
 
 function mod(v: number, m: number): number {
@@ -223,13 +231,13 @@ export interface SunTimes {
 }
 
 /** Rise/set and twilight times (minutes of day) for the day containing an epoch minute. */
-export function sunTimes(epochMinutes: number): SunTimes {
+export function sunTimes(epochMinutes: number, latitude: number = LATITUDE): SunTimes {
   const dayStart = Math.floor(epochDays(epochMinutes));
   const declination = sunDeclination(dayStart + 0.5);
   const cross = (altDeg: number): { am: number; pm: number } | null => {
     const cosH =
-      (Math.sin(altDeg * DEG) - Math.sin(LATITUDE) * Math.sin(declination)) /
-      (Math.cos(LATITUDE) * Math.cos(declination));
+      (Math.sin(altDeg * DEG) - Math.sin(latitude) * Math.sin(declination)) /
+      (Math.cos(latitude) * Math.cos(declination));
     if (cosH < -1 || cosH > 1) return null;
     const halfDayMinutes = (Math.acos(cosH) / TAU) * MINUTES_PER_DAY;
     return { am: 720 - halfDayMinutes, pm: 720 + halfDayMinutes };

@@ -9,12 +9,16 @@ then open only the master-plan sections the active phase needs.
 1. **Trust the repo over this file.** Before building on a phase marked done,
    spot-check its evidence (run the gates, check `git log`). Before anything
    else, run `git status` — a dirty tree means a previous agent stopped mid-work.
-2. **Starting work:** set the phase row to `in progress` with a one-line current
-   task, and commit that change before the work itself.
+2. **Starting work:** in one commit *before* the work itself, make the **whole
+   file** consistent — set the phase row to `in progress` with a one-line
+   current task **and** rewrite *Waiting on user* and *Next up* to match. Those
+   two sections are what go stale: a row reading `in progress` while *Next up*
+   still advertises the same phase as upcoming is the contradiction to avoid.
 3. **Work in small commits.** Every commit should leave `npm test` and
    `npm run typecheck` green from the repo root.
 4. **Finishing a milestone:** flip the row to `done` with one line of evidence,
-   in the same commit as the finishing work.
+   in the same commit as the finishing work — and refresh *Waiting on user* and
+   *Next up* in that same commit, per rule 2.
 5. **Crash recovery:** if a row says `in progress` but no agent is running, use
    `git status`, `git log -5` and the gates to decide whether to finish, redo or
    revert the partial work; then correct this file.
@@ -37,7 +41,7 @@ then open only the master-plan sections the active phase needs.
 | 6b — province rescale + mountain relief + naturalness (0015; plan §86 Phase 6b) | done | owner walk review PASS 2026-08-25 ("absolutely perfect"). ×1/×1; sculpt stage (uplift+erosion, 651 m summit, ~257 m median belt relief, cliff benches, talus); province de-terraced + micro-undulation; classifiers recalibrated; triplanar + belts 100/280/440; fly-speed slider; 8 standing probes (test_sculpt.py). **Owner: re-review terrain feel after the water phases (8b) land** |
 | 7a — physical character integration | done | owner playtest PASS 2026-08-24. Packages extracted (0013): game-core/character/character-assets, consumed by both apps; studio character mode (grounded movement only — full sandbox parity is Phase 10b, moved from 7b by 0017) on Rapier heightfield chunks (0014) behind PlayerMovementController; desktop/touch/gamepad parity; env-query contract implemented; actor registry; capability profiles + anchor-spawn validation. Feedback rounds fixed: live support plane, unified fly/walk chunk terrain + vertical-scale slider, grounded coyote debounce, gradient-map lighting (no chunk seams), FIX_INTERNAL_EDGES colliders. All gates + 33 visual probes + e2e probe green |
 | N — quest-plan cast/lore/deliverability/fun review (parallel workstream, decision 0018) | done | 2026-08-25 (Opus): new `docs/quests/35-cast.md` — depth tiers, six character rules, canon naming system, rewritten principal cast (3 new: Never-Writes-Twice, Spills-The-Ink, Ahnjazzi; 2 renamed), named recurring cast for all 12 faction lines, 6 cross-line faces, oddities roster, C4 texture kit. New lore dossier `topics/labour-and-bondage.md` — **the Owing**, the province's coerced-labour institution (closes the Chainbreakers' shapeless target and the open Archein gap; `washed-out` NPC variant is free canon signposting). Cult method re-grounded on the canon **Mnemic Egg**; Hierem/Synod file moved into the main quest; Marsh Charter re-anchored on the Four Winds, Sunken Archive on folk-literacy magic + the Conclave of Baal; Nisswo *shunatei* critique of the cult added. **Delivery tiers D-A/D-B/D-C** + conversion table; all 9 chase/escort/crowd/riot beats converted. **Boredom test** added; ~12 read-and-talk quests rewritten; Act II verb-variety rule (§21b); Thorn and Umbriel lines diversified. Acceptance criteria 28–33 + cast/deliverability validator sections |
-| 8a — world time, natural light and sky | in progress | started 2026-08-25: world clock/calendar package, sun/moon/star model, physical light rig + CSM + tone mapping, aerial-perspective haze from climate fields, studio time-of-day tooling (decision 0016, module 55) |
+| 8a — world time, natural light and sky | in progress | built 2026-08-25 (packages/world-time 25 tests; star catalogue; climate-air raster; studio light stack; decision 0020). Owner walk gate FAIL same day (character view: black moon discs, night terrain lit like day, sun glare, colours off, slow load, settle-jitter) → root causes found & fixed (decision **0021**: leaked CSM cascade lights from suspense remounts, shadows silently off, moons off the lux scale, circumsolar Mie blow-out, exposure/ambient double-count, driver-dependent NaN). Diagnostics verify clean light census + sane day/night in character view; probe-sky extended to character scenarios + light census. **Awaiting owner re-gate** |
 | 8b — water renderer and interaction | todo | |
 | 8c — weather and atmosphere | todo | |
 | 9 — swimming, climbing, boats | todo | |
@@ -53,15 +57,14 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- Nothing — Phase 8a is next, for a fresh agent.
+- **Phase 8a owner re-gate — walk the light** (defects from the first gate
+  fixed, decision 0021). In walk mode you can now look up at the sky. Check:
+  dawn → noon → dusk → night at a lowland spot and a mountain spot (time
+  panel, top right; presets teleport you); moons show phases and read through
+  daylight; night is dark (moonless) or dimly moonlit, never day-bright; the
+  sun is a bright disc + modest glow, not a half-sky white blur; load feels
+  quick and the character settles without jerking. Say what feels wrong, not
+  how to fix it — every brightness/size constant is a one-line retune.
 
-## Next up
-
-**Phase 8a — world time, natural light and sky** (decision 0016, module 55):
-world clock/calendar package, sun/moon/star model, physical light rig + CSM +
-tone mapping, aerial-perspective haze from the climate fields, studio
-time-of-day tooling. Lands before water because water shading consumes
-sun/sky/IBL, and before Phases 10/11 so no material or kit is approved under
-placeholder light. Then 8b (water renderer — the env-query WaterSample is
-sea-level-only until then; owner will re-review 6b terrain feel once water is
-in) and 8c (weather). Quest plan provisions bind Phases 11+.
+(There is no "next up" section: the first `todo` row above is what's next.
+Phase-ordering rationale lives in the plan §86, not here.)

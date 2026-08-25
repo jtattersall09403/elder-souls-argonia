@@ -30,9 +30,25 @@ port 8081 with the combat sandbox (run one at a time).
   sprint, J jumps. Combat, inventory/equipment, enemies, targeting and the bow
   arrive with **Phase 10b** (full sandbox parity — moved from 7b, decision
   0017); swimming and climbing with Phase 9.
+- **World time, natural light and sky (Phase 8a, module 55)**: both 3D modes
+  are lit by one system (`src/sky/`) — the deterministic world clock
+  (`packages/world-time`), a Preetham sky dome on a physical lux scale,
+  sun/moon lights with cascaded shadow maps, ACES tone mapping with
+  eye-adaptation exposure, throttled sky IBL, an aerial-perspective haze
+  driven by `province/climate-air.png` (humidity/mist/canopy), the thirteen
+  canonical constellations + Southron pole star + drifting Serpent, and
+  Masser/Secunda as lit spheres (correct phase by construction). The
+  **time panel** (top right in 3D views) scrubs time/date, sets the run rate,
+  and jumps to named region light presets; every material/kit review from now
+  on is lit by a named region+time preset (decision 0016). Debug state:
+  `window.__STUDIO_SKY_DEBUG__` (sun altitude, exposure, moon phase, env
+  bakes…). Implementation choices: decision 0020.
 - **Reproducible URLs**:
   `?view=fly3d&cam=fly|orbit&x=<km>&z=<km>&ex=<n>&spd=<m/s>&mats=<set>` and
-  `?view=character&x=<km>&z=<km>&race=<raceId>&profile=<capabilityProfileId>`.
+  `?view=character&x=<km>&z=<km>&race=<raceId>&profile=<capabilityProfileId>`,
+  plus world time on both: `&t=<HH:MM>&d=<month>-<day>` (1-based month),
+  `&rate=<world-min/s>` (0 = paused, the default), `&lat=<deg>` (debug
+  latitude override), `&smsize=<px>` (shadow-map size for headless probes).
 - **Ground-material sets**: terrain texture palettes are versioned under
   `public/textures/ground/<set>/` (registry: `index.json`; built by
   `worldgen.build_ground_materials`). The fly HUD shows a selector when more
@@ -46,7 +62,18 @@ chunks are RG16 PNGs + `chunks-web-manifest.json` written by
 
 ## Validation
 
-- `npm test` — data-contract tests (anchors, chunk manifest coverage).
+- `npm test` — data-contract tests (anchors, chunk manifest coverage) + the
+  light-rig unit tests (`src/sky/lightRig.test.ts`).
+- `node scripts/probe-sky.mjs` (from `apps/combat-sandbox`) — fixed-instant
+  sky/light probe: pins the named region presets at exact WorldInstants,
+  asserts sun altitude/day phase/moon phase/exposure via
+  `__STUDIO_SKY_DEBUG__` **plus a scene light census** (leaked CSM cascade
+  lights are what broke the first 8a gate — decision 0021), checks screen
+  brightness bands, and screenshots each preset into `artifacts/`. Covers
+  **both fly and character views** — the two canvases wire lights/shadows
+  differently and fly-only probes masked walk-mode defects. Slow under
+  software GL. `scripts/diagnose-sky.mjs` is the deeper one-off variant
+  (dumps every light/material) for debugging light regressions.
 - `node scripts/probe-character.mjs` (from `apps/combat-sandbox`, which owns
   the playwright dep) — headless end-to-end probe of character mode against a
   production build: boots the page, waits for the HUD, walks/sprints, asserts

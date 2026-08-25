@@ -99,12 +99,32 @@ export interface WaterSample {
   hazardIds: string[];
 }
 
+/**
+ * World time and natural light at a position (module 55 §94/§97): time-of-day
+ * is a gameplay contract — night changes visibility, AI perception and danger
+ * — so combat/AI and the renderer read the same authority. Produced by the
+ * world clock (`@elder-souls/world-time`) + climate fields; never scaled to
+ * the player (decision 0004).
+ */
+export interface TimeLightSample {
+  /** night | astronomical | nautical | civil | sunrise | morning | noon | afternoon | sunset | dusk */
+  dayPhase: string;
+  sunAltitudeDeg: number;
+  /** Illuminated fraction of Masser (0 new … 1 full) — the night key light. */
+  moonPhaseFraction: number;
+  /** Season scalar s(t) ∈ [−1 dry … +1 wet] (module 50 §33.1). */
+  seasonScalar: number;
+  /** Practical sight distance in metres under current air/mist (§97). */
+  visibilityM?: number;
+}
+
 export interface EnvironmentContact {
   groundMaterial?: string;
   /** Terrain surface height at the query (x, z), runtime metres. */
   groundHeight?: number;
   supportNormal?: Vec3;
   water?: WaterSample;
+  light?: TimeLightSample;
   mudDepth: number;
   biomeId: string;
   regionId: string;

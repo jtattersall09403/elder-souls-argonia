@@ -226,6 +226,12 @@ weather↔flood↔tide coupling, quality tiers.
 volumetric (froxel) fog on the high tier, seasonal foliage response, lightning
 and weather audio, per-device-class quality budgets and performance gates.
 
+Tier-1 code: `packages/world-time` (clock/calendar/ephemeris),
+`apps/world-studio/src/sky/` (light rig, sky dome, stars/moons, aerial haze,
+CSM, time panel), `world/sources/sky/star-catalogue.json` (authored sky),
+`climate-air.png` from `worldgen.compile_hydrology` (humidity/mist/canopy).
+Implementation choices: decision 0020.
+
 **Studio tooling ships with Tier 1** (Module 85): a **time-of-day scrubber**, a
 date/season field, weather-state selector, latitude/turbidity debug sliders,
 one-click **region light presets** ("Blackrose basin, dawn mist", "Padomaic

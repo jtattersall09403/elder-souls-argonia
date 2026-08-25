@@ -23,3 +23,5 @@ record and marking the old one superseded — don't rewrite history.
 - [0017 — full sandbox parity in the studio moves from Phase 7b to Phase 10b](0017-sandbox-parity-moved-to-phase-10b.md)
 - [0018 — quest-plan review: cast, lore, deliverability and fun](0018-cast-lore-deliverability-review.md)
 - [0019 — stats system: parallel design workstream S, implemented at Phase 10c](0019-stats-system-workstream-and-placement.md)
+- [0020 — Phase 8a implementation shape: engine-lit terrain, lux scale, authored sky constants](0020-phase8a-light-implementation-shape.md)
+- [0021 — Phase 8a owner-gate defects: root causes and fixes (CSM light leak, exposure, moons)](0021-phase8a-gate-defect-fixes.md)
