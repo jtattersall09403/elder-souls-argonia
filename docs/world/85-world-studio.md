@@ -15,7 +15,7 @@ Required modes:
 | Overworld map | Inspect province layers and choose a spawn point | Phase 5 ✓ |
 | First-person fly | Fast visual inspection without collision | Phase 5 ✓ |
 | Orbit/survey | Inspect settlements, terrain and hydrology from above | Phase 5 ✓ |
-| Physical character | Test actual movement, combat, swimming and climbing | Phase 7 ✓ grounded movement (`?view=character&x&z&race&profile`; HUD = live environment-query probe; swimming/climbing land with Phase 9) |
+| Physical character | Test actual movement, combat, swimming and climbing | Phase 7a ✓ grounded movement (`?view=character&x&z&race&profile`; HUD = live environment-query probe; swimming/climbing land with Phase 9; combat, inventory, enemies and bow with Phase 10b) |
 | Boat | Test channels, currents, docks and clearance | Phase 9 |
 | Underwater free camera | Inspect submerged routes and entrances | Phase 8b |
 | Diagnostic render | Show collision, IDs, normals, depth, flow and LOD | partial: character HUD reports chunk/LOD/material; `window.__STUDIO_CHARACTER_DEBUG__` exposes collider/raycast probes |

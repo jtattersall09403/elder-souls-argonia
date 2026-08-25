@@ -30,6 +30,10 @@ Profiles are generated from gameplay data at build time. The world compiler does
 
 ## 53. Extract scene orchestration
 
+> **Lands in Phase 10b** (was Phase 7b; decision 0017) — after swimming,
+> climbing and boats, so the extraction merges once against a character package
+> that already carries every movement mode.
+
 `CombatScene.tsx` currently carries substantial scene orchestration and some direct ecctrl access. Migration should extract:
 
 - actor spawning;

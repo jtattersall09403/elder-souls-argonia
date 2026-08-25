@@ -101,9 +101,9 @@ semantic kits and deterministic compilers; simple source-and-credits records
 0 sources/era/credits · 1 monorepo+contracts · 2 province ingest ·
 3 hydrology+regions · 4 danger/cultures/transport · 5 World Studio ·
 6 province terrain · 6b rescale+mountain relief+naturalness (0015, after 7a) ·
-7a physical character · 7b full sandbox parity in studio ·
-8a world time/natural light/sky (0016) · 8b water renderer ·
-8c weather/atmosphere · 9 swim/climb/boats ·
-10 asset catalogue+kits · 11 causal locations+settlements ·
+7a physical character · 8a world time/natural light/sky (0016) ·
+8b water renderer · 8c weather/atmosphere · 9 swim/climb/boats ·
+10 asset catalogue+kits · 10b full sandbox parity in studio (was 7b, 0017) ·
+11 causal locations+settlements ·
 12 dungeons+interiors · 13 ecology/encounters/loot · 14 streaming+deploy ·
 15 expansion by watershed. Statuses live only in PROGRESS.md.

@@ -260,20 +260,28 @@ channel-preservation probe, not by eye.
 
 Deliverables:
 
-- combat sandbox character system and basic locomotion (run + sprint + jump) extracted into shared
+- combat sandbox character system - everything intended to be 'portable' from the sandbox - extracted into shared
   packages (deferred here from Milestone 1b) and consumed by both sandbox and
-  world studio;
+  world studio. *As shipped (decision 0013): the portable **core** —
+  `game-core` / `character` / `character-assets`. Scene orchestration (§53),
+  inventory/equipment UI, enemies/targeting and the bow stayed in the sandbox
+  and move with Phase 10b;*
 - sandbox character and camera in world studio;
 - current ecctrl/Rapier grounded movement;
 - environment query contract;
 - combat actor and target registration;
 - input parity across desktop, touch and controller;
 - capability-profile validation.
+- User able to walk, run, sprint, jump a physical character around the map
 
-### Phase 7b - remaining character integration
-- All remaining combat sandbox inventory, items and character systems extracted into shared
-  packages (if not already done so) and consumed by both sandbox and
-  world studio. When completed, as a character you can do everything in the world studio that you can do in the sandbox.
+### Phase 7b — moved to Phase 10b (decision 0017)
+
+Full portable-sandbox parity in the studio was originally sequenced here.
+Nothing in Phases 8a–10 needs it, and the riskier world systems (light, water,
+swimming, climbing, boats, kits) are worth testing first, so it now runs as
+**[Phase 10b](#phase-10b--full-portable-sandbox-parity-in-the-studio-was-phase-7b-decision-0017)**
+— after the asset catalogue, before settlement authoring. References to
+"Phase 7b" elsewhere mean Phase 10b.
 
 ### Phase 8a — world time, natural light and sky (decision 0016; module 55)
 
@@ -339,7 +347,9 @@ Deliverables:
 
 - surface/submerged swimming;
 - Argonian breath behaviour;
-- stat/spell/equipment modifiers;
+- stat/spell/equipment modifiers — **as a thin contract with defaults** (the
+  equipment/inventory systems and UI arrive with Phase 10b, so Phase 9 defines
+  the hook and supplies sane defaults rather than waiting on them);
 - climb mode and climb-surface generation;
 - small-boat control and boat graph;
 - docking, storage and passengers;
@@ -356,6 +366,43 @@ Deliverables:
 - physical materials;
 - LOD and collision generation;
 - source/credits reference check in CI.
+
+### Phase 10b — full portable-sandbox parity in the studio (was Phase 7b; decision 0017)
+
+All remaining intended-portable functionality from the combat sandbox is
+available to the user in the world studio: as a user in the studio you can use
+everything, and perform every action, that was intended to be portable from the
+sandbox. All portable systems available and working as intended.
+
+Deliverables:
+
+- scene-orchestration extraction (§53): actor spawning, environment queries,
+  target registration, camera/lock-on services, encounter ownership, hitbox
+  registration, AV event routing, reset/teleport, debug controls — sandbox and
+  studio compose the same packages through different scene adapters;
+- inventory and equipment systems and UI in the studio;
+- enemies, targeting and lock-on; the bow;
+- combat-space probes (§69) measured against production kits and collision.
+
+Sequenced here because:
+
+- nothing in 8a–10 depends on it (they need Phase 7a's movement and the
+  environment query, which exist), while light, water, swimming, climbing,
+  boats and kits carry the real technical risk and are worth proving first;
+- the orchestration extraction then happens **once**, against a character
+  package that already carries swimming, climbing and boat modes (Phase 9),
+  instead of being merged twice;
+- combat spaces are measured against Phase 10's real kits, materials and
+  collision rather than placeholder ground;
+- it must precede Phases 11–13: settlement and dungeon authoring is gated on
+  "combat spaces and critical-animation clearance validated" (00-core
+  acceptance), and Phase 13 (fixed populations, encounter sockets, fixed loot,
+  arrows) is impossible without enemies, targeting, bow and inventory.
+
+Standing risk while it waits: the sandbox stays the only place combat runs, so
+sandbox and studio can drift. Mitigation is the existing package rule —
+new portable behaviour lands in `packages/`, never in `apps/combat-sandbox`
+directly, and both apps' gates stay green.
 
 ### Phase 11 — causal locations and settlement authoring
 

@@ -16,7 +16,7 @@ port 8081 with the combat sandbox (run one at a time).
   exaggeration slider and a log-scale flight-speed slider (running pace →
   fast skim, `?spd=`). Terrain *feel* is judged on foot, not from here
   (decision 0015).
-- **Physical character mode (Phase 7)**: "Walk the province" (map) or "Walk
+- **Physical character mode (Phase 7a)**: "Walk the province" (map) or "Walk
   here" (fly HUD). The combat sandbox's character (`@elder-souls/character` +
   `@elder-souls/game-core`) walking the real terrain: Rapier heightfield
   colliders per chunk from `public/province/chunks/` (LOD-1 grids; the
@@ -27,7 +27,9 @@ port 8081 with the combat sandbox (run one at a time).
   `PlayerMovementController`, its follow camera, and keyboard/touch/gamepad
   input parity. The HUD is the live environment-query probe: position, chunk,
   ground material, region, water depth, speed. WASD moves, hold Space to
-  sprint, J jumps.
+  sprint, J jumps. Combat, inventory/equipment, enemies, targeting and the bow
+  arrive with **Phase 10b** (full sandbox parity — moved from 7b, decision
+  0017); swimming and climbing with Phase 9.
 - **Reproducible URLs**:
   `?view=fly3d&cam=fly|orbit&x=<km>&z=<km>&ex=<n>&spd=<m/s>&mats=<set>` and
   `?view=character&x=<km>&z=<km>&race=<raceId>&profile=<capabilityProfileId>`.

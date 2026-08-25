@@ -1,6 +1,9 @@
 # 0013 — Phase 7 package extraction shape
 
-**Date:** 2026-08-24 · **Status:** accepted
+**Date:** 2026-08-24 · **Status:** accepted (Phase 7a shipped the portable
+core; the remaining extraction — scene orchestration §53, inventory/equipment
+UI, enemies/targeting, bow — moved from Phase 7b to **Phase 10b**, decision
+0017)
 
 Phase 7 extracts the combat sandbox's portable systems into shared packages
 (deferred from Milestone 1b until the world studio became a second consumer).
