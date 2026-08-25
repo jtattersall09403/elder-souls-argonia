@@ -104,6 +104,7 @@ semantic kits and deterministic compilers; simple source-and-credits records
 7a physical character · 8a world time/natural light/sky (0016) ·
 8b water renderer · 8c weather/atmosphere · 9 swim/climb/boats ·
 10 asset catalogue+kits · 10b full sandbox parity in studio (was 7b, 0017) ·
+10c stats+progression (0019; design workstream S runs in parallel from now) ·
 11 causal locations+settlements ·
 12 dungeons+interiors · 13 ecology/encounters/loot · 14 streaming+deploy ·
 15 expansion by watershed. Statuses live only in PROGRESS.md.

@@ -16,7 +16,8 @@ across the repo resolve via the map below.
 | Time of day, calendar, sun/moons/stars, natural light, sky, haze/mist, weather | [55-light-sky-time.md](55-light-sky-time.md) (§93–98) — the world clock and everything lit by it |
 | Water rendering, swimming, underwater play, boats, climbing | [60-water-traversal.md](60-water-traversal.md) (§38–46) — incl. the reference water repos to adapt |
 | Dungeon families, interiors, combat spaces, encounters | [70-dungeons-interiors.md](70-dungeons-interiors.md) (§47–50) |
-| Anything touching combat/character/inventory/physics contracts | [75-combat-compatibility.md](75-combat-compatibility.md) (§51–57) |
+| Anything touching combat/character/inventory/physics contracts | [75-combat-compatibility.md](75-combat-compatibility.md) (§51–57) — incl. §51.1: the sandbox systems are not frozen |
+| Character statistics, attributes, skills, progression, levelling, birthsigns, the fixed-danger power scale | [76-stats-progression.md](76-stats-progression.md) (§100–104) — design workstream S then Phase 10c |
 | Repo layout, packages, bundles, CI/deploy, asset vault | [80-repo-architecture.md](80-repo-architecture.md) (§58–65) |
 | Studio modes, spawn, diagnostic layers, probes, visual evidence | [85-world-studio.md](85-world-studio.md) (§66–70) |
 | Finding/reusing assets: vanilla families + vetted mod candidates (architecture, flora, boats, creatures, ruins) + ingestion order | [90-asset-strategy.md](90-asset-strategy.md) (§71–80) — check before hunting new sources |
@@ -33,7 +34,7 @@ everything. The quest plan ([../quests/](../quests/README.md)) binds via its
 §1–10 → 10 · §11–16 → 20 · §17–27 → 30 · §28–32 → 40 · §33–37 → 50 ·
 §38–46 → 60 · §47–50 → 70 · §51–57 → 75 · §58–65 → 80 · §66–70 → 85 ·
 §71–80 → 90 · §81–84 → 92 · §85–87 → 95 · §88–92 → 00-core (acceptance) ·
-§93–98 → 55 (added 2026-08-25, decision 0016).
+§93–98 → 55 (added 2026-08-25, decision 0016) · §100–104 → 76 (decision 0019).
 
 Editing rule: these modules ARE the master plan — improve them in place (same
 authority as before; record non-obvious changes in docs/decisions/).

@@ -10,6 +10,28 @@ The sandbox already separates a framework-free `src/game/` core from its React T
 
 The current movement boundary places ecctrl behind `PlayerMovementController` and `EcctrlAdapter`.[^R4] The rendered character and combat hurtbox already follow a separate actor contract.[^R5] This remains the correct principle. Ecctrl stays in use while it satisfies requirements. Swimming, climbing and boats can add adapters or mode controllers behind broader contracts.
 
+### 51.1 The sandbox systems are not finished, and not frozen
+
+**Owner, 2026-08-25:** the combat sandbox's systems "shouldn't be considered
+finished and unchangeable — they can be edited and iterated as needed by our
+game." Treat them as the project's current best implementation, not as a fixed
+dependency. Later phases (swimming and climbing modes, the scene-orchestration
+extraction, the stats system in module 76) are expected to refactor and extend
+them.
+
+What *is* protected, and needs a deliberate owner-gated decision to change:
+
+- the **calibrated feel** — damage, stamina, i-frames, hit/parry windows,
+  movement speeds (CLAUDE.md: don't casually retune gameplay; fix visual and
+  animation timing on the animation side);
+- the **portability boundary** — ecctrl stays behind `PlayerMovementController`
+  / `EcctrlAdapter`, Rapier stays authoritative;
+- the **package rule** — portable behaviour lands in `packages/`, never in
+  `apps/combat-sandbox` directly (decision 0013), so both apps get it.
+
+Rewriting the *structure* inside those constraints is normal work, not a
+violation.
+
 ## 52. Current sandbox values are calibration data
 
 The current capsule dimensions, gravity, jump tuning and movement speeds are active tuning values. Character statistics, equipment burden and effects will alter movement. World validation should use named capability profiles:

@@ -348,6 +348,34 @@ Deliverables:
 
 ### Phase 9 — swimming, climbing and boats
 
+**This phase extends the existing character stack; it does not build a parallel
+one.** New movement modes go behind `PlayerMovementController` (§51), new clips
+into the same animation manifest with the same integrity gates, new physics
+through Rapier. The sandbox's systems are **not frozen** — refactor and extend
+them where the game needs it (§51.1); what's protected is the calibrated
+*feel*, not the code.
+
+**Animation sourcing is a first-class risk here, and comes first.** The rig
+currently carries 51 clips (locomotion, jump, one-handed and bow combat, guard,
+parry, rolls, criticals, deaths) — **none for swimming, climbing, wading,
+rowing or boarding**. Before any mode is built:
+
+- **swim**: vanilla Skyrim has swim locomotion; ingest through the asset
+  pipeline into the shared manifest;
+- **climb**: **vanilla Skyrim has no climbing animation at all.** BotW-style
+  climbing must therefore be planned as procedural/IK hand-and-foot placement
+  driven by surface contact, optionally blended with sourced or retargeted mod
+  clips — decide this by prototype in a micro-laboratory (§85.3) before it
+  enters the province;
+- **boat**: no vanilla rowing/sailing clips; expect sit/idle poses plus
+  procedural oar/tiller motion, with the boat's motion carrying most of the
+  read;
+- record what was found, retargeted or faked in the asset pipeline docs, and
+  keep the animation-asset integrity test green.
+
+Micro-laboratories (§85.3) already reserve swimming transitions, climb contact
+and boat control — prove each there before touching the province.
+
 Deliverables:
 
 - surface/submerged swimming;
@@ -408,6 +436,29 @@ Standing risk while it waits: the sandbox stays the only place combat runs, so
 sandbox and studio can drift. Mitigation is the existing package rule —
 new portable behaviour lands in `packages/`, never in `apps/combat-sandbox`
 directly, and both apps' gates stay green.
+
+### Phase 10c — stats, progression and character systems (module 76; decision 0019)
+
+Implements the design settled by parallel workstream **S** (module 76 §103):
+attributes/skills/derived stats, races, equipment scaling, encumbrance,
+progression and the absolute power ladder — in `packages/game-core`, consumed
+by both apps.
+
+Deliverables:
+
+- the accepted stat model implemented, with **baseline-equivalence tests**:
+  at neutral stats, combat numbers match today's calibrated values;
+- capability profiles (§52) regenerated *from* the stat system, with the
+  world's traversal and spawn probes still green;
+- enemy archetypes restated on the new scale; character-sheet UI;
+- the power ladder documented for Phase 13 authors (what D0–D5 means
+  numerically), and the birthsign hook left ready (module 55 gives a birth
+  date its constellation for free).
+
+Sequenced after 10b and **before Phase 11**: fixed difficulty (0004) means every
+enemy, trap and loot item in Phases 11–13 is authored as an absolute number, so
+the scale has to exist before that content is written. Workstream S can conclude
+any time before this phase starts.
 
 ### Phase 11 — causal locations and settlement authoring
 
