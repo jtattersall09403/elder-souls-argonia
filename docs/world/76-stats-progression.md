@@ -68,8 +68,12 @@ These are not open questions — they follow from decisions already taken.
     danger bands are tuned for a competent, ordinarily-equipped character; the
     god-build is what a player *can* reach off the beaten track, never what
     the game requires or nudges everyone into;
-  - **it must not be reachable in the first hours**, or early danger stops
-    meaning anything;
+  - **it should not be the norm in the first hours** — the intended curve is
+    gradual. But this is design intent, **not an enforced invariant**: build no
+    validation machinery for it, and an *accidental* early gem (a lucky cave,
+    a lethal-if-misused scroll) is an easter egg, not a bug — call it the
+    **Morrowind jump-scroll rule** (owner, 2026-08-25). Don't place early
+    god-loot on purpose; don't panic when emergent combinations produce it;
   - **the world must not break when it happens** — quests, gates and access
     progression should degrade gracefully into "you skip the challenge", not
     into unfinishable states.
@@ -88,11 +92,16 @@ These are not open questions — they follow from decisions already taken.
     competent, mid-ish character rather than a beginner) and re-bases the
     magnitude numbers — health, damage, stamina pool, carry weight — freely
     across it;
-  - what is protected is the **timing and weight of combat**: attack windups
-    and recoveries, i-frame and parry windows, roll distance, stamina rhythm,
-    hit reactions. Those are the calibrated "feels good" part and must not be
-    changed as a side-effect of adding stats (CLAUDE.md); changing them is a
-    separate, deliberate, owner-gated act.
+  - what is protected is the **calibrated feel at a reference loadout**: one
+    named default character (standard weapon, middling armour, neutral burden)
+    must reproduce today's timing and weight — windups, recoveries, i-frames,
+    parry windows, roll distance, stamina rhythm. Around that anchor,
+    **stat- and load-linked timing variation is design space, not drift**
+    (owner, 2026-08-25): attack speed may scale with stats for some weapon
+    classes, and roll behaviour should follow the Souls equip-load pattern —
+    fast/mid/fat roll tiers driven by burden ratio, which attributes, spells,
+    enchantments, potions and other effects can move. Few hard rules here;
+    workstream S reasons through the options and brings recommendations.
 - **Capability profiles are the world↔stats contract** (§52). The world
   compiler already validates traversal against named profiles
   (`baselineArgonian`, `trainedSwimmer`, `highBurden`, …) generated from
@@ -141,8 +150,8 @@ Record findings in `docs/research/` before deciding.
 the existing enemy archetypes; it can express the access-progression model
 (decision 0007) and the D0–D5 danger bands; it gives Phase 13 authors a scale
 to write loot and populations against; it can express the quest plan's skill,
-faction and reputation gating (docs/quests/); it leaves the combat *timing*
-constants untouched.
+faction and reputation gating (docs/quests/); it reproduces today's feel at
+the reference loadout.
 
 ### 103.1 How to run workstream S (an agent can start from this section alone)
 
@@ -160,9 +169,10 @@ need the world modules.
    `stats-progression-reference-games.md`) — findings and *implications for
    us*, not a wiki dump.
 3. **Proposal packet.** For each axis in the table above: the options, a
-   recommendation with reasoning, and what it costs elsewhere. Keep it in
-   `docs/world/76-stats-progression.md` (extend this module) — the plan is the
-   deliverable, not a parallel document.
+   recommendation with reasoning, and what it costs elsewhere. The **decided
+   design** extends this module (the plan is the deliverable); the option
+   analysis and rejected alternatives go in the research doc — keep this
+   module lean enough that every stats-adjacent agent can afford to read it.
 4. **Owner decision round.** Batch the questions — no more than ~10 at a time,
    each with a recommendation the owner can simply accept, in plain
    non-technical language (CLAUDE.md). Record answers as decision records.
@@ -184,9 +194,10 @@ Phase 10c and must not start early — it would land in the same files as Phase
 Implements the accepted design in `packages/game-core` (stats live with the
 game layer, consumed by both apps), then:
 
-- **combat-timing constants asserted unchanged** (windups, recoveries,
-  i-frames, parry windows, roll distance, stamina rhythm); magnitudes may be
-  re-based across the curve, the feel may not drift;
+- **reference-loadout equivalence asserted**: one named default character
+  reproduces today's timing and weight; deliberate stat/load-driven timing
+  variation (attack-speed scaling, equip-load roll tiers) is implemented as
+  designed and is not treated as drift;
 - capability profiles regenerate from the stat system, and the world's
   traversal/validation probes still pass (§52);
 - character-sheet UI in the studio and the sandbox;

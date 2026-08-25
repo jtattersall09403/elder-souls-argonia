@@ -179,13 +179,20 @@ and quality before ingesting):
 | Gap | Vanilla? | Candidate mod sources |
 |---|---|---|
 | Swimming (surface + submerged) | **Yes** — vanilla swim locomotion exists; use it unless a mod is substantially better | [Stronger Swimming Animations SE](https://www.nexusmods.com/skyrimspecialedition/mods/32625) (surface/underwater sets, freestyle + breaststroke), [Random Swimming Animations](https://www.nexusmods.com/skyrimspecialedition/mods/92951), sprint-swim sets |
-| Climbing / ledge traversal | **No** — Skyrim has no climbing animation | **[EVG Animated Traversal](https://www.nexusmods.com/skyrimspecialedition/mods/63232)** is the animation base the whole climbing-mod scene builds on (ledge climbs, vaults, squeezes) — take its **clips**. SkyClimb / SkyParkour are SKSE *frameworks*: design references for contact detection, not assets we can run |
-| Boat rowing / boarding | **No** player rowing clips | [Boats – Operational Animated Travel](https://www.nexusmods.com/skyrimspecialedition/mods/110882) bundles ride/row behaviour; boat *motion* sets ([Animated Ships Bobbing and Motion](https://www.nexusmods.com/skyrimspecialedition/mods/187453)) carry much of the read. Expect seated poses + procedural oar/tiller drive |
+| Climbing / ledge traversal | **No** — Skyrim has no climbing animation | **[EVG Animated Traversal](https://www.nexusmods.com/skyrimspecialedition/mods/63232)** supplies **discrete events** — mantle a ledge, vault, squeeze — source those clips for ledge-grabs and top-outs. **Continuous BotW-style climb *loops* (traversing across a wall face) have no known vanilla or mod source** — this is the single biggest Phase 9 animation risk. The Phase 9 micro-lab must choose between cycling sourced hang/shimmy poses under IK, retargeting crawl locomotion, or a deeper mod-scene search. SkyClimb / SkyParkour are SKSE *frameworks*: design references for contact detection, not assets we can run |
+| Boat rowing / boarding | **No** player rowing clips | [Boats – Operational Animated Travel](https://www.nexusmods.com/skyrimspecialedition/mods/110882) bundles ride/row behaviour; boat *motion* sets ([Animated Ships Bobbing and Motion](https://www.nexusmods.com/skyrimspecialedition/mods/187453)) carry much of the read. Expect seated poses + procedural oar/tiller drive. **Boat design rule (owner 2026-08-25): the boat roster is chosen to fit the clips we can actually source** — types needing only seated poses + procedural drive first; no boat type may require an animation we haven't found (module 60 §45) |
 | Wading, sneak, unarmed, spellcasting, NPC idles/work | vanilla has all of these | ingest as the phases that need them arrive |
 
-Procedural work (IK hand/foot placement on a climbed surface, oar drive, foot
-grounding) is **motion logic driving sourced clips**, not a substitute for
-having them. That distinction keeps us inside the no-new-art rule.
+**"Procedural" means steering sourced clips, never inventing motion.** The
+runtime already does this in principled, calibrated ways — feet planted on
+uneven ground, playback speed matched to the clip's authored stride speed, a
+bow-draw pose driven directly by its charge fraction. The required reading for
+any clip work is the sandbox's
+**[animation quality playbook](../../apps/combat-sandbox/docs/animation-quality-playbook.md)**
+(audition batches, manifest provenance, support phases, owner visual gates) —
+which also *forbids* ad-hoc procedural posing used to patch a bad source clip.
+Climbing IK is a new system in the same principled family: the sourced poses
+are the art; code chooses where the hands go.
 
 ## 75. High-priority architecture and settlement candidates
 

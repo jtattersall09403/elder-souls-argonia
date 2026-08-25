@@ -78,6 +78,12 @@ can be re-ordered by the owner.
 | 10c stats | 11, 12, **13** | fixed danger (0004) means populations, encounters and loot are authored as absolute numbers against a scale that must already exist |
 | 3/4 climate fields | 8a haze, 8c weather, 13 ecology | one source of climate truth, many consumers (§33.1) |
 
+The rows are hard constraints **except the two feeding 10b**, which are
+sequencing *preferences* (merge the §53 extraction once; measure combat spaces
+against real kits) and may bend if a phase stalls. **8c, 9 and 10 are mutually
+independent** — they can run in parallel or in any order relative to each
+other. Workstream S runs alongside everything.
+
 Deliberately **not** dependencies: the world build does not need the stats
 system (capability profiles are the contract — module 75 §52), and it does not
 need full sandbox parity (Phase 7a's movement plus the environment query is
@@ -342,7 +348,10 @@ Deliverables:
   presets, debug sliders, all in the reproducible URL, plus fixed-instant
   screenshot probes for lit material A/B;
 - **owner gate**: dawn → noon → dusk → night walked in at least a lowland
-  basin and a mountain belt.
+  basin and a mountain belt. Expect the Phase 6/6b-approved terrain look to
+  shift under physical light — that is re-approval under the correct light,
+  not a regression; the tint slider and versioned material sets are the
+  levers, and chasing the old flat-lit appearance is the wrong fix.
 
 ### Phase 8b — water renderer and physical interaction
 
@@ -404,6 +413,12 @@ gap table in **module 90 §74.3**, which already names researched candidates:
 
 Micro-laboratories (§85.3) already reserve swimming transitions, climb contact
 and boat control — prove each there before touching the province.
+
+Phase 9 may split into sub-milestones (suggested order: swim → boats → climb,
+easiest-sourced first) per the PROGRESS protocol. Climbing carries the
+animation-sourcing risk (no continuous climb loops exist anywhere — module 90
+§74.3); Phase 10b needs the movement-mode *contracts* in place, not final
+climb polish, so a hard climb problem must not block the chain.
 
 Deliverables:
 

@@ -53,19 +53,27 @@ Split it in two, and put it in the plan explicitly:
   stays put is what makes growth legible. What the design protects instead:
   power is *earned through system mastery* rather than handed out by the
   levelling curve; it is not the intended path (the critical path and danger
-  bands assume a competent, ordinarily-equipped character); it is not reachable
-  in the first hours; and the world degrades into "you skip the challenge"
-  rather than into unfinishable states when someone gets there.
+  bands assume a competent, ordinarily-equipped character); the early curve is
+  gradual **as intent, not as an enforced invariant** — no validation
+  machinery, and accidental early gems are easter eggs, not defects (the
+  "Morrowind jump-scroll rule", owner amendment 2026-08-25); and the world
+  degrades into "you skip the challenge" rather than into unfinishable states
+  when someone gets there.
 - **A documented absolute power ladder**, so D0–D5 danger bands and the access
   progression (0007) mean something numerically.
 - **Today's values are calibration data, not the neutral baseline** (owner
   clarification, 2026-08-25; module 75 §52). The sandbox tuning answered "can
   this combat feel fun?", not "is this a level-1 character". The design chooses
   where today's feel sits on the curve and re-bases magnitudes (health, damage,
-  stamina pool) freely. What must not drift is the **timing and weight** —
-  windups, recoveries, i-frames, parry windows, roll distance, stamina rhythm —
-  asserted by test at Phase 10c. Changing those is a separate, owner-gated act
-  (CLAUDE.md).
+  stamina pool) freely. What is anchored is the feel at a **reference
+  loadout**: one named default character reproduces today's timing and weight,
+  asserted by test at Phase 10c. Around that anchor, stat- and load-linked
+  timing variation is **design space, not drift** (owner amendment
+  2026-08-25): attack speed may scale with stats for some weapon classes, and
+  roll behaviour follows the Souls equip-load pattern (fast/mid/fat tiers from
+  burden ratio, movable by attributes, spells, enchantments, effects).
+  Workstream S reasons through the options — few hard rules were set early on
+  purpose.
 - **Argonian physiology** (breath, swimming, disease) must be expressible as
   race modifiers — it is a world acceptance rule.
 - **Birthsigns are calendar-shaped**: the thirteen constellations, one per
