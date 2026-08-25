@@ -42,13 +42,17 @@ decision 0008), (3) small disposable laboratories.
    [docs/quests/20-world-provisions.md](../quests/20-world-provisions.md) are
    requirements on every phase; Milestone-1 provisions must exist before
    narrative production (acceptance rule).
-6. **No new art, and terrain identity comes from placed assets** (§9): the
-   base heightfield is coarse; rocks, vegetation, kits, clutter and water
-   carry the perceived detail. Visuals derive from vanilla Skyrim + credited
-   mods via the asset pipeline (Module 90 lists candidate sources —
-   check it before hunting new assets). Mod *worlds* (e.g. Black Marsh &
-   Valenwood, §74.1b) are asset pools and references to learn from — never
-   lift-and-shift their authored places as ours; we build our own world.
+6. **No new art — ever — and terrain identity comes from placed assets** (§9):
+   the base heightfield is coarse; rocks, vegetation, kits, clutter and water
+   carry the perceived detail. No new models, textures or **animations**: every
+   visual and every clip comes from vanilla Skyrim or a mod, via the asset
+   pipeline. A gap is a **sourcing job** — check the vault and Module 90's
+   candidate tables (§71 procedure, §74.3 animation gaps), research the mod
+   scene, download with the owner's Nexus premium key, record source + credits
+   + hash. Take mods' assets, never their SKSE/Papyrus code. Mod *worlds* (e.g.
+   Black Marsh & Valenwood, §74.1b) are asset pools and references to learn
+   from — never lift-and-shift their authored places as ours; we build our own
+   world.
 7. **Region grammar drives everything** (§16): each ecological region class
    changes movement, visibility, settlement forms, routes, encounters,
    materials, sound and danger — not just colours. Materials/asset choices

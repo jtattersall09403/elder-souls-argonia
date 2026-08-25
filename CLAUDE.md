@@ -45,6 +45,18 @@ The overall goal at this point is to build the province-scale world, in a way th
 - **Ground decisions in lore.** Any world/design decision (places, cultures, danger, routes, names, history) must be grounded in canon. Check the dossiers in `world/sources/lore/` first; if they're thin for your topic, extract more from the vault UESP extract (`mod-sources/lore/uesp_morrowind_blackmarsh_extract.jsonl.xz`) or the UESP MediaWiki API (`en.uesp.net/w/api.php`, works with a project user-agent; plain page fetches get 403), and record a new dossier *before* deciding. Cite UESP page names; respect the era policy (decision 0002). Community/fan material is a prior, never canon.
 - **Fix root causes.** If you're fixing bugs, find the root cause and fix it, don't do sticking plasters.
 - **Prevent context bloat.** Read only what you need (the session-start read of docs/world/00-core.md is the deliberate exception); docs/ are modular so filenames are the map. Whatever you are doing, consider how to do it in a way that prevents context bloat and keeps future agents able to run in a token-efficient way, processing what they need and only what they need.
+- **We never make art. Ever.** No new 3D models, no new textures, **no new
+  animations** — everything comes from vanilla Skyrim or from mods, chosen on
+  availability and quality. A missing asset (a climbing animation, a boat, a
+  creature) is a **sourcing job, not a modelling job**: check the asset vault
+  and the candidate tables in [docs/world/90-asset-strategy.md](docs/world/90-asset-strategy.md)
+  §71/§74.3 for what we already have, research the mod scene for the best
+  source, then download it with the owner's **Nexus premium API key** on this VM
+  (`apikey:` header, `api.nexusmods.com`; never echo the key), and record the
+  source link, credits and file hash before relying on it. Take mods' *assets*,
+  not their Papyrus/SKSE code — that we cannot run, and it is only a design
+  reference. Procedural motion (IK, physics) drives sourced clips; it never
+  replaces them.
 - **Game played from github pages.** The game will be built from github actions and played in the browser at github pages. So the code must work for that context. e.g. make sure animation files that are needed in the game are included.
 - **Controller-independent.** Combat/input/lock-on/animation depend on
   `PlayerMovementController`, not ecctrl directly (ecctrl is behind `EcctrlAdapter`). This is so we can easily change the controller later if we need to

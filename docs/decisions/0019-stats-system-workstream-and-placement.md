@@ -47,20 +47,37 @@ Split it in two, and put it in the plan explicitly:
   i-frames): a swing that visibly connects must register. Skill modifies
   damage, poise/stagger, stamina cost, recovery and reach — never whether a
   connecting attack lands.
-- **Bounded progression.** Runaway multiplicative growth (Skyrim's
-  smithing/enchanting loop, Morrowind's fortify chains) breaks a world with no
-  level scaling. Soft caps, diminishing returns, gear as the main power axis,
-  player skill as the primary variable.
+- **An uncapped power ceiling is wanted** (owner, 2026-08-25): Morrowind's
+  "accidentally overpowered because you put the work in" is a feature we keep.
+  It is not in tension with fixed danger — it is its payoff, since a world that
+  stays put is what makes growth legible. What the design protects instead:
+  power is *earned through system mastery* rather than handed out by the
+  levelling curve; it is not the intended path (the critical path and danger
+  bands assume a competent, ordinarily-equipped character); it is not reachable
+  in the first hours; and the world degrades into "you skip the challenge"
+  rather than into unfinishable states when someone gets there.
 - **A documented absolute power ladder**, so D0–D5 danger bands and the access
   progression (0007) mean something numerically.
-- **Baseline equivalence.** v1 must reproduce today's combat feel at neutral
-  stats — current `COMBAT_TUNING` is the stat-neutral reference point, asserted
-  by test. Retuning is a separate, owner-gated act (CLAUDE.md).
+- **Today's values are calibration data, not the neutral baseline** (owner
+  clarification, 2026-08-25; module 75 §52). The sandbox tuning answered "can
+  this combat feel fun?", not "is this a level-1 character". The design chooses
+  where today's feel sits on the curve and re-bases magnitudes (health, damage,
+  stamina pool) freely. What must not drift is the **timing and weight** —
+  windups, recoveries, i-frames, parry windows, roll distance, stamina rhythm —
+  asserted by test at Phase 10c. Changing those is a separate, owner-gated act
+  (CLAUDE.md).
 - **Argonian physiology** (breath, swimming, disease) must be expressible as
   race modifiers — it is a world acceptance rule.
 - **Birthsigns are calendar-shaped**: the thirteen constellations, one per
   month, come free from the world clock (module 55 §95); design the hook now,
   ship the content later.
+
+## How to start it
+
+Workstream S is startable from a single instruction ("kick off workstream S"):
+the run-book — what to read, the four packets, how to batch owner questions,
+and the definition of done — is **module 76 §103.1**. The PROGRESS row `S`
+tracks it.
 
 ## Also recorded (owner, same conversation)
 

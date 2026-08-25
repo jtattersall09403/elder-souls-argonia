@@ -21,8 +21,9 @@ birthsigns, levels or experience.
 
 That is a good place to be. The combat *feel* is calibrated and playtested;
 what's missing is the layer that makes those numbers vary by character. The
-stats work is therefore **additive**: a system that produces today's numbers at
-baseline and varies them from there.
+stats work is therefore **additive**: it decides where today's calibrated feel
+sits on the curve and varies from there — it does not re-answer "is the combat
+fun?", which the sandbox already answered.
 
 ## 101. Why this is its own workstream, not a side-effect of another phase
 
@@ -50,24 +51,48 @@ These are not open questions — they follow from decisions already taken.
 
 - **Fixed difficulty (decision 0004) is the dominant constraint.** The world
   never receives the player's level. Every enemy, every trap and every loot
-  item is authored as an **absolute** number. Two consequences:
-  - the stat system must have a **stable, documented power scale** so a Phase 13
-    author can say "this is a D3 creature" and mean something numerically;
-  - **runaway multiplicative progression is forbidden** — the Skyrim
-    smithing/enchanting/alchemy loop and Morrowind's fortify chains break a
-    fixed world by construction. Growth must be bounded (soft caps, diminishing
-    returns, gear as the main power axis).
-- **Player skill stays the primary variable.** We have Dark Souls combat:
-  real-time hitboxes, parry windows, i-frames, stamina. So:
+  item is authored as an **absolute** number, so the stat system must have a
+  **stable, documented power scale** — a Phase 13 author saying "this is a D3
+  creature" has to mean something numerically.
+- **Becoming absurdly powerful is a feature, not a bug** (owner, 2026-08-25).
+  One of the joys of Morrowind is the silliness of ending up almost accidentally
+  overpowered *because you put the work in*. We keep that. Note it does not
+  conflict with fixed danger — it is fixed danger's **payoff**: because the
+  world stays put, your growth is legible (the swamp that killed you at hour
+  three is trivial at hour eighty). Skyrim's level scaling is what destroys
+  that feeling, not uncapped growth. What the design should protect instead:
+  - **power must be earned through system mastery**, discovered and combined by
+    the player (alchemy, enchanting, trade, training, rare gear, quest
+    rewards) — emergent, not handed out by the levelling curve;
+  - **it must not be the intended path.** The critical path and the fixed
+    danger bands are tuned for a competent, ordinarily-equipped character; the
+    god-build is what a player *can* reach off the beaten track, never what
+    the game requires or nudges everyone into;
+  - **it must not be reachable in the first hours**, or early danger stops
+    meaning anything;
+  - **the world must not break when it happens** — quests, gates and access
+    progression should degrade gracefully into "you skip the challenge", not
+    into unfinishable states.
+- **Player skill stays the primary variable in ordinary play.** We have Dark
+  Souls combat: real-time hitboxes, parry windows, i-frames, stamina. So:
   - **no hidden to-hit roll.** Morrowind's dice-based miss chance is
     incompatible with a swing that visibly connects — a swing that lands must
     land. Character skill modifies damage, stagger/poise, stamina cost,
     recovery, reach and reliability — never whether a physically-connecting
     attack registers.
-- **Don't casually retune gameplay** (CLAUDE.md). The first implementation
-  must reproduce today's feel at baseline: current `COMBAT_TUNING` values are
-  the **stat-neutral reference point**, and there should be a test that says so.
-  Retuning is a separate, deliberate, owner-gated act.
+- **Today's combat values are calibration data, not the neutral baseline**
+  (§52, and owner clarification 2026-08-25). The sandbox tuning answered "can
+  this combat feel fun?" — yes — not "is this what a level-1 character feels
+  like". So:
+  - the design **chooses where today's feel sits on the curve** (plausibly a
+    competent, mid-ish character rather than a beginner) and re-bases the
+    magnitude numbers — health, damage, stamina pool, carry weight — freely
+    across it;
+  - what is protected is the **timing and weight of combat**: attack windups
+    and recoveries, i-frame and parry windows, roll distance, stamina rhythm,
+    hit reactions. Those are the calibrated "feels good" part and must not be
+    changed as a side-effect of adding stats (CLAUDE.md); changing them is a
+    separate, deliberate, owner-gated act.
 - **Capability profiles are the world↔stats contract** (§52). The world
   compiler already validates traversal against named profiles
   (`baselineArgonian`, `trainedSwimmer`, `highBurden`, …) generated from
@@ -100,6 +125,7 @@ Record findings in `docs/research/` before deciding.
 | Attributes | Do we have them? How many? What do they *do* mechanically? |
 | Skills | Breadth (Morrowind's 27) vs focus; what each gates |
 | Progression | Use-based vs point-buy vs souls-spend; what levelling means with no world scaling |
+| Power ceiling | Which systems combine to make a god-build, how much work it takes, and how the world holds together when someone gets there |
 | Damage model | How skill/attributes/weapon scaling combine; no to-hit dice (§102) |
 | Defence | Armour rating, resistances, poise/stagger, equip load and roll speed |
 | Stamina | Costs, regen, and whether stats change them |
@@ -114,15 +140,53 @@ Record findings in `docs/research/` before deciding.
 **Cross-checks before the design is accepted**: it satisfies §102; it can express
 the existing enemy archetypes; it can express the access-progression model
 (decision 0007) and the D0–D5 danger bands; it gives Phase 13 authors a scale
-to write loot and populations against; it does not require retuning current
-combat feel to ship v1.
+to write loot and populations against; it can express the quest plan's skill,
+faction and reputation gating (docs/quests/); it leaves the combat *timing*
+constants untouched.
+
+### 103.1 How to run workstream S (an agent can start from this section alone)
+
+Told only "kick off workstream S", start here. Read: this module, decision
+[0019](../decisions/0019-stats-system-workstream-and-placement.md),
+[75 §51–52](75-combat-compatibility.md), decisions 0004 (fixed difficulty) and
+0007 (access progression), and skim `packages/game-core/src/combat/` +
+`equipment/` + `actors/` to see what the numbers actually are today. You do not
+need the world modules.
+
+1. **Set the PROGRESS row `S` to `in progress`** with your current packet, and
+   commit that before the work (PROGRESS protocol).
+2. **Research packet.** The three reference games, axis by axis, plus known
+   failure modes. Record in `docs/research/` (suggested:
+   `stats-progression-reference-games.md`) — findings and *implications for
+   us*, not a wiki dump.
+3. **Proposal packet.** For each axis in the table above: the options, a
+   recommendation with reasoning, and what it costs elsewhere. Keep it in
+   `docs/world/76-stats-progression.md` (extend this module) — the plan is the
+   deliverable, not a parallel document.
+4. **Owner decision round.** Batch the questions — no more than ~10 at a time,
+   each with a recommendation the owner can simply accept, in plain
+   non-technical language (CLAUDE.md). Record answers as decision records.
+   Precedent for the format:
+   `world/sources/lore/extrapolation/owner-questions.md`.
+5. **Numbers packet.** The absolute power ladder (what D0–D5 means), the
+   progression curve, worked examples: a starting character, a competent
+   mid-game one, a god-build, and three enemy archetypes restated.
+6. **Done when**: every axis is decided, the cross-checks above pass, and Phase
+   10c could be implemented by an agent reading only this module and the
+   decisions. Flip the PROGRESS row to `done`.
+
+**Code is out of scope.** Workstream S is docs and decisions; implementation is
+Phase 10c and must not start early — it would land in the same files as Phase
+10b's extraction work.
 
 ## 104. Phase 10c — implementation
 
 Implements the accepted design in `packages/game-core` (stats live with the
 game layer, consumed by both apps), then:
 
-- baseline-equivalence tests: at neutral stats, combat numbers match today's;
+- **combat-timing constants asserted unchanged** (windups, recoveries,
+  i-frames, parry windows, roll distance, stamina rhythm); magnitudes may be
+  re-based across the curve, the feel may not drift;
 - capability profiles regenerate from the stat system, and the world's
   traversal/validation probes still pass (§52);
 - character-sheet UI in the studio and the sandbox;

@@ -6,6 +6,36 @@
 
 ## 71. Asset strategy under the no-new-art constraint
 
+**Binding, owner-restated 2026-08-25: we never make art.** No new 3D models, no
+new textures, **no new animations**, ever. Every visual and every clip comes
+from vanilla Skyrim or from a mod, chosen on availability and quality. This is
+not a temporary constraint to be worked around when something is missing — a
+missing asset is a *sourcing* task, never a modelling or hand-animation task.
+
+**When you find a gap, in this order:**
+
+1. **Check what we already have.** Look in the asset vault
+   (`ELDER_SOULS_ASSET_ROOT`, see decision 0001) and the ingested sets in
+   `tooling/asset-pipeline`, plus this module's candidate tables — a source may
+   already be downloaded. (Read directory and file names; don't keyword-search
+   asset archives — CLAUDE.md.)
+2. **Research the mod scene** for the best available source, weighing quality,
+   completeness and how cleanly it converts. Prefer vanilla where it is good
+   enough; take a mod when it is substantially better or when vanilla has
+   nothing.
+3. **Download it.** The owner has a **Nexus Mods premium account with an API
+   key on the VM** (`apikey:` header against `api.nexusmods.com`; premium can
+   generate `download_link.json`). Never echo the key. Ask the owner for the
+   variable/path if it isn't visible in your shell.
+4. **Record it** — source link, credits entry (docs/CREDITS.md) and file hash
+   in the source registry, per §73 — *before* the asset is relied upon.
+
+**Take assets, not mod code.** Skyrim mods that add mechanics are Papyrus/SKSE
+plugins we cannot run. What we want from them is the **content**: meshes,
+textures and HKX animation clips, converted through the asset pipeline. A mod's
+gameplay code is at most a design reference (§74.1b applies the same rule to
+mod worlds).
+
 The project can build a large world through:
 
 - vanilla Skyrim meshes, textures, animations and sounds processed through the existing asset pipeline;
@@ -134,6 +164,28 @@ Direct uses:
 - modular dungeon families.
 
 Record the source page and required author credits in the normal credits list; no separate permission-evidence subsystem is needed.
+
+### 74.3 Character animation — what we have, what's missing, where to get it
+
+The shared rig currently carries **51 clips** (walk/run/sprint/strafe, jump and
+landings, one-handed and bow combat, guard, parry, riposte, rolls, criticals,
+hits, deaths, equip/unequip, heal), sourced from vanilla Skyrim plus permitted
+mod HKX. Animation gaps are filled the same way as any other asset (§71) — by
+sourcing, never by authoring.
+
+Known gaps and researched candidate sources (2026-08-25; verify current state
+and quality before ingesting):
+
+| Gap | Vanilla? | Candidate mod sources |
+|---|---|---|
+| Swimming (surface + submerged) | **Yes** — vanilla swim locomotion exists; use it unless a mod is substantially better | [Stronger Swimming Animations SE](https://www.nexusmods.com/skyrimspecialedition/mods/32625) (surface/underwater sets, freestyle + breaststroke), [Random Swimming Animations](https://www.nexusmods.com/skyrimspecialedition/mods/92951), sprint-swim sets |
+| Climbing / ledge traversal | **No** — Skyrim has no climbing animation | **[EVG Animated Traversal](https://www.nexusmods.com/skyrimspecialedition/mods/63232)** is the animation base the whole climbing-mod scene builds on (ledge climbs, vaults, squeezes) — take its **clips**. SkyClimb / SkyParkour are SKSE *frameworks*: design references for contact detection, not assets we can run |
+| Boat rowing / boarding | **No** player rowing clips | [Boats – Operational Animated Travel](https://www.nexusmods.com/skyrimspecialedition/mods/110882) bundles ride/row behaviour; boat *motion* sets ([Animated Ships Bobbing and Motion](https://www.nexusmods.com/skyrimspecialedition/mods/187453)) carry much of the read. Expect seated poses + procedural oar/tiller drive |
+| Wading, sneak, unarmed, spellcasting, NPC idles/work | vanilla has all of these | ingest as the phases that need them arrive |
+
+Procedural work (IK hand/foot placement on a climbed surface, oar drive, foot
+grounding) is **motion logic driving sourced clips**, not a substitute for
+having them. That distinction keeps us inside the no-new-art rule.
 
 ## 75. High-priority architecture and settlement candidates
 

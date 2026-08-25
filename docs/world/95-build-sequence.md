@@ -60,6 +60,34 @@ Progress through these phases is tracked in [docs/PROGRESS.md](PROGRESS.md), nev
 in this document. Phases are milestones, not straitjackets: a phase may be split
 into sub-milestones in PROGRESS.md when that gives the user earlier playtest gates.
 
+### 86.0 What actually depends on what
+
+The ordering below is not arbitrary and it is not a queue. These are the real
+constraints — anything not listed here is sequenced for risk or convenience and
+can be re-ordered by the owner.
+
+| This… | must come before… | because |
+|---|---|---|
+| 8a light/sky | 8b water | water shading consumes sun, sky, IBL and exposure; moon phase drives tides |
+| 8a light/sky | 10 kits, 11 settlements, 12 dungeons | nothing visual is approved under placeholder light (0016) |
+| 8a world clock | 8c weather, 13 ecology, 11+ quests | the season scalar `s(t)`, schedules and calendared events all read one clock |
+| 9 swim/climb/boats | 10b parity | the §53 orchestration extraction should merge once, against a character package that already has every movement mode |
+| 10 kits | 10b parity | combat-space probes measure against production geometry |
+| 10b parity | 11, 12 | settlement/dungeon authoring is gated on combat-space and critical-animation clearance (00-core acceptance) |
+| **S** stats design | 10c | 10c implements what S decides |
+| 10c stats | 11, 12, **13** | fixed danger (0004) means populations, encounters and loot are authored as absolute numbers against a scale that must already exist |
+| 3/4 climate fields | 8a haze, 8c weather, 13 ecology | one source of climate truth, many consumers (§33.1) |
+
+Deliberately **not** dependencies: the world build does not need the stats
+system (capability profiles are the contract — module 75 §52), and it does not
+need full sandbox parity (Phase 7a's movement plus the environment query is
+enough).
+
+Parallel workstreams run alongside the phase queue and block only what the
+table says: **L** (lore extrapolation, module 45 — closed), **N** (quest-plan
+review, decision 0018 — closed), **S** (stats design, module 76 §103.1 — open,
+runnable now).
+
 ### Phase 0 — source, era and credits foundation
 
 Deliverables:
@@ -355,23 +383,24 @@ through Rapier. The sandbox's systems are **not frozen** — refactor and extend
 them where the game needs it (§51.1); what's protected is the calibrated
 *feel*, not the code.
 
-**Animation sourcing is a first-class risk here, and comes first.** The rig
-currently carries 51 clips (locomotion, jump, one-handed and bow combat, guard,
-parry, rolls, criticals, deaths) — **none for swimming, climbing, wading,
-rowing or boarding**. Before any mode is built:
+**Animation sourcing comes first, and it is sourcing — we never author
+animation** (CLAUDE.md; module 90 §71). The rig currently carries 51 clips
+(locomotion, jump, one-handed and bow combat, guard, parry, rolls, criticals,
+deaths) — **none for swimming, climbing, wading, rowing or boarding**. Work the
+gap table in **module 90 §74.3**, which already names researched candidates:
 
-- **swim**: vanilla Skyrim has swim locomotion; ingest through the asset
-  pipeline into the shared manifest;
-- **climb**: **vanilla Skyrim has no climbing animation at all.** BotW-style
-  climbing must therefore be planned as procedural/IK hand-and-foot placement
-  driven by surface contact, optionally blended with sourced or retargeted mod
-  clips — decide this by prototype in a micro-laboratory (§85.3) before it
-  enters the province;
-- **boat**: no vanilla rowing/sailing clips; expect sit/idle poses plus
-  procedural oar/tiller motion, with the boat's motion carrying most of the
-  read;
-- record what was found, retargeted or faked in the asset pipeline docs, and
-  keep the animation-asset integrity test green.
+- **swim**: vanilla Skyrim swim locomotion exists — use it unless a mod set is
+  substantially better;
+- **climb**: vanilla has none, so the clips come from the mod scene (EVG
+  Animated Traversal is the base the climbing-mod ecosystem is built on).
+  BotW-style climbing is then *our* procedural surface-contact logic **driving
+  sourced clips**, not invented motion — prototype it in a micro-laboratory
+  (§85.3) before it enters the province;
+- **boat**: no player rowing clips in vanilla; source what exists, expect
+  seated poses plus procedural oar/tiller drive, with the boat's own motion
+  carrying much of the read;
+- ingest through the asset pipeline into the shared manifest, record source and
+  credits (§73), and keep the animation-asset integrity test green.
 
 Micro-laboratories (§85.3) already reserve swimming transitions, climb contact
 and boat control — prove each there before touching the province.
