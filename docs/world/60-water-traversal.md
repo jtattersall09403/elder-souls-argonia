@@ -249,11 +249,11 @@ Boat classes:
 | Sailboat | estuary and coast travel |
 | Ritual/Hist craft | culturally specific transport and quests |
 
-**Animation availability constrains this roster** (owner 2026-08-25): a boat
-type ships only when its required player/NPC clips are sourced (module 90
-§74.3 — no vanilla rowing clips exist), so types needing only seated poses
-plus procedural oar/tiller drive come first, and no boat type may be designed
-around an animation we haven't found.
+**Boats are sourced assets like everything else — we never design our own**
+(owner 2026-08-25): a boat type enters the roster only when **both its model
+(candidate pool: module 90 §77) and its required player/NPC clips (module 90
+§74.3 — no vanilla rowing clips exist) are sourced**. Selection favours craft
+needing only seated poses plus procedural oar/tiller drive.
 
 Gameplay components:
 

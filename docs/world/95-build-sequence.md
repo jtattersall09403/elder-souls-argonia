@@ -416,9 +416,11 @@ and boat control — prove each there before touching the province.
 
 Phase 9 may split into sub-milestones (suggested order: swim → boats → climb,
 easiest-sourced first) per the PROGRESS protocol. Climbing carries the
-animation-sourcing risk (no continuous climb loops exist anywhere — module 90
-§74.3); Phase 10b needs the movement-mode *contracts* in place, not final
-climb polish, so a hard climb problem must not block the chain.
+animation-sourcing risk — no ready-made wall-climb loops exist, but two
+sourceable pools do (EVGAT's ladder-climb loops as the primary retarget
+candidate, and the SkyParkour mod-authored clip set — module 90 §74.3); Phase
+10b needs the movement-mode *contracts* in place, not final climb polish, so a
+hard climb problem must not block the chain.
 
 Deliverables:
 
