@@ -1,0 +1,20 @@
+{
+  "name": "@elder-souls/world-time",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Deterministic world clock, canon calendar and sun/moon/star ephemeris. Pure data — no rendering dependency (world module 55, decision 0016).",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit --pretty false"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3",
+    "vitest": "^4.0.18"
+  }
+}

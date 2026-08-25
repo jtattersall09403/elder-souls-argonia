@@ -24,6 +24,10 @@ the vault; the browser preview raster is committed at
   generation and later quest/dialogue authoring.
 - [climate/weather-states.json](climate/weather-states.json) — province weather
   states, seasonal calendar and lighting notes (plan §33.1).
+- [sky/star-catalogue.json](sky/star-catalogue.json) — the authored night sky:
+  the Thirteen Patrons with canon star counts, guardian planets, the Southron
+  pole star and the Serpent's wander parameters (module 55 §95). Consumers: the
+  Phase 8a sky renderer; validated by `packages/world-time` tests.
 - [regions/authored-overrides.json](regions/authored-overrides.json) —
   owner-authored region polygons applied over rule-based classing (e.g. the
   central tropical jungle).
