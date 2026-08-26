@@ -221,9 +221,9 @@ interface FlatStar {
 }
 
 /** Background-star pool size; the density slider reveals a fraction of it.
- * Default multiplier 1 shows half the pool (≈ double round 5's count). */
+ * Owner-locked default (round 8): ×0.5 ≈ 3 300 background stars. */
 export const STAR_POOL = 13_200;
-let starDensityMult = 1;
+let starDensityMult = 0.5;
 export function setStarDensityMult(v: number): void {
   starDensityMult = Math.min(2, Math.max(0.1, v));
 }
@@ -631,7 +631,10 @@ void main() {
             fragmentShader: MOON_FRAGMENT,
             blending: THREE.AdditiveBlending,
             transparent: true,
-            depthWrite: false,
+            // Moons WRITE depth (round 8): stars sit farther out (28 000 vs
+            // 26 000) and draw after, so the moon's body occludes them —
+            // stars were showing through the discs.
+            depthWrite: true,
           }),
       ),
     [moonDefs],
@@ -861,6 +864,9 @@ void main() {
   return (
     <SkyContext.Provider value={{ csm }}>
       <primitive object={sky} renderOrder={-10} frustumCulled={false} />
+      {/* Stars draw AFTER the moons (−8 > −9), which write depth at a nearer
+          radius — so star fragments behind a disc fail the depth test and
+          never shine through the moon's body. */}
       <points
         ref={starsRef}
         geometry={starGeom}

@@ -29,7 +29,7 @@ then open only the master-plan sections the active phase needs.
 
 | Milestone (plan §86) | Status | Evidence / current task |
 |---|---|---|
-| 0 — source, era, credits foundation | done | decisions 0001–0004; credits list (now in root README, 0023); plan revised & renamed |
+| 0 — source, era, credits foundation | done | decisions 0001–0004; credits list (root README, 0023; reviewed for completeness, notices consolidated, 0024); plan revised & renamed |
 | 1a — monorepo migration, CI, deployed sandbox | done | owner playtest PASS 2026-08-22; gates green from root; Pages live |
 | 1b — package boundaries and contracts | done | packages/contracts + apps/game shell + apps/world-studio; inventory/items extraction deferred to Phase 7 (plan §86) |
 | 2 — province source ingest | done | anchors owner-approved 2026-08-22; conditioning/sea-level decided (0005); scale ×3 (0006); major-city road network required (§88) + candidate edges registered; community map archived w/ hash |
@@ -41,8 +41,8 @@ then open only the master-plan sections the active phase needs.
 | 6b — province rescale + mountain relief + naturalness (0015; plan §86 Phase 6b) | done | owner walk review PASS 2026-08-25 ("absolutely perfect"). ×1/×1; sculpt stage (uplift+erosion, 651 m summit, ~257 m median belt relief, cliff benches, talus); province de-terraced + micro-undulation; classifiers recalibrated; triplanar + belts 100/280/440; fly-speed slider; 8 standing probes (test_sculpt.py). **Owner: re-review terrain feel after the water phases (8b) land** |
 | 7a — physical character integration | done | owner playtest PASS 2026-08-24. Packages extracted (0013): game-core/character/character-assets, consumed by both apps; studio character mode (grounded movement only — full sandbox parity is Phase 10b, moved from 7b by 0017) on Rapier heightfield chunks (0014) behind PlayerMovementController; desktop/touch/gamepad parity; env-query contract implemented; actor registry; capability profiles + anchor-spawn validation. Feedback rounds fixed: live support plane, unified fly/walk chunk terrain + vertical-scale slider, grounded coyote debounce, gradient-map lighting (no chunk seams), FIX_INTERNAL_EDGES colliders. All gates + 33 visual probes + e2e probe green |
 | N — quest-plan cast/lore/deliverability/fun review (parallel workstream, decision 0018) | done | 2026-08-25 (Opus): new `docs/quests/35-cast.md` — depth tiers, six character rules, canon naming system, rewritten principal cast (3 new: Never-Writes-Twice, Spills-The-Ink, Ahnjazzi; 2 renamed), named recurring cast for all 12 faction lines, 6 cross-line faces, oddities roster, C4 texture kit. New lore dossier `topics/labour-and-bondage.md` — **the Owing**, the province's coerced-labour institution (closes the Chainbreakers' shapeless target and the open Archein gap; `washed-out` NPC variant is free canon signposting). Cult method re-grounded on the canon **Mnemic Egg**; Hierem/Synod file moved into the main quest; Marsh Charter re-anchored on the Four Winds, Sunken Archive on folk-literacy magic + the Conclave of Baal; Nisswo *shunatei* critique of the cult added. **Delivery tiers D-A/D-B/D-C** + conversion table; all 9 chase/escort/crowd/riot beats converted. **Boredom test** added; ~12 read-and-talk quests rewritten; Act II verb-variety rule (§21b); Thorn and Umbriel lines diversified. Acceptance criteria 28–33 + cast/deliverability validator sections |
-| 8a — world time, natural light and sky | in progress | built 2026-08-25 (packages/world-time 25 tests; star catalogue; climate-air raster; studio light stack; decision 0020). Owner walk gate FAIL same day (character view: black moon discs, night terrain lit like day, sun glare, colours off, slow load, settle-jitter) → root causes found & fixed (decision **0021**: leaked CSM cascade lights from suspense remounts, shadows silently off, moons off the lux scale, circumsolar Mie blow-out, exposure/ambient double-count, driver-dependent NaN). Diagnostics verify clean light census + sane day/night in character view; probe-sky extended to character scenarios + light census. **Awaiting owner re-gate** |
-| 8b — water renderer and interaction | todo | |
+| 8a — world time, natural light and sky | done | owner gate PASS 2026-08-26 after 8 feedback rounds (decisions 0020/**0021** = full defect→fix history; research doc §8–8d). world-time package (calendar/sun/moons/stars, verified phase cycle); physical light rig with **envelope-pinned dome** (CPU Preetham twin `preethamCpu.ts` + `skyScreenModel.ts`; whiteout/black-gap class caught by `npm test`); directional twilight (Earth shadow, Belt of Venus, magnitude-staged stars); moon-aware night floors; owner-locked defaults warmth 1.0, stars ×0.5 (~3300); CSM shadows w/ contact bias; walk+fly city markers; HUD compass. Deferred: beyond-border land apron (module 55 §98b + research doc) |
+| 8b — water renderer and interaction | todo | next up (fresh agent): module 60 + the 8a light stack docs row — the water must sit on the same exposure/aerial system |
 | 8c — weather and atmosphere | todo | |
 | 9 — swimming, climbing, boats | todo | |
 | 10 — asset catalogue and kits | todo | |
@@ -58,15 +58,9 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- **Phase 8a owner re-gate, round 8** (round-6 feedback applied, decision
-  0021 §Round 6: daylight warmth slider (time panel, default 0.4); moonless
-  night floor raised (authored gameplay floor); twilight palette re-tuned
-  to the owner's pastel tropical refs (peach/coral/lavender, crimson band
-  gone); DistantLands removed — proper border apron specced for later
-  (research doc beyond-border-distant-lands, module 55 §98b); markers in
-  walk mode w/ checkbox; compass no longer under the time panel). Playtest
-  on the DEPLOYED site (owner 2026-08-26), hard refresh after the Pages
-  action finishes.
+- Nothing. Phase 8a closed 2026-08-26; 8b (water) is next for a fresh agent.
+  Owner playtests happen on the DEPLOYED Pages site — push, confirm the
+  deploy action, then hand off.
 
 (There is no "next up" section: the first `todo` row above is what's next.
 Phase-ordering rationale lives in the plan §86, not here.)

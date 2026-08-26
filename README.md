@@ -52,9 +52,16 @@ asset registry.
   sandbox, MIT.
 - Skyrim vanilla assets (Bethesda) — processed via `tooling/asset-pipeline` for
   this non-commercial fan project; source archives stay out of the repo.
-- Full runtime dependency licences: see `apps/combat-sandbox/THIRD_PARTY_NOTICES.md`.
+- Full runtime npm dependency licences: see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 - **UESP (en.uesp.net)** — lore reference for all canon dossiers (wiki content
   CC-BY-SA; we cite page names, no wiki text ships in the game).
+- **Dynamic Dodge Animation** (Nexus SSE mod 79598, lSmoothl, v1.5) — source
+  of the combat sandbox's `ROLL` animation (DMCO base `MCO_DodgeForward2.hkx`).
+- **Rim Parry and Execution** (Nexus SSE mod 114366, SHADOWPQ, v1.1) — source
+  of `PARRY`/`PARRY_FOLLOW_THROUGH`, `RIPOSTE`, `RIPOSTED_HIT1`,
+  `CRITICAL_KNOCKDOWN`, `CRITICAL_DEATH`, `DEATH` and `GUARD_HIT_A/B`.
+- **Backstab animation for sneak killmove SE** (Nexus SSE mod 74453, Ichaflash
+  original / rhonjhonson uploader, v1) — source of `BACKSTAB`/`BACKSTABBED`.
 - **Tamriel Worldspaces — Argonia worldspace** (Nexus SSE mod 118678, author
   SqueeblySplat; derived from Transbot9's heightmap) — province macro terrain
   prior.

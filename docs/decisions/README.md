@@ -27,3 +27,4 @@ record and marking the old one superseded — don't rewrite history.
 - [0021 — Phase 8a owner-gate defects: root causes and fixes (CSM light leak, exposure, moons)](0021-phase8a-gate-defect-fixes.md)
 - [0022 — world-build gap audit: soundscape, vegetation density, navigation data](0022-world-build-gap-audit.md)
 - [0023 — soundscape is polish-tier (8d → 12b); mod sound packs allowed; credits move to root README](0023-soundscape-polish-tier-and-credits.md)
+- [0024 — credits review: three shipped animation mods were missing from README; third-party notices consolidated to repo root](0024-credits-review-and-notices-consolidation.md)

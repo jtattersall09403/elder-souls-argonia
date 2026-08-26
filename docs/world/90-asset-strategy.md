@@ -85,7 +85,13 @@ Keep this deliberately lightweight:
 2. record the author/project names that should be credited;
 3. optionally record archive version/hash where it helps reproducibility;
 4. record which semantic asset IDs came from that source;
-5. maintain one generated `CREDITS`/third-party-reference list from those records.
+5. **add the credit line to root [README.md](../../README.md) § Credits and
+   third-party sources in the same change that ships the asset** — a
+   pipeline/audit doc recording provenance (e.g.
+   `apps/combat-sandbox/docs/assets/`, `tooling/asset-pipeline/docs/`) is
+   necessary but not sufficient; the README is the single list a credits
+   review checks, so a source that's provenance-documented but not there is a
+   gap, not a formality skipped.
 
 All mods listed in this document are assumed available for this personal project. There should be no per-asset permission gate, permission-evidence workflow or agent-time spent repeatedly re-checking usage terms unless a genuinely new source is introduced later.
 

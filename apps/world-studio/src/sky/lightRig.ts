@@ -77,10 +77,11 @@ const GOLDEN_SUN: [number, number, number] = [1.0, 0.7, 0.42];
 const HORIZON_SUN: [number, number, number] = [1.0, 0.4, 0.1];
 const MOONLIGHT: [number, number, number] = [0.62, 0.72, 1.0];
 
-/** Owner-tunable daylight warmth (round 6: "too white during most of the
- * day"): 0 = the measured-CCT ramp as-is, 1 = strongly golden. Biases the
- * high-sun end of the ramp toward GOLDEN_SUN. Live slider in the time panel. */
-let warmthBias = 0.4;
+/** Owner-tunable daylight warmth (rounds 6–8): 0 = the measured-CCT ramp
+ * as-is, 1 = deeply golden — warms the sunlight at every altitude plus the
+ * sun's disc/halo. Owner-locked default (round 8): 1.0. Slider in the time
+ * panel remains for future re-tuning. */
+let warmthBias = 1.0;
 export function setWarmthBias(v: number): void {
   warmthBias = Math.min(1, Math.max(0, v));
 }

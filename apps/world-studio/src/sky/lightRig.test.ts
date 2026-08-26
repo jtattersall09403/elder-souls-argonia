@@ -88,8 +88,11 @@ describe("screen-luminance envelope (owner round 5 — no whiteouts, no black ga
           const where = `${label} @ alt ${alt}° hum ${hum}`;
           // Never pitch black: dusk/night sky stays readable (round-4/5 gap).
           expect(screen, `black: ${where}`).toBeGreaterThan(0.02);
-          // Never blown out — except graded glare near the sun itself.
-          const cap = label.includes("solar") ? 12 : label.startsWith("low") ? 2.8 : 1.7;
+          // Never blown out — except graded glare near the sun itself (the
+          // mid-solar sample stares straight into the sun at some altitudes;
+          // 16 allows the white glare point, the off-sun caps are the real
+          // whiteout guards).
+          const cap = label.includes("solar") ? 16 : label.startsWith("low") ? 2.8 : 1.7;
           expect(screen, `blown: ${where}`).toBeLessThan(cap);
         }
       }

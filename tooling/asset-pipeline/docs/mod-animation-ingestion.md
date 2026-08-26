@@ -132,3 +132,8 @@ The Rim execution includes package annotations/config names associated with its
 execution triggers (including Elden-style effect names); provenance should name
 the exact packaged HKX and SHADOWPQ archive without inventing an undeclared
 upstream animator credit.
+
+Any mod that reaches the *production* runtime manifest (not just an audition
+candidate) needs a line in root [README.md](../../../README.md) § Credits and
+third-party sources — this table alone doesn't satisfy that (world module 90
+§73).

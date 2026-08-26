@@ -53,10 +53,14 @@ The overall goal at this point is to build the province-scale world, in a way th
   §71/§74.3 for what we already have, research the mod scene for the best
   source, then download it with the owner's **Nexus premium API key** on this VM
   (`apikey:` header, `api.nexusmods.com`; never echo the key), and record the
-  source link, credits and file hash before relying on it. Take mods' *assets*,
-  not their Papyrus/SKSE code — that we cannot run, and it is only a design
-  reference. Procedural motion (IK, physics) drives sourced clips; it never
-  replaces them.
+  source link, credits and file hash before relying on it. **Recording the
+  source is not just a pipeline/provenance doc note — add the credit line to
+  root [README.md](README.md) § Credits and third-party sources in the same
+  change** (or the same session) that ships the asset; a mod credited only in
+  a pipeline audit doc is a gap the next credits review has to re-find. Take
+  mods' *assets*, not their Papyrus/SKSE code — that we cannot run, and it is
+  only a design reference. Procedural motion (IK, physics) drives sourced
+  clips; it never replaces them.
 - **Game played from github pages.** The game will be built from github actions and played in the browser at github pages. So the code must work for that context. e.g. make sure animation files that are needed in the game are included.
 - **Controller-independent.** Combat/input/lock-on/animation depend on
   `PlayerMovementController`, not ecctrl directly (ecctrl is behind `EcctrlAdapter`). This is so we can easily change the controller later if we need to

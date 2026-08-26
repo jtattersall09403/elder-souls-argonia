@@ -117,5 +117,8 @@ scene with missing local-only assets or a character GLB/manifest hash mismatch.
 
 ## Asset attribution
 
-See `THIRD_PARTY_NOTICES.md` for the MIT-licensed ecctrl dependency. Runtime
-character and weapon asset provenance is documented under `docs/assets/`.
+See the root [THIRD_PARTY_NOTICES.md](../../THIRD_PARTY_NOTICES.md) for
+runtime npm dependency licenses and the root
+[README § Credits](../../README.md#credits-and-third-party-sources) for game
+asset/mod sources. Runtime character and weapon asset provenance is
+documented under `docs/assets/`.
