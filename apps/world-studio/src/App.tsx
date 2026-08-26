@@ -13,6 +13,7 @@ import {
   type LightPreset,
 } from "./sky/timeState";
 import { getLatitudeOverrideDeg, setLatitudeOverrideDeg } from "./sky/WorldSky";
+import { setWetSeasonOverride } from "./water/waterAssets";
 
 const urlParams = new URLSearchParams(window.location.search);
 // World time from the URL (t=HH:MM, d=M-D, rate; lat is a debug override).
@@ -94,9 +95,13 @@ export function App() {
   // Ground-material set (?mats=): A/B palette comparison + instant revert.
   const [matSet, setMatSet] = useState<string>(urlParams.get("mats") || "");
   const [matSets, setMatSets] = useState<Record<string, { label: string }>>({});
-  // Wet season (?wet=1): raises the water plane by the basin's seasonal
-  // amplitude (flood-states.json, §36) for flood-state review.
+  // Wet season (?wet=1): raises season-responsive water by the basin's
+  // seasonal amplitude (flood-states.json, §36). Phase 8b: applied inside
+  // the water renderer/query via the shared override, not a plane offset.
   const [wetSeason, setWetSeason] = useState(urlParams.get("wet") === "1");
+  useEffect(() => {
+    setWetSeasonOverride(wetSeason);
+  }, [wetSeason]);
   const [wetAmplitude, setWetAmplitude] = useState(1.4);
   // Live tuning knobs (owner): climate-tint strength; boat-lane overlay.
   const [tintStrength, setTintStrength] = useState(Number(urlParams.get("tint") ?? 1));
@@ -432,7 +437,7 @@ export function App() {
       <Fly3D key={presetNonce} heights={displayHeights()!} size={meta.imageWidth}
         metresPerPixel={meta.metresPerPixel} textureCanvas={canvasRef.current}
         spawnKm={spawnKm} exaggeration={exaggeration} mode={camMode}
-        matSet={matSet || undefined} waterLevelM={wetSeason ? wetAmplitude : 0}
+        matSet={matSet || undefined}
         tintStrength={tintStrength} showLanes={showLanes} flySpeed={flySpeed}
         onPosition={(x, z, alt, headingDeg) => {
           flyKmRef.current = { x, z };

@@ -3,7 +3,7 @@
 > Module of the quest/narrative master plan (see [README](README.md)).
 > **Read this before writing any named NPC.** It holds the character-design
 > rules, the naming system, the principal cast, the recurring cast of every
-> faction line, the cross-line faces and the oddities roster.
+> faction line, the shared places and shadow networks, and the oddities roster.
 > Dialogue *style* (Jel register, topics, staged scenes) lives in
 > [60-writing-and-lore.md](60-writing-and-lore.md); this module is about *who*.
 
@@ -31,12 +31,38 @@ exists to close one of them:
 
 Research anchors: the "one distinctive thing, one clear want, doing something"
 formula and the von Restorff 2–3 vivid traits rule; the archetype-plus-
-contradiction fix for stereotype; the rival-versus-foil distinction (a rival
-*opposes*, a foil *exposes*); the ensemble-slot diagnostic that two characters
-in the same archetypal slot means one gets quietly written out; and the budget
-rule — *if an NPC can be replaced by a door, a sign or a die roll, they do not
-need a backstory*. Sources are listed in
-[99-sources-credits.md](99-sources-credits.md).
+contradiction fix for stereotype; and the budget rule — *if an NPC can be
+replaced by a door, a sign or a die roll, they do not need a backstory*.
+Sources are listed in [99-sources-credits.md](99-sources-credits.md).
+
+**The structural model is Morrowind's, mined from UESP** (owner directive
+2026-08-26; evidence with citations in
+[../research/morrowind-cast-structure.md](../research/morrowind-cast-structure.md)).
+The five inferred principles, which §53 turns into rules:
+
+1. **Desks, not companions.** Every Morrowind faction is 3–7 quest-givers, each
+   fixed at one hall in one town with their own quest list (Eydis Fire-Eye:
+   nine quests from one desk in Balmora). Recurrence is the player returning,
+   never an NPC travelling.
+2. **The line's story is the disagreement between its desks.** Sjoring vs
+   Percius, Sarethi vs Venim, the Telvanni councilors vs each other — each desk
+   has a distinct ethic the player samples by working it, and the finale forces
+   the player to resolve the disagreement.
+3. **Nothing friendly recurs across lines.** What crosses lines is the *same
+   conflict seen from both sides* (the Fighters/Thieves war, waged from either
+   guild), *shared places* (Balmora holds five factions' desks), and one
+   unjoinable **shadow network** met from every angle (the Camonna Tong: backs
+   the corrupt guildmaster, mortal enemy of the thieves, controls Hlaalu
+   councilors through Orvas Dren, sympathises with the main quest's enemy).
+4. **The main quest is a relay**: a vivid stationary handler → single-use
+   informants → institutions with their own casts → summit figures. And the
+   handler is *removed at the midpoint* (Caius, recalled to the Imperial City),
+   forcing independence exactly when the player can bear it.
+5. **Depth is budgeted by rank and act; single-use characters get a handle,
+   not a history.** The strange deep characters are late-game; early desks are
+   vivid but simple; the huge named cast of targets and victims runs on
+   memorable one-line handles (Tongue-Toad, the Mad Lord of Milk, Sugar-Lips
+   Habasi) — the nickname *is* the characterisation.
 
 ---
 
@@ -49,7 +75,7 @@ to the player's chances of discovering it.**
 | Tier | Who | Required | Forbidden |
 |---|---|---|---|
 | **C1 — principal** (≈12) | Main-quest cast; the player knows them for the whole game | Full sheet: want, contradiction, quirk, private life, voice rules, an opinion about the player, a fail-forward path, an on-screen change between Act I and Act V | Being summarisable by their job title |
-| **C2 — recurring** (≈40) | Faction patrons/peers/nemeses; cross-line faces. Seen in ≥3 quests | Want, contradiction, one quirk, one relationship type, one lore anchor, fail-forward | Being interchangeable with another C2 in the same line |
+| **C2 — recurring** (≈40) | Faction desks and recurring line cast; fixed shared-place figures. Seen in ≥3 quests | Want, contradiction, one quirk, a **fixed post**, an ethic legible from their quest list, one lore anchor, fail-forward | Being interchangeable with another C2 in the same line; travelling between lines |
 | **C3 — named local** (≈150) | Quest-givers and subjects of single M/L quests | One want, one vivid trait, one specific detail of place or trade. **No backstory the quest doesn't surface.** | Delivering lore they have no reason to know |
 | **C4 — texture** (hundreds) | S-tier quest-givers, shopkeepers, guards, villagers | One line of specificity from the material-culture kit (§59). Nothing more | Any authored history at all |
 
@@ -107,38 +133,53 @@ mistaken. Required across the cast:
 - one character per major line who is **right about their institution and wrong
   about the player**.
 
-### 5. Relationship variety — the anti-sameiness tool
+### 5. The faction shape: desks, ethics, one live argument
 
-Every C2 carries exactly one **relationship type**. A faction line must contain
-**at least four distinct types** among its recurring cast, and no line may be
-Patron + Peer + Nemesis only.
+This is Morrowind's actual anti-sameiness mechanism, and it replaces the
+earlier relationship-type quota (2026-08-26; evidence in
+[../research/morrowind-cast-structure.md](../research/morrowind-cast-structure.md)).
+Every major faction line has:
 
-| Type | The player's experience |
-|---|---|
-| **Patron** | Employs you; you want their approval |
-| **Peer** | Climbs beside you, at your rank, with their own ambitions |
-| **Mentor (wrong)** | Teaches you something real and is mistaken about something else |
-| **Nemesis** | Opposes you competently and is not evil |
-| **Dependent** | Needs you and cannot repay you |
-| **Friend** | Likes you, wants nothing, is not useful |
-| **Ex** | A relationship already damaged before the player arrived |
-| **Ward-turned-judge** | Someone whose fate you shaped, who later assesses you |
-| **Institution-in-a-person** | Cannot be separated from their office; their office is dying |
-| **Oddity** | Makes no sense, is fine, and is never explained |
+- **3–5 stationary patrons ("desks")**, each fixed at one post in one
+  settlement, distributed across at least two settlements where the faction
+  spans them. A desk never travels; the player returns to it. Recurrence is
+  five-plus visits to the same person in the same room.
+- **A distinct ethic per desk.** Working different desks is how the player
+  learns the institution's moral range *before* any choice is asked of them —
+  one patron's jobs are honest, another's are technically legitimate and
+  quietly rotten. No two desks in a line may be interchangeable in a blind read
+  of their quest lists.
+- **One live argument between two named desks** — the line's story *is* this
+  disagreement. It must be audible from the player's first rank (each patron
+  has an opinion of the other on day one), it must force **at least one
+  mid-line moment where the player must pick a desk** and the unpicked desk
+  reacts, and the **finale resolves the argument** — usually with the player as
+  the instrument.
+- **A cast that comes and goes around the desks**: targets, victims, witnesses
+  and contacts are single-use, per rule 6.
+- **At least one desk that can die, leave or turn**, with a fail-forward path
+  per [30-main-quest.md](30-main-quest.md) §23. No character may be introduced
+  in the quest where they die.
 
-*Rival vs foil*: a rival **opposes** what the character wants; a foil **exposes**
-what the character is. Our best C2s are both — Never-Writes-Twice blocks the
-player *and* is the honest version of Nesh-Deeka.
+### 6. Nothing friendly recurs across lines
 
-### 6. Recurring faces are the point
+There are **no travelling recurring faces**. Cross-line texture comes from
+exactly three Morrowind-proven sources, and region packets should use them
+instead of importing characters:
 
-- Every major faction line has **3–4 C2s present from its first quest to its
-  last**, and their standing changes with the player's conduct.
-- Every **region packet** must reuse at least two C2s from elsewhere. A face in
-  two cities is worth more than two faces in one.
-- **At least one C2 per line must be able to die, leave or turn**, with a
-  fail-forward path per [30-main-quest.md](30-main-quest.md) §23.
-- No character may be introduced in the quest where they die.
+- **Shared places.** A fixed figure sits where several lines happen to go
+  (Balmora holds five factions' desks). Ahnjazzi never leaves Soulrest harbour;
+  the main quest, the Reed-Sail line and the heists all *come to her*.
+- **The same conflict from both sides.** When two lines collide, they collide
+  over the *same named people and the same stakes*, seen from opposite ends —
+  our Fighters/Thieves-war analogues, declared per line in §56.
+- **Shadow networks** (§57): one or two unjoinable organisations with named
+  members in real places, met from a different angle by every line that
+  touches them, with one spider the player hears about long before meeting.
+
+Single-use side characters (rule 5's come-and-go cast, and every C3) get **a
+handle, not a history**: one memorable name or nickname, one want, one vivid
+detail. The nickname is the characterisation.
 
 ---
 
@@ -353,10 +394,14 @@ The one relationship in the game with no institution behind it, and the cast's
 - **Fail-forward**: his route notes and his instrument. Someone else can play it
   badly.
 
-**Ahnjazzi** — Khajiit marine underwriter. *Ta'agra name. Soulrest, Archon,
-Lilmoth.* **New C1** — the plan's only non-Argonian principal, and the fix for a
-main cast with no outsider in it. Promoted from the unnamed "Khajiit broker" of
-MQ10.
+**Ahnjazzi** — Khajiit marine underwriter. *Ta'agra name. One desk on Soulrest
+harbour; she never leaves it, and everything comes to her.* **New C1** — the
+plan's only non-Argonian principal, and the fix for a main cast with no
+outsider in it. Promoted from the unnamed "Khajiit broker" of MQ10. The main
+quest, the Reed-Sail line and the heist content all pass through Soulrest, so
+the player keeps meeting her without her ever moving — the Morrowind
+shared-place pattern (§53.6). For business elsewhere she has correspondents,
+and her letters sound exactly like her.
 - **The job**: she prices risk. In the most dangerous province in Tamriel, she
   will tell you your odds and charge you for the telling. She is therefore a
   **diegetic danger-tier oracle** — §49's requirement that D4/D5 warnings come
@@ -391,31 +436,55 @@ has understood the consent records — it *waits*, which is far more frightening
 
 ## 56. Recurring cast by faction line (C2)
 
-One table per line. **Rel** is the §53.5 relationship type. Lines are checked
-against the four-types rule. The deliberate cliché, where a line spends one, is
-marked ★.
+One block per line, in the Morrowind shape (§53.5): each opens with its
+**Desks** — the stationary patrons, each fixed at one post — and **The
+argument**, the live disagreement between two named desks that the line's
+finale resolves. The table lists the recurring cast; **Role** is descriptive
+(who this person is to the player), not a quota. The deliberate cliché, where a
+line spends one, is marked ★. Everyone not in these tables comes and goes:
+targets, victims and witnesses are single-use, with a handle rather than a
+history (§53.6).
 
 ### The Empty Cradle — Shadowscales
 
-| Name | Rel | Who, and the quirk |
+**Desks:** Ohl-Katta (Kota-Vimleel territory, Murkmire — tradition's desk),
+Rasha (a rented dockside guesthouse, Archon — the Brotherhood's), and the
+Veiled Reed's chartering officer at Stormhold (the state's, SS08). Three
+bidders, three fixed posts, and the player carries the order's future between
+them. **The argument:** Ohl-Katta vs Rasha over what a Shadowscale *is* — a
+duty that exists whether or not any institution claims it, or a franchise that
+dies without one. Audible from SS01; the player must pick a desk by SS08;
+resolved at SS10.
+
+| Name | Role | Who, and the quirk |
 |---|---|---|
 | **Ux-Teeba, "the Last"** | Institution-in-a-person | The dying Shadowscale of SS01 — canon's last, dying in canon's year. He dies in the first quest and **remains a character**: the player carves his **grave-stake**, and what they choose to record about him is a running decision through the line. Canon system, dead man, recurring presence, no asset cost |
 | **Ohl-Katta** | Mentor (wrong) | Black-Tongue *deelith*, 60s. Has quietly kept and trained fourteen Shadow-born since the school closed in 4E 187 because nobody ever told her to stop. Superbly competent, entirely sincere, and has raised a generation of assassins for an order that does not exist. **Quirk**: she teaches through cooking, and the poison lesson is the same meal as the trust lesson |
 | **Rasha** | Nemesis | **Canon-named** (the Brotherhood associate who planned the Archon revival with Listener Dupre). Written against type as an *administrator*: tired, courteous, honest about his own institution's collapse, offering a merger the way a failing company offers one. **Quirk**: immaculate accounts, which he will show you. The least frightening assassin in Tamriel, which is the problem |
 | **Iiran-Vekh, "the Second Knife"** | Peer | The adult Shadow-born of SS04, claimed by three bidders, called the Second Knife by people who did not ask him. He wants to be a **boat-builder**. That sentence is the whole moral argument of the line |
 
-*Types: 4/4. No cliché spent.*
+*No cliché spent.*
 
 ### Night-Reed Chapter — thieves
 
-| Name | Rel | Who, and the quirk |
+**Desks:** Deep-In-Her-Cups (the Soulrest den — professional restraint: no
+kills, no poor, no politics) and **Vasha "Half-Rent"** (the Lilmoth chapter,
+above a pawnshop in Pusbottom — leverage everything; information is the only
+cargo that appreciates; she has never paid full price for anything including,
+people say, her own name). **The argument:** what the guild is *for* — mutual
+aid with a code, or a ledger of everyone's secrets. It shapes which jobs each
+desk offers all line long, the player must pick a den before the Tidal Palace
+heist is planned (TG09), and TG11 resolves it with the Crown Ledger in the
+player's hands.
+
+| Name | Role | Who, and the quirk |
 |---|---|---|
 | **Deep-In-Her-Cups** | Patron | Runs the Soulrest den from a dockside tavern. **The name is inherited from her mother, who earned it; she herself is teetotal** and keeps the name because it makes people underestimate her. A canon-form name subverted at zero cost |
 | **"the Eel-Keeper"** | Nemesis | Lilmoth's canal warden, who maintains the **ripper eels trained to hunt canal-crossers** (canon, with its canon eel-slime counter). Excellent at his job, genuinely fond of the guild, would drown any of them. **Quirk**: the eels have names and he is sentimental about them, which makes TG10 personal |
 | **Tsuun-Wai** | Dependent | The Lilmoth fence of TG05 — bad at fencing. She took the work to keep her brother out of an **Owing** and is drowning. Prop her up or replace her; either choice returns in TG11 |
 | **Silt** ★ | Peer | The deliberate cliché: the fast, charming young climber. **Subversion**: she is not a traitor and never becomes one. Every beat of TG07 points at her, and the informer is someone else, and she never finds out she was suspected |
 
-*Types: 4/4. Cliché spent on Silt.*
+*Cliché spent on Silt.*
 
 ### The Marsh Charter
 
@@ -426,13 +495,23 @@ institutions — the **Four Winds of Stonewastes**, city shellback levies, triba
 tradition accept a foreign charter*, not *how does the Fighters Guild operate in
 a swamp*.
 
-| Name | Rel | Who, and the quirk |
+**Desks:** Halvar the Damp (the old guild hall at Alten Corimont, reopened as
+the Charter's hiring floor — paid, portable, professional protection),
+Ka-Deelith Ushu (the Four Winds hall at Stonewastes — unpaid, hereditary,
+rooted defence), and the frontier-fort contract captain (the racket's desk,
+FG05/FG07 — named at production). **The argument:** Ushu vs Halvar over whether
+protection can be sold at all without eventually becoming the FG07 racket.
+Ushu's evidence is the racket; Halvar's evidence is every village the Four
+Winds cannot reach. The player must pick whose contract terms to enforce by
+FG05; FG08/FG10 resolve it.
+
+| Name | Role | Who, and the quirk |
 |---|---|---|
 | **Ka-Deelith Ushu** | Mentor (wrong) | War-teacher of the **Four Winds** (canon: hereditary defenders of Stonewastes, "active since their ancestors erected their first hut"). Believes the Charter is a foreign disease. She is about 70% right. **Quirk**: she has never left her region in her life and regards this as a professional qualification |
 | **Halvar the Damp** | Patron | Nord contract-captain (canon: shellbacks trained alongside Nord heavy infantry). **Against the cliché**: not proud, not loud — cheerfully humiliated by the climate, answers happily to a nickname his own company gave him, and is extremely good at his job. **Quirk**: he keeps a written list of everything in the marsh that has bitten him, in order, and consults it professionally |
 | **Yeel-Nakka** | Friend | Charter surgeon. Likes the player, wants nothing, patches everyone including whoever they were just fighting. **Quirk**: refuses to learn anybody's rank. She is the moral witness who makes FG06 land |
 
-*Types: 3 — **add a Nemesis** in the FG07/FG09 racket (the officer who farms bandits). Named at production.*
+*Cliché spent on none — Halvar is written against the Nord-mercenary type.*
 
 ### The Sunken Archive
 
@@ -443,86 +522,156 @@ tree-minders, alchemists, grave-singers and *jekka-wats* with one or two
 foreign-trained scholars — and its internal fight is **whether to become an
 institution at all**.
 
-| Name | Rel | Who, and the quirk |
+**Desks:** Xul-Nasha in the Archive's wet-and-dry collection rooms in
+Stormhold's old Ayleid guild compound; Brother Cato's Conclave of Baal across
+the same compound; and the guest laboratory where foreign envoys are lodged
+(Loryn's desk while the College courts the Archive). **The argument:**
+Xul-Nasha vs Cato on whether the Archive should exist at all. Her case:
+everything worth keeping is already carved on grave-stakes, legible, free and
+in the right place — institutions are how knowledge gets *taken*. His case: the
+one capability that matters (finding Murkwood) survives only because an
+institution carried it for two centuries. The player must choose whose method
+to back by SA06; SA09/SA10 resolve it.
+
+| Name | Role | Who, and the quirk |
 |---|---|---|
 | **Brother Iulus Cato** | Institution-in-a-person | Keeper of the canon **Conclave of Baal at Stormhold** — the only body in Tamriel that can locate **Murkwood**, by reading the Elder Scrolls with a specific ancient tablet. He has trained his entire life for one act he will probably never be permitted to perform. **Quirk**: he practises the reading aloud, weekly, with a substitute tablet. Quest-giver, library and dungeon key in one person |
 | **Xul-Nasha** | Peer | Grave-singer turned archivist, and the line's best argument against itself: everything worth keeping is already carved on a stake in the mud, legible, free, and in the correct place. **Quirk**: she reads grave-stakes aloud at a glance, at funerals, to people who did not ask |
 | **Magister-Adjunct Tarien Loryn** | Nemesis | College of Whispers; wants Umbriel's dead out of the Murkmire mud (canon: the College held the best Umbriel intelligence). **Against the cliché**: not sinister — *grieving*. Her teacher died defending the Imperial City from Umbriel and she believes understanding the wormies is the only decent memorial. She is completely wrong from the Argonian side and cannot see it |
 | **Curator Aulus Pell** | (cross-line, §57) | Cyrodilic Collections |
 
-*Types: 4/4 with Pell. No cliché spent.*
+*No cliché spent. Curator Pell (§57 shared places) sits at Gideon and is met when Archive work goes there.*
 
 ### Nisswo of the Turning Path
 
-| Name | Rel | Who, and the quirk |
+**Desks:** Ei-Tuja at the Helstrom debating house; Little-Bell at her Lilmoth
+shrine (young, fixed, thronged); Zaxeel holding ground near the Teeth of Sithis
+(NI05). The exception to the desk rule is deliberate and canon: the Clutch of
+Nisswo is an *itinerant* priesthood, so the line's fourth figure, Hana-Vei,
+travels — but only inside this line, appearing at authored points where the
+line's quests already go. **The argument:** Ei-Tuja vs Little-Bell over whether
+doctrine may be made simple — his whole tradition says truth needs many
+contradictory mouths; her whole congregation says people are drowning and want
+one rope. Neither can say the other is wrong in front of a grieving family.
+The player must choose whose teaching to carry by NI07; NI09/NI10 resolve it.
+
+| Name | Role | Who, and the quirk |
 |---|---|---|
 | **Ei-Tuja** | (C1) | Also the line's senior figure — a deliberate cross-link between main quest and faction |
 | **Little-Bell** | Peer | Young, translated name, enormously popular because she gives **simple** answers. She is sincere, humble and good, and she is the greatest danger the tradition faces: dogma arriving in a friendly shape. Nobody in the line can articulate why she is a problem, which is the problem |
 | **Zaxeel of the Jade Mask** | Nemesis | The **Sul-Xan** splinter leader of NI05 (canon: Naga cultists of Dagon as the "True Egg-Child of Sithis", jade death masks). **Against the cliché**: a theologian, not a berserker. He will debate properly and his position is internally consistent. **Quirk**: he owns annotated copies of every Nisswo text he is refuting and is the only person in the province who has read them all |
-| **Hana-Vei** | (cross-line, §57) | The travelling Nisswo who turns up wherever someone has died |
+| **Hana-Vei** | Itinerant (this line only) | A travelling Nisswo trained as a grave-singer — the line's one moving figure, per the canon itinerancy of the Clutch. Within this line's quests she turns up at deaths, including ones the player caused. Never accusatory. Occasionally congratulatory, which is worse |
 
-*Types: 4/4. No cliché spent.*
+*No cliché spent.*
 
 ### The Many-Root Conclave
 
-| Name | Rel | Who, and the quirk |
+**Desks:** Root-Herald Ixo-Vaal at the neutral council grove; Sap-Speaker
+Miril-Tei in her Miredancer village; Tuwul at her Gloommire settlement; and
+Kaska-Meen in Helstrom (her C1 post — the Conclave comes to her, not she to
+it). **The argument:** Ixo-Vaal vs Kaska-Meen over whether the many roots need
+shared rules at all — his career says a compact is the only protection against
+the next Gideon cutting; hers says every central authority over Hist affairs
+has become the thing it guarded against, most recently at Lilmoth in 4E 48.
+The player must side with one procedure at MR08; MR10 resolves it.
+
+| Name | Role | Who, and the quirk |
 |---|---|---|
 | **Root-Herald Ixo-Vaal** | Patron | Canon office: outward-facing, gathers news and negotiates trade, "closer to ambassador than spy". **Quirk**: inter-tribal alliance is made through **bonding ceremonies**, not treaties (canon), so his diplomacy is literally matchmaking, and he is insufferably proud of his record |
 | **Sap-Speaker Miril-Tei** | Oddity / Friend | A Miredancer sap-speaker with the same canon **sap-poisoning** as Opens-the-Last-Door — gold tongue, bark scale — who was *honoured* for it rather than set aside. She is the living counter-argument to the cult, and the two of them know each other. Neither will discuss it. **Quirk**: she answers questions asked yesterday, and is right about things she should not know |
 | **Tuwul of Gloommire** | Dependent | The claimant of MR03: her tribe says Gideon's city-garden Hist is a cutting taken from them without consent, and through **gloor** a whole district's children now belong body and soul to a stolen tree. She is not a firebrand and does not want a war; she wants an acknowledgement, which is harder to give |
-| **Kaska-Meen** | (C1) | Cross-link |
+| **Kaska-Meen** | (C1) | Her Helstrom post; see §55 |
 
-*Types: 4/4. No cliché spent.*
+*No cliché spent.*
 
 ### The Reed-Sail Compact
 
-| Name | Rel | Who, and the quirk |
+**Desks:** Route-Keeper Sesha-Ku at the Compact hall on Soulrest's working
+waterfront (a few piers from Ahnjazzi's underwriting desk — shared place, two
+lines); Captain Ma'ren at the pirate cove (her desk is a beached ship's
+sterncastle); the toll-holder at the Chain (RS08). **The argument:** Sesha-Ku
+vs Ma'ren over what the water owes the people who work it — a regulated compact
+that keeps fares low and pilots paid, or free water taken by those the
+monopoly beached. Each recruits the player against the other from RS05 on;
+RS09/RS10 resolve it.
+
+| Name | Role | Who, and the quirk |
 |---|---|---|
 | **Route-Keeper Sesha-Ku** | Patron | Runs the Compact hall. **Quirk**: has memorised the tide tables of the entire south coast and recites the relevant one at you before every departure, at length. It is always the most useful thing anybody gives you that day |
 | **Captain "Salt" Ma'ren** ★ | Peer | The deliberate cliché: a swashbuckling Khajiit pirate captain (RS05, ST arc). **Subversion that changes the writing**: her crew are ferry workers displaced by the monopoly and she runs it as a **cooperative with minutes, which she reads aloud before any raid**. A pirate captain who holds meetings |
-| **Walks-Against-Current** | (C1) | Cross-link; the Compact's conscience and its most reliable freelancer |
+| **Walks-Against-Current** | (C1) | The Compact's conscience and most reliable freelancer; his movements belong to the main quest, not this line |
 | **The toll-holder at the Chain** | Nemesis | Named at production (RS08). Owns a crossing; therefore owns people (lore: topics/labour-and-bondage.md) |
 
-*Types: 4/4. Cliché spent on Ma'ren.*
+*Cliché spent on Ma'ren.*
 
 ### The League of Open Water
 
-| Name | Rel | Who, and the quirk |
+**Desks:** Delegate Martius at the League hall in Gideon; Hisska at the civic
+registry across the square; Advocate Oshu-Kai at the courthouse. One city,
+three desks, three ethics — the League is the most geographically concentrated
+line because Gideon is the one place its argument can be *won*. **The
+argument:** Martius vs Oshu-Kai over what open citizenship is for — a civic
+movement, or a market. He wins her cases; she slowly realises what the
+victories are assembling. The player must choose whose clause enters the
+charter draft at LW07; LW09/LW10 resolve it.
+
+| Name | Role | Who, and the quirk |
 |---|---|---|
 | **Delegate Anseia Martius** | Patron | Gideon, Nibenese-descended (canon: the Martius manor is the city's Dibellaseum). **Quirk**: a devout Dibellan in a province with no Tamrielic gods — and canon ties Gideon's Dibella worship to the **Kothringi** substrate, which makes her the foreign-looking woman practising the most *local* religion in the city. She will explain this to anyone |
 | **Hisska** | Peer | The registry clerk of LW01 — herself **Hist-less**, running the registry that denies people like her, because she believes rules are the only protection the powerless have. **Quirk**: she keeps a private list of everyone she has refused, and visits them |
 | **Advocate Oshu-Kai** | Nemesis | The best kind of antagonist for a civic line: he wins every case the player wants won, and is quietly assembling an oligarchy out of the victories. The player agrees with him for eight quests |
-| **Keeps-The-Count** | (cross-line, §57) | |
-
-*Types: 4/4. No cliché spent.*
+*No cliché spent.*
 
 ### Blackrose Chainbreakers
 
 Rebuilt around the **Owing** (lore: topics/labour-and-bondage.md; quest-side
 rewrite in [40-factions.md](40-factions.md) §39).
 
-| Name | Rel | Who, and the quirk |
+**Desks:** Never-Sold above a boat-shed in Blackrose city; Ussa-Rekh at his
+Soulrest hiring office; Third-Born Xeekh inside the Rose. Grave-Singer Ossu is
+itinerant by canon office — grave-singers travel to the dead — and moves only
+along the line's own procession routes. **The argument:** Never-Sold vs Xeekh
+over the Rose — to her its internal ledger is the Owing in miniature and must
+burn like the rest; to him it is the only society four hundred people have.
+Ussa-Rekh agrees with both, which is his tragedy. The player must decide whose
+ledger to open first at BC04; BC06 resolves it.
+
+| Name | Role | Who, and the quirk |
 |---|---|---|
 | **Never-Sold** | Patron | Chosen name; she was born owing and discharged it. **Against the cliché**: not a firebrand — an **accountant**. The Chainbreakers' method is auditing ledgers, buying Owings and burning them. Abolition as bookkeeping, which is why BC02 and BC05 are the same campaign |
 | **Ussa-Rekh, "the Broker"** | Ex / ward-turned-judge | BC03. Forgave debts for thirty years and built the network that now indentures dock crews. **Quirk**: he keeps every forgiven ledger, bound, and presents it to the freed as a gift. Some treasure them. Some burn them in front of him |
 | **Grave-Singer Ossu** | Friend | Carries the bones (BC05). Old, small, indefatigable. **Quirk**: she talks to the bones by name the whole way, from the stakes, and knows more about the dead than about anyone living |
 | **Third-Born Xeekh** | Nemesis | Prison-born, third generation, defends the Rose's internal hierarchy because it is the only society he has ever had and it fed him. A nemesis who is also its victim |
 
-*Types: 4/4. No cliché spent.*
+*No cliché spent.*
 
 ### Thorn Ash-Reed Accord
 
-| Name | Rel | Who, and the quirk |
+**Desks:** Vicecanon Neetra-Sei (the magistracy — and her boat), Andas Verano
+(the Dunmer quarter's militia hall), Field-Holder Uxa-Meen (the saltrice
+counting floor). **The argument:** Neetra-Sei vs Verano over what keeps the
+peace — process that is slow and seen to be fair, or deterrence that is fast
+and seen to be strong. Uxa-Meen's ledger is the evidence both keep citing at
+each other. The player must back one response to the TA04 lists; TA05 resolves
+it.
+
+| Name | Role | Who, and the quirk |
 |---|---|---|
 | **Vicecanon Neetra-Sei** | Patron | Canon office (the one indigenous urban magistracy). **Quirk**: she holds every difficult meeting on a boat in mid-channel, because nobody can storm out of one |
 | **Andas Verano** | Peer | Head of the Dunmer quarter's militia. **Against the cliché**: he coaches the mixed youth **Teeba-Hatsei** team (canon: hip-and-tail ball, no hands or feet — which Dunmer are physically poor at), badly, and it is the only integrated institution in Thorn |
 | **Field-Holder Uxa-Meen** | Ward-turned-judge | The line's sharpest character: a freed labourer's granddaughter who now holds saltrice fields worked under **Owings**. A victim's heir holding the ledger. She is the reason Thorn's politics is not simply ethnic |
 
-*Types: 3 — the compact-line minimum. Diversifies TA away from five consecutive memorial/grievance quests (§58).*
+*Three desks — the compact-line minimum. The saltrice desk diversifies TA away from five consecutive memorial/grievance quests.*
 
 ### Umbriel Witness Society
 
-| Name | Rel | Who, and the quirk |
+**Desks:** Keeps-The-Count at the Society's archive room in Lilmoth; Old Nusa
+at Deepmire, at the end of the UW04 expedition. **The argument:**
+Keeps-The-Count vs Old Nusa over what a memorial is for — a complete record, or
+a kept place. It is also the province's memorial argument in miniature, and the
+Nisswo have opinions about both of them. UW05 resolves it.
+
+| Name | Role | Who, and the quirk |
 |---|---|---|
 | **Keeps-The-Count** | Institution-in-a-person | Has catalogued eleven thousand names and cannot stop. **Quirk**: she recites them while doing other things, so the player hears it in the background across a hundred hours of play |
 | **Old Nusa** | Oddity | One of Deepmire's canon caretaker few, at the site of the province's Umbriel memorial. **She is bored of Umbriel and will say so.** The owner's trauma directive made flesh: 153 years is long enough to be tired of it, and her boredom is what makes the places where it *is* still raw land properly |
@@ -530,30 +679,85 @@ rewrite in [40-factions.md](40-factions.md) §39).
 
 ### Rootworm Waykeepers
 
-| Name | Rel | Who, and the quirk |
+**Desks:** Handler Ki-Ossa at the Helstrom terminus; Waykeeper Tuxo at the
+hidden station of RW03. **The argument:** Tuxo vs the order's restrictionists
+(voiced through Ki-Ossa, who loved him) over whether sacred routes may be spent
+to save the network that keeps them. RW05 resolves it.
+
+| Name | Role | Who, and the quirk |
 |---|---|---|
-| **Handler Ki-Ossa** | Friend / cross-line | The player's transit constant, at every station, complaining about the same worm for the whole game. Her worm **Grandmother** has refused one specific route for eleven years (RW01) and nobody knows why. Ki-Ossa has theories. All of them |
+| **Handler Ki-Ossa** | Friend | Fixed at the Helstrom terminus — the station most main-quest and faction traffic passes through, so the player keeps meeting her without her ever moving. She complains about the same worm for the whole game: **Grandmother** has refused one specific route for eleven years (RW01) and nobody knows why. Ki-Ossa has theories. All of them |
 | **Waykeeper Tuxo** | Ex | RW03: sold a sacred route to smugglers, and used the money for repairs the state refused to fund. Was the order's best keeper before that, and everyone knows it |
 
 ---
 
-## 57. Cross-line faces
+## 57. Shared places and shadow networks
 
-Five or six people the player meets everywhere, across factions and regions.
-The cheapest possible route to a province that feels inhabited: **a face in two
-cities is worth more than two faces in one.**
+*(Rewritten 2026-08-26 to the Morrowind model — the earlier "cross-line faces"
+concept, a set of characters who recur across all questlines, is dropped:
+Morrowind has no such thing, and neither do we. Nothing friendly travels.
+Cross-line texture comes from the three sources below.)*
 
-| Name | Where | Why they recur |
+### 57.1 Fixed figures in shared places
+
+These people never move. Several lines pass through their city, so several
+lines meet them — the Balmora pattern. They give no quests outside their own
+content; they are furniture that talks back, and the recognition ("you again")
+is one cheap dialogue condition, not a schedule.
+
+| Name | Fixed post | Who |
 |---|---|---|
-| **Ahnjazzi** (C1) | Every port | Prices your odds. The diegetic danger warning |
-| **Curator Aulus Pell** | Gideon, then anywhere with a ruin | Cyrodilic Collections, canon-refounded (its museum was never built). Old, sincere, slowly running out of money, and the only person in Tamriel who takes the player's *junk* seriously. He is the polite face of a genuine argument: a foreign society building a museum of the past, in a country whose religion is letting go of it. Neither side is wrong |
-| **Dravyna Andalen** | Stormhold, then the northern trunk | Third-generation Argonia-born Dunmer crystal-trader (canon: the crystal trade out of the Ayleid tunnels). Speaks better Jel than Dunmeris, considers herself a Stormhold woman, and is **bored to death of being asked about the Accession War**. She is the standing correction to the plan's own tendency to make every Dunmer a slavery quest |
-| **Hana-Vei** | Wherever somebody has died | A travelling Nisswo trained as a grave-singer. Turns up at funerals the player caused. Never accusatory. Occasionally congratulatory, which is worse |
-| **Handler Ki-Ossa** | Every rootworm station | Transit constant (§56) |
-| **"the Wet Consort"** | Festivals, markets, inns | A travelling **vossa-satl** troupe (canon frog-pipes). Canon month **Thtithil-Gah** is when travelling entertainers earn most of their year, so they are seasonal — and the world clock (Phase 8a) can drive it. Their repertoire changes with what the player has done |
+| **Ahnjazzi** (C1) | One desk, Soulrest harbour | Prices your odds; the diegetic danger warning. Main quest (MQ10), Reed-Sail and heist content all come to Soulrest, so they all come to her |
+| **Curator Aulus Pell** | Cyrodilic Collections house, Gideon | Canon-refounded; the museum was never built. Old, sincere, slowly running out of money, and the only person in Tamriel who takes the player's *junk* seriously. The polite face of a genuine argument — a museum of the past, in a country whose religion is letting go of it — and the League, Archive and main-quest Gideon content all walk past his door. Fieldwork elsewhere is done by *letters* in his voice, never by his person |
+| **Dravyna Andalen** | Crystal-trade counting house, Stormhold | Third-generation Argonia-born Dunmer (canon: the crystal trade from the Ayleid tunnels). Speaks better Jel than Dunmeris, considers herself a Stormhold woman, and is **bored to death of being asked about the Accession War** — the standing correction to the plan's tendency to make every Dunmer a slavery quest. Main quest (MQ03 region), Archive and northern trade content share her city |
+| **Handler Ki-Ossa** | Rootworm terminus, Helstrom | §56 — fixed at the one station most lines pass through |
+| **"the Wet Consort"** | Seasonal, festival circuit | A travelling **vossa-satl** troupe — *ambience, not a character*: canon month **Thtithil-Gah** is when travelling entertainers earn their year, and the world clock (Phase 8a) drives where they are. Their repertoire changes with what the player has done. No line depends on them |
 
-**Rule**: every accepted region packet reuses **at least two** cross-line or
-other-line C2s, and the validator reports regions that use none.
+### 57.2 The same conflict from both sides
+
+When two lines collide they collide over the **same named people and stakes**,
+each line seeing the other's desk as the antagonist — the Fighters/Thieves-war
+pattern. Declared collisions:
+
+| Collision | Seen from one side | Seen from the other |
+|---|---|---|
+| Night-Reed vs the Eel-Keeper's canal watch | TG08/TG10: he is the obstacle | Lilmoth civic content: he is the last honest official in Pusbottom |
+| Reed-Sail compact vs Ma'ren's free water | RS05→RS10 from the hall's desks | ST01–ST03 from the cove |
+| Chainbreakers vs the Rose hierarchy | BC04/BC06 from Never-Sold's desk | LQ04 and Rose-local content from Xeekh's |
+| Marsh Charter vs the fort racket | FG05/FG07 from Halvar's desk | Village-local quests where the racket reads as the only protection on offer |
+| The Owing brokerage vs everyone | See 57.3 | |
+
+### 57.3 Shadow networks — the Camonna Tong pattern
+
+One or two **unjoinable** organisations with named members sitting in real
+places, met from a different angle by every line that touches them, with a
+spider the player hears about long before meeting. These, not travelling
+faces, are what make the province feel like one connected place.
+
+**The brokerage — the ex-Archein web.** Our Camonna Tong. The surviving
+ex-Archein families (lore: topics/labour-and-bondage.md) hold the tolled
+crossings, the estate ledgers, the hiring floors and the Owing paper across the
+south and the border country. Unjoinable, legally respectable, never all in one
+room. The player meets it as: the estate office of MQ11, the ledger behind
+BC01/BC03, the toll-holder of RS08, the financiers behind Oshu-Kai's victories
+(LW07/LW10), the buyers of Thorn's disputed fields (TA03), and the quiet money
+that would rather the Rose stay exactly as it is. **The spider: Oleen-Tei, who
+signs himself "Tibus Oleen"** — an Argonian magnate whose two names *are* his
+characterisation (§54: a chosen Imperial name over a Jel one, and which he
+gives you depends on what he wants). Heard of from Act I ledgers; met, at most,
+twice; charming; never once caught holding anything.
+
+**The Unbound Root.** The main quest's network is the second shadow web — cells,
+sympathisers and the Collector's buying agents surface in faction and local
+content (MQ13's courier chain, SA-line interest in severance lore, cult
+recruitment at the province's margins) long before and after the player's own
+Act III entanglement, exactly as the Camonna Tong shadows lines it never
+formally enters.
+
+**Rule**: a region packet earns its cross-line texture from these three
+sources — a shared-place figure, a declared collision, or a shadow-network
+tendril — and the validator checks packets cite at least one. Importing a
+character from another line's cast to "connect" content is forbidden.
 
 ---
 
@@ -617,14 +821,21 @@ world is a C3 we did not budget for.
 Checks added to [80-technical-architecture.md](80-technical-architecture.md) §63:
 
 1. **Depth tier declared** on every named NPC record.
-2. **No duplicate archetype slots** inside a faction line (relationship type +
-   institutional role + register must not both collide).
-3. **Relationship spread**: ≥4 distinct types per major line, ≥3 per compact line.
+2. **The faction shape** (§53.5): every major line declares 3–5 desks with
+   fixed posts, distributed across ≥2 settlements where the faction spans
+   them (compact lines: ≥3 desks or a declared canon exception such as
+   itinerant Nisswo); a named argument between two desks; a mid-line
+   pick-a-desk moment; and a finale stage that resolves the argument.
+3. **Distinct desks**: no two desks in a line interchangeable — their quest
+   lists must read as different ethics, and their registers must differ.
 4. **Name-form spread**: ≤⅓ Verb-the-Noun per cast list; no repeated core image
    (reed/root/water/stone/shadow) within a list; every non-Argonian name matches
    its province's conventions.
-5. **Recurrence**: every major line declares ≥3 C2s appearing in ≥3 of its
-   quests; every region packet reuses ≥2 C2s from elsewhere.
+5. **Nothing travels**: every C2 record declares a fixed post (or a declared
+   canon-itinerant exception scoped to its own line); no character appears in
+   another line's quest table; region packets cite cross-line texture from
+   §57's three sources (shared place, declared collision, shadow network) and
+   never by importing another line's cast.
 6. **Fail-forward**: every C1 and C2 has a successor or documentary path.
 7. **Cliché budget**: ≤1 flagged cliché per line, 0 in C1, and each flagged one
    declares its subversion.

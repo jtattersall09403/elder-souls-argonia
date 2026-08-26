@@ -193,12 +193,12 @@ Required automated checks:
 ### Cast integrity ([35-cast.md](35-cast.md) §60)
 
 - every named NPC record declares a depth tier C1–C4;
-- no two characters in a faction line share a relationship type *and* an institutional role *and* a register;
-- ≥4 distinct relationship types among the recurring cast of each major line, ≥3 for compact lines;
+- every major line declares 3–5 desks with fixed posts across ≥2 settlements (compact lines ≥3 desks or a declared canon-itinerant exception), a named between-desk argument, a mid-line pick-a-desk stage, and a finale stage resolving the argument;
+- no two desks in a line are interchangeable (quest-list ethic and register must differ);
 - ≤⅓ of any cast list uses the Verb-the-Noun translated name form, and no core image (reed/root/water/stone/shadow) repeats within a list;
 - non-Argonian names conform to their province's conventions;
-- each major line declares ≥3 recurring characters appearing in ≥3 of its quests, and ≥1 who can die, leave or turn;
-- every region packet reuses ≥2 recurring characters from elsewhere and contains ≥1 oddity;
+- every C2 declares a fixed post; no character appears in another line's quest table; ≥1 desk per line can die, leave or turn;
+- every region packet cites cross-line texture from a shared place, a declared collision or a shadow network (never an imported cast member) and contains ≥1 oddity;
 - every C1/C2 has a successor or documentary fail-forward path and a voice sheet before dialogue authoring;
 - ≤1 flagged cliché per line, 0 in C1, each declaring its subversion;
 - cast-wide: ≥3 characters flagged `correct-but-hard`, ≥3 flagged `wrong-but-honourable`, 0 flagged wrong about everything;

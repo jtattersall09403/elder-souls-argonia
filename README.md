@@ -80,6 +80,17 @@ asset registry.
 - **Black Marsh & Valenwood** (https://www.moddb.com/mods/black-marsh-valenwood;
   itself bundling many credited modder resources — see its page) — ground
   textures in the `bmv-v1` terrain material set; mesh pool for later phases.
+- **WaterThreeJS** (https://github.com/achrefelouafi/WaterThreeJS, MIT,
+  © achrefelouafi) — Gerstner wave model + CPU fixed-point surface sampler,
+  shore/contact foam, underwater fog/god-ray shading and the scene-RT frame
+  pipeline, adapted into the Phase 8b water renderer
+  (`packages/game-core/src/water/`, `apps/world-studio/src/water/`).
+- **SeedOcean** (https://github.com/reed-soul/SeedOcean, MIT, © reed-soul) —
+  the flow-map data contract (RG direction / B speed / A shore) adopted by
+  `worldgen/compile_water.py`; no code vendored.
+- **three.js `Water2` / Valve** — dual-phase flow-map advection technique
+  (Vlachos, SIGGRAPH 2010) used for river ripple normals (three.js MIT,
+  already in THIRD_PARTY_NOTICES).
 
 ### Planned (recorded before ingestion; move up when used)
 
@@ -96,8 +107,10 @@ asset registry.
   [docs/research/black-marsh-ground-texture-sources.md](docs/research/black-marsh-ground-texture-sources.md)):
   A Cathedralist's PBR Landscape (SSE 137333), Cathedral Landscapes (SSE
   21954, share-alike) — candidates for PBR-map upgrades in Phase 8+.
-- Water rendering references (MIT): WaterThreeJS, SeedOcean,
-  jeantimex/threejs-water, ABYSSAL ocean.
+- Water rendering references held for later tiers (MIT):
+  jeantimex/threejs-water (hero-pool interactive sim), ABYSSAL ocean
+  (spectral FFT open-sea tier) — see
+  [docs/research/water-rendering-threejs.md](docs/research/water-rendering-threejs.md).
 - **Sound sources** (module 57/90 §74.4): vanilla Skyrim sound library;
   Skyrim sound-mod packs credited per mod as ingested; Sonniss GDC
   royalty-free bundles and CC0 Freesound for tropical ambience gaps.

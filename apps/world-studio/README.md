@@ -74,6 +74,15 @@ chunks are RG16 PNGs + `chunks-web-manifest.json` written by
   differently and fly-only probes masked walk-mode defects. Slow under
   software GL. `scripts/diagnose-sky.mjs` is the deeper one-off variant
   (dumps every light/material) for debugging light regressions.
+- `node scripts/probe-water.mjs` (from `apps/combat-sandbox`) — Phase 8b
+  water probe at fixed WorldInstants over real water bodies (bay, major
+  river, Blackrose basin, mountain tarn, marsh, deep underwater, low tier):
+  fails on any page/shader error, asserts `__STUDIO_WATER_DEBUG__`
+  (tier, underwater flag, surface height at camera, tide bounds) and that
+  sky exposure still converges with the water render pipeline active. Covers
+  both fly and character views. The CPU wave/tide/query model is unit-tested
+  in `packages/game-core/src/water/water.test.ts`; the compiled rasters by
+  `worldgen/test_water.py` standing probes.
 - `node scripts/probe-character.mjs` (from `apps/combat-sandbox`, which owns
   the playwright dep) — headless end-to-end probe of character mode against a
   production build: boots the page, waits for the HUD, walks/sprints, asserts

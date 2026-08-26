@@ -139,3 +139,22 @@ Frozen decisions, the five ending families, the danger geography, the content
 targets, the S/M/L cost tiers, the world-generation exit gate, and the production
 sequence are untouched. Owner decisions Q1–Q5 and Q7 remain binding; the Owing is
 the *content* of the "informal bondage" Q7 already established.
+
+## Addendum 2026-08-26 — cast model realigned to Morrowind's actual structure
+
+Owner directive: infer Morrowind's cast principles from UESP and use those.
+Findings recorded in `docs/research/morrowind-cast-structure.md` (desks not
+companions; the line's story is the disagreement between its desks; nothing
+friendly recurs across lines — shared places, both-sides conflicts and shadow
+networks do; the main quest is a relay whose handler is removed mid-game;
+single-use characters get a handle, not a history). Applied: 35-cast.md §53.5
+replaced the relationship-type quota with the desk shape (3–5 fixed posts,
+distinct ethics, one live argument, mid-line pick-a-desk, finale resolves it);
+§57 "cross-line faces" replaced by shared places + declared collisions + shadow
+networks, with **the Owing brokerage under Oleen-Tei ("Tibus Oleen") as our
+Camonna Tong**; every §56 line block now declares its desks and its argument;
+travelling figures fixed to posts (Ahnjazzi → Soulrest, Pell → Gideon, Ki-Ossa
+→ Helstrom terminus; Hana-Vei and Grave-Singer Ossu keep canon-grounded
+itinerancy scoped to their own lines). Validators and acceptance criteria 28–29
+updated to match. The Caius-style handler-removal beat is flagged for the
+main-quest review, not yet applied.

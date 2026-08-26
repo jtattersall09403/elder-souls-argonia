@@ -38,8 +38,15 @@ export interface WaterStaticSample {
   salinity: number;
   /** 1 where the wet season raises this surface (fresh lowland). */
   seasonResponse: number;
-  /** 1 where the tide moves this surface (coast/estuary). */
+  /** 1 where the tide moves this surface. Derived from salinity
+   * (smoothstep 0.02→0.15) so the GPU can compute the identical value —
+   * KEEP IN LOCKSTEP with the water material's esTideResponse(). */
   tideResponse: number;
+}
+
+export function tideResponseOf(salinity: number): number {
+  const t = Math.min(Math.max((salinity - 0.02) / (0.15 - 0.02), 0), 1);
+  return t * t * (3 - 2 * t);
 }
 
 export class WaterData {
@@ -89,7 +96,7 @@ export class WaterData {
       return {
         surfaceBase: 0, depthProxy: 25.5, flowX: 0, flowZ: 0,
         shoreDistM: this.meta.flow.shoreMaxM, classIndex: 1, className: "coast",
-        turbidity: 0.25, salinity: 1, seasonResponse: 0, tideResponse: 1,
+        turbidity: 0.25, salinity: 1, seasonResponse: 0, tideResponse: tideResponseOf(1),
       };
     }
     const fm = this.meta.flow;
@@ -116,7 +123,7 @@ export class WaterData {
       turbidity: this.klass[ki + 1] / 255,
       salinity: this.klass[ki + 2] / 255,
       seasonResponse: this.klass[ki + 3] / 255,
-      tideResponse: className === "coast" || className === "estuary" ? 1 : 0,
+      tideResponse: tideResponseOf(this.klass[ki + 2] / 255),
     };
   }
 }

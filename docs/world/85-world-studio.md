@@ -17,7 +17,7 @@ Required modes:
 | Orbit/survey | Inspect settlements, terrain and hydrology from above | Phase 5 ✓ |
 | Physical character | Test actual movement, combat, swimming and climbing | Phase 7a ✓ grounded movement (`?view=character&x&z&race&profile`; HUD = live environment-query probe; swimming/climbing land with Phase 9; combat, inventory, enemies and bow with Phase 10b) |
 | Boat | Test channels, currents, docks and clearance | Phase 9 |
-| Underwater free camera | Inspect submerged routes and entrances | Phase 8b |
+| Underwater free camera | Inspect submerged routes and entrances | done (8b): fly camera dives (Q/C, floor −80 m; `?alt=` start altitude) |
 | Diagnostic render | Show collision, IDs, normals, depth, flow and LOD | partial: character HUD reports chunk/LOD/material; `window.__STUDIO_CHARACTER_DEBUG__` exposes collider/raycast probes |
 | Sky and light | Scrub time of day/date/season, pick weather, compare regional light presets | Phase 8a ✓ time panel + `t/d/rate/lat` URL params + 4 region presets + `probe-sky.mjs` fixed-instant screenshots (`__STUDIO_SKY_DEBUG__`); weather selector lands with 8c |
 | Soundscape | Hear region/time/weather ambience at any spawn; hot-reload sound tables for tuning by ear; voice/memory probe | Phase 12b (module 57; was 8d, 0023) |

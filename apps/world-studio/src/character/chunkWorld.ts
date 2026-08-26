@@ -1,4 +1,4 @@
-import type { EnvironmentContact, EnvironmentQuery, Vec3, WaterSample } from "@elder-souls/contracts";
+import type { EnvironmentContact, EnvironmentQuery, Vec3, WaterSample, WorldWaterQuery } from "@elder-souls/contracts";
 import { SEA_LEVEL_Y } from "@elder-souls/contracts";
 import { dayPhaseAt, moonAt, MOONS, sunAt } from "@elder-souls/world-time";
 import { worldClock } from "../sky/timeState";
@@ -25,6 +25,12 @@ export class ChunkWorld implements EnvironmentQuery {
   private materialNames = new Map<number, string>();
   /** Region-class visibility (m) from the compiled climate profiles. */
   private regionVisibility = new Map<string, number>();
+  /** Phase 8b: the authoritative water query, wired when its rasters load. */
+  private waterWorld: WorldWaterQuery | null = null;
+
+  setWaterWorld(world: WorldWaterQuery): void {
+    this.waterWorld = world;
+  }
 
   constructor(
     private readonly store: ChunkStore,
@@ -148,16 +154,31 @@ export class ChunkWorld implements EnvironmentQuery {
       const length = Math.hypot(nx, 1, nz);
       contact.supportNormal = { x: nx / length, y: 1 / length, z: nz / length };
     }
-    if (ground < SEA_LEVEL_Y) {
-      const depth = SEA_LEVEL_Y - ground;
-      const immersion = Math.max(0, Math.min(1, (SEA_LEVEL_Y - position.y) / 1.7 + 1));
+    // Phase 8b: the authoritative water query (module 60 §38) — same data as
+    // the renderer. Queries are runtime-scaled, WaterWorld is true-metre; the
+    // vertical scale converts on the way in and out.
+    if (this.waterWorld) {
+      const vs = this.verticalScale;
+      const w = this.waterWorld.sample(
+        { x: position.x, y: position.y / vs, z: position.z },
+        worldClock.epochMinutes(),
+      );
+      if (w.depth > 0) {
+        contact.water = {
+          ...w,
+          surfaceHeight: w.surfaceHeight * vs,
+          depth: w.depth * vs,
+        };
+      }
+    } else if (ground < SEA_LEVEL_Y) {
+      // pre-8b fallback while the water rasters load: flat sea at y=0
       const water: WaterSample = {
         waterBodyId: "sea",
         surfaceHeight: SEA_LEVEL_Y,
         surfaceNormal: { x: 0, y: 1, z: 0 },
         flowVelocity: { x: 0, y: 0, z: 0 },
-        depth,
-        immersion,
+        depth: SEA_LEVEL_Y - ground,
+        immersion: Math.max(0, Math.min(1, (SEA_LEVEL_Y - position.y) / 1.7 + 1)),
         turbidity: 0.5,
         salinity: 1,
         temperature: 22,

@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Physics, useRapier } from "@react-three/rapier";
 import * as THREE from "three";
@@ -23,7 +23,11 @@ import { ChunkTerrain } from "./ChunkTerrain";
 import { ChunkColliders } from "./ChunkColliders";
 import { TouchControls } from "./TouchControls";
 import { WorldSky } from "../sky/WorldSky";
-import { SeaPlane } from "../sky/SeaPlane";
+import { StudioWater } from "../water/StudioWater";
+import { FloatTestCrates } from "../water/FloatTestCrates";
+import { setWaterGroundHeight, sharedWaterAssets } from "../water/waterAssets";
+import type { ContactBody } from "../water/WaterSurfaceMesh";
+import type { WaterWorld } from "@elder-souls/game-core/water/index";
 import { CityMarkers } from "../CityMarkers";
 import { headingOf } from "../compass";
 
@@ -97,6 +101,56 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [world, verticalScale],
   );
+  // Phase 8b: the authoritative water query rides the shared assets; the
+  // environment query and the renderer sample the same data (module 60 §38).
+  const waterWorldRef = useRef<WaterWorld | null>(null);
+  useEffect(() => {
+    let alive = true;
+    sharedWaterAssets(base)
+      .then((a) => {
+        if (!alive) return;
+        waterWorldRef.current = a.world;
+        world.setWaterWorld(a.world);
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, [base, world]);
+  useEffect(() => {
+    setWaterGroundHeight((x, z) => {
+      const g = world.groundHeight(x, z);
+      return g === null ? null : g / verticalScaleRef.current;
+    });
+    return () => setWaterGroundHeight(null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [world]);
+  /** Buoyancy demo (💧 crates button): spawn origin for three test crates. */
+  const [crateOrigin, setCrateOrigin] = useState<Vec3 | null>(null);
+  const playerWater = useRef<{ x: number; z: number; depth: number; speed: number } | null>(null);
+  const prevWaterDepth = useRef(0);
+  const onWaterContact = useCallback((x: number, z: number, depth: number, speed: number, vy: number) => {
+    playerWater.current = { x, z, depth, speed };
+    if (depth > 0.15 && prevWaterDepth.current <= 0.03 && vy < -2.5) {
+      waterWorldRef.current?.emitInteraction({
+        kind: "splash",
+        position: { x, y: 0, z },
+        magnitude: Math.min(-vy * 18, 130),
+        radius: 1.2,
+      });
+    }
+    prevWaterDepth.current = depth;
+  }, []);
+  const playerChurn = useCallback((): ContactBody[] => {
+    const w = playerWater.current;
+    if (!w || w.depth < 0.08 || w.speed < 0.4) return [];
+    return [{
+      x: w.x,
+      z: w.z,
+      radius: 0.9 + Math.min(w.speed * 0.25, 0.8),
+      strength: Math.min(w.speed / 3, 1),
+    }];
+  }, []);
   // Physics stays paused until the collider ring around the spawn is mounted;
   // otherwise the capsule falls through where the terrain hasn't landed yet.
   const [collidersReady, setCollidersReady] = useState(false);
@@ -213,8 +267,13 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               verticalScale={verticalScale}
             />
           </Suspense>
-          {/* sea */}
-          <SeaPlane extentM={extentM} levelM={0} />
+          {/* Phase 8b water: the compiled province surface + shared pipeline;
+              the wading player feeds a churn ring for contact foam. */}
+          <StudioWater
+            base={import.meta.env.BASE_URL}
+            verticalScale={verticalScale}
+            contactBodies={playerChurn}
+          />
           {showMarkers && <CityMarkers extentM={extentM} groundAt={markerGroundAt} />}
           <RenderWarmup armed={collidersReady} onWarm={() => setRenderWarm(true)} />
           {/* Own Suspense boundary: rapier's WASM init and collider loads
@@ -231,6 +290,9 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               round 3). The combat sandbox at 60 fps never grows the
               accumulator, which is why it never showed there. */}
           <Physics key={verticalScale} gravity={[0, -9.81, 0]} timeStep={1 / 60} paused>
+            {crateOrigin && (
+              <FloatTestCrates origin={crateOrigin} waterWorld={() => waterWorldRef.current} />
+            )}
             <ChunkColliders store={store} manifest={manifest} focusRef={focusRef}
               verticalScale={verticalScale} onReady={() => setCollidersReady(true)} />
             <PlayerBody handleRef={player} position={[spawn.x, spawn.y, spawn.z]} rotationY={Math.PI}>
@@ -260,6 +322,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               supportYRef={supportYRef}
               focusRef={focusRef}
               onHud={setHud}
+              onWaterContact={onWaterContact}
               onPositionKm={onPositionKm}
             />
           </Physics>
@@ -280,6 +343,11 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
       }}>
         <button onClick={onExit} style={{ padding: "4px 10px", cursor: "pointer" }}>← Map</button>
         <button onClick={() => hud && onFlyHere(hud.xKm, hud.zKm)} style={{ padding: "4px 10px", cursor: "pointer" }}>✈ Fly here</button>
+        <button
+          onClick={() => hud && setCrateOrigin({ x: hud.xKm * 1000, y: hud.altM, z: hud.zKm * 1000 })}
+          title="Drop three floating crates ahead of you (Phase 8b buoyancy test)"
+          style={{ padding: "4px 10px", cursor: "pointer" }}
+        >💧 crates</button>
         {onExaggeration && (
           <label>vertical ×{verticalScale}{" "}
             <input type="range" min={1} max={6} step={0.5} value={verticalScale}
@@ -354,7 +422,7 @@ declare global {
   }
 }
 
-function CharacterDriver({ handleRef, world, active, spawn, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, onHud, onPositionKm }: {
+function CharacterDriver({ handleRef, world, active, spawn, locomotion, animationTimeRef, speedMultiplierRef, supportYRef, focusRef, onHud, onPositionKm, onWaterContact }: {
   handleRef: React.RefObject<EcctrlHandle | null>;
   world: ChunkWorld;
   /** Colliders mounted AND rendering warm — physics steps only when true. */
@@ -367,6 +435,8 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   focusRef: React.MutableRefObject<{ x: number; z: number }>;
   onHud: (state: CharacterHudState) => void;
   onPositionKm: (xKm: number, zKm: number) => void;
+  /** Live water contact for churn foam + splash events (Phase 8b). */
+  onWaterContact?: (x: number, z: number, depthM: number, speed: number, verticalVel: number) => void;
 }) {
   const adapter = useMemo(() => new EcctrlAdapter(handleRef), [handleRef]);
   // Sky look-up is the shared default (owner 2026-08-25) — no override needed.
@@ -508,6 +578,13 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
       hudTimer.current = 0.15;
       camera.getWorldDirection(cameraDir);
       const contact = world.queryEnvironment({ x: position.x, y: position.y, z: position.z });
+      onWaterContact?.(
+        position.x,
+        position.z,
+        contact.water?.depth ?? 0,
+        adapter.moveSpeed(),
+        adapter.verticalVelocity(),
+      );
       onHud({
         xKm: position.x / 1000,
         zKm: position.z / 1000,

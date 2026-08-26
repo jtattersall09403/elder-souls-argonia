@@ -9,18 +9,18 @@
 Major factions should feel like institutions rather than personal quest dispensers.
 
 **Every line's recurring cast is specified in [35-cast.md](35-cast.md) §56** —
-named, with a relationship type, a contradiction, a quirk and a lore anchor.
-Read it before writing any quest in a line; the quest tables below name people
-only where the quest turns on them. The rule that produced those tables: a line
-whose recurring cast is Patron + Peer + Nemesis has no relationships in it, only
-job titles.
+its **desks** (stationary patrons, each fixed at one post, each with a distinct
+ethic), **the argument** between two of them that the finale resolves, and the
+come-and-go cast around them. Read it before writing any quest in a line; the
+quest tables below name people only where the quest turns on them.
 
 Each line requires:
 
 - ordinary work before the central conspiracy;
-- **3–4 named recurring characters present from the line's first quest to its
-  last**, covering at least four distinct relationship types, at least one of
-  whom can die, leave or turn (35-cast §53.5–53.6);
+- **3–5 stationary desks with fixed posts and distinct ethics, one live
+  argument between two named desks, a mid-line moment where the player must
+  pick a desk, and a finale that resolves the argument**; at least one desk
+  can die, leave or turn (35-cast §53.5–53.6);
 - skill, reputation and sponsorship gates;
 - a headquarters with day-to-day activity;
 - consequences for failure, expulsion and rival membership;

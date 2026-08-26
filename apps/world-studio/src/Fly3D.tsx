@@ -7,7 +7,7 @@ import { headingOf } from "./compass";
 import { CityMarkers } from "./CityMarkers";
 import { ChunkTerrain } from "./character/ChunkTerrain";
 import { WorldSky } from "./sky/WorldSky";
-import { SeaPlane } from "./sky/SeaPlane";
+import { StudioWater } from "./water/StudioWater";
 
 /**
  * Province flyover. Terrain comes from the same streamed chunks as the
@@ -27,7 +27,6 @@ export interface Fly3DProps {
   exaggeration: number;
   mode: "fly" | "orbit";
   matSet?: string;
-  waterLevelM?: number; // wet-season water rise (true metres; ×exaggeration at render)
   tintStrength?: number; // 0..2 multiplier on the macro climate tint
   showLanes?: boolean;   // boat-lane overlay (cyan water / amber portage)
   flySpeed?: number;     // m/s (owner slider: running pace up to fast skim)
@@ -114,7 +113,9 @@ function FlyRig({ speedRef, onPosition, extentM }: {
     if (k.KeyA) camera.position.addScaledVector(side, -speed * dt);
     if (k.KeyE || k.Space) camera.position.y += speed * dt;
     if (k.KeyQ || k.KeyC) camera.position.y -= speed * dt;
-    camera.position.y = Math.max(5, Math.min(15000, camera.position.y));
+    // Floor below the deepest water: the fly camera is also the underwater
+    // free camera (module 85, Phase 8b) — dive with Q/C, surface with E/Space.
+    camera.position.y = Math.max(-80, Math.min(15000, camera.position.y));
     camera.position.x = Math.max(0, Math.min(extentM, camera.position.x));
     camera.position.z = Math.max(0, Math.min(extentM, camera.position.z));
     camera.getWorldDirection(dir);
@@ -181,12 +182,20 @@ function Terrain({ heights, size, metresPerPixel, textureCanvas, exaggeration }:
   );
 }
 
+// Initial camera altitude override (?alt= metres, may be negative — the
+// underwater free camera, module 85 / Phase 8b). Captured at module load:
+// the App re-serialises the query string and would drop unknown keys.
+const INITIAL_ALT = (() => {
+  const v = Number(new URLSearchParams(window.location.search).get("alt"));
+  return Number.isFinite(v) && v !== 0 ? v : null;
+})();
+
 export function Fly3D(props: Fly3DProps) {
   const extentM = props.size * props.metresPerPixel;
   const speedRef = useRef(props.flySpeed ?? 60);
   speedRef.current = props.flySpeed ?? 60;
   const [locked, setLocked] = useState(false);
-  const start: [number, number, number] = [props.spawnKm.x * 1000, 700, props.spawnKm.z * 1000];
+  const start: [number, number, number] = [props.spawnKm.x * 1000, INITIAL_ALT ?? 700, props.spawnKm.z * 1000];
   // The flyover renders the SAME chunked terrain as the character mode (same
   // sampling, same splat material), so relief judged from the air matches
   // what the character walks on. LOD follows the camera.
@@ -231,8 +240,9 @@ export function Fly3D(props: Fly3DProps) {
           <LanesOverlay heights={props.heights} size={props.size}
             metresPerPixel={props.metresPerPixel} exaggeration={props.exaggeration} />
         )}
-        {/* sea (rises with the wet-season toggle, §36 flood states) */}
-        <SeaPlane extentM={extentM} levelM={(props.waterLevelM ?? 0) * props.exaggeration} />
+        {/* Phase 8b water: rivers, lakes, marsh and sea from the compiled
+            hydrology; tide + wet-season levels are world state (§36). */}
+        <StudioWater base={import.meta.env.BASE_URL} verticalScale={props.exaggeration} />
       </WorldSky>
       {props.mode === "fly" ? (
         <>

@@ -25,10 +25,13 @@ Three additions from the 2026-08-25 review, binding on every regional packet:
   [35-cast.md](35-cast.md) §59 — an occupation that only exists here, a food
   opinion, a team, a grooming fashion, one Jel register habit — and give them one
   want stated in one sentence.
-- **Reuse faces.** Every region packet must include at least two recurring
-  characters from [35-cast.md](35-cast.md) §56–57 and at least one **oddity** from
-  §58, whose encounter has no faction stakes, no meaningful reward, and no
-  explanation anywhere in the game.
+- **Connect through places and networks, not faces.** A region packet earns
+  its cross-line texture the Morrowind way ([35-cast.md](35-cast.md) §57): a
+  fixed shared-place figure the packet's quests naturally pass, a declared
+  two-sided collision, or a tendril of a shadow network (the Owing brokerage,
+  the Unbound Root). Never import another line's character. Every packet also
+  contains at least one **oddity** from §58 — no faction stakes, no meaningful
+  reward, no explanation anywhere in the game.
 - **Declare a delivery tier** ([00-overview.md](00-overview.md) §4). Local quests
   should be overwhelmingly D-A: static world, moved evidence, schedule swaps,
   aftermath rather than event, retrieval rather than escort.

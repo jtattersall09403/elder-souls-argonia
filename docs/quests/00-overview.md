@@ -218,17 +218,23 @@ Rules:
 
 The province needs to be **populated**, not merely staffed. The character-design
 rules, naming system, depth tiers, principal cast, per-faction recurring cast,
-cross-line faces and oddities roster all live in **[35-cast.md](35-cast.md)** —
+shared places, shadow networks and oddities roster all live in **[35-cast.md](35-cast.md)** —
 read it before writing any named NPC. The four headline rules:
 
 - **depth is proportionate to discoverability** (C1–C4 tiers); a character the
   player meets once gets one vivid detail and no backstory;
 - **every recurring character carries a contradiction *and* a cheap quirk** — a
   contradiction alone is a position paper, a quirk alone is a mascot;
-- **relationship variety is the anti-sameiness tool**: every major line needs at
-  least four distinct relationship types among its recurring cast (patron, peer,
-  mentor-who-is-wrong, nemesis, dependent, friend, ex, ward-turned-judge,
-  institution-in-a-person, oddity);
+- **the Morrowind faction shape** (UESP-mined; evidence in
+  `docs/research/morrowind-cast-structure.md`): each line is 3–5 stationary
+  **desks** — quest-givers fixed at one post each, distributed across the
+  line's settlements, each with a distinct ethic — with one live argument
+  between two named desks that the player must eventually resolve. Recurrence
+  is the player returning to a desk, never a character travelling;
+- **nothing friendly recurs across lines**: cross-line texture comes from
+  shared places, the same conflict seen from both sides, and unjoinable shadow
+  networks (the Owing brokerage is our Camonna Tong) — never from imported
+  recurring faces;
 - **cliché budget**: at most one deliberate stock type per faction line, each
   carrying a subversion that changes how the quest is written, and none at all in
   the principal cast.
@@ -350,8 +356,8 @@ The narrative programme succeeds when:
 25. Any quest whose approaches all require swimming, boats or climbing has a validated degraded fallback.
 26. Milestone 1 (full main quest, four deep factions, four standard factions at 6–8 quests, two compact lines, 60–80 standalones, DQ01–DQ04) is completable and coherent before any wave-2 content lands.
 27. The dramatic-register ratios hold: every main-quest act and every major faction line meets its physical set-piece minimums, and no line or region packet is more than two-thirds SOCIAL/INVESTIGATE among M/L quests.
-28. The province is populated rather than staffed: every major faction line carries 3–4 named recurring characters present from its first quest to its last, with at least four distinct relationship types between them, and every region packet reuses at least two recurring characters from elsewhere.
-29. No two characters in a line occupy the same archetypal slot; name forms, ages, races and registers are spread per [35-cast.md](35-cast.md) §54–55; and the cliché budget holds (≤1 flagged stock type per line, each with a declared subversion, none in the principal cast).
+28. The province is populated rather than staffed: every major faction line has 3–5 stationary desks with fixed posts and distinct ethics, a named argument between two desks that its finale resolves, and a come-and-go cast of vivid single-use characters; region packets draw cross-line texture only from shared places, declared collisions or shadow networks ([35-cast.md](35-cast.md) §53.5–53.6, §57).
+29. No two desks in a line are interchangeable in a blind read of their quest lists; name forms, ages, races and registers are spread per [35-cast.md](35-cast.md) §54–55; and the cliché budget holds (≤1 flagged stock type per line, each with a declared subversion, none in the principal cast).
 30. At least three cast members are correct in ways that are hard to accept, and at least three are wrong for honourable reasons; no character, including cult leadership, is wrong about everything.
 31. Every region contains at least one purely strange non-political *person* as well as one strange place, and none of them is explained by any NPC or by the epilogue.
 32. Every quest declares a delivery tier (D-A/D-B/D-C); D-C beats are ≤10% of quests, never more than one per faction line, and each has a D-B fallback authored alongside it. No quest brief ships containing an unconverted free-roaming chase, escort or simulated crowd.

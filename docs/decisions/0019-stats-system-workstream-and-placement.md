@@ -88,7 +88,11 @@ mapping of our Skyrim-taxonomy items and rig onto Morrowind-style categories,
 the keep/drop of Morrowind-only categories by sourceable assets+movesets
 (spears are recoverable — verified leads in module 76 §103.0), and an explicit
 **completeness duty** to surface the mapping decisions the owner hasn't
-thought to ask about. Round 1 presents mapping decisions, not a shape choice.
+thought to ask about — including which Skyrim innovations merit keeping
+(smithing/crafting is the lead candidate), the NPC/enemy stat data model
+(every NPC needs the same schema), and marsh-specific hooks (athletics governs
+both swim speed and breath capacity for non-Argonians; Argonians breathe
+underwater). Round 1 presents mapping decisions, not a shape choice.
 
 ## How to start it
 

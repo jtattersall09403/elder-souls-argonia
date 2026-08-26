@@ -165,15 +165,35 @@ ask about**. Three strands:
      (e.g. a category is only viable if its moveset retargets cleanly —
      flag per-category risk, don't assume).
 3. **Completeness duty.** Sweep the planned systems and surface every mapping
-   this touches that nobody has asked about: disease/blight (module 30),
-   alchemy + regional ingredients (lore feeds), enchanting and spellmaking,
-   birthsigns (55 §95), speech/persuasion/reputation and quest gates
-   (docs/quests/), training/services and the Owing economy, barter and
-   mercantile, crime/bounty, rest and levelling mechanics, swim/climb/boat
-   stat hooks (module 60), Argonian physiology and the playable-race roster,
-   marksman ammunition (our arrow/ballistics code), followers/creature
-   scaling. The owner expects round 1 to contain decisions they did not know
-   existed — surfacing those is a core deliverable, not garnish.
+   this touches that nobody has asked about:
+   - disease/blight (module 30), alchemy + regional ingredients (lore feeds),
+     enchanting and spellmaking, birthsigns (55 §95);
+   - speech/persuasion/reputation and quest gates (docs/quests/),
+     training/services and the Owing economy, barter and mercantile,
+     crime/bounty;
+   - rest and levelling mechanics, how the player becomes stronger;
+   - swim/climb/boat stat hooks (module 60) — **swimming is a pillar** (the
+     marsh, underwater content, module 60 §44): athletics should govern swim
+     speed (canon) **and breath capacity for non-Argonians** (Argonians
+     breathe underwater — racial physiology, a design input not a question);
+   - Argonian physiology and the playable-race roster, racial bonuses and
+     trade-offs;
+   - marksman ammunition (our arrow/ballistics code), weapon conditions if
+     kept;
+   - **the NPC/enemy stat data model** — every enemy archetype, every named
+     NPC, every follower and merchant needs the same stat schema the player
+     has, plus level (fixed danger means authored absolute numbers —
+     decision 0004); that schema is a Phase 10c deliverable alongside the
+     player's;
+   - follower mechanics, creature/NPC AI stat dependencies;
+   - **Skyrim features Morrowind lacked, worth keeping** — lead candidate:
+     **smithing/crafting** (owner-enjoyed; Skyrim innovation). Reasoning
+     test: does it enhance the Morrowind vibe or constitute a clear
+     improvement? Be conservative — the default is Morrowind's shape; a
+     Skyrim addition needs a *reason*.
+   
+   The owner expects round 1 to contain decisions they did not know existed —
+   surfacing those is a core deliverable, not garnish.
 
 **Research first** (module 90/CLAUDE.md rule): how the three reference games
 actually work and what is known to fail — Morrowind's use-based skills and
