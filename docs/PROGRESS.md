@@ -44,6 +44,7 @@ then open only the master-plan sections the active phase needs.
 | 8a — world time, natural light and sky | in progress | built 2026-08-25 (packages/world-time 25 tests; star catalogue; climate-air raster; studio light stack; decision 0020). Owner walk gate FAIL same day (character view: black moon discs, night terrain lit like day, sun glare, colours off, slow load, settle-jitter) → root causes found & fixed (decision **0021**: leaked CSM cascade lights from suspense remounts, shadows silently off, moons off the lux scale, circumsolar Mie blow-out, exposure/ambient double-count, driver-dependent NaN). Diagnostics verify clean light census + sane day/night in character view; probe-sky extended to character scenarios + light census. **Awaiting owner re-gate** |
 | 8b — water renderer and interaction | todo | |
 | 8c — weather and atmosphere | todo | |
+| 8d — province soundscape (module 57; decision 0022) | todo | ambient audio foundation; independent of 8c/9/10 except the weather-audio slice; must precede place approvals from Phase 11 |
 | 9 — swimming, climbing, boats | todo | |
 | 10 — asset catalogue and kits | todo | |
 | 10b — full portable-sandbox parity in studio (was 7b; moved 2026-08-25, decision 0017) | todo | Scene orchestration extraction (§53), inventory/equipment UI, enemies/targeting, bow, combat-space probes against real kits. Deferred past the riskier world systems; must precede 11–13 |

@@ -42,9 +42,11 @@ decision 0008), (3) small disposable laboratories.
    [docs/quests/20-world-provisions.md](../quests/20-world-provisions.md) are
    requirements on every phase; Milestone-1 provisions must exist before
    narrative production (acceptance rule).
-6. **No new art — ever — and terrain identity comes from placed assets** (§9):
-   the base heightfield is coarse; rocks, vegetation, kits, clutter and water
-   carry the perceived detail. No new models, textures or **animations**: every
+6. **No new art — ever — and terrain identity comes from placed assets** (§9;
+   delivery architecture Module 65): the base heightfield is coarse; rocks,
+   vegetation, kits, clutter and water carry the perceived detail. The rule
+   extends to **audio**: we never record or synthesize source sounds — we
+   source them (Module 57 §107). No new models, textures or **animations**: every
    visual and every clip comes from vanilla Skyrim or a mod, via the asset
    pipeline. A gap is a **sourcing job** — check the vault and Module 90's
    candidate tables (§71 procedure, §74.3 animation gaps), research the mod
@@ -86,15 +88,20 @@ waterways connect real needs; historical layers stay distinguishable.
 
 **Gameplay:** no player-level scaling anywhere; deep areas stay fixed high
 danger; darkness, weather and tides are calendared world state and no visual
-work is approved under placeholder light (Module 55); swimming/breath/climbing/boats create access progression; Argonian
+work is approved under placeholder light (Module 55); the soundscape derives
+from the same region/clock/weather data and no place is approved silent from
+Phase 8d (Module 57); swimming/breath/climbing/boats create access progression; Argonian
 physiology materially changes underwater play; underwater POIs throughout
 appropriate regions; large logical surfaces climbable by default; combat
 spaces and critical-animation clearance validated.
 
 **Technology:** ecctrl stays behind the controller adapter; Rapier is
 authoritative physics; rendering and gameplay sample the same water data;
-world bundles deterministic and versioned; apps consume packages, never each
-other; the studio uses the same runtime packages as the game.
+world bundles deterministic and versioned; vegetation density ships through
+the tiered instancing architecture within probe-measured budgets (Module 65);
+AI moves on compiler-baked, probe-validated navigation data (Module 72); apps
+consume packages, never each other; the studio uses the same runtime packages
+as the game.
 
 **Assets:** no bespoke art assumed; vanilla Skyrim + permitted mod pool via
 semantic kits and deterministic compilers; simple source-and-credits records
@@ -106,7 +113,8 @@ semantic kits and deterministic compilers; simple source-and-credits records
 3 hydrology+regions · 4 danger/cultures/transport · 5 World Studio ·
 6 province terrain · 6b rescale+mountain relief+naturalness (0015, after 7a) ·
 7a physical character · 8a world time/natural light/sky (0016) ·
-8b water renderer · 8c weather/atmosphere · 9 swim/climb/boats ·
+8b water renderer · 8c weather/atmosphere · 8d province soundscape (0022) ·
+9 swim/climb/boats ·
 10 asset catalogue+kits · 10b full sandbox parity in studio (was 7b, 0017) ·
 10c stats+progression (0019; design workstream S runs in parallel from now) ·
 11 causal locations+settlements ·

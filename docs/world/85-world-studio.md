@@ -20,6 +20,7 @@ Required modes:
 | Underwater free camera | Inspect submerged routes and entrances | Phase 8b |
 | Diagnostic render | Show collision, IDs, normals, depth, flow and LOD | partial: character HUD reports chunk/LOD/material; `window.__STUDIO_CHARACTER_DEBUG__` exposes collider/raycast probes |
 | Sky and light | Scrub time of day/date/season, pick weather, compare regional light presets | Phase 8a ✓ time panel + `t/d/rate/lat` URL params + 4 region presets + `probe-sky.mjs` fixed-instant screenshots (`__STUDIO_SKY_DEBUG__`); weather selector lands with 8c |
+| Soundscape | Hear region/time/weather ambience at any spawn; hot-reload sound tables for tuning by ear; voice/memory probe | Phase 8d (module 57) |
 
 **Lighting control is a studio requirement, not a nicety** (module 55 §93): a
 time-of-day scrubber, date/season field, weather selector and named region

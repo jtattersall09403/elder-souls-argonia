@@ -77,12 +77,18 @@ can be re-ordered by the owner.
 | **S** stats design | 10c | 10c implements what S decides |
 | 10c stats | 11, 12, **13** | fixed danger (0004) means populations, encounters and loot are authored as absolute numbers against a scale that must already exist |
 | 3/4 climate fields | 8a haze, 8c weather, 13 ecology | one source of climate truth, many consumers (§33.1) |
+| 8a world clock | 8d soundscape | ambience beds crossfade on `dayPhase()` and season (§106) |
+| 8c weather machine | 8d's weather-audio slice | weather owns its audio layer (§106); the rest of 8d doesn't wait |
+| 8d soundscape | 11 settlements, 12 dungeons, 13 ecology | no place is approved silent (§105); settlement/creature sound authors against a working audio layer |
+| 10 vegetation renderer + scatter compiler (§109–112) | 11, 13 | places are dressed and judged at real vegetation density; Phase 13 authors densities against measured budgets |
+| 10 kit collision | 10b nav bake (§114) | navmesh is generated from kit collision geometry; 10b's combat-space probes measure "enemy navigation access" on the baked data |
 
 The rows are hard constraints **except the two feeding 10b**, which are
 sequencing *preferences* (merge the §53 extraction once; measure combat spaces
-against real kits) and may bend if a phase stalls. **8c, 9 and 10 are mutually
-independent** — they can run in parallel or in any order relative to each
-other. Workstream S runs alongside everything.
+against real kits) and may bend if a phase stalls. **8c, 8d, 9 and 10 are
+mutually independent** — they can run in parallel or in any order relative to
+each other (8d's weather-audio slice simply lands with or after 8c).
+Workstream S runs alongside everything.
 
 Deliberately **not** dependencies: the world build does not need the stats
 system (capability profiles are the contract — module 75 §52), and it does not
@@ -383,6 +389,33 @@ Deliverables:
   coupling, published through the environment query;
 - quality tiers as one declarative table (volumetrics high-tier only).
 
+### Phase 8d — the province soundscape (module 57; decision 0022)
+
+The world heard: region/time/weather ambience, water emitters, contact sound.
+Music (the score) is explicitly out of world-build scope.
+
+Deliverables:
+
+- extract the Skyrim Sounds BSA into the asset vault and convert the needed
+  sets through the pipeline (loop-safe encoding solved once, §107);
+- `AudioManager` (buses, unlock, crossfader, one-shot scheduler, ~24-voice
+  cap) on three.js `Audio`/`PositionalAudio` with `equalpower` panning;
+- region ambience beds + stochastic detail tables for the existing region
+  classes, driven by the world clock and climate fields (night-loud tropical
+  inversion, §106); sourcing gaps filled per §107 (Sonniss/CC0);
+- hydrology-derived positional emitters (rivers, rapids, shores);
+- acoustic-state stack: exterior / under-canopy / interior / underwater
+  (bus filters + synthesized reverb impulses);
+- footstep/impact wiring through the physical-material system (§54) — the
+  compiler bakes explicit surface materials; the no-op `combatAudio` stub is
+  replaced;
+- weather-audio layer if 8c has landed (else it ships with 8c);
+- studio tooling: audio layer in the reproducible URL, hot-reloadable sound
+  tables, voice-count/audio-memory probe;
+- **owner gate**: walk the same dawn→night route as the 8a gate, ears on —
+  region identity, day/night chorus flip, underwater transformation,
+  soundscape density (a taste call: Morrowind-sparse vs jungle wall-of-sound).
+
 ### Phase 9 — swimming, climbing and boats
 
 **This phase extends the existing character stack; it does not build a parallel
@@ -442,6 +475,13 @@ Deliverables:
 - Xanmeer kit metadata and snapping;
 - first current-settlement kit;
 - vegetation and underwater kits;
+- **the vegetation/scatter architecture (module 65, §109–112)**: deterministic
+  scatter compiler pass (jittered-grid hash, constraint filters, clearance
+  stamping), T1 batched hero statics + T2 bundle-instanced mid detail with LOD
+  chains, T3 runtime groundcover ring from the land-cover raster, T4
+  impostor/merged far LOD, weather-driven wind uniforms — proven first in the
+  dense-vegetation micro-lab (§85.3), budget-probed (§69), landed on the
+  reference watershed;
 - physical materials;
 - LOD and collision generation;
 - source/credits reference check in CI.
@@ -461,7 +501,11 @@ Deliverables:
   studio compose the same packages through different scene adapters;
 - inventory and equipment systems and UI in the studio;
 - enemies, targeting and lock-on; the bow;
-- combat-space probes (§69) measured against production kits and collision.
+- **navmesh bake pipeline + `NavService`** (module 72, §114): recast tiled
+  bake from kit/terrain collision in the world compiler, two agent classes,
+  version pin asserted in CI — enemies in the studio path on baked data;
+- combat-space probes (§69) measured against production kits and collision,
+  including "enemy navigation access" against the baked navmesh (§115).
 
 Sequenced here because:
 
@@ -532,6 +576,8 @@ Deliverables:
 - Xanmeer graph grammar;
 - cave/root/smuggler grammar;
 - underwater entrances;
+- interior navmesh bakes + per-cell acoustic/lighting profiles (§114, §106,
+  55 §96);
 - interior streaming contract;
 - one full retained production dungeon;
 - **quest dungeon reservations** (sites + causal records now, geometry per
@@ -544,8 +590,15 @@ Deliverables:
 
 Deliverables:
 
-- habitat and territory system;
-- fixed creature/faction populations;
+- habitat and territory system (territories/leashes on the baked nav data,
+  §113–115);
+- fixed creature/faction populations, with the Morrowind-leaning ambient
+  minimum: idle/work marks, wander radii, patrol splines, daily mark bands on
+  the world clock — all nav-validated (§113);
+- province-wide vegetation densities: per-region ecology-driven species
+  palettes and T3 groundcover authoring, seasonal response to `s(t)` (§112);
+- creature calls and settlement/ecology ambience authored into the sound
+  tables (module 57 tier 2);
 - disease, toxin and insect systems;
 - encounter sockets;
 - fixed loot provenance;
@@ -561,8 +614,9 @@ Deliverables:
 Deliverables:
 
 - production chunk format;
-- dependency-aware streaming;
-- LOD and instance batching;
+- dependency-aware streaming (nav tiles stream with chunks, §114);
+- LOD and instance batching; vegetation quality tiers locked as one
+  declarative table (T3 ring, T2 caps, impostor distances — §112);
 - compressed textures and geometry;
 - performance budgets by device class;
 - GitHub Pages build containing approved runtime content only;

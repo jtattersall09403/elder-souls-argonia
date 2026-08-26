@@ -194,6 +194,21 @@ which also *forbids* ad-hoc procedural posing used to patch a bad source clip.
 Climbing IK is a new system in the same principled family: the sourced poses
 are the art; code chooses where the hands go.
 
+### 74.4 Sound — sourced like everything else
+
+The no-new-art rule extends to audio: **we never record or synthesize source
+sounds; we source them** (module 57 §107). Priority order: (1) **vanilla
+Skyrim's sound library** — the Morthal tundra-marsh region set (frogs, insect
+beds, owls), full rain/thunder/water/wind and complete footstep-material sets;
+**the Skyrim Sounds BSA is not yet in the vault — extracting it is Phase 8d's
+first sourcing job**; (2) genuinely tropical gaps (jungle insect choruses,
+tropical frogs) fill from **royalty-free/CC0 libraries** (Sonniss GDC bundles,
+CC0-filtered Freesound) — licence-clean and approved as the gap-filler;
+(3) Skyrim *sound mods* (AOS, ISC, Sounds of Skyrim) are **design references
+only** — reserved permissions, often built on unsublicensable commercial
+libraries. Credits + hashes per §73. Research and candidate details:
+[research/ambient-audio-soundscape-threejs.md](../research/ambient-audio-soundscape-threejs.md).
+
 ## 75. High-priority architecture and settlement candidates
 
 All candidates in Sections 75–79 are available for use in this personal project. Preserve their source URLs and author/project credits in the credits list; asset selection can focus on visual usefulness, technical compatibility and reproducible builds.
@@ -290,7 +305,9 @@ Creature assets provide models and animations. Habitat, behaviour, statistics, f
 7. Acquire Ayleid/Nedic/Imperial historical-layer kits.
 8. Expand clutter, tools, fishing, ritual and market assets.
 9. Add specialised cave and bioluminescent assets.
-10. Fill gaps only after the reference watershed exposes them.
+10. Extract the Skyrim Sounds BSA and assemble the tropical ambience set
+    (§74.4, Phase 8d).
+11. Fill gaps only after the reference watershed exposes them.
 
 ---
 

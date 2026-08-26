@@ -202,6 +202,11 @@ thunderstorm, overcast, clear.
   causal reasons to exist (00-core rule 1).
 - Clouds: billboard/impostor layers at the base tier; volumetric clouds are a
   high-quality-tier extra, never a requirement.
+- **Weather owns the global wind uniform block** (strength, direction, gusts):
+  vegetation sway (module 65 §111), later water chop and drifting particles
+  all read the same block — one wind, many consumers. Weather also owns its
+  **audio layer** (rain beds, thunder distance delay, wind gusts — module 57
+  §106), published like every other weather parameter.
 
 ## Tiers and sequencing
 
