@@ -175,3 +175,26 @@ defects lived entirely in its own canvas wiring.
 - **Beyond-border lands** (`DistantLands.tsx`): procedural far-terrain
   annulus, lore-directed silhouettes only — Morrowind mountains N/NW,
   Blackwood hills W, ocean S/E (dossier black-marsh-province §regions).
+
+## Round 6 (owner, same day)
+
+- **Whiteout/black-gap fixes CONFIRMED by owner** ("LOVE the new sunrise
+  and sunset"). Remaining tuning, all applied:
+- **Daylight warmth**: high-sun colour biased toward golden via an
+  owner-tunable `warmthBias` (slider in the time panel, default 0.4) — the
+  measured-CCT ramp alone still read "too white" in game.
+- **Night floor raised** (moonless exposure ceiling 14→22, hemi floor
+  0.05→0.09 lx): an authored gameplay floor à la Skyrim, not physics —
+  torches/night-eye stay meaningful, navigation never impossible.
+- **Twilight palette** re-tuned to the owner's tropical references:
+  golden-peach core + coral-pink spread + lavender wash (was red-orange
+  core + indigo wash → read as a saturated crimson band); rayleigh boost
+  1.3→0.9. Palette lives in the dome patch AND `skyScreenModel.ts` — keep
+  in lockstep.
+- **Round-5 DistantLands REMOVED** (owner: crude — no continuity with the
+  real border, sea gap, flat grey, stopped short of horizon). Proper
+  pipeline-baked border apron is specced in
+  `docs/research/beyond-border-distant-lands.md` + module 55 §98b, deferred.
+- **CityMarkers shared** (`src/CityMarkers.tsx`): now also in walk mode
+  behind an on-by-default "markers" checkbox. **Top bars** stop 360 px short
+  of the fixed time panel (compass was hidden under it).

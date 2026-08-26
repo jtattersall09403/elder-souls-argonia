@@ -29,7 +29,7 @@ then open only the master-plan sections the active phase needs.
 
 | Milestone (plan §86) | Status | Evidence / current task |
 |---|---|---|
-| 0 — source, era, credits foundation | done | decisions 0001–0004; CREDITS.md; plan revised & renamed |
+| 0 — source, era, credits foundation | done | decisions 0001–0004; credits list (now in root README, 0023); plan revised & renamed |
 | 1a — monorepo migration, CI, deployed sandbox | done | owner playtest PASS 2026-08-22; gates green from root; Pages live |
 | 1b — package boundaries and contracts | done | packages/contracts + apps/game shell + apps/world-studio; inventory/items extraction deferred to Phase 7 (plan §86) |
 | 2 — province source ingest | done | anchors owner-approved 2026-08-22; conditioning/sea-level decided (0005); scale ×3 (0006); major-city road network required (§88) + candidate edges registered; community map archived w/ hash |
@@ -44,7 +44,6 @@ then open only the master-plan sections the active phase needs.
 | 8a — world time, natural light and sky | in progress | built 2026-08-25 (packages/world-time 25 tests; star catalogue; climate-air raster; studio light stack; decision 0020). Owner walk gate FAIL same day (character view: black moon discs, night terrain lit like day, sun glare, colours off, slow load, settle-jitter) → root causes found & fixed (decision **0021**: leaked CSM cascade lights from suspense remounts, shadows silently off, moons off the lux scale, circumsolar Mie blow-out, exposure/ambient double-count, driver-dependent NaN). Diagnostics verify clean light census + sane day/night in character view; probe-sky extended to character scenarios + light census. **Awaiting owner re-gate** |
 | 8b — water renderer and interaction | todo | |
 | 8c — weather and atmosphere | todo | |
-| 8d — province soundscape (module 57; decision 0022) | todo | ambient audio foundation; independent of 8c/9/10 except the weather-audio slice; must precede place approvals from Phase 11 |
 | 9 — swimming, climbing, boats | todo | |
 | 10 — asset catalogue and kits | todo | |
 | 10b — full portable-sandbox parity in studio (was 7b; moved 2026-08-25, decision 0017) | todo | Scene orchestration extraction (§53), inventory/equipment UI, enemies/targeting, bow, combat-space probes against real kits. Deferred past the riskier world systems; must precede 11–13 |
@@ -52,26 +51,22 @@ then open only the master-plan sections the active phase needs.
 | 10c — stats and progression implementation (module 76; decision 0019) | todo | Implements workstream S in `packages/game-core`, wrapping today's tuning as the neutral baseline. After 10b, **before 11–13**: fixed danger (0004) means every enemy and every loot item is authored as an absolute number, so the scale must exist first |
 | 11 — causal locations and settlements | todo | |
 | 12 — dungeons and interiors | todo | |
+| 12b — province soundscape (module 57; was 8d, re-sequenced by 0023: polish tier, riskier unknowns first) | todo | may run earlier if convenient (only needs 8a); hard requirement: before Phase 13 authors creature calls/ambience |
 | 13 — ecology, encounters, fixed loot | todo | |
 | 14 — streaming and deployment | todo | |
 | 15 — expansion by watershed | todo | |
 
 ## Waiting on user
 
-- **Phase 8a owner re-gate, round 6** (round-5 feedback applied, decision
-  0021 §Round 5 — the STRUCTURAL fix: dome brightness pinned by construction
-  against a CPU Preetham port, envelope-tested across the whole day; night
-  dome/stars exposure-anchored (pitch-black dusk window closed); directional
-  twilight — night sweeps in from opposite the sunset, Earth's shadow +
-  Belt of Venus; stars ×1.5 brighter/more, magnitude-staged appearance;
-  fly-mode markers un-blacked (toneMapped); shadow contact bias fix;
-  compass in both HUDs; lore-shaped distant lands beyond the N/W borders).
-  **Restart dev server + hard refresh.** Check: sunset AND sunrise at rate
-  ~20–30 from a good vantage — no whiteout hour, colours stay believable
-  all day, anti-solar sky darkens first with a pink band over a dark
-  segment, stars arrive brightest-first while twilight still glows, no
-  black gap; fly-mode marker colours; character shadow attached at feet;
-  distant mountains N, hills W, open sea S/E from a border summit.
+- **Phase 8a owner re-gate, round 7** (round-6 feedback applied, decision
+  0021 §Round 6: daylight warmth slider (time panel, default 0.4); moonless
+  night floor raised (authored gameplay floor); twilight palette re-tuned
+  to the owner's pastel tropical refs (peach/coral/lavender, crimson band
+  gone); DistantLands removed — proper border apron specced for later
+  (research doc beyond-border-distant-lands, module 55 §98b); markers in
+  walk mode w/ checkbox; compass no longer under the time panel). Playtest
+  on the DEPLOYED site (owner 2026-08-26), hard refresh after the Pages
+  action finishes.
 
 (There is no "next up" section: the first `todo` row above is what's next.
 Phase-ordering rationale lives in the plan §86, not here.)

@@ -168,10 +168,13 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
       {
         float esAz = esCosAz * 0.5 + 0.5;
         float esHz = pow(1.0 - clamp(direction.y, 0.0, 1.0), 3.0);
+        // Palette re-tuned round 6 to the owner's tropical references:
+        // golden-peach core, coral-pink spread, lavender wash — pastel and
+        // light, never a saturated crimson band.
         texColor += uDawnLum * esHz * (
-            vec3(1.00, 0.30, 0.10) * pow(esAz, 5.0) * 1.35
-          + vec3(0.95, 0.24, 0.30) * pow(esAz, 2.0) * 0.50
-          + vec3(0.20, 0.13, 0.38) * 0.16);
+            vec3(1.00, 0.58, 0.28) * pow(esAz, 5.0) * 1.05
+          + vec3(1.00, 0.45, 0.50) * pow(esAz, 2.0) * 0.55
+          + vec3(0.55, 0.35, 0.62) * 0.20);
       }
       // Below the horizon (hard branch, not mix(): mix(x, NaN, 0.0) is still
       // NaN): first a distance-haze band — so looking off the province edge

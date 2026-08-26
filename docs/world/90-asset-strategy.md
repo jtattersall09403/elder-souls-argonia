@@ -27,7 +27,7 @@ missing asset is a *sourcing* task, never a modelling or hand-animation task.
    key on the VM** (`apikey:` header against `api.nexusmods.com`; premium can
    generate `download_link.json`). Never echo the key. Ask the owner for the
    variable/path if it isn't visible in your shell.
-4. **Record it** — source link, credits entry (docs/CREDITS.md) and file hash
+4. **Record it** — source link, credits entry (root README § Credits) and file hash
    in the source registry, per §73 — *before* the asset is relied upon.
 
 **Take assets, not mod code.** Skyrim mods that add mechanics are Papyrus/SKSE

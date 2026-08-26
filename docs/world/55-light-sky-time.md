@@ -263,3 +263,15 @@ comparisons are lit identically every run.
   volumetrics off; quality tiers are one declarative table.
 
 ---
+
+## §98b. Beyond-border horizon (deferred build item)
+
+The world edge is currently veiled by the dome's sub-horizon haze band and
+the oversized sea plane (decision 0021 rounds 4–6). LAND horizons (N/NW
+Morrowind, W Blackwood) still need real continuation terrain — a
+pipeline-baked border apron continuing the province heightmap outward with
+lore-shaped ridges, coloured like the province, no shadows/colliders.
+Research + full spec: [docs/research/beyond-border-distant-lands.md]
+(../research/beyond-border-distant-lands.md). Schedule alongside the Phase
+10 asset/kit passes (it is scenery, not simulation); a quick round-5
+procedural ring was rejected by the owner and removed.

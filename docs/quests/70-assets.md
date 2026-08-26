@@ -2,7 +2,7 @@
 
 > Module of the quest/narrative master plan (see [README](README.md)).
 > Asset codes A01–A25 (mods) and V01–V12 (vanilla families) are cited by
-> every quest table. Move entries into docs/CREDITS.md as ingested.
+> every quest table. Move entries into the root README Credits section as ingested.
 
 # Part XI — Asset catalogue and no-new-art plan
 

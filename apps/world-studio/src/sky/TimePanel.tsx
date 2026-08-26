@@ -11,6 +11,7 @@ import {
   type LightPreset,
 } from "./timeState";
 import { getLatitudeOverrideDeg, setLatitudeOverrideDeg } from "./WorldSky";
+import { getWarmthBias, setWarmthBias } from "./lightRig";
 
 /**
  * Studio time-of-day tooling (module 55 tier 1; module 85 §66): scrubber,
@@ -125,6 +126,24 @@ export function TimePanel({
             </option>
           ))}
         </select>
+        <label
+          title="Daylight warmth (owner tuning round 6): 0 = measured-CCT white, 1 = strongly golden"
+          style={{ display: "flex", alignItems: "center", gap: 4 }}
+        >
+          warmth
+          <input
+            type="range"
+            min={0}
+            max={1}
+            step={0.05}
+            defaultValue={getWarmthBias()}
+            onChange={(e) => {
+              setWarmthBias(Number(e.target.value));
+              notifyClock();
+            }}
+            style={{ width: 110 }}
+          />
+        </label>
         <label title="Province latitude (debug; canonical −10°, decision 0016)">
           lat°
           <input

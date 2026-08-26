@@ -24,7 +24,7 @@ import { ChunkColliders } from "./ChunkColliders";
 import { TouchControls } from "./TouchControls";
 import { WorldSky } from "../sky/WorldSky";
 import { SeaPlane } from "../sky/SeaPlane";
-import { DistantLands } from "../sky/DistantLands";
+import { CityMarkers } from "../CityMarkers";
 import { headingOf } from "../compass";
 
 /**
@@ -89,6 +89,14 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const focusRef = useRef({ x: spawnKm.x * 1000, z: spawnKm.z * 1000 });
   const glRef = useRef<HTMLCanvasElement | null>(null);
   const [touch, setTouch] = useState(false);
+  // Settlement beacons in walk mode (owner round 6): on by default.
+  const [showMarkers, setShowMarkers] = useState(true);
+  const markerGroundAt = useMemo(
+    () => (xM: number, zM: number) => world.groundHeight(xM, zM) ?? 0,
+    // Re-key markers when the vertical scale changes (heights re-seat).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [world, verticalScale],
+  );
   // Physics stays paused until the collider ring around the spawn is mounted;
   // otherwise the capsule falls through where the terrain hasn't landed yet.
   const [collidersReady, setCollidersReady] = useState(false);
@@ -207,7 +215,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           </Suspense>
           {/* sea */}
           <SeaPlane extentM={extentM} levelM={0} />
-          <DistantLands extentM={extentM} verticalScale={verticalScale} />
+          {showMarkers && <CityMarkers extentM={extentM} groundAt={markerGroundAt} />}
           <RenderWarmup armed={collidersReady} onWarm={() => setRenderWarm(true)} />
           {/* Own Suspense boundary: rapier's WASM init and collider loads
               suspend, and without a boundary HERE each suspension unmounts and
@@ -264,7 +272,9 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
         </div>
       )}
       <div style={{
-        position: "absolute", top: 10, left: 10, display: "flex", gap: 10, alignItems: "center",
+        // Stop short of the fixed time panel (top-right) — it was covering
+        // the tail of this bar (compass unreadable, owner round 6).
+        position: "absolute", top: 10, left: 10, right: 360, display: "flex", gap: 10, alignItems: "center",
         background: "rgba(10,14,20,0.8)", padding: "8px 12px", borderRadius: 8, flexWrap: "wrap",
         color: "#e6ecf5", font: "13px system-ui",
       }}>
@@ -276,6 +286,10 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               onChange={(e) => onExaggeration(Number(e.target.value))} />
           </label>
         )}
+        <label style={{ display: "flex", alignItems: "center", gap: 4 }}>
+          <input type="checkbox" checked={showMarkers} onChange={(e) => setShowMarkers(e.target.checked)} />
+          markers
+        </label>
         <span>race {race} · profile {profile.id}</span>
         {hud && (
           <span style={{ opacity: 0.9 }}>

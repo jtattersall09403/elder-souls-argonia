@@ -47,9 +47,9 @@ export function domeScreen(rig: LightRig, dir: Vec3): Vec3 {
 
   const az01 = cosAz * 0.5 + 0.5;
   const dawn: Vec3 = [
-    1.0 * Math.pow(az01, 5) * 1.35 + 0.95 * Math.pow(az01, 2) * 0.5 + 0.2 * 0.16,
-    0.3 * Math.pow(az01, 5) * 1.35 + 0.24 * Math.pow(az01, 2) * 0.5 + 0.13 * 0.16,
-    0.1 * Math.pow(az01, 5) * 1.35 + 0.3 * Math.pow(az01, 2) * 0.5 + 0.38 * 0.16,
+    1.0 * Math.pow(az01, 5) * 1.05 + 1.0 * Math.pow(az01, 2) * 0.55 + 0.55 * 0.2,
+    0.58 * Math.pow(az01, 5) * 1.05 + 0.45 * Math.pow(az01, 2) * 0.55 + 0.35 * 0.2,
+    0.28 * Math.pow(az01, 5) * 1.05 + 0.5 * Math.pow(az01, 2) * 0.55 + 0.62 * 0.2,
   ];
   for (let i = 0; i < 3; i++) {
     c[i] = c[i] * shadowMul + beltCol[i] * rig.beltLum * wAnti * belt + rig.dawnLum * horiz * dawn[i];

@@ -104,8 +104,9 @@ consume packages, never each other; the studio uses the same runtime packages
 as the game.
 
 **Assets:** no bespoke art assumed; vanilla Skyrim + permitted mod pool via
-semantic kits and deterministic compilers; simple source-and-credits records
-(docs/CREDITS.md); reproducible pipeline builds.
+semantic kits and deterministic compilers; simple source-and-credits records,
+kept up-front in the root README's Credits section (decision 0023);
+reproducible pipeline builds.
 
 ## Phases at a glance (status: docs/PROGRESS.md; detail: Module 95)
 

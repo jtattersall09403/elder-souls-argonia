@@ -42,7 +42,7 @@ reading one extra doc.
 | Combat, character, animation, physics, input, inventory | [../apps/combat-sandbox/CLAUDE.md](../apps/combat-sandbox/CLAUDE.md) then its [docs/README.md](../apps/combat-sandbox/docs/README.md). The portable core lives in `packages/game-core` + `packages/character` + `packages/character-assets` (decision [0013](decisions/0013-phase7-package-extraction-shape.md)) — package changes affect both the sandbox and the studio's character mode |
 | Asset pipeline: GLB/skeleton/Blender/Skyrim data | [../tooling/asset-pipeline/README.md](../tooling/asset-pipeline/README.md) |
 | "Why is X the way it is?" | [decisions/README.md](decisions/README.md) — short numbered records |
-| Credits/licensing of any external source | [CREDITS.md](CREDITS.md) |
+| Credits/licensing of any external source | root [README.md](../README.md) § Credits and third-party sources (moved from docs/CREDITS.md, decision 0023 — credits are deliberately up-front) |
 | CI, deploy, site layout | root [README.md](../README.md) + `.github/workflows/` |
 
 ## Where to record what you learn

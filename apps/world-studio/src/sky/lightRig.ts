@@ -77,6 +77,17 @@ const GOLDEN_SUN: [number, number, number] = [1.0, 0.7, 0.42];
 const HORIZON_SUN: [number, number, number] = [1.0, 0.4, 0.1];
 const MOONLIGHT: [number, number, number] = [0.62, 0.72, 1.0];
 
+/** Owner-tunable daylight warmth (round 6: "too white during most of the
+ * day"): 0 = the measured-CCT ramp as-is, 1 = strongly golden. Biases the
+ * high-sun end of the ramp toward GOLDEN_SUN. Live slider in the time panel. */
+let warmthBias = 0.4;
+export function setWarmthBias(v: number): void {
+  warmthBias = Math.min(1, Math.max(0, v));
+}
+export function getWarmthBias(): number {
+  return warmthBias;
+}
+
 function daylightOf(altDeg: number): number {
   return smoothstep(-6, 12, altDeg);
 }
@@ -123,9 +134,13 @@ const EXPOSURE_CURVE: [number, number][] = [
 ];
 
 /** Full-night exposure ceiling, moonlight-dependent (shared by the exposure
- * curve and the night-dome/star anchoring). */
+ * curve and the night-dome/star anchoring). Moonless ceiling raised round 6:
+ * the darkest hours keep a readable gameplay floor (standard open-world
+ * practice — Skyrim-style authored night ambient, not physical starlight);
+ * torches/night-eye later make it a luxury, not a necessity. A full moon
+ * still reads ~2 stops brighter than moonless. */
 export function nightExposureOf(moonIntensity: number): number {
-  return 14 / (1 + 11 * moonIntensity);
+  return 22 / (1 + 17 * moonIntensity);
 }
 
 function authoredExposure(altDeg: number, moonIntensity: number): number {
@@ -162,10 +177,11 @@ export function computeLightRig(
   // concentrates near the horizon, per the measured CCT curve (round 3: the
   // light's tone must visibly warm through the day, not just the sky's).
   const warmth = smoothstep(10, 42, altDeg);
+  const highSun = mix3(NOON_SUN, GOLDEN_SUN, 0.55 * warmthBias);
   const sunColor =
     altDeg < 10
       ? mix3(HORIZON_SUN, GOLDEN_SUN, smoothstep(-1, 10, altDeg))
-      : mix3(GOLDEN_SUN, NOON_SUN, warmth);
+      : mix3(GOLDEN_SUN, highSun, warmth);
   const aboveHorizon = smoothstep(-1.5, 0.5, altDeg);
   const sunIntensity = (100_000 * Math.pow(sinAlt, 1.15) + 350 * aboveHorizon) * aboveHorizon;
 
@@ -215,9 +231,10 @@ export function computeLightRig(
   // full-strength hemisphere on top double-counts it, flattening all shading
   // and overexposing twilight (owner gate defect 2026-08-25).
   const daylight = smoothstep(-6, 12, altDeg);
-  // Night floor 0.05 lx ≈ starlight+airglow, deliberately generous: with the
-  // exposure ceiling it keeps a moonless marsh readable (owner round 2).
-  const hemiIntensity = 2_000 * daylight + 0.1 * masser.illuminatedFraction + 0.05;
+  // Night floor ≈ starlight+airglow, deliberately generous (raised round 6):
+  // with the exposure ceiling it keeps a moonless marsh readable — an
+  // authored gameplay floor, not physics.
+  const hemiIntensity = 2_000 * daylight + 0.1 * masser.illuminatedFraction + 0.09;
 
   // Radiation ground mist pools at dawn (and lightly at dusk) and is a
   // dry/recession-season phenomenon (climatology §2): mist peaks when s(t) < 0.
@@ -314,6 +331,9 @@ export function computeLightRig(
     0.3 * smoothstep(0, 10, altDeg) +
     0.3 * smoothstep(10, 25, altDeg) -
     0.2 * smoothstep(0, 9, -altDeg);
+  // Rayleigh boost softened round 6 (was 1.3): the deep-red twilight band
+  // read as crimson against the owner's pastel tropical references.
+  const rayleigh = 1.1 + 0.9 * (1 - warmth);
   const sunDirArr: [number, number, number] = [sun.direction.x, sun.direction.y, sun.direction.z];
   const azL = Math.hypot(sun.direction.x, sun.direction.z) || 1;
   const e30 = Math.cos(Math.PI / 6);
@@ -326,7 +346,7 @@ export function computeLightRig(
   ];
   let relTypical = 0;
   for (const dir of refDirs) {
-    const c = preethamSky(dir, sunDirArr, turbidity, 1.1 + 1.3 * (1 - warmth), mieCoefficient, 0.72);
+    const c = preethamSky(dir, sunDirArr, turbidity, rayleigh, mieCoefficient, 0.72);
     relTypical += Math.max(0, Math.min(50, Math.max(c[0], c[1], c[2])));
   }
   relTypical /= refDirs.length;
@@ -349,8 +369,7 @@ export function computeLightRig(
     moonColor: MOONLIGHT,
     moonIntensity,
     turbidity,
-    // More Rayleigh at low sun deepens the sunrise/sunset colour ramp.
-    rayleigh: 1.1 + 1.3 * (1 - warmth),
+    rayleigh,
     mieCoefficient,
     mieDirectionalG: 0.72,
     skyLuminance,

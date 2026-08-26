@@ -77,18 +77,18 @@ can be re-ordered by the owner.
 | **S** stats design | 10c | 10c implements what S decides |
 | 10c stats | 11, 12, **13** | fixed danger (0004) means populations, encounters and loot are authored as absolute numbers against a scale that must already exist |
 | 3/4 climate fields | 8a haze, 8c weather, 13 ecology | one source of climate truth, many consumers (§33.1) |
-| 8a world clock | 8d soundscape | ambience beds crossfade on `dayPhase()` and season (§106) |
-| 8c weather machine | 8d's weather-audio slice | weather owns its audio layer (§106); the rest of 8d doesn't wait |
-| 8d soundscape | 11 settlements, 12 dungeons, 13 ecology | no place is approved silent (§105); settlement/creature sound authors against a working audio layer |
+| 8a world clock | 12b soundscape | ambience beds crossfade on `dayPhase()` and season (§106) |
+| 12b soundscape | 13 ecology | creature calls and settlement/ecology ambience author into the sound tables (§108); the *only* hard consumer — sound is polish-tier (owner, 0023) |
 | 10 vegetation renderer + scatter compiler (§109–112) | 11, 13 | places are dressed and judged at real vegetation density; Phase 13 authors densities against measured budgets |
 | 10 kit collision | 10b nav bake (§114) | navmesh is generated from kit collision geometry; 10b's combat-space probes measure "enemy navigation access" on the baked data |
 
 The rows are hard constraints **except the two feeding 10b**, which are
 sequencing *preferences* (merge the §53 extraction once; measure combat spaces
-against real kits) and may bend if a phase stalls. **8c, 8d, 9 and 10 are
-mutually independent** — they can run in parallel or in any order relative to
-each other (8d's weather-audio slice simply lands with or after 8c).
-Workstream S runs alongside everything.
+against real kits) and may bend if a phase stalls. **8c, 9 and 10 are mutually
+independent** — they can run in parallel or in any order relative to each
+other. **12b (soundscape) floats freely**: it needs only 8a and must land
+before 13; its default slot is late because sound is polish-tier next to the
+riskier unknowns (owner, 0023). Workstream S runs alongside everything.
 
 Deliberately **not** dependencies: the world build does not need the stats
 system (capability profiles are the contract — module 75 §52), and it does not

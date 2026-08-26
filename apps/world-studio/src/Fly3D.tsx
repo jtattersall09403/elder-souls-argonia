@@ -2,13 +2,12 @@ import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { MapControls, PointerLockControls } from "@react-three/drei";
 import * as THREE from "three";
-import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json";
 import { sharedChunkStore, type ChunksManifest } from "./character/chunkStore";
 import { headingOf } from "./compass";
+import { CityMarkers } from "./CityMarkers";
 import { ChunkTerrain } from "./character/ChunkTerrain";
 import { WorldSky } from "./sky/WorldSky";
 import { SeaPlane } from "./sky/SeaPlane";
-import { DistantLands } from "./sky/DistantLands";
 
 /**
  * Province flyover. Terrain comes from the same streamed chunks as the
@@ -76,54 +75,6 @@ function LanesOverlay({ heights, size, metresPerPixel, exaggeration }: {
     if (object) { object.geometry.dispose(); (object.material as THREE.Material).dispose(); }
   }, [object]);
   return object ? <primitive object={object} /> : null;
-}
-
-/** City beacons + name labels above the terrain, so anchors stay findable
- * now that the detail patch covers the map drape's dots (owner request). */
-function CityMarkers({ heights, size, metresPerPixel, exaggeration }: {
-  heights: Float32Array; size: number; metresPerPixel: number; exaggeration: number;
-}) {
-  const markers = useMemo(() => {
-    const anchors = (anchorsFile.anchors as { name: string; u: number; v: number; rank?: string }[]);
-    return anchors.map((a) => {
-      const px = Math.min(Math.round(a.u * size), size - 1);
-      const py = Math.min(Math.round(a.v * size), size - 1);
-      const ground = Math.max(heights[py * size + px] * exaggeration, 0);
-      const label = document.createElement("canvas");
-      label.width = 512; label.height = 128;
-      const g = label.getContext("2d")!;
-      g.font = "bold 72px system-ui, sans-serif";
-      g.textAlign = "center";
-      g.lineWidth = 10; g.strokeStyle = "rgba(0,0,0,0.85)";
-      g.strokeText(a.name, 256, 88);
-      g.fillStyle = a.rank === "major" ? "#ffd76a" : "#d9e2ea";
-      g.fillText(a.name, 256, 88);
-      const tex = new THREE.CanvasTexture(label);
-      return {
-        key: a.name, major: a.rank === "major",
-        x: a.u * size * metresPerPixel, z: a.v * size * metresPerPixel,
-        ground, tex,
-      };
-    });
-  }, [heights, size, metresPerPixel, exaggeration]);
-  useEffect(() => () => markers.forEach((m) => m.tex.dispose()), [markers]);
-  return (
-    <group>
-      {markers.map((m) => (
-        <group key={m.key} position={[m.x, m.ground, m.z]}>
-          {/* toneMapped={false}: markers are UI, not scenery — the physical
-              exposure (~2e-5 by day) otherwise crushes them to black. */}
-          <mesh position={[0, 400, 0]}>
-            <cylinderGeometry args={[14, 14, 800, 6]} />
-            <meshBasicMaterial color={m.major ? "#ffd76a" : "#b9c4cc"} transparent opacity={0.55} depthWrite={false} toneMapped={false} />
-          </mesh>
-          <sprite position={[0, 950, 0]} scale={[1400, 350, 1]}>
-            <spriteMaterial map={m.tex} transparent depthTest={false} toneMapped={false} />
-          </sprite>
-        </group>
-      ))}
-    </group>
-  );
 }
 
 /** Feeds the camera's ground position to the chunk LOD selector each frame. */
@@ -245,6 +196,14 @@ export function Fly3D(props: Fly3DProps) {
     store.manifest().then(setChunkManifest).catch(() => setChunkManifest(null));
   }, [store]);
   const focusRef = useRef({ x: start[0], z: start[2] });
+  const markerGroundAt = useMemo(() => {
+    const { heights, size, metresPerPixel, exaggeration } = props;
+    return (xM: number, zM: number) => {
+      const px = Math.max(0, Math.min(size - 1, Math.round(xM / metresPerPixel)));
+      const py = Math.max(0, Math.min(size - 1, Math.round(zM / metresPerPixel)));
+      return heights[py * size + px] * exaggeration;
+    };
+  }, [props.heights, props.size, props.metresPerPixel, props.exaggeration]);
   return (
     <Canvas
       camera={{ position: start, fov: 60, near: 2, far: 60000, up: [0, 1, 0] }}
@@ -267,15 +226,13 @@ export function Fly3D(props: Fly3DProps) {
           <Terrain heights={props.heights} size={props.size} metresPerPixel={props.metresPerPixel}
             textureCanvas={props.textureCanvas} exaggeration={props.exaggeration} />
         )}
-        <CityMarkers heights={props.heights} size={props.size}
-          metresPerPixel={props.metresPerPixel} exaggeration={props.exaggeration} />
+        <CityMarkers extentM={extentM} groundAt={markerGroundAt} />
         {props.showLanes !== false && (
           <LanesOverlay heights={props.heights} size={props.size}
             metresPerPixel={props.metresPerPixel} exaggeration={props.exaggeration} />
         )}
         {/* sea (rises with the wet-season toggle, §36 flood states) */}
         <SeaPlane extentM={extentM} levelM={(props.waterLevelM ?? 0) * props.exaggeration} />
-        <DistantLands extentM={extentM} verticalScale={props.exaggeration} />
       </WorldSky>
       {props.mode === "fly" ? (
         <>

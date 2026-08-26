@@ -441,7 +441,9 @@ export function App() {
           setFlyPos(`${x.toFixed(2)} km E · ${z.toFixed(2)} km S · alt ${Math.round(alt)} m · ${pt} ${Math.round(headingDeg)}°`);
         }} />
       <div style={{
-        position: "absolute", top: 10, left: 10, display: "flex", gap: 10, alignItems: "center",
+        // Stop short of the fixed time panel (top-right) — it was covering
+        // the tail of this bar (compass unreadable, owner round 6).
+        position: "absolute", top: 10, left: 10, right: 360, display: "flex", gap: 10, alignItems: "center",
         background: "rgba(10,14,20,0.8)", padding: "8px 12px", borderRadius: 8, flexWrap: "wrap",
       }}>
         <button onClick={() => setView("map")} style={{ padding: "4px 10px", cursor: "pointer" }}>← Map</button>
