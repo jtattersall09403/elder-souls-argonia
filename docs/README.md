@@ -18,6 +18,13 @@ Blackrose needs the Blackrose dossier. Likewise "why is X like this"
 (decisions) applies whenever you're about to change something that looks
 deliberate. When in doubt, read one extra row rather than guessing.
 
+The table is a **map, not a fence**: it names the known entry points, but you
+are expected to *reason*. If your task smells like it touches something no row
+names, list the filenames in the nearest-looking folder (`docs/`, its
+subfolders, package/app docs) and judge for yourself — folder and file names
+are written to be the index. Missing load-bearing context is worse than
+reading one extra doc.
+
 | Your task touches… | Read |
 |---|---|
 | Where we're up to / what's next | [PROGRESS.md](PROGRESS.md) (always) |

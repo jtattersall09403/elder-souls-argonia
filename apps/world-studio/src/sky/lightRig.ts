@@ -4,6 +4,7 @@ import {
   type MoonState,
   type SunState,
 } from "@elder-souls/world-time";
+import { preethamSky } from "./preethamCpu";
 
 /**
  * The natural light model (module 55 §96): every number the renderer needs at
@@ -59,6 +60,13 @@ export interface LightRig {
   dawnDir: [number, number];
   /** Sub-horizon distance-haze band colour (nits) — the world-edge veil. */
   horizonHaze: [number, number, number];
+  /** Multiplier lifting the night dome/stars to constant SCREEN brightness
+   * through twilight (they are authored against the full-night exposure;
+   * without this they render invisibly dark until the exposure catches up —
+   * the round-4 "pitch black before the stars" window). ≥ 1. */
+  nightBoost: number;
+  /** Belt-of-Venus additive luminance (nits, exposure-anchored). */
+  beltLum: number;
 }
 
 // Sunlight colour anchors from measured CCT vs solar elevation (research doc
@@ -114,10 +122,16 @@ const EXPOSURE_CURVE: [number, number][] = [
   [75, 2.3e-5],
 ];
 
+/** Full-night exposure ceiling, moonlight-dependent (shared by the exposure
+ * curve and the night-dome/star anchoring). */
+export function nightExposureOf(moonIntensity: number): number {
+  return 14 / (1 + 11 * moonIntensity);
+}
+
 function authoredExposure(altDeg: number, moonIntensity: number): number {
   // Moonlight (0..~0.3 lx) pulls the night exposure down from the moonless
   // ceiling; the -12° pivot keeps the astronomical-twilight hand-off smooth.
-  const nightExposure = 14 / (1 + 11 * moonIntensity);
+  const nightExposure = nightExposureOf(moonIntensity);
   if (altDeg >= 75) return EXPOSURE_CURVE[EXPOSURE_CURVE.length - 1][1];
   if (altDeg <= -18) return nightExposure;
   const curve: [number, number][] = [[-18, nightExposure], ...EXPOSURE_CURVE];
@@ -281,6 +295,52 @@ export function computeLightRig(
     hazeAmbient[2] * 4 + hazeSunLight[2] * 0.015 + nightHorizon[2] * 2,
   ];
 
+  // Night dome/stars are authored against the FULL-NIGHT exposure; this
+  // boost keeps their screen brightness constant while the twilight exposure
+  // is still far below it (root cause of the round-4/5 "pitch black between
+  // sunset and starlight" window). ≥1; at night it is exactly 1.
+  const nightBoost = Math.max(1, nightExposureOf(moonIntensity) / exposureTarget);
+
+  // Dome brightness is PINNED BY CONSTRUCTION (round 5): evaluate the
+  // Preetham model (CPU port) at reference mid-sky directions and normalise
+  // so the typical on-screen sky brightness follows one authored perceptual
+  // curve. The model then supplies COLOUR and DISTRIBUTION (blue day, warm
+  // sunset gradient, circumsolar glow, humidity milkiness) while whiteouts /
+  // black skies are numerically impossible — rounds 2–5 all traced back to
+  // this product (dome scale × exposure) drifting out of range somewhere in
+  // the day. Enforced by the envelope test in lightRig.test.ts.
+  const skyScreenTarget =
+    0.25 +
+    0.3 * smoothstep(0, 10, altDeg) +
+    0.3 * smoothstep(10, 25, altDeg) -
+    0.2 * smoothstep(0, 9, -altDeg);
+  const sunDirArr: [number, number, number] = [sun.direction.x, sun.direction.y, sun.direction.z];
+  const azL = Math.hypot(sun.direction.x, sun.direction.z) || 1;
+  const e30 = Math.cos(Math.PI / 6);
+  // Two mid-sky (30° elevation) references at ±90° azimuth from the sun,
+  // plus the zenith — deliberately away from the circumsolar glow.
+  const refDirs: [number, number, number][] = [
+    [(-sun.direction.z / azL) * e30, 0.5, (sun.direction.x / azL) * e30],
+    [(sun.direction.z / azL) * e30, 0.5, (-sun.direction.x / azL) * e30],
+    [0, 1, 0],
+  ];
+  let relTypical = 0;
+  for (const dir of refDirs) {
+    const c = preethamSky(dir, sunDirArr, turbidity, 1.1 + 1.3 * (1 - warmth), mieCoefficient, 0.72);
+    relTypical += Math.max(0, Math.min(50, Math.max(c[0], c[1], c[2])));
+  }
+  relTypical /= refDirs.length;
+  const skyLuminance = Math.min(
+    45_000,
+    skyScreenTarget / Math.max(relTypical, 1e-4) / exposureTarget,
+  );
+
+  // Belt of Venus (research §8c): rose band above the rising Earth shadow on
+  // the anti-solar side, peaking ~1–3° sun depression, dissolved by ~6.5°.
+  const d = -altDeg;
+  const beltBell = smoothstep(0.3, 1.2, d) * (1 - smoothstep(4.5, 6.5, d));
+  const beltLum = (0.11 / exposureTarget) * beltBell;
+
   return {
     sun,
     moons,
@@ -293,7 +353,7 @@ export function computeLightRig(
     rayleigh: 1.1 + 1.3 * (1 - warmth),
     mieCoefficient,
     mieDirectionalG: 0.72,
-    skyLuminance: 16_000,
+    skyLuminance,
     skyFade,
     hemiSky: mix3([0.05, 0.07, 0.12], [0.55, 0.72, 1.0], daylight),
     hemiGround: mix3([0.02, 0.02, 0.03], [0.38, 0.34, 0.26], daylight),
@@ -310,5 +370,7 @@ export function computeLightRig(
     dawnLum,
     dawnDir,
     horizonHaze,
+    nightBoost,
+    beltLum,
   };
 }

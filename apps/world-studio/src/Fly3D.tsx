@@ -4,9 +4,11 @@ import { MapControls, PointerLockControls } from "@react-three/drei";
 import * as THREE from "three";
 import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json";
 import { sharedChunkStore, type ChunksManifest } from "./character/chunkStore";
+import { headingOf } from "./compass";
 import { ChunkTerrain } from "./character/ChunkTerrain";
 import { WorldSky } from "./sky/WorldSky";
 import { SeaPlane } from "./sky/SeaPlane";
+import { DistantLands } from "./sky/DistantLands";
 
 /**
  * Province flyover. Terrain comes from the same streamed chunks as the
@@ -30,7 +32,7 @@ export interface Fly3DProps {
   tintStrength?: number; // 0..2 multiplier on the macro climate tint
   showLanes?: boolean;   // boat-lane overlay (cyan water / amber portage)
   flySpeed?: number;     // m/s (owner slider: running pace up to fast skim)
-  onPosition?: (xKm: number, zKm: number, altM: number) => void;
+  onPosition?: (xKm: number, zKm: number, altM: number, headingDeg: number) => void;
 }
 
 /** Boat-lane overlay: cyan where the lane is on water, amber over land
@@ -109,12 +111,14 @@ function CityMarkers({ heights, size, metresPerPixel, exaggeration }: {
     <group>
       {markers.map((m) => (
         <group key={m.key} position={[m.x, m.ground, m.z]}>
+          {/* toneMapped={false}: markers are UI, not scenery — the physical
+              exposure (~2e-5 by day) otherwise crushes them to black. */}
           <mesh position={[0, 400, 0]}>
             <cylinderGeometry args={[14, 14, 800, 6]} />
-            <meshBasicMaterial color={m.major ? "#ffd76a" : "#b9c4cc"} transparent opacity={0.55} depthWrite={false} />
+            <meshBasicMaterial color={m.major ? "#ffd76a" : "#b9c4cc"} transparent opacity={0.55} depthWrite={false} toneMapped={false} />
           </mesh>
           <sprite position={[0, 950, 0]} scale={[1400, 350, 1]}>
-            <spriteMaterial map={m.tex} transparent depthTest={false} />
+            <spriteMaterial map={m.tex} transparent depthTest={false} toneMapped={false} />
           </sprite>
         </group>
       ))}
@@ -162,7 +166,13 @@ function FlyRig({ speedRef, onPosition, extentM }: {
     camera.position.y = Math.max(5, Math.min(15000, camera.position.y));
     camera.position.x = Math.max(0, Math.min(extentM, camera.position.x));
     camera.position.z = Math.max(0, Math.min(extentM, camera.position.z));
-    onPosition?.(camera.position.x / 1000, camera.position.z / 1000, camera.position.y);
+    camera.getWorldDirection(dir);
+    onPosition?.(
+      camera.position.x / 1000,
+      camera.position.z / 1000,
+      camera.position.y,
+      headingOf(dir.x, dir.z).deg,
+    );
   });
   return null;
 }
@@ -265,6 +275,7 @@ export function Fly3D(props: Fly3DProps) {
         )}
         {/* sea (rises with the wet-season toggle, §36 flood states) */}
         <SeaPlane extentM={extentM} levelM={(props.waterLevelM ?? 0) * props.exaggeration} />
+        <DistantLands extentM={extentM} verticalScale={props.exaggeration} />
       </WorldSky>
       {props.mode === "fly" ? (
         <>

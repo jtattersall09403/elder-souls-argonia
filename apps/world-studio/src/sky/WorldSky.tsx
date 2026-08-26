@@ -86,6 +86,9 @@ function humidityAt(xM: number, zM: number, extentM: number): number {
 interface SkyExtras {
   uSkyLum: { value: number };
   uSkyFade: { value: number };
+  uSunAltDeg: { value: number };
+  uNightBoost: { value: number };
+  uBeltLum: { value: number };
   uNightZenith: { value: THREE.Color };
   uNightHorizon: { value: THREE.Color };
   uGroundLum: { value: THREE.Color };
@@ -101,6 +104,9 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
   const extras: SkyExtras = {
     uSkyLum: { value: 16_000 },
     uSkyFade: { value: 1 },
+    uSunAltDeg: { value: 45 },
+    uNightBoost: { value: 1 },
+    uBeltLum: { value: 0 },
     uNightZenith: { value: new THREE.Color(0, 0, 0) },
     uNightHorizon: { value: new THREE.Color(0, 0, 0) },
     uGroundLum: { value: new THREE.Color(0, 0, 0) },
@@ -111,7 +117,7 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
   Object.assign(mat.uniforms, extras);
   mat.uniforms.cloudCoverage.value = 0; // clouds are Phase 8c
   mat.fragmentShader =
-    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform vec3 uHorizonLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\n" +
+    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform float uSunAltDeg;\nuniform float uNightBoost;\nuniform float uBeltLum;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform vec3 uHorizonLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\n" +
     mat.fragmentShader.replace(
       "gl_FragColor = vec4( texColor, 1.0 );",
       /* glsl */ `
@@ -125,21 +131,42 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
       // above-horizon values are clamped through a NaN-collapsing min/max
       // chain (max(NaN, x) selects x on every mainstream GPU).
       texColor = min(max(texColor, vec3(0.0)), vec3(50.0));
-      // Lift the Preetham dome's relative HDR onto the scene's lux scale, and
-      // crossfade to the authored night gradient once the sun is deep enough
-      // that the analytic model degrades (module 55 §95).
+      // Lift the Preetham dome's relative HDR onto the scene's lux scale.
       texColor *= uSkyLum;
-      vec3 esNight = uNightZenith
-        + (uNightHorizon - uNightZenith) * pow(1.0 - clamp(direction.y, 0.0, 1.0), 3.0);
-      texColor = mix(esNight, texColor, uSkyFade);
+      // DIRECTIONAL twilight (research doc §8c): the anti-solar sky runs
+      // ~3.5° "later" into dusk than the solar side, so night sweeps across
+      // the dome from opposite the sunset instead of arriving as one rim.
+      vec2 esAzDir = direction.xz;
+      float esAzLen = max(length(esAzDir), 1e-4);
+      float esCosAz = clamp(dot(esAzDir / esAzLen, uDawnDir), -1.0, 1.0);
+      float esD = -uSunAltDeg;
+      float esA = 3.5 * (1.0 - smoothstep(5.0, 9.0, esD));
+      float esAltEff = uSunAltDeg - esA * (1.0 - esCosAz) * 0.5;
+      float esFade = smoothstep(-9.0, -1.0, esAltEff);
+      // Night dome, boosted so its SCREEN brightness is already the night
+      // level whenever it shows (uNightBoost — kills the black gap between
+      // sunset and starlight).
+      vec3 esNight = (uNightZenith
+        + (uNightHorizon - uNightZenith) * pow(1.0 - clamp(direction.y, 0.0, 1.0), 3.0))
+        * uNightBoost;
+      texColor = mix(esNight, texColor, esFade);
+      // Earth's shadow (anti-solar dark blue-grey segment, top climbing
+      // ~1.4°/° of sun depression) with the Belt of Venus rose band above,
+      // both dissolving by ~7° depression (research §8c).
+      float esWAnti = max(0.0, -esCosAz);
+      float esElevDeg = degrees(asin(clamp(direction.y, -1.0, 1.0)));
+      float esShadowIn = smoothstep(0.3, 1.2, esD) * (1.0 - smoothstep(5.0, 7.5, esD));
+      float esTop = 1.4 * esD;
+      float esBelow = 1.0 - smoothstep(esTop - 2.0, esTop + 1.5, esElevDeg);
+      texColor *= 1.0 - 0.4 * esWAnti * esShadowIn * esBelow;
+      float esBelt = exp(-pow((esElevDeg - esTop - 4.0) / 4.0, 2.0));
+      texColor += vec3(0.95, 0.45, 0.42) * uBeltLum * esWAnti * esBelt;
       // Twilight glow (owner round 3): tropical dawn/dusk gradient anchored
       // at the sun's azimuth — molten orange core, coral/magenta spread,
       // violet-indigo wash opposite. uDawnLum is exposure-anchored on the
       // CPU so the on-screen brightness follows one smooth authored bell.
       {
-        vec2 esAzDir = direction.xz;
-        float esAzLen = max(length(esAzDir), 1e-4);
-        float esAz = clamp(dot(esAzDir / esAzLen, uDawnDir), -1.0, 1.0) * 0.5 + 0.5;
+        float esAz = esCosAz * 0.5 + 0.5;
         float esHz = pow(1.0 - clamp(direction.y, 0.0, 1.0), 3.0);
         texColor += uDawnLum * esHz * (
             vec3(1.00, 0.30, 0.10) * pow(esAz, 5.0) * 1.35
@@ -168,7 +195,7 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
 function copySkyUniforms(from: Sky & { material: THREE.ShaderMaterial }, to: Sky): void {
   const a = from.material.uniforms;
   const b = to.material.uniforms;
-  for (const k of ["turbidity", "rayleigh", "mieCoefficient", "mieDirectionalG", "uSkyLum", "uSkyFade", "uDawnLum"]) {
+  for (const k of ["turbidity", "rayleigh", "mieCoefficient", "mieDirectionalG", "uSkyLum", "uSkyFade", "uSunAltDeg", "uNightBoost", "uBeltLum", "uDawnLum"]) {
     b[k].value = a[k].value;
   }
   (b.uDawnDir.value as THREE.Vector2).copy(a.uDawnDir.value as THREE.Vector2);
@@ -208,17 +235,17 @@ function flattenCatalogue(): FlatStar[] {
     dec: catalogue.poleStar.decDeg * DEG,
     mag: catalogue.poleStar.magnitude,
   });
-  // Background field (owner round 3): the sky between the thirteen authored
-  // constellations must not be empty. ~1100 faint stars from a SEEDED
-  // generator (deterministic — same sky every night), magnitudes below the
-  // constellation stars so the authored figures still lead. They share the
-  // buffer, so they wheel with the constellations automatically.
+  // Background field (owner round 3, count raised rounds 4–5): the sky
+  // between the thirteen authored constellations must not be empty. Faint
+  // stars from a SEEDED generator (deterministic — same sky every night),
+  // magnitudes below the constellation stars so the authored figures still
+  // lead. They share the buffer, so they wheel with the constellations.
   let seed = 0x5eed5;
   const rnd = () => {
     seed = (seed * 1664525 + 1013904223) >>> 0;
     return seed / 4294967296;
   };
-  for (let i = 0; i < 2200; i++) {
+  for (let i = 0; i < 3300; i++) {
     out.push({
       ra: 2 * Math.PI * rnd(),
       dec: Math.asin(2 * rnd() - 1), // uniform on the sphere
@@ -231,9 +258,20 @@ function flattenCatalogue(): FlatStar[] {
 const STAR_VERTEX = /* glsl */ `
 attribute float aSize;
 attribute float aLum;
+attribute float aMag;
+uniform float uSunAltDeg;
+uniform vec2 uDawnDir;
 varying float vLum;
 void main() {
-  vLum = aLum;
+  // Staged star appearance (research §8c): brighter magnitudes switch on at
+  // shallower sun depressions (mag -1 by ~3°, mag 6 by ~18°), and the
+  // anti-solar sky — which darkens first — shows its stars first.
+  float esD = -uSunAltDeg;
+  vec2 esAz = normalize(position.xz + vec2(1e-5, 0.0));
+  float esCosAz = clamp(dot(esAz, uDawnDir), -1.0, 1.0);
+  float esDEff = esD + 3.5 * (1.0 - smoothstep(5.0, 9.0, esD)) * (1.0 - esCosAz) * 0.5;
+  float esOn = 3.0 + 2.14 * (aMag + 1.0);
+  vLum = aLum * smoothstep(esOn - 2.0, esOn, esDEff);
   vec4 mv = modelViewMatrix * vec4(position, 1.0);
   gl_PointSize = aSize;
   gl_Position = projectionMatrix * mv;
@@ -385,10 +423,14 @@ export function WorldSky({
       shadowMapSize: smsize,
       maxFar: mode === "character" ? 300 : 6000,
       mode: "practical",
-      shadowBias: -0.00035,
+      // Small depth bias + normal-offset bias: the old large depth bias
+      // pushed shadows off their casters (~0.5 m "hovering character" gap,
+      // owner round 5). Normal bias fights acne without detaching contacts.
+      shadowBias: -6e-5,
       lightMargin: 400,
     });
     c.fade = true;
+    for (const l of c.lights) l.shadow.normalBias = 0.05;
     // Tag the cascade lights so discarded-render orphans are identifiable:
     // constructing CSM mutates the scene (adds lights) during render, and
     // React may throw a suspended render away WITHOUT running any cleanup.
@@ -471,21 +513,29 @@ export function WorldSky({
     g.setAttribute("position", new THREE.BufferAttribute(new Float32Array(stars.length * 3), 3));
     const size = new Float32Array(stars.length);
     const lum = new Float32Array(stars.length);
+    const mag = new Float32Array(stars.length);
     stars.forEach((s, i) => {
       size[i] = Math.max(1.4, 5.2 - s.mag) * Math.min(2, window.devicePixelRatio || 1);
       // Bright enough to read as constellations under the night exposures
-      // (owner round 2); daylight exposure still drowns them automatically.
-      lum[i] = 1.1 * Math.pow(10, -0.4 * s.mag);
+      // (owner round 2, brightened round 5); day is handled by the staged
+      // twilight visibility in the vertex stage.
+      lum[i] = 1.5 * Math.pow(10, -0.4 * s.mag);
+      mag[i] = s.mag;
     });
     g.setAttribute("aSize", new THREE.BufferAttribute(size, 1));
     g.setAttribute("aLum", new THREE.BufferAttribute(lum, 1));
+    g.setAttribute("aMag", new THREE.BufferAttribute(mag, 1));
     g.boundingSphere = new THREE.Sphere(new THREE.Vector3(), STAR_RADIUS * 2);
     return g;
   }, [stars]);
   const starMat = useMemo(
     () =>
       new THREE.ShaderMaterial({
-        uniforms: { uOpacity: { value: 0 } },
+        uniforms: {
+          uOpacity: { value: 0 },
+          uSunAltDeg: { value: 45 },
+          uDawnDir: { value: new THREE.Vector2(0, 1) },
+        },
         vertexShader: STAR_VERTEX,
         fragmentShader: STAR_FRAGMENT,
         blending: THREE.AdditiveBlending,
@@ -509,7 +559,11 @@ export function WorldSky({
   const serpentMat = useMemo(
     () =>
       new THREE.ShaderMaterial({
-        uniforms: { uOpacity: { value: 0 } },
+        uniforms: {
+          uOpacity: { value: 0 },
+          uSunAltDeg: { value: 45 },
+          uDawnDir: { value: new THREE.Vector2(0, 1) },
+        },
         vertexShader: STAR_VERTEX,
         fragmentShader: /* glsl */ `
 uniform float uOpacity;
@@ -624,6 +678,9 @@ void main() {
     u.mieDirectionalG.value = rig.mieDirectionalG;
     extras.uSkyLum.value = rig.skyLuminance;
     extras.uSkyFade.value = rig.skyFade;
+    extras.uSunAltDeg.value = (rig.sun.altitude * 180) / Math.PI;
+    extras.uNightBoost.value = rig.nightBoost;
+    extras.uBeltLum.value = rig.beltLum;
     extras.uNightZenith.value.setRGB(...rig.nightZenith);
     extras.uNightHorizon.value.setRGB(...rig.nightHorizon);
     extras.uGroundLum.value.setRGB(...rig.groundBounce);
@@ -682,10 +739,17 @@ void main() {
     a.uProvinceExtentM.value = extentM;
     a.uMistStrength.value = rig.mistStrength;
 
-    // Night sky elements.
+    // Night sky elements. Star screen brightness = lum × exposure × boost,
+    // i.e. anchored at the full-night level whenever twilight lets a star
+    // through (the staged visibility lives in the star vertex stage).
     updateCelestialBuffers(epochMinutes, rig);
-    (starMat.uniforms.uOpacity as { value: number }).value = 1;
+    const sunAltDeg = (rig.sun.altitude * 180) / Math.PI;
+    (starMat.uniforms.uOpacity as { value: number }).value = rig.nightBoost;
+    (starMat.uniforms.uSunAltDeg as { value: number }).value = sunAltDeg;
+    (starMat.uniforms.uDawnDir.value as THREE.Vector2).set(rig.dawnDir[0], rig.dawnDir[1]);
     (serpentMat.uniforms.uOpacity as { value: number }).value = 0.55 * rig.starOpacity;
+    (serpentMat.uniforms.uSunAltDeg as { value: number }).value = sunAltDeg;
+    (serpentMat.uniforms.uDawnDir.value as THREE.Vector2).set(rig.dawnDir[0], rig.dawnDir[1]);
     rig.moons.forEach((m: MoonState, i) => {
       const mesh = moonRefs.current[i];
       if (!mesh) return;

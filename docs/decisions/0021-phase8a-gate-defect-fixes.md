@@ -144,3 +144,34 @@ defects lived entirely in its own canvas wiring.
   1.5 s rate limit (CPU heights can disagree with colliders on slopes /
   streaming edges — teleporting on the CPU's word alone looped the character
   through the sky). Spawn clearance 0.4 m. Stars doubled to ~2 200.
+
+## Round 5 (owner, 2026-08-26) — the structural fix
+
+- **Dome brightness pinned by construction.** Rounds 2–5 all traced to one
+  product drifting out of range somewhere in the day: (Preetham dome scale ×
+  exposure). Round 5's "whiteout an hour either side of sunrise/sunset +
+  washed-out world" was the fixed 16 000-nit dome scale × the 20×-higher
+  low-sun exposure — CONFIRMED NUMERICALLY, not by eye, via a CPU port of
+  three's Sky shader (`preethamCpu.ts`). The rig now normalises the dome
+  against that CPU model to one authored perceptual curve
+  (`skyScreenTarget`): Preetham supplies colour/distribution, the envelope
+  is guaranteed, and `lightRig.test.ts` walks the whole day × humidity
+  asserting screen luminance stays in [0.02, cap] (`skyScreenModel.ts` is
+  the shader's CPU twin — KEEP IN LOCKSTEP). Never hand-tune dome scale or
+  exposure against each other again: change `skyScreenTarget` (sky) or
+  `EXPOSURE_CURVE` (ground) and let the test verify.
+- **Night dome + stars exposure-anchored** (`nightBoost`): they were
+  authored for full-night exposure and rendered invisibly dark from ~−4°
+  to −14° sun — the "pitch black between sunset and starlight" window.
+- **Directional twilight** (research doc §8c): per-pixel twilight progress
+  (anti-solar sky runs ~3.5° ahead into dusk), Earth's-shadow segment
+  climbing 1.4°/° with Belt of Venus rose band, stars switching on by
+  magnitude (−1 by d≈3°, 6 by d≈18°) anti-solar first.
+- **Fly-mode city markers** are UI: `toneMapped={false}` or physical
+  exposure crushes them black (they are absent in walk mode by design —
+  flyover navigation aid). **Shadow contact**: CSM shadowBias −6e-5 +
+  normalBias 0.05 (old −3.5e-4 depth bias detached shadows ~0.5 m from
+  feet — "hovering character"). **Compass** in both HUDs (world north = −Z).
+- **Beyond-border lands** (`DistantLands.tsx`): procedural far-terrain
+  annulus, lore-directed silhouettes only — Morrowind mountains N/NW,
+  Blackwood hills W, ocean S/E (dossier black-marsh-province §regions).

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { toEpochMinutes } from "@elder-souls/world-time";
 import { computeLightRig } from "./lightRig";
+import { domeScreen, ENVELOPE_DIRS, envelopeDir } from "./skyScreenModel";
 
 const at = (month: number, day: number, hour: number) =>
   toEpochMinutes({ era: 4, year: 201, month, day, minuteOfDay: hour * 60 });
@@ -55,5 +56,43 @@ describe("light rig (module 55 §96)", () => {
     expect(fullMoon.skyFade).toBe(0);
     expect(fullMoon.starOpacity).toBe(1);
     expect(fullMoon.nightZenith[2]).toBeGreaterThan(0.002);
+  });
+});
+
+describe("screen-luminance envelope (owner round 5 — no whiteouts, no black gaps)", () => {
+  // The dome's on-screen brightness is pinned by construction in the rig
+  // (skyLuminance normalised against the CPU Preetham port). This test walks
+  // the whole day at two humidities and asserts the ACTUAL screen luminance
+  // of the patched dome stays inside a displayable envelope everywhere
+  // except the circumsolar glare. Rounds 2–5 each found one of these bands
+  // out of range by eye; this catches the next one in `npm test`.
+  function rigAtAlt(targetAlt: number, humidity: number) {
+    let lo = 0;
+    let hi = 720; // morning half of day 100: altitude rises monotonically
+    for (let i = 0; i < 40; i++) {
+      const mid = (lo + hi) / 2;
+      const r = computeLightRig(100 * 1440 + mid, humidity, 0);
+      if ((r.sun.altitude * 180) / Math.PI < targetAlt) lo = mid;
+      else hi = mid;
+    }
+    return computeLightRig(100 * 1440 + (lo + hi) / 2, humidity, 0);
+  }
+
+  it("keeps the sky displayable at every hour and humidity", () => {
+    const alts = [-16, -14, -12, -10, -8, -6, -4, -2, 0, 2, 4, 6, 8, 10, 14, 20, 30, 45, 60, 75];
+    for (const hum of [0.25, 0.86]) {
+      for (const alt of alts) {
+        const rig = rigAtAlt(alt, hum);
+        for (const [label, elev, dAz] of ENVELOPE_DIRS) {
+          const screen = Math.max(...domeScreen(rig, envelopeDir(rig, elev, dAz)));
+          const where = `${label} @ alt ${alt}° hum ${hum}`;
+          // Never pitch black: dusk/night sky stays readable (round-4/5 gap).
+          expect(screen, `black: ${where}`).toBeGreaterThan(0.02);
+          // Never blown out — except graded glare near the sun itself.
+          const cap = label.includes("solar") ? 12 : label.startsWith("low") ? 2.8 : 1.7;
+          expect(screen, `blown: ${where}`).toBeLessThan(cap);
+        }
+      }
+    }
   });
 });

@@ -434,9 +434,11 @@ export function App() {
         spawnKm={spawnKm} exaggeration={exaggeration} mode={camMode}
         matSet={matSet || undefined} waterLevelM={wetSeason ? wetAmplitude : 0}
         tintStrength={tintStrength} showLanes={showLanes} flySpeed={flySpeed}
-        onPosition={(x, z, alt) => {
+        onPosition={(x, z, alt, headingDeg) => {
           flyKmRef.current = { x, z };
-          setFlyPos(`${x.toFixed(2)} km E · ${z.toFixed(2)} km S · alt ${Math.round(alt)} m`);
+          const pts = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+          const pt = pts[Math.round(headingDeg / 45) % 8];
+          setFlyPos(`${x.toFixed(2)} km E · ${z.toFixed(2)} km S · alt ${Math.round(alt)} m · ${pt} ${Math.round(headingDeg)}°`);
         }} />
       <div style={{
         position: "absolute", top: 10, left: 10, display: "flex", gap: 10, alignItems: "center",

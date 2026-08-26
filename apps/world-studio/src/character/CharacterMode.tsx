@@ -24,6 +24,8 @@ import { ChunkColliders } from "./ChunkColliders";
 import { TouchControls } from "./TouchControls";
 import { WorldSky } from "../sky/WorldSky";
 import { SeaPlane } from "../sky/SeaPlane";
+import { DistantLands } from "../sky/DistantLands";
+import { headingOf } from "../compass";
 
 /**
  * Physical-character mode (master plan §66 "Physical character", Phase 7):
@@ -45,6 +47,8 @@ export interface CharacterHudState {
   /** From the environment query's TimeLightSample (module 55 §94). */
   dayPhase?: string;
   visibilityM?: number;
+  /** Camera compass heading (world north = −Z), degrees clockwise from N. */
+  headingDeg: number;
   speed: number;
   grounded: boolean;
 }
@@ -203,6 +207,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           </Suspense>
           {/* sea */}
           <SeaPlane extentM={extentM} levelM={0} />
+          <DistantLands extentM={extentM} verticalScale={verticalScale} />
           <RenderWarmup armed={collidersReady} onWarm={() => setRenderWarm(true)} />
           {/* Own Suspense boundary: rapier's WASM init and collider loads
               suspend, and without a boundary HERE each suspension unmounts and
@@ -281,6 +286,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             {hud.waterDepth !== undefined ? ` · water ${hud.waterDepth.toFixed(1)} m deep` : ""}
             {hud.dayPhase ? ` · ${hud.dayPhase}` : ""}
             {hud.visibilityM !== undefined ? ` · vis ~${hud.visibilityM} m` : ""}
+            {" · "}{["N", "NE", "E", "SE", "S", "SW", "W", "NW"][Math.round(hud.headingDeg / 45) % 8]} {Math.round(hud.headingDeg)}°
             {" · "}{hud.grounded ? `${hud.speed.toFixed(1)} m/s` : "airborne"}
           </span>
         )}
@@ -357,6 +363,7 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   const lastPosition = useRef(new THREE.Vector3());
   const stepAccum = useRef(0);
   const netTimer = useRef(0);
+  const cameraDir = useMemo(() => new THREE.Vector3(), []);
   const initialised = useRef(false);
   const hudTimer = useRef(0);
   const urlTimer = useRef(0);
@@ -485,6 +492,7 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
     hudTimer.current -= rawDelta;
     if (hudTimer.current <= 0) {
       hudTimer.current = 0.15;
+      camera.getWorldDirection(cameraDir);
       const contact = world.queryEnvironment({ x: position.x, y: position.y, z: position.z });
       onHud({
         xKm: position.x / 1000,
@@ -496,6 +504,7 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
         waterDepth: contact.water?.depth,
         dayPhase: contact.light?.dayPhase,
         visibilityM: contact.light?.visibilityM,
+        headingDeg: headingOf(cameraDir.x, cameraDir.z).deg,
         speed: adapter.moveSpeed(),
         grounded: adapter.isGrounded(),
       });

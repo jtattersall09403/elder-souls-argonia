@@ -57,18 +57,20 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- **Phase 8a owner re-gate, round 5** (round-4 feedback applied, decision
-  0021 §Round 4: warm CCT sunlight ramp + mid-day exposure plateau; moon
-  phases render sharply (ephemeris verified right — check ~04:00 or ~20:00
-  for crescents); daytime moons emit nothing; dusk no longer pitch-black
-  before starlight; ~2 200 background stars; world edge reads as haze/ocean;
-  LOD-1-only shadow casting + batched chunk arrivals for the load-period
-  fps; skyfall safety net needs physics agreement + rate limit). **Restart
-  dev server + hard refresh.** Check: noon vs mid-morning brightness (plateau,
-  no noon spike); light tone warms through the day and the sun disc reddens
-  toward the horizon; load-to-smooth time; off-edge view from a border
-  mountain; dusk → starfield hand-off; a gibbous moon at ~22:00 clearly not
-  full.
+- **Phase 8a owner re-gate, round 6** (round-5 feedback applied, decision
+  0021 §Round 5 — the STRUCTURAL fix: dome brightness pinned by construction
+  against a CPU Preetham port, envelope-tested across the whole day; night
+  dome/stars exposure-anchored (pitch-black dusk window closed); directional
+  twilight — night sweeps in from opposite the sunset, Earth's shadow +
+  Belt of Venus; stars ×1.5 brighter/more, magnitude-staged appearance;
+  fly-mode markers un-blacked (toneMapped); shadow contact bias fix;
+  compass in both HUDs; lore-shaped distant lands beyond the N/W borders).
+  **Restart dev server + hard refresh.** Check: sunset AND sunrise at rate
+  ~20–30 from a good vantage — no whiteout hour, colours stay believable
+  all day, anti-solar sky darkens first with a pink band over a dark
+  segment, stars arrive brightest-first while twilight still glows, no
+  black gap; fly-mode marker colours; character shadow attached at feet;
+  distant mountains N, hills W, open sea S/E from a border summit.
 
 (There is no "next up" section: the first `todo` row above is what's next.
 Phase-ordering rationale lives in the plan §86, not here.)

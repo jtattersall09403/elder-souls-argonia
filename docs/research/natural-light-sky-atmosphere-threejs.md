@@ -235,3 +235,33 @@ GOLDEN_SUN 3400 K by 10° → NOON_SUN 5500 K by ~42°), plus a low-sun turbidit
 boost so the Preetham disc/halo redden together with the light. Sources:
 rp-photonics.com/color_temperature.html, link.springer.com/article/10.1186/
 1687-5281-2013-14, photopills.com golden-hour article.
+
+### 8c. Whole-sky twilight progression (round-5 research)
+
+Sun depression d = −altitude; Δφ = pixel azimuth from sun azimuth.
+- **Asymmetry**: the anti-solar sky darkens FIRST and behaves ~3–4° "later"
+  into dusk than the solar side (`d_eff = d + 3.5·(1−cosΔφ)/2`); asymmetry
+  dissolves by d≈8–9°, whole sky uniform night by d≈15–16°.
+- **Earth's shadow**: dark blue-grey segment on the anti-solar horizon from
+  sunset, top climbing ~1.4° per 1° of depression (Lynch et al. 2015/2017);
+  **Belt of Venus** rose band ~4–8° above it, peaking d≈1–3°, gone by ~6.5°.
+- **Brightness**: zenith falls ~×10 per 2° of depression through d = 3–12°
+  (Koomen/Patat); night floor (airglow) at d≈18. Zenith anchors: sunset
+  ~7.4 mag/as² (~125 nits), civil −6° ~13.8, night ~21.9 (~2e-4 nits).
+- **Stars**: switch on by magnitude — mag −1 at d≈3°, mag 1 at 6°, mag 3 at
+  9°, mag 4.5 at 12°, mag 6 at 18° — anti-solar side first (via d_eff).
+- **Solar side**: red→orange→yellow ramp hugging the horizon, purple-light
+  patch d = 2–6°, bright segment at the sunset point persisting to d≈12–16°.
+Implemented in WorldSky's dome patch + star vertex stage; sources: Wikipedia
+(Twilight, Earth's shadow, Belt of Venus, Afterglow, Sky brightness),
+atoptics.co.uk, Patat et al. 2006 (A&A), Nawar 2020, Lynch et al. (Appl.
+Opt. 2015/2017).
+
+### 8d. The screen-luminance envelope (round-5 structural fix)
+
+Every gate failure rounds 2–5 was (dome scale × exposure) leaving [0, ~1]
+somewhere in the day. Fix: `preethamCpu.ts` (CPU port of three's Sky) +
+`skyScreenModel.ts` (CPU twin of the patched dome shader) let the rig
+NORMALISE the dome to an authored on-screen curve, and let
+`lightRig.test.ts` assert the whole day × humidity stays displayable. Tune
+`skyScreenTarget` (sky) / `EXPOSURE_CURVE` (ground); never both blindly.
