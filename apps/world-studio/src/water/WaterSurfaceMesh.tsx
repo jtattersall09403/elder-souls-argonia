@@ -2,6 +2,7 @@ import { useContext, useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { worldClock } from "../sky/timeState";
+import { advanceWaterClock, waterTimeS } from "./waterClock";
 import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
 import type { WaterAssets } from "./waterAssets";
 import {
@@ -30,7 +31,7 @@ interface GridSpec {
 }
 
 const GRIDS: Record<"low" | "high", GridSpec> = {
-  high: { uniformCell: 2.6, uniformRadius: 320, n: 384, halfExtent: 30000 },
+  high: { uniformCell: 2.6, uniformRadius: 260, n: 320, halfExtent: 30000 },
   low: { uniformCell: 3.6, uniformRadius: 160, n: 208, halfExtent: 30000 },
 };
 
@@ -130,20 +131,27 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, contactBodies, o
   /** Splash events become decaying, spreading foam rings (world-time secs). */
   const splashes = useRef<{ x: number; z: number; radius: number; strength: number; bornS: number }[]>([]);
 
+  // onReady rides a ref: an inline callback from a parent that re-renders
+  // per HUD tick must NEVER re-trigger this effect — round 1's perf collapse
+  // was this effect disposing the live materials every parent render, which
+  // forced the big water+CSM shaders to recompile continuously (and raced
+  // three's compileAsync into 'isReady of undefined' crashes).
+  const onReadyRef = useRef(onReady);
+  onReadyRef.current = onReady;
   useEffect(() => {
     const mesh = meshRef.current;
     if (mesh) {
       mesh.layers.set(WATER_LAYER);
-      onReady?.({ uniforms, mesh, materials });
+      onReadyRef.current?.({ uniforms, mesh, materials });
     }
-    return () => {
-      materials.above.dispose();
-      materials.below.dispose();
-      geometry.dispose();
-    };
-  }, [materials, geometry, uniforms, onReady]);
+  }, [materials, uniforms]);
+  useEffect(() => () => {
+    materials.above.dispose();
+    materials.below.dispose();
+  }, [materials]);
+  useEffect(() => () => geometry.dispose(), [geometry]);
 
-  useFrame(({ camera }) => {
+  useFrame(({ camera }, delta) => {
     const mesh = meshRef.current;
     if (!mesh) return;
     const cell = GRIDS[tier.name].uniformCell;
@@ -153,13 +161,16 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, contactBodies, o
       Math.round(camera.position.z / cell) * cell,
     );
     const epoch = worldClock.epochMinutes();
-    uniforms.uWaveTime.value = epoch * 60;
+    // Waves/foam run on the always-live water clock (the world clock is
+    // usually paused for reproducible URLs); tide/season stay on the epoch.
+    advanceWaterClock(delta, worldClock.rate);
+    uniforms.uWaveTime.value = waterTimeS();
     const offsets = assets.world.levelOffsets(epoch);
     uniforms.uLevelTide.value = offsets.tide;
     uniforms.uLevelSeason.value = offsets.season;
     uniforms.uVerticalScale.value = verticalScale;
     // interaction events → spreading, fading churn rings
-    const nowS = epoch * 60;
+    const nowS = waterTimeS();
     for (const e of assets.world.drainInteractions()) {
       if (e.kind === "splash" || e.kind === "enter" || e.kind === "wake") {
         splashes.current.push({

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { sharedWaterAssets, type WaterAssets } from "./waterAssets";
 import { WATER_TIERS, type WaterTier } from "./waterMaterial";
 import { WaterPipeline } from "./WaterPipeline";
@@ -32,6 +32,9 @@ export function StudioWater({ base, verticalScale, contactBodies }: {
   const [assets, setAssets] = useState<WaterAssets | null>(null);
   const [tier] = useState<WaterTier>(() => pickWaterTier());
   const handleRef = useRef<WaterSurfaceHandle | null>(null);
+  const onSurfaceReady = useCallback((h: WaterSurfaceHandle) => {
+    handleRef.current = h;
+  }, []);
 
   useEffect(() => {
     let alive = true;
@@ -51,9 +54,7 @@ export function StudioWater({ base, verticalScale, contactBodies }: {
         tier={tier}
         verticalScale={verticalScale}
         contactBodies={contactBodies}
-        onReady={(h) => {
-          handleRef.current = h;
-        }}
+        onReady={onSurfaceReady}
       />
       <WaterPipeline
         assets={assets}

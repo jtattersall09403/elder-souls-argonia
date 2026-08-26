@@ -4,7 +4,8 @@ import * as THREE from "three";
 import { worldClock } from "../sky/timeState";
 import { sharedAerialUniforms } from "../sky/WorldSky";
 import type { WaterAssets } from "./waterAssets";
-import { WATER_LAYER, type WaterTier } from "./waterMaterial";
+import { OVERLAY_LAYER, WATER_LAYER, type WaterTier } from "./waterMaterial";
+import { waterTimeS } from "./waterClock";
 import type { WaterSurfaceHandle } from "./WaterSurfaceMesh";
 
 /**
@@ -31,6 +32,7 @@ export interface WaterDebugState {
   cameraDepthM: number;
   rtSamples: number;
   frames: number;
+  contextLost: boolean;
 }
 
 declare global {
@@ -97,7 +99,15 @@ export function WaterPipeline({ assets, tier, verticalScale, handle }: {
       // shared with the sky rig — live sun direction, no per-frame copy
       uSunDirW: sharedAerialUniforms.uSunDirW,
     };
-    const material = new THREE.MeshBasicMaterial({ map: rt.texture, depthTest: false, depthWrite: false });
+    // The blit also WRITES the scene depth to the canvas depth buffer, so the
+    // water pass gets hardware z-culling of buried surface (perf) and the
+    // overlay pass (markers) occludes correctly behind terrain.
+    const material = new THREE.MeshBasicMaterial({
+      map: rt.texture,
+      depthTest: true,
+      depthWrite: true,
+    });
+    material.depthFunc = THREE.AlwaysDepth;
     material.onBeforeCompile = (shader) => {
       Object.assign(shader.uniforms, uniforms);
       shader.fragmentShader = shader.fragmentShader
@@ -147,8 +157,13 @@ if (uUnderwater > 0.5) {
     float esPhase = 0.0796 * (1.0 - 0.5184) / pow(1.0 + 0.5184 - 1.44 * esMu, 1.5);
     outgoingLight += uUwFog * esAcc * 0.10 * esPhase * 12.5663706;
   }
+  // multiplicative grain before tone mapping — kills the 8-bit banding the
+  // smooth murk gradients otherwise show (owner round 1, defect 6)
+  float esGrain = fract(sin(dot(vMapUv * vec2(1723.0, 1093.0), vec2(12.9898, 78.233)) + uUwTime * 7.0) * 43758.5453);
+  outgoingLight *= 1.0 + (esGrain - 0.5) * 0.05;
 }
-#include <opaque_fragment>`,
+#include <opaque_fragment>
+gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
         );
     };
     material.customProgramCacheKey = () => "es-water-blit";
@@ -165,8 +180,42 @@ if (uUnderwater > 0.5) {
     blit.material.dispose();
   }, [rt, blit]);
 
-  useFrame(({ gl: renderer, scene, camera }) => {
+  // Context-loss telemetry: a lost WebGL context looks like a freeze (the
+  // last frame stays up) — record it so probes and bug reports can tell.
+  const contextLost = useRef(false);
+  useEffect(() => {
+    const el = gl.domElement;
+    const onLost = (e: Event) => {
+      e.preventDefault();
+      contextLost.current = true;
+      console.warn("WebGL context lost (water pipeline active)");
+    };
+    const onRestored = () => {
+      contextLost.current = false;
+    };
+    el.addEventListener("webglcontextlost", onLost);
+    el.addEventListener("webglcontextrestored", onRestored);
+    return () => {
+      el.removeEventListener("webglcontextlost", onLost);
+      el.removeEventListener("webglcontextrestored", onRestored);
+    };
+  }, [gl]);
+
+  // three only applies lights whose layers intersect the camera's — the
+  // water-only pass (mask = WATER_LAYER) was therefore rendered WITHOUT the
+  // CSM sun/moon (no glints, no shadows; owner round 1, defect 1). Enable
+  // the water layer on every light, re-checked as lights come and go.
+  const lightPatchTimer = useRef(0);
+
+  useFrame(({ gl: renderer, scene, camera }, delta) => {
     const h = handle();
+    lightPatchTimer.current -= delta;
+    if (lightPatchTimer.current <= 0) {
+      lightPatchTimer.current = 1;
+      scene.traverse((o) => {
+        if ((o as THREE.Light).isLight) o.layers.enable(WATER_LAYER);
+      });
+    }
     const size = renderer.getDrawingBufferSize(new THREE.Vector2());
     const rw = Math.max(2, Math.round(size.x * tier.rtScale));
     const rh = Math.max(2, Math.round(size.y * tier.rtScale));
@@ -206,7 +255,7 @@ if (uUnderwater > 0.5) {
     // ---- pass 2: tone-mapped blit (+ underwater fog/god rays) → screen ----
     const bu = blit.uniforms;
     bu.uUnderwater.value = underwater ? 1 : 0;
-    bu.uUwTime.value = epoch * 60;
+    bu.uUwTime.value = waterTimeS();
     bu.uCamPos.value.copy(camPos);
     bu.uInvProjView.value.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse).invert();
     bu.uUwSurfaceY.value = camSample.surfaceHeight * verticalScale;
@@ -230,13 +279,19 @@ if (uUnderwater > 0.5) {
     renderer.setRenderTarget(null);
     renderer.render(blit.scene, blit.camera);
 
-    // ---- pass 3: the water surface on top (above-water view only) ----
-    if (!underwater && h) {
+    // ---- pass 3: water surface, then the display-referred overlay --------
+    {
       const prevAuto = renderer.autoClear;
       const prevShadow = renderer.shadowMap.autoUpdate;
       renderer.autoClear = false;
       renderer.shadowMap.autoUpdate = false;
-      cam.layers.mask = 1 << WATER_LAYER;
+      if (!underwater && h) {
+        cam.layers.mask = 1 << WATER_LAYER;
+        renderer.render(scene, cam);
+      }
+      // markers etc. draw straight to screen (no tone mapping crush),
+      // depth-tested against the scene depth the blit wrote
+      cam.layers.mask = 1 << OVERLAY_LAYER;
       renderer.render(scene, cam);
       renderer.autoClear = prevAuto;
       renderer.shadowMap.autoUpdate = prevShadow;
@@ -254,6 +309,7 @@ if (uUnderwater > 0.5) {
       cameraDepthM: Math.max(0, camSample.surfaceHeight - trueY),
       rtSamples: tier.samples,
       frames: frames.current,
+      contextLost: contextLost.current,
     };
   }, 1);
 

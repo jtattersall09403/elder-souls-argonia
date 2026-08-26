@@ -27,9 +27,9 @@ export const WAVES = {
   lowTierBands: 6,
   /** Longest wavelength (m) and its amplitude (m) at full exposure. */
   baseWavelength: 34.0,
-  baseAmplitude: 0.14,
+  baseAmplitude: 0.17,
   /** Horizontal sharpening 0..1 (bounded per-band as in GPU Gems 1). */
-  choppy: 0.55,
+  choppy: 0.62,
   /** Angular spread (radians) around the prevailing wind. */
   dirSpread: 0.9,
   freqMul: 1.31,

@@ -59,3 +59,48 @@ Spec: module [60](../world/60-water-traversal.md) §38–42.
    reflections, no SSR/god rays, reduced-res scene RT, fewer wave bands;
    T1 desktop default — + SSR, god rays, full foam. Auto by device, URL
    override `?wq=`.
+
+## Owner playtest round 1 (2026-08-26) — defects → fixes
+
+1. **All water static** → the studio world clock is *paused by default*
+   (URLs pin instants) and everything animated off it. Fix: a dedicated
+   always-running **water clock** (`waterClock.ts`, ≥1× real time, capped at
+   8× when time is fast-forwarded) shared by `uWaveTime` AND the CPU query
+   (`WaterWorldOptions.waveTimeS`) so buoyancy still matches pixels.
+2. **No sun glints/shadows on water** (part of "not alive") → three only
+   applies lights whose `layers` intersect the camera's; the water-only pass
+   used a bare `WATER_LAYER` mask, so the CSM sun/moon never lit it. Fix:
+   the pipeline enables the water layer on every light (throttled traverse).
+3. **Pale disc around the wading player** → contact foam saturated into a
+   solid untextured circle. Fix: annulus rings, energy cap, always
+   noise-textured foam.
+4. **Vertical water sheets on mountainsides** → far triangles between
+   *dry* (buried) vertices interpolated across valleys. Fix: fragment
+   discard when the interpolated depth proxy is ~0 — also a fragment-cost
+   win.
+5. **Perf / fly-view freeze** → TWO causes. The killer: `WaterSurfaceMesh`'s
+   ready-effect depended on an inline parent callback, so every HUD tick /
+   fly-position update re-ran it and **disposed the live water materials —
+   forcing the big water+CSM shaders to recompile continuously** (also the
+   `compileAsync` "isReady of undefined" crash the sky probe caught: the
+   poll raced the dispose). Fixed with a ref-held callback + disposal only
+   on true identity change — the standing rule: **a `useMemo`d GPU resource
+   must never be disposed by an effect with unstable deps**. Plus straight
+   perf work: dropped the 4× multisampled half-float RT (samples 0; canvas
+   MSAA still covers water/overlay edges), the blit now **writes scene
+   depth** so buried water is z-culled in hardware, SSR capped to <1.2 km /
+   18 steps, high-tier grid 384→320, vertex wave loop and fine ripple
+   cascade skipped where negligible. Context-loss telemetry in the debug
+   hook; probes assert the render loop keeps advancing (fly-camera scenario
+   included).
+6. **Markers black/blue** → display-referred (`toneMapped:false`) UI was
+   being tone-mapped by the blit. Fix: `OVERLAY_LAYER` rendered in a final
+   direct-to-screen pass, depth-tested against the blit-written depth.
+7. **Underwater banding** → multiplicative grain before tone mapping.
+8. **Water looks the same everywhere** → turbid absorption ×~2 (blackwater
+   opaque in ~30 cm), albedo/roughness contrast widened, whitecap crest foam
+   added; river motion returns with fix 1.
+9. **Wetlands read dry** → `compile_water` adds a **marsh water table**
+   (`MARSH_POOL_M` above median-smoothed ground on frequently-flooded
+   wetland) — refined micro-relief picks pools vs tussocks; marsh coverage
+   5.0→7.2 % of the grid.

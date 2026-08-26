@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { WaterData, WaterWorld, type WaterMeta } from "@elder-souls/game-core/water/index";
 import { worldClock } from "../sky/timeState";
+import { waterTimeS } from "./waterClock";
 
 /**
  * Loads + decodes the compiled water rasters (worldgen/compile_water.py,
@@ -117,6 +118,7 @@ export function sharedWaterAssets(base: string): Promise<WaterAssets> {
       seasonalAmplitudeM,
       groundHeight: (x, z) => groundHeightFn?.(x, z) ?? null,
       seasonScalar: effectiveSeasonScalar,
+      waveTimeS: waterTimeS,
     });
 
     return {

@@ -38,11 +38,16 @@ export interface WaterTier {
 }
 
 export const WATER_TIERS: Record<"low" | "high", WaterTier> = {
-  high: { name: "high", ssr: true, godRays: true, waveBands: WAVES.bands, rtScale: 1.0, samples: 4 },
+  // samples stay 0: a multisampled half-float RT costs serious VRAM/bandwidth
+  // (owner round 1 perf); water/overlay edges still get the canvas MSAA.
+  high: { name: "high", ssr: true, godRays: true, waveBands: WAVES.bands, rtScale: 1.0, samples: 0 },
   low: { name: "low", ssr: false, godRays: false, waveBands: WAVES.lowTierBands, rtScale: 0.75, samples: 0 },
 };
 
 export const WATER_LAYER = 3;
+/** Display-referred UI (city markers) renders in a final overlay pass —
+ * the tone-mapped blit would crush `toneMapped:false` materials to black. */
+export const OVERLAY_LAYER = 4;
 export const MAX_CONTACT_BODIES = 8;
 
 export interface WaterUniforms {
@@ -142,7 +147,7 @@ const NOISE_GLSL = /* glsl */ `
     float amp = 1.0;
     mat2 M = mat2(1.7, 1.1, -1.1, 1.7);
     vec2 flow = drift;
-    for (int i = 0; i < 4; i++){
+    for (int i = 0; i < 3; i++){
       vec3 n = esNoised(p + flow);
       g += amp * n.yz;
       p = M * p;
@@ -220,15 +225,18 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant): string {
   }
 
   float esContactFoam(vec2 wp){
+    // churn RINGS, not discs (owner round 1, defect 3): an annulus that
+    // spreads outward, hollow in the middle, capped well below solid
     float c = 0.0;
     for (int i = 0; i < ${MAX_CONTACT_BODIES}; i++){
       if (i >= uBodyCount) break;
       vec4 B = uBodies[i];
       if (B.w < 0.01) continue;
       float q = length(wp - B.xy) / max(B.z, 0.1);
-      c += (1.0 - smoothstep(0.8, 2.2, q)) * B.w;
+      float ring = smoothstep(0.25, 0.7, q) * (1.0 - smoothstep(1.0, 1.6, q));
+      c += ring * B.w;
     }
-    return min(c, 1.4);
+    return min(c, 0.85);
   }
 
   ${tier.ssr && variant === "above" ? /* glsl */ `
@@ -237,7 +245,7 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant): string {
     float stepLen = 2.2;
     float prevDiff = -1.0;
     vec2 prevUV = vec2(0.0);
-    for (int i = 1; i <= 24; i++){
+    for (int i = 1; i <= 18; i++){
       vec3 p = ro + rd * (stepLen * float(i));
       vec4 clip = uProjMatrix * viewMatrix * vec4(p, 1.0);
       if (clip.w <= 0.0) break;
@@ -250,7 +258,7 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant): string {
         float t = prevDiff < 0.0 ? 1.0 : (-prevDiff / (diff - prevDiff));
         vec2 hitUV = mix(prevUV, uv, clamp(t, 0.0, 1.0));
         vec2 edge = smoothstep(0.0, 0.12, hitUV) * smoothstep(0.0, 0.12, 1.0 - hitUV);
-        float conf = edge.x * edge.y * (1.0 - float(i) / 24.0 * 0.4);
+        float conf = edge.x * edge.y * (1.0 - float(i) / 18.0 * 0.4);
         return vec4(texture2D(uSceneColor, hitUV).rgb, conf);
       }
       prevDiff = diff;
@@ -316,7 +324,15 @@ float esVDepth = max(esSurf.y + (esStill - esSurf.x), 0.0);
 float esShore = esFl.a * uShoreMax;
 float esExposure = esWaveExposure(esShore, esVDepth);
 float esCamDist = distance(cameraPosition.xz, esRestW.xz);
-EsWave esW = esWaveSample(esRestW.xz, esExposure * exp(-esCamDist * 0.0006), uWaveTime);
+float esWaveAmp = esExposure * exp(-esCamDist * 0.0006);
+EsWave esW;
+if (esWaveAmp > 0.002) {
+  esW = esWaveSample(esRestW.xz, esWaveAmp, uWaveTime);
+} else {
+  esW.disp = vec3(0.0);
+  esW.normal = vec3(0.0, 1.0, 0.0);
+  esW.height = 0.0;
+}
 vEsData = vec4(esStill, esVDepth, esExposure, esShore);
 vEsKlass = vec3(esKl.g, esKl.b, esKl.a);
 vEsFlow = (esFl.xy - 0.5) * 2.0 * uFlowMax;
@@ -341,11 +357,16 @@ ${NOISE_GLSL}
 ${prelude}
 uniform float uWaveTime;
 uniform float uLevelTide;
-uniform float uLevelSeason;`,
+uniform float uLevelSeason;
+uniform float uVerticalScale;`,
       )
       .replace(
         "void main() {",
         /* glsl */ `void main() {
+  // Buried surface (dry ground everywhere near): kill before ANY texture
+  // work. Also removes the "water sheets" that coarse far triangles between
+  // dry vertices used to stretch across valleys (owner round 1, defect 4).
+  if (vEsData.y <= 0.004) discard;
   vec2 esScreenUV = gl_FragCoord.xy / uResolution;
   ${variant === "above" ? /* glsl */ `
   float esFragEye = -(viewMatrix * vec4(vEsWorldPos, 1.0)).z;
@@ -372,7 +393,10 @@ float esDetStrength = (0.10 + 0.10 * vEsData.z + 0.05 * min(esSpeed, 1.0));
 vec2 esP1 = (vEsWorldPos.xz - esDrift * esPh1 * 4.0) * 0.55;
 vec2 esP2 = (vEsWorldPos.xz - esDrift * esPh2 * 4.0) * 0.55;
 vec2 esG = mix(esDetailGrad(esP1, vec2(0.0)), esDetailGrad(esP2, vec2(0.0)), esPhB);
-vec2 esGF = esDetailGrad(vEsWorldPos.xz * 2.3 + 17.0, vec2(0.11, 0.07) * uWaveTime) * esDetFade * 0.5;
+// the fine capillary cascade only exists near the camera
+vec2 esGF = esDetFade > 0.02
+  ? esDetailGrad(vEsWorldPos.xz * 2.3 + 17.0, vec2(0.11, 0.07) * uWaveTime) * esDetFade * 0.5
+  : vec2(0.0);
 vec3 esNW = normalize(vec3(
   esNBase.x - (esG.x + esGF.x) * esDetStrength,
   esNBase.y,
@@ -395,23 +419,29 @@ float esSceneEyeR = esEyeDepth(esRUV);
 if (esSceneEyeR < esFragEye) { esRUV = esScreenUV; esSceneEyeR = esSceneEye; }
 float esThick = max(esSceneEyeR - esFragEye, 0.0);
 float esColDepth = min(esThick, max(vEsData.y, 0.05) * 4.0);
-// Beer–Lambert: clear tropical sea → tannic blackwater by turbidity
-vec3 esAbsorb = mix(vec3(0.30, 0.10, 0.06), vec3(1.05, 1.55, 2.4), esTurb);
+// Beer–Lambert: clear tropical sea → tannic blackwater by turbidity.
+// Blackwater goes opaque within ~30 cm — the marsh must NOT read like the
+// coast (owner round 1, defect 11).
+vec3 esAbsorb = mix(vec3(0.30, 0.10, 0.06), vec3(2.4, 3.4, 4.8), esTurb);
 vec3 esT = exp(-esAbsorb * esColDepth);
 vec3 esAlbClear = mix(vec3(0.035, 0.115, 0.10), vec3(0.05, 0.14, 0.155), esSal);
-vec3 esAlb = mix(esAlbClear, vec3(0.085, 0.055, 0.026), esTurb);
-// Foam: shoreline lap + rapids churn + contact bodies
-float esFoamE = (1.0 - smoothstep(0.04, 1.3, esThick)) * 0.7;
+vec3 esAlb = mix(esAlbClear, vec3(0.11, 0.062, 0.024), esTurb * esTurb);
+// Foam: shoreline lap + rapids churn + wind-driven crests + contact bodies
+float esCrest = (vEsWorldPos.y / max(uVerticalScale, 1e-3)) - vEsData.x; // wave height above still water
+float esFoamE = (1.0 - smoothstep(0.04, 1.1, esThick)) * 0.55;
 esFoamE += smoothstep(0.3, 1.1, esSpeed) * (1.0 - smoothstep(4.0, 30.0, vEsData.w)) * 0.7;
+esFoamE += smoothstep(0.16, 0.34, esCrest) * vEsData.z * 0.8;   // whitecaps on exposed water
 esFoamE += esContactFoam(vEsWorldPos.xz);
+esFoamE = min(esFoamE, 1.0);
 float esFTex = esFbm(vEsWorldPos.xz * 0.55 - (vEsFlow + vec2(0.22, 0.18)) * uWaveTime * 0.4, 4);
-float esFThr = 1.0 - clamp(esFoamE, 0.0, 1.0);
-float esFoam = smoothstep(esFThr - 0.22, esFThr + 0.22, esFTex)
+float esFThr = 1.0 - esFoamE;
+float esFoam = smoothstep(esFThr - 0.18, esFThr + 0.26, esFTex)
              * smoothstep(0.0, 0.12, esFoamE);
-esFoam = clamp(esFoam, 0.0, 1.0) * 0.92;
+// always textured — never a solid sheet
+esFoam = clamp(esFoam, 0.0, 1.0) * (0.55 + 0.45 * esFbm(vEsWorldPos.xz * 1.9 + uWaveTime * 0.1, 3)) * 0.9;
 float esFoamShade = 0.72 + 0.36 * esFbm(vEsWorldPos.xz * 3.7, 3);
 diffuseColor.rgb = mix(esAlb * (1.0 - esT), vec3(0.92, 0.95, 0.97) * esFoamShade, esFoam);
-roughnessFactor = mix(clamp(0.06 + esTurb * 0.14 + min(esSpeed, 1.0) * 0.06, 0.0, 0.6), 0.85, esFoam);
+roughnessFactor = mix(clamp(0.05 + esTurb * 0.28 + min(esSpeed, 1.0) * 0.08, 0.0, 0.7), 0.85, esFoam);
 #include <emissivemap_fragment>`
           : /* glsl */ `
 float esTurb = vEsKlass.x;
@@ -428,10 +458,14 @@ float esFoam = 0.0;
 vec3 esView = normalize(cameraPosition - vEsWorldPos);
 vec3 esSpecEnv = reflectedLight.indirectSpecular;
 #ifdef ES_SSR
-{
+// bank/tree reflections matter up close; beyond ~1.2 km the PMREM sky term
+// carries the reflection alone (perf, owner round 1)
+if (esDist < 1200.0) {
   vec4 esS = esSsr(vEsWorldPos, reflect(-esView, esNW));
   float esFres = 0.02 + 0.98 * pow(1.0 - max(dot(esNW, esView), 0.0), 5.0);
-  esSpecEnv = mix(esSpecEnv, esS.rgb * esFres, clamp(esS.a, 0.0, 1.0) * uSsrStrength * (1.0 - esFoam));
+  float esSsrFade = 1.0 - smoothstep(800.0, 1200.0, esDist);
+  esSpecEnv = mix(esSpecEnv, esS.rgb * esFres,
+    clamp(esS.a, 0.0, 1.0) * uSsrStrength * esSsrFade * (1.0 - esFoam));
 }
 #endif
 float esFresT = 0.02 + 0.98 * pow(1.0 - max(dot(esNW, esView), 0.0), 5.0);

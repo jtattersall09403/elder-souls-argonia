@@ -17,6 +17,12 @@ export interface WaterWorldOptions {
   groundHeight?: (x: number, z: number) => number | null;
   /** Season scalar s(t) ∈ [−1..1] (world clock, or the studio wet toggle). */
   seasonScalar: () => number;
+  /** Wave-animation time in seconds. The world clock is often paused (the
+   * studio pins instants for reproducible URLs) but water must stay alive,
+   * so the app supplies its own always-running accumulator — the SAME one
+   * the renderer's uWaveTime uses, keeping buoyancy and pixels in lockstep.
+   * Defaults to world-clock seconds. */
+  waveTimeS?: () => number;
 }
 
 const CLASS_TEMPERATURE: Record<string, number> = {
@@ -71,7 +77,8 @@ export class WaterWorld implements WorldWaterQuery {
     }
 
     const exposure = waveExposure(s.shoreDistM, depth);
-    const w = surfaceWaveAt(position.x, position.z, epochMinutes * 60, exposure, this.scratch);
+    const waveTime = this.opts.waveTimeS?.() ?? epochMinutes * 60;
+    const w = surfaceWaveAt(position.x, position.z, waveTime, exposure, this.scratch);
     const surface = still + w.height;
     return {
       waterBodyId: s.className,

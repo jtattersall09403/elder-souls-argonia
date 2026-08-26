@@ -51,6 +51,7 @@ FREEBOARD = {1: 0.5, 2: 0.9, 3: 1.5}   # river surface = ambient bank - freeboar
 CARVE_DEPTH = {1: 1.4, 2: 2.6, 3: 4.2}  # refine_province.CHANNELS bed depths
 LAKE_DROP_M = 0.10            # lake surface sits just under the fill level
 LAKE_MIN_PX = 4               # ignore pit-noise "lakes" smaller than this
+MARSH_POOL_M = 0.12           # standing water table above smoothed marsh ground
 BURY_M = 3.0                  # dry ground carries W = ground - BURY_M
 TABLE_MAX_PX = 24             # how far the water table extends over floodable land
 FLOODABLE_HAND_M = 4.0        # hand < this counts as floodable fringe
@@ -139,6 +140,17 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     w[w < -1e8] = np.nan
     w = backwater(w, npz, filled)
 
+    # Marsh sheets (owner round 1): frequently-flooded wetland holds a thin
+    # standing water table just above the smoothed ground — the refined
+    # micro-relief then decides pool vs tussock, giving the Black Marsh
+    # puddle-scatter without flooding slopes.
+    pool = wetlands & (npz["flood"] >= 2) & np.isnan(w)
+    if pool.any():
+        ambient = ndimage.median_filter(z, size=5)
+        w_pool = (ambient + MARSH_POOL_M).astype(np.float32)
+        w = np.where(pool, np.fmax(np.nan_to_num(w, nan=-1e9), w_pool), w)
+        w[w < -1e8] = np.nan
+
     wet = ~np.isnan(w)
 
     # --- 2. classes -------------------------------------------------------
@@ -149,6 +161,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     cls[wet & riv] = CLASSES.index("river")
     cls[wet & big_lakes & ~sea] = CLASSES.index("lake")
     cls[wet & wetlands & ~riv & ~(salinity >= 0.3)] = CLASSES.index("marsh")
+    cls[wet & (cls == 0)] = CLASSES.index("marsh")   # salty wetland pools etc.
 
     turb = np.zeros(z.shape, dtype=np.float32)
     for name, t in TURBIDITY.items():

@@ -62,6 +62,15 @@ const SCENARIOS = [
     brightness: [0.2, 200],
   },
   {
+    // PointerLock fly camera (cam=fly is the default mode the owner uses):
+    // the render loop must keep advancing even without pointer lock — round-1
+    // defect 7 was fly view freezing.
+    id: "bay-noon-flycam",
+    q: "view=fly3d&cam=fly&x=6.16&z=5.07&ex=1&t=12:00&d=8-17&wq=high",
+    underwater: false,
+    brightness: [25, 235],
+  },
+  {
     id: "marsh-wet-season-fly",
     q: "view=fly3d&cam=orbit&x=1.50&z=5.28&ex=1&t=09:00&d=8-17&wet=1&wq=high",
     underwater: false,
@@ -125,6 +134,8 @@ try {
     await page.waitForTimeout(9_000);
     const dbg = await page.evaluate(() => window.__STUDIO_WATER_DEBUG__);
     const sky = await page.evaluate(() => window.__STUDIO_SKY_DEBUG__);
+    await page.waitForTimeout(5_000);
+    const dbg2 = await page.evaluate(() => window.__STUDIO_WATER_DEBUG__);
     const shot = path.join(artifacts, `water-${s.id}.png`);
     const buf = await page.screenshot({ path: shot, timeout: 180_000 });
     const brightness = await page.evaluate(async (b64) => {
@@ -169,6 +180,11 @@ try {
     else fail(`page errors: ${newErrs.slice(0, 3).join(" | ")}`);
     if (dbg && dbg.frames > 5) ok(`pipeline live (${dbg.frames} frames, tier ${dbg.tier})`);
     else fail("water pipeline never rendered");
+    // software GL can crawl at ~1 fps on heavy scenes — only a DEAD loop
+    // (zero new frames in 5 s) is a defect
+    if (dbg2 && dbg2.frames > dbg.frames + 1) ok(`render loop advancing (${dbg2.frames - dbg.frames} frames / 5 s)`);
+    else fail(`render loop stalled at frame ${dbg2?.frames} (was ${dbg?.frames})`);
+    if (dbg2?.contextLost) fail("WebGL context lost during scenario");
     if (s.tier && dbg.tier !== s.tier) fail(`tier ${dbg.tier} != ${s.tier}`);
     if (dbg.underwater === s.underwater) ok(`underwater=${dbg.underwater}`);
     else fail(`underwater ${dbg.underwater}, expected ${s.underwater}`);

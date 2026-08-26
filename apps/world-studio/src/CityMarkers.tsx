@@ -1,6 +1,8 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
+import { useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json";
+import { OVERLAY_LAYER } from "./water/waterMaterial";
 
 /**
  * City beacons + name labels above the terrain, shared by the flyover and
@@ -33,8 +35,18 @@ export function CityMarkers({ extentM, groundAt }: {
     });
   }, [extentM, groundAt]);
   useEffect(() => () => markers.forEach((m) => m.tex.dispose()), [markers]);
+  // Display-referred UI lives on the overlay layer: the water pipeline's
+  // tone-mapped blit would crush toneMapped:false gold to black (8b round 1),
+  // so the pipeline draws this layer in a final direct-to-screen pass. The
+  // camera keeps the layer enabled as a fallback if the pipeline is absent.
+  const { camera } = useThree();
+  const groupRef = useRef<THREE.Group>(null);
+  useEffect(() => {
+    camera.layers.enable(OVERLAY_LAYER);
+    groupRef.current?.traverse((o) => o.layers.set(OVERLAY_LAYER));
+  }, [camera, markers]);
   return (
-    <group>
+    <group ref={groupRef}>
       {markers.map((m) => (
         <group key={m.key} position={[m.x, m.ground, m.z]}>
           <mesh position={[0, 400, 0]}>
