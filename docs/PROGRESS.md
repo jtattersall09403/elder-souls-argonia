@@ -47,7 +47,7 @@ then open only the master-plan sections the active phase needs.
 | 9 — swimming, climbing, boats | todo | |
 | 10 — asset catalogue and kits | todo | |
 | 10b — full portable-sandbox parity in studio (was 7b; moved 2026-08-25, decision 0017) | todo | Scene orchestration extraction (§53), inventory/equipment UI, enemies/targeting, bow, combat-space probes against real kits. Deferred past the riskier world systems; must precede 11–13 |
-| S — stats, progression and character-systems **design** (parallel workstream, module 76; decision 0019) | in progress | This session: research packet (UESP formula trawl, Souls layer, mod-availability sweep) + mapping inventory → owner round 1 (batched). Run-book: module 76 §103.1 (self-contained — "deliver workstream S" is enough). Skeleton is owner-chosen: **Morrowind chassis, Souls combat layer** (§103.0) — the work is the mapping exercise (seams, Skyrim-item→chassis taxonomy, keep/drop by sourceable movesets, completeness sweep). Docs + owner decisions only, no code; **exactly two batched owner rounds**. Must conclude before 10c |
+| S — stats, progression and character-systems **design** (parallel workstream, module 76; decision 0019) | in progress | Research + mapping inventory done (docs/research/stats-progression-*, 4 docs); **owner round 1 presented 2026-08-26** (12 questions + accept/veto list, [owner-round1](research/stats-progression-owner-round1.md)) — blocked on owner answers. Then: detail axes in module 76 → numbers packet → tooling/stats-sim harness → round 2. Run-book: module 76 §103.1 (self-contained — "deliver workstream S" is enough). Skeleton is owner-chosen: **Morrowind chassis, Souls combat layer** (§103.0) — the work is the mapping exercise (seams, Skyrim-item→chassis taxonomy, keep/drop by sourceable movesets, completeness sweep). Docs + owner decisions only, no code; **exactly two batched owner rounds**. Must conclude before 10c |
 | 10c — stats and progression implementation (module 76; decision 0019) | todo | Implements workstream S in `packages/game-core`, wrapping today's tuning as the neutral baseline. After 10b, **before 11–13**: fixed danger (0004) means every enemy and every loot item is authored as an absolute number, so the scale must exist first |
 | 11 — causal locations and settlements | todo | |
 | 12 — dungeons and interiors | todo | |
@@ -62,6 +62,12 @@ then open only the master-plan sections the active phase needs.
   (fly + walk + underwater + wet season + crates; checklist given in chat
   2026-08-26). Owner also asked to re-review terrain feel (6b) once the
   water phases land — can be combined with this playtest.
+
+- **Workstream S owner round 1** — 12 batched stat-system decisions + 5
+  accept/veto findings, presented in chat 2026-08-26 and recorded in
+  [research/stats-progression-owner-round1.md](research/stats-progression-owner-round1.md)
+  (each has a recommendation; "accept all" is a valid answer). Any agent can
+  resume from module 76 §103.1 step 5 once answers are in.
 
 (There is no "next up" section: the first `todo` row above is what's next.
 Phase-ordering rationale lives in the plan §86, not here.)
