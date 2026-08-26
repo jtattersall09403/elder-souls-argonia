@@ -197,16 +197,19 @@ are the art; code chooses where the hands go.
 ### 74.4 Sound — sourced like everything else
 
 The no-new-art rule extends to audio: **we never record or synthesize source
-sounds; we source them** (module 57 §107). Priority order: (1) **vanilla
-Skyrim's sound library** — the Morthal tundra-marsh region set (frogs, insect
-beds, owls), full rain/thunder/water/wind and complete footstep-material sets;
-**the Skyrim Sounds BSA is not yet in the vault — extracting it is Phase 8d's
-first sourcing job**; (2) genuinely tropical gaps (jungle insect choruses,
-tropical frogs) fill from **royalty-free/CC0 libraries** (Sonniss GDC bundles,
-CC0-filtered Freesound) — licence-clean and approved as the gap-filler;
-(3) Skyrim *sound mods* (AOS, ISC, Sounds of Skyrim) are **design references
-only** — reserved permissions, often built on unsublicensable commercial
-libraries. Credits + hashes per §73. Research and candidate details:
+sounds; we source them** (module 57 §107). The pool (owner, decision 0023):
+(1) **vanilla Skyrim's sound library** — the Morthal tundra-marsh region set
+(frogs, insect beds, owls), full rain/thunder/water/wind and complete
+footstep-material sets; **the Sounds BSA is not yet in the vault — extracting
+it is Phase 12b's first sourcing job**; (2) **Skyrim sound mods** (Sounds of
+Skyrim, AOS, ISC families and similar) — their *sound assets* enter the
+catalogue with a credits entry, the same rule as meshes and clips (§71/§73);
+prefer packs that are the author's own work over visible repackages of
+commercial libraries, and vanilla where it's good enough; (3) genuinely
+tropical gaps (jungle insect choruses, tropical frogs) fill from
+**royalty-free/CC0 libraries** (Sonniss GDC bundles, CC0-filtered Freesound).
+Credits + hashes per §73 (root README Credits section). Research and candidate
+details:
 [research/ambient-audio-soundscape-threejs.md](../research/ambient-audio-soundscape-threejs.md).
 
 ## 75. High-priority architecture and settlement candidates
@@ -306,7 +309,7 @@ Creature assets provide models and animations. Habitat, behaviour, statistics, f
 8. Expand clutter, tools, fishing, ritual and market assets.
 9. Add specialised cave and bioluminescent assets.
 10. Extract the Skyrim Sounds BSA and assemble the tropical ambience set
-    (§74.4, Phase 8d).
+    (§74.4, Phase 12b).
 11. Fill gaps only after the reference watershed exposes them.
 
 ---

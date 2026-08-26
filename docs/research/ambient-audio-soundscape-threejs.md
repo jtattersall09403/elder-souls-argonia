@@ -268,6 +268,12 @@ silences between tracks) is the feel target. Nothing more needed this phase.
   sublicense. Treat them as **design references** (what to cover, chance
   tuning, region assignment fixes), not asset sources, unless we obtain
   explicit permission per pack.
+  - **Owner ruling (2026-08-26, decision 0023) softens this**: for this
+    personal fan project, mod sound packs join the normal sourcing pool with
+    a credits entry, the same rule as mesh/texture mods (§71/§73). The
+    finding above survives as a *preference*: favour packs that are the
+    author's own recordings/edits over visible repackages of commercial
+    libraries, and vanilla where it's good enough.
 - **CC0/royalty-free libraries are the right gap-filler for genuinely
   tropical content** Skyrim lacks (dense jungle insect choruses, tropical
   frog species, cicada walls, monkeys/exotic birds if wanted):

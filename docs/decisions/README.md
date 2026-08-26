@@ -25,4 +25,5 @@ record and marking the old one superseded — don't rewrite history.
 - [0019 — stats system: parallel design workstream S, implemented at Phase 10c](0019-stats-system-workstream-and-placement.md)
 - [0020 — Phase 8a implementation shape: engine-lit terrain, lux scale, authored sky constants](0020-phase8a-light-implementation-shape.md)
 - [0021 — Phase 8a owner-gate defects: root causes and fixes (CSM light leak, exposure, moons)](0021-phase8a-gate-defect-fixes.md)
-- [0022 — world-build gap audit: soundscape (new Phase 8d), vegetation density, navigation data](0022-world-build-gap-audit.md)
+- [0022 — world-build gap audit: soundscape, vegetation density, navigation data](0022-world-build-gap-audit.md)
+- [0023 — soundscape is polish-tier (8d → 12b); mod sound packs allowed; credits move to root README](0023-soundscape-polish-tier-and-credits.md)

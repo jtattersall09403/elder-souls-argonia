@@ -389,33 +389,6 @@ Deliverables:
   coupling, published through the environment query;
 - quality tiers as one declarative table (volumetrics high-tier only).
 
-### Phase 8d — the province soundscape (module 57; decision 0022)
-
-The world heard: region/time/weather ambience, water emitters, contact sound.
-Music (the score) is explicitly out of world-build scope.
-
-Deliverables:
-
-- extract the Skyrim Sounds BSA into the asset vault and convert the needed
-  sets through the pipeline (loop-safe encoding solved once, §107);
-- `AudioManager` (buses, unlock, crossfader, one-shot scheduler, ~24-voice
-  cap) on three.js `Audio`/`PositionalAudio` with `equalpower` panning;
-- region ambience beds + stochastic detail tables for the existing region
-  classes, driven by the world clock and climate fields (night-loud tropical
-  inversion, §106); sourcing gaps filled per §107 (Sonniss/CC0);
-- hydrology-derived positional emitters (rivers, rapids, shores);
-- acoustic-state stack: exterior / under-canopy / interior / underwater
-  (bus filters + synthesized reverb impulses);
-- footstep/impact wiring through the physical-material system (§54) — the
-  compiler bakes explicit surface materials; the no-op `combatAudio` stub is
-  replaced;
-- weather-audio layer if 8c has landed (else it ships with 8c);
-- studio tooling: audio layer in the reproducible URL, hot-reloadable sound
-  tables, voice-count/audio-memory probe;
-- **owner gate**: walk the same dawn→night route as the 8a gate, ears on —
-  region identity, day/night chorus flip, underwater transformation,
-  soundscape density (a taste call: Morrowind-sparse vs jungle wall-of-sound).
-
 ### Phase 9 — swimming, climbing and boats
 
 **This phase extends the existing character stack; it does not build a parallel
@@ -585,6 +558,39 @@ Deliverables:
   archive/tunnels, Lilmoth Tidal Palace heist complex, the two optional
   Eye-route chains, and the **Lost City reserved in the deep basin beyond
   Helstrom** (near-final D5 complex; quests 30).
+
+### Phase 12b — the province soundscape (module 57; decision 0022, re-sequenced by 0023)
+
+The world heard: region/time/weather ambience, water emitters, contact sound.
+Music (the score) is explicitly out of world-build scope. **Owner steer
+(0023): sound is polish-tier** — nothing riskier waits on it, and it sits
+here, after the genuinely uncertain systems (water, traversal, vegetation,
+kits), as the last step before Phase 13 authors creature calls and settlement
+ambience into its tables. It needs only Phase 8a's clock and may be pulled
+earlier if the queue allows.
+
+Deliverables:
+
+- extract the Skyrim Sounds BSA into the asset vault and convert the needed
+  sets through the pipeline (loop-safe encoding solved once, §107);
+- `AudioManager` (buses, unlock, crossfader, one-shot scheduler, ~24-voice
+  cap) on three.js `Audio`/`PositionalAudio` with `equalpower` panning;
+- region ambience beds + stochastic detail tables for the existing region
+  classes, driven by the world clock and climate fields (night-loud tropical
+  inversion, §106); sourcing gaps filled per §107 (mod packs with credits,
+  Sonniss/CC0);
+- hydrology-derived positional emitters (rivers, rapids, shores);
+- acoustic-state stack: exterior / under-canopy / interior / underwater
+  (bus filters + synthesized reverb impulses);
+- footstep/impact wiring through the physical-material system (§54) — the
+  compiler bakes explicit surface materials; the no-op `combatAudio` stub is
+  replaced;
+- the 8c weather states gain their audio layer (rain beds, thunder, gusts);
+- studio tooling: audio layer in the reproducible URL, hot-reloadable sound
+  tables, voice-count/audio-memory probe;
+- **owner gate**: walk a dawn→night route, ears on — region identity,
+  day/night chorus flip, underwater transformation, soundscape density (a
+  taste call: Morrowind-sparse vs jungle wall-of-sound).
 
 ### Phase 13 — ecology, encounters and fixed loot
 

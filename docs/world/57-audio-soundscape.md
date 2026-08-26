@@ -26,9 +26,12 @@ exists to answer. Two rules, exactly parallel to light (§93):
    classes, climate fields, world clock and weather states that drive light and
    palettes — one source, many consumers (00-core rule 3). No hand-placed
    one-off ambience except as an authored override layer.
-2. **From Phase 8d onward, no settlement, dungeon or region identity is
-   approved silent.** Owner gates from Phase 11 on review places under the
-   light of their hour *and* the sound of their region, time and weather.
+2. **But sound is polish-tier, not a gate** (owner, decision 0023 —
+   re-sequencing the earlier 0022 stance): unlike light, nothing visual is
+   blocked on it, and place approvals before Phase 12b may run silent. The
+   hard requirement is only that the audio layer exists before **Phase 13**
+   authors creature calls and settlement ambience; *final* regional
+   acceptance (Phase 15 packets) reviews places with their sound.
 
 Sound obeys fixed difficulty (0004): night choruses, storm noise and creature
 calls are world state on the calendar, never scaled to the player. Audibility
@@ -78,17 +81,21 @@ gating and variant sets:
   (howler.js inactive and duplicates the graph; Resonance dormant) — verdicts
   and citations in the research doc.
 - **Sourcing follows the no-new-art rule, extended to audio: we never record
-  or synthesize source sounds; we source them.** Priority order: (1) vanilla
-  Skyrim's sound library — the Morthal tundra-marsh region set (frogs, insect
-  beds, owls), full rain/thunder/water/wind and the complete footstep-material
-  sets; **the Skyrim Sounds BSA is not yet in the asset vault — extracting it
-  is the first sourcing job of Phase 8d**; (2) genuinely tropical gaps (jungle
-  insect choruses, tropical frogs) fill from **royalty-free/CC0 libraries**
-  (Sonniss GDC bundles, CC0-filtered Freesound) — unlike meshes, the
-  high-quality free-sound world is licence-clean, so this is the approved
-  gap-filler; (3) Skyrim *sound mods* (AOS/ISC/Sounds of Skyrim) are design
-  references only — their permissions are reserved and their sources often
-  unsublicensable. Credits and hashes per §73, as for any asset.
+  or synthesize source sounds; we source them.** The pool (owner, 0023 —
+  sound mods are in it, credited like any other mod source, per the standard
+  §71/§73 rule): (1) vanilla Skyrim's sound library — the Morthal
+  tundra-marsh region set (frogs, insect beds, owls), full
+  rain/thunder/water/wind and the complete footstep-material sets; **the
+  Skyrim Sounds BSA is not yet in the asset vault — extracting it is Phase
+  12b's first sourcing job**; (2) **Skyrim sound mods** (e.g. Sounds of
+  Skyrim, AOS, ISC families) — take their *sound assets* with a credits
+  entry, exactly as we take meshes and clips; prefer packs that are the
+  author's own recordings/edits over ones that visibly repackage commercial
+  libraries, and prefer vanilla where it's good enough; (3) genuinely
+  tropical gaps (jungle insect choruses, tropical frogs) fill from
+  **royalty-free/CC0 libraries** (Sonniss GDC bundles, CC0-filtered
+  Freesound) — high-quality and licence-clean. Credits and hashes per §73,
+  recorded in the root README's Credits section.
 - **Pipeline**: sounds convert once (fuz/xwm → web codecs); seamless-loop
   integrity after Opus encoding (codec padding clicks) is solved in the
   pipeline, not per-asset. Budgets: mid-tier devices, ~24 simultaneous voices,
@@ -96,28 +103,32 @@ gating and variant sets:
 
 ## 108. Tiers, sequencing, acceptance
 
-**Tier 1 — Phase 8d (after 8a; the weather-audio slice lands with/after 8c):**
+**Tier 1 — Phase 12b** (was 8d; re-sequenced by decision 0023 — sound is
+polish next to the riskier unknowns, so it runs after water/traversal/
+vegetation/kits and immediately before the phase that consumes it; it needs
+only 8a's clock and may be pulled earlier if the queue allows):
 AudioManager + buses + unlock; region ambience beds and detail tables for the
 existing region classes, driven by clock and climate fields; hydrology-derived
 water emitters; acoustic-state stack including underwater; footstep/impact
-material wiring; weather audio if 8c has landed (else it lands with 8c);
+material wiring; the 8c weather states gain their audio layer;
 studio tooling — an audio layer in the reproducible URL, sound-table
 hot-reload for tuning by ear, and a voice-count/audio-memory probe.
 
-**Tier 2 — Phases 11/13:** settlement ambience profiles (lantern-island
-night, dock work, market crowds as beds not actors), creature calls authored
-with ecology (night hunting calls as danger telegraphs, §27), Hist sites'
-low-frequency signature (§20.4), interior profiles per cell (Phase 12).
+**Tier 2 — Phase 13 (+ retrofits):** settlement ambience profiles
+(lantern-island night, dock work, market crowds as beds not actors) retrofit
+onto the Phase 11 settlements, creature calls authored with ecology (night
+hunting calls as danger telegraphs, §27), Hist sites' low-frequency signature
+(§20.4), interior profiles per cell (Phase 12's dungeons).
 
 **Owner gates:** soundscape density is a taste decision (Morrowind-sparse vs
-jungle wall-of-sound) — tuned by ear in the studio at the 8d gate; and from
-Phase 11 onward place-approval includes the place's sound.
+jungle wall-of-sound) — tuned by ear in the studio at the 12b gate; final
+regional acceptance (Phase 15 packets) reviews places with their sound.
 
 **Acceptance (binding):** region/time/weather ambience derives from the same
 fields as light — same instant, same region → same soundscape; night is
 audibly different from day and the deep marsh from the fringe; submerging
-audibly transforms the world; contact sounds follow physical materials; no
-place approved silent from Phase 8d on; runs inside the voice/memory budget on
-mid devices.
+audibly transforms the world; contact sounds follow physical materials; the
+audio layer exists before Phase 13 authors against it; runs inside the
+voice/memory budget on mid devices.
 
 ---

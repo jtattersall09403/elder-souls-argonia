@@ -1,6 +1,11 @@
 # 0022 — World-build plan gap audit: soundscape, vegetation density, navigation data
 
-**Date**: 2026-08-26 · **Status**: accepted (owner goal 2026-08-26: after the
+**Date**: 2026-08-26 · **Status**: accepted; **amended same day by
+[0023](0023-soundscape-polish-tier-and-credits.md)** (soundscape re-sequenced
+8d → 12b as polish-tier; mod sound packs allowed as sources; credits moved to
+the root README). Phase-8d references below are superseded.
+
+(Owner goal 2026-08-26: after the
 lighting/weather gap (0016), audit the plan for other world-build gaps and fill
 them the same way — research how comparable games and Morrowind/Skyrim/Oblivion
 do it, find known-good three.js implementations, integrate into the plan)

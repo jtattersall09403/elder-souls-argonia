@@ -89,8 +89,8 @@ waterways connect real needs; historical layers stay distinguishable.
 **Gameplay:** no player-level scaling anywhere; deep areas stay fixed high
 danger; darkness, weather and tides are calendared world state and no visual
 work is approved under placeholder light (Module 55); the soundscape derives
-from the same region/clock/weather data and no place is approved silent from
-Phase 8d (Module 57); swimming/breath/climbing/boats create access progression; Argonian
+from the same region/clock/weather data — polish-tier, landing at Phase 12b
+before ecology authors against it (Module 57, decision 0023); swimming/breath/climbing/boats create access progression; Argonian
 physiology materially changes underwater play; underwater POIs throughout
 appropriate regions; large logical surfaces climbable by default; combat
 spaces and critical-animation clearance validated.
@@ -114,10 +114,10 @@ reproducible pipeline builds.
 3 hydrology+regions · 4 danger/cultures/transport · 5 World Studio ·
 6 province terrain · 6b rescale+mountain relief+naturalness (0015, after 7a) ·
 7a physical character · 8a world time/natural light/sky (0016) ·
-8b water renderer · 8c weather/atmosphere · 8d province soundscape (0022) ·
-9 swim/climb/boats ·
+8b water renderer · 8c weather/atmosphere · 9 swim/climb/boats ·
 10 asset catalogue+kits · 10b full sandbox parity in studio (was 7b, 0017) ·
 10c stats+progression (0019; design workstream S runs in parallel from now) ·
 11 causal locations+settlements ·
-12 dungeons+interiors · 13 ecology/encounters/loot · 14 streaming+deploy ·
+12 dungeons+interiors · 12b province soundscape (0022/0023, was 8d) ·
+13 ecology/encounters/loot · 14 streaming+deploy ·
 15 expansion by watershed. Statuses live only in PROGRESS.md.
