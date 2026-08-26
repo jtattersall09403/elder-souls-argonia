@@ -99,6 +99,33 @@ export interface WaterSample {
   hazardIds: string[];
 }
 
+export type WaterInteractionKind = "enter" | "exit" | "splash" | "wake" | "submerge";
+
+/** A disturbance of the water surface (module 60 §38) — swimmers, boats,
+ * falling objects. The renderer turns these into contact foam/ripples; audio
+ * (Phase 12b) and AI perception may subscribe later. */
+export interface WaterInteractionEvent {
+  kind: WaterInteractionKind;
+  position: Vec3;
+  velocity?: Vec3;
+  /** Characteristic radius of the disturbance, metres. */
+  radius?: number;
+  /** Impact-strength proxy (≈ mass × speed) for splash/foam scaling. */
+  magnitude?: number;
+  actorId?: string;
+}
+
+/**
+ * The one authoritative gameplay-facing water model (module 60 §38): Rapier,
+ * locomotion and AI sample this on the CPU; the renderer consumes the same
+ * hydrology/wave/interaction data so what you see is what you float on.
+ * `epochMinutes` is world-clock time (`@elder-souls/world-time`).
+ */
+export interface WorldWaterQuery {
+  sample(position: Vec3, epochMinutes: number): WaterSample;
+  emitInteraction(event: WaterInteractionEvent): void;
+}
+
 /**
  * World time and natural light at a position (module 55 §94/§97): time-of-day
  * is a gameplay contract — night changes visibility, AI perception and danger
