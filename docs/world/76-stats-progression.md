@@ -249,7 +249,10 @@ drip-fed. Every question is self-contained — options A/B/C in plain
 non-technical language, one recommendation the owner can simply accept, what
 it costs elsewhere in one line. Minor calls are **never questions**: decide
 them yourself and record them as *proposed defaults* the owner can veto at
-round 2. Record accepted answers as decision records (format precedent:
+round 2. If simulation or research surfaces a genuine **taste-level fork**
+(not a technical call), a small extra batch of high-level questions is
+acceptable — few, batched, never drip-fed. Record accepted answers as
+decision records (format precedent:
 `world/sources/lore/extrapolation/owner-questions.md`).
 
 1. **Set the PROGRESS row `S` to `in progress`** with your current packet, and
@@ -259,9 +262,13 @@ round 2. Record accepted answers as decision records (format precedent:
    enchant capacity), the Souls layer's mechanics, known failure modes of
    each, **and the mod-scene availability sweep for Morrowind-only item
    categories** (start from the verified leads in §103.0; verify, don't
-   trust). Record in `docs/research/` (suggested:
-   `stats-progression-reference-games.md`) — findings and *implications for
-   us*, not a wiki dump.
+   trust). "How Morrowind actually works" means **trawling UESP hard, beyond
+   what our dossiers hold**: UESP documents Morrowind's *real formulas*
+   (combat hit chance, attribute and skill effects, levelling multipliers,
+   fatigue's global modifier) and full item stat tables — mine them, cite
+   page names, respect the lore-rule API etiquette (CLAUDE.md). Record in
+   `docs/research/` (suggested: `stats-progression-reference-games.md`) —
+   findings and *implications for us*, not a wiki dump.
 3. **Mapping inventory — do not detail axes yet.** The skeleton is given
    (§103.0). Stress-test it briefly, then enumerate every seam and mapping
    decision it creates: the chassis↔layer seams, the item-mapping and
@@ -282,16 +289,35 @@ round 2. Record accepted answers as decision records (format precedent:
 6. **Numbers packet.** The absolute power ladder (what D0–D5 means), the
    progression curve, worked examples: a starting character, a competent
    mid-game one, a god-build, and three enemy archetypes restated.
-7. **Owner round 2 — confirmation.** The assembled design, the numbers, the
-   worked examples and the full list of proposed defaults, reviewed in one
-   sitting; fold any genuinely remaining questions into this round.
-8. **Done when**: every axis is decided or default-accepted, the §103
+7. **Balance simulation packet (owner requirement, 2026-08-26).** Before
+   asking the owner to confirm, prove the numbers in bulk with a small
+   **standalone, data-only simulation harness** (suggested
+   `tooling/stats-sim/`): it reads the proposed stat/item/enemy tables and
+   sweeps matchup matrices — player builds × levels × gear tiers × enemy
+   archetypes × D0–D5 bands — asserting the design's invariants over a
+   *large sample* of variations, not hand-picked cases. Core invariant class
+   (owner's example): a high-level NPC in high-level gear must OHKO or
+   near-OHKO low-level player builds and take negligible damage from them.
+   Think beyond combat: encumbrance extremes and roll tiers; breath/swim
+   margins against authored underwater distances; economy, barter and
+   training costs; alchemy/enchant stacking loops (find the degenerate ones,
+   then classify each as Morrowind-charm or breakage per §102); progression
+   pacing (time-to-competence per axis). Report every anomaly with the
+   parameter set that produced it; fix or explicitly accept each.
+8. **Owner round 2 — confirmation.** The assembled design, the numbers, the
+   simulation findings and worked examples, plus the full list of proposed
+   defaults, reviewed in one sitting; fold any genuinely remaining questions
+   into this round.
+9. **Done when**: every axis is decided or default-accepted, the §103
    cross-checks pass, and Phase 10c could be implemented by an agent reading
    only this module and the decisions. Flip the PROGRESS row to `done`.
 
-**Code is out of scope.** Workstream S is docs and decisions; implementation is
-Phase 10c and must not start early — it would land in the same files as Phase
-10b's extraction work.
+**Game code is out of scope.** Workstream S is docs and decisions;
+implementation is Phase 10c and must not start early — it would land in the
+same files as Phase 10b's extraction work. **One exception**: the step-7
+simulation harness — a standalone data-in/report-out tool that touches no
+game package. At 10c its invariants are ported as standing tests against the
+implemented system.
 
 ## 104. Phase 10c — implementation
 
@@ -313,6 +339,10 @@ same data. Then:
   absolute numbers into it);
 - character-sheet UI in the studio and the sandbox;
 - enemy archetypes restated on the new scale;
+- **the workstream's simulation invariants become standing tests**: the
+  balance harness's matchup/edge-case expectations (§103.1 step 7) re-run
+  against the *implemented* system, so later tuning and content authoring
+  can't silently break the balance envelope;
 - the power ladder documented for Phase 13 authors.
 
 Sequenced after 10b (parity) and **before Phase 11**: settlements, dungeons and

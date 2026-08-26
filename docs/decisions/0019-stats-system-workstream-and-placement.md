@@ -94,6 +94,16 @@ thought to ask about — including which Skyrim innovations merit keeping
 both swim speed and breath capacity for non-Argonians; Argonians breathe
 underwater). Round 1 presents mapping decisions, not a shape choice.
 
+**Third amendment (owner, 2026-08-26):** the research packet must trawl UESP's
+documented Morrowind *formulas* beyond our dossiers; and a **data-only balance
+simulation harness** is required before owner round 2 — matchup matrices
+(builds × levels × gear × archetypes × danger bands) asserting invariants such
+as "high-level NPC in high-level gear OHKOs low-level builds", plus non-combat
+edge cases (encumbrance, breath/swim margins, economy, stacking loops). The
+harness is the one code exception (standalone tooling, no game packages); its
+invariants become standing tests at 10c. Simulation-surfaced *taste* forks may
+add one small extra batch of owner questions.
+
 ## How to start it
 
 Workstream S is startable from a single instruction ("kick off workstream S"):
