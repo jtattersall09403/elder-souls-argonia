@@ -104,6 +104,14 @@ harness is the one code exception (standalone tooling, no game packages); its
 invariants become standing tests at 10c. Simulation-surfaced *taste* forks may
 add one small extra batch of owner questions.
 
+**Fourth amendment (owner, 2026-08-26): semantic authoring, compiled
+absolutes.** Content stats are authored as references to the power ladder
+(band + relative position + variant modifiers), compiled to absolute numbers —
+not hand-written literals — so curve retunes rebalance all content without
+re-authoring; literal overrides remain for uniques. Fixed danger (0004) holds:
+derivation reads world data only, never player state. The authoring schema is
+a workstream S design axis (module 76 §103).
+
 ## How to start it
 
 Workstream S is startable from a single instruction ("kick off workstream S"):

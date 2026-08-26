@@ -220,6 +220,7 @@ Record findings in `docs/research/` before deciding.
 | Races | What each race actually changes (and Argonian water/disease canon) |
 | Birthsigns | Deferred content, but the hook and slot shape decided now |
 | Enemy scale | The absolute power ladder D0–D5 maps onto (fixed danger) |
+| Authoring model | **How Phase 11/13 authors write stats** (owner direction 2026-08-26): semantic references to the ladder — band + relative position + variant modifiers ("strong D3 swamp troll"), *compiled* to absolute numbers — rather than literal hand-written values, so retuning the underlying curves rebalances all content without re-authoring it. Literal overrides stay as the exception for uniques. Design the schema |
 | Death/loss | What is lost on death; how that interacts with fixed danger |
 
 **Cross-checks before the design is accepted**: it satisfies §102; it can express
@@ -334,9 +335,14 @@ same data. Then:
 - capability profiles regenerate from the stat system, and the world's
   traversal/validation probes still pass (§52);
 - **the NPC/enemy stat data model ships alongside the player's**: every NPC,
-  enemy, follower and merchant carries the same stat schema plus a level,
-  as authorable data (fixed danger, 0004 — Phase 11/13 authors write
-  absolute numbers into it);
+  enemy, follower and merchant carries the same stat schema plus a level, as
+  authorable data. Authoring is **semantic, compiled to absolutes** (the
+  authoring-model axis): authors write ladder positions ("strong D3"), the
+  compiler emits the fixed numbers. Fixed danger (0004) is untouched —
+  derivation reads world data only, never player state, so the world's
+  numbers are as fixed as ever; they are just *derived* rather than
+  hand-copied, and a curve retune + recompile + sim re-run rebalances
+  everything coherently;
 - character-sheet UI in the studio and the sandbox;
 - enemy archetypes restated on the new scale;
 - **the workstream's simulation invariants become standing tests**: the
