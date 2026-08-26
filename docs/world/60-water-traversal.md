@@ -209,6 +209,12 @@ Capability fields include:
 
 Argonian racial physiology can set underwater breathing independently of other swimming statistics. Spells can modify breathing, speed, current resistance and visibility.
 
+**Owner steer (2026-08-26, module 76 §103):** athletics (or its equivalent in
+the decided stat design) governs **swim speed** (Morrowind canon) **and breath
+capacity for non-Argonians**; Argonians breathe underwater outright. Phase 9
+should wire swim speed and breath through the capability profile so the stat
+system can drive them at 10c without rework.
+
 ## 44. Underwater is a complete exploration layer
 
 Underwater content should have its own graph:

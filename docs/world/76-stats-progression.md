@@ -307,6 +307,10 @@ same data. Then:
   designed and is not treated as drift;
 - capability profiles regenerate from the stat system, and the world's
   traversal/validation probes still pass (§52);
+- **the NPC/enemy stat data model ships alongside the player's**: every NPC,
+  enemy, follower and merchant carries the same stat schema plus a level,
+  as authorable data (fixed danger, 0004 — Phase 11/13 authors write
+  absolute numbers into it);
 - character-sheet UI in the studio and the sandbox;
 - enemy archetypes restated on the new scale;
 - the power ladder documented for Phase 13 authors.
