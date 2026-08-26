@@ -216,3 +216,11 @@ defects lived entirely in its own canvas wiring.
   sky itself — warm light against a blue sky is the real-world contrast.
 - **Star density slider** (panel, value + count shown): 13 200-star seeded
   pool, default ×1 ≈ 6 600 shown (double round 5), range up to the full pool.
+
+## Round 8 (owner, same day) — CLOSED, phase 8a PASS
+
+Owner-locked defaults, applied without a further test round (owner's call):
+warmth **1.0**; star density **×0.5 ≈ 3 300** background stars (sliders stay
+for future tuning). Stars-through-moons fixed: moons draw before the stars
+and WRITE depth (they sit at 26 000 vs the stars' 28 000), so star fragments
+behind a disc fail the depth test. Phase 8a approved on the deployed build.
