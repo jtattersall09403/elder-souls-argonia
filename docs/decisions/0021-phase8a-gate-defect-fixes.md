@@ -198,3 +198,21 @@ defects lived entirely in its own canvas wiring.
 - **CityMarkers shared** (`src/CityMarkers.tsx`): now also in walk mode
   behind an on-by-default "markers" checkbox. **Top bars** stop 360 px short
   of the fixed time panel (compass was hidden under it).
+
+## Round 7 (owner, same day)
+
+- **Night inversion fixed**: the night dome is now authored in SCREEN-linear
+  terms and divided by the moon-driven night exposure — before, the higher
+  moonless exposure ceiling made a moonless SKY render brighter than a
+  moonlit one. Moonlit sky ≈ 1.7× moonless, by construction.
+- **Twilight land floor**: the hemisphere night floor is exposure-anchored
+  (× nightBoost, gated in over 2–7° sun depression) so the ground reaches
+  its readable night level as soon as dusk sets in — a constant-lux floor
+  left just-after-sunset land pitch black while the exposure climbed.
+  Moonless floor raised to 0.11 lx.
+- **Warmth slider strengthened** (rounds 6→7): now warms the sunlight at
+  EVERY altitude (sunrise/sunset deepen too), plus the sun's disc/halo via
+  turbidity; value shown on the panel. Scope deliberately excludes the blue
+  sky itself — warm light against a blue sky is the real-world contrast.
+- **Star density slider** (panel, value + count shown): 13 200-star seeded
+  pool, default ×1 ≈ 6 600 shown (double round 5), range up to the full pool.

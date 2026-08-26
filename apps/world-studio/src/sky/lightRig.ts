@@ -177,11 +177,18 @@ export function computeLightRig(
   // concentrates near the horizon, per the measured CCT curve (round 3: the
   // light's tone must visibly warm through the day, not just the sky's).
   const warmth = smoothstep(10, 42, altDeg);
-  const highSun = mix3(NOON_SUN, GOLDEN_SUN, 0.55 * warmthBias);
-  const sunColor =
+  const highSun = mix3(NOON_SUN, GOLDEN_SUN, 0.9 * warmthBias);
+  const rampColor =
     altDeg < 10
       ? mix3(HORIZON_SUN, GOLDEN_SUN, smoothstep(-1, 10, altDeg))
       : mix3(GOLDEN_SUN, highSun, warmth);
+  // Whole-day warm tint (round 7): the slider warms the sunlight at EVERY
+  // altitude — sunrise and sunset deepen along with midday.
+  const sunColor = mix3(
+    rampColor,
+    [rampColor[0], rampColor[1] * 0.86, rampColor[2] * 0.62],
+    warmthBias,
+  );
   const aboveHorizon = smoothstep(-1.5, 0.5, altDeg);
   const sunIntensity = (100_000 * Math.pow(sinAlt, 1.15) + 350 * aboveHorizon) * aboveHorizon;
 
@@ -223,18 +230,32 @@ export function computeLightRig(
   // Low-sun boost: the longer optical path reddens the DISC and its
   // circumsolar glow through the Preetham model itself (round 3: the sun's
   // own colour must transition through the day, not just the sky's).
-  const turbidity = 1.8 + 2.7 * h * h + 3.2 * (1 - smoothstep(2, 25, altDeg));
+  // + warmth term (round 7): the slider also warms the sun's disc/halo and
+  // (via the IBL) the ambient — the disc must match its own light.
+  const turbidity =
+    1.8 + 2.7 * h * h + 3.2 * (1 - smoothstep(2, 25, altDeg)) + 0.9 * warmthBias;
   const mieCoefficient = 0.005;
+
+  // Night dome/stars are authored against the FULL-NIGHT exposure; this
+  // boost keeps their screen brightness constant while the twilight exposure
+  // is still far below it (round-4/5 "pitch black before starlight" gap).
+  const nightExposure = nightExposureOf(moonIntensity);
+  const nightBoost = Math.max(1, nightExposure / exposureTarget);
 
   // Hemisphere ambient: a SUPPLEMENT (regional ground bounce + night floor),
   // NOT a second sky — the PMREM sky IBL is the one ambient authority, and a
   // full-strength hemisphere on top double-counts it, flattening all shading
   // and overexposing twilight (owner gate defect 2026-08-25).
   const daylight = smoothstep(-6, 12, altDeg);
-  // Night floor ≈ starlight+airglow, deliberately generous (raised round 6):
-  // with the exposure ceiling it keeps a moonless marsh readable — an
-  // authored gameplay floor, not physics.
-  const hemiIntensity = 2_000 * daylight + 0.1 * masser.illuminatedFraction + 0.09;
+  // Night/twilight LAND floor (round 7): exposure-anchored via nightBoost so
+  // the ground reaches its readable night level as soon as dusk sets in —
+  // previously the floor lux was constant, so just-after-sunset land was
+  // pitch black until the exposure finished climbing. Gated in over 2–7° of
+  // sun depression; at full night the boost is 1 and this is a plain 0.11 lx
+  // authored gameplay floor (torches stay a luxury, not a necessity).
+  const duskGate = smoothstep(2, 7, -altDeg);
+  const hemiIntensity =
+    2_000 * daylight + 0.1 * masser.illuminatedFraction + 0.11 * duskGate * nightBoost + 0.02;
 
   // Radiation ground mist pools at dawn (and lightly at dusk) and is a
   // dry/recession-season phenomenon (climatology §2): mist peaks when s(t) < 0.
@@ -264,20 +285,27 @@ export function computeLightRig(
     hazeSky[2] * skyE * 0.1,
   ];
 
-  // Night dome: moonlit sky reads pale over black canopy; moonless nights are
-  // deep blue with a zenith→horizon airglow gradient — the real night sky is
-  // never flat black (§96; owner round 2), but deep, not washed (round 3:
-  // darkened ~×0.55). Bases sized against the night exposure (≤14).
+  // Night dome, authored in SCREEN-linear terms and divided by the night
+  // exposure (round 7): the screen brightness a night sky renders at is the
+  // author's number here, independent of the moon-driven exposure — before
+  // this, the moonless exposure ceiling (higher than moonlit) made a
+  // MOONLESS sky render BRIGHTER than a moonlit one (owner: inverted).
+  // Moonlit sky ≈ 1.7× a moonless one, pale moonlight blue.
   const moonGlow = masser.illuminatedFraction * Math.sqrt(moonUp);
+  const zenithScreen: [number, number, number] = [
+    0.008 + 0.014 * moonGlow * MOONLIGHT[0],
+    0.012 + 0.014 * moonGlow * MOONLIGHT[1],
+    0.021 + 0.014 * moonGlow * MOONLIGHT[2],
+  ];
   const nightZenith: [number, number, number] = [
-    0.0016 + 0.004 * moonGlow * MOONLIGHT[0],
-    0.0025 + 0.004 * moonGlow * MOONLIGHT[1],
-    0.005 + 0.005 * moonGlow * MOONLIGHT[2],
+    zenithScreen[0] / nightExposure,
+    zenithScreen[1] / nightExposure,
+    zenithScreen[2] / nightExposure,
   ];
   const nightHorizon: [number, number, number] = [
-    nightZenith[0] * 2.0 + 0.0022,
-    nightZenith[1] * 1.9 + 0.0019,
-    nightZenith[2] * 1.7 + 0.0017,
+    (zenithScreen[0] * 1.85 + 0.004) / nightExposure,
+    (zenithScreen[1] * 1.8 + 0.0035) / nightExposure,
+    (zenithScreen[2] * 1.65 + 0.003) / nightExposure,
   ];
 
   // Twilight glow (owner round 3): the authored night dome is otherwise
@@ -311,12 +339,6 @@ export function computeLightRig(
     hazeAmbient[1] * 4 + hazeSunLight[1] * 0.015 + nightHorizon[1] * 2,
     hazeAmbient[2] * 4 + hazeSunLight[2] * 0.015 + nightHorizon[2] * 2,
   ];
-
-  // Night dome/stars are authored against the FULL-NIGHT exposure; this
-  // boost keeps their screen brightness constant while the twilight exposure
-  // is still far below it (root cause of the round-4/5 "pitch black between
-  // sunset and starlight" window). ≥1; at night it is exactly 1.
-  const nightBoost = Math.max(1, nightExposureOf(moonIntensity) / exposureTarget);
 
   // Dome brightness is PINNED BY CONSTRUCTION (round 5): evaluate the
   // Preetham model (CPU port) at reference mid-sky directions and normalise

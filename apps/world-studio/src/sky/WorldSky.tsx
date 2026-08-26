@@ -215,6 +215,20 @@ interface FlatStar {
   ra: number; // radians
   dec: number;
   mag: number;
+  /** Density rank 0..1: the star shows when rank ≤ the density uniform.
+   * Authored constellation stars are 0 (always shown). */
+  rank: number;
+}
+
+/** Background-star pool size; the density slider reveals a fraction of it.
+ * Default multiplier 1 shows half the pool (≈ double round 5's count). */
+export const STAR_POOL = 13_200;
+let starDensityMult = 1;
+export function setStarDensityMult(v: number): void {
+  starDensityMult = Math.min(2, Math.max(0.1, v));
+}
+export function getStarDensityMult(): number {
+  return starDensityMult;
 }
 
 function flattenCatalogue(): FlatStar[] {
@@ -222,7 +236,7 @@ function flattenCatalogue(): FlatStar[] {
   for (const c of catalogue.constellations) {
     const cosDec = Math.max(0.2, Math.cos(c.decDeg * DEG));
     for (const [dRa, dDec, mag] of c.stars as [number, number, number][]) {
-      out.push({ ra: (c.raDeg + dRa / cosDec) * DEG, dec: (c.decDeg + dDec) * DEG, mag });
+      out.push({ ra: (c.raDeg + dRa / cosDec) * DEG, dec: (c.decDeg + dDec) * DEG, mag, rank: 0 });
     }
     const p = (c as { planet?: { dRaDeg: number; dDecDeg: number; magnitude: number } }).planet;
     if (p) {
@@ -230,6 +244,7 @@ function flattenCatalogue(): FlatStar[] {
         ra: (c.raDeg + p.dRaDeg / cosDec) * DEG,
         dec: (c.decDeg + p.dDecDeg) * DEG,
         mag: p.magnitude,
+        rank: 0,
       });
     }
   }
@@ -237,6 +252,7 @@ function flattenCatalogue(): FlatStar[] {
     ra: catalogue.poleStar.raDeg * DEG,
     dec: catalogue.poleStar.decDeg * DEG,
     mag: catalogue.poleStar.magnitude,
+    rank: 0,
   });
   // Background field (owner round 3, count raised rounds 4–5): the sky
   // between the thirteen authored constellations must not be empty. Faint
@@ -248,11 +264,12 @@ function flattenCatalogue(): FlatStar[] {
     seed = (seed * 1664525 + 1013904223) >>> 0;
     return seed / 4294967296;
   };
-  for (let i = 0; i < 3300; i++) {
+  for (let i = 0; i < STAR_POOL; i++) {
     out.push({
       ra: 2 * Math.PI * rnd(),
       dec: Math.asin(2 * rnd() - 1), // uniform on the sphere
       mag: 2.6 + 2.8 * Math.pow(rnd(), 0.7),
+      rank: (i + 1) / STAR_POOL, // density slider reveals in this order
     });
   }
   return out;
@@ -262,10 +279,14 @@ const STAR_VERTEX = /* glsl */ `
 attribute float aSize;
 attribute float aLum;
 attribute float aMag;
+attribute float aRank;
 uniform float uSunAltDeg;
+uniform float uStarFrac;
 uniform vec2 uDawnDir;
 varying float vLum;
 void main() {
+  // Density slider: background stars beyond the revealed fraction vanish.
+  float esDensity = aRank <= uStarFrac ? 1.0 : 0.0;
   // Staged star appearance (research §8c): brighter magnitudes switch on at
   // shallower sun depressions (mag -1 by ~3°, mag 6 by ~18°), and the
   // anti-solar sky — which darkens first — shows its stars first.
@@ -274,7 +295,7 @@ void main() {
   float esCosAz = clamp(dot(esAz, uDawnDir), -1.0, 1.0);
   float esDEff = esD + 3.5 * (1.0 - smoothstep(5.0, 9.0, esD)) * (1.0 - esCosAz) * 0.5;
   float esOn = 3.0 + 2.14 * (aMag + 1.0);
-  vLum = aLum * smoothstep(esOn - 2.0, esOn, esDEff);
+  vLum = aLum * esDensity * smoothstep(esOn - 2.0, esOn, esDEff);
   vec4 mv = modelViewMatrix * vec4(position, 1.0);
   gl_PointSize = aSize;
   gl_Position = projectionMatrix * mv;
@@ -517,7 +538,9 @@ export function WorldSky({
     const size = new Float32Array(stars.length);
     const lum = new Float32Array(stars.length);
     const mag = new Float32Array(stars.length);
+    const rank = new Float32Array(stars.length);
     stars.forEach((s, i) => {
+      rank[i] = s.rank;
       size[i] = Math.max(1.4, 5.2 - s.mag) * Math.min(2, window.devicePixelRatio || 1);
       // Bright enough to read as constellations under the night exposures
       // (owner round 2, brightened round 5); day is handled by the staged
@@ -528,6 +551,7 @@ export function WorldSky({
     g.setAttribute("aSize", new THREE.BufferAttribute(size, 1));
     g.setAttribute("aLum", new THREE.BufferAttribute(lum, 1));
     g.setAttribute("aMag", new THREE.BufferAttribute(mag, 1));
+    g.setAttribute("aRank", new THREE.BufferAttribute(rank, 1));
     g.boundingSphere = new THREE.Sphere(new THREE.Vector3(), STAR_RADIUS * 2);
     return g;
   }, [stars]);
@@ -537,6 +561,7 @@ export function WorldSky({
         uniforms: {
           uOpacity: { value: 0 },
           uSunAltDeg: { value: 45 },
+          uStarFrac: { value: 0.5 },
           uDawnDir: { value: new THREE.Vector2(0, 1) },
         },
         vertexShader: STAR_VERTEX,
@@ -565,6 +590,7 @@ export function WorldSky({
         uniforms: {
           uOpacity: { value: 0 },
           uSunAltDeg: { value: 45 },
+          uStarFrac: { value: 1 },
           uDawnDir: { value: new THREE.Vector2(0, 1) },
         },
         vertexShader: STAR_VERTEX,
@@ -748,6 +774,7 @@ void main() {
     updateCelestialBuffers(epochMinutes, rig);
     const sunAltDeg = (rig.sun.altitude * 180) / Math.PI;
     (starMat.uniforms.uOpacity as { value: number }).value = rig.nightBoost;
+    (starMat.uniforms.uStarFrac as { value: number }).value = Math.min(1, 0.5 * starDensityMult);
     (starMat.uniforms.uSunAltDeg as { value: number }).value = sunAltDeg;
     (starMat.uniforms.uDawnDir.value as THREE.Vector2).set(rig.dawnDir[0], rig.dawnDir[1]);
     (serpentMat.uniforms.uOpacity as { value: number }).value = 0.55 * rig.starOpacity;

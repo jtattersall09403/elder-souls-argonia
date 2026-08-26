@@ -10,7 +10,13 @@ import {
   worldClock,
   type LightPreset,
 } from "./timeState";
-import { getLatitudeOverrideDeg, setLatitudeOverrideDeg } from "./WorldSky";
+import {
+  STAR_POOL,
+  getLatitudeOverrideDeg,
+  getStarDensityMult,
+  setLatitudeOverrideDeg,
+  setStarDensityMult,
+} from "./WorldSky";
 import { getWarmthBias, setWarmthBias } from "./lightRig";
 
 /**
@@ -127,21 +133,39 @@ export function TimePanel({
           ))}
         </select>
         <label
-          title="Daylight warmth (owner tuning round 6): 0 = measured-CCT white, 1 = strongly golden"
+          title="Daylight warmth (owner tuning rounds 6–7): 0 = measured-CCT white, 1 = deeply golden. Warms the sunlight at every altitude plus the sun's disc/halo."
           style={{ display: "flex", alignItems: "center", gap: 4 }}
         >
-          warmth
+          warmth {getWarmthBias().toFixed(2)}
           <input
             type="range"
             min={0}
             max={1}
             step={0.05}
-            defaultValue={getWarmthBias()}
+            value={getWarmthBias()}
             onChange={(e) => {
               setWarmthBias(Number(e.target.value));
               notifyClock();
             }}
-            style={{ width: 110 }}
+            style={{ width: 100 }}
+          />
+        </label>
+        <label
+          title="Background-star density (owner tuning round 7)"
+          style={{ display: "flex", alignItems: "center", gap: 4 }}
+        >
+          stars ×{getStarDensityMult().toFixed(1)} (~{Math.round(Math.min(1, 0.5 * getStarDensityMult()) * STAR_POOL)})
+          <input
+            type="range"
+            min={0.1}
+            max={2}
+            step={0.1}
+            value={getStarDensityMult()}
+            onChange={(e) => {
+              setStarDensityMult(Number(e.target.value));
+              notifyClock();
+            }}
+            style={{ width: 100 }}
           />
         </label>
         <label title="Province latitude (debug; canonical −10°, decision 0016)">

@@ -58,7 +58,7 @@ then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- **Phase 8a owner re-gate, round 7** (round-6 feedback applied, decision
+- **Phase 8a owner re-gate, round 8** (round-6 feedback applied, decision
   0021 §Round 6: daylight warmth slider (time panel, default 0.4); moonless
   night floor raised (authored gameplay floor); twilight palette re-tuned
   to the owner's pastel tropical refs (peach/coral/lavender, crimson band
