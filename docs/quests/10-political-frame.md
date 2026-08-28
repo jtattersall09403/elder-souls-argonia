@@ -90,7 +90,7 @@ Project interpretation:
 - it reveals prepared route marks and inscriptions invisible to ordinary sight;
 - it acts as a cipher/translator for selected pre-Duskfall systems;
 - it opens the Lost City and its sanctuary;
-- possession carries political symbolism but does not make the bearer king — canon itself holds that the Scalded Throne "has supposedly been empty for centuries (if it existed at all)" (lore: topics/sithis-nisswo-shadowscales.md);
+- possession does not make the bearer king **by itself** — canon holds the Scalded Throne "empty for centuries (if it existed at all)" — but the throne is a real, visitable vacancy (the Hall of the Scalded Throne, Helstrom, seen in Act I) with institutions still pointing at it, and whether a bearer can turn the jewel into a crown is the endgame's live question (30-main-quest §24.2);
 - it does not control rivers, Hist or the province.
 
 The **Root of Accord** is project-original and lore-consistent. It is not “the Hist hive mind” and is not the natural source of all Argonian life. It is an ancient living root/graft within the Lost City through which a limited set of Hist communities voluntarily coordinated warnings, ritual recognition and memory after a historical crisis. Participation was intended to be renewed and conditional.

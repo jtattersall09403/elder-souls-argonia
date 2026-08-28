@@ -10,6 +10,14 @@ A world-generation agent should **not** implement production quests, dialogue gr
 
 Every quest below has an explicit **World-generation provision**. Those provisions are requirements for Phases P2–P15 of the existing world-generation plan.
 
+**For Phases 11–15 the contract is two-way** (owner directive 2026-08-26): each
+region packet runs the **quest–world co-design loop** of
+[90-production-sequence.md](90-production-sequence.md) §65b — world drafts the
+settlements, a quest agent drafts the region's local-quest *briefs* and
+requests placements, the packet reconciles and freezes with both halves
+consistent. Main-quest and faction sites are confirmed from the tables here in
+the same pass.
+
 During world generation, preserve:
 
 - stable semantic IDs for every required city district, settlement, interior, dungeon, water body, route and portal;
@@ -23,6 +31,50 @@ During world generation, preserve:
 - underwater volume, air-pocket and submerged-portal data;
 - streaming dependencies and performance budgets;
 - source, lore and asset references.
+
+### Tier-0 protection (owner hard rule, 2026-08-28)
+
+Main-quest `LOC`/`STATE`/evidence ids are **tier-0-owned** under the tier rule
+in [40-factions.md](40-factions.md) §30b: nothing breaks the main quest. When
+reconciling a region packet, world agents must not let a lower-tier quest's
+provisions overwrite, repurpose or destroy a tier-0 id — the provision tables
+in this document are the registry of what is protected.
+
+### Asset feasibility, and the authority to amend quests (owner directive 2026-08-26)
+
+Every physical thing a quest specifies — a building form, a boat, a creature, a
+prop, a trap — must be **representable from assets we can actually get**:
+vanilla Skyrim/Creation, the vault (incl. the Beyond Skyrim Black Marsh &
+Vvardenfell pools), the candidate tables in
+[70-assets.md](70-assets.md) §52–53 and world module 90 §71/§74.3, or a new
+Nexus sourcing job. The five-question check in 70-assets §51 applies to every
+brief, old and new.
+
+**The delivering world agent has explicit authority to amend a quest** when
+sourcing fails at build time — change a building type, an item, a boat, a
+creature, or tweak a location — under four rules:
+
+1. **Preserve the quest's function, not its furniture.** The sockets,
+   approaches, stakes, choice and delivery tier survive; the physical dressing
+   is the substitutable part. (A drowned counting-house can become a drowned
+   bathhouse; the lockbox, the air pocket and the three claimants stay.)
+2. **Know what is furniture and what is setting.** Canon-defining forms are
+   *sourcing obligations, not swappable details*: Murkmire reed-and-stilt,
+   Shadowfen mud-and-wattle, xanmeers, root architecture, grave-stakes,
+   swamp-capable boats (lore: topics/material-culture.md). If one of these
+   cannot be sourced, that is a sourcing/kitbash problem to solve (recombining
+   existing meshes is level design, not new art) or an **owner escalation** —
+   never a silent swap to Nord timber.
+3. **Write the change back.** An amendment is edited into the quest's row in
+   docs/quests/ (and the brief), with a one-line reason, in the same packet —
+   the quest docs must never describe a world that no longer exists.
+4. **Cite what you used, and substitute in preference order.** Replacements
+   follow the standing sourcing rules (vault check first, Nexus download with
+   the API key if needed, credit line in the root README in the same change)
+   **and the mod-first preference** of world module 90 §71: reach for the Black
+   Marsh half of Black Marsh & Valenwood and the Xanmeer tileset before other
+   mods, and before vanilla, for anything that reads as Argonian. Vanilla is
+   the right substitute for culturally neutral objects — not the default one.
 
 Do not create speculative cross-system TypeScript contracts solely because this document mentions a future feature. The repository’s existing rule remains: a shared contract lands when a second real consumer exists.
 
@@ -116,6 +168,11 @@ no safe halo; its walls/gates are the boundary, realised in city authoring.
 Other major cities get their D0 interiors from the same authoring pass; their
 surrounding field already reads bands 1–2.
 
+The compiled band-1 field is deliberately thin (≈0.6% of land), so D1-tagged
+quest sites anchor to settlement aprons and guarded corridors, and Phase 11 may
+author local band-1 halos around them by the same authored-property mechanism
+as D0 — quest D-tags need not retag.
+
 ## 12b. Canon-supplied locations and systems the plan claims
 
 These are canon places and mechanisms the quest lines above depend on. None
@@ -133,21 +190,29 @@ extrapolation/quest-plan-deltas.md D8/D16.)
 | **Deepmire, "the Refuge"** | Cursed plateau even locals avoid; the tribes' shelter of last resort; xanmeers and swamp-leviathan bones; site of the province's **Umbriel memorial** | Umbriel Witness Society; a D4/D5 space that is not the Lost City |
 | **Stonewastes** (Blackwood) | Hist in the town centre, a xanmeer keep, and the **Four Winds** hereditary defenders | Marsh Charter — a canon-native martial tradition |
 | **Alten Meerhleel** (Murkmire) | Port built to trade with outsiders; tribes placated with a **Teeba-Enoo court** | League of Open Water, Reed-Sail |
-| **Bramman's river** (Soulrest→Blackrose) | Concealed navigable mangrove channel a fleet once sailed | Reed-Sail Compact / Salt-Teeth |
-| **Murkwood** | The forest that ever moves; located only by the **Conclave of Baal at Stormhold** reading the Elder Scrolls with an ancient tablet | Sunken Archive, artifact quests |
+| **Bramman's river** (Soulrest→Blackrose) | Concealed navigable mangrove channel a fleet once sailed. Realised as a **hidden navigable channel — deliberately NOT a scheduled boat-graph lane** (it is a concealed smugglers' route); navigability verified at watershed refinement (decision 0012 mechanism) | Reed-Sail Compact / Salt-Teeth |
+| **Murkwood** | The forest that ever moves; located only by the **Conclave of Baal at Stormhold** reading the Elder Scrolls with an ancient tablet. Realised as a **single fixed hidden site** locatable via the Conclave; its "movement" is off-screen lore between visits | Sunken Archive, artifact quests |
 | **White Rose Prison** (W burn country) | Abandoned, structurally sound, full of Argonian dead whose bones must be brought to the dirt | Blackrose Chainbreakers (BC05) |
 | **The Archon Shadowscale facility** | Closed 4E 187; standing, sealed; the Cheydinhal Listener wanted it back | The Empty Cradle (SS01) |
 | **The great Root Talk at Helstrom**, month of Hist-Tsoko | Owner decision Q2; extends the canon Root Talk into an occasional convocation — an occasion, not a council | Main quest, Many-Root Conclave, Nisswo |
 | **Grave-stakes (xul-vaat)** province-wide interactable | Each carries the dead one's whole life story; pulling one raises a **bog blight** | Every line — the province's signature diegetic system |
 | **Wamasu electrify the water around them** | Canon: the beast "curs[ed] all the water to deadly convulsions" | Encounter design; swimming systems |
 | **Miregaunts return when killed, loot with provenance** | "Part of the land"; the midsection cavity may hold a relic "taken in to protect or imprison it" | Fixed-danger guardians, Phase 13 |
-| **Wintertide rootworm migration south to Gideon** | Canon-named; red clay marks the stop | Rootworm Waykeepers; seasonal fast travel |
+| **Wintertide rootworm migration south to Gideon** | Canon-named; red clay marks the stop. Gideon is a **seasonal wintertide migration stop only, never a standing station** — no quest may require year-round Gideon root transit | Rootworm Waykeepers; seasonal fast travel |
 | **Fort Swampmoth**, held but not by the Empire | Canon fort, never located; placed on the Blackwood Road | Border content, Marsh Charter |
 | **Cyrodilic Collections, refounded at Gideon** | Its museum was never built | A foreign presence Argonians can argue with rather than fight |
 | **The Owing** — owed-labour gangs, ledger offices, hiring halls | `EXTRAPOLATED` from canon penal labour ("Tunnel Rats" worked for limited freedom), owed labour as currency, and surviving Archein brokerage (lore: topics/labour-and-bondage.md) | The Chainbreakers, MQ01, MQ11, TA03, TG03, RS-line, LW-line, and **every tolled crossing in the route graph** |
 | **`washed-out` NPC material variant** | Canon *gloor*: Argonian traits fade with distance from their Hist and return on coming home | The single cheapest legible-injustice signifier in the build — one material variant, usable province-wide on anyone held long in an Owing, and on MQ19's subject |
 | **Deepmire, "the Refuge"** as a D4 destination with an approach route | Canon cursed plateau, caretaker few, swamp-leviathan bones; the province's Umbriel memorial | UW04 — the Umbriel Witness Society's only traversal spike |
+| **The player stronghold site** — one reoccupied xanmeer or abandoned river station | `EXTRAPOLATED`; Morrowind Great House stronghold model | 30 §24b.5 — **one** site, three phase states, four allegiance re-skins (cult sanctum / Reed safehouse / village hall / your seat); reserve at Phase 11, build interiors at Phase 12 |
 | **Stonewastes and the Four Winds hall** | Canon hereditary defenders, xanmeer keep, Hist in the town centre | FG08 and the Marsh Charter's re-anchored premise |
+| **Reed writ enforcement points** | `EXTRAPOLATED` from the Veiled Reed's paper government: **toll/crossing points on the major road and boat routes**, and a **restricted-door flag class** on civic archives, guarded districts, bonded stores and dock offices — the doors the Reed allegiance writs open | 30 §24b.2 — Reed track tier rewards |
+
+**Root-transit network note.** The four-station rootworm network in the
+compiled data (helstrom, north-shadowfen, naga-deeps, east-estuary) is a
+**Pass-1 placeholder**: it is re-authored with Hist-node placement at Phase 11,
+and quests and rewards touching root transit are finalized in that packet's
+co-design loop.
 
 ## 13. Quest-ready location packet
 

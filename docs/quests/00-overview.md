@@ -25,7 +25,7 @@ The player follows a province-wide treasure hunt through prison ruins, drowned a
 
 After recovering the Eye, the Veiled Reed orders the player to infiltrate the Unbound Root. The player may remain loyal, become a genuine double agent for the cult, pursue an independent course, or work toward a difficult reform outcome. Most of the questline shares the same locations and stages. Branching is implemented through hidden objectives, evidence, trust, cover integrity and a small number of late scene variations.
 
-The climax is an expedition from Helstrom through the highest-danger marshes to a fixed Lost City dungeon. The Eye reveals its route and opens the sanctuary. The player completes the dungeon, faces an ancient Wamasu guardian, and then uses the Eye either to preserve the Root of Accord, place it under a different authority, conceal it, selectively remove its coercive machinery, or complete the cult’s Unbinding.
+The climax is an expedition from Helstrom through the highest-danger marshes to a fixed Lost City dungeon, an ancient Wamasu guardian, and a sanctuary confrontation with a named antagonist the player has known since the opening hour — resolvable by hard-won words or the game's hardest duel. Then the ending: three families, named by what the player takes. **CUT** — join the cult's victory and rule what the severance makes, as its overlord. **CLAIM** — defeat the cult and press the claim canon left open: the Eye is a king's jewel and the Scalded Throne has been empty for centuries; the player can be crowned at Helstrom, choosing which of three sympathetic coalitions carries them. **MEND** — defeat the cult, repair what it broke, hand the levers to a custodian the player trusts (or seal them beyond use), and walk away. A hidden dark variant (the Kept Key) survives inside MEND.
 
 The principal stakes are the future relationship between Argonians and the Hist, the legitimacy and reach of the An-Xileel, and whether liberation from coercive authority justifies severing a living bond that structures communities, eggs, memory and identity. A cult victory creates serious province-wide cultural and spiritual consequences, represented through selected local world states, NPC changes, documents and the epilogue rather than complex dynamic geography.
 
@@ -35,16 +35,16 @@ Two targets are defined. **Milestone 1** is the smallest version of the game tha
 
 | Content family | Milestone 1 (shippable core) | Mature target | Typical direct playtime at maturity |
 |---|---:|---:|---:|
-| Main quest | 32 core quests plus modular epilogue | same | 30–40 hours |
+| Main quest | 24 core quests including the modular epilogue (cut from 32, 2026-08-26 — Morrowind main-line length; three ex-main quests moved to the regional pool) | same | 25–35 hours |
 | Deep faction lines (Shadowscales, Night-Reed, Nisswo, Many-Root) | 4 lines, 10–12 substantial quests each | same | 12–18 hours per line |
 | Standard faction lines (Marsh Charter, Sunken Archive, Reed-Sail, League) | 4 lines, 6–8 quests each | 8–10 quests each | 8–14 hours per line |
 | Compact/regional/secret lines | 2 lines | 4 lines, 4–6 quests each | 4–8 hours per line |
-| Regional, city and standalone authored quests | 60–80 | 130–170 | highly variable |
+| Regional, city and standalone authored quests | 60–80 | 250–330 (raised 2026-08-26 to match Morrowind density on our larger land area — research/morrowind-content-density.md) | highly variable |
 | Mythic/artifact/Daedric-scale quests | 4–6 | 10–14 | 1–3 hours each |
 | Unmarked and micro chains | 15–25 | 40–60 | 10–45 minutes each |
-| **Finite journaled total** | **approximately 170–210** | **approximately 300–350** | **roughly 110–150 hours for a broad first run at maturity; more across incompatible paths** |
+| **Finite journaled total** | **approximately 170–210** | **approximately 450–550** (Morrowind-density target: ~15–20 quests/km² over ~37 km² of land; per-settlement ladder in research/morrowind-content-density.md §4) | **roughly 130–180 hours for a broad first run at maturity; more across incompatible paths** |
 
-The Milestone 1 core already exceeds Oblivion's base journal count and approaches Skyrim's, while the mature target sits between Skyrim base and Morrowind GOTY. Playtime estimates should be treated as ceilings, not marketing: Morrowind's base main quest is commonly completed in 25–30 hours, and a 32-quest main line at 30–40 hours is already ambitious.
+The Milestone 1 core already exceeds Oblivion's base journal count and approaches Skyrim's, while the mature target now matches Morrowind GOTY's *density* — our land is 1.5–2× Vvardenfell's, so matching quests-per-km² and POIs-per-km² (owner directive 2026-08-26) means exceeding its raw count; the world build carries the matching POI budget (world 95 Phase 11). Playtime estimates should be treated as ceilings, not marketing: Morrowind's base main quest is commonly completed in 25–30 hours; the 24-quest main line targets the same band.
 
 These are end-state targets. The world-generation programme builds the spaces and semantic affordances first. Narrative runtime and authored quest implementation begin later in coherent regional packets.
 
@@ -75,6 +75,8 @@ These are end-state targets. The world-generation programme builds the spaces an
 
 ## 2. Quantitative benchmark
 
+*Lookup-only reference — not required reading for authoring a quest brief.*
+
 Elder Scrolls quest totals vary by whether administrative journal entries, mutually exclusive branches, expansions, miscellaneous tasks and repeatable work are counted. The figures below are planning benchmarks.
 
 | Game / scope | Finite journaled quests | Main quest | Substantial joinable faction lines | Common time benchmark |
@@ -86,6 +88,9 @@ Elder Scrolls quest totals vary by whether administrative journal entries, mutua
 Morrowind’s GOTY faction audit is the most useful model: 31 Fighters Guild quests, 35 Mages Guild, 21 Morag Tong, 31 Thieves Guild, 30 Tribunal Temple, 39 Redoran, 30 Hlaalu and 29 Telvanni, alongside Imperial Cult, Legion and miscellaneous content. Individual entries vary in size; the important feature is the amount of authored content assigned to institutions and ordinary work before promotion.
 
 ## 3. What community research says to inherit
+
+*Lookup-only reference — §4 distils these digests into the binding design
+rules; read §4, dip in here only when you need the evidence.*
 
 ### Morrowind
 
@@ -197,8 +202,8 @@ The plan's political depth only works if it is *delivered through* danger, movem
 
 Concrete rules:
 
-- **Per-act minimum (main quest):** every act contains at least two quests whose centrepiece is physical — a dungeon, heist, chase, ambush, rescue, escape, boarding, infiltration under threat, or monster encounter. (Act I: MQ02 attack/escape, MQ04 marsh investigation with hostile interference. Act II: MQ09 prison tunnels, MQ10 wreck dive with rival pressure, MQ13 intercept, MQ14 night boat run, MQ16 guardian dungeon. Act III: MQ18 undercover with a live blown-cover escape route, MQ21 lab assault/rescue, MQ24 pursuit. Acts IV–V: MQ25 council under attack, MQ27–MQ30 expedition, D5 crossing, Lost City, boss.)
-- **Per-faction minimum:** every major line contains at least three physically dramatic quests — at least one combat/monster set piece, one stealth/infiltration or chase, and one traversal set piece (dive, climb, boat, escape). Deep lines should exceed this comfortably; the Shadowscale and Night-Reed lines are action lines by nature, and the "talkier" lines (Nisswo, League, Sunken Archive, Umbriel Witness) meet the minimum through their existing spikes (NI05 violent sect raid, LW04 delegate-murder pursuit, SA08 escaped-experiment chase, UW03 submerged dwelling) plus the added beats specified in their tables.
+- **Per-act minimum (main quest):** every act contains at least two quests whose centrepiece is physical — a dungeon, heist, chase, ambush, rescue, escape, boarding, infiltration under threat, or monster encounter. (Act I: MQ01 attack/escape, MQ04 marsh investigation with hostile interference. Act II: MQ09 prison tunnels, MQ10 wreck dive with rival pressure, MQ13 intercept, MQ14 night boat run, MQ16 guardian dungeon. Act III: MQ18 undercover with a live blown-cover escape route, MQ21 lab assault/rescue. Acts IV–V: MQ23's manhunt stage, MQ25 council under attack, MQ27 expedition and D5 crossing, MQ29 Lost City and Warden, MQ31 sanctuary duel.)
+- **Per-faction minimum:** every major line contains at least three physically dramatic quests — at least one combat/monster set piece, one stealth/infiltration or chase, and one traversal set piece (dive, climb, boat, escape). Deep lines should exceed this comfortably; the Shadowscale and Night-Reed lines are action lines by nature, and the "talkier" lines (Nisswo, League, Sunken Archive, Umbriel Witness) meet the minimum through their existing spikes (NI05 violent sect raid, LW04 delegate-murder pursuit, SA08 read-the-wake construct intercept, UW03 submerged dwelling; Many-Root: MR05 predator den, MR04 night-harvest infiltration, MR01/MR02 dive and flood-run) plus the added beats specified in their tables.
 - **Peril in investigation:** at least half of all evidence sockets in M/L quests should sit somewhere that costs something to reach — submerged, guarded, trapped, contested, collapsing or watched — rather than on an office shelf.
 - **Cult sacrifice and horror are on-screen, not reported:** the Unbound Root's experiments (MQ21), the second Hist withdrawal (MQ15) and at least one interrupted ritual are witnessed spaces the player moves through, with bodies, restrained victims, ritual dressing and survivors — within the mature-content rules and existing assets.
 - **Validation:** quest briefs tag their dramatic centrepiece (`COMBAT`, `STEALTH`, `CHASE`, `DIVE`, `CLIMB`, `HEIST`, `ESCAPE`, `SOCIAL`, `INVESTIGATE`); the validator reports per-act and per-line ratios, and flags any faction line or region packet where `SOCIAL`/`INVESTIGATE` exceed two-thirds of M/L quests.
@@ -214,12 +219,35 @@ Rules:
 - the Eye of Argonia is not a purely instrumental key. From MQ16 onward it occasionally reveals marks, inscriptions or brief visions the player did not ask for, including at least one that is never explained;
 - opacity is preserved deliberately: some questions raised by wonder content stay unanswered, and no single NPC is authorised to resolve them.
 
+### Fan-favourite coverage — the beloved premises, at Morrowind scripting cost
+
+The comparative research (§3) names the content players actually remember. Each
+has a designated analogue in this plan, every one deliverable at D-A/D-B:
+
+| Beloved original | Our analogue |
+|---|---|
+| Oblivion — *The Ultimate Heist* | TG10 **The Palace Below the Tide** (multi-route, ripper-eel counter, 60–90 min) with TG08–TG09 as its escalation |
+| Oblivion — *Whodunit?* | LQ31 **The Bonding Feast** — closed-circle deaths at a tribal bonding ceremony, one interior, pure dialogue-and-schedule scripting |
+| Oblivion — Dark Brotherhood's bonus-condition contracts | SS06 **The Honest Target** (discovery and restraint rewarded) and the SS line's writ philosophy |
+| Morrowind — mundane texture and faction desk work | The 40% S-tier and the desk model throughout |
+| Morrowind — the talking mudcrab / Tarhiel | The oddities roster (36-cast-roster §58) and wonder budget |
+| Morrowind — Dagoth Ur's dreams and courtesy | The §18d dream device; a final antagonist who never lies and once spared you |
+| Skyrim — Helgen's readable onboarding | MQ01's corridor-of-pockets opening |
+| Skyrim — Thieves Guild betrayal staging | TG07 **The Informer's Cut** (the suspect who never was) |
+| All three — Daedric strangeness | DQ01–DQ08 (Part IX-B), four in Milestone 1 |
+
+Rule: when a new packet wants "a quest like X from game Y", it must hit this
+table first and extend it second — and the analogue must state how it reaches
+the same fun at Morrowind-level scripting.
+
 ### Cast
 
 The province needs to be **populated**, not merely staffed. The character-design
-rules, naming system, depth tiers, principal cast, per-faction recurring cast,
-shared places, shadow networks and oddities roster all live in **[35-cast.md](35-cast.md)** —
-read it before writing any named NPC. The four headline rules:
+rules — naming system, depth tiers, desk model, texture kit, validation — live
+in **[35-cast.md](35-cast.md)**: read it before writing any named NPC. The
+rosters themselves (principal cast, per-faction desks, shared places, oddities)
+live in **[36-cast-roster.md](36-cast-roster.md)**, lookup-only for the
+lines/places your brief touches. The four headline rules:
 
 - **depth is proportionate to discoverability** (C1–C4 tiers); a character the
   player meets once gets one vivid detail and no backstory;
@@ -275,7 +303,7 @@ toolkit was cheap, and it was not less exciting for it.
 | A fleeing NPC chased across complex geometry | **Pursuit by inference**: the runner is gone through one of three exits; the player reads which (a wet print on a dry stair, a startled bird, a boat missing from its ring) and arrives at a *static* intercept. Wrong guess costs the best evidence, not the quest |
 | Escorting a fragile NPC through hostile country | The guide **leads**, on a waypoint leash, invulnerable in transit. Cost is expressed in supplies, shelter and route state. Any casualty is authored at a fixed point, never emergent |
 | Protect-the-NPC combat in a crowded scene | Fight in an **adjoining cleared chamber**; who survives is decided by where the player stood and who they pulled through the door, not by allied combat AI |
-| Boat-versus-boat pursuit | The pursued craft runs a **fixed spline**; the player's problem is navigation — shortcuts, tide gates, a low bridge — not AI |
+| Boat-versus-boat pursuit | **Convert to a manhunt** (owner directive 2026-08-26 — no moving quarry craft at all): the quarry has already sailed; the player reads departures, pilots' gossip and tide tables, uses the scheduled boat network (our silt-strider equivalent) to reach the likely landing *first*, and the confrontation happens at a static intercept. Wrong read = harder recovery, never a fail state |
 | A simulated crowd, riot or mass ritual | A **corridor of small authored pockets** with crowd audio and set dressing, in the Helgen model. Six active actors is the ceiling |
 | A moving building, vehicle or route | **Two or three static configurations** selected by schedule or state (already the accepted fix for TG04's floating house — generalise it) |
 | An NPC using the player's traversal verbs (climb, swim, sail) | They took the mundane route and are already there, or they wait at the top |
@@ -304,9 +332,11 @@ Applied here:
 1. **In an S-tier quest, the quest-giver is the payload.** The objective may be
    trivial; the person must not be. If the player would not repeat one sentence of
    theirs to a friend, rewrite the person, not the objective.
-2. **One turn, minimum.** Every quest contains at least one thing that is not what
-   it appeared to be — a second claimant, a wrong assumption, an inconvenient
-   truth, a reason that is worse or sadder than expected.
+2. **One turn, minimum.** Every M/L quest contains at least one thing that is not
+   what it appeared to be — a second claimant, a wrong assumption, an inconvenient
+   truth, a reason that is worse or sadder than expected. An S-tier quest may
+   instead declare one memorable element — the thing you would remember it by
+   (CD Projekt's rule names either).
 3. **Never "collect N of X" as the whole quest.** A recovery objective is fine when
    ownership, route, danger, interpretation or disposition is the actual problem.
 4. **Conflict is the essence of drama, and conflict is not only physical.**
@@ -333,9 +363,9 @@ The narrative programme succeeds when:
 3. Helstrom is accessible early and safe internally while its surroundings remain visibly lethal.
 4. Required main-quest destinations escalate through the fixed danger map.
 5. The Lost City is foreshadowed from Act I and remains a near-final D5 dungeon.
-6. The player can remain loyal, reform from within, defect to the cult or act independently, across exactly five ending families (with the Kept Key as a hidden variant of the Hidden Eye).
+6. The player can remain loyal, reform from within, defect to the cult or act independently, and the game ends in exactly three ending families named by player intent — CUT (cult overlord), CLAIM (the Scalded Throne), MEND (save the marsh and walk away) — with declared variants inside them (the believer, the sealed sanctuary, the Kept Key). Every family is earned over a named, Act-I-seeded opponent, resolvable by speech-plus-evidence or a hard fair duel.
 7. A cult victory is coherent and fully supported.
-7b. The cult is an active, felt presence throughout Act II — racing the player for leads, appearing through the Collector, and escalating with a second Hist withdrawal before MQ16 — never an off-screen rumour between MQ08 and MQ18.
+7b. The cult is an active, felt presence from the first hour — its leader is seen at MQ01, heard in the recurring dreams, racing the player through the Collector, and escalating with a second Hist withdrawal before MQ16 — never an off-screen rumour between MQ08 and MQ18.
 8. The main factions are morally mixed and institutionally grounded.
 9. The Thieves Guild contains at least one large, multi-route, memorable heist.
 10. Shadowscales receive a lore-grounded Fourth-Era line.
@@ -353,12 +383,13 @@ The narrative programme succeeds when:
 22. Every region contains at least one purely strange, non-political wonder encounter, and sap-dream sequences appear in at least three authored quests including one main-quest beat.
 23. At least four mythic/Daedric quests from Part IX-B ship in Milestone 1.
 24. Every quest declares an S/M/L cost tier, and roughly 40% of authored quests are deliberately modest S-tier texture in the Morrowind-mundane register.
-25. Any quest whose approaches all require swimming, boats or climbing has a validated degraded fallback.
+25. Swimming is universal core traversal (owner decision 2026-08-28): every build can complete swim-required content through breath-manageable design (air pockets, rest points) plus purchasable consumables (water-breathing/swim potions, scrolls, items). A validated degraded fallback is required only where a quest's approaches all require boats or climbing (hard rule).
 26. Milestone 1 (full main quest, four deep factions, four standard factions at 6–8 quests, two compact lines, 60–80 standalones, DQ01–DQ04) is completable and coherent before any wave-2 content lands.
 27. The dramatic-register ratios hold: every main-quest act and every major faction line meets its physical set-piece minimums, and no line or region packet is more than two-thirds SOCIAL/INVESTIGATE among M/L quests.
-28. The province is populated rather than staffed: every major faction line has 3–5 stationary desks with fixed posts and distinct ethics, a named argument between two desks that its finale resolves, and a come-and-go cast of vivid single-use characters; region packets draw cross-line texture only from shared places, declared collisions or shadow networks ([35-cast.md](35-cast.md) §53.5–53.6, §57).
-29. No two desks in a line are interchangeable in a blind read of their quest lists; name forms, ages, races and registers are spread per [35-cast.md](35-cast.md) §54–55; and the cliché budget holds (≤1 flagged stock type per line, each with a declared subversion, none in the principal cast).
+28. The province is populated rather than staffed: every major faction line has 3–5 stationary desks with fixed posts and distinct ethics, a named argument between two desks that its finale resolves, and a come-and-go cast of vivid single-use characters; region packets draw cross-line texture only from shared places, declared collisions or shadow networks ([35-cast.md](35-cast.md) §53.5–53.6; rosters in [36-cast-roster.md](36-cast-roster.md) §57).
+29. No two desks in a line are interchangeable in a blind read of their quest lists; name forms, ages, races and registers are spread per [35-cast.md](35-cast.md) §54 and [36-cast-roster.md](36-cast-roster.md) §55; and the cliché budget holds (≤1 flagged stock type per line, each with a declared subversion, none in the principal cast).
 30. At least three cast members are correct in ways that are hard to accept, and at least three are wrong for honourable reasons; no character, including cult leadership, is wrong about everything.
 31. Every region contains at least one purely strange non-political *person* as well as one strange place, and none of them is explained by any NPC or by the epilogue.
 32. Every quest declares a delivery tier (D-A/D-B/D-C); D-C beats are ≤10% of quests, never more than one per faction line, and each has a D-B fallback authored alongside it. No quest brief ships containing an unconverted free-roaming chase, escort or simulated crowd.
-33. Every quest passes the boredom test: it contains at least one reversal, no quest is a bare collection objective, and every S-tier quest has a quest-giver worth quoting.
+33. Every quest passes the boredom test: every M/L quest contains at least one reversal, every S-tier quest declares a reversal or a memorable element, no quest is a bare collection objective, and every S-tier quest has a quest-giver worth quoting.
+34. Tier protection holds ([40-factions.md](40-factions.md) §30b — hard rule): no quest breaks the main quest, and side quests break nothing above their tier; violations are validator failures.

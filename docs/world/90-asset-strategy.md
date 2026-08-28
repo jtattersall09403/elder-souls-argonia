@@ -316,7 +316,8 @@ The boat gameplay code should be original project code built around Rapier and `
 
 | Candidate | Direct reusable value |
 | --- | --- |
-| [Wamasu — Mihail Monsters and Animals](https://www.nexusmods.com/skyrimspecialedition/mods/158860) | wamasu model, textures, animations, effects and encounter reference |
+| [Wamasu — Mihail Monsters and Animals](https://www.nexusmods.com/skyrimspecialedition/mods/158860) | wamasu model, textures, animations, effects and encounter reference. **Deferred, off the critical path** (boss decision 0030): the Last Warden final boss is now an in-vault Xal-Krona build (vanilla werewolfbeast rig + BM&V armoured-daedroth re-material — quests 70 §52 A06); the wamasu is an optional overworld legendary later. If ever ingested: audio credits CDPR and must be replaced from the §74.4 pool; custom Megalania-derived skeleton needs a conversion spike |
+| BM&V vault pool moray eel — `meshes/actors/slaughterfish/morayeel.nif` (`tooling/asset-pipeline/black-marsh-mod-source/`) | moray eel on the vanilla slaughterfish skeleton (animations solved); ripper-eel encounters, slaughterfish as fallback |
 | [Guars — Mihail Monsters and Animals](https://www.nexusmods.com/skyrimspecialedition/mods/44491) | guar variants, pack/mount/cargo forms and animations; includes Black Marsh-associated variants |
 | [Scuttlers and Bantam Guars](https://www.nexusmods.com/skyrimspecialedition/mods/143604) | small domestic and wild fauna, animations and settlement life |
 | [Sea of Spirits](https://www.nexusmods.com/skyrimspecialedition/mods/4781) | sharks, dreugh, whales, narwhals and other aquatic creature assets/behaviours |
@@ -326,6 +327,11 @@ The boat gameplay code should be original project code built around Rapier and `
 | Vanilla slaughterfish, insects, fish, mudcrabs and chaurus families | baseline aquatic and invertebrate animation/material sources |
 
 Creature assets provide models and animations. Habitat, behaviour, statistics, fixed danger and population rules remain game-owned data.
+
+**The rootworm is never seen on screen** (owner design rule, 2026-08-28) — do
+not open a sourcing job for it; no creature asset exists or will exist. Its
+presence is staged entirely from effects: animated roots, water
+displacement/wake VFX and audio (quests 70 §54).
 
 ## 79. Ruin, cave, fort and dungeon candidates
 

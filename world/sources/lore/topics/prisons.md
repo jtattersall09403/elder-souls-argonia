@@ -52,14 +52,22 @@ Empress **Tavia** (Gideon, 1E 2899). Named prisons: **Blackrose Prison**,
 
 **A ruin reoccupied by the Blackguards' heirs.** The cycle canon already ran
 twice — abandoned by a collapsing empire, occupied by its inmates' descendants —
-ran a third time after **Umbriel passed directly over it in 4E 48**, on its way up
-from Lilmoth into northern Murkmire.
+ran a third time after the **4E 48 Umbriel catastrophe**. Canon puts Umbriel on
+a north/northwestern path from Lilmoth through Black Marsh into Morrowind but
+**names no interior waypoint** ([umbriel.md](umbriel.md)); "it passed directly
+over the Rose" is `EXTRAPOLATED` — route-consistent, nowhere stated. What the
+build relies on instead is the canon mechanism: the undead **rose around
+Umbriel and followed its trajectory**, taking "anything that came in Umbriel's
+path" — the Rose's dead are seeded by that **regional overrun**, not by a
+named overflight.
 
 - **Who is there**: prison-born families three generations deep, exiles, outlaws,
   and people with nowhere else to go. They have their own idea of legitimacy and
   **resent being called a prison**.
-- **What is below**: Umbriel's undead, still in the lower levels, alongside the
-  vampires and undead canon already placed there in the 2E.
+- **What is below**: undead of the 4E 48 overrun (`EXTRAPOLATED` — canon never
+  says what became of the horde after Umbriel's removal; see
+  [umbriel.md](umbriel.md)), alongside the vampires and undead canon already
+  placed there in the 2E.
 - **Its relationship to Blackrose city**: a day's march apart, no shared
   government, and every outsider assumes otherwise. That confusion is the city's
   standing external problem and is worth playing.

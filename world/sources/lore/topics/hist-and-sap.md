@@ -82,6 +82,25 @@ weapon the Dominion tried at the Hatching Pools.
 Argonians in cold provinces or small nomadic bands tend to **live birth**; warm,
 stable, permanent communities lay eggs in numbers.
 
+### Silence vs severance — keep the two mechanisms distinct
+
+Canon gives two different failures of the bond, with different consequences:
+
+- **Silence/withdrawal** — the Hist stop *speaking*. The post-Duskfall silence
+  lasted an indeterminate time and canon records **no egg die-off** from it
+  (`CANON_EXPLICIT`; Lore:Duskfall, Lore:Hist).
+- **Severance of the egg-connection** — the link between a Hist and its unborn
+  is *cut*, and "the unborn die swiftly": the weapon the Dominion built from
+  the **Mnemic Egg** at the Hatching Pools (`CANON_EXPLICIT`; Lore:Hatching
+  Pools, Lore:Hist).
+
+The game's opening image — withdrawal *and* a dead clutch the same night — is
+therefore `CANON_DERIVED`, not explicit: silence alone would not kill a clutch.
+The project's causal reading is that **the cult's harvest interference severs
+the egg link** (the Mnemic-Egg mechanism), with the withdrawal as the visible
+symptom; quest prose must attribute the deaths to the severance, not the
+silence.
+
 ## Communion, and who can do it — CANON_EXPLICIT
 
 - Marsh-born Argonians **hear** the Hist: hands on bark or resting beneath the

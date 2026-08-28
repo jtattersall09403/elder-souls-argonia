@@ -1,9 +1,11 @@
 # Sithis, the Nisswo and the Shadowscales
 
-Covers quest-plan lore sources L04–L05 (Sithis & Nisswo) and L08–L09
-(Shadowscales & Veezara). Sources: Lore:Sithis, Lore:Nisswo, Lore:Shadowscales,
-Lore:Xanmeer, Lore:Duskfall, Lore:Argonian, Lore:Kingdom of Black Marsh,
-Lore:Glenbridge, Lore:Sul-Xan, Lore:Archon (fetched 2026-08-24).
+Covers quest-plan lore sources L04–L05 (Sithis & Nisswo), L08–L09
+(Shadowscales & Veezara) and L33 (*Varieties of Faith: The Argonians*).
+Sources: Lore:Sithis, Lore:Nisswo, Lore:Shadowscales, Lore:Xanmeer,
+Lore:Duskfall, Lore:Argonian, Lore:Kingdom of Black Marsh, Lore:Glenbridge,
+Lore:Sul-Xan, Lore:Archon (fetched 2026-08-24); Lore:Varieties of Faith: The
+Argonians (fetched 2026-08-28).
 
 ## The two Sithises — CANON_EXPLICIT
 
@@ -140,6 +142,30 @@ already decided the throne is empty and probably always was.
 - A **Y'ffre heresy** arose among Argonian refugees in Valenwood who, having cut
   their Hist ties, hoped Y'ffre and Valenwood's trees would let them reproduce;
   ex-Shadowscale refugees assassinated its leaders in 2E 582.
+
+## *Varieties of Faith: The Argonians* (L33) — CANON_EXPLICIT, an outsider's account
+
+The in-game book (Lore:Varieties of Faith: The Argonians; a supplement to
+*Varieties of Faith in the Empire* by **Brother Mikhael Karkuxor** of the
+Imperial College), in full substance:
+
+- "Except for a few of the most assimilated, Argonians **worship neither Aedra
+  nor Daedra**. They do not have 'religion' as it is known elsewhere in
+  Tamriel."
+- "They are known to **venerate the Hist Trees** of Black Marsh, but they do
+  not appear to have **prayers, priests, or temples**."
+- "Argonians also venerate **Sithis** … Unlike most citizens of Tamriel, they
+  **do not regard Sithis as 'evil.'**"
+- "Argonians born under the sign of the Shadow are taken at birth and presented
+  to the Dark Brotherhood, which in Black Marsh is considered **an integral
+  part of society**."
+
+Handling note: this is an **Imperial scholar writing from outside**, and the
+"no priests or temples" line contradicts the (equally canon) Clutch of Nisswo
+and the Teeth of Sithis above — read it as canon's *outsider-legibility*
+statement: Argonian practice does not *look like* religion to Imperials.
+Useful verbatim as an in-game book and as the register for foreign NPCs
+describing Argonian faith; not a constraint on the Nisswo material.
 
 ## Build implications
 

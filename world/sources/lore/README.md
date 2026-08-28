@@ -63,6 +63,7 @@ everything below the eight majors, plus the canon adjacency graph)
 | [topics/foreign-powers.md](topics/foreign-powers.md) | Empire, Dres/Morrowind, Pact, Dominion, EEC, Cyrodilic Collections, pirates and criminals |
 | [topics/lost-peoples.md](topics/lost-peoples.md) | Kothringi, Lilmothiit, Orma, Yespest, Horwalli, Barsaebic Ayleids (and Fenlords), Cantemiric Velothi |
 | [topics/prisons.md](topics/prisons.md) | Blackrose Prison, White Rose, Stormhold's prison — the province as prison state |
+| [topics/umbriel.md](topics/umbriel.md) | The 4E 48 Umbriel catastrophe: what it was, the summoning, its path (canon names no interior waypoint), the wormie/tasker undead, the departure |
 | [topics/labour-and-bondage.md](topics/labour-and-bondage.md) | **The Owing** — how a cash-poor province with no courts punishes and coerces in 4E 201; the ex-Archein brokerage; the washed-out tell; the honest argument on both sides. Read before writing debt, tolls, docks, estates or the Chainbreakers |
 | [tribes.md](tribes.md) | Argonian tribes, breeds and tribal politics |
 | [an-xileel.md](an-xileel.md) · [duskfall.md](duskfall.md) · [eye-of-argonia.md](eye-of-argonia.md) | Faction and mystery dossiers |
@@ -100,7 +101,9 @@ Set by the owner; do not re-litigate. Full text at the foot of
 
 ## Dossier backlog
 
-Enrichment only — nothing here blocks. *Varieties of Faith: The Argonians* (L33)
-and *The Seasons of Argonia* (retry via `action=parse`, not `extracts`); the
-individual *Tribes of Murkmire* and *Tribes of Blackwood* volumes; Umbriel in
-depth (L15); Ruins of Mazzatun (L23); ESO `Online:` zone pages (2E, era-tag hard).
+Enrichment only — nothing here blocks. *The Seasons of Argonia* (retry via
+`action=parse`, not `extracts`); the individual *Tribes of Murkmire* and
+*Tribes of Blackwood* volumes; Ruins of Mazzatun (L23); ESO `Online:` zone
+pages (2E, era-tag hard). Done 2026-08-28: L15 Umbriel
+([topics/umbriel.md](topics/umbriel.md)); L33 *Varieties of Faith* (folded into
+[topics/sithis-nisswo-shadowscales.md](topics/sithis-nisswo-shadowscales.md)).

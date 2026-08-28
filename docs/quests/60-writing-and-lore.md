@@ -27,7 +27,8 @@ carries grammar, which is why Argonians speaking Tamrielic preface statements
 with emotional qualifiers ("I erect the spine of…", "My rage-quill is
 engorged!"); farewell "Stay moist.", curse "Hist piss!", exclamation "Host of
 Stormhold."; outsiders are **ojel** (not derogatory) — the An-Xileel's
-**Lukiul** very much is.
+**Lukiul** very much is. Moderation: one qualifier per scene per speaker is
+plenty; overuse is the failure mode.
 
 ## 45c. The 4E 48 calibration (binding tone rule)
 
@@ -49,6 +50,38 @@ An-Xileel, the Lukiul question or the southern cities:
 
 Province-wide register: **melancholy and dignified, horror kept local** (owner
 decision Q5).
+
+## 45d. The player knows nothing (binding onboarding rule)
+
+Owner directive 2026-08-26: **assume the player has no Elder Scrolls lore
+beyond, at most, having played Morrowind** — and none of Argonia's. The player
+character is an outsider (Morrowind's model), so ignorance is diegetic and
+asking basic questions is in character.
+
+- **Every load-bearing proper noun has a dialogue topic** (Hist, sap, Nisswo,
+  Sithis, An-Xileel, Lukiul, the Owing, Shadowscales, Xanmeer, the Eye, the
+  Scalded Throne…), phrased for a newcomer, discoverable from ordinary NPCs —
+  the Morrowind topic system used as a teaching instrument. The obligation is
+  scoped by the **glossary** (defined in 80 §59b): only load-bearing/
+  stakes-bearing nouns need topics, not every lore word. Entries flagged
+  `opaque` are the carve-out — deliberate wonder content whose topic returns
+  folk speculation, never truth, and which is exempt from newcomer coverage.
+- **Act I is the lore onboarding**: by the end of MQ05 the player has had a
+  natural opportunity (never a lecture) to learn what a Hist is and how the
+  cult's harvest kills a clutch — its Mnemic-Egg interference severs the
+  egg-connection, and the eggs die with it; the tree's silence is the *sign*,
+  the severed connection the *cause* (`CANON_DERIVED` — canon ties egg death
+  to the connection, not to withdrawal as such) — what the Wardens are, what
+  an Owing is, and that the throne is empty. Each is taught by a *scene*, not
+  a codex: the dead clutch, the ledger read-out, the empty hall.
+- **No quest may require outside-game knowledge** to understand its stakes or
+  its choice. If a brief's premise needs a lore fact, the quest itself must
+  surface that fact en route.
+- Explanations use plain speech in character; NPCs may disagree about the
+  facts, but a newcomer must be able to assemble the working truth — enough to
+  weigh the main choice, not doctrinal resolution.
+- Validator: glossary terms carry topic coverage and an Act-I availability
+  flag; `opaque` entries are exempt (80 §59b, §63).
 
 ## 46. Dialogue model
 
@@ -98,8 +131,10 @@ carrying exactly five things:
 
 Additional rules:
 
-- **No two characters in a scene may share a register.** A scene with three grave
-  people in it is one character having an argument with itself.
+- **No two characters in a scene share a register** (strong default — a
+  deliberate shared register can be the joke; record the one-line reason). A
+  scene with three grave people in it by accident is one character having an
+  argument with itself.
 - **A character's name form constrains their voice** (35-cast §54): a Jel-named
   interior elder and a translated-name city clerk should not be
   interchangeable in a blind read.
@@ -110,7 +145,7 @@ Additional rules:
 
 ## 47. Staged scenes
 
-Use staged scenes sparingly for:
+Use staged scenes sparingly — for example:
 
 - opening attack;
 - first Helstrom arrival;
@@ -144,13 +179,23 @@ Every major twist must be:
 
 Principal main-quest revelations:
 
-- the cult has a coherent grievance rather than generic madness;
+- the cult has a coherent grievance rather than generic madness — but it is met
+  first as what it also truly is: a movement that kills trees, and with them
+  eggs and the dead's way home;
+- the woman from the opening attack and the voice in the dreams are the same
+  person, and she is the end of the road;
 - the Veiled Reed allowed or manipulated some evidence to identify the network;
-- the cult leader once served the Veiled Reed;
+- the cult leader once served the Veiled Reed — and designed the apparatus she
+  now fights;
+- the player's own handler falsified records, and the honest officer destroys
+  her for it;
 - the Root is a voluntary historical accord converted into compulsory authority;
-- the Eye grants access/understanding, not automatic sovereignty;
+- the Eye grants access/understanding, not automatic sovereignty — **but the
+  throne is empty, and late in the game the player realises the claim is
+  genuinely available to them**;
 - both state custody and full severance impose choices on communities;
-- a reform route exists only if the player has done difficult evidential and coalition work.
+- the mend-and-walk-away ending exists only if the player has done difficult
+  evidential and coalition work.
 
 ## 49. Fixed difficulty and quest guidance
 
@@ -184,4 +229,27 @@ Rewards should be fixed and causal:
 - reputation and sponsorship.
 
 No reward quality scales to player level.
+
+**The reward genres, and where the ladders live.** The genres proven by the
+three reference games — signature gear at a named rank; a drip of unique
+enchanted items roughly one per quest; economic access (fences, trainers, free
+guild property, bounty relief); disposition and price effects; a capability
+unlock; a salary with a strategy attached; a base built in phases; consumables
+with a unique rule; a permanent change with real trade-offs; new abilities;
+prestige gear and a title at the finale; and recognition that changes how the
+world treats you — are catalogued with evidence in
+[../research/tes-quest-and-faction-rewards.md](../research/tes-quest-and-faction-rewards.md).
+
+Two structural rules taken from that research:
+
+- **Rewards teach the fantasy.** A line's rewards must match its playstyle, the
+  way thieves get fences and a cowl while mages get a crafting system. A faction
+  whose rewards could belong to any other faction has been designed lazily.
+- **One reward per quest is affordable** *if* items are re-materialled variants
+  with distinct enchantments rather than bespoke models — which is exactly our
+  no-new-art constraint. Oblivion's Dark Brotherhood is the model.
+
+The main quest's four allegiance reward tracks — their DNA, five tiers each,
+the stack-low/lock-high rule and the single phased stronghold — are specified in
+[30-main-quest.md](30-main-quest.md) §24b.
 

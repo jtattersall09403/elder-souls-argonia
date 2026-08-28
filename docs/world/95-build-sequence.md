@@ -56,7 +56,7 @@ Small isolated scenes test:
 
 ## 86. Phase plan
 
-Progress through these phases is tracked in [docs/PROGRESS.md](PROGRESS.md), never
+Progress through these phases is tracked in [docs/PROGRESS.md](../PROGRESS.md), never
 in this document. Phases are milestones, not straitjackets: a phase may be split
 into sub-milestones in PROGRESS.md when that gives the user earlier playtest gates.
 
@@ -538,8 +538,33 @@ Deliverables:
   docs/quests/ are the demand schedule — stable semantic IDs, approach
   alternatives, scene/NPC/evidence/container sockets, and the
   `QuestWorldProvision` packet per substantial location (quests 20 §13);
+- **quest–world co-design loop per region packet — a completion gate, not a
+  suggestion** (owner directive 2026-08-26; process: quests 90 §65b): after
+  the settlement/POI draft, the region's local-quest *briefs* are drafted and
+  their requested placements reconciled (a camp overlooking the route, a toll
+  at the crossing, a flooded cellar) before the packet freezes. **A region
+  packet without its quest-brief set and density budget is not done and must
+  not be marked done in PROGRESS.** A single phase agent may wear both hats
+  (world-drafting then brief-drafting, in that order) or spawn a subagent —
+  what is mandatory is the artifacts and the gate, not the org chart. The
+  published main-quest/faction provisions are confirmed in the same pass;
+- **content-density budget** (owner directive 2026-08-26; numbers + evidence
+  in [../research/morrowind-content-density.md](../research/morrowind-content-density.md)):
+  match Morrowind — **18–22 named POIs per km²** of authored land in D0–D3
+  regions (8–12 in D4–D5, landmark-heavy and quest-light), **something named
+  within ≤300 m of travel along every road and boat lane**, quests per
+  settlement by magnitude class (M5 ≈ 35–60, M4 10–20, M3 3–8, M2 1–3), **all
+  settlement structures enterable and all settlement NPCs named**. Each region
+  packet declares its counts against this budget at review;
 - **D0 safe interiors** authored per settlement (quests 20 §12 mapping);
-  Helstrom interior D0 with gates against the band-5 basin.
+  Helstrom interior D0 with gates against the band-5 basin;
+- **player-stronghold site reservation** — one reoccupied xanmeer or abandoned
+  river station, reserved in this phase (quests 30 §24b.5; decision 0028);
+  interiors are Phase 12 work;
+- **root-transit network re-authoring**: the compiled four-station rootworm
+  network is a Pass-1 placeholder — re-author it here with Hist-node placement;
+  root-transit quests and rewards are finalized in the same packet's co-design
+  loop.
 
 ### Phase 12 — dungeons and interior programmes
 
@@ -596,6 +621,11 @@ Deliverables:
 
 Deliverables:
 
+- **diegetic discovery feed** (density research §5): every unmarked POI in the
+  packet gets at least one in-world pointer — a rumour, a document, a body, a
+  grave-stake, a sightline — so Morrowind-density content is findable without
+  quest markers;
+
 - habitat and territory system (territories/leashes on the baked nav data,
   §113–115);
 - fixed creature/faction populations, with the Morrowind-leaning ambient
@@ -638,12 +668,15 @@ Each expansion cycle:
 2. author regional identity;
 3. compile routes;
 4. establish causal location network;
-5. agent-author hero locations;
-6. compile assets;
-7. integrate gameplay;
-8. validate;
-9. user visual review;
-10. approve world bundles.
+5. **quest-brief co-design pass** (quests 90 §65b — local-quest briefs drafted
+   against the draft location network; requested placements reconciled before
+   freeze);
+6. agent-author hero locations;
+7. compile assets;
+8. integrate gameplay;
+9. validate;
+10. user visual review;
+11. approve world bundles.
 
 The province preview remains available throughout expansion.
 

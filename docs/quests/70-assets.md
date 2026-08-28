@@ -10,15 +10,36 @@
 
 No quest may depend on future bespoke modelling, bespoke cinematic animation, facial capture or a new creature design.
 
-Writers and world builders must first ask:
+Writers and world builders must first ask, **in this order** (mod-first for
+anything Argonian, marsh or tropical — owner directive 2026-08-26; the full
+preference rule is world module 90 §71):
 
-1. Can vanilla Skyrim/Creation assets represent this?
-2. Can an available mod supply it?
+1. Can the **Black Marsh half of Black Marsh & Valenwood**, or the **Argonian
+   Xanmeer Tileset (A01)**, supply it? These are the house style — assets built
+   for this setting, not adapted to it.
+2. Can another Argonia-appropriate mod source supply it (A-codes, §52)?
 3. Can an existing kit be recombined, scaled, re-materialled or dressed differently?
-4. Can the narrative be staged through light, sound, particles, text and placement?
-5. If none applies, redesign the quest.
+4. Can **vanilla Skyrim/Creation** (V-codes, §53) represent it *without reading
+   as Nordic*? Vanilla remains first choice for culturally neutral props,
+   containers and clutter, and wherever skeleton/animation compatibility
+   matters — but not merely because it is closest to hand.
+5. Can the narrative be staged through light, sound, particles, text and placement?
+6. If none applies, redesign the quest.
+
+The V-code families in §53 stay valid and still carry much of the load
+(sewers, cells, docks, mage props). What changed is the *tie-break*: where a mod
+and vanilla both work and the thing reads as Argonian, take the mod.
 
 All listed mods are available for this personal project. Maintain a simple credits/source list.
+
+This rule binds **new briefs too**: quests authored in the region co-design
+loop (90 §65b) cite A/V codes or a named sourcing job per physical element, or
+flag `ASSET-RISK` with a staging fallback. And it cuts the other way at build
+time: the delivering world agent may **amend a quest's physical specifics**
+when sourcing fails — rules and limits in
+[20-world-provisions.md](20-world-provisions.md) § *Asset feasibility* (preserve
+function; canon-defining forms like stilt/reed architecture are sourcing
+obligations, never silent swaps; write amendments back into the quest docs).
 
 ## 52. Mod asset sources
 
@@ -29,7 +50,7 @@ All listed mods are available for this personal project. Maintain a simple credi
 | A03 | Ancient Argonian Armor SE | Ancient/ritual Argonian armour for wardens, ruins and cultural elites. | https://www.nexusmods.com/skyrimspecialedition/mods/100724 |
 | A04 | New Armory Series — Argonian Weapons | Nine Argonian bone/wood weapons plus optional spear, trident and harpoon family. | https://www.nexusmods.com/skyrimspecialedition/mods/178432 |
 | A05 | Heavy Armory — New Weapons | 150+ spears, glaives, halberds, clubs and other weapon silhouettes. | https://www.nexusmods.com/skyrimspecialedition/mods/6308 |
-| A06 | Wamasu — Mihail Monsters and Animals | Animated lightning reptile; preferred Lost City guardian/final boss base. | https://www.nexusmods.com/skyrimspecialedition/mods/158860 |
+| A06 | Last Warden boss build (in-vault) — with Mihail Wamasu as deferred optional | **Final boss = ancient Xal-Krona (Argonian Behemoth), boss decision 0030:** vanilla werewolfbeast rig (121 clips incl. power combos, sprint attacks, bleedout/kneel — the stand-down state) + the BM&V pool's armoured-daedroth meshes rigged to that skeleton, re-textured Argonian scale + amber sap emissives; spriggan rig for optional root-guardian adds. All sources already in vault; re-material class only. The Mihail Wamasu (custom Megalania-derived skeleton; audio credits CDPR and must be replaced on any ingest) is **deferred** — optional overworld legendary later, never on the critical path. | vault (vanilla + BM&V); wamasu deferred: https://www.nexusmods.com/skyrimspecialedition/mods/158860 |
 | A07 | Bogmort — Mud Monsters of Morthal Swamp | Mud-creature variants and ambush behaviour for marsh ecology and staged attacks. | https://www.nexusmods.com/skyrimspecialedition/mods/22447 |
 | A08 | Crocodiles — Mihail Monsters and Animals | Crocodile meshes, skeleton and animations for river/wetland encounters. | https://www.nexusmods.com/skyrimspecialedition/mods/14304 |
 | A09 | Sea of Spirits | Whales, sharks, dreugh and other marine creature assets for coast and underwater quests. | https://www.nexusmods.com/skyrimspecialedition/mods/4781 |
@@ -38,7 +59,7 @@ All listed mods are available for this personal project. Maintain a simple credi
 | A12 | Animated Ships | Moving NPC ships, rideable decks and dock/traffic reference. | https://www.nexusmods.com/skyrimspecialedition/mods/110260 |
 | A13 | Boats — Operational Animated Travel | Moving rowboats and ferries; useful small-craft/ferry behaviour and assets. | https://www.nexusmods.com/skyrimspecialedition/mods/110882 |
 | A14 | Wreck of the Crown Petone — Northern Argonian Settlement | Shipwreck settlement composition, docks, Argonian clutter and salvage vocabulary. | https://www.nexusmods.com/skyrimspecialedition/mods/17263 |
-| A15 | Stroti Stilt House Resource | Raised marsh-house architecture and supporting pieces. | https://www.nexusmods.com/skyrim/mods/61824 |
+| A15 | Stroti Stilt House Resource | Raised marsh-house architecture and supporting pieces. Oldrim/LE-format mod — the BM&V architecture pool (§52b) is the primary source for stilt/reed forms; A15/A16 supplement it. | https://www.nexusmods.com/skyrim/mods/61824 |
 | A16 | Stroti’s Treehouse Resource | Open treehouse, rope ladder, furniture and animated containers. | https://www.nexusmods.com/skyrimspecialedition/mods/2378 |
 | A17 | Tropical Lands Assets | Large tropical asset dump: buildings, foliage, caverns, clutter, sound and VFX. | https://www.nexusmods.com/skyrimspecialedition/mods/33446 |
 | A18 | Skyrim Sewers 4 | Multi-exit sewer/canal layouts and undercity routes for heists. | https://www.nexusmods.com/skyrimspecialedition/mods/9320 |
@@ -49,6 +70,17 @@ All listed mods are available for this personal project. Maintain a simple credi
 | A23 | Trap Resource — Rolling Stone | Reusable trap/kinetic set-piece resource for Lost City and ruins. | https://www.nexusmods.com/skyrimspecialedition/mods/108277 |
 | A24 | Higher Poly Vanilla Eldergleam Roots | Static and animated large-root meshes for Hist and Root-of-Accord spaces. | https://www.nexusmods.com/skyrimspecialedition/mods/96457 |
 | A25 | Unique Marsh Trees | Separates marsh tree records and supports biome-specific tree placement. | https://www.nexusmods.com/skyrimspecialedition/mods/54479 |
+
+### 52b. Black Marsh & Valenwood vault pool — creature entries
+
+The BM&V archives (world module 90 §74.1b; local copy
+`tooling/asset-pipeline/black-marsh-mod-source/`) are already in the vault and
+are the house-style pool. Creature entries confirmed for quest use:
+
+| Asset | Vault path | Notes |
+|---|---|---|
+| **Moray eel** | `meshes/actors/slaughterfish/morayeel.nif` | Rides the vanilla slaughterfish skeleton, so animations are already solved. Serves TG10's ripper-eels (vanilla slaughterfish is the fallback). |
+| **Dreugh** | `actors/dreugh` pool | Underwater guardian candidate; also available via A09. See the MQ16/MQ26 guardian row in §54. |
 
 ## 53. Vanilla Skyrim/Creation asset families
 
@@ -77,11 +109,17 @@ All listed mods are available for this personal project. Maintain a simple credi
 | Veiled Reed offices | V06/V12 offices plus A19/A20 records and Argonian clutter |
 | Cult safehouses | A15/A16/A17, V03 robes/ritual props, A20 clutter |
 | Eye of Argonia prop | Reuse an existing Skyrim gemstone/amulet/paragon mesh in an existing metal setting; no bespoke model required |
+| Mnemic Egg prop | Re-materialled vanilla chaurus egg pod or spriggan sac with an emissive sap material — material-variant work only, no new mesh |
 | Regional treasure-hunt records | A20 paper/shelves/treasure, V06/V09 archives |
 | Underwater observatory | A01 + A10 + V04/V08 |
+| MQ16/MQ26 guardians | A08 crocodile or the BM&V dreugh (§52b) — the dreugh fits the submerged observatory |
 | Helstrom | Existing world-generation settlement kits; no unique main-quest-only city architecture |
 | Lost City | A01 primary kit; A17/A20/A23/A24; V04/V08/V09 |
-| Final boss | A06 Wamasu with Rapier/combat adaptation |
+| Final boss | A06 Xal-Krona build (werewolfbeast rig + BM&V armoured daedroth re-material; spriggan-rig adds) with Rapier/combat adaptation |
+| Prestige regalia (CLAIM ending / §24b.4 tier 5) | A03 re-materialled as royal regalia plus A19 finery — anything jarl- or Nordic-reading is forbidden for this role — or a named Nexus sourcing job |
+| Tribal craft armour (root-talk track rewards) | A04 is weapons-only; the armour base is V05 (Dragonborn chitin/bonemold re-materials) with wamasu-hide as a texture variant, or a named sourcing job |
+| Rootworm (root transit; RW line, TG06, LQ07, MQ27) | **Design rule (owner, 2026-08-28): the rootworm is NEVER seen on screen.** No creature asset exists or will be sourced; its presence is staged entirely from effects — A24 animated roots, water displacement/wake VFX and audio |
+| Leviathan-bone country (UW04, Deepmire) | Scaled vanilla dragon and mammoth skeletons carry it |
 | Ending visuals | Existing Eye/Root assets with material, particle, sound and local NPC state changes |
 
 ## 55. Faction asset plan
@@ -100,7 +138,7 @@ All listed mods are available for this personal project. Maintain a simple credi
 ## 56. Asset-ingestion priorities for narrative readiness
 
 1. A01 Xanmeer kit and snapping metadata.
-2. A06 final-boss Wamasu.
+2. A06 final-boss Xal-Krona build (vanilla + BM&V, all in-vault — see the A06 row, §52; no external sourcing on the critical path).
 3. A15/A16/A17/A24 current Argonian/Hist/root spaces.
 4. A10 underwater flora and wreck resources.
 5. A11–A13 boat and ferry families.

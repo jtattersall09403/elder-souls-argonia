@@ -172,6 +172,13 @@ ask about**. Three strands:
      training/services and the Owing economy, barter and mercantile,
      crime/bounty;
    - rest and levelling mechanics, how the player becomes stronger;
+   - **the main quest's four allegiance reward tracks**
+     ([docs/quests/30-main-quest.md](../quests/30-main-quest.md) §24b, owner
+     decision 2026-08-26) — a live demand on this design: corprus-style
+     permanent trade-offs (Str/End up, Will/Pers down, deepening per tier),
+     enchanted-gear ladders per build genre, granted abilities, price/disposition
+     effects, and a phased stronghold's services. The scale must be able to
+     express all of these as **fixed absolute** values (0004);
    - swim/climb/boat stat hooks (module 60) — **swimming is a pillar** (the
      marsh, underwater content, module 60 §44): athletics should govern swim
      speed (canon) **and breath capacity for non-Argonians** (Argonians

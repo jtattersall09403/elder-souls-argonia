@@ -23,7 +23,7 @@
 | L12 | Murkmire | Argonian tribes, Hist life, Duskfall, Xanmeers and wetland culture. | https://en.uesp.net/wiki/Online:Murkmire |
 | L13 | Shadowfen | Stormhold/Alten Corimont region, Hist and multi-cultural border context. | https://en.uesp.net/wiki/Online:Shadowfen |
 | L14 | Lilmoth | Fourth-Era city history, Imperial fabric and Umbriel context. | https://en.uesp.net/wiki/Lore:Lilmoth |
-| L15 | Umbriel | 4E 48 catastrophe and rogue Lilmoth Hist precedent. | https://en.uesp.net/wiki/Lore:Umbriel |
+| L15 | Umbriel | 4E 48 catastrophe and rogue Lilmoth Hist precedent. Ingested 2026-08-28 as dossier `world/sources/lore/topics/umbriel.md` (path, undead, departure — all tiered). | https://en.uesp.net/wiki/Lore:Umbriel |
 | L16 | Lukiul | Assimilated/urban Argonian identity and cultural tensions. | https://en.uesp.net/wiki/Lore:Lukiul |
 | L17 | The Argonian Account, Book 1 | Roads, bridges and outsider travel in Black Marsh. | https://www.imperial-library.info/content/argonian-account-book-1 |
 | L18 | The Argonian Account, Book 2 | Marsh settlements, transport and unstable infrastructure. | https://www.imperial-library.info/content/argonian-account-book-2 |
@@ -41,7 +41,7 @@
 | L30 | Blackrose Prison | Infamous prison and penal history. | https://en.uesp.net/wiki/Lore:Blackrose_Prison |
 | L31 | Stormhold | Northern city, layered Ayleid/Argonian/Imperial history. | https://en.uesp.net/wiki/Lore:Stormhold |
 | L32 | Helstrom | Deep-interior city known for inaccessibility and importance. | https://en.uesp.net/wiki/Lore:Helstrom |
-| L33 | Varieties of Faith: The Argonians | In-world treatment of Argonian Sithis belief. | https://www.imperial-library.info/content/varieties-faith-argonians |
+| L33 | Varieties of Faith: The Argonians | In-world treatment of Argonian Sithis belief. Ingested 2026-08-28 into `world/sources/lore/topics/sithis-nisswo-shadowscales.md` (full substance, sourced from Lore:Varieties of Faith: The Argonians on UESP). | https://www.imperial-library.info/content/varieties-faith-argonians |
 
 ## 74. Community and fan inspiration
 

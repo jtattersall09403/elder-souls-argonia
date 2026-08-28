@@ -25,6 +25,12 @@ Tamriel/Black Marsh, The Argonian Account (fetched 2026-08-24).
 | **Bog blights** | Argonian dead whose grave-stake has come loose: "dead-and-not-dead things that eat Nagas whole", dangerous in numbers. Warded off with **pahnjees** — racks of oily spoiled meat that mask a living scent. |
 | **Wisps and the Wispmother** | Lure travellers to drown; "no mere congregation of swamp vapours" but something intelligent behind an anchor. **Shines** — a harmless cousin — loom around the Imperial ruins of Lilmoth. |
 | **Feather-serpents** | "Argonian feather-serpents are said to inhabit the depths of Black Marsh." Unelaborated; a free legendary. |
+| **Xal-Krona ("Sacred Behemoth", Argonian Behemoth)** | *(added 2026-08-28, Lore:Argonian Behemoth via UESP API)* Hulking Argonians **created by the Hist through consumption of Hist sap**, "often created for a reason" (the Dead-Water Hist made one to test young warriors). Immense strength; can **spew corrosive sludge**. Not mindless: "capable of being sentimental or proud", respect their tribes' traditions, and **capable of speech** in simple third-person sentences. |
+
+**GAME_DERIVED (decision 0030):** the main quest's Last Warden is an ancient
+Xal-Krona made at the Root of Accord's founding to test its consent conditions
+— a direct application of "created for a reason" and the Dead-Water
+warrior-testing precedent; its age and Accord binding are project extrapolation.
 
 ## Everyday hazards — CANON_EXPLICIT
 

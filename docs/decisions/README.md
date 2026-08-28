@@ -28,4 +28,8 @@ record and marking the old one superseded — don't rewrite history.
 - [0022 — world-build gap audit: soundscape, vegetation density, navigation data](0022-world-build-gap-audit.md)
 - [0023 — soundscape is polish-tier (8d → 12b); mod sound packs allowed; credits move to root README](0023-soundscape-polish-tier-and-credits.md)
 - [0024 — credits review: three shipped animation mods were missing from README; third-party notices consolidated to repo root](0024-credits-review-and-notices-consolidation.md)
+- [0026 — main quest sharpened: visceral stakes, early villain, three endings, Morrowind length, co-design loop](0026-main-quest-sharpened.md)
+- [0027 — content density matched to Morrowind; quest–world co-design loop hardened into a phase gate](0027-morrowind-density-targets.md)
+- [0028 — allegiance reward tracks, the quest index and the novelty rule](0028-allegiance-reward-tracks.md)
 - [0029 — forward research pack for Phases 8c–13 (weather/traversal/boats/settlements/kits/xanmeers); exemplar-first rollout for placement systems](0029-phase-plan-research-review.md)
+- [0030 — quest-plan QA review: 56-finding register incl. world-bones fit, tier-protection rule, Xal-Krona boss switch — CLOSED, all applied 2026-08-28](0030-quest-plan-qa-review.md)
