@@ -11,10 +11,14 @@
 > Minor calls are not asked here — they are proposed defaults (inventory §5),
 > vetoable at round 2.
 >
-> **Status: ANSWERED 2026-08-28 (see §Answers). Three follow-ups OPEN — F1
-> souls-mechanic merge, F2 weapon-skill model, F3 rest/save shape — options
-> presented in chat 2026-08-28; the owner asked for these, they are not
-> drip-feed.**
+> **Status: ANSWERED 2026-08-28 (see §Answers). F2 and F3 CLOSED (owner
+> 2026-08-28): F2 = the full package (damage range positioned by skill on the
+> top ~40–100 % with soft-capped curve; + stamina cost, recovery, gear wear,
+> bow handling; no unlocks, no requirements). F3 = save-on-rest accepted
+> (camp anywhere calm, never in dungeons/combat; hidden suspend save for
+> browser interruption). **F1 still OPEN** — owner countered with variants
+> A/B/C (recorded below); comparative analysis presented in chat 2026-08-28,
+> recommendation A.**
 
 ## The questions
 
@@ -222,3 +226,26 @@ all keeps have assets + animations with open permissions):
     restriction). Interpretation recorded: the veto addresses equipment
     restrictions only — Morrowind-weight racial *stat* packages (Argonian
     poison immunity, disease resist, water breathing, athletics) stand.
+
+### F1 owner counter-variants (2026-08-28, OPEN)
+
+- **A**: skills by use; souls from kills; banking a level at rest = pick
+  attributes and *buy* the raises with souls, **no usage discount** (the
+  usage-coupling is what people disliked about Morrowind); dropped souls on
+  death → strong retrieval incentive.
+- **B**: souls *are* skill points — using a skill accrues points to it;
+  enough points → skill-up; 10 skill-ups → rest to level; dying drops **all
+  skill points accrued since the last level** at the death spot, retrievable.
+  Owner asks: would this actually be fun, what play does it encourage?
+- **C**: no souls at all — Morrowind levelling with no multipliers, just
+  pick 3 attributes to raise.
+
+Analysis presented in chat (recommendation **A**, with: souls also in
+authored quest rewards so stealth/speech builds progress; souls spend on
+attributes only; second-death loses the pile; lore-grounded province name
+for the mechanic to be dossier-sourced at step 5). Key arguments: B has an
+uncontrollable risk window (banking is gated on the 10-count, so exposure
+can't be managed the way Souls' spend-anytime allows) and stakes the
+player's *practice* rather than a currency; C is viable but pairs with
+death-as-rewind (save-on-rest makes the save the bank), trading the
+retrieval loop for redo-frustration.
