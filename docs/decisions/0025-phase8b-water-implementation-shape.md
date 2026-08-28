@@ -4,6 +4,77 @@ Date: 2026-08-26 · Status: accepted · Owner review: pending (visual gate)
 Research: [docs/research/water-rendering-threejs.md](../research/water-rendering-threejs.md)
 Spec: module [60](../world/60-water-traversal.md) §38–42.
 
+## CONTINUING THIS PHASE — run-book for the next agent
+
+**State (2026-08-28 end of session): round 6 is built, probed and DEPLOYED
+(commit `66c420b` + PROGRESS `4f73fe6`) but the owner has NOT yet
+playtested it.** Your first action is to hand the owner the round-6
+playtest checklist below, in plain English, then run defect→fix rounds in
+the established pattern (each numbered "Round N" section in this file is a
+defect→fix log — read them all; they are the phase's institutional memory
+and every trap in them is real).
+
+**Owner playtest checklist for round 6** (deployed studio:
+`https://jtattersall09403.github.io/elder-souls-argonia/studio/`; URLs take
+`?view=character|fly3d&x=<km>&z=<km>&t=HH:MM&d=M-D`):
+1. Moss-cobble check CLOSED? — walk any pond/lake waterline, riverbed,
+   lakebed, delta island (e.g. character x=5.04 z=5.32; fly x=5.82
+   z=2.19). The green cobbles should be gone everywhere (root cause was
+   the bmv-v1 override table, see Round 6 §1).
+2. Rivers read as RIVERS — big southern whitewater river (character
+   x=4.67 z=2.41): tan, streaky foam sliding downstream, full channel; the
+   gorge (fly x=2.43 z=1.13): continuous cascade films + step-pools, no
+   dry gaps, no dark faceted sheets.
+3. Bulges gone — walk x=3.51 z=1.25 (was a walked-through bulge; data now
+   shows a 0.00 m-spread level pool); x=3.58 z=1.82 (was dry on map, now
+   1.3 m pool).
+4. Marsh/jungle heartlands wetter (both marsh belts + jungle near Archon)
+   — "mostly water with land in"? If still short, the dials are
+   `_wetland_compaction` (0.6) and rivulet accum band in
+   `worldgen/fluvial.py`.
+5. Steep-ground texture — "stripy" cliff texture replaced (trop_rocks);
+   check lowland steep banks and mountains.
+6. Interactions — wade (ripple trail), jump WHILE standing in shallow
+   water (splash now), shove the crates (💧 button — now pushable).
+7. Performance — fly + walk, and whether the machine still runs hot.
+8. Remind the owner: terrain-feel re-review (6b note) can combine with the
+   pass that closes this phase.
+
+**Rebuild chain** (after ANY worldgen change; ~10 min, from
+`tooling/world-generation/`, vault path in `compile_chunks.DEFAULT_HEIGHTS`):
+`refine_province <vault>/heightfield-f32.npy <vault>/hydrology-pass1.npz`
+→ `compile_chunks` → `export_web_chunks` → `compile_water` →
+`rebake_landcover` → `python3 -m pytest -q` (55 tests must pass).
+Texture-set changes: `build_ground_materials` first — **and check
+`BMV_OVERRIDES`, which silently overrides the base table for the default
+set** (Round 6 §1). App: `npm run build` in `apps/world-studio`; browser
+probes from `apps/combat-sandbox`:
+`WATER_SCENARIO=bay-noon-fly,river-walk,marsh-morning-walk,underwater-bay-fly
+node ../world-studio/scripts/probe-water.mjs` (full 9-scenario suite takes
+~20 min — the CLAUDE.md 15-minute rule says prefer the subset).
+Deploy: push to main; if no Actions run appears in ~2 min,
+`gh workflow run deploy-pages.yml --ref main`; verify with a curl of a
+changed asset. **Shared worktree**: other agents run concurrently —
+pathspec-only commits, PROGRESS.md via the staged-blob technique (see
+memory `concurrent-agents-shared-worktree`), never broad `pkill`.
+
+**Hard-won rules** (details in the round logs): no data in PNG alpha
+channels, ever (canvas premultiply destroys it); never scale an oscillating
+velocity by absolute time in shaders; GPU resources from `useMemo` must not
+be disposed by effects with unstable deps; one physics for all water levels
+(priority-flood) — no per-feature level heuristics; texture identity is
+verified by contact sheet, not by slot name.
+
+**Open items if the owner passes round 6** — pick up per feedback:
+remaining perf levers (walk-mode SSR reduction, terrain texture sampling
+cost, further DPR/rtScale); deferred features (hero-pool interactive
+patches §39.3, FFT open-sea tier §39.4, true waterfall FX/particles,
+projected bed caustics, per-body `WaterBody` records → Phase 11, region
+raster reclassification, physics mass-unit scale → Phase 9 boats). On
+PASS: flip the PROGRESS row to done (protocol rule 4), remind the owner of
+the 6b terrain re-review, and hand to Phase 8c (weather) or 9 per
+PROGRESS.
+
 ## Decisions
 
 1. **One continuous water surface, not per-body meshes.** The compiler bakes a
