@@ -18,9 +18,10 @@
 > requirements); F3 = save-on-rest (camp anywhere calm, never in dungeons or
 > combat; hidden suspend save covers browser interruption; death = wake at
 > last rest, world and character persist); F1 = the souls-from-skill-use
-> levelling design (§F1 below — owner counter-proposal, agent
-> recommendation (ii) accepted by standing owner instruction 2026-08-28:
-> "assume I'm accepting it unless I tell you otherwise").
+> levelling design (§F1 below — owner counter-proposal; agent
+> recommendation (ii), re-affirmed 2026-08-28 after an owner challenge
+> forced a corrected comparison — awaiting the owner's one-word
+> finalisation of (i) vs (ii); everything else in F1 is settled).
 > **Next: module 76 §103.1 steps 5–8** — detail the decided design into
 > module 76, numbers packet, balance-simulation harness
 > (`tooling/stats-sim/`), owner round 2. Decision record:
@@ -268,14 +269,34 @@ attribute raises at the screen. Agent recommendation **(ii)**, accepted.
    level as a formula (retroactive by construction), killing Morrowind's
    max-Endurance-first pathology.
 
-**Why (ii) over (i)**: under (i) souls are the *only* gate, so optimal play
-is "rest the moment you can afford it" — a choice-free threshold producing
-frequent tiny levels, minimal at-risk piles (weak death stakes) and a
-diluted level-screen moment. (ii) keeps the Morrowind rhythm, makes the
-screen a genuine spending decision, and creates the real Souls choice —
-push on with a fat pile or hurry the remaining skill-ups and bank. Exposure
-is player-influenced; the at-risk object is retrievable currency, never
-practice (the flaw that killed variant B).
+**Why (ii) over (i)** (re-evaluated 2026-08-28 after owner challenge — the
+first version of this argument overstated its case): the "tiny piles, weak
+stakes" critique of (i) was wrong in general — with a rising level cost
+C(level), (i)'s at-risk pile naturally grows through the game (gentle on
+beginners, heavy later): a perfectly sound risk ramp. The surviving,
+decisive arguments for (ii):
+(a) **failure-spiral asymmetry** — under (i), souls gate the level itself,
+so a struggling player who keeps dying and losing piles also has level and
+*health* growth delayed, compounding weakness in a world that never softens;
+under (ii), levels and health flow from practice regardless of soul losses —
+only attribute food is ever at risk (the same principle that killed variant
+B: never stake practice or its direct results);
+(b) **decision texture** — (ii) has the two choices (i) structurally lacks:
+push-or-bank timing once eligible, and distributing souls across attributes
+at the screen ("level ASAP" strictly dominates in (i), so timing is never a
+choice there);
+(c) (i)'s residual edges are simplicity (one cost knob) and a smoother
+endgame — (ii)'s trigger stalls once majors/minors max (Morrowind
+precedent, ~its level 78 cap; acceptable — step 5 must still define the
+all-maxed endgame: leftover-soul use or a graceful stop).
+
+**(ii)'s deferral exploit is closed by construction** (owner spotted it:
+"grind at level 1, then buy loads of cheap attributes"): purchases happen
+only *at a level sitting*; with the +5-per-attribute sitting cap,
+intra-sitting escalating per-point costs, level-indexed base prices and
+carry-over, hoarding while deferring buys nothing extra and delays health —
+deferral is strictly bad. The simulation asserts this (no-deferral-advantage
+invariant).
 
 **Flagged for the simulation**: soul-economy sizing (a typical 10-up cycle
 should afford ~mid-range attribute buys at every stage — affordability band
