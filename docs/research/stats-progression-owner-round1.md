@@ -11,7 +11,10 @@
 > Minor calls are not asked here — they are proposed defaults (inventory §5),
 > vetoable at round 2.
 >
-> **Status: OPEN — awaiting owner answers.**
+> **Status: ANSWERED 2026-08-28 (see §Answers). Three follow-ups OPEN — F1
+> souls-mechanic merge, F2 weapon-skill model, F3 rest/save shape — options
+> presented in chat 2026-08-28; the owner asked for these, they are not
+> drip-feed.**
 
 ## The questions
 
@@ -174,6 +177,48 @@ all keeps have assets + animations with open permissions):
   athletics bonus…), including the canon **beast-race gear limits** (no
   boots, no closed helmets for Argonians and Khajiit).
 
-## Answers
+## Answers (owner, 2026-08-28)
 
-*(recorded here when the owner replies)*
+1. **A** — seven attributes, Luck cut.
+2. **"Basically B"** — use-based skills following Morrowind's/Skyrim's rules
+   and formulae, and the Morrowind level-up screen is *liked* and kept. Use
+   must be "in anger" (swinging at air never counts; expect many less obvious
+   anti-grind rules — detail them at step 5). **Follow-up F1 OPEN**: owner
+   wants a Dark-Souls-style souls-drop mechanic (souls from defeated enemies
+   feeding levelling) merged in smartly — options requested.
+3. **A** — full Morrowind class structure.
+4. **B** — **one stamina bar**; the two-layer fatigue draft (inventory S1) is
+   rejected. Swim/climb/exertion costs hook the single stamina pool.
+5. Armour: **A**. Weapons: **no moveset unlocks** (too complicated), **no
+   skill requirements to wield** (finding niche ways to powerful weapons
+   early "felt incredibly satisfying" — preserve it); **yes** stamina cost +
+   recovery speed; **probably** modest damage, open to alternatives. Owner
+   floated: weapons have a damage *range*, skill sets how far up the range
+   you strike. **Follow-up F2 OPEN**: analyse that + give options.
+6. **A** — casting never fizzles.
+7. **B** — Morrowind-style potion healing; **the static flask/estus is cut
+   entirely**. Owner philosophy ruling (record for §102): *fixed difficulty
+   binds the world — enemies, stats, parameters — never the player's earned
+   capacity to cope.* "If you want to earn a load of money or alchemy skill
+   and make a load of healing potions to deal with a difficult area, be my
+   guest." Supersedes the flask draft (inventory S14). Simulation still
+   reports potion-economy numbers for *tuning* (prices, weights, brew
+   strength), not to re-open the decision.
+8. **Leaning A, modified**: keep your **gold** on death; **souls** (if F1
+   adopts them) stay where you died; save only at rest; rest only in safe
+   places (never in dungeons, never in combat) — but **camping anywhere
+   safe** is allowed, not just beds. **Follow-up F3 OPEN**: is save-on-rest
+   too complicated? Good idea at all? Fallback: save-anytime-out-of-combat +
+   reload on death.
+9. Keep list accepted **minus crossbows** (owner does not own the DLC; never
+   used them) **and minus throwing weapons** (never used, happy to ditch).
+   So: KEEP spears/pikes/halberds/quarterstaves, medium armour, unarmed;
+   Marksman = the three bow classes; DROP whips, crossbows, thrown.
+10. **A** — enchanting, spellmaking, alchemy all kept, bounded.
+11. **A** — smithing + learn-by-disenchanting; no perk points.
+12. **A** — item condition kept, gentle.
+13. **a–d accepted.** **e vetoed on the gear ban**: beast races can wear
+    every armour piece they can wear in Skyrim (no boot/closed-helmet
+    restriction). Interpretation recorded: the veto addresses equipment
+    restrictions only — Morrowind-weight racial *stat* packages (Argonian
+    poison immunity, disease resist, water breathing, athletics) stand.
