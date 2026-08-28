@@ -133,6 +133,18 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const onWaterContact = useCallback((x: number, z: number, depth: number, speed: number, vy: number) => {
     const ww = waterWorldRef.current;
     if (!ww) return;
+    // landing hard while ALREADY standing in water also splashes
+    // (owner round 6: jumping in shallow water gave no ripple)
+    const now0 = performance.now();
+    if (depth > 0.08 && vy < -3.2 && now0 - lastWakeAt.current > 550) {
+      lastWakeAt.current = now0;
+      ww.emitInteraction({
+        kind: "splash",
+        position: { x, y: 0, z },
+        magnitude: Math.min(-vy * 18 + 15, 120),
+        radius: 0.9,
+      });
+    }
     // ANY entry splashes — walking in, jumping in, or dropping in
     // (round 4: jump-ins were missed and the old ring read as static)
     if (depth > 0.12 && prevWaterDepth.current <= 0.03) {

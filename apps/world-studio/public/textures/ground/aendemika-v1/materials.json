@@ -30,11 +30,11 @@
    "file": "02-bank_wet.png",
    "tileM": 6.0,
    "avgColor": [
-    59,
-    53,
-    42
+    69,
+    50,
+    35
    ],
-   "source": "Aendemika of Vvardenfell (Tx_BC_bank.dds)"
+   "source": "Tropical Skyrim (riverbededge.dds)"
   },
   {
    "id": 3,
@@ -434,15 +434,15 @@
   },
   {
    "id": 36,
-   "name": "dirt_cliff",
-   "file": "36-dirt_cliff.png",
-   "tileM": 10.0,
+   "name": "trop_rocks",
+   "file": "36-trop_rocks.png",
+   "tileM": 12.0,
    "avgColor": [
-    61,
-    64,
-    39
+    72,
+    54,
+    37
    ],
-   "source": "Tropical Skyrim (dirtcliffs/dirtcliffsroots01.dds)"
+   "source": "Tropical Skyrim (rocks01.dds)"
   }
  ]
 }

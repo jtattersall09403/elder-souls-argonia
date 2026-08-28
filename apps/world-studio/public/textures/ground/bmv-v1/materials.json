@@ -6,11 +6,11 @@
    "file": "00-water_silt.png",
    "tileM": 7.0,
    "avgColor": [
-    50,
-    54,
-    29
+    77,
+    41,
+    25
    ],
-   "source": "Black Marsh & Valenwood (riverbottom.dds)"
+   "source": "Tropical Skyrim (riverbottom.dds)"
   },
   {
    "id": 1,
@@ -18,11 +18,11 @@
    "file": "01-river_mud.png",
    "tileM": 6.0,
    "avgColor": [
-    58,
-    57,
-    33
+    63,
+    51,
+    35
    ],
-   "source": "Black Marsh & Valenwood (rivermud.dds)"
+   "source": "Tropical Skyrim (rivermud.dds)"
   },
   {
    "id": 2,
@@ -30,11 +30,11 @@
    "file": "02-bank_wet.png",
    "tileM": 6.0,
    "avgColor": [
-    48,
-    57,
-    50
+    69,
+    50,
+    35
    ],
-   "source": "Black Marsh & Valenwood (riverbededge.dds)"
+   "source": "Tropical Skyrim (riverbededge.dds)"
   },
   {
    "id": 3,
@@ -271,10 +271,10 @@
    "tileM": 14.0,
    "avgColor": [
     52,
-    60,
-    43
+    57,
+    46
    ],
-   "source": "Black Marsh & Valenwood (reachmossyrocks01.dds)"
+   "source": "Tropical Skyrim (reachmossyrocks01.dds)"
   },
   {
    "id": 23,
@@ -434,15 +434,15 @@
   },
   {
    "id": 36,
-   "name": "dirt_cliff",
-   "file": "36-dirt_cliff.png",
-   "tileM": 10.0,
+   "name": "trop_rocks",
+   "file": "36-trop_rocks.png",
+   "tileM": 12.0,
    "avgColor": [
-    61,
-    64,
-    39
+    72,
+    54,
+    37
    ],
-   "source": "Tropical Skyrim (dirtcliffs/dirtcliffsroots01.dds)"
+   "source": "Tropical Skyrim (rocks01.dds)"
   }
  ]
 }

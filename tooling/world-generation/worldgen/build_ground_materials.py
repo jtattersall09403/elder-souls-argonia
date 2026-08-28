@@ -80,7 +80,7 @@ MATERIALS = [
     # the PR riverbottom read as mossy cobbles on every underwater surface)
     ("water_silt",    "ts",  "riverbottom.dds",                             7.0, None, 48),
     ("river_mud",     "ts",  "rivermud.dds",                                6.0, None, 50),
-    ("bank_wet",      "aend", "Tx_BC_bank.dds",                             6.0, None, 52),
+    ("bank_wet",      "ts",  "riverbededge.dds",                            6.0, None, 52),
     ("scum",          "aend", "Tx_BC_scum.dds",                             7.0, None, 48),
     ("black_mud",     "acg", "Ground051",                                   6.0, None, 48),
     ("puddle_mud",    "acg", "Ground050",                                   8.0, None, 60),
@@ -117,7 +117,10 @@ MATERIALS = [
     ("seabed_sand",   "ph",  "aerial_beach_01",                             9.0, None, 70),
     ("river_pebbles", "ts",  "Tropical/RiverGravel.dds",                    6.0, None, 60),
     ("ocean_floor",   "ts",  "CoastOceanFloor01.dds",                       9.0, None, 68),
-    ("dirt_cliff",    "ts",  "dirtcliffs/dirtcliffsroots01.dds",           10.0, None, 55),
+    # slot 36 (landcover DIRT_CLIFF): dirtcliffsroots01 was a decorative
+    # cliff-face STRIP (hanging roots over strata) — unusable as ground
+    # tiling (owner round 6, "stripy"). Tropical rocks01 is isotropic.
+    ("trop_rocks",    "ts",  "rocks01.dds",                                12.0, None, 55),
 ]
 
 # bmv-v1: Black Marsh & Valenwood winners — contact-sheet ranked 2026-08-23,
@@ -129,9 +132,12 @@ MATERIALS = [
 # report). Overrides apply per slot; everything else carries over so sets
 # stay comparable.
 BMV_OVERRIDES = {
-    "water_silt": ("bmv", "riverbottom.dds",        7.0, None, 45),
-    "river_mud":  ("bmv", "rivermud.dds",           6.0, None, 50),
-    "bank_wet":   ("bmv", "riverbededge.dds",       6.0, None, 52),
+    # water_silt/river_mud/bank_wet/mossy_rock overrides REMOVED (owner
+    # round 6): the BMV riverbottom/riverbededge/reachmossyrocks files are
+    # the green moss-cobble textures the owner kept finding on every bed and
+    # waterline — the round-4 Tropical Skyrim swap in the BASE table was
+    # silently undone here for the default set. Beds/banks now come from the
+    # base table (Tropical Skyrim) in BOTH sets.
     "mud_leaves": ("bmv", "fallforestdirt01.dds",   7.0, None, 55),
     "marsh_grass": ("bmv", "fieldgrass01.dds",      8.0, None, 58),
     "moss":       ("bmv", "reachmoss01.dds",        8.0, None, 52),
@@ -141,7 +147,6 @@ BMV_OVERRIDES = {
     "jungle_floor": ("bmv", "pineforest02.dds",     8.0, None, 42),
     "forest_floor": ("bmv", "pineforest03.dds",     8.0, None, 48),
     "leaf_litter": ("bmv", "pineforest01.dds",      8.0, None, 52),
-    "mossy_rock": ("bmv", "reachmossyrocks01.dds", 14.0, None, 52),
     "bc_rock":    ("bmv", "rocksgrasswater01.dds", 10.0, None, 52),
     "tidal_sand": ("bmv", "coastbeach01.dds",       8.0, None, 72),
     "salt_flat":  ("bmv", "mineralpoolterrace.dds", 9.0, None, 78),

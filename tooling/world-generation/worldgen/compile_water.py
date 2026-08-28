@@ -224,35 +224,25 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
 
     # rivers: coarse backwatered level, spread to a >=2-px ribbon, with a
     # guaranteed minimum column over the local carved channel bottom
-    wr1 = np.where(riv, w, np.nan).astype(np.float32)
-    _, (ry, rx) = ndimage.distance_transform_edt(np.isnan(wr1), return_indices=True)
-    wr2 = up_lin(wr1[ry, rx])
-    # smooth the ribbon mask so channels don't inherit 5.5 m block staircases
-    # (owner round 5: "square-edged channels")
+    # ONE physical model for all inland water (owner round 6 — the round-4/5
+    # "guaranteed column" heuristics made bulges above ponds and above banks;
+    # gone). Every water level comes from the SAME priority-flood of the
+    # refined terrain: rivers are chains of pools standing in their carved
+    # channels (they can never exceed their banks — the spill level IS the
+    # bank), connected across riffles/rapids by a thin flowing film on the
+    # channel centrelines. Fullness therefore comes from CARVING (fluvial
+    # stage), which is the owner's "sloped riverbed" model.
     riv2f = ndimage.gaussian_filter(
         up_lin(ndimage.binary_dilation(riv, iterations=1).astype(np.float32)), 1.6)
     riv2 = riv2f > 0.35
     riv2core = up_near(riv)
-    bed2 = ndimage.grey_erosion(g2, size=5)
-    # channels run FULL (owner round 4): at least 60 % of the carved column
-    bank2 = ndimage.grey_dilation(g2s, size=7)
-    column = np.clip(0.6 * (bank2 - bed2), RIVER_MIN_DEPTH_M, 3.0).astype(np.float32)
-    comp(riv2, np.maximum(wr2, bed2 + column))
 
-    # standing water: priority-flood the refined terrain; a depression holds
-    # water when it is in plausibly wet ground, is deep enough somewhere and
-    # big enough to matter — then the WHOLE pool fills to its spill level
     ocean2 = g2s < 0.0
     filled2 = fill_depressions(g2s, ocean2)
     depth_fill = filled2 - g2s
-    # the deep-wetland/jungle heartlands hold far more standing water: any
-    # decent puddle counts there (owner round 4 — "mostly water with land
-    # in"); elsewhere pools still need real depth+size
     wet_heart = up_near(np.isin(npz["regions"], (6, 7, 8, 13)))
     allow2 = up_near(wetlands | (flood >= 1) | lakes) | riv2 | wet_heart
-    # candidates are NOT clipped by the (blocky) allow mask cell-wise — a
-    # pool is kept or dropped WHOLE, so shorelines follow the terrain, not
-    # 5.5 m mask squares (owner round 5, "square hard lines")
+    # pools are kept or dropped WHOLE (no blocky cell-wise mask clipping)
     cand = (depth_fill > 0.02) & ~ocean2
     gy2s, gx2s = np.gradient(g2s, mpp2)
     slope2 = np.hypot(gy2s, gx2s)
@@ -263,25 +253,22 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
         areas2 = np.bincount(lbl2.ravel())[1:]
         allow_frac = ndimage.mean(allow2.astype(np.float32), lbl2, idx_l)
         hearty = ndimage.mean(wet_heart.astype(np.float32), lbl2, idx_l) > 0.4
-        # water does not STAND on steep ground (owner round 5: faceted pool
-        # sheets draped over gorge walls) — steep drainage flows instead
+        rivery = ndimage.mean(riv2.astype(np.float32), lbl2, idx_l) > 0.25
+        # water only STANDS on gentle ground — except in carved channels,
+        # where step-pool chains are exactly what mountain streams look like
         mean_slope = ndimage.mean(slope2, lbl2, idx_l)
         keep2 = np.zeros(n_l + 1, dtype=bool)
-        keep2[1:] = (allow_frac > 0.25) & (mean_slope < 0.055) & np.where(
+        keep2[1:] = (allow_frac > 0.25) & (rivery | (mean_slope < 0.07)) & np.where(
             hearty,
             (max_depth >= 0.10) & (areas2 >= 6),
             (max_depth >= MIN_POOL_DEPTH_M) & (areas2 >= MIN_POOL_PX))
         comp(keep2[lbl2], (filled2 - 0.05).astype(np.float32))
 
-    # a river crossing a pond takes the POND's level — its own carved column
-    # must never ridge above the standing surface (owner round 5: the walked-
-    # through "bulge" was exactly this)
-    in_pond = (depth_fill > 0.4) & riv2
-    w2[in_pond] = np.minimum(w2[in_pond], (filled2 - 0.02)[in_pond])
-    # …and steep channel CENTRELINES always carry at least a thin film, so
-    # mountain streams never break into disconnected blobs
-    film = riv2core & (slope2 >= 0.02)
-    w2[film] = np.fmax(np.nan_to_num(w2[film], nan=-1e9), (g2s + 0.15)[film])
+    # the connecting film: channel centrelines are ALWAYS wet (rapids over
+    # riffles between the pools) — sampled against the ROUGH ground so bumps
+    # can't punch dry gaps through it
+    film_h = (np.maximum(g2, g2s) + 0.15).astype(np.float32)
+    w2[riv2core] = np.fmax(np.nan_to_num(w2[riv2core], nan=-1e9), film_h[riv2core])
 
     wet2 = ~np.isnan(w2)
 

@@ -23,7 +23,9 @@ from .scale import RAW_M
 # Game-scale hydraulic geometry (research §0/§1.1: real exponents, one width
 # multiplier so hierarchy tiers read at province compression).
 W_COEF, W_EXP = 14.0, 0.40   # W = 14·A^0.40  (m; A km²) → 6/14/29 m tiers
-D_COEF, D_EXP = 1.40, 0.29   # D = 1.4·A^0.29 (m)       → 0.7/1.4/2.4 m
+# depth raised in owner round 6: under the unified fill model the carve IS
+# what makes rivers run full (pools stand in the channel up to its lip)
+D_COEF, D_EXP = 1.80, 0.29   # D = 1.8·A^0.29 (m)       → 0.9/1.8/3.0 m
 STEEP_SLOPE = 0.03           # Montgomery–Buffington: step-pool and steeper
 LEVEE_H = 0.55               # m, lowland majors only
 OXBOW_DEPTH = 2.0            # m
@@ -116,13 +118,13 @@ def _rivulets(h, riv, accum, wet, ambient):
     """The anastomosing wetland drainage web (research §1.2/§3): every
     sub-river drainage line inside wetland ground becomes a narrow, shallow
     channel connecting the pools — splash-through swamp plumbing."""
-    mask = (wet > 0.5) & ~riv & (accum > 0.035) & (accum <= 0.12)
+    mask = (wet > 0.5) & ~riv & (accum > 0.02) & (accum <= 0.12)
     if not mask.any():
         return h
     # feather the (coarse-grid staircase) mask so channels curve, not step
     soft = ndimage.gaussian_filter(mask.astype(np.float32), 2.0) > 0.30
     dist = ndimage.distance_transform_edt(~soft) * RAW_M
-    prof = 0.5 * np.exp(-((dist / 2.2) ** 2))
+    prof = 0.7 * np.exp(-((dist / 2.4) ** 2))
     return np.minimum(h, np.where(prof > 0.05, ambient - prof, h)).astype(np.float32)
 
 
@@ -132,7 +134,7 @@ def _wetland_compaction(h, wet, riv):
     heartlands should read mostly-water-with-land)."""
     soft = ndimage.gaussian_filter(wet, 14.0)
     dchan = ndimage.distance_transform_edt(~riv) * RAW_M
-    return (h - 0.35 * soft * (dchan > 25.0)).astype(np.float32)
+    return (h - 0.6 * soft * (dchan > 25.0)).astype(np.float32)
 
 
 def _deepen_wetland_pools(h, riv, wet):

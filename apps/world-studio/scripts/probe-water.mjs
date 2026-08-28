@@ -33,7 +33,9 @@ const SCENARIOS = [
     id: "river-walk",
     q: "view=character&x=1.85&z=4.89&ex=1&t=12:00&d=8-17&wq=high",
     underwater: false,
-    surfaceAtCam: [0.5, 3.5], // river surface ≈ 1.65 m
+    // round 6: the unified fill model puts this near-coast reach at its
+    // physical level (~0, draining to the sea); it holds 4+ m of water
+    surfaceAtCam: [-0.6, 3.5],
     brightness: [25, 235],
   },
   {

@@ -14,10 +14,16 @@ import { worldClock } from "../sky/timeState";
  */
 
 const CRATE = 0.8;
+// The ecctrl capsule's Rapier mass is tiny (~0.25 units — default density
+// over a small capsule), so a real-mass 100 kg crate is a 400:1 wall the
+// player can never push (owner rounds 5-6). Fix: scale crate mass AND its
+// displaced volume/drag by the same factor — identical float dynamics
+// (force/mass ratios preserved), pushable inertia. Revisit unit scale
+// properly for Phase 9 boats.
+const MASS_SCALE = 1 / 100;
 const PARAMS: BuoyancyParams = {
-  volumeM3: CRATE * CRATE * CRATE,
-  // light enough that the player can shove them through the water drag
-  linearDrag: 120,
+  volumeM3: CRATE * CRATE * CRATE * MASS_SCALE,
+  linearDrag: 120 * MASS_SCALE,
   points: [
     { x: -0.3, y: -0.1, z: -0.3 },
     { x: 0.3, y: -0.1, z: -0.3 },
@@ -97,7 +103,7 @@ export function FloatTestCrates({ origin, waterWorld }: {
           }}
           position={[origin.x + (i - 1) * 1.4, origin.y + 2.5 + i * 0.6, origin.z + 3.5]}
           colliders="cuboid"
-          density={200}
+          density={200 * MASS_SCALE}
           canSleep={false}
           linearDamping={0.2}
           angularDamping={0.9}

@@ -427,8 +427,8 @@ vec2 esDrift = esSpeed > 0.05
 float esPh1 = fract(uWaveTime * 0.25);
 float esPh2 = fract(uWaveTime * 0.25 + 0.5);
 float esPhB = abs(esPh1 * 2.0 - 1.0);
-vec2 esP1 = (vEsWorldPos.xz - esDrift * esPh1 * 4.0) * 0.55;
-vec2 esP2 = (vEsWorldPos.xz - esDrift * esPh2 * 4.0) * 0.55;
+vec2 esP1 = (vEsWorldPos.xz - esDrift * esPh1 * 7.0) * 0.55;
+vec2 esP2 = (vEsWorldPos.xz - esDrift * esPh2 * 7.0) * 0.55;
 vec2 esG = mix(esDetailGrad(esP1, vec2(0.0)), esDetailGrad(esP2, vec2(0.0)), esPhB);
 vec2 esGF = esDetFade > 0.02
   ? esDetailGrad(vEsWorldPos.xz * 2.3 + 17.0, vec2(0.11, 0.07) * uWaveTime) * esDetFade * 0.5
@@ -516,6 +516,17 @@ esFoamE = min(esFoamE, 1.0) * (1.0 - 0.75 * esMurk);
 vec2 esFoamOff = vEsFlow.xy * uWaveTime * 0.35
                + vec2(sin(uWaveTime * 0.13), cos(uWaveTime * 0.11)) * 1.1;
 float esFTex = esFbm(vEsWorldPos.xz * 0.55 - esFoamOff, 3);
+// flowing water reads as CURRENT: foam stretches into streaks along the
+// flow and slides downstream (owner round 6 — rivers must look like rivers)
+if (esSpeed > 0.3) {
+  vec2 esFDir = vEsFlow.xy / esSpeed;
+  vec2 esFlowP = vec2(
+    dot(vEsWorldPos.xz, esFDir) * 0.20 - uWaveTime * 0.45 * min(esSpeed, 2.5),
+    dot(vEsWorldPos.xz, vec2(-esFDir.y, esFDir.x)) * 0.85);
+  float esStreak = esFbm(esFlowP, 3);
+  esFTex = mix(esFTex, esStreak, smoothstep(0.35, 1.0, esSpeed));
+  esFoamE += smoothstep(0.6, 1.6, esSpeed) * 0.35;
+}
 float esFThr = 1.0 - esFoamE;
 float esFoam = smoothstep(esFThr - 0.18, esFThr + 0.26, esFTex)
              * smoothstep(0.0, 0.10, esFoamE);

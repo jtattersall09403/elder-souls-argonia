@@ -267,6 +267,42 @@ clear. Wave exposure damped by max(silt, tannin).
    the walk HUD names the body you stand in. (The region raster's own
    shapes are Phase 3 output — re-classing it is a later-phase task.)
 
+## Round 6 (2026-08-28) — the override trap, unified river physics
+
+1. **Mossy cobbles, the REAL root at last** (owner: "don't assume previous
+   agents got this right" — correct): the default `bmv-v1` texture set has a
+   per-slot **override table** (`BMV_OVERRIDES`) that silently kept the
+   Black Marsh & Valenwood moss-cobble files for `water_silt`, `bank_wet`
+   and `mossy_rock` — undoing the round-4 Tropical Skyrim swap in the base
+   table for the set actually in use. Data confirmed the painting was
+   correct all along; the sightings were those two textures (beds via
+   water_silt, every pond/lake waterline via bank_wet). Overrides removed;
+   both sets rebuilt on TS riverbottom/riverbededge. **Standing lesson: a
+   base-table change means checking every per-set override.** Also slot 36
+   `dirt_cliff` → `trop_rocks` (TS rocks01) — dirtcliffsroots01 was a
+   decorative cliff STRIP, not a ground tile (the owner's "stripy"
+   texture; ditto the earlier peat_slope/salt_flat stripe fixes).
+2. **Rivers unified under one physics** (owner: bulges persist, dry gaps,
+   nothing consistently flows): the round-4/5 "guaranteed column" and
+   coarse-backwater heuristics are DELETED — every inland water level now
+   comes from the same priority-flood: rivers are chains of pools standing
+   in their carved channels (cannot exceed banks by construction — no
+   bulges), joined by an always-wet centreline film sampled against the
+   ROUGH ground (no dry gaps). Fullness now comes from carving: fluvial
+   depth ×1.3 (D = 1.8·A^0.29). Step-pool chains on steep channels are
+   exempted from the standing-slope gate (that IS what mountain streams
+   look like), gate relaxed to 7 % elsewhere.
+3. **Flow that reads as flow**: foam stretches into flow-aligned streaks
+   sliding downstream (anisotropic sampling), ripple advection ×7/cycle.
+4. **Wetter still** (owner: push more, incl. jungle near Archon): the
+   fluvial wet mask now includes the marsh/jungle heartland regions,
+   compaction −0.6 m, rivulets denser (accum > 0.02) and deeper (0.7 m).
+5. **Crates finally pushable**: the ecctrl capsule's Rapier mass is ~0.25
+   units (default density), so real-mass crates were a 400:1 wall. Crate
+   mass AND displaced volume/drag scale together (identical float
+   dynamics, pushable inertia); unit-scale to revisit for Phase 9 boats.
+   Landing hard in shallow water now also splashes/ripples.
+
 **Shore materials** (research: tropical-shoreline-materials Part D): three
 CC0 Poly Haven textures ingested (`beach_sand` 32, `seabed_sand` 33,
 `river_pebbles` 34 — ids appended, sets rebuilt at 35 materials); landcover

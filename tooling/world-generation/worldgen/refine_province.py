@@ -284,9 +284,13 @@ def main() -> None:
     # the owner-approved 6b noise lattice — stays bit-identical.
     from .fluvial import fluvial_continuum
     rng_fluvial = np.random.default_rng(SEED ^ 0x8B)
+    # "wet ground" for rivulets/pools/compaction = the TWI wetlands plus the
+    # marsh/jungle heartland regions (owner round 6: more channels + water in
+    # the southern/northern marshes and the eastern jungle near Archon)
+    wet_mask = (up(npz["wetlands"]) > 0.5) | np.isin(regions_up, (6, 7, 8, 13))
     h, fluvial_stats = fluvial_continuum(
         h, rivers_up, up(npz["accum_km2"]), up(npz["salinity"]),
-        (up(npz["wetlands"]) > 0.5).astype(np.float32), rng_fluvial)
+        wet_mask.astype(np.float32), rng_fluvial)
     print("fluvial:", fluvial_stats)
 
     vault_dir = height_path.parent / "province-refined"
