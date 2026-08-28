@@ -3,7 +3,7 @@ import { WaterData, type WaterMeta } from "./waterData";
 import { WaterWorld } from "./waterWorld";
 import { computeBuoyancy } from "./buoyancy";
 import { SEMIDIURNAL_MINUTES, tideOffset, seasonOffset } from "./tide";
-import { WAVES, gerstnerAt, gerstnerGlsl, surfaceWaveAt, waveExposure } from "./waves";
+import { SHORE_SWELL, SWASH, WAVES, fetchExposure, gerstnerAt, gerstnerGlsl, shoreSwellAt, surfGlsl, surfaceWaveAt, swashAt, waveExposure } from "./waves";
 
 // ---------------------------------------------------------------------------
 // Waves — the CPU/GLSL lockstep model
@@ -53,6 +53,60 @@ describe("waves", () => {
     expect(waveExposure(500, 0)).toBe(0);
     expect(waveExposure(500, 5)).toBe(1);
     expect(waveExposure(WAVES.fetchSaturationM / 2, 5)).toBeCloseTo(0.5);
+  });
+
+  it("shore surf is gated by FETCH, not wave exposure (the round-7 lesson)", () => {
+    // at the waterline itself (shoreDist ≈ 0, depth ≈ 0) waveExposure is 0 —
+    // but with a big bay seaward, the swash must still move the waterline
+    expect(waveExposure(0.5, 0.02)).toBeLessThan(0.01);
+    const fetch = fetchExposure(200, 0);
+    expect(fetch).toBe(1);
+    let hi = -Infinity;
+    let lo = Infinity;
+    for (let t = 0; t < 120; t += 0.25) {
+      const s = swashAt(0.5, fetch, t);
+      hi = Math.max(hi, s);
+      lo = Math.min(lo, s);
+    }
+    // the waterline genuinely travels (vertical span >> the old 9 cm sine)
+    expect(hi - lo).toBeGreaterThan(0.12);
+    expect(Math.abs(hi)).toBeLessThan(SWASH.amplitudeM + 1e-6);
+    // far from shore or with no fetch: dead flat
+    expect(swashAt(SWASH.bandM + 1, fetch, 10)).toBe(0);
+    expect(swashAt(0.5, 0, 10)).toBe(0);
+  });
+
+  it("shore swell shoals then collapses in the break zone", () => {
+    const t = 42;
+    // bounded everywhere
+    for (let d = 0; d < 100; d += 1.7) {
+      const h = shoreSwellAt(d, Math.max(d * 0.05, 0.2), 1, t);
+      expect(Math.abs(h)).toBeLessThan(SHORE_SWELL.amplitudeM * 1.8 * 1.3 + 1e-6);
+    }
+    // deep offshore water far beyond the build zone: no shore swell at all
+    expect(shoreSwellAt(SHORE_SWELL.buildFarM + 10, 8, 1, t)).toBe(0);
+    // amplitude envelope peaks in the shoaling band, collapses at the beach:
+    // compare oscillation spans (phase-independent), not instant values
+    const span = (d: number, depth: number) => {
+      let hi = -Infinity;
+      let lo = Infinity;
+      for (let tt = 0; tt < 90; tt += 0.2) {
+        const h = shoreSwellAt(d, depth, 1, tt);
+        hi = Math.max(hi, h);
+        lo = Math.min(lo, h);
+      }
+      return hi - lo;
+    };
+    expect(span(15, 0.8)).toBeGreaterThan(span(1, 0.1) * 1.5);
+  });
+
+  it("surf GLSL twin bakes the shared shore constants", () => {
+    const glsl = surfGlsl();
+    expect(glsl).toContain(String(SWASH.omega));
+    expect(glsl).toContain(String(SHORE_SWELL.k));
+    expect(glsl).toContain("esSwash");
+    expect(glsl).toContain("esShoreSwell");
+    expect(glsl).toContain("esSurfFoam");
   });
 
   it("GLSL twin bakes the same constants as the CPU table", () => {

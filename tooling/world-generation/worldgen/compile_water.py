@@ -158,36 +158,9 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
 
     wet = ~np.isnan(w)
 
-    # --- 3. flow ----------------------------------------------------------
+    # (flow is computed AFTER the refined surface below — round 7: speed
+    # comes from the conditioned long profile, not the raw terrain slope)
     h_, w_ = z.shape
-    vx = np.zeros(z.shape, dtype=np.float32)
-    vz = np.zeros(z.shape, dtype=np.float32)
-    idx = np.flatnonzero((rivers > 0).ravel())
-    j = flow_to[idx]
-    ok = j >= 0
-    ii, jj = idx[ok], j[ok]
-    dy = (jj // w_) - (ii // w_)
-    dx = (jj % w_) - (ii % w_)
-    inv = 1.0 / np.hypot(dx, dy).clip(1e-6, None)
-    # slope-driven current (owner round 4 / research §1): fast torrents on
-    # steep reaches, sluggish lowland glides — v ≈ 0.4 + 9·√slope, capped
-    zf = z.reshape(-1)
-    drop = np.maximum(zf[ii] - zf[jj], 0.0)
-    dist = np.hypot(dx, dy) * mpp1
-    slope_along = drop / np.maximum(dist, 1e-3)
-    size = np.maximum(npz["accum_km2"].reshape(-1)[ii], 0.05) ** 0.1
-    v_cell = np.clip((0.4 + 9.0 * np.sqrt(slope_along)) * size, 0.3, 3.0)
-    vx.ravel()[ii] = dx * inv * v_cell
-    vz.ravel()[ii] = dy * inv * v_cell
-    # NORMALISED smoothing: plain gaussian diluted 1-px channels to ~30 % of
-    # their speed (owner round 5: "everything flows the same slow speed") —
-    # divide by the smoothed support so magnitude survives on thin lines
-    support = np.zeros(z.shape, dtype=np.float32)
-    support.ravel()[ii] = 1.0
-    support_s = ndimage.gaussian_filter(support, 1.2)
-    vx = ndimage.gaussian_filter(vx, 1.2) / np.maximum(support_s, 0.25)
-    vz = ndimage.gaussian_filter(vz, 1.2) / np.maximum(support_s, 0.25)
-
     shore_d = (ndimage.distance_transform_edt(wet) * mpp1).astype(np.float32)
 
     nodata = np.isnan(w)
@@ -247,6 +220,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     gy2s, gx2s = np.gradient(g2s, mpp2)
     slope2 = np.hypot(gy2s, gx2s)
     lbl2, n_l = ndimage.label(cand)
+    pool_lvl = np.full(g2.shape, -np.inf, dtype=np.float32)
     if n_l:
         idx_l = np.arange(1, n_l + 1)
         max_depth = ndimage.maximum(depth_fill, lbl2, idx_l)
@@ -262,12 +236,86 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
             hearty,
             (max_depth >= 0.10) & (areas2 >= 6),
             (max_depth >= MIN_POOL_DEPTH_M) & (areas2 >= MIN_POOL_PX))
+        pool_lvl = np.where(keep2[lbl2], (filled2 - 0.05), -np.inf).astype(np.float32)
         comp(keep2[lbl2], (filled2 - 0.05).astype(np.float32))
 
-    # the connecting film: channel centrelines are ALWAYS wet (rapids over
-    # riffles between the pools) — sampled against the ROUGH ground so bumps
-    # can't punch dry gaps through it
-    film_h = (np.maximum(g2, g2s) + 0.15).astype(np.float32)
+    # --- the channel LONG PROFILE (round 7; research: rivers-on-slopes-and-
+    # cascades §Q4). No shipped engine renders raw fill output on a slope:
+    # along a channel the surface is a smooth monotone-downstream profile
+    # (UE5 spline Z, U4 baked sim heights, flood-mapping HAND/REM practice).
+    # Stations = coarse river cells. Surface = carved bed + band film depth,
+    # clamped UP to any priority-flood pool it crosses, made monotone by a
+    # downstream running-min, smoothed along the chain, then spread across
+    # the hydraulic width so banks never show dry slivers.
+    FILM_DEPTH = {1: 0.30, 2: 0.55, 3: 0.85}
+    rflat = rivers.reshape(-1)
+    idx_st = np.flatnonzero(rflat > 0)
+    n_st = len(idx_st)
+    sy = np.minimum(((idx_st // w_) * scale2 + scale2 * 0.5).astype(np.int64), n2 - 1)
+    sx = np.minimum(((idx_st % w_) * scale2 + scale2 * 0.5).astype(np.int64), n2 - 1)
+    bed_st = ndimage.minimum_filter(g2, size=3)[sy, sx].astype(np.float32)
+    film_st = np.select([rflat[idx_st] == b for b in (1, 2, 3)],
+                        [np.float32(FILM_DEPTH[b]) for b in (1, 2, 3)]).astype(np.float32)
+    w_st = bed_st + film_st
+    floor_st = bed_st + 0.08
+    pool_at = pool_lvl[sy, sx]
+    pooled = pool_at > w_st
+    w_st = np.maximum(w_st, pool_at).astype(np.float32)
+    # downstream station row for each station (coarse flow graph)
+    pos = np.full(z.size, -1, dtype=np.int64)
+    pos[idx_st] = np.arange(n_st)
+    ds_flat = flow_to[idx_st]
+    dsk = np.where((ds_flat >= 0) & (pos[np.maximum(ds_flat, 0)] >= 0),
+                   pos[np.maximum(ds_flat, 0)], -1)
+    seg_dist = np.full(n_st, mpp1, dtype=np.float32)
+    hasd = dsk >= 0
+    seg_dist[hasd] = np.hypot(
+        (ds_flat[hasd] // w_) - (idx_st[hasd] // w_),
+        (ds_flat[hasd] % w_) - (idx_st[hasd] % w_)) * mpp1
+    order = np.argsort(-filled.reshape(-1)[idx_st], kind="stable")  # upstream first
+    for _pass in range(2):
+        for k in order:
+            d = dsk[k]
+            if d >= 0 and not pooled[d] and w_st[d] > w_st[k]:
+                w_st[d] = max(w_st[k], floor_st[d])
+        # gentle along-chain smoothing (station <-> its downstream partner)
+        w_sm = w_st.copy()
+        cnt = np.ones(n_st, dtype=np.float32)
+        np.add.at(w_sm, dsk[hasd], w_st[hasd])
+        np.add.at(cnt, dsk[hasd], 1.0)
+        w_sm[hasd] += w_st[dsk[hasd]]
+        cnt[hasd] += 1.0
+        w_st = np.where(pooled, w_st, np.maximum(w_sm / cnt, floor_st)).astype(np.float32)
+    for k in order:  # final strict monotone pass
+        d = dsk[k]
+        if d >= 0 and not pooled[d] and w_st[d] > w_st[k]:
+            w_st[d] = max(w_st[k], floor_st[d])
+
+    # lateral spread: nearest-station level across the Leopold–Maddock width
+    a_st = np.maximum(npz["accum_km2"].reshape(-1)[idx_st], 0.02)
+    w_geom = 14.0 * a_st ** 0.40
+    d_geom = (1.8 * a_st ** 0.29).astype(np.float32)
+    r_st = np.clip(w_geom * 0.5 / mpp2, 1.0, 4.5).astype(np.float32)
+    st_mask = np.zeros(g2.shape, dtype=bool)
+    st_mask[sy, sx] = True
+    lvl_r = np.full(g2.shape, -np.inf, dtype=np.float32)
+    np.maximum.at(lvl_r, (sy, sx), w_st)
+    r_r = np.zeros(g2.shape, dtype=np.float32)
+    np.maximum.at(r_r, (sy, sx), r_st)
+    dmax_r = np.zeros(g2.shape, dtype=np.float32)
+    np.maximum.at(dmax_r, (sy, sx), film_st + d_geom + 1.2)
+    d_st, (ky, kx) = ndimage.distance_transform_edt(~st_mask, return_indices=True)
+    lvl_n = lvl_r[ky, kx]
+    ribbon = (d_st <= r_r[ky, kx] + 0.5) & np.isfinite(lvl_n)
+    # ground far below the station level is off-channel (the downhill bank
+    # on a cross-slope) — never flood it from the ribbon
+    ribbon &= g2 > (lvl_n - dmax_r[ky, kx])
+    comp(ribbon, lvl_n.astype(np.float32))
+    riv2 = riv2 | ribbon
+
+    # centreline film backstop over the ROUGH ground: bumps between stations
+    # can't punch dry gaps through the channel
+    film_h = (np.maximum(g2, g2s) + 0.12).astype(np.float32)
     w2[riv2core] = np.fmax(np.nan_to_num(w2[riv2core], nan=-1e9), film_h[riv2core])
 
     wet2 = ~np.isnan(w2)
@@ -286,22 +334,74 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     local_min = ndimage.grey_erosion(lvl, size=33, mode="nearest")
     cap = np.minimum(wn2, np.where(np.isfinite(local_min), local_min, wn2))
     nod2 = np.isnan(w2)
-    w2 = np.where(nod2, np.minimum(g2 - BURY_M, cap - 1.0), w2).astype(np.float32)
+    # near ring (≤2 px of any water): bury JUST below the nearest water
+    # level, not below the 120 m-window minimum — on a steep channel that
+    # minimum sits tens of metres down, so the bilinear surface plunged
+    # sub-pixel and mountain streams read as empty beds with occasional
+    # blobs (owner round 6). The per-fragment depth-proxy discard keeps
+    # these cells from ever bridging as sails.
+    near_ring = nod2 & (dist2 <= 2.0)
+    w2 = np.where(nod2, np.minimum(g2 - BURY_M, cap - 1.0), w2)
+    w2[near_ring] = np.minimum(g2[near_ring] - 0.45, wn2[near_ring] - 0.35)
+    w2 = w2.astype(np.float32)
     # …and clamp any remaining DRY cell that still pokes above nearby water
     # (river-ribbon banks at cascade steps): those triangles would bridge the
     # step as a small wall.
-    dry_viol = (~fringe) & ((w2 - g2) <= 0.01) & (w2 > cap + 0.05)
+    dry_viol = (~fringe) & (~near_ring) & ((w2 - g2) <= 0.01) & (w2 > cap + 0.05)
     w2[dry_viol] = np.minimum(w2, cap - 1.0)[dry_viol]
 
-    # soften spillway terraces (owner round 4 image: glassy "bulge" where an
-    # upper pool overflows a sill): smooth the surface only where it slopes
+    # soften spillway terraces — WET-MASKED smoothing only (round 7): the
+    # old plain gaussian mixed buried neighbours (ground − 3 m) into steep
+    # wet films, sinking them under ground and punching the dry gaps that
+    # broke cascades into blob chains.
     gy2, gx2 = np.gradient(w2, mpp2)
     steep_w = np.hypot(gy2, gx2) > 0.02
-    w2s = ndimage.gaussian_filter(w2, 1.2)
+    wetf = wet2.astype(np.float32)
+    w2s = ndimage.gaussian_filter(np.where(wet2, w2, 0.0), 1.2) / np.maximum(
+        ndimage.gaussian_filter(wetf, 1.2), 1e-3)
     w2 = np.where(wet2 & steep_w, 0.5 * w2 + 0.5 * w2s, w2).astype(np.float32)
+    # smoothing must never sink the channel film into its bed
+    chan_keep = riv2core & wet2
+    w2[chan_keep] = np.maximum(w2[chan_keep], (np.maximum(g2, g2s) + 0.10)[chan_keep])
 
     depth2 = np.clip(w2 - g2, 0.0, 25.5)
     shore2 = np.clip(ndimage.distance_transform_edt(wet2) * mpp2, 0.0, SHORE_MAX_M).astype(np.float32)
+
+    # --- 3. flow: direction from the flow graph; SPEED from the conditioned
+    # profile's slope over a ~6-station window, quantised into four reach
+    # bands (pool / glide / riffle / rapid) — banded contrast between
+    # adjacent reaches is what makes speed legible (research Q2; Vlachos).
+    vx = np.zeros(z.shape, dtype=np.float32)
+    vz = np.zeros(z.shape, dtype=np.float32)
+    drop_win = np.zeros(n_st, dtype=np.float32)
+    dist_win = np.zeros(n_st, dtype=np.float32)
+    frontier = np.arange(n_st)
+    for _hop in range(6):
+        nx = np.where(frontier >= 0, dsk[np.maximum(frontier, 0)], -1)
+        step_ok = (frontier >= 0) & (nx >= 0)
+        drop_win[step_ok] += (w_st[frontier[step_ok]] - w_st[nx[step_ok]])
+        dist_win[step_ok] += seg_dist[frontier[step_ok]]
+        frontier = np.where(step_ok, nx, -1)
+    slope_win = np.maximum(drop_win, 0.0) / np.maximum(dist_win, mpp1)
+    size = np.maximum(npz["accum_km2"].reshape(-1)[idx_st], 0.05) ** 0.1
+    v_raw = np.clip((0.35 + 9.0 * np.sqrt(slope_win)) * size, 0.15, 3.0)
+    v_st = np.select([v_raw < 0.45, v_raw < 0.95, v_raw < 1.7],
+                     [np.float32(0.30), np.float32(0.70), np.float32(1.30)],
+                     default=np.float32(2.30)).astype(np.float32)
+    okd = ds_flat >= 0
+    dyv = (ds_flat[okd] // w_) - (idx_st[okd] // w_)
+    dxv = (ds_flat[okd] % w_) - (idx_st[okd] % w_)
+    invv = 1.0 / np.hypot(dxv, dyv).clip(1e-6, None)
+    vx.ravel()[idx_st[okd]] = dxv * invv * v_st[okd]
+    vz.ravel()[idx_st[okd]] = dyv * invv * v_st[okd]
+    # NORMALISED smoothing: plain gaussian diluted 1-px channels to ~30 % of
+    # their speed (owner round 5: "everything flows the same slow speed") —
+    # divide by the smoothed support so magnitude survives on thin lines
+    support = np.zeros(z.shape, dtype=np.float32)
+    support.ravel()[idx_st[okd]] = 1.0
+    support_s = ndimage.gaussian_filter(support, 1.2)
+    vx = ndimage.gaussian_filter(vx, 1.2) / np.maximum(support_s, 0.25)
+    vz = ndimage.gaussian_filter(vz, 1.2) / np.maximum(support_s, 0.25)
 
     # --- 6. classes, from the RENDERED wetness (owner round 2: patchy
     # marsh/ocean splits came from classifying the coarse grid). Wetland

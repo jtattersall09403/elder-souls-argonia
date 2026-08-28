@@ -290,7 +290,9 @@ def main() -> None:
     wet_mask = (up(npz["wetlands"]) > 0.5) | np.isin(regions_up, (6, 7, 8, 13))
     h, fluvial_stats = fluvial_continuum(
         h, rivers_up, up(npz["accum_km2"]), up(npz["salinity"]),
-        wet_mask.astype(np.float32), rng_fluvial)
+        wet_mask.astype(np.float32), rng_fluvial,
+        rivers_coarse=rivers, flow_to=npz["flow_to"],
+        filled=npz["filled"], step=STEP)
     print("fluvial:", fluvial_stats)
 
     vault_dir = height_path.parent / "province-refined"

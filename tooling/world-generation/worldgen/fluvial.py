@@ -146,6 +146,49 @@ def _deepen_wetland_pools(h, riv, wet):
     return h
 
 
+def _condition_bed(h, rivers_coarse, flow_to, filled, step):
+    """Hydrological bed conditioning — GIS 'breaching' (research:
+    rivers-on-slopes-and-cascades §Q4/A1). Walk every channel downstream and
+    force the carved bed's long profile monotone non-increasing, digging a
+    narrow notch through any accidental micro-dam (terrain noise riding over
+    the carve). Without this the priority-flood water surface on slopes is a
+    staircase of pond-blobs (owner round 6). Real waterfalls survive: the
+    running minimum only ever LOWERS downstream cells, never fills drops."""
+    hh, ww = rivers_coarse.shape
+    riv_flat = (rivers_coarse > 0).reshape(-1)
+    idx = np.flatnonzero(riv_flat)
+    if not len(idx):
+        return h, 0
+    # station centre of each coarse cell on the refined grid
+    cy = np.minimum((idx // ww) * step + step // 2, h.shape[0] - 1)
+    cx = np.minimum((idx % ww) * step + step // 2, h.shape[1] - 1)
+    bed_min = ndimage.minimum_filter(h, size=step)
+    t = {int(i): float(bed_min[y, x]) for i, y, x in zip(idx, cy, cx)}
+    # push the running minimum downstream, upstream-first
+    order = idx[np.argsort(-filled.reshape(-1)[idx], kind="stable")]
+    ft = flow_to.reshape(-1)
+    for i in order:
+        j = int(ft[i])
+        if j >= 0 and riv_flat[j]:
+            if t[j] > t[int(i)]:
+                t[j] = t[int(i)]
+    # re-imprint: a V-notch cone from every station that must sink
+    targets = np.array([t[int(i)] for i in idx], dtype=np.float32)
+    cur = bed_min[cy, cx]
+    need = (cur - targets) > 0.02
+    n_fix = int(need.sum())
+    if n_fix:
+        sparse = np.zeros(h.shape, dtype=bool)
+        sparse[cy[need], cx[need]] = True
+        tgt = np.full(h.shape, np.inf, dtype=np.float32)
+        np.minimum.at(tgt, (cy[need], cx[need]), targets[need])
+        d_px, (jy, jx) = ndimage.distance_transform_edt(~sparse, return_indices=True)
+        near = d_px * RAW_M < 40.0
+        cone = tgt[jy[near], jx[near]] + 0.30 * d_px[near] * RAW_M
+        h[near] = np.minimum(h[near], cone)
+    return h.astype(np.float32), n_fix
+
+
 def _delta(h, riv, area, salinity, rng):
     """Distributaries + mudflat apron at the largest sheltered whitewater
     mouth(s) (Galloway simplified, research §4.1)."""
@@ -184,7 +227,8 @@ def _delta(h, riv, area, salinity, rng):
     return h, n_done
 
 
-def fluvial_continuum(h, rivers_up, accum_up, salinity_up, wet_up, rng):
+def fluvial_continuum(h, rivers_up, accum_up, salinity_up, wet_up, rng,
+                      rivers_coarse=None, flow_to=None, filled=None, step=3):
     """The full stage. Returns (h, stats dict)."""
     h = h.astype(np.float32)
     riv = rivers_up > 0
@@ -200,4 +244,9 @@ def fluvial_continuum(h, rivers_up, accum_up, salinity_up, wet_up, rng):
     h = _wetland_compaction(h, wet_up, riv)
     h = _deepen_wetland_pools(h, riv, wet_up)
     h, n_delta = _delta(h, riv, area, salinity_up, rng)
-    return h.astype(np.float32), {"oxbows": n_ox, "deltas": n_delta}
+    n_breach = 0
+    if rivers_coarse is not None and flow_to is not None and filled is not None:
+        # LAST: nothing after this may re-raise a channel bed
+        h, n_breach = _condition_bed(h, rivers_coarse, flow_to, filled, step)
+    return h.astype(np.float32), {"oxbows": n_ox, "deltas": n_delta,
+                                  "breached": n_breach}

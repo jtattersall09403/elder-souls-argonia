@@ -6,39 +6,36 @@ Spec: module [60](../world/60-water-traversal.md) §38–42.
 
 ## CONTINUING THIS PHASE — run-book for the next agent
 
-**State (2026-08-28 end of session): round 6 is built, probed and DEPLOYED
-(commit `66c420b` + PROGRESS `4f73fe6`) but the owner has NOT yet
-playtested it.** Your first action is to hand the owner the round-6
-playtest checklist below, in plain English, then run defect→fix rounds in
-the established pattern (each numbered "Round N" section in this file is a
-defect→fix log — read them all; they are the phase's institutional memory
-and every trap in them is real).
+**State (2026-08-28, round 7): built, probed (4-scenario browser probe
+green, 55 worldgen tests green) — this is the intended CLOSING round.
+Owner round-6 feedback: textures PASS; round 7 rebuilt slope rivers
+(monotone long-profile bake), the shore surf system, waterfall shading
+and the barcode root cause (see Round 7 log below).** Next agent: check
+deployment reached Pages, then hand the owner the round-7 checklist
+below. On PASS: flip PROGRESS 8b to done; leftovers → docs/polish-backlog.md
+(Phase P). The numbered "Round N" sections in this file are the phase's
+institutional memory — read them all before changing anything.
 
-**Owner playtest checklist for round 6** (deployed studio:
+**Owner playtest checklist for round 7** (deployed studio:
 `https://jtattersall09403.github.io/elder-souls-argonia/studio/`; URLs take
 `?view=character|fly3d&x=<km>&z=<km>&t=HH:MM&d=M-D`):
-1. Moss-cobble check CLOSED? — walk any pond/lake waterline, riverbed,
-   lakebed, delta island (e.g. character x=5.04 z=5.32; fly x=5.82
-   z=2.19). The green cobbles should be gone everywhere (root cause was
-   the bmv-v1 override table, see Round 6 §1).
-2. Rivers read as RIVERS — big southern whitewater river (character
-   x=4.67 z=2.41): tan, streaky foam sliding downstream, full channel; the
-   gorge (fly x=2.43 z=1.13): continuous cascade films + step-pools, no
-   dry gaps, no dark faceted sheets.
-3. Bulges gone — walk x=3.51 z=1.25 (was a walked-through bulge; data now
-   shows a 0.00 m-spread level pool); x=3.58 z=1.82 (was dry on map, now
-   1.3 m pool).
-4. Marsh/jungle heartlands wetter (both marsh belts + jungle near Archon)
-   — "mostly water with land in"? If still short, the dials are
-   `_wetland_compaction` (0.6) and rivulet accum band in
-   `worldgen/fluvial.py`.
-5. Steep-ground texture — "stripy" cliff texture replaced (trop_rocks);
-   check lowland steep banks and mountains.
-6. Interactions — wade (ripple trail), jump WHILE standing in shallow
-   water (splash now), shove the crates (💧 button — now pushable).
-7. Performance — fly + walk, and whether the machine still runs hot.
-8. Remind the owner: terrain-feel re-review (6b note) can combine with the
-   pass that closes this phase.
+1. Mountain streams CONNECTED — the gorge (fly x=2.43 z=1.13) and any
+   mountain valley: one continuous waterway down the slope into the
+   lowland system; no empty beds, no disconnected blobs, no solid white
+   crust (foam is streaky and slides).
+2. Flow speed READS — glassy pools vs sliding glides vs churning rapids
+   should look clearly different along one river's course.
+3. Waterfalls — near-vertical drops now carry fast down-rushing streaked
+   water (not a static sheet). Mist/base particles are polish-tier.
+4. Sea LAPS — stand on an open beach (e.g. Topal Bay coast, character
+   x=6.16 z=5.07 area): waves visibly arrive, run a tongue up the sand
+   (metres, not cm), retreat with backwash foam; successive waves differ
+   (wave sets); wet sand tracks the reach.
+5. Barcode foam — gone everywhere? (Root cause fixed; if any survives,
+   photo it → polish backlog.)
+6. Round-6 leftovers if not yet checked: wetter heartlands (marsh belts +
+   Archon jungle), wade/jump/crate interactions, performance.
+7. Terrain-feel re-review (6b note) — combine with this closing pass.
 
 **Rebuild chain** (after ANY worldgen change; ~10 min, from
 `tooling/world-generation/`, vault path in `compile_chunks.DEFAULT_HEIGHTS`):
@@ -373,6 +370,73 @@ clear. Wave exposure damped by max(silt, tannin).
    mass AND displaced volume/drag scale together (identical float
    dynamics, pushable inertia); unit-scale to revisit for Phase 9 boats.
    Landing hard in shallow water now also splashes/ripples.
+
+## Round 7 (2026-08-28) — slope rivers, waterfalls, shore surf, barcode
+
+Owner round-6 verdict: textures PASS (moss-cobble saga closed); slope
+water still broken (empty beds / blob staircases / solid foam crust /
+speed unreadable), waterfalls static, sea still not lapping, "barcode"
+foam recurs. Research first (3 new docs:
+[rivers-on-slopes-and-cascades](../research/rivers-on-slopes-and-cascades.md),
+[waterfalls-realtime](../research/waterfalls-realtime.md),
+[water-edges §5](../research/water-edges-and-shore-waves.md)), then:
+
+1. **Slope rivers are a BAKE defect, not a shader defect** (research
+   consensus: no shipped engine renders raw fill output on a slope — UE5
+   spline Z, U4 baked sim heights, HAND/REM flood practice all use a
+   smooth monotone long profile). Fixes: (a) `fluvial._condition_bed` —
+   GIS "breaching": walk each channel downstream, running-min the carved
+   bed, dig a V-notch through every accidental micro-dam (real waterfalls
+   survive: the min only ever lowers); (b) `compile_water` bakes W along
+   each channel as a **long profile** — bed + band film depth (0.30/0.55/
+   0.85 m), clamped up to crossed pool spill levels, downstream
+   running-min monotone, chain-smoothed, spread across the Leopold–Maddock
+   width and clipped against off-channel ground; (c) the near ring (≤2 px
+   of water) buries at `min(g−0.45, nearestW−0.35)` instead of the 120 m
+   window minimum — the old cap put bank pixels tens of metres down on
+   steep channels, so the bilinear surface plunged sub-pixel (THE "empty
+   bed" mechanism); (d) the spillway smoother is now wet-masked — the old
+   plain gaussian mixed `ground−3` buried values into steep films and
+   punched the dry gaps that broke cascades into blob chains.
+2. **Flow speed** now comes from the conditioned profile's slope over a
+   ~6-station window, quantised to four reach bands (pool 0.30 / glide
+   0.70 / riffle 1.30 / rapid 2.30 m/s) — banded contrast between
+   adjacent reaches is what makes speed legible (Vlachos). In-shader,
+   detail features stretch along the flow ∝ speed (anisotropy cue).
+3. **The barcode, root-caused for good**: round 6 still advected foam by
+   `flow × absolute time` in two places. A spatially-VARYING velocity ×
+   large t shears neighbouring pixels apart until the noise shreds into
+   parallel stripes (the round-5 rule covered oscillating velocities
+   only). All foam/streak advection is now bounded dual-phase (Water2
+   style), scroll distance per cycle ∝ speed. Standing rule extended:
+   **no velocity of any kind is ever multiplied by absolute time in a
+   shader** — uniform scroll offsets (constant spatial gradient) are the
+   only exception.
+4. **De-crusted cascade foam** (research Q3): foam energy capped at 0.85
+   so the threshold noise always breaks it up (~65 % max coverage), foam
+   is off-white albedo (0.80–0.86) + roughness 0.92 — never near-white
+   (full white kills lighting shape = the crust look), cascade
+   contribution 0.55 max and always streak-textured.
+5. **Waterfalls, shader-only mode** (research option A): near-vertical
+   spans detected per-fragment from the metric slope of the still surface
+   (screen-space derivatives); those pixels switch to two down-scrolling
+   multiplied noise scales (y-stretched, aeration brightening, roughness
+   up). Skyrim's full fxwaterfall FX kit (45 NIFs + 14 DDS) is verified
+   in the vault for a later mist/base upgrade (polish backlog).
+6. **Shore surf rebuilt** (research §5). Root cause of "sea never laps":
+   swash AND lapping foam were gated by `waveExposure`, whose depth term
+   is ZERO exactly at the waterline — all shore effects were silently
+   muted at the shore. New shared closed forms in `waves.ts` (CPU + GLSL
+   twins): **fetch exposure** sampled ~30 m seaward via the shore-SDF
+   gradient; **asymmetric swash** (fast uprush, slow backwash; 0.22 m ≈
+   5–8 m horizontal runup) with a surf-beat **group envelope** (wave sets
+   — one wave runs farther; also the anti-barcode ingredient); **shoaling
+   shore swell** (fronts parallel to shore via SDF phase, Green's-law
+   amplitude, collapses in the break zone); **bore foam** riding each
+   arriving crest + backwash remnants, same phase family. Swash/swell are
+   added BEFORE the depth proxy so the advancing tongue renders on the
+   beach face instead of discarding as buried. CPU query mirrors all of
+   it (buoyancy near shore matches pixels).
 
 **Shore materials** (research: tropical-shoreline-materials Part D): three
 CC0 Poly Haven textures ingested (`beach_sand` 32, `seabed_sand` 33,

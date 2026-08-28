@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import type { CSM } from "three/examples/jsm/csm/CSM.js";
-import { WAVES, gerstnerGlsl } from "@elder-souls/game-core/water/index";
+import { WAVES, gerstnerGlsl, surfGlsl } from "@elder-souls/game-core/water/index";
 import { applyAerialPerspective, type AerialUniforms } from "../sky/aerial";
 import type { WaterAssets } from "./waterAssets";
 import { RIPPLE_PATCH_M } from "./RippleSim";
@@ -241,6 +241,7 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant): string {
   varying vec3 vEsKlass;  // turbidity(silt), salinity, tannin
   varying vec3 vEsFlow;   // flow m/s (xy) + surface drop along flow (z)
   varying vec3 vEsNormalW; // world-space wave normal
+  varying vec3 vEsSurf;   // fetch exposure, shoreward dir (xz)
 
   float esEyeDepth(vec2 uv){
     float d = texture2D(uSceneDepth, uv).x;
@@ -326,8 +327,10 @@ varying vec4 vEsData;
 varying vec3 vEsKlass;
 varying vec3 vEsFlow;
 varying vec3 vEsNormalW;
+varying vec3 vEsSurf;
 ${SAMPLER_GLSL}
-${gerstnerGlsl(tier.waveBands)}`,
+${gerstnerGlsl(tier.waveBands)}
+${surfGlsl()}`,
       )
       .replace(
         "#include <beginnormal_vertex>",
@@ -343,11 +346,35 @@ esKl = mix(esKl, vec4(0.0, 0.25, 1.0, 1.0), esOutside);
 esFl = mix(esFl, vec4(0.5, 0.5, 0.0, 1.0), esOutside);
 vec3 esSS = esShoreAt(esRestW.xz);   // shore dist, season response, tannin
 float esStill = esSurf.x + uLevelTide * esTideResponse(esKl.b) + uLevelSeason * esSS.y;
-float esVDepth = max(esSurf.y + (esStill - esSurf.x), 0.0);
 float esShore = esSS.x;
-float esExposure = esWaveExposure(esShore, esVDepth, max(esKl.g, esSS.z));
-// lapping swash: the waterline breathes up the beach (research doc §1)
-esStill += esSwash(esShore, esExposure, uWaveTime);
+float esTurbV = max(esKl.g, esSS.z);
+// shore frame: seaward = +grad(shoreDist); fetch is sampled ~30 m SEAWARD
+// so the beach edge of a big bay keeps the bay's wave energy (waves.ts
+// gating lesson — waveExposure's depth term is 0 exactly at the waterline,
+// which silently muted all lapping in rounds 2-6)
+float esFetch;
+vec2 esShoreDir = vec2(0.0);
+if (esShore < 90.0) {
+  float eG = uSurfMpp * 2.0;
+  vec2 esGradD = vec2(
+    esShoreAt(esRestW.xz + vec2(eG, 0.0)).x - esShore,
+    esShoreAt(esRestW.xz + vec2(0.0, eG)).x - esShore) / eG;
+  float esGL = length(esGradD);
+  vec2 esSeaDir = esGL > 0.05 ? esGradD / esGL : vec2(0.0);
+  esShoreDir = -esSeaDir;
+  float esSeaD = esGL > 0.05 ? esShoreAt(esRestW.xz + esSeaDir * 30.0).x : esShore;
+  esFetch = esFetchExp(max(esSeaD, esShore), esTurbV);
+} else {
+  esFetch = esFetchExp(esShore, esTurbV);
+}
+// the waterline itself TRAVELS: asymmetric swash + shoaling shore swell,
+// added BEFORE the depth proxy so the advancing tongue renders on the
+// beach face instead of being discarded as buried (research doc §5)
+esStill += esSwash(esShore, esFetch, uWaveTime);
+float esSwellDHdd;
+esStill += esShoreSwell(esShore, max(esSurf.y, 0.0), esFetch, uWaveTime, esSwellDHdd);
+float esVDepth = max(esSurf.y + (esStill - esSurf.x), 0.0);
+float esExposure = esWaveExposure(esShore, esVDepth, esTurbV);
 float esCamDist = distance(cameraPosition.xz, esRestW.xz);
 float esWaveAmp = esExposure * exp(-esCamDist * 0.0006);
 EsWave esW;
@@ -358,6 +385,10 @@ if (esWaveAmp > 0.002) {
   esW.normal = vec3(0.0, 1.0, 0.0);
   esW.height = 0.0;
 }
+// swell tilts the normal along the shoreward axis
+esW.normal.xz += esShoreDir * esSwellDHdd;
+esW.normal = normalize(esW.normal);
+vEsSurf = vec3(esFetch, esShoreDir);
 vEsData = vec4(esStill, esVDepth, esExposure, esShore);
 vEsKlass = vec3(esKl.g, esKl.b, esSS.z);   // turbidity, salinity, tannin
 vec2 esFlowV = (esFl.xy - 0.5) * 2.0 * uFlowMax;
@@ -387,6 +418,7 @@ vec3 transformed = vec3(
         "#include <common>",
         /* glsl */ `#include <common>
 ${NOISE_GLSL}
+${surfGlsl()}
 ${prelude}
 uniform float uWaveTime;
 uniform float uVerticalScale;`,
@@ -412,6 +444,16 @@ vec3 esNBase = normalize(vEsNormalW);
 float esSpeed = length(vEsFlow.xy);
 // cascades: white churning descent where the surface visibly drops
 float esCascade = smoothstep(0.04, 0.30, vEsFlow.z);
+// waterfall detection: the true metric slope of the STILL surface via
+// screen-space derivatives — near-vertical spans switch to falling-water
+// shading (research: waterfalls-realtime, option A)
+float esFall = 0.0;
+{
+  vec2 esDW = vec2(dFdx(vEsData.x), dFdy(vEsData.x)) * uVerticalScale;
+  vec2 esDP = vec2(length(vec2(dFdx(vEsWorldPos.x), dFdx(vEsWorldPos.z))),
+                   length(vec2(dFdy(vEsWorldPos.x), dFdy(vEsWorldPos.z))));
+  esFall = smoothstep(1.2, 3.0, length(esDW / max(esDP, vec2(1e-4))));
+}
 float esDist = distance(cameraPosition, vEsWorldPos);
 // distance LOD: detail normals AND their strength fade out far away —
 // unfiltered procedural ripple at 1 px = the "TV static" (round 2, defect 1)
@@ -427,8 +469,13 @@ vec2 esDrift = esSpeed > 0.05
 float esPh1 = fract(uWaveTime * 0.25);
 float esPh2 = fract(uWaveTime * 0.25 + 0.5);
 float esPhB = abs(esPh1 * 2.0 - 1.0);
-vec2 esP1 = (vEsWorldPos.xz - esDrift * esPh1 * 7.0) * 0.55;
-vec2 esP2 = (vEsWorldPos.xz - esDrift * esPh2 * 7.0) * 0.55;
+// fast water: features stretch along the flow (anisotropy is a primary
+// speed cue — research rivers-on-slopes Q2)
+vec2 esFDirN = esSpeed > 0.05 ? vEsFlow.xy / esSpeed : vec2(1.0, 0.0);
+float esStretch = 1.0 + 1.4 * smoothstep(0.4, 2.2, esSpeed);
+mat2 esAniso = mat2(esFDirN.x / esStretch, -esFDirN.y, esFDirN.y / esStretch, esFDirN.x);
+vec2 esP1 = (esAniso * (vEsWorldPos.xz - esDrift * esPh1 * 7.0)) * 0.55;
+vec2 esP2 = (esAniso * (vEsWorldPos.xz - esDrift * esPh2 * 7.0)) * 0.55;
 vec2 esG = mix(esDetailGrad(esP1, vec2(0.0)), esDetailGrad(esP2, vec2(0.0)), esPhB);
 vec2 esGF = esDetFade > 0.02
   ? esDetailGrad(vEsWorldPos.xz * 2.3 + 17.0, vec2(0.11, 0.07) * uWaveTime) * esDetFade * 0.5
@@ -489,43 +536,62 @@ esAlb = mix(esAlb, vec3(0.045, 0.065, 0.022), clamp(esTan, 0.0, 1.0));   // tea 
 // ---- foam: a system, not a blanket (round 2 defect: white sheets) ------
 float esShoreD = vEsData.w;
 float esExpo = vEsData.z;
-// 1. thin contact line exactly at the waterline
+// 1. thin contact line exactly at the waterline — fetch-boosted so the
+// active surf edge always carries a bright lip
 float esFoamE = (1.0 - smoothstep(0.015, 0.24, esThick))
-              * (0.18 + 0.5 * clamp(esExpo * 2.0, 0.0, 1.0));
-// 2. advancing lapping bands, synced to the swash rhythm (research §1)
+              * (0.18 + 0.5 * clamp(max(esExpo * 2.0, vEsSurf.x), 0.0, 1.0));
+// 2. surf: bore foam riding each arriving crest + backwash remnants —
+// same closed forms as the swell/swash geometry, so foam and waterline
+// move together; per-pixel phase jitter breaks the parallel-band look
 {
   float bn = esFbm(vEsWorldPos.xz * 0.16, 3);
-  float ph = fract((uWaveTime * 0.9 + (esShoreD + bn * 5.0) * 0.5) / 6.2831853);
-  float band = smoothstep(0.86, 0.985, 1.0 - ph);
-  esFoamE += band * (1.0 - smoothstep(2.0, 16.0, esShoreD)) * clamp(esExpo * 2.5, 0.0, 1.0) * 0.85;
+  esFoamE += esSurfFoam(esShoreD + bn * 4.0, vEsSurf.x, uWaveTime) * 0.85;
 }
 // 3. whitecaps on genuinely exposed water, never in the far shimmer zone
 float esCrest = (vEsWorldPos.y / max(uVerticalScale, 1e-3)) - vEsData.x;
 esFoamE += smoothstep(0.16, 0.34, esCrest) * esExpo * 0.8 * (1.0 - smoothstep(1200.0, 2400.0, esDist));
 // 4. rapids churn near banks + aerated cascades wherever water descends
-esFoamE += smoothstep(0.3, 1.1, esSpeed) * (1.0 - smoothstep(4.0, 30.0, esShoreD)) * 0.6;
-esFoamE += esCascade * (0.8 + 0.5 * min(esSpeed, 2.0));
+// (coverage CAPPED — a saturated threshold was the round-6 solid crust)
+esFoamE += smoothstep(0.3, 1.1, esSpeed) * (1.0 - smoothstep(4.0, 30.0, esShoreD)) * 0.5;
+esFoamE += esCascade * 0.55;
 // 5. player/crate/splash rings + sim crests
 esFoamE += esContactFoam(vEsWorldPos.xz) + esRipCrest * 0.5;
-// murky water barely foams white
-esFoamE = min(esFoamE, 1.0) * (1.0 - 0.75 * esMurk);
-// advection offset: flow × time (steady slide) + a BOUNDED wander for still
-// water. Never multiply an oscillating velocity by total time — at large
-// water-clock t the product swings hundreds of metres per frame and smears
-// the foam into parallel streaks (owner round 5, the "barcode" wake).
-vec2 esFoamOff = vEsFlow.xy * uWaveTime * 0.35
-               + vec2(sin(uWaveTime * 0.13), cos(uWaveTime * 0.11)) * 1.1;
-float esFTex = esFbm(vEsWorldPos.xz * 0.55 - esFoamOff, 3);
+// murky water barely foams white; cap below saturation so the threshold
+// texture ALWAYS breaks the foam up (max coverage ~0.65, research Q3)
+esFoamE = min(esFoamE, 0.85) * (1.0 - 0.75 * esMurk);
+// foam advection: DUAL-PHASE, like the normals. Scroll distance per cycle
+// ∝ speed (Valve's one true speed knob). Never any velocity × absolute
+// time: an OSCILLATING velocity × t swings hundreds of metres per frame
+// (round-5 barcode); a SPATIALLY-VARYING velocity × t shears neighbouring
+// pixels apart until the noise shreds into stripes (round-6 barcode).
+float esFTex;
+{
+  vec2 esFP1 = (vEsWorldPos.xz - esDrift * esPh1 * 7.0) * 0.55;
+  vec2 esFP2 = (vEsWorldPos.xz - esDrift * esPh2 * 7.0) * 0.55;
+  esFTex = mix(esFbm(esFP1, 3), esFbm(esFP2, 3), esPhB);
+}
 // flowing water reads as CURRENT: foam stretches into streaks along the
 // flow and slides downstream (owner round 6 — rivers must look like rivers)
 if (esSpeed > 0.3) {
-  vec2 esFDir = vEsFlow.xy / esSpeed;
-  vec2 esFlowP = vec2(
-    dot(vEsWorldPos.xz, esFDir) * 0.20 - uWaveTime * 0.45 * min(esSpeed, 2.5),
-    dot(vEsWorldPos.xz, vec2(-esFDir.y, esFDir.x)) * 0.85);
-  float esStreak = esFbm(esFlowP, 3);
+  float esAlong = dot(vEsWorldPos.xz, esFDirN);
+  float esAcross = dot(vEsWorldPos.xz, vec2(-esFDirN.y, esFDirN.x));
+  float esAdv = min(esSpeed, 2.5) * 9.0;   // metres per cycle — bounded
+  vec2 esSP1 = vec2((esAlong - esAdv * esPh1) * 0.20, esAcross * 0.85);
+  vec2 esSP2 = vec2((esAlong - esAdv * esPh2) * 0.20, esAcross * 0.85);
+  float esStreak = mix(esFbm(esSP1, 3), esFbm(esSP2, 3), esPhB);
   esFTex = mix(esFTex, esStreak, smoothstep(0.35, 1.0, esSpeed));
-  esFoamE += smoothstep(0.6, 1.6, esSpeed) * 0.35;
+  esFoamE += smoothstep(0.6, 1.6, esSpeed) * 0.3;
+}
+// falling water (near-vertical spans): two down-scrolling noise scales,
+// multiplied; a uniform scroll offset is SAFE with absolute time (its
+// spatial gradient is constant). Aeration brightens, never whites out.
+if (esFall > 0.01) {
+  float esY = vEsWorldPos.y / max(uVerticalScale, 1e-3);
+  float esAcrossF = dot(vEsWorldPos.xz, vec2(-esFDirN.y, esFDirN.x));
+  float esF1 = esFbm(vec2(esAcrossF * 0.9, esY * 0.22 + uWaveTime * 2.6), 3);
+  float esF2 = esFbm(vec2(esAcrossF * 0.35 + 7.0, esY * 0.08 + uWaveTime * 1.1), 2);
+  esFTex = mix(esFTex, esF1 * (0.55 + 0.9 * esF2), esFall);
+  esFoamE = mix(esFoamE, 0.42 + 0.30 * esF2, esFall);
 }
 float esFThr = 1.0 - esFoamE;
 float esFoam = smoothstep(esFThr - 0.18, esFThr + 0.26, esFTex)
@@ -534,11 +600,14 @@ esFoam = clamp(esFoam, 0.0, 1.0)
        * (0.5 + 0.5 * esFbm(vEsWorldPos.xz * 1.9 + vec2(sin(uWaveTime * 0.17), cos(uWaveTime * 0.15)) * 0.8, 3))
        * (0.25 + 0.75 * esFarFade) * 0.9;
 float esFoamShade = 0.72 + 0.36 * esFbm(vEsWorldPos.xz * 3.7, 3);
-diffuseColor.rgb = mix(esAlb * (1.0 - esT), vec3(0.92, 0.95, 0.97) * esFoamShade, esFoam);
+// foam is off-white ALBEDO + high roughness, never near-1.0 white — full
+// white kills all lighting shape and reads as crust (research Q3)
+diffuseColor.rgb = mix(esAlb * (1.0 - esT), vec3(0.80, 0.84, 0.86) * esFoamShade, esFoam);
 // distance roughness LOD kills specular fireflies (round 2, defect 1)
 roughnessFactor = mix(
-  clamp(0.05 + esTurb * 0.28 + min(esSpeed, 1.0) * 0.08 + (1.0 - esFarFade) * 0.24, 0.0, 0.75),
-  0.85, esFoam);
+  clamp(0.05 + esTurb * 0.28 + min(esSpeed, 1.0) * 0.08 + (1.0 - esFarFade) * 0.24
+        + esFall * 0.35, 0.0, 0.85),
+  0.92, esFoam);
 #include <emissivemap_fragment>`
           : /* glsl */ `
 float esTurb = clamp(vEsKlass.x + vEsKlass.z, 0.0, 1.0);

@@ -67,27 +67,83 @@ export function waveExposure(shoreDistM: number, depthM: number, turbidity = 0):
   return fetch * deep * (1 - 0.85 * Math.min(Math.max(turbidity, 0), 1));
 }
 
-/** Shore swash: the slow lapping rhythm that runs the waterline up and down
- * the beach (research: distance-field wave bands — docs/research/
- * water-edges-and-shore-waves.md). Shared by the vertex shader, the CPU
- * query and the terrain wetness band. Returns a HEIGHT offset (m). */
+/** Shore surf system (round 7; research doc §5): the waterline must visibly
+ * TRAVEL up and down the beach, fed by arriving, shoaling swell. Three shared
+ * closed forms — surf group envelope, asymmetric swash, shore swell — used
+ * identically by the vertex shader, the CPU query, the foam system and the
+ * terrain wetness band.
+ *
+ * CRITICAL GATING LESSON: never gate shore effects by `waveExposure` — its
+ * depth term goes to ZERO exactly at the waterline, which silently muted all
+ * lapping in rounds 2–6. Shore effects gate on FETCH exposure instead,
+ * sampled a little seaward so the beach edge of a big bay keeps the bay's
+ * energy. */
 export const SWASH = {
-  amplitudeM: 0.09,
-  bandM: 18.0, // swash influence fades out this far from shore
-  omega: 0.9, // rad/s
-  k: 0.5, // rad/m of shore distance (bands travel shoreward)
+  amplitudeM: 0.22, // vertical; ~5–8 m horizontal runup on a beach apron
+  bandM: 26.0, // swash influence fades out this far from shore
+  omega: 0.9, // rad/s (shared with the swell so one wave feeds one uprush)
+  k: 0.35, // rad/m of shore distance (bands travel shoreward)
+  skew: 0.6, // asymmetric oscillator: fast uprush, slow gravity backwash
+  phase: 0.8, // uprush peaks just after the swell crest arrives at d=0
+  groupOmega: 0.15, // surf-beat: wave sets, one wave runs visibly farther
+  groupK: 0.06,
 } as const;
 
-export function swashAt(shoreDistM: number, exposure: number, timeS: number): number {
-  const envelope = Math.max(1 - shoreDistM / SWASH.bandM, 0) * Math.min(exposure * 2.5, 1);
+export const SHORE_SWELL = {
+  amplitudeM: 0.17,
+  k: 0.45, // rad/m — ~14 m wavelength near shore
+  buildNearM: 30.0, // envelope builds approaching the shore…
+  buildFarM: 70.0,
+  breakInnerM: 3.0, // …and collapses (−70 %) inside the break zone
+  breakOuterM: 9.0,
+  fetchM: 60.0,
+} as const;
+
+const clamp01 = (v: number) => Math.min(Math.max(v, 0), 1);
+const sstep = (e0: number, e1: number, x: number) => {
+  const t = clamp01((x - e0) / (e1 - e0));
+  return t * t * (3 - 2 * t);
+};
+
+/** Surf-beat group envelope 0.1..1 — modulates swell, swash and shore foam
+ * together so successive waves differ (the anti-"barcode" ingredient). */
+export function surfGroup(shoreDistM: number, timeS: number): number {
+  return 0.55 + 0.45 * Math.sin(SWASH.groupOmega * timeS - SWASH.groupK * shoreDistM);
+}
+
+/** Fetch-only exposure for shore effects — pass the shore distance sampled
+ * ~30 m SEAWARD of the point (see gating lesson above). */
+export function fetchExposure(seawardShoreDistM: number, turbidity = 0): number {
+  return clamp01(seawardShoreDistM / SHORE_SWELL.fetchM) * (1 - 0.85 * clamp01(turbidity));
+}
+
+/** Asymmetric swash height offset (m) — the moving waterline itself. */
+export function swashAt(shoreDistM: number, fetchExp: number, timeS: number): number {
+  const envelope = Math.max(1 - shoreDistM / SWASH.bandM, 0) * clamp01(fetchExp * 1.6);
   if (envelope <= 0) return 0;
-  return (Math.sin(SWASH.omega * timeS + SWASH.k * shoreDistM) * 0.5 + 0.2) * SWASH.amplitudeM * envelope;
+  const th = SWASH.omega * timeS - SWASH.k * shoreDistM - SWASH.phase;
+  const skewed = Math.cos(th - SWASH.skew * Math.sin(th));
+  return (skewed * 0.5 + 0.25) * SWASH.amplitudeM * envelope * surfGroup(shoreDistM, timeS);
 }
 
 /** Max swash lift (for the terrain wet band: recent waterline = W + this). */
-export function swashMax(shoreDistM: number, exposure: number): number {
-  const envelope = Math.max(1 - shoreDistM / SWASH.bandM, 0) * Math.min(exposure * 2.5, 1);
-  return 0.7 * SWASH.amplitudeM * envelope;
+export function swashMax(shoreDistM: number, fetchExp: number): number {
+  const envelope = Math.max(1 - shoreDistM / SWASH.bandM, 0) * clamp01(fetchExp * 1.6);
+  return 0.75 * SWASH.amplitudeM * envelope;
+}
+
+/** Shoaling shore swell height (m): fronts parallel to the waterline,
+ * amplitude grows as depth shrinks (Green's law, capped), collapses in the
+ * break zone where its energy becomes foam + swash. */
+export function shoreSwellAt(shoreDistM: number, depthM: number, fetchExp: number, timeS: number): number {
+  const env = (1 - sstep(SHORE_SWELL.buildNearM, SHORE_SWELL.buildFarM, shoreDistM))
+    * (0.3 + 0.7 * sstep(SHORE_SWELL.breakInnerM, SHORE_SWELL.breakOuterM, shoreDistM))
+    * clamp01(fetchExp * 2.0);
+  if (env <= 0) return 0;
+  const shoal = Math.min(Math.max(Math.pow(Math.max(depthM, 0.3) / 2.0, -0.25), 1.0), 1.8);
+  const th = SHORE_SWELL.k * shoreDistM + SWASH.omega * timeS;
+  return SHORE_SWELL.amplitudeM * env * shoal
+    * (Math.cos(th) + 0.3 * Math.cos(2.0 * th + 0.5)) * surfGroup(shoreDistM, timeS);
 }
 
 /** Exact port of WaterThreeJS's GLSL hash21 (per-band angle/phase). */
@@ -194,6 +250,60 @@ const f = (v: number) => {
 };
 
 /**
+ * GLSL twin of the shore-surf closed forms (surfGroup / fetchExposure /
+ * swashAt / shoreSwellAt). Included by BOTH the water vertex stage (geometry)
+ * and the fragment stage (surf foam) — constants baked from the same tables.
+ * `esShoreSwell` also returns dH/d(shoreDist) for the vertex normal tilt.
+ */
+export function surfGlsl(): string {
+  return /* glsl */ `
+  float esSurfGroup(float d, float t) {
+    return 0.55 + 0.45 * sin(${f(SWASH.groupOmega)} * t - ${f(SWASH.groupK)} * d);
+  }
+  float esFetchExp(float seawardD, float turb) {
+    return clamp(seawardD / ${f(SHORE_SWELL.fetchM)}, 0.0, 1.0)
+         * (1.0 - 0.85 * clamp(turb, 0.0, 1.0));
+  }
+  // KEEP IN LOCKSTEP with swashAt() — the moving waterline itself.
+  float esSwash(float d, float fetchExp, float t) {
+    float envelope = max(1.0 - d / ${f(SWASH.bandM)}, 0.0) * clamp(fetchExp * 1.6, 0.0, 1.0);
+    if (envelope <= 0.0) return 0.0;
+    float th = ${f(SWASH.omega)} * t - ${f(SWASH.k)} * d - ${f(SWASH.phase)};
+    float skewed = cos(th - ${f(SWASH.skew)} * sin(th));
+    return (skewed * 0.5 + 0.25) * ${f(SWASH.amplitudeM)} * envelope * esSurfGroup(d, t);
+  }
+  // KEEP IN LOCKSTEP with shoreSwellAt().
+  float esShoreSwell(float d, float depthM, float fetchExp, float t, out float dHdd) {
+    float env = (1.0 - smoothstep(${f(SHORE_SWELL.buildNearM)}, ${f(SHORE_SWELL.buildFarM)}, d))
+              * (0.3 + 0.7 * smoothstep(${f(SHORE_SWELL.breakInnerM)}, ${f(SHORE_SWELL.breakOuterM)}, d))
+              * clamp(fetchExp * 2.0, 0.0, 1.0);
+    dHdd = 0.0;
+    if (env <= 0.0) return 0.0;
+    float shoal = clamp(pow(max(depthM, 0.3) / 2.0, -0.25), 1.0, 1.8);
+    float th = ${f(SHORE_SWELL.k)} * d + ${f(SWASH.omega)} * t;
+    float grp = esSurfGroup(d, t);
+    float a = ${f(SHORE_SWELL.amplitudeM)} * env * shoal * grp;
+    dHdd = a * (-sin(th) - 0.6 * sin(2.0 * th + 0.5)) * ${f(SHORE_SWELL.k)};
+    return a * (cos(th) + 0.3 * cos(2.0 * th + 0.5));
+  }
+  // Surf foam energy: a bore riding each arriving crest (peaking in the
+  // break zone, where the swell's energy goes) + backwash remnants after
+  // the crest passes. Same phase family as the swell — foam and geometry
+  // arrive together.
+  float esSurfFoam(float d, float fetchExp, float t) {
+    float env = (1.0 - smoothstep(2.0, ${f(SWASH.bandM)}, d)) * clamp(fetchExp * 1.8, 0.0, 1.0);
+    if (env <= 0.0) return 0.0;
+    float th = ${f(SHORE_SWELL.k)} * d + ${f(SWASH.omega)} * t;
+    float crest = cos(th - ${f(SWASH.skew)} * sin(th));
+    float grp = esSurfGroup(d, t);
+    float bore = smoothstep(0.45, 0.92, crest) * (0.5 + 0.5 * grp);
+    float back = smoothstep(0.2, 0.8, -crest) * 0.22 * grp;
+    return (bore + back) * env;
+  }
+  `;
+}
+
+/**
  * The GLSL twin: declares `esWaveSample(vec2 pos, float exposure, float t)`
  * plus the shared exposure helper. Constants are baked from the SAME table
  * the CPU uses. `bandCount` lets the low tier truncate the spectrum.
@@ -214,14 +324,6 @@ export function gerstnerGlsl(bandCount: number = WAVES.bands): string {
     return clamp(shoreDistM / ${f(WAVES.fetchSaturationM)}, 0.0, 1.0)
          * clamp(depthM / ${f(WAVES.depthSaturationM)}, 0.0, 1.0)
          * (1.0 - 0.85 * clamp(turbidity, 0.0, 1.0));
-  }
-
-  // KEEP IN LOCKSTEP with swashAt() — the lapping shoreline rhythm.
-  float esSwash(float shoreDistM, float exposure, float t) {
-    float envelope = max(1.0 - shoreDistM / ${f(SWASH.bandM)}, 0.0) * min(exposure * 2.5, 1.0);
-    if (envelope <= 0.0) return 0.0;
-    return (sin(${f(SWASH.omega)} * t + ${f(SWASH.k)} * shoreDistM) * 0.5 + 0.2)
-         * ${f(SWASH.amplitudeM)} * envelope;
   }
 
   EsWave esWaveBand(vec2 pos, float exposure, float t, vec2 d,
