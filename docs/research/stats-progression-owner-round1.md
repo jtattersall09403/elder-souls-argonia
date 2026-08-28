@@ -11,14 +11,20 @@
 > Minor calls are not asked here — they are proposed defaults (inventory §5),
 > vetoable at round 2.
 >
-> **Status: ANSWERED 2026-08-28 (see §Answers). F2 and F3 CLOSED (owner
-> 2026-08-28): F2 = the full package (damage range positioned by skill on the
-> top ~40–100 % with soft-capped curve; + stamina cost, recovery, gear wear,
-> bow handling; no unlocks, no requirements). F3 = save-on-rest accepted
-> (camp anywhere calm, never in dungeons/combat; hidden suspend save for
-> browser interruption). **F1 still OPEN** — owner countered with variants
-> A/B/C (recorded below); comparative analysis presented in chat 2026-08-28,
-> recommendation A.**
+> **Status: ROUND 1 CLOSED 2026-08-28.** All 13 questions answered
+> (§Answers); F2 = the weapon package (damage range positioned by skill on
+> the top ~40–100 % of a per-class range with a soft-capped curve, + stamina
+> cost, recovery speed, gear wear, bow handling; no unlocks, no
+> requirements); F3 = save-on-rest (camp anywhere calm, never in dungeons or
+> combat; hidden suspend save covers browser interruption; death = wake at
+> last rest, world and character persist); F1 = the souls-from-skill-use
+> levelling design (§F1 below — owner counter-proposal, agent
+> recommendation (ii) accepted by standing owner instruction 2026-08-28:
+> "assume I'm accepting it unless I tell you otherwise").
+> **Next: module 76 §103.1 steps 5–8** — detail the decided design into
+> module 76, numbers packet, balance-simulation harness
+> (`tooling/stats-sim/`), owner round 2. Decision record:
+> [0031](../decisions/0031-workstream-s-round1-shape.md).
 
 ## The questions
 
@@ -227,25 +233,51 @@ all keeps have assets + animations with open permissions):
     restrictions only — Morrowind-weight racial *stat* packages (Argonian
     poison immunity, disease resist, water breathing, athletics) stand.
 
-### F1 owner counter-variants (2026-08-28, OPEN)
+### F1 — CLOSED: the levelling design (owner counter-proposal + variant (ii), 2026-08-28)
 
-- **A**: skills by use; souls from kills; banking a level at rest = pick
-  attributes and *buy* the raises with souls, **no usage discount** (the
-  usage-coupling is what people disliked about Morrowind); dropped souls on
-  death → strong retrieval incentive.
-- **B**: souls *are* skill points — using a skill accrues points to it;
-  enough points → skill-up; 10 skill-ups → rest to level; dying drops **all
-  skill points accrued since the last level** at the death spot, retrievable.
-  Owner asks: would this actually be fun, what play does it encourage?
-- **C**: no souls at all — Morrowind levelling with no multipliers, just
-  pick 3 attributes to raise.
+Evolution: agent options (souls-from-kills) → owner counter: souls accrue
+from **skill use**, not kills (no quest-reward patch needed; every archetype
+earns by playing its way), with two sub-variants — (i) souls *pay for* the
+level itself, or (ii) Morrowind's skill-up trigger with souls spent on
+attribute raises at the screen. Agent recommendation **(ii)**, accepted.
 
-Analysis presented in chat (recommendation **A**, with: souls also in
-authored quest rewards so stealth/speech builds progress; souls spend on
-attributes only; second-death loses the pile; lore-grounded province name
-for the mechanic to be dossier-sourced at step 5). Key arguments: B has an
-uncontrollable risk window (banking is gated on the 10-count, so exposure
-can't be managed the way Souls' spend-anytime allows) and stakes the
-player's *practice* rather than a currency; C is viable but pairs with
-death-as-rewind (save-on-rest makes the save the bank), trading the
-retrieval loop for redo-frustration.
+**The decided mechanism** (self-contained for step 5):
+
+1. **Souls accrue from effective skill use** — the same accrual engine and
+   the same "in anger"/worthiness anti-grind rules as skill XP (souls
+   inherit every skill-grind exploit, so those rules now guard both; the
+   simulation hunts the survivors). "Souls" is a **placeholder name**: the
+   in-game name and fiction must be lore-grounded via dossiers at step 5
+   (memory/essence theme fits the main quest's "the dead lose their way
+   home"; must NOT collide with soul gems, which keep their canon meaning).
+2. **Death**: skill progress is never lost; carried souls drop at the death
+   spot; wake at last rest (world and character otherwise persist, F3); one
+   retrieval; dying again = the old pile is gone (the new pile drops at the
+   new spot). Gold and items are never lost.
+3. **Levelling (variant ii)**: 10 major/minor skill-ups → eligible; bank by
+   resting. The Morrowind-style level screen, **no multipliers**: buy
+   attribute points with souls — **cap +5 per attribute per level**
+   (Morrowind's familiar max), rising per-point cost within the sitting,
+   gentle global cost curve over character level. **Unspent souls carry
+   over** — no wasted levels.
+4. **Rule — no laundering**: trained skill-ups and skill-book gains count
+   toward the 10-up trigger but yield **no souls** (closes gold → training →
+   souls → attributes).
+5. **Rule — one job**: souls buy attributes only; gold buys everything else.
+6. **Default — health is continuous**: health derives from Endurance and
+   level as a formula (retroactive by construction), killing Morrowind's
+   max-Endurance-first pathology.
+
+**Why (ii) over (i)**: under (i) souls are the *only* gate, so optimal play
+is "rest the moment you can afford it" — a choice-free threshold producing
+frequent tiny levels, minimal at-risk piles (weak death stakes) and a
+diluted level-screen moment. (ii) keeps the Morrowind rhythm, makes the
+screen a genuine spending decision, and creates the real Souls choice —
+push on with a fat pile or hurry the remaining skill-ups and bank. Exposure
+is player-influenced; the at-risk object is retrievable currency, never
+practice (the flaw that killed variant B).
+
+**Flagged for the simulation**: soul-economy sizing (a typical 10-up cycle
+should afford ~mid-range attribute buys at every stage — affordability band
+invariant); grind-exploit hunting through the shared worthiness rules;
+progression pacing (time-to-competence).

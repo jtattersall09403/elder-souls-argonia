@@ -33,3 +33,4 @@ record and marking the old one superseded — don't rewrite history.
 - [0028 — allegiance reward tracks, the quest index and the novelty rule](0028-allegiance-reward-tracks.md)
 - [0029 — forward research pack for Phases 8c–13 (weather/traversal/boats/settlements/kits/xanmeers); exemplar-first rollout for placement systems](0029-phase-plan-research-review.md)
 - [0030 — quest-plan QA review: 56-finding register incl. world-bones fit, tier-protection rule, Xal-Krona boss switch — CLOSED, all applied 2026-08-28](0030-quest-plan-qa-review.md)
+- [0031 — workstream S round 1: the decided stat-system shape (souls-from-skill-use levelling, weapon damage-range skill, potions not flasks, save-on-rest)](0031-workstream-s-round1-shape.md)
