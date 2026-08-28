@@ -170,10 +170,13 @@ unarmoured slots. [default, table authored at step 5]
   (drain-proof: reads base values); training/bribes/tolls/fares as sinks;
   spellmaking fee-scaled; enchanting services expensive; barter band by
   Mercantile + disposition.
-- **Rest** [default]: one mechanic carries level-consolidation, flask refill,
-  magicka/fatigue restore and (with safe-rest knowledge, 0007) the access
-  progression. Enemy repopulation on rest: **no** — fixed world state, no
-  bonfire-respawn; sim to verify attrition pacing instead.
+- **Rest** [decided 2026-08-28, supersedes the earlier no-respawn default]:
+  one mechanic carries the save (F3), level banking + soul spending (F1),
+  health/magicka restore and (with safe-rest knowledge, 0007) the access
+  progression. **Generic enemies respawn on rest** (owner ruling, decision
+  0031): creatures/wildlife/misc dungeon denizens by default; named NPCs,
+  minibosses, bosses never; cleared dungeons stop respawning; death-wake
+  counts as a rest. The flask refill went with the flask (Q7).
 - **Swim/climb/boats** [default]: stat hooks per world 60 §43 —
   Athletics/Acrobatics/burden/race/spells feed TraversalCapabilityProfile;
   breath = Morrowind 20 s base scaled by Athletics & Endurance, ∞ for

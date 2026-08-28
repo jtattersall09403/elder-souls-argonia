@@ -19,9 +19,10 @@
 > combat; hidden suspend save covers browser interruption; death = wake at
 > last rest, world and character persist); F1 = the souls-from-skill-use
 > levelling design (§F1 below — owner counter-proposal; agent
-> recommendation (ii), re-affirmed 2026-08-28 after an owner challenge
-> forced a corrected comparison — awaiting the owner's one-word
-> finalisation of (i) vs (ii); everything else in F1 is settled).
+> **(ii) FINAL** — owner 2026-08-28: "(ii) still edges it due
+> to more choice" — with two closing clarifications in §F1: the honest
+> scope of the failure-spiral argument, and the **respawn-on-rest world
+> ruling** the finalisation surfaced).
 > **Next: module 76 §103.1 steps 5–8** — detail the decided design into
 > module 76, numbers packet, balance-simulation harness
 > (`tooling/stats-sim/`), owner round 2. Decision record:
@@ -302,3 +303,32 @@ invariant).
 should afford ~mid-range attribute buys at every stage — affordability band
 invariant); grind-exploit hunting through the shared worthiness rules;
 progression pacing (time-to-competence).
+
+**Final clarifications (owner, 2026-08-28 — F1 CLOSED as (ii)):**
+
+- *Spiral argument, corrected scope* (owner challenge): since the level
+  screen **is** the attribute buying, (ii) does NOT protect attribute growth
+  from soul losses — that spiral exists under both (i) and (ii). What (ii)
+  uniquely protects is the **level rhythm and its health gain** (driven by
+  skill-ups, which death never touches). The shared attribute spiral is
+  acceptable because soul income flows from *use*, so a struggling player
+  can always rebuild through lower-risk play — and the respawn ruling below
+  keeps that income sustainable everywhere. (ii) finalised on choice
+  texture + the health/rhythm firewall.
+- **Respawn-on-rest (owner ruling — world-design scope, recorded in
+  decision 0031 for Phases 11/12/13 visibility):** by default, **generic
+  enemies — creatures, wildlife, miscellaneous dungeon denizens — respawn
+  when the player rests**; named NPCs, minibosses, bosses and quest actors
+  never respawn; a **completed/cleared dungeon** flips its generic
+  population to non-respawning (completion authored per dungeon). **Waking
+  from death counts as a rest**, so retrieval runs cross repopulated ground.
+  Rationale: with no respawns, camp-anywhere + cleared ground makes "walk
+  back, bank, walk forward again" strictly optimal and tedious; respawn
+  restores the Dark Souls tradeoff (banking mid-expedition costs
+  re-clearing), gives retrieval runs teeth, and sustains combat-skill soul
+  income. Constraints kept: respawned creatures carry only their template
+  drops (ingredients etc.) — **placed treasure never respawns** (0004 fixed
+  loot intact); populations remain fixed by place/era/world-state and the
+  rule is deterministic and save-reproducible (0004 holds). Data model:
+  a per-actor/per-socket respawn class (shaped like
+  `onRest | never | untilCleared`), authored by the Phase 12/13 compilers.

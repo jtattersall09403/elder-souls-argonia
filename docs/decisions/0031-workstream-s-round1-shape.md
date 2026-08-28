@@ -32,6 +32,18 @@ self-contained detail, lives in
   brew your way through a hard area is the intended fun, not a breach.
 - **Save-on-rest**: camping anywhere calm (never dungeons/combat); hidden
   suspend save for browser interruption; death = wake at last rest.
+- **Respawn-on-rest (owner, 2026-08-28 — world-design ruling, binding on
+  Phases 11/12/13 and the dungeon/ecology compilers):** generic enemies
+  (creatures, wildlife, misc dungeon denizens) **respawn when the player
+  rests**; named NPCs, minibosses, bosses and quest actors never; a
+  completed dungeon's generic population stops respawning (completion
+  authored per dungeon); **waking from death counts as a rest** (retrieval
+  runs cross repopulated ground). Respawned creatures carry template drops
+  only — placed treasure never respawns; populations stay fixed by
+  place/era/world-state, deterministic and save-reproducible, so 0004 is
+  untouched. Rationale + data-model shape (`onRest | never | untilCleared`
+  per actor/socket): owner-round1 doc §F1. This supersedes the earlier
+  "no repopulation on rest" proposed default.
 - **Categories**: keep spears/pikes/halberds/quarterstaves, medium armour,
   unarmed; cut whips, crossbows and throwing weapons. Marksman = bows.
 - **Crafting**: alchemy + enchanting + spellmaking kept, bounded (crafting
