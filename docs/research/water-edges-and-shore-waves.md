@@ -168,3 +168,145 @@ sand (§2 route 1, same formula in the terrain shader) — all uniform-synced, n
 Depth-fade + slope-aware foam threshold fixes the contact line (§3). A single 256² RG16F
 Skyrim-style local sim patch adds all interactivity (§4). Terrain-side: carve gentle beach
 aprons at generation time on shores flagged as beaches.
+
+## 5. Round 7 — why lapping still doesn't read, and the fix
+
+Second research pass (2026-08-28), after the owner reported that the Tier-A analytic
+swash still "is not lapping on the shore as it should". Diagnosis from what shipped
+implementations actually do, then the recipe.
+
+### 5.1 Diagnosis: four things our Tier A is missing
+
+**(a) The eye reads the WATERLINE MOVING, not foam lines.** Every stylised
+implementation that convincingly "laps" — Cyanilux's shoreline shader, the Animal
+Crossing-style beach shaders — makes the *edge of the water itself* translate metres up
+and down the sand, with foam and wet sand hung off that moving edge
+([Cyanilux breakdown](https://www.cyanilux.com/tutorials/shoreline-shader-breakdown/):
+the cosine swash *offsets the shoreline gradient*, i.e. the alpha edge, before any foam;
+[Feargrieve's ACNH-style tide shader](https://feargrieve.wordpress.com/portfolio/beach-waves-shader/):
+layered masks pushing a foam edge *and a transparent water layer* up the sand, then
+retracting). Our swash is a 9 cm **vertical** sine (`SWASH.amplitudeM = 0.09`); on a
+typical 2–6° beach apron that is only ~1–2.5 m of horizontal excursion, symmetric in
+time — it reads as the sea gently *throbbing*, not as waves arriving. Vertical amplitude
+is the wrong control knob: the spec should be **horizontal runup excursion** (real swash
+excursions are metres to tens of metres), back-derived per-shore from the apron slope.
+
+**(b) No geometric arrival: waves must visibly approach, shoal, and break.** All the
+engine-level systems make the *swell geometry* interact with the shore:
+- UE5's ocean attenuates Gerstner waves by water depth ("depth at which waves are
+  attenuated" on the [Water Body Actor](https://dev.epicgames.com/documentation/en-us/unreal-engine/water-body-actors-in-unreal-engine)).
+- Crest dampens waves where depth < λ/2 with a configurable "Attenuation In Shallows",
+  driven by a baked seabed depth cache
+  ([Shorelines and Shallows](https://crest.readthedocs.io/en/stable/user/shallows-and-shorelines.html));
+  its ShapeGerstner component exists specifically for "shoreline waves"
+  ([Waves](https://crest.readthedocs.io/en/stable/user/waves.html)).
+- Unity HDRP goes further with an explicit **Shore Wave deformer**: a train of bumps
+  *translating shoreward*, with `Speed`, `Wavelength`, a **`Skipped Waves`** proportion,
+  a `Blend Range` where amplitude is maximal, and a **`Breaking Range`** where "the wave
+  reaches its maximum amplitude at the start of the range, generates surface foam inside
+  it and loses 70 % of its amplitude at the end"
+  ([HDRP water deformer docs](https://docs.unity3d.com/Packages/com.unity.render-pipelines.high-definition@17.0/manual/water-deform-a-water-surface.html);
+  the [Island sample](https://github.com/Unity-Technologies/WaterScenes) drives these
+  along the beach via custom render textures — [Unity blog](https://unity.com/blog/engine-platform/new-hdrp-water-system-in-2022-lts-and-2023-1)).
+  That max→break(foam)→−70 %→swash amplitude profile is the exact envelope to copy.
+- Physics for the profile: shoaling. Keep ω fixed; depth changes the dispersion to
+  ω² = g·k·tanh(k·D) ([Tessendorf course notes](https://jtessen.people.clemson.edu/reports/papers_files/coursenotes2002.pdf)),
+  so k grows (wavelength shortens, crests bunch up) and amplitude grows as
+  A ∝ D^(−1/4) (Green's law, [wave shoaling](https://en.wikipedia.org/wiki/Wave_shoaling))
+  until breaking at D_b ≈ H/0.78 (breaker index). Ubisoft's newest coasts (Skull &
+  Bones) even model the collapsing topology with swept approximation curves because
+  heightfields can't ([SIGGRAPH 2024 talk](https://dl.acm.org/doi/10.1145/3641233.3664308)) —
+  far beyond us, but it confirms the read comes from *shape*, not texture. GPU Gems ch. 1
+  gives the pragmatic floor: attenuate amplitude by depth and clamp vertices to never go
+  below terrain, "for a gradual die-off of waves coming onto a shallow shore"
+  ([GPU Gems 1 ch. 1](https://developer.nvidia.com/gpugems/gpugems/part-i-natural-effects/chapter-1-effective-water-simulation-physical-models)).
+  [Frozen Fractal's WebGL sailing game](https://frozenfractal.com/blog/2024/5/31/around-the-world-15-making-waves/)
+  ships exactly this minimal loop: depth<λ/2 attenuation to zero at the waterline plus
+  "opaque white where depth (incl. wave height) < 1 m".
+
+**(c) Real swash is asymmetric.** Bore-driven swash has maximum velocity at the *start*
+of the uprush, near-linear deceleration to reversal, then a gravity-accelerated backwash
+that lasts *longer* than the uprush
+([Coastal Wiki swash-zone dynamics](https://www.coastalwiki.org/wiki/Swash_zone_dynamics),
+[Wikipedia Swash](https://en.wikipedia.org/wiki/Swash)). A symmetric `sin(ωt)` is the
+single biggest tell after amplitude. Cyanilux notes the same limitation of his cosine.
+
+**(d) The barcode: equal, parallel, ever-firing bands read as fake.** Three proven
+breakers-up, all cheap:
+1. **Phase jitter**: distort the shore-distance gradient with world-space noise before
+   banding (Cyanilux — already partially in).
+2. **Per-wave amplitude variation / skipped waves**: HDRP has a literal `Skipped Waves`
+   parameter; Outerra masks its procedural beach waves "using a texture with a mask
+   changing in time so they aren't continual all around the shore"
+   ([Outerra ocean rendering](https://outerra.blogspot.com/2011/02/ocean-rendering.html)).
+3. **Wave groups (surf beat)**: real waves arrive in sets of ~3–10 with lulls between —
+   the "every 7th wave" folk rule — because wave groups drive a bound infragravity
+   oscillation of the shoreline itself
+   ([infragravity waves](https://en.wikipedia.org/wiki/Infragravity_wave),
+   [wave sets & lulls](https://oceanfit.com.au/education/wave-sets-and-lulls-is-every-seventh-wave-the-biggest/)).
+   One slow envelope multiplying band amplitude AND swash amplitude gives "one swash
+   suddenly runs much farther up the beach" — the signature of real lapping. Run-up =
+   slow set-up/set-down component + per-wave swash
+   ([Coastal Wiki wave run-up](https://www.coastalwiki.org/wiki/Wave_run-up)).
+
+### 5.2 Phase relationships (what syncs with what)
+
+Physically correct ordering per cycle, from the sources above: crest arrives at the
+break depth → **surface foam is born inside the breaking range** (HDRP), i.e. foam max
+leads the tongue; the bore front (leading edge of the uprush tongue) carries the densest
+foam, moving fastest at the *start* of the uprush; during the backwash foam is stranded
+in arcs and streaks aligned with the flow (down-slope, ⊥ shore) — the Godot
+[Realistic Shoreline](https://reboot16.itch.io/godot-rsw) demo strands "foam arcs" from
+the draining swash; **wet sand darkens the instant water covers it and dries slowly**
+(45 s in that demo — a time constant ≫ the swash period, so the wet band is the envelope
+of recent maxima, sharpest just behind the retreating edge). Our single travelling phase
+θ = ωt + k·d already gives crest→swash continuity for free; keep it and hang the new
+envelopes off it.
+
+### 5.3 Recipe for our stack
+
+One shared phase, three new envelopes, all analytic (CPU query, water shader, terrain
+shader keep evaluating identical closed forms — extend the `SWASH` table in
+`packages/game-core/src/water/waves.ts`):
+
+- **Inputs**: shore-distance d (SDF raster) and its gradient ∇d (bake an RG gradient
+  raster next to the SDF, or Sobel it at load — 3.66 m/px derivatives need a ~2-texel
+  smooth); local depth D = W − ground (already derivable); exposure; tide; water clock t.
+  Respect the no-data-in-PNG-alpha rule (decision 0025 r3).
+- **Group envelope** (fixes the barcode + gives "big seventh wave"):
+  `G(d,t) = 0.55 + 0.45·(0.5 + 0.5·sin(ω_g·t + k_g·d + hashPerCoast))`, ω_g ≈ ω/6,
+  k_g ≈ k/6, plus a slow world-noise gate that drops ~⅓ of individual bands
+  (HDRP `Skipped Waves` / Outerra time-mask). G multiplies band foam, shoal amplitude
+  and swash amplitude alike.
+- **Shoal swell (geometry)**: where d < ~70 m and exposure > 0, add 1–2 Gerstner
+  components in the water vertex shader with `dir = −normalize(∇d)`, phase θ = ωt + k(D)·d
+  with `k(D) = k₀ / sqrt(tanh(k₀·max(D, 0.1)))` (cheap ω²=gk·tanh(kD) inversion —
+  wavelength visibly shortens), amplitude
+  `A = A₀ · min(pow(D_ref/max(D,0.3), 0.25), 2.0) · G` (Green's-law growth), steepness Q
+  rising toward the break then → 0; past the break point (D < D_b ≈ 0.8·A·2) collapse
+  amplitude by 70 % over ~8 m (the HDRP breaking-range profile) into the swash lift.
+  Clamp displaced verts to ≥ terrain (GPU Gems). Suppress where slope > 20° or
+  turbidity-damped (existing rules).
+- **Asymmetric swash with real excursion**: replace `sin` with a skewed oscillator,
+  e.g. `s(θ) = cos(θ − β·sin θ)` with β ≈ 0.5–0.7 (fast rise ≈ 35 % of period, slow
+  fall), and spec amplitude as horizontal excursion: `amplitudeM = targetRunupM ·
+  tan(apronSlope)` — target 4–8 m of excursion on beach coasts (≈ 0.2–0.4 m vertical on
+  a 3° apron), × exposure × G. CPU query, wet-sand band and buoyancy all reuse s(θ).
+- **The tongue**: the lifted surface × the existing depth-fade alpha *is* the swash
+  sheet — but only if the water clipmap overlaps the runup zone; guarantee a skirt of
+  water surface above the still-water shoreline up to `maxRunup` (extend the
+  clipmap/raster W by the swash max near shore, as today, with the bigger amplitude).
+  Where 0 < waterColumn < ~0.15 m inside the swash band: kill refraction & Gerstner
+  normals, alpha = saturate(waterColumn/0.15) so the tongue thins to nothing (ACNH-style
+  ramp), and add **leading-edge foam**: `foamLead = smoothstep(0.35, 0.0,
+  runupEdgeM(θ) − upBeachDistM)` — foam rides the front, strongest during the uprush
+  half (`ds/dθ > 0`), fading through the backwash. During backwash, reuse the round-6
+  anisotropic streak sampling with `dir` (down-slope backwash streaks) and leave a
+  decaying bubble term `pow(0.5+0.5·cos(θ − δ), 4)` trailing the band (stranded arcs).
+- **Wet sand**: unchanged mechanism, new envelope — recent-max waterline uses
+  `base + swashAmp·G_setMax` (the *group* max, so the wet band matches the farthest
+  recent tongue), drying weighted by phase-since-covered with an asymmetric s(θ) inverse
+  (instant wet, slow dry).
+- **Priorities if time-boxed**: asymmetric + bigger + group-modulated swash first (the
+  waterline translation is what reads), shoal swell second, leading-edge/stranded foam
+  third. More parallel bands alone can never fix it — they *are* the barcode.
