@@ -239,6 +239,16 @@
     "boundaryLayerHeightM": 60,
     "note": "renderer uses boundaryLayerHeightM as the Mie haze scale height (boundary-layer Mie is shallow; Rayleigh scale height ~8 km)"
   },
+  "climateWeather": {
+    "file": "climate-weather.png",
+    "metresPerPixel": 5.4835199999999995,
+    "channels": {
+      "R": "rain amplitude 0..1 (byte/255): windward slopes + coastal moisture (climatology \u00a73); the NW lee is the rain shadow",
+      "G": "storm exposure 0..1 (byte/255): proximity to OPEN sea (enclosed bays sheltered) + orographic term",
+      "B": "advection sea-fog propensity 0..1 (byte/255): coastal band carried up-estuary along salinity corridors"
+    },
+    "note": "sampled by the weather machine's local expression (packages/world-weather, decision 0032)"
+  },
   "soilLegend": {
     "1": "rock/upland firm",
     "2": "firm lowland",

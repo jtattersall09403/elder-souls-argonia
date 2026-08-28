@@ -159,6 +159,52 @@ def main() -> None:
     air[..., 2] = np.round(canopy * 255).astype(np.uint8)
     save(air, "climate-air.png")
 
+    # Province weather raster (Phase 8c, module 55 §98, decision 0032): the
+    # spatial fields the weather machine's LOCAL EXPRESSION reads. Formulas
+    # follow black-marsh-climatology §3, but the e-folding distances are
+    # COMPRESSED to the ~7.4 km province the way the humidity field's already
+    # are — real-world scale lengths (8–40 km) render these fields flat here.
+    # R — rain amplitude: monsoon moisture arrives from the southern seas
+    # (travel ≈ SSW→NNE), so windward southern mountain flanks catch the
+    # orographic maximum and the NW border beyond the ridge is the canonical
+    # rain shadow (Deshaan lee, climatology §2/§4); + coastal moisture band.
+    moisture_travel = np.array([0.3, -0.95]) / np.hypot(0.3, -0.95)  # (x east, z south)
+    z_smooth = ndimage.gaussian_filter(z.astype(np.float32), 6)
+    dz_dzsouth, dz_dxeast = np.gradient(z_smooth, metres_per_px)  # rows = +Z south
+    slope_along = dz_dxeast * moisture_travel[0] + dz_dzsouth * moisture_travel[1]
+    windward = ndimage.gaussian_filter(np.clip(slope_along / 0.08, 0.0, 1.0), 4)
+    leeward = ndimage.gaussian_filter(np.clip(-slope_along / 0.08, 0.0, 1.0), 4)
+    # Rain-shadow accumulation: lee influence carries DOWNWIND past the ridge
+    # (a lee slope shelters the plain behind it, not just itself).
+    shadow = leeward.copy()
+    step_px = 6
+    shift = (moisture_travel * step_px).round().astype(int)  # (dx, dz)
+    carried = leeward
+    for k in range(1, 9):
+        carried = np.roll(np.roll(carried, shift[1], axis=0), shift[0], axis=1) * 0.82
+        shadow = np.maximum(shadow, carried)
+    rain_amp = np.clip(
+        0.35 + 0.45 * windward - 0.4 * shadow + 0.3 * np.exp(-dist_coast_m / 2500.0),
+        0.05, 1.0)
+    rain_amp = ndimage.gaussian_filter(rain_amp.astype(np.float32), 3)
+    # G — storm exposure: distance to OPEN sea (ocean farther than ~2.5 km
+    # from any land), so the placid enclosed bays read sheltered and the open
+    # Padomaic coast exposed. A narrow coastal band, not half the map.
+    land_dist_over_ocean = ndimage.distance_transform_edt(result.ocean) * metres_per_px
+    open_sea = result.ocean & (land_dist_over_ocean > 2500.0)
+    dist_open_m = ndimage.distance_transform_edt(~open_sea) * metres_per_px
+    storm_x = ndimage.gaussian_filter(
+        np.exp(-dist_open_m / 1200.0).astype(np.float32), 2)
+    # B — advection sea-fog propensity: humid marine air over coasts, carried
+    # up-estuary along the brackish corridors (salinity is the tracer).
+    sal_corridor = ndimage.gaussian_filter((result.salinity > 0.05).astype(np.float32), 3)
+    sea_fog = np.clip(np.exp(-dist_coast_m / 900.0) + 0.55 * sal_corridor, 0.0, 1.0)
+    weather_img = np.zeros((*shape, 3), dtype=np.uint8)
+    weather_img[..., 0] = np.round(rain_amp * 255).astype(np.uint8)
+    weather_img[..., 1] = np.round(storm_x * 255).astype(np.uint8)
+    weather_img[..., 2] = np.round(sea_fog * 255).astype(np.uint8)
+    save(weather_img, "climate-weather.png")
+
     meta = {
         "metresPerPixel": metres_per_px,
         "scaleApplied": SCALE,
@@ -179,6 +225,16 @@ def main() -> None:
             },
             "boundaryLayerHeightM": 60,
             "note": "renderer uses boundaryLayerHeightM as the Mie haze scale height (boundary-layer Mie is shallow; Rayleigh scale height ~8 km)",
+        },
+        "climateWeather": {
+            "file": "climate-weather.png",
+            "metresPerPixel": metres_per_px,
+            "channels": {
+                "R": "rain amplitude 0..1 (byte/255): windward slopes + coastal moisture (climatology §3); the NW lee is the rain shadow",
+                "G": "storm exposure 0..1 (byte/255): proximity to OPEN sea (enclosed bays sheltered) + orographic term",
+                "B": "advection sea-fog propensity 0..1 (byte/255): coastal band carried up-estuary along salinity corridors",
+            },
+            "note": "sampled by the weather machine's local expression (packages/world-weather, decision 0032)",
         },
         "soilLegend": {str(cid): name for cid, name in SOIL_CLASSES.items()},
         **result.stats,
