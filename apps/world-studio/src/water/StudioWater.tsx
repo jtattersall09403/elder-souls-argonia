@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { RippleSim } from "./RippleSim";
 import { sharedWaterAssets, type WaterAssets } from "./waterAssets";
 import { WATER_TIERS, type WaterTier } from "./waterMaterial";
 import { WaterPipeline } from "./WaterPipeline";
@@ -23,9 +24,11 @@ export function pickWaterTier(): WaterTier {
   return coarse || weak ? WATER_TIERS.low : WATER_TIERS.high;
 }
 
-export function StudioWater({ base, verticalScale, contactBodies }: {
+export function StudioWater({ base, verticalScale, farExtentM, contactBodies }: {
   base: string;
   verticalScale: number;
+  /** Water draw distance — walk mode ~6 km, flyover 30 km (perf). */
+  farExtentM?: number;
   /** Live churn sources (e.g. the wading player), read every frame. */
   contactBodies?: () => ContactBody[];
 }) {
@@ -35,6 +38,8 @@ export function StudioWater({ base, verticalScale, contactBodies }: {
   const onSurfaceReady = useCallback((h: WaterSurfaceHandle) => {
     handleRef.current = h;
   }, []);
+  const ripple = useMemo(() => (tier.ripples ? new RippleSim() : null), [tier]);
+  useEffect(() => () => ripple?.dispose(), [ripple]);
 
   useEffect(() => {
     let alive = true;
@@ -53,6 +58,8 @@ export function StudioWater({ base, verticalScale, contactBodies }: {
         assets={assets}
         tier={tier}
         verticalScale={verticalScale}
+        farExtentM={farExtentM}
+        ripple={ripple}
         contactBodies={contactBodies}
         onReady={onSurfaceReady}
       />
@@ -61,6 +68,7 @@ export function StudioWater({ base, verticalScale, contactBodies }: {
         tier={tier}
         verticalScale={verticalScale}
         handle={() => handleRef.current}
+        ripple={ripple}
       />
     </>
   );

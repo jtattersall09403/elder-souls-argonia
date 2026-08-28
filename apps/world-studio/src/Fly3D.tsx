@@ -216,6 +216,9 @@ export function Fly3D(props: Fly3DProps) {
   return (
     <Canvas
       camera={{ position: start, fov: 60, near: 2, far: 60000, up: [0, 1, 0] }}
+      // Cap pixel density: retina 2× quadruples every fullscreen pass (scene
+      // RT + blit + water); 1.5 is visually near-identical (8b round 2 perf)
+      dpr={[1, 1.5]}
       shadows="soft"
       style={{ width: "100%", height: "100%" }}
       onCreated={({ camera }) => camera.lookAt(start[0], 0, start[2] - 4000)}
@@ -242,7 +245,7 @@ export function Fly3D(props: Fly3DProps) {
         )}
         {/* Phase 8b water: rivers, lakes, marsh and sea from the compiled
             hydrology; tide + wet-season levels are world state (§36). */}
-        <StudioWater base={import.meta.env.BASE_URL} verticalScale={props.exaggeration} />
+        <StudioWater base={import.meta.env.BASE_URL} verticalScale={props.exaggeration} farExtentM={30000} />
       </WorldSky>
       {props.mode === "fly" ? (
         <>

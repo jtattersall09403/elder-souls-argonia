@@ -38,6 +38,7 @@ from scipy import ndimage
 
 from .compile_chunks import DEFAULT_HEIGHTS
 from .export_web_chunks import encode_rg16
+from .hydrology import fill_depressions
 from .scale import RAW_METRES_PER_SAMPLE as RAW_M
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -51,7 +52,13 @@ FREEBOARD = {1: 0.5, 2: 0.9, 3: 1.5}   # river surface = ambient bank - freeboar
 CARVE_DEPTH = {1: 1.4, 2: 2.6, 3: 4.2}  # refine_province.CHANNELS bed depths
 LAKE_DROP_M = 0.10            # lake surface sits just under the fill level
 LAKE_MIN_PX = 4               # ignore pit-noise "lakes" smaller than this
-MARSH_POOL_M = 0.12           # standing water table above smoothed marsh ground
+# Refined-grid placement (owner round 2 — "water finds its level")
+RIVER_MIN_DEPTH_M = 0.35      # guaranteed column over the local carved bed
+MIN_POOL_DEPTH_M = 0.30       # a depression must hold this somewhere to count
+MIN_POOL_PX = 24              # ~320 m^2 at 3.66 m/px — no pixel puddle noise
+FRINGE_PX = 4                 # flat low-bank continuation (tide/season headroom)
+FRINGE_BANK_M = 1.8
+SAIL_GUARD_PX = 8             # buried W near water stays below the local level
 BURY_M = 3.0                  # dry ground carries W = ground - BURY_M
 TABLE_MAX_PX = 24             # how far the water table extends over floodable land
 FLOODABLE_HAND_M = 4.0        # hand < this counts as floodable fringe
@@ -140,34 +147,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     w[w < -1e8] = np.nan
     w = backwater(w, npz, filled)
 
-    # Marsh sheets (owner round 1): frequently-flooded wetland holds a thin
-    # standing water table just above the smoothed ground — the refined
-    # micro-relief then decides pool vs tussock, giving the Black Marsh
-    # puddle-scatter without flooding slopes.
-    pool = wetlands & (npz["flood"] >= 2) & np.isnan(w)
-    if pool.any():
-        ambient = ndimage.median_filter(z, size=5)
-        w_pool = (ambient + MARSH_POOL_M).astype(np.float32)
-        w = np.where(pool, np.fmax(np.nan_to_num(w, nan=-1e9), w_pool), w)
-        w[w < -1e8] = np.nan
-
     wet = ~np.isnan(w)
-
-    # --- 2. classes -------------------------------------------------------
-    cls = np.zeros(z.shape, dtype=np.uint8)
-    cls[wet & sea & (salinity >= 0.3)] = CLASSES.index("coast")
-    cls[wet & sea & (salinity < 0.3) & (salinity >= 0.05)] = CLASSES.index("estuary")
-    cls[wet & sea & (salinity < 0.05)] = CLASSES.index("lake")   # Blackrose-style fresh basin
-    cls[wet & riv] = CLASSES.index("river")
-    cls[wet & big_lakes & ~sea] = CLASSES.index("lake")
-    cls[wet & wetlands & ~riv & ~(salinity >= 0.3)] = CLASSES.index("marsh")
-    cls[wet & (cls == 0)] = CLASSES.index("marsh")   # salty wetland pools etc.
-
-    turb = np.zeros(z.shape, dtype=np.float32)
-    for name, t in TURBIDITY.items():
-        turb[cls == CLASSES.index(name)] = t
-
-    season = ((salinity < 0.4) & (wet | (flood >= 2))).astype(np.float32)
 
     # --- 3. flow ----------------------------------------------------------
     h_, w_ = z.shape
@@ -191,33 +171,123 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
 
     shore_d = (ndimage.distance_transform_edt(wet) * mpp1).astype(np.float32)
 
-    # --- 4. water-table extension over floodable fringes ------------------
-    floodable = (~wet) & ((hand < FLOODABLE_HAND_M) | tidal | wetlands)
-    dist_px, (iy, ix) = ndimage.distance_transform_edt(~wet, return_indices=True)
-    ext = floodable & (dist_px <= TABLE_MAX_PX)
-    w_ext = np.where(np.isnan(w), np.nan, w)
-    w_ext[ext] = w[iy[ext], ix[ext]]
-    for arr in (turb, season, salinity):
-        arr[ext] = arr[iy[ext], ix[ext]]
-    cls_ext = cls.copy()
-    cls_ext[ext] = cls[iy[ext], ix[ext]]
+    nodata = np.isnan(w)
+    w_filled = np.where(nodata, z - BURY_M, w).astype(np.float32)
 
-    # --- 5. bury everywhere else, upsample to the web grid ----------------
-    nodata = np.isnan(w_ext)
-    w_filled = np.where(nodata, z - BURY_M, w_ext).astype(np.float32)
+    # --- 5. the RENDERED surface: water finds its level on the refined grid
+    # (owner round 2). Depressions fill to their spill level at full web
+    # resolution ("sunken areas fill up"), rivers carry a guaranteed water
+    # column over their carved beds, shorelines continue FLAT under low banks
+    # (so tide/wet-season raises flood them naturally), and the buried
+    # surface near any water stays BELOW the local water level so coarse
+    # distant triangles can never bridge a gully as a vertical "sail".
     g2 = refined[::WEB_STEP, ::WEB_STEP].astype(np.float32)
     n2 = g2.shape[0]
-    zoom = n2 / w_filled.shape[0]
-    w2 = ndimage.zoom(w_filled, zoom, order=1)[:n2, :n2]
-    nod2 = ndimage.zoom(nodata.astype(np.float32), zoom, order=1)[:n2, :n2] > 0.5
-    w2[nod2] = g2[nod2] - BURY_M
+    mpp2 = RAW_M * WEB_STEP
+    g2s = ndimage.gaussian_filter(g2, 1.0)
+    scale2 = n2 / z.shape[0]
+
+    def up_lin(a):
+        return ndimage.zoom(a.astype(np.float32), scale2, order=1)[:n2, :n2]
+
+    def up_near(a):
+        return ndimage.zoom(a.astype(np.float32), scale2, order=0)[:n2, :n2] > 0.5
+
+    w2 = np.full(g2.shape, np.nan, dtype=np.float32)
+
+    def comp(mask, values):
+        nonlocal w2
+        w2 = np.where(mask, np.fmax(np.nan_to_num(w2, nan=-1e9), values), w2)
+        w2[w2 < -1e8] = np.nan
+
+    # sea plane (y = 0, decision 0003/0005)
+    comp(g2 < 0.0, np.float32(0.0))
+
+    # rivers: coarse backwatered level, spread to a >=2-px ribbon, with a
+    # guaranteed minimum column over the local carved channel bottom
+    wr1 = np.where(riv, w, np.nan).astype(np.float32)
+    _, (ry, rx) = ndimage.distance_transform_edt(np.isnan(wr1), return_indices=True)
+    wr2 = up_lin(wr1[ry, rx])
+    riv2 = up_near(ndimage.binary_dilation(riv, iterations=1))
+    bed2 = ndimage.grey_erosion(g2, size=5)
+    comp(riv2, np.maximum(wr2, (bed2 + RIVER_MIN_DEPTH_M).astype(np.float32)))
+
+    # standing water: priority-flood the refined terrain; a depression holds
+    # water when it is in plausibly wet ground, is deep enough somewhere and
+    # big enough to matter — then the WHOLE pool fills to its spill level
+    ocean2 = g2s < 0.0
+    filled2 = fill_depressions(g2s, ocean2)
+    depth_fill = filled2 - g2s
+    allow2 = up_near(wetlands | (flood >= 1) | lakes) | riv2
+    cand = (depth_fill > 0.02) & allow2 & ~ocean2
+    lbl2, n_l = ndimage.label(cand)
+    if n_l:
+        max_depth = ndimage.maximum(depth_fill, lbl2, np.arange(1, n_l + 1))
+        areas2 = np.bincount(lbl2.ravel())[1:]
+        keep2 = np.zeros(n_l + 1, dtype=bool)
+        keep2[1:] = (max_depth >= MIN_POOL_DEPTH_M) & (areas2 >= MIN_POOL_PX)
+        comp(keep2[lbl2], (filled2 - 0.05).astype(np.float32))
+
+    wet2 = ~np.isnan(w2)
+
+    # low-bank flat continuation (tide/wet-season headroom), then burial with
+    # the sail guard
+    dist2, (jy, jx) = ndimage.distance_transform_edt(~wet2, return_indices=True)
+    wn2 = w2[jy, jx]
+    fringe = (~wet2) & (dist2 <= FRINGE_PX) & ((g2s - wn2) < FRINGE_BANK_M)
+    w2[fringe] = wn2[fringe]
+    # buried surface: under the ground AND never above any NEARBY water
+    # level (the local minimum, not just the nearest — terraced pools next
+    # to a low channel must not lift the buried sheet over the channel).
+    # Distance-free because far LOD triangles span hundreds of metres.
+    lvl = np.where(wet2, w2, np.float32(np.inf))
+    local_min = ndimage.grey_erosion(lvl, size=33, mode="nearest")
+    cap = np.minimum(wn2, np.where(np.isfinite(local_min), local_min, wn2))
+    nod2 = np.isnan(w2)
+    w2 = np.where(nod2, np.minimum(g2 - BURY_M, cap - 1.0), w2).astype(np.float32)
+    # …and clamp any remaining DRY cell that still pokes above nearby water
+    # (river-ribbon banks at cascade steps): those triangles would bridge the
+    # step as a small wall.
+    dry_viol = (~fringe) & ((w2 - g2) <= 0.01) & (w2 > cap + 0.05)
+    w2[dry_viol] = np.minimum(w2, cap - 1.0)[dry_viol]
+
     depth2 = np.clip(w2 - g2, 0.0, 25.5)
+    shore2 = np.clip(ndimage.distance_transform_edt(wet2) * mpp2, 0.0, SHORE_MAX_M).astype(np.float32)
+
+    # --- 6. classes, from the RENDERED wetness (owner round 2: patchy
+    # marsh/ocean splits came from classifying the coarse grid). Wetland
+    # water is marsh no matter how saline — a salt marsh is still a marsh.
+    wetr = wet | (ndimage.zoom(wet2.astype(np.float32), 1.0 / scale2, order=1)[: z.shape[0], : z.shape[1]] > 0.25)
+    cls = np.zeros(z.shape, dtype=np.uint8)
+    cls[wetr & sea & (salinity >= 0.3)] = CLASSES.index("coast")
+    cls[wetr & sea & (salinity < 0.3) & (salinity >= 0.05)] = CLASSES.index("estuary")
+    cls[wetr & sea & (salinity < 0.05)] = CLASSES.index("lake")  # Blackrose-style fresh basin
+    cls[wetr & riv] = CLASSES.index("river")
+    cls[wetr & big_lakes & ~sea] = CLASSES.index("lake")
+    cls[wetr & wetlands & ~riv] = CLASSES.index("marsh")
+    cls[wetr & (cls == 0)] = CLASSES.index("marsh")
+
+    turb = np.zeros(z.shape, dtype=np.float32)
+    for name, t in TURBIDITY.items():
+        turb[cls == CLASSES.index(name)] = t
+
+    season = ((salinity < 0.4) & (wetr | (flood >= 2))).astype(np.float32)
+
+    # extend the per-pixel character a short way past the shoreline so the
+    # GPU's linear samples (and wet-season flooding) read sensible values
+    dist_px, (iy, ix) = ndimage.distance_transform_edt(~wetr, return_indices=True)
+    ext = (~wetr) & (dist_px <= TABLE_MAX_PX) & ((hand < FLOODABLE_HAND_M) | tidal | wetlands)
+    cls_ext = cls.copy()
+    cls_ext[ext] = cls[iy[ext], ix[ext]]
+    for arr in (turb, season, salinity):
+        arr[ext] = arr[iy[ext], ix[ext]]
 
     return {
-        "w1": w_filled, "wet": wet, "ext": ext, "cls": cls_ext, "turb": turb,
-        "season": season, "salinity": salinity, "vx": vx, "vz": vz,
-        "shore_d": shore_d, "w2": w2, "depth2": depth2, "ground2": g2,
-        "nodata2": nod2,
+        "w1": w_filled, "wet": wet, "wetr": wetr, "ext": ext, "cls": cls_ext,
+        "turb": turb, "season": season, "salinity": salinity, "vx": vx,
+        "vz": vz, "shore_d": shore_d, "w2": w2, "depth2": depth2,
+        "ground2": g2, "nodata2": nod2, "shore2": shore2, "fringe": fringe,
+        "riv2": riv2,
     }
 
 
@@ -234,6 +304,8 @@ def main() -> None:
         w1=r["w1"], wet=r["wet"], ext=r["ext"], cls=r["cls"], turb=r["turb"],
         season=r["season"], vx=r["vx"], vz=r["vz"], shore_d=r["shore_d"],
         w2=r["w2"].astype(np.float32), depth2=r["depth2"].astype(np.float32),
+        shore2=r["shore2"].astype(np.float32), fringe=r["fringe"],
+        riv2=r["riv2"],
     )
 
     w2 = r["w2"]
@@ -242,6 +314,11 @@ def main() -> None:
     surf = np.dstack([surf[..., 0], surf[..., 1],
                       np.round(r["depth2"] / 0.1).astype(np.uint8)])
     Image.fromarray(surf, mode="RGB").save(OUT_DIR / "water-surface.png")
+    # shore distance ships as its own grayscale PNG: browser canvas decoding
+    # premultiplies alpha, which would corrupt RGB height data under a
+    # data-alpha channel
+    shore8 = np.clip(np.round(r["shore2"] / SHORE_MAX_M * 255.0), 0, 255).astype(np.uint8)
+    Image.fromarray(shore8, mode="L").save(OUT_DIR / "water-shore.png")
 
     enc = lambda a: np.clip(np.round(a * 255.0), 0, 255).astype(np.uint8)
     flow = np.dstack([
@@ -277,6 +354,8 @@ def main() -> None:
             "minM": min_w, "maxM": max_w,
             "encoding": "R,G = 16-bit W; B = depth proxy 0.1 m steps",
             "buryM": BURY_M,
+            "shoreFile": "water-shore.png",
+            "shoreMaxM": SHORE_MAX_M,
         },
         "flow": {"file": "water-flow.png", "size": int(z.shape[0]),
                  "metresPerPixel": RAW_M * STEP, "flowMax": FLOW_MAX,

@@ -91,6 +91,10 @@ asset registry.
 - **three.js `Water2` / Valve** — dual-phase flow-map advection technique
   (Vlachos, SIGGRAPH 2010) used for river ripple normals (three.js MIT,
   already in THIRD_PARTY_NOTICES).
+- **webgl-water / threejs-water** (MIT, © 2011 Evan Wallace, © 2026 Yong Su —
+  https://github.com/jeantimex/threejs-water) — the ping-pong wave-equation
+  ripple simulation adapted for the interactive water patch around the
+  player (`apps/world-studio/src/water/RippleSim.ts`).
 
 ### Planned (recorded before ingestion; move up when used)
 
@@ -107,10 +111,12 @@ asset registry.
   [docs/research/black-marsh-ground-texture-sources.md](docs/research/black-marsh-ground-texture-sources.md)):
   A Cathedralist's PBR Landscape (SSE 137333), Cathedral Landscapes (SSE
   21954, share-alike) — candidates for PBR-map upgrades in Phase 8+.
-- Water rendering references held for later tiers (MIT):
-  jeantimex/threejs-water (hero-pool interactive sim), ABYSSAL ocean
-  (spectral FFT open-sea tier) — see
+- Water rendering reference held for a later tier (MIT): ABYSSAL ocean
+  (spectral FFT open-sea) — see
   [docs/research/water-rendering-threejs.md](docs/research/water-rendering-threejs.md).
+- **Beach/seabed texture candidates** (CC0, Poly Haven / ambientCG) vetted in
+  [docs/research/tropical-shoreline-materials.md](docs/research/tropical-shoreline-materials.md)
+  — move up when ingested.
 - **Sound sources** (module 57/90 §74.4): vanilla Skyrim sound library;
   Skyrim sound-mod packs credited per mod as ingested; Sonniss GDC
   royalty-free bundles and CC0 Freesound for tropical ambience gaps.

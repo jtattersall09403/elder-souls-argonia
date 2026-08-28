@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { WaterData, WaterWorld, type WaterMeta } from "@elder-souls/game-core/water/index";
 import { worldClock } from "../sky/timeState";
 import { waterTimeS } from "./waterClock";
+import { primeWetnessUniforms } from "./groundWetness";
 
 /**
  * Loads + decodes the compiled water rasters (worldgen/compile_water.py,
@@ -21,6 +22,8 @@ export interface WaterAssets {
   flowTex: THREE.DataTexture;
   /** RGBA8 of water-class.png. Linear (class index R is CPU-only). */
   klassTex: THREE.DataTexture;
+  /** Shore distance (grayscale as RGBA8). Linear. */
+  shoreTex: THREE.DataTexture;
   tidalAmplitudeM: number;
   seasonalAmplitudeM: number;
 }
@@ -83,21 +86,26 @@ export function sharedWaterAssets(base: string): Promise<WaterAssets> {
       fetch(`${base}province/water/water-meta.json`).then((r) => r.json() as Promise<WaterMeta>),
       fetch(`${base}province/refined/flood-states.json`).then((r) => r.json()).catch(() => null),
     ]);
-    const [surfImg, flowImg, klassImg] = await Promise.all([
+    const [surfImg, flowImg, klassImg, shoreImg] = await Promise.all([
       fetchImageData(`${base}province/water/${meta.surface.file}`),
       fetchImageData(`${base}province/water/${meta.flow.file}`),
       fetchImageData(`${base}province/water/${meta.klass.file}`),
+      fetchImageData(`${base}province/water/${meta.surface.shoreFile ?? "water-shore.png"}`),
     ]);
 
-    // Dequantise W + depth proxy for the CPU samplers.
+    // Dequantise W + depth proxy + shore distance for the CPU samplers.
     const n = meta.surface.size;
     const span = meta.surface.maxM - meta.surface.minM;
+    const shoreMax = meta.surface.shoreMaxM ?? 160;
     const surface = new Float32Array(n * n);
     const depth = new Float32Array(n * n);
+    const shore = new Float32Array(n * n);
     const px = surfImg.data;
+    const sp = shoreImg.data;
     for (let i = 0; i < n * n; i++) {
       surface[i] = meta.surface.minM + ((px[i * 4] * 256 + px[i * 4 + 1]) / 65535) * span;
       depth[i] = px[i * 4 + 2] * 0.1;
+      shore[i] = (sp[i * 4] / 255) * shoreMax;
     }
     const data = new WaterData(
       meta,
@@ -105,6 +113,7 @@ export function sharedWaterAssets(base: string): Promise<WaterAssets> {
       depth,
       new Uint8ClampedArray(flowImg.data),
       new Uint8ClampedArray(klassImg.data),
+      shore,
     );
 
     const basin = (floodStates?.basins?.[0] ?? {}) as {
@@ -121,16 +130,20 @@ export function sharedWaterAssets(base: string): Promise<WaterAssets> {
       waveTimeS: waterTimeS,
     });
 
-    return {
+    const assets: WaterAssets = {
       data,
       world,
       meta,
       surfaceTex: dataTexture(surfImg, THREE.NearestFilter),
       flowTex: dataTexture(flowImg, THREE.LinearFilter),
       klassTex: dataTexture(klassImg, THREE.LinearFilter),
+      shoreTex: dataTexture(shoreImg, THREE.LinearFilter),
       tidalAmplitudeM,
       seasonalAmplitudeM,
     };
+    // the terrain wet band samples the same rasters
+    primeWetnessUniforms(assets);
+    return assets;
   })();
   return assetsPromise;
 }

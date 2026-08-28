@@ -109,8 +109,8 @@ def test_depth_proxy_positive_over_water_zero_on_dry(synth):
 
 def test_classes_assigned_over_water(synth):
     z, npz, r = synth
-    assert (r["cls"][r["wet"] | r["ext"]] > 0).all()
-    assert (r["cls"][(~r["wet"]) & (~r["ext"])] == 0).all()
+    assert (r["cls"][r["wetr"]] > 0).all()
+    assert (r["cls"][(~r["wetr"]) & (~r["ext"])] == 0).all()
 
 
 # ---------------------------------------------------------------------------
@@ -166,13 +166,58 @@ def test_shipped_surface_raster_decodes_to_vault(province):
     from PIL import Image
     npz, hydro, meta = province
     m = meta["surface"]
-    img = Image.open(WATER_DIR / m["file"])
-    rgb = np.asarray(img.convert("RGB"))
+    rgb = np.asarray(Image.open(WATER_DIR / m["file"]).convert("RGB"))
     w = decode_rg16(Image.fromarray(rgb), m["minM"], m["maxM"])
     err = np.abs(w - npz["w2"])
     assert err.max() < (m["maxM"] - m["minM"]) / 65535 * 2 + 1e-3
     depth = rgb[..., 2].astype(np.float32) * 0.1
     assert np.abs(depth - np.clip(npz["depth2"], 0, 25.5)).max() < 0.11
+    shore = np.asarray(Image.open(WATER_DIR / m["shoreFile"]).convert("L")).astype(np.float32) / 255.0 * m["shoreMaxM"]
+    assert np.abs(shore - np.clip(npz["shore2"], 0, m["shoreMaxM"])).max() < m["shoreMaxM"] / 255 + 1e-2
+
+
+@needs_vault
+def test_no_buried_surface_above_local_water(province):
+    """Owner round 2, defect 'vertical water sheets': near any water, the
+    buried surface must sit clearly BELOW the local water level so distant
+    triangles can never bridge a gully above the waterline."""
+    from scipy import ndimage as ndi
+    npz, hydro, meta = province
+    w2 = npz["w2"]
+    depth2 = npz["depth2"]
+    wet2 = depth2 > 0.01
+    fringe = npz["fringe"]
+    dist, (jy, jx) = ndi.distance_transform_edt(~wet2, return_indices=True)
+    # the low-bank fringe deliberately sits AT the local level (flood headroom)
+    near_buried = (~wet2) & (~fringe) & (dist > 0) & (dist <= 8)
+    wn = w2[jy, jx]
+    viol = (w2[near_buried] > wn[near_buried] + 0.10).mean()
+    assert viol < 0.005, f"{viol:.3f} of near-shore dry cells sit ABOVE local water"
+
+
+@needs_vault
+def test_pools_fill_level(province):
+    """Standing pools are LEVEL surfaces (water finds its level): within a
+    connected wet component off the sea/rivers, W varies by centimetres."""
+    from scipy import ndimage as ndi
+    npz, hydro, meta = province
+    w2 = npz["w2"]
+    depth2 = npz["depth2"]
+    wet2 = depth2 > 0.05
+    riv2 = npz["riv2"]
+    lbl, n = ndi.label(wet2 & (np.abs(w2) > 0.3) & ~riv2)  # off-sea, off-river
+    if not n:
+        pytest.skip("no off-sea bodies")
+    sizes = np.bincount(lbl.ravel())
+    checked = 0
+    for i in np.argsort(sizes[1:])[::-1][:12] + 1:
+        vals = w2[lbl == i]
+        if len(vals) < 80:
+            continue
+        checked += 1
+        spread = np.percentile(vals, 95) - np.percentile(vals, 5)
+        assert spread < 0.6, f"body {i}: spread {spread:.2f} m"
+    assert checked >= 1
 
 
 @needs_vault

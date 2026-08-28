@@ -115,7 +115,7 @@ def _warp_regions(region, m_per_px, rng):
 
 def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
                            salinity=None, twi=None, wetlands=None, roads=None,
-                           v_frac=None):
+                           v_frac=None, water_level=None):
     """Return (landcover material raster int16, control RGBA uint8).
 
     height: metres relative to sea level (water surface y=0); region: region
@@ -123,8 +123,15 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     salinity/twi/wetlands: optional macro fields, roads: optional bool mask;
     v_frac: optional 0(north)..1(south) province-latitude raster enabling the
     northern palette zone — all at the same resolution as height.
+    water_level: optional LOCAL water-surface height raster (Phase 8b
+    compile_water W): when given, every water-relative rule (beds, waterline
+    bands, shallows) uses height-above-local-water, so mountain tarns, high
+    rivers and marsh pools get silt/mud beds and shore grammar instead of
+    reading as dry mossy land (owner 8b round 2). Absolute-elevation rules
+    (mountain belts, salt flats) still use `height`.
     """
     shape = height.shape
+    rel = height if water_level is None else (height - water_level).astype(np.float32)
     region = _warp_regions(region, m_per_px, rng)
 
     # Palette zone: northern regions bind land-cover slots to different
@@ -155,7 +162,7 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     # camouflage). Fine-grained variation only where the ground is "doing
     # something" — near water, channels and on slopes; calm interior ground
     # gets broad coherent patches instead.
-    water = height < 0.05
+    water = rel < 0.05
     shore_d = (ndimage.distance_transform_edt(~water) * m_per_px).astype(np.float32)
     chan_d = np.full(shape, 1e9, dtype=np.float32)
     for band in BAND_HALF_W:
@@ -243,20 +250,20 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     big[areas * (m_per_px ** 2) / 1e6 >= LAKE_MIN_KM2] = True
     near_big = big[lblw[iy, ix]]
     rocky = ndimage.gaussian_filter(slope_lf, 20.0 * TUNE / m_per_px) > 0.045 * TUNE_S
-    low = height < 2.5
+    low = rel < 2.5
     band2 = (~water) & (shore_d < 58.0 * TUNE) & low          # damp fringe
     band1 = (~water) & (shore_d < 32.0 * TUNE) & low          # wet mud / salt / rock
-    band0 = (~water) & (shore_d < 13.0 * TUNE) & (height < 3.0)  # waterline
+    band0 = (~water) & (shore_d < 13.0 * TUNE) & (rel < 3.0)  # waterline
     mat = np.where(band2, rmap("damp"), mat)
     b1 = np.where(near_salty, SALT, np.where(near_big, rmap("bank"), MUCK))
     mat = np.where(band1, b1, mat)
     b0 = np.where(near_salty, SAND, np.where(near_big, BANK_WET, BLACK_MUD))
     mat = np.where(band0, b0, mat)
     mat = np.where((band0 | band1) & near_salty & rocky, BC_ROCK, mat)  # rocky coves
-    shallow = (height >= -0.7) & water
+    shallow = (rel >= -0.7) & water
     sh = np.where(near_salty, SAND, np.where(near_big & ~marshy, PUDDLE, SCUM))
     mat = np.where(shallow, sh, mat)
-    mat = np.where(height < -0.7, SILT, mat)
+    mat = np.where(rel < -0.7, SILT, mat)
 
     # Roads LAST so the wet fringes can't swallow them (they previously ran
     # before the shore bands and vanished — owner report): Phase 4 corridors

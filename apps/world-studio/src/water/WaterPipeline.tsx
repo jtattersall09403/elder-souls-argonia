@@ -6,6 +6,7 @@ import { sharedAerialUniforms } from "../sky/WorldSky";
 import type { WaterAssets } from "./waterAssets";
 import { OVERLAY_LAYER, WATER_LAYER, type WaterTier } from "./waterMaterial";
 import { waterTimeS } from "./waterClock";
+import type { RippleSim } from "./RippleSim";
 import type { WaterSurfaceHandle } from "./WaterSurfaceMesh";
 
 /**
@@ -58,11 +59,12 @@ const CAUSTICS_GLSL = /* glsl */ `
   }
 `;
 
-export function WaterPipeline({ assets, tier, verticalScale, handle }: {
+export function WaterPipeline({ assets, tier, verticalScale, handle, ripple }: {
   assets: WaterAssets;
   tier: WaterTier;
   verticalScale: number;
   handle: () => WaterSurfaceHandle | null;
+  ripple?: RippleSim | null;
 }) {
   const { gl } = useThree();
   const frames = useRef(0);
@@ -240,6 +242,9 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       h.uniforms.uProjMatrix.value.copy(cam.projectionMatrix);
       h.mesh.material = underwater ? h.materials.below : h.materials.above;
     }
+
+    // ---- pass 0: advance the interactive ripple patch (2 tiny passes) ----
+    ripple?.step(renderer, camPos.x, camPos.z, delta);
 
     // ---- pass 1: opaques (+ underside when submerged) → RT, linear HDR ----
     const prevTone = renderer.toneMapping;

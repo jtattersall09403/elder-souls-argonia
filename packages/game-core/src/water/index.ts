@@ -1,4 +1,4 @@
-export { WAVES, gerstnerAt, surfaceWaveAt, waveExposure, waveBands, gerstnerGlsl } from "./waves";
+export { WAVES, SWASH, gerstnerAt, surfaceWaveAt, swashAt, swashMax, waveExposure, waveBands, gerstnerGlsl } from "./waves";
 export type { WaveSample } from "./waves";
 export { WaterData } from "./waterData";
 export type { WaterMeta, WaterStaticSample } from "./waterData";

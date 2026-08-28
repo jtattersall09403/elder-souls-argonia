@@ -105,8 +105,8 @@ async function waitFor(url) {
   throw new Error(`server never came up at ${url}`);
 }
 
-const only = process.env.WATER_SCENARIO;
-const RUN = only ? SCENARIOS.filter((s) => s.id === only) : SCENARIOS;
+const only = process.env.WATER_SCENARIO; // one id, or comma-separated ids
+const RUN = only ? SCENARIOS.filter((s) => only.split(",").includes(s.id)) : SCENARIOS;
 const { chromium } = await import("playwright");
 const failures = [];
 const report = [];

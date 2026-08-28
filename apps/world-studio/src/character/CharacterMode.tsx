@@ -131,12 +131,14 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const prevWaterDepth = useRef(0);
   const onWaterContact = useCallback((x: number, z: number, depth: number, speed: number, vy: number) => {
     playerWater.current = { x, z, depth, speed };
-    if (depth > 0.15 && prevWaterDepth.current <= 0.03 && vy < -2.5) {
+    // wading in from the bank (or any drop) splashes — round 2: entry was
+    // only detected on hard falls
+    if (depth > 0.12 && prevWaterDepth.current <= 0.03 && (vy < -1.2 || speed > 1.2)) {
       waterWorldRef.current?.emitInteraction({
         kind: "splash",
         position: { x, y: 0, z },
-        magnitude: Math.min(-vy * 18, 130),
-        radius: 1.2,
+        magnitude: Math.min(Math.max(-vy, speed) * 20 + 20, 130),
+        radius: 1.1,
       });
     }
     prevWaterDepth.current = depth;
@@ -248,6 +250,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
       {manifest && spawn ? (
         <Canvas
           camera={{ fov: FOLLOW_CAMERA.fieldOfView, near: 0.3, far: 60000, up: [0, 1, 0] }}
+          // Cap pixel density — see Fly3D (8b round 2 perf)
+          dpr={[1, 1.5]}
           shadows="soft"
           style={{ width: "100%", height: "100%" }}
           onCreated={({ gl }) => { glRef.current = gl.domElement; }}
@@ -272,6 +276,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           <StudioWater
             base={import.meta.env.BASE_URL}
             verticalScale={verticalScale}
+            farExtentM={6000}
             contactBodies={playerChurn}
           />
           {showMarkers && <CityMarkers extentM={extentM} groundAt={markerGroundAt} />}

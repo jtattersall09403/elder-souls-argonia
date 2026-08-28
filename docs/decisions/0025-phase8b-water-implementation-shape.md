@@ -104,3 +104,54 @@ Spec: module [60](../world/60-water-traversal.md) §38–42.
    (`MARSH_POOL_M` above median-smoothed ground on frequently-flooded
    wetland) — refined micro-relief picks pools vs tussocks; marsh coverage
    5.0→7.2 % of the grid.
+
+## Owner playtest round 2 (2026-08-27) — defects → fixes
+
+Research this round: [tropical shoreline materials](../research/tropical-shoreline-materials.md)
+and [water edges & shore waves](../research/water-edges-and-shore-waves.md).
+
+1. **"TV static" on distant water** → specular aliasing: unfiltered
+   procedural ripple normals + low roughness at 1 px/ripple. Fix: distance
+   LOD on ALL detail cascades, roughness rises with distance, foam contrast
+   fades, whitecaps capped at ~2 km.
+2. **White sheets/blobs over shallows ("doming", blocky patchwork)** → the
+   round-1 shoreline foam fired anywhere <1.1 m deep at 55 % energy, so all
+   marsh sheets rendered as foam crust. Foam is now a SYSTEM: thin contact
+   line at the true waterline, swash-synced advancing lapping bands,
+   exposure-gated whitecaps, rapids churn, rings — all damped by turbidity.
+3. **Water in wrong places / rivers dry / pools half-filled** → placement
+   rebuilt on physics: **priority-flood on the refined 2017² terrain** —
+   depressions fill to their spill level, rivers get a guaranteed column
+   over their carved beds (`RIVER_MIN_DEPTH_M`), low banks continue FLAT
+   (flood headroom), and the buried surface is capped below the local
+   minimum nearby water level (kills the vertical "sails"; standing probe
+   `test_no_buried_surface_above_local_water` + `test_pools_fill_level`).
+   The round-1 median-filter marsh-pool hack is gone.
+4. **Same water part-marsh/part-"ocean" with whitecaps** → classes now come
+   from the RENDERED wetness and wetlands trump salinity (a salt marsh is a
+   marsh); wave exposure is turbidity-damped in the shared table; marsh
+   albedo shifted green (owner request).
+5. **Static sea edge** → analytic swash/runup (shared `SWASH` table: CPU
+   query, water vertex shader and the terrain **wet-sand band** all evaluate
+   the same closed form — no history buffer needed), lapping foam lines
+   advance/retreat in sync, `groundWetness.ts` darkens+polishes the swash
+   reach on the terrain splat.
+6. **Ripples/splashes not working** → a REAL interactive ripple sim
+   (`RippleSim.ts`: Evan Wallace's ping-pong wave equation via
+   jeantimex/threejs-water, credited; 256² RG16F patch ~36 m, texel-snapped
+   follow, edge-damped) stamped by wading steps, crates and splashes, added
+   into the water normals; wade-in splash detection fixed (was falls-only).
+7. **Perf round 2** → canvas dpr capped at 1.5 (retina was 4× every
+   fullscreen pass), water draw distance per mode (walk 6 km, fly 30 km),
+   refraction distortion gated off in shallows. (Round-1 fixes retained.)
+8. **Mossy-rock sea/river/marsh beds** → `landcover.compile_ground_control`
+   gains `water_level` (height-above-LOCAL-water drives all bed/shore
+   grammar; absolute rules like mountain belts unchanged);
+   `rebake_landcover.py` re-bakes ground-control without a full
+   refine_province run. Full tropical shoreline variety (beach sand/rippled
+   seabed/pebbles — CC0 candidates vetted in the research doc) is the next
+   texture-ingestion step.
+9. **Not a defect**: tide/season "stopped" — the world clock pins them while
+   paused (deliberate; the rate control animates them). Shore-distance field
+   ships as its own grayscale PNG: browser canvas decoding premultiplies
+   alpha and would corrupt a data-alpha channel.

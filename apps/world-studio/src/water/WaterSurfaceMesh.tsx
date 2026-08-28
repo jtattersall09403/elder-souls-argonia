@@ -3,6 +3,8 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { worldClock } from "../sky/timeState";
 import { advanceWaterClock, waterTimeS } from "./waterClock";
+import { RIPPLE_PATCH_M, RippleSim } from "./RippleSim";
+import { wetnessUniforms } from "./groundWetness";
 import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
 import type { WaterAssets } from "./waterAssets";
 import {
@@ -109,10 +111,13 @@ export interface WaterSurfaceHandle {
   materials: { above: THREE.MeshPhysicalMaterial; below: THREE.MeshPhysicalMaterial };
 }
 
-export function WaterSurfaceMesh({ assets, tier, verticalScale, contactBodies, onReady }: {
+export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripple, contactBodies, onReady }: {
   assets: WaterAssets;
   tier: WaterTier;
   verticalScale: number;
+  /** Water draw distance — walk mode needs ~6 km, the flyover 30 km. */
+  farExtentM?: number;
+  ripple?: RippleSim | null;
   /** Live churn sources (player wading, splashes); read every frame. */
   contactBodies?: () => ContactBody[];
   onReady?: (handle: WaterSurfaceHandle) => void;
@@ -126,10 +131,14 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, contactBodies, o
     }),
     [csm, assets, uniforms, tier],
   );
-  const geometry = useMemo(() => buildWaterGeometry(GRIDS[tier.name]), [tier.name]);
+  const geometry = useMemo(
+    () => buildWaterGeometry({ ...GRIDS[tier.name], halfExtent: farExtentM ?? GRIDS[tier.name].halfExtent }),
+    [tier.name, farExtentM],
+  );
   const meshRef = useRef<THREE.Mesh>(null);
   /** Splash events become decaying, spreading foam rings (world-time secs). */
   const splashes = useRef<{ x: number; z: number; radius: number; strength: number; bornS: number }[]>([]);
+  const stampTimer = useRef(0);
 
   // onReady rides a ref: an inline callback from a parent that re-renders
   // per HUD tick must NEVER re-trigger this effect — round 1's perf collapse
@@ -168,8 +177,9 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, contactBodies, o
     const offsets = assets.world.levelOffsets(epoch);
     uniforms.uLevelTide.value = offsets.tide;
     uniforms.uLevelSeason.value = offsets.season;
+    wetnessUniforms.uWetLevels.value.set(offsets.tide, offsets.season);
     uniforms.uVerticalScale.value = verticalScale;
-    // interaction events → spreading, fading churn rings
+    // interaction events → spreading foam rings + real sim ripples
     const nowS = waterTimeS();
     for (const e of assets.world.drainInteractions()) {
       if (e.kind === "splash" || e.kind === "enter" || e.kind === "wake") {
@@ -180,6 +190,20 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, contactBodies, o
           strength: Math.min((e.magnitude ?? 40) / 60, 1.2),
           bornS: nowS,
         });
+        ripple?.addDrop(
+          e.position.x,
+          e.position.z,
+          (e.radius ?? 0.8) * 0.9,
+          Math.min((e.magnitude ?? 40) / 300, 0.5) * (e.kind === "wake" ? 0.4 : 1),
+        );
+      }
+    }
+    // wading churn stamps small continuous drops
+    stampTimer.current -= 1 / 60;
+    if (stampTimer.current <= 0) {
+      stampTimer.current = 0.12;
+      for (const b of contactBodies?.() ?? []) {
+        if (b.strength > 0.05) ripple?.addDrop(b.x, b.z, 0.45, 0.045 * b.strength);
       }
     }
     splashes.current = splashes.current.filter((s) => nowS - s.bornS < 2.0).slice(-MAX_CONTACT_BODIES);
@@ -199,6 +223,10 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, contactBodies, o
     for (let i = 0; i < uniforms.uBodyCount.value; i++) {
       const b = bodies[i];
       uniforms.uBodies.value[i].set(b.x, b.z, b.radius, b.strength);
+    }
+    if (ripple) {
+      uniforms.uRipple.value = ripple.texture;
+      uniforms.uRippleInfo.value.set(ripple.center.x, ripple.center.y, RIPPLE_PATCH_M, 1);
     }
   });
 

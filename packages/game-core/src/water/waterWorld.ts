@@ -7,7 +7,7 @@
 import type { Vec3, WaterInteractionEvent, WaterSample, WorldWaterQuery } from "@elder-souls/contracts";
 import { seasonOffset, tideOffset } from "./tide";
 import type { WaterData } from "./waterData";
-import { surfaceWaveAt, waveExposure, type WaveSample } from "./waves";
+import { surfaceWaveAt, swashAt, waveExposure, type WaveSample } from "./waves";
 
 export interface WaterWorldOptions {
   /** FloodBasin amplitudes (province `refined/flood-states.json`). */
@@ -76,10 +76,10 @@ export class WaterWorld implements WorldWaterQuery {
       };
     }
 
-    const exposure = waveExposure(s.shoreDistM, depth);
+    const exposure = waveExposure(s.shoreDistM, depth, s.turbidity);
     const waveTime = this.opts.waveTimeS?.() ?? epochMinutes * 60;
     const w = surfaceWaveAt(position.x, position.z, waveTime, exposure, this.scratch);
-    const surface = still + w.height;
+    const surface = still + w.height + swashAt(s.shoreDistM, exposure, waveTime);
     return {
       waterBodyId: s.className,
       surfaceHeight: surface,

@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import type { CSM } from "three/examples/jsm/csm/CSM.js";
 import { applyAerialPerspective, type AerialUniforms } from "./sky/aerial";
+import { applyShoreWetness } from "./water/groundWetness";
 
 /**
  * Ground-material splat shader (decision 0011), shared between the flyover's
@@ -239,6 +240,9 @@ vec3 nonPerturbedNormal = normal;`,
     });
   };
 
+  // Shore wetness (8b round 2): darken + polish the swash band so retreating
+  // water leaves visibly wet ground. Chains between splat and aerial.
+  applyShoreWetness(material);
   // The aerial term chains after the splat patch (it also declares
   // uClimateAir + vEsWorldPos, which the splat code above uses).
   applyAerialPerspective(material, aerialUniforms);

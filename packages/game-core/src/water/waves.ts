@@ -57,11 +57,37 @@ export interface WaveSample {
   nz: number;
 }
 
-/** Exposure 0..1 from shore distance and depth — MUST match the GLSL below. */
-export function waveExposure(shoreDistM: number, depthM: number): number {
+/** Exposure 0..1 from shore distance, depth and turbidity — MUST match the
+ * GLSL below. Turbid (marsh/blackwater) surfaces sit nearly still: reeds,
+ * canopy shelter and organic load kill wind chop (owner round 2: whitecaps
+ * were appearing on marsh flats far from "shore"). */
+export function waveExposure(shoreDistM: number, depthM: number, turbidity = 0): number {
   const fetch = Math.min(Math.max(shoreDistM / WAVES.fetchSaturationM, 0), 1);
   const deep = Math.min(Math.max(depthM / WAVES.depthSaturationM, 0), 1);
-  return fetch * deep;
+  return fetch * deep * (1 - 0.85 * Math.min(Math.max(turbidity, 0), 1));
+}
+
+/** Shore swash: the slow lapping rhythm that runs the waterline up and down
+ * the beach (research: distance-field wave bands — docs/research/
+ * water-edges-and-shore-waves.md). Shared by the vertex shader, the CPU
+ * query and the terrain wetness band. Returns a HEIGHT offset (m). */
+export const SWASH = {
+  amplitudeM: 0.09,
+  bandM: 18.0, // swash influence fades out this far from shore
+  omega: 0.9, // rad/s
+  k: 0.5, // rad/m of shore distance (bands travel shoreward)
+} as const;
+
+export function swashAt(shoreDistM: number, exposure: number, timeS: number): number {
+  const envelope = Math.max(1 - shoreDistM / SWASH.bandM, 0) * Math.min(exposure * 2.5, 1);
+  if (envelope <= 0) return 0;
+  return (Math.sin(SWASH.omega * timeS + SWASH.k * shoreDistM) * 0.5 + 0.2) * SWASH.amplitudeM * envelope;
+}
+
+/** Max swash lift (for the terrain wet band: recent waterline = W + this). */
+export function swashMax(shoreDistM: number, exposure: number): number {
+  const envelope = Math.max(1 - shoreDistM / SWASH.bandM, 0) * Math.min(exposure * 2.5, 1);
+  return 0.7 * SWASH.amplitudeM * envelope;
 }
 
 /** Exact port of WaterThreeJS's GLSL hash21 (per-band angle/phase). */
@@ -184,9 +210,18 @@ export function gerstnerGlsl(bandCount: number = WAVES.bands): string {
   return /* glsl */ `
   struct EsWave { vec3 disp; vec3 normal; float height; };
 
-  float esWaveExposure(float shoreDistM, float depthM) {
+  float esWaveExposure(float shoreDistM, float depthM, float turbidity) {
     return clamp(shoreDistM / ${f(WAVES.fetchSaturationM)}, 0.0, 1.0)
-         * clamp(depthM / ${f(WAVES.depthSaturationM)}, 0.0, 1.0);
+         * clamp(depthM / ${f(WAVES.depthSaturationM)}, 0.0, 1.0)
+         * (1.0 - 0.85 * clamp(turbidity, 0.0, 1.0));
+  }
+
+  // KEEP IN LOCKSTEP with swashAt() — the lapping shoreline rhythm.
+  float esSwash(float shoreDistM, float exposure, float t) {
+    float envelope = max(1.0 - shoreDistM / ${f(SWASH.bandM)}, 0.0) * min(exposure * 2.5, 1.0);
+    if (envelope <= 0.0) return 0.0;
+    return (sin(${f(SWASH.omega)} * t + ${f(SWASH.k)} * shoreDistM) * 0.5 + 0.2)
+         * ${f(SWASH.amplitudeM)} * envelope;
   }
 
   EsWave esWaveBand(vec2 pos, float exposure, float t, vec2 d,

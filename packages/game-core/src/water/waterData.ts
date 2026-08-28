@@ -16,6 +16,9 @@ export interface WaterMeta {
     minM: number;
     maxM: number;
     buryM: number;
+    /** Hi-res shore-distance field (own grayscale PNG) + its saturation. */
+    shoreFile?: string;
+    shoreMaxM?: number;
   };
   flow: { file: string; size: number; metresPerPixel: number; flowMax: number; shoreMaxM: number };
   klass: { file: string; size: number; metresPerPixel: number; classes: string[] };
@@ -60,6 +63,8 @@ export class WaterData {
     private readonly flow: Uint8ClampedArray,
     /** RGBA bytes of water-class.png, klass.size². */
     private readonly klass: Uint8ClampedArray,
+    /** Shore distance (m), surface.size² (surface alpha), optional. */
+    private readonly shore?: Float32Array,
   ) {}
 
   private bilinear(a: Float32Array, size: number, mpp: number, x: number, z: number): number {
@@ -105,7 +110,10 @@ export class WaterData {
     const fi = (fz * fm.size + fx) * 4;
     const flowX = ((this.flow[fi] / 255 - 0.5) * 2) * fm.flowMax;
     const flowZ = ((this.flow[fi + 1] / 255 - 0.5) * 2) * fm.flowMax;
-    const shoreDistM = (this.flow[fi + 3] / 255) * fm.shoreMaxM;
+    // prefer the hi-res shore field (surface alpha) — same data the GPU uses
+    const shoreDistM = this.shore
+      ? this.bilinear(this.shore, this.meta.surface.size, this.meta.surface.metresPerPixel, x, z)
+      : (this.flow[fi + 3] / 255) * fm.shoreMaxM;
     const km = this.meta.klass;
     const kx = Math.min(Math.max(Math.round(x / km.metresPerPixel - 0.5), 0), km.size - 1);
     const kz = Math.min(Math.max(Math.round(z / km.metresPerPixel - 0.5), 0), km.size - 1);
