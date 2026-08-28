@@ -316,7 +316,7 @@ def main() -> None:
     np.savez_compressed(
         vault / "water-pass1.npz",
         w1=r["w1"], wet=r["wet"], ext=r["ext"], cls=r["cls"], turb=r["turb"],
-        season=r["season"], vx=r["vx"], vz=r["vz"], shore_d=r["shore_d"],
+        season=r["season"], tannin=r["tannin"], vx=r["vx"], vz=r["vz"], shore_d=r["shore_d"],
         w2=r["w2"].astype(np.float32), depth2=r["depth2"].astype(np.float32),
         shore2=r["shore2"].astype(np.float32), fringe=r["fringe"],
         riv2=r["riv2"],
