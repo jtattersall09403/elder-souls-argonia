@@ -1,0 +1,172 @@
+/**
+ * Local expression (module 55 §98): the single synoptic state reads
+ * differently by place — the same "downpour" is a wall of water in the
+ * high-rain interior and a grey drizzle in the NW rain shadow; a squall is
+ * violence on the open Padomaic coast and gusty overcast inland. The region
+ * weighting the master plan asks for enters HERE, through the climate fields,
+ * so weather stays spatially coherent (no state pops at region borders) while
+ * regions keep distinct weather character. Fixed-difficulty rule (0004):
+ * everything is world state on the calendar, never scaled to the player.
+ */
+
+import {
+  clearCalmNightFactor,
+  lightningAt,
+  rainWetness,
+  synopticAt,
+  windDirAt,
+  type SynopticSample,
+} from "./synoptic";
+import type { StateProfile, WeatherKind } from "./states";
+import { MINUTES_PER_DAY, seasonScalar, fromEpochMinutes, dayOfYear } from "@elder-souls/world-time";
+
+/** Climate-field values at a position — sampled from climate-air.png (RGB =
+ * humidity/mist/canopy) and climate-weather.png (RGB = rain amplitude /
+ * storm exposure / advection sea-fog), plus terrain elevation. */
+export interface LocalClimate {
+  /** Rain amplitude R 0..1 (climatology §3): windward + coastal moisture. */
+  rainAmp: number;
+  /** Storm exposure X 0..1: open-ocean coast high, placid bays/inland low. */
+  stormExposure: number;
+  /** Advection sea-fog propensity 0..1: coasts and up-estuary corridors. */
+  seaFog: number;
+  /** Radiation-mist propensity 0..1 (climate-air G: wet inland basins). */
+  mistProp: number;
+  /** Relative humidity 0..1 (climate-air R). */
+  humidity: number;
+  /** Canopy closure 0..1 (climate-air B) — suppresses rain/wetness under it. */
+  canopy: number;
+  /** Terrain elevation, metres (true metres, not vertical-scaled). */
+  elevationM: number;
+}
+
+/** The three mist regimes (module 55 §97) — distinct systems, 0..1 each. */
+export interface MistRegimes {
+  /** Radiation mist: dawn pooling in wet inland basins, dry/recession season,
+   * only after a clear calm night. */
+  radiation: number;
+  /** Advection sea fog rolling up estuaries. */
+  advection: number;
+  /** Cloud-forest whiteout in the montane belt (quasi-permanent). */
+  whiteout: number;
+  /** Weather fog/haze from the current state (rain veil, dry haze). */
+  weather: number;
+}
+
+export interface WeatherSample {
+  /** Dominant state (for UI/audio/AI); parameters below are what to render. */
+  state: WeatherKind;
+  prev: WeatherKind;
+  blend: number;
+  spellKind: SynopticSample["spellKind"];
+  /** Blended synoptic parameter block (province-wide). */
+  profile: StateProfile;
+  /** Local precipitation strength 0..1 after rain-amplitude expression. */
+  rainIntensity: number;
+  /** Wind: travel direction (XZ unit), speed m/s, gust fraction 0..1. */
+  windDirXZ: [number, number];
+  windSpeedMS: number;
+  gustiness: number;
+  mist: MistRegimes;
+  /** Practical sight distance, metres (min across air/mist/rain). */
+  visibilityM: number;
+  /** Ground wetness 0..1 (rain trail, decays over tens of minutes). */
+  wetness: number;
+  /** Traction 0..1 (1 dry): published for Phase 9 climbing/boats, not yet
+   * consumed by locomotion. */
+  grip: number;
+  /** Lightning flash envelope 0..1 at this instant. */
+  lightning: number;
+  /** Direct-sun dimming 0..1 (clouds + in-cloud whiteout). */
+  sunDim: number;
+}
+
+function clamp01(x: number): number {
+  return Math.min(1, Math.max(0, x));
+}
+
+/** Cloud-forest belt: bell over elevation. Summits reach ~650 m (6b sculpt);
+ * the belt sits on the upper mountain flanks (mass-elevation effect brings
+ * tropical cloud forest down to ~500–700 m on small coastal ranges). */
+export function whiteoutBell(elevationM: number): number {
+  return Math.exp(-Math.pow((elevationM - 520) / 130, 2));
+}
+
+export function weatherSampleAt(epochMinutes: number, local: LocalClimate): WeatherSample {
+  const syn = synopticAt(epochMinutes);
+  const p = syn.profile;
+  const inst = fromEpochMinutes(epochMinutes);
+  const s = seasonScalar(dayOfYear(inst.month, inst.day));
+  const minuteOfDay = ((epochMinutes % MINUTES_PER_DAY) + MINUTES_PER_DAY) % MINUTES_PER_DAY;
+
+  // Rain: local amplitude expression. A squall's precipitation core is a
+  // coastal phenomenon — inland it passes as wind and a brief spatter.
+  let rain = p.rain * (0.35 + 0.95 * local.rainAmp);
+  const squallness =
+    (syn.state === "squall" ? syn.blend : 0) + (syn.prev === "squall" ? 1 - syn.blend : 0);
+  rain *= 1 - squallness * (1 - (0.4 + 0.6 * local.stormExposure));
+  rain = clamp01(rain);
+
+  // Wind: exposed coasts run windier than sheltered interior; squall wind
+  // hits hardest where the storm-exposure field is high.
+  const windSpeedMS = p.windMS * (0.75 + 0.45 * local.stormExposure + 0.4 * squallness * local.stormExposure);
+  const gustiness = clamp01(p.gust * (0.8 + 0.4 * local.stormExposure));
+
+  // --- The three mist regimes (distinct systems, module 55 §97) ---
+  const drySeason = 0.5 - 0.5 * s;
+  const dawnBell = Math.exp(-Math.pow((minuteOfDay - 360) / 110, 2));
+  const duskBell = 0.35 * Math.exp(-Math.pow((minuteOfDay - 1120) / 90, 2));
+  const radiation =
+    clamp01(local.mistProp * 1.15) *
+    (dawnBell + duskBell) *
+    (0.25 + 0.75 * drySeason) *
+    clearCalmNightFactor(epochMinutes) *
+    (1 - clamp01(rain * 2)); // rain scrubs radiation mist out
+  // Advection sea fog: humid marine air, strongest mornings and in the wetter
+  // half of the year, needs non-violent weather to hold together.
+  const morningBell = Math.exp(-Math.pow((minuteOfDay - 420) / 190, 2));
+  const holdsTogether = syn.state === "clear" || syn.state === "overcast" || syn.state === "haze" ? 1 : 0.25;
+  const advection =
+    clamp01(local.seaFog) * (0.35 + 0.65 * morningBell) * (0.5 + 0.5 * Math.max(0, s)) * holdsTogether * 0.8;
+  // Cloud-forest whiteout: quasi-permanent on the montane belt, thickened by
+  // wet weather, thinned a little by dry clear spells.
+  const whiteout = whiteoutBell(local.elevationM) * (0.55 + 0.35 * clamp01(p.cloudMid + rain) - 0.2 * (syn.state === "haze" ? 1 : 0));
+  const weatherFog = p.fogMie * (0.6 + 0.4 * local.humidity);
+  const mist: MistRegimes = {
+    radiation: clamp01(radiation),
+    advection: clamp01(advection),
+    whiteout: clamp01(whiteout),
+    weather: weatherFog,
+  };
+
+  // Visibility: the worst offender wins (published to AI/encounters, §97).
+  const visWeather = p.visibilityKm * 1000 * (1 - 0.55 * clamp01(rain));
+  const visRad = mist.radiation > 0.02 ? 30000 - (30000 - 140) * mist.radiation : 30000;
+  const visAdv = mist.advection > 0.02 ? 30000 - (30000 - 350) * mist.advection : 30000;
+  const visWhite = mist.whiteout > 0.02 ? 30000 - (30000 - 70) * mist.whiteout : 30000;
+  const visibilityM = Math.max(50, Math.min(visWeather, visRad, visAdv, visWhite));
+
+  // Wetness: rain trail × how much sky this ground actually sees.
+  const wetness = clamp01(rainWetness(epochMinutes) * (1 - 0.8 * local.canopy) * (0.4 + 0.8 * local.rainAmp));
+  const grip = 1 - 0.35 * wetness;
+
+  const sunDim = clamp01(Math.max(p.sunDim, mist.whiteout * 0.9));
+
+  return {
+    state: syn.blend < 0.5 ? syn.prev : syn.state,
+    prev: syn.prev,
+    blend: syn.blend,
+    spellKind: syn.spellKind,
+    profile: p,
+    rainIntensity: rain,
+    windDirXZ: windDirAt(epochMinutes),
+    windSpeedMS,
+    gustiness,
+    mist,
+    visibilityM,
+    wetness,
+    grip,
+    lightning: lightningAt(epochMinutes),
+    sunDim,
+  };
+}
