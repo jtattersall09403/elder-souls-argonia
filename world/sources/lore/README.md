@@ -57,7 +57,7 @@ everything below the eight majors, plus the canon adjacency graph)
 | [topics/guilds-and-orders.md](topics/guilds-and-orders.md) | Synod, College of Whispers, Fighters/Thieves Guild, Dark Brotherhood, Cyrodilic Collections, the Conclaves and the cult of Seth, the Wild Ones |
 | [topics/ecology-encounters-loot.md](topics/ecology-encounters-loot.md) | Phase 13 feed: regional encounter composition, territory-holders, loot provenance, underwater ecology, seasonal keying |
 | [topics/sithis-nisswo-shadowscales.md](topics/sithis-nisswo-shadowscales.md) | Religion: the two Sithises, the Clutch of Nisswo, Shadowscales, death rites, the Scalded Throne |
-| [topics/material-culture.md](topics/material-culture.md) | Building, craft, food, drugs, dress, music, sport, calendar, tribal offices, Jel register — **the prop-and-dialogue brief** |
+| [topics/material-culture.md](topics/material-culture.md) | Building, craft, **boats and waterway travel**, food, drugs, dress, music, sport, calendar, tribal offices, Jel register — **the prop-and-dialogue brief** |
 | [topics/sky-moons-calendar.md](topics/sky-moons-calendar.md) | Calendar (months, Jel names, week), Masser/Secunda and the 28-night cycle, the thirteen constellations, eclipses/Vampire Days, sky geometry over Argonia — the feed for the world clock and light system |
 | [topics/fauna-hazards.md](topics/fauna-hazards.md) | Creatures, diseases, flora, minerals, environmental hazards (Phase 13 feed) |
 | [topics/foreign-powers.md](topics/foreign-powers.md) | Empire, Dres/Morrowind, Pact, Dominion, EEC, Cyrodilic Collections, pirates and criminals |

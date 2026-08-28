@@ -4,7 +4,11 @@ The reference for anything an agent has to *place*: what a hut is made of, what
 is on a table, what a village sounds like. Sources: Lore:Argonian,
 The Improved Emperor's Guide to Tamriel/Black Marsh (2E 581), Lore:Xanmeer,
 Lore:Xit-Xaht, Lore:Bright-Throat Village, Lore:Jel, Lore:Jasper,
-Lore:Lizard-Steed, Lore:Rootworm, The Argonian Account (fetched 2026-08-24).
+Lore:Lizard-Steed, Lore:Rootworm, The Argonian Account (fetched 2026-08-24);
+boats: Lore:Sea Transportation, Lore:Salt-Cured, Lore:Tribes of Blackwood:
+Riverbacks, Lore:Pirates of Topal Bay, Lore:Lost Tales of the Famed Explorer,
+Online:Kothringi Tidal Canoe, Online:Tide-Born Boat, Online:Argonian Houseboat
+(fetched 2026-08-28).
 
 ## Building — CANON_EXPLICIT
 
@@ -71,6 +75,52 @@ Lore:Lizard-Steed, Lore:Rootworm, The Argonian Account (fetched 2026-08-24).
   **exposed midriff**, loincloths, sandals or bare feet, layered helms whose layer
   count denotes status; swords that double as machetes and saws; Hist-branch
   staves topped with a skull resembling the wielder; thrown weapons over bows.
+
+## Boats and waterway travel — CANON_EXPLICIT
+
+- **The small-draft doctrine.** Black Marsh's terrain forces travel "through the
+  numerous waterways of the region, only navigable by **small-draft ships**,
+  which are and have always been **the most common and the fastest form of
+  transportation, both of people and goods, inside Argonia**." Argonians rarely
+  *build* big ships — they crew and sail **other races' ships, commonly Dunmer
+  or Imperial**. Argonian captains are "famous as pirates, privateers and
+  smugglers"; coastal *and inland* ports share "a long tradition of sea
+  sailing". Port tiers: **Archon, Lilmoth, Soulrest** major seaports;
+  **Alten Corimont, Stormhold, Thorn** minor. (Lore:Sea Transportation)
+- **Personal rafts are the default vehicle.** When Imperial roads and caravans
+  collapsed, "the Argonians began once again to use **the old ways, their
+  personal rafts** and sometimes the Underground Express [rootworms] to
+  transport the grain in small quantities" (The Argonian Account, Bk 4). The
+  Agaceph pole a **razor-thin one-person raft steered and propelled by the
+  tail** (Bk 4; see tribes.md).
+- **Riverbacks (Naka-Desh, Blackwood, 2E attestation):** their territory is
+  "more water than land — a drowned marsh navigable by **small rafts, canoes,
+  and little else**"; outsiders arrive by **ferry boats** behind an Argonian
+  guide; they fish *from rafts* with **harnessed osheeja gars** (bridled
+  predator fish that snatch the catch and cannot swallow it) instead of hook
+  and line. (Lore:Tribes of Blackwood: Riverbacks)
+- **Tide-Born / Salt-Cured (Solstice, 2E attestation):** fisher Argonians who
+  live on the water in "**large twin-hulled canoes, with living platforms
+  spanning the space between the hulls**", keep a loose reef flotilla, follow
+  fish into deep water, and run **smaller boats** ashore to trade; they sleep
+  in **houseboats** even through storms because dreams borne on the tide carry
+  omens. Shallow-water fishing boats go out at first light. (Lore:Salt-Cured;
+  Online:Argonian Houseboat; Online:Tide-Born Boat)
+- **The Kothringi tidal canoe:** "unusual paddle placement, **shallow draft,
+  and a sail**" — a sleek hull with a "colorful **doubled sail**" able to
+  navigate **both swamps and coastal waters** (Online:Kothringi Tidal Canoe;
+  Lore:Kothringi; more in lost-peoples.md). The one *named* native boat type
+  canon gives the province.
+- **Guided river travel:** multi-day raft journeys behind a hired Argonian
+  guide who chooses when to move (sometimes at night), where to shelter, and
+  refuses to stop — predators (a Swamp Leviathan) trail boats; passengers
+  stand and balance. (Lore:Lost Tales of the Famed Explorer: Fragment III)
+- **Piracy afloat:** a 2E pirate flotilla of "three or four fast galleys" hid
+  "in the channels of the **Onkobra River's many mouths** on the west coast";
+  eastern Topal Bay shipping detoured to avoid it. (Lore:Pirates of Topal Bay)
+- **Negative finding (searched 2026-08-28):** canon nowhere attests
+  grown/organic/Hist-grown boats, nor any native Argonian boat-class names.
+  Any "living boat" or named class we use is EXTRAPOLATED/AGENT_INVENTED.
 
 ## Food and drink — CANON_EXPLICIT
 
@@ -206,3 +256,7 @@ Compounds: *kaj-thux* (ample serpent), *deek-beeko* (friend of youth),
   boardwalk-city guidance already assumes. Good.
 - "Villages move" is a licence for **non-permanent settlement instances** if we
   ever want them, and an explanation for why a map is never quite right.
+- **Boat kit brief**: native craft are rafts, canoes and twin-hulled
+  platform-canoes — poled, paddled or tail-driven, no keels; sails mark a hull
+  as foreign (Dunmer/Imperial) or Kothringi-derived. Design mapping to our
+  boat classes: docs/research/marsh-watercraft-and-argonian-boats.md.
