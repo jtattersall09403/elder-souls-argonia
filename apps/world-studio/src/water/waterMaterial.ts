@@ -210,13 +210,15 @@ const SAMPLER_GLSL = /* glsl */ `
     return mix(mix(s00, s10, t.x), mix(s01, s11, t.x), t.y);
   }
 
-  // Shore distance (m) — its own hardware-filtered grayscale field.
-  float esShoreAt(vec2 wpos){
+  // Shore raster: R = shore distance, G = season response, B = tannin.
+  // (Data never rides PNG alpha — canvas premultiply corrupts it.)
+  vec3 esShoreAt(vec2 wpos){
     float extent = uSurfSize * uSurfMpp;
     if (wpos.x < 0.0 || wpos.y < 0.0 || wpos.x >= extent || wpos.y >= extent) {
-      return uSurfShoreMax;
+      return vec3(uSurfShoreMax, 0.0, 0.0);
     }
-    return texture2D(uSurfShore, wpos / extent).r * uSurfShoreMax;
+    vec3 s = texture2D(uSurfShore, wpos / extent).rgb;
+    return vec3(s.r * uSurfShoreMax, s.g, s.b);
   }
 `;
 
@@ -236,7 +238,7 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant): string {
   uniform sampler2D uRipple;
   uniform vec4 uRippleInfo;
   varying vec4 vEsData;   // stillW, depth, exposure, shoreDist
-  varying vec3 vEsKlass;  // turbidity, salinity, seasonResp
+  varying vec3 vEsKlass;  // turbidity(silt), salinity, tannin
   varying vec2 vEsFlow;   // m/s
   varying vec3 vEsNormalW; // world-space wave normal
 
@@ -337,12 +339,13 @@ vec4 esKl = texture2D(uKlassTex, esDataUv);
 vec4 esFl = texture2D(uFlowTex, esDataUv);
 float esOutside = (esRestW.x < 0.0 || esRestW.z < 0.0
   || esRestW.x >= uFlowExtentM || esRestW.z >= uFlowExtentM) ? 1.0 : 0.0;
-esKl = mix(esKl, vec4(0.0, 0.25, 1.0, 0.0), esOutside);
+esKl = mix(esKl, vec4(0.0, 0.25, 1.0, 1.0), esOutside);
 esFl = mix(esFl, vec4(0.5, 0.5, 0.0, 1.0), esOutside);
-float esStill = esSurf.x + uLevelTide * esTideResponse(esKl.b) + uLevelSeason * esKl.a;
+vec3 esSS = esShoreAt(esRestW.xz);   // shore dist, season response, tannin
+float esStill = esSurf.x + uLevelTide * esTideResponse(esKl.b) + uLevelSeason * esSS.y;
 float esVDepth = max(esSurf.y + (esStill - esSurf.x), 0.0);
-float esShore = esShoreAt(esRestW.xz);
-float esExposure = esWaveExposure(esShore, esVDepth, esKl.g);
+float esShore = esSS.x;
+float esExposure = esWaveExposure(esShore, esVDepth, max(esKl.g, esSS.z));
 // lapping swash: the waterline breathes up the beach (research doc §1)
 esStill += esSwash(esShore, esExposure, uWaveTime);
 float esCamDist = distance(cameraPosition.xz, esRestW.xz);
@@ -356,7 +359,7 @@ if (esWaveAmp > 0.002) {
   esW.height = 0.0;
 }
 vEsData = vec4(esStill, esVDepth, esExposure, esShore);
-vEsKlass = vec3(esKl.g, esKl.b, esKl.a);
+vEsKlass = vec3(esKl.g, esKl.b, esSS.z);   // turbidity, salinity, tannin
 vEsFlow = (esFl.xy - 0.5) * 2.0 * uFlowMax;
 vEsNormalW = esW.normal;
 vec3 objectNormal = esW.normal;`,
@@ -448,8 +451,10 @@ vec3 nonPerturbedNormal = normal;`,
         "#include <emissivemap_fragment>",
         variant === "above"
           ? /* glsl */ `
-float esTurb = vEsKlass.x;
+float esTurb = vEsKlass.x;   // suspended silt — "whitewater" opacity
 float esSal = vEsKlass.y;
+float esTan = vEsKlass.z;    // dissolved tannin — "blackwater" tea
+float esMurk = clamp(esTurb * 0.7 + esTan * 0.8, 0.0, 1.0);
 // refraction distortion dies in the shallows (edge quality, research §3)
 float esThickPre = max(esSceneEye - esFragEye, 0.0);
 float esDistort = uRefractStrength * clamp(6.0 / max(esFragEye, 1.0), 0.02, 1.0)
@@ -459,12 +464,17 @@ float esSceneEyeR = esEyeDepth(esRUV);
 if (esSceneEyeR < esFragEye) { esRUV = esScreenUV; esSceneEyeR = esSceneEye; }
 float esThick = max(esSceneEyeR - esFragEye, 0.0);
 float esColDepth = min(esThick, max(vEsData.y, 0.05) * 4.0);
-// Beer–Lambert: clear tropical sea → tannic green-brown blackwater.
-vec3 esAbsorb = mix(vec3(0.30, 0.10, 0.06), vec3(2.6, 2.4, 4.6), esTurb);
+// Beer–Lambert, three real tropical water types (research doc: Sioli/Amazon
+// typology): clear sea/mountain streams; SILT whitewater — lighter opaque
+// tan (café-au-lait); TANNIN blackwater — glassy dark tea, green-red.
+vec3 esAbsorb = vec3(0.30, 0.10, 0.06)
+  + esTurb * vec3(1.2, 1.7, 2.3)
+  + esTan * vec3(2.2, 2.0, 4.6);
 vec3 esT = exp(-esAbsorb * esColDepth);
 vec3 esAlbClear = mix(vec3(0.035, 0.115, 0.10), vec3(0.05, 0.14, 0.155), esSal);
-// marsh water: dark tea GREEN (owner round 2)
-vec3 esAlb = mix(esAlbClear, vec3(0.055, 0.075, 0.028), esTurb * esTurb);
+vec3 esAlb = esAlbClear;
+esAlb = mix(esAlb, vec3(0.115, 0.085, 0.048), clamp(esTurb, 0.0, 1.0));  // silt tan
+esAlb = mix(esAlb, vec3(0.045, 0.065, 0.022), clamp(esTan, 0.0, 1.0));   // tea green
 
 // ---- foam: a system, not a blanket (round 2 defect: white sheets) ------
 float esShoreD = vEsData.w;
@@ -486,8 +496,8 @@ esFoamE += smoothstep(0.16, 0.34, esCrest) * esExpo * 0.8 * (1.0 - smoothstep(12
 esFoamE += smoothstep(0.3, 1.1, esSpeed) * (1.0 - smoothstep(4.0, 30.0, esShoreD)) * 0.6;
 // 5. player/crate/splash rings + sim crests
 esFoamE += esContactFoam(vEsWorldPos.xz) + esRipCrest * 0.5;
-// turbid water barely foams white
-esFoamE = min(esFoamE, 1.0) * (1.0 - 0.75 * esTurb);
+// murky water barely foams white
+esFoamE = min(esFoamE, 1.0) * (1.0 - 0.75 * esMurk);
 float esFTex = esFbm(vEsWorldPos.xz * 0.55 - (vEsFlow + esDrift) * uWaveTime * 0.35, 4);
 float esFThr = 1.0 - esFoamE;
 float esFoam = smoothstep(esFThr - 0.18, esFThr + 0.26, esFTex)
@@ -503,7 +513,7 @@ roughnessFactor = mix(
   0.85, esFoam);
 #include <emissivemap_fragment>`
           : /* glsl */ `
-float esTurb = vEsKlass.x;
+float esTurb = clamp(vEsKlass.x + vEsKlass.z, 0.0, 1.0);
 vec3 esAlbU = mix(vec3(0.05, 0.14, 0.15), vec3(0.06, 0.08, 0.03), esTurb);
 diffuseColor.rgb = esAlbU;
 roughnessFactor = 0.4;

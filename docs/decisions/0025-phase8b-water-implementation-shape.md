@@ -151,7 +151,49 @@ and [water edges & shore waves](../research/water-edges-and-shore-waves.md).
    refine_province run. Full tropical shoreline variety (beach sand/rippled
    seabed/pebbles — CC0 candidates vetted in the research doc) is the next
    texture-ingestion step.
-9. **Not a defect**: tide/season "stopped" — the world clock pins them while
-   paused (deliberate; the rate control animates them). Shore-distance field
-   ships as its own grayscale PNG: browser canvas decoding premultiplies
-   alpha and would corrupt a data-alpha channel.
+9. ~~Not a defect: tide pinned by the paused clock~~ — **superseded in round
+   3**: the owner scrubbed time and tides genuinely didn't move. Root cause
+   below.
+
+## Round 3 (2026-08-28) — the tide bug + the integrated geography build
+
+**The tide bug (real, found by probe):** the class/flow rasters carried data
+in their PNG **alpha** channels (season, shore distance). Browser canvas
+decoding premultiplies alpha, so wherever alpha≈0 the RGB was destroyed —
+and season=0 is *exactly the saline cells*, so **salinity (→ tide response)
+read as 0 over every tidal surface**; river flow vectors likewise corrupted
+near banks. Standing rule, now probed (`test_shipped_flow_and_class_rasters_
+decode` asserts mode == RGB and bay salinity survives): **no data ever rides
+a PNG alpha channel.** All water rasters are RGB; season+tannin ride
+`water-shore.png` G/B. Verified live: bay surface now tracks the tide
+(−0.34 m ↔ +0.40 m).
+
+**Integrated geography (owner grant: terrain edits allowed).** Research:
+[tropical-fluvial-geomorphology.md](../research/tropical-fluvial-geomorphology.md).
+New `worldgen/fluvial.py` stage in refine_province (own rng stream — the
+owner-approved 6b noise lattice is bit-identical):
+- **continuum channel carving**: Leopold–Maddock hydraulic geometry
+  (W=14·A^0.4, D=1.4·A^0.29 at game scale) replaces the 3 fixed bands —
+  creeks→streams→rivers now grade continuously; Montgomery–Buffington slope
+  classes make steep reaches narrow V-gorges (×0.7 W, ×1.3 D);
+- **levees + floodplain smoothing** on lowland majors (backswamps emerge
+  behind the levees and flood-fill into pools);
+- **~22 oxbow scars** in the meander belts (max-composited, never stacked);
+- **wetland pool deepening** (dips amplified ~0.85×, channels excluded) —
+  the owner's "make marsh pools deeper";
+- **delta distributaries** (Galloway rule: sheltered whitewater mouths) +
+  mudflat aprons, aimed at the nearest open water;
+- unit-tested (`test_fluvial.py`: geometry ranges, far-field isolation,
+  determinism).
+**Water character**: per-pixel **tannin** (blackwater) vs **silt**
+(whitewater) vs clear, mapped from region classes per the Sioli typology
+(REGION_SILT/REGION_TANNIN in compile_water) — marsh/bog water is glassy
+dark tea-green, big lowland rivers opaque tan, mountain streams and the bay
+clear. Wave exposure damped by max(silt, tannin).
+**Shore materials** (research: tropical-shoreline-materials Part D): three
+CC0 Poly Haven textures ingested (`beach_sand` 32, `seabed_sand` 33,
+`river_pebbles` 34 — ids appended, sets rebuilt at 35 materials); landcover
+coast typing: mangrove mud on sheltered wetland coasts, dry beach sand above
+the wet swash on exposed coasts, salt pans only on dead-flat ground, rocky
+coves on steep salty, gravel bars on upland reaches. Full terrain →
+chunks → water → landcover chain rebuilt; 55 worldgen tests green.

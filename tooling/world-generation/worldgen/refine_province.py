@@ -278,6 +278,17 @@ def main() -> None:
     h = (h * (1 - 0.7 * band) + hs * (0.7 * band)).astype(np.float32)
     del hs, band
 
+    # Fluvial continuum stage (Phase 8b round 3, owner-approved terrain
+    # edits): research-grounded channel geometry, levees/floodplains, oxbows,
+    # wetland pools, deltas. Draws from ITS OWN rng so every draw above —
+    # the owner-approved 6b noise lattice — stays bit-identical.
+    from .fluvial import fluvial_continuum
+    rng_fluvial = np.random.default_rng(SEED ^ 0x8B)
+    h, fluvial_stats = fluvial_continuum(
+        h, rivers_up, up(npz["accum_km2"]), up(npz["salinity"]),
+        (up(npz["wetlands"]) > 0.5).astype(np.float32), rng_fluvial)
+    print("fluvial:", fluvial_stats)
+
     vault_dir = height_path.parent / "province-refined"
     vault_dir.mkdir(exist_ok=True)
     np.save(vault_dir / "refined-height-f32.npy", h)

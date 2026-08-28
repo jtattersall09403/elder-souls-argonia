@@ -61,10 +61,15 @@ export class WaterData {
     private readonly depth: Float32Array,
     /** RGBA bytes of water-flow.png, flow.size². */
     private readonly flow: Uint8ClampedArray,
-    /** RGBA bytes of water-class.png, klass.size². */
+    /** RGBA bytes of water-class.png (R class, G turbidity, B salinity). */
     private readonly klass: Uint8ClampedArray,
-    /** Shore distance (m), surface.size² (surface alpha), optional. */
+    /** Shore distance (m), surface.size², optional (water-shore.png R). */
     private readonly shore?: Float32Array,
+    /** Season response 0..1, surface.size², optional (water-shore.png G).
+     * Rides the shore raster because data must NEVER sit in a PNG alpha
+     * channel — canvas decoding premultiplies and destroys the RGB (the
+     * round-3 tide bug). */
+    private readonly season?: Float32Array,
   ) {}
 
   private bilinear(a: Float32Array, size: number, mpp: number, x: number, z: number): number {
@@ -130,7 +135,9 @@ export class WaterData {
       className,
       turbidity: this.klass[ki + 1] / 255,
       salinity: this.klass[ki + 2] / 255,
-      seasonResponse: this.klass[ki + 3] / 255,
+      seasonResponse: this.season
+        ? this.bilinear(this.season, this.meta.surface.size, this.meta.surface.metresPerPixel, x, z)
+        : 0,
       tideResponse: tideResponseOf(this.klass[ki + 2] / 255),
     };
   }

@@ -75,14 +75,15 @@ if (uWetParams.z > 0.5) {
   float esWetExtent = uWetParams.z * uWetParams.w;
   vec2 esWetUv = vEsWorldPos.xz / esWetExtent;
   if (all(greaterThanEqual(esWetUv, vec2(0.0))) && all(lessThan(esWetUv, vec2(1.0)))) {
-    float esWetShore = texture2D(uWetShore, esWetUv).r * uWetShoreMax;
+    vec3 esWetSS = texture2D(uWetShore, esWetUv).rgb; // shore, season, tannin
+    float esWetShore = esWetSS.r * uWetShoreMax;
     if (esWetShore < 22.0) {
       vec4 esWetT = texelFetch(uWetSurf, ivec2(esWetUv * uWetParams.z), 0);
       vec4 esWetK = texture2D(uWetKlass, vEsWorldPos.xz / uWetKlassExtent);
       float esWetW = uWetParams.x
         + ((esWetT.r * 255.0 * 256.0 + esWetT.g * 255.0) / 65535.0) * uWetParams.y
         + smoothstep(0.02, 0.15, esWetK.b) * uWetLevels.x
-        + esWetK.a * uWetLevels.y;
+        + esWetSS.g * uWetLevels.y;
       float esWetH = vEsWorldPos.y / uVerticalScale;
       // recent waterline = still level + swash reach (+ small headroom)
       float esWetLift = ${f(0.7 * SWASH.amplitudeM)} * max(1.0 - esWetShore / ${f(SWASH.bandM)}, 0.0) + 0.12;

@@ -70,7 +70,9 @@ asset registry.
 - **ambientCG** (ambientcg.com, CC0) — ground textures in the terrain
   material library (Ground024/025/026/040/050/051/054).
 - **Poly Haven** (polyhaven.com, CC0) — ground textures in the terrain
-  material library (mud_forest, aerial_mud_1, mud_cracked_dry_riverbed_002).
+  material library (mud_forest, aerial_mud_1, mud_cracked_dry_riverbed_002;
+  8b shoreline additions: coast_sand_05, aerial_beach_01,
+  ganges_river_pebbles).
 - **Project Rainforest SE** (Nexus SSE mod 20636, sa547; credits incl.
   LorSakyamuni's TW3 Landscape Resource and Vurt's SFO) — tropical ground
   textures in the terrain material library (owner-approved 2026-08-23).
@@ -114,9 +116,6 @@ asset registry.
 - Water rendering reference held for a later tier (MIT): ABYSSAL ocean
   (spectral FFT open-sea) — see
   [docs/research/water-rendering-threejs.md](docs/research/water-rendering-threejs.md).
-- **Beach/seabed texture candidates** (CC0, Poly Haven / ambientCG) vetted in
-  [docs/research/tropical-shoreline-materials.md](docs/research/tropical-shoreline-materials.md)
-  — move up when ingested.
 - **Sound sources** (module 57/90 §74.4): vanilla Skyrim sound library;
   Skyrim sound-mod packs credited per mod as ingested; Sonniss GDC
   royalty-free bundles and CC0 Freesound for tropical ambience gaps.

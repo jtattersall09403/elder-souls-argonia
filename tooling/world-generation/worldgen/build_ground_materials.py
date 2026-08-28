@@ -102,6 +102,12 @@ MATERIALS = [
     ("track_mud",     "ph",  "aerial_mud_1",                                6.0, None, 55),
     ("bc_road",       "aend", "Tx_BC_mainroad_01.dds",                      6.0, None, 74),
     ("mountain_rock", "bsa", "textures/landscape/mountains/mountainslab01.dds", 16.0, None, 62),
+    # Phase 8b round 3 — tropical shoreline gaps (CC0; research:
+    # docs/research/tropical-shoreline-materials.md Part C). Appended so all
+    # shipped control-map ids stay stable.
+    ("beach_sand",    "ph",  "coast_sand_05",                               8.0, None, 84),
+    ("seabed_sand",   "ph",  "aerial_beach_01",                             9.0, None, 70),
+    ("river_pebbles", "ph",  "ganges_river_pebbles",                        6.0, None, 60),
 ]
 
 # bmv-v1: Black Marsh & Valenwood winners — contact-sheet ranked 2026-08-23,

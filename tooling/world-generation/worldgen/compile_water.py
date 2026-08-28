@@ -70,7 +70,16 @@ SHORE_MAX_M = 160.0           # shore-distance encoding ceiling
 
 # Water classes (R channel of water-class.png; 0 = dry)
 CLASSES = ["none", "coast", "estuary", "river", "lake", "marsh"]
-TURBIDITY = {"coast": 0.25, "estuary": 0.60, "river": 0.50, "lake": 0.45, "marsh": 0.80}
+
+# Water character by region class (research: tropical-fluvial-geomorphology
+# — Sioli typology: blackwater from peat/organic catchments, whitewater silt
+# from erosive uplands, clear from rock/sand). Indexed by regionsLegend 0-13.
+REGION_SILT = np.array(
+    [0.12, 0.05, 0.45, 0.65, 0.30, 0.55, 0.15, 0.20, 0.25, 0.50, 0.30, 0.40, 0.20, 0.30],
+    dtype=np.float32)
+REGION_TANNIN = np.array(
+    [0.00, 0.00, 0.05, 0.15, 0.35, 0.20, 0.85, 0.70, 0.50, 0.30, 0.20, 0.15, 0.45, 0.60],
+    dtype=np.float32)
 
 
 def river_surface(z: np.ndarray, npz) -> np.ndarray:
@@ -267,9 +276,14 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     cls[wetr & wetlands & ~riv] = CLASSES.index("marsh")
     cls[wetr & (cls == 0)] = CLASSES.index("marsh")
 
-    turb = np.zeros(z.shape, dtype=np.float32)
-    for name, t in TURBIDITY.items():
-        turb[cls == CLASSES.index(name)] = t
+    # silt (whitewater murk) and tannin (blackwater tea) from the region the
+    # water sits in, gently smoothed; estuaries/deltas carry extra sediment
+    regions = np.clip(npz["regions"], 0, len(REGION_SILT) - 1)
+    turb = REGION_SILT[regions].copy()
+    tannin = REGION_TANNIN[regions].copy()
+    turb[cls == CLASSES.index("estuary")] += 0.15
+    turb = np.clip(ndimage.gaussian_filter(turb, 1.5), 0.0, 1.0)
+    tannin = np.clip(ndimage.gaussian_filter(tannin, 1.5), 0.0, 1.0)
 
     season = ((salinity < 0.4) & (wetr | (flood >= 2))).astype(np.float32)
 
@@ -279,12 +293,12 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     ext = (~wetr) & (dist_px <= TABLE_MAX_PX) & ((hand < FLOODABLE_HAND_M) | tidal | wetlands)
     cls_ext = cls.copy()
     cls_ext[ext] = cls[iy[ext], ix[ext]]
-    for arr in (turb, season, salinity):
+    for arr in (turb, tannin, season, salinity):
         arr[ext] = arr[iy[ext], ix[ext]]
 
     return {
         "w1": w_filled, "wet": wet, "wetr": wetr, "ext": ext, "cls": cls_ext,
-        "turb": turb, "season": season, "salinity": salinity, "vx": vx,
+        "turb": turb, "tannin": tannin, "season": season, "salinity": salinity, "vx": vx,
         "vz": vz, "shore_d": shore_d, "w2": w2, "depth2": depth2,
         "ground2": g2, "nodata2": nod2, "shore2": shore2, "fringe": fringe,
         "riv2": riv2,
@@ -314,23 +328,28 @@ def main() -> None:
     surf = np.dstack([surf[..., 0], surf[..., 1],
                       np.round(r["depth2"] / 0.1).astype(np.uint8)])
     Image.fromarray(surf, mode="RGB").save(OUT_DIR / "water-surface.png")
-    # shore distance ships as its own grayscale PNG: browser canvas decoding
-    # premultiplies alpha, which would corrupt RGB height data under a
-    # data-alpha channel
-    shore8 = np.clip(np.round(r["shore2"] / SHORE_MAX_M * 255.0), 0, 255).astype(np.uint8)
-    Image.fromarray(shore8, mode="L").save(OUT_DIR / "water-shore.png")
 
+    # NO data ever rides a PNG alpha channel: browser canvas decoding
+    # premultiplies alpha, destroying the RGB wherever alpha is low — this
+    # exactly killed tide response (salty cells have season=0) and river flow
+    # vectors near banks in rounds 0-2. Everything ships as RGB.
     enc = lambda a: np.clip(np.round(a * 255.0), 0, 255).astype(np.uint8)
+    shore8 = np.clip(np.round(r["shore2"] / SHORE_MAX_M * 255.0), 0, 255).astype(np.uint8)
+    n2 = r["shore2"].shape[0]
+    up2 = lambda a: ndimage.zoom(a, n2 / a.shape[0], order=1)[:n2, :n2]
+    Image.fromarray(
+        np.dstack([shore8, enc(up2(r["season"])), enc(up2(r["tannin"]))]), mode="RGB",
+    ).save(OUT_DIR / "water-shore.png")
+
     flow = np.dstack([
         enc(r["vx"] / FLOW_MAX * 0.5 + 0.5),
         enc(r["vz"] / FLOW_MAX * 0.5 + 0.5),
         enc(np.hypot(r["vx"], r["vz"]) / FLOW_MAX),
-        enc(r["shore_d"] / SHORE_MAX_M),
     ])
-    Image.fromarray(flow, mode="RGBA").save(OUT_DIR / "water-flow.png")
+    Image.fromarray(flow, mode="RGB").save(OUT_DIR / "water-flow.png")
 
-    klass = np.dstack([r["cls"], enc(r["turb"]), enc(r["salinity"]), enc(r["season"])])
-    Image.fromarray(klass, mode="RGBA").save(OUT_DIR / "water-class.png")
+    klass = np.dstack([r["cls"], enc(r["turb"]), enc(r["salinity"])])
+    Image.fromarray(klass, mode="RGB").save(OUT_DIR / "water-class.png")
 
     wet, ext, cls = r["wet"], r["ext"], r["cls"]
     stats = {

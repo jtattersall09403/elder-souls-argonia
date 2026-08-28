@@ -383,6 +383,42 @@
     61
    ],
    "source": "Black Marsh & Valenwood (mountains/mountainslab01.dds)"
+  },
+  {
+   "id": 32,
+   "name": "beach_sand",
+   "file": "32-beach_sand.png",
+   "tileM": 8.0,
+   "avgColor": [
+    98,
+    86,
+    67
+   ],
+   "source": "Poly Haven coast_sand_05 (CC0)"
+  },
+  {
+   "id": 33,
+   "name": "seabed_sand",
+   "file": "33-seabed_sand.png",
+   "tileM": 9.0,
+   "avgColor": [
+    75,
+    70,
+    64
+   ],
+   "source": "Poly Haven aerial_beach_01 (CC0)"
+  },
+  {
+   "id": 34,
+   "name": "river_pebbles",
+   "file": "34-river_pebbles.png",
+   "tileM": 6.0,
+   "avgColor": [
+    65,
+    60,
+    54
+   ],
+   "source": "Poly Haven ganges_river_pebbles (CC0)"
   }
  ]
 }

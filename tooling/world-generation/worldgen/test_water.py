@@ -53,7 +53,7 @@ def synth():
         "ocean": res.ocean, "filled": res.filled.astype(np.float32),
         "rivers": res.rivers, "lakes": res.lakes, "wetlands": res.wetlands,
         "tidal": res.tidal, "salinity": res.salinity.astype(np.float32),
-        "hand": reg.hand, "flood": reg.flood,
+        "hand": reg.hand, "flood": reg.flood, "regions": reg.regions,
         "flow_to": res.flow_to.astype(np.int32),
     }
     refined = np.repeat(np.repeat(z, 2, axis=0), 2, axis=1)  # fake 2x grid
@@ -172,7 +172,8 @@ def test_shipped_surface_raster_decodes_to_vault(province):
     assert err.max() < (m["maxM"] - m["minM"]) / 65535 * 2 + 1e-3
     depth = rgb[..., 2].astype(np.float32) * 0.1
     assert np.abs(depth - np.clip(npz["depth2"], 0, 25.5)).max() < 0.11
-    shore = np.asarray(Image.open(WATER_DIR / m["shoreFile"]).convert("L")).astype(np.float32) / 255.0 * m["shoreMaxM"]
+    shore_rgb = np.asarray(Image.open(WATER_DIR / m["shoreFile"]).convert("RGB"))
+    shore = shore_rgb[..., 0].astype(np.float32) / 255.0 * m["shoreMaxM"]
     assert np.abs(shore - np.clip(npz["shore2"], 0, m["shoreMaxM"])).max() < m["shoreMaxM"] / 255 + 1e-2
 
 
@@ -222,13 +223,22 @@ def test_pools_fill_level(province):
 
 @needs_vault
 def test_shipped_flow_and_class_rasters_decode(province):
+    """RGB only — data must NEVER ride a PNG alpha channel (browser canvas
+    premultiply destroyed salinity/flow in rounds 0-2: the tide bug)."""
     from PIL import Image
     npz, hydro, meta = province
-    flow = np.asarray(Image.open(WATER_DIR / meta["flow"]["file"]).convert("RGBA"),
-                      dtype=np.float32)
+    flow_img = Image.open(WATER_DIR / meta["flow"]["file"])
+    klass_img = Image.open(WATER_DIR / meta["klass"]["file"])
+    shore_img = Image.open(WATER_DIR / meta["surface"]["shoreFile"])
+    assert flow_img.mode == "RGB" and klass_img.mode == "RGB" and shore_img.mode == "RGB"
+    flow = np.asarray(flow_img.convert("RGB"), dtype=np.float32)
     vx = (flow[..., 0] / 255.0 - 0.5) * 2.0 * FLOW_MAX
     assert np.abs(vx - npz["vx"]).max() < FLOW_MAX / 255 * 2 + 1e-3
-    shore = flow[..., 3] / 255.0 * SHORE_MAX_M
-    assert np.abs(shore - np.clip(npz["shore_d"], 0, SHORE_MAX_M)).max() < SHORE_MAX_M / 255 + 1e-2
-    klass = np.asarray(Image.open(WATER_DIR / meta["klass"]["file"]).convert("RGBA"))
+    klass = np.asarray(klass_img.convert("RGB"))
     assert set(np.unique(klass[..., 0])).issubset(set(range(len(CLASSES))))
+    # salinity must survive at the open bay (the exact tide-bug symptom)
+    mpp = meta["klass"]["metresPerPixel"]
+    assert klass[int(5070 / mpp), int(6160 / mpp), 2] > 200
+    # tannin distinguishes blackwater marsh from silt rivers
+    shore_rgb = np.asarray(shore_img.convert("RGB"))
+    assert shore_rgb[..., 2].max() > 120

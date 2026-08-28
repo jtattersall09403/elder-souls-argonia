@@ -32,15 +32,15 @@
  },
  "stats": {
   "wetFrac": 0.4008,
-  "tableExtFrac": 0.1104,
+  "tableExtFrac": 0.1094,
   "classFrac": {
-   "coast": 0.33605,
-   "estuary": 0.00957,
+   "coast": 0.33572,
+   "estuary": 0.00899,
    "river": 0.00451,
-   "lake": 0.08442,
-   "marsh": 0.09107
+   "lake": 0.08392,
+   "marsh": 0.09344
   },
-  "visibleWaterFrac2017": 0.3835,
+  "visibleWaterFrac2017": 0.3866,
   "maxDepthM": 25.5,
   "riverCellsAboveBed": 1.0
  }

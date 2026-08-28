@@ -100,12 +100,14 @@ export function sharedWaterAssets(base: string): Promise<WaterAssets> {
     const surface = new Float32Array(n * n);
     const depth = new Float32Array(n * n);
     const shore = new Float32Array(n * n);
+    const season = new Float32Array(n * n);
     const px = surfImg.data;
     const sp = shoreImg.data;
     for (let i = 0; i < n * n; i++) {
       surface[i] = meta.surface.minM + ((px[i * 4] * 256 + px[i * 4 + 1]) / 65535) * span;
       depth[i] = px[i * 4 + 2] * 0.1;
       shore[i] = (sp[i * 4] / 255) * shoreMax;
+      season[i] = sp[i * 4 + 1] / 255;
     }
     const data = new WaterData(
       meta,
@@ -114,6 +116,7 @@ export function sharedWaterAssets(base: string): Promise<WaterAssets> {
       new Uint8ClampedArray(flowImg.data),
       new Uint8ClampedArray(klassImg.data),
       shore,
+      season,
     );
 
     const basin = (floodStates?.basins?.[0] ?? {}) as {

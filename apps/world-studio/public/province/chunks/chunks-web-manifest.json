@@ -18,7 +18,7 @@
   16,
   16
  ],
- "sourceSha256": "2f8a687b3bfade647f7f725cd1f6f6b57e3596b7bcacfddf24be75b5a4a69480",
+ "sourceSha256": "6c6638e31b27e030a11ba77ce969f3bfb2894b9b26ab453db913e8103fb02f1d",
  "chunks": [
   {
    "cx": 0,
@@ -315,7 +315,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": -4.25,
+     "minM": -4.707,
      "maxM": 125.201
     },
     "2": {
@@ -325,7 +325,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": -4.178,
+     "minM": -4.547,
      "maxM": 122.666
     },
     "4": {
@@ -1635,7 +1635,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": -6.818,
+     "minM": -7.492,
      "maxM": 110.739
     },
     "2": {
@@ -1645,7 +1645,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": -6.582,
+     "minM": -7.347,
      "maxM": 110.915
     },
     "4": {
@@ -1655,7 +1655,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": -5.904,
+     "minM": -6.782,
      "maxM": 111.156
     }
    }
@@ -2795,7 +2795,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": -4.923,
+     "minM": -6.098,
      "maxM": 22.395
     },
     "2": {
@@ -2805,7 +2805,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": -4.76,
+     "minM": -5.94,
      "maxM": 22.148
     },
     "4": {
@@ -2815,7 +2815,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": -4.071,
+     "minM": -5.535,
      "maxM": 21.745
     }
    }
@@ -2995,7 +2995,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": -1.373,
+     "minM": -2.368,
      "maxM": 29.659
     },
     "2": {
@@ -3005,7 +3005,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": -1.247,
+     "minM": -2.033,
      "maxM": 29.548
     },
     "4": {
@@ -3015,7 +3015,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": -1.098,
+     "minM": -1.467,
      "maxM": 29.394
     }
    }
@@ -3435,7 +3435,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": -6.123,
+     "minM": -6.428,
      "maxM": 19.209
     },
     "2": {
@@ -3445,7 +3445,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": -5.179,
+     "minM": -6.299,
      "maxM": 18.301
     },
     "4": {
@@ -3455,7 +3455,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": -4.496,
+     "minM": -5.944,
      "maxM": 17.459
     }
    }
@@ -4075,7 +4075,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": -5.269,
+     "minM": -6.89,
      "maxM": 20.447
     },
     "2": {
@@ -4085,7 +4085,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": -5.02,
+     "minM": -6.471,
      "maxM": 19.802
     },
     "4": {
@@ -4095,7 +4095,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": -4.56,
+     "minM": -5.715,
      "maxM": 19.148
     }
    }
@@ -4295,7 +4295,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": -0.388,
+     "minM": -0.397,
      "maxM": 30.781
     }
    }
@@ -4715,7 +4715,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": 5.008,
+     "minM": 3.988,
      "maxM": 47.238
     },
     "2": {
@@ -4725,7 +4725,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": 5.089,
+     "minM": 4.569,
      "maxM": 46.768
     },
     "4": {
@@ -4735,7 +4735,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": 5.098,
+     "minM": 5.035,
      "maxM": 46.31
     }
    }
@@ -4875,7 +4875,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": -1.49,
+     "minM": -1.829,
      "maxM": 34.012
     },
     "2": {
@@ -5365,7 +5365,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": 5.418,
+     "minM": 5.396,
      "maxM": 40.696
     },
     "4": {
@@ -5375,7 +5375,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": 5.608,
+     "minM": 5.465,
      "maxM": 40.243
     }
    }
@@ -5405,7 +5405,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": 6.528,
+     "minM": 6.527,
      "maxM": 53.36
     },
     "4": {
@@ -5566,7 +5566,7 @@
      ],
      "metresPerSample": 3.656,
      "minM": -2.684,
-     "maxM": 12.073
+     "maxM": 12.0
     },
     "4": {
      "file": "chunk_10_8_lod4.png",
@@ -5576,7 +5576,7 @@
      ],
      "metresPerSample": 7.311,
      "minM": -2.489,
-     "maxM": 11.533
+     "maxM": 11.426
     }
    }
   },
@@ -5955,7 +5955,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": 0.095,
+     "minM": -1.253,
      "maxM": 24.729
     },
     "2": {
@@ -5965,7 +5965,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": 0.141,
+     "minM": -1.041,
      "maxM": 24.642
     },
     "4": {
@@ -5975,7 +5975,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": 0.291,
+     "minM": -0.678,
      "maxM": 24.408
     }
    }
@@ -5995,7 +5995,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": -0.19,
+     "minM": -1.6,
      "maxM": 22.793
     },
     "2": {
@@ -6005,7 +6005,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": -0.145,
+     "minM": -1.588,
      "maxM": 22.801
     },
     "4": {
@@ -6015,7 +6015,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": 0.06,
+     "minM": -1.521,
      "maxM": 22.752
     }
    }
@@ -6035,7 +6035,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": 0.232,
+     "minM": -1.6,
      "maxM": 27.488
     },
     "2": {
@@ -6045,7 +6045,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": 0.283,
+     "minM": -1.583,
      "maxM": 27.39
     },
     "4": {
@@ -6055,7 +6055,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": 0.534,
+     "minM": -1.375,
      "maxM": 27.266
     }
    }
@@ -6155,7 +6155,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": 1.833,
+     "minM": 2.063,
      "maxM": 27.921
     },
     "2": {
@@ -6165,7 +6165,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": 1.981,
+     "minM": 2.203,
      "maxM": 27.803
     },
     "4": {
@@ -6175,7 +6175,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": 2.141,
+     "minM": 2.345,
      "maxM": 27.503
     }
    }
@@ -6555,7 +6555,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": -5.579,
+     "minM": -7.037,
      "maxM": 62.664
     },
     "2": {
@@ -6565,7 +6565,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": -5.408,
+     "minM": -6.882,
      "maxM": 62.628
     },
     "4": {
@@ -6575,7 +6575,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": -5.311,
+     "minM": -6.578,
      "maxM": 62.439
     }
    }
@@ -6616,7 +6616,7 @@
      ],
      "metresPerSample": 7.311,
      "minM": -4.137,
-     "maxM": 8.765
+     "maxM": 8.764
     }
    }
   },
@@ -7196,7 +7196,7 @@
      ],
      "metresPerSample": 1.828,
      "minM": -6.831,
-     "maxM": 6.556
+     "maxM": 6.525
     },
     "2": {
      "file": "chunk_3_11_lod2.png",
@@ -7206,7 +7206,7 @@
      ],
      "metresPerSample": 3.656,
      "minM": -6.689,
-     "maxM": 6.357
+     "maxM": 6.324
     },
     "4": {
      "file": "chunk_3_11_lod4.png",
@@ -7216,7 +7216,7 @@
      ],
      "metresPerSample": 7.311,
      "minM": -6.16,
-     "maxM": 6.14
+     "maxM": 6.139
     }
    }
   },
@@ -7275,7 +7275,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": -5.042,
+     "minM": -5.06,
      "maxM": 6.031
     },
     "2": {
@@ -7285,7 +7285,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": -4.529,
+     "minM": -4.632,
      "maxM": 5.978
     },
     "4": {
@@ -7315,7 +7315,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": -0.788,
+     "minM": -1.069,
      "maxM": 12.989
     },
     "2": {
@@ -7536,7 +7536,7 @@
      ],
      "metresPerSample": 7.311,
      "minM": -44.753,
-     "maxM": 3.747
+     "maxM": 3.735
     }
    }
   },
@@ -7726,7 +7726,7 @@
      ],
      "metresPerSample": 3.656,
      "minM": -18.122,
-     "maxM": 6.507
+     "maxM": 6.493
     },
     "4": {
      "file": "chunk_0_12_lod4.png",
@@ -7736,7 +7736,7 @@
      ],
      "metresPerSample": 7.311,
      "minM": -18.108,
-     "maxM": 6.142
+     "maxM": 6.089
     }
    }
   },
@@ -7815,7 +7815,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": 0.206,
+     "minM": 0.202,
      "maxM": 9.233
     }
    }
@@ -7835,8 +7835,8 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": -4.371,
-     "maxM": 8.717
+     "minM": -6.293,
+     "maxM": 8.666
     },
     "2": {
      "file": "chunk_3_12_lod2.png",
@@ -7845,8 +7845,8 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": -4.308,
-     "maxM": 8.274
+     "minM": -6.185,
+     "maxM": 8.247
     },
     "4": {
      "file": "chunk_3_12_lod4.png",
@@ -7855,8 +7855,8 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": -4.217,
-     "maxM": 8.09
+     "minM": -5.933,
+     "maxM": 8.078
     }
    }
   },
@@ -7875,8 +7875,8 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": -5.842,
-     "maxM": 5.581
+     "minM": -6.239,
+     "maxM": 5.057
     },
     "2": {
      "file": "chunk_4_12_lod2.png",
@@ -7885,8 +7885,8 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": -5.772,
-     "maxM": 5.192
+     "minM": -6.134,
+     "maxM": 4.906
     },
     "4": {
      "file": "chunk_4_12_lod4.png",
@@ -7895,8 +7895,8 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": -5.63,
-     "maxM": 5.106
+     "minM": -5.933,
+     "maxM": 4.856
     }
    }
   },
@@ -8395,7 +8395,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": 2.041,
+     "minM": 1.882,
      "maxM": 18.87
     },
     "2": {
@@ -8405,7 +8405,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": 2.048,
+     "minM": 1.921,
      "maxM": 18.827
     },
     "4": {
@@ -8415,7 +8415,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": 2.068,
+     "minM": 1.951,
      "maxM": 18.755
     }
    }
@@ -8435,7 +8435,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": -5.64,
+     "minM": -5.698,
      "maxM": 19.443
     },
     "2": {
@@ -8445,7 +8445,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": -5.029,
+     "minM": -5.328,
      "maxM": 19.329
     },
     "4": {
@@ -8455,7 +8455,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": -4.635,
+     "minM": -4.892,
      "maxM": 19.186
     }
    }
@@ -8475,8 +8475,8 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": -4.476,
-     "maxM": 9.471
+     "minM": -6.3,
+     "maxM": 9.187
     },
     "2": {
      "file": "chunk_3_13_lod2.png",
@@ -8485,8 +8485,8 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": -4.269,
-     "maxM": 9.242
+     "minM": -6.053,
+     "maxM": 9.111
     },
     "4": {
      "file": "chunk_3_13_lod4.png",
@@ -8495,8 +8495,8 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": -4.162,
-     "maxM": 9.054
+     "minM": -5.764,
+     "maxM": 8.921
     }
    }
   },
@@ -8515,7 +8515,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": -4.0,
+     "minM": -4.336,
      "maxM": 20.081
     },
     "2": {
@@ -8525,7 +8525,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": -4.0,
+     "minM": -4.28,
      "maxM": 19.703
     },
     "4": {
@@ -8535,7 +8535,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": -4.0,
+     "minM": -4.219,
      "maxM": 19.675
     }
    }
@@ -8555,7 +8555,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": -4.0,
+     "minM": -4.421,
      "maxM": 22.831
     },
     "2": {
@@ -8565,7 +8565,7 @@
       129
      ],
      "metresPerSample": 3.656,
-     "minM": -4.0,
+     "minM": -4.293,
      "maxM": 22.326
     },
     "4": {
@@ -8575,7 +8575,7 @@
       65
      ],
      "metresPerSample": 7.311,
-     "minM": -4.0,
+     "minM": -4.209,
      "maxM": 21.828
     }
    }
@@ -8635,7 +8635,7 @@
       257
      ],
      "metresPerSample": 1.828,
-     "minM": -0.475,
+     "minM": -0.499,
      "maxM": 23.475
     },
     "2": {

@@ -32,8 +32,8 @@ from .scale import TUNE, TUNE_A, TUNE_S
  PEAT, MUD_LEAVES, MARSH_GRASS, UNDERGROWTH, BC_MOSS, MOSS, SWAMP_GRASS,
  TROP_GRASS, GRASS_DIRT, SCRUB, JUNGLE, FOREST_FLOOR, LITTER, MOSSY_ROCK,
  BC_ROCK, SAND, SALT, DRY_CLAY, PATH, PEAT_SLOPE, TRACK, BC_ROAD,
- MOUNTAIN_ROCK) = range(32)
-N_MATERIALS = 32
+ MOUNTAIN_ROCK, BEACH_SAND, SEABED_SAND, PEBBLES) = range(35)
+N_MATERIALS = 35
 
 # Per-region palettes (regions.py class ids). Slots: base ground, damp patch
 # (mid wetness), wet patch (hollows), channel/shore bank, local-high ground,
@@ -255,14 +255,28 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     band1 = (~water) & (shore_d < 32.0 * TUNE) & low          # wet mud / salt / rock
     band0 = (~water) & (shore_d < 13.0 * TUNE) & (rel < 3.0)  # waterline
     mat = np.where(band2, rmap("damp"), mat)
-    b1 = np.where(near_salty, SALT, np.where(near_big, rmap("bank"), MUCK))
+    # Coast typing (research: tropical-shoreline-materials Part D):
+    # sheltered muddy wetland coast = mangrove country (mud, never sand);
+    # exposed sediment coast = dry BEACH sand above the wet swash line;
+    # very flat saline ground keeps its salt pans; steep salty = rocky cove.
+    mangrove = np.isin(region, (3, 4)) | (wetlands if isinstance(wetlands, np.ndarray) else False)
+    flat_pan = slope_lf < 0.012 * TUNE_S
+    b1_salty = np.where(mangrove, BC_MUD, np.where(flat_pan, SALT, BEACH_SAND))
+    b1 = np.where(near_salty, b1_salty, np.where(near_big, rmap("bank"), MUCK))
     mat = np.where(band1, b1, mat)
-    b0 = np.where(near_salty, SAND, np.where(near_big, BANK_WET, BLACK_MUD))
+    b0 = np.where(near_salty, np.where(mangrove, BLACK_MUD, SAND),
+                  np.where(near_big, BANK_WET, BLACK_MUD))
     mat = np.where(band0, b0, mat)
     mat = np.where((band0 | band1) & near_salty & rocky, BC_ROCK, mat)  # rocky coves
+    # freshwater gravel bars on brisk upland reaches (research §1.2) — only
+    # in genuinely mountainous/upland regions where gravel supply exists
+    upland_gravel = (~near_salty) & (slope_lf > 0.02 * TUNE_S) & np.isin(region, (1, 2))
     shallow = (rel >= -0.7) & water
-    sh = np.where(near_salty, SAND, np.where(near_big & ~marshy, PUDDLE, SCUM))
+    sh = np.where(near_salty, np.where(mangrove, SILT, SEABED_SAND),
+                  np.where(upland_gravel, PEBBLES,
+                           np.where(near_big & ~marshy, PUDDLE, SCUM)))
     mat = np.where(shallow, sh, mat)
+    mat = np.where(band0 & upland_gravel & ~near_salty, PEBBLES, mat)
     mat = np.where(rel < -0.7, SILT, mat)
 
     # Roads LAST so the wet fringes can't swallow them (they previously ran
