@@ -20,9 +20,29 @@ missing asset is a *sourcing* task, never a modelling or hand-animation task.
    already be downloaded. (Read directory and file names; don't keyword-search
    asset archives — CLAUDE.md.)
 2. **Research the mod scene** for the best available source, weighing quality,
-   completeness and how cleanly it converts. Prefer vanilla where it is good
-   enough; take a mod when it is substantially better or when vanilla has
-   nothing.
+   completeness and how cleanly it converts.
+
+   **Preference order (owner directive 2026-08-26): mod assets over vanilla for
+   anything that reads as Argonian, marsh, tropical or Black Marsh-specific.**
+   Skyrim's own assets were designed for a cold Nordic province and a different
+   culture; mod sources built *for this setting* are closer to what we need and
+   were made for our use case. In order:
+
+   1. **[Black Marsh & Valenwood](https://www.moddb.com/mods/black-marsh-valenwood)
+      — the Black Marsh half** (§74.1b) and the **Argonian Xanmeer Tileset**
+      (§74.2). These are the house style; reach for them first.
+   2. Other Argonia-appropriate mod sources — the candidate tables in §75–§79
+      and quests [70-assets §52](../quests/70-assets.md) (A-codes).
+   3. **Vanilla Skyrim/Creation** — still the right answer for *culturally
+      neutral* things (generic containers, tools, rope, rubble, furniture the
+      player will not read as Nordic) and for anything skeleton- or
+      animation-adjacent where vanilla compatibility is the point. Zero
+      sourcing cost, guaranteed pipeline fit — use it where it is genuinely
+      neutral, not where it is merely available.
+
+   A vanilla asset chosen for an Argonian-reading role should carry a one-line
+   note saying why no mod source served — that note is the trigger for a later
+   upgrade pass.
 3. **Download it.** The owner has a **Nexus Mods premium account with an API
    key on the VM** (`apikey:` header against `api.nexusmods.com`; premium can
    generate `download_link.json`). Never echo the key. Ask the owner for the
@@ -114,6 +134,22 @@ High-value source families:
 | Blackreach | glowing fungi, subterranean water, deep-cavern lighting and scale |
 | Dawnguard/Falmer cave material | selected underground infrastructure and organic clutter |
 | Ruins and tombs | later cultural reuse, crypts and generic structural components |
+
+### 74.1a Tropical Skyrim — A Climate Overhaul (Nexus classic 33017) — preferred source
+
+Owner-directed preferred source (2026-08-28, found during the 8b water
+rounds): [Tropical Skyrim](https://www.nexusmods.com/skyrim/mods/33017)
+(Soolie, classic Skyrim) — a **full tropical replacer of the vanilla
+texture set under vanilla filenames** plus purpose-made tropical assets. In
+the vault at `mod-sources/tropical-skyrim-33017/` (main + both updates,
+SHA256SUMS recorded; main archive uses deflate64 — extract with Info-ZIP
+`unzip`, not python/bsdtar). Already in use: landscape ground textures
+(`Beach`, `CoastOceanFloor01`, `Tropical/RiverGravel`, tropicalised
+riverbottom/rivermud/mossy-rocks/mountain slabs → `build_ground_materials`
+"ts" source). Still unmined and highly promising for later phases: tropical
+**trees/palms/jungle flora**, grasses, **creature retextures** (Phase 13),
+and architecture/clutter — sweep this archive FIRST when filling tropical
+gaps before hunting new mods.
 
 ### 74.1b Black Marsh & Valenwood (ModDB) — VERY HIGH priority source
 

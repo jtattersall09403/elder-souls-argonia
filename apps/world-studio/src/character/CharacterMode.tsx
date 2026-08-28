@@ -26,7 +26,6 @@ import { WorldSky } from "../sky/WorldSky";
 import { StudioWater } from "../water/StudioWater";
 import { FloatTestCrates } from "../water/FloatTestCrates";
 import { setWaterGroundHeight, sharedWaterAssets } from "../water/waterAssets";
-import type { ContactBody } from "../water/WaterSurfaceMesh";
 import type { WaterWorld } from "@elder-souls/game-core/water/index";
 import { CityMarkers } from "../CityMarkers";
 import { headingOf } from "../compass";
@@ -127,31 +126,35 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   }, [world]);
   /** Buoyancy demo (💧 crates button): spawn origin for three test crates. */
   const [crateOrigin, setCrateOrigin] = useState<Vec3 | null>(null);
-  const playerWater = useRef<{ x: number; z: number; depth: number; speed: number } | null>(null);
   const prevWaterDepth = useRef(0);
+  const lastWakeAt = useRef(0);
   const onWaterContact = useCallback((x: number, z: number, depth: number, speed: number, vy: number) => {
-    playerWater.current = { x, z, depth, speed };
-    // wading in from the bank (or any drop) splashes — round 2: entry was
-    // only detected on hard falls
-    if (depth > 0.12 && prevWaterDepth.current <= 0.03 && (vy < -1.2 || speed > 1.2)) {
-      waterWorldRef.current?.emitInteraction({
+    const ww = waterWorldRef.current;
+    if (!ww) return;
+    // ANY entry splashes — walking in, jumping in, or dropping in
+    // (round 4: jump-ins were missed and the old ring read as static)
+    if (depth > 0.12 && prevWaterDepth.current <= 0.03) {
+      ww.emitInteraction({
         kind: "splash",
         position: { x, y: 0, z },
-        magnitude: Math.min(Math.max(-vy, speed) * 20 + 20, 130),
+        magnitude: Math.min(Math.max(-vy, speed, 1.2) * 22 + 20, 130),
         radius: 1.1,
+      });
+      lastWakeAt.current = performance.now();
+    }
+    // wading leaves a TRAIL of expanding wake rings (like the crates do),
+    // which keep spreading after you stop, instead of a glued-on disc
+    const now = performance.now();
+    if (depth > 0.08 && speed > 0.55 && now - lastWakeAt.current > 220) {
+      lastWakeAt.current = now;
+      ww.emitInteraction({
+        kind: "wake",
+        position: { x, y: 0, z },
+        magnitude: 28 + speed * 14,
+        radius: 0.7,
       });
     }
     prevWaterDepth.current = depth;
-  }, []);
-  const playerChurn = useCallback((): ContactBody[] => {
-    const w = playerWater.current;
-    if (!w || w.depth < 0.08 || w.speed < 0.4) return [];
-    return [{
-      x: w.x,
-      z: w.z,
-      radius: 0.9 + Math.min(w.speed * 0.25, 0.8),
-      strength: Math.min(w.speed / 3, 1),
-    }];
   }, []);
   // Physics stays paused until the collider ring around the spawn is mounted;
   // otherwise the capsule falls through where the terrain hasn't landed yet.
@@ -277,7 +280,6 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             base={import.meta.env.BASE_URL}
             verticalScale={verticalScale}
             farExtentM={6000}
-            contactBodies={playerChurn}
           />
           {showMarkers && <CityMarkers extentM={extentM} groundAt={markerGroundAt} />}
           <RenderWarmup armed={collidersReady} onWarm={() => setRenderWarm(true)} />

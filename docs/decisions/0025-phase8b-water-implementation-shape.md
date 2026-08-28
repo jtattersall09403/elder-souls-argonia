@@ -190,6 +190,38 @@ owner-approved 6b noise lattice is bit-identical):
 (REGION_SILT/REGION_TANNIN in compile_water) — marsh/bog water is glassy
 dark tea-green, big lowland rivers opaque tan, mountain streams and the bay
 clear. Wave exposure damped by max(silt, tannin).
+## Round 4 (2026-08-28) — Tropical Skyrim, torrents, wetter heartlands
+
+1. **"Mossy rock" beds everywhere** → the PAINTING was right (99.97 % of
+   deep water = `water_silt`); the *texture* (Project Rainforest
+   riverbottom) was mossy cobbles. Owner found **Tropical Skyrim** (classic
+   33017, Soolie) — downloaded to the vault (SHA256SUMS; deflate64 → use
+   Info-ZIP), registered as a preferred source (module 90 §74.1a), and its
+   textures replaced: water_silt/river_mud (tropical riverbed), beach_sand
+   (`Beach`), river_pebbles (`Tropical/RiverGravel`), mossy_rock/moss/
+   mountain_rock (tropicalised), + NEW `ocean_floor` 35
+   (`CoastOceanFloor01`, rippled sand). Landcover: deep salty → ocean_floor,
+   deep mountain water → pebbles, border-mountain high slot → tropical
+   mountain slab (round-4 defect 3).
+2. **No whitewater found** → medium+ fresh rivers now guarantee silt ≥0.58
+   unless blackwater (dilated along the channel).
+3. **Slope water static/blocky** → slope-driven current (v ≈ 0.4+9·√slope,
+   ≤3 m/s), **cascade shading** where the surface visibly drops along flow
+   (vertex samples the downstream W; aerated foam + boosted ripple normals),
+   and surface-terrace smoothing where |∇W| is high — the round-4 "bulge"
+   image was a pool overflow sill, now reads as a churning spillway.
+4. **Channels not full / dry beds** → rivers carry ≥60 % of their carved
+   column (bank−bed based), rather than a fixed 0.35 m.
+5. **"Mostly water with land in"** → deep-wetland/jungle heartlands
+   (regions 6/7/8/13): pools accepted from 0.14 m depth/8 px, `fluvial`
+   carves a **rivulet web** (sub-river drainage lines become 3 m channels
+   linking the pools), wetland dips deepen harder (POOL_DEEPEN 1.05).
+6. **Interactions** → any water entry splashes (walk/jump/drop) and wading
+   emits a TRAIL of expanding wake rings (the static glued ring is gone;
+   rings + sim ripples persist after stopping).
+7. **Perf round 3** → shadow maps every other frame, 10 wave bands,
+   rtScale 0.9, foam noise 3 octaves.
+
 **Shore materials** (research: tropical-shoreline-materials Part D): three
 CC0 Poly Haven textures ingested (`beach_sand` 32, `seabed_sand` 33,
 `river_pebbles` 34 — ids appended, sets rebuilt at 35 materials); landcover

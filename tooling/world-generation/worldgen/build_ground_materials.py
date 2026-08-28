@@ -40,6 +40,12 @@ CC0_CACHE = MOD_SOURCES / "cc0-ground-textures"
 # (Morrowind 59713, credit-only) — renewed Bitter Coast swamp ground set.
 PR_DIR = MOD_SOURCES / "project-rainforest-20636" / "extracted"
 AEND_DIR = MOD_SOURCES / "aendemika-59713" / "extracted"
+# Tropical Skyrim — A Climate Overhaul (classic Skyrim 33017, Soolie; owner
+# round-4 preferred source): full tropical replacer of the vanilla landscape
+# set + purpose-made Beach/CoastOceanFloor/RiverGravel. SHA256s in the vault
+# dir's SHA256SUMS. Much more inside (flora, creatures, ruins) for later
+# phases — see module 90.
+TS_DIR = MOD_SOURCES / "tropical-skyrim-33017" / "extracted"
 
 # Black Marsh & Valenwood (ModDB, owner-directed VERY HIGH priority source —
 # module 90 §74.1b). Ground candidates extracted from Data2.rar by the mining
@@ -70,8 +76,10 @@ UA = {"User-Agent": "elder-souls-argonia world tooling (personal fan project)"}
 # bank/mud/muck/scum/moss/undergrowth).
 MATERIALS = [
     # name,            kind,  source ref,                                  tileM, tint, lum
-    ("water_silt",    "pr",  "riverbottom.dds",                             7.0, None, 45),
-    ("river_mud",     "pr",  "rivermud.dds",                                6.0, None, 50),
+    # water_silt/river_mud: Tropical Skyrim's riverbed set (owner round 4 —
+    # the PR riverbottom read as mossy cobbles on every underwater surface)
+    ("water_silt",    "ts",  "riverbottom.dds",                             7.0, None, 48),
+    ("river_mud",     "ts",  "rivermud.dds",                                6.0, None, 50),
     ("bank_wet",      "aend", "Tx_BC_bank.dds",                             6.0, None, 52),
     ("scum",          "aend", "Tx_BC_scum.dds",                             7.0, None, 48),
     ("black_mud",     "acg", "Ground051",                                   6.0, None, 48),
@@ -84,7 +92,7 @@ MATERIALS = [
     ("marsh_grass",   "pr",  "frozenmarshgrass01.dds",                      8.0, None, 58),
     ("undergrowth",   "aend", "Tx_BC_undergrowth.dds",                      7.0, None, 50),
     ("bc_moss",       "aend", "Tx_BC_moss.dds",                             7.0, None, 52),
-    ("moss",          "bsa", "textures/landscape/reachmoss01.dds",          8.0, None, 52),
+    ("moss",          "ts",  "reachmoss01.dds",                             8.0, None, 52),
     ("swamp_grass",   "aend", "Tx_BC_grass.dds",                            8.0, None, 58),
     ("trop_grass",    "pr",  "fieldgrass02.dds",                            9.0, None, 60),
     ("grass_dirt",    "pr",  "fielddirtgrass01.dds",                        8.0, None, 58),
@@ -92,7 +100,7 @@ MATERIALS = [
     ("jungle_floor",  "ph",  "mud_forest",                                  8.0, None, 42),
     ("forest_floor",  "pr",  "pineforest01.dds",                            8.0, None, 48),
     ("leaf_litter",   "pr",  "fallforestleaves01.dds",                      8.0, None, 55),
-    ("mossy_rock",    "bsa", "textures/landscape/reachmossyrocks01.dds",   14.0, None, 52),
+    ("mossy_rock",    "ts",  "reachmossyrocks01.dds",                      14.0, None, 52),
     ("bc_rock",       "aend", "Tx_BC_rock_01.dds",                         12.0, None, 50),
     ("tidal_sand",    "pr",  "coastbeach01.dds",                            8.0, None, 72),
     ("salt_flat",     "acg", "Ground054",                                   9.0, None, 78),
@@ -101,13 +109,14 @@ MATERIALS = [
     ("peat_slope",    "bsa", "textures/landscape/frozenmarshdirtslopes01.dds", 8.0, (14, 1.08, 1.0), 45),
     ("track_mud",     "ph",  "aerial_mud_1",                                6.0, None, 55),
     ("bc_road",       "aend", "Tx_BC_mainroad_01.dds",                      6.0, None, 74),
-    ("mountain_rock", "bsa", "textures/landscape/mountains/mountainslab01.dds", 16.0, None, 62),
-    # Phase 8b round 3 — tropical shoreline gaps (CC0; research:
-    # docs/research/tropical-shoreline-materials.md Part C). Appended so all
-    # shipped control-map ids stay stable.
-    ("beach_sand",    "ph",  "coast_sand_05",                               8.0, None, 84),
+    ("mountain_rock", "ts",  "mountains/mountainslab01.dds",               16.0, None, 62),
+    # Phase 8b rounds 3-4 — tropical shorelines (research Part C + Tropical
+    # Skyrim, the owner's preferred source). Appended so all shipped
+    # control-map ids stay stable.
+    ("beach_sand",    "ts",  "Beach.dds",                                   8.0, None, 82),
     ("seabed_sand",   "ph",  "aerial_beach_01",                             9.0, None, 70),
-    ("river_pebbles", "ph",  "ganges_river_pebbles",                        6.0, None, 60),
+    ("river_pebbles", "ts",  "Tropical/RiverGravel.dds",                    6.0, None, 60),
+    ("ocean_floor",   "ts",  "CoastOceanFloor01.dds",                       9.0, None, 68),
 ]
 
 # bmv-v1: Black Marsh & Valenwood winners — contact-sheet ranked 2026-08-23,
@@ -215,6 +224,9 @@ def build_set(set_name: str, label: str, materials, archive) -> None:
         elif kind == "pr":
             img = Image.open(_find(PR_DIR, ref)).convert("RGB")
             source = f"Project Rainforest SE ({ref})"
+        elif kind == "ts":
+            img = Image.open(_find(TS_DIR, ref.split("/")[-1])).convert("RGB")
+            source = f"Tropical Skyrim ({ref})"
         elif kind == "aend":
             img = Image.open(_find(AEND_DIR, ref)).convert("RGB")
             source = f"Aendemika of Vvardenfell ({ref})"

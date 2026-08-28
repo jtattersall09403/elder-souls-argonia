@@ -23,7 +23,7 @@ export const WAVES = {
   /** Bands in the spectrum (high tier; low tier renders the first half —
    * fine visually, and the CPU always sums all bands: the tail carries
    * little amplitude, so physics/visual divergence on low tier is mm). */
-  bands: 12,
+  bands: 10,
   lowTierBands: 6,
   /** Longest wavelength (m) and its amplitude (m) at full exposure. */
   baseWavelength: 34.0,

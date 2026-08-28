@@ -390,11 +390,11 @@
    "file": "32-beach_sand.png",
    "tileM": 8.0,
    "avgColor": [
-    98,
+    107,
     86,
-    67
+    51
    ],
-   "source": "Poly Haven coast_sand_05 (CC0)"
+   "source": "Tropical Skyrim (Beach.dds)"
   },
   {
    "id": 33,
@@ -414,11 +414,23 @@
    "file": "34-river_pebbles.png",
    "tileM": 6.0,
    "avgColor": [
-    65,
-    60,
-    54
+    71,
+    59,
+    48
    ],
-   "source": "Poly Haven ganges_river_pebbles (CC0)"
+   "source": "Tropical Skyrim (Tropical/RiverGravel.dds)"
+  },
+  {
+   "id": 35,
+   "name": "ocean_floor",
+   "file": "35-ocean_floor.png",
+   "tileM": 9.0,
+   "avgColor": [
+    89,
+    71,
+    43
+   ],
+   "source": "Tropical Skyrim (CoastOceanFloor01.dds)"
   }
  ]
 }

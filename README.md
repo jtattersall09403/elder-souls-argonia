@@ -73,6 +73,11 @@ asset registry.
   material library (mud_forest, aerial_mud_1, mud_cracked_dry_riverbed_002;
   8b shoreline additions: coast_sand_05, aerial_beach_01,
   ganges_river_pebbles).
+- **Tropical Skyrim — A Climate Overhaul** (Nexus classic Skyrim mod 33017,
+  Soolie) — tropical landscape ground textures in the terrain material
+  library (beach, ocean floor, river gravel/bed/mud, tropicalised moss
+  rocks + mountain slabs); owner-preferred source for later tropical
+  flora/creature needs (module 90 §74.1a).
 - **Project Rainforest SE** (Nexus SSE mod 20636, sa547; credits incl.
   LorSakyamuni's TW3 Landscape Resource and Vurt's SFO) — tropical ground
   textures in the terrain material library (owner-approved 2026-08-23).

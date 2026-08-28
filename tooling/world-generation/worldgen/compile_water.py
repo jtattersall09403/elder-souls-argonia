@@ -169,11 +169,16 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     dy = (jj // w_) - (ii // w_)
     dx = (jj % w_) - (ii % w_)
     inv = 1.0 / np.hypot(dx, dy).clip(1e-6, None)
-    speed = np.zeros(z.shape, dtype=np.float32)
-    for band, s in FLOW_SPEED.items():
-        speed[rivers == band] = s
-    vx.ravel()[ii] = dx * inv * speed.ravel()[ii]
-    vz.ravel()[ii] = dy * inv * speed.ravel()[ii]
+    # slope-driven current (owner round 4 / research §1): fast torrents on
+    # steep reaches, sluggish lowland glides — v ≈ 0.4 + 9·√slope, capped
+    zf = z.reshape(-1)
+    drop = np.maximum(zf[ii] - zf[jj], 0.0)
+    dist = np.hypot(dx, dy) * mpp1
+    slope_along = drop / np.maximum(dist, 1e-3)
+    size = np.maximum(npz["accum_km2"].reshape(-1)[ii], 0.05) ** 0.1
+    v_cell = np.clip((0.4 + 9.0 * np.sqrt(slope_along)) * size, 0.3, 3.0)
+    vx.ravel()[ii] = dx * inv * v_cell
+    vz.ravel()[ii] = dy * inv * v_cell
     # smooth so D8's 45-degree steps read as a continuous current
     vx = ndimage.gaussian_filter(vx, 1.2)
     vz = ndimage.gaussian_filter(vz, 1.2)
@@ -219,7 +224,10 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     wr2 = up_lin(wr1[ry, rx])
     riv2 = up_near(ndimage.binary_dilation(riv, iterations=1))
     bed2 = ndimage.grey_erosion(g2, size=5)
-    comp(riv2, np.maximum(wr2, (bed2 + RIVER_MIN_DEPTH_M).astype(np.float32)))
+    # channels run FULL (owner round 4): at least 60 % of the carved column
+    bank2 = ndimage.grey_dilation(g2s, size=7)
+    column = np.clip(0.6 * (bank2 - bed2), RIVER_MIN_DEPTH_M, 3.0).astype(np.float32)
+    comp(riv2, np.maximum(wr2, bed2 + column))
 
     # standing water: priority-flood the refined terrain; a depression holds
     # water when it is in plausibly wet ground, is deep enough somewhere and
@@ -227,14 +235,22 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     ocean2 = g2s < 0.0
     filled2 = fill_depressions(g2s, ocean2)
     depth_fill = filled2 - g2s
-    allow2 = up_near(wetlands | (flood >= 1) | lakes) | riv2
+    # the deep-wetland/jungle heartlands hold far more standing water: any
+    # decent puddle counts there (owner round 4 — "mostly water with land
+    # in"); elsewhere pools still need real depth+size
+    wet_heart = up_near(np.isin(npz["regions"], (6, 7, 8, 13)))
+    allow2 = up_near(wetlands | (flood >= 1) | lakes) | riv2 | wet_heart
     cand = (depth_fill > 0.02) & allow2 & ~ocean2
     lbl2, n_l = ndimage.label(cand)
     if n_l:
         max_depth = ndimage.maximum(depth_fill, lbl2, np.arange(1, n_l + 1))
         areas2 = np.bincount(lbl2.ravel())[1:]
+        hearty = ndimage.mean(wet_heart.astype(np.float32), lbl2, np.arange(1, n_l + 1)) > 0.4
         keep2 = np.zeros(n_l + 1, dtype=bool)
-        keep2[1:] = (max_depth >= MIN_POOL_DEPTH_M) & (areas2 >= MIN_POOL_PX)
+        keep2[1:] = np.where(
+            hearty,
+            (max_depth >= 0.14) & (areas2 >= 8),
+            (max_depth >= MIN_POOL_DEPTH_M) & (areas2 >= MIN_POOL_PX))
         comp(keep2[lbl2], (filled2 - 0.05).astype(np.float32))
 
     wet2 = ~np.isnan(w2)
@@ -260,6 +276,13 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     dry_viol = (~fringe) & ((w2 - g2) <= 0.01) & (w2 > cap + 0.05)
     w2[dry_viol] = np.minimum(w2, cap - 1.0)[dry_viol]
 
+    # soften spillway terraces (owner round 4 image: glassy "bulge" where an
+    # upper pool overflows a sill): smooth the surface only where it slopes
+    gy2, gx2 = np.gradient(w2, mpp2)
+    steep_w = np.hypot(gy2, gx2) > 0.02
+    w2s = ndimage.gaussian_filter(w2, 1.2)
+    w2 = np.where(wet2 & steep_w, 0.5 * w2 + 0.5 * w2s, w2).astype(np.float32)
+
     depth2 = np.clip(w2 - g2, 0.0, 25.5)
     shore2 = np.clip(ndimage.distance_transform_edt(wet2) * mpp2, 0.0, SHORE_MAX_M).astype(np.float32)
 
@@ -282,8 +305,12 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     turb = REGION_SILT[regions].copy()
     tannin = REGION_TANNIN[regions].copy()
     turb[cls == CLASSES.index("estuary")] += 0.15
-    turb = np.clip(ndimage.gaussian_filter(turb, 1.5), 0.0, 1.0)
     tannin = np.clip(ndimage.gaussian_filter(tannin, 1.5), 0.0, 1.0)
+    # whitewater guarantee (owner round 4: "couldn't find any tan rivers"):
+    # medium+ fresh rivers carry mountain silt unless they are blackwater
+    ww = ndimage.binary_dilation(rivers >= 2, iterations=2) & (tannin < 0.5)
+    turb[ww] = np.maximum(turb[ww], 0.58)
+    turb = np.clip(ndimage.gaussian_filter(turb, 1.5), 0.0, 1.0)
 
     season = ((salinity < 0.4) & (wetr | (flood >= 2))).astype(np.float32)
 

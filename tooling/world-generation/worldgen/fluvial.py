@@ -27,7 +27,7 @@ D_COEF, D_EXP = 1.40, 0.29   # D = 1.4·A^0.29 (m)       → 0.7/1.4/2.4 m
 STEEP_SLOPE = 0.03           # Montgomery–Buffington: step-pool and steeper
 LEVEE_H = 0.55               # m, lowland majors only
 OXBOW_DEPTH = 2.0            # m
-POOL_DEEPEN = 0.85           # wetland dips deepen by up to this × dip
+POOL_DEEPEN = 1.05           # wetland dips deepen by up to this × dip
 
 
 def channel_geometry(area_km2):
@@ -112,11 +112,23 @@ def _oxbows(h, riv, area, steep, rng):
     return h, n
 
 
+def _rivulets(h, riv, accum, wet, ambient):
+    """The anastomosing wetland drainage web (research §1.2/§3): every
+    sub-river drainage line inside wetland ground becomes a narrow, shallow
+    channel connecting the pools — splash-through swamp plumbing."""
+    mask = (wet > 0.5) & ~riv & (accum > 0.035) & (accum <= 0.12)
+    if not mask.any():
+        return h
+    dist = ndimage.distance_transform_edt(~mask) * RAW_M
+    prof = 0.5 * np.exp(-((dist / 1.8) ** 2))
+    return np.minimum(h, np.where(prof > 0.05, ambient - prof, h)).astype(np.float32)
+
+
 def _deepen_wetland_pools(h, riv, wet):
     """Existing wetland dips become real pools (owner: 'make marsh pools
     deeper') — amplify only local hollows, never touch channels or ridges."""
     dchan = ndimage.distance_transform_edt(~riv) * RAW_M
-    dips = np.clip(ndimage.gaussian_filter(h, 6.0) - h, 0.0, 1.2)
+    dips = np.clip(ndimage.gaussian_filter(h, 6.0) - h, 0.0, 1.5)
     h -= (POOL_DEEPEN * dips * wet * (dchan > 40.0)).astype(np.float32)
     return h
 
@@ -169,6 +181,7 @@ def fluvial_continuum(h, rivers_up, accum_up, salinity_up, wet_up, rng):
     steep = np.hypot(gy, gx) > STEEP_SLOPE
     ambient = ndimage.gaussian_filter(h, 25.0)
     h = _carve_channels(h, riv, area, steep, ambient)
+    h = _rivulets(h, riv, accum_up, wet_up, ambient)
     h = _levees_and_floodplain(h, riv, area, steep)
     h, n_ox = _oxbows(h, riv, area, steep, rng)
     h = _deepen_wetland_pools(h, riv, wet_up)

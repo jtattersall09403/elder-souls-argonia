@@ -6,11 +6,11 @@
    "file": "00-water_silt.png",
    "tileM": 7.0,
    "avgColor": [
-    51,
-    44,
-    38
+    77,
+    41,
+    25
    ],
-   "source": "Project Rainforest SE (riverbottom.dds)"
+   "source": "Tropical Skyrim (riverbottom.dds)"
   },
   {
    "id": 1,
@@ -22,7 +22,7 @@
     51,
     35
    ],
-   "source": "Project Rainforest SE (rivermud.dds)"
+   "source": "Tropical Skyrim (rivermud.dds)"
   },
   {
    "id": 2,
@@ -178,7 +178,7 @@
     62,
     39
    ],
-   "source": "Skyrim (textures/landscape/reachmoss01.dds)"
+   "source": "Tropical Skyrim (reachmoss01.dds)"
   },
   {
    "id": 15,
@@ -274,7 +274,7 @@
     57,
     46
    ],
-   "source": "Skyrim (textures/landscape/reachmossyrocks01.dds)"
+   "source": "Tropical Skyrim (reachmossyrocks01.dds)"
   },
   {
    "id": 23,
@@ -378,11 +378,11 @@
    "file": "31-mountain_rock.png",
    "tileM": 16.0,
    "avgColor": [
-    60,
-    63,
-    61
+    82,
+    61,
+    42
    ],
-   "source": "Skyrim (textures/landscape/mountains/mountainslab01.dds)"
+   "source": "Tropical Skyrim (mountains/mountainslab01.dds)"
   },
   {
    "id": 32,
@@ -390,11 +390,11 @@
    "file": "32-beach_sand.png",
    "tileM": 8.0,
    "avgColor": [
-    98,
+    107,
     86,
-    67
+    51
    ],
-   "source": "Poly Haven coast_sand_05 (CC0)"
+   "source": "Tropical Skyrim (Beach.dds)"
   },
   {
    "id": 33,
@@ -414,11 +414,23 @@
    "file": "34-river_pebbles.png",
    "tileM": 6.0,
    "avgColor": [
-    65,
-    60,
-    54
+    71,
+    59,
+    48
    ],
-   "source": "Poly Haven ganges_river_pebbles (CC0)"
+   "source": "Tropical Skyrim (Tropical/RiverGravel.dds)"
+  },
+  {
+   "id": 35,
+   "name": "ocean_floor",
+   "file": "35-ocean_floor.png",
+   "tileM": 9.0,
+   "avgColor": [
+    89,
+    71,
+    43
+   ],
+   "source": "Tropical Skyrim (CoastOceanFloor01.dds)"
   }
  ]
 }

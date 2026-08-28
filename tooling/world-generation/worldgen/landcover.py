@@ -32,8 +32,8 @@ from .scale import TUNE, TUNE_A, TUNE_S
  PEAT, MUD_LEAVES, MARSH_GRASS, UNDERGROWTH, BC_MOSS, MOSS, SWAMP_GRASS,
  TROP_GRASS, GRASS_DIRT, SCRUB, JUNGLE, FOREST_FLOOR, LITTER, MOSSY_ROCK,
  BC_ROCK, SAND, SALT, DRY_CLAY, PATH, PEAT_SLOPE, TRACK, BC_ROAD,
- MOUNTAIN_ROCK, BEACH_SAND, SEABED_SAND, PEBBLES) = range(35)
-N_MATERIALS = 35
+ MOUNTAIN_ROCK, BEACH_SAND, SEABED_SAND, PEBBLES, OCEAN_FLOOR) = range(36)
+N_MATERIALS = 36
 
 # Per-region palettes (regions.py class ids). Slots: base ground, damp patch
 # (mid wetness), wet patch (hollows), channel/shore bank, local-high ground,
@@ -42,7 +42,7 @@ N_MATERIALS = 35
 # Adjacent regions share materials deliberately (Morrowind pattern).
 REGION_PALETTES = {
     0:  dict(base=SAND, damp=SILT, wet=SILT, bank=SILT, high=SAND, litter=SAND),            # ocean floor
-    1:  dict(base=GRASS_DIRT, damp=PEAT, wet=PEAT, bank=CLAY, high=MOSSY_ROCK, litter=MUD_LEAVES),  # border mountains
+    1:  dict(base=GRASS_DIRT, damp=PEAT, wet=PEAT, bank=CLAY, high=MOUNTAIN_ROCK, litter=MUD_LEAVES),  # border mountains
     2:  dict(base=TROP_GRASS, damp=GRASS_DIRT, wet=PEAT, bank=CLAY, high=SCRUB, litter=LITTER),     # upland hills
     3:  dict(base=PUDDLE, damp=BC_MUD, wet=SCUM, bank=BANK_WET, high=MARSH_GRASS, litter=SALT),     # tidal delta
     4:  dict(base=MARSH_GRASS, damp=PUDDLE, wet=SCUM, bank=BANK_WET, high=SCRUB, litter=SALT),      # lagoon & salt marsh
@@ -277,7 +277,12 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
                            np.where(near_big & ~marshy, PUDDLE, SCUM)))
     mat = np.where(shallow, sh, mat)
     mat = np.where(band0 & upland_gravel & ~near_salty, PEBBLES, mat)
-    mat = np.where(rel < -0.7, SILT, mat)
+    # deep beds by water type (owner round 4): tropical riverbed silt in
+    # fresh water, rippled sand on the sea floor, gravel in mountain lakes
+    deep = rel < -0.7
+    mat = np.where(deep, SILT, mat)
+    mat = np.where(deep & near_salty, OCEAN_FLOOR, mat)
+    mat = np.where(deep & np.isin(region, (1, 2)), PEBBLES, mat)
 
     # Roads LAST so the wet fringes can't swallow them (they previously ran
     # before the shore bands and vanished — owner report): Phase 4 corridors

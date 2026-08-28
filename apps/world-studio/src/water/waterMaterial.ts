@@ -41,7 +41,7 @@ export interface WaterTier {
 export const WATER_TIERS: Record<"low" | "high", WaterTier> = {
   // samples stay 0: a multisampled half-float RT costs serious VRAM/bandwidth
   // (owner round 1 perf); water/overlay edges still get the canvas MSAA.
-  high: { name: "high", ssr: true, godRays: true, ripples: true, waveBands: WAVES.bands, rtScale: 1.0, samples: 0 },
+  high: { name: "high", ssr: true, godRays: true, ripples: true, waveBands: WAVES.bands, rtScale: 0.9, samples: 0 },
   low: { name: "low", ssr: false, godRays: false, ripples: true, waveBands: WAVES.lowTierBands, rtScale: 0.75, samples: 0 },
 };
 
@@ -239,7 +239,7 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant): string {
   uniform vec4 uRippleInfo;
   varying vec4 vEsData;   // stillW, depth, exposure, shoreDist
   varying vec3 vEsKlass;  // turbidity(silt), salinity, tannin
-  varying vec2 vEsFlow;   // m/s
+  varying vec3 vEsFlow;   // flow m/s (xy) + surface drop along flow (z)
   varying vec3 vEsNormalW; // world-space wave normal
 
   float esEyeDepth(vec2 uv){
@@ -324,7 +324,7 @@ export function createWaterMaterial(variant: WaterVariant, ctx: WaterMaterialCon
 uniform float uVerticalScale;
 varying vec4 vEsData;
 varying vec3 vEsKlass;
-varying vec2 vEsFlow;
+varying vec3 vEsFlow;
 varying vec3 vEsNormalW;
 ${SAMPLER_GLSL}
 ${gerstnerGlsl(tier.waveBands)}`,
@@ -360,7 +360,15 @@ if (esWaveAmp > 0.002) {
 }
 vEsData = vec4(esStill, esVDepth, esExposure, esShore);
 vEsKlass = vec3(esKl.g, esKl.b, esSS.z);   // turbidity, salinity, tannin
-vEsFlow = (esFl.xy - 0.5) * 2.0 * uFlowMax;
+vec2 esFlowV = (esFl.xy - 0.5) * 2.0 * uFlowMax;
+// surface drop along the current → cascades/rapids where water descends
+float esDropSlope = 0.0;
+float esFlowSp = length(esFlowV);
+if (esFlowSp > 0.15) {
+  vec2 esDownAt = esSurfaceAt(esRestW.xz + (esFlowV / esFlowSp) * 7.0);
+  esDropSlope = clamp((esSurf.x - esDownAt.x) / 7.0, 0.0, 1.0);
+}
+vEsFlow = vec3(esFlowV, esDropSlope);
 vEsNormalW = esW.normal;
 vec3 objectNormal = esW.normal;`,
       )
@@ -401,18 +409,20 @@ uniform float uVerticalScale;`,
         /* glsl */ `
 float faceDirection = gl_FrontFacing ? 1.0 : -1.0;
 vec3 esNBase = normalize(vEsNormalW);
-float esSpeed = length(vEsFlow);
+float esSpeed = length(vEsFlow.xy);
+// cascades: white churning descent where the surface visibly drops
+float esCascade = smoothstep(0.04, 0.30, vEsFlow.z);
 float esDist = distance(cameraPosition, vEsWorldPos);
 // distance LOD: detail normals AND their strength fade out far away —
 // unfiltered procedural ripple at 1 px = the "TV static" (round 2, defect 1)
 float esDetFade = exp(-esDist * 0.010);
 float esFarFade = exp(-esDist * 0.0025);
 float esDetStrength = (0.10 + 0.10 * vEsData.z + 0.05 * min(esSpeed, 1.0))
-                    * (0.2 + 0.8 * esFarFade);
+                    * (0.2 + 0.8 * esFarFade) * (1.0 + 2.5 * esCascade);
 // flow advection (Water2 dual-phase); still water gets a gentle wobble, not
 // a stream (round 2: 'flowing' foam on static pools)
 vec2 esDrift = esSpeed > 0.05
-  ? vEsFlow
+  ? vEsFlow.xy
   : vec2(sin(uWaveTime * 0.13), cos(uWaveTime * 0.11)) * 0.03;
 float esPh1 = fract(uWaveTime * 0.25);
 float esPh2 = fract(uWaveTime * 0.25 + 0.5);
@@ -492,13 +502,14 @@ float esFoamE = (1.0 - smoothstep(0.015, 0.24, esThick))
 // 3. whitecaps on genuinely exposed water, never in the far shimmer zone
 float esCrest = (vEsWorldPos.y / max(uVerticalScale, 1e-3)) - vEsData.x;
 esFoamE += smoothstep(0.16, 0.34, esCrest) * esExpo * 0.8 * (1.0 - smoothstep(1200.0, 2400.0, esDist));
-// 4. rapids churn near banks
+// 4. rapids churn near banks + aerated cascades wherever water descends
 esFoamE += smoothstep(0.3, 1.1, esSpeed) * (1.0 - smoothstep(4.0, 30.0, esShoreD)) * 0.6;
+esFoamE += esCascade * (0.8 + 0.5 * min(esSpeed, 2.0));
 // 5. player/crate/splash rings + sim crests
 esFoamE += esContactFoam(vEsWorldPos.xz) + esRipCrest * 0.5;
 // murky water barely foams white
 esFoamE = min(esFoamE, 1.0) * (1.0 - 0.75 * esMurk);
-float esFTex = esFbm(vEsWorldPos.xz * 0.55 - (vEsFlow + esDrift) * uWaveTime * 0.35, 4);
+float esFTex = esFbm(vEsWorldPos.xz * 0.55 - (vEsFlow.xy + esDrift) * uWaveTime * 0.35, 3);
 float esFThr = 1.0 - esFoamE;
 float esFoam = smoothstep(esFThr - 0.18, esFThr + 0.26, esFTex)
              * smoothstep(0.0, 0.10, esFoamE);

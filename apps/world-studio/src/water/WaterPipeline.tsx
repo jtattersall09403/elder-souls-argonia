@@ -250,6 +250,10 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
     const prevTone = renderer.toneMapping;
     const prevTarget = renderer.getRenderTarget();
     const prevLayers = cam.layers.mask;
+    // shadow maps re-render every OTHER frame — the sun moves slowly and
+    // the cascade passes are a big slice of the frame (owner round 4 perf)
+    renderer.shadowMap.autoUpdate = false;
+    if ((frames.current & 1) === 0) renderer.shadowMap.needsUpdate = true;
     renderer.toneMapping = THREE.NoToneMapping;
     cam.layers.mask = underwater ? (1 | (1 << WATER_LAYER)) : 1;
     renderer.setRenderTarget(rt);

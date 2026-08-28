@@ -55,6 +55,7 @@ def synth():
         "tidal": res.tidal, "salinity": res.salinity.astype(np.float32),
         "hand": reg.hand, "flood": reg.flood, "regions": reg.regions,
         "flow_to": res.flow_to.astype(np.int32),
+        "accum_km2": res.accum_km2.astype(np.float32),
     }
     refined = np.repeat(np.repeat(z, 2, axis=0), 2, axis=1)  # fake 2x grid
     return z, npz, compute(z, refined, npz)
