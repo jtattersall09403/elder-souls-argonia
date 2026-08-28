@@ -1,22 +1,22 @@
 # 0025 — Phase 8b water: implementation shape
 
-Date: 2026-08-26 · Status: accepted · Owner review: pending (visual gate)
+Date: 2026-08-26 · Status: **CLOSED** (owner closed the phase 2026-08-28
+after round 7 — accepted as good-enough, explicitly *not perfect*; a full
+water-systems re-review + polish is queued in
+[docs/polish-backlog.md](../polish-backlog.md) for Phase P)
 Research: [docs/research/water-rendering-threejs.md](../research/water-rendering-threejs.md)
 Spec: module [60](../world/60-water-traversal.md) §38–42.
 
-## CONTINUING THIS PHASE — run-book for the next agent
+## PHASE CLOSED — this file is the institutional memory
 
-**State (2026-08-28, round 7): built, probed (4-scenario browser probe
-green, 55 worldgen tests green) — this is the intended CLOSING round.
-Owner round-6 feedback: textures PASS; round 7 rebuilt slope rivers
-(monotone long-profile bake), the shore surf system, waterfall shading
-and the barcode root cause (see Round 7 log below).** Next agent: check
-deployment reached Pages, then hand the owner the round-7 checklist
-below. On PASS: flip PROGRESS 8b to done; leftovers → docs/polish-backlog.md
-(Phase P). The numbered "Round N" sections in this file are the phase's
-institutional memory — read them all before changing anything.
+The numbered "Round N" sections below record every defect→fix of the
+7-round gate; read them before changing any water code. The rebuild chain
+and hard-won rules below remain current for anyone touching worldgen or
+water shaders (Phase P polish, Phase 9 boats/swimming).
 
-**Owner playtest checklist for round 7** (deployed studio:
+**Owner playtest checklist for round 7** (historical — the owner closed
+the phase on this round without itemised feedback; use these spots as the
+starting checklist for the Phase P water re-review) (deployed studio:
 `https://jtattersall09403.github.io/elder-souls-argonia/studio/`; URLs take
 `?view=character|fly3d&x=<km>&z=<km>&t=HH:MM&d=M-D`):
 1. Mountain streams CONNECTED — the gorge (fly x=2.43 z=1.13) and any
@@ -62,15 +62,9 @@ be disposed by effects with unstable deps; one physics for all water levels
 (priority-flood) — no per-feature level heuristics; texture identity is
 verified by contact sheet, not by slot name.
 
-**Open items if the owner passes round 6** — pick up per feedback:
-remaining perf levers (walk-mode SSR reduction, terrain texture sampling
-cost, further DPR/rtScale); deferred features (hero-pool interactive
-patches §39.3, FFT open-sea tier §39.4, true waterfall FX/particles,
-projected bed caustics, per-body `WaterBody` records → Phase 11, region
-raster reclassification, physics mass-unit scale → Phase 9 boats). On
-PASS: flip the PROGRESS row to done (protocol rule 4), remind the owner of
-the 6b terrain re-review, and hand to Phase 8c (weather) or 9 per
-PROGRESS.
+**Open items at close** — all tracked in
+[docs/polish-backlog.md](../polish-backlog.md) (Phase P) except: per-body
+`WaterBody` records → Phase 11; physics mass-unit scale → Phase 9 boats.
 
 ## Decisions
 
