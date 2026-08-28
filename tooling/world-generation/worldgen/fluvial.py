@@ -119,9 +119,20 @@ def _rivulets(h, riv, accum, wet, ambient):
     mask = (wet > 0.5) & ~riv & (accum > 0.035) & (accum <= 0.12)
     if not mask.any():
         return h
-    dist = ndimage.distance_transform_edt(~mask) * RAW_M
-    prof = 0.5 * np.exp(-((dist / 1.8) ** 2))
+    # feather the (coarse-grid staircase) mask so channels curve, not step
+    soft = ndimage.gaussian_filter(mask.astype(np.float32), 2.0) > 0.30
+    dist = ndimage.distance_transform_edt(~soft) * RAW_M
+    prof = 0.5 * np.exp(-((dist / 2.2) ** 2))
     return np.minimum(h, np.where(prof > 0.05, ambient - prof, h)).astype(np.float32)
+
+
+def _wetland_compaction(h, wet, riv):
+    """Lower the wetland interiors a touch (peat compaction): broad, smooth,
+    so the flood-fill knits the pools into larger sheets (owner: the marsh
+    heartlands should read mostly-water-with-land)."""
+    soft = ndimage.gaussian_filter(wet, 14.0)
+    dchan = ndimage.distance_transform_edt(~riv) * RAW_M
+    return (h - 0.35 * soft * (dchan > 25.0)).astype(np.float32)
 
 
 def _deepen_wetland_pools(h, riv, wet):
@@ -184,6 +195,7 @@ def fluvial_continuum(h, rivers_up, accum_up, salinity_up, wet_up, rng):
     h = _rivulets(h, riv, accum_up, wet_up, ambient)
     h = _levees_and_floodplain(h, riv, area, steep)
     h, n_ox = _oxbows(h, riv, area, steep, rng)
+    h = _wetland_compaction(h, wet_up, riv)
     h = _deepen_wetland_pools(h, riv, wet_up)
     h, n_delta = _delta(h, riv, area, salinity_up, rng)
     return h.astype(np.float32), {"oxbows": n_ox, "deltas": n_delta}

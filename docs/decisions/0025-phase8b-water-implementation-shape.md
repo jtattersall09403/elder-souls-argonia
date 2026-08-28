@@ -222,6 +222,51 @@ clear. Wave exposure damped by max(silt, tannin).
 7. **Perf round 3** → shadow maps every other frame, 10 wave bands,
    rtScale 0.9, foam noise 3 octaves.
 
+## Round 5 (2026-08-28) — standing-vs-flowing, the barcode, the slope-rock rule
+
+1. **Dark faceted sheets on gorge walls + broken blob-chains in steep
+   channels** (owner image): depression-fill was happily standing water on
+   steep terrain-noise dips. New physical rule: **pools only stand where
+   component mean slope < 5.5 %**; steep channel CENTRELINES instead carry a
+   guaranteed thin film (W ≥ ground+0.15 where slope ≥ 2 %) that renders as
+   a cascade — flowing, not pooled.
+2. **The walked-through "bulge" (owner was right, my round-4 diagnosis was
+   wrong)**: the river ribbon's guaranteed water column could RIDGE above
+   the level of a pond the river crosses. Rivers inside real depressions are
+   now clamped to the pond's spill level.
+3. **Square-edged pools/channels**: pools are now kept/dropped as WHOLE
+   components (no more cell-wise clipping by the blocky 5.5 m allow mask);
+   the river ribbon and rivulet masks are gaussian-feathered before carving.
+4. **"Everything flows the same slow speed"**: the flow-field gaussian was
+   diluting 1-px channels to ~30 % speed — replaced with normalised
+   convolution (magnitude survives on thin lines).
+5. **The "barcode" wake** (owner image): foam advection multiplied an
+   oscillating drift VELOCITY by total water-clock time — at large t the
+   offset swings hundreds of metres/frame. Standing rule: **never scale a
+   bounded oscillation by absolute time**; drift is now a bounded wander.
+   Wake rings also softened (annulus thinner, 0.6×).
+6. **Mossy-rock audit (owner round 5)**: the last sources were (a) the
+   STEEP-SLOPE rule painting mossy cobbles on all steep ground including
+   sandy delta islands and underwater channel walls — now region-gated
+   (tropical mountain slab in mountains/uplands, new Tropical Skyrim
+   `dirt_cliff` 36 root-bound cliffs in lowlands, nothing below the
+   waterline), (b) the rocky-cove rule firing on delta bars — now requires
+   upland regions + height, (c) delta ≠ mangrove mud (mouth bars are sand).
+   Deep beds refined: swamp/lake beds mud (not pebbly riverbed — that is
+   rivers only), sea floor rippled sand, mountain water gravel.
+7. **Wetter still** (owner: push more): wetland peat-compaction stage
+   (−0.35 m broad interior lowering → pools knit into sheets), heartland
+   pools from 0.10 m/6 px. Chose compaction over raising global sea level —
+   the y=0 datum (0003/0005) anchors every shoreline band and the tide
+   system; compaction gets the same look without a convention change.
+8. **Walk-mode water draw distance 6→3 km** (owner suggestion; haze hides
+   the difference), crates lighter + never sleep (player can shove them).
+9. **UI truth (owner: "everything says lake & standing water")**: the map
+   tooltip now reads the per-pixel WATER class (river/creek/marsh/lake/
+   coast/estuary) from the 8b rasters alongside the coarse region name, and
+   the walk HUD names the body you stand in. (The region raster's own
+   shapes are Phase 3 output — re-classing it is a later-phase task.)
+
 **Shore materials** (research: tropical-shoreline-materials Part D): three
 CC0 Poly Haven textures ingested (`beach_sand` 32, `seabed_sand` 33,
 `river_pebbles` 34 — ids appended, sets rebuilt at 35 materials); landcover

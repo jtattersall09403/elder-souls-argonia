@@ -90,6 +90,9 @@ if (uWetParams.z > 0.5) {
       float esAbove = esWetH - esWetW;
       float esWet = (1.0 - smoothstep(esWetLift * 0.7, esWetLift * 1.5, esAbove))
                   * (1.0 - smoothstep(14.0, 22.0, esWetShore));
+      // swash never wets steep walls (research §3) — kills dark stripes on
+      // gorge sides
+      esWet *= smoothstep(0.78, 0.9, normalize(esNrmW).y);
       esWet *= 0.85;
       diffuseColor.rgb *= 1.0 - 0.45 * esWet;
       roughnessFactor = mix(roughnessFactor, 0.3, esWet * 0.8);

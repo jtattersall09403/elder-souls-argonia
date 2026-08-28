@@ -16,7 +16,8 @@ import { worldClock } from "../sky/timeState";
 const CRATE = 0.8;
 const PARAMS: BuoyancyParams = {
   volumeM3: CRATE * CRATE * CRATE,
-  linearDrag: 260,
+  // light enough that the player can shove them through the water drag
+  linearDrag: 120,
   points: [
     { x: -0.3, y: -0.1, z: -0.3 },
     { x: 0.3, y: -0.1, z: -0.3 },
@@ -54,7 +55,7 @@ export function FloatTestCrates({ origin, waterWorld }: {
     const epoch = worldClock.epochMinutes();
     const dt = Math.min(delta, 0.05);
     bodies.current.forEach((rb, i) => {
-      if (!rb || rb.isSleeping()) return;
+      if (!rb) return;
       const p = rb.translation();
       const v = rb.linvel();
       const rot = rb.rotation();
@@ -96,7 +97,8 @@ export function FloatTestCrates({ origin, waterWorld }: {
           }}
           position={[origin.x + (i - 1) * 1.4, origin.y + 2.5 + i * 0.6, origin.z + 3.5]}
           colliders="cuboid"
-          density={380}
+          density={200}
+          canSleep={false}
           linearDamping={0.2}
           angularDamping={0.9}
         >

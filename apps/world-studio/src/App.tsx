@@ -333,6 +333,31 @@ export function App() {
     }
   }, [meta, seaLevel, conditioning, layers, overlaysReady]);
 
+  // per-pixel water-body classes for the hover tooltip (Phase 8b)
+  const waterClassRef = useRef<{ data: Uint8ClampedArray; size: number; mpp: number; names: string[] } | null>(null);
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      try {
+        const meta2 = await fetch(`${import.meta.env.BASE_URL}province/water/water-meta.json`).then((r) => r.json());
+        const blob = await fetch(`${import.meta.env.BASE_URL}province/water/${meta2.klass.file}`).then((r) => r.blob());
+        const bmp = await createImageBitmap(blob, { premultiplyAlpha: "none", colorSpaceConversion: "none" });
+        const c = new OffscreenCanvas(bmp.width, bmp.height);
+        const g = c.getContext("2d", { willReadFrequently: true })!;
+        g.drawImage(bmp, 0, 0);
+        if (alive) {
+          waterClassRef.current = {
+            data: g.getImageData(0, 0, bmp.width, bmp.height).data,
+            size: meta2.klass.size,
+            mpp: meta2.klass.metresPerPixel,
+            names: meta2.klass.classes,
+          };
+        }
+      } catch { /* water data optional in the map view */ }
+    })();
+    return () => { alive = false; };
+  }, []);
+
   function onMove(e: React.PointerEvent<HTMLCanvasElement>) {
     const canvas = canvasRef.current;
     const heights = displayHeights();
@@ -358,13 +383,24 @@ export function App() {
       }
       return best ? ` · ${best}` : "";
     };
+    // Water-body class from the Phase 8b compile (the region raster calls
+    // whole standing-water zones "lake & standing water"; this is the actual
+    // per-pixel river/creek/marsh/lake/coast classification).
+    let waterPart = "";
+    const wc = waterClassRef.current;
+    if (wc) {
+      const wx = Math.min(wc.size - 1, Math.max(0, Math.round((x * meta.metresPerPixel) / wc.mpp)));
+      const wy = Math.min(wc.size - 1, Math.max(0, Math.round((y * meta.metresPerPixel) / wc.mpp)));
+      const cls = wc.data[(wy * wc.size + wx) * 4];
+      if (cls > 0) waterPart = ` · water: ${wc.names[cls] ?? "?"}`;
+    }
     const regionPart = lookup("regions", " · ocean");
     const regionName = regionPart.replace(" · ", "");
     const climate = climateRef.current[regionName];
     const climatePart = climate
       ? ` · humidity ${Math.round(climate.humidity * 100)}% · vis ~${climate.visibility} m`
       : "";
-    const info = regionPart + lookup("danger") + lookup("cultures", " · hinterland") + climatePart;
+    const info = waterPart + regionPart + lookup("danger") + lookup("cultures", " · hinterland") + climatePart;
     const text = `${km(x)} km E, ${km(y)} km S · elevation ${hgt.toFixed(1)} m${info}`;
     setReadout(text);
     setTip({ x: e.clientX - rect.left, y: e.clientY - rect.top, text });

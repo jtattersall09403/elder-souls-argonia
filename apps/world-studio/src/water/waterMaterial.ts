@@ -255,10 +255,10 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant): string {
       vec4 B = uBodies[i];
       if (B.w < 0.01) continue;
       float q = length(wp - B.xy) / max(B.z, 0.1);
-      float ring = smoothstep(0.25, 0.7, q) * (1.0 - smoothstep(1.0, 1.6, q));
-      c += ring * B.w;
+      float ring = smoothstep(0.3, 0.75, q) * (1.0 - smoothstep(0.95, 1.5, q));
+      c += ring * B.w * 0.6;
     }
-    return min(c, 0.85);
+    return min(c, 0.65);
   }
 
   ${tier.ssr && variant === "above" ? /* glsl */ `
@@ -509,12 +509,18 @@ esFoamE += esCascade * (0.8 + 0.5 * min(esSpeed, 2.0));
 esFoamE += esContactFoam(vEsWorldPos.xz) + esRipCrest * 0.5;
 // murky water barely foams white
 esFoamE = min(esFoamE, 1.0) * (1.0 - 0.75 * esMurk);
-float esFTex = esFbm(vEsWorldPos.xz * 0.55 - (vEsFlow.xy + esDrift) * uWaveTime * 0.35, 3);
+// advection offset: flow × time (steady slide) + a BOUNDED wander for still
+// water. Never multiply an oscillating velocity by total time — at large
+// water-clock t the product swings hundreds of metres per frame and smears
+// the foam into parallel streaks (owner round 5, the "barcode" wake).
+vec2 esFoamOff = vEsFlow.xy * uWaveTime * 0.35
+               + vec2(sin(uWaveTime * 0.13), cos(uWaveTime * 0.11)) * 1.1;
+float esFTex = esFbm(vEsWorldPos.xz * 0.55 - esFoamOff, 3);
 float esFThr = 1.0 - esFoamE;
 float esFoam = smoothstep(esFThr - 0.18, esFThr + 0.26, esFTex)
              * smoothstep(0.0, 0.10, esFoamE);
 esFoam = clamp(esFoam, 0.0, 1.0)
-       * (0.55 + 0.45 * esFbm(vEsWorldPos.xz * 1.9 + uWaveTime * 0.1, 3))
+       * (0.5 + 0.5 * esFbm(vEsWorldPos.xz * 1.9 + vec2(sin(uWaveTime * 0.17), cos(uWaveTime * 0.15)) * 0.8, 3))
        * (0.25 + 0.75 * esFarFade) * 0.9;
 float esFoamShade = 0.72 + 0.36 * esFbm(vEsWorldPos.xz * 3.7, 3);
 diffuseColor.rgb = mix(esAlb * (1.0 - esT), vec3(0.92, 0.95, 0.97) * esFoamShade, esFoam);

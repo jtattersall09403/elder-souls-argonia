@@ -32,8 +32,9 @@ from .scale import TUNE, TUNE_A, TUNE_S
  PEAT, MUD_LEAVES, MARSH_GRASS, UNDERGROWTH, BC_MOSS, MOSS, SWAMP_GRASS,
  TROP_GRASS, GRASS_DIRT, SCRUB, JUNGLE, FOREST_FLOOR, LITTER, MOSSY_ROCK,
  BC_ROCK, SAND, SALT, DRY_CLAY, PATH, PEAT_SLOPE, TRACK, BC_ROAD,
- MOUNTAIN_ROCK, BEACH_SAND, SEABED_SAND, PEBBLES, OCEAN_FLOOR) = range(36)
-N_MATERIALS = 36
+ MOUNTAIN_ROCK, BEACH_SAND, SEABED_SAND, PEBBLES, OCEAN_FLOOR,
+ DIRT_CLIFF) = range(37)
+N_MATERIALS = 37
 
 # Per-region palettes (regions.py class ids). Slots: base ground, damp patch
 # (mid wetness), wet patch (hollows), channel/shore bank, local-high ground,
@@ -206,10 +207,16 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     marshy = np.isin(region, list(MARSHY))
     mat = np.where(prom > 0.35, rmap("high"), mat)
 
-    # Slope: wet peat banks on marsh slopes; humid rock on steep ground.
-    mat = np.where(marshy & (slope_lf > 0.07 * TUNE_S), PEAT_SLOPE, mat)
-    mat = np.where(slope_lf > 0.14 * TUNE_S, np.where(marshy | (region == 13), BC_ROCK,
-                   np.where(region == 1, MOUNTAIN_ROCK, MOSSY_ROCK)), mat)
+    # Slope: wet peat banks on marsh slopes; steep ground gets its region's
+    # rock — tropical slab in the mountains/uplands, root-bound dirt cliffs
+    # in the lowlands (owner round 5: the cold mossy-rock cobbles were being
+    # slapped on every steep surface, INCLUDING underwater channel walls;
+    # steep ground below the waterline keeps its bed material instead).
+    above_water = rel > -0.2
+    mat = np.where(marshy & (slope_lf > 0.07 * TUNE_S) & above_water, PEAT_SLOPE, mat)
+    steep_rock = np.where(np.isin(region, (1, 2)), MOUNTAIN_ROCK,
+                          np.where(marshy | (region == 13), BC_ROCK, DIRT_CLIFF))
+    mat = np.where((slope_lf > 0.14 * TUNE_S) & above_water, steep_rock, mat)
 
     # Salt flats where brackish, flat and low (noise-broken).
     if salinity is not None:
@@ -259,7 +266,9 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     # sheltered muddy wetland coast = mangrove country (mud, never sand);
     # exposed sediment coast = dry BEACH sand above the wet swash line;
     # very flat saline ground keeps its salt pans; steep salty = rocky cove.
-    mangrove = np.isin(region, (3, 4)) | (wetlands if isinstance(wetlands, np.ndarray) else False)
+    # mangrove mud coasts: lagoons and saline WETLAND fringes — but NOT the
+    # delta mouth bars, which are sand (owner round 5 + research Part D)
+    mangrove = np.isin(region, (4,)) | (wetlands if isinstance(wetlands, np.ndarray) else False)
     flat_pan = slope_lf < 0.012 * TUNE_S
     b1_salty = np.where(mangrove, BC_MUD, np.where(flat_pan, SALT, BEACH_SAND))
     b1 = np.where(near_salty, b1_salty, np.where(near_big, rmap("bank"), MUCK))
@@ -267,7 +276,10 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     b0 = np.where(near_salty, np.where(mangrove, BLACK_MUD, SAND),
                   np.where(near_big, BANK_WET, BLACK_MUD))
     mat = np.where(band0, b0, mat)
-    mat = np.where((band0 | band1) & near_salty & rocky, BC_ROCK, mat)  # rocky coves
+    # rocky coves only where mountain spurs actually meet the sea — never on
+    # low sandy delta bars (owner round 5: cobbles on sand islands)
+    cove = rocky & np.isin(region, (1, 2, 10, 11)) & (height > 1.5)
+    mat = np.where((band0 | band1) & near_salty & cove, BC_ROCK, mat)
     # freshwater gravel bars on brisk upland reaches (research §1.2) — only
     # in genuinely mountainous/upland regions where gravel supply exists
     upland_gravel = (~near_salty) & (slope_lf > 0.02 * TUNE_S) & np.isin(region, (1, 2))
@@ -277,10 +289,14 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
                            np.where(near_big & ~marshy, PUDDLE, SCUM)))
     mat = np.where(shallow, sh, mat)
     mat = np.where(band0 & upland_gravel & ~near_salty, PEBBLES, mat)
-    # deep beds by water type (owner round 4): tropical riverbed silt in
-    # fresh water, rippled sand on the sea floor, gravel in mountain lakes
+    # deep beds by water type (owner rounds 4-5): the pebbly riverbed
+    # texture belongs to RIVERS only — swamp and lake beds are soft mud,
+    # the sea floor rippled sand, mountain water gravel
     deep = rel < -0.7
-    mat = np.where(deep, SILT, mat)
+    river_bed = ndimage.distance_transform_edt(rivers == 0) * m_per_px < 40.0
+    mat = np.where(deep, RIVER_MUD, mat)                              # lakes/ponds default
+    mat = np.where(deep & np.isin(region, (6, 7, 8, 13, 4)), BLACK_MUD, mat)  # swamp beds
+    mat = np.where(deep & river_bed, SILT, mat)                       # true riverbed
     mat = np.where(deep & near_salty, OCEAN_FLOOR, mat)
     mat = np.where(deep & np.isin(region, (1, 2)), PEBBLES, mat)
 

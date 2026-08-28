@@ -431,6 +431,18 @@
     43
    ],
    "source": "Tropical Skyrim (CoastOceanFloor01.dds)"
+  },
+  {
+   "id": 36,
+   "name": "dirt_cliff",
+   "file": "36-dirt_cliff.png",
+   "tileM": 10.0,
+   "avgColor": [
+    61,
+    64,
+    39
+   ],
+   "source": "Tropical Skyrim (dirtcliffs/dirtcliffsroots01.dds)"
   }
  ]
 }

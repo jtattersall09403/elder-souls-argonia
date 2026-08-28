@@ -179,9 +179,14 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     v_cell = np.clip((0.4 + 9.0 * np.sqrt(slope_along)) * size, 0.3, 3.0)
     vx.ravel()[ii] = dx * inv * v_cell
     vz.ravel()[ii] = dy * inv * v_cell
-    # smooth so D8's 45-degree steps read as a continuous current
-    vx = ndimage.gaussian_filter(vx, 1.2)
-    vz = ndimage.gaussian_filter(vz, 1.2)
+    # NORMALISED smoothing: plain gaussian diluted 1-px channels to ~30 % of
+    # their speed (owner round 5: "everything flows the same slow speed") —
+    # divide by the smoothed support so magnitude survives on thin lines
+    support = np.zeros(z.shape, dtype=np.float32)
+    support.ravel()[ii] = 1.0
+    support_s = ndimage.gaussian_filter(support, 1.2)
+    vx = ndimage.gaussian_filter(vx, 1.2) / np.maximum(support_s, 0.25)
+    vz = ndimage.gaussian_filter(vz, 1.2) / np.maximum(support_s, 0.25)
 
     shore_d = (ndimage.distance_transform_edt(wet) * mpp1).astype(np.float32)
 
@@ -222,7 +227,12 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     wr1 = np.where(riv, w, np.nan).astype(np.float32)
     _, (ry, rx) = ndimage.distance_transform_edt(np.isnan(wr1), return_indices=True)
     wr2 = up_lin(wr1[ry, rx])
-    riv2 = up_near(ndimage.binary_dilation(riv, iterations=1))
+    # smooth the ribbon mask so channels don't inherit 5.5 m block staircases
+    # (owner round 5: "square-edged channels")
+    riv2f = ndimage.gaussian_filter(
+        up_lin(ndimage.binary_dilation(riv, iterations=1).astype(np.float32)), 1.6)
+    riv2 = riv2f > 0.35
+    riv2core = up_near(riv)
     bed2 = ndimage.grey_erosion(g2, size=5)
     # channels run FULL (owner round 4): at least 60 % of the carved column
     bank2 = ndimage.grey_dilation(g2s, size=7)
@@ -240,18 +250,38 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     # in"); elsewhere pools still need real depth+size
     wet_heart = up_near(np.isin(npz["regions"], (6, 7, 8, 13)))
     allow2 = up_near(wetlands | (flood >= 1) | lakes) | riv2 | wet_heart
-    cand = (depth_fill > 0.02) & allow2 & ~ocean2
+    # candidates are NOT clipped by the (blocky) allow mask cell-wise — a
+    # pool is kept or dropped WHOLE, so shorelines follow the terrain, not
+    # 5.5 m mask squares (owner round 5, "square hard lines")
+    cand = (depth_fill > 0.02) & ~ocean2
+    gy2s, gx2s = np.gradient(g2s, mpp2)
+    slope2 = np.hypot(gy2s, gx2s)
     lbl2, n_l = ndimage.label(cand)
     if n_l:
-        max_depth = ndimage.maximum(depth_fill, lbl2, np.arange(1, n_l + 1))
+        idx_l = np.arange(1, n_l + 1)
+        max_depth = ndimage.maximum(depth_fill, lbl2, idx_l)
         areas2 = np.bincount(lbl2.ravel())[1:]
-        hearty = ndimage.mean(wet_heart.astype(np.float32), lbl2, np.arange(1, n_l + 1)) > 0.4
+        allow_frac = ndimage.mean(allow2.astype(np.float32), lbl2, idx_l)
+        hearty = ndimage.mean(wet_heart.astype(np.float32), lbl2, idx_l) > 0.4
+        # water does not STAND on steep ground (owner round 5: faceted pool
+        # sheets draped over gorge walls) — steep drainage flows instead
+        mean_slope = ndimage.mean(slope2, lbl2, idx_l)
         keep2 = np.zeros(n_l + 1, dtype=bool)
-        keep2[1:] = np.where(
+        keep2[1:] = (allow_frac > 0.25) & (mean_slope < 0.055) & np.where(
             hearty,
-            (max_depth >= 0.14) & (areas2 >= 8),
+            (max_depth >= 0.10) & (areas2 >= 6),
             (max_depth >= MIN_POOL_DEPTH_M) & (areas2 >= MIN_POOL_PX))
         comp(keep2[lbl2], (filled2 - 0.05).astype(np.float32))
+
+    # a river crossing a pond takes the POND's level — its own carved column
+    # must never ridge above the standing surface (owner round 5: the walked-
+    # through "bulge" was exactly this)
+    in_pond = (depth_fill > 0.4) & riv2
+    w2[in_pond] = np.minimum(w2[in_pond], (filled2 - 0.02)[in_pond])
+    # …and steep channel CENTRELINES always carry at least a thin film, so
+    # mountain streams never break into disconnected blobs
+    film = riv2core & (slope2 >= 0.02)
+    w2[film] = np.fmax(np.nan_to_num(w2[film], nan=-1e9), (g2s + 0.15)[film])
 
     wet2 = ~np.isnan(w2)
 

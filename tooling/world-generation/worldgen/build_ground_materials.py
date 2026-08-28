@@ -117,6 +117,7 @@ MATERIALS = [
     ("seabed_sand",   "ph",  "aerial_beach_01",                             9.0, None, 70),
     ("river_pebbles", "ts",  "Tropical/RiverGravel.dds",                    6.0, None, 60),
     ("ocean_floor",   "ts",  "CoastOceanFloor01.dds",                       9.0, None, 68),
+    ("dirt_cliff",    "ts",  "dirtcliffs/dirtcliffsroots01.dds",           10.0, None, 55),
 ]
 
 # bmv-v1: Black Marsh & Valenwood winners — contact-sheet ranked 2026-08-23,

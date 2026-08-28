@@ -47,6 +47,8 @@ export interface CharacterHudState {
   groundMaterial?: string;
   region?: string;
   waterDepth?: number;
+  /** Water-body class at the player (river / marsh / lake / coast …). */
+  waterBody?: string;
   /** From the environment query's TimeLightSample (module 55 §94). */
   dayPhase?: string;
   visibilityM?: number;
@@ -279,7 +281,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           <StudioWater
             base={import.meta.env.BASE_URL}
             verticalScale={verticalScale}
-            farExtentM={6000}
+            farExtentM={3000}
           />
           {showMarkers && <CityMarkers extentM={extentM} groundAt={markerGroundAt} />}
           <RenderWarmup armed={collidersReady} onWarm={() => setRenderWarm(true)} />
@@ -372,7 +374,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             {" · "}chunk {hud.chunk[0]},{hud.chunk[1]}
             {hud.groundMaterial ? ` · ${hud.groundMaterial}` : ""}
             {hud.region && hud.region !== "unknown" ? ` · ${hud.region}` : ""}
-            {hud.waterDepth !== undefined ? ` · water ${hud.waterDepth.toFixed(1)} m deep` : ""}
+            {hud.waterDepth !== undefined ? ` · ${hud.waterBody ?? "water"} ${hud.waterDepth.toFixed(1)} m deep` : ""}
             {hud.dayPhase ? ` · ${hud.dayPhase}` : ""}
             {hud.visibilityM !== undefined ? ` · vis ~${hud.visibilityM} m` : ""}
             {" · "}{["N", "NE", "E", "SE", "S", "SW", "W", "NW"][Math.round(hud.headingDeg / 45) % 8]} {Math.round(hud.headingDeg)}°
@@ -600,6 +602,7 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
         groundMaterial: contact.groundMaterial,
         region: contact.regionId,
         waterDepth: contact.water?.depth,
+        waterBody: contact.water?.waterBodyId ?? undefined,
         dayPhase: contact.light?.dayPhase,
         visibilityM: contact.light?.visibilityM,
         headingDeg: headingOf(cameraDir.x, cameraDir.z).deg,
