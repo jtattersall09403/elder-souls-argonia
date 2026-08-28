@@ -53,6 +53,7 @@ then open only the master-plan sections the active phase needs.
 | 12 — dungeons and interiors | todo | |
 | 12b — province soundscape (module 57; was 8d, re-sequenced by 0023: polish tier, riskier unknowns first) | todo | may run earlier if convenient (only needs 8a); hard requirement: before Phase 13 authors creature calls/ambience |
 | 13 — ecology, encounters, fixed loot | todo | |
+| P — general polish pass (rolling backlog, added 2026-08-28) | todo | backlog: [docs/polish-backlog.md](polish-backlog.md) — non-blocking cosmetic/feel leftovers from closed phases land there, owner adds freely |
 | 14 — streaming and deployment | todo | |
 | 15 — expansion by watershed | todo | |
 

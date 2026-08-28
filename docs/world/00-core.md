@@ -119,5 +119,6 @@ reproducible pipeline builds.
 10c stats+progression (0019; design workstream S runs in parallel from now) ·
 11 causal locations+settlements ·
 12 dungeons+interiors · 12b province soundscape (0022/0023, was 8d) ·
-13 ecology/encounters/loot · 14 streaming+deploy ·
+13 ecology/encounters/loot · P general polish pass (rolling backlog,
+docs/polish-backlog.md) · 14 streaming+deploy ·
 15 expansion by watershed. Statuses live only in PROGRESS.md.

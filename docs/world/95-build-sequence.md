@@ -645,6 +645,17 @@ Deliverables:
   Vampire-Day (eclipse) world states, volumetric (froxel) fog on the high
   quality tier.
 
+### Phase P — general polish pass (rolling backlog; owner-directed, 2026-08-28)
+
+A dedicated catch-all polish phase, run before Phase 14 hardens budgets (items
+may be pulled earlier when convenient). Earlier phases close when their systems
+are **de-risked and owner-accepted in shape**, not pixel-perfect; anything
+cosmetic or non-blocking that survives a phase's closing playtest moves to the
+**backlog at [docs/polish-backlog.md](../polish-backlog.md)** instead of
+holding the phase open. The owner adds items freely; agents add items whenever
+they defer visual/feel work. Each item records where it came from and what
+"done" looks like.
+
 ### Phase 14 — streaming and deployment
 
 Deliverables:
