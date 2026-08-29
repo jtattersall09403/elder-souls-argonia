@@ -4,12 +4,6 @@
     "_": "k(s) = 1 - (1 - s/100)^exponent. Front-loaded and self-soft-capping.",
     "exponent": 1.6
   },
-  "attributeAssist": {
-    "_": "effSkill = skill + clamp((governingAttribute - pivot)/divisor, -clamp, +clamp)",
-    "pivot": 50,
-    "divisor": 5,
-    "clamp": 10
-  },
   "damagePosition": {
     "lo": 0.4,
     "hi": 1.0
@@ -20,10 +14,10 @@
     "max": 100
   },
   "health": {
-    "_": "maxHealth = attrCoefficient*(Str+End) + level*(levelBase + End/levelEnduranceDivisor). Continuous and retroactive.",
+    "_": "Morrowind's own formula (Morrowind:Health): maxHealth = (Str+End)/2 + level x End/10. The one change is that ours is a FORMULA over current values, so it is retroactive - canon freezes each level's grant at the Endurance you had at the time. Lands the reference character on exactly 100 with no fitting.",
     "attrCoefficient": 0.5,
-    "levelBase": 1.5,
-    "levelEnduranceDivisor": 15
+    "levelBase": 0.0,
+    "levelEnduranceDivisor": 10
   },
   "stamina": {
     "_": "max = base + endCoefficient*End; regen/s = regenBase + regenAgiCoefficient*Agi after regenDelay.",
@@ -85,7 +79,8 @@
     "damageCoefficient": 0.6
   },
   "unarmoured": {
-    "coefficient": 0.006,
+    "_": "canon: AR per bare slot = 0.0065 x skill^2 (Morrowind:Combat)",
+    "coefficient": 0.0065,
     "slots": 4
   },
   "softRequirement": {
@@ -241,5 +236,22 @@
     "minUseValue": 0.05,
     "connectsBeforeDamping": 8,
     "dampedValue": 0.55
+  },
+  "score": {
+    "_": "Morrowind computes skill + primaryAttribute/5 and rolls against it; we compute the same score and compare it deterministically (module 76 \u00a7117.1). The divisor is canon's; the normaliser only rescales so that 100 skill + 100 attribute reads 100. Which attribute is per-skill in skills.json ('score'), and is the attribute Morrowind's formula names - NOT the governing attribute.",
+    "defaultDivisor": 5
+  },
+  "strengthDamage": {
+    "_": "Morrowind's damage term, verbatim: (Strength+50)/100 - neutral at 50, x0.5 at 0, x1.5 at 100.",
+    "base": 50,
+    "divisor": 100,
+    "appliesTo": [
+      "melee"
+    ],
+    "_bowDivergence": "Canon applies this to bows too. We do NOT: our bow damage is physical (draw force x power stroke x arrow mass, combat/ballistics.ts), so the archer's strength is ALREADY represented - by the draw weight of the bow they can handle and by the soft requirement that makes a too-heavy bow cost extra stamina. Multiplying again would count the same thing twice, and in the whole-game runs it pushed a Bosmer archer's first level from 1.9 h to 3.2 h for no design reason.",
+    "excludes": [
+      "handToHand",
+      "marksman"
+    ]
   }
 }

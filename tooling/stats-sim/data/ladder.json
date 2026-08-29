@@ -5,62 +5,33 @@
   "_variantClamp": "a variant may not push a field more than this far past its band edge - so 'strong armoured' cannot invent a tier of its own",
   "bands": [
     {
-      "id": "D0",
-      "label": "wildlife, nuisance",
+      "id": "D1",
+      "label": "low - vermin at the bottom, an unprepared traveller may survive at the top",
       "health": [
         20,
-        45
-      ],
-      "damage": [
-        4,
-        8
-      ],
-      "armourRating": [
-        0,
-        6
-      ],
-      "magicResist": [
-        0,
-        0.05
-      ],
-      "attackPeriod": [
-        3.0,
-        2.6
-      ],
-      "lootValue": [
-        2,
-        12
-      ],
-      "hitsToDieTarget": 10
-    },
-    {
-      "id": "D1",
-      "label": "low - an unprepared traveller may survive",
-      "health": [
-        50,
         90
       ],
       "damage": [
-        8,
-        14
+        4,
+        13
       ],
       "armourRating": [
-        6,
+        0,
         18
       ],
       "magicResist": [
-        0.05,
+        0,
         0.1
       ],
       "attackPeriod": [
-        2.8,
+        3.0,
         2.4
       ],
       "lootValue": [
-        8,
+        2,
         35
       ],
-      "hitsToDieTarget": 5
+      "hitsToDieTarget": 6
     },
     {
       "id": "D2",
@@ -70,7 +41,7 @@
         170
       ],
       "damage": [
-        24,
+        22,
         40
       ],
       "armourRating": [
@@ -99,8 +70,8 @@
         350
       ],
       "damage": [
-        52,
-        92
+        57,
+        103
       ],
       "armourRating": [
         45,
@@ -128,8 +99,8 @@
         700
       ],
       "damage": [
-        120,
-        210
+        133,
+        241
       ],
       "armourRating": [
         80,
@@ -157,8 +128,8 @@
         1250
       ],
       "damage": [
-        185,
-        320
+        210,
+        380
       ],
       "armourRating": [
         100,
@@ -212,6 +183,7 @@
     }
   },
   "_poiseNote": "Poise/posture was removed (owner veto, round 2): the sandbox has no poise system and this design does not introduce one. Hit reactions stay as they are today - attack id and hit zone - plus the existing guard-break.",
-  "_damageNote": "Damage bands are CALIBRATED, not eyeballed: they solve for 'how many completely unavoided blows kill the band-appropriate character in typical armour' - 10 at D0, 5 at D1, 4 at D2, 3.5 at D3, 3 at D4/D5 (owner ruling, round 2: getting hit must matter). Absolute best-in-slot armour lands nearer 5-6 by mitigation alone. Re-derive with the calibration in tooling/stats-sim; retune globally with curves.json difficulty.enemyDamageMultiplier.",
-  "_hitsToDieTarget": "How many completely unavoided blows should kill the band-appropriate character in typical armour. This is the number the damage band was solved for, and the thing to change first if the game feels too forgiving or too brutal. Heavy armour naturally lands a blow or two above it; best-in-slot lands at 5-7."
+  "_damageNote": "Damage bands are SOLVED, not eyeballed: for each band, find the damage at which the band-appropriate character in typical armour dies in `hitsToDieTarget` completely unavoided blows (6 at D1, 4 at D2, 3.5 at D3, 3 at D4/D5 - owner ruling: getting hit must matter). Heavy armour of the day buys a blow or two more; best-in-slot buys 5-6. Re-derive after ANY change to health, armour or the damage formula; retune globally with curves.json difficulty.enemyDamageMultiplier. Last solved 2026-08-29 against canon health ((Str+End)/2 + level x End/10) and canon's (Str+50)/100 damage term.",
+  "_hitsToDieTarget": "How many completely unavoided blows should kill the band-appropriate character in typical armour. This is the number the damage band was solved for, and the thing to change first if the game feels too forgiving or too brutal. Heavy armour naturally lands a blow or two above it; best-in-slot lands at 5-7.",
+  "_D0": "D0 is NOT a combat rung. Quests 20 \u00a712 and decision 0009 define it as SAFE GROUND - city streets, civic buildings, settlement interiors - an authored location property, not a band of the compiled danger field (which runs 1-5 and has no band 0). The stat ladder had overwritten that with 'wildlife, nuisance' and even cited quests 20 as its source. Corrected 2026-08-29 (owner, round 3): five combat rungs D1-D5, vermin at the bottom of a widened D1. A dungeon entrance inside a city carries its own authored band."
 }

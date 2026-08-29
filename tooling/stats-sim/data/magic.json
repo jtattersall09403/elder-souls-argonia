@@ -112,5 +112,13 @@
   },
   "_tierNote": "damage retuned down 2026-08-29 by the sim: at the original values a novice mage out-burst a melee character 3:1 in the low bands. Magic stays the burst archetype, bounded by magicka rather than by damage.",
   "costReductionCap": 0.75,
-  "_costReductionNote": "Raised from 0.5 to 0.75 (owner, round 2): rare, hard-won gear should have a genuinely strong effect. 75 % still leaves every spell costing something, so no infinite-cast loop exists."
+  "_costReductionNote": "Raised from 0.5 to 0.75 (owner, round 2): rare, hard-won gear should have a genuinely strong effect. 75 % still leaves every spell costing something, so no infinite-cast loop exists.",
+  "castability": {
+    "_": "Morrowind's cast formula as a gate (module 76 \u00a7123). Canon's chance is 2 x skill + Willpower/5 - cost; at chance 0 the spell effectively never works and at 50 it is a coin-flip, so the honest 'you can rely on this' line is 50 points inside canon's boundary - which is also what actually matches the spells a Morrowind character of that skill carries.",
+    "maxCostFormula": "2 * skill + willpower / 5 - reliabilityMargin",
+    "damagePerMagicka": 1.0,
+    "workingFraction": 0.6,
+    "_workingFraction": "a caster does not lead with the biggest spell they can reliably hold. 0.6 puts a starting mage on a ~19-damage spell and an endgame one on ~100 before magnitude and gear - which is where Morrowind's own starting and master spellbooks actually sit, and it keeps the levelling pace honest: a cast is worth one use point however big it is, so a mage who one-shots everything levels Destruction slowly.",
+    "reliabilityMargin": 50
+  }
 }

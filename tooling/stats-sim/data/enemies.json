@@ -1,18 +1,105 @@
 {
-  "_": "Worked archetypes on the ladder — calibration examples, NOT authored content (Phase 13 authors the real roster from the lore ecology feed). Every entry is written the way an author writes: band + position + variants, compiled to absolutes by the sim.",
+  "_": "Worked archetypes on the ladder \u2014 calibration examples, NOT authored content (Phase 13 authors the real roster from the lore ecology feed). Every entry is written the way an author writes: band + position + variants, compiled to absolutes by the sim.",
   "archetypes": [
-    { "id": "mudcrab",          "label": "Mudcrab",                 "band": "D0", "position": 0.35, "variants": [] },
-    { "id": "marsh-rat-swarm",  "label": "Marsh rat",               "band": "D0", "position": 0.7,  "variants": ["swift"] },
-    { "id": "ripper-eel",       "label": "Ripper eel",              "band": "D1", "position": 0.6,  "variants": ["swift"] },
-    { "id": "smuggler-thug",    "label": "Smuggler",                "band": "D1", "position": 0.8,  "variants": [] },
-    { "id": "hollow-warden",    "label": "The Hollow Warden",       "band": "D2", "position": 0.5,  "variants": [],
-      "note": "the sandbox's existing archetype restated: 150 hp, iron set, steel sword" },
-    { "id": "bog-blight",       "label": "Bog blight",              "band": "D2", "position": 0.7,  "variants": ["brute"] },
-    { "id": "naga-raider",      "label": "Naga raider",             "band": "D3", "position": 0.35, "variants": [] },
-    { "id": "wamasu",           "label": "Wamasu",                  "band": "D3", "position": 0.75, "variants": ["strong"] },
-    { "id": "dreugh-warlord",   "label": "Dreugh warlord",          "band": "D4", "position": 0.5,  "variants": ["armoured"] },
-    { "id": "swamp-leviathan",  "label": "Deep-marsh leviathan",    "band": "D4", "position": 0.9,  "variants": ["brute"] },
-    { "id": "xal-krona",        "label": "Xal-Krona (final boss)",  "band": "D5", "position": 0.85, "variants": ["strong", "armoured"] },
-    { "id": "d5-warden-guard",  "label": "Endgame warden",          "band": "D5", "position": 0.3,  "variants": [] }
+    {
+      "id": "mudcrab",
+      "label": "Mudcrab",
+      "band": "D1",
+      "position": 0.02,
+      "variants": []
+    },
+    {
+      "id": "marsh-rat-swarm",
+      "label": "Marsh rat",
+      "band": "D1",
+      "position": 0.08,
+      "variants": [
+        "swift"
+      ]
+    },
+    {
+      "id": "ripper-eel",
+      "label": "Ripper eel",
+      "band": "D1",
+      "position": 0.6,
+      "variants": [
+        "swift"
+      ]
+    },
+    {
+      "id": "smuggler-thug",
+      "label": "Smuggler",
+      "band": "D1",
+      "position": 0.8,
+      "variants": []
+    },
+    {
+      "id": "hollow-warden",
+      "label": "The Hollow Warden",
+      "band": "D2",
+      "position": 0.5,
+      "variants": [],
+      "note": "the sandbox's existing archetype restated: 150 hp, iron set, steel sword"
+    },
+    {
+      "id": "bog-blight",
+      "label": "Bog blight",
+      "band": "D2",
+      "position": 0.7,
+      "variants": [
+        "brute"
+      ]
+    },
+    {
+      "id": "naga-raider",
+      "label": "Naga raider",
+      "band": "D3",
+      "position": 0.35,
+      "variants": []
+    },
+    {
+      "id": "wamasu",
+      "label": "Wamasu",
+      "band": "D3",
+      "position": 0.75,
+      "variants": [
+        "strong"
+      ]
+    },
+    {
+      "id": "dreugh-warlord",
+      "label": "Dreugh warlord",
+      "band": "D4",
+      "position": 0.5,
+      "variants": [
+        "armoured"
+      ]
+    },
+    {
+      "id": "swamp-leviathan",
+      "label": "Deep-marsh leviathan",
+      "band": "D4",
+      "position": 0.9,
+      "variants": [
+        "brute"
+      ]
+    },
+    {
+      "id": "xal-krona",
+      "label": "Xal-Krona (final boss)",
+      "band": "D5",
+      "position": 0.85,
+      "variants": [
+        "strong",
+        "armoured"
+      ]
+    },
+    {
+      "id": "d5-warden-guard",
+      "label": "Endgame warden",
+      "band": "D5",
+      "position": 0.3,
+      "variants": []
+    }
   ]
 }

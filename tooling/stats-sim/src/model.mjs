@@ -40,14 +40,27 @@ export function k(skill) {
   return 1 - Math.pow(1 - s / 100, C.skillCurve.exponent);
 }
 
-/** Skill plus its governing attribute's assist, clamped. */
+/**
+ * Morrowind's own score, made deterministic (module 76 §117.1).
+ *
+ * Canon computes `skill + primaryAttribute/5` and rolls 0-99 against it. We
+ * compute the same thing and compare it to a fixed difficulty instead. The
+ * attribute is the one canon's formula for *this check* names — which is often
+ * not the governing attribute at all — and the normaliser only rescales so a
+ * character at 100/100 reads 100.
+ */
 export function effectiveSkill(skillId, skillValue, attributes) {
-  const gov = SKILLS[skillId]?.gov;
-  const attr = gov ? attributes[gov] ?? C.attributeAssist.pivot : C.attributeAssist.pivot;
-  const raw = (attr - C.attributeAssist.pivot) / C.attributeAssist.divisor;
-  const assist = Math.max(-C.attributeAssist.clamp, Math.min(C.attributeAssist.clamp, raw));
-  return skillValue + assist;
+  const skill = SKILLS[skillId];
+  const scoreAttr = skill?.score;
+  if (!scoreAttr || !attributes) return skillValue; // canon has no attribute term here
+  const divisor = skill.scoreDivisor ?? C.score.defaultDivisor;
+  const attr = attributes[scoreAttr] ?? 50;
+  return (skillValue + attr / divisor) / (1 + 1 / divisor);
 }
+
+/** Morrowind's damage term, verbatim: neutral at Strength 50. */
+export const strengthDamage = (attrs) =>
+  (attrs.strength + C.strengthDamage.base) / C.strengthDamage.divisor;
 
 /** Map a skill's band [lo, hi] through the curve. */
 export function band([lo, hi], effSkill) {
@@ -64,6 +77,13 @@ export function damagePosition(effSkill) {
 export const maxHealth = (attrs, level) =>
   C.health.attrCoefficient * (attrs.strength + attrs.endurance) +
   level * (C.health.levelBase + attrs.endurance / C.health.levelEnduranceDivisor);
+
+/** Canon movement (Morrowind:Speed / :Athletics), compressed — see module 76 §122. */
+export const walkSpeed = (attrs, loadRatio = 0) =>
+  C.movement.walkBase * (0.75 + attrs.speed / 200) * (1 - 0.3 * Math.min(1, loadRatio));
+export const sprintSpeed = (attrs, athletics, loadRatio = 0) =>
+  walkSpeed(attrs, loadRatio) * (1 + athletics / 250) * (C.movement.sprintBase / C.movement.walkBase);
+export const swimSpeed = (athletics) => C.movement.swimBase * (0.5 + athletics / 100);
 
 export const maxStamina = (attrs) => C.stamina.base + C.stamina.endCoefficient * attrs.endurance;
 export const staminaRegen = (attrs) =>
@@ -287,22 +307,27 @@ export function attackProfile(build, target) {
   const potions = data.economy.potions;
 
   if (arch.weaponSkill === "destruction") {
+    // Canon's cast formula as a gate, not a gamble: the biggest spell you can
+    // hold is 2 x skill + Willpower/5, and a spell's damage tracks its cost.
+    const cast = data.magic.castability;
     const eff = effectiveSkill("destruction", build.weaponSkill, attrs);
-    const tier = [...data.magic.tiers].reverse().find((t) => build.weaponSkill >= t.skillGate) ?? data.magic.tiers[0];
+    const maxCost = Math.max(6, 2 * build.weaponSkill + attrs.willpower / 5 - cast.reliabilityMargin);
+    const workingCost = maxCost * cast.workingFraction;
     const magnitude = band(SKILLS.destruction.bands.magnitude, eff);
-    const seconds = tier.castSeconds * band(SKILLS.destruction.bands.castTime, eff);
-    const reduction = Math.min(data.magic.costReductionCap ?? 0.5, build.spellCostReduction ?? 0);
-    const cost = tier.magickaCost * band(SKILLS.destruction.bands.cost, eff) * (1 - reduction);
-    // Elemental damage bypasses physical armour (§123) and meets magic resistance instead.
-    const damage = tier.damage * magnitude * (1 + build.enchantDamageBonus) * (1 - (target.magicResist ?? 0));
+    const seconds = 1.2 * band(SKILLS.destruction.bands.castTime, eff);
+    const reduction = Math.min(data.magic.costReductionCap ?? 0.75, build.spellCostReduction ?? 0);
+    const cost = workingCost * band(SKILLS.destruction.bands.cost, eff) * (1 - reduction);
+    const damage =
+      workingCost * cast.damagePerMagicka * magnitude *
+      (1 + build.enchantDamageBonus) * (1 - (target.magicResist ?? 0));
     return {
       mode: "spell",
-      tier: tier.id,
+      tier: `cost ${Math.round(workingCost)} of ${Math.round(maxCost)} castable`,
       resource: "magicka",
       pool: build.magicka,
       regen: build.magickaRegen,
       actions: [{ damage, seconds, cost }],
-      restore: potions.magicka.restore,
+      restore: data.economy.potions.magicka.restore,
     };
   }
 
@@ -311,6 +336,8 @@ export function attackProfile(build, target) {
     const eff = effectiveSkill("marksman", build.weaponSkill, attrs);
     const mat = data.gear.materials[build.weaponMaterial];
     const raw =
+      // No Strength term on bows: the draw weight and the soft requirement
+      // already carry the archer's strength (curves.strengthDamage note).
       bow.baseDamage * (0.7 + 0.3 * mat.damageScale) * build.arrowBonus *
       damagePosition(eff) * (1 + build.enchantDamageBonus);
     // Arrowheads pierce: armour is only partly effective against them.
@@ -336,13 +363,16 @@ export function attackProfile(build, target) {
   const staminaBand = band(SKILLS[skillId].bands.staminaCost, eff);
   const burdenCost = C.stamina.burdenCostMultiplier[build.burden.tier];
   const temper = 1 + build.temperGrades * data.gear.temperPerGrade;
+  // Canon's (Str+50)/100 — melee and bows, never hand-to-hand.
+  const strength = skillId === "handToHand" ? 1 : strengthDamage(attrs);
 
   // A real rotation, not a light-attack loop: two lights into a heavy is what
   // the sandbox's stamina economy actually supports and what players do.
   const actions = ["light1", "light2", "heavy"].map((id) => {
     const attack = data.gear.moveset[id];
     const raw =
-      listedDamage(arch.weaponClass, build.weaponMaterial, id) * position * temper * (1 + build.enchantDamageBonus);
+      listedDamage(arch.weaponClass, build.weaponMaterial, id) *
+      position * strength * temper * (1 + build.enchantDamageBonus);
     return {
       id,
       raw,

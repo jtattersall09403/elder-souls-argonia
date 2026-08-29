@@ -54,14 +54,13 @@
     ]
   },
   "income": {
-    "_": "Typical gold realised per cleared encounter, after selling at a competent Mercantile band.",
+    "_": "Gold REALISED from a cleared encounter. These are TEMPLATE drops - what the creature itself carries - because placed treasure never respawns (module 76 \u00a7126) and is counted separately as the content model's lootGoldPerHour. The first pass double-counted: every clear paid a full placed-loot value, and a 157-hour playthrough ended on 860,000 gold, which makes every sink meaningless. What a fight is WORTH as a piece of authored content is the ladder's own lootValue field; this is only what falls off the corpse.",
     "perBandClear": {
-      "D0": 6,
-      "D1": 22,
-      "D2": 60,
-      "D3": 170,
-      "D4": 480,
-      "D5": 1400
+      "D1": 4,
+      "D2": 12,
+      "D3": 35,
+      "D4": 95,
+      "D5": 240
     },
     "questTypical": {
       "small": 60,
