@@ -1,0 +1,108 @@
+{
+  "_": "Spell tiers (module 76 \u00a7123). Elemental damage bypasses physical armour and is met by resistances instead \u2014 this is what keeps a magic build on the same multiplier stack as a weapon build all game.",
+  "tiers": [
+    {
+      "id": "novice",
+      "skillGate": 0,
+      "damage": 9,
+      "magickaCost": 8,
+      "castSeconds": 0.8
+    },
+    {
+      "id": "apprentice",
+      "skillGate": 25,
+      "damage": 18,
+      "magickaCost": 22,
+      "castSeconds": 1.0
+    },
+    {
+      "id": "journeyman",
+      "skillGate": 50,
+      "damage": 40,
+      "magickaCost": 48,
+      "castSeconds": 1.2
+    },
+    {
+      "id": "expert",
+      "skillGate": 75,
+      "damage": 80,
+      "magickaCost": 85,
+      "castSeconds": 1.5
+    },
+    {
+      "id": "master",
+      "skillGate": 90,
+      "damage": 140,
+      "magickaCost": 140,
+      "castSeconds": 1.9
+    }
+  ],
+  "healing": {
+    "_": "Restoration heals on the same magnitude band; slow enough that it is a between-exchange move, not a mid-combo one.",
+    "tiers": [
+      {
+        "id": "novice",
+        "skillGate": 0,
+        "heal": 25,
+        "magickaCost": 14,
+        "castSeconds": 1.2
+      },
+      {
+        "id": "journeyman",
+        "skillGate": 50,
+        "heal": 70,
+        "magickaCost": 55,
+        "castSeconds": 1.6
+      },
+      {
+        "id": "master",
+        "skillGate": 90,
+        "heal": 160,
+        "magickaCost": 130,
+        "castSeconds": 2.1
+      }
+    ]
+  },
+  "enchanting": {
+    "pointBudgetBase": 60,
+    "capacityByTier": {
+      "1": 20,
+      "2": 30,
+      "3": 45,
+      "4": 60,
+      "5": 80,
+      "6": 105,
+      "7": 140,
+      "8": 190
+    },
+    "constantEffectSoulMinimum": 400,
+    "constantEffectCostMultiplier": 100,
+    "chargedUseCostFormula": "base * (1.1 - Enchant/100)",
+    "bannedEffects": [
+      "fortify alchemy",
+      "fortify enchant",
+      "fortify smithing",
+      "fortify intelligence (as a crafting input)",
+      "fortify strength (as a crafting input)"
+    ],
+    "_bannedNote": "the crafting inputs are banned as crafting inputs only - all crafting reads BASE values, so these effects may still exist for combat use"
+  },
+  "alchemy": {
+    "_": "Morrowind's shape with base-stat inputs only: strength = (effAlchemy + Int/10) * apparatus / (3 * effectBaseCost). Restore Health base cost 5.",
+    "apparatus": {
+      "mortar": 0.6,
+      "journeyman": 1.0,
+      "master": 1.5
+    },
+    "effectBaseCost": {
+      "restoreHealth": 5,
+      "fortifyAttribute": 8,
+      "resistPoison": 4,
+      "waterBreathing": 12
+    },
+    "magnitudeMultiplier": 18,
+    "_magnitudeNote": "healAmount = magnitudeMultiplier * (effAlchemy + Int/10) * apparatus / (3 * effectBaseCost)"
+  },
+  "_tierNote": "damage retuned down 2026-08-29 by the sim: at the original values a novice mage out-burst a melee character 3:1 in the low bands. Magic stays the burst archetype, bounded by magicka rather than by damage.",
+  "costReductionCap": 0.5
+}

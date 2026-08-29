@@ -1,0 +1,16 @@
+{
+  "_": "The seven attributes (module 76 §117). Luck is cut: with no dice it had no job.",
+  "attributes": [
+    { "id": "strength", "label": "Strength", "drives": ["carry capacity", "health base", "assist for Str-governed skills", "unarmed damage"] },
+    { "id": "endurance", "label": "Endurance", "drives": ["max health", "max stamina", "poise", "disease/poison resistance floor"] },
+    { "id": "agility", "label": "Agility", "drives": ["stamina regen", "dodge stamina discount", "knockdown resistance", "bow steadiness"] },
+    { "id": "speed", "label": "Speed", "drives": ["ground/swim/climb speed", "attack and cast recovery"] },
+    { "id": "willpower", "label": "Willpower", "drives": ["magicka regen", "concentration", "resist magic/paralysis"] },
+    { "id": "intelligence", "label": "Intelligence", "drives": ["max magicka", "alchemy potency", "enchant budget"] },
+    { "id": "personality", "label": "Personality", "drives": ["disposition", "prices", "speech score", "standing gain"] }
+  ],
+  "startRange": { "min": 30, "max": 50 },
+  "favouredBonus": 10,
+  "purchaseCap": 100,
+  "_effectsMayExceedCap": true
+}
