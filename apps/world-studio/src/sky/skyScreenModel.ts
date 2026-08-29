@@ -63,7 +63,11 @@ export function domeScreen(rig: LightRig, dir: Vec3): Vec3 {
  * (lightning excluded — a deliberate transient). The dome shader composites
  * cloud pixels strictly between the CPU-anchored uCloudDark and uCloudBright
  * colours, so bounding those bounds the whole cloudy sky — the envelope test
- * does not need to replicate the FBM. KEEP IN LOCKSTEP with the cloud block
+ * does not need to replicate the FBM. Round 2 additions stay bounded the
+ * same way: the silver-lining glow adds ≤ cloudGlowCol (asserted in the
+ * test), and the camera-in-fog veil / dense-fog inscatter mix the frame
+ * toward fogLum, which is exposure-anchored and asserted in-range — a mix
+ * of two bounded colours is bounded. KEEP IN LOCKSTEP with the cloud block
  * in WorldSky.createSkyDome.
  */
 export function cloudScreenRange(rig: LightRig): [number, number] {

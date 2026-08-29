@@ -114,6 +114,7 @@ describe("weathered light (Phase 8c, decision 0032)", () => {
       cloudHigh: p.cloudHigh,
       cloudDensity: p.cloudDensity,
       cloudDark: p.cloudDark,
+      greenTint: p.greenTint,
     };
   };
   const noonAt = (kind: WeatherKind) =>
@@ -152,8 +153,28 @@ describe("weathered light (Phase 8c, decision 0032)", () => {
         const [lo, hi] = cloudScreenRange(rig);
         expect(lo, `cloud black: ${kind} @ ${h}h`).toBeGreaterThan(0.003);
         expect(hi, `cloud blown: ${kind} @ ${h}h`).toBeLessThan(1.9);
+        // Round 2 additions stay exposure-anchored: dense-fog colour is
+        // always displayable (never the black-cap asymptote), and the
+        // silver-lining glow cannot blow the frame out.
+        const fogScreen = Math.max(...rig.fogLum) * rig.exposureTarget;
+        expect(fogScreen, `fog black: ${kind} @ ${h}h`).toBeGreaterThan(0.015);
+        expect(fogScreen, `fog blown: ${kind} @ ${h}h`).toBeLessThan(1.3);
+        const glowScreen = Math.max(...rig.cloudGlowCol) * rig.exposureTarget;
+        expect(glowScreen, `glow blown: ${kind} @ ${h}h`).toBeLessThan(2.6);
       }
     }
+  });
+
+  it("a cumulus crossing the sun dims direct light; heavy crossing kills shadows", () => {
+    const base = weatherOf("clear");
+    const open = computeLightRig(at(6, 14, 12), 0.7, 0.7, undefined, base);
+    const shaded = computeLightRig(at(6, 14, 12), 0.7, 0.7, undefined, { ...base, sunOcclusion: 0.6 });
+    const covered = computeLightRig(at(6, 14, 12), 0.7, 0.7, undefined, { ...base, sunOcclusion: 0.95 });
+    expect(shaded.sunIntensity).toBeLessThan(open.sunIntensity * 0.6);
+    expect(shaded.sunCastsShadows).toBe(true);
+    expect(covered.sunCastsShadows).toBe(false);
+    // Passing shade must NOT lift the exposure (a cloud shadow reads as a dip).
+    expect(shaded.exposureTarget).toBeCloseTo(open.exposureTarget, 10);
   });
 
   it("storm cloud bases render darker than lit faces, day and night", () => {

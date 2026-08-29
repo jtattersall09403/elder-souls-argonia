@@ -5,6 +5,7 @@ import { Sky } from "three/examples/jsm/objects/Sky.js";
 import { CSM } from "three/examples/jsm/csm/CSM.js";
 import {
   dayPhaseAt,
+  sunAt,
   toHorizontal,
   localSiderealAngle,
   epochDays,
@@ -13,6 +14,14 @@ import {
 import { setWindWaveScale } from "@elder-souls/game-core/water/index";
 import catalogue from "../../../../world/sources/sky/star-catalogue.json";
 import { createAerialUniforms, type AerialUniforms } from "./aerial";
+import {
+  CLOUD_UNIFORMS_GLSL,
+  cloudAlphaTowards,
+  cloudFieldGlsl,
+  cloudParamsFrom,
+  createCloudUniforms,
+  type CloudParams,
+} from "./cloudField";
 import { computeLightRig, type LightRig } from "./lightRig";
 import { worldClock, notifyClock } from "./timeState";
 import { waterTimeS } from "../water/waterClock";
@@ -39,6 +48,12 @@ export const sharedAerialUniforms: AerialUniforms = createAerialUniforms();
   sharedAerialUniforms;
 
 export const SkyContext = createContext<{ csm: CSM | null }>({ csm: null });
+
+/** The ONE cloud-field uniform set (cloudField.ts): shared by the main dome,
+ * the PMREM bake dome and the star/serpent shaders — one WorldSky write per
+ * frame updates every consumer, and the celestial occlusion samples exactly
+ * the clouds the dome draws. */
+const cloudUniforms = createCloudUniforms();
 
 const STAR_RADIUS = 28_000;
 const MOON_RADIUS = 26_000;
@@ -101,14 +116,15 @@ interface SkyExtras {
   uHorizonLum: { value: THREE.Color };
   uDawnLum: { value: number };
   uDawnDir: { value: THREE.Vector2 };
-  /** Phase 8c weather clouds: coverages (low/mid/high), density, colours
-   * (exposure-anchored nits, see lightRig), scroll clock/dir, lightning. */
-  uCloudCov: { value: THREE.Vector3 };
-  uCloudDens: { value: number };
+  /** Phase 8c weather clouds: colours (exposure-anchored nits, lightRig),
+   * silver-lining glow light, dense-fog colour, camera-in-fog veil,
+   * lightning. Coverage/shape/scroll live in the SHARED cloudUniforms. */
   uCloudBright: { value: THREE.Color };
   uCloudDark: { value: THREE.Color };
-  uCloudTime: { value: number };
-  uCloudDir: { value: THREE.Vector2 };
+  uGlowDir: { value: THREE.Vector3 };
+  uGlowCol: { value: THREE.Color };
+  uFogLum: { value: THREE.Color };
+  uCamFog: { value: number };
   uFlash: { value: number };
 }
 
@@ -128,18 +144,20 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
     uHorizonLum: { value: new THREE.Color(0, 0, 0) },
     uDawnLum: { value: 0 },
     uDawnDir: { value: new THREE.Vector2(0, 1) },
-    uCloudCov: { value: new THREE.Vector3(0, 0, 0) },
-    uCloudDens: { value: 0 },
     uCloudBright: { value: new THREE.Color(0, 0, 0) },
     uCloudDark: { value: new THREE.Color(0, 0, 0) },
-    uCloudTime: { value: 0 },
-    uCloudDir: { value: new THREE.Vector2(1, 0) },
+    uGlowDir: { value: new THREE.Vector3(0, 1, 0) },
+    uGlowCol: { value: new THREE.Color(0, 0, 0) },
+    uFogLum: { value: new THREE.Color(0, 0, 0) },
+    uCamFog: { value: 0 },
     uFlash: { value: 0 },
   };
-  Object.assign(mat.uniforms, extras);
+  Object.assign(mat.uniforms, extras, cloudUniforms);
   mat.uniforms.cloudCoverage.value = 0; // stock cloud layer stays off — ours below
   mat.fragmentShader =
-    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform float uSunAltDeg;\nuniform float uNightBoost;\nuniform float uBeltLum;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform vec3 uHorizonLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\nuniform vec3 uCloudCov;\nuniform float uCloudDens;\nuniform vec3 uCloudBright;\nuniform vec3 uCloudDark;\nuniform float uCloudTime;\nuniform vec2 uCloudDir;\nuniform float uFlash;\n" +
+    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform float uSunAltDeg;\nuniform float uNightBoost;\nuniform float uBeltLum;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform vec3 uHorizonLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\nuniform vec3 uCloudBright;\nuniform vec3 uCloudDark;\nuniform vec3 uGlowDir;\nuniform vec3 uGlowCol;\nuniform vec3 uFogLum;\nuniform float uCamFog;\nuniform float uFlash;\n" +
+    CLOUD_UNIFORMS_GLSL +
+    cloudFieldGlsl() +
     mat.fragmentShader.replace(
       "gl_FragColor = vec4( texColor, 1.0 );",
       /* glsl */ `
@@ -198,44 +216,41 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
           + vec3(1.00, 0.45, 0.50) * pow(esAz, 2.0) * 0.55
           + vec3(0.55, 0.35, 0.62) * 0.20);
       }
-      // Weather cloud layers (Phase 8c, decision 0032): three scrolling FBM
-      // planes drawn INTO the dome (so the PMREM IBL sees them and overcast
-      // ambient greys automatically). Colours arrive exposure-anchored from
-      // the CPU (uCloudBright/uCloudDark, lightRig) — cloudy skies stay
-      // inside the §8d screen envelope by construction. Premultiplied
-      // back-to-front over-composite: cirrus, then mid deck, then low scud.
+      // Weather cloud layers (Phase 8c round 2): the SHARED cloud field
+      // (cloudField.ts — the same functions the star shader and the CPU
+      // sun/moon occlusion evaluate) drawn INTO the dome so the PMREM IBL
+      // sees the deck. Colours arrive exposure-anchored from the CPU
+      // (uCloudBright/uCloudDark, lightRig) — cloudy skies stay inside the
+      // §8d screen envelope by construction. Premultiplied back-to-front
+      // over-composite: cirrus, then the weather-bearing mid deck (with
+      // shaded bases, silver-lining edge glow toward the sun/moon and the
+      // squall shelf wall inside esCloudMid), then ragged low scud.
       if (direction.y > 0.012 && (uCloudCov.x + uCloudCov.y + uCloudCov.z) > 0.003) {
-        vec2 esWindP = vec2(uCloudDir.y, -uCloudDir.x);
         float esCA = 0.0;
         vec3 esCC = vec3(0.0);
         { // high cirrus — thin, bright, stretched along the wind
-          vec2 uv = direction.xz / (direction.y + 0.06);
-          uv = vec2(dot(uv, uCloudDir) * 0.22, dot(uv, esWindP)) * 0.55;
-          uv.x += uCloudTime * 0.006;
-          float n = fbm(uv * 3.0);
-          float m = smoothstep(1.0 - uCloudCov.z, 1.0 - uCloudCov.z + 0.32, n);
-          float a = m * 0.42;
+          float a = esCloudHigh(direction);
           esCC += uCloudBright * (a * (1.0 - esCA));
           esCA += a * (1.0 - esCA);
         }
-        { // mid deck — the weather-bearing layer, shaded bases
-          vec2 uv = direction.xz / (direction.y * 0.8 + 0.055) * 0.5;
-          uv += uCloudDir * (uCloudTime * 0.012);
-          float n = (fbm(uv * 2.6) + 0.45 * fbm(uv * 6.1 + 3.7)) / 1.45;
-          float m = smoothstep(1.0 - uCloudCov.y, 1.0 - uCloudCov.y + 0.24, n);
-          float shade = smoothstep(max(1.0 - uCloudCov.y * 0.75, 0.35), 1.0, n);
+        { // mid deck
+          float nMid;
+          float a = esCloudMid(direction, nMid);
+          float shade = smoothstep(0.45, 0.95, nMid);
           vec3 col = mix(uCloudBright, uCloudDark, shade);
-          float a = m * uCloudDens;
           esCC += col * (a * (1.0 - esCA));
+          // Silver lining (research §8.1): a band-pass on the layer alpha
+          // isolates the thin edge zone; gated by angular proximity to the
+          // glow light (sun by day, Masser by night) so only edges facing
+          // the light catch it.
+          float esEdge = smoothstep(0.03, 0.18, a) * (1.0 - smoothstep(0.25, 0.6, a));
+          float esToGlow = pow(max(dot(direction, uGlowDir), 0.0), 6.0);
+          esCC += uGlowCol * (esEdge * esToGlow * (1.0 - esCA));
           esCA += a * (1.0 - esCA);
         }
         { // low scud — fast, ragged, storm-dark
-          vec2 uv = direction.xz / (direction.y * 0.4 + 0.09) * 0.9;
-          uv += uCloudDir * (uCloudTime * 0.03);
-          float n = fbm(uv * 3.4 + 11.0);
-          float m = smoothstep(1.0 - uCloudCov.x, 1.0 - uCloudCov.x + 0.3, n);
+          float a = esCloudLow(direction);
           vec3 col = mix(uCloudBright * 0.85, uCloudDark, 0.75);
-          float a = m * uCloudDens * 0.85;
           esCC += col * (a * (1.0 - esCA));
           esCA += a * (1.0 - esCA);
         }
@@ -254,6 +269,13 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
       } else {
         texColor = mix(uHorizonLum, texColor, smoothstep(-0.02, 0.012, direction.y));
       }
+      // Camera-in-fog veil (round 2): when the camera itself sits inside a
+      // mist regime (the whiteout belt, dawn mist, sea fog), the SKY must
+      // fog too — the aerial term only fogs surface fragments, which is why
+      // flying into the belt looked like an opaque wall that was invisible
+      // from below. uFogLum is exposure-anchored (bounded), so this cannot
+      // break the screen envelope.
+      texColor = mix(texColor, uFogLum, uCamFog);
       // Stay below the half-float ceiling (65504): the PMREM env bake renders
       // into a HalfFloat target, and any overflow becomes Infinity there and
       // poisons the environment lighting.
@@ -266,14 +288,17 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
 function copySkyUniforms(from: Sky & { material: THREE.ShaderMaterial }, to: Sky): void {
   const a = from.material.uniforms;
   const b = to.material.uniforms;
-  for (const k of ["turbidity", "rayleigh", "mieCoefficient", "mieDirectionalG", "uSkyLum", "uSkyFade", "uSunAltDeg", "uNightBoost", "uBeltLum", "uDawnLum", "uCloudDens", "uCloudTime", "uFlash"]) {
+  // The cloud-field uniforms (uCloudCov/Dens/Puff/Scroll/Front/Dir/Time/
+  // Noise) are SHARED objects between both dome materials — no copy needed.
+  for (const k of ["turbidity", "rayleigh", "mieCoefficient", "mieDirectionalG", "uSkyLum", "uSkyFade", "uSunAltDeg", "uNightBoost", "uBeltLum", "uDawnLum", "uCamFog", "uFlash"]) {
     b[k].value = a[k].value;
   }
   (b.uDawnDir.value as THREE.Vector2).copy(a.uDawnDir.value as THREE.Vector2);
-  (b.uCloudCov.value as THREE.Vector3).copy(a.uCloudCov.value as THREE.Vector3);
-  (b.uCloudDir.value as THREE.Vector2).copy(a.uCloudDir.value as THREE.Vector2);
   (b.uCloudBright.value as THREE.Color).copy(a.uCloudBright.value as THREE.Color);
   (b.uCloudDark.value as THREE.Color).copy(a.uCloudDark.value as THREE.Color);
+  (b.uGlowDir.value as THREE.Vector3).copy(a.uGlowDir.value as THREE.Vector3);
+  (b.uGlowCol.value as THREE.Color).copy(a.uGlowCol.value as THREE.Color);
+  (b.uFogLum.value as THREE.Color).copy(a.uFogLum.value as THREE.Color);
   (b.sunPosition.value as THREE.Vector3).copy(a.sunPosition.value as THREE.Vector3);
   (b.uNightZenith.value as THREE.Color).copy(a.uNightZenith.value as THREE.Color);
   (b.uNightHorizon.value as THREE.Color).copy(a.uNightHorizon.value as THREE.Color);
@@ -347,7 +372,7 @@ function flattenCatalogue(): FlatStar[] {
   return out;
 }
 
-const STAR_VERTEX = /* glsl */ `
+const starVertexGlsl = () => /* glsl */ `
 attribute float aSize;
 attribute float aLum;
 attribute float aMag;
@@ -356,6 +381,8 @@ uniform float uSunAltDeg;
 uniform float uStarFrac;
 uniform vec2 uDawnDir;
 varying float vLum;
+${CLOUD_UNIFORMS_GLSL}
+${cloudFieldGlsl()}
 void main() {
   // Density slider: background stars beyond the revealed fraction vanish.
   float esDensity = aRank <= uStarFrac ? 1.0 : 0.0;
@@ -368,6 +395,10 @@ void main() {
   float esDEff = esD + 3.5 * (1.0 - smoothstep(5.0, 9.0, esD)) * (1.0 - esCosAz) * 0.5;
   float esOn = 3.0 + 2.14 * (aMag + 1.0);
   vLum = aLum * esDensity * smoothstep(esOn - 2.0, esOn, esDEff);
+  // Per-star cloud occlusion (round 2): each star samples the SAME cloud
+  // field the dome draws — broken night cover blots out patches of stars
+  // while gaps keep theirs, which is what makes a cloudy night READ cloudy.
+  vLum *= 1.0 - esCloudAlpha(normalize(position));
   vec4 mv = modelViewMatrix * vec4(position, 1.0);
   gl_PointSize = aSize;
   gl_Position = projectionMatrix * mv;
@@ -473,6 +504,9 @@ export interface SkyDebugState {
   cloudCover: [number, number, number];
   sunCastsShadows: boolean;
   lightningFlash: number;
+  /** Round 2: cloud alpha at the sun (CPU field) and camera-in-fog veil. */
+  sunOcclusion: number;
+  camFog: number;
 }
 
 declare global {
@@ -661,8 +695,9 @@ export function WorldSky({
           uSunAltDeg: { value: 45 },
           uStarFrac: { value: 0.5 },
           uDawnDir: { value: new THREE.Vector2(0, 1) },
+          ...cloudUniforms,
         },
-        vertexShader: STAR_VERTEX,
+        vertexShader: starVertexGlsl(),
         fragmentShader: STAR_FRAGMENT,
         blending: THREE.AdditiveBlending,
         depthWrite: false,
@@ -690,14 +725,16 @@ export function WorldSky({
           uSunAltDeg: { value: 45 },
           uStarFrac: { value: 1 },
           uDawnDir: { value: new THREE.Vector2(0, 1) },
+          ...cloudUniforms,
         },
-        vertexShader: STAR_VERTEX,
+        vertexShader: starVertexGlsl(),
         fragmentShader: /* glsl */ `
 uniform float uOpacity;
+varying float vLum;
 void main() {
   vec2 d = gl_PointCoord - 0.5;
   float falloff = smoothstep(0.5, 0.2, length(d));
-  gl_FragColor = vec4(vec3(0.0), falloff * uOpacity);
+  gl_FragColor = vec4(vec3(0.0), falloff * uOpacity * vLum);
 }`,
         blending: THREE.NormalBlending,
         depthWrite: false,
@@ -803,6 +840,19 @@ void main() {
       Math.max(0, camera.position.y / verticalScale),
     );
     const flash = lightningNow(epochMinutes);
+    // The cloud field this frame (shared GPU/CPU, cloudField.ts): the CPU
+    // side samples it toward the sun and moons, so a cumulus drifting across
+    // the sun dims the light and the moons vanish behind thick cloud.
+    const cloudParams: CloudParams = cloudParamsFrom(
+      wx.profile,
+      wx.windDirXZ,
+      waterTimeS(),
+    );
+    const sunPre = sunAt(epochMinutes, latitudeOverrideRad);
+    const sunOcclusion = cloudAlphaTowards(
+      [sunPre.direction.x, sunPre.direction.y, sunPre.direction.z],
+      cloudParams,
+    );
     const rig = computeLightRig(
       epochMinutes,
       humidity,
@@ -819,6 +869,8 @@ void main() {
         cloudDensity: wx.profile.cloudDensity,
         cloudDark: wx.profile.cloudDark,
         radiationMist: wx.mist.radiation,
+        greenTint: wx.profile.greenTint,
+        sunOcclusion,
       },
     );
     const sunDir = new THREE.Vector3(rig.sun.direction.x, rig.sun.direction.y, rig.sun.direction.z);
@@ -842,13 +894,32 @@ void main() {
     extras.uHorizonLum.value.setRGB(...rig.horizonHaze);
     extras.uDawnLum.value = rig.dawnLum;
     extras.uDawnDir.value.set(rig.dawnDir[0], rig.dawnDir[1]);
-    extras.uCloudCov.value.set(rig.cloudCov[0], rig.cloudCov[1], rig.cloudCov[2]);
-    extras.uCloudDens.value = rig.cloudDensity;
     extras.uCloudBright.value.setRGB(...rig.cloudBright);
     extras.uCloudDark.value.setRGB(...rig.cloudDarkCol);
-    extras.uCloudTime.value = waterTimeS();
-    extras.uCloudDir.value.set(wx.windDirXZ[0], wx.windDirXZ[1]);
+    extras.uGlowDir.value.set(...rig.cloudGlowDir);
+    extras.uGlowCol.value.setRGB(...rig.cloudGlowCol);
+    extras.uFogLum.value.setRGB(...rig.fogLum);
     extras.uFlash.value = flash;
+    // One write updates the dome, the PMREM bake dome and the star shaders.
+    cloudUniforms.uCloudCov.value.set(cloudParams.covLow, cloudParams.covMid, cloudParams.covHigh);
+    cloudUniforms.uCloudDens.value = cloudParams.density;
+    cloudUniforms.uCloudPuff.value = cloudParams.puff;
+    cloudUniforms.uCloudScroll.value = cloudParams.scroll;
+    cloudUniforms.uCloudFront.value = cloudParams.stormFront;
+    cloudUniforms.uCloudDir.value.set(cloudParams.windDir[0], cloudParams.windDir[1]);
+    cloudUniforms.uCloudTime.value = cloudParams.timeS;
+    // Camera-in-fog veil: optical depth of the mist regimes AT the camera
+    // over a nominal ~700 m sky ray — inside the whiteout belt or a dawn
+    // mist bank the dome itself whites out (the aerial term only fogs
+    // surface fragments; without this the belt was invisible from below and
+    // an abrupt wall inside).
+    const camYTrue = Math.max(0, camera.position.y / verticalScale);
+    const camFogDensity =
+      Math.exp(-camYTrue / 16) * wx.mist.radiation * 14 +
+      Math.exp(-camYTrue / 22) * wx.mist.advection * 125 +
+      wx.mist.whiteout * 550 +
+      Math.exp(-camYTrue / 200) * wx.mist.weather * 8 * 0.4;
+    extras.uCamFog.value = 1 - Math.exp(-9e-5 * camFogDensity * 700);
 
     // Sun (CSM's cascade lights ARE the sun).
     csm.lightDirection.copy(sunDir).negate();
@@ -907,6 +978,7 @@ void main() {
     a.uAdvectionFog.value = wx.mist.advection;
     a.uWhiteout.value.set(520 * verticalScale, 130 * verticalScale, wx.mist.whiteoutBase);
     a.uWeatherMie.value = wx.mist.weather;
+    a.uFogLum.value.set(...rig.fogLum);
     // Rain wetness into the shared ground shader path; wind into the shared
     // wave-energy scale (CPU query + water vertex stage read the same value).
     wetnessUniforms.uRainWet.value = wx.wetness;
@@ -919,16 +991,15 @@ void main() {
     // through (the staged visibility lives in the star vertex stage).
     updateCelestialBuffers(epochMinutes, rig);
     const sunAltDeg = (rig.sun.altitude * 180) / Math.PI;
-    // Cloud cover hides stars and moons (the dome clouds draw UNDER the
-    // celestial passes, so per-pixel occlusion isn't available at this tier —
-    // a global dim by effective cover is the honest approximation).
-    const cloudClear =
-      1 - Math.min(1, (rig.cloudCov[0] + rig.cloudCov[1]) * rig.cloudDensity + rig.cloudCov[2] * 0.25);
-    (starMat.uniforms.uOpacity as { value: number }).value = rig.nightBoost * (0.06 + 0.94 * cloudClear);
+    // Celestial occlusion is PER-BODY now (round 2): each star samples the
+    // cloud field in its vertex stage (gaps keep their stars), and each moon
+    // gets a CPU sample toward its direction — it dims behind thin cloud
+    // and vanishes behind a storm deck, instead of the old global dim.
+    (starMat.uniforms.uOpacity as { value: number }).value = rig.nightBoost;
     (starMat.uniforms.uStarFrac as { value: number }).value = Math.min(1, 0.5 * starDensityMult);
     (starMat.uniforms.uSunAltDeg as { value: number }).value = sunAltDeg;
     (starMat.uniforms.uDawnDir.value as THREE.Vector2).set(rig.dawnDir[0], rig.dawnDir[1]);
-    (serpentMat.uniforms.uOpacity as { value: number }).value = 0.55 * rig.starOpacity * cloudClear;
+    (serpentMat.uniforms.uOpacity as { value: number }).value = 0.55 * rig.starOpacity;
     (serpentMat.uniforms.uSunAltDeg as { value: number }).value = sunAltDeg;
     (serpentMat.uniforms.uDawnDir.value as THREE.Vector2).set(rig.dawnDir[0], rig.dawnDir[1]);
     rig.moons.forEach((m: MoonState, i) => {
@@ -941,11 +1012,14 @@ void main() {
       (moonMats[i].uniforms.uSunDir.value as THREE.Vector3).copy(sunDir);
       // Day wash (stronger after round 3 — a rising daytime moon must not
       // visibly lighten the sky) × rise/set fade × low-altitude extinction
-      // (a moon in the horizon murk is barely there, day or night).
+      // (a moon in the horizon murk is barely there, day or night) × cloud
+      // occlusion toward the moon (glows through thin cloud — the shallow
+      // curve below — and disappears behind thick).
       const horizonFade = THREE.MathUtils.smoothstep(m.altitude, -0.06, 0.06);
       const extinction = 0.3 + 0.7 * THREE.MathUtils.smoothstep(m.altitude, 0.0, 0.3);
+      const moonOcc = cloudAlphaTowards([m.direction.x, m.direction.y, m.direction.z], cloudParams);
       (moonMats[i].uniforms.uDayDim as { value: number }).value =
-        (1 - 0.88 * rig.skyFade) * horizonFade * extinction * (0.08 + 0.92 * cloudClear);
+        (1 - 0.88 * rig.skyFade) * horizonFade * extinction * Math.pow(1 - moonOcc, 1.6);
       mesh.visible = m.altitude > -0.1;
     });
 
@@ -976,7 +1050,8 @@ void main() {
     const bakeStep = Math.abs(sunDir.y) < 0.25 ? 0.004 : 0.025;
     // Weather transitions also change the ambient (an overcast deck greys the
     // IBL), so cloud-cover movement forces a re-bake too.
-    const bakeCover = rig.cloudCov[0] + rig.cloudCov[1] + rig.cloudCov[2] * 0.4;
+    const bakeCover =
+      rig.cloudCov[0] + rig.cloudCov[1] + rig.cloudCov[2] * 0.4 + extras.uCamFog.value * 2;
     if (
       !Number.isFinite(state.current.lastBakeSunY) ||
       Math.abs(sunDir.y - state.current.lastBakeSunY) > bakeStep ||
@@ -1020,6 +1095,8 @@ void main() {
       cloudCover: rig.cloudCov,
       sunCastsShadows: rig.sunCastsShadows,
       lightningFlash: flash,
+      sunOcclusion,
+      camFog: extras.uCamFog.value,
       triangles: gl.info.render.triangles,
       sunLightIntensity: csm.lights[0]?.intensity ?? 0,
       shadowMapEnabled: gl.shadowMap.enabled,

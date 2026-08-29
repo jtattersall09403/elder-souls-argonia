@@ -37,6 +37,11 @@ export interface AerialUniforms {
   uWhiteout: { value: THREE.Vector3 };
   /** Weather fog/haze density multiplier (rain veil, dry haze — regime 4). */
   uWeatherMie: { value: number };
+  /** Asymptotic colour of DENSE fog (exposure-anchored, lightRig.fogLum):
+   * what the mist regimes fade terrain into. Round 2 — the thin-haze
+   * ambient's asymptote is near-black in daylight, which painted black caps
+   * on fogged summits and made mist invisible. */
+  uFogLum: { value: THREE.Vector3 };
 }
 
 /** One shared uniform set: WorldSky writes it, every patched material reads it. */
@@ -55,6 +60,7 @@ export function createAerialUniforms(): AerialUniforms {
     uAdvectionFog: { value: 0 },
     uWhiteout: { value: new THREE.Vector3(520, 130, 0) },
     uWeatherMie: { value: 0 },
+    uFogLum: { value: new THREE.Vector3(0, 0, 0) },
   };
 }
 
@@ -72,6 +78,7 @@ uniform sampler2D uClimateWeather;
 uniform float uAdvectionFog;
 uniform vec3 uWhiteout;
 uniform float uWeatherMie;
+uniform vec3 uFogLum;
 
 // Mean of exp(-y/H) over the straight path between two heights.
 float esPathDensity(float yA, float yB, float H) {
@@ -123,7 +130,15 @@ vec3 esAerialPerspective(vec3 color, vec3 worldPos, vec3 camPos) {
   float phaseM = 0.0796 * (1.0 - g * g) / pow(1.0 + g * g - 2.0 * g * mu, 1.5);
   vec3 sunScatter = uHazeSunLight
     * (scatR * phaseR + vec3(scatM * phaseM)) / max(extinction, vec3(1e-5));
-  vec3 inscatter = (sunScatter + uHazeAmbient) * (1.0 - transmittance);
+  // The ambient inscatter colour depends on WHAT is scattering (round 2):
+  // clear-air Rayleigh/Mie haze keeps the sky-ambient tint, but cloud-water
+  // fog (mist regimes + heavy weather haze) is a bright lit medium — its
+  // asymptote is uFogLum (exposure-anchored white-grey by day), never the
+  // dim haze ambient that painted fogged summits near-black.
+  float scatMFog = uBetaM * ((dMist + dAdv + dWhite + 0.7 * dWx) * dist);
+  float fogFrac = clamp(scatMFog / max(dot(extinction, vec3(0.3333)), 1e-5), 0.0, 1.0);
+  vec3 ambient = mix(uHazeAmbient, uFogLum, fogFrac);
+  vec3 inscatter = (sunScatter * (1.0 - 0.85 * fogFrac) + ambient) * (1.0 - transmittance);
   return color * transmittance + inscatter;
 }
 `;

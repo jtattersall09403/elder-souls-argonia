@@ -76,6 +76,16 @@ export interface LightRig {
   cloudDarkCol: [number, number, number];
   /** Whether the sun light should cast shadows (off under heavy overcast). */
   sunCastsShadows: boolean;
+  /** Asymptotic inscatter colour of DENSE fog (mist regimes / whiteout /
+   * heavy weather haze), exposure-anchored: lit cloud-water is bright
+   * white-grey by day, moonlit-dim by night — never the thin-haze ambient,
+   * whose asymptote renders near-black in daylight (owner round 2: black
+   * summit caps, invisible mist, the purple fly-mode layer). */
+  fogLum: [number, number, number];
+  /** Cloud edge-glow light (silver lining): direction + exposure-anchored
+   * colour — the sun by day, Masser by night (research §8.1). */
+  cloudGlowDir: [number, number, number];
+  cloudGlowCol: [number, number, number];
 }
 
 /** Weather inputs to the light model (Phase 8c, decision 0032): the blended
@@ -93,6 +103,12 @@ export interface WeatherLightIn {
   /** Radiation-mist regime strength (replaces the rig's own dawn-bell mist
    * once the weather machine supplies the causally-gated value). */
   radiationMist?: number;
+  /** Thunderstorm green-grey cast 0..1 (reads in the brighter cloud tones). */
+  greenTint?: number;
+  /** Cloud alpha at the sun's dome position (CPU cloud field, cloudField.ts)
+   * — a cumulus drifting across the sun visibly dims the direct light even
+   * when the state-level sunDim is 0 (scattered fair-weather clouds). */
+  sunOcclusion?: number;
 }
 
 const CLEAR_WEATHER: WeatherLightIn = {
@@ -232,11 +248,14 @@ export function computeLightRig(
   );
   const aboveHorizon = smoothstep(-1.5, 0.5, altDeg);
   // Weather: the cloud deck removes direct sun steeply (overcast means
-  // diffuse light, not a dimmer sun disc on the ground).
-  const directFactor = Math.pow(1 - wx.sunDim, 3);
+  // diffuse light, not a dimmer sun disc on the ground). A discrete cloud
+  // crossing the sun (CPU cloud field) dims on top of the state-level term —
+  // scattered-cumulus days get real passing shade.
+  const sunOcc = Math.min(1, Math.max(0, wx.sunOcclusion ?? 0));
+  const directFactor = Math.pow(1 - wx.sunDim, 3) * (1 - 0.85 * sunOcc);
   const sunIntensity =
     (100_000 * Math.pow(sinAlt, 1.15) + 350 * aboveHorizon) * aboveHorizon * directFactor;
-  const sunCastsShadows = sunIntensity > 1 && wx.sunDim < 0.6;
+  const sunCastsShadows = sunIntensity > 1 && wx.sunDim < 0.6 && sunOcc < 0.8;
 
   // Moonlight: Masser is the key; full Masser high in a clear sky ≈ 0.3 lx.
   // Gated OFF while the sun is up (round 3: a daytime moon must not be a
@@ -265,12 +284,15 @@ export function computeLightRig(
   // the dome/IBL actually emit right after sunrise and blew the scene out
   // (owner round 3). Smooth by construction; every stop is a one-line tune.
   // Weather: an overcast/storm day is physically several times dimmer — lift
-  // the exposure part-way (≈ +1 stop at full storm) so heavy weather reads
-  // moody, not unplayably dark. Daylight-gated: night exposure is already
-  // floored and must keep its moon-driven ordering.
+  // the exposure PART-way so heavy weather reads moody but playable. Round 2:
+  // lift cut 1.2 → 0.6 — the old value cancelled most of the storm darkening
+  // and flattened the rain→downpour→squall ladder the owner wants steep.
+  // Daylight-gated: night exposure is already floored and must keep its
+  // moon-driven ordering. (Passing cumulus shade — sunOcc — deliberately
+  // does NOT lift exposure: a cloud shadow should read as a real dip.)
   const daylightGate = smoothstep(-6, 12, altDeg);
   const exposureTarget =
-    authoredExposure(altDeg, moonIntensity) * (1 + 1.2 * wx.sunDim * daylightGate);
+    authoredExposure(altDeg, moonIntensity) * (1 + 0.6 * wx.sunDim * daylightGate);
 
   // Sky dome: turbidity from the climate humidity at the camera —
   // border-mountain air is crisp, lowland air milky (module 55 §97). Mie is
@@ -450,23 +472,67 @@ export function computeLightRig(
   // Day: white lit faces warming toward the low sun; night: near-black
   // silhouettes floored just under the night sky so they read as shapes.
   const cloudWarmth = 1 - smoothstep(2, 20, altDeg);
-  const cloudTint = mix3([1, 1, 1], [1, 0.62, 0.38], 0.85 * cloudWarmth);
+  // Warm day tint desaturates to cool moonlit silver at night (round 2:
+  // night clouds must read blue-grey, not leftover sunset peach).
+  const cloudTint = mix3(
+    [0.85, 0.9, 1.02],
+    mix3([1, 1, 1], [1, 0.62, 0.38], 0.85 * cloudWarmth),
+    skyFade,
+  );
   const dayBrightScreen =
     (0.34 + 0.42 * smoothstep(0, 15, altDeg)) * (1 - 0.35 * wx.cloudDark);
   const moonGlowC = masser.illuminatedFraction * Math.sqrt(moonUp);
-  const nightBrightScreen = 0.011 + 0.02 * moonGlowC;
+  // Moonlit cloud faces brightened (round 2: cloudy nights were unreadable —
+  // a moonlit deck now sits clearly above the night sky, an unlit one below).
+  const nightBrightScreen = 0.012 + 0.05 * moonGlowC;
   const brightScreen = nightBrightScreen + (dayBrightScreen - nightBrightScreen) * skyFade;
   const darkScreen = brightScreen * (0.42 - 0.3 * wx.cloudDark) + 0.006;
   const darkTint = mix3(cloudTint, [0.92, 0.96, 1.05], 0.5);
+  // Thunderstorm green cast (round 2, research §8.3): shifts the BRIGHTER
+  // cloud tones toward grey-teal — the darkest bases stay neutral black.
+  const green = Math.min(1, Math.max(0, wx.greenTint ?? 0));
+  const greenBright = mix3(cloudTint, [0.78 * cloudTint[0], cloudTint[1], 0.88 * cloudTint[2]], green);
   const cloudBright: [number, number, number] = [
-    Math.max((cloudTint[0] * brightScreen) / exposureTarget, nightZenith[0] * 0.6),
-    Math.max((cloudTint[1] * brightScreen) / exposureTarget, nightZenith[1] * 0.6),
-    Math.max((cloudTint[2] * brightScreen) / exposureTarget, nightZenith[2] * 0.6),
+    Math.max((greenBright[0] * brightScreen) / exposureTarget, nightZenith[0] * 0.6),
+    Math.max((greenBright[1] * brightScreen) / exposureTarget, nightZenith[1] * 0.6),
+    Math.max((greenBright[2] * brightScreen) / exposureTarget, nightZenith[2] * 0.6),
   ];
   const cloudDarkCol: [number, number, number] = [
     Math.max((darkTint[0] * darkScreen) / exposureTarget, nightZenith[0] * 0.45),
     Math.max((darkTint[1] * darkScreen) / exposureTarget, nightZenith[1] * 0.45),
     Math.max((darkTint[2] * darkScreen) / exposureTarget, nightZenith[2] * 0.45),
+  ];
+
+  // Dense-fog inscatter colour (round 2): authored in SCREEN terms like the
+  // clouds. Day fog is bright white-grey (lit cloud-water), storm fog darker
+  // grey, night fog a dim moonlit veil just above the night sky. This is
+  // what the mist regimes/whiteout/heavy haze fade INTO — the thin-haze
+  // ambient asymptote rendered near-black in daylight and was the root of
+  // the black summit caps / purple layer / invisible-mist reports.
+  const fogDayScreen = 0.68 * (1 - 0.42 * wx.sunDim);
+  const fogNightScreen = 0.028 + 0.045 * moonGlowC;
+  const fogScreen = fogNightScreen + (fogDayScreen - fogNightScreen) * skyFade;
+  const fogTint = mix3([0.82, 0.87, 1.0], [0.94, 0.96, 1.0], skyFade);
+  const fogLum: [number, number, number] = [
+    (fogTint[0] * fogScreen) / exposureTarget,
+    (fogTint[1] * fogScreen) / exposureTarget,
+    (fogTint[2] * fogScreen) / exposureTarget,
+  ];
+
+  // Cloud edge glow (silver lining, research §8.1): lit by the sun when it
+  // is up, else by Masser. Screen-anchored and small — it lands only on the
+  // band-passed cloud edges near the glow direction.
+  const sunGlow = smoothstep(-4, 2, altDeg);
+  const glowFromMoon = (1 - sunGlow) * moonGlowC;
+  const glowScreen = 0.85 * sunGlow + 0.12 * glowFromMoon;
+  const glowTintDay: [number, number, number] = [1, 0.92 - 0.25 * cloudWarmth, 0.8 - 0.35 * cloudWarmth];
+  const glowTint = mix3(MOONLIGHT, glowTintDay, sunGlow);
+  const glowSrc = sunGlow >= glowFromMoon ? sun.direction : masser.direction;
+  const cloudGlowDir: [number, number, number] = [glowSrc.x, glowSrc.y, glowSrc.z];
+  const cloudGlowCol: [number, number, number] = [
+    (glowTint[0] * glowScreen) / exposureTarget,
+    (glowTint[1] * glowScreen) / exposureTarget,
+    (glowTint[2] * glowScreen) / exposureTarget,
   ];
 
   return {
@@ -504,5 +570,8 @@ export function computeLightRig(
     cloudBright,
     cloudDarkCol,
     sunCastsShadows,
+    fogLum,
+    cloudGlowDir,
+    cloudGlowCol,
   };
 }
