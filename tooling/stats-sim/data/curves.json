@@ -124,7 +124,7 @@
     "skillDivisor": 50
   },
   "levelUp": {
-    "_": "10 major/minor ranks = one pending level; misc ranks count 3:1 once majors/minors are maxed.",
+    "_": "10 major/minor ranks = one pending level. miscRankRatio is the 3:1 tail: a rank in a miscellaneous skill, or in any skill already sitting at 100, is worth a third of a level-credit. That tail is PER SKILL and ungated - the earlier reading (3:1 only once every major and minor had reached 100) threw away about two use-points in five and was the single largest cause of the campaign model's stalled levelling.",
     "ranksPerLevel": 10,
     "miscRankRatio": 3,
     "costBase": 40,
@@ -236,10 +236,10 @@
     "note": "you may hang still and recover restOnHoldRegenFraction of normal stamina regen; falling costs the fall-damage rules in module 76 \u00a7122"
   },
   "worthiness": {
-    "_": "A blow worth this fraction of the target's health is a full use-point (module 76 \u00a7120.2). Chip damage on a sponge is worth almost nothing, which is the anti-grind rule; and after the sixth connect on the same actor the rest of the fight is worth less, which stops long fights being a skill mill.",
+    "_": "A blow worth this fraction of the target's health is a full use-point (module 76 \u00a7120.2). Chip damage on a sponge is worth almost nothing, which is the anti-grind rule. Damping stops a long fight being a skill mill - but at 6 connects worth 0.35 it went too far: a real boss fight ended up teaching you less than a rat did, which is backwards. Relaxed to 8 connects at 0.55. Worthiness and damping scale COMBAT AND DEFENCE only; blocks, casts, brews, locks, persuasions, repairs and travel have no magnitude to scale by (see data/rules-argonia.json).",
     "fullUseDamageFraction": 0.15,
     "minUseValue": 0.05,
-    "connectsBeforeDamping": 6,
-    "dampedValue": 0.35
+    "connectsBeforeDamping": 8,
+    "dampedValue": 0.55
   }
 }

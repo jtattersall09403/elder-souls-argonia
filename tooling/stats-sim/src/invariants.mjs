@@ -9,6 +9,8 @@
 
 import { data, makeBuild, bandActor, duel, breathSeconds } from "./model.mjs";
 
+const SKILL_SPEC = Object.fromEntries(data.skills.skills.map((s) => [s.id, s.spec]));
+
 export const THRESHOLDS = {
   referenceTolerance: 0.03,
   d5OneShotFraction: 0.9,
@@ -32,10 +34,19 @@ export const THRESHOLDS = {
   breathCompetentMargin: 1.1,
   loopDivergenceFactor: 1.5,
   vasteiSittingThrottle: 5,
-  campaignEndLevel: [12, 40],
+  campaignEndLevel: [40, 72],
   campaignEndWeaponSkill: 90,
   campaignMaxEarlyDeaths: 60,
   campaignLevelSpread: 2.5,
+  campaignEarlyDeathWindow: 0.4,
+  campaignMaxZeroUseLevelSkills: 0,
+  // What a playthrough is shaped like. Wide on purpose — a smell test on the
+  // content model, not a target to tune toward.
+  contentEncountersPerHour: [8, 14],
+  contentCombatShare: [0.12, 0.3],
+  contentTravelKm: [700, 1300],
+  contentMovingShare: [0.3, 0.55],
+  contentMaxUseDiscardRate: 0.02,
 };
 
 /** Which build a band is *meant* for — the ladder's contract with the player. */
@@ -50,6 +61,8 @@ export const BAND_FOR_CHECKPOINT = {
 };
 
 const near = (actual, expected, tol) => Math.abs(actual - expected) <= Math.abs(expected) * tol;
+const n = (x) => x.toFixed(1);
+const pct = (x) => `${(x * 100).toFixed(0)} %`;
 
 export function runInvariants(results) {
   const out = [];
@@ -188,8 +201,17 @@ export function runInvariants(results) {
     const levels = [];
     for (const run of results.campaign) {
       const end = run.timeline.at(-1);
-      const early = run.timeline.slice(0, 2).reduce((a, t) => a + t.deaths, 0);
-      const late = run.timeline.slice(2).reduce((a, t) => a + t.deaths, 0);
+      // Front-loading is a claim about HOURS, not about act indices — the
+      // content model is free to split its acts however the quest plan wants,
+      // so each act's deaths are placed at its midpoint.
+      const cut = end.hours * T.campaignEarlyDeathWindow;
+      let prev = 0;
+      let early = 0;
+      let late = 0;
+      for (const t of run.timeline) {
+        ((prev + t.hours) / 2 <= cut ? (early += t.deaths) : (late += t.deaths));
+        prev = t.hours;
+      }
       levels.push(end.level);
       if (end.level < T.campaignEndLevel[0] || end.level > T.campaignEndLevel[1]) {
         fails.push(`${run.label}: ends at level ${end.level}`);
@@ -208,7 +230,103 @@ export function runInvariants(results) {
     };
   });
 
-  check("no-deferral-advantage", "hoarding vastei instead of spending it at each sitting buys nothing and costs power", () => {
+  check(
+    "content-model-is-a-playthrough",
+    "the simulated content adds up to a game somebody could actually be playing",
+    () => {
+      // The old content model reported 6.5 fights an hour with combat at 2.9 %
+      // of wall-clock and 414 km of travel at a mean 0.79 m/s — i.e. a game in
+      // which the player is neither fighting nor moving, for a hundred and
+      // fifty hours. Nothing in the harness objected, because nobody had
+      // written down what a playthrough is *shaped* like. This is that, and
+      // the bounds are deliberately wide: it is a smell test, not a target.
+      const fails = [];
+      for (const m of results.pacing.mix) {
+        const b = (name, v, lo, hi) => {
+          if (v < lo || v > hi) fails.push(`${m.label}: ${name} ${v} outside ${lo}-${hi}`);
+        };
+        b("fights/hour", m.encountersPerHour, ...T.contentEncountersPerHour);
+        b("combat share", m.combatShareOfWallClock, ...T.contentCombatShare);
+        b("travel km", m.travelKm, ...T.contentTravelKm);
+        b("moving share", m.movingShareOfWallClock, ...T.contentMovingShare);
+        if (m.swimShareOfWallClock <= 0) fails.push(`${m.label}: swimming is never simulated`);
+      }
+      // Use delivered into a skill that cannot absorb it at all. Under our
+      // rules this must be ~zero: a maxed skill keeps earning, and no rank is
+      // worth nothing. If it climbs, the misc/maxed credit fix has regressed.
+      for (const d of results.pacing.discard) {
+        if (d.useDiscardRate > T.contentMaxUseDiscardRate) {
+          fails.push(`${d.label}: ${(d.useDiscardRate * 100).toFixed(1)} % of use-points discarded`);
+        }
+      }
+      const mix = results.pacing.mix;
+      return {
+        pass: fails.length === 0,
+        detail: fails.length
+          ? fails.slice(0, 6).join("; ")
+          : `${n(Math.min(...mix.map((m) => m.encountersPerHour)))}-${n(Math.max(...mix.map((m) => m.encountersPerHour)))} fights/h, combat ${pct(Math.min(...mix.map((m) => m.combatShareOfWallClock)))}-${pct(Math.max(...mix.map((m) => m.combatShareOfWallClock)))}, moving ${pct(Math.min(...mix.map((m) => m.movingShareOfWallClock)))}-${pct(Math.max(...mix.map((m) => m.movingShareOfWallClock)))} over ${Math.min(...mix.map((m) => m.travelKm))}-${Math.max(...mix.map((m) => m.travelKm))} km; nothing discarded`,
+      };
+    },
+  );
+
+  check(
+    "morrowind-known-answer",
+    "the campaign engine reproduces TES III's documented pacing when fed Morrowind's own rules",
+    () => {
+      // THE STANDING RED LIGHT. Morrowind is the explicit reference for this
+      // design and its pacing is published: level 2 in the first hour or two,
+      // 10-14 by hour 20, 30-45 by 100-120, Athletics and Acrobatics maxed by
+      // 50-70 h without grinding, a Security-major thief capping the skill in a
+      // normal playthrough, and a main quest that finishes around level 15-25.
+      // The rule set (data/rules-morrowind.json) is known exactly and must
+      // NEVER be tuned; if this goes red, the fault is in our engine or in
+      // data/content-vvardenfell.json, which is an estimate. It exists because
+      // the campaign model previously reported six builds reaching level 2-4
+      // after nineteen hours and 16-27 after a hundred and fifty, and nothing
+      // in the harness noticed.
+      const k = results.knownAnswer;
+      const failed = k.checks.filter((c) => !c.pass);
+      return {
+        pass: failed.length === 0,
+        detail: failed.length
+          ? failed.map((c) => `${c.id}: wanted ${c.expected}, got ${JSON.stringify(c.actual)}`).join("; ")
+          : `all ${k.checks.length} documented answers reproduced (level 2 by hour ${k.checks[0].actual.max}, ${k.band.levelAtHour.find((x) => x.hours === 20).min}-${k.band.levelAtHour.find((x) => x.hours === 20).max} by hour 20, ${k.band.levelAtHour.find((x) => x.hours === 120).min}-${k.band.levelAtHour.find((x) => x.hours === 120).max} by hour 120)`,
+      };
+    },
+  );
+
+  check(
+    "no-level-bearing-skill-is-dead-content",
+    "every major and minor skill of every campaign build is actually exercised by ordinary play",
+    () => {
+      // The distortion that caused the pacing gap: four of the warrior's ten
+      // level-bearing skills and five of the mage's received literally zero use
+      // across a whole playthrough, because each archetype exercised one weapon
+      // and one armour skill. A skill that never moves is a level the player
+      // cannot reach.
+      const fails = [];
+      for (const run of results.campaign) {
+        const cls = data.classes.classes.find((c) => c.id === run.classId);
+        for (const id of [...cls.majors, ...cls.minors]) {
+          const start =
+            data.classes.startingSkill +
+            (data.races.races.find((r) => r.id === run.race).skillBonuses[id] ?? 0) +
+            (cls.majors.includes(id) ? data.classes.majorBonus : data.classes.minorBonus) +
+            (SKILL_SPEC[id] === cls.specialization ? data.classes.specializationBonus : 0);
+          if (run.skills[id] <= start) fails.push(`${run.label}: ${id} never moved off ${start}`);
+        }
+      }
+      const dead = fails.length;
+      return {
+        pass: dead <= T.campaignMaxZeroUseLevelSkills,
+        detail: dead
+          ? fails.slice(0, 8).join("; ")
+          : `all ${results.campaign.length} builds exercise every one of their ten level-bearing skills`,
+      };
+    },
+  );
+
+  check("no-deferral-advantage","hoarding vastei instead of spending it at each sitting buys nothing and costs power", () => {
     const d = results.deferral;
     const pass = d.advantage <= 0 && d.hoard.meanHealthPerRank < d.spend.meanHealthPerRank;
     return { pass, detail: `hoarder ends with ${d.advantage} extra attribute points and a mean health of ${d.hoard.meanHealthPerRank} against the spender's ${d.spend.meanHealthPerRank}` };

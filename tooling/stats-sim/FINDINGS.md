@@ -9,9 +9,11 @@ numbers are `data/`; how to run it is [README.md](README.md).**
 
 Findings 1–11 come from round 1 (2026-08-29, before the owner's lethality
 ruling); 12–19 from round 2, which re-solved the danger ladder from "blows that
-kill you" and added the whole-playthrough runs. The round-1 fixes all still
-stand, but round-1 *values* quoted below are pre-retune — where a number
-matters, trust the harness output over this file.
+kill you" and added the whole-playthrough runs; **20–28 from round 3, which
+rebuilt the campaign model after measuring it against Morrowind and finding it
+was the content, not the rules, that was wrong.** Earlier fixes all still
+stand, but *values* quoted below are pre-retune — where a number matters, trust
+the harness output over this file.
 
 ## Round 1 — eleven anomalies
 
@@ -52,6 +54,48 @@ a light hit and 56 % of a D5 blow).
 | 17 | After Act III, nobody dies at all. | **Reported, not fixed** — see *Open* below. |
 | 18 | Gold outruns its sinks by the endgame (~60 k banked). | **Reported, not fixed** — see *Open* below. |
 | 19 | Non-social builds finish with Speechcraft under 20. | **Reported, not fixed** — see *Open* below. |
+
+## Round 3 — the campaign model was the thing that was wrong
+
+Round 2's whole-game runs reported six builds at **level 2–4 after 19 hours and
+16–27 after 150** against Morrowind's 1–2 h and 45–55. The decisive experiment:
+substituting **Morrowind's own flat use values** into the engine still produced
+level 4 at hour 19 — so the fault was not in the rules. It was in the content.
+
+| # | Finding | Resolution |
+|---|---|---|
+| 20 | Rules and content were fused into one file, so "is our exchange rate wrong or is our world empty?" was not a question the harness could ask. | **Fixed**: `rules-{argonia,morrowind}.json` × `content-{argonia,vvardenfell}.json`, resolved by `src/rules.mjs`. `$from` reads shared constants out of `curves.json` rather than copying them. |
+| 21 | The **misc/maxed 3:1 tail was gated** on every major *and* minor reaching 100 — which never happens in a real game — so a rank in a miscellaneous skill was worth **nothing**, and a skill at 100 earned nothing at all. About two use-points in five bought no progress. | **Fixed as a design bug**: the tail is per-skill and ungated, and a maxed skill keeps earning. Measured use-point discard is now **0 %**; 21–32 % of level *credit* is still forgone, which is the 1/3 tail doing its intended job rather than the gate throwing points away. |
+| 22 | **6.5 fights/hour, combat 2.9 % of wall-clock, 414 km of travel at a mean 0.79 m/s** — a hundred and fifty hours in which the player neither fights nor moves. | **Fixed**: 10.6–10.8 fights/hour, combat 15–24 %, 925–973 km, moving 39–41 %. |
+| 23 | `swimMinutesPerQuest` was authored and **never read by any code**, in a game whose stated pillars include swimming. | **Fixed**: wired to Athletics at Morrowind's swimming rate and raised in the deep-marsh acts; 10–12 % of wall-clock. |
+| 24 | Each archetype exercised **one weapon skill and one armour skill**. Four of the warrior's ten level-bearing skills and five of the mage's received *zero* use across 146 hours — the single largest cause of the stall. | **Fixed**: explicit per-archetype verb profiles in the content file, bent toward each character's own majors and minors. Guarded by `no-level-bearing-skill-is-dead-content`. |
+| 25 | Armour and Block keyed off the **player's own blow count**, estimated as `enemyHealth / perHit` — which measured **1.36–1.52× too high** and was the wrong event anyway. | **Fixed**: `simulateFight` returns real `swings`, `enemySwings`, `damageDealt` and `blocks`; defence keys to incoming swings that land. Pure accounting — no fight resolves differently. |
+| 26 | ~199 locks and ~290 conversations per campaign put Security and Speechcraft **over a thousand hours** from maximum. | **Fixed**: a Security-major thief now caps it at hour 96, inside the 90–120 h target. |
+| 27 | Nothing in the harness could tell a plausible pacing curve from an implausible one. | **Fixed**: `morrowind-known-answer` reproduces six published facts about TES III from Morrowind's own rules, and `content-model-is-a-playthrough` guards the content shape. |
+| 28 | Damping made a long fight against a big actor teach **less** than a short one against a rat. | **Fixed**: relaxed from 6 connects at 0.35 to 8 at 0.55. |
+
+Finding 19 (non-social builds finish with Speechcraft under 20) is **partly
+resolved**: warriors now finish at 37–39 rather than 8–20, because the verb
+profile gives them the talking they actually do. It remains a content
+constraint, not a number — see *Open*.
+
+**Open from round 3 — for the orchestrator, not for this harness.**
+
+- **Health per level.** Module 76 states `End/10`; `curves.json` carries
+  `1.5 + End/15`, which is what D0–D5 was calibrated against (+18 % apart by
+  level 50). Switching was tried and immediately fails `getting-hit-matters`.
+  It is one line in `curves.json` **plus one ladder recalibration**, which the
+  orchestrator owns. Change both together or neither.
+- **Our own pacing runs hot at the top.** Argonia rules × Argonia content gives
+  **50–65 by hour 150** against a 45–55 target. This is arithmetic, not a bug:
+  our use values are Morrowind's, and we *add* an ungated 1/3 credit for
+  misc and maxed skills, so identical content must produce a higher level. The
+  same content under Morrowind's rules gives 46–58. Either accept ~50–65, or
+  cut content ~12 % (which breaks the encounter/travel targets), or restate the
+  design target.
+- **There is no hard level ceiling.** A skill at 100 keeps taking ranks at
+  `(101 × classFactor × specFactor)` forever, each worth 1/3 of a credit, so
+  level is bounded only by hours played — not by the "~75" the design assumes.
 
 ## Open — reported, not fixed (forward work)
 

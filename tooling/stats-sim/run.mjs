@@ -12,12 +12,14 @@
 
 import {
   referenceCheck, matchupMatrix, namedArchetypeTable, buildParity, godCheck, burdenSweep,
-  breathSweep, climbSweep, sneakSweep, progressionSweep, campaignSweep, deferralCheck, economySweep, loopHunt, softRequirementCheck,
+  breathSweep, climbSweep, sneakSweep, progressionSweep, campaignSweep, argoniaPacing, argoniaMainQuestOnly,
+  morrowindKnownAnswer, deferralCheck, economySweep, loopHunt, softRequirementCheck,
 } from "./src/sweeps.mjs";
 import { runInvariants } from "./src/invariants.mjs";
 
 const argv = new Set(process.argv.slice(2));
 
+const campaign = campaignSweep();
 const results = {
   reference: referenceCheck(),
   named: namedArchetypeTable(),
@@ -28,7 +30,10 @@ const results = {
   climb: climbSweep(),
   sneak: sneakSweep(),
   progression: progressionSweep(),
-  campaign: campaignSweep(),
+  campaign,
+  pacing: argoniaPacing(campaign),
+  mainQuestOnly: argoniaMainQuestOnly(),
+  knownAnswer: morrowindKnownAnswer(),
   deferral: deferralCheck(),
   economy: economySweep(),
   loops: loopHunt(),
@@ -122,6 +127,51 @@ for (const run of results.campaign) {
       `  ${t.act.padEnd(9)}${String(t.hours).padStart(4)}${String(t.level).padStart(5)}${String(t.deaths).padStart(8)}${String(t.health).padStart(6)}${String(t.armourRating).padStart(5)}${String(t.weaponSkill).padStart(8)}${String(t.armourSkillValue).padStart(7)}${String(t.athletics).padStart(6)}${String(t.acrobatics).padStart(6)}${String(t.speechcraft).padStart(7)}${String(t.attributePoints).padStart(7)}${String(t.gold).padStart(8)}  ${t.climb25m}`,
     );
   }
+}
+
+// Pacing is printed as a BAND, never as a single integer. "The campaign ends at
+// level 22" is the shape of claim that let the old model be wrong for a hundred
+// and fifty simulated hours without anybody noticing: it hides that one build
+// got there at hour 60 and another never did.
+const band = (rows) =>
+  rows.map((x) => `h${x.hours}: ${x.min}-${x.max}`).join("  ·  ");
+const firstReached = (rows) =>
+  rows
+    .map((x) => (x.reached ? `L${x.level} @ ${n(x.min)}-${n(x.max)} h${x.reached < x.of ? ` (${x.reached}/${x.of})` : ""}` : `L${x.level} unreached`))
+    .join("  ·  ");
+
+h("KNOWN-ANSWER TEST — Morrowind's rules against an estimate of Morrowind's content");
+console.log("The rules half is documented and never tuned; content-vvardenfell.json is the estimate and is the only thing tuned to make this pass.");
+for (const c of results.knownAnswer.checks) {
+  console.log(`  ${c.pass ? "PASS" : "FAIL"}  ${c.id.padEnd(46)} want ${String(c.expected).padEnd(18)} got ${JSON.stringify(c.actual)}`);
+}
+console.log(`  level band   ${band(results.knownAnswer.band.levelAtHour)}`);
+console.log(`  first at     ${firstReached(results.knownAnswer.band.hourAtLevel)}`);
+
+h("our own pacing, as a band across all six builds (Argonia rules x Argonia content)");
+console.log(`  level band   ${band(results.pacing.levelAtHour)}`);
+console.log("  target       h2: 2  ·  h20: 10-14  ·  h40: 20-25  ·  h150: 45-55");
+console.log(`  first at     ${firstReached(results.pacing.hourAtLevel)}`);
+console.log(`  end levels   ${results.pacing.endLevels.map((e) => `${e.level} @ ${n(e.hours)}h`).join(" · ")}`);
+console.log(`  main quest alone (${results.mainQuestOnly.hours} h): level ${results.mainQuestOnly.min}-${results.mainQuestOnly.max}`);
+
+// The discard rate, as a first-class output. A progression model that delivers
+// use-points into skills which cannot absorb them is lying about its own pacing,
+// and the size of that lie belongs in the report rather than in a comment.
+h("use-point discard rate (points delivered that bought no level credit)");
+console.log(`  ${"build".padEnd(44)}${"delivered".padStart(10)}${"atCap".padStart(8)}${"zero".padStart(8)}${"1/3".padStart(8)}${"discard".padStart(9)}${"credit lost".padStart(12)}`);
+for (const d of results.pacing.discard) {
+  console.log(
+    `  ${d.label.padEnd(44)}${String(d.pointsDelivered).padStart(10)}${(d.atCapRate * 100).toFixed(1).padStart(7)}%${(d.zeroCreditRate * 100).toFixed(1).padStart(7)}%${(d.partialCreditRate * 100).toFixed(1).padStart(7)}%${(d.useDiscardRate * 100).toFixed(1).padStart(8)}%${(d.levelCreditForgoneRate * 100).toFixed(1).padStart(11)}%`,
+  );
+}
+
+h("what an hour of play actually contains (the content model, measured back out)");
+console.log(`  ${"build".padEnd(44)}${"fights/h".padStart(9)}${"combat".padStart(8)}${"moving".padStart(8)}${"swim".padStart(7)}${"km".padStart(6)}${"blows/fight".padStart(12)}${"locks".padStart(7)}${"talks".padStart(7)}${"brews".padStart(7)}`);
+for (const m of results.pacing.mix) {
+  console.log(
+    `  ${m.label.padEnd(44)}${n(m.encountersPerHour).padStart(9)}${(m.combatShareOfWallClock * 100).toFixed(0).padStart(7)}%${(m.movingShareOfWallClock * 100).toFixed(0).padStart(7)}%${(m.swimShareOfWallClock * 100).toFixed(0).padStart(6)}%${String(m.travelKm).padStart(6)}${n(m.connectsPerFight).padStart(12)}${String(m.locks).padStart(7)}${String(m.persuasions).padStart(7)}${String(m.brews).padStart(7)}`,
+  );
 }
 
 h("the deferral exploit");

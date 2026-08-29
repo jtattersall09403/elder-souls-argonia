@@ -25,7 +25,6 @@ export const data = {
   builds: read("builds.json"),
   magic: read("magic.json"),
   economy: read("economy.json"),
-  campaign: read("campaign.json"),
   races: read("races.json"),
   classes: read("classes.json"),
 };
@@ -364,11 +363,27 @@ export function attackProfile(build, target) {
  * is how much of the enemy's output an ordinarily competent player does not
  * eat — the Souls layer is player skill, and the sweeps run several values of
  * it rather than pretending there is one right number.
+ *
+ * It also returns the fight's real EVENT COUNTS — how many blows the player
+ * landed, how many the enemy threw, how much damage went each way. The campaign
+ * model used to estimate the player's blow count as `enemyHealth / perHit`,
+ * which measured 1.36-1.52x too high (it ignored the rotation's heavy attack,
+ * the sneak opener and overkill), and then keyed armour and Block off that
+ * *offensive* number rather than off incoming swings. `blockShare` is pure
+ * accounting: it splits the enemy's swings into blocked and unblocked for the
+ * caller's skill bookkeeping and does NOT change the fight, so every existing
+ * duel and ladder invariant resolves exactly as before.
  */
 export function simulateFight(
   build,
   enemy,
-  { avoidance = 0.35, maxSeconds = 600, difficulty = C.difficulty.enemyDamageMultiplier, opener = null } = {},
+  {
+    avoidance = 0.35,
+    maxSeconds = 600,
+    difficulty = C.difficulty.enemyDamageMultiplier,
+    opener = null,
+    blockShare = 0,
+  } = {},
 ) {
   const profile = attackProfile(build, enemy);
   const potions = data.economy.potions;
@@ -384,6 +399,9 @@ export function simulateFight(
   let action = 0;
   let openerMultiplier = opener ? sneakMultiplier(opener.weapon, opener.sneakSkill) : 1;
   let enemyNext = enemy.attackPeriod;
+  let swings = 0;
+  let enemySwings = 0;
+  let damageDealt = 0;
   const enemyPerHit =
     damageAfterArmour(incomingDamage(enemy.damage, difficulty), build.armourRating) * (1 - avoidance);
 
@@ -397,6 +415,7 @@ export function simulateFight(
       resource = Math.min(profile.pool, resource + profile.regen * dt);
       while (t >= enemyNext) {
         health -= enemyPerHit;
+        enemySwings += 1;
         enemyNext += enemy.attackPeriod;
       }
     }
@@ -423,16 +442,26 @@ export function simulateFight(
       continue;
     }
     resource -= next.cost;
-    enemyHealth -= next.damage * openerMultiplier;
+    const landed = next.damage * openerMultiplier;
+    enemyHealth -= landed;
+    damageDealt += Math.max(0, Math.min(landed, enemyHealth + landed));
+    swings += 1;
     openerMultiplier = 1;
     action += 1;
     step(next.seconds);
   }
 
+  const blocks = Math.round(enemySwings * blockShare);
   return {
     mode: profile.mode,
     won: enemyHealth <= 0 && health > 0,
     seconds: t,
+    swings,
+    enemySwings,
+    blocks,
+    damageDealt,
+    damageTaken: Math.max(0, build.health - health),
+    meanDamagePerSwing: swings ? damageDealt / swings : 0,
     healthLeft: Math.max(0, health),
     healthFraction: Math.max(0, health) / build.health,
     potionsUsed,
@@ -482,16 +511,21 @@ export function offenceSummary(build, enemy) {
 
 // -------------------------------------------------------- progression model
 
-/** Vastei earned while taking one rank of a skill. Worthiness cancels out by construction. */
-export function vasteiPerRank(skillValue, effSkill, classFactor, specFactor) {
+/**
+ * Vastei earned while taking one rank of a skill. Worthiness cancels out by
+ * construction. `cfg` lets the campaign engine supply a rule set's own vastei
+ * block instead of ours, which is what makes the Morrowind known-answer run
+ * possible without a second copy of the formula.
+ */
+export function vasteiPerRank(skillValue, effSkill, classFactor, specFactor, cfg = C.vastei) {
   const points = (skillValue + 1) * classFactor * specFactor;
-  return C.vastei.perUse * points * (1 + effSkill / C.vastei.skillDivisor);
+  return cfg.perUse * points * (1 + effSkill / cfg.skillDivisor);
 }
 
-export function attributeCost(level, currentValue, nthInSitting) {
-  const base = C.levelUp.costBase * Math.pow(1 + level / C.levelUp.costLevelDivisor, C.levelUp.costLevelExponent);
-  const valueTerm = Math.pow(1 + currentValue / C.levelUp.attrValueDivisor, C.levelUp.attrValueExponent);
-  const sittingTerm = 1 + C.levelUp.sittingIncrement * (nthInSitting - 1);
+export function attributeCost(level, currentValue, nthInSitting, cfg = C.levelUp) {
+  const base = cfg.costBase * Math.pow(1 + level / cfg.costLevelDivisor, cfg.costLevelExponent);
+  const valueTerm = Math.pow(1 + currentValue / cfg.attrValueDivisor, cfg.attrValueExponent);
+  const sittingTerm = 1 + cfg.sittingIncrement * (nthInSitting - 1);
   return base * valueTerm * sittingTerm;
 }
 

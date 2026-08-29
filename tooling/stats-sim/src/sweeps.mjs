@@ -34,6 +34,7 @@ import {
   unarmouredRating,
 } from "./model.mjs";
 import { playCampaign } from "./campaign.mjs";
+import { RULES, CONTENT } from "./rules.mjs";
 
 const BANDS = data.ladder.bands.map((b) => b.id);
 const CHECKPOINTS = data.builds.checkpoints.map((c) => c.id);
@@ -251,17 +252,138 @@ export function progressionSweep() {
   });
 }
 
-/** 7b. Coarse whole-playthrough runs: five plausible characters, act by act. */
+/** The six plausible characters every campaign question is asked of. */
+const CAMPAIGN_BUILDS = [
+  { label: "Argonian spear-warden (medium armour)", classId: "kaal", race: "argonian", archetypeId: "spear" },
+  { label: "Nord shield-and-sword (heavy)", classId: "warrior", race: "nord", archetypeId: "melee" },
+  { label: "Bosmer reed scout (bow, light)", classId: "scout", race: "bosmer", archetypeId: "marksman" },
+  { label: "Breton sap-speaker (destruction)", classId: "mage", race: "breton", archetypeId: "magic" },
+  { label: "Khajiit ledger hand (short blade, stealth)", classId: "thief", race: "khajiit", archetypeId: "stealth" },
+  { label: "Orc greatsword (heavy, no shield)", classId: "warrior", race: "orc", archetypeId: "greatsword" },
+];
+
+/** 7b. Whole-playthrough runs under OUR rules and OUR content, act by act. */
 export function campaignSweep() {
-  const runs = [
-    { label: "Argonian spear-warden (medium armour)", classId: "kaal", race: "argonian", archetypeId: "spear" },
-    { label: "Nord shield-and-sword (heavy)", classId: "warrior", race: "nord", archetypeId: "melee" },
-    { label: "Bosmer reed scout (bow, light)", classId: "scout", race: "bosmer", archetypeId: "marksman" },
-    { label: "Breton sap-speaker (destruction)", classId: "mage", race: "breton", archetypeId: "magic" },
-    { label: "Khajiit ledger hand (short blade, stealth)", classId: "thief", race: "khajiit", archetypeId: "stealth" },
-    { label: "Orc greatsword (heavy, no shield)", classId: "warrior", race: "orc", archetypeId: "greatsword" },
-  ];
-  return runs.map((r) => playCampaign(r));
+  return CAMPAIGN_BUILDS.map((r) =>
+    playCampaign({ ...r, rules: RULES.argonia, content: CONTENT.argonia }),
+  );
+}
+
+/**
+ * Pacing as a BAND across builds, never a single integer. A campaign model that
+ * reports "level 22" has hidden the only interesting thing about it — that one
+ * build got there at hour 90 and another never did.
+ */
+export function pacingBand(runs, hoursOfInterest) {
+  const at = (h) => {
+    const levels = runs.map((r) => r.levelAt(h));
+    return { hours: h, min: Math.min(...levels), max: Math.max(...levels), levels };
+  };
+  const hourAt = (level) => {
+    const hs = runs.map((r) => r.hourAtLevel(level)).filter((x) => x != null);
+    return hs.length ? { level, min: Math.min(...hs), max: Math.max(...hs), reached: hs.length, of: runs.length } : { level, reached: 0, of: runs.length };
+  };
+  return {
+    levelAtHour: hoursOfInterest.map(at),
+    hourAtLevel: [2, 10, 20, 30, 40, 50].map(hourAt),
+    endLevels: runs.map((r) => ({ label: r.label, level: r.timeline.at(-1)?.level ?? r.levelAt(r.hours), hours: r.hours })),
+    discard: runs.map((r) => ({ label: r.label, ...r.discard })),
+    mix: runs.map((r) => ({ label: r.label, ...r.mix })),
+  };
+}
+
+/** 7c. Our own pacing, banded, against the targets in module 76. */
+export function argoniaPacing(runs) {
+  return pacingBand(runs, [2, 5, 10, 20, 40, 80, 120, 150]);
+}
+
+/**
+ * 7d. THE KNOWN-ANSWER TEST: Morrowind's rules against an estimate of
+ * Morrowind's content, checked against TES III's documented pacing.
+ *
+ * The rules half is known exactly and is never tuned. When this misses, the
+ * error is in `data/content-vvardenfell.json` — that file is the hypothesis,
+ * this is the experiment, and a progression engine that cannot reproduce a game
+ * whose answers are published should not be trusted with ours.
+ */
+export function morrowindKnownAnswer() {
+  const rules = RULES.morrowind;
+  const content = CONTENT.vvardenfell;
+  const runs = CAMPAIGN_BUILDS.map((r) => playCampaign({ ...r, rules, content }));
+  // An Acrobat-shaped character: Athletics and Acrobatics both majors.
+  const acrobat = playCampaign({
+    label: "Acrobat-shaped (Athletics + Acrobatics majors)",
+    classId: "marsh-guide", race: "bosmer", archetypeId: "spear", rules, content,
+  });
+  const thief = runs.find((r) => r.classId === "thief");
+  const mainQuestOnly = CAMPAIGN_BUILDS.map((r) =>
+    playCampaign({ ...r, rules, content, tracks: ["quest"], stopHours: content.mainQuestHours }),
+  );
+
+  const band = pacingBand(runs, [1, 2, 20, 100, 120, 150]);
+  const level = (h) => band.levelAtHour.find((x) => x.hours === h);
+  const mqLevels = mainQuestOnly.map((r) => r.levelAt(content.mainQuestHours));
+
+  return {
+    rules: rules.id,
+    content: content.id,
+    band,
+    checks: [
+      {
+        id: "level-2-in-the-first-hour-or-two",
+        expected: "hour 1-2",
+        actual: band.hourAtLevel.find((x) => x.level === 2),
+        pass: (() => {
+          const h = band.hourAtLevel.find((x) => x.level === 2);
+          return h.reached === h.of && h.max <= 2.5 && h.min >= 0.4;
+        })(),
+      },
+      {
+        id: "level-10-14-by-hour-20",
+        expected: "10-14",
+        actual: level(20),
+        pass: level(20).min >= 7.5 && level(20).max <= 17.5,
+      },
+      {
+        id: "level-30-45-by-hour-100-120",
+        expected: "30-45",
+        actual: { at100: level(100), at120: level(120) },
+        pass: level(120).min >= 22.5 && level(100).max <= 56,
+      },
+      {
+        id: "athletics-and-acrobatics-max-by-50-70h",
+        expected: "both by hour 50-70",
+        actual: { athletics: acrobat.maxedAtHour.athletics ?? null, acrobatics: acrobat.maxedAtHour.acrobatics ?? null },
+        pass: [acrobat.maxedAtHour.athletics, acrobat.maxedAtHour.acrobatics].every(
+          (h) => h != null && h >= 37 && h <= 88,
+        ),
+      },
+      {
+        id: "thief-maxes-security-in-a-normal-playthrough",
+        expected: `by hour ${content.totalHours}`,
+        actual: { security: thief.maxedAtHour.security ?? null, finalSecurity: thief.skills.security },
+        pass: thief.maxedAtHour.security != null,
+      },
+      {
+        id: "main-quest-alone-finishes-at-level-15-25",
+        expected: "15-25",
+        actual: { hours: content.mainQuestHours, levels: mqLevels, min: Math.min(...mqLevels), max: Math.max(...mqLevels) },
+        pass: Math.min(...mqLevels) >= 11 && Math.max(...mqLevels) <= 31,
+      },
+    ],
+    acrobat: { maxedAtHour: acrobat.maxedAtHour, finalLevel: acrobat.timeline.at(-1)?.level },
+    runs,
+  };
+}
+
+/** 7e. What our own main quest, played alone, is worth. */
+export function argoniaMainQuestOnly() {
+  const content = CONTENT.argonia;
+  const runs = CAMPAIGN_BUILDS.map((r) =>
+    playCampaign({ ...r, rules: RULES.argonia, content, tracks: ["quest"], stopHours: content.mainQuestHours }),
+  );
+  const levels = runs.map((r) => r.levelAt(content.mainQuestHours));
+  return { hours: content.mainQuestHours, min: Math.min(...levels), max: Math.max(...levels), levels };
 }
 
 /** 8. The deferral exploit: spending every sitting vs hoarding to level 20. */

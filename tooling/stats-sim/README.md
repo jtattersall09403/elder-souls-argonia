@@ -22,14 +22,41 @@ allowed to write (module 76 §103.1).
 |---|---|
 | `data/` | **the canonical numbers** — attributes, skills, curves, races, classes, gear, the D0–D5 ladder, worked enemies, magic, economy, build checkpoints |
 | `src/model.mjs` | the design as arithmetic: curves, derived stats, gear resolution, the fight simulator, the progression simulator |
+| `src/rules.mjs` | loads and resolves the rule and content sets (see below) |
+| `src/campaign.mjs` | the whole-game simulation: rules × content, hour by hour |
 | `src/sweeps.mjs` | the bulk parameter sweeps; each returns plain data and judges nothing |
 | `src/invariants.mjs` | what must be true, with thresholds in one `THRESHOLDS` object |
 | `run.mjs` | runs everything, prints the report, exits non-zero on a failure |
-| [`FINDINGS.md`](FINDINGS.md) | the tuning history: every anomaly the sim found, its fix, and the three left open |
+| [`FINDINGS.md`](FINDINGS.md) | the tuning history: every anomaly the sim found, its fix, and what is left open |
 
 Rules of thumb: a **rule** goes in `model.mjs`, a **number** goes in `data/`, a
 **judgement** goes in `invariants.mjs`. If you find yourself editing a constant
 in a `.mjs` file, it belongs in `data/`.
+
+## Rules × content, and the known-answer test
+
+The campaign simulation takes **two** inputs, because they fail separately:
+
+| | Ours | The reference |
+|---|---|---|
+| **rules** — how a use becomes a rank and a rank becomes a level | `data/rules-argonia.json` | `data/rules-morrowind.json` |
+| **content** — how much of each verb an hour of play contains | `data/content-argonia.json` | `data/content-vvardenfell.json` |
+
+This split exists because the model once reported a whole game finishing at
+level 16–27 against Morrowind's 45–55, and dropping *Morrowind's own use values*
+into it still produced level 4 at hour 19 — which is only diagnosable if you can
+hold one input fixed and swap the other. The fault was the content model.
+
+Anything in a rule set written `{"$from": "curves.levelUp.ranksPerLevel"}` is
+**read out of `curves.json`**, which stays the canonical design-constants file.
+A number lives in one place; the rule set says where it came from.
+
+`morrowind-known-answer` runs **Morrowind's rules × Vvardenfell content** and
+checks six published facts about TES III's pacing. **`rules-morrowind.json` is
+known exactly and must never be tuned** — when that invariant goes red, the
+error is in our engine or in `content-vvardenfell.json`, which is an estimate
+and documents its reasoning rate by rate in its own `_` note. It is the standing
+red light for anyone retuning our progression constants.
 
 ## The invariants
 

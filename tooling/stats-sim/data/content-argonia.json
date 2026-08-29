@@ -1,0 +1,502 @@
+{
+  "_": "How much of each verb an hour of Elder Souls: Argonia actually contains. This is the CONTENT half of the campaign model; the rules half is data/rules-argonia.json. Rebuilt from scratch after the old data/campaign.json was measured against Morrowind and found to be the source of the pacing gap, not the rules; that file is DELETED, this one replaces it, and the invariant `content-model-is-a-playthrough` now guards the shape so it cannot drift back unnoticed. What was wrong with it, and what changed: (1) 6.5 fights/hour across the whole game, so combat was 2.9 % of wall-clock - now a weighted ~10.7/hour landing combat at 15-24 % of wall-clock; (2) one undifferentiated 'quest' track, so exploring, delving, trading and crafting were invisible - now a QUEST track (~55 % of hours) and a FREE-PLAY track (~45 %) with their own rates; (3) 414 km of travel over a whole game at a mean 0.79 m/s, which is not a no-fast-travel province - now ~960 km at ~40 % of playtime moving; (4) swimMinutesPerQuest was authored and never read by any code, in a game whose pillars include swimming - now wired to Athletics at the swimming rate and raised hard in the deep-marsh acts, where it reaches 10-12 % of wall-clock; (5) each archetype exercised exactly one weapon skill and one armour skill, so four of the warrior's ten level-bearing skills and five of the mage's got literally zero use across the campaign - now every archetype has an explicit verb profile; (6) ~199 locks and ~290 conversations per campaign, which put Security and Speechcraft over a thousand hours from maximum. Content shape still answers to docs/quests/00-overview.md (~170-210 journaled quests, 130-180 h at maturity) and the danger geography of world module 20 §12. Every number is a reasoned guess, not a measurement: treat the output as a smell test.",
+  "id": "argonia",
+  "label": "Elder Souls: Argonia, Milestone 1",
+  "totalHours": 156,
+  "mainQuestHours": 45,
+  "trackShare": {
+    "_": "Hours split between the two things a player is actually doing. The quest track is journalled work: go there, do that, come back. The free-play track is the rest of a Morrowind-shaped game - walking a coastline because it is there, emptying a xanmeer nobody sent you to, running a trade circuit, brewing, and getting lost. It is where most of the travel, most of the locks and nearly all of the crafting live, which is why collapsing it into the quest track (as the old model did) made half the skill list unreachable.",
+    "quest": 0.545,
+    "free": 0.455
+  },
+  "playerSkill": {
+    "_": "How much of an enemy's output an ordinary player avoids, as they learn the game. Souls players get better; the sim should not assume they arrive perfect or stay clumsy.",
+    "startAvoidance": 0.45,
+    "endAvoidance": 0.82,
+    "hoursToPeak": 60,
+    "armourDodgeShare": {
+      "_": "Avoidance is partly clean whiffs and partly rolling with the blow. Only the second kind teaches your armour skill, because Morrowind's rule is 'per incoming hit that deals health damage'. This is the split, and it is the reason armour skills no longer key off the player's own blow count.",
+      "value": 0.5
+    },
+    "styleAvoidanceBonus": {
+      "_": "Not every build stands still and trades. A bow build opens at range and backs off; a stealth build picks its moment and disengages; a mage keeps distance while the magicka lasts. This is the crude stand-in for that, and it is why the harness does not conclude that light armour is unplayable.",
+      "marksman": 0.12,
+      "stealth": 0.1,
+      "magic": 0.06,
+      "spear": 0.03,
+      "melee": 0,
+      "greatsword": 0
+    },
+    "sneakOpenerChance": {
+      "_": "How often a build gets the first blow unseen.",
+      "marksman": 0.5,
+      "stealth": 0.55,
+      "magic": 0.25,
+      "spear": 0.15,
+      "melee": 0.15,
+      "greatsword": 0.15
+    }
+  },
+  "deathModel": {
+    "_": "A lost fight is a death: you wake at your last rest, your vastei pile is on the floor where you fell, and you walk back. Players do not lose the same fight forever - they come back better prepared - so a loss costs time and the pile, then resolves.",
+    "retrievalSuccessRate": 0.75,
+    "minutesLostPerDeath": 7
+  },
+  "spending": {
+    "_": "Where a player's gold goes. Training is the sink that matters for progression; the rest is upkeep.",
+    "potionFractionOfIncome": 0.25,
+    "repairAndUpkeepFraction": 0.1,
+    "trainingFraction": 0.35,
+    "savedFraction": 0.3
+  },
+  "overreach": {
+    "_": "Players wander. A fixed world means a share of encounters are simply above the band you are ready for - that is the whole point of it (decision 0004). This is how often that happens, and it is higher on the free-play track because nothing is curating what you walk into out there.",
+    "quest": 0.12,
+    "free": 0.3
+  },
+  "potionCarryCap": 12,
+  "classAffinity": {
+    "_": "You use what you chose. Rather than author a verb profile for each of the eighteen classes, the archetype's profile is bent toward the character's own major and minor skills and renormalised. A warrior who took Axe as a major swings the axe more; a scout who took Alchemy as a minor brews more. Mixes are renormalised (the total volume of the verb is unchanged, only its distribution); verbShare is capped at 1.0, so nothing consumes more of a verb than the content contains.",
+    "major": 1.25,
+    "minor": 1.2,
+    "misc": 0.4
+  },
+  "verbProfiles": {
+    "_": "WHICH SKILLS ORDINARY PLAY TOUCHES, PER ARCHETYPE, AND HOW OFTEN. This is the fix for the biggest single distortion in the old model, where a warrior's whole campaign consisted of swinging one sword and wearing one kind of armour. weaponMix splits combat connects across the weapons this character actually carries; armourMix splits incoming hits across what they actually wear; spellMix splits utility casts across schools; utilityCastShare says how much of the content's utility casting this build does at all; verbShare scales every non-combat verb the content supplies.",
+    "melee": {
+      "_": "Sword and board. Carries a mace for skeletons and a bow for the thing across the water, repairs their own kit in the field, and does the talking because someone has to.",
+      "weaponMix": {
+        "longBlade": 0.64,
+        "blunt": 0.15,
+        "axe": 0.08,
+        "spear": 0.05,
+        "marksman": 0.06,
+        "handToHand": 0.02
+      },
+      "armourMix": {
+        "heavyArmor": 0.85,
+        "mediumArmor": 0.15
+      },
+      "blockShare": 0.21,
+      "utilityCastShare": 0.18,
+      "spellMix": {
+        "restoration": 0.7,
+        "alteration": 0.3
+      },
+      "verbShare": {
+        "lock": 0.3,
+        "trap": 0.3,
+        "persuasion": 0.55,
+        "barter": 0.7,
+        "brew": 0.35,
+        "repair": 1,
+        "enchant": 0.2,
+        "sneak": 0.3,
+        "jump": 0.9,
+        "climb": 0.8,
+        "swim": 0.85,
+        "travel": 1
+      }
+    },
+    "greatsword": {
+      "_": "No shield, so no Block at all - which is exactly why this build needs the rest of the list to carry it. Heavier armour use because more lands on them.",
+      "weaponMix": {
+        "longBlade": 0.62,
+        "blunt": 0.14,
+        "axe": 0.12,
+        "spear": 0.05,
+        "marksman": 0.05,
+        "handToHand": 0.02
+      },
+      "armourMix": {
+        "heavyArmor": 0.88,
+        "mediumArmor": 0.12
+      },
+      "blockShare": 0.04,
+      "utilityCastShare": 0.15,
+      "spellMix": {
+        "restoration": 0.75,
+        "alteration": 0.25
+      },
+      "verbShare": {
+        "lock": 0.25,
+        "trap": 0.25,
+        "persuasion": 0.5,
+        "barter": 0.65,
+        "brew": 0.3,
+        "repair": 1,
+        "enchant": 0.2,
+        "sneak": 0.25,
+        "jump": 0.85,
+        "climb": 0.75,
+        "swim": 0.8,
+        "travel": 1
+      }
+    },
+    "spear": {
+      "_": "The marsh-warden shape: reach weapon, medium armour, a shield when the ground allows, and a great deal of moving through water.",
+      "weaponMix": {
+        "spear": 0.66,
+        "longBlade": 0.14,
+        "blunt": 0.06,
+        "axe": 0.04,
+        "marksman": 0.08,
+        "handToHand": 0.02
+      },
+      "armourMix": {
+        "mediumArmor": 0.82,
+        "lightArmor": 0.18
+      },
+      "blockShare": 0.18,
+      "utilityCastShare": 0.22,
+      "spellMix": {
+        "restoration": 0.65,
+        "alteration": 0.35
+      },
+      "verbShare": {
+        "lock": 0.35,
+        "trap": 0.35,
+        "persuasion": 0.6,
+        "barter": 0.7,
+        "brew": 0.5,
+        "repair": 0.85,
+        "enchant": 0.2,
+        "sneak": 0.4,
+        "jump": 1,
+        "climb": 1,
+        "swim": 1.15,
+        "travel": 1.1
+      }
+    },
+    "marksman": {
+      "_": "Bow first, but nobody shoots a thing that is already inside their guard - hence a real share of short-blade connects. Scouts travel more than anyone and pick a lot of what they find.",
+      "weaponMix": {
+        "marksman": 0.68,
+        "shortBlade": 0.18,
+        "longBlade": 0.09,
+        "spear": 0.03,
+        "handToHand": 0.02
+      },
+      "armourMix": {
+        "lightArmor": 0.88,
+        "mediumArmor": 0.12
+      },
+      "blockShare": 0.08,
+      "utilityCastShare": 0.2,
+      "spellMix": {
+        "restoration": 0.6,
+        "alteration": 0.25,
+        "illusion": 0.15
+      },
+      "verbShare": {
+        "lock": 0.5,
+        "trap": 0.5,
+        "persuasion": 0.5,
+        "barter": 0.65,
+        "brew": 0.6,
+        "repair": 0.8,
+        "enchant": 0.25,
+        "sneak": 0.75,
+        "jump": 1.1,
+        "climb": 1.15,
+        "swim": 1.05,
+        "travel": 1.2
+      }
+    },
+    "stealth": {
+      "_": "Picks locks, disarms traps, talks its way in, and sells what it took. The verb list a thief actually has.",
+      "weaponMix": {
+        "shortBlade": 0.7,
+        "marksman": 0.18,
+        "longBlade": 0.07,
+        "handToHand": 0.05
+      },
+      "armourMix": {
+        "lightArmor": 0.8,
+        "unarmored": 0.2
+      },
+      "blockShare": 0.06,
+      "utilityCastShare": 0.3,
+      "spellMix": {
+        "illusion": 0.45,
+        "alteration": 0.25,
+        "mysticism": 0.2,
+        "restoration": 0.1
+      },
+      "verbShare": {
+        "lock": 1.0,
+        "trap": 1.0,
+        "persuasion": 0.65,
+        "barter": 0.7,
+        "brew": 0.45,
+        "repair": 0.4,
+        "enchant": 0.25,
+        "sneak": 0.8,
+        "jump": 0.95,
+        "climb": 1.0,
+        "swim": 1,
+        "travel": 1.05
+      }
+    },
+    "magic": {
+      "_": "A destruction mage does not only cast destruction. Levitation, light, detect, telekinesis, soul-trap, mark and recall, wards, and a great deal of self-healing - that is Alteration, Mysticism, Illusion, Conjuration and Restoration, every one of which received ZERO use in the old model. Recharging a staff is what moves Enchant.",
+      "weaponMix": {
+        "destruction": 0.86,
+        "shortBlade": 0.08,
+        "handToHand": 0.02,
+        "marksman": 0.04
+      },
+      "armourMix": {
+        "lightArmor": 0.55,
+        "unarmored": 0.45
+      },
+      "blockShare": 0.03,
+      "utilityCastShare": 1,
+      "spellMix": {
+        "alteration": 0.28,
+        "mysticism": 0.24,
+        "restoration": 0.22,
+        "illusion": 0.14,
+        "conjuration": 0.12
+      },
+      "verbShare": {
+        "lock": 0.4,
+        "trap": 0.4,
+        "persuasion": 0.75,
+        "barter": 0.85,
+        "brew": 1,
+        "repair": 0.45,
+        "enchant": 1,
+        "sneak": 0.4,
+        "jump": 0.85,
+        "climb": 0.8,
+        "swim": 0.85,
+        "travel": 0.95
+      }
+    }
+  },
+  "trackDefaults": {
+    "_": "Per-hour rates for each track, overridden act by act below. Encounters are per PLAY-hour, not per quest, which is what makes the combat share of wall-clock readable, and they are the headline correction: the old model ran 6.5 fights/hour across the whole game. travelKmPerHour with travelSpeedMetresPerSecond gives both the Athletics award (Morrowind's +0.02/second running) and the reported moving fraction of playtime. actorsPerEncounter: an authored encounter is a SCENE, not a duel - a lone actor is the exception in this game, and the fight simulator only resolves one, so volume and wall-clock scale from it. encounterTempoMultiplier: the fight simulator is a damage race that spends no time circling, backing off, waiting for an opening or drinking, because `avoidance` folds all of that into a damage multiplier; real Souls-shaped encounters take a multiple of the damage-race clock, and that extra time contains no extra connects. It lengthens fights without teaching you anything, which is exactly right. encounterOverheadSeconds: approach, repositioning and looting the bodies. NOTE ON jumpsPerHour: deliberately an order of magnitude below Morrowind's, and this is a design statement, not an oversight - jumps cost stamina here and the vertical verb is CLIMBING, so Acrobatics is fed by climbMetresPerHour and by hard landings rather than by bunny-hopping across a province.",
+    "quest": {
+      "encountersPerHour": 12,
+      "travelKmPerHour": 4.8,
+      "travelSpeedMetresPerSecond": 4,
+      "swimMinutesPerHour": 1.5,
+      "climbMetresPerHour": 26,
+      "jumpsPerHour": 34,
+      "hardLandingsPerHour": 0.9,
+      "locksPerHour": 7.5,
+      "trapsPerHour": 0.9,
+      "persuasionsPerHour": 32,
+      "bartersPerHour": 4,
+      "pricePercentMoved": 7,
+      "potionsBrewedPerHour": 4,
+      "repairsPerHour": 12,
+      "enchantsPerHour": 1.0,
+      "utilityCastsPerHour": 34,
+      "sneakSuccessesPerHour": 14,
+      "restsPerHour": 1.3,
+      "lootGoldPerHour": 120,
+      "actorsPerEncounter": 1.3,
+      "encounterOverheadSeconds": 26,
+      "encounterTempoMultiplier": 2.7
+    },
+    "free": {
+      "encountersPerHour": 9,
+      "travelKmPerHour": 7.8,
+      "travelSpeedMetresPerSecond": 4.4,
+      "swimMinutesPerHour": 3.5,
+      "climbMetresPerHour": 48,
+      "jumpsPerHour": 58,
+      "hardLandingsPerHour": 1.5,
+      "locksPerHour": 16,
+      "trapsPerHour": 2.0,
+      "persuasionsPerHour": 24,
+      "bartersPerHour": 8,
+      "pricePercentMoved": 10,
+      "potionsBrewedPerHour": 16,
+      "repairsPerHour": 18,
+      "enchantsPerHour": 7.0,
+      "utilityCastsPerHour": 28,
+      "sneakSuccessesPerHour": 21,
+      "restsPerHour": 1.1,
+      "lootGoldPerHour": 95,
+      "actorsPerEncounter": 1.05,
+      "encounterOverheadSeconds": 26,
+      "encounterTempoMultiplier": 2.7
+    }
+  },
+  "acts": [
+    {
+      "id": "act0",
+      "label": "The first hours — Lilmoth's canals, the dead clutch",
+      "hours": 4,
+      "gearTier": 1,
+      "bandMix": {
+        "D1": 0.8,
+        "D2": 0.2
+      },
+      "quest": {
+        "encountersPerHour": 14,
+        "swimMinutesPerHour": 3,
+        "climbMetresPerHour": 55,
+        "travelKmPerHour": 4.2,
+        "lootGoldPerHour": 40,
+        "jumpsPerHour": 150,
+        "hardLandingsPerHour": 3.5,
+        "locksPerHour": 11,
+        "trapsPerHour": 1.4,
+        "persuasionsPerHour": 48,
+        "utilityCastsPerHour": 62,
+        "sneakSuccessesPerHour": 32,
+        "potionsBrewedPerHour": 9,
+        "repairsPerHour": 22,
+        "bartersPerHour": 9,
+        "restsPerHour": 1.8
+      },
+      "free": {
+        "encountersPerHour": 12,
+        "swimMinutesPerHour": 5,
+        "climbMetresPerHour": 80,
+        "travelKmPerHour": 6.8,
+        "lootGoldPerHour": 30,
+        "jumpsPerHour": 240,
+        "hardLandingsPerHour": 5.0,
+        "locksPerHour": 20,
+        "trapsPerHour": 2.4,
+        "persuasionsPerHour": 36,
+        "utilityCastsPerHour": 52,
+        "sneakSuccessesPerHour": 42,
+        "potionsBrewedPerHour": 30,
+        "repairsPerHour": 32,
+        "bartersPerHour": 14,
+        "restsPerHour": 1.6
+      }
+    },
+    {
+      "id": "act1",
+      "label": "Act I — Lilmoth, the dead clutch, the first roads",
+      "hours": 16,
+      "gearTier": 1,
+      "bandMix": {
+        "D1": 0.55,
+        "D2": 0.38,
+        "D3": 0.07
+      },
+      "quest": {
+        "encountersPerHour": 10.5,
+        "swimMinutesPerHour": 1.5,
+        "climbMetresPerHour": 18,
+        "travelKmPerHour": 4.2,
+        "lootGoldPerHour": 55
+      },
+      "free": {
+        "encountersPerHour": 8,
+        "swimMinutesPerHour": 3,
+        "climbMetresPerHour": 32,
+        "travelKmPerHour": 6.8,
+        "lootGoldPerHour": 40,
+        "enchantsPerHour": 1
+      }
+    },
+    {
+      "id": "act2",
+      "label": "Act II — faction work, the interior opens",
+      "hours": 44,
+      "gearTier": 2,
+      "bandMix": {
+        "D1": 0.15,
+        "D2": 0.5,
+        "D3": 0.3,
+        "D4": 0.05
+      },
+      "quest": {
+        "encountersPerHour": 11.5,
+        "swimMinutesPerHour": 3,
+        "climbMetresPerHour": 24,
+        "lootGoldPerHour": 110
+      },
+      "free": {
+        "encountersPerHour": 8.5,
+        "swimMinutesPerHour": 6,
+        "climbMetresPerHour": 44,
+        "lootGoldPerHour": 85,
+        "enchantsPerHour": 5
+      }
+    },
+    {
+      "id": "act3",
+      "label": "Act III — deep marsh, xanmeers, the cult's ground",
+      "hours": 38,
+      "gearTier": 4,
+      "bandMix": {
+        "D2": 0.2,
+        "D3": 0.5,
+        "D4": 0.27,
+        "D5": 0.03
+      },
+      "quest": {
+        "encountersPerHour": 12.5,
+        "swimMinutesPerHour": 9,
+        "climbMetresPerHour": 32,
+        "travelKmPerHour": 5.2,
+        "lootGoldPerHour": 300
+      },
+      "free": {
+        "encountersPerHour": 9.5,
+        "swimMinutesPerHour": 16,
+        "climbMetresPerHour": 56,
+        "travelKmPerHour": 8.4,
+        "lootGoldPerHour": 240
+      }
+    },
+    {
+      "id": "endgame",
+      "label": "Endgame — the hardest ground, artifacts, the Throne",
+      "hours": 30,
+      "gearTier": 6,
+      "bandMix": {
+        "D3": 0.3,
+        "D4": 0.5,
+        "D5": 0.2
+      },
+      "quest": {
+        "encountersPerHour": 13,
+        "swimMinutesPerHour": 7,
+        "climbMetresPerHour": 34,
+        "travelKmPerHour": 5,
+        "lootGoldPerHour": 620
+      },
+      "free": {
+        "encountersPerHour": 10,
+        "swimMinutesPerHour": 12,
+        "climbMetresPerHour": 58,
+        "travelKmPerHour": 8.2,
+        "lootGoldPerHour": 500
+      }
+    },
+    {
+      "id": "postgame",
+      "label": "Post-game — mop-up, optional D5, mastery projects",
+      "hours": 24,
+      "gearTier": 8,
+      "bandMix": {
+        "D3": 0.2,
+        "D4": 0.4,
+        "D5": 0.4
+      },
+      "quest": {
+        "encountersPerHour": 12,
+        "swimMinutesPerHour": 5,
+        "climbMetresPerHour": 30,
+        "lootGoldPerHour": 900
+      },
+      "free": {
+        "encountersPerHour": 10,
+        "swimMinutesPerHour": 9,
+        "climbMetresPerHour": 52,
+        "lootGoldPerHour": 780
+      }
+    }
+  ]
+}

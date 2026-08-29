@@ -1,0 +1,73 @@
+{
+  "_": "OUR progression rules, as the campaign engine consumes them. Rules and content are separate inputs on purpose: when the whole-game pacing came out wrong (level 4 at hour 19 against Morrowind's 8-12), substituting Morrowind's flat use values into the engine barely moved it, which proved the fault was in the *content* model, not here. Keeping the two apart means the next agent can retune one without silently retuning the other. Anything with a \"$from\" is READ OUT OF curves.json and is not a second copy of the number - curves.json stays the canonical design-constants file (module 76 §116-129).",
+  "id": "argonia",
+  "label": "Elder Souls: Argonia",
+
+  "rankCost": {
+    "_": "pointsToNextRank = (skill+1) * classFactor * specFactor. This is Morrowind's own curve, unchanged, which is why the known-answer test can share it.",
+    "$from": "curves.skillXp"
+  },
+
+  "levelTrigger": {
+    "_": "Ten qualifying ranks bank a level; the level lands at the next rest. miscRankDivisor is the 3:1 tail. THE DESIGN BUG FIX: that tail is per-skill and ungated - a misc rank, or a rank in any skill already at 100, is worth 1/3 of a level-credit ALWAYS, not only once every major and minor has reached 100. The old gate discarded roughly two use-points in five.",
+    "ranksPerLevel": { "$from": "curves.levelUp.ranksPerLevel" },
+    "miscRankDivisor": { "$from": "curves.levelUp.miscRankRatio" },
+    "miscCreditRequiresAllMaxed": false,
+    "maxedSkillsKeepEarning": true,
+    "maxedSkillCreditDivisor": { "$from": "curves.levelUp.miscRankRatio" }
+  },
+
+  "vastei": {
+    "_": "Vastei per rank taken. A skill sitting at 100 keeps earning it from qualifying uses - mastery is not a dead end (this is the second half of the misc/maxed fix).",
+    "$from": "curves.vastei"
+  },
+
+  "attributePurchase": { "$from": "curves.levelUp" },
+
+  "health": {
+    "_": "RETROACTIVE and computed from CURRENT Endurance: maxHealth = attrCoefficient*(Str+End) + level*(levelBase + End/levelEnduranceDivisor). This is the deliberate difference from Morrowind, where the per-level grant is frozen at your level-1 Endurance and raising Endurance late is worthless. NOTE FOR THE ORCHESTRATOR - AN OPEN DIVERGENCE, DELIBERATELY LEFT OPEN. Setting curves.health.levelBase to 0 and levelEnduranceDivisor to 10 is the whole change to reach End/10, and it was tried: it immediately fails `getting-hit-matters` (a legend-tier melee character survives 6 unavoided D5 blows against a target of 3, and best-in-slot armour survives 8 against a 5-7 window). That is the D0-D5 recalibration the orchestrator already owns, not a reason to weaken an invariant, so this file stays on the calibrated value until the ladder is re-solved. Change both together or neither. The detail: module 76 §116-129 states the per-level grant as End/10 flat; curves.json currently carries 1.5 + End/15, which was what the D0-D5 ladder was calibrated against. The two agree to within 2 % up to level 10 and diverge to +18 % at level 50. Switching to End/10 is a one-line change here and in curves.json, but it costs one ladder recalibration - see the report.",
+    "$from": "curves.health",
+    "retroactive": true,
+    "enduranceBasis": "current"
+  },
+
+  "worthiness": {
+    "_": "OUR anti-grind rule, and the first deliberate difference from Morrowind. It multiplies COMBAT AND DEFENCE use values only: chipping a sponge for 1 % of its health is worth almost nothing, and eating a scratch teaches your armour skill almost nothing. Blocks, casts, brews, locks, persuasions, repairs, enchantments and travel are NOT worthiness-scaled - they are pass/fail verbs with no magnitude to scale by. Damping relaxed to 8 connects at 0.55 (was 6 at 0.35): the old setting made a long fight against a big actor worth less than a short one against a small one, which is backwards.",
+    "$from": "curves.worthiness",
+    "appliesTo": ["weapon", "armour"]
+  },
+
+  "use": {
+    "_": "Points delivered per qualifying use. These are Morrowind's own values (UESP Morrowind:Skills and the per-skill pages) - we changed the CONTENT rates, never the exchange rate, so that the known-answer test and our campaign are measuring the same machine. The three Argonia-only entries at the bottom exist because Morrowind has no climbing verb.",
+    "weaponConnect": {
+      "_": "per connect that deals damage; Axe pays more and Short Blade less, exactly as Morrowind does",
+      "longBlade": 1.0,
+      "blunt": 1.0,
+      "spear": 1.0,
+      "marksman": 1.0,
+      "handToHand": 1.0,
+      "axe": 1.2,
+      "shortBlade": 0.75,
+      "default": 1.0
+    },
+    "armourHitTaken": 1.0,
+    "unarmoredHitTaken": 1.0,
+    "block": 2.5,
+    "spellCast": 1.0,
+    "alchemyPotion": 2.0,
+    "securityLock": 2.0,
+    "securityTrap": 3.0,
+    "speechcraftPersuasion": 1.0,
+    "mercantilePerPercentMoved": 0.3,
+    "enchantItem": 5.0,
+    "smithingRepair": 0.4,
+    "athleticsPerSecondRunning": 0.02,
+    "athleticsPerSecondSwimming": 0.03,
+    "acrobaticsJump": 0.15,
+    "acrobaticsHardLanding": 3.0,
+    "sneakSuccess": 1.0,
+
+    "acrobaticsPerTenMetresClimbed": 1.5,
+    "_argoniaOnly": "Climbing is a verb Morrowind does not have (world module 76 §122, BotW-style). 1.5 per ten metres puts a 40 m tower at the value of four jumps plus a hard landing, which is about what it costs you in stamina."
+  }
+}

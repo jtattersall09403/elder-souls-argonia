@@ -1,0 +1,446 @@
+{
+  "_": "MY BEST REASONED ESTIMATE OF MORROWIND'S PLAY RATES. This is the tunable half of the known-answer test: data/rules-morrowind.json is known exactly and is never touched, so when the test misses, the error is here. Reasoning, rate by rate. TRAVEL: Vvardenfell has no point-to-point fast travel outside the strider/boat/guild-guide network and Mark/Recall, and the network's stops are far from where quests actually send you, so a Morrowind hour is dominated by running. Athletics is +0.02/second running, i.e. 50 seconds of running per point; maxing it from a class start of 35 costs ~2650 points, which is ~37 HOURS of continuous running. The documented answer (Athletics maxed by 50-70 h without grinding) therefore REQUIRES about half of every hour to be spent running - that is not a stretch, it is a description of the game. 10.5 km/h at ~5.6 m/s is 52 % of the hour, and ~1680 km over a full playthrough of a 5x5 km island is what all the back-and-forth actually adds up to. JUMPING: Morrowind players jump more or less constantly while travelling, and Acrobatics is +0.15/jump; ~280 jumps/hour is one every 13 seconds of play, which is what it looks like. COMBAT: fights are frequent (cliff racers) but short, and crucially Morrowind rolls TO-HIT - a miss awards nothing. hitRate below is why this content model can be dense in encounters and still not run away with weapon skills. LOCKS: dungeons, houses and Telvanni towers are full of them; ~9/hour with ~1.8 traps sits a Security-major thief at maximum around hour 110, inside a normal playthrough, which is the documented answer. REPAIRS: Armorer is +0.4 per successful repair, and Morrowind's repair loop is a hammer spammed on every item after every fight - ~75/hour is the honest figure for that verb, not a typo. Sources for the answers being reproduced: UESP Morrowind:Leveling, Morrowind:Skills, Morrowind:Main Quest.",
+  "id": "vvardenfell",
+  "label": "TES III: Morrowind, Vvardenfell (estimated play rates)",
+  "totalHours": 160,
+  "mainQuestHours": 40,
+  "trackShare": {
+    "_": "Morrowind is the most free-form of the three games we could have picked as a reference, and its journal is a suggestion. An even split is the honest reading.",
+    "quest": 0.5,
+    "free": 0.5
+  },
+  "hitRate": {
+    "_": "Morrowind rolls to hit and a miss awards no skill progress. At a class-start weapon skill with middling Agility/Luck, roughly three swings in five connect; enemies fare slightly worse against a moving player. Argonia has no such roll (Souls combat: you hit what you swing at), which is why its content file omits this block and defaults to 1.0. Applied to the fight simulator's real swing counts, not to its outcomes - it changes what you LEARN from a fight, never who wins it.",
+    "player": 0.62,
+    "enemy": 0.55
+  },
+  "playerSkill": {
+    "_": "Morrowind is not a Souls game: there is little to dodge and the player's own reflexes barely enter into it. Avoidance is low, flat and does not improve much with hours.",
+    "startAvoidance": 0.3,
+    "endAvoidance": 0.55,
+    "hoursToPeak": 50,
+    "armourDodgeShare": {
+      "value": 0.25
+    },
+    "styleAvoidanceBonus": {
+      "marksman": 0.12,
+      "stealth": 0.08,
+      "magic": 0.1,
+      "spear": 0.02,
+      "melee": 0,
+      "greatsword": 0
+    },
+    "sneakOpenerChance": {
+      "marksman": 0.3,
+      "stealth": 0.35,
+      "magic": 0.2,
+      "spear": 0.1,
+      "melee": 0.1,
+      "greatsword": 0.1
+    }
+  },
+  "deathModel": {
+    "_": "Morrowind has quicksave, so a death costs a reload and a minute, not a corpse run - and nothing is dropped.",
+    "retrievalSuccessRate": 1.0,
+    "minutesLostPerDeath": 2
+  },
+  "spending": {
+    "_": "Morrowind's gold sinks: trainers (the big one), potions, repair hammers.",
+    "potionFractionOfIncome": 0.2,
+    "repairAndUpkeepFraction": 0.08,
+    "trainingFraction": 0.35,
+    "savedFraction": 0.37
+  },
+  "overreach": {
+    "_": "Vvardenfell is a fixed world with no level scaling, and a level-3 character can walk into a daedric ruin. It happens more on the free track.",
+    "quest": 0.07,
+    "free": 0.18
+  },
+  "potionCarryCap": 12,
+  "classAffinity": {
+    "major": 1.5,
+    "minor": 1.2,
+    "misc": 0.55
+  },
+  "verbProfiles": {
+    "_": "Morrowind's verb profiles. Broader than Argonia's on the utility side (everyone carries some scrolls and a repair hammer) and narrower on the movement side (no climbing verb exists, so climb shares are irrelevant and the rule set pays nothing for them).",
+    "melee": {
+      "weaponMix": {
+        "longBlade": 0.66,
+        "blunt": 0.16,
+        "axe": 0.1,
+        "marksman": 0.08
+      },
+      "armourMix": {
+        "heavyArmor": 0.85,
+        "mediumArmor": 0.15
+      },
+      "blockShare": 0.3,
+      "utilityCastShare": 0.2,
+      "spellMix": {
+        "restoration": 0.6,
+        "alteration": 0.4
+      },
+      "verbShare": {
+        "lock": 0.35,
+        "trap": 0.35,
+        "persuasion": 0.6,
+        "barter": 0.75,
+        "brew": 0.4,
+        "repair": 1.0,
+        "enchant": 0.25,
+        "sneak": 0.3,
+        "jump": 1.0,
+        "climb": 0,
+        "swim": 0.9,
+        "travel": 1.0
+      }
+    },
+    "greatsword": {
+      "weaponMix": {
+        "longBlade": 0.64,
+        "blunt": 0.14,
+        "axe": 0.14,
+        "marksman": 0.08
+      },
+      "armourMix": {
+        "heavyArmor": 0.88,
+        "mediumArmor": 0.12
+      },
+      "blockShare": 0.05,
+      "utilityCastShare": 0.18,
+      "spellMix": {
+        "restoration": 0.65,
+        "alteration": 0.35
+      },
+      "verbShare": {
+        "lock": 0.3,
+        "trap": 0.3,
+        "persuasion": 0.55,
+        "barter": 0.7,
+        "brew": 0.35,
+        "repair": 1.0,
+        "enchant": 0.25,
+        "sneak": 0.25,
+        "jump": 1.0,
+        "climb": 0,
+        "swim": 0.85,
+        "travel": 1.0
+      }
+    },
+    "spear": {
+      "weaponMix": {
+        "spear": 0.72,
+        "longBlade": 0.14,
+        "marksman": 0.08,
+        "blunt": 0.06
+      },
+      "armourMix": {
+        "mediumArmor": 0.82,
+        "lightArmor": 0.18
+      },
+      "blockShare": 0.26,
+      "utilityCastShare": 0.24,
+      "spellMix": {
+        "restoration": 0.6,
+        "alteration": 0.4
+      },
+      "verbShare": {
+        "lock": 0.4,
+        "trap": 0.4,
+        "persuasion": 0.6,
+        "barter": 0.75,
+        "brew": 0.5,
+        "repair": 0.9,
+        "enchant": 0.25,
+        "sneak": 0.4,
+        "jump": 1.05,
+        "climb": 0,
+        "swim": 1.0,
+        "travel": 1.05
+      }
+    },
+    "marksman": {
+      "weaponMix": {
+        "marksman": 0.7,
+        "shortBlade": 0.2,
+        "longBlade": 0.1
+      },
+      "armourMix": {
+        "lightArmor": 0.88,
+        "mediumArmor": 0.12
+      },
+      "blockShare": 0.12,
+      "utilityCastShare": 0.22,
+      "spellMix": {
+        "restoration": 0.55,
+        "alteration": 0.3,
+        "illusion": 0.15
+      },
+      "verbShare": {
+        "lock": 0.65,
+        "trap": 0.65,
+        "persuasion": 0.65,
+        "barter": 0.85,
+        "brew": 0.8,
+        "repair": 0.85,
+        "enchant": 0.3,
+        "sneak": 0.9,
+        "jump": 1.1,
+        "climb": 0,
+        "swim": 1.0,
+        "travel": 1.15
+      }
+    },
+    "stealth": {
+      "weaponMix": {
+        "shortBlade": 0.74,
+        "marksman": 0.18,
+        "longBlade": 0.08
+      },
+      "armourMix": {
+        "lightArmor": 0.8,
+        "unarmored": 0.2
+      },
+      "blockShare": 0.1,
+      "utilityCastShare": 0.32,
+      "spellMix": {
+        "illusion": 0.4,
+        "alteration": 0.28,
+        "mysticism": 0.2,
+        "restoration": 0.12
+      },
+      "verbShare": {
+        "lock": 1.0,
+        "trap": 1.0,
+        "persuasion": 1.0,
+        "barter": 1.0,
+        "brew": 0.75,
+        "repair": 0.55,
+        "enchant": 0.4,
+        "sneak": 1.0,
+        "jump": 1.1,
+        "climb": 0,
+        "swim": 0.95,
+        "travel": 1.05
+      }
+    },
+    "magic": {
+      "weaponMix": {
+        "destruction": 0.9,
+        "shortBlade": 0.1
+      },
+      "armourMix": {
+        "lightArmor": 0.5,
+        "unarmored": 0.5
+      },
+      "blockShare": 0.04,
+      "utilityCastShare": 1.0,
+      "spellMix": {
+        "alteration": 0.28,
+        "mysticism": 0.24,
+        "restoration": 0.22,
+        "illusion": 0.14,
+        "conjuration": 0.12
+      },
+      "verbShare": {
+        "lock": 0.4,
+        "trap": 0.4,
+        "persuasion": 0.8,
+        "barter": 0.9,
+        "brew": 1.0,
+        "repair": 0.5,
+        "enchant": 1.0,
+        "sneak": 0.4,
+        "jump": 0.95,
+        "climb": 0,
+        "swim": 0.9,
+        "travel": 1.0
+      }
+    }
+  },
+  "trackDefaults": {
+    "quest": {
+      "encountersPerHour": 9,
+      "travelKmPerHour": 9,
+      "travelSpeedMetresPerSecond": 5.6,
+      "swimMinutesPerHour": 2,
+      "climbMetresPerHour": 0,
+      "jumpsPerHour": 230.0,
+      "hardLandingsPerHour": 3.22,
+      "locksPerHour": 6,
+      "trapsPerHour": 1.2,
+      "persuasionsPerHour": 18.0,
+      "bartersPerHour": 5,
+      "pricePercentMoved": 8,
+      "potionsBrewedPerHour": 3.6,
+      "repairsPerHour": 25.2,
+      "enchantsPerHour": 2,
+      "utilityCastsPerHour": 37.8,
+      "sneakSuccessesPerHour": 11.7,
+      "restsPerHour": 1.2,
+      "lootGoldPerHour": 220,
+      "actorsPerEncounter": 2.0,
+      "encounterOverheadSeconds": 22
+    },
+    "free": {
+      "encountersPerHour": 7,
+      "travelKmPerHour": 12,
+      "travelSpeedMetresPerSecond": 5.6,
+      "swimMinutesPerHour": 2.5,
+      "climbMetresPerHour": 0,
+      "jumpsPerHour": 285.2,
+      "hardLandingsPerHour": 4.14,
+      "locksPerHour": 12,
+      "trapsPerHour": 2.4,
+      "persuasionsPerHour": 13.5,
+      "bartersPerHour": 5,
+      "pricePercentMoved": 8,
+      "potionsBrewedPerHour": 16.2,
+      "repairsPerHour": 37.8,
+      "enchantsPerHour": 6,
+      "utilityCastsPerHour": 34.2,
+      "sneakSuccessesPerHour": 16.2,
+      "restsPerHour": 1.1,
+      "lootGoldPerHour": 190,
+      "actorsPerEncounter": 1.6,
+      "encounterOverheadSeconds": 22
+    }
+  },
+  "acts": [
+    {
+      "id": "mw0",
+      "label": "Seyda Neen — the census, the tax collector, the first mudcrabs",
+      "hours": 4,
+      "gearTier": 1,
+      "bandMix": {
+        "D1": 0.6,
+        "D2": 0.35,
+        "D3": 0.05
+      },
+      "quest": {
+        "encountersPerHour": 11,
+        "lootGoldPerHour": 60,
+        "jumpsPerHour": 340,
+        "locksPerHour": 9,
+        "persuasionsPerHour": 30,
+        "utilityCastsPerHour": 75,
+        "sneakSuccessesPerHour": 20,
+        "repairsPerHour": 36.4,
+        "bartersPerHour": 6.5,
+        "hardLandingsPerHour": 5.0,
+        "potionsBrewedPerHour": 7
+      },
+      "free": {
+        "encountersPerHour": 9,
+        "lootGoldPerHour": 50,
+        "jumpsPerHour": 420,
+        "locksPerHour": 17,
+        "persuasionsPerHour": 22,
+        "utilityCastsPerHour": 66,
+        "sneakSuccessesPerHour": 27,
+        "repairsPerHour": 54.6,
+        "bartersPerHour": 6.5,
+        "hardLandingsPerHour": 6.0,
+        "potionsBrewedPerHour": 26
+      }
+    },
+    {
+      "id": "mw1",
+      "label": "Balmora and the first guild errands",
+      "hours": 16,
+      "gearTier": 1,
+      "bandMix": {
+        "D1": 0.6,
+        "D2": 0.35,
+        "D3": 0.05
+      },
+      "quest": {
+        "encountersPerHour": 8,
+        "lootGoldPerHour": 70
+      },
+      "free": {
+        "encountersPerHour": 6.5,
+        "lootGoldPerHour": 55
+      }
+    },
+    {
+      "id": "mw2",
+      "label": "Guild and House work, the Ashlands open",
+      "hours": 45,
+      "gearTier": 2,
+      "bandMix": {
+        "D1": 0.2,
+        "D2": 0.5,
+        "D3": 0.26,
+        "D4": 0.04
+      },
+      "quest": {
+        "encountersPerHour": 9,
+        "lootGoldPerHour": 180
+      },
+      "free": {
+        "encountersPerHour": 7,
+        "lootGoldPerHour": 150
+      }
+    },
+    {
+      "id": "mw3",
+      "label": "The trials, Sixth House bases, daedric ruins",
+      "hours": 40,
+      "gearTier": 4,
+      "bandMix": {
+        "D2": 0.25,
+        "D3": 0.48,
+        "D4": 0.24,
+        "D5": 0.03
+      },
+      "quest": {
+        "encountersPerHour": 9.5,
+        "lootGoldPerHour": 380
+      },
+      "free": {
+        "encountersPerHour": 7.5,
+        "lootGoldPerHour": 320
+      }
+    },
+    {
+      "id": "mw4",
+      "label": "Red Mountain and Dagoth Ur",
+      "hours": 30,
+      "gearTier": 6,
+      "bandMix": {
+        "D3": 0.32,
+        "D4": 0.5,
+        "D5": 0.18
+      },
+      "quest": {
+        "encountersPerHour": 10,
+        "lootGoldPerHour": 700
+      },
+      "free": {
+        "encountersPerHour": 8,
+        "lootGoldPerHour": 560
+      }
+    },
+    {
+      "id": "mw5",
+      "label": "After the prophecy — Tribunal ground, mastery projects",
+      "hours": 25,
+      "gearTier": 8,
+      "bandMix": {
+        "D3": 0.2,
+        "D4": 0.42,
+        "D5": 0.38
+      },
+      "quest": {
+        "encountersPerHour": 9,
+        "lootGoldPerHour": 950
+      },
+      "free": {
+        "encountersPerHour": 8,
+        "lootGoldPerHour": 820
+      }
+    }
+  ]
+}
