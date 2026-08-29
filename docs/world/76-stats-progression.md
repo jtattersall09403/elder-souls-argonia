@@ -39,7 +39,7 @@ properties, and races that are bodies only. No attributes, skills, resistances,
 carry weight, birthsigns, levels or experience — but `AttributeId`, per-weapon
 `requirements`/`scaling`, `RangedModifiers` and `CapabilityProfileId` are all
 declared and unread: the insertion points. Snapshot of the numbers:
-[research/stats-progression-repo-baseline-and-quest-inputs.md](../research/stats-progression-repo-baseline-and-quest-inputs.md).
+[research/stats-progression-repo-baseline-and-quest-inputs.md](../research/archive/workstream-s/stats-progression-repo-baseline-and-quest-inputs.md).
 
 The combat *feel* is calibrated and playtested; what was missing is the layer
 that makes those numbers vary by character. The stats work is therefore
@@ -123,18 +123,20 @@ These are not open questions — they follow from decisions already taken.
 
 ## 103. Workstream S — how the design was settled
 
-Ran as docs + decisions, in parallel with Phases 8–10, in **two batched owner
-rounds**. Evidence and rejected options live in `docs/research/`:
-[reference games](../research/stats-progression-reference-games.md) (Morrowind's
-real formulas, the Souls layer, Skyrim's lessons, mod-scene sourcing),
-[repo/quest inputs](../research/stats-progression-repo-baseline-and-quest-inputs.md),
-[mapping inventory](../research/stats-progression-mapping-inventory.md) (every
-seam the chosen shape creates),
-[owner round 1](../research/stats-progression-owner-round1.md) (**the single
-source of truth for the rulings**),
-[numbers packet](../research/stats-progression-numbers-packet.md) (the ladder
-derivation, worked characters, simulation findings), and
-[owner round 2](../research/stats-progression-owner-round2.md).
+Ran as docs + decisions, in parallel with Phases 8–10, over **three owner
+rounds** (0031 shape, 0033 design and numbers, 0035 the round-3 corrections).
+
+**One evidence packet is still live**:
+[reference games](../research/stats-progression-reference-games.md) — Morrowind's
+real formulas, the Souls layer, Skyrim's lessons and the mod-scene sourcing
+facts. Everything else the workstream produced is a **closed working paper,
+kept for provenance only**, in
+[docs/research/archive/workstream-s/](../research/archive/workstream-s/): both
+owner rounds (who decided what, in whose words), the mapping inventory, a code
+snapshot, and the numbers packet. They contain superseded drafts — two-layer
+fatigue, poise, the estus flask, a four-band sneak table, "wildlife" D0 — and
+**must never be read as a spec**. The tuning history lives with the tool that
+produced it, in [tooling/stats-sim/FINDINGS.md](../../tooling/stats-sim/FINDINGS.md).
 
 ### 103.0 The chosen shape
 
@@ -1249,7 +1251,7 @@ character with 44 health, and that character's reply is 6.7 against 950 health
 (0.7 % a swing).
 
 **What the simulation says the ladder feels like** (full report:
-[numbers packet](../research/stats-progression-numbers-packet.md)): the
+[the harness findings](../../tooling/stats-sim/FINDINGS.md)): the
 reference character kills a D2 Hollow Warden in 7 s and dies to it in 6 blows;
 a D3 wamasu takes 31 s and three blows kill her; D4 kills her. An endgame build
 kills the final boss in 31–52 s depending on archetype (melee, greatsword,
