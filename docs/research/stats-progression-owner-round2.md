@@ -2,38 +2,43 @@
 
 > Step 8 of the run-book (module [76](../world/76-stats-progression.md) §103.1)
 > and the **last** owner round for this workstream. Round 1 settled the shape;
-> this round confirms the detail, the numbers and a list of small calls made on
-> your behalf.
+> this round confirmed the detail, the numbers and a list of small calls made on
+> the owner's behalf.
 >
-> **How to reply:** "accept all" is a valid answer. Otherwise: veto any numbered
-> default you dislike (just the number), and answer the five questions at the
-> end (e.g. "1A, 2A, 3B…"). Everything you accept gets folded into module 76 and
-> a decision record; Phase 10c then builds it.
+> **Status: ANSWERED 2026-08-29.** All five questions answered, vetoes taken on
+> defaults 4, 5, 7, 8, 12, 14, 16 and 18, plus general steers. The record and
+> everything that changed is in **§7 Answers** at the foot of this file; the
+> design (module 76 §116–129), the data files and the harness are already
+> updated. What remains is a short confirmation of the round-2 changes
+> themselves, not another round.
 >
-> The full detail is module 76 §116–129; the numbers and the simulation report
-> are the [numbers packet](stats-progression-numbers-packet.md). Round 1's
-> rulings are unchanged and not reopened here.
+> **Sections 1–6 are the pack as it was put to the owner** and are left as
+> written, so the record shows what was asked. Where an answer changed
+> something, §7 says so — read §7 for the current position, module 76 §116–129
+> for the design, and the [numbers packet](stats-progression-numbers-packet.md)
+> for the numbers as they stand now.
 
 ---
 
 ## 1. What the character is now, in plain English
 
 You make a character the way you make one in Morrowind: pick a race, pick a
-birth date (which gives you a birthsign), and pick or build a class — five
+birthsign *(as asked — the sign directly, not a birth date)*, and pick or build a class — five
 skills you're good at, five you're alright at, a speciality, and two favoured
 attributes. You have seven attributes and twenty-seven skills.
 
 You get better at things **by doing them in earnest**. Every skill has one
 number behind it, and that number moves the things you'd expect: a sword skill
 decides where in a weapon's damage range your blows land, how much stamina a
-swing costs, how fast you recover afterwards, and how quickly the blade wears
-out. Armour skill decides how much your armour is really worth. Athletics
+swing costs, and how quickly the blade wears out *(the recovery-speed part was
+dropped — §7)*. Armour skill decides how much your armour is really worth. Athletics
 decides how fast you swim and how long you can hold your breath. And so on.
 
 Attributes never buy the same thing twice: each skill has one governing
 attribute that nudges the skill up or down a little (up to ten points either
 way). So Strength genuinely matters to a swordsman without being a second
-damage multiplier.
+damage multiplier. *(This is our rule, not Morrowind's — see §7 and module 76
+§117.1.)*
 
 You get stronger in three ways at once, and they feel different:
 
@@ -51,10 +56,12 @@ what you asked for.
 
 ## 2. The numbers, in plain English
 
-The character the whole design is calibrated on is a competent level-10
-adventurer in steel with a shield — she has today's sandbox numbers exactly
-(100 health, 100 stamina, 25 % damage reduction, the same swing damage). Every
-other number is placed around her.
+*(Superseded in part by §7: the ladder was made considerably more lethal after
+this pack was written, and the calibration set is described properly in module
+76 §116.)* The design's continuity anchor is a competent level-10 adventurer in
+steel with a shield — she has today's sandbox numbers exactly (100 health, 100
+stamina, 25 % damage reduction, the same swing damage), and the rest of the
+system is placed around a *set* of builds that includes her.
 
 The world runs on six danger bands. Against that competent character:
 
@@ -107,8 +114,9 @@ a heavy one, so nothing approaches invulnerability.
 
 ## 4. Proposed defaults — veto any by number
 
-Small calls made on your behalf. All are in module 76 already; a veto changes
-the module and the numbers.
+Small calls made on the owner's behalf. **Answered: 4, 5, 7, 8, 12, 14, 16 and
+18 were vetoed or amended; the rest accepted.** The list below is as it was put;
+§7 records every change.
 
 **Naming and progression**
 
@@ -229,3 +237,82 @@ capped at the governing attribute, on top of quest and loot income.
   halberds, quarterstaves, medium armour, unarmed) is recorded in module 90
   §74.3; the actual downloads happen at Phase 10 with the rest of the asset
   work, not now.
+
+
+---
+
+## 7. Answers (owner, 2026-08-29), and what changed
+
+### The five questions
+
+1. **Potion discipline — A.** Drinking keeps its ~1.3 s commitment.
+2. **Boss difficulty — B, and everywhere, not just the boss.** *"I want a sense
+   of it being very important to avoid being hit."* Five or six unavoided blows
+   from the final boss is too easy: **three at most unless your armour is
+   incredible, and only absolute best-in-slot should buy five or six** — scaled
+   the same way across every band, easily tunable later, and ideally wired to a
+   play-time difficulty setting.
+3. **Endgame tail — A.** Miscellaneous skills keep levelling you at three-for-one.
+4. **The name — A.** *Vastei* stays, in the interface.
+5. **Training prices — A.** As priced.
+
+### Vetoes and steers, with the resolution
+
+| Item | Ruling | What changed |
+|---|---|---|
+| **Birthsign** | Pick the *sign*, not the birth date | §119: the sign is chosen directly; the birth date stays as flavour and canon social fact |
+| **"Attributes nudge skills — is that Morrowind?"** | Check UESP | **It is not.** UESP (*Morrowind:Attributes*, *Morrowind:Trainers*) says a governing attribute does three things: the level-up multiplier, the training cap, and whatever named formulas use it. We delete the first two of those, so the **attribute assist is ours** — new §117.1 says so plainly, keeps the canon training cap, and records the Morrowind-literal alternative as a live option |
+| **Level / health / Endurance** | Not clear | New §117.2 walks it through with a worked example: ranks → levels → health, and why health being a formula makes Endurance retroactive |
+| **Vastei needs teaching** | Yes, in lore terms | §120.3: a **Nisswo teaches it diegetically in the opening hours**; the quest packet that owns the opening now owes that scene |
+| **"Calibrated on one character?"** | No — needs many | Fair hit on the write-up, not the work: the harness always swept many builds, but the doc led with one. §116 now leads with the calibration *set* (7 stages × 6 styles × 6 bands × 3 positions + edge cases + 6 playthroughs); the Marsh Hand is described as a continuity anchor, and the sandbox's constants are explicitly **placeholders we may re-base**, not law |
+| **Magicka cost reduction** | 75 %, if the gear is rare | §123: cap raised to 75 %, framed as rare placed loot |
+| **Sneak-attack multipliers** | Wanted, Skyrim-style, melee > ranged | New §121.5: dagger ×3→×15, short blade ×2.5→×8, one-handed ×2→×6, two-handed and bow ×2→×4, spells ×1.5→×3, banded by Sneak skill (no perks). Modelled in the campaign runs, where it is what keeps a stealth build alive in the lethal middle game |
+| **Default 4 — untargeted spells** | Must still count | §120.2 rewritten: a self/utility spell counts when the situation it answers is real (water-breathing *underwater*, light *in the dark*, feather while over-loaded). Only effects that change nothing are worthless |
+| **Default 4 — Acrobatics ↔ climbing** | Link it | Acrobatics now governs climbing outright, accrues per metre ascended, and has real numbers (§122.1) |
+| **Default 4 — "per vendor purse"?** | Unclear | Reworded: the value that counts is capped by **how much money the merchant actually has**, so you cannot farm one grocer by selling and rebuying a crate |
+| **Default 5 — "recovery"?** | Unsure; happy to drop | **Dropped.** Weapon skill no longer touches recovery timing at all — it buys the damage-range position, stamina cost, wear and bow handling. Recovery is animation timing, and stats stay off the feel constants |
+| **Default 7 — poise/posture** | Not in the sandbox; leave it out | **Cut entirely** (§121.3). Hit reactions stay exactly what the sandbox does today; the poise column is gone from the enemy ladder too |
+| **Default 8 — roll i-frames** | Doesn't Dark Souls vary them by roll weight? | **You're right, DS1 does** (13/11/9 frames at light/medium/fat; DS3 and Elden Ring flattened them instead). Tiers now vary i-frames *and* animation speed. The §102 rule is unchanged and now reads correctly: *stats* never gate a feel verb (the DS2 mistake); equip load is a visible choice, not a hidden stat |
+| **Default 12 — constant effects** | Like them; weaker ones should be cheaper | §123: constant effects are **tiered by soul size** (petty 30 → grand 600) instead of one flat 400-soul gate |
+| **Default 14 — how does haggling work?** | Asked | §124 spells it out: no minigame, a visible price band — an unskilled disliked stranger pays ~1.5× what a skilled welcome one pays and sells for about half, a 3× swing across the system; vendor purses finite and refreshing |
+| **Default 16 — followers** | **There are none in this game** | Followers removed from the design; §102 now states it as a constraint (consistent with decision 0028's "no companions anywhere") |
+| **Default 18 — classes** | Too Argonian; want more, race-diverse, lore-derived | Eighteen presets: eleven canonical Elder Scrolls classes (Warrior, Knight, Barbarian, Scout, Thief, Assassin, Mage, Spellsword, Nightblade, Healer, Monk) plus seven from canon province offices — **Kaal**, **Root-herald**, **Tree-minder**, **Grave-singer**, **Shadowscale-trained**, **Marsh guide**, **Reed-sail hand**. Any race may take any class |
+| **"Don't over-fit to the simulation"** | Standing instruction | Recorded in §103.1: *the simulation is evidence, not law; where it and a playtest disagree, the playtest wins* |
+
+### What the lethality ruling actually did
+
+"Blows that kill you" is now the **design input** of the danger ladder, and
+enemy damage is solved from it: 10 blows at D0, 5 at D1, 4 at D2, 3.5 at D3, 3
+at D4 and D5, measured on the character each band is meant for in typical
+armour. Enemy damage roughly doubled as a result.
+
+That immediately collapsed the difference between armour classes, so **armour
+was given its own material ladder** — Morrowind's is 8× from iron to daedric,
+where the weapon ladder is only 2.3× — plus a light/medium/heavy multiplier.
+The result is the shape asked for: light armour dies in 2–3 blows, heavy in
+4–5, genuinely best-in-slot tempered plate in 5–6, and nothing in the game
+buys more than that. **The final boss can no longer be out-tanked by anyone**;
+it has to be fought.
+
+A single **difficulty multiplier** (`difficulty.enemyDamageMultiplier`, 0.7 /
+1.0 / 1.35) scales all of it in one number and is the back end for a play-time
+difficulty setting. It touches incoming damage only — never populations, loot
+or gates — so fixed danger (0004) is untouched.
+
+### The whole-game simulation (asked for in the same message)
+
+Six plausible characters were played through a Milestone-1-shaped campaign
+(~150 hours, ~190 quests, act-by-act encounter mixes, deaths and retrieval
+runs). Results and the eight new findings are in the
+[numbers packet](stats-progression-numbers-packet.md) §4 and §8. The headline
+answers to "when do they level, how often do they die, how fast do skills
+climb":
+
+- level 2–4 by hour 19, 7–16 by hour 60, 16–27 by the end;
+- 7–10 deaths in the first nineteen hours, 11–36 across the long second act,
+  and **almost none after Act III**;
+- the primary weapon skill hits ~55 by hour 19, ~85 by hour 60, 100 in Act III;
+- the bow build has by far the hardest middle game (36 deaths against a Nord's
+  11) and one of the easiest late games;
+- gold outgrows its sinks by the endgame, and non-social builds finish with
+  Speechcraft under 20 — both flagged for Phase 13 rather than fixed here.

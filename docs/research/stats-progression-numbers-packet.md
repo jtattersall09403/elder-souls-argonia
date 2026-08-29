@@ -1,37 +1,43 @@
 # Workstream S: the numbers packet and the balance-simulation findings
 
 > Steps 6–7 of the run-book (module [76](../world/76-stats-progression.md)
-> §103.1). The **design** is module 76 §116–129; the **canonical numbers** are
-> the data files in `tooling/stats-sim/data/`; this document is the derivation,
-> the worked characters, and what the simulation found and what was done about
-> it. Regenerate everything here with:
+> §103.1), **revised 2026-08-29 after owner round 2**. The design is module 76
+> §116–129; the canonical numbers are the data files in `tooling/stats-sim/data/`;
+> this is the derivation, the worked characters, the whole-playthrough runs, and
+> what the simulation found. Regenerate with:
 >
 > ```bash
-> node tooling/stats-sim/run.mjs        # 13 invariants, all holding as of 2026-08-29
+> node tooling/stats-sim/run.mjs        # 16 invariants, all holding
 > ```
+>
+> **The simulation is evidence, not law.** It is arithmetic over a design
+> document — no animation, no spacing, no player hands. Where it and a playtest
+> disagree, the playtest wins.
 
-## 1. The reference character, checked against the sandbox as playtested
+## 1. Calibration: a set of characters, not one
 
-The design is anchored on the **Marsh Hand** (module 76 §116): level 10,
-Str/End/Agi/Spd 50, Wil/Int/Per 40, Long Blade 60, Block 50, Heavy Armor 45,
-Athletics 40, carrying steel sword + steel kite shield + steel cuirass/gauntlets/
-boots and an 18 kg pack.
+Calibration runs over **7 progression stages × 6 build styles × 6 danger bands
+× 3 positions in each band**, plus edge cases (unarmoured mage, over-encumbered
+hauler, best-in-slot tank, hour-one novice) and **six whole-playthrough runs**.
+
+One character in that set is named because it is the **continuity anchor** —
+the **Marsh Hand**, whose numbers are the ones the combat sandbox has actually
+been played with:
 
 | Quantity | Design | Sandbox today |
 |---|---|---|
 | Health | 98.3 | 100 |
 | Stamina / regen | 100 / 24 per s | 100 / 24 |
 | Carry capacity | 180 kg | 180 kg |
-| Burden tier | mid (0.25 of capacity) | — (no tiers existed) |
+| Burden tier | mid (0.25 of capacity) | — |
 | Mitigation, AR 50 vs a 24 blow | 25.00 % | 25.00 % |
 | Listed light chain | 24 / 29.0 / 34.1 | 24 / 29.04 / 34.08 |
-| Poise | 27.5 | — |
 | Damage position at Long Blade 60 | 86.2 % of the weapon's range | — |
 | Breath | 51.5 s | — |
 
-Everything the sandbox already had is reproduced exactly; everything new sits
-around it. This is the `reference-equivalence` invariant, and it is the one that
-must never be allowed to fail.
+The correspondence is deliberate but **not sacred**: the sandbox constants were
+placeholders, and this design may re-base any of them. What is protected is the
+feel, not the integers.
 
 ## 2. Three worked characters
 
@@ -41,178 +47,183 @@ must never be allowed to fail.
 | Primary skill | 30 | 60 | 100 |
 | Gear | iron sword, studded set | steel sword + shield, steel set | daedric, 3 temper grades, +40 % enchantments |
 | Health / stamina | 44 / 92 | 98 / 100 | 601 / 160 |
-| Armour rating | 29 | 50 (unskilled: 62 raw × the skill band) | 214 |
+| Armour rating | 29 | 50 | 406 |
 | Light hit lands | 13 | 21 | 100+ |
 | Carry | 150 kg | 180 kg | 405 kg |
 | Breath | 42 s | 51 s | 85 s (∞ as an Argonian) |
 
-Growth from hour one to the god-build is roughly **×14 health, ×8 damage,
-×7 armour** — and the *world stays where it is*, which is the whole point
-(module 76 §102).
-
 ## 3. The ladder, as the simulation plays it
 
-Twelve worked archetypes compiled from band + position + variants, fought by
-four builds (no avoidance — a straight trade, so these are worst cases):
+**"Blows that kill you" is now the design input**, and enemy damage is solved
+from it (owner ruling: getting hit must matter). Straight unavoided trades, no
+dodging, no blocking:
 
 | Band | Archetype | HP | Light hit | AR | Hour one | Marsh Hand | Veteran (L20) | Legend (L50) |
 |---|---|---|---|---|---|---|---|---|
-| D0 | Mudcrab | 29 | 5 | 2 | 4.1 s | 2.4 s | 1.1 s | 1.1 s |
-| D1 | Ripper eel | 74 | 13 | 13 | 6.7 s | 3.6 s | 3.4 s | 2.2 s |
-| D1 | Smuggler | 82 | 15 | 16 | 8.1 s | 4.8 s | 3.4 s | 2.2 s |
-| D2 | **The Hollow Warden** (today's archetype) | 135 | 23 | 32 | 14.8 s | 7.3 s | 5.7 s | 3.4 s |
-| D2 | Bog blight | 149 | 32 | 37 | 17.4 s | 8.5 s | 5.7 s | 3.4 s |
-| D3 | Naga raider | 253 | 36 | 57 | **dies** | 17 s | 10.3 s | 4.5 s |
-| D3 | Wamasu | 391 | 50 | 71 | **dies** | 30.6 s | 17.3 s | 6.7 s |
-| D4 | Dreugh warlord | 550 | 70 | 147 | **dies** | **dies** | 32.6 s | 12.3 s |
-| D4 | Deep-marsh leviathan | 670 | 106 | 125 | **dies** | **dies** | 39.9 s | 13.4 s |
-| D5 | Endgame warden | 830 | 108 | 121 | **dies** | **dies** | **dies** | 16.8 s |
-| D5 | **Xal-Krona** (final boss) | 1450 | 162 | 213 | **dies** | **dies** | **dies** | 48.6 s |
+| D0 | Mudcrab | 29 | 5 | 2 | 4.0 s | 2.6 s | 1.3 s | 1.3 s |
+| D1 | Ripper eel | 74 | 12 | 13 | 6.5 s (5 blows kill) | 4.0 s | 4.0 s | 2.6 s |
+| D2 | **The Hollow Warden** | 135 | 32 | 32 | 15.7 s (**2 blows kill**) | 7.9 s (5) | 6.5 s | 4.0 s |
+| D2 | Bog blight | 149 | 46 | 37 | **dies** | 9.2 s (3) | 6.5 s | 4.0 s |
+| D3 | Naga raider | 253 | 66 | 57 | **dies** | 22.3 s (2) | 11.8 s (5) | 5.2 s |
+| D3 | Wamasu | 391 | 94 | 71 | **dies** | **dies** | 21 s (4) | 9.2 s |
+| D4 | Dreugh warlord | 550 | 165 | 147 | **dies** | **dies** | **dies** (2) | 15.8 s (9) |
+| D4 | Deep-marsh leviathan | 670 | 261 | 125 | **dies** | **dies** | **dies** | 19.7 s (5) |
+| D5 | Endgame warden | 830 | 226 | 121 | **dies** | **dies** | **dies** | 25 s (6) |
+| D5 | **Xal-Krona** (final boss) | 1450 | 345 | 213 | **dies** | **dies** | **dies** | **dies** (4) |
 
-Blows that kill you: the Marsh Hand dies to 6 Hollow Warden hits, 3 wamasu
-hits, 2 dreugh hits and 1 Xal-Krona hit. That is the fixed-danger gradient made
-numerical — and it is the ladder Phase 13 authors write against.
+Read the last row carefully: **the final boss cannot be out-tanked even by an
+endgame character standing still**. It has to be fought — dodged, blocked,
+spaced. That is the new lethality doing its job.
 
-**Build parity at the final boss** (a good player, 55 % of blows avoided; the
-quest plan requires every build to be able to finish):
+**Build parity at the final boss**, played well (78 % of blows avoided):
 
-| Build | Result | Burst dps | Potions | Health left |
+| Build | Result | Burst dps | Potions | Health left | Unavoided blows that would kill |
+|---|---|---|---|---|---|
+| Greatsword | win, 39 s | 42 | 3 | 34 % | 4 |
+| Sword & board | win, 53 s | 32 | 5 | 40 % | 4 |
+| Spear | win, 57 s | 33 | 9 | 49 % | 3 |
+| Marksman | win, 57 s | 34 | 9 | 42 % | 2 |
+| Magic | win, 32 s | 75 | 10 | 32 % | 2 |
+| Stealth (short blade) | win, 64 s | 29 | 10 | 28 % | 2 |
+
+Every build finishes; the spread is ×2. Light-armour builds live on two blows,
+heavy on four, and best-in-slot plate on five to six — the ratio the owner
+asked for.
+
+## 4. A whole game, act by act
+
+Six plausible characters played through a Milestone-1-shaped campaign (~150
+hours, ~190 quests, encounter mix by act, deaths and retrieval runs included).
+This is the coarsest thing in the harness and the most useful: it is the only
+place the *shape of the curve over a hundred hours* is visible.
+
+| | Act I (19 h) | Act II (~61 h) | Act III (~95 h) | Endgame (~124 h) | Post-game (~148 h) |
+|---|---|---|---|---|---|
+| **Nord sword & board** | L4, 7 deaths, 86 hp | L16, 11 deaths | L22, 0 deaths, weapon 100 | L24 | L27, AR 380 |
+| **Argonian kaal (spear)** | L4, 7 deaths | L13, 18 deaths | L18, 0 deaths | L21 | L25 |
+| **Bosmer scout (bow)** | L2, **10 deaths** | L9, **36 deaths** | L14, 3 deaths | L18 | L22 |
+| **Breton mage** | L3, 8 deaths | L7, 20 deaths | L9, 2 deaths | L13 | L16 |
+| **Khajiit thief** | L4, 8 deaths | L15, 13 deaths | L20, 0 deaths | L22 | L25 |
+| **Orc greatsword** | L3, 7 deaths | L11, 14 deaths | L16, 0 deaths | L20 | L23 |
+
+What it says:
+
+- **Levelling pace**: level 2–4 by hour 19, 7–16 by hour 60, 14–22 by hour 95,
+  16–27 by the end. Morrowind-shaped — fast early, a long slow tail.
+- **Dying is front-loaded and heavy**: everyone dies 7–10 times in the first
+  nineteen hours and 11–36 times across Act II. After Act III, almost nobody
+  dies. That is the fixed-danger curve working: you are learning a world that
+  never softens, and then you have learned it.
+- **The light-armour builds have a much rougher middle game** (the archer's 36
+  deaths against the Nord's 11) and a much better late one. That is a real
+  design property, not a bug — but it is worth knowing before playtest that the
+  bow build's first fifty hours are the hardest experience in the game.
+- **Skills**: the primary weapon skill hits ~55 by hour 19, ~85 by hour 60 and
+  100 during Act III. Armour skills track slightly behind. Athletics reaches
+  50–75 by mid-game on travel alone; Acrobatics only climbs for characters who
+  actually climb (the thief ends on 69, the mage on 38).
+- **The mage lags on level and health** (level 16 and 143 health at the end,
+  against the Nord's 27 and 253) because so much of a mage's power is in the
+  spell tier and the pool, not the level counter. Worth watching; it is also
+  exactly how Morrowind felt.
+- **Gold accumulates faster than the sinks drain it** (~55–65 k banked by the
+  end even after training). Either training should cost more, or the late game
+  needs bigger sinks — a Phase 10c/13 tuning note rather than a design flaw.
+- **Speechcraft stays low for non-social builds** (8–20 for the warriors). Since
+  speech is an ending-grade system, the endings must stay reachable by the duel
+  route for those characters — which the quest plan already requires.
+
+## 5. Climbing (the new Acrobatics verb)
+
+| Climber | Speed | Stamina drain | Reach with rests | 25 m wall |
 |---|---|---|---|---|
-| Greatsword | win, 30.9 s | 54 | 3 | 47 % |
-| Magic | win, 32.4 s | 75 | 10 | 39 % |
-| Sword & board | win, 43.4 s | 40 | 5 | 43 % |
-| Spear | win, 45.1 s | 42 | 7 | 51 % |
-| Stealth (short blade) | win, 50.5 s | 36 | 7 | 25 % |
-| Marksman | win, 51.6 s | 36 | 7 | 25 % |
+| Hour one (Acrobatics 15, mid load) | 1.02 m/s | 8.6 /s | ~12 m | cannot |
+| Competent (45, mid load) | 1.21 m/s | 7.1 /s | ~24 m | just about |
+| Scout (70, light load) | 1.31 m/s | 5.2 /s | ~63 m | with rests |
+| Master (100, light load) | 1.38 m/s | 4.8 /s | 160 m+ | in one go, 18 s |
 
-A ×1.7 spread with genuinely different textures: the mage is the fastest and
-ends the fight empty, the greatsword is the most efficient, the bow and the
-short blade are the long grind. Poise, backstabs, blocking and spacing are
-**not** modelled, so the two stealth-ish rows are pessimistic.
+Authoring contract: **under 10 m is open to everyone, 25 m wants a real
+climber, beyond 40 m is specialist ground** — and every climb-only route needs
+a fallback (quests 20 §11).
 
-## 4. Progression pacing
+## 6. Sneak openers
 
-A character raising its ten major/minor skills by use, spending vastei at every
-rest sitting (all six preset classes, to level 40):
+Skyrim's shape (dagger ×6/×15, one-handed ×3/×6, bow ×2/×3) rebuilt as Sneak
+bands, so no perk economy is needed:
 
-| Level | Skill ranks | Points bought at that sitting | Attribute points so far | Health |
-|---|---|---|---|---|
-| 5 | 40 | 6 | 22–25 | 58–70 |
-| 10 | 90 | 5–6 | 51–55 | 85–100 |
-| 20 | 190 | 4 | 96–101 | 148–164 |
-| 30 | 290 | 3–4 | 129–137 | 225–229 |
-| 40 | 390 | 2–3 | 158–169 | ~290 |
-
-Ten skill ranks per level, ~4 attribute points per level early and ~3 late, and
-health roughly triples from level 5 to level 30. The escalating cost curve does
-the soft-capping without a cap: by level 30 a sitting buys three points, not
-five, and spreading is cheaper than stacking.
-
-**Vastei per rank** = `4 × (skill+1) × classFactor × specFactor × (1 + effSkill/50)`.
-A useful property falls out of the algebra: **worthiness cancels**, because a
-rank costs proportionally more use-points than a low-worth action supplies. The
-currency therefore cannot be farmed faster than skill ranks themselves — the
-only exploit surface is the shared skill-XP worthiness rules (module 76 §120.2),
-which is exactly why those rules guard both.
-
-## 5. Encumbrance
-
-| Loadout | kg | Str 30 | Str 50 | Str 65 | Str 85 | Str 125 |
+| Sneak | Dagger | Short blade | One-handed | Two-handed | Bow | Spell |
 |---|---|---|---|---|---|---|
-| Unarmoured + dagger | 9 | fast | fast | fast | fast | fast |
-| Studded + sword | 30 | mid | fast | fast | fast | fast |
-| **Reference steel + shield** | 45 | fat | **mid** | mid | fast | fast |
-| Ebony + greatsword | 54 | fat | mid | mid | fast | fast |
-| Daedric + warhammer + shield | 71 | fat | fat | mid | mid | fast |
-| Daedric + 120 kg of loot | 173 | overloaded | fat | fat | fat | fat |
+| 0–24 | ×3 | ×2.5 | ×2 | ×2 | ×2 | ×1.5 |
+| 25–49 | ×6 | ×4 | ×3 | ×2.5 | ×2.5 | ×2 |
+| 50–74 | ×10 | ×6 | ×4 | ×3 | ×3 | ×2.5 |
+| 75+ | ×15 | ×8 | ×6 | ×4 | ×4 | ×3 |
 
-Strength buys mobility in your own armour — the endgame plate that makes you a
-fat-roller at Str 65 is a mid-roller at 85 and a fast-roller at 125.
+In the campaign runs this is what keeps the stealth build viable through the
+lethal middle game: a ×10 opener on a D3 raider is most of its health before it
+knows you are there.
 
-## 6. Breath and underwater routes
+## 7. Progression, encumbrance, breath, economy
 
-`breath = 25 + 0.35×Athletics + 0.25×Endurance` seconds; Argonians unlimited.
+**Levelling** (abstract run, all preset classes, to level 40): ten skill ranks
+per level; 5–6 attribute points bought per sitting early, 3–4 by level 20 and
+2–3 by level 30; health roughly triples between level 5 and level 30. Hoarding
+vastei instead of spending it leaves you **54 attribute points behind** with a
+lower health curve throughout — deferral is strictly bad, as designed.
 
-| | End 30 | End 50 | End 100 |
-|---|---|---|---|
-| Athletics 5 | 34 s | 39 s | 52 s |
-| Athletics 40 | 47 s | 52 s | 64 s |
-| Athletics 100 | 68 s | 73 s | 85 s |
+**Encumbrance**: the reference kit is *mid* at Strength 50, *fat* at 30, *fast*
+at 85. A full daedric kit with a warhammer and shield (71 kg) is fat until
+Strength 65 and fast at 125. A hoarder with 120 kg of loot is overloaded below
+Strength 50.
 
-Authoring guidance for Phase 11/12 underwater routes: **a 30 s segment is open
-to everyone; 45 s wants a competent swimmer; 60 s wants a specialist; beyond
-75 s is Argonian, spell or equipment territory** — which is precisely the
-"advantage, never exclusive mandatory progression" rule the quest plan requires
-(quests 80 §63), because every such route needs a degraded fallback anyway.
+**Breath**: `25 + 0.35×Athletics + 0.25×Endurance` seconds; 34 s at the bottom,
+85 s at the top, unlimited for Argonians. 30 s segments are open to all, 45 s
+wants a competent swimmer, 60 s a specialist, beyond 75 s is Argonian, spell or
+equipment ground.
 
-## 7. Economy
+**Economy**: clean play at your own band pays (a D3 fight costs ~100 gold of
+potions against 170 income); sloppy play does not (a botched D4 costs 425
+against 480). Training runs 8 × rank per rank — 6,320 g for 30→50, ~36,000 g
+from 30 to 100. Brewed healing beats bought healing for a skilled alchemist
+(198 against 140) on ~12 g of ingredients.
 
-| Band | A sloppy fight costs | Cheapest healing | Income per clear |
-|---|---|---|---|
-| D1 | 39 health | 2 minor potions, 50 g | 22 g |
-| D2 | 72 health | 3 minor, 75 g | 60 g |
-| D3 | 127 health | 6 minor, 150 g | 170 g |
-| D4 | 236 health | 10 minor, 250 g | 480 g |
-| D5 | 424 health | 17 minor, 425 g | 1400 g |
+## 8. Everything the simulation found
 
-Early on, potions cost more than the fights pay: the early game rewards **not**
-getting hit, and rewards brewing over buying. Brewed Restore Health scales
-21 (novice) → 77 (competent) → 198 (master alchemist with a master apparatus)
-against ~12 g of ingredients, so alchemy becomes the healing economy exactly as
-the owner's Q7 ruling intends.
-
-Note the deliberate tension the sim exposes: small potions are the most
-**gold**-efficient healing (1 g per point) while big ones are the most
-**time**-efficient (each drink costs ~1.3 s of a fight and 0.5 kg). Chugging
-seventeen minors through a D5 fight costs 22 seconds of drinking and 8.5 kg of
-pack — which is its own answer.
-
-Training: 8 × rank gold per rank, capped at the governing attribute — 6,320 g
-to take a skill 30→50, 12,400 g for 50→75, 17,400 g for 75→100. A real sink for
-a province where gold is otherwise "the least interesting reward".
-
-## 8. What the simulation found, and what was done
-
-Eleven anomalies. Every one is either fixed in the data or explicitly accepted.
+Round 1's eleven findings (armour outrunning damage growth, mages unable to
+sustain a boss, bows unable to hurt armour, training priced absurdly, the
+deferral check, the alchemy loop, and so on) are all still fixed. Round 2 added
+these:
 
 | # | Finding | Resolution |
 |---|---|---|
-| 1 | The reference kit sat in the *fast* roll tier under Souls-style thresholds (0.30/0.70), so "today's roll" would have been the light-roll. | **Fixed**: thresholds retuned to 0.20/0.35. The reference is mid, endgame plate is fat until Strength grows, a loot-hauler is overloaded. |
-| 2 | Enemy armour ratings and D5 health outran the player's damage growth: an endgame boss took over two minutes and beat every build. | **Fixed**: AR bands cut roughly 40 %, D5 health 800–1600 → 650–1250, D5 damage 95–160 → 90–150. |
-| 3 | A "strong armoured" D5 compiled to AR 341 — a tier of its own. | **Fixed**: variant clamp of ±25 % past the band edge, now a compiler rule (module 76 §128). |
-| 4 | Morrowind-sized magicka (Int × 1.6, Willpower/33 regen) could not sustain a mage through one boss fight even with a full potion belt. | **Fixed**: `20 + 3×Int`, regen `0.5 + 0.05×Wil`, plus capped spell-cost-reduction gear. |
-| 5 | With the bigger pool, low-tier spells then out-burst melee 3:1 in the low bands. | **Fixed**: tier damages cut to 9/18/40/80/140. Magic stays the burst archetype, bounded by magicka rather than by damage. |
-| 6 | Bows could not finish a heavily-armoured endgame enemy. | **Fixed**, by modelling two things the design already implies: arrowheads pierce (armour ~60 % effective against arrows) and **arrow material is its own damage axis** (placed loot, so bow power is geography too). |
-| 7 | Endgame mages needed cost-reduction gear to function, which is Skyrim's most famous exploit. | **Accepted with a bound**: cost reduction is kept because it is the mage endgame fantasy, and **capped at 50 % across all sources** so no stack reaches free casting. |
-| 8 | Training one skill to 100 cost ~127,000 g at the first curve — more than the early economy produces. | **Fixed**: 8 × rank per rank (≈36,000 g from 30 to 100), still a serious sink. |
-| 9 | Misc-skill grinding earns vastei without advancing the level trigger, so a grinder can bank a hoard. | **Accepted, and quantified**: a maximum sitting at level 10 costs ~27,600 vastei against ~2,000 earned in an ordinary level, and the +5-per-attribute sitting cap throttles what a hoard can buy. This is Morrowind's misc-grind charm, bounded. |
-| 10 | Hoarding vastei rather than spending it at each sitting: does deferral pay? | **Confirmed closed**: the hoarder ends 54 attribute points *behind* and spends the whole run with lower health (mean 121 against 138). Deferral is strictly bad, exactly as the F1 design claimed. |
-| 11 | A magic build's damage tier and a melee build's roll tier both changed when attributes were dealt by archetype rather than by a single table. | **Accepted as a modelling fix**: builds now spend the same total attribute investment along their own priority order. The melee order reproduces the reference character exactly. |
-
-Loops explicitly hunted and found **bounded**: the Morrowind alchemy
-fortify-Intelligence loop is flat at 124 magnitude across six iterations
-because crafting reads base stats (the same loop with output-fed inputs climbs
-124 → 211 and keeps going); smithing tempering tops out at ×1.24; the enchant
-point budget at ×1.6; armour tops out at AR 214 = 58.8 % of a light hit and
-44.5 % of a D5 blow, so nothing approaches immunity; unarmoured tops out at 60
-rating.
+| 12 | Making blows lethal (3 unavoided hits) collapsed the *difference* between armour classes: everything died in about the same number of hits. | **Fixed**: armour got its own material ladder (Morrowind's 8× rather than the weapon ladder's 2.3×) plus light/medium/heavy scaling. Typical endgame armour now takes 3, heavy 4, best-in-slot 5–6. |
+| 13 | With enemy damage doubled, the endgame boss beat every build at ordinary play. | **Accepted and made explicit**: D5 assumes skilled play by design. Everything below D5 must be winnable at ordinary play (60 % of blows avoided); D5 expects ~78 %. |
+| 14 | The starting armour set for the medium-armour build was a full steel harness — an artefact of a hand-written lookup table. | **Fixed**: gear is now derived (this build's armour class in this tier's material), so it cannot drift again. |
+| 15 | Skills reached 100 by hour 60 in the first campaign runs. | **Fixed**: a use is now worth a full point at ~15 % of the target's health (was 8 %), and the sixth-connect damping actually applied. Weapon skills now max during Act III (~hour 95). |
+| 16 | The archer died 51 times in Act II because the model made every build stand and trade. | **Fixed** in the model, not the design: ranged and stealth builds get a modest avoidance bonus for fighting at their own range, and a chance at a sneak opener. Their death count is still the highest, which is a genuine finding about light armour. |
+| 17 | After Act III, nobody dies at all. | **Reported, not fixed.** Partly correct (fixed danger + mastery = you outgrow the world; it is the promised payoff) and partly a modelling artefact (the sim never mispositions, never gets ambushed, never runs out of potions). Worth watching in playtest; the lever if it is real is more D5 content late, not softer numbers. |
+| 18 | Gold outruns its sinks by the endgame (~60 k banked). | **Reported**: a Phase 13 economy-tuning note. Bigger sinks (services, enchanting, property, bribes) are the answer, not less loot. |
+| 19 | Non-social builds finish with Speechcraft under 20. | **Reported**: the endings must stay winnable by the duel route (they are, by quest-plan rule). |
 
 ## 9. What the god-build does to the world
 
-At mid-D-band positions, the god-build clears D3 in 5.6 s without a potion and
-D5 in 22.7 s using two — against a legend build's 6.7 s and 30.9 s. The gap
-between "endgame" and "god" is deliberately *small in the combat maths*,
-because the skill curve is soft-capped and gear tops out: the god-build's real
-power lives in the systems the sim does not model (paralysis, invisibility,
-summons, fortify stacking, constant-effect items, alchemy). That is the design
-working as intended — the ceiling is **knowledge and system mastery**, not the
-level counter (module 76 §102, §120.5).
+At the hardest position in each band, with only ordinary play (35 % avoidance):
+the god-build clears D3 in 6.5 s untouched, D4 in 13 s, and **wins the hardest
+D5 fight in 37 s** — where the ordinary endgame character loses it. The
+competent character loses at D3.
+
+The gap between "endgame" and "god" is small in raw combat maths (the skill
+curve soft-caps, gear tops out) and large in everything the sim does not model:
+paralysis, invisibility, summons, fortify stacking, constant-effect items,
+alchemy. That is the design working as intended — the ceiling is knowledge and
+system mastery, not the level counter.
 
 ## 10. Known simplifications
 
-Fights are a resource-and-damage race with an avoidance parameter; poise,
-stagger, backstabs, blocking, spacing and hit zones are not modelled; bow
-ballistics are collapsed to one number; `gear.json` mirrors the game's
-equipment tables at commit 84ca7e6 rather than reading them. All of these are
-listed in `tooling/stats-sim/README.md`, and all of them are removed at Phase
-10c when the harness is re-pointed at the implemented system.
+Fights are a resource-and-damage race with an avoidance parameter standing in
+for player skill; poise, blocking, spacing, hit zones and backstab positioning
+are not modelled; bow ballistics are collapsed into one number plus an
+armour-penetration factor; the campaign model assumes a player who fights
+mostly at their own band and never runs out of supplies; `gear.json` mirrors
+the game's equipment tables rather than reading them. All listed in
+`tooling/stats-sim/README.md`, all removed at Phase 10c when the harness is
+re-pointed at the implemented system.
