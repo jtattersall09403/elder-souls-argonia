@@ -32,9 +32,9 @@
     }
   },
   "training": {
-    "_": "One rank per session; never above the skill's governing attribute (reads base values).",
-    "costPerRank": 15,
-    "costRankExponent": 1.15
+    "_": "One rank per session; never above the skill's governing attribute (reads base values). costPerRank * rank^exponent; retuned 2026-08-29 - at 15 x rank^1.15 training one skill to 100 cost more gold than the whole early economy produces.",
+    "costPerRank": 8,
+    "costRankExponent": 1.0
   },
   "services": {
     "repairPerConditionPoint": 1.6,

@@ -258,8 +258,8 @@ value above 100 and the design does not cap that (§102, god-build).
 | **Endurance** (End) | `maxHealth = 0.5×(Str+End) + level×(1.5 + End/15)` · `maxStamina = 60 + 0.8×End` · poise base · floor on disease/poison resistance |
 | **Agility** (Agi) | `staminaRegen = 12 + 0.24×Agi` per second · dodge/roll stamina discount (−0.2 % per point over 50) · knockdown resistance · bow steadiness |
 | **Speed** (Spd) | ground, swim and climb speed within the capability bands (§122) · attack and cast **recovery** scaling (never windup) |
-| **Willpower** (Wil) | `magickaRegen = 0.5 + 0.03×Wil` per second · concentration (stagger resistance while casting) · resist magic/paralysis floor |
-| **Intelligence** (Int) | `maxMagicka = 20 + 1.6×Int` (×race/birthsign multipliers) · alchemy potency · enchanting point budget |
+| **Willpower** (Wil) | `magickaRegen = 0.5 + 0.05×Wil` per second · concentration (stagger resistance while casting) · resist magic/paralysis floor |
+| **Intelligence** (Int) | `maxMagicka = 20 + 3×Int` (×race/birthsign multipliers) · alchemy potency · enchanting point budget |
 | **Personality** (Per) | base disposition · price band with Mercantile · speech score (§125) · faction standing gain rate |
 
 Health is **continuous and retroactive by construction** — it is a formula over
@@ -468,7 +468,10 @@ usable, exhausting, and glorious.
 
 **Marksman** keeps the physical ballistics model; skill and Agility drive the
 existing `RangedModifiers`, and `P(effMarksman)` multiplies delivered damage
-(a clean loose, not a stronger arrow).
+(a clean loose, not a stronger arrow). **Arrow material is its own damage axis**
+(Morrowind: iron 1–3 against daedric 10–15) — good arrows are placed loot, so a
+marksman's endgame damage is geography like everybody else's. Arrowheads pierce:
+armour is only ~60 % as effective against an arrow as against a blade.
 
 **Hand-to-Hand** deals low health damage but heavy **stamina and posture**
 damage (bands in §118); an opponent whose stamina is emptied by fists is open
@@ -541,13 +544,16 @@ windows, input buffering (§102).
 
 | r | Tier | Effect |
 |---|---|---|
-| < 0.30 | fast | roll distance ×1.10, roll recovery ×0.90, stamina ×1.00 |
-| < 0.70 | **mid** (the reference) | today's roll exactly, stamina ×1.08 |
+| < 0.20 | fast | roll distance ×1.10, roll recovery ×0.90, stamina ×1.00 |
+| < 0.35 | **mid** (the reference) | today's roll exactly, stamina ×1.08 |
 | < 1.00 | fat | roll distance ×0.80, recovery ×1.25, stamina ×1.20 |
 | ≥ 1.00 | overloaded | cannot run, roll, jump or swim upward; walk at 40 % speed; may still fight and cast (Morrowind's hard stop, softened so it is never a soft-lock) |
 
 **i-frames are identical in every tier** — tiers change distance and recovery
-only (§102).
+only (§102). The thresholds are calibrated (by the sim) so the reference kit is
+*mid*, a full endgame plate kit is *fat* until Strength grows into it, and a
+looted-up hoarder is *overloaded*: carrying capacity is a real progression axis
+rather than a formality.
 
 Everything the world's traversal validation consumes is a
 `TraversalCapabilityProfile` field, generated at 10c from the stat system
@@ -572,15 +578,29 @@ opener, never a mandatory gate (quest rule).
 **Casting never fails.** Morrowind's cast dice are the magic twin of the
 misclick-miss, and they are gone.
 
-- `maxMagicka = 20 + 1.6×Int` × race/birthsign multipliers; regen
-  `0.5 + 0.03×Wil` per second, full restore at rest. An Atronach-style sign may
+- `maxMagicka = 20 + 3×Int` × race/birthsign multipliers; regen
+  `0.5 + 0.05×Wil` per second, full restore at rest. Both were raised by the
+  balance sim: at the first (Morrowind-sized) values a mage could not sustain a
+  boss fight even with a full potion belt. An Atronach-style sign may
   remove regen and add absorption — the hook exists.
 - **Six schools** (Alteration, Conjuration, Destruction, Illusion, Mysticism,
   Restoration) as skills, plus Alchemy and Enchant. Mysticism survives here as a
   folk school (§118).
-- **Spell tiers** gate what you can learn and cast: novice / apprentice /
-  journeyman / expert / master at effSkill 0 / 25 / 50 / 75 / 90. This is the
-  "reaching a threshold feels like something" device the weapon skills gave up.
+- **Spell tiers** gate what you can learn and cast, and are the "reaching a
+  threshold feels like something" device the weapon skills gave up:
+
+  | Tier | Skill gate | Damage | Magicka | Cast |
+  |---|---|---|---|---|
+  | novice | 0 | 9 | 8 | 0.8 s |
+  | apprentice | 25 | 18 | 22 | 1.0 s |
+  | journeyman | 50 | 40 | 48 | 1.2 s |
+  | expert | 75 | 80 | 85 | 1.5 s |
+  | master | 90 | 140 | 140 | 1.9 s |
+
+  Spell damage is elemental: it **bypasses physical armour** and meets magic
+  resistance instead (which is why a mage keeps pace against heavily-armoured
+  endgame enemies), and it is the highest burst in the game — bounded by
+  magicka, not by damage.
 - Cost, cast time and magnitude scale on the same bands as weapons (§118), so
   **every damage source sits on one multiplier stack** — the fix for Skyrim's
   late-game Destruction collapse. The quest plan requires the hardest fight to
@@ -588,6 +608,10 @@ misclick-miss, and they are gone.
 - **Spellmaking**: Morrowind's model — up to 8 effects, fee = 7 × magicka cost,
   magnitude/duration bounded by school skill and Int. Spells you cannot afford
   to cast are makeable and useless, which is self-limiting.
+- **Spell-cost reduction** from enchanted gear is the classic mage endgame and
+  we keep it, **capped at 50 %** across all sources — no stack ever reaches
+  free casting (Skyrim's 100 %-reduction exploit, closed by a cap rather than
+  by removing the fun).
 - **Enchanting**: item capacity by slot/material/weight; constant effect needs a
   soul of 400+ and effSkill ≥ 60; charged-item use cost `×(1.1 − Enchant/100)`.
   **Learn-by-disenchanting** (the Skyrim keeper): destroying a magic item
@@ -743,23 +767,40 @@ Fixed danger means every actor is authored as an absolute. The bands are what a
 Phase 13 author means by "a D3 creature" — anchored so the reference character
 (§116) finds D2 a fair fight and D4 a bad idea.
 
-| Band | Meaning (quests 20 §12) | Health | Damage per hit | AR | Poise |
-|---|---|---|---|---|---|
-| D0 | wildlife, nuisance | 20–45 | 4–8 | 0–10 | 5–12 |
-| D1 | low — an unprepared traveller may survive | 50–90 | 9–16 | 10–25 | 10–20 |
-| D2 | standard — a new but prepared character survives | 100–170 | 17–28 | 25–55 | 18–35 |
-| D3 | substantial combat/traversal capability required | 200–350 | 30–48 | 55–95 | 30–60 |
-| D4 | specialist equipment, route knowledge, allies | 400–700 | 55–85 | 95–150 | 55–100 |
-| D5 | fixed endgame, reachable early, never scaled | 800–1600 | 95–160 | 150–260 | 90–180 |
+| Band | Meaning (quests 20 §12) | Health | Light hit | AR | Magic resist | Poise |
+|---|---|---|---|---|---|---|
+| D0 | wildlife, nuisance | 20–45 | 4–8 | 0–6 | 0–5 % | 5–12 |
+| D1 | low — an unprepared traveller may survive | 50–90 | 9–16 | 6–18 | 5–10 % | 10–20 |
+| D2 | standard — a new but prepared character survives | 100–170 | 17–28 | 18–45 | 10–20 % | 18–35 |
+| D3 | substantial combat/traversal capability required | 200–350 | 30–48 | 45–80 | 15–30 % | 30–60 |
+| D4 | specialist equipment, route knowledge, allies | 400–700 | 55–85 | 80–130 | 20–35 % | 55–100 |
+| D5 | fixed endgame, reachable early, never scaled | 650–1250 | 90–150 | 100–170 | 25–45 % | 90–180 |
+
+`damage` is a **typical light hit**; heavy attacks land at ~2.4× it. Attack
+period runs 3.0 s (D0) down to 1.8 s (D5). Loot value runs 2 → 2200 gold.
+Ranges were retuned by the balance simulation on 2026-08-29 — the first pass
+made endgame armour and health outrun the player's damage growth and pushed
+boss fights past two minutes.
+
+**Variants may not invent a tier**: a compiled field is clamped to ±25 % of its
+band's edges, so "strong armoured" stays a hard D5 rather than a secret D6.
 
 Today's `HOLLOW_WARDEN` (150 hp, iron set, steel sword) restates as a **mid D2**
 with no change of character. Boss uniques may exceed D5 on named fields.
 
 **The invariant that makes the ladder meaningful** (owner's own test): a D5 NPC
 in D5 gear near-one-shots a starting character and takes negligible damage from
-one — verified in the simulation (a 120-damage D5 blow leaves a level-1
-character on ~44 health for dead through 7.5 % mitigation; the level-1 reply
-lands ~6.6 damage against 1200 health).
+one — verified in the simulation: a mid-D5 blow lands 107 on a level-1
+character with 44 health, and that character's reply is 6.7 against 950 health
+(0.7 % a swing).
+
+**What the simulation says the ladder feels like** (full report:
+[numbers packet](../research/stats-progression-numbers-packet.md)): the
+reference character kills a D2 Hollow Warden in 7 s and dies to it in 6 blows;
+a D3 wamasu takes 31 s and three blows kill her; D4 kills her. An endgame build
+kills the final boss in 31–52 s depending on archetype (melee, greatsword,
+spear, marksman, stealth and magic all inside a ×1.7 spread) and spends 3–10
+potions doing it.
 
 **Every NPC, enemy, follower and merchant carries the player's schema plus a
 level** — attributes, skills, equipment, effects, respawn class, plus the AI
@@ -792,7 +833,9 @@ read:
 | `curves.json` | `k`, `P`, mitigation, health/stamina/magicka, vastei and level-cost constants |
 | `races.json` | racial baselines, skill bonuses, effect packages |
 | `classes.json` | preset classes (majors/minors/specialization/favoured) |
-| `materials.json`, `weaponClasses.json` | mirrored from `packages/game-core` + the armour-class tag |
+| `gear.json` | materials, weapon classes, the moveset, armour slots and sets — mirrored from `packages/game-core` + the armour-class tag |
+| `magic.json` | spell tiers, healing tiers, enchanting bounds, the alchemy formula |
+| `builds.json` | the progression checkpoints and archetype attribute priorities the sweeps run on |
 | `ladder.json` | the D0–D5 bands and the variant modifier packages |
 | `enemies.json` | worked archetypes on the ladder, including the restated Hollow Warden |
 | `economy.json` | potion/training/service/repair prices, vendor purses |
