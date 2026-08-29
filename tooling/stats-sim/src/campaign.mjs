@@ -515,7 +515,11 @@ export function playCampaign({
             hours += content.deathModel.minutesLostPerDeath / 60;
             if (wobble(step + 31) > content.deathModel.retrievalSuccessRate) ch.vastei *= 0.5;
           } else {
-            ch.gold += enemy.lootValue * actors;
+            // What falls off the corpse, not what the whole encounter is worth:
+            // placed treasure is counted once, per hour, as lootGoldPerHour.
+            // Adding the ladder's lootValue here double-counted it and ended a
+            // playthrough on 860,000 gold.
+            ch.gold += (data.economy.income.perBandClear[bandId] ?? 0) * actors;
           }
         }
 
