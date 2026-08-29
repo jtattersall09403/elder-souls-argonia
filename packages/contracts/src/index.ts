@@ -145,6 +145,28 @@ export interface TimeLightSample {
   visibilityM?: number;
 }
 
+/**
+ * Weather at a position (module 55 §98, decision 0032): world state on the
+ * calendar, never scaled to the player (0004). The same deterministic sample
+ * the renderer draws — AI perception, encounters and Phase 9
+ * climbing/boats/traction read THIS, so what falls is what the world feels.
+ */
+export interface WeatherContact {
+  /** clear | haze | overcast | rain | downpour | squall | thunderstorm */
+  state: string;
+  /** Local precipitation strength 0..1. */
+  rainIntensity: number;
+  /** Wind travel direction (XZ unit) and speed, m/s. */
+  windDirXZ: [number, number];
+  windSpeedMS: number;
+  /** Practical sight distance, metres (weather + mist regimes combined). */
+  visibilityM: number;
+  /** Ground wetness 0..1 (decays over tens of minutes after rain). */
+  wetness: number;
+  /** Traction 0..1 (1 = dry grip); Phase 9 climbing/boats consume this. */
+  grip: number;
+}
+
 export interface EnvironmentContact {
   groundMaterial?: string;
   /** Terrain surface height at the query (x, z), runtime metres. */
@@ -152,6 +174,7 @@ export interface EnvironmentContact {
   supportNormal?: Vec3;
   water?: WaterSample;
   light?: TimeLightSample;
+  weather?: WeatherContact;
   mudDepth: number;
   biomeId: string;
   regionId: string;

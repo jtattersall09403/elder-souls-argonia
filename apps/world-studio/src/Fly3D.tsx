@@ -226,7 +226,7 @@ export function Fly3D(props: Fly3DProps) {
       {/* Natural light and sky (Phase 8a): sun/moons/stars, CSM shadows,
           exposure and the aerial haze all come from WorldSky — the old fixed
           hemisphere+directional pair and hand-tuned fog are gone. */}
-      <WorldSky mode="fly" extentM={extentM}>
+      <WorldSky mode="fly" extentM={extentM} verticalScale={props.exaggeration}>
         {chunkManifest ? (
           <Suspense fallback={null}>
             <FocusTracker focusRef={focusRef} />

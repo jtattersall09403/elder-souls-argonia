@@ -2,6 +2,7 @@ import type { EnvironmentContact, EnvironmentQuery, Vec3, WaterSample, WorldWate
 import { SEA_LEVEL_Y } from "@elder-souls/contracts";
 import { dayPhaseAt, moonAt, MOONS, sunAt } from "@elder-souls/world-time";
 import { worldClock } from "../sky/timeState";
+import { lastWeatherSample } from "../weather/weatherState";
 import type { ChunkStore, ChunksManifest } from "./chunkStore";
 
 /**
@@ -139,6 +140,25 @@ export class ChunkWorld implements EnvironmentQuery {
       seasonScalar: worldClock.season().s,
       visibilityM: region ? this.regionVisibility.get(region.regionId) : undefined,
     };
+    // Weather (Phase 8c, module 55 §98): the same deterministic sample the
+    // renderer draws this frame (camera-local — the player IS the camera in
+    // studio modes). Weather visibility caps the region's baseline.
+    const wx = lastWeatherSample();
+    if (wx) {
+      contact.weather = {
+        state: wx.state,
+        rainIntensity: wx.rainIntensity,
+        windDirXZ: wx.windDirXZ,
+        windSpeedMS: wx.windSpeedMS,
+        visibilityM: wx.visibilityM,
+        wetness: wx.wetness,
+        grip: wx.grip,
+      };
+      contact.light.visibilityM = Math.min(
+        contact.light.visibilityM ?? Number.POSITIVE_INFINITY,
+        wx.visibilityM,
+      );
+    }
     if (ground === null) return contact;
     contact.groundHeight = ground;
     contact.groundMaterial = this.groundMaterialAt(position.x, position.z);

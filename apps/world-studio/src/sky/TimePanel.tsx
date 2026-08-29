@@ -18,6 +18,15 @@ import {
   setStarDensityMult,
 } from "./WorldSky";
 import { getWarmthBias, setWarmthBias } from "./lightRig";
+import { WEATHER_KINDS } from "@elder-souls/world-weather";
+import {
+  getWeatherOverride,
+  lastWeatherSample,
+  setWeatherOverride,
+  subscribeWeather,
+  weatherVersion,
+  type WeatherOverride,
+} from "../weather/weatherState";
 
 /**
  * Studio time-of-day tooling (module 55 tier 1; module 85 §66): scrubber,
@@ -34,9 +43,11 @@ export function TimePanel({
   onPreset: (preset: LightPreset) => void;
 }) {
   useSyncExternalStore(subscribeClock, clockVersion);
+  useSyncExternalStore(subscribeWeather, weatherVersion);
   const instant = worldClock.now();
   const season = worldClock.season();
   const month = MONTHS[instant.month];
+  const wx = lastWeatherSample();
 
   const update = (patch: Partial<WorldInstant>) => {
     setClockInstant({ ...instant, ...patch, day: Math.min(patch.day ?? instant.day, MONTHS[patch.month ?? instant.month].days) });
@@ -111,6 +122,40 @@ export function TimePanel({
       </div>
       <div style={{ opacity: 0.85 }}>
         {worldClock.dayPhase()} · {season.name} (s {season.s.toFixed(2)})
+        {wx && (
+          <>
+            {" · "}
+            {wx.state}
+            {wx.blend < 1 && wx.prev !== wx.state ? ` (from ${wx.prev})` : ""}
+            {wx.rainIntensity > 0.05 ? ` · rain ${(wx.rainIntensity * 100).toFixed(0)}%` : ""}
+          </>
+        )}
+      </div>
+      <div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
+        <label title="Weather (Phase 8c): auto follows the deterministic calendar timeline — the only mode the game ships. Forcing a state is studio preview tooling (kept in the URL as w=).">
+          weather{" "}
+          <select
+            value={getWeatherOverride()}
+            onChange={(e) => {
+              setWeatherOverride(e.target.value as WeatherOverride);
+              onChanged();
+            }}
+          >
+            <option value="auto">auto (calendar)</option>
+            {WEATHER_KINDS.map((k) => (
+              <option key={k} value={k}>
+                force: {k}
+              </option>
+            ))}
+          </select>
+        </label>
+        {wx && (
+          <span style={{ opacity: 0.7 }}>
+            wind {wx.windSpeedMS.toFixed(1)} m/s · vis{" "}
+            {wx.visibilityM >= 1000 ? `${(wx.visibilityM / 1000).toFixed(1)} km` : `${Math.round(wx.visibilityM)} m`}
+            {wx.wetness > 0.05 ? ` · wet ${(wx.wetness * 100).toFixed(0)}%` : ""}
+          </span>
+        )}
       </div>
       <div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
         <select
@@ -119,6 +164,7 @@ export function TimePanel({
             const p = LIGHT_PRESETS.find((x) => x.id === e.target.value);
             if (p) {
               setClockInstant({ era: 4, year: 201, month: p.month, day: p.day, minuteOfDay: p.minuteOfDay });
+              setWeatherOverride((p.w as WeatherOverride) ?? "auto");
               onPreset(p);
               onChanged();
             }

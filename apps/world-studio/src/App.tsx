@@ -14,10 +14,13 @@ import {
 } from "./sky/timeState";
 import { getLatitudeOverrideDeg, setLatitudeOverrideDeg } from "./sky/WorldSky";
 import { setWetSeasonOverride } from "./water/waterAssets";
+import { getWeatherOverride, parseWeatherParam, setWeatherOverride } from "./weather/weatherState";
 
 const urlParams = new URLSearchParams(window.location.search);
 // World time from the URL (t=HH:MM, d=M-D, rate; lat is a debug override).
 applyTimeParams(urlParams);
+// Weather force-state from the URL (w=<state>; absent = auto calendar).
+setWeatherOverride(parseWeatherParam(urlParams.get("w")));
 {
   const lat = Number(urlParams.get("lat"));
   if (Number.isFinite(lat) && urlParams.get("lat") !== null && lat !== -10) {
@@ -162,6 +165,7 @@ export function App() {
       q.set("t", formatTimeParam(instant.minuteOfDay));
       q.set("d", formatDateParam(instant));
       if (worldClock.rate > 0) q.set("rate", String(worldClock.rate));
+      if (getWeatherOverride() !== "auto") q.set("w", getWeatherOverride());
       const lat = getLatitudeOverrideDeg();
       if (lat !== null) q.set("lat", String(lat));
     }
