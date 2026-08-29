@@ -404,6 +404,14 @@ soul is Hist sap and returns to the tree (dossiers
 `topics/magic-practice.md` records the naming). The in-game UI label is
 "vastei"; the tutorial line is "the change you have earned".
 
+A property worth knowing (it falls out of the algebra, and the simulation
+confirms it): because a rank costs proportionally more use-points than a
+low-worth action supplies, **worthiness cancels** — the vastei earned while
+taking one rank is `4 × (skill+1) × classFactor × specFactor × (1 + effSkill/50)`
+regardless of *how* you earned it. The currency therefore cannot be farmed
+faster than skill ranks themselves; the only exploit surface is §120.2, which
+is exactly why those rules guard both.
+
 Rules:
 
 - **One job**: vastei buys attribute points at a level sitting. Nothing else.
@@ -650,8 +658,10 @@ purses are finite and refresh on a schedule. Reward design still holds that
 "gold is the least interesting thing we can give" (quests 00 §4) — gold's real
 job is to feed training, services, potions and enchanting.
 
-**Training and services**: a trainer raises a skill by one rank per session, at
-a price scaling with the target rank; **a skill can never be trained above its
+**Training and services**: a trainer raises a skill by one rank per session at
+**8 × the target rank** in gold (≈6,300 for 30→50, ≈36,000 for 30→100 — a
+major sink, and the reason gold matters in a province where quest rewards are
+access rather than coin); **a skill can never be trained above its
 governing attribute** (reads *base* values, so drain-and-train is dead). Skill
 books grant one rank each, five per skill. Neither grants vastei (§120.3).
 Services: repair, enchanting, spellmaking, recharging, cure disease, guides,
