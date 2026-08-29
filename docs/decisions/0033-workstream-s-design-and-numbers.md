@@ -119,6 +119,9 @@ load-bearing ones:
 
 - ~~`docs/quests/60-*.md` §49 needs speechcraft adding~~ — **done**
   2026-08-29 (owner cleared the quest docs).
+- The **loot and trap semantic schemas** (the gap decision 0034 flagged: the
+  authoring model covered actors only) are now in module 76 §128.2 and are a
+  10c deliverable alongside the actor schema.
 - **The keep-list downloads** (Animated Armoury, Animated Heavy Armory, Skyrim
   Spear Mechanic) are a Phase 10 sourcing job; the verified evidence and
   permissions now live in module 90 §74.3.

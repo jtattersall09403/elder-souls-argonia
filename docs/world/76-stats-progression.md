@@ -199,8 +199,10 @@ consumed by both apps). Definitions land as **data files consumed like
   driven variation is implemented as designed and is not treated as drift;
 - capability profiles regenerate from the stat system and the world's
   traversal/validation probes still pass (§52, §122);
-- **the NPC/enemy stat model ships alongside the player's** (§128): every NPC,
-  enemy and merchant carries the same schema plus a level, authored
+- **the NPC/enemy stat model ships alongside the player's**, and with it the
+  **loot and trap schemas** (§128.2) so that placed items and hazards derive
+  from the same ladder: every NPC, enemy and merchant carries the same schema
+  plus a level, authored
   **semantically and compiled to absolutes**. Derivation reads world data only,
   never player state, so 0004 is untouched — the numbers are as fixed as ever,
   merely *derived*, so a curve retune + recompile + sim re-run rebalances all
