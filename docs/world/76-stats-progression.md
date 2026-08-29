@@ -61,9 +61,11 @@ These are not open questions — they follow from decisions already taken.
 
 - **Fixed difficulty (decision 0004) is the dominant constraint.** The world
   never receives the player's level. Every enemy, every trap and every loot
-  item is authored as an **absolute** number, so the stat system must have a
-  **stable, documented power scale** — a Phase 13 author saying "this is a D3
-  creature" has to mean something numerically (§128).
+  item resolves to a **fixed absolute** number that never reads player state.
+  Authors write *semantically* — "a strong D3 swamp troll", "a D2 weapon cache"
+  — and a compiler emits the absolutes (§128), so the stat system must have a
+  **stable, documented power scale**: "this is a D3 creature" has to mean
+  something numerically.
 - **Fixed difficulty binds the world, never the player** (owner ruling,
   2026-08-28). It fixes the world's enemies, stats and parameters; it never
   caps the player's earned capacity to cope. Earning money and alchemy skill
@@ -954,9 +956,11 @@ percentages, clamped to 100 % for "immune" and allowed negative for weaknesses.
 
 ## 128. The absolute ladder (D0–D5) and the NPC/enemy model
 
-Fixed danger means every actor is authored as an absolute. The bands are what a
-Phase 13 author means by "a D3 creature" — anchored so the reference character
-(§116) finds D2 a fair fight and D4 a bad idea.
+Fixed danger means every actor, item and trap resolves to fixed absolute
+numbers that never read player state — authored **semantically** and compiled
+(§128.2). The bands are what a Phase 13 author means by "a D3 creature" —
+anchored so the reference character (§116) finds D2 a fair fight and D4 a bad
+idea.
 
 | Band | Meaning (quests 20 §12) | Health | Light hit | AR | Magic resist | Blows that kill you |
 |---|---|---|---|---|---|---|
@@ -1010,6 +1014,34 @@ absolutes** (decision 0019's fourth amendment):
   "variants": ["strong", "diseased"],       // named modifier packages
   "loadout": "…", "respawn": "onRest" }
 ```
+
+### 128.2 The same trick for loot and traps
+
+The actor schema above is only a third of what Phase 12/13 authors place. Loot
+and traps get the same treatment — semantic in, absolutes out — so a curve
+retune rebalances the whole world rather than the monsters only (gap found by
+decision 0034; the schemas ship with the actor one at 10c):
+
+```jsonc
+// loot: a placed item, not a levelled list — nothing reads the player
+{ "id": "wreck-hold-cutlass", "band": "D3", "kind": "weapon",
+  "class": "scimitar", "quality": 0.55,        // where in the band's material window
+  "condition": 0.3,                             // provenance is visible on the item
+  "enchant": { "budget": 0.4, "theme": "sea" }, // optional, compiled to a real effect
+  "provenance": "went down with the Sallow Reed, 4E 194" }
+
+// traps: damage derives from the band's damage row, not from a hand-typed number
+{ "id": "xanmeer-dart-line", "band": "D3", "position": 0.4,
+  "type": "dart", "multiplier": 0.6,   // of a band-typical light hit
+  "avoidable": "sight+security", "resets": true }
+```
+
+Rules that keep this honest: a band's **material window** is what "quality"
+interpolates (a D3 weapon is dwarven-to-orcish, never daedric); **placed
+treasure never respawns** (§126) so compiling it is a one-time derivation;
+uniques may override any field literally; and a trap's damage is expressed as a
+fraction of its band's light hit, so the lethality knob (§121.4) moves traps
+with everything else.
 
 The compiler interpolates the band, applies variants and emits fixed numbers.
 Derivation reads **world data only, never player state** — the world's numbers
