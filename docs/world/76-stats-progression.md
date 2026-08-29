@@ -1327,17 +1327,22 @@ read:
 | File (`tooling/stats-sim/data/`) | Contents |
 |---|---|
 | `attributes.json` | the seven attributes and their derived-quantity formulas' constants |
-| `skills.json` | the 27 skills: governing attribute, specialization, effect bands |
+| `skills.json` | the 27 skills: governing attribute, **score attribute**, specialization, effect bands |
 | `curves.json` | `k`, `P`, mitigation, health/stamina/magicka, vastei and level-cost constants |
 | `races.json` | racial baselines, skill bonuses, effect packages |
 | `classes.json` | preset classes (majors/minors/specialization/favoured) |
 | `gear.json` | materials, weapon classes, the moveset, armour slots and sets — mirrored from `packages/game-core` + the armour-class tag |
 | `magic.json` | spell tiers, healing tiers, enchanting bounds, the alchemy formula |
 | `builds.json` | the progression checkpoints and archetype attribute priorities the sweeps run on |
-| `ladder.json` | the D0–D5 bands, the hits-to-die targets they were solved for, and the variant packages |
-| `campaign.json` | the coarse content shape of a playthrough (acts, quests, encounter mix, travel, rests) used by the whole-game simulation |
+| `ladder.json` | the **D1–D5** combat bands, the hits-to-die targets they were solved *from*, and the variant packages |
+| `rules-argonia.json` / `rules-morrowind.json` | the progression rules as the campaign engine consumes them — ours, and Morrowind's for the known-answer test. Numbers marked `$from` are read out of `curves.json` rather than copied |
+| `content-argonia.json` / `content-vvardenfell.json` | what an hour of play contains — encounters, travel, locks, casts, brews, on a quest track and a free-play track. **This is the file to change if the pace is wrong**, and the Vvardenfell one is the only thing tuned to make the known-answer test pass |
 | `enemies.json` | worked archetypes on the ladder, including the restated Hollow Warden |
 | `economy.json` | potion/training/service/repair prices, vendor purses |
+
+The tuning history — every anomaly the harness found and what was done about
+it — is [tooling/stats-sim/FINDINGS.md](../../tooling/stats-sim/FINDINGS.md),
+next to the tool that produced it.
 
 At 10c these are ported to `packages/game-core/src/stats/data/` in the same
 shapes, consumed like `races.json`/`enemyArchetypes` today, and the harness is
