@@ -509,7 +509,10 @@ export function computeLightRig(
   // what the mist regimes/whiteout/heavy haze fade INTO — the thin-haze
   // ambient asymptote rendered near-black in daylight and was the root of
   // the black summit caps / purple layer / invisible-mist reports.
-  const fogDayScreen = 0.68 * (1 - 0.42 * wx.sunDim);
+  // Storm fog is GLOOM, not glow: under a heavy deck the fog bank must sit
+  // below the sky's tone (probe round 2: fogged terrain rendered brighter
+  // than the storm clouds above it — inverted).
+  const fogDayScreen = 0.68 * (1 - 0.68 * wx.sunDim);
   const fogNightScreen = 0.028 + 0.045 * moonGlowC;
   const fogScreen = fogNightScreen + (fogDayScreen - fogNightScreen) * skyFade;
   const fogTint = mix3([0.82, 0.87, 1.0], [0.94, 0.96, 1.0], skyFade);

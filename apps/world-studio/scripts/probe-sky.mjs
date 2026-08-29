@@ -25,7 +25,10 @@ const SCENARIOS = [
     q: "view=fly3d&cam=orbit&x=2.40&z=6.20&ex=1&t=05:50&d=11-15&w=clear",
     sunAlt: [-10, 5],
     phase: ["civil", "sunrise", "nautical"],
-    brightness: [1, 140],
+    // Upper band raised round 2: dawn radiation mist now renders as a BRIGHT
+    // white basin blanket (the owner-requested visible-mist fix) instead of
+    // the old dark-inscatter version this band was authored against.
+    brightness: [1, 195],
   },
   {
     id: "coast-noon",
@@ -93,6 +96,56 @@ const SCENARIOS = [
     phase: ["noon"],
     weather: { auto: true },
     brightness: [3, 235],
+  },
+  // Round 2 scenarios (owner feedback 2026-08-29): the owner's exact
+  // downpour spot (rain must be VISIBLE — check the screenshot, not just
+  // the number), the clear-day peaks that showed black whiteout caps, night
+  // overcast (clouds must read: stars blotted, moons occluded), the squall
+  // shelf wall, forced dawn mist, and a camera INSIDE the whiteout belt.
+  {
+    id: "owner-downpour-spot",
+    q: "view=character&x=1.83&z=5.50&ex=1&t=16:38&d=8-17&w=downpour",
+    sunAlt: [5, 60],
+    phase: ["afternoon"],
+    weather: { state: "downpour", rainMin: 0.3, shadows: false },
+    brightness: [3, 165],
+  },
+  {
+    id: "owner-clear-peaks",
+    q: "view=character&x=1.83&z=5.50&ex=1&t=10:59&d=1-20&w=clear",
+    sunAlt: [30, 85],
+    phase: ["morning", "noon"],
+    brightness: [40, 235],
+  },
+  {
+    id: "night-overcast-clouds",
+    q: "view=fly3d&cam=orbit&x=4.01&z=4.62&ex=1&t=22:00&d=6-4&w=overcast",
+    sunAlt: [-90, -12],
+    phase: ["night", "astronomical", "nautical"],
+    brightness: [0.2, 80],
+  },
+  {
+    id: "squall-front-fly",
+    q: "view=fly3d&cam=orbit&x=5.16&z=4.64&ex=1&t=15:00&d=7-20&w=squall",
+    sunAlt: [15, 70],
+    phase: ["afternoon"],
+    weather: { state: "squall", rainMin: 0.25, shadows: false },
+    brightness: [3, 165],
+  },
+  {
+    id: "forced-dawn-mist",
+    q: "view=character&x=2.40&z=6.20&ex=1&t=06:10&d=11-15&w=mist",
+    sunAlt: [-10, 8],
+    phase: ["civil", "sunrise", "nautical", "morning"],
+    brightness: [1, 200],
+  },
+  {
+    id: "whiteout-inside-fly",
+    q: "view=fly3d&cam=orbit&x=2.25&z=1.09&ex=1&alt=520&t=12:00&d=8-17&w=rain",
+    sunAlt: [55, 90],
+    phase: ["noon"],
+    weather: { state: "rain", rainMin: 0.1, shadows: false },
+    brightness: [10, 245],
   },
   {
     id: "character-night-moonless",
