@@ -22,28 +22,28 @@ const BASE = `http://127.0.0.1:${PORT}/elder-souls-argonia/studio/`;
 const SCENARIOS = [
   {
     id: "blackrose-dawn",
-    q: "view=fly3d&cam=orbit&x=2.40&z=6.20&ex=1&t=05:50&d=11-15",
+    q: "view=fly3d&cam=orbit&x=2.40&z=6.20&ex=1&t=05:50&d=11-15&w=clear",
     sunAlt: [-10, 5],
     phase: ["civil", "sunrise", "nautical"],
     brightness: [1, 140],
   },
   {
     id: "coast-noon",
-    q: "view=fly3d&cam=orbit&x=5.16&z=4.64&ex=1&t=12:00&d=8-17",
+    q: "view=fly3d&cam=orbit&x=5.16&z=4.64&ex=1&t=12:00&d=8-17&w=clear",
     sunAlt: [55, 90],
     phase: ["noon"],
     brightness: [40, 235],
   },
   {
     id: "mountains-afternoon",
-    q: "view=fly3d&cam=orbit&x=2.25&z=1.09&ex=1&t=15:30&d=3-10",
+    q: "view=fly3d&cam=orbit&x=2.25&z=1.09&ex=1&t=15:30&d=3-10&w=clear",
     sunAlt: [20, 60],
     phase: ["afternoon"],
     brightness: [30, 235],
   },
   {
     id: "jungle-night-fullmoon",
-    q: "view=fly3d&cam=orbit&x=4.01&z=4.62&ex=1&t=22:00&d=6-4",
+    q: "view=fly3d&cam=orbit&x=4.01&z=4.62&ex=1&t=22:00&d=6-4&w=clear",
     sunAlt: [-90, -12],
     phase: ["night", "astronomical", "nautical"],
     moonPhaseMin: 0.95,
@@ -51,7 +51,7 @@ const SCENARIOS = [
   },
   {
     id: "dusk-fast-twilight",
-    q: "view=fly3d&cam=orbit&x=3.47&z=2.80&ex=1&t=18:05&d=8-17",
+    q: "view=fly3d&cam=orbit&x=3.47&z=2.80&ex=1&t=18:05&d=8-17&w=clear",
     sunAlt: [-6, 0.5],
     phase: ["dusk", "sunset", "civil"],
     brightness: [1, 180],
@@ -62,14 +62,41 @@ const SCENARIOS = [
   // passed while walk mode was broken. Every probe run must cover both.
   {
     id: "character-noon",
-    q: "view=character&x=5.16&z=4.64&ex=1&t=12:00&d=8-17",
+    q: "view=character&x=5.16&z=4.64&ex=1&t=12:00&d=8-17&w=clear",
     sunAlt: [55, 90],
     phase: ["noon"],
     brightness: [40, 235],
   },
+  // Phase 8c weather scenarios: forced states exercise the full stack (dome
+  // cloud deck, rain streaks, wet ground, shadow kill under overcast); the
+  // auto scenario checks the calendar machine end-to-end in the browser.
+  {
+    id: "storm-noon-forced",
+    q: "view=fly3d&cam=orbit&x=5.16&z=4.64&ex=1&t=12:00&d=7-20&w=thunderstorm",
+    sunAlt: [55, 90],
+    phase: ["noon"],
+    weather: { state: "thunderstorm", rainMin: 0.3, shadows: false },
+    brightness: [5, 175],
+  },
+  {
+    id: "character-downpour",
+    q: "view=character&x=5.16&z=4.64&ex=1&t=16:00&d=7-8&w=downpour",
+    sunAlt: [10, 65],
+    phase: ["afternoon"],
+    weather: { state: "downpour", rainMin: 0.55, wetMin: 0.3, shadows: false },
+    brightness: [4, 165],
+  },
+  {
+    id: "auto-weather-monsoon",
+    q: "view=fly3d&cam=orbit&x=2.40&z=6.20&ex=1&t=12:00&d=8-17",
+    sunAlt: [55, 90],
+    phase: ["noon"],
+    weather: { auto: true },
+    brightness: [3, 235],
+  },
   {
     id: "character-night-moonless",
-    q: "view=character&x=2.94&z=5.46&ex=1&t=01:08&d=6-7",
+    q: "view=character&x=2.94&z=5.46&ex=1&t=01:08&d=6-7&w=clear",
     sunAlt: [-90, -12],
     phase: ["night", "astronomical", "nautical"],
     // Moonless night: dim-but-readable (exposure ceiling + airglow gradient,
@@ -188,6 +215,32 @@ try {
     if (lightCensus.dir === expectDir && lightCensus.hemi === 1)
       ok(`light census ${expectDir - 1} cascades + moon + hemi`);
     else fail(`light census wrong: ${JSON.stringify(lightCensus)} expected dir=${expectDir} (leaked CSM lights?)`);
+    if (s.weather) {
+      const kinds = ["clear", "haze", "overcast", "rain", "downpour", "squall", "thunderstorm"];
+      if (s.weather.auto) {
+        if (kinds.includes(dbg.weatherState))
+          ok(`auto weather ${dbg.weatherState} (rain ${dbg.rainIntensity?.toFixed(2)}, spell ${dbg.spellKind})`);
+        else fail(`auto weather state bad: ${dbg.weatherState}`);
+      } else {
+        if (dbg.weatherState === s.weather.state) ok(`forced state ${dbg.weatherState}`);
+        else fail(`weather state ${dbg.weatherState} != forced ${s.weather.state}`);
+        if (s.weather.rainMin !== undefined) {
+          if (dbg.rainIntensity >= s.weather.rainMin) ok(`rain ${dbg.rainIntensity.toFixed(2)} >= ${s.weather.rainMin}`);
+          else fail(`rain ${dbg.rainIntensity} < ${s.weather.rainMin}`);
+        }
+        if (s.weather.wetMin !== undefined) {
+          if (dbg.wetness >= s.weather.wetMin) ok(`ground wet ${dbg.wetness.toFixed(2)}`);
+          else fail(`wetness ${dbg.wetness} < ${s.weather.wetMin}`);
+        }
+        if (s.weather.shadows === false) {
+          if (!dbg.sunCastsShadows) ok("sun shadows OFF under the deck");
+          else fail("sun still casts shadows under a storm deck");
+        }
+      }
+      if (Number.isFinite(dbg.visibilityM) && dbg.visibilityM > 40)
+        ok(`visibility ${Math.round(dbg.visibilityM)} m`);
+      else fail(`visibility bad: ${dbg.visibilityM}`);
+    }
     if (brightness.mean >= s.brightness[0] && brightness.mean <= s.brightness[1])
       ok(`screen brightness ${brightness.mean.toFixed(1)} in [${s.brightness}] (sky ${brightness.sky.toFixed(0)} / ground ${brightness.ground.toFixed(0)})`);
     else fail(`screen brightness ${brightness.mean.toFixed(1)} outside [${s.brightness}] (sky ${brightness.sky.toFixed(0)} / ground ${brightness.ground.toFixed(0)})`);

@@ -79,6 +79,38 @@ Spec: module [55](../world/55-light-sky-time.md) §97–98; deliverables module 
   time panel, `w=` URL param; auto (calendar) is the default and the only
   mode the game ships.
 
+## Implementation notes (round 1)
+
+- **Where things live**: engine `packages/world-weather` (hash/states/
+  synoptic/express, 18 tests); raster bake in `compile_hydrology`
+  (+`test_climate_weather.py`); studio bridge `apps/world-studio/src/weather/`
+  (climateSampler, weatherState = override + per-frame cached sample,
+  RainSystem); light `sky/lightRig.ts` (`WeatherLightIn` → sunDim^3 direct
+  factor, +1-stop storm exposure lift, cloud colours exposure-anchored like
+  dawnLum); dome clouds patched into `WorldSky.createSkyDome` (3 FBM layers,
+  premultiplied over-composite, IN the dome so the PMREM IBL greys under
+  overcast); mist regimes as added densities in `sky/aerial.ts`; rain wetness
+  merged into `water/groundWetness.ts` (max with the shore band, per-pixel
+  canopy suppression); wind → `setWindWaveScale` in game-core waves
+  (CPU query + `uWindWave` uniform, symmetric).
+- **Envelope discipline held**: cloud colours are CPU-anchored
+  (`cloudScreenRange` in skyScreenModel bounds them; lightRig.test walks all
+  7 states × 9 hours). One real fix fell out: the storm exposure lift pushed
+  the circumsolar glare past the historical cap — resolved by REDUCING the
+  dome's Mie under heavy decks (hiding the sun's glow is physical; the 0021
+  pinning lesson only forbids raising Mie).
+- **Legacy light presets/probes pin `w=clear`** — their job is reference
+  light, and the auto calendar legitimately rolls rain on their dates. The
+  auto path has its own probe scenario. Forced clear/haze also forces
+  "last night was clear" so the dawn-mist preset previews mist.
+- **Celestial occlusion is global, not per-pixel** at this tier: dome clouds
+  draw under the star/moon passes, so cover dims them via one uniform factor.
+  Honest approximation; volumetrics (high tier, backlog) would fix it.
+- **Deliberately NOT owned here**: thunder/rain audio (module 57, Phase
+  12b); weather→flood beyond the existing season/tide offsets (the flood
+  pulse lags rain by 1–2 months — that is the season scalar's job, §33.1);
+  gameplay grip consumption (published via env query, Phase 9 consumes).
+
 ## Round log
 
 (Owner gate rounds land here, defect → fix, per the 0021/0025 pattern.)

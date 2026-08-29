@@ -119,7 +119,10 @@ export function weatherSampleForState(
     slot,
     minutesIntoSlot: epochMinutes - slot * 90,
   };
-  const sample = express(syn, epochMinutes, local, PROFILES[kind].lightningPerMin);
+  // Forced clear/haze also treats last night as clear so the dawn-mist
+  // presets preview mist regardless of what the auto timeline rolled.
+  const clearNight = kind === "clear" || kind === "haze" ? 1 : undefined;
+  const sample = express(syn, epochMinutes, local, PROFILES[kind].lightningPerMin, clearNight);
   sample.wetness = Math.max(sample.wetness, clamp01(0.85 * sample.rainIntensity));
   sample.grip = 1 - 0.35 * sample.wetness;
   return sample;
@@ -130,6 +133,7 @@ function express(
   epochMinutes: number,
   local: LocalClimate,
   forcedLightningRate: number | undefined,
+  clearNightOverride?: number,
 ): WeatherSample {
   const p = syn.profile;
   const inst = fromEpochMinutes(epochMinutes);
@@ -157,7 +161,7 @@ function express(
     clamp01(local.mistProp * 1.15) *
     (dawnBell + duskBell) *
     (0.25 + 0.75 * drySeason) *
-    clearCalmNightFactor(epochMinutes) *
+    (clearNightOverride ?? clearCalmNightFactor(epochMinutes)) *
     (1 - clamp01(rain * 2)); // rain scrubs radiation mist out
   // Advection sea fog: humid marine air, strongest mornings and in the wetter
   // half of the year, needs non-violent weather to hold together.

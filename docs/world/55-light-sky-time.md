@@ -182,18 +182,31 @@ swamps differ without hand-authoring:
 
 ## 98. Weather
 
-Province-scale weather states (§33.1) with region-weighted frequencies from the
-climate fields: monsoonal downpour, sea squall, dry-season haze, ground mist,
-thunderstorm, overcast, clear.
+**Built at Phase 8c** (decision 0032; `packages/world-weather`): the province
+is ~7.4 km across — one real weather cell — so ONE seeded synoptic timeline
+(multi-day monsoon active/break **spells** → 90-minute state **slots**, all
+pure functions of epoch minutes) drives the whole map, and the
+"region-weighted frequencies" enter through **local expression** against the
+climate fields (`climate-weather.png`: rain amplitude / storm exposure / sea
+fog). Same downpour: wall of water in the interior, drizzle in the NW rain
+shadow; a squall is coastal violence, inland gusty overcast. States:
+clear, dry-haze, overcast, rain, downpour, squall, thunderstorm — **ground
+mist is a derived condition, not a rolled state** (§97 regimes).
 
 - **Parameterised, not colour-authored.** Bethesda's `WTHR` record is the right
   *checklist* of what a weather state must say (sky upper/lower, horizon,
   ambient, sun/moonlight, fog near/far, cloud layers, directional ambient,
   water brightness, volumetric refs) — but we **compute** those from the sky
-  model and climate fields and keep hand-authored values only as an override
-  layer for specific moments. Rationale and citations: research doc §2.1.
-- **Transitions are interpolated over minutes**, seeded per region and date so
-  they are reproducible; frequency and volatility per region class.
+  model and climate fields (`StateProfile` blocks blended through
+  transitions) and keep hand-authored values only as an override layer for
+  specific moments (the studio's force-state `w=` param; light presets pin
+  `w=clear` as reference light). Rationale and citations: research doc §2.1.
+- **Transitions are interpolated over minutes**, seeded and reproducible;
+  the squall line is the one legitimately fast arrival (6 min vs 22–45).
+  Tropical rhythms are structural: afternoon-peaked convection weights
+  thunderstorms; squall lines live in monsoon *break* spells; dawn radiation
+  mist **requires last night to have been clear and calm** (a causal
+  cross-dependency, computed by querying the same timeline).
 - **Weather changes the world, not the difficulty**: wetness and grip, flood
   and channel state, visibility and AI perception, climbing surfaces (Phase 9),
   fire, boat handling and sea state (Phase 8b/9), creature activity (Phase 13).
@@ -222,10 +235,16 @@ constellations; a first ground-mist pass; **studio tooling** (below). Water
 reflections, specular, refraction, underwater scattering — and would otherwise
 be tuned twice.
 
-**Tier 2 — Phase 8c, weather and atmosphere.** Weather state machine and
-transitions, cloud layers, rain/squall/storm, the three mist regimes as
-distinct systems, god rays/light shafts through canopy, wet-surface response,
-weather↔flood↔tide coupling, quality tiers.
+**Tier 2 — Phase 8c, weather and atmosphere (BUILT — decision 0032).**
+Weather state machine and transitions (`packages/world-weather`), procedural
+cloud layers in the envelope-pinned dome, rain streaks + ripple impulses +
+rain-wetness on the ground shader, the three mist regimes as distinct added
+densities in the ONE aerial term, weather-owned wind block scaling water
+chop (CPU + GPU symmetric), weather/visibility/grip through the environment
+query, quality via the shared device-tier heuristic. **God rays through
+canopy were deferred with rationale**: no canopy geometry exists until
+Phase 10 places trees — nothing for shafts to pass through (polish backlog,
+with volumetric clouds, the rain-occlusion depth map and lens droplets).
 
 **Tier 3 — polish, folded into Phases 13/14.** Bioluminescent night ecology,
 volumetric (froxel) fog on the high tier, seasonal foliage response, lightning

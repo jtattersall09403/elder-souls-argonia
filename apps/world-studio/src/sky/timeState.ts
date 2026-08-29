@@ -96,10 +96,12 @@ export interface LightPreset {
 }
 
 export const LIGHT_PRESETS: readonly LightPreset[] = [
-  { id: "blackrose-dawn", label: "Blackrose basin, dawn mist", xKm: 2.4, zKm: 6.2, month: 10, day: 15, minuteOfDay: 5 * 60 + 50 },
-  { id: "coast-noon", label: "Padomaic coast, clear noon", xKm: 5.16, zKm: 4.64, month: 7, day: 17, minuteOfDay: 12 * 60 },
-  { id: "mountains-afternoon", label: "Border mountains, clear afternoon", xKm: 2.25, zKm: 1.09, month: 2, day: 10, minuteOfDay: 15 * 60 + 30 },
-  { id: "jungle-night", label: "Deep jungle, full-moon night", xKm: 4.01, zKm: 4.62, month: 5, day: 4, minuteOfDay: 22 * 60 },
+  // The 8a *light* references force clear weather — their job is reference
+  // light, and the auto calendar legitimately rolls rain on these dates.
+  { id: "blackrose-dawn", label: "Blackrose basin, dawn mist", xKm: 2.4, zKm: 6.2, month: 10, day: 15, minuteOfDay: 5 * 60 + 50, w: "clear" },
+  { id: "coast-noon", label: "Padomaic coast, clear noon", xKm: 5.16, zKm: 4.64, month: 7, day: 17, minuteOfDay: 12 * 60, w: "clear" },
+  { id: "mountains-afternoon", label: "Border mountains, clear afternoon", xKm: 2.25, zKm: 1.09, month: 2, day: 10, minuteOfDay: 15 * 60 + 30, w: "clear" },
+  { id: "jungle-night", label: "Deep jungle, full-moon night", xKm: 4.01, zKm: 4.62, month: 5, day: 4, minuteOfDay: 22 * 60, w: "clear" },
   // Phase 8c weather presets (module 55 tooling: "Padomaic coast, storm noon").
   { id: "coast-storm", label: "Padomaic coast, storm noon", xKm: 5.16, zKm: 4.64, month: 6, day: 20, minuteOfDay: 12 * 60, w: "thunderstorm" },
   { id: "basin-downpour", label: "Blackrose basin, monsoon downpour", xKm: 2.4, zKm: 6.2, month: 6, day: 8, minuteOfDay: 16 * 60, w: "downpour" },
