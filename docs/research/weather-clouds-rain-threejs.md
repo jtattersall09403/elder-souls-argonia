@@ -1,4 +1,6 @@
 # Weather, clouds and rain in a browser (three.js) — research, 2026-08-28
+(§8 added 2026-08-29 for the round-2 fixes: night clouds, coverage variety,
+storm looks, god rays.)
 
 Inspiration and known-good implementation pointers for **Phase 8c — weather
 and atmosphere** (module [55-light-sky-time.md](../world/55-light-sky-time.md)
@@ -273,3 +275,67 @@ All verified climatology; the game mapping is ours to design:
   global transition enough at province scale?
 - Thunder audio: one delayed crack per flash, or a small multi-path tail
   (§3)? Depends on module 57's audio budget.
+
+## 8. Round-2 research (2026-08-29): night clouds, coverage variety, storm looks, god rays
+
+Web research done for the owner's round-1 feedback; recipes below are what
+the round-2 implementation follows (cloud field in
+`apps/world-studio/src/sky/cloudField.ts`).
+
+### 8.1 Night clouds that READ
+
+- **Per-pixel/per-body occlusion, never a global dim**: composite moons/stars
+  under the cloud layer and multiply by `1 − cloudAlpha` at that direction —
+  a globally-dimmed but fully-visible moon is exactly the failure mode. Gaps
+  showing stars are what sells "cloudy": real broken cover reads as *dark
+  patches blotting out the star field* ([Alisavakis sky shader](https://halisavakis.com/my-take-on-shaders-sky-shader/),
+  [Minions Art skybox](https://www.patreon.com/minionsart/posts/making-stylized-27402644)).
+- **Silver lining**: band-pass of the coverage smoothstep (two offset
+  thresholds, difference = thin edge band), gated by angular proximity to
+  the moon/sun; always mask by light direction (the classic bug is rim glow
+  on *all* edges). Moon should glow *through* thin cloud (shallow occlusion
+  curve) and vanish behind thick.
+- **Colour**: moonlit faces desaturated blue-grey-silver; unlit cloud darker
+  than the night sky so it reads as a silhouette hole in the stars.
+
+### 8.2 Coverage variety (the Nubis/Skyrim pattern)
+
+- Universal remap: `cloud = smoothstep(1−coverage, 1−coverage+softness, fbm)`.
+  Coverage IS the per-state parameter: fair scattered ≈ 0.2–0.35, broken
+  0.5–0.7, overcast 0.9–1. Skyrim's WTHR does per-weather variety by
+  swapping which of ~4 layers are on, with what texture character and speed
+  — **never one layer at different darkness** (that was our round-1 bug).
+- Types from one FBM: cumulus = low coverage + low softness + contrast pow
+  (hard edges); stratus = high coverage + high softness, low contrast
+  (featureless); cirrus = separate thin layer, UV stretched 3–8× along wind
+  ([shff/opengl_sky](https://github.com/shff/opengl_sky) ships exactly this
+  cumulus+cirrus split).
+- **Sun dimming when a cloud crosses the sun**: evaluate the same cloud
+  function at the sun's dome position on the CPU each frame, scale the
+  directional light by Beer-style transmittance. This one change makes
+  scattered cumulus feel real.
+
+### 8.3 Storm-state sky looks (rain → downpour → squall → thunderstorm)
+
+| State | Real sky | Dome fake |
+|---|---|---|
+| rain | featureless uniform mid-grey nimbostratus blanket | coverage ≈ 1, high softness, low contrast, slow scroll |
+| downpour | much darker, base blurred by rain, horizon melts | darken + heavy fog, faster scroll |
+| squall | **structure**: long dark shelf wall advancing from one horizon, lighter sky opposite, wind before rain | directional coverage gradient by `dot(azimuth, frontDir)` — asymmetry is the entire read; fast scroll |
+| thunderstorm | near-black base, famous **green/teal** cast (in the brighter tones), ragged racing scud | darkest ramp + green shift in bright tones + fast low scud layer |
+
+Sources: [NWS shelf cloud](https://www.weather.gov/lmk/shelfcloudversusawallcloud),
+[green-sky explainer](https://weather.com/science/weather-explainers/news/green-sky-thunderstorm-hail),
+[nimbostratus](https://whatsthiscloud.com/cloud-types/nimbostratus).
+
+### 8.4 God rays (deferred to polish, decision 0032 round 1 log)
+
+GPU Gems 3 ch.13 radial blur is compatible with our custom dome: quarter-res
+occlusion pre-pass (dome in "occlusion mode": sun disc × (1−cloudAlpha),
+scene black via overrideMaterial) → ~40-line radial accumulation from the
+projected sun position → additive composite. Working three.js template:
+[Berg's port](https://medium.com/@andrew_b_berg/volumetric-light-scattering-in-three-js-6e1850680a41)
+([CodePen](https://codepen.io/abberg/full/pbWZjg)). Cloud occlusion of rays
+falls out of the same cloud alpha. Effort is small-medium (two RTs + a
+composer pass in both canvases) — parked on the polish backlog with this
+pointer rather than done in round 2.

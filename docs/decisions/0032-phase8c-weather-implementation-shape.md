@@ -23,7 +23,10 @@ row to done, sweep cosmetic leftovers to docs/polish-backlog.md.
 | "state X too dark / too foggy / rains too hard / winds too strong"; transition speeds | `packages/world-weather/src/states.ts` (PROFILES + TRANSITION_MIN — the per-state parameter blocks) |
 | "too much/little rain overall", "changes too often/rarely", "storms at wrong time of day", spell rhythm | `synoptic.ts` (spellWeights, stateWeights, VOLATILITY, SLOT_MINUTES, convectionFactor) |
 | regional character (rain shadow, coastal squalls), mist regime strength/timing, whiteout band elevation, visibility numbers, wetness rise/decay rates | `express.ts` (+ `whiteoutBell` 520±130 m; wetness trail in `synoptic.ts` `rainWetness`) |
-| cloud LOOK (shapes, scale, scroll speed, base shading, horizon fade) | cloud GLSL block in `apps/world-studio/src/sky/WorldSky.tsx` `createSkyDome` |
+| cloud LOOK (shapes, scale, scroll speed, layer character, storm wall, silver lining, star/moon occlusion, sun-crossing dimming) | **`sky/cloudField.ts`** (the ONE shared GPU/CPU field — constants table at top; round 2) + the composite block in `WorldSky.tsx` `createSkyDome` |
+| per-STATE cloud character (puffy vs sheet, scroll, front, green cast), day-to-day coverage variety | `states.ts` (cloudPuff/cloudScroll/stormFront/greenTint/covJitter) + `coverWander` in `synoptic.ts` |
+| dense-fog/mist COLOUR (black-cap/purple-layer class), camera-in-fog sky veil | `lightRig.ts` fogLum + `aerial.ts` fogFrac mix + uCamFog in WorldSky |
+| water season (wet/dry level on the calendar) | `App.tsx` water-season select → `waterAssets.ts` `effectiveSeasonScalar` (null = calendar); amplitudes in game-core `tide.ts` |
 | cloud BRIGHTNESS/colour day vs night, storm darkness, shadows on/off threshold, storm exposure lift, sun glare under decks | `sky/lightRig.ts` (cloud colours are exposure-anchored; sunDim^3 direct factor; shadows off at sunDim > 0.6; Mie ×(1−0.6·sunDim)) |
 | fog/mist RENDER densities (regime strengths as drawn) | `sky/aerial.ts` (density factors: radiation ×14, advection ×125, whiteout ×550, weather fog ×8) |
 | rain streak look/count/drift; splash ripples | `weather/RainSystem.tsx` (budget in `rainDropBudget`); ripple stamping in `water/WaterSurfaceMesh.tsx` |
@@ -172,4 +175,67 @@ preset still shows mist.
 
 ## Round log
 
-(Owner gate rounds land here, defect → fix, per the 0021/0025 pattern.)
+### Round 1 (owner playtest 2026-08-29 → fixes same day)
+
+Research for the fixes: research doc §8 (night clouds, coverage variety,
+storm looks, god rays — added this round).
+
+1. **"HUD says downpour but no visible rain"** → streaks were 1.4 cm wide at
+   0.16 alpha — sub-pixel faint (the round-1 probe asserted the rain
+   *number*, not pixels). Widened 0.022, opacity 0.3, longer; probe now has
+   a scenario at the owner's exact spot and screenshots are eyeballed.
+2. **Lightning with no clouds / under overcast** → flashes fired at the full
+   slot rate from minute 0 of a storm slot while the deck was still
+   blending in. Fix: `lightningCloudGate` on the blended cloud mass, applied
+   in the sample AND the per-frame `lightningNow` path.
+3. **Rain with no clouds** → same class: precipitation now gated on blended
+   cloud mass (Bethesda begin-fade-in), covering transitions both ways.
+4. **Night clouds unreadable (moons not occluded, no gaps, no edge glow)** →
+   root: dome clouds draw under the celestial passes with only a global dim.
+   Fix: the ONE cloud field (`cloudField.ts`, seeded lattice texture +
+   layer maths, GPU = CPU by construction): per-star occlusion in the star
+   vertex stage, per-moon CPU occlusion (glow through thin, gone behind
+   thick), moonlit faces brightened + desaturated, silver-lining band-pass
+   toward the sun/moon.
+5. **All cloudy states = same coverage, different darkness** → states now
+   emit layer character (puff/scroll/front/green + per-layer coverage), and
+   `coverWander` drifts coverage inside a state (a clear day wanders
+   between empty sky and scattered cumulus). A cumulus crossing the sun
+   dims the direct light via the CPU field (−85 %, shadows off ≥ 0.8).
+6. **Storm ladder too flat** → sunDim retuned (rain .80 < downpour .94 ≤
+   t-storm .93 / squall .95), storm exposure lift cut 1.2 → 0.6, cloudDark
+   spread wider, squall gets the shelf-wall azimuth asymmetry + 2.8×
+   scroll, thunderstorm the green cast + racing scud.
+7. **Black bands on clear-day summits + opaque purple layer in fly mode +
+   mist/haze invisible** → ONE root cause: the mist regimes fed the aerial
+   term whose ambient asymptote is near-black in daylight, and whiteoutBase
+   floored at 0.55 even under clear sky. Fix: `fogLum` (exposure-anchored
+   bright fog colour) mixed by fog fraction in `aerial.ts`; whiteout now
+   follows the synoptic cloud (0.15 clear → 0.9 rain); camera-in-fog veil
+   fogs the DOME too (the belt was invisible from below because only
+   surface fragments were fogged). Envelope test asserts fogLum in-range.
+8. **Rain ripples only near the player** → sim patch 36 → 64 m + 3× drop
+   stamping, plus a procedural rain-agitation normal term across ALL
+   visible water (`uRainRipple`), distance-faded.
+9. **Storm seas not rougher** → wind→wave map 0.75 + 0.07·wind, game-core
+   clamp 1.6 → 2.4 (squall coast ≈ 2.2× energy); whitecaps follow
+   steepness; CPU buoyancy reads the same scale.
+10. **No mist force option** → force dropdown gains "dawn mist" / "sea fog"
+    (`weatherSampleForRegime`; `w=mist` / `w=fog`).
+11. **Fly default altitude above the clouds** → 700 → 400 m (below the
+    520±130 m belt).
+12. **Wet season not on the calendar** → the 8b studio checkbox permanently
+    pinned the water season to 0/1; the calendar path was dead code. Now
+    auto (calendar) is the default and the shipped behaviour — +1.4 m at
+    flood peak, ~−0.28 m deep-dry drawdown (asymmetric, tide.ts), smooth
+    transitions; auto/wet/dry preview select; `wet=` in character URLs;
+    map view gains the `flood-wet` inundation overlay (shipped since Phase
+    6 but never displayed).
+13. **God rays** → deferred to the polish backlog with a concrete recipe
+    (research doc §8.4) — needs a quarter-res occlusion pre-pass + composer
+    pass in both canvases; owner allowed deferral if not easy.
+14. **HUD "vis ~900 m" vs panel "vis 24.3 km"** → not a defect: the top bar
+    is the env-query practical visibility = min(region baseline, weather) —
+    the region's authored ambient visibility (Phase 4 danger model) caps it
+    in dense-air regions; the panel shows weather-only sight distance.
+    Flagged to the owner in the round-2 handoff for a naming decision.
