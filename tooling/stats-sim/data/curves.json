@@ -151,58 +151,74 @@
     "heavy": 1.0
   },
   "sneakAttack": {
-    "_": "Skyrim's shape (Skyrim:Sneak - dagger x6/x15, one-hand x3/x6, bow x2/x3, unarmed/two-hand x2), rebuilt as skill bands so it needs no perk economy. Melee beats ranged because closing the distance is the hard part.",
+    "_": "Sneak openers. Skyrim's shape (Skyrim:Sneak - dagger x6/x15 with Assassin's Blade, one-hand x3/x6 with Backstab, bow x2/x3 with Deadly Aim) rebuilt as six Sneak-skill bands so it needs no perk economy. Melee stays ahead of ranged because closing to knife distance unseen is the hard part - but the bow ladder was extended to x8 (owner, round 3: stealth-archery is a build we want to be genuinely strong).",
     "bandsBySkill": [
       0,
-      25,
-      50,
-      75
+      20,
+      40,
+      60,
+      80,
+      100
     ],
     "multipliers": {
       "dagger": [
         3,
-        6,
+        5,
+        7,
         10,
+        13,
         15
       ],
       "shortBlade": [
         2.5,
-        4,
+        3.5,
+        4.5,
         6,
+        7,
         8
       ],
       "oneHanded": [
         2,
+        2.5,
         3,
         4,
+        5,
         6
       ],
       "twoHanded": [
         2,
         2.5,
         3,
-        4
+        3.5,
+        4,
+        5
       ],
       "bow": [
         2,
-        2.5,
         3,
-        4
+        4,
+        5,
+        6.5,
+        8
       ],
       "unarmed": [
         2,
         2.5,
         3,
-        4
+        3.5,
+        4,
+        4.5
       ],
       "spell": [
         1.5,
         2,
         2.5,
-        3
+        3,
+        3.5,
+        4
       ]
     },
-    "note": "applies to the first blow on an actor that has not detected you; a missed opener simply becomes an ordinary attack"
+    "note": "applies to the first blow on an actor that has not detected you; a missed opener is simply an ordinary attack. A bow opener at Sneak 100 is the single biggest hit in the game outside a dagger assassination, which is the intent."
   },
   "climbing": {
     "_": "Acrobatics governs climbing (module 76 \u00a7122). Stamina drains while you hold the wall; a mantle at the top costs a lump. Burden multiplies the drain, which is what makes a looted-up character unable to climb out.",
@@ -217,7 +233,7 @@
       "overloaded": 99
     },
     "restOnHoldRegenFraction": 0.12,
-    "note": "you may hang still and recover a quarter of normal stamina regen; falling costs the fall-damage rules in \u00a7122"
+    "note": "you may hang still and recover restOnHoldRegenFraction of normal stamina regen; falling costs the fall-damage rules in module 76 \u00a7122"
   },
   "worthiness": {
     "_": "A blow worth this fraction of the target's health is a full use-point (module 76 \u00a7120.2). Chip damage on a sponge is worth almost nothing, which is the anti-grind rule; and after the sixth connect on the same actor the rest of the fight is worth less, which stops long fights being a skill mill.",
