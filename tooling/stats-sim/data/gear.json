@@ -18,7 +18,7 @@
       "baseWeightKg": 3
     }
   },
-  "_armourRatingFormula": "round(baseRating * guardScale * damageScale), summed over worn pieces, then x the armour-skill rating band",
+  "_armourRatingFormula": "round(baseRating * armourScale) summed over worn pieces, x the armour-class multiplier (curves.json armourClassRating), x the armour-skill rating band, x tempering",
   "materials": {
     "studded": {
       "tier": 1,
@@ -26,7 +26,8 @@
       "weightScale": 0.5,
       "guardScale": 0.75,
       "valuePerKg": 14,
-      "armourClass": "light"
+      "armourClass": "light",
+      "armourScale": 0.55
     },
     "iron": {
       "tier": 1,
@@ -34,7 +35,8 @@
       "weightScale": 1.05,
       "guardScale": 0.9,
       "valuePerKg": 8,
-      "armourClass": "heavy"
+      "armourClass": "heavy",
+      "armourScale": 0.75
     },
     "steel": {
       "tier": 2,
@@ -42,7 +44,8 @@
       "weightScale": 1.0,
       "guardScale": 1.0,
       "valuePerKg": 16,
-      "armourClass": "heavy"
+      "armourClass": "heavy",
+      "armourScale": 1.0
     },
     "imperial": {
       "tier": 2,
@@ -50,7 +53,8 @@
       "weightScale": 0.95,
       "guardScale": 1.0,
       "valuePerKg": 22,
-      "armourClass": "medium"
+      "armourClass": "medium",
+      "armourScale": 1.1
     },
     "silver": {
       "tier": 3,
@@ -58,7 +62,8 @@
       "weightScale": 1.0,
       "guardScale": 0.95,
       "valuePerKg": 55,
-      "armourClass": "heavy"
+      "armourClass": "heavy",
+      "armourScale": 1.2
     },
     "dwarven": {
       "tier": 3,
@@ -66,7 +71,8 @@
       "weightScale": 1.2,
       "guardScale": 1.08,
       "valuePerKg": 40,
-      "armourClass": "heavy"
+      "armourClass": "heavy",
+      "armourScale": 1.6
     },
     "forsworn": {
       "tier": 3,
@@ -74,7 +80,8 @@
       "weightScale": 0.9,
       "guardScale": 0.9,
       "valuePerKg": 30,
-      "armourClass": "light"
+      "armourClass": "light",
+      "armourScale": 0.9
     },
     "elven": {
       "tier": 4,
@@ -82,7 +89,8 @@
       "weightScale": 0.78,
       "guardScale": 1.02,
       "valuePerKg": 70,
-      "armourClass": "light"
+      "armourClass": "light",
+      "armourScale": 1.5
     },
     "orcish": {
       "tier": 4,
@@ -90,7 +98,8 @@
       "weightScale": 1.15,
       "guardScale": 1.06,
       "valuePerKg": 60,
-      "armourClass": "medium"
+      "armourClass": "medium",
+      "armourScale": 1.9
     },
     "draugr": {
       "tier": 4,
@@ -98,7 +107,8 @@
       "weightScale": 1.1,
       "guardScale": 1.0,
       "valuePerKg": 45,
-      "armourClass": "medium"
+      "armourClass": "medium",
+      "armourScale": 1.5
     },
     "falmer": {
       "tier": 4,
@@ -106,7 +116,8 @@
       "weightScale": 1.12,
       "guardScale": 0.98,
       "valuePerKg": 38,
-      "armourClass": "medium"
+      "armourClass": "medium",
+      "armourScale": 1.4
     },
     "akaviri": {
       "tier": 5,
@@ -114,7 +125,8 @@
       "weightScale": 0.85,
       "guardScale": 1.04,
       "valuePerKg": 120,
-      "armourClass": "medium"
+      "armourClass": "medium",
+      "armourScale": 2.2
     },
     "nordhero": {
       "tier": 5,
@@ -122,7 +134,8 @@
       "weightScale": 1.0,
       "guardScale": 1.08,
       "valuePerKg": 110,
-      "armourClass": "heavy"
+      "armourClass": "heavy",
+      "armourScale": 2.4
     },
     "glass": {
       "tier": 6,
@@ -130,7 +143,8 @@
       "weightScale": 0.8,
       "guardScale": 1.05,
       "valuePerKg": 200,
-      "armourClass": "light"
+      "armourClass": "light",
+      "armourScale": 2.6
     },
     "ebony": {
       "tier": 7,
@@ -138,7 +152,8 @@
       "weightScale": 1.25,
       "guardScale": 1.14,
       "valuePerKg": 320,
-      "armourClass": "heavy"
+      "armourClass": "heavy",
+      "armourScale": 3.4
     },
     "daedric": {
       "tier": 8,
@@ -146,7 +161,8 @@
       "weightScale": 1.4,
       "guardScale": 1.2,
       "valuePerKg": 700,
-      "armourClass": "heavy"
+      "armourClass": "heavy",
+      "armourScale": 4.4
     }
   },
   "weaponBaseDamage": 24,
@@ -299,7 +315,8 @@
       "slots": [
         "cuirass",
         "gauntlets",
-        "boots"
+        "boots",
+        "helmet"
       ]
     },
     "iron": {
@@ -307,7 +324,8 @@
       "slots": [
         "cuirass",
         "gauntlets",
-        "boots"
+        "boots",
+        "helmet"
       ]
     },
     "steelRef": {
@@ -371,10 +389,74 @@
         "boots",
         "helmet"
       ]
+    },
+    "imperial": {
+      "material": "imperial",
+      "slots": [
+        "cuirass",
+        "gauntlets",
+        "boots",
+        "helmet"
+      ]
+    },
+    "dwarven": {
+      "material": "dwarven",
+      "slots": [
+        "cuirass",
+        "gauntlets",
+        "boots",
+        "helmet"
+      ]
+    },
+    "draugr": {
+      "material": "draugr",
+      "slots": [
+        "cuirass",
+        "gauntlets",
+        "boots",
+        "helmet"
+      ]
+    },
+    "falmer": {
+      "material": "falmer",
+      "slots": [
+        "cuirass",
+        "gauntlets",
+        "boots",
+        "helmet"
+      ]
+    },
+    "akaviri": {
+      "material": "akaviri",
+      "slots": [
+        "cuirass",
+        "gauntlets",
+        "boots",
+        "helmet"
+      ]
+    },
+    "nordhero": {
+      "material": "nordhero",
+      "slots": [
+        "cuirass",
+        "gauntlets",
+        "boots",
+        "helmet"
+      ]
+    },
+    "steel": {
+      "material": "steel",
+      "slots": [
+        "cuirass",
+        "gauntlets",
+        "boots",
+        "helmet"
+      ]
     }
   },
   "shieldWeightKg": 6,
   "temperPerGrade": 0.08,
   "arrowArmourEffectiveness": 0.6,
-  "_arrowArmourEffectiveness": "arrowheads pierce: armour is only this effective against an arrow (the AP profiles in combat/ballistics.ts, simplified)"
+  "_arrowArmourEffectiveness": "arrowheads pierce: armour is only this effective against an arrow (the AP profiles in combat/ballistics.ts, simplified)",
+  "_armourScaleNote": "Armour gets its own material ladder, separate from the weapon damage ladder and much steeper - Morrowind's is 8x from iron to daedric. Steel is 1.0 so the reference set still rates 50. This is what lets 'typical endgame armour = 3 unavoided blows, absolute best = 5-6' (owner ruling, round 2) exist at all: with the weapon ladder reused for armour the whole endgame sat within 1.4x."
 }

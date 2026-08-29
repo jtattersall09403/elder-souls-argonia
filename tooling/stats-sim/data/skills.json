@@ -1,61 +1,530 @@
 {
-  "_": "The 27 skills (module 76 §118). `bands` are lo->hi across k(effSkill); the sim reads only the ones it models, the rest are the spec for Phase 10c.",
+  "_": "The 27 skills (module 76 \u00a7118). `bands` are lo->hi across k(effSkill); the sim reads only the ones it models, the rest are the spec for Phase 10c.",
   "skills": [
-    { "id": "longBlade", "label": "Long Blade", "gov": "strength", "spec": "combat", "family": "weapon",
-      "bands": { "damagePosition": [0.4, 1.0], "staminaCost": [1.25, 0.8], "recovery": [1.15, 0.85], "wear": [1.4, 0.6] } },
-    { "id": "blunt", "label": "Blunt", "gov": "strength", "spec": "combat", "family": "weapon",
-      "bands": { "damagePosition": [0.4, 1.0], "staminaCost": [1.25, 0.8], "recovery": [1.15, 0.85], "wear": [1.4, 0.6] } },
-    { "id": "axe", "label": "Axe", "gov": "strength", "spec": "combat", "family": "weapon",
-      "bands": { "damagePosition": [0.4, 1.0], "staminaCost": [1.25, 0.8], "recovery": [1.15, 0.85], "wear": [1.4, 0.6] } },
-    { "id": "spear", "label": "Spear", "gov": "endurance", "spec": "combat", "family": "weapon",
-      "bands": { "damagePosition": [0.4, 1.0], "staminaCost": [1.25, 0.8], "recovery": [1.15, 0.85], "wear": [1.4, 0.6] } },
-    { "id": "shortBlade", "label": "Short Blade", "gov": "speed", "spec": "stealth", "family": "weapon",
-      "bands": { "damagePosition": [0.4, 1.0], "staminaCost": [1.25, 0.8], "recovery": [1.15, 0.85], "wear": [1.4, 0.6], "backstab": [1.0, 1.25] } },
-    { "id": "marksman", "label": "Marksman", "gov": "agility", "spec": "stealth", "family": "weapon",
-      "bands": { "damagePosition": [0.4, 1.0], "drawSpeed": [0.85, 1.2], "sway": [1.4, 0.6], "drawStamina": [1.25, 0.8] } },
-    { "id": "handToHand", "label": "Hand-to-Hand", "gov": "speed", "spec": "stealth", "family": "weapon",
-      "bands": { "damagePosition": [0.4, 1.0], "staminaDamage": [1.0, 1.8], "postureDamage": [1.0, 1.6] } },
-    { "id": "block", "label": "Block", "gov": "agility", "spec": "combat", "family": "defence",
-      "bands": { "stability": [0.85, 1.15], "guardStamina": [1.3, 0.78] } },
-    { "id": "heavyArmor", "label": "Heavy Armor", "gov": "endurance", "spec": "combat", "family": "armour", "armourClass": "heavy",
-      "bands": { "rating": [0.55, 1.2], "effectiveWeight": [1.1, 0.9], "wear": [1.4, 0.6] } },
-    { "id": "mediumArmor", "label": "Medium Armor", "gov": "endurance", "spec": "combat", "family": "armour", "armourClass": "medium",
-      "bands": { "rating": [0.55, 1.2], "effectiveWeight": [1.1, 0.9], "wear": [1.4, 0.6] } },
-    { "id": "lightArmor", "label": "Light Armor", "gov": "agility", "spec": "stealth", "family": "armour", "armourClass": "light",
-      "bands": { "rating": [0.55, 1.2], "effectiveWeight": [1.1, 0.9], "wear": [1.4, 0.6] } },
-    { "id": "unarmored", "label": "Unarmored", "gov": "speed", "spec": "magic", "family": "armour",
-      "bands": {}, "formula": "rating = 0.006 * skill^2, pro-rata over bare armour slots" },
-    { "id": "athletics", "label": "Athletics", "gov": "speed", "spec": "combat", "family": "movement",
-      "bands": { "run": [0.94, 1.1], "swim": [0.85, 1.3], "sprintDrain": [1.2, 0.85] } },
-    { "id": "acrobatics", "label": "Acrobatics", "gov": "strength", "spec": "stealth", "family": "movement",
-      "bands": { "jump": [0.9, 1.25], "safeFallMeters": [2.0, 6.0], "climbSpeed": [0.85, 1.25], "climbStamina": [1.25, 0.75] } },
-    { "id": "sneak", "label": "Sneak", "gov": "agility", "spec": "stealth", "family": "stealth",
-      "bands": { "noiseRadius": [1.25, 0.55], "visibility": [1.2, 0.6] } },
-    { "id": "security", "label": "Security", "gov": "intelligence", "spec": "stealth", "family": "stealth",
-      "bands": {}, "formula": "openableLock = 15 + 0.85*effSkill + toolBonus(0/15/30/45)" },
-    { "id": "smithing", "label": "Smithing", "gov": "strength", "spec": "combat", "family": "craft",
-      "bands": { "repairPerStroke": [6, 22] }, "temperGrades": [25, 55, 80], "temperPerGrade": 0.08,
-      "formula": "craftable material tier <= 1 + floor(effSkill/14)" },
-    { "id": "mercantile", "label": "Mercantile", "gov": "personality", "spec": "stealth", "family": "social",
-      "bands": { "buyPrice": [1.35, 0.8], "sellPrice": [0.55, 0.95] } },
-    { "id": "speechcraft", "label": "Speechcraft", "gov": "personality", "spec": "stealth", "family": "social",
-      "bands": {}, "formula": "persuasion = 0.6*effSkill + 0.4*Personality + evidence + standing" },
-    { "id": "alchemy", "label": "Alchemy", "gov": "intelligence", "spec": "magic", "family": "craft",
-      "bands": {}, "effectVisibilityAt": [15, 30, 45, 60] },
-    { "id": "enchant", "label": "Enchant", "gov": "intelligence", "spec": "magic", "family": "craft",
-      "bands": { "pointBudget": [0.6, 1.6] }, "constantEffectAt": 60,
-      "formula": "charged-item use cost = base * (1.1 - skill/100)" },
-    { "id": "alteration", "label": "Alteration", "gov": "willpower", "spec": "magic", "family": "magic",
-      "bands": { "cost": [1.4, 0.8], "castTime": [1.2, 0.85], "magnitude": [0.75, 1.25] } },
-    { "id": "conjuration", "label": "Conjuration", "gov": "intelligence", "spec": "magic", "family": "magic",
-      "bands": { "cost": [1.4, 0.8], "castTime": [1.2, 0.85], "magnitude": [0.75, 1.25], "summonDuration": [0.8, 1.4] } },
-    { "id": "destruction", "label": "Destruction", "gov": "willpower", "spec": "magic", "family": "magic",
-      "bands": { "cost": [1.4, 0.8], "castTime": [1.2, 0.85], "magnitude": [0.75, 1.25] } },
-    { "id": "illusion", "label": "Illusion", "gov": "personality", "spec": "magic", "family": "magic",
-      "bands": { "cost": [1.4, 0.8], "castTime": [1.2, 0.85], "magnitude": [0.75, 1.25] } },
-    { "id": "mysticism", "label": "Mysticism", "gov": "willpower", "spec": "magic", "family": "magic",
-      "bands": { "cost": [1.4, 0.8], "castTime": [1.2, 0.85], "magnitude": [0.75, 1.25] } },
-    { "id": "restoration", "label": "Restoration", "gov": "willpower", "spec": "magic", "family": "magic",
-      "bands": { "cost": [1.4, 0.8], "castTime": [1.2, 0.85], "magnitude": [0.75, 1.25] } }
-  ]
+    {
+      "id": "longBlade",
+      "label": "Long Blade",
+      "gov": "strength",
+      "spec": "combat",
+      "family": "weapon",
+      "bands": {
+        "damagePosition": [
+          0.4,
+          1.0
+        ],
+        "staminaCost": [
+          1.25,
+          0.8
+        ],
+        "wear": [
+          1.4,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "blunt",
+      "label": "Blunt",
+      "gov": "strength",
+      "spec": "combat",
+      "family": "weapon",
+      "bands": {
+        "damagePosition": [
+          0.4,
+          1.0
+        ],
+        "staminaCost": [
+          1.25,
+          0.8
+        ],
+        "wear": [
+          1.4,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "axe",
+      "label": "Axe",
+      "gov": "strength",
+      "spec": "combat",
+      "family": "weapon",
+      "bands": {
+        "damagePosition": [
+          0.4,
+          1.0
+        ],
+        "staminaCost": [
+          1.25,
+          0.8
+        ],
+        "wear": [
+          1.4,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "spear",
+      "label": "Spear",
+      "gov": "endurance",
+      "spec": "combat",
+      "family": "weapon",
+      "bands": {
+        "damagePosition": [
+          0.4,
+          1.0
+        ],
+        "staminaCost": [
+          1.25,
+          0.8
+        ],
+        "wear": [
+          1.4,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "shortBlade",
+      "label": "Short Blade",
+      "gov": "speed",
+      "spec": "stealth",
+      "family": "weapon",
+      "bands": {
+        "damagePosition": [
+          0.4,
+          1.0
+        ],
+        "staminaCost": [
+          1.25,
+          0.8
+        ],
+        "wear": [
+          1.4,
+          0.6
+        ],
+        "backstab": [
+          1.0,
+          1.25
+        ]
+      }
+    },
+    {
+      "id": "marksman",
+      "label": "Marksman",
+      "gov": "agility",
+      "spec": "stealth",
+      "family": "weapon",
+      "bands": {
+        "damagePosition": [
+          0.4,
+          1.0
+        ],
+        "drawSpeed": [
+          0.85,
+          1.2
+        ],
+        "sway": [
+          1.4,
+          0.6
+        ],
+        "drawStamina": [
+          1.25,
+          0.8
+        ]
+      }
+    },
+    {
+      "id": "handToHand",
+      "label": "Hand-to-Hand",
+      "gov": "speed",
+      "spec": "stealth",
+      "family": "weapon",
+      "bands": {
+        "damagePosition": [
+          0.4,
+          1.0
+        ],
+        "staminaDamage": [
+          1.0,
+          2.0
+        ]
+      },
+      "knockout": "an opponent whose stamina is emptied by fists can be finished (Morrowind's fatigue knockout); no poise system is involved"
+    },
+    {
+      "id": "block",
+      "label": "Block",
+      "gov": "agility",
+      "spec": "combat",
+      "family": "defence",
+      "bands": {
+        "stability": [
+          0.85,
+          1.15
+        ],
+        "guardStamina": [
+          1.3,
+          0.78
+        ]
+      }
+    },
+    {
+      "id": "heavyArmor",
+      "label": "Heavy Armor",
+      "gov": "endurance",
+      "spec": "combat",
+      "family": "armour",
+      "armourClass": "heavy",
+      "bands": {
+        "rating": [
+          0.55,
+          1.2
+        ],
+        "effectiveWeight": [
+          1.1,
+          0.9
+        ],
+        "wear": [
+          1.4,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "mediumArmor",
+      "label": "Medium Armor",
+      "gov": "endurance",
+      "spec": "combat",
+      "family": "armour",
+      "armourClass": "medium",
+      "bands": {
+        "rating": [
+          0.55,
+          1.2
+        ],
+        "effectiveWeight": [
+          1.1,
+          0.9
+        ],
+        "wear": [
+          1.4,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "lightArmor",
+      "label": "Light Armor",
+      "gov": "agility",
+      "spec": "stealth",
+      "family": "armour",
+      "armourClass": "light",
+      "bands": {
+        "rating": [
+          0.55,
+          1.2
+        ],
+        "effectiveWeight": [
+          1.1,
+          0.9
+        ],
+        "wear": [
+          1.4,
+          0.6
+        ]
+      }
+    },
+    {
+      "id": "unarmored",
+      "label": "Unarmored",
+      "gov": "speed",
+      "spec": "magic",
+      "family": "armour",
+      "bands": {},
+      "formula": "rating = 0.006 * skill^2, pro-rata over bare armour slots"
+    },
+    {
+      "id": "athletics",
+      "label": "Athletics",
+      "gov": "speed",
+      "spec": "combat",
+      "family": "movement",
+      "bands": {
+        "run": [
+          0.94,
+          1.1
+        ],
+        "swim": [
+          0.85,
+          1.3
+        ],
+        "sprintDrain": [
+          1.2,
+          0.85
+        ]
+      }
+    },
+    {
+      "id": "acrobatics",
+      "label": "Acrobatics",
+      "gov": "strength",
+      "spec": "stealth",
+      "family": "movement",
+      "bands": {
+        "jump": [
+          0.9,
+          1.25
+        ],
+        "safeFallMeters": [
+          2.0,
+          6.0
+        ],
+        "climbSpeed": [
+          0.85,
+          1.25
+        ],
+        "climbStamina": [
+          1.25,
+          0.75
+        ]
+      },
+      "climbing": "climb speed band x climbing.baseSpeedMetresPerSecond; stamina drain band x baseStaminaPerSecond x burden multiplier; mantle and ledge-grab costs scale with the same stamina band"
+    },
+    {
+      "id": "sneak",
+      "label": "Sneak",
+      "gov": "agility",
+      "spec": "stealth",
+      "family": "stealth",
+      "bands": {
+        "noiseRadius": [
+          1.25,
+          0.55
+        ],
+        "visibility": [
+          1.2,
+          0.6
+        ],
+        "openerMultiplier": null
+      },
+      "sneakAttack": "see curves.json sneakAttack: banded multipliers at Sneak 0/25/50/75"
+    },
+    {
+      "id": "security",
+      "label": "Security",
+      "gov": "intelligence",
+      "spec": "stealth",
+      "family": "stealth",
+      "bands": {},
+      "formula": "openableLock = 15 + 0.85*effSkill + toolBonus(0/15/30/45)"
+    },
+    {
+      "id": "smithing",
+      "label": "Smithing",
+      "gov": "strength",
+      "spec": "combat",
+      "family": "craft",
+      "bands": {
+        "repairPerStroke": [
+          6,
+          22
+        ]
+      },
+      "temperGrades": [
+        25,
+        55,
+        80
+      ],
+      "temperPerGrade": 0.08,
+      "formula": "craftable material tier <= 1 + floor(effSkill/14)"
+    },
+    {
+      "id": "mercantile",
+      "label": "Mercantile",
+      "gov": "personality",
+      "spec": "stealth",
+      "family": "social",
+      "bands": {
+        "buyPrice": [
+          1.35,
+          0.8
+        ],
+        "sellPrice": [
+          0.55,
+          0.95
+        ]
+      }
+    },
+    {
+      "id": "speechcraft",
+      "label": "Speechcraft",
+      "gov": "personality",
+      "spec": "stealth",
+      "family": "social",
+      "bands": {},
+      "formula": "persuasion = 0.6*effSkill + 0.4*Personality + evidence + standing"
+    },
+    {
+      "id": "alchemy",
+      "label": "Alchemy",
+      "gov": "intelligence",
+      "spec": "magic",
+      "family": "craft",
+      "bands": {},
+      "effectVisibilityAt": [
+        15,
+        30,
+        45,
+        60
+      ]
+    },
+    {
+      "id": "enchant",
+      "label": "Enchant",
+      "gov": "intelligence",
+      "spec": "magic",
+      "family": "craft",
+      "bands": {
+        "pointBudget": [
+          0.6,
+          1.6
+        ]
+      },
+      "constantEffectAt": 60,
+      "formula": "charged-item use cost = base * (1.1 - skill/100)"
+    },
+    {
+      "id": "alteration",
+      "label": "Alteration",
+      "gov": "willpower",
+      "spec": "magic",
+      "family": "magic",
+      "bands": {
+        "cost": [
+          1.4,
+          0.8
+        ],
+        "castTime": [
+          1.2,
+          0.85
+        ],
+        "magnitude": [
+          0.75,
+          1.25
+        ]
+      }
+    },
+    {
+      "id": "conjuration",
+      "label": "Conjuration",
+      "gov": "intelligence",
+      "spec": "magic",
+      "family": "magic",
+      "bands": {
+        "cost": [
+          1.4,
+          0.8
+        ],
+        "castTime": [
+          1.2,
+          0.85
+        ],
+        "magnitude": [
+          0.75,
+          1.25
+        ],
+        "summonDuration": [
+          0.8,
+          1.4
+        ]
+      }
+    },
+    {
+      "id": "destruction",
+      "label": "Destruction",
+      "gov": "willpower",
+      "spec": "magic",
+      "family": "magic",
+      "bands": {
+        "cost": [
+          1.4,
+          0.8
+        ],
+        "castTime": [
+          1.2,
+          0.85
+        ],
+        "magnitude": [
+          0.75,
+          1.25
+        ]
+      }
+    },
+    {
+      "id": "illusion",
+      "label": "Illusion",
+      "gov": "personality",
+      "spec": "magic",
+      "family": "magic",
+      "bands": {
+        "cost": [
+          1.4,
+          0.8
+        ],
+        "castTime": [
+          1.2,
+          0.85
+        ],
+        "magnitude": [
+          0.75,
+          1.25
+        ]
+      }
+    },
+    {
+      "id": "mysticism",
+      "label": "Mysticism",
+      "gov": "willpower",
+      "spec": "magic",
+      "family": "magic",
+      "bands": {
+        "cost": [
+          1.4,
+          0.8
+        ],
+        "castTime": [
+          1.2,
+          0.85
+        ],
+        "magnitude": [
+          0.75,
+          1.25
+        ]
+      }
+    },
+    {
+      "id": "restoration",
+      "label": "Restoration",
+      "gov": "willpower",
+      "spec": "magic",
+      "family": "magic",
+      "bands": {
+        "cost": [
+          1.4,
+          0.8
+        ],
+        "castTime": [
+          1.2,
+          0.85
+        ],
+        "magnitude": [
+          0.75,
+          1.25
+        ]
+      }
+    }
+  ],
+  "_recoveryNote": "Weapon skill no longer scales attack recovery (owner veto, round 2): recovery is animation timing and stats do not touch the feel constants. Skill buys the damage-range position, stamina cost, gear wear and bow handling."
 }

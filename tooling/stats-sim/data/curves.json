@@ -1,6 +1,5 @@
 {
-  "_": "Canonical constants for the workstream-S stat design (docs/world/76-stats-progression.md §116-129). Phase 10c ports this file to packages/game-core/src/stats/data/.",
-
+  "_": "Canonical constants for the workstream-S stat design (docs/world/76-stats-progression.md \u00a7116-129). Phase 10c ports this file to packages/game-core/src/stats/data/.",
   "skillCurve": {
     "_": "k(s) = 1 - (1 - s/100)^exponent. Front-loaded and self-soft-capping.",
     "exponent": 1.6
@@ -11,10 +10,15 @@
     "divisor": 5,
     "clamp": 10
   },
-
-  "damagePosition": { "lo": 0.4, "hi": 1.0 },
-  "condition": { "lo": 0.5, "hi": 1.0, "max": 100 },
-
+  "damagePosition": {
+    "lo": 0.4,
+    "hi": 1.0
+  },
+  "condition": {
+    "lo": 0.5,
+    "hi": 1.0,
+    "max": 100
+  },
   "health": {
     "_": "maxHealth = attrCoefficient*(Str+End) + level*(levelBase + End/levelEnduranceDivisor). Continuous and retroactive.",
     "attrCoefficient": 0.5,
@@ -28,7 +32,12 @@
     "regenBase": 12,
     "regenAgiCoefficient": 0.24,
     "regenDelay": 1.05,
-    "burdenCostMultiplier": { "fast": 1.0, "mid": 1.08, "fat": 1.2, "overloaded": 1.35 }
+    "burdenCostMultiplier": {
+      "fast": 1.0,
+      "mid": 1.08,
+      "fat": 1.2,
+      "overloaded": 1.35
+    }
   },
   "magicka": {
     "base": 20,
@@ -41,33 +50,49 @@
     "base": 30,
     "strCoefficient": 3
   },
-  "burdenTiers": { "_": "calibrated by the sim so the reference kit is mid and a full endgame plate kit is fat until Strength grows", "fast": 0.2, "mid": 0.35, "fat": 1.0 },
+  "burdenTiers": {
+    "_": "calibrated by the sim so the reference kit is mid and a full endgame plate kit is fat until Strength grows",
+    "fast": 0.2,
+    "mid": 0.35,
+    "fat": 1.0
+  },
   "rollTiers": {
-    "fast": { "distance": 1.1, "recovery": 0.9 },
-    "mid": { "distance": 1.0, "recovery": 1.0 },
-    "fat": { "distance": 0.8, "recovery": 1.25 },
-    "overloaded": { "distance": 0.0, "recovery": 1.0 }
+    "_": "Equip-load tiers change roll distance, recovery AND invulnerability frames (Dark Souls 1's 13/11/9-frame behaviour). This is not stat-gating a feel verb (the DS2 Adaptability mistake): the tier is a visible, freely-chosen consequence of what you decided to carry.",
+    "fast": {
+      "distance": 1.1,
+      "recovery": 0.9,
+      "iFrameScale": 1.15
+    },
+    "mid": {
+      "distance": 1.0,
+      "recovery": 1.0,
+      "iFrameScale": 1.0
+    },
+    "fat": {
+      "distance": 0.8,
+      "recovery": 1.25,
+      "iFrameScale": 0.8
+    },
+    "overloaded": {
+      "distance": 0.0,
+      "recovery": 1.0,
+      "iFrameScale": 0.0
+    }
   },
-
   "mitigation": {
-    "_": "mitigation = AR / (AR + constant + damageCoefficient*incomingDamage). AR 50 vs a 24 blow = today's 25.0 %.",
-    "constant": 126,
-    "damageCoefficient": 1
+    "_": "mitigation = AR / (AR + constant + damageCoefficient*incomingDamage). Big hits still punch through, but less steeply than the first pass so that top-tier armour is worth wearing when blows are huge.",
+    "constant": 135.6,
+    "damageCoefficient": 0.6
   },
-  "poise": {
-    "endCoefficient": 0.2,
-    "armourCoefficient": 0.35,
-    "attackPoiseCoefficient": 0.55,
-    "flinchFraction": 0.5
+  "unarmoured": {
+    "coefficient": 0.006,
+    "slots": 4
   },
-  "unarmoured": { "coefficient": 0.006, "slots": 4 },
   "softRequirement": {
-    "_": "Shortfall d below an item requirement: never blocks, costs stamina and recovery.",
-    "staminaPerPoint": 0.06,
-    "recoveryPerPoint": 0.05,
+    "_": "Shortfall d below an item requirement: never blocks, costs stamina. (The recovery penalty went with the recovery band - owner veto, round 2.)",
+    "staminaPerPoint": 0.07,
     "maxShortfall": 20
   },
-
   "breath": {
     "_": "seconds = base + athleticsCoefficient*Athletics + enduranceCoefficient*End; unlimited for water-breathers.",
     "base": 25,
@@ -84,10 +109,13 @@
     "speedAttributeBase": 0.92,
     "speedAttributeDivisor": 625
   },
-
   "skillXp": {
     "_": "pointsToNextRank = (skill+1) * classFactor * specFactor",
-    "classFactor": { "major": 0.75, "minor": 1.0, "misc": 1.25 },
+    "classFactor": {
+      "major": 0.75,
+      "minor": 1.0,
+      "misc": 1.25
+    },
     "specFactor": 0.8
   },
   "vastei": {
@@ -106,5 +134,96 @@
     "attrValueExponent": 2,
     "sittingIncrement": 0.5,
     "sittingCap": 5
+  },
+  "difficulty": {
+    "_": "Global lethality knob. 1.0 is the designed 'normal'. Exposed at play time as a difficulty setting and used by the balance harness; it multiplies incoming enemy damage only - it never touches the world's populations, loot or gates (0004).",
+    "enemyDamageMultiplier": 1.0,
+    "presets": {
+      "forgiving": 0.7,
+      "normal": 1.0,
+      "harsh": 1.35
+    }
+  },
+  "armourClassRating": {
+    "_": "What a class of armour is worth per piece before material and skill. Light protects less and weighs much less; heavy is the opposite. Applied to the raw slot rating.",
+    "light": 0.75,
+    "medium": 0.9,
+    "heavy": 1.0
+  },
+  "sneakAttack": {
+    "_": "Skyrim's shape (Skyrim:Sneak - dagger x6/x15, one-hand x3/x6, bow x2/x3, unarmed/two-hand x2), rebuilt as skill bands so it needs no perk economy. Melee beats ranged because closing the distance is the hard part.",
+    "bandsBySkill": [
+      0,
+      25,
+      50,
+      75
+    ],
+    "multipliers": {
+      "dagger": [
+        3,
+        6,
+        10,
+        15
+      ],
+      "shortBlade": [
+        2.5,
+        4,
+        6,
+        8
+      ],
+      "oneHanded": [
+        2,
+        3,
+        4,
+        6
+      ],
+      "twoHanded": [
+        2,
+        2.5,
+        3,
+        4
+      ],
+      "bow": [
+        2,
+        2.5,
+        3,
+        4
+      ],
+      "unarmed": [
+        2,
+        2.5,
+        3,
+        4
+      ],
+      "spell": [
+        1.5,
+        2,
+        2.5,
+        3
+      ]
+    },
+    "note": "applies to the first blow on an actor that has not detected you; a missed opener simply becomes an ordinary attack"
+  },
+  "climbing": {
+    "_": "Acrobatics governs climbing (module 76 \u00a7122). Stamina drains while you hold the wall; a mantle at the top costs a lump. Burden multiplies the drain, which is what makes a looted-up character unable to climb out.",
+    "baseSpeedMetresPerSecond": 1.1,
+    "baseStaminaPerSecond": 7.5,
+    "mantleStaminaCost": 18,
+    "ledgeGrabStaminaCost": 8,
+    "burdenDrainMultiplier": {
+      "fast": 0.85,
+      "mid": 1.0,
+      "fat": 1.35,
+      "overloaded": 99
+    },
+    "restOnHoldRegenFraction": 0.12,
+    "note": "you may hang still and recover a quarter of normal stamina regen; falling costs the fall-damage rules in \u00a7122"
+  },
+  "worthiness": {
+    "_": "A blow worth this fraction of the target's health is a full use-point (module 76 \u00a7120.2). Chip damage on a sponge is worth almost nothing, which is the anti-grind rule; and after the sixth connect on the same actor the rest of the fight is worth less, which stops long fights being a skill mill.",
+    "fullUseDamageFraction": 0.15,
+    "minUseValue": 0.05,
+    "connectsBeforeDamping": 6,
+    "dampedValue": 0.35
   }
 }

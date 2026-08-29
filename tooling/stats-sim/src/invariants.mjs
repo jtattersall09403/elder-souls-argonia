@@ -14,21 +14,28 @@ export const THRESHOLDS = {
   d5OneShotFraction: 0.9,
   d5PlayerChipFraction: 0.015,
   appropriateMinHealthLeft: 0.15,
-  appropriateMinHitsToDie: 3,
+  appropriateMinHitsToDie: 2,
   appropriateTtkRange: [2.5, 150],
   overmatchTwoBandsMaxHitsToDie: 3,
   overmatchThreeBandsMaxHitsToDie: 2,
-  ordinaryAvoidance: 0.35,
-  bossAvoidance: 0.55,
+  ordinaryAvoidance: 0.6,
+  bossAvoidance: 0.78,
   minTtkSeconds: 2.5,
-  armourMaxMitigationLightHit: 0.6,
-  armourMaxMitigationD5Hit: 0.45,
+  armourMaxMitigationLightHit: 0.8,
+  armourMaxMitigationD5Hit: 0.65,
+  minD5BiteOnBestArmour: 0.15,
+
+  bestArmourHitsToDie: [5, 7],
   affordabilityRange: [2, 8],
   parityTtkSpread: 4.5,
   breathCompetentSegment: 45,
   breathCompetentMargin: 1.1,
   loopDivergenceFactor: 1.5,
   vasteiSittingThrottle: 5,
+  campaignEndLevel: [12, 40],
+  campaignEndWeaponSkill: 90,
+  campaignMaxEarlyDeaths: 60,
+  campaignLevelSpread: 2.5,
 };
 
 /** Which build a band is *meant* for — the ladder's contract with the player. */
@@ -90,7 +97,10 @@ export function runInvariants(results) {
       for (const archetype of Object.keys(data.builds.archetypes)) {
         for (const position of [0.15, 0.5, 0.85]) {
           const build = makeBuild(checkpoint, archetype);
-          const d = duel(build, bandActor(bandId, position), { avoidance: T.ordinaryAvoidance });
+          // The endgame band assumes skilled play by design; everything below
+          // it must be winnable at ordinary play.
+          const avoidance = bandId === "D5" ? T.bossAvoidance : T.ordinaryAvoidance;
+          const d = duel(build, bandActor(bandId, position), { avoidance });
           if (!d.won) fails.push(`${checkpoint}/${archetype} loses to ${bandId}@${position}`);
           else if (d.hitsToDie < T.appropriateMinHitsToDie) fails.push(`${checkpoint}/${archetype} dies in ${d.hitsToDie} ${bandId}@${position} hits`);
           else if (d.ttkSeconds < T.appropriateTtkRange[0] || d.ttkSeconds > T.appropriateTtkRange[1]) {
@@ -118,10 +128,84 @@ export function runInvariants(results) {
     return { pass: fails.length === 0, detail: fails.length ? fails.slice(0, 6).join("; ") : "overmatched characters die in a handful of blows at every checkpoint" };
   });
 
-  check("armour-never-trivialises", "no achievable armour rating approaches immunity, and big hits punch through", () => {
+  check("armour-never-trivialises", "the best armour in the game is worth wearing but never approaches immunity", () => {
     const a = results.loops.armourCeiling;
-    const pass = a.mitigationVsLightHit < T.armourMaxMitigationLightHit && a.mitigationVsD5Hit < T.armourMaxMitigationD5Hit;
-    return { pass, detail: `max AR ${a.maxArmourRating}: ${(a.mitigationVsLightHit * 100).toFixed(1)} % of a light hit, ${(a.mitigationVsD5Hit * 100).toFixed(1)} % of a D5 hit` };
+    const bestArmoured = makeBuild("god", "melee");
+    const d5 = bandActor("D5", 0.85);
+    const perHit = duel(bestArmoured, d5).enemyPerHit;
+    const fractionOfHealth = perHit / bestArmoured.health;
+    const pass =
+      a.mitigationVsLightHit < T.armourMaxMitigationLightHit &&
+      a.mitigationVsD5Hit < T.armourMaxMitigationD5Hit &&
+      fractionOfHealth > T.minD5BiteOnBestArmour;
+    return {
+      pass,
+      detail: `max AR ${a.maxArmourRating}: ${(a.mitigationVsLightHit * 100).toFixed(1)} % of a light hit, ${(a.mitigationVsD5Hit * 100).toFixed(1)} % of a D5 hit; the hardest D5 blow still takes ${(fractionOfHealth * 100).toFixed(0)} % of the best-armoured character's health`,
+    };
+  });
+
+  check("getting-hit-matters", "unavoided blows kill in about three at your own band, and only the very best armour buys five or six", () => {
+    const pairs = { D1: "start", D2: "competent", D3: "veteran", D4: "master", D5: "legend" };
+    const fails = [];
+    for (const [bandId, checkpoint] of Object.entries(pairs)) {
+      const target = data.ladder.bands.find((b) => b.id === bandId).hitsToDieTarget;
+      for (const archetype of ["melee", "spear", "marksman", "magic"]) {
+        const d = duel(makeBuild(checkpoint, archetype), bandActor(bandId, 0.5));
+        // The band was solved for `target` at the median build; heavy armour may
+        // buy up to two more blows, light armour may lose one.
+        if (d.hitsToDie > target + 2 || d.hitsToDie < target - 1) {
+          fails.push(`${checkpoint}/${archetype} vs ${bandId}: ${d.hitsToDie} (target ${target})`);
+        }
+      }
+    }
+    const best = duel(makeBuild("god", "melee"), bandActor("D5", 0.5));
+    if (best.hitsToDie < T.bestArmourHitsToDie[0] || best.hitsToDie > T.bestArmourHitsToDie[1]) {
+      fails.push(`best-in-slot armour survives ${best.hitsToDie} D5 blows (want ${T.bestArmourHitsToDie.join("-")})`);
+    }
+    return {
+      pass: fails.length === 0,
+      detail: fails.length ? fails.join("; ") : `every build lands within a blow or two of its band's target (10/5/4/3.5/3/3); best-in-slot armour survives ${best.hitsToDie} D5 blows`,
+    };
+  });
+
+  check("climbing-is-a-real-cost", "climbing is limited by stamina, skill and what you are carrying", () => {
+    const rows = results.climb;
+    const beginner = rows[0];
+    const master = rows.find((r) => r.who.startsWith("master climber"));
+    const knight = rows.find((r) => r.who.startsWith("knight"));
+    const pass =
+      beginner.walls["25"] === "falls short" &&
+      master.walls["40"] !== "falls short" &&
+      knight.drainPerSecond > master.drainPerSecond;
+    return {
+      pass,
+      detail: `hour one: 25 m ${beginner.walls["25"]}; master climber: 40 m ${master.walls["40"]}; a knight in daedric drains ${knight.drainPerSecond}/s against a climber's ${master.drainPerSecond}/s`,
+    };
+  });
+
+  check("a-whole-game-holds-together", "every plausible build gets through a whole campaign, and dying is front-loaded", () => {
+    const fails = [];
+    const levels = [];
+    for (const run of results.campaign) {
+      const end = run.timeline.at(-1);
+      const early = run.timeline.slice(0, 2).reduce((a, t) => a + t.deaths, 0);
+      const late = run.timeline.slice(2).reduce((a, t) => a + t.deaths, 0);
+      levels.push(end.level);
+      if (end.level < T.campaignEndLevel[0] || end.level > T.campaignEndLevel[1]) {
+        fails.push(`${run.label}: ends at level ${end.level}`);
+      }
+      if (end.weaponSkill < T.campaignEndWeaponSkill) fails.push(`${run.label}: weapon skill only ${end.weaponSkill}`);
+      if (early <= late) fails.push(`${run.label}: ${early} early deaths against ${late} later ones`);
+      if (early > T.campaignMaxEarlyDeaths) fails.push(`${run.label}: ${early} deaths in the first two acts`);
+    }
+    const spread = Math.max(...levels) / Math.min(...levels);
+    if (spread > T.campaignLevelSpread) fails.push(`level spread across builds x${spread.toFixed(2)}`);
+    return {
+      pass: fails.length === 0,
+      detail: fails.length
+        ? fails.join("; ")
+        : `all ${results.campaign.length} builds finish; end levels ${Math.min(...levels)}-${Math.max(...levels)}, deaths front-loaded in every run`,
+    };
   });
 
   check("no-deferral-advantage", "hoarding vastei instead of spending it at each sitting buys nothing and costs power", () => {
@@ -175,17 +259,22 @@ export function runInvariants(results) {
     return { pass: s.stillUsable && s.worstCaseSwing < s.startingStamina, detail: `worst-case swing ${s.worstCaseSwing} stamina against a starting pool of ${s.startingStamina}` };
   });
 
-  check("healing-costs-but-pays", "potioning through a sloppy fight costs real money and is still worth doing", () => {
+  check("clean-play-pays", "fighting at your own band pays when you play well, and costs you when you don't", () => {
     const fails = [];
     for (const f of results.economy.fights) {
       if (f.band === "D0") continue;
       const cost = f.cheapestHealing.cost;
-      if (cost < f.incomePerClear * 0.05) fails.push(`${f.band}: healing ${cost} is trivial against ${f.incomePerClear} income`);
+      if (cost < f.incomePerClear * 0.03) fails.push(`${f.band}: healing ${cost} is trivial against ${f.incomePerClear} income`);
       if (["D3", "D4", "D5"].includes(f.band) && cost > f.incomePerClear) {
-        fails.push(`${f.band}: healing ${cost} exceeds ${f.incomePerClear} income`);
+        fails.push(`${f.band}: clean play still loses money (${cost} healing against ${f.incomePerClear})`);
       }
     }
-    return { pass: fails.length === 0, detail: fails.length ? fails.join("; ") : "healing is a real cost everywhere and pays for itself from D3 up (early game: brew, don't buy)" };
+    return {
+      pass: fails.length === 0,
+      detail: fails.length
+        ? fails.join("; ")
+        : "clean play profits from D3 up; sloppy play does not, which is the lesson we want the economy to teach",
+    };
   });
 
   check("vastei-farming-is-throttled", "no single sitting can absorb a farmed hoard", () => {

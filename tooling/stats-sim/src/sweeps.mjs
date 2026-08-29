@@ -8,6 +8,8 @@
 
 import {
   data,
+  climb,
+  sneakMultiplier,
   SKILLS,
   makeBuild,
   compiledEnemies,
@@ -20,7 +22,6 @@ import {
   carryCapacity,
   burdenTier,
   mitigation,
-  poise,
   breathSeconds,
   armourSetRating,
   armourSetWeight,
@@ -32,6 +33,7 @@ import {
   playCharacter,
   unarmouredRating,
 } from "./model.mjs";
+import { playCampaign } from "./campaign.mjs";
 
 const BANDS = data.ladder.bands.map((b) => b.id);
 const CHECKPOINTS = data.builds.checkpoints.map((c) => c.id);
@@ -49,7 +51,6 @@ export function referenceCheck() {
     staminaRegen: staminaRegen(attrs),
     carryCapacityKg: carryCapacity(attrs),
     burden: build.burden,
-    poise: poise(attrs, rawSteelRating),
     mitigationAt50vs24: mitigation(rawSteelRating, 24),
     armourRatingWithSkill: refArmour,
     listedLightChain: ["light1", "light2", "light3"].map((a) => listedDamage("straightSword", "steel", a)),
@@ -93,7 +94,6 @@ export function namedArchetypeTable() {
     health: Math.round(enemy.health),
     damage: Math.round(enemy.damage),
     armourRating: Math.round(enemy.armourRating),
-    poise: Math.round(enemy.poise),
     lootValue: Math.round(enemy.lootValue),
     vs: builds.map((b) => {
       const d = duel(b, enemy);
@@ -114,7 +114,7 @@ export function buildParity() {
   const boss = compiledEnemies().find((e) => e.id === "xal-krona");
   return ARCHETYPES.map((arch) => {
     const build = makeBuild("legend", arch);
-    const d = duel(build, boss, { avoidance: 0.55 });
+    const d = duel(build, boss, { avoidance: 0.78 });
     return {
       archetype: arch,
       mode: d.mode,
@@ -169,6 +169,49 @@ export function burdenSweep() {
   });
 }
 
+/** 5b. Climbing: how far can each kind of character actually get up a wall? */
+export function climbSweep() {
+  const walls = [8, 15, 25, 40, 60];
+  const cases = [
+    { id: "hour one (Acrobatics 15, mid load)", acrobatics: 15, checkpoint: "start", archetype: "melee" },
+    { id: "competent (Acrobatics 45, mid load)", acrobatics: 45, checkpoint: "competent", archetype: "melee" },
+    { id: "scout (Acrobatics 70, light load)", acrobatics: 70, checkpoint: "veteran", archetype: "marksman" },
+    { id: "master climber (Acrobatics 100)", acrobatics: 100, checkpoint: "master", archetype: "stealth" },
+    { id: "knight in daedric (Acrobatics 45, fat)", acrobatics: 45, checkpoint: "legend", archetype: "melee" },
+  ];
+  return cases.map((c) => {
+    const build = makeBuild(c.checkpoint, c.archetype);
+    const opts = {
+      acrobatics: c.acrobatics,
+      attributes: build.attributes,
+      burdenTier: build.burden.tier,
+      stamina: build.stamina,
+      staminaRegen: build.staminaRegen,
+    };
+    const eight = climb(8, opts);
+    return {
+      who: c.id,
+      burden: build.burden.tier,
+      speed: +eight.speed.toFixed(2),
+      drainPerSecond: +eight.drainPerSecond.toFixed(1),
+      sustainableMeters: eight.sustainableMeters === Infinity ? "unlimited" : Math.round(eight.sustainableMeters),
+      walls: Object.fromEntries(walls.map((h) => {
+        const r = climb(h, opts);
+        return [h, r.completesInOneGo ? `${r.seconds.toFixed(0)}s` : (r.sustainableMeters >= h ? "with rests" : "falls short")];
+      })),
+    };
+  });
+}
+
+/** 5c. Sneak openers: what an unseen first blow is worth. */
+export function sneakSweep() {
+  const kinds = ["dagger", "shortBlade", "oneHanded", "twoHanded", "bow", "spell"];
+  return [0, 25, 50, 75, 100].map((skill) => ({
+    sneak: skill,
+    multipliers: Object.fromEntries(kinds.map((kind) => [kind, sneakMultiplier(kind, skill)])),
+  }));
+}
+
 /** 6. Breath and swim margins against authored underwater segment lengths. */
 export function breathSweep() {
   const segments = [30, 45, 60, 90, 120];
@@ -208,6 +251,19 @@ export function progressionSweep() {
   });
 }
 
+/** 7b. Coarse whole-playthrough runs: five plausible characters, act by act. */
+export function campaignSweep() {
+  const runs = [
+    { label: "Argonian spear-warden (medium armour)", classId: "spear-warden", race: "argonian", archetypeId: "spear" },
+    { label: "Nord shield-and-sword (heavy)", classId: "marsh-hand", race: "nord", archetypeId: "melee" },
+    { label: "Bosmer reed scout (bow, light)", classId: "reed-scout", race: "bosmer", archetypeId: "marksman" },
+    { label: "Breton sap-speaker (destruction)", classId: "sap-speaker", race: "breton", archetypeId: "magic" },
+    { label: "Khajiit ledger hand (short blade, stealth)", classId: "ledger-hand", race: "khajiit", archetypeId: "stealth" },
+    { label: "Orc greatsword (heavy, no shield)", classId: "marsh-hand", race: "orc", archetypeId: "greatsword" },
+  ];
+  return runs.map((r) => playCampaign(r));
+}
+
 /** 8. The deferral exploit: spending every sitting vs hoarding to level 20. */
 export function deferralCheck() {
   const spend = playCharacter({ classId: "marsh-hand", policy: "spend", maxLevel: 30 });
@@ -223,19 +279,30 @@ export function deferralCheck() {
 /** 9. The economy: what it costs to potion your way through a fight, and to train. */
 export function economySweep() {
   const potions = data.economy.potions.bought;
+  const APPROPRIATE = { D0: "start", D1: "start", D2: "competent", D3: "veteran", D4: "master", D5: "legend" };
   const rows = BANDS.map((bandId) => {
     const enemy = bandActor(bandId, 0.6);
-    const build = makeBuild("competent", "melee");
-    const def = { perHit: duel(build, enemy).enemyPerHit };
-    const damageTaken = def.perHit * 4; // a scrappy fight: four blows eaten
+    const build = makeBuild(APPROPRIATE[bandId], "melee");
+    // What an ordinary, slightly sloppy player actually loses in this fight.
+    const sloppy = duel(build, enemy, { avoidance: 0.5 });
+    const fight = duel(build, enemy, { avoidance: 0.7 });
+    const damageTaken = build.health * (1 - fight.healthFraction) + fight.potionsUsed * 140;
+    const sloppyDamage = build.health * (1 - sloppy.healthFraction) + sloppy.potionsUsed * 140;
     const cheapest = potions.reduce((best, p) => {
       const count = Math.ceil(damageTaken / p.heal);
       const cost = count * p.price;
       return cost < best.cost ? { potion: p.id, count, cost } : best;
     }, { cost: Infinity });
+    const sloppyCost = potions.reduce((best, p) => {
+      const count = Math.ceil(sloppyDamage / p.heal);
+      const cost = count * p.price;
+      return cost < best ? cost : best;
+    }, Infinity);
     return {
       band: bandId,
-      damageTakenIfSloppy: Math.round(damageTaken),
+      damageTakenCleanPlay: Math.round(damageTaken),
+      damageTakenIfSloppy: Math.round(sloppyDamage),
+      sloppyHealingCost: Math.round(sloppyCost),
       cheapestHealing: cheapest,
       lootValue: Math.round(enemy.lootValue),
       profitable: enemy.lootValue > cheapest.cost,

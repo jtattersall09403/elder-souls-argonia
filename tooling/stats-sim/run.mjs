@@ -12,7 +12,7 @@
 
 import {
   referenceCheck, matchupMatrix, namedArchetypeTable, buildParity, godCheck, burdenSweep,
-  breathSweep, progressionSweep, deferralCheck, economySweep, loopHunt, softRequirementCheck,
+  breathSweep, climbSweep, sneakSweep, progressionSweep, campaignSweep, deferralCheck, economySweep, loopHunt, softRequirementCheck,
 } from "./src/sweeps.mjs";
 import { runInvariants } from "./src/invariants.mjs";
 
@@ -25,7 +25,10 @@ const results = {
   god: godCheck(),
   burden: burdenSweep(),
   breath: breathSweep(),
+  climb: climbSweep(),
+  sneak: sneakSweep(),
   progression: progressionSweep(),
+  campaign: campaignSweep(),
   deferral: deferralCheck(),
   economy: economySweep(),
   loops: loopHunt(),
@@ -48,7 +51,7 @@ h("reference character (the Marsh Hand) vs the sandbox as playtested");
   const r = results.reference;
   const t = r.sandboxToday;
   console.log(`health ${n(r.health)} (today ${t.health}) · stamina ${n(r.stamina)} (${t.stamina}) · regen ${n(r.staminaRegen)}/s (${t.staminaRegen})`);
-  console.log(`carry ${n(r.carryCapacityKg)} kg (${t.carryCapacityKg}) · burden ${r.burden.tier} @ ${n(r.burden.ratio, 2)} · poise ${n(r.poise)}`);
+  console.log(`carry ${n(r.carryCapacityKg)} kg (${t.carryCapacityKg}) · burden ${r.burden.tier} @ ${n(r.burden.ratio, 2)}`);
   console.log(`mitigation at AR 50 vs a 24 blow: ${(r.mitigationAt50vs24 * 100).toFixed(2)} % (today ${(t.mitigationAt50vs24 * 100).toFixed(2)} %)`);
   console.log(`listed light chain ${r.listedLightChain.map((x) => n(x)).join(" / ")} (today ${t.lightChain.map((x) => n(x)).join(" / ")})`);
   console.log(`damage position at Long Blade 60: ${(r.damagePositionAtSkill60 * 100).toFixed(1)} % of the range · breath ${n(r.breathSeconds)} s`);
@@ -90,12 +93,34 @@ for (const g of results.breath.grid.filter((x) => [30, 50, 100].includes(x.endur
 }
 console.log("Argonians: unlimited (water breathing)");
 
+h("climbing (Acrobatics), by wall height");
+for (const c of results.climb) {
+  console.log(`${c.who.padEnd(38)} ${c.burden.padEnd(10)} ${n(c.speed, 2)} m/s, ${n(c.drainPerSecond)} stamina/s, holds ${c.sustainableMeters} m` );
+  console.log("        " + Object.entries(c.walls).map(([h, v]) => `${h}m: ${v}`).join(" · "));
+}
+
+h("sneak openers (damage multiplier on an undetected target)");
+for (const r of results.sneak) {
+  console.log(`Sneak ${String(r.sneak).padStart(3)}: ` + Object.entries(r.multipliers).map(([k, v]) => `${k} x${v}`).join(" · "));
+}
+
 h("progression pacing and affordability");
 for (const row of results.progression) {
   console.log(`${row.class}: level ${row.finalLevel} after ${row.totalRanks} skill ranks, ${row.attributePoints} attribute points bought`);
   for (const cp of row.checkpoints) {
     if (cp.unreached) continue;
     console.log(`   L${String(cp.level).padStart(2)}  ${cp.pointsBoughtThisSitting} bought this sitting · ${cp.attributePointsTotal} total · health ${cp.health} · ${cp.carriedVastei} vastei banked`);
+  }
+}
+
+h("coarse playthrough runs (a whole game, act by act)");
+for (const run of results.campaign) {
+  console.log(`\n${run.label}`);
+  console.log(`  ${"act".padEnd(9)}${"hrs".padStart(4)}${"lvl".padStart(5)}${"deaths".padStart(8)}${"hp".padStart(6)}${"AR".padStart(5)}${"weapon".padStart(8)}${"armour".padStart(7)}${"athl".padStart(6)}${"acro".padStart(6)}${"speech".padStart(7)}${"attrs".padStart(7)}${"gold".padStart(8)}  climb 25 m`);
+  for (const t of run.timeline) {
+    console.log(
+      `  ${t.act.padEnd(9)}${String(t.hours).padStart(4)}${String(t.level).padStart(5)}${String(t.deaths).padStart(8)}${String(t.health).padStart(6)}${String(t.armourRating).padStart(5)}${String(t.weaponSkill).padStart(8)}${String(t.armourSkillValue).padStart(7)}${String(t.athletics).padStart(6)}${String(t.acrobatics).padStart(6)}${String(t.speechcraft).padStart(7)}${String(t.attributePoints).padStart(7)}${String(t.gold).padStart(8)}  ${t.climb25m}`,
+    );
   }
 }
 

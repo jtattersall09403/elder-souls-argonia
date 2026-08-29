@@ -75,7 +75,6 @@
       "7": 140,
       "8": 190
     },
-    "constantEffectSoulMinimum": 400,
     "constantEffectCostMultiplier": 100,
     "chargedUseCostFormula": "base * (1.1 - Enchant/100)",
     "bannedEffects": [
@@ -85,7 +84,15 @@
       "fortify intelligence (as a crafting input)",
       "fortify strength (as a crafting input)"
     ],
-    "_bannedNote": "the crafting inputs are banned as crafting inputs only - all crafting reads BASE values, so these effects may still exist for combat use"
+    "_bannedNote": "the crafting inputs are banned as crafting inputs only - all crafting reads BASE values, so these effects may still exist for combat use",
+    "constantEffectSoulByMagnitude": {
+      "_": "Cheap constant effects should be attainable; only big ones need a great soul.",
+      "petty": 30,
+      "lesser": 80,
+      "common": 150,
+      "greater": 300,
+      "grand": 600
+    }
   },
   "alchemy": {
     "_": "Morrowind's shape with base-stat inputs only: strength = (effAlchemy + Int/10) * apparatus / (3 * effectBaseCost). Restore Health base cost 5.",
@@ -104,5 +111,6 @@
     "_magnitudeNote": "healAmount = magnitudeMultiplier * (effAlchemy + Int/10) * apparatus / (3 * effectBaseCost)"
   },
   "_tierNote": "damage retuned down 2026-08-29 by the sim: at the original values a novice mage out-burst a melee character 3:1 in the low bands. Magic stays the burst archetype, bounded by magicka rather than by damage.",
-  "costReductionCap": 0.5
+  "costReductionCap": 0.75,
+  "_costReductionNote": "Raised from 0.5 to 0.75 (owner, round 2): rare, hard-won gear should have a genuinely strong effect. 75 % still leaves every spell costing something, so no infinite-cast loop exists."
 }

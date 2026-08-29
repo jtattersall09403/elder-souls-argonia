@@ -25,6 +25,7 @@ export const data = {
   builds: read("builds.json"),
   magic: read("magic.json"),
   economy: read("economy.json"),
+  campaign: read("campaign.json"),
   races: read("races.json"),
   classes: read("classes.json"),
 };
@@ -90,8 +91,9 @@ export const mitigation = (armourRating, incomingDamage) =>
 export const damageAfterArmour = (damage, armourRating) =>
   damage * (1 - mitigation(armourRating, damage));
 
-export const poise = (attrs, armourRating) =>
-  C.poise.endCoefficient * attrs.endurance + C.poise.armourCoefficient * armourRating;
+/** Enemy damage after the global difficulty knob (the play-time slider). */
+export const incomingDamage = (rawDamage, difficulty = C.difficulty.enemyDamageMultiplier) =>
+  rawDamage * difficulty;
 
 export const breathSeconds = (athletics, endurance, waterBreathing = false) =>
   waterBreathing
@@ -109,14 +111,14 @@ export function armourSetRating(setId, { armourSkill = 30, attributes, temperGra
   if (!set.material) return 0;
   const m = data.gear.materials[set.material];
   const raw = set.slots.reduce(
-    (total, slot) =>
-      total + Math.round(data.gear.armourSlots[slot].baseRating * m.guardScale * m.damageScale),
+    (total, slot) => total + Math.round(data.gear.armourSlots[slot].baseRating * m.armourScale),
     0,
   );
   const skillId = { light: "lightArmor", medium: "mediumArmor", heavy: "heavyArmor" }[m.armourClass];
   const eff = attributes ? effectiveSkill(skillId, armourSkill, attributes) : armourSkill;
   const skillBand = band(SKILLS[skillId].bands.rating, eff);
-  return raw * skillBand * (1 + temperGrades * data.gear.temperPerGrade);
+  const classScale = C.armourClassRating[m.armourClass] ?? 1;
+  return raw * classScale * skillBand * (1 + temperGrades * data.gear.temperPerGrade);
 }
 
 export function armourSetWeight(setId) {
@@ -162,11 +164,11 @@ export function makeBuild(checkpointId, archetypeId, { race = null, temperGrades
     ? Object.fromEntries(arch.attributeOrder.map((id, i) => [id, values[i]]))
     : { ...cp.attributes };
 
-  const armourSetId = {
-    light: { studded: "studded", elven: "elven", glass: "glass" }[materials.light] ?? "studded",
-    medium: { imperial: "steelFull", orcish: "orcish", akaviri: "orcish" }[materials.medium] ?? "orcish",
-    heavy: { iron: "iron", steel: "steelRef", dwarven: "elven", nordhero: "ebony", daedric: "daedric" }[materials.heavy] ?? "steelRef",
-  }[arch.armourClass];
+  // The set is just "this build's armour class, in this tier's material" — no
+  // lookup table to drift out of step with the tier list.
+  const armourSetId = arch.armourClass === "heavy" && cp.gearTier === 2
+    ? "steelRef" // the reference loadout is deliberately helmetless
+    : materials[arch.armourClass];
 
   const grades = temperGrades ?? cp.temperGrades ?? 0;
   const armourRating =
@@ -204,7 +206,6 @@ export function makeBuild(checkpointId, archetypeId, { race = null, temperGrades
     potionsCarried: cp.potionsCarried ?? 0,
     carriedKg,
     burden: burdenTier(carriedKg, attributes),
-    poise: poise(attributes, armourRating),
   };
 }
 
@@ -214,7 +215,7 @@ export function compileEnemy(entry) {
   const b = data.ladder.bands.find((x) => x.id === entry.band);
   if (!b) throw new RangeError(`unknown band: ${entry.band}`);
   const at = ([lo, hi]) => lo + (hi - lo) * entry.position;
-  const fields = ["health", "damage", "armourRating", "magicResist", "poise", "attackPeriod", "lootValue"];
+  const fields = ["health", "damage", "armourRating", "magicResist", "attackPeriod", "lootValue"];
   const out = { id: entry.id, label: entry.label, band: entry.band, position: entry.position };
   for (const f of fields) out[f] = at(b[f]);
 
@@ -247,6 +248,40 @@ export const bandActor = (bandId, position = 0.5) =>
  * What one action costs and delivers, per mode. The fight simulator consumes
  * this; nothing here knows about time passing.
  */
+/** Sneak-attack multiplier: Skyrim's shape as skill bands (curves.json). */
+export function sneakMultiplier(weaponKind, sneakSkill) {
+  const cfg = C.sneakAttack;
+  const table = cfg.multipliers[weaponKind] ?? cfg.multipliers.oneHanded;
+  let index = 0;
+  cfg.bandsBySkill.forEach((gate, i) => {
+    if (sneakSkill >= gate) index = i;
+  });
+  return table[index];
+}
+
+/**
+ * Climbing a wall of a given height (module 76 §122): how fast, what it drains,
+ * and whether you can finish it in one go or must hang and breathe.
+ */
+export function climb(
+  heightMeters,
+  { acrobatics, attributes, burdenTier: tier = "mid", stamina, staminaRegen: regen },
+) {
+  const cfg = C.climbing;
+  const eff = effectiveSkill("acrobatics", acrobatics, attributes);
+  const speed = cfg.baseSpeedMetresPerSecond * band(SKILLS.acrobatics.bands.climbSpeed, eff);
+  const drainBand = band(SKILLS.acrobatics.bands.climbStamina, eff);
+  const drainPerSecond = cfg.baseStaminaPerSecond * drainBand * (cfg.burdenDrainMultiplier[tier] ?? 1);
+  const seconds = heightMeters / speed;
+  const mantle = cfg.mantleStaminaCost * drainBand;
+  const staminaCost = seconds * drainPerSecond + mantle;
+  // Hanging still recovers a fraction of normal regen, which is what makes a
+  // tall climb possible at all for a middling character.
+  const netDrain = Math.max(0, drainPerSecond - regen * cfg.restOnHoldRegenFraction);
+  const sustainableMeters = netDrain <= 0 ? Infinity : ((stamina - mantle) / netDrain) * speed;
+  return { seconds, staminaCost, drainPerSecond, speed, completesInOneGo: staminaCost <= stamina, sustainableMeters };
+}
+
 export function attackProfile(build, target) {
   const arch = build.archetype;
   const attrs = build.attributes;
@@ -300,7 +335,6 @@ export function attackProfile(build, target) {
   const cls = data.gear.weaponClasses[arch.weaponClass];
   const position = damagePosition(eff);
   const staminaBand = band(SKILLS[skillId].bands.staminaCost, eff);
-  const recoveryBand = band(SKILLS[skillId].bands.recovery, eff);
   const burdenCost = C.stamina.burdenCostMultiplier[build.burden.tier];
   const temper = 1 + build.temperGrades * data.gear.temperPerGrade;
 
@@ -314,7 +348,7 @@ export function attackProfile(build, target) {
       id,
       raw,
       damage: damageAfterArmour(raw, target.armourRating),
-      seconds: attack.actionSeconds * cls.speedScale * recoveryBand,
+      seconds: attack.actionSeconds * cls.speedScale,
       cost: attack.stamina * cls.staminaScale * staminaBand * burdenCost,
     };
   });
@@ -331,7 +365,11 @@ export function attackProfile(build, target) {
  * eat — the Souls layer is player skill, and the sweeps run several values of
  * it rather than pretending there is one right number.
  */
-export function simulateFight(build, enemy, { avoidance = 0.35, maxSeconds = 600 } = {}) {
+export function simulateFight(
+  build,
+  enemy,
+  { avoidance = 0.35, maxSeconds = 600, difficulty = C.difficulty.enemyDamageMultiplier, opener = null } = {},
+) {
   const profile = attackProfile(build, enemy);
   const potions = data.economy.potions;
   const healPotion = potions.bought.reduce((best, p) => (p.heal > best.heal ? p : best), potions.bought[0]);
@@ -344,8 +382,10 @@ export function simulateFight(build, enemy, { avoidance = 0.35, maxSeconds = 600
   let potionsLeft = build.potionsCarried ?? 0;
   let potionsUsed = 0;
   let action = 0;
+  let openerMultiplier = opener ? sneakMultiplier(opener.weapon, opener.sneakSkill) : 1;
   let enemyNext = enemy.attackPeriod;
-  const enemyPerHit = damageAfterArmour(enemy.damage, build.armourRating) * (1 - avoidance);
+  const enemyPerHit =
+    damageAfterArmour(incomingDamage(enemy.damage, difficulty), build.armourRating) * (1 - avoidance);
 
   const step = (seconds) => {
     // The enemy keeps swinging while the player acts, drinks or waits.
@@ -383,7 +423,8 @@ export function simulateFight(build, enemy, { avoidance = 0.35, maxSeconds = 600
       continue;
     }
     resource -= next.cost;
-    enemyHealth -= next.damage;
+    enemyHealth -= next.damage * openerMultiplier;
+    openerMultiplier = 1;
     action += 1;
     step(next.seconds);
   }
@@ -397,8 +438,10 @@ export function simulateFight(build, enemy, { avoidance = 0.35, maxSeconds = 600
     potionsUsed,
     enemyHealthLeft: Math.max(0, enemyHealth),
     playerPerHit: profile.actions[0].damage,
-    enemyPerHit: damageAfterArmour(enemy.damage, build.armourRating),
-    hitsToDie: Math.ceil(build.health / damageAfterArmour(enemy.damage, build.armourRating)),
+    enemyPerHit: damageAfterArmour(incomingDamage(enemy.damage, difficulty), build.armourRating),
+    hitsToDie: Math.ceil(
+      build.health / damageAfterArmour(incomingDamage(enemy.damage, difficulty), build.armourRating),
+    ),
   };
 }
 
