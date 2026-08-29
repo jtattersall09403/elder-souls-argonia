@@ -49,7 +49,7 @@ first, then open only the master-plan sections the active phase needs.
 | 12 — dungeon/interior system, exemplar-first (0034) | todo | may interleave with 11 |
 | 9 — swimming, climbing, boats (re-slotted after the placement exemplars; 0034) | todo | player craft only — ferry/fast travel is Morrowind-style world content (Phase 11); thin swim slice may pull earlier; boats may slip |
 | 10b — full portable-sandbox parity in studio (was 7b; moved 2026-08-25, decision 0017) | todo | Scene orchestration extraction (§53), inventory/equipment UI, enemies/targeting, bow, navmesh; combat-space probes then validate + freeze the 11/12 exemplar packets |
-| S — stats, progression and character-systems **design** (parallel workstream, module 76; decision 0019) | in progress | **Round 1 CLOSED 2026-08-28** — all rulings incl. the F1 souls-from-skill-use levelling design in [owner-round1](research/stats-progression-owner-round1.md) (single source of truth) + decision 0031. **2026-08-29: steps 5–8 delivered, AWAITING OWNER ROUND 2** — design detailed into module 76 **§116–129** (the spec 10c builds from), numbers packet + `tooling/stats-sim` balance harness (13 invariants, all holding; 11 anomalies found and resolved), lore-grounded currency name (*vastei*), decision **0033**. Owner sitting: [owner-round2](research/stats-progression-owner-round2.md) — accept/veto 18 proposed defaults + 5 questions; then fold in, flip 0033 to accepted and this row to done. Run-book: module 76 §103.1 (self-contained — "deliver workstream S" is enough). Skeleton is owner-chosen: **Morrowind chassis, Souls combat layer** (§103.0) — the work is the mapping exercise (seams, Skyrim-item→chassis taxonomy, keep/drop by sourceable movesets, completeness sweep). Docs + owner decisions only, no code; **exactly two batched owner rounds**. Must conclude before 10c |
+| S — stats, progression and character-systems **design** (parallel workstream, module 76; decision 0019) | done | **Both owner rounds closed** (round 1 2026-08-28 → decision [0031](decisions/0031-workstream-s-round1-shape.md); round 2 answered 2026-08-29 → decision [0033](decisions/0033-workstream-s-design-and-numbers.md)). Deliverables: the decided design in **module 76 §116–129** (7 attributes, 27 skills, one skill curve + attribute assist, *vastei* levelling, combat/defence maths, climbing, magic, crafting/economy, rest/death/respawn, races, the D0–D5 ladder and the semantic NPC schema); `tooling/stats-sim/` balance harness — **16 invariants, all holding**, including a coarse whole-playthrough simulation of six builds over ~150 h; [numbers packet](research/stats-progression-numbers-packet.md) (19 findings, all fixed or explicitly accepted); lore dossier for the currency name and Mysticism. Round-2 rulings folded in: lethality recalibrated so getting hit matters (hits-to-die is now the ladder's design input, plus a global difficulty knob), poise cut, i-frames vary by roll tier, sneak-attack bands, 18 race-diverse preset classes, no followers. Phase 10c implements it |
 | 10c — stats and progression implementation (module 76; decision 0019) | todo | Implements workstream S in `packages/game-core` incl. the semantic-authoring compiler (ladder refs → numbers; extended to loot/traps). After 10b, **before packet freeze and Phase 13** — content in 11/12 authors semantically without it (0019 4th amendment; 0034) |
 | 13 — fauna ecology, encounters, fixed loot (exemplar-first; flora half moved to Phase 10 by 0034) | todo | |
 | 12b — province soundscape (module 57; polish tier — 0023, hardened by 0034) | todo | runs in the P window **after 13** (authors creature calls/ambience *from* the ecology data); must land before 14 locks budgets; may pull earlier |
@@ -74,12 +74,13 @@ first, then open only the master-plan sections the active phase needs.
   Note: the top-bar "vis" is min(region baseline, weather) — the 900 m you
   saw is the region's authored figure, panel shows weather-only; say if
   you want that changed. Defect→fix log: decision 0032.
-- **Workstream S round 2 (stats design)** — the last owner sitting for the
-  stat system: [research/stats-progression-owner-round2.md](research/stats-progression-owner-round2.md).
-  Plain-English summary of the design, the numbers, what the balance
-  simulation found, 18 proposed defaults to accept or veto, and 5 questions.
-  "Accept all" is a valid answer. Nothing else in the build is blocked on it,
-  but Phase 10c is.
+- **Workstream S — light sanity check (non-blocking)**: the round-2 rulings
+  are implemented (lethality retune, classes, climbing, sneak attacks, no
+  poise). They carry out decisions the owner already made, so this is a
+  read-and-nod, not a third round:
+  [owner round 2 §7](research/stats-progression-owner-round2.md) and the
+  [numbers packet](research/stats-progression-numbers-packet.md) §4 (the
+  whole-game runs).
 - **6b terrain-feel re-review** — owner closed 8b (2026-08-28) without
   explicitly confirming the terrain-feel re-check that was bundled into that
   pass. Confirm it's fine, or drop issues into

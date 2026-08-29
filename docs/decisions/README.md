@@ -36,5 +36,5 @@ record and marking the old one superseded — don't rewrite history.
 - [0030 — quest-plan QA review: 56-finding register incl. world-bones fit, tier-protection rule, Xal-Krona boss switch — CLOSED, all applied 2026-08-28](0030-quest-plan-qa-review.md)
 - [0031 — workstream S round 1: the decided stat-system shape (souls-from-skill-use levelling, weapon damage-range skill, potions not flasks, save-on-rest)](0031-workstream-s-round1-shape.md)
 - [0032 — Phase 8c weather implementation shape (run-book at top; round log)](0032-phase8c-weather-implementation-shape.md)
-- [0033 — workstream S: the detailed stat design, its numbers, and the balance harness (proposed, awaiting owner round 2)](0033-workstream-s-design-and-numbers.md)
+- [0033 — workstream S: the detailed stat design, its numbers, the balance harness and the whole-game simulation (both owner rounds closed)](0033-workstream-s-design-and-numbers.md)
 - [0034 — build sequence reworked: risk-first order, exemplar-first folded in, freeze-gates, Morrowind-style travel services, sound to polish, Phase 15 → region-packet rollout](0034-build-sequence-rework.md)
