@@ -208,6 +208,11 @@ They may inspect capabilities and knowledge to offer routes:
 - climbing;
 - lock skill;
 - stealth;
+- **speechcraft and standing** — the persuasion score (Speechcraft + Personality
+  + evidence + standing) crossing an authored threshold, never a roll and never
+  skill alone (world [76 §125](../world/76-stats-progression.md); added
+  2026-08-29 — speech is an ending-grade system here, so it belongs on this
+  list);
 - faction standing;
 - spells;
 - boat ownership;
