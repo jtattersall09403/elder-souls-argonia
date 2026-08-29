@@ -47,7 +47,7 @@ then open only the master-plan sections the active phase needs.
 | 9 — swimming, climbing, boats | todo | |
 | 10 — asset catalogue and kits | todo | |
 | 10b — full portable-sandbox parity in studio (was 7b; moved 2026-08-25, decision 0017) | todo | Scene orchestration extraction (§53), inventory/equipment UI, enemies/targeting, bow, combat-space probes against real kits. Deferred past the riskier world systems; must precede 11–13 |
-| S — stats, progression and character-systems **design** (parallel workstream, module 76; decision 0019) | in progress | **Round 1 CLOSED 2026-08-28** — all rulings incl. the F1 souls-from-skill-use levelling design in [owner-round1](research/stats-progression-owner-round1.md) (single source of truth) + decision 0031. **2026-08-29: §103.1 steps 5–7 in progress** — decided design detailed into module 76 (§116–129), numbers packet (D0–D5 ladder) and `tooling/stats-sim` harness; then owner round 2 (step 8). Run-book: module 76 §103.1 (self-contained — "deliver workstream S" is enough). Skeleton is owner-chosen: **Morrowind chassis, Souls combat layer** (§103.0) — the work is the mapping exercise (seams, Skyrim-item→chassis taxonomy, keep/drop by sourceable movesets, completeness sweep). Docs + owner decisions only, no code; **exactly two batched owner rounds**. Must conclude before 10c |
+| S — stats, progression and character-systems **design** (parallel workstream, module 76; decision 0019) | in progress | **Round 1 CLOSED 2026-08-28** — all rulings incl. the F1 souls-from-skill-use levelling design in [owner-round1](research/stats-progression-owner-round1.md) (single source of truth) + decision 0031. **2026-08-29: steps 5–8 delivered, AWAITING OWNER ROUND 2** — design detailed into module 76 **§116–129** (the spec 10c builds from), numbers packet + `tooling/stats-sim` balance harness (13 invariants, all holding; 11 anomalies found and resolved), lore-grounded currency name (*vastei*), decision **0033**. Owner sitting: [owner-round2](research/stats-progression-owner-round2.md) — accept/veto 18 proposed defaults + 5 questions; then fold in, flip 0033 to accepted and this row to done. Run-book: module 76 §103.1 (self-contained — "deliver workstream S" is enough). Skeleton is owner-chosen: **Morrowind chassis, Souls combat layer** (§103.0) — the work is the mapping exercise (seams, Skyrim-item→chassis taxonomy, keep/drop by sourceable movesets, completeness sweep). Docs + owner decisions only, no code; **exactly two batched owner rounds**. Must conclude before 10c |
 | 10c — stats and progression implementation (module 76; decision 0019) | todo | Implements workstream S in `packages/game-core`, wrapping today's tuning as the neutral baseline. After 10b, **before 11–13**: fixed danger (0004) means every enemy and every loot item is authored as an absolute number, so the scale must exist first |
 | 11 — causal locations and settlements | todo | |
 | 12 — dungeons and interiors | todo | |
@@ -68,6 +68,12 @@ then open only the master-plan sections the active phase needs.
   changes believably as time runs (rate 1 h/s through a monsoon day),
   ⑥dawn mist still appears (Blackrose dawn preset). Feedback in plain words
   is fine; defect→fix rounds log in decision 0032.
+- **Workstream S round 2 (stats design)** — the last owner sitting for the
+  stat system: [research/stats-progression-owner-round2.md](research/stats-progression-owner-round2.md).
+  Plain-English summary of the design, the numbers, what the balance
+  simulation found, 18 proposed defaults to accept or veto, and 5 questions.
+  "Accept all" is a valid answer. Nothing else in the build is blocked on it,
+  but Phase 10c is.
 - **6b terrain-feel re-review** — owner closed 8b (2026-08-28) without
   explicitly confirming the terrain-feel re-check that was bundled into that
   pass. Confirm it's fine, or drop issues into
