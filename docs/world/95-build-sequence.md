@@ -572,6 +572,15 @@ available to the user in the world studio: as a user in the studio you can use
 everything, and perform every action, that was intended to be portable from the
 sandbox. All portable systems available and working as intended.
 
+**Parity is not only a port** (owner, 2026-08-29): the sandbox's combat is
+good enough for now but **not yet perfect**, and known imperfections in the
+shared internals (`packages/game-core`/`character` — used by sandbox, studio
+and the real game) get fixed as part of this phase. The CLAUDE.md
+no-casual-retuning rule protects the calibrated feel from *drive-by* changes,
+not from deliberate, owner-reviewed improvement here (module 75 §51.1). The
+owner enumerates specifics at phase kickoff; items surfacing earlier
+accumulate in [polish-backlog.md](../polish-backlog.md) tagged `10b`.
+
 Deliverables:
 
 - scene-orchestration extraction (§53): actor spawning, environment queries,
@@ -682,7 +691,10 @@ Deliverables:
   not be marked done in PROGRESS.** A single phase agent may wear both hats
   (world-drafting then brief-drafting, in that order) or spawn a subagent —
   what is mandatory is the artifacts and the gate, not the org chart. The
-  published main-quest/faction provisions are confirmed in the same pass;
+  published main-quest/faction provisions are confirmed in the same pass.
+  **The exemplar and contrast-set packets run the full loop too** — they are
+  the first live test of §65b (does brief-driven placement work?), not just
+  of the compilers;
 - **content-density budget** (owner directive 2026-08-26; numbers + evidence
   in [../research/morrowind-content-density.md](../research/morrowind-content-density.md)):
   match Morrowind — **18–22 named POIs per km²** of authored land in D0–D3
@@ -707,9 +719,10 @@ Deliverables:
 0034): build the grammars and compilers, prove them on one retained exemplar
 per family started, validate on contrasting instances, and leave mass
 production to Phase 15. Authoring is semantic against the S schema; packets
-freeze after 10b/10c validation (§86.0). Interior navmesh bakes land with
-10b's pipeline if this phase runs first — author the geometry, bake when the
-pipeline exists.
+freeze after 10b/10c validation (§86.0); the quest–world co-design loop
+(quests 90 §65b) applies to this phase's packets exactly as to Phase 11's.
+Interior navmesh bakes land with 10b's pipeline if this phase runs first —
+author the geometry, bake when the pipeline exists.
 
 Deliverables:
 
