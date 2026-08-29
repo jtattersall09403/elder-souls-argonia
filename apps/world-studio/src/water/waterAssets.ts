@@ -28,14 +28,17 @@ export interface WaterAssets {
   seasonalAmplitudeM: number;
 }
 
-/** Studio wet-season toggle: overrides the calendar season when non-null. */
-let wetOverride: boolean | null = null;
-export function setWetSeasonOverride(v: boolean | null): void {
-  wetOverride = v;
+/** Studio water-season override (round 2): a pinned season scalar for
+ * preview (wet = +1, dry = −1), or null = FOLLOW THE CALENDAR — the shipped
+ * behaviour. Before round 2 the fly-toolbar checkbox permanently pinned this
+ * to 0/1, so the province's water level never actually followed the clock
+ * and the dry-season drawdown was unreachable. */
+let seasonOverride: number | null = null;
+export function setWetSeasonOverride(v: number | null): void {
+  seasonOverride = v;
 }
 export function effectiveSeasonScalar(): number {
-  if (wetOverride !== null) return wetOverride ? 1 : 0;
-  return worldClock.season().s;
+  return seasonOverride ?? worldClock.season().s;
 }
 
 /** Terrain ground-height hook — CharacterMode wires its ChunkWorld in so the

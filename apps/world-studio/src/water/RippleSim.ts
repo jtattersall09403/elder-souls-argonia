@@ -17,7 +17,11 @@ import * as THREE from "three";
  */
 
 const SIM_SIZE = 256;
-export const RIPPLE_PATCH_M = 36;
+// Round 2 (owner: "rain ripples only within a few metres"): patch widened
+// 36 → 64 m so simulated rings cover the water the player actually sees
+// close-up; beyond it the procedural rain agitation in waterMaterial takes
+// over. 256² texels over 64 m = 25 cm resolution — still ring-sharp.
+export const RIPPLE_PATCH_M = 64;
 
 const QUAD_VERT = /* glsl */ `
   varying vec2 vUv;

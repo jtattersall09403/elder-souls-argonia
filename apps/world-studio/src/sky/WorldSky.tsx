@@ -982,7 +982,10 @@ void main() {
     // Rain wetness into the shared ground shader path; wind into the shared
     // wave-energy scale (CPU query + water vertex stage read the same value).
     wetnessUniforms.uRainWet.value = wx.wetness;
-    setWindWaveScale(0.8 + wx.windSpeedMS * 0.05);
+    // Round 2: steeper wind→wave map (was 0.8 + 0.05·w, capped 1.6) — a
+    // squall-coast wind (~20 m/s) now roughly doubles wave energy so storm
+    // seas visibly rage; game-core clamps to 0.7…2.4.
+    setWindWaveScale(0.75 + wx.windSpeedMS * 0.07);
     // Lightning also lifts the scene light for the flash frames.
     if (hemiRef.current && flash > 0) hemiRef.current.intensity += 2500 * flash;
 

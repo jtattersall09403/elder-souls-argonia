@@ -80,6 +80,9 @@ export interface WaterUniforms {
   uRipple: { value: THREE.Texture | null };
   /** patch centre x, z, patch size (m); w = strength toggle. */
   uRippleInfo: { value: THREE.Vector4 };
+  /** Rain intensity 0..1 (round 2): drives the procedural rain agitation
+   * that covers ALL visible water beyond the simulated ripple patch. */
+  uRainRipple: { value: number };
   /** x, z, radius, strength — churn sources (player, crates, splashes). */
   uBodies: { value: THREE.Vector4[] };
   uBodyCount: { value: number };
@@ -114,6 +117,7 @@ export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
     uRefractStrength: { value: 0.35 },
     uRipple: { value: null },
     uRippleInfo: { value: new THREE.Vector4(0, 0, RIPPLE_PATCH_M, 0) },
+    uRainRipple: { value: 0 },
     uBodies: { value: Array.from({ length: MAX_CONTACT_BODIES }, () => new THREE.Vector4()) },
     uBodyCount: { value: 0 },
   };
@@ -241,6 +245,7 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant): string {
   ${tier.ripples ? "#define ES_RIPPLES 1" : ""}
   uniform sampler2D uRipple;
   uniform vec4 uRippleInfo;
+  uniform float uRainRipple;
   varying vec4 vEsData;   // stillW, depth, exposure, shoreDist
   varying vec3 vEsKlass;  // turbidity(silt), salinity, tannin
   varying vec3 vEsFlow;   // flow m/s (xy) + surface drop along flow (z)
@@ -500,10 +505,20 @@ float esRipCrest = 0.0;
   }
 }
 #endif
+// rain agitation (round 2): the sim patch only reaches ~64 m — beyond it a
+// fast time-jittered high-frequency perturbation makes rain read on ALL
+// visible water. Two decorrelated phases so it shimmers rather than scrolls;
+// fades with distance like the other detail so the far shimmer stays clean.
+vec2 esRainG = vec2(0.0);
+if (uRainRipple > 0.02) {
+  esRainG = (esDetailGrad(vEsWorldPos.xz * 2.9, vec2(0.41, 0.33) * uWaveTime * 2.6)
+           + esDetailGrad(vEsWorldPos.xz * 5.3 + 31.0, vec2(-0.29, 0.47) * uWaveTime * 2.6))
+          * uRainRipple * 0.09 * (0.25 + 0.75 * esFarFade);
+}
 vec3 esNW = normalize(vec3(
-  esNBase.x - (esG.x + esGF.x) * esDetStrength - esRip.x,
+  esNBase.x - (esG.x + esGF.x) * esDetStrength - esRip.x - esRainG.x,
   esNBase.y,
-  esNBase.z - (esG.y + esGF.y) * esDetStrength - esRip.y));
+  esNBase.z - (esG.y + esGF.y) * esDetStrength - esRip.y - esRainG.y));
 ${variant === "below" ? "esNW = -esNW;" : ""}
 vec3 normal = normalize((viewMatrix * vec4(esNW, 0.0)).xyz);
 vec3 nonPerturbedNormal = normal;`,

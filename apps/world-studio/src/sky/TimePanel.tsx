@@ -147,6 +147,8 @@ export function TimePanel({
                 force: {k}
               </option>
             ))}
+            <option value="mist">force: dawn mist</option>
+            <option value="fog">force: sea fog</option>
           </select>
         </label>
         {wx && (

@@ -1,9 +1,13 @@
 import {
   lightningAt,
+  lightningCloudGate,
   weatherSampleAt,
+  weatherSampleForRegime,
   weatherSampleForState,
+  FORCED_REGIMES,
   PROFILES,
   WEATHER_KINDS,
+  type ForcedRegime,
   type LocalClimate,
   type WeatherKind,
   type WeatherSample,
@@ -20,7 +24,10 @@ import { climateAirAt, climateWeatherAt } from "./climateSampler";
  * preview tooling, kept in the URL as `w=`.
  */
 
-export type WeatherOverride = "auto" | WeatherKind;
+/** Forceable: a weather state, or one of the computed mist regimes (round
+ * 2 — the regimes are conditions, not rolled states, but the studio needs
+ * to preview them on demand: "mist" = radiation dawn mist, "fog" = sea fog). */
+export type WeatherOverride = "auto" | WeatherKind | ForcedRegime;
 
 let override: WeatherOverride = "auto";
 const listeners = new Set<() => void>();
@@ -43,7 +50,10 @@ export function weatherVersion(): number {
 }
 
 export function parseWeatherParam(w: string | null): WeatherOverride {
-  return w && (WEATHER_KINDS as readonly string[]).includes(w) ? (w as WeatherKind) : "auto";
+  if (!w) return "auto";
+  if ((WEATHER_KINDS as readonly string[]).includes(w)) return w as WeatherKind;
+  if ((FORCED_REGIMES as readonly string[]).includes(w)) return w as ForcedRegime;
+  return "auto";
 }
 
 /** Last computed sample — HUD/debug/env-query read this between updates. */
@@ -90,7 +100,9 @@ export function weatherAt(
   lastSample =
     override === "auto"
       ? weatherSampleAt(epochMinutes, local)
-      : weatherSampleForState(override, epochMinutes, local);
+      : (FORCED_REGIMES as readonly string[]).includes(override)
+        ? weatherSampleForRegime(override as ForcedRegime, epochMinutes, local)
+        : weatherSampleForState(override as WeatherKind, epochMinutes, local);
   lastKey = key;
   return lastSample;
 }
@@ -103,7 +115,13 @@ export function lastWeatherSample(): WeatherSample | null {
 /** Lightning flash envelope, evaluated per frame (flashes are ~1.2 s wide —
  * far finer than the sample cache quantum). */
 export function lightningNow(epochMinutes: number): number {
-  if (override === "auto") return lightningAt(epochMinutes);
-  const rate = PROFILES[override].lightningPerMin;
-  return rate > 0 ? lightningAt(epochMinutes, rate) : 0;
+  // The cloud gate (no flashes against a sky still blending in) rides the
+  // cached sample — the gate moves over minutes, far slower than the cache
+  // quantum, while the flash envelope itself needs per-frame evaluation.
+  const gate = lastSample ? lightningCloudGate(lastSample.profile) : 1;
+  if (gate <= 0) return 0;
+  if (override === "auto") return lightningAt(epochMinutes) * gate;
+  if ((FORCED_REGIMES as readonly string[]).includes(override)) return 0;
+  const rate = PROFILES[override as WeatherKind].lightningPerMin;
+  return rate > 0 ? lightningAt(epochMinutes, rate) * gate : 0;
 }

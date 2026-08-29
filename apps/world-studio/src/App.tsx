@@ -98,12 +98,15 @@ export function App() {
   // Ground-material set (?mats=): A/B palette comparison + instant revert.
   const [matSet, setMatSet] = useState<string>(urlParams.get("mats") || "");
   const [matSets, setMatSets] = useState<Record<string, { label: string }>>({});
-  // Wet season (?wet=1): raises season-responsive water by the basin's
-  // seasonal amplitude (flood-states.json, §36). Phase 8b: applied inside
-  // the water renderer/query via the shared override, not a plane offset.
-  const [wetSeason, setWetSeason] = useState(urlParams.get("wet") === "1");
+  // Water season (round 2): "auto" follows the CALENDAR season scalar —
+  // the shipped behaviour; water rises toward flood peak and draws down in
+  // the dry months (§36, asymmetric response in game-core tide.ts). Wet/dry
+  // pin s = ±1 for preview (?wet=1 / ?wet=-1).
+  const [wetSeason, setWetSeason] = useState<"auto" | "wet" | "dry">(
+    urlParams.get("wet") === "1" ? "wet" : urlParams.get("wet") === "-1" ? "dry" : "auto",
+  );
   useEffect(() => {
-    setWetSeasonOverride(wetSeason);
+    setWetSeasonOverride(wetSeason === "wet" ? 1 : wetSeason === "dry" ? -1 : null);
   }, [wetSeason]);
   const [wetAmplitude, setWetAmplitude] = useState(1.4);
   // Live tuning knobs (owner): climate-tint strength; boat-lane overlay.
@@ -144,7 +147,7 @@ export function App() {
       q.set("ex", String(exaggeration));
       if (flySpeed !== 60) q.set("spd", String(flySpeed));
       if (matSet) q.set("mats", matSet);
-      if (wetSeason) q.set("wet", "1");
+      if (wetSeason !== "auto") q.set("wet", wetSeason === "wet" ? "1" : "-1");
       if (tintStrength !== 1) q.set("tint", String(tintStrength));
       if (!showLanes) q.set("lanes", "0");
     } else if (view === "character") {
@@ -157,6 +160,7 @@ export function App() {
       if (race) q.set("race", race);
       if (profile) q.set("profile", profile);
       if (matSet) q.set("mats", matSet);
+      if (wetSeason !== "auto") q.set("wet", wetSeason === "wet" ? "1" : "-1");
       if (tintStrength !== 1) q.set("tint", String(tintStrength));
     }
     if (view !== "map") {
@@ -177,7 +181,7 @@ export function App() {
   const [layers, setLayers] = useState<Record<string, boolean>>({
     rivers: true, wetlands: true, routes: true, waterways: true, rootways: false,
     danger: false, cultures: false, regions: false, mist: false, flood: false,
-    soil: false, watersheds: false, salinity: false,
+    "flood-wet": false, soil: false, watersheds: false, salinity: false,
   });
   const climateRef = useRef<Record<string, { humidity: number; mist: number; rain: string; visibility: number }>>({});
   const [overlaysReady, setOverlaysReady] = useState(false);
@@ -226,6 +230,9 @@ export function App() {
         danger: "soc-danger.png", cultures: "soc-cultures.png",
         waterways: "soc-waterways.png", rootways: "soc-rootways.png",
         mist: "hydro-mist.png",
+        // Wet-season inundation (+1.4 m connected flood, refine_province):
+        // the map-view twin of the 3D world's seasonal water level (§36).
+        "flood-wet": "refined/flood-wet.png",
       };
       await Promise.all(
         Object.entries(overlayFiles).map(async ([name, file]) => {
@@ -291,7 +298,7 @@ export function App() {
     ctx.putImageData(out, 0, 0);
 
     // Generated overlays under the anchors, in back-to-front order.
-    for (const name of ["regions", "soil", "watersheds", "flood", "salinity",
+    for (const name of ["regions", "soil", "watersheds", "flood", "flood-wet", "salinity",
                         "danger", "cultures", "wetlands", "rivers", "waterways",
                         "routes", "rootways", "mist"]) {
       const img = overlaysRef.current[name];
@@ -515,9 +522,12 @@ export function App() {
             </select>
           </label>
         )}
-        <label>
-          <input type="checkbox" checked={wetSeason} onChange={(e) => setWetSeason(e.target.checked)} />
-          {" "}wet season (+{wetAmplitude} m)
+        <label>water{" "}
+          <select value={wetSeason} onChange={(e) => setWetSeason(e.target.value as "auto" | "wet" | "dry")}>
+            <option value="auto">season: auto (calendar)</option>
+            <option value="wet">season: wet (+{wetAmplitude} m)</option>
+            <option value="dry">season: dry (drawdown)</option>
+          </select>
         </label>
         <label>tint ×{tintStrength.toFixed(1)}{" "}
           <input type="range" min={0} max={2} step={0.1} value={tintStrength}

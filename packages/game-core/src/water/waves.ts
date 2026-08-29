@@ -49,11 +49,13 @@ export const WAVES = {
  * value multiplying wave exposure on BOTH the CPU query and the GPU vertex
  * stage (the renderer reads it into a uniform every frame), so storm chop is
  * the chop you float on. 1 = the owner-calibrated 8b default; the weather
- * machine maps wind speed onto ~0.8 (dead calm) … 1.5 (squall).
+ * machine maps wind speed onto ~0.85 (dead calm) … ~2.3 (squall coast).
+ * Round 2: ceiling raised 1.6 → 2.4 — the old cap made storm seas read
+ * barely rougher than calm (owner: "I don't see these rougher ocean seas").
  */
 let windWaveScale = 1;
 export function setWindWaveScale(v: number): void {
-  windWaveScale = Math.min(1.6, Math.max(0.7, Number.isFinite(v) ? v : 1));
+  windWaveScale = Math.min(2.4, Math.max(0.7, Number.isFinite(v) ? v : 1));
 }
 export function getWindWaveScale(): number {
   return windWaveScale;

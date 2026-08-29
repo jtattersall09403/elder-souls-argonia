@@ -44,8 +44,10 @@ void main() {
   vec3 velDir = normalize(vel);
   vec3 view = normalize(pos - cameraPosition);
   vec3 right = normalize(cross(velDir, view));
-  float len = 0.45 + 0.25 * uIntensity;
-  vec3 quad = pos + right * (aCorner.x * 0.014) + velDir * (aCorner.y * len);
+  // Round 2 (owner: "no actual visible rain"): streaks widened and
+  // lengthened — the old 1.4 cm quads at 0.16 alpha were sub-pixel faint.
+  float len = 0.55 + 0.45 * uIntensity;
+  vec3 quad = pos + right * (aCorner.x * 0.022) + velDir * (aCorner.y * len);
   vAlong = aCorner.y;
   gl_Position = projectionMatrix * viewMatrix * vec4(quad, 1.0);
 }`;
@@ -114,7 +116,7 @@ export function RainSystem({ count, extentM }: { count: number; extentM: number 
           uAir: { value: null },
           uExtentM: { value: extentM },
           uColor: { value: new THREE.Color(0.6, 0.65, 0.7) },
-          uOpacity: { value: 0.16 },
+          uOpacity: { value: 0.3 },
         },
         vertexShader: RAIN_VERT,
         fragmentShader: RAIN_FRAG,

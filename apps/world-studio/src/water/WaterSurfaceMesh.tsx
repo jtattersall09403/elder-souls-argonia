@@ -206,8 +206,11 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
     // Rain stamps small impulses into the ripple patch (research §3: the sim
     // was built to take arbitrary impulses). Hashed positions, no RNG.
     const rain = lastWeatherSample()?.rainIntensity ?? 0;
+    uniforms.uRainRipple.value = rain;
     if (ripple && rain > 0.05) {
-      const n = Math.min(6, Math.ceil(rain * 5));
+      // Denser stamping over the widened patch (round 2): the 64 m patch
+      // needs ~3× the drops of the old 36 m one for the same visual density.
+      const n = Math.min(14, Math.ceil(rain * 12));
       const tick = Math.floor(nowS * 24);
       for (let k = 0; k < n; k += 1) {
         let h = (Math.imul(tick, 0x9e3779b1) ^ Math.imul(k + 1, 0x85ebca6b)) >>> 0;
@@ -217,7 +220,7 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
         ripple.addDrop(
           ripple.center.x + (rx - 0.5) * RIPPLE_PATCH_M,
           ripple.center.y + (rz - 0.5) * RIPPLE_PATCH_M,
-          0.22,
+          0.3,
           0.03 + 0.05 * rain,
         );
       }

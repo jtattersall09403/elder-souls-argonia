@@ -195,7 +195,10 @@ export function Fly3D(props: Fly3DProps) {
   const speedRef = useRef(props.flySpeed ?? 60);
   speedRef.current = props.flySpeed ?? 60;
   const [locked, setLocked] = useState(false);
-  const start: [number, number, number] = [props.spawnKm.x * 1000, INITIAL_ALT ?? 700, props.spawnKm.z * 1000];
+  // Default altitude 400 m (round 2, was 700): below the montane fog belt
+  // (520±130 m) and the visual cloud line, so the flyover starts looking AT
+  // the province rather than down through weather.
+  const start: [number, number, number] = [props.spawnKm.x * 1000, INITIAL_ALT ?? 400, props.spawnKm.z * 1000];
   // The flyover renders the SAME chunked terrain as the character mode (same
   // sampling, same splat material), so relief judged from the air matches
   // what the character walks on. LOD follows the camera.

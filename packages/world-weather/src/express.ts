@@ -95,6 +95,19 @@ function smoothstep01(x: number): number {
   return t * t * (3 - 2 * t);
 }
 
+/** Lightning needs a storm deck overhead (owner round 2: flashes were
+ * firing at full rate from minute 0 of a thunderstorm slot, against a sky
+ * still blending in from clear/overcast). Gate by the BLENDED cloud mass so
+ * flashes start only once the sky reads stormy. Shared by the sample
+ * (wx.lightning) and the renderer's per-frame flash path. */
+export function lightningCloudGate(p: {
+  cloudLow: number;
+  cloudMid: number;
+  cloudDensity: number;
+}): number {
+  return smoothstep01(((p.cloudLow + p.cloudMid) * 0.5 * p.cloudDensity - 0.5) / 0.25);
+}
+
 /** Cloud-forest belt: bell over elevation. Summits reach ~650 m (6b sculpt);
  * the belt sits on the upper mountain flanks (mass-elevation effect brings
  * tropical cloud forest down to ~500–700 m on small coastal ranges). */
@@ -241,13 +254,7 @@ function express(
 
   const sunDim = clamp01(Math.max(p.sunDim, mist.whiteout * 0.9));
 
-  // Lightning needs a storm deck overhead (owner round 2: flashes were
-  // firing at full rate from minute 0 of a thunderstorm slot, against a sky
-  // still blending in from clear/overcast). Gate by the BLENDED cloud mass
-  // so flashes start only once the sky reads stormy.
-  const lightningGate = smoothstep01(
-    ((p.cloudLow + p.cloudMid) * 0.5 * p.cloudDensity - 0.5) / 0.25,
-  );
+  const lightningGate = lightningCloudGate(p);
 
   return {
     state: syn.blend < 0.5 ? syn.prev : syn.state,
