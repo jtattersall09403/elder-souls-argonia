@@ -117,6 +117,21 @@ lives.
   winnable by the duel route** for those characters — which the quest plan
   already requires. A content constraint, not a number to change.
 
+## Round 3, second half — what the canon attribute model changed
+
+Findings 20–28 (above) came from the rules/content split. These came from
+applying module 76's round-3 design — Morrowind's own attribute formulas — to
+the harness.
+
+| # | Finding | Resolution |
+|---|---|---|
+| 29 | D0 was in the combat ladder as "wildlife, nuisance" — but quests 20 §12 and decision 0009 already define D0 as **safe city/interior**, and the module even cited that page as its source. No invariant had ever tested D0. | **Fixed**: five combat rungs D1–D5; vermin live at the bottom of a widened D1 (health 20–90, damage 4–13). A dungeon inside a city carries its own authored band. |
+| 30 | Switching health to canon's `(Str+End)/2 + level × End/10` immediately broke `getting-hit-matters` (a legend melee survived 6 unavoided D5 blows against a target of 3). | **Expected and handled**: the ladder is *solved*, not authored, so the fix is one re-solve. New bands: D1 4–13, D2 22–40, D3 57–103, D4 133–241, D5 210–380. Any future change to health, armour or the damage formula requires the same re-solve — the note in `ladder.json` says so. |
+| 31 | Canon multiplies **bow** damage by `(Str+50)/100` too. Applying it pushed a Bosmer archer's first level from 1.9 h to 3.2 h. | **Deliberate divergence**: our arrow damage is physical (draw force × arrow mass) and the soft requirement already charges a weak archer, so canon's term would count the archer's strength a third time. Melee keeps it; bows do not. |
+| 32 | Canon's castability boundary (`2×skill + Wil/5 ≥ cost`) is where the cast chance reaches *zero* — using it directly gave a starting mage a 34-damage spell and, because a cast is worth one use-point however big it is, made the mage level *slower*. | **Fixed**: the reliable line sits 50 points inside canon's boundary and the working spell is 60 % of that. A starting mage lands on ~19 damage and a master on ~100, which is where Morrowind's own spellbooks sit. |
+| 33 | **Gold ran away: 860,000 banked over a playthrough.** The campaign credited the ladder's `lootValue` for every kill *and* the content model's `lootGoldPerHour` — the same placed treasure, counted twice. | **Fixed**: a corpse yields its **template drop** only (4/12/35/95/240 by band), because placed treasure never respawns (§126). Lifetime gold is now ~180 k, against ~45 k to take one skill from 30 to 100 — so training is a real choice again. Round-2's "gold outgrows its sinks" finding is closed by this, not by new sinks. |
+| 34 | Fewer potions (a consequence of #33) raised early deaths from ~6 to ~19 per run. | **Accepted**: it is the honest consequence of an economy that no longer prints money, and it moves the death curve toward the front, which is where the design wants it. |
+
 ## The ceiling, as the sim sees it
 
 At the hardest position in each band with only ordinary play (35 % avoidance),
