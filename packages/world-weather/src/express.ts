@@ -17,7 +17,7 @@ import {
   windDirAt,
   type SynopticSample,
 } from "./synoptic";
-import type { StateProfile, WeatherKind } from "./states";
+import { PROFILES, type StateProfile, type WeatherKind } from "./states";
 import { MINUTES_PER_DAY, seasonScalar, fromEpochMinutes, dayOfYear } from "@elder-souls/world-time";
 
 /** Climate-field values at a position — sampled from climate-air.png (RGB =
@@ -47,8 +47,12 @@ export interface MistRegimes {
   radiation: number;
   /** Advection sea fog rolling up estuaries. */
   advection: number;
-  /** Cloud-forest whiteout in the montane belt (quasi-permanent). */
+  /** Cloud-forest whiteout AT the queried elevation (= bell × whiteoutBase). */
   whiteout: number;
+  /** Whiteout's weather/state modulator WITHOUT the elevation bell — the
+   * renderer applies the bell per-pixel so distant peaks stay fogged when
+   * the camera is at sea level. */
+  whiteoutBase: number;
   /** Weather fog/haze from the current state (rain veil, dry haze). */
   weather: number;
 }
@@ -93,7 +97,40 @@ export function whiteoutBell(elevationM: number): number {
 }
 
 export function weatherSampleAt(epochMinutes: number, local: LocalClimate): WeatherSample {
-  const syn = synopticAt(epochMinutes);
+  return express(synopticAt(epochMinutes), epochMinutes, local, undefined);
+}
+
+/** Studio force-state preview (the Skyrim `fw` path, module 55 tooling):
+ * expresses `kind` at full blend regardless of the calendar timeline —
+ * wetness and lightning are synthesized so a forced storm previews wet
+ * ground and flashes. The shipped game only ever uses the auto timeline. */
+export function weatherSampleForState(
+  kind: WeatherKind,
+  epochMinutes: number,
+  local: LocalClimate,
+): WeatherSample {
+  const slot = Math.floor(epochMinutes / 90);
+  const syn: SynopticSample = {
+    prev: kind,
+    state: kind,
+    blend: 1,
+    profile: PROFILES[kind],
+    spellKind: "fair",
+    slot,
+    minutesIntoSlot: epochMinutes - slot * 90,
+  };
+  const sample = express(syn, epochMinutes, local, PROFILES[kind].lightningPerMin);
+  sample.wetness = Math.max(sample.wetness, clamp01(0.85 * sample.rainIntensity));
+  sample.grip = 1 - 0.35 * sample.wetness;
+  return sample;
+}
+
+function express(
+  syn: SynopticSample,
+  epochMinutes: number,
+  local: LocalClimate,
+  forcedLightningRate: number | undefined,
+): WeatherSample {
   const p = syn.profile;
   const inst = fromEpochMinutes(epochMinutes);
   const s = seasonScalar(dayOfYear(inst.month, inst.day));
@@ -130,12 +167,15 @@ export function weatherSampleAt(epochMinutes: number, local: LocalClimate): Weat
     clamp01(local.seaFog) * (0.35 + 0.65 * morningBell) * (0.5 + 0.5 * Math.max(0, s)) * holdsTogether * 0.8;
   // Cloud-forest whiteout: quasi-permanent on the montane belt, thickened by
   // wet weather, thinned a little by dry clear spells.
-  const whiteout = whiteoutBell(local.elevationM) * (0.55 + 0.35 * clamp01(p.cloudMid + rain) - 0.2 * (syn.state === "haze" ? 1 : 0));
+  const whiteoutBase = clamp01(
+    0.55 + 0.35 * clamp01(p.cloudMid + rain) - 0.2 * (syn.state === "haze" ? 1 : 0),
+  );
   const weatherFog = p.fogMie * (0.6 + 0.4 * local.humidity);
   const mist: MistRegimes = {
     radiation: clamp01(radiation),
     advection: clamp01(advection),
-    whiteout: clamp01(whiteout),
+    whiteout: clamp01(whiteoutBell(local.elevationM) * whiteoutBase),
+    whiteoutBase,
     weather: weatherFog,
   };
 
@@ -166,7 +206,7 @@ export function weatherSampleAt(epochMinutes: number, local: LocalClimate): Weat
     visibilityM,
     wetness,
     grip,
-    lightning: lightningAt(epochMinutes),
+    lightning: lightningAt(epochMinutes, forcedLightningRate),
     sunDim,
   };
 }

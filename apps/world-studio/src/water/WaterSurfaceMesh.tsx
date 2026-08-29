@@ -1,8 +1,10 @@
 import { useContext, useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import { getWindWaveScale } from "@elder-souls/game-core/water/index";
 import { worldClock } from "../sky/timeState";
 import { advanceWaterClock, waterTimeS } from "./waterClock";
+import { lastWeatherSample } from "../weather/weatherState";
 import { RIPPLE_PATCH_M, RippleSim } from "./RippleSim";
 import { wetnessUniforms } from "./groundWetness";
 import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
@@ -174,6 +176,9 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
     // usually paused for reproducible URLs); tide/season stay on the epoch.
     advanceWaterClock(delta, worldClock.rate);
     uniforms.uWaveTime.value = waterTimeS();
+    // Weather wind scales wave energy — same value the CPU water query uses
+    // (game-core setWindWaveScale, written by WorldSky each frame).
+    uniforms.uWindWave.value = getWindWaveScale();
     const offsets = assets.world.levelOffsets(epoch);
     uniforms.uLevelTide.value = offsets.tide;
     uniforms.uLevelSeason.value = offsets.season;
@@ -195,6 +200,25 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
           e.position.z,
           (e.radius ?? 0.8) * 0.9,
           Math.min((e.magnitude ?? 40) / 300, 0.5) * (e.kind === "wake" ? 0.4 : 1),
+        );
+      }
+    }
+    // Rain stamps small impulses into the ripple patch (research §3: the sim
+    // was built to take arbitrary impulses). Hashed positions, no RNG.
+    const rain = lastWeatherSample()?.rainIntensity ?? 0;
+    if (ripple && rain > 0.05) {
+      const n = Math.min(6, Math.ceil(rain * 5));
+      const tick = Math.floor(nowS * 24);
+      for (let k = 0; k < n; k += 1) {
+        let h = (Math.imul(tick, 0x9e3779b1) ^ Math.imul(k + 1, 0x85ebca6b)) >>> 0;
+        const rx = (h % 4096) / 4096;
+        h = (Math.imul(h ^ (h >>> 13), 0xc2b2ae35) >>> 0);
+        const rz = (h % 4096) / 4096;
+        ripple.addDrop(
+          ripple.center.x + (rx - 0.5) * RIPPLE_PATCH_M,
+          ripple.center.y + (rz - 0.5) * RIPPLE_PATCH_M,
+          0.22,
+          0.03 + 0.05 * rain,
         );
       }
     }

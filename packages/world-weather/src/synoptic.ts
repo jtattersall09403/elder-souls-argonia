@@ -313,13 +313,14 @@ export function rainWetness(epochMinutes: number): number {
 }
 
 /** Lightning flash envelope 0..1 at this instant. Flash times are seeded per
- * slot; each flash is a ~1.2 s (0.02 world-minute) triangular pulse. */
-export function lightningAt(epochMinutes: number): number {
+ * slot; each flash is a ~1.2 s (0.02 world-minute) triangular pulse.
+ * `forcedRate` (studio force-state preview) overrides the timeline's rate. */
+export function lightningAt(epochMinutes: number, forcedRate?: number): number {
   const WIDTH = 0.02;
   let env = 0;
   for (const slotOff of [0, -1]) {
     const slot = Math.floor(epochMinutes / SLOT_MINUTES) + slotOff;
-    const rate = PROFILES[stateAtSlot(slot)].lightningPerMin;
+    const rate = forcedRate ?? PROFILES[stateAtSlot(slot)].lightningPerMin;
     if (rate <= 0) continue;
     const n = Math.floor(rate * SLOT_MINUTES);
     for (let k = 0; k < n; k += 1) {

@@ -24,6 +24,8 @@ export const wetnessUniforms = {
   uWetKlassExtent: { value: 7373 },
   /** x = tide offset, y = season offset (m). */
   uWetLevels: { value: new THREE.Vector2(0, 0) },
+  /** Rain wetness 0..1 (Phase 8c weather machine; decays after rain). */
+  uRainWet: { value: 0 },
 };
 
 export function primeWetnessUniforms(assets: WaterAssets): void {
@@ -54,6 +56,7 @@ uniform vec4 uWetParams;
 uniform float uWetShoreMax;
 uniform float uWetKlassExtent;
 uniform vec2 uWetLevels;
+uniform float uRainWet;
 `;
 
 /**
@@ -71,6 +74,7 @@ export function applyShoreWetness(material: THREE.Material): void {
       .replace(
         "#include <emissivemap_fragment>",
         /* glsl */ `
+float esWetTotal = 0.0;
 if (uWetParams.z > 0.5) {
   float esWetExtent = uWetParams.z * uWetParams.w;
   vec2 esWetUv = vEsWorldPos.xz / esWetExtent;
@@ -93,11 +97,23 @@ if (uWetParams.z > 0.5) {
       // swash never wets steep walls (research §3) — kills dark stripes on
       // gorge sides
       esWet *= smoothstep(0.78, 0.9, normalize(esNrmW).y);
-      esWet *= 0.85;
-      diffuseColor.rgb *= 1.0 - 0.45 * esWet;
-      roughnessFactor = mix(roughnessFactor, 0.3, esWet * 0.8);
+      esWetTotal = esWet * 0.85;
     }
   }
+}
+// Rain wetness (Phase 8c): global decaying scalar from the weather machine,
+// suppressed per-pixel under canopy (climate-air B — sheltered ground stays
+// dry under the deep forest) and slightly on steep faces (water runs off).
+if (uRainWet > 0.003) {
+  vec2 esRwUv = vec2(vEsWorldPos.x / uProvinceExtentM, 1.0 - vEsWorldPos.z / uProvinceExtentM);
+  float esRwCanopy = texture2D(uClimateAir, esRwUv).b;
+  float esRainWet = uRainWet * (1.0 - 0.75 * esRwCanopy)
+    * (0.55 + 0.45 * smoothstep(0.55, 0.85, normalize(esNrmW).y)) * 0.8;
+  esWetTotal = max(esWetTotal, esRainWet);
+}
+if (esWetTotal > 0.003) {
+  diffuseColor.rgb *= 1.0 - 0.45 * esWetTotal;
+  roughnessFactor = mix(roughnessFactor, 0.3, esWetTotal * 0.8);
 }
 #include <emissivemap_fragment>`,
       );

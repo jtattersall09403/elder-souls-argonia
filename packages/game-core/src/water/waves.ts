@@ -44,6 +44,21 @@ export const WAVES = {
   depthSaturationM: 1.2,
 } as const;
 
+/**
+ * Weather wind → wave-energy scale (Phase 8c, decision 0032): ONE shared
+ * value multiplying wave exposure on BOTH the CPU query and the GPU vertex
+ * stage (the renderer reads it into a uniform every frame), so storm chop is
+ * the chop you float on. 1 = the owner-calibrated 8b default; the weather
+ * machine maps wind speed onto ~0.8 (dead calm) … 1.5 (squall).
+ */
+let windWaveScale = 1;
+export function setWindWaveScale(v: number): void {
+  windWaveScale = Math.min(1.6, Math.max(0.7, Number.isFinite(v) ? v : 1));
+}
+export function getWindWaveScale(): number {
+  return windWaveScale;
+}
+
 export interface WaveSample {
   /** Horizontal displacement of the surface point that renders above the
    * rest position (m). */

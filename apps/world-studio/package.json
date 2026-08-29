@@ -25,7 +25,8 @@
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "three": "^0.184.0",
-    "@elder-souls/world-time": "^0.1.0"
+    "@elder-souls/world-time": "^0.1.0",
+    "@elder-souls/world-weather": "^0.1.0"
   },
   "devDependencies": {
     "@elder-souls/character-assets": "^0.1.0",

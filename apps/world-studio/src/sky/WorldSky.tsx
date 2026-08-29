@@ -10,10 +10,16 @@ import {
   epochDays,
   type MoonState,
 } from "@elder-souls/world-time";
+import { setWindWaveScale } from "@elder-souls/game-core/water/index";
 import catalogue from "../../../../world/sources/sky/star-catalogue.json";
 import { createAerialUniforms, type AerialUniforms } from "./aerial";
 import { computeLightRig, type LightRig } from "./lightRig";
 import { worldClock, notifyClock } from "./timeState";
+import { waterTimeS } from "../water/waterClock";
+import { wetnessUniforms } from "../water/groundWetness";
+import { lightningNow, weatherAt } from "../weather/weatherState";
+import { RainSystem, rainDropBudget } from "../weather/RainSystem";
+import type { WeatherSample } from "@elder-souls/world-weather";
 
 /**
  * The natural light and sky system (world module 55, Phase 8a): Preetham sky
@@ -95,6 +101,15 @@ interface SkyExtras {
   uHorizonLum: { value: THREE.Color };
   uDawnLum: { value: number };
   uDawnDir: { value: THREE.Vector2 };
+  /** Phase 8c weather clouds: coverages (low/mid/high), density, colours
+   * (exposure-anchored nits, see lightRig), scroll clock/dir, lightning. */
+  uCloudCov: { value: THREE.Vector3 };
+  uCloudDens: { value: number };
+  uCloudBright: { value: THREE.Color };
+  uCloudDark: { value: THREE.Color };
+  uCloudTime: { value: number };
+  uCloudDir: { value: THREE.Vector2 };
+  uFlash: { value: number };
 }
 
 function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
@@ -113,11 +128,18 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
     uHorizonLum: { value: new THREE.Color(0, 0, 0) },
     uDawnLum: { value: 0 },
     uDawnDir: { value: new THREE.Vector2(0, 1) },
+    uCloudCov: { value: new THREE.Vector3(0, 0, 0) },
+    uCloudDens: { value: 0 },
+    uCloudBright: { value: new THREE.Color(0, 0, 0) },
+    uCloudDark: { value: new THREE.Color(0, 0, 0) },
+    uCloudTime: { value: 0 },
+    uCloudDir: { value: new THREE.Vector2(1, 0) },
+    uFlash: { value: 0 },
   };
   Object.assign(mat.uniforms, extras);
-  mat.uniforms.cloudCoverage.value = 0; // clouds are Phase 8c
+  mat.uniforms.cloudCoverage.value = 0; // stock cloud layer stays off — ours below
   mat.fragmentShader =
-    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform float uSunAltDeg;\nuniform float uNightBoost;\nuniform float uBeltLum;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform vec3 uHorizonLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\n" +
+    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform float uSunAltDeg;\nuniform float uNightBoost;\nuniform float uBeltLum;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform vec3 uHorizonLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\nuniform vec3 uCloudCov;\nuniform float uCloudDens;\nuniform vec3 uCloudBright;\nuniform vec3 uCloudDark;\nuniform float uCloudTime;\nuniform vec2 uCloudDir;\nuniform float uFlash;\n" +
     mat.fragmentShader.replace(
       "gl_FragColor = vec4( texColor, 1.0 );",
       /* glsl */ `
@@ -176,6 +198,52 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
           + vec3(1.00, 0.45, 0.50) * pow(esAz, 2.0) * 0.55
           + vec3(0.55, 0.35, 0.62) * 0.20);
       }
+      // Weather cloud layers (Phase 8c, decision 0032): three scrolling FBM
+      // planes drawn INTO the dome (so the PMREM IBL sees them and overcast
+      // ambient greys automatically). Colours arrive exposure-anchored from
+      // the CPU (uCloudBright/uCloudDark, lightRig) — cloudy skies stay
+      // inside the §8d screen envelope by construction. Premultiplied
+      // back-to-front over-composite: cirrus, then mid deck, then low scud.
+      if (direction.y > 0.012 && (uCloudCov.x + uCloudCov.y + uCloudCov.z) > 0.003) {
+        vec2 esWindP = vec2(uCloudDir.y, -uCloudDir.x);
+        float esCA = 0.0;
+        vec3 esCC = vec3(0.0);
+        { // high cirrus — thin, bright, stretched along the wind
+          vec2 uv = direction.xz / (direction.y + 0.06);
+          uv = vec2(dot(uv, uCloudDir) * 0.22, dot(uv, esWindP)) * 0.55;
+          uv.x += uCloudTime * 0.006;
+          float n = fbm(uv * 3.0);
+          float m = smoothstep(1.0 - uCloudCov.z, 1.0 - uCloudCov.z + 0.32, n);
+          float a = m * 0.42;
+          esCC += uCloudBright * (a * (1.0 - esCA));
+          esCA += a * (1.0 - esCA);
+        }
+        { // mid deck — the weather-bearing layer, shaded bases
+          vec2 uv = direction.xz / (direction.y * 0.8 + 0.055) * 0.5;
+          uv += uCloudDir * (uCloudTime * 0.012);
+          float n = (fbm(uv * 2.6) + 0.45 * fbm(uv * 6.1 + 3.7)) / 1.45;
+          float m = smoothstep(1.0 - uCloudCov.y, 1.0 - uCloudCov.y + 0.24, n);
+          float shade = smoothstep(max(1.0 - uCloudCov.y * 0.75, 0.35), 1.0, n);
+          vec3 col = mix(uCloudBright, uCloudDark, shade);
+          float a = m * uCloudDens;
+          esCC += col * (a * (1.0 - esCA));
+          esCA += a * (1.0 - esCA);
+        }
+        { // low scud — fast, ragged, storm-dark
+          vec2 uv = direction.xz / (direction.y * 0.4 + 0.09) * 0.9;
+          uv += uCloudDir * (uCloudTime * 0.03);
+          float n = fbm(uv * 3.4 + 11.0);
+          float m = smoothstep(1.0 - uCloudCov.x, 1.0 - uCloudCov.x + 0.3, n);
+          vec3 col = mix(uCloudBright * 0.85, uCloudDark, 0.75);
+          float a = m * uCloudDens * 0.85;
+          esCC += col * (a * (1.0 - esCA));
+          esCA += a * (1.0 - esCA);
+        }
+        // lightning glow lives inside the cloud body
+        esCC += uFlash * uCloudBright * 3.0 * esCA;
+        float esHzFade = smoothstep(0.012, 0.09, direction.y);
+        texColor = mix(texColor, esCC / max(esCA, 1e-4), esCA * esHzFade);
+      }
       // Below the horizon (hard branch, not mix(): mix(x, NaN, 0.0) is still
       // NaN): first a distance-haze band — so looking off the province edge
       // reads as hazy distance, not a flat brown void (owner round 3) — then
@@ -198,10 +266,14 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
 function copySkyUniforms(from: Sky & { material: THREE.ShaderMaterial }, to: Sky): void {
   const a = from.material.uniforms;
   const b = to.material.uniforms;
-  for (const k of ["turbidity", "rayleigh", "mieCoefficient", "mieDirectionalG", "uSkyLum", "uSkyFade", "uSunAltDeg", "uNightBoost", "uBeltLum", "uDawnLum"]) {
+  for (const k of ["turbidity", "rayleigh", "mieCoefficient", "mieDirectionalG", "uSkyLum", "uSkyFade", "uSunAltDeg", "uNightBoost", "uBeltLum", "uDawnLum", "uCloudDens", "uCloudTime", "uFlash"]) {
     b[k].value = a[k].value;
   }
   (b.uDawnDir.value as THREE.Vector2).copy(a.uDawnDir.value as THREE.Vector2);
+  (b.uCloudCov.value as THREE.Vector3).copy(a.uCloudCov.value as THREE.Vector3);
+  (b.uCloudDir.value as THREE.Vector2).copy(a.uCloudDir.value as THREE.Vector2);
+  (b.uCloudBright.value as THREE.Color).copy(a.uCloudBright.value as THREE.Color);
+  (b.uCloudDark.value as THREE.Color).copy(a.uCloudDark.value as THREE.Color);
   (b.sunPosition.value as THREE.Vector3).copy(a.sunPosition.value as THREE.Vector3);
   (b.uNightZenith.value as THREE.Color).copy(a.uNightZenith.value as THREE.Color);
   (b.uNightHorizon.value as THREE.Color).copy(a.uNightHorizon.value as THREE.Color);
@@ -388,6 +460,19 @@ export interface SkyDebugState {
   humidityAtCamera: number;
   envBakes: number;
   csmCascades: number;
+  /** Phase 8c weather (probe surface). */
+  weatherState: string;
+  weatherPrev: string;
+  weatherBlend: number;
+  spellKind: string;
+  rainIntensity: number;
+  windSpeedMS: number;
+  wetness: number;
+  visibilityM: number;
+  mistRegimes: { radiation: number; advection: number; whiteout: number; whiteoutBase: number; weather: number };
+  cloudCover: [number, number, number];
+  sunCastsShadows: boolean;
+  lightningFlash: number;
 }
 
 declare global {
@@ -399,26 +484,39 @@ declare global {
 export function WorldSky({
   mode,
   extentM,
+  verticalScale = 1,
   children,
 }: {
   mode: "fly" | "character";
   extentM: number;
+  /** Live vertical exaggeration — converts camera height back to true metres
+   * for the weather machine (whiteout belt, elevation expression). */
+  verticalScale?: number;
   children?: React.ReactNode;
 }) {
   const { scene, camera, gl } = useThree();
   const base = import.meta.env.BASE_URL;
+  const rainBudget = useMemo(() => rainDropBudget(), []);
   ensureAirPixels(base);
   (window as unknown as { __SCENE__?: THREE.Scene }).__SCENE__ = scene;
   (window as unknown as { __THREE__?: typeof THREE }).__THREE__ = THREE;
 
-  // Climate-air raster as a GPU texture for the haze term (shared uniforms).
+  // Climate rasters as GPU textures for the haze term (shared uniforms).
   useEffect(() => {
-    if (sharedAerialUniforms.uClimateAir.value) return;
-    new THREE.TextureLoader().load(`${base}province/climate-air.png`, (t) => {
-      t.colorSpace = THREE.NoColorSpace;
-      t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
-      sharedAerialUniforms.uClimateAir.value = t;
-    });
+    if (!sharedAerialUniforms.uClimateAir.value) {
+      new THREE.TextureLoader().load(`${base}province/climate-air.png`, (t) => {
+        t.colorSpace = THREE.NoColorSpace;
+        t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
+        sharedAerialUniforms.uClimateAir.value = t;
+      });
+    }
+    if (!sharedAerialUniforms.uClimateWeather.value) {
+      new THREE.TextureLoader().load(`${base}province/climate-weather.png`, (t) => {
+        t.colorSpace = THREE.NoColorSpace;
+        t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
+        sharedAerialUniforms.uClimateWeather.value = t;
+      });
+    }
   }, [base]);
 
   // Renderer: physical lights + ACES + soft shadows, one configuration for
@@ -649,6 +747,7 @@ void main() {
   const state = useRef({
     lastLst: Number.NaN,
     lastBakeSunY: Number.NaN,
+    lastBakeCover: Number.NaN,
     lastEpoch: Number.NaN,
     envBakes: 0,
     lastNotify: 0,
@@ -692,11 +791,35 @@ void main() {
     }
     const epochMinutes = worldClock.epochMinutes();
     const humidity = humidityAt(camera.position.x, camera.position.z, extentM);
+    // Weather (Phase 8c, decision 0032): the deterministic machine sampled at
+    // the camera; its profile modifies the light rig, its regimes drive the
+    // aerial fog, its wind drives clouds and water chop.
+    const wx: WeatherSample = weatherAt(
+      base,
+      epochMinutes,
+      camera.position.x,
+      camera.position.z,
+      extentM,
+      Math.max(0, camera.position.y / verticalScale),
+    );
+    const flash = lightningNow(epochMinutes);
     const rig = computeLightRig(
       epochMinutes,
       humidity,
       worldClock.season().s,
       latitudeOverrideRad,
+      {
+        sunDim: wx.sunDim,
+        ambientLift: wx.profile.ambientLift,
+        skyGrey: wx.profile.skyGrey,
+        fogMie: wx.mist.weather,
+        cloudLow: wx.profile.cloudLow,
+        cloudMid: wx.profile.cloudMid,
+        cloudHigh: wx.profile.cloudHigh,
+        cloudDensity: wx.profile.cloudDensity,
+        cloudDark: wx.profile.cloudDark,
+        radiationMist: wx.mist.radiation,
+      },
     );
     const sunDir = new THREE.Vector3(rig.sun.direction.x, rig.sun.direction.y, rig.sun.direction.z);
 
@@ -719,13 +842,20 @@ void main() {
     extras.uHorizonLum.value.setRGB(...rig.horizonHaze);
     extras.uDawnLum.value = rig.dawnLum;
     extras.uDawnDir.value.set(rig.dawnDir[0], rig.dawnDir[1]);
+    extras.uCloudCov.value.set(rig.cloudCov[0], rig.cloudCov[1], rig.cloudCov[2]);
+    extras.uCloudDens.value = rig.cloudDensity;
+    extras.uCloudBright.value.setRGB(...rig.cloudBright);
+    extras.uCloudDark.value.setRGB(...rig.cloudDarkCol);
+    extras.uCloudTime.value = waterTimeS();
+    extras.uCloudDir.value.set(wx.windDirXZ[0], wx.windDirXZ[1]);
+    extras.uFlash.value = flash;
 
     // Sun (CSM's cascade lights ARE the sun).
     csm.lightDirection.copy(sunDir).negate();
     for (const light of csm.lights) {
       light.color.setRGB(...rig.sunColor);
       light.intensity = rig.sunIntensity;
-      light.castShadow = rig.sunIntensity > 1;
+      light.castShadow = rig.sunCastsShadows;
     }
     csm.update();
     const nowMs = performance.now();
@@ -770,17 +900,35 @@ void main() {
     a.uHazeAmbient.value.set(...rig.hazeAmbient);
     a.uProvinceExtentM.value = extentM;
     a.uMistStrength.value = rig.mistStrength;
+    // Weather fog regimes into the ONE inscatter authority (module 55 §97):
+    // advection strength is camera-local; the whiteout band is per-pixel in
+    // the shader (peaks stay fogged from sea level), so it gets the global
+    // state modulator + the band in runtime (scaled) metres.
+    a.uAdvectionFog.value = wx.mist.advection;
+    a.uWhiteout.value.set(520 * verticalScale, 130 * verticalScale, wx.mist.whiteoutBase);
+    a.uWeatherMie.value = wx.mist.weather;
+    // Rain wetness into the shared ground shader path; wind into the shared
+    // wave-energy scale (CPU query + water vertex stage read the same value).
+    wetnessUniforms.uRainWet.value = wx.wetness;
+    setWindWaveScale(0.8 + wx.windSpeedMS * 0.05);
+    // Lightning also lifts the scene light for the flash frames.
+    if (hemiRef.current && flash > 0) hemiRef.current.intensity += 2500 * flash;
 
     // Night sky elements. Star screen brightness = lum × exposure × boost,
     // i.e. anchored at the full-night level whenever twilight lets a star
     // through (the staged visibility lives in the star vertex stage).
     updateCelestialBuffers(epochMinutes, rig);
     const sunAltDeg = (rig.sun.altitude * 180) / Math.PI;
-    (starMat.uniforms.uOpacity as { value: number }).value = rig.nightBoost;
+    // Cloud cover hides stars and moons (the dome clouds draw UNDER the
+    // celestial passes, so per-pixel occlusion isn't available at this tier —
+    // a global dim by effective cover is the honest approximation).
+    const cloudClear =
+      1 - Math.min(1, (rig.cloudCov[0] + rig.cloudCov[1]) * rig.cloudDensity + rig.cloudCov[2] * 0.25);
+    (starMat.uniforms.uOpacity as { value: number }).value = rig.nightBoost * (0.06 + 0.94 * cloudClear);
     (starMat.uniforms.uStarFrac as { value: number }).value = Math.min(1, 0.5 * starDensityMult);
     (starMat.uniforms.uSunAltDeg as { value: number }).value = sunAltDeg;
     (starMat.uniforms.uDawnDir.value as THREE.Vector2).set(rig.dawnDir[0], rig.dawnDir[1]);
-    (serpentMat.uniforms.uOpacity as { value: number }).value = 0.55 * rig.starOpacity;
+    (serpentMat.uniforms.uOpacity as { value: number }).value = 0.55 * rig.starOpacity * cloudClear;
     (serpentMat.uniforms.uSunAltDeg as { value: number }).value = sunAltDeg;
     (serpentMat.uniforms.uDawnDir.value as THREE.Vector2).set(rig.dawnDir[0], rig.dawnDir[1]);
     rig.moons.forEach((m: MoonState, i) => {
@@ -797,7 +945,7 @@ void main() {
       const horizonFade = THREE.MathUtils.smoothstep(m.altitude, -0.06, 0.06);
       const extinction = 0.3 + 0.7 * THREE.MathUtils.smoothstep(m.altitude, 0.0, 0.3);
       (moonMats[i].uniforms.uDayDim as { value: number }).value =
-        (1 - 0.88 * rig.skyFade) * horizonFade * extinction;
+        (1 - 0.88 * rig.skyFade) * horizonFade * extinction * (0.08 + 0.92 * cloudClear);
       mesh.visible = m.altitude > -0.1;
     });
 
@@ -826,13 +974,19 @@ void main() {
     // a continuously-adapting exposure read as bright FLASHES at sunset
     // (owner round 2, 18:25–18:34 report).
     const bakeStep = Math.abs(sunDir.y) < 0.25 ? 0.004 : 0.025;
+    // Weather transitions also change the ambient (an overcast deck greys the
+    // IBL), so cloud-cover movement forces a re-bake too.
+    const bakeCover = rig.cloudCov[0] + rig.cloudCov[1] + rig.cloudCov[2] * 0.4;
     if (
       !Number.isFinite(state.current.lastBakeSunY) ||
-      Math.abs(sunDir.y - state.current.lastBakeSunY) > bakeStep
+      Math.abs(sunDir.y - state.current.lastBakeSunY) > bakeStep ||
+      Math.abs(bakeCover - (state.current.lastBakeCover || 0)) > 0.06
     ) {
       state.current.lastBakeSunY = sunDir.y;
+      state.current.lastBakeCover = bakeCover;
       copySkyUniforms(sky as Sky & { material: THREE.ShaderMaterial }, bake.sky);
       bake.sky.material.uniforms.showSunDisc.value = 0;
+      bake.sky.material.uniforms.uFlash.value = 0; // flashes never tint the IBL
       const rt = pmrem.fromScene(bake.scene, 0, 0.1, 1100);
       scene.environment = rt.texture;
       envRT.current?.dispose();
@@ -854,6 +1008,18 @@ void main() {
       humidityAtCamera: humidity,
       envBakes: state.current.envBakes,
       csmCascades: csm.cascades,
+      weatherState: wx.state,
+      weatherPrev: wx.prev,
+      weatherBlend: wx.blend,
+      spellKind: wx.spellKind,
+      rainIntensity: wx.rainIntensity,
+      windSpeedMS: wx.windSpeedMS,
+      wetness: wx.wetness,
+      visibilityM: wx.visibilityM,
+      mistRegimes: wx.mist,
+      cloudCover: rig.cloudCov,
+      sunCastsShadows: rig.sunCastsShadows,
+      lightningFlash: flash,
       triangles: gl.info.render.triangles,
       sunLightIntensity: csm.lights[0]?.intensity ?? 0,
       shadowMapEnabled: gl.shadowMap.enabled,
@@ -897,6 +1063,7 @@ void main() {
       <hemisphereLight ref={hemiRef} intensity={0} />
       <directionalLight ref={moonLightRef} intensity={0} />
       <primitive object={moonLightTarget} />
+      <RainSystem count={rainBudget} extentM={extentM} />
       {children}
     </SkyContext.Provider>
   );

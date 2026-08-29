@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { toEpochMinutes } from "@elder-souls/world-time";
-import { computeLightRig } from "./lightRig";
-import { domeScreen, ENVELOPE_DIRS, envelopeDir } from "./skyScreenModel";
+import { PROFILES, type WeatherKind } from "@elder-souls/world-weather";
+import { computeLightRig, type WeatherLightIn } from "./lightRig";
+import { cloudScreenRange, domeScreen, ENVELOPE_DIRS, envelopeDir } from "./skyScreenModel";
 
 const at = (month: number, day: number, hour: number) =>
   toEpochMinutes({ era: 4, year: 201, month, day, minuteOfDay: hour * 60 });
@@ -96,6 +97,75 @@ describe("screen-luminance envelope (owner round 5 — no whiteouts, no black ga
           expect(screen, `blown: ${where}`).toBeLessThan(cap);
         }
       }
+    }
+  });
+});
+
+describe("weathered light (Phase 8c, decision 0032)", () => {
+  const weatherOf = (kind: WeatherKind): WeatherLightIn => {
+    const p = PROFILES[kind];
+    return {
+      sunDim: p.sunDim,
+      ambientLift: p.ambientLift,
+      skyGrey: p.skyGrey,
+      fogMie: p.fogMie,
+      cloudLow: p.cloudLow,
+      cloudMid: p.cloudMid,
+      cloudHigh: p.cloudHigh,
+      cloudDensity: p.cloudDensity,
+      cloudDark: p.cloudDark,
+    };
+  };
+  const noonAt = (kind: WeatherKind) =>
+    computeLightRig(toEpochMinutes({ era: 4, year: 201, month: 6, day: 14, minuteOfDay: 720 }), 0.7, 0.7, undefined, weatherOf(kind));
+
+  it("overcast kills sun shadows and dims direct light; ambient survives", () => {
+    const clear = noonAt("clear");
+    const storm = noonAt("thunderstorm");
+    expect(clear.sunCastsShadows).toBe(true);
+    expect(storm.sunCastsShadows).toBe(false);
+    expect(storm.sunIntensity).toBeLessThan(clear.sunIntensity * 0.05);
+    expect(storm.hemiIntensity).toBeGreaterThan(clear.hemiIntensity);
+  });
+
+  it("keeps every weathered sky inside the screen envelope, day and night", () => {
+    const hours = [0, 5.5, 6.5, 9, 12, 15, 17.5, 18.5, 21];
+    for (const kind of Object.keys(PROFILES) as WeatherKind[]) {
+      for (const h of hours) {
+        const rig = computeLightRig(
+          toEpochMinutes({ era: 4, year: 201, month: 6, day: 14, minuteOfDay: h * 60 }),
+          0.7,
+          0.7,
+          undefined,
+          weatherOf(kind),
+        );
+        // Clear-sky part of the dome still displayable under weathered
+        // turbidity/exposure…
+        for (const [label, elev, dAz] of ENVELOPE_DIRS) {
+          const screen = Math.max(...domeScreen(rig, envelopeDir(rig, elev, dAz)));
+          const where = `${kind} ${label} @ ${h}h`;
+          expect(screen, `black: ${where}`).toBeGreaterThan(0.015);
+          const cap = label.includes("solar") ? 16 : label.startsWith("low") ? 2.8 : 1.7;
+          expect(screen, `blown: ${where}`).toBeLessThan(cap);
+        }
+        // …and the cloud overlay is bounded by construction.
+        const [lo, hi] = cloudScreenRange(rig);
+        expect(lo, `cloud black: ${kind} @ ${h}h`).toBeGreaterThan(0.003);
+        expect(hi, `cloud blown: ${kind} @ ${h}h`).toBeLessThan(1.9);
+      }
+    }
+  });
+
+  it("storm cloud bases render darker than lit faces, day and night", () => {
+    for (const h of [12, 23]) {
+      const rig = computeLightRig(
+        toEpochMinutes({ era: 4, year: 201, month: 6, day: 14, minuteOfDay: h * 60 }),
+        0.7,
+        0.7,
+        undefined,
+        weatherOf("thunderstorm"),
+      );
+      expect(Math.max(...rig.cloudDarkCol)).toBeLessThan(Math.max(...rig.cloudBright));
     }
   });
 });

@@ -7,7 +7,7 @@
 import type { Vec3, WaterInteractionEvent, WaterSample, WorldWaterQuery } from "@elder-souls/contracts";
 import { seasonOffset, tideOffset } from "./tide";
 import type { WaterData } from "./waterData";
-import { fetchExposure, shoreSwellAt, surfaceWaveAt, swashAt, waveExposure, type WaveSample } from "./waves";
+import { fetchExposure, getWindWaveScale, shoreSwellAt, surfaceWaveAt, swashAt, waveExposure, type WaveSample } from "./waves";
 
 export interface WaterWorldOptions {
   /** FloodBasin amplitudes (province `refined/flood-states.json`). */
@@ -76,7 +76,7 @@ export class WaterWorld implements WorldWaterQuery {
       };
     }
 
-    const exposure = waveExposure(s.shoreDistM, depth, s.turbidity);
+    const exposure = waveExposure(s.shoreDistM, depth, s.turbidity) * getWindWaveScale();
     const waveTime = this.opts.waveTimeS?.() ?? epochMinutes * 60;
     const w = surfaceWaveAt(position.x, position.z, waveTime, exposure, this.scratch);
     // Shore surf (round 7) — mirrors the vertex shader exactly: fetch is

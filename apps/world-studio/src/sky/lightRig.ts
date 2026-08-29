@@ -67,7 +67,45 @@ export interface LightRig {
   nightBoost: number;
   /** Belt-of-Venus additive luminance (nits, exposure-anchored). */
   beltLum: number;
+  /** Weather (Phase 8c): cloud layer coverages low/mid/high 0..1. */
+  cloudCov: [number, number, number];
+  cloudDensity: number;
+  /** Lit cloud-face and shadowed cloud-base colours (nits, exposure-anchored
+   * on the CPU like dawnLum — bounded on screen by construction). */
+  cloudBright: [number, number, number];
+  cloudDarkCol: [number, number, number];
+  /** Whether the sun light should cast shadows (off under heavy overcast). */
+  sunCastsShadows: boolean;
 }
+
+/** Weather inputs to the light model (Phase 8c, decision 0032): the blended
+ * state-profile numbers that change light — all default to clear weather. */
+export interface WeatherLightIn {
+  sunDim: number;
+  ambientLift: number;
+  skyGrey: number;
+  fogMie: number;
+  cloudLow: number;
+  cloudMid: number;
+  cloudHigh: number;
+  cloudDensity: number;
+  cloudDark: number;
+  /** Radiation-mist regime strength (replaces the rig's own dawn-bell mist
+   * once the weather machine supplies the causally-gated value). */
+  radiationMist?: number;
+}
+
+const CLEAR_WEATHER: WeatherLightIn = {
+  sunDim: 0,
+  ambientLift: 0,
+  skyGrey: 0,
+  fogMie: 0,
+  cloudLow: 0,
+  cloudMid: 0,
+  cloudHigh: 0,
+  cloudDensity: 0,
+  cloudDark: 0,
+};
 
 // Sunlight colour anchors from measured CCT vs solar elevation (research doc
 // §8: ~2000 K at the horizon, ~3400 K in the 0–10° golden band, ~5500 K by
@@ -167,7 +205,9 @@ export function computeLightRig(
   humidityAtCamera: number,
   seasonScalar: number,
   latitude?: number,
+  weather?: WeatherLightIn,
 ): LightRig {
+  const wx = weather ?? CLEAR_WEATHER;
   const sun = sunAt(epochMinutes, latitude);
   const moons = moonsAt(epochMinutes, latitude);
   const altDeg = (sun.altitude * 180) / Math.PI;
@@ -191,7 +231,12 @@ export function computeLightRig(
     warmthBias,
   );
   const aboveHorizon = smoothstep(-1.5, 0.5, altDeg);
-  const sunIntensity = (100_000 * Math.pow(sinAlt, 1.15) + 350 * aboveHorizon) * aboveHorizon;
+  // Weather: the cloud deck removes direct sun steeply (overcast means
+  // diffuse light, not a dimmer sun disc on the ground).
+  const directFactor = Math.pow(1 - wx.sunDim, 3);
+  const sunIntensity =
+    (100_000 * Math.pow(sinAlt, 1.15) + 350 * aboveHorizon) * aboveHorizon * directFactor;
+  const sunCastsShadows = sunIntensity > 1 && wx.sunDim < 0.6;
 
   // Moonlight: Masser is the key; full Masser high in a clear sky ≈ 0.3 lx.
   // Gated OFF while the sun is up (round 3: a daytime moon must not be a
@@ -219,7 +264,13 @@ export function computeLightRig(
   // derived from an illuminance model: the derived form diverged from what
   // the dome/IBL actually emit right after sunrise and blew the scene out
   // (owner round 3). Smooth by construction; every stop is a one-line tune.
-  const exposureTarget = authoredExposure(altDeg, moonIntensity);
+  // Weather: an overcast/storm day is physically several times dimmer — lift
+  // the exposure part-way (≈ +1 stop at full storm) so heavy weather reads
+  // moody, not unplayably dark. Daylight-gated: night exposure is already
+  // floored and must keep its moon-driven ordering.
+  const daylightGate = smoothstep(-6, 12, altDeg);
+  const exposureTarget =
+    authoredExposure(altDeg, moonIntensity) * (1 + 1.2 * wx.sunDim * daylightGate);
 
   // Sky dome: turbidity from the climate humidity at the camera —
   // border-mountain air is crisp, lowland air milky (module 55 §97). Mie is
@@ -234,8 +285,12 @@ export function computeLightRig(
   // + warmth term (round 7): the slider also warms the sun's disc/halo and
   // (via the IBL) the ambient — the disc must match its own light.
   const turbidity =
-    1.8 + 2.7 * h * h + 3.2 * (1 - smoothstep(2, 25, altDeg)) + 0.9 * warmthBias;
-  const mieCoefficient = 0.005;
+    1.8 + 2.7 * h * h + 3.2 * (1 - smoothstep(2, 25, altDeg)) + 0.9 * warmthBias
+    + 2.2 * Math.min(wx.fogMie, 1.4); // weather haze milkens the dome itself
+  // Heavy decks hide the sun's forward-scatter glow (and its disc's glare) —
+  // REDUCING Mie under weather is safe; the 8a pinning lesson (0021) was
+  // against raising it above the addon default.
+  const mieCoefficient = 0.005 * (1 - 0.6 * wx.sunDim);
 
   // Night dome/stars are authored against the FULL-NIGHT exposure; this
   // boost keeps their screen brightness constant while the twilight exposure
@@ -256,15 +311,20 @@ export function computeLightRig(
   // authored gameplay floor (torches stay a luxury, not a necessity).
   const duskGate = smoothstep(2, 7, -altDeg);
   const hemiIntensity =
-    2_000 * daylight + 0.1 * masser.illuminatedFraction + 0.11 * duskGate * nightBoost + 0.02;
+    (2_000 * daylight + 0.1 * masser.illuminatedFraction + 0.11 * duskGate * nightBoost + 0.02) *
+    (1 + wx.ambientLift); // overcast sky becomes the light source
 
   // Radiation ground mist pools at dawn (and lightly at dusk) and is a
   // dry/recession-season phenomenon (climatology §2): mist peaks when s(t) < 0.
+  // With the weather machine present its causally-gated radiation-mist value
+  // wins (clear-calm-night dependency); the internal bell remains the
+  // fallback for rig uses without weather (tests, tools).
   const minuteOfDay = ((epochMinutes % 1440) + 1440) % 1440;
   const dawnBell = Math.exp(-Math.pow((minuteOfDay - 360) / 110, 2));
   const duskBell = 0.35 * Math.exp(-Math.pow((minuteOfDay - 1120) / 90, 2));
   const drySeason = 0.5 - 0.5 * seasonScalar;
-  const mistStrength = (dawnBell + duskBell) * (0.25 + 0.75 * drySeason);
+  const mistStrength =
+    weather?.radiationMist ?? (dawnBell + duskBell) * (0.25 + 0.75 * drySeason);
 
   // Haze feeds (module 55 §97): the same sun/moon and sky that light surfaces
   // also light the air, on the same lux scale. The GOLDEN-HOUR boost (owner
@@ -384,6 +444,31 @@ export function computeLightRig(
   const beltBell = smoothstep(0.3, 1.2, d) * (1 - smoothstep(4.5, 6.5, d));
   const beltLum = (0.11 / exposureTarget) * beltBell;
 
+  // Cloud colours (Phase 8c): authored in SCREEN terms and divided by the
+  // exposure, exactly like dawnLum/beltLum — so cloud brightness is bounded
+  // by construction and cannot re-open the §8d whiteout/black-gap class.
+  // Day: white lit faces warming toward the low sun; night: near-black
+  // silhouettes floored just under the night sky so they read as shapes.
+  const cloudWarmth = 1 - smoothstep(2, 20, altDeg);
+  const cloudTint = mix3([1, 1, 1], [1, 0.62, 0.38], 0.85 * cloudWarmth);
+  const dayBrightScreen =
+    (0.34 + 0.42 * smoothstep(0, 15, altDeg)) * (1 - 0.35 * wx.cloudDark);
+  const moonGlowC = masser.illuminatedFraction * Math.sqrt(moonUp);
+  const nightBrightScreen = 0.011 + 0.02 * moonGlowC;
+  const brightScreen = nightBrightScreen + (dayBrightScreen - nightBrightScreen) * skyFade;
+  const darkScreen = brightScreen * (0.42 - 0.3 * wx.cloudDark) + 0.006;
+  const darkTint = mix3(cloudTint, [0.92, 0.96, 1.05], 0.5);
+  const cloudBright: [number, number, number] = [
+    Math.max((cloudTint[0] * brightScreen) / exposureTarget, nightZenith[0] * 0.6),
+    Math.max((cloudTint[1] * brightScreen) / exposureTarget, nightZenith[1] * 0.6),
+    Math.max((cloudTint[2] * brightScreen) / exposureTarget, nightZenith[2] * 0.6),
+  ];
+  const cloudDarkCol: [number, number, number] = [
+    Math.max((darkTint[0] * darkScreen) / exposureTarget, nightZenith[0] * 0.45),
+    Math.max((darkTint[1] * darkScreen) / exposureTarget, nightZenith[1] * 0.45),
+    Math.max((darkTint[2] * darkScreen) / exposureTarget, nightZenith[2] * 0.45),
+  ];
+
   return {
     sun,
     moons,
@@ -414,5 +499,10 @@ export function computeLightRig(
     horizonHaze,
     nightBoost,
     beltLum,
+    cloudCov: [wx.cloudLow, wx.cloudMid, wx.cloudHigh],
+    cloudDensity: wx.cloudDensity,
+    cloudBright,
+    cloudDarkCol,
+    sunCastsShadows,
   };
 }

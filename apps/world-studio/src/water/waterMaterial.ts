@@ -53,6 +53,8 @@ export const MAX_CONTACT_BODIES = 8;
 
 export interface WaterUniforms {
   uWaveTime: { value: number };
+  /** Weather wind → wave-energy scale (game-core setWindWaveScale twin). */
+  uWindWave: { value: number };
   uLevelTide: { value: number };
   uLevelSeason: { value: number };
   uVerticalScale: { value: number };
@@ -87,6 +89,7 @@ export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
   const m = assets.meta;
   return {
     uWaveTime: { value: 0 },
+    uWindWave: { value: 1 },
     uLevelTide: { value: 0 },
     uLevelSeason: { value: 0 },
     uVerticalScale: { value: 1 },
@@ -182,6 +185,7 @@ const SAMPLER_GLSL = /* glsl */ `
   uniform float uLevelTide;
   uniform float uLevelSeason;
   uniform float uWaveTime;
+  uniform float uWindWave;
 
   // KEEP IN LOCKSTEP with waterData.tideResponseOf().
   float esTideResponse(float salinity){
@@ -376,7 +380,7 @@ esStill += esShoreSwell(esShore, max(esSurf.y, 0.0), esFetch, uWaveTime, esSwell
 float esVDepth = max(esSurf.y + (esStill - esSurf.x), 0.0);
 float esExposure = esWaveExposure(esShore, esVDepth, esTurbV);
 float esCamDist = distance(cameraPosition.xz, esRestW.xz);
-float esWaveAmp = esExposure * exp(-esCamDist * 0.0006);
+float esWaveAmp = esExposure * uWindWave * exp(-esCamDist * 0.0006);
 EsWave esW;
 if (esWaveAmp > 0.002) {
   esW = esWaveSample(esRestW.xz, esWaveAmp, uWaveTime);

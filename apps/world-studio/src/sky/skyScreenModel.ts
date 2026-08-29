@@ -58,6 +58,20 @@ export function domeScreen(rig: LightRig, dir: Vec3): Vec3 {
   return [c[0] * rig.exposureTarget, c[1] * rig.exposureTarget, c[2] * rig.exposureTarget];
 }
 
+/**
+ * Screen-luminance range the Phase 8c cloud overlay can reach under `rig`
+ * (lightning excluded — a deliberate transient). The dome shader composites
+ * cloud pixels strictly between the CPU-anchored uCloudDark and uCloudBright
+ * colours, so bounding those bounds the whole cloudy sky — the envelope test
+ * does not need to replicate the FBM. KEEP IN LOCKSTEP with the cloud block
+ * in WorldSky.createSkyDome.
+ */
+export function cloudScreenRange(rig: LightRig): [number, number] {
+  const lo = Math.min(...rig.cloudDarkCol) * rig.exposureTarget;
+  const hi = Math.max(...rig.cloudBright) * rig.exposureTarget;
+  return [lo, hi];
+}
+
 /** Sample directions for envelope checks: [label, elevation°, Δazimuth° from
  * the sun]. Covers zenith, mid-sky and near-horizon on solar/cross/anti sides. */
 export const ENVELOPE_DIRS: [string, number, number][] = [
