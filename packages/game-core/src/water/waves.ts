@@ -49,16 +49,36 @@ export const WAVES = {
  * value multiplying wave exposure on BOTH the CPU query and the GPU vertex
  * stage (the renderer reads it into a uniform every frame), so storm chop is
  * the chop you float on. 1 = the owner-calibrated 8b default; the weather
- * machine maps wind speed onto ~0.85 (dead calm) … ~2.3 (squall coast).
- * Round 2: ceiling raised 1.6 → 2.4 — the old cap made storm seas read
- * barely rougher than calm (owner: "I don't see these rougher ocean seas").
+ * machine maps wind speed quadratically onto ~0.8 (calm) … 6 (squall coast).
+ * Round 3: range widened 0.7–2.4 → 0.35–6 (owner: waves must span a much,
+ * much wider spectrum — the old cap made a squall barely rougher than calm).
+ * The same value derives the wave SPEED factor and the shore-surf energy
+ * below, so storm seas are bigger, faster AND break harder — one knob,
+ * CPU = GPU by construction.
  */
 let windWaveScale = 1;
 export function setWindWaveScale(v: number): void {
-  windWaveScale = Math.min(2.4, Math.max(0.7, Number.isFinite(v) ? v : 1));
+  windWaveScale = Math.min(6, Math.max(0.35, Number.isFinite(v) ? v : 1));
 }
 export function getWindWaveScale(): number {
   return windWaveScale;
+}
+
+/** Wave-clock speed factor: storm waves arrive faster as well as bigger.
+ * =1 at the calibrated default so the 8b feel is untouched in fair weather;
+ * ~2.2× in a full squall. Consumed by the studio water clock (ONE shared
+ * accumulator drives shader time and CPU query, so speeding it keeps
+ * buoyancy and pixels in lockstep with no phase pops). */
+export function windWaveSpeed(scale: number = windWaveScale): number {
+  return Math.pow(Math.min(6, Math.max(0.35, scale)), 0.45);
+}
+
+/** Shore-surf energy factor from the same knob: bigger seas break harder on
+ * the beach (swash runs higher, swell shoals taller, bores foam stronger).
+ * Sub-linear so the calm end still laps. KEEP IN LOCKSTEP with the GLSL
+ * `esSurfWind` expression in waterMaterial.ts. */
+export function surfWindScale(scale: number = windWaveScale): number {
+  return Math.min(3.2, Math.max(0.6, Math.pow(scale, 0.8)));
 }
 
 export interface WaveSample {
@@ -134,24 +154,25 @@ export function fetchExposure(seawardShoreDistM: number, turbidity = 0): number 
   return clamp01(seawardShoreDistM / SHORE_SWELL.fetchM) * (1 - 0.85 * clamp01(turbidity));
 }
 
-/** Asymmetric swash height offset (m) — the moving waterline itself. */
+/** Asymmetric swash height offset (m) — the moving waterline itself.
+ * Wind-scaled (round 3): storm seas run visibly higher up the beach. */
 export function swashAt(shoreDistM: number, fetchExp: number, timeS: number): number {
   const envelope = Math.max(1 - shoreDistM / SWASH.bandM, 0) * clamp01(fetchExp * 1.6);
   if (envelope <= 0) return 0;
   const th = SWASH.omega * timeS - SWASH.k * shoreDistM - SWASH.phase;
   const skewed = Math.cos(th - SWASH.skew * Math.sin(th));
-  return (skewed * 0.5 + 0.25) * SWASH.amplitudeM * envelope * surfGroup(shoreDistM, timeS);
+  return (skewed * 0.5 + 0.25) * SWASH.amplitudeM * surfWindScale() * envelope * surfGroup(shoreDistM, timeS);
 }
 
 /** Max swash lift (for the terrain wet band: recent waterline = W + this). */
 export function swashMax(shoreDistM: number, fetchExp: number): number {
   const envelope = Math.max(1 - shoreDistM / SWASH.bandM, 0) * clamp01(fetchExp * 1.6);
-  return 0.75 * SWASH.amplitudeM * envelope;
+  return 0.75 * SWASH.amplitudeM * surfWindScale() * envelope;
 }
 
 /** Shoaling shore swell height (m): fronts parallel to the waterline,
  * amplitude grows as depth shrinks (Green's law, capped), collapses in the
- * break zone where its energy becomes foam + swash. */
+ * break zone where its energy becomes foam + swash. Wind-scaled (round 3). */
 export function shoreSwellAt(shoreDistM: number, depthM: number, fetchExp: number, timeS: number): number {
   const env = (1 - sstep(SHORE_SWELL.buildNearM, SHORE_SWELL.buildFarM, shoreDistM))
     * (0.3 + 0.7 * sstep(SHORE_SWELL.breakInnerM, SHORE_SWELL.breakOuterM, shoreDistM))
@@ -159,7 +180,7 @@ export function shoreSwellAt(shoreDistM: number, depthM: number, fetchExp: numbe
   if (env <= 0) return 0;
   const shoal = Math.min(Math.max(Math.pow(Math.max(depthM, 0.3) / 2.0, -0.25), 1.0), 1.8);
   const th = SHORE_SWELL.k * shoreDistM + SWASH.omega * timeS;
-  return SHORE_SWELL.amplitudeM * env * shoal
+  return SHORE_SWELL.amplitudeM * surfWindScale() * env * shoal
     * (Math.cos(th) + 0.3 * Math.cos(2.0 * th + 0.5)) * surfGroup(shoreDistM, timeS);
 }
 
@@ -271,6 +292,8 @@ const f = (v: number) => {
  * swashAt / shoreSwellAt). Included by BOTH the water vertex stage (geometry)
  * and the fragment stage (surf foam) — constants baked from the same tables.
  * `esShoreSwell` also returns dH/d(shoreDist) for the vertex normal tilt.
+ * `windAmp` is surfWindScale() evaluated shader-side from uWindWave (round
+ * 3): storm seas break harder — pass 1.0 for the calibrated default.
  */
 export function surfGlsl(): string {
   return /* glsl */ `
@@ -282,15 +305,15 @@ export function surfGlsl(): string {
          * (1.0 - 0.85 * clamp(turb, 0.0, 1.0));
   }
   // KEEP IN LOCKSTEP with swashAt() — the moving waterline itself.
-  float esSwash(float d, float fetchExp, float t) {
+  float esSwash(float d, float fetchExp, float t, float windAmp) {
     float envelope = max(1.0 - d / ${f(SWASH.bandM)}, 0.0) * clamp(fetchExp * 1.6, 0.0, 1.0);
     if (envelope <= 0.0) return 0.0;
     float th = ${f(SWASH.omega)} * t - ${f(SWASH.k)} * d - ${f(SWASH.phase)};
     float skewed = cos(th - ${f(SWASH.skew)} * sin(th));
-    return (skewed * 0.5 + 0.25) * ${f(SWASH.amplitudeM)} * envelope * esSurfGroup(d, t);
+    return (skewed * 0.5 + 0.25) * ${f(SWASH.amplitudeM)} * windAmp * envelope * esSurfGroup(d, t);
   }
   // KEEP IN LOCKSTEP with shoreSwellAt().
-  float esShoreSwell(float d, float depthM, float fetchExp, float t, out float dHdd) {
+  float esShoreSwell(float d, float depthM, float fetchExp, float t, float windAmp, out float dHdd) {
     float env = (1.0 - smoothstep(${f(SHORE_SWELL.buildNearM)}, ${f(SHORE_SWELL.buildFarM)}, d))
               * (0.3 + 0.7 * smoothstep(${f(SHORE_SWELL.breakInnerM)}, ${f(SHORE_SWELL.breakOuterM)}, d))
               * clamp(fetchExp * 2.0, 0.0, 1.0);
@@ -299,16 +322,17 @@ export function surfGlsl(): string {
     float shoal = clamp(pow(max(depthM, 0.3) / 2.0, -0.25), 1.0, 1.8);
     float th = ${f(SHORE_SWELL.k)} * d + ${f(SWASH.omega)} * t;
     float grp = esSurfGroup(d, t);
-    float a = ${f(SHORE_SWELL.amplitudeM)} * env * shoal * grp;
+    float a = ${f(SHORE_SWELL.amplitudeM)} * windAmp * env * shoal * grp;
     dHdd = a * (-sin(th) - 0.6 * sin(2.0 * th + 0.5)) * ${f(SHORE_SWELL.k)};
     return a * (cos(th) + 0.3 * cos(2.0 * th + 0.5));
   }
   // Surf foam energy: a bore riding each arriving crest (peaking in the
   // break zone, where the swell's energy goes) + backwash remnants after
   // the crest passes. Same phase family as the swell — foam and geometry
-  // arrive together.
-  float esSurfFoam(float d, float fetchExp, float t) {
-    float env = (1.0 - smoothstep(2.0, ${f(SWASH.bandM)}, d)) * clamp(fetchExp * 1.8, 0.0, 1.0);
+  // arrive together; storm seas foam harder (sqrt so calm still laps white).
+  float esSurfFoam(float d, float fetchExp, float t, float windAmp) {
+    float env = (1.0 - smoothstep(2.0, ${f(SWASH.bandM)}, d)) * clamp(fetchExp * 1.8, 0.0, 1.0)
+              * clamp(sqrt(windAmp), 0.7, 1.9);
     if (env <= 0.0) return 0.0;
     float th = ${f(SHORE_SWELL.k)} * d + ${f(SWASH.omega)} * t;
     float crest = cos(th - ${f(SWASH.skew)} * sin(th));

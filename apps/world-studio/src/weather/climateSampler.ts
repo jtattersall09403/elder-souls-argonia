@@ -57,3 +57,9 @@ export function climateAirAt(base: string, xM: number, zM: number, extentM: numb
 export function climateWeatherAt(base: string, xM: number, zM: number, extentM: number): [number, number, number] | null {
   return sample(ensure(base, "climate-weather.png"), xM, zM, extentM);
 }
+
+/** climate-vis at (x, z): [orographic belt mask, region extinction /0.02, –]
+ * (Phase 8c round 3 — fog locality + region ambient visibility). */
+export function climateVisAt(base: string, xM: number, zM: number, extentM: number): [number, number, number] | null {
+  return sample(ensure(base, "climate-vis.png"), xM, zM, extentM);
+}

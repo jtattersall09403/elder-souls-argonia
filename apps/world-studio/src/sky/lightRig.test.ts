@@ -161,6 +161,13 @@ describe("weathered light (Phase 8c, decision 0032)", () => {
         expect(fogScreen, `fog blown: ${kind} @ ${h}h`).toBeLessThan(1.3);
         const glowScreen = Math.max(...rig.cloudGlowCol) * rig.exposureTarget;
         expect(glowScreen, `glow blown: ${kind} @ ${h}h`).toBeLessThan(2.6);
+        // Round 3: the sunset cloud light is exposure-anchored too — never
+        // able to blow the frame, and warm (R > B) whenever it is active.
+        const sunsetScreen = Math.max(...rig.cloudSunsetCol) * rig.exposureTarget;
+        expect(sunsetScreen, `sunset blown: ${kind} @ ${h}h`).toBeLessThan(1.3);
+        if (Math.max(...rig.cloudSunsetAmt) > 0.1) {
+          expect(rig.cloudSunsetCol[0]).toBeGreaterThan(rig.cloudSunsetCol[2] * 1.5);
+        }
       }
     }
   });
@@ -175,6 +182,29 @@ describe("weathered light (Phase 8c, decision 0032)", () => {
     expect(covered.sunCastsShadows).toBe(false);
     // Passing shade must NOT lift the exposure (a cloud shadow reads as a dip).
     expect(shaded.exposureTarget).toBeCloseTo(open.exposureTarget, 10);
+  });
+
+  it("sunset colours the clouds at low sun; noon and night stay neutral; cirrus outlasts the deck", () => {
+    const rigAt = (h: number) =>
+      computeLightRig(
+        toEpochMinutes({ era: 4, year: 201, month: 6, day: 14, minuteOfDay: Math.round(h * 60) }),
+        0.7,
+        0.7,
+        undefined,
+        weatherOf("clear"),
+      );
+    // find the ~sunset hour (altitude crossing 0) by scanning the evening
+    let sunsetH = 18;
+    for (let h = 16; h < 20; h += 0.05) {
+      if ((rigAt(h).sun.altitude * 180) / Math.PI > 0) sunsetH = h;
+    }
+    const sunset = rigAt(sunsetH);
+    expect(sunset.cloudSunsetAmt[0]).toBeGreaterThan(0.5);
+    expect(rigAt(12).cloudSunsetAmt[0]).toBeLessThan(0.01);
+    expect(rigAt(23).cloudSunsetAmt[0]).toBeLessThan(0.01);
+    // ~25 min after sunset the deck has greyed but the cirrus is still lit
+    const after = rigAt(sunsetH + 0.45);
+    expect(after.cloudSunsetAmt[1]).toBeGreaterThan(after.cloudSunsetAmt[0] + 0.1);
   });
 
   it("storm cloud bases render darker than lit faces, day and night", () => {

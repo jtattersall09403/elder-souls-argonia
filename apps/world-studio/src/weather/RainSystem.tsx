@@ -5,17 +5,33 @@ import { waterTimeS } from "../water/waterClock";
 import { lastWeatherSample } from "./weatherState";
 
 /**
- * Falling rain (Phase 8c, research doc §3 base tier): one static buffer of
- * quad streaks whose positions are computed in the vertex shader — each drop
+ * Falling rain (Phase 8c; research doc §3 + §9.3): one static buffer of
+ * velocity-aligned quad streaks computed in the vertex shader — each drop
  * falls with wind drift and wraps inside a camera-following volume (the
- * standard NVIDIA/ToyShop shape, no per-frame CPU work). Per-drop canopy
- * suppression samples the compiled climate-air raster (module 55 §96: canopy
- * is a place property) — under the deep forest the rain thins to drips
- * without any occlusion depth map; the Lagarde top-down depth map upgrades
- * this once Phase 10 places real canopy geometry (decision 0032 §6).
+ * standard NVIDIA/ToyShop shape, no per-frame CPU work).
+ *
+ * Round 3 (owner: STILL no visible rain — round 2's widened quads were
+ * sub-pixel beyond ~4 m, hard-edged, alpha 0.3 over bright ground, and 85 %
+ * canopy-suppressed; the round-2 probe screenshot shows zero streaks).
+ * The fix adopts the guarantees of the soft-sprite technique (P. Adams,
+ * "Cheap, Beautiful Rain in Three.js", Antaeus AR — see research §9.3)
+ * while keeping quads, whose velocity alignment gives correct foreshortening
+ * without the article's UV-squash workaround:
+ *  - screen-space MINIMUM width: a streak never falls below ~1.5 px, so
+ *    distance can't erase it (alpha compensates so far rain reads as haze,
+ *    not a white wall);
+ *  - soft blurred cross-profile (the article's pre-blurred PNG, done
+ *    procedurally) instead of hard quad edges;
+ *  - colour rides the exposure-anchored bright-fog luminance (lightRig
+ *    fogLum via the shared aerial uniforms) ×1.25 — brighter than terrain,
+ *    just brighter than a storm sky, visible against both;
+ *  - a tighter volume (36 m) so the budget concentrates where pixels are;
+ *  - canopy suppression capped at 55 % — the raster is region-scale, not a
+ *    literal roof (the real occlusion depth map lands with Phase 10 canopy
+ *    geometry, decision 0032 §6).
  */
 
-const VOLUME = new THREE.Vector3(44, 26, 44);
+const VOLUME = new THREE.Vector3(36, 22, 36);
 
 const RAIN_VERT = /* glsl */ `
 attribute vec3 aSeed;     // 0..1 per drop
@@ -27,28 +43,33 @@ uniform float uIntensity; // 0..1
 uniform vec3 uSpan;
 uniform sampler2D uAir;   // climate-air (B = canopy)
 uniform float uExtentM;
+uniform float uPixelWorld; // world metres per screen pixel at 1 m depth
 varying float vAlpha;
-varying float vAlong;
+varying vec2 vProfile;
 void main() {
   vec3 vel = vec3(uWindV.x, -uFall, uWindV.y);
   vec3 rel = mod(aSeed * uSpan + vel * uTime - cameraPosition, uSpan);
   vec3 pos = cameraPosition + rel - 0.5 * uSpan;
   // fraction of drops appears as intensity rises (drop id = aSeed.x)
   float on = step(aSeed.x, uIntensity);
-  // canopy shelter: the forest roof catches most of the rain
+  // canopy shelter: capped — the forest roof is a region raster, not walls
   vec2 airUv = vec2(pos.x / uExtentM, 1.0 - pos.z / uExtentM);
   float canopy = texture2D(uAir, airUv).b;
-  vAlpha = on * (1.0 - 0.85 * canopy);
+  vAlpha = on * (1.0 - 0.55 * canopy);
   // the flyover far above the weather layer sees no streaks
   vAlpha *= 1.0 - smoothstep(500.0, 900.0, cameraPosition.y);
   vec3 velDir = normalize(vel);
-  vec3 view = normalize(pos - cameraPosition);
-  vec3 right = normalize(cross(velDir, view));
-  // Round 2 (owner: "no actual visible rain"): streaks widened and
-  // lengthened — the old 1.4 cm quads at 0.16 alpha were sub-pixel faint.
-  float len = 0.55 + 0.45 * uIntensity;
-  vec3 quad = pos + right * (aCorner.x * 0.022) + velDir * (aCorner.y * len);
-  vAlong = aCorner.y;
+  float depth = max(distance(pos, cameraPosition), 0.7);
+  vec3 view = (pos - cameraPosition) / depth;
+  vec3 right = normalize(cross(velDir, view) + vec3(1e-5, 0.0, 0.0));
+  // Screen-space minimum width (round 3): never below ~1.5 px at this
+  // depth; alpha compensates for the widening so far rain reads as grey
+  // drizzle haze rather than a bright wall.
+  float halfW = max(0.016, 0.75 * uPixelWorld * depth);
+  vAlpha *= clamp(0.016 / halfW, 0.3, 1.0);
+  float len = (0.5 + 0.5 * uIntensity) * (0.7 + 0.6 * aSeed.z);
+  vec3 quad = pos + right * (aCorner.x * halfW) + velDir * (aCorner.y * len);
+  vProfile = aCorner;
   gl_Position = projectionMatrix * viewMatrix * vec4(quad, 1.0);
 }`;
 
@@ -56,10 +77,12 @@ const RAIN_FRAG = /* glsl */ `
 uniform vec3 uColor;
 uniform float uOpacity;
 varying float vAlpha;
-varying float vAlong;
+varying vec2 vProfile;
 void main() {
-  float soft = (1.0 - vAlong) * vAlong * 4.0; // fade both streak ends
-  gl_FragColor = vec4(uColor, uOpacity * vAlpha * soft);
+  // soft "motion-blurred" streak: smooth across, faded at both ends
+  float across = 1.0 - vProfile.x * vProfile.x;
+  float along = min((1.0 - vProfile.y) * vProfile.y * 5.0, 1.0);
+  gl_FragColor = vec4(uColor, uOpacity * vAlpha * across * across * along);
   #include <tonemapping_fragment>
   #include <colorspace_fragment>
 }`;
@@ -71,7 +94,7 @@ export function rainDropBudget(): number {
   const coarse = window.matchMedia?.("(pointer: coarse)").matches ?? false;
   const weak = (navigator.hardwareConcurrency ?? 8) <= 4;
   const low = q === "low" || (q !== "high" && (coarse || weak));
-  return low ? 1200 : 3200;
+  return low ? 1600 : 4200;
 }
 
 export function RainSystem({ count, extentM }: { count: number; extentM: number }) {
@@ -115,8 +138,9 @@ export function RainSystem({ count, extentM }: { count: number; extentM: number 
           uSpan: { value: VOLUME },
           uAir: { value: null },
           uExtentM: { value: extentM },
+          uPixelWorld: { value: 0.0013 },
           uColor: { value: new THREE.Color(0.6, 0.65, 0.7) },
-          uOpacity: { value: 0.3 },
+          uOpacity: { value: 0.5 },
         },
         vertexShader: RAIN_VERT,
         fragmentShader: RAIN_FRAG,
@@ -127,7 +151,7 @@ export function RainSystem({ count, extentM }: { count: number; extentM: number 
   );
   const meshRef = useRef<THREE.Mesh>(null);
 
-  useFrame(() => {
+  useFrame(({ camera, size, viewport }) => {
     const mesh = meshRef.current;
     if (!mesh) return;
     const wx = lastWeatherSample();
@@ -143,15 +167,27 @@ export function RainSystem({ count, extentM }: { count: number; extentM: number 
       u.uWindV.value.set(wx.windDirXZ[0] * drift, wx.windDirXZ[1] * drift);
       u.uFall.value = 8 + 3 * rain;
     }
-    // Streak brightness is exposure-anchored (screen ≈ 0.32 grey) like the
-    // clouds — a fixed HDR grey would blow out under the night exposure.
-    const exposure = window.__STUDIO_SKY_DEBUG__?.exposure;
-    if (exposure && exposure > 0) {
-      const lum = 0.32 / exposure;
-      (u.uColor.value as THREE.Color).setRGB(0.82 * lum, 0.88 * lum, 1.0 * lum);
+    // world metres per screen pixel at 1 m depth, for the min-width clamp
+    const cam = camera as THREE.PerspectiveCamera;
+    const fovRad = ((cam.fov ?? 60) * Math.PI) / 180;
+    const pxH = size.height * Math.min(2, viewport.dpr || 1);
+    u.uPixelWorld.value = (2 * Math.tan(fovRad / 2)) / Math.max(pxH, 1);
+    const air = (
+      window as unknown as {
+        __AERIAL_UNIFORMS__?: {
+          uClimateAir: { value: THREE.Texture | null };
+          uFogLum: { value: THREE.Vector3 };
+        };
+      }
+    ).__AERIAL_UNIFORMS__;
+    // Streak colour = the exposure-anchored bright-fog luminance ×1.25
+    // (lightRig fogLum — lit water in air): brighter than wet terrain and
+    // slightly brighter than a storm sky, so streaks read against both, at
+    // any exposure, day or night.
+    if (air) {
+      const f = air.uFogLum.value;
+      (u.uColor.value as THREE.Color).setRGB(f.x * 1.25, f.y * 1.25, f.z * 1.25);
     }
-    const air = (window as unknown as { __AERIAL_UNIFORMS__?: { uClimateAir: { value: THREE.Texture | null } } })
-      .__AERIAL_UNIFORMS__;
     if (air?.uClimateAir.value && !u.uAir.value) u.uAir.value = air.uClimateAir.value;
   });
 

@@ -12,7 +12,7 @@ import {
   type WeatherKind,
   type WeatherSample,
 } from "@elder-souls/world-weather";
-import { climateAirAt, climateWeatherAt } from "./climateSampler";
+import { climateAirAt, climateVisAt, climateWeatherAt } from "./climateSampler";
 
 /**
  * The studio's weather authority (Phase 8c, decision 0032): one sample per
@@ -67,6 +67,7 @@ const DEFAULT_LOCAL: LocalClimate = {
   mistProp: 0.5,
   humidity: 0.6,
   canopy: 0.3,
+  beltMask: 0,
   elevationM: 10,
 };
 
@@ -88,6 +89,7 @@ export function weatherAt(
   if (lastSample && key === lastKey) return lastSample;
   const air = climateAirAt(base, xM, zM, extentM);
   const wx = climateWeatherAt(base, xM, zM, extentM);
+  const vis = climateVisAt(base, xM, zM, extentM);
   const local: LocalClimate = {
     rainAmp: wx?.[0] ?? DEFAULT_LOCAL.rainAmp,
     stormExposure: wx?.[1] ?? DEFAULT_LOCAL.stormExposure,
@@ -95,6 +97,7 @@ export function weatherAt(
     mistProp: air?.[1] ?? DEFAULT_LOCAL.mistProp,
     humidity: air?.[0] ?? DEFAULT_LOCAL.humidity,
     canopy: air?.[2] ?? DEFAULT_LOCAL.canopy,
+    beltMask: vis?.[0] ?? DEFAULT_LOCAL.beltMask,
     elevationM,
   };
   lastSample =

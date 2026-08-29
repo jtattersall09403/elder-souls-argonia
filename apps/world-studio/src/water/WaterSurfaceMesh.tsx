@@ -179,6 +179,7 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
     // Weather wind scales wave energy — same value the CPU water query uses
     // (game-core setWindWaveScale, written by WorldSky each frame).
     uniforms.uWindWave.value = getWindWaveScale();
+    wetnessUniforms.uWetWind.value = getWindWaveScale();
     const offsets = assets.world.levelOffsets(epoch);
     uniforms.uLevelTide.value = offsets.tide;
     uniforms.uLevelSeason.value = offsets.season;

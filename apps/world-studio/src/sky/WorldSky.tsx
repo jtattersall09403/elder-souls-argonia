@@ -28,7 +28,7 @@ import { waterTimeS } from "../water/waterClock";
 import { wetnessUniforms } from "../water/groundWetness";
 import { lightningNow, weatherAt } from "../weather/weatherState";
 import { RainSystem, rainDropBudget } from "../weather/RainSystem";
-import type { WeatherSample } from "@elder-souls/world-weather";
+import { WHITEOUT_BELT, type WeatherSample } from "@elder-souls/world-weather";
 
 /**
  * The natural light and sky system (world module 55, Phase 8a): Preetham sky
@@ -126,6 +126,9 @@ interface SkyExtras {
   uFogLum: { value: THREE.Color };
   uCamFog: { value: number };
   uFlash: { value: number };
+  /** Round 3: sunset/sunrise cloud light colour + [deck, cirrus] amounts. */
+  uCloudSunset: { value: THREE.Color };
+  uCloudSunsetAmt: { value: THREE.Vector2 };
 }
 
 function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
@@ -151,11 +154,13 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
     uFogLum: { value: new THREE.Color(0, 0, 0) },
     uCamFog: { value: 0 },
     uFlash: { value: 0 },
+    uCloudSunset: { value: new THREE.Color(0, 0, 0) },
+    uCloudSunsetAmt: { value: new THREE.Vector2(0, 0) },
   };
   Object.assign(mat.uniforms, extras, cloudUniforms);
   mat.uniforms.cloudCoverage.value = 0; // stock cloud layer stays off — ours below
   mat.fragmentShader =
-    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform float uSunAltDeg;\nuniform float uNightBoost;\nuniform float uBeltLum;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform vec3 uHorizonLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\nuniform vec3 uCloudBright;\nuniform vec3 uCloudDark;\nuniform vec3 uGlowDir;\nuniform vec3 uGlowCol;\nuniform vec3 uFogLum;\nuniform float uCamFog;\nuniform float uFlash;\n" +
+    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform float uSunAltDeg;\nuniform float uNightBoost;\nuniform float uBeltLum;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform vec3 uHorizonLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\nuniform vec3 uCloudBright;\nuniform vec3 uCloudDark;\nuniform vec3 uGlowDir;\nuniform vec3 uGlowCol;\nuniform vec3 uFogLum;\nuniform float uCamFog;\nuniform float uFlash;\nuniform vec3 uCloudSunset;\nuniform vec2 uCloudSunsetAmt;\n" +
     CLOUD_UNIFORMS_GLSL +
     cloudFieldGlsl() +
     mat.fragmentShader.replace(
@@ -228,9 +233,17 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
       if (direction.y > 0.012 && (uCloudCov.x + uCloudCov.y + uCloudCov.z) > 0.003) {
         float esCA = 0.0;
         vec3 esCC = vec3(0.0);
-        { // high cirrus — thin, bright, stretched along the wind
+        // Sunset/sunrise cloud light (round 3): strongest toward the sun's
+        // azimuth (esAz01), fading to a soft rose on the anti-solar side —
+        // the CPU-anchored uCloudSunset is the reddened transmitted sunlight.
+        float esAz01 = esCosAz * 0.5 + 0.5;
+        vec3 esSetCol = uCloudSunset * mix(vec3(0.78, 0.72, 0.95), vec3(1.0), pow(esAz01, 2.0));
+        { // high cirrus — thin, bright, stretched along the wind; catches
+          // fire brightest and keeps its glow into dusk (uCloudSunsetAmt.y)
           float a = esCloudHigh(direction);
-          esCC += uCloudBright * (a * (1.0 - esCA));
+          vec3 col = mix(uCloudBright, esSetCol,
+            uCloudSunsetAmt.y * (0.35 + 0.65 * pow(esAz01, 2.0)));
+          esCC += col * (a * (1.0 - esCA));
           esCA += a * (1.0 - esCA);
         }
         { // mid deck
@@ -238,6 +251,9 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
           float a = esCloudMid(direction, nMid);
           float shade = smoothstep(0.45, 0.95, nMid);
           vec3 col = mix(uCloudBright, uCloudDark, shade);
+          // lit faces and thin parts colour most; thick bases stay shadowed
+          col = mix(col, esSetCol,
+            uCloudSunsetAmt.x * (0.2 + 0.8 * pow(esAz01, 3.0)) * (1.0 - 0.65 * shade));
           esCC += col * (a * (1.0 - esCA));
           // Silver lining (research §8.1): a band-pass on the layer alpha
           // isolates the thin edge zone; gated by angular proximity to the
@@ -248,9 +264,10 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
           esCC += uGlowCol * (esEdge * esToGlow * (1.0 - esCA));
           esCA += a * (1.0 - esCA);
         }
-        { // low scud — fast, ragged, storm-dark
+        { // low scud — fast, ragged, storm-dark; a whisper of the sunset
           float a = esCloudLow(direction);
           vec3 col = mix(uCloudBright * 0.85, uCloudDark, 0.75);
+          col = mix(col, esSetCol, uCloudSunsetAmt.x * 0.22 * pow(esAz01, 3.0));
           esCC += col * (a * (1.0 - esCA));
           esCA += a * (1.0 - esCA);
         }
@@ -296,6 +313,8 @@ function copySkyUniforms(from: Sky & { material: THREE.ShaderMaterial }, to: Sky
   (b.uDawnDir.value as THREE.Vector2).copy(a.uDawnDir.value as THREE.Vector2);
   (b.uCloudBright.value as THREE.Color).copy(a.uCloudBright.value as THREE.Color);
   (b.uCloudDark.value as THREE.Color).copy(a.uCloudDark.value as THREE.Color);
+  (b.uCloudSunset.value as THREE.Color).copy(a.uCloudSunset.value as THREE.Color);
+  (b.uCloudSunsetAmt.value as THREE.Vector2).copy(a.uCloudSunsetAmt.value as THREE.Vector2);
   (b.uGlowDir.value as THREE.Vector3).copy(a.uGlowDir.value as THREE.Vector3);
   (b.uGlowCol.value as THREE.Color).copy(a.uGlowCol.value as THREE.Color);
   (b.uFogLum.value as THREE.Color).copy(a.uFogLum.value as THREE.Color);
@@ -549,6 +568,13 @@ export function WorldSky({
         t.colorSpace = THREE.NoColorSpace;
         t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
         sharedAerialUniforms.uClimateWeather.value = t;
+      });
+    }
+    if (!sharedAerialUniforms.uClimateVis.value) {
+      new THREE.TextureLoader().load(`${base}province/climate-vis.png`, (t) => {
+        t.colorSpace = THREE.NoColorSpace;
+        t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
+        sharedAerialUniforms.uClimateVis.value = t;
       });
     }
   }, [base]);
@@ -868,7 +894,9 @@ void main() {
         cloudHigh: wx.profile.cloudHigh,
         cloudDensity: wx.profile.cloudDensity,
         cloudDark: wx.profile.cloudDark,
-        radiationMist: wx.mist.radiation,
+        // The rig gets the province-wide CONDITION; per-pixel locality comes
+        // from the mist raster in the aerial shader (owner round 3).
+        radiationMist: wx.mist.radiationBase,
         greenTint: wx.profile.greenTint,
         sunOcclusion,
       },
@@ -900,6 +928,8 @@ void main() {
     extras.uGlowCol.value.setRGB(...rig.cloudGlowCol);
     extras.uFogLum.value.setRGB(...rig.fogLum);
     extras.uFlash.value = flash;
+    extras.uCloudSunset.value.setRGB(...rig.cloudSunsetCol);
+    extras.uCloudSunsetAmt.value.set(rig.cloudSunsetAmt[0], rig.cloudSunsetAmt[1]);
     // One write updates the dome, the PMREM bake dome and the star shaders.
     cloudUniforms.uCloudCov.value.set(cloudParams.covLow, cloudParams.covMid, cloudParams.covHigh);
     cloudUniforms.uCloudDens.value = cloudParams.density;
@@ -910,9 +940,10 @@ void main() {
     cloudUniforms.uCloudTime.value = cloudParams.timeS;
     // Camera-in-fog veil: optical depth of the mist regimes AT the camera
     // over a nominal ~700 m sky ray — inside the whiteout belt or a dawn
-    // mist bank the dome itself whites out (the aerial term only fogs
-    // surface fragments; without this the belt was invisible from below and
-    // an abrupt wall inside).
+    // mist bank the dome itself whites out. All three terms use the LOCAL
+    // regime values (raster × condition at the camera, round 3): standing
+    // outside a fog bank keeps the sky clear — you look AT the fog, drawn
+    // on terrain by the aerial term, not through a global veil.
     const camYTrue = Math.max(0, camera.position.y / verticalScale);
     const camFogDensity =
       Math.exp(-camYTrue / 16) * wx.mist.radiation * 14 +
@@ -971,21 +1002,33 @@ void main() {
     a.uHazeAmbient.value.set(...rig.hazeAmbient);
     a.uProvinceExtentM.value = extentM;
     a.uMistStrength.value = rig.mistStrength;
-    // Weather fog regimes into the ONE inscatter authority (module 55 §97):
-    // advection strength is camera-local; the whiteout band is per-pixel in
-    // the shader (peaks stay fogged from sea level), so it gets the global
-    // state modulator + the band in runtime (scaled) metres.
-    a.uAdvectionFog.value = wx.mist.advection;
-    a.uWhiteout.value.set(520 * verticalScale, 130 * verticalScale, wx.mist.whiteoutBase);
+    // Weather fog regimes into the ONE inscatter authority (module 55 §97,
+    // localized round 3): the uniforms carry province-wide CONDITIONS; the
+    // shader applies locality per-pixel from the climate rasters along the
+    // view path (fog banks live where their rasters say — never a veil that
+    // follows the camera). The whiteout band rides in runtime (scaled)
+    // metres; its horizontal mask is the climate-vis orographic channel.
+    a.uAdvectionFog.value = wx.mist.advectionBase;
+    a.uWhiteout.value.set(
+      WHITEOUT_BELT.centreM * verticalScale,
+      WHITEOUT_BELT.sigmaBelowM * verticalScale,
+      WHITEOUT_BELT.sigmaAboveM * verticalScale,
+      wx.mist.whiteoutBase,
+    );
+    // Region ambient haze breathes with the weather: settled days thinner
+    // (clear views), humid rainy days thicker.
+    a.uRegionHaze.value =
+      0.55 + 0.55 * Math.min(1, 0.5 * wx.profile.cloudMid * wx.profile.cloudDensity + wx.rainIntensity);
     a.uWeatherMie.value = wx.mist.weather;
     a.uFogLum.value.set(...rig.fogLum);
     // Rain wetness into the shared ground shader path; wind into the shared
     // wave-energy scale (CPU query + water vertex stage read the same value).
     wetnessUniforms.uRainWet.value = wx.wetness;
-    // Round 2: steeper wind→wave map (was 0.8 + 0.05·w, capped 1.6) — a
-    // squall-coast wind (~20 m/s) now roughly doubles wave energy so storm
-    // seas visibly rage; game-core clamps to 0.7…2.4.
-    setWindWaveScale(0.75 + wx.windSpeedMS * 0.07);
+    // Round 3: QUADRATIC wind→wave map (wave energy grows with wind², the
+    // owner's much-wider calm→storm spectrum): calm ~0.8, rain ~1.1, big
+    // storms 2–3, squall coast (~22 m/s) saturates the 6× cap. The same
+    // scale speeds the shared water clock and the shore surf (waves.ts).
+    setWindWaveScale(0.45 + wx.windSpeedMS * 0.13 + wx.windSpeedMS * wx.windSpeedMS * 0.0072);
     // Lightning also lifts the scene light for the flash frames.
     if (hemiRef.current && flash > 0) hemiRef.current.intensity += 2500 * flash;
 

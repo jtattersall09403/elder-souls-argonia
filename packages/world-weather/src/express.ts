@@ -37,22 +37,38 @@ export interface LocalClimate {
   humidity: number;
   /** Canopy closure 0..1 (climate-air B) — suppresses rain/wetness under it. */
   canopy: number;
+  /** Orographic cloud-belt mask 0..1 (climate-vis R): does terrain near this
+   * column climb into the montane belt? Cap cloud forms where moist wind is
+   * forced up slopes, so it clings to the massif — free air at belt ALTITUDE
+   * over the lowlands carries none (owner round 3: fog volumes are LOCAL). */
+  beltMask: number;
   /** Terrain elevation, metres (true metres, not vertical-scaled). */
   elevationM: number;
 }
 
-/** The three mist regimes (module 55 §97) — distinct systems, 0..1 each. */
+/** The three mist regimes (module 55 §97). Each has a LOCAL value at the
+ * queried position (for AI/HUD/the camera veil) and a province-wide BASE —
+ * the synoptic condition ("it is a sea-fog morning") with the local raster
+ * multiplier removed. The renderer takes the BASE and applies locality
+ * per-pixel from the climate rasters, so a fog bank is drawn where the fog
+ * IS: stand on a summit and look down on the misty valley (owner round 3);
+ * the old camera-local strengths made fog follow the camera instead. */
 export interface MistRegimes {
-  /** Radiation mist: dawn pooling in wet inland basins, dry/recession season,
-   * only after a clear calm night. */
+  /** Radiation mist at this position: dawn pooling in wet inland basins,
+   * dry/recession season, only after a clear calm night. */
   radiation: number;
-  /** Advection sea fog rolling up estuaries. */
+  /** Radiation condition WITHOUT the local mist-propensity raster. */
+  radiationBase: number;
+  /** Advection sea fog at this position (coast/estuary corridors). */
   advection: number;
-  /** Cloud-forest whiteout AT the queried elevation (= bell × whiteoutBase). */
+  /** Advection condition WITHOUT the local sea-fog raster. */
+  advectionBase: number;
+  /** Cloud-forest whiteout AT the queried elevation and column
+   * (= bell × whiteoutBase × beltMask). */
   whiteout: number;
-  /** Whiteout's weather/state modulator WITHOUT the elevation bell — the
-   * renderer applies the bell per-pixel so distant peaks stay fogged when
-   * the camera is at sea level. */
+  /** Whiteout's weather/state modulator WITHOUT the elevation bell or the
+   * orographic mask — the renderer applies both per-pixel so distant peaks
+   * wear their cloud collars when the camera is at sea level. */
   whiteoutBase: number;
   /** Weather fog/haze from the current state (rain veil, dry haze). */
   weather: number;
@@ -108,11 +124,26 @@ export function lightningCloudGate(p: {
   return smoothstep01(((p.cloudLow + p.cloudMid) * 0.5 * p.cloudDensity - 0.5) / 0.25);
 }
 
-/** Cloud-forest belt: bell over elevation. Summits reach ~650 m (6b sculpt);
- * the belt sits on the upper mountain flanks (mass-elevation effect brings
- * tropical cloud forest down to ~500–700 m on small coastal ranges). */
+/** Cloud-forest belt profile (owner round 3): an ASYMMETRIC bell over
+ * elevation — soft lower skirt (cloud drapes down the flanks), sharp upper
+ * edge so the tallest summits (~600–650 m, 6b sculpt) stand ABOVE the cloud
+ * like real peaks over a cloud sea. Mass-elevation effect brings tropical
+ * cloud forest down to ~400–550 m on small coastal ranges. Shared constants:
+ * the aerial shader and the climate-vis bake mirror these numbers. */
+export const WHITEOUT_BELT = {
+  centreM: 470,
+  sigmaBelowM: 150,
+  sigmaAboveM: 55,
+  /** Terrain columns whose neighbourhood max elevation crosses this band
+   * support cap cloud (climate-vis R mask ramp). */
+  maskRampLoM: 320,
+  maskRampHiM: 450,
+} as const;
+
 export function whiteoutBell(elevationM: number): number {
-  return Math.exp(-Math.pow((elevationM - 520) / 130, 2));
+  const d = elevationM - WHITEOUT_BELT.centreM;
+  const s = d < 0 ? WHITEOUT_BELT.sigmaBelowM : WHITEOUT_BELT.sigmaAboveM;
+  return Math.exp(-Math.pow(d / s, 2));
 }
 
 export function weatherSampleAt(epochMinutes: number, local: LocalClimate): WeatherSample {
@@ -151,10 +182,11 @@ export function weatherSampleForState(
 
 /** Studio force-REGIME previews (owner round 2: the mist regimes are
  * computed conditions, not rolled states, so the force dropdown needs their
- * own entries): "mist" = radiation dawn mist at full strength, "fog" =
- * advection sea fog at full strength — both expressed over a calm clear
- * state, drawn where the respective climate rasters allow (basins /
- * coast-estuary corridors). Preview tooling only; the shipped game derives
+ * own entries): "mist" = radiation dawn mist, "fog" = advection sea fog —
+ * both force the CONDITION to full strength while locality stays with the
+ * climate rasters (owner round 3): force sea fog and the coast/estuaries
+ * bank up while the interior stays clear — a fog bank you can look AT, not
+ * a province-wide veil. Preview tooling only; the shipped game derives
  * regimes from the calendar. */
 export type ForcedRegime = "mist" | "fog";
 export const FORCED_REGIMES: readonly ForcedRegime[] = ["mist", "fog"];
@@ -166,11 +198,17 @@ export function weatherSampleForRegime(
 ): WeatherSample {
   const s = weatherSampleForState("clear", epochMinutes, local);
   if (regime === "mist") {
-    s.mist.radiation = 1;
-    s.visibilityM = Math.min(s.visibilityM, 140);
+    s.mist.radiationBase = 1;
+    s.mist.radiation = clamp01(local.mistProp * 1.15);
+    if (s.mist.radiation > 0.05) {
+      s.visibilityM = Math.min(s.visibilityM, 140 + (30000 - 140) * Math.pow(1 - s.mist.radiation, 3));
+    }
   } else {
-    s.mist.advection = 1;
-    s.visibilityM = Math.min(s.visibilityM, 350);
+    s.mist.advectionBase = 1;
+    s.mist.advection = clamp01(local.seaFog);
+    if (s.mist.advection > 0.05) {
+      s.visibilityM = Math.min(s.visibilityM, 350 + (30000 - 350) * Math.pow(1 - s.mist.advection, 3));
+    }
   }
   return s;
 }
@@ -210,42 +248,49 @@ function express(
   const drySeason = 0.5 - 0.5 * s;
   const dawnBell = Math.exp(-Math.pow((minuteOfDay - 360) / 110, 2));
   const duskBell = 0.35 * Math.exp(-Math.pow((minuteOfDay - 1120) / 90, 2));
-  const radiation =
-    clamp01(local.mistProp * 1.15) *
+  const radiationBase = clamp01(
     (dawnBell + duskBell) *
-    (0.25 + 0.75 * drySeason) *
-    (clearNightOverride ?? clearCalmNightFactor(epochMinutes)) *
-    (1 - clamp01(rain * 2)); // rain scrubs radiation mist out
+      (0.25 + 0.75 * drySeason) *
+      (clearNightOverride ?? clearCalmNightFactor(epochMinutes)) *
+      (1 - clamp01(rain * 2)), // rain scrubs radiation mist out
+  );
+  const radiation = clamp01(local.mistProp * 1.15) * radiationBase;
   // Advection sea fog: humid marine air, strongest mornings and in the wetter
   // half of the year, needs non-violent weather to hold together.
   const morningBell = Math.exp(-Math.pow((minuteOfDay - 420) / 190, 2));
   const holdsTogether = syn.state === "clear" || syn.state === "overcast" || syn.state === "haze" ? 1 : 0.25;
-  const advection =
-    clamp01(local.seaFog) * (0.35 + 0.65 * morningBell) * (0.5 + 0.5 * Math.max(0, s)) * holdsTogether * 0.8;
-  // Cloud-forest whiteout: the montane belt fogs whenever weather brings
-  // cloud, and clears to thin wisps on settled days (owner round 2: the old
-  // ≥0.55 floor put an opaque band on every clear-day summit — the "black
-  // caps"/"purple layer" reports — real cloud forest clears when the
-  // synoptic air is dry and subsiding).
-  const whiteoutBase = clamp01(
-    0.12 +
-      0.8 * clamp01(p.cloudMid * p.cloudDensity * 0.9 + rain * 0.5) -
-      0.1 * (syn.state === "haze" ? 1 : 0),
+  const advectionBase = clamp01(
+    (0.35 + 0.65 * morningBell) * (0.5 + 0.5 * Math.max(0, s)) * holdsTogether * 0.8,
   );
+  const advection = clamp01(local.seaFog) * advectionBase;
+  // Cloud-forest whiteout: the belt follows the SYNOPTIC cloud — thick under
+  // rainy decks, moderate under overcast, and genuinely CLEAR on settled
+  // clear/haze days (owner round 3: no permanent whiteout; nice clear views
+  // sometimes — real cloud forest clears when the air is dry and subsiding;
+  // the coverage wander gives partly-cloudy days passing wisps for free).
+  const cloudDeck = p.cloudMid * p.cloudDensity;
+  const whiteoutBase = clamp01(0.95 * smoothstep01((cloudDeck - 0.25) / 0.5) + 0.35 * rain);
   const weatherFog = p.fogMie * (0.6 + 0.4 * local.humidity);
   const mist: MistRegimes = {
-    radiation: clamp01(radiation),
-    advection: clamp01(advection),
-    whiteout: clamp01(whiteoutBell(local.elevationM) * whiteoutBase),
+    radiation,
+    radiationBase,
+    advection,
+    advectionBase,
+    whiteout: clamp01(whiteoutBell(local.elevationM) * whiteoutBase * clamp01(local.beltMask)),
     whiteoutBase,
     weather: weatherFog,
   };
 
   // Visibility: the worst offender wins (published to AI/encounters, §97).
+  // Cubic ramps (round 3): the old linear maps left half-strength fog with a
+  // ~15 km published visibility — fog must register in the number the AI and
+  // HUD read as soon as it visibly thickens.
   const visWeather = p.visibilityKm * 1000 * (1 - 0.55 * clamp01(rain));
-  const visRad = mist.radiation > 0.02 ? 30000 - (30000 - 140) * mist.radiation : 30000;
-  const visAdv = mist.advection > 0.02 ? 30000 - (30000 - 350) * mist.advection : 30000;
-  const visWhite = mist.whiteout > 0.02 ? 30000 - (30000 - 70) * mist.whiteout : 30000;
+  const visCurve = (strength: number, denseM: number): number =>
+    strength > 0.02 ? denseM + (30000 - denseM) * Math.pow(1 - strength, 3) : 30000;
+  const visRad = visCurve(mist.radiation, 140);
+  const visAdv = visCurve(mist.advection, 350);
+  const visWhite = visCurve(mist.whiteout, 70);
   const visibilityM = Math.max(50, Math.min(visWeather, visRad, visAdv, visWhite));
 
   // Wetness: rain trail × how much sky this ground actually sees.

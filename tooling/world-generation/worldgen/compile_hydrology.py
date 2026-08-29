@@ -205,6 +205,34 @@ def main() -> None:
     weather_img[..., 2] = np.round(sea_fog * 255).astype(np.uint8)
     save(weather_img, "climate-weather.png")
 
+    # Province visibility/fog-locality raster (Phase 8c round 3, module 55
+    # §97; NOT in an alpha channel — canvas decode premultiplies alpha and
+    # corrupts data, the 8b shore-raster lesson).
+    # R — orographic cloud-belt mask: cap cloud forms where moist wind is
+    # forced up slopes, so it clings to columns whose NEIGHBOURHOOD terrain
+    # climbs into the montane belt (~470 m centre; ramp 320→450 m of local
+    # max elevation, mirrored from world-weather WHITEOUT_BELT). Free air at
+    # belt altitude over the lowlands carries none — the belt is a feature of
+    # the massif, never a province-wide sky band (owner round 3).
+    reach_px = max(1, int(round(400.0 / metres_per_px)))
+    elev_reach = ndimage.maximum_filter(z_smooth, size=2 * reach_px + 1)
+    belt_mask = np.clip((elev_reach - 320.0) / (450.0 - 320.0), 0.0, 1.0)
+    belt_mask = ndimage.gaussian_filter((belt_mask * belt_mask * (3 - 2 * belt_mask)).astype(np.float32), 3)
+    # G — region ambient-visibility extinction: the climate profiles' authored
+    # practical sightlines (jungle 90 m … ocean 2 km) rendered as BOUNDARY-
+    # LAYER haze density via Koschmieder (beta = 3.912/V). Floored at 250 m
+    # for the AIR — the shorter authored figures are vegetation sightlines,
+    # which Phase 10's placed flora delivers; encoded as beta/0.02 per byte.
+    vis_lookup = np.full(max(CLIMATE) + 1, 2000.0, dtype=np.float32)
+    for cid, prof in CLIMATE.items():
+        vis_lookup[cid] = float(prof.get("visibility", 2000))
+    beta_region = 3.912 / np.maximum(vis_lookup[reg.regions], 250.0)
+    beta_region = ndimage.gaussian_filter(beta_region.astype(np.float32), 4)
+    vis_img = np.zeros((*shape, 3), dtype=np.uint8)
+    vis_img[..., 0] = np.round(belt_mask * 255).astype(np.uint8)
+    vis_img[..., 1] = np.round(np.clip(beta_region / 0.02, 0.0, 1.0) * 255).astype(np.uint8)
+    save(vis_img, "climate-vis.png")
+
     meta = {
         "metresPerPixel": metres_per_px,
         "scaleApplied": SCALE,
@@ -235,6 +263,15 @@ def main() -> None:
                 "B": "advection sea-fog propensity 0..1 (byte/255): coastal band carried up-estuary along salinity corridors",
             },
             "note": "sampled by the weather machine's local expression (packages/world-weather, decision 0032)",
+        },
+        "climateVis": {
+            "file": "climate-vis.png",
+            "metresPerPixel": metres_per_px,
+            "channels": {
+                "R": "orographic cloud-belt mask 0..1 (byte/255): neighbourhood max elevation ramped 320-450 m — cap cloud clings to the massif (WHITEOUT_BELT, world-weather)",
+                "G": "region ambient-visibility extinction beta/0.02 per byte (Koschmieder beta = 3.912/max(visibility, 250 m)): boundary-layer haze floor rendering the climate profiles' authored sightlines",
+            },
+            "note": "Phase 8c round 3 (owner: fog is LOCAL; region vis renders). Air floor 250 m: shorter authored figures are vegetation sightlines (Phase 10 flora).",
         },
         "soilLegend": {str(cid): name for cid, name in SOIL_CLASSES.items()},
         **result.stats,

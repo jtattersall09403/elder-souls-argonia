@@ -23,19 +23,19 @@ const at = (month: number, day: number, minuteOfDay = 720) =>
 
 const LOCAL_BASIN: LocalClimate = {
   rainAmp: 0.6, stormExposure: 0.05, seaFog: 0.1, mistProp: 0.9,
-  humidity: 0.85, canopy: 0.4, elevationM: 12,
+  humidity: 0.85, canopy: 0.4, beltMask: 0, elevationM: 12,
 };
 const LOCAL_COAST: LocalClimate = {
   rainAmp: 0.7, stormExposure: 0.9, seaFog: 0.8, mistProp: 0.2,
-  humidity: 0.8, canopy: 0.05, elevationM: 2,
+  humidity: 0.8, canopy: 0.05, beltMask: 0, elevationM: 2,
 };
 const LOCAL_MOUNTAIN: LocalClimate = {
   rainAmp: 0.8, stormExposure: 0.3, seaFog: 0, mistProp: 0.15,
-  humidity: 0.45, canopy: 0.3, elevationM: 540,
+  humidity: 0.45, canopy: 0.3, beltMask: 1, elevationM: 470,
 };
 const LOCAL_RAINSHADOW: LocalClimate = {
   rainAmp: 0.2, stormExposure: 0.05, seaFog: 0, mistProp: 0.3,
-  humidity: 0.4, canopy: 0.1, elevationM: 60,
+  humidity: 0.4, canopy: 0.1, beltMask: 0, elevationM: 60,
 };
 
 describe("determinism", () => {
@@ -169,20 +169,32 @@ describe("mist regimes", () => {
     expect(coast.mist.advection).toBeGreaterThan(basin.mist.advection + 0.15);
     expect(basin.mist.whiteout).toBeLessThan(0.01);
     expect(coast.mist.whiteout).toBeLessThan(0.01);
-    // Whiteout follows the synoptic air (owner round 2): thick when weather
-    // brings cloud, thin wisps on settled clear days — never an opaque band
-    // on a blue-sky summit.
+    // Whiteout follows the synoptic air (owner rounds 2-3): thick when
+    // weather brings cloud, genuinely CLEAR on settled clear days — never a
+    // permanent whiteout, and never any belt off the massif (beltMask 0).
     const rainMtn = weatherSampleForState("rain", e, LOCAL_MOUNTAIN);
     expect(rainMtn.mist.whiteout).toBeGreaterThan(0.5);
     const clearMtn = weatherSampleForState("clear", e, LOCAL_MOUNTAIN);
-    expect(clearMtn.mist.whiteout).toBeGreaterThan(0.03);
-    expect(clearMtn.mist.whiteout).toBeLessThan(0.3);
+    expect(clearMtn.mist.whiteout).toBeLessThan(0.05);
+    const rainOffMassif = weatherSampleForState("rain", e, { ...LOCAL_MOUNTAIN, beltMask: 0 });
+    expect(rainOffMassif.mist.whiteout).toBeLessThan(0.01);
   });
 
-  it("whiteout bell sits on the upper belt, not the lowlands", () => {
-    expect(whiteoutBell(520)).toBeCloseTo(1, 3);
-    expect(whiteoutBell(0)).toBeLessThan(1e-6);
-    expect(whiteoutBell(300)).toBeLessThan(0.06);
+  it("belt profile: soft lower skirt, sharp top — summits stand above the cloud", () => {
+    expect(whiteoutBell(470)).toBeCloseTo(1, 3);
+    expect(whiteoutBell(0)).toBeLessThan(1e-3);
+    expect(whiteoutBell(640)).toBeLessThan(0.01); // ~650 m summits are ABOVE it
+    expect(whiteoutBell(380)).toBeGreaterThan(0.5); // cloud drapes the flank below
+  });
+
+  it("regime BASE values are province-wide conditions; locality is the raster", () => {
+    const e = at(7, 10, 7 * 60);
+    const coast = weatherSampleAt(e, LOCAL_COAST);
+    const basin = weatherSampleAt(e, LOCAL_BASIN);
+    // Same synoptic morning: identical advection CONDITION everywhere…
+    expect(coast.mist.advectionBase).toBeCloseTo(basin.mist.advectionBase, 6);
+    // …expressed locally through the sea-fog raster.
+    expect(coast.mist.advection).toBeCloseTo(coast.mist.advectionBase * 0.8, 3);
   });
 });
 
@@ -307,14 +319,21 @@ describe("round 2 gates (owner feedback 2026-08-29)", () => {
     expect(hi).toBeLessThan(0.5); // clear never becomes a full deck
   });
 
-  it("forced mist/fog regimes preview at full strength with short visibility", () => {
+  it("forced mist/fog regimes: full CONDITION, locality stays with the rasters", () => {
     const e = at(1, 5, 6 * 60);
     const mist = weatherSampleForRegime("mist", e, LOCAL_BASIN);
-    expect(mist.mist.radiation).toBe(1);
+    expect(mist.mist.radiationBase).toBe(1);
+    expect(mist.mist.radiation).toBe(1); // basin mistProp 0.9 × 1.15 → saturated
     expect(mist.visibilityM).toBeLessThanOrEqual(140);
     const fog = weatherSampleForRegime("fog", e, LOCAL_COAST);
-    expect(fog.mist.advection).toBe(1);
-    expect(fog.visibilityM).toBeLessThanOrEqual(350);
+    expect(fog.mist.advectionBase).toBe(1);
+    expect(fog.mist.advection).toBeCloseTo(0.8, 3);
+    expect(fog.visibilityM).toBeLessThanOrEqual(600);
+    // Forcing sea fog INLAND leaves the inland air clear — the fog banks on
+    // the coast are what you look at (owner round 3: local, not global).
+    const inland = weatherSampleForRegime("fog", e, LOCAL_RAINSHADOW);
+    expect(inland.mist.advection).toBe(0);
+    expect(inland.visibilityM).toBeGreaterThan(5000);
   });
 
   it("the storm ladder darkens monotonically: rain < downpour ≤ thunderstorm/squall", () => {

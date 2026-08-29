@@ -26,6 +26,8 @@ export const wetnessUniforms = {
   uWetLevels: { value: new THREE.Vector2(0, 0) },
   /** Rain wetness 0..1 (Phase 8c weather machine; decays after rain). */
   uRainWet: { value: 0 },
+  /** Wind wave scale (game-core, round 3): storm swash wets a higher band. */
+  uWetWind: { value: 1 },
 };
 
 export function primeWetnessUniforms(assets: WaterAssets): void {
@@ -57,6 +59,7 @@ uniform float uWetShoreMax;
 uniform float uWetKlassExtent;
 uniform vec2 uWetLevels;
 uniform float uRainWet;
+uniform float uWetWind;
 `;
 
 /**
@@ -89,8 +92,10 @@ if (uWetParams.z > 0.5) {
         + smoothstep(0.02, 0.15, esWetK.b) * uWetLevels.x
         + esWetSS.g * uWetLevels.y;
       float esWetH = vEsWorldPos.y / uVerticalScale;
-      // recent waterline = still level + swash reach (+ small headroom)
-      float esWetLift = ${f(0.7 * SWASH.amplitudeM)} * max(1.0 - esWetShore / ${f(SWASH.bandM)}, 0.0) + 0.12;
+      // recent waterline = still level + swash reach (+ small headroom);
+      // wind-scaled like the swash itself (game-core surfWindScale twin)
+      float esWetLift = ${f(0.7 * SWASH.amplitudeM)} * clamp(pow(uWetWind, 0.8), 0.6, 3.2)
+        * max(1.0 - esWetShore / ${f(SWASH.bandM)}, 0.0) + 0.12;
       float esAbove = esWetH - esWetW;
       float esWet = (1.0 - smoothstep(esWetLift * 0.7, esWetLift * 1.5, esAbove))
                   * (1.0 - smoothstep(14.0, 22.0, esWetShore));

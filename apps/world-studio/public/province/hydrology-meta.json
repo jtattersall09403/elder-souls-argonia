@@ -249,6 +249,15 @@
     },
     "note": "sampled by the weather machine's local expression (packages/world-weather, decision 0032)"
   },
+  "climateVis": {
+    "file": "climate-vis.png",
+    "metresPerPixel": 5.4835199999999995,
+    "channels": {
+      "R": "orographic cloud-belt mask 0..1 (byte/255): neighbourhood max elevation ramped 320-450 m \u2014 cap cloud clings to the massif (WHITEOUT_BELT, world-weather)",
+      "G": "region ambient-visibility extinction beta/0.02 per byte (Koschmieder beta = 3.912/max(visibility, 250 m)): boundary-layer haze floor rendering the climate profiles' authored sightlines"
+    },
+    "note": "Phase 8c round 3 (owner: fog is LOCAL; region vis renders). Air floor 250 m: shorter authored figures are vegetation sightlines (Phase 10 flora)."
+  },
   "soilLegend": {
     "1": "rock/upland firm",
     "2": "firm lowland",

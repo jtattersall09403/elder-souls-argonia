@@ -1,4 +1,4 @@
-export { WAVES, SWASH, SHORE_SWELL, gerstnerAt, surfaceWaveAt, swashAt, swashMax, surfGroup, fetchExposure, shoreSwellAt, waveExposure, waveBands, gerstnerGlsl, surfGlsl, setWindWaveScale, getWindWaveScale } from "./waves";
+export { WAVES, SWASH, SHORE_SWELL, gerstnerAt, surfaceWaveAt, swashAt, swashMax, surfGroup, fetchExposure, shoreSwellAt, waveExposure, waveBands, gerstnerGlsl, surfGlsl, setWindWaveScale, getWindWaveScale, windWaveSpeed, surfWindScale } from "./waves";
 export type { WaveSample } from "./waves";
 export { WaterData } from "./waterData";
 export type { WaterMeta, WaterStaticSample } from "./waterData";

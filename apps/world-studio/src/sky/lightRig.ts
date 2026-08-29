@@ -86,6 +86,13 @@ export interface LightRig {
    * colour — the sun by day, Masser by night (research §8.1). */
   cloudGlowDir: [number, number, number];
   cloudGlowCol: [number, number, number];
+  /** Sunrise/sunset cloud light (round 3, research §9.2): the reddened
+   * low-sun colour clouds are lit by, exposure-anchored; the dome applies it
+   * with sunward azimuth weighting + a soft anti-solar rose. */
+  cloudSunsetCol: [number, number, number];
+  /** Strength 0..1 for [mid/low deck, high cirrus] — cirrus stays lit a few
+   * degrees of sun depression longer (it is higher; real afterglow). */
+  cloudSunsetAmt: [number, number];
 }
 
 /** Weather inputs to the light model (Phase 8c, decision 0032): the blended
@@ -538,6 +545,28 @@ export function computeLightRig(
     (glowTint[2] * glowScreen) / exposureTarget,
   ];
 
+  // Sunrise/sunset cloud colouring (owner round 3; research §9.2): around
+  // sunrise/sunset clouds are lit by the sun's transmitted light, reddened by
+  // the long atmospheric path — gold while the sun is a few degrees up,
+  // deepening to orange-red at the horizon, with high cirrus staying lit
+  // (pink afterglow) a few degrees of sun depression after the deck greys
+  // out. Screen-anchored like every other cloud colour, so the §8d envelope
+  // holds by construction; heavy storm decks barely colour (light cannot
+  // reach their bases — the wx.cloudDark damping).
+  const sunsetBell = (alt: number) => Math.exp(-Math.pow((alt - 1) / 5.5, 2));
+  const cloudSunsetAmt: [number, number] = [
+    sunsetBell(altDeg) * (1 - 0.75 * wx.cloudDark),
+    sunsetBell(altDeg + 4),
+  ];
+  const deepening = 1 - smoothstep(-3, 5, altDeg);
+  const sunsetTint = mix3([1.0, 0.66, 0.33], [1.0, 0.36, 0.18], deepening);
+  const sunsetScreen = 0.62;
+  const cloudSunsetCol: [number, number, number] = [
+    (sunsetTint[0] * sunsetScreen) / exposureTarget,
+    (sunsetTint[1] * sunsetScreen) / exposureTarget,
+    (sunsetTint[2] * sunsetScreen) / exposureTarget,
+  ];
+
   return {
     sun,
     moons,
@@ -576,5 +605,7 @@ export function computeLightRig(
     fogLum,
     cloudGlowDir,
     cloudGlowCol,
+    cloudSunsetCol,
+    cloudSunsetAmt,
   };
 }

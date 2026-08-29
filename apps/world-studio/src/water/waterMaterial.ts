@@ -378,10 +378,13 @@ if (esShore < 90.0) {
 }
 // the waterline itself TRAVELS: asymmetric swash + shoaling shore swell,
 // added BEFORE the depth proxy so the advancing tongue renders on the
-// beach face instead of being discarded as buried (research doc §5)
-esStill += esSwash(esShore, esFetch, uWaveTime);
+// beach face instead of being discarded as buried (research doc §5).
+// esSurfWind: KEEP IN LOCKSTEP with game-core surfWindScale() — storm seas
+// break harder on the beach (round 3).
+float esSurfWind = clamp(pow(uWindWave, 0.8), 0.6, 3.2);
+esStill += esSwash(esShore, esFetch, uWaveTime, esSurfWind);
 float esSwellDHdd;
-esStill += esShoreSwell(esShore, max(esSurf.y, 0.0), esFetch, uWaveTime, esSwellDHdd);
+esStill += esShoreSwell(esShore, max(esSurf.y, 0.0), esFetch, uWaveTime, esSurfWind, esSwellDHdd);
 float esVDepth = max(esSurf.y + (esStill - esSurf.x), 0.0);
 float esExposure = esWaveExposure(esShore, esVDepth, esTurbV);
 float esCamDist = distance(cameraPosition.xz, esRestW.xz);
@@ -430,6 +433,7 @@ ${NOISE_GLSL}
 ${surfGlsl()}
 ${prelude}
 uniform float uWaveTime;
+uniform float uWindWave;
 uniform float uVerticalScale;`,
       )
       .replace(
@@ -564,7 +568,8 @@ float esFoamE = (1.0 - smoothstep(0.015, 0.24, esThick))
 // move together; per-pixel phase jitter breaks the parallel-band look
 {
   float bn = esFbm(vEsWorldPos.xz * 0.16, 3);
-  esFoamE += esSurfFoam(esShoreD + bn * 4.0, vEsSurf.x, uWaveTime) * 0.85;
+  float esSurfWindF = clamp(pow(uWindWave, 0.8), 0.6, 3.2);
+  esFoamE += esSurfFoam(esShoreD + bn * 4.0, vEsSurf.x, uWaveTime, esSurfWindF) * 0.85;
 }
 // 3. whitecaps on genuinely exposed water, never in the far shimmer zone
 float esCrest = (vEsWorldPos.y / max(uVerticalScale, 1e-3)) - vEsData.x;
