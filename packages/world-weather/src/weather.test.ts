@@ -9,7 +9,13 @@ import {
   synopticAt,
   windDirAt,
 } from "./synoptic";
-import { weatherSampleAt, whiteoutBell, type LocalClimate } from "./express";
+import {
+  weatherSampleAt,
+  weatherSampleForRegime,
+  weatherSampleForState,
+  whiteoutBell,
+  type LocalClimate,
+} from "./express";
 import { PROFILES, WEATHER_KINDS, type StateProfile } from "./states";
 
 const at = (month: number, day: number, minuteOfDay = 720) =>
@@ -159,12 +165,18 @@ describe("mist regimes", () => {
   it("advection fog is coastal, whiteout is montane, neither leaks", () => {
     const e = at(7, 10, 7 * 60);
     const coast = weatherSampleAt(e, LOCAL_COAST);
-    const mountain = weatherSampleAt(e, LOCAL_MOUNTAIN);
     const basin = weatherSampleAt(e, LOCAL_BASIN);
     expect(coast.mist.advection).toBeGreaterThan(basin.mist.advection + 0.15);
-    expect(mountain.mist.whiteout).toBeGreaterThan(0.35);
     expect(basin.mist.whiteout).toBeLessThan(0.01);
     expect(coast.mist.whiteout).toBeLessThan(0.01);
+    // Whiteout follows the synoptic air (owner round 2): thick when weather
+    // brings cloud, thin wisps on settled clear days — never an opaque band
+    // on a blue-sky summit.
+    const rainMtn = weatherSampleForState("rain", e, LOCAL_MOUNTAIN);
+    expect(rainMtn.mist.whiteout).toBeGreaterThan(0.5);
+    const clearMtn = weatherSampleForState("clear", e, LOCAL_MOUNTAIN);
+    expect(clearMtn.mist.whiteout).toBeGreaterThan(0.03);
+    expect(clearMtn.mist.whiteout).toBeLessThan(0.3);
   });
 
   it("whiteout bell sits on the upper belt, not the lowlands", () => {
@@ -251,6 +263,72 @@ describe("wetness and lightning", () => {
     }
     expect(flashes).toBeGreaterThan(0);
     expect(lightningAt(at(5, 3, 700.005))).toBe(lightningAt(at(5, 3, 700.005)));
+  });
+});
+
+describe("round 2 gates (owner feedback 2026-08-29)", () => {
+  it("no rain without a deck: the sample never rains under sparse cloud", () => {
+    for (let day = 1; day <= 28; day += 2) {
+      for (let m = 0; m < MINUTES_PER_DAY; m += 45) {
+        const wx = weatherSampleAt(at(6, day, m), LOCAL_BASIN);
+        const mass = (wx.profile.cloudMid + 0.6 * wx.profile.cloudLow) * wx.profile.cloudDensity;
+        if (wx.rainIntensity > 0.06) expect(mass, `day ${day} m ${m}`).toBeGreaterThan(0.5);
+      }
+    }
+  });
+
+  it("no lightning without a storm deck (transition-in is gated)", () => {
+    for (let day = 1; day <= 10; day += 1) {
+      for (let m = 0; m < MINUTES_PER_DAY; m += 0.01) {
+        const e = at(5, day, 0) + m;
+        // lightningAt is cheap; only run the full sample at flash instants.
+        if (lightningAt(e) <= 0) continue;
+        const wx = weatherSampleAt(e, LOCAL_BASIN);
+        if (wx.lightning > 0.05) {
+          const mass = (wx.profile.cloudLow + wx.profile.cloudMid) * 0.5 * wx.profile.cloudDensity;
+          expect(mass, `day ${day} m ${m}`).toBeGreaterThan(0.5);
+        }
+        m += 1;
+      }
+    }
+  });
+
+  it("coverage wanders within a clear spell but never fully overcasts it", () => {
+    // Force-clear removes slot rolls; the wander alone must vary the deck.
+    const e0 = at(1, 5, 8 * 60);
+    let lo = 1;
+    let hi = 0;
+    for (let m = 0; m < 600; m += 10) {
+      const p = weatherSampleForState("clear", e0 + m, LOCAL_BASIN).profile;
+      lo = Math.min(lo, p.cloudMid);
+      hi = Math.max(hi, p.cloudMid);
+    }
+    expect(hi - lo).toBeGreaterThan(0.1); // visibly different hours
+    expect(hi).toBeLessThan(0.5); // clear never becomes a full deck
+  });
+
+  it("forced mist/fog regimes preview at full strength with short visibility", () => {
+    const e = at(1, 5, 6 * 60);
+    const mist = weatherSampleForRegime("mist", e, LOCAL_BASIN);
+    expect(mist.mist.radiation).toBe(1);
+    expect(mist.visibilityM).toBeLessThanOrEqual(140);
+    const fog = weatherSampleForRegime("fog", e, LOCAL_COAST);
+    expect(fog.mist.advection).toBe(1);
+    expect(fog.visibilityM).toBeLessThanOrEqual(350);
+  });
+
+  it("the storm ladder darkens monotonically: rain < downpour ≤ thunderstorm/squall", () => {
+    expect(PROFILES.rain.sunDim).toBeLessThan(PROFILES.downpour.sunDim);
+    expect(PROFILES.downpour.sunDim).toBeLessThanOrEqual(PROFILES.squall.sunDim);
+    expect(PROFILES.rain.cloudDark).toBeLessThan(PROFILES.downpour.cloudDark);
+    expect(PROFILES.downpour.cloudDark).toBeLessThan(PROFILES.squall.cloudDark);
+    expect(PROFILES.downpour.cloudDark).toBeLessThan(PROFILES.thunderstorm.cloudDark);
+    // …and the states differ in character, not just darkness.
+    expect(PROFILES.rain.cloudPuff).toBeLessThan(0.15); // featureless sheet
+    expect(PROFILES.clear.cloudPuff).toBeGreaterThan(0.8); // crisp cumulus
+    expect(PROFILES.squall.stormFront).toBe(1);
+    expect(PROFILES.thunderstorm.greenTint).toBeGreaterThan(0.3);
+    expect(PROFILES.squall.cloudScroll).toBeGreaterThan(2);
   });
 });
 

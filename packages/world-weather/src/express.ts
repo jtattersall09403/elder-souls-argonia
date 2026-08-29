@@ -10,6 +10,7 @@
  */
 
 import {
+  applyCoverWander,
   clearCalmNightFactor,
   lightningAt,
   rainWetness,
@@ -89,6 +90,11 @@ function clamp01(x: number): number {
   return Math.min(1, Math.max(0, x));
 }
 
+function smoothstep01(x: number): number {
+  const t = clamp01(x);
+  return t * t * (3 - 2 * t);
+}
+
 /** Cloud-forest belt: bell over elevation. Summits reach ~650 m (6b sculpt);
  * the belt sits on the upper mountain flanks (mass-elevation effect brings
  * tropical cloud forest down to ~500–700 m on small coastal ranges). */
@@ -114,7 +120,9 @@ export function weatherSampleForState(
     prev: kind,
     state: kind,
     blend: 1,
-    profile: PROFILES[kind],
+    // Forced states keep the coverage wander (a forced clear day still
+    // drifts its scattered cumulus).
+    profile: applyCoverWander(PROFILES[kind], epochMinutes),
     spellKind: "fair",
     slot,
     minutesIntoSlot: epochMinutes - slot * 90,
@@ -126,6 +134,32 @@ export function weatherSampleForState(
   sample.wetness = Math.max(sample.wetness, clamp01(0.85 * sample.rainIntensity));
   sample.grip = 1 - 0.35 * sample.wetness;
   return sample;
+}
+
+/** Studio force-REGIME previews (owner round 2: the mist regimes are
+ * computed conditions, not rolled states, so the force dropdown needs their
+ * own entries): "mist" = radiation dawn mist at full strength, "fog" =
+ * advection sea fog at full strength — both expressed over a calm clear
+ * state, drawn where the respective climate rasters allow (basins /
+ * coast-estuary corridors). Preview tooling only; the shipped game derives
+ * regimes from the calendar. */
+export type ForcedRegime = "mist" | "fog";
+export const FORCED_REGIMES: readonly ForcedRegime[] = ["mist", "fog"];
+
+export function weatherSampleForRegime(
+  regime: ForcedRegime,
+  epochMinutes: number,
+  local: LocalClimate,
+): WeatherSample {
+  const s = weatherSampleForState("clear", epochMinutes, local);
+  if (regime === "mist") {
+    s.mist.radiation = 1;
+    s.visibilityM = Math.min(s.visibilityM, 140);
+  } else {
+    s.mist.advection = 1;
+    s.visibilityM = Math.min(s.visibilityM, 350);
+  }
+  return s;
 }
 
 function express(
@@ -146,6 +180,12 @@ function express(
   const squallness =
     (syn.state === "squall" ? syn.blend : 0) + (syn.prev === "squall" ? 1 - syn.blend : 0);
   rain *= 1 - squallness * (1 - (0.4 + 0.6 * local.stormExposure));
+  // Precipitation begin-fade-in (owner round 2: "no rain without clouds"):
+  // rain only falls once the blended deck has actually arrived — the
+  // Bethesda 80%-transitioned rule, keyed on cloud mass so it also covers
+  // the transition OUT of a rainy state (deck leaves, rain stops with it).
+  const cloudMass = (p.cloudMid + 0.6 * p.cloudLow) * p.cloudDensity;
+  rain *= smoothstep01((cloudMass - 0.45) / 0.3);
   rain = clamp01(rain);
 
   // Wind: exposed coasts run windier than sheltered interior; squall wind
@@ -169,10 +209,15 @@ function express(
   const holdsTogether = syn.state === "clear" || syn.state === "overcast" || syn.state === "haze" ? 1 : 0.25;
   const advection =
     clamp01(local.seaFog) * (0.35 + 0.65 * morningBell) * (0.5 + 0.5 * Math.max(0, s)) * holdsTogether * 0.8;
-  // Cloud-forest whiteout: quasi-permanent on the montane belt, thickened by
-  // wet weather, thinned a little by dry clear spells.
+  // Cloud-forest whiteout: the montane belt fogs whenever weather brings
+  // cloud, and clears to thin wisps on settled days (owner round 2: the old
+  // ≥0.55 floor put an opaque band on every clear-day summit — the "black
+  // caps"/"purple layer" reports — real cloud forest clears when the
+  // synoptic air is dry and subsiding).
   const whiteoutBase = clamp01(
-    0.55 + 0.35 * clamp01(p.cloudMid + rain) - 0.2 * (syn.state === "haze" ? 1 : 0),
+    0.12 +
+      0.8 * clamp01(p.cloudMid * p.cloudDensity * 0.9 + rain * 0.5) -
+      0.1 * (syn.state === "haze" ? 1 : 0),
   );
   const weatherFog = p.fogMie * (0.6 + 0.4 * local.humidity);
   const mist: MistRegimes = {
@@ -196,6 +241,14 @@ function express(
 
   const sunDim = clamp01(Math.max(p.sunDim, mist.whiteout * 0.9));
 
+  // Lightning needs a storm deck overhead (owner round 2: flashes were
+  // firing at full rate from minute 0 of a thunderstorm slot, against a sky
+  // still blending in from clear/overcast). Gate by the BLENDED cloud mass
+  // so flashes start only once the sky reads stormy.
+  const lightningGate = smoothstep01(
+    ((p.cloudLow + p.cloudMid) * 0.5 * p.cloudDensity - 0.5) / 0.25,
+  );
+
   return {
     state: syn.blend < 0.5 ? syn.prev : syn.state,
     prev: syn.prev,
@@ -210,7 +263,7 @@ function express(
     visibilityM,
     wetness,
     grip,
-    lightning: lightningAt(epochMinutes, forcedLightningRate),
+    lightning: lightningAt(epochMinutes, forcedLightningRate) * lightningGate,
     sunDim,
   };
 }

@@ -252,6 +252,34 @@ function smooth01(x: number): number {
   return t * t * (3 - 2 * t);
 }
 
+const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
+
+/** Slow deterministic cloud-cover wander in [-1, 1]: two incommensurate
+ * sines over epoch minutes (periods ~3.3 h and ~47 min), so a "clear" or
+ * "overcast" state drifts between a few fluffy clouds and a broken deck
+ * across the day (owner round 2: coverage variety) — pure function, no RNG. */
+export function coverWander(epochMinutes: number): number {
+  return (
+    0.62 * Math.sin((2 * Math.PI * epochMinutes) / 197 + 1.7) +
+    0.38 * Math.sin((2 * Math.PI * epochMinutes) / 47 + 4.2)
+  );
+}
+
+/** Applies the coverage wander to a profile (returns a copy; identity when
+ * the profile's covJitter is ~0). Shared by the auto timeline and the
+ * force-state preview so a forced clear day still drifts its cumulus. */
+export function applyCoverWander(profile: StateProfile, epochMinutes: number): StateProfile {
+  if (profile.covJitter <= 0.005) return profile;
+  const w = coverWander(epochMinutes);
+  const w2 = coverWander(epochMinutes + 71);
+  return {
+    ...profile,
+    cloudLow: clamp01(profile.cloudLow + profile.covJitter * 0.8 * w2),
+    cloudMid: clamp01(profile.cloudMid + profile.covJitter * w),
+    cloudHigh: clamp01(profile.cloudHigh + profile.covJitter * 0.6 * w),
+  };
+}
+
 export function synopticAt(epochMinutes: number): SynopticSample {
   const slot = Math.floor(epochMinutes / SLOT_MINUTES);
   const minutesIntoSlot = epochMinutes - slot * SLOT_MINUTES;
@@ -263,10 +291,15 @@ export function synopticAt(epochMinutes: number): SynopticSample {
   if (prev !== state) {
     blend = smooth01(minutesIntoSlot / TRANSITION_MIN[state]);
   }
-  const profile =
+  // Day-to-day coverage variety: the wander jitters the layer coverages by
+  // the blended covJitter amplitude (rainy states author ~0 so precipitation
+  // never loses its deck).
+  const profile = applyCoverWander(
     prev === state || blend >= 1
       ? PROFILES[state]
-      : blendProfiles(PROFILES[prev], PROFILES[state], blend);
+      : blendProfiles(PROFILES[prev], PROFILES[state], blend),
+    epochMinutes,
+  );
   return { prev, state, blend, profile, spellKind, slot, minutesIntoSlot };
 }
 
