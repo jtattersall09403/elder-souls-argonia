@@ -5,6 +5,65 @@ Research: [docs/research/weather-clouds-rain-threejs.md](../research/weather-clo
 · climate model: [black-marsh-climatology.md](../research/black-marsh-climatology.md)
 Spec: module [55](../world/55-light-sky-time.md) §97–98; deliverables module 95 §86.
 
+## CONTINUING THIS PHASE — run-book for the next agent
+
+**State (2026-08-29): round 1 BUILT, PROBED (10/10 browser scenarios),
+DEPLOYED to Pages — owner playtesting.** You are here because the owner said
+"Continue phase 8C delivery" with feedback points. Protocol: read this file
+in full (Decisions + Implementation notes below are the design rationale);
+fix the feedback at root cause; log each iteration as a numbered **Round N**
+section at the bottom (defect → root cause → fix, the 0021/0025 pattern);
+redeploy and hand back the checklist. On owner PASS: flip the PROGRESS 8c
+row to done, sweep cosmetic leftovers to docs/polish-backlog.md.
+
+**Where feedback lands** (most tuning is one table or one constant):
+
+| Feedback sounds like… | Edit |
+|---|---|
+| "state X too dark / too foggy / rains too hard / winds too strong"; transition speeds | `packages/world-weather/src/states.ts` (PROFILES + TRANSITION_MIN — the per-state parameter blocks) |
+| "too much/little rain overall", "changes too often/rarely", "storms at wrong time of day", spell rhythm | `synoptic.ts` (spellWeights, stateWeights, VOLATILITY, SLOT_MINUTES, convectionFactor) |
+| regional character (rain shadow, coastal squalls), mist regime strength/timing, whiteout band elevation, visibility numbers, wetness rise/decay rates | `express.ts` (+ `whiteoutBell` 520±130 m; wetness trail in `synoptic.ts` `rainWetness`) |
+| cloud LOOK (shapes, scale, scroll speed, base shading, horizon fade) | cloud GLSL block in `apps/world-studio/src/sky/WorldSky.tsx` `createSkyDome` |
+| cloud BRIGHTNESS/colour day vs night, storm darkness, shadows on/off threshold, storm exposure lift, sun glare under decks | `sky/lightRig.ts` (cloud colours are exposure-anchored; sunDim^3 direct factor; shadows off at sunDim > 0.6; Mie ×(1−0.6·sunDim)) |
+| fog/mist RENDER densities (regime strengths as drawn) | `sky/aerial.ts` (density factors: radiation ×14, advection ×125, whiteout ×550, weather fog ×8) |
+| rain streak look/count/drift; splash ripples | `weather/RainSystem.tsx` (budget in `rainDropBudget`); ripple stamping in `water/WaterSurfaceMesh.tsx` |
+| ground wet look (darken/gloss amounts, canopy dryness) | `water/groundWetness.ts` |
+| sea state vs wind | wind→scale map in WorldSky (`setWindWaveScale(0.8 + 0.05·wind)`), clamped in game-core `waves.ts` |
+| the baked fields themselves (rain-shadow shape, storm coasts, fog corridors) | `compile_hydrology` climate-weather block — **rerun with the RAW vault heightfield `heightfield-f32.npy`, NOT `province-refined/`** (wrong input silently changes every raster); only province PNGs + meta rewrite, no chunk rebuild needed; then `python3 -m pytest -q` (59) |
+
+**Validation loop**: `npm test` (390) + `npm run typecheck` from root. THE
+ENVELOPE LOCKSTEP RULE: any change to the dome shader, cloud colours or
+exposure must keep `WorldSky.createSkyDome` ↔ `sky/skyScreenModel.ts` ↔
+`sky/lightRig.test.ts` in agreement — the envelope test is what keeps
+whiteouts/black-gaps numerically impossible; extend all three together.
+Browser probe (~8 min, build first — it serves `dist/`):
+`npm run build -w @elder-souls/world-studio`, then from `apps/combat-sandbox`:
+`node ../world-studio/scripts/probe-sky.mjs` (one scenario:
+`SKY_SCENARIO=<id>`). Deploy: push to main; if no Actions run in ~2 min,
+`gh workflow run deploy-pages.yml --ref main`; verify with a curl of a
+changed asset. **Shared worktree**: other agents run concurrently —
+pathspec-only commits, never touch files you didn't change (workstream S is
+active in module 76 / `tooling/stats-sim/`).
+
+**Hard-won rules (this phase + inherited)**: every authored sky/cloud/rain
+luminance is a SCREEN value divided by `exposureTarget` (exposure-anchored —
+never a raw HDR constant); never RAISE the dome's Mie coefficient (0021's
+white-glare lesson — lowering it under decks is fine); real-world climate
+scale lengths must be compressed ~10× for the 7.4 km province or fields come
+out flat; no `Math.random`/`Date.now` in world systems — hash structural
+indices (same instant ⇒ same weather is the load-bearing property); forced
+`w=` states are studio preview only, the game ships the auto calendar; the
+legacy light presets/probes pin `w=clear` deliberately (they are reference
+light, and the calendar legitimately rolls rain on their dates).
+
+**Owner playtest checklist** (also in PROGRESS *Waiting on user*): studio →
+weather selector in the time panel, or presets (storm noon / monsoon
+downpour / whiteout / squall front): ① clouds move and read at
+dawn/noon/night ② rain falls, ground darkens+glosses, water ripples
+③ storm skies dark and shadowless but playable ④ sea rougher in wind
+⑤ "auto" changes believably over a monsoon day at 1 h/s ⑥ Blackrose dawn
+preset still shows mist.
+
 ## Decisions
 
 1. **One synoptic timeline, regional *expression*.** The province is ~7.4 km
