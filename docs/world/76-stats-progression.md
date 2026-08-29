@@ -304,7 +304,7 @@ column says which it was.
 
 | Attribute | What it does here | Canon (*Morrowind:*…) |
 |---|---|---|
-| **Strength** | weapon damage `×(Str+50)/100` (melee **and** bows — canon applies it to both) · carry capacity · half the health base · repair rate | *Combat*, *Encumbrance*, *Health*, *Armorer* — all deterministic except the repair roll |
+| **Strength** | melee damage `×(Str+50)/100` · carry capacity · half the health base · repair rate. **Not bows** — see below | *Combat*, *Encumbrance*, *Health*, *Armorer* — all deterministic except the repair roll |
 | **Endurance** | `maxHealth = (Str+End)/2 + level × End/10` · `maxStamina = 60 + 0.8×End` · stamina regen · disease/poison resistance floor | *Health*, *Fatigue* — deterministic. Canon's health-per-level is **not** retroactive; ours is (§117.2) |
 | **Agility** | the score term in every check that was a hit, block, sneak or lock roll (`+Agi/5`) · stagger threshold (a blow staggers you if it deals ≥ Agi/2; at Agi 100 nothing does) · dodge stamina · bow steadiness | *Combat*, *Block*, *Security*, *Sneak* — all were rolls; the knockdown-immunity-at-100 rule is canon exactly |
 | **Speed** | ground, swim and climb speed (§122). Nothing else — and in canon it appears in **no dice roll at all** | *Speed* — deterministic, and the one attribute we can port verbatim |
@@ -312,11 +312,18 @@ column says which it was.
 | **Intelligence** | `maxMagicka` · alchemy potency (`+Int/10`, canon's odd half-weight) · enchanting point budget (`+Int/5`) | *Magicka*, *Alchemy*, *Enchant* |
 | **Personality** | disposition `+0.5×(Per−50)` · persuasion score (`+Per/5`) · price band (`+0.2×Per`, capped 10) | *Disposition*, *Speechcraft*, *Mercantile* — disposition and prices were already deterministic |
 
-Two divergences worth naming, because a future agent will otherwise "fix" them
-back: our magicka pool is `20 + 3×Int` rather than canon's `Int × multiplier`
-(canon's 100-magicka ceiling cannot sustain a Souls-length fight, §123), and
-magic skill scales spell magnitude here where canon left it flat (canon's skill
-bought reliability, which we deleted — see §123).
+Three divergences worth naming, because a future agent will otherwise "fix"
+them back:
+
+1. **Strength does not multiply bow damage**, though canon applies it to both.
+   Our arrow damage is *physical* — draw force, power stroke, arrow mass — so
+   the archer's strength is already in the model twice over: in the draw weight
+   of the bow they can handle, and in the soft requirement that charges a weak
+   archer extra stamina for a heavy one. Canon's term would be a third count.
+2. Our magicka pool is `20 + 3×Int`, not canon's `Int × multiplier` — canon's
+   100-magicka ceiling cannot sustain a Souls-length fight (§123).
+3. Magic skill scales spell magnitude here, where canon left it flat: canon's
+   skill bought *reliability*, and we deleted the roll it was reliable against.
 
 ### 117.1 The no-dice port: keep the score, drop the roll
 
@@ -677,13 +684,13 @@ Morrowind is the reference, and it is a documented one. Its ceiling is exactly
 cluster at level 20–30 in roughly 40 hours. Our targets, which the balance
 harness checks as a standing invariant:
 
-| Hour | Level |
-|---|---|
-| 1.5–2.5 | 2 |
-| 20 | 10–14 |
-| 40 (main line's length) | 20–25 |
-| 150 (a broad Milestone-1 run) | 45–55 |
-| ceiling | ~75 by ordinary use, with the misc tail continuing slowly |
+| Hour | Target | What the harness produces |
+|---|---|---|
+| 1.5–2.5 | 2 | 1.4–3.6 (a bow build is slowest: fewer connects a fight) |
+| 20 | 10–14 | 10–16 |
+| 40 (main line's length) | 20–25 | 19–27 · main line alone, 18–28 |
+| 150 (a broad run) | 45–55 | 49–64 |
+| ceiling | — | ~75 by ordinary use, with the misc tail continuing slowly |
 
 Two things make that pace real rather than aspirational: the canon use-values
 in §120.1 (especially Block and Athletics, which tick during play that is not
@@ -966,6 +973,14 @@ misclick-miss, and they are gone.
   and the thing skill buys is the *size of spell you can hold* — which is what
   it bought in canon, minus the frustration. The familiar tier names are
   descriptive labels over cost ranges, not separate machinery:
+
+  Two refinements the harness forced. Canon's boundary is where the chance
+  reaches *zero*, which is not a spell you would actually carry, so the
+  reliable line sits **50 points inside it**: `castable ≤ 2 × skill +
+  Willpower/5 − 50`. And a caster does not lead with the largest spell they can
+  hold — the working spell is about **60 %** of it. That puts a starting mage on
+  a ~19-damage spell and a master on ~100 before magnitude and gear, which is
+  where Morrowind's own starting and master spellbooks sit.
 
   | Tier | Typical cost | Reachable at |
   |---|---|---|
