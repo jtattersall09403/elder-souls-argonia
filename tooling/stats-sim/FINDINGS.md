@@ -73,6 +73,17 @@ lives.
   winnable by the duel route** for those characters — which the quest plan
   already requires. A content constraint, not a number to change.
 
+## The ceiling, as the sim sees it
+
+At the hardest position in each band with only ordinary play (35 % avoidance),
+the god-build clears D3 in 6.5 s untouched, D4 in 13 s and wins the hardest D5
+fight in 37 s — where an ordinary endgame character loses it, and a merely
+competent one loses at D3. The gap between "endgame" and "god" is **small in
+raw combat maths** (the skill curve soft-caps, gear tops out) and **large in
+everything the sim does not model**: paralysis, invisibility, summons, fortify
+stacking, constant-effect items, alchemy. That is the design working — the
+ceiling is knowledge and system mastery, not the level counter (module 76 §102).
+
 ## Known simplifications
 
 In [README.md](README.md) § Known simplifications — read those before trusting
