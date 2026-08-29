@@ -3,11 +3,11 @@
 Sources: Lore:Calendar, Lore:Moons, Lore:Constellations, Lore:The Seasons of
 Argonia, Lore:Topal Bay, Lore:Black Marsh (fetched 2026-08-25 via the UESP API).
 Consumers: the world clock and natural-light system (plan module
-[55](../../../docs/world/55-light-sky-time.md)), Argonian material culture,
+[55](../../../../docs/world/55-light-sky-time.md)), Argonian material culture,
 quests with timed or nocturnal beats, alchemy, festivals, naming.
 
 Companion: [material-culture.md](material-culture.md) (calendar as social
-practice), [../../../docs/research/black-marsh-climatology.md](../../../docs/research/black-marsh-climatology.md)
+practice), [../../../../docs/research/black-marsh-climatology.md](../../../../docs/research/black-marsh-climatology.md)
 (seasons as *climate*; this file is seasons as *sky*).
 
 ## Calendar — CANON_EXPLICIT
