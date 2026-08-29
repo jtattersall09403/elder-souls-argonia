@@ -526,6 +526,8 @@ export interface SkyDebugState {
   /** Round 2: cloud alpha at the sun (CPU field) and camera-in-fog veil. */
   sunOcclusion: number;
   camFog: number;
+  /** Round 3: sunset cloud-light strength [deck, cirrus] (probe surface). */
+  cloudSunsetAmt: [number, number];
 }
 
 declare global {
@@ -1143,6 +1145,7 @@ void main() {
       lightningFlash: flash,
       sunOcclusion,
       camFog: extras.uCamFog.value,
+      cloudSunsetAmt: rig.cloudSunsetAmt,
       triangles: gl.info.render.triangles,
       sunLightIntensity: csm.lights[0]?.intensity ?? 0,
       shadowMapEnabled: gl.shadowMap.enabled,

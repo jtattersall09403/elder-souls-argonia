@@ -7,9 +7,9 @@ Spec: module [55](../world/55-light-sky-time.md) §97–98; deliverables module 
 
 ## CONTINUING THIS PHASE — run-book for the next agent
 
-**State (2026-08-29): round 1 BUILT, PROBED (10/10 browser scenarios),
-DEPLOYED to Pages — owner playtesting.** You are here because the owner said
-"Continue phase 8C delivery" with feedback points. Protocol: read this file
+**State (2026-08-29): round 3 BUILT + PROBED + DEPLOYED — owner playtesting.**
+You are here because the owner said "Continue phase 8C delivery" with
+feedback points. Protocol: read this file
 in full (Decisions + Implementation notes below are the design rationale);
 fix the feedback at root cause; log each iteration as a numbered **Round N**
 section at the bottom (defect → root cause → fix, the 0021/0025 pattern);
@@ -22,7 +22,10 @@ row to done, sweep cosmetic leftovers to docs/polish-backlog.md.
 |---|---|
 | "state X too dark / too foggy / rains too hard / winds too strong"; transition speeds | `packages/world-weather/src/states.ts` (PROFILES + TRANSITION_MIN — the per-state parameter blocks) |
 | "too much/little rain overall", "changes too often/rarely", "storms at wrong time of day", spell rhythm | `synoptic.ts` (spellWeights, stateWeights, VOLATILITY, SLOT_MINUTES, convectionFactor) |
-| regional character (rain shadow, coastal squalls), mist regime strength/timing, whiteout band elevation, visibility numbers, wetness rise/decay rates | `express.ts` (+ `whiteoutBell` 520±130 m; wetness trail in `synoptic.ts` `rainWetness`) |
+| regional character (rain shadow, coastal squalls), mist regime strength/timing, belt elevation/shape, visibility numbers, wetness rise/decay rates | `express.ts` (`WHITEOUT_BELT` 470 m, σ 150 below/55 above — asymmetric so summits clear it; wetness trail in `synoptic.ts` `rainWetness`) |
+| fog LOCALITY (where banks sit, camera veil gating, belt mask), region ambient-visibility render | `aerial.ts` (3-point path raster sampling) + `climate-vis.png` (R belt mask, G region extinction — baked in `compile_hydrology`) + the round-3 rules in module 55 §97 |
+| sunset/sunrise cloud colours | `lightRig.ts` `cloudSunsetCol/Amt` + the dome mix in `WorldSky.createSkyDome` (envelope: `skyScreenModel.cloudScreenRange`) |
+| wave size/speed spectrum, shore-breaking energy | wind→scale map in WorldSky (quadratic, 0.35…6) + `waves.ts` (`windWaveSpeed`, `surfWindScale`); water clock speeds up in wind (`waterClock.ts`) |
 | cloud LOOK (shapes, scale, scroll speed, layer character, storm wall, silver lining, star/moon occlusion, sun-crossing dimming) | **`sky/cloudField.ts`** (the ONE shared GPU/CPU field — constants table at top; round 2) + the composite block in `WorldSky.tsx` `createSkyDome` |
 | per-STATE cloud character (puffy vs sheet, scroll, front, green cast), day-to-day coverage variety | `states.ts` (cloudPuff/cloudScroll/stormFront/greenTint/covJitter) + `coverWander` in `synoptic.ts` |
 | dense-fog/mist COLOUR (black-cap/purple-layer class), camera-in-fog sky veil | `lightRig.ts` fogLum + `aerial.ts` fogFrac mix + uCamFog in WorldSky |
@@ -31,7 +34,6 @@ row to done, sweep cosmetic leftovers to docs/polish-backlog.md.
 | fog/mist RENDER densities (regime strengths as drawn) | `sky/aerial.ts` (density factors: radiation ×14, advection ×125, whiteout ×550, weather fog ×8) |
 | rain streak look/count/drift; splash ripples | `weather/RainSystem.tsx` (budget in `rainDropBudget`); ripple stamping in `water/WaterSurfaceMesh.tsx` |
 | ground wet look (darken/gloss amounts, canopy dryness) | `water/groundWetness.ts` |
-| sea state vs wind | wind→scale map in WorldSky (`setWindWaveScale(0.8 + 0.05·wind)`), clamped in game-core `waves.ts` |
 | the baked fields themselves (rain-shadow shape, storm coasts, fog corridors) | `compile_hydrology` climate-weather block — **rerun with the RAW vault heightfield `heightfield-f32.npy`, NOT `province-refined/`** (wrong input silently changes every raster); only province PNGs + meta rewrite, no chunk rebuild needed; then `python3 -m pytest -q` (59) |
 
 **Validation loop**: `npm test` (390) + `npm run typecheck` from root. THE
@@ -239,3 +241,79 @@ storm looks, god rays — added this round).
     the region's authored ambient visibility (Phase 4 danger model) caps it
     in dense-air regions; the panel shows weather-only sight distance.
     Flagged to the owner in the round-2 handoff for a naming decision.
+
+### Round 3 (owner playtest of round 2, 2026-08-29 → fixes same day)
+
+Research for the fixes: research doc §9. Owner's general directive this
+round, now a module 55 §97 rule: **fog volumes are LOCAL, fog conditions are
+synoptic** — you stand above a misty valley or look at a coastal fog bank;
+fog never follows the camera as a province-wide veil.
+
+1. **"Permanent fog band across the whole province sky at ~400 m, even
+   force:clear"** → THREE root causes, all fixed:
+   (a) the whiteout was a pure ELEVATION bell — any air at ~520 m fogged,
+   with no horizontal locality. Now masked by a baked orographic channel
+   (`climate-vis.png` R = neighbourhood max elevation ramp 320→450 m):
+   cap cloud clings to the massif, free air over the lowlands is clear.
+   (b) `whiteoutBase` floored at 0.12 under force:clear with a ×550
+   density — distant summits whited out permanently. Now the belt follows
+   the synoptic cloud deck (0 on settled clear/haze days — the module-55
+   "quasi-permanent" wording was corrected too; cloud forest genuinely
+   clears) and thickens under overcast/rain.
+   (c) the round-2 camera-in-fog veil applied the whiteout by camera
+   ALTITUDE alone — flying at the 400 m default veiled the entire dome
+   white anywhere on the map. The veil now gates on the LOCAL regime
+   values (raster at the camera), so it engages only genuinely inside a
+   bank. Probe scenarios: `clear-fly-400-lowland` (camFog < 0.05),
+   `whiteout-inside-fly` (camFog > 0.25 over the massif in rain).
+2. **"Some summits should be above the clouds"** → belt profile made
+   asymmetric (`WHITEOUT_BELT` centre 470 m, σ 150 m below / 55 m above):
+   cloud drapes down the flanks but tops out ~570 m, so the ~600–650 m
+   summits stand above the cloud sea (probe: `summit-above-clouds`).
+3. **"Sea fog / dawn mist should be local, not province-wide"** → regime
+   strengths split into `radiationBase/advectionBase` (province-wide
+   condition) × per-pixel raster locality along the view path (3-point
+   sampling in `aerial.ts`). Forced `w=fog`/`w=mist` now force the
+   CONDITION, not the local value — forcing sea fog inland shows the banks
+   on the coast/estuaries, where they belong (probe: `sea-fog-from-inland`
+   vs `sea-fog-on-coast`).
+4. **"When does the region-recorded visibility (900/600 m) render? Why not
+   now?"** → nothing later owned it (§97 requires renderer/env-query
+   agreement), so it landed now: `climate-vis.png` G bakes the climate
+   profiles' sightlines as Koschmieder extinction, applied as a
+   boundary-layer haze floor (weather-modulated ×0.55 settled … ×1.1
+   rainy). Air floor 250 m: jungle 90 m etc. are VEGETATION sightlines —
+   Phase 10's flora delivers those; the env query already min()s the
+   authored figure for AI.
+5. **"Rain still not visible"** → round 2's fix was not real (its own
+   probe screenshot shows zero streaks at "downpour, rain 85%" — the
+   screenshot was recorded as eyeballed-OK; the check is now honest).
+   Compound causes, all fixed in `RainSystem.tsx`: 4 cm world-space quads
+   went sub-pixel beyond ~4 m (now a screen-space MINIMUM half-width
+   ~1.5 px with alpha compensation — the guarantee borrowed from the
+   owner-linked Antaeus-AR soft-sprite technique, research §9.3, adapted
+   to our velocity-aligned quads which foreshorten correctly); hard
+   edges (now a procedural gaussian cross-profile); low-contrast grey at
+   α 0.3 (now `fogLum`×1.25 exposure-anchored, α 0.5 — reads against
+   ground and storm sky at any hour); 85 % canopy suppression over most
+   of the province (capped 55 % — region raster ≠ literal roof); volume
+   tightened 44→36 m and budget 3200→4200 so density lives where pixels
+   are.
+6. **"Clouds should colour at sunrise/sunset"** → `cloudSunsetCol/Amt` in
+   the rig (exposure-anchored reddened transmitted sunlight; deck bell
+   peaks ~+1° sun altitude, cirrus offset +4° so it stays lit into dusk —
+   real afterglow), mixed in the dome with sunward `pow(az01, 2–3)`
+   weighting + fixed anti-solar rose, damped on thick bases and storm
+   decks. Envelope extended: `cloudScreenRange` includes the sunset
+   colour; test asserts bounded + warm (probe: `sunset-clouds`).
+7. **"Storm seas barely bigger; need a much wider spectrum (~6×), faster
+   waves, harder shore breaking"** → wind→wave map now quadratic in wind
+   speed (calm ~0.8 → squall coast saturating the new 6.0 cap; was capped
+   2.4); `windWaveSpeed` (≈ scale^0.45, ~2.2× in a squall) multiplies the
+   SHARED water-clock advance so waves arrive faster and all shore
+   rhythm quickens with zero phase pops and CPU=GPU by construction;
+   `surfWindScale` (≈ scale^0.8, cap 3.2) scales swash/shore-swell
+   amplitudes and surf-foam energy on both CPU and GPU; the terrain wet
+   band lifts with storm swash (`uWetWind`). Fair-weather default stays
+   ≈ the 8b calibrated feel (factors ≈ 1 at scale 1 — the don't-retune
+   rule).

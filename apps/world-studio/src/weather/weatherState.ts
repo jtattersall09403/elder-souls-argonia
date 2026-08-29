@@ -85,11 +85,16 @@ export function weatherAt(
   /** Terrain/camera elevation in TRUE metres (vertical scale removed). */
   elevationM: number,
 ): WeatherSample {
-  const key = `${override}:${Math.round(epochMinutes * 20)}:${Math.round(xM / 30)}:${Math.round(zM / 30)}:${Math.round(elevationM / 25)}`;
-  if (lastSample && key === lastKey) return lastSample;
   const air = climateAirAt(base, xM, zM, extentM);
   const wx = climateWeatherAt(base, xM, zM, extentM);
   const vis = climateVisAt(base, xM, zM, extentM);
+  // Raster readiness is part of the cache key (round 3): the rasters decode
+  // asynchronously, and a paused clock + still camera otherwise pins the
+  // first sample — computed with DEFAULT_LOCAL placeholders — forever (the
+  // probe caught the belt mask stuck at 0 inside the cloud belt).
+  const ready = `${air ? 1 : 0}${wx ? 1 : 0}${vis ? 1 : 0}`;
+  const key = `${override}:${ready}:${Math.round(epochMinutes * 20)}:${Math.round(xM / 30)}:${Math.round(zM / 30)}:${Math.round(elevationM / 25)}`;
+  if (lastSample && key === lastKey) return lastSample;
   const local: LocalClimate = {
     rainAmp: wx?.[0] ?? DEFAULT_LOCAL.rainAmp,
     stormExposure: wx?.[1] ?? DEFAULT_LOCAL.stormExposure,

@@ -145,7 +145,61 @@ const SCENARIOS = [
     sunAlt: [55, 90],
     phase: ["noon"],
     weather: { state: "rain", rainMin: 0.1, shadows: false },
+    // Camera IN the belt over the massif on a rainy day: genuinely in cloud.
+    camFog: [0.25, 1],
     brightness: [10, 245],
+  },
+  // Round 3 scenarios (owner: fog must be LOCAL, never a province-wide veil).
+  // Fly at the 400 m default over the LOWLAND basin, clear day: the round-2
+  // build veiled the whole dome white here (whiteout by pure altitude) —
+  // now the belt clings to the massif and this sky must be clear.
+  {
+    id: "clear-fly-400-lowland",
+    q: "view=fly3d&cam=orbit&x=2.44&z=6.22&ex=1&alt=400&t=10:00&d=8-17&w=clear",
+    sunAlt: [30, 85],
+    phase: ["morning", "noon"],
+    camFog: [0, 0.05],
+    brightness: [40, 235],
+  },
+  // Camera ABOVE the belt top over the mountains under overcast: the tallest
+  // summits stand above the cloud sea — air up here is clear.
+  {
+    id: "summit-above-clouds",
+    q: "view=fly3d&cam=orbit&x=2.25&z=1.09&ex=1&alt=630&t=12:00&d=8-17&w=overcast",
+    sunAlt: [55, 90],
+    phase: ["noon"],
+    camFog: [0, 0.12],
+    brightness: [10, 235],
+  },
+  // Forced sea fog with an INLAND camera: the fog banks on the coast and up
+  // the estuaries — where you are stays clear (you look AT the fog).
+  {
+    id: "sea-fog-from-inland",
+    q: "view=fly3d&cam=orbit&x=2.60&z=2.60&ex=1&alt=300&t=07:30&d=7-10&w=fog",
+    sunAlt: [5, 50],
+    phase: ["morning"],
+    camFog: [0, 0.08],
+    brightness: [30, 235],
+  },
+  // …and the same forced sea fog standing ON the coast: thick.
+  {
+    id: "sea-fog-on-coast",
+    q: "view=character&x=5.16&z=4.64&ex=1&t=07:30&d=7-10&w=fog",
+    sunAlt: [5, 50],
+    phase: ["morning"],
+    camFog: [0.3, 1],
+    brightness: [10, 235],
+  },
+  // Sunset cloud colouring (round 3): scattered cumulus at the golden hour —
+  // the debug hook asserts the sunset light is active; the screenshot is the
+  // visual evidence (warm sunward faces, rose anti-solar side).
+  {
+    id: "sunset-clouds",
+    q: "view=fly3d&cam=orbit&x=3.47&z=2.80&ex=1&t=17:52&d=8-17&w=clear",
+    sunAlt: [-4, 6],
+    phase: ["dusk", "sunset", "civil", "afternoon"],
+    sunsetMin: 0.35,
+    brightness: [1, 200],
   },
   {
     id: "character-night-moonless",
@@ -268,6 +322,16 @@ try {
     if (lightCensus.dir === expectDir && lightCensus.hemi === 1)
       ok(`light census ${expectDir - 1} cascades + moon + hemi`);
     else fail(`light census wrong: ${JSON.stringify(lightCensus)} expected dir=${expectDir} (leaked CSM lights?)`);
+    if (s.camFog) {
+      if (dbg.camFog >= s.camFog[0] && dbg.camFog <= s.camFog[1])
+        ok(`camera fog veil ${dbg.camFog.toFixed(3)} in [${s.camFog}]`);
+      else fail(`camera fog veil ${dbg.camFog.toFixed(3)} outside [${s.camFog}] (fog locality broken?)`);
+    }
+    if (s.sunsetMin !== undefined) {
+      const amt = Math.max(...(dbg.cloudSunsetAmt ?? [0]));
+      if (amt >= s.sunsetMin) ok(`sunset cloud light ${amt.toFixed(2)}`);
+      else fail(`sunset cloud light ${amt.toFixed(2)} < ${s.sunsetMin}`);
+    }
     if (s.weather) {
       const kinds = ["clear", "haze", "overcast", "rain", "downpour", "squall", "thunderstorm"];
       if (s.weather.auto) {

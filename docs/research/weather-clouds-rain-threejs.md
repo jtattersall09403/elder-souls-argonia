@@ -1,6 +1,7 @@
 # Weather, clouds and rain in a browser (three.js) — research, 2026-08-28
 (§8 added 2026-08-29 for the round-2 fixes: night clouds, coverage variety,
-storm looks, god rays.)
+storm looks, god rays. §9 added the same day for round 3: fog locality,
+sunset cloud colour, guaranteed-visible rain.)
 
 Inspiration and known-good implementation pointers for **Phase 8c — weather
 and atmosphere** (module [55-light-sky-time.md](../world/55-light-sky-time.md)
@@ -242,7 +243,10 @@ All verified climatology; the game mapping is ours to design:
   cross-dependency between successive weather states that makes the machine
   feel causal, not random; **advection sea fog** rolling up estuaries when
   humid marine air crosses cooler water/land (same NWS source); the montane
-  cloud-forest belt is quasi-permanent (climatology §2).
+  cloud-forest belt carries frequent orographic cap cloud (climatology §2 —
+  *corrected round 3*: "quasi-permanent" was wrong as a render directive;
+  cloud forests clear on settled subsiding days, and the cloud clings to the
+  massif, not to an altitude band across the whole sky — see §9.1).
 
 ## 6. Performance notes (delta to the sky doc's §6 envelope)
 
@@ -339,3 +343,91 @@ projected sun position → additive composite. Working three.js template:
 falls out of the same cloud alpha. Effort is small-medium (two RTs + a
 composer pass in both canvases) — parked on the polish backlog with this
 pointer rather than done in round 2.
+
+## 9. Round-3 research (2026-08-29): fog locality, sunset cloud colour, guaranteed-visible rain
+
+### 9.1 Fog is local; the condition is synoptic
+
+Owner directive (round 3): some weather may be province-wide for simplicity,
+but fog/mist must be **things in the world you look at** — stand high and see
+the misty valley or the coastal fog bank *below/beside* you, clear where you
+stand. The physics agrees:
+
+- **Radiation fog** forms in and drains to LOW terrain on clear calm nights
+  (cold-air pooling in valleys/basins; NWS fog tutorial, §5.2 refs). It is a
+  blanket *on the low ground*, with sharp tops — the classic
+  look-down-on-a-white-lake morning.
+- **Advection sea fog** is a marine layer: it hugs the coast and pushes up
+  estuary corridors; inland stays clear.
+- **Mountain cap / cloud-forest cloud is orographic**: moist wind forced up
+  the *slopes* condenses **over the massif**. Free air at the same altitude
+  away from the mountains is NOT foggy — so an elevation-only fog band is
+  physically wrong (it was the round-2 "fog layer across the whole province
+  sky"). Cloud forests also **clear** when the synoptic air is dry and
+  subsiding (Britannica cloud-forest ecology, climatology §2) — "permanent
+  whiteout" is wrong; and their upper edge is comparatively sharp, which is
+  why real peaks stand above a "cloud sea" (undercast) on stable days.
+
+Implementation (this repo): every regime density in the ONE aerial term is
+`condition(synoptic, uniform) × locality(raster, per-pixel along the view
+path)` — 3-point path sampling (camera/mid/fragment, 1-2-1) of climate-air G
+(radiation), climate-weather B (advection), climate-vis R (orographic belt
+mask, baked from neighbourhood max elevation 320→450 m). The camera veil uses
+the LOCAL value at the camera. The belt profile is asymmetric
+(`WHITEOUT_BELT` 470 m, σ 150 m below / 55 m above) so ~650 m summits clear
+it. Region ambient visibility (climate profiles) renders via climate-vis G as
+Koschmieder extinction (β = 3.912/V, air floor 250 m) inside the shallow
+boundary layer — horizontal ground-level sightlines match the authored
+figure while summit vistas and the sky stay clear.
+
+### 9.2 Sunset/sunrise cloud colouring
+
+Real behaviour: near sunrise/sunset clouds are lit by direct sunlight
+transmitted through a long atmospheric path — gold → orange → red as the sun
+drops; colour is strongest toward the sun's azimuth; the anti-solar side
+shows softer rose/pink (backscatter + Belt of Venus); **high cirrus stays
+lit well after the low deck greys out** (it is higher — the pink afterglow),
+and thick storm decks barely colour (light cannot reach their bases).
+
+Game practice: procedural skyboxes remap the cloud lit-colour with a
+*reddened light colour* lerped on sun position ([Evan Edwards' procedural
+skybox](https://www.e2gamedev.com/skybox)); classic dome pipelines
+interpolate authored horizon palettes by time of day
+([vterrain atmosphere survey](http://vterrain.org/Atmosphere/)); volumetric
+pipelines get it free from transmittance-attenuated sun colour + a
+Henyey–Greenstein phase (Horizon Zero Dawn SIGGRAPH 2015; [Heckel's
+raymarching write-up](https://blog.maximeheckel.com/posts/real-time-cloudscapes-with-volumetric-raymarching/)).
+Known pitfall: aggressive tone mapping can flatten low-sun cloud colour —
+keep the authored colour exposure-anchored (our §8d envelope pattern).
+
+Ours (base tier, envelope-safe): the rig computes `cloudSunsetCol` (screen-
+anchored reddened sun light, deepening with depression) and `cloudSunsetAmt`
+[deck, cirrus] — cirrus's bell is offset +4° of sun altitude so it outlasts
+the deck. The dome mixes cloud colours toward it weighted by
+`pow(sunAzimuth01, 2–3)` sunward with a fixed rose tint anti-solar, damped
+on thick bases (×(1−0.65·shade)) and on dark storm decks (×(1−0.75·cloudDark)).
+
+### 9.3 Rain that is GUARANTEED visible
+
+Round 2's failure: 4 cm hard-edged world-space quads are sub-pixel beyond a
+few metres; α 0.3 grey over bright ground ≈ invisible (the round-2 probe
+screenshot shows zero streaks under "downpour, rain 85%"). Techniques:
+
+- **Soft-sprite rain** (P. Adams, ["Cheap, Beautiful Rain in
+  Three.js"](https://medium.com/antaeus-ar/cheap-beautiful-rain-in-three-js-9b62bbeabbf3),
+  Antaeus AR; [demo](https://rain-demo.vercel.app/),
+  [code](https://github.com/fromtheghost/rain-demo)): `THREE.Points` with a
+  512² pre-blurred streak texture in a player-centred cylinder, GPU vertical
+  recycling. Its virtues: point sprites have **screen-space size** (never
+  sub-pixel) and a **soft blurred profile**. Its weakness: sprites don't
+  foreshorten — looking up needs a UV-squash hack.
+- **Adopted hybrid** (ours): keep velocity-aligned quads (correct
+  foreshortening and wind shear by construction, no squash hack) but import
+  the sprite guarantees — a **screen-space minimum half-width** (~1.5 px at
+  any depth, with alpha compensation so far rain reads as drizzle haze, not
+  a white wall) and a **procedural gaussian cross-profile** (the blurred
+  texture without an asset). Colour rides `fogLum` ×1.25 (exposure-anchored
+  "lit water in air") so streaks sit just above both terrain and storm-sky
+  luminance at any hour. Canopy suppression capped at 55 % — the canopy
+  raster is region-scale, not literal roof geometry (the Lagarde occlusion
+  depth map still lands with Phase 10 canopy meshes).

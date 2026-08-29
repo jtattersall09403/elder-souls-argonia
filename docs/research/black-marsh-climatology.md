@@ -98,7 +98,9 @@ Hist-Deek) → Monsoon (Second–Last Seed) → Flood peak (Hearthfire–Frostfa
   far from coast; muted olive/grey-greens, dry haze, wide diurnal swing,
   best visibility; fen/scrub opens up. Fits Stormhold's "gateway" role.
 - **Border mountains**: windward mid-slope rain max; low cloud-forest belt
-  (~600 m-equivalent) with whiteout mist; dry rocky lee (explains
+  (~400–550 m-equivalent) with frequent orographic cap cloud — clearing on
+  settled days, and always attached to the massif (8c round 3); dry rocky
+  lee (explains
   Morrowind-side aridity). Cool mossy greens → mist-grey crag. Cold allowed
   here only (climate exception, module 50).
 - **Deep interior jungle (Helstrom ring)**: all maxima coincide — permanent

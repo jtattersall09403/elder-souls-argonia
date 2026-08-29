@@ -140,12 +140,15 @@ export function RainSystem({ count, extentM }: { count: number; extentM: number 
           uExtentM: { value: extentM },
           uPixelWorld: { value: 0.0013 },
           uColor: { value: new THREE.Color(0.6, 0.65, 0.7) },
-          uOpacity: { value: 0.5 },
+          uOpacity: { value: 0.65 },
         },
         vertexShader: RAIN_VERT,
         fragmentShader: RAIN_FRAG,
         transparent: true,
         depthWrite: false,
+        // Billboards spun by cross(velDir, view) flip winding with the view
+        // direction — FrontSide silently culled half the streaks (round 3).
+        side: THREE.DoubleSide,
       }),
     [extentM],
   );
@@ -180,13 +183,22 @@ export function RainSystem({ count, extentM }: { count: number; extentM: number 
         };
       }
     ).__AERIAL_UNIFORMS__;
-    // Streak colour = the exposure-anchored bright-fog luminance ×1.25
-    // (lightRig fogLum — lit water in air): brighter than wet terrain and
-    // slightly brighter than a storm sky, so streaks read against both, at
-    // any exposure, day or night.
+    // Streak colour rides the exposure-anchored bright-fog luminance
+    // (lightRig fogLum — lit water in air) LIFTED well above it: rain reads
+    // through CONTRAST, and under a storm's lifted exposure the ground
+    // renders brighter than the fog colour — ×1.25 was invisible over sunlit
+    // mud (round-3 debug screenshots). ×4, capped at ~1.05 screen so day
+    // streaks are bright white-grey without glowing; at night the cap never
+    // engages and streaks stay a dim moonlit veil.
     if (air) {
       const f = air.uFogLum.value;
-      (u.uColor.value as THREE.Color).setRGB(f.x * 1.25, f.y * 1.25, f.z * 1.25);
+      const exposure = window.__STUDIO_SKY_DEBUG__?.exposure;
+      let k = 4;
+      if (exposure && exposure > 0) {
+        const fogScreen = Math.max(f.x, f.y, f.z) * exposure;
+        k = Math.min(4, Math.max(1.2, 1.05 / Math.max(fogScreen, 1e-4)));
+      }
+      (u.uColor.value as THREE.Color).setRGB(f.x * k, f.y * k, f.z * k);
     }
     if (air?.uClimateAir.value && !u.uAir.value) u.uAir.value = air.uClimateAir.value;
   });

@@ -170,15 +170,35 @@ swamps differ without hand-authoring:
 - **Ground mist is a separate, bounded volume**, driven by the climate **mist**
   field's three distinct regimes (radiation mist pooling in inland basins at
   dawn in the dry/recession season; advection sea fog up the estuaries;
-  cloud-forest whiteout in the montane belt). These look different and must be
-  authored as different things.
+  cloud-forest cap cloud on the montane belt). These look different and must
+  be authored as different things.
+- **Fog volumes are LOCAL; fog conditions are synoptic** (owner directive,
+  8c round 3). The weather machine decides *whether* it is a sea-fog morning
+  or a clouded-belt day (one province-wide condition); *where* the fog sits
+  comes per-pixel from the climate rasters along the view path. You can stand
+  on a ridge and look down on a misty valley, or inland at a coastal fog
+  bank — fog is a thing in the world you look at, never a veil that follows
+  the camera. The camera-in-fog whiteout only engages where the local rasters
+  say the camera is genuinely inside a bank.
+- **The mountain belt is cap cloud, not permanent whiteout** (round 3,
+  superseding the earlier "quasi-permanent" reading): orographic cloud clings
+  to the massif (`climate-vis.png` R mask), thickens with the synoptic cloud
+  (thick in rain, moderate under overcast, CLEAR on settled days — real
+  cloud forest clears when the air subsides), and has a sharp upper edge
+  (`WHITEOUT_BELT`, centre ~470 m) so the tallest summits stand **above the
+  cloud sea** with long views.
 - **Region grammar gains an atmosphere entry** (§16): alongside
   `materialPalette`, each region class carries characteristic turbidity,
   boundary-layer height, mist regime and night palette. Region identity is
   *air* as well as ground.
-- **Visibility is gameplay**: haze and mist set draw distance, sight-lines,
-  AI perception and encounter design. Publish the current visibility distance
-  through the environment query, so combat/AI and the renderer agree.
+- **Visibility is gameplay AND is rendered**: haze and mist set draw
+  distance, sight-lines, AI perception and encounter design. The current
+  visibility distance is published through the environment query, and (8c
+  round 3) the per-region authored visibility renders as a boundary-layer
+  extinction floor (`climate-vis.png` G, Koschmieder, air floor 250 m —
+  shorter authored figures are vegetation sightlines that Phase 10's flora
+  delivers), so the renderer and the published number agree: murky marsh
+  air, crisp mountain air, long summit vistas.
 
 ## 98. Weather
 
