@@ -504,7 +504,7 @@ export function attributeCost(level, currentValue, nthInSitting) {
  * exploit the design claims is closed).
  */
 export function playCharacter({
-  classId = "marsh-hand",
+  classId = "warrior",
   race = "argonian",
   maxLevel = 50,
   policy = "spend",

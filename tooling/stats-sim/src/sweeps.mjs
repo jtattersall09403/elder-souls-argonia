@@ -254,20 +254,20 @@ export function progressionSweep() {
 /** 7b. Coarse whole-playthrough runs: five plausible characters, act by act. */
 export function campaignSweep() {
   const runs = [
-    { label: "Argonian spear-warden (medium armour)", classId: "spear-warden", race: "argonian", archetypeId: "spear" },
-    { label: "Nord shield-and-sword (heavy)", classId: "marsh-hand", race: "nord", archetypeId: "melee" },
-    { label: "Bosmer reed scout (bow, light)", classId: "reed-scout", race: "bosmer", archetypeId: "marksman" },
-    { label: "Breton sap-speaker (destruction)", classId: "sap-speaker", race: "breton", archetypeId: "magic" },
-    { label: "Khajiit ledger hand (short blade, stealth)", classId: "ledger-hand", race: "khajiit", archetypeId: "stealth" },
-    { label: "Orc greatsword (heavy, no shield)", classId: "marsh-hand", race: "orc", archetypeId: "greatsword" },
+    { label: "Argonian spear-warden (medium armour)", classId: "kaal", race: "argonian", archetypeId: "spear" },
+    { label: "Nord shield-and-sword (heavy)", classId: "warrior", race: "nord", archetypeId: "melee" },
+    { label: "Bosmer reed scout (bow, light)", classId: "scout", race: "bosmer", archetypeId: "marksman" },
+    { label: "Breton sap-speaker (destruction)", classId: "mage", race: "breton", archetypeId: "magic" },
+    { label: "Khajiit ledger hand (short blade, stealth)", classId: "thief", race: "khajiit", archetypeId: "stealth" },
+    { label: "Orc greatsword (heavy, no shield)", classId: "warrior", race: "orc", archetypeId: "greatsword" },
   ];
   return runs.map((r) => playCampaign(r));
 }
 
 /** 8. The deferral exploit: spending every sitting vs hoarding to level 20. */
 export function deferralCheck() {
-  const spend = playCharacter({ classId: "marsh-hand", policy: "spend", maxLevel: 30 });
-  const hoard = playCharacter({ classId: "marsh-hand", policy: "hoard", hoardUntilLevel: 20, maxLevel: 30 });
+  const spend = playCharacter({ classId: "warrior", policy: "spend", maxLevel: 30 });
+  const hoard = playCharacter({ classId: "warrior", policy: "hoard", hoardUntilLevel: 20, maxLevel: 30 });
   const at = (run, level) => run.history.find((h) => h.level === level);
   return {
     spend: { attributePoints: spend.attributePoints, meanHealthPerRank: +spend.meanHealthPerRank.toFixed(1), healthAt15: at(spend, 15)?.health },

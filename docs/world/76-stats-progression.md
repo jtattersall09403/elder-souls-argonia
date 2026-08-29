@@ -110,6 +110,11 @@ These are not open questions — they follow from decisions already taken.
   swimming and disease resistance are race modifiers (§127).
 - **Birthsigns are calendar-shaped**: a birth date yields a birthsign for free
   from the world clock (module 55 §95). The slot ships; the content is deferred.
+- **There are no followers or companions in this game** (owner, round 2, and
+  already the quest plan's position — decision 0028: "no companions anywhere").
+  Nothing in this design assumes an ally stat block, shared traversal or party
+  scaling; hirelings, guides and escorts are quest actors with their own
+  authored numbers, not a player-managed follower system.
 - **Respawn-on-rest is a world ruling** (owner 2026-08-28, decision 0031):
   generic enemies respawn when the player rests; named actors never; cleared
   dungeons stop. Binding on Phases 11/12/13 as well as here (§126).
@@ -168,6 +173,14 @@ reputation gating; every stat that changes movement, swim/climb speed or burden
 maps into capability-profile *ranges* (§52); it reproduces today's feel at the
 reference loadout; every stat gate is expressible as a typed quest condition.
 
+**The simulation is evidence, not law** (owner, round 2). It is arithmetic over
+a design document: no animation, no spacing, no player hands. Where it and a
+playtest disagree, the playtest wins; where it and an instinct disagree, argue
+it out. Its job is to catch the things instinct cannot — a curve that diverges
+at hour ninety, a build that quietly cannot finish, an exploit that only shows
+up over a thousand fights — and to make retuning cheap. **Do not fit the design
+to its fourth decimal place.**
+
 **Game code stays out of scope** — implementation is Phase 10c and must not
 start early. The one exception is the simulation harness (`tooling/stats-sim/`,
 data-in/report-out, touches no game package); at 10c its invariants are ported
@@ -185,7 +198,7 @@ consumed by both apps). Definitions land as **data files consumed like
 - capability profiles regenerate from the stat system and the world's
   traversal/validation probes still pass (§52, §122);
 - **the NPC/enemy stat model ships alongside the player's** (§128): every NPC,
-  enemy, follower and merchant carries the same schema plus a level, authored
+  enemy and merchant carries the same schema plus a level, authored
   **semantically and compiled to absolutes**. Derivation reads world data only,
   never player state, so 0004 is untouched — the numbers are as fixed as ever,
   merely *derived*, so a curve retune + recompile + sim re-run rebalances all
@@ -230,21 +243,32 @@ conventions make the whole system one system:
    ```
 
    `k` is front-loaded and self-soft-capping: skill 25 buys 36 % of the range,
-   50 buys 67 %, 75 buys 88 %, the last 25 points buy 12 %. Attributes matter
-   everywhere without buying anything twice — that is the **attribute assist**,
-   and it is why the governing attribute of a skill is a real choice.
+   50 buys 67 %, 75 buys 88 %, the last 25 points buy 12 %. The **attribute
+   assist** is how attributes matter everywhere without buying anything twice —
+   it is *ours*, not Morrowind's (§117 explains why we added it).
 2. **One effect stack.** Racials, birthsigns, diseases, potions, spells,
    enchantments and the allegiance rites (decision 0028) are all `StatEffect`
    entries against the same fields (§127). Nothing has a bespoke pathway.
 
-**The reference character — "the Marsh Hand"** (the protected calibration
-anchor, §102): level 10; Str 50, End 50, Agi 50, Spd 50, Wil 40, Int 40, Per 40;
-Long Blade 60, Block 50, Heavy Armor 45, Athletics 40; carrying the reference
-loadout (steel straight sword, steel kite shield, steel cuirass/gauntlets/boots,
-head bare, iron war arrows) at **mid burden**. This character has 98 health,
-100 stamina, 180 kg capacity, 25.0 % mitigation against a 24-damage blow and
-today's exact timings — i.e. the sandbox as playtested. Every band below is
-written so the Marsh Hand sits where today's feel already sits.
+**Calibration is done against a *set* of characters, not one.** The balance
+harness runs every stage of the game × six build styles × every danger band,
+plus edge cases (unarmoured mage, over-encumbered hauler, best-in-slot tank,
+hour-one novice) and six whole-playthrough runs. No single character defines
+the curve.
+
+One of that set is named, because it is the **continuity anchor**: the
+**Marsh Hand** — level 10; Str/End/Agi/Spd 50, Wil/Int/Per 40; Long Blade 60,
+Block 50, Heavy Armor 45, Athletics 40; steel straight sword, steel kite
+shield, steel cuirass/gauntlets/boots, head bare, at **mid burden**. She comes
+out at 98 health, 100 stamina, 180 kg capacity and 25.0 % mitigation against a
+24-damage blow, which is what the combat sandbox runs on today.
+
+That correspondence is a **convenience, not a law**. The sandbox's constants
+were placeholders chosen to make the combat feel good in a vacuum (§102), and
+this design is free to re-base any of them. Keeping the anchor means a change
+here can always be compared against something that has actually been played;
+it does not mean 100 health is sacred. What *is* protected is the **feel** —
+timing, weight, the rhythm of a trade — not the integers.
 
 ## 117. Attributes
 
@@ -262,9 +286,46 @@ value above 100 and the design does not cap that (§102, god-build).
 | **Intelligence** (Int) | `maxMagicka = 20 + 3×Int` (×race/birthsign multipliers) · alchemy potency · enchanting point budget |
 | **Personality** (Per) | base disposition · price band with Mercantile · speech score (§125) · faction standing gain rate |
 
-Health is **continuous and retroactive by construction** — it is a formula over
-current End and level, so raising Endurance late credits every past level. That
-one choice kills Morrowind's "max Endurance first" pathology outright.
+### 117.1 What a "governing attribute" does, and what we changed
+
+In Morrowind (*Morrowind:Attributes*, *Morrowind:Trainers*) a governing
+attribute does exactly three things: it decides **which attribute the level-up
+screen offers a multiplier for**, it **caps training** (you cannot train a skill
+above its governing attribute), and it feeds the **specific formulas that name
+it** — Strength into damage and carry, Agility into the hit/dodge/block/sneak
+dice, Endurance into health, and so on. It never generically improves the skill
+itself.
+
+We delete two of those three: there is no multiplier minigame (decision 0031)
+and there are no dice. Left alone, that would leave attributes doing very
+little outside a handful of formulas. So we add one rule of our own:
+
+> **The attribute assist** — a skill's effective value is
+> `skill + clamp((governing attribute − 50)/5, ±10)`.
+
+It is small (±10 of 100), it is legible, it makes every attribute matter to the
+skills it governs, and it costs no new systems. The **trainer cap stays exactly
+as Morrowind had it** (and reads base values, which kills Morrowind's
+drain-and-train trick). The alternative — Morrowind-literal, where attributes
+matter only where a formula names them — is a one-line change if we ever prefer
+it; it is recorded as a rejected option, not a closed door.
+
+### 117.2 How level, Endurance and health fit together
+
+Three separate things, deliberately:
+
+- **Skill ranks** come from use, and ten of them (major or minor) make a level
+  ready to bank.
+- **Levels** are banked at a rest. Each level adds health — how much depends on
+  your Endurance *now*.
+- **Endurance** is bought with vastei at the level screen.
+
+Because health is a **formula** — `0.5×(Str+End) + level×(1.5 + End/15)` —
+rather than a running total, it is **retroactive**: buy Endurance at level 30
+and every one of your thirty levels immediately pays out at the new rate. A
+worked example: at level 10 with Str 50/End 50, health is 98; raise Endurance to
+70 and it becomes 118 at once, without replaying anything. That single choice
+kills Morrowind's "max Endurance first or ruin your character" homework.
 
 ## 118. Skills
 
@@ -281,21 +342,21 @@ per use (§121).
 
 | Skill | Gov. | Spec. | What the curve moves |
 |---|---|---|---|
-| Long Blade | Str | Combat | damage position 0.40→1.00 · stamina ×1.25→0.80 · recovery ×1.15→0.85 · wear ×1.4→0.6 |
+| Long Blade | Str | Combat | damage position 0.40→1.00 · stamina cost ×1.25→0.80 · wear ×1.4→0.6 |
 | Blunt | Str | Combat | as Long Blade (class identity is the weapon table, not the skill) |
 | Axe | Str | Combat | as Long Blade |
 | Spear | End | Combat | as Long Blade |
-| Short Blade | Spd | Stealth | as Long Blade + backstab damage ×1.0→1.25 |
+| Short Blade | Spd | Stealth | as Long Blade (its sneak-opener table is the best in the game after the dagger's, §121.5) |
 | Marksman | Agi | Stealth | delivered-damage position 0.40→1.00 · draw speed ×0.85→1.20 · sway ×1.4→0.6 · draw stamina ×1.25→0.80 |
-| Hand-to-Hand | Spd | Stealth | damage position 0.40→1.00 · stamina-damage ×1.0→1.8 · posture damage ×1.0→1.6 (§121) |
+| Hand-to-Hand | Spd | Stealth | damage position 0.40→1.00 · stamina damage to the target ×1.0→2.0; an opponent whose stamina you empty can be finished (§121.5) |
 | Block | Agi | Combat | stability ×0.85→1.15 (absolute cap 0.95) · guard stamina ×1.30→0.78 |
 | Heavy Armor | End | Combat | worn heavy rating ×0.55→1.20 · its effective weight ×1.10→0.90 · wear ×1.4→0.6 |
 | Medium Armor | End | Combat | as Heavy, for medium pieces |
 | Light Armor | Agi | Stealth | as Heavy, for light pieces |
 | Unarmored | Spd | Magic | rating `0.006×skill²` pro-rata over armour slots left bare (60 at skill 100) |
 | Athletics | Spd | Combat | run ×0.94→1.10 · swim ×0.85→1.30 · `breath = 25 + 0.35×Athletics + 0.25×End` seconds · sprint drain ×1.20→0.85 |
-| Acrobatics | Str | Stealth | jump ×0.90→1.25 · safe-fall height 2.0→6.0 m · climb speed ×0.85→1.25 · climb stamina ×1.25→0.75 |
-| Sneak | Agi | Stealth | noise radius ×1.25→0.55 · visibility ×1.20→0.60 (thresholds vs detection cones, never a roll) |
+| Acrobatics | Str | Stealth | jump ×0.90→1.25 · safe-fall height 2.0→6.0 m · **climbing**: speed ×0.85→1.25 and stamina drain ×1.25→0.75 (§122.1) |
+| Sneak | Agi | Stealth | noise radius ×1.25→0.55 · visibility ×1.20→0.60 (thresholds vs detection cones, never a roll) · **the sneak-attack multiplier band** (§121.5) |
 | Security | Int | Stealth | `openableLock = 15 + 0.85×effSkill + toolBonus(0/15/30/45)`; keys and Open magnitude always work |
 | Smithing | Str | Combat | repair per stroke 6→22 condition · temper grades 0/1/2/3 at effSkill 25/55/80 · craftable material tier ≤ 1+floor(effSkill/14) |
 | Mercantile | Per | Stealth | buy price ×1.35→0.80 · sell price ×0.55→0.95 (with disposition, §125) |
@@ -330,15 +391,28 @@ changes what kind of weapon it is.
 
 1. **Race** — attribute baselines, skill bonuses and a permanent effect package
    (§127).
-2. **Birth date → birthsign** — the world clock's thirteen constellations
-   (module 55 §95); the slot ships at 10c, the sign effects are content and may
-   land later. A sign is an effect-stack entry like any other.
+2. **Birthsign — chosen directly** (owner, round 2), from the thirteen
+   constellations the world clock already models (module 55 §95). The birth
+   *date* stays as flavour on the character sheet and in dialogue ("born under
+   the Shadow" is a canon social fact, not a mechanic); it does not decide your
+   sign. A sign is an effect-stack entry like any other, so the slot ships at
+   10c and the sign contents can land later.
 3. **Class** — Morrowind's structure in full: **5 major skills** (start +25),
    **5 minor** (+10), everything else miscellaneous (start 5), a
    **specialization** (Combat / Stealth / Magic: +5 to its skills and ×0.8 XP
-   cost), and **2 favoured attributes** (+10). Preset classes plus a custom
-   builder. Race bonuses stack on top; nothing here gates anything later — it
-   shapes *growth rates* and the starting shape only.
+   cost), and **2 favoured attributes** (+10). Race bonuses stack on top;
+   nothing here gates anything later — it shapes *growth rates* and the
+   starting shape only.
+
+   **Eighteen presets** ship (`classes.json`), plus the custom builder. Eleven
+   are the canonical Elder Scrolls classes — Warrior, Knight, Barbarian, Scout,
+   Thief, Assassin, Mage, Spellsword, Nightblade, Healer, Monk — so the roster
+   reads as pan-Tamrielic and every playable race has an obvious home. Seven are
+   province-specific and named from canon offices in the lore dossiers: **Kaal**
+   (war-captain), **Root-herald** (the tribe's outward face), **Tree-minder**,
+   **Grave-singer**, **Shadowscale-trained**, **Marsh guide** and **Reed-sail
+   hand**. Any race may take any class; the presets carry a "typical" line for
+   the creation screen and nothing more.
 
 Starting skill floor after all bonuses is 5; nothing starts at 0, so no skill
 is unusable at creation. There are **no wield or use requirements** anywhere
@@ -375,19 +449,23 @@ worthiness function because vastei inherits every skill-grind exploit
 | Melee / marksman / unarmed | the blow connects with a hostile, living actor that can fight back | value scales with `damageDealt / targetMaxHealth`, capped at 1 per blow; the same individual target yields diminishing value after the 6th connect |
 | Block | a real incoming attack is absorbed | none needed |
 | Armour skills | you take a hit while wearing that class | value scales with damage taken |
-| Destruction / Restoration / Alteration / Illusion / Conjuration / Mysticism | the spell has a legal target and a real effect (damage dealt, wound closed, lock opened, creature summoned, a mind actually changed) | per-spell-per-rest diminishing returns; casting into empty air is worth nothing |
+| Destruction / Restoration / Alteration / Illusion / Conjuration / Mysticism | the spell **has a real effect** — damage dealt, a wound closed, a lock opened, a creature summoned, a mind changed, **or a self/utility effect that mattered** (water-breathing while actually underwater, a light in the dark, feather while over-loaded, invisibility while someone could see you). Untargeted magic is not second-class: it counts when the situation it answers is real | per-spell-per-rest diminishing returns; casting a spell whose effect changes nothing — light at noon, water-breathing on dry land — is worth nothing |
 | Athletics | distance covered while running/swimming **outside settlement bounds** | per-rest cap ≈ 20 minutes of travel |
-| Acrobatics | a jump that clears a real gap, or a survived fall that dealt damage | once per location per rest for falls (kills fall-grinding) |
+| Acrobatics | **climbing** (per metre actually ascended), a jump that clears a real gap, or a survived fall that dealt damage | falls count once per location per rest (kills Morrowind's fall-grinding); climbing counts on the way *up* only |
 | Sneak | you are inside a detection cone that could have seen you, and are not seen | only near actors that would react |
 | Security | the lock's rating is within 10 of your current ceiling or above it | none |
 | Alchemy | a brew you have not made since your last rest | per-recipe diminishing |
 | Smithing | repairing real damage, tempering, or forging | value scales with condition restored / item tier |
-| Mercantile | a transaction, value-capped by the vendor's purse | per-vendor-per-rest cap |
+| Mercantile | a transaction, worth what it was worth — the value that counts is capped by **how much money the merchant actually has**, so you cannot farm one village grocer by selling and rebuying the same crate | per-vendor-per-rest cap |
 | Speechcraft | a check that had a real outcome (topic opened, price moved, quest branch) | never repeatable on the same NPC state |
 
-Nothing accrues while an enemy is helpless-by-bug states (broken pathing,
-stuck), against summoned-by-you creatures, or against actors flagged
-`trainingDummy`.
+**The size of a "use".** A blow worth ~15 % of the target's health is one full
+use-point; below that it scales down (chip damage on a giant is nearly
+worthless, which is the anti-grind rule), and after the **sixth connect on the
+same actor** the rest of that fight is worth 35 % — so a long fight is not a
+skill mill. Nothing accrues at all against actors that are helpless through a
+bug (broken pathing, stuck geometry), against creatures you summoned yourself,
+or against anything flagged `trainingDummy`.
 
 ### 120.3 Vastei — the currency
 
@@ -411,6 +489,14 @@ taking one rank is `4 × (skill+1) × classFactor × specFactor × (1 + effSkill
 regardless of *how* you earned it. The currency therefore cannot be farmed
 faster than skill ranks themselves; the only exploit surface is §120.2, which
 is exactly why those rules guard both.
+
+**It must be taught, in fiction, in the opening hours** (owner requirement,
+round 2). No player arrives knowing what *vastei* is, and a currency that is
+earned by acting, spent on becoming, and dropped where you die needs one clear
+diegetic explanation: a **Nisswo** — a travelling preacher of change, which is
+exactly what the Clutch are — puts it in their own words in the tutorial
+stretch, and the level screen repeats it in one line. Phase 10c ships the
+mechanic; the quest packet that owns the opening owes the scene.
 
 Rules:
 
@@ -470,9 +556,10 @@ Strength acts through the attribute assist inside `effSkill`, so it is felt but
 never double-counted. Critical (×2) and head-zone (×2) multipliers are today's.
 
 **Soft requirements.** Items keep their `requirements`, but they never block:
-for a shortfall `d` (points below a requirement), stamina cost ×`(1 + 0.06d)`
-and recovery ×`(1 + 0.05d)`, capped at `d = 20`. A heavy blade found early is
-usable, exhausting, and glorious.
+for a shortfall `d` (points below a requirement), stamina cost ×`(1 + 0.07d)`,
+capped at `d = 20`. A heavy blade found early is usable, exhausting, and
+glorious — at the worst possible shortfall a swing costs about 85 of a starting
+character's 92 stamina, so they get one swing and a long breath.
 
 **Marksman** keeps the physical ballistics model; skill and Agility drive the
 existing `RangedModifiers`, and `P(effMarksman)` multiplies delivered damage
@@ -481,10 +568,28 @@ existing `RangedModifiers`, and `P(effMarksman)` multiplies delivered damage
 marksman's endgame damage is geography like everybody else's. Arrowheads pierce:
 armour is only ~60 % as effective against an arrow as against a blade.
 
-**Hand-to-Hand** deals low health damage but heavy **stamina and posture**
-damage (bands in §118); an opponent whose stamina is emptied by fists is open
-to a knockout finisher — Morrowind's fatigue-knockout, Souls-shaped. Argonian
-and Khajiit claw clips are already in the vault.
+**Hand-to-Hand** deals low health damage but heavy **stamina** damage (§118);
+an opponent whose stamina you empty is open to a knockout finisher —
+Morrowind's fatigue-knockout, Souls-shaped, and it needs no new systems.
+Argonian and Khajiit claw clips are already in the vault.
+
+### 121.5 Sneak attacks
+
+A blow landed on an actor that has not detected you is multiplied. Skyrim's
+shape (*Skyrim:Sneak*: dagger ×6/×15, one-handed ×3/×6, bow ×2/×3, unarmed and
+two-handed ×2), rebuilt as **Sneak-skill bands** so it needs no perk economy:
+
+| Sneak | Dagger | Short blade | One-handed | Two-handed | Bow | Spell |
+|---|---|---|---|---|---|---|
+| 0–24 | ×3 | ×2.5 | ×2 | ×2 | ×2 | ×1.5 |
+| 25–49 | ×6 | ×4 | ×3 | ×2.5 | ×2.5 | ×2 |
+| 50–74 | ×10 | ×6 | ×4 | ×3 | ×3 | ×2.5 |
+| 75+ | ×15 | ×8 | ×6 | ×4 | ×4 | ×3 |
+
+Melee beats ranged deliberately: closing to knife distance unseen is the hard
+part, and Skyrim rewards it the same way. It applies to the **first blow only**;
+a botched opener is just an ordinary attack, and it is the whole reason a
+stealth build can punch above its armour class.
 
 ### 121.2 Stamina
 
@@ -495,19 +600,15 @@ mid, ×1.20 fat). **One bar** — the second "fatigue" layer was rejected (owner
 round 1, Q4); long-loop exertion (sprinting, swimming, climbing, heavy loads)
 hooks this pool instead.
 
-### 121.3 Poise and posture
+### 121.3 Hit reactions and stagger
 
-```
-poise = 0.2×End + 0.35×totalArmourRating
-attack poise damage = motionValue × 0.55
-```
-
-Elden-Ring hybrid: a small passive threshold (an attack whose poise damage is
-below half your poise causes a flinch, not a stagger), hyperarmor on committed
-heavy attacks while the poise budget holds, and enemy **posture** — the existing
-guard system generalised, so a broken posture is a critical opening. Thresholds
-are calibrated at 10c so the reference character's reactions are exactly
-today's; everything above the reference is gain.
+**No poise or posture system.** Reactions stay exactly what the sandbox already
+does: severity comes from the attack and the hit zone, and the existing guard
+system produces guard-break openings. An Elden-Ring-style poise layer was
+drafted and **cut** (owner, round 2) — it is a new mechanic the sandbox has
+never had, and adding one from a design document is how feel gets broken. If
+stagger ever needs to vary by character, the hook is Endurance and worn weight,
+and it is a Phase 10c-or-later conversation with a controller in hand.
 
 ### 121.4 Defence
 
@@ -516,12 +617,28 @@ mitigation = AR / (AR + 126 + incomingDamage)          # 0…1, never reaches 1
 AR = Σ worn pieces (× that class's armour-skill band) + unarmoured contribution + effects
 ```
 
-Today's asymptotic curve with one addition: **big hits punch through**. At the
-reference (AR 50, a 24-damage blow) it returns exactly today's 25.0 %; the same
-armour turns only 17 % of a 120-damage D5 blow, and a 150-AR endgame set turns
-50 % of a light hit but 38 % of that D5 blow. That is the property a fixed-danger
-world needs — armour that helps everywhere and trivialises nothing (Morrowind's
-`min(1 + AR/dmg, 4)` shape, expressed in our curve so the reference is preserved).
+with `constant = 135.6` and `damageCoefficient = 0.6`. Today's asymptotic curve
+with one addition: **big hits punch through**. At the reference (AR 50, a
+24-damage blow) it returns exactly today's 25.0 %; best-in-slot plate (AR ~406)
+turns 73 % of a light blow but only 56 % of a D5 one, and even then the hardest
+hit in the game still takes a fifth of that character's health. Armour that
+helps everywhere and trivialises nothing — Morrowind's `min(1 + AR/dmg, 4)`
+behaviour, expressed in our curve so the reference is preserved.
+
+**Armour has its own material ladder**, separate from the weapon damage ladder
+and far steeper (Morrowind's runs 8× from iron to daedric; the weapon ladder
+runs 2.3×). Steel is 1.0, so the reference set still rates 50:
+
+| | studded | iron | steel | imperial | dwarven | elven | orcish | akaviri | glass | ebony | daedric |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| armour scale | 0.55 | 0.75 | **1.00** | 1.10 | 1.60 | 1.50 | 1.90 | 2.20 | 2.60 | 3.40 | 4.40 |
+
+This is what makes "typical endgame armour = three unavoided blows,
+best-in-slot = five or six" possible at all; with the weapon ladder reused for
+armour the entire endgame sat inside a factor of 1.4. **Armour class then
+scales the rating**: light ×0.75, medium ×0.9, heavy ×1.0 — light armour
+protects meaningfully less and weighs far less, which is the trade the class
+choice is supposed to be.
 
 **Armour classes are a per-material data tag** — no new assets, the Morrowind
 category reintroduced by reclassification:
@@ -531,6 +648,13 @@ category reintroduced by reclassification:
 | Light | studded, elven, glass, forsworn |
 | Medium | imperial, falmer (chitin), draugr (ancient mail), orcish, akaviri |
 | Heavy | iron, steel, silver, dwarven, nordhero, ebony, daedric |
+
+**One global lethality knob.** `difficulty.enemyDamageMultiplier` multiplies
+incoming enemy damage and nothing else — not populations, not loot, not gates,
+so decision 0004 is untouched. It exists so the whole game can be made harsher
+or gentler in one number, and it is the natural back-end for a **play-time
+difficulty setting** (0.7 forgiving / 1.0 normal / 1.35 harsh). Phase 10c ships
+the knob even if the setting screen comes later.
 
 Beast races wear **every** piece they can wear in Skyrim (owner veto of the
 canon boot/closed-helm ban).
@@ -550,18 +674,54 @@ windows, input buffering (§102).
 
 **Burden ratio** `r = carriedKg / (30 + 3×Str)`:
 
-| r | Tier | Effect |
-|---|---|---|
-| < 0.20 | fast | roll distance ×1.10, roll recovery ×0.90, stamina ×1.00 |
-| < 0.35 | **mid** (the reference) | today's roll exactly, stamina ×1.08 |
-| < 1.00 | fat | roll distance ×0.80, recovery ×1.25, stamina ×1.20 |
-| ≥ 1.00 | overloaded | cannot run, roll, jump or swim upward; walk at 40 % speed; may still fight and cast (Morrowind's hard stop, softened so it is never a soft-lock) |
+| r | Tier | Roll distance | Roll recovery | i-frames | Stamina |
+|---|---|---|---|---|---|
+| < 0.20 | fast | ×1.10 | ×0.90 | ×1.15 | ×1.00 |
+| < 0.35 | **mid** (the reference) | today's roll exactly | ×1.00 | ×1.00 | ×1.08 |
+| < 1.00 | fat | ×0.80 | ×1.25 | ×0.80 | ×1.20 |
+| ≥ 1.00 | overloaded | no roll at all | — | — | cannot run, jump or swim upward; walk at 40 % speed; may still fight and cast (Morrowind's hard stop, softened so it is never a soft-lock) |
 
-**i-frames are identical in every tier** — tiers change distance and recovery
-only (§102). The thresholds are calibrated (by the sim) so the reference kit is
-*mid*, a full endgame plate kit is *fat* until Strength grows into it, and a
-looted-up hoarder is *overloaded*: carrying capacity is a real progression axis
-rather than a formality.
+**Invulnerability frames do vary by tier** — Dark Souls 1's behaviour
+(13 / 11 / 9 frames at light / medium / fat), and the reason the rule in §102
+is worded the way it is: *stats* never touch i-frames, because a hidden stat
+gating a feel verb is the Dark Souls 2 Adaptability mistake. Equip load is not
+a hidden stat; it is a visible choice you make every time you pick up a
+breastplate, and the game tells you which tier you are in. (DS3 and Elden Ring
+flattened i-frames across tiers instead, varying distance and recovery only —
+if playtesting says our roll reads better that way, it is one constant.)
+
+The thresholds are calibrated so the reference kit is *mid*, a full endgame
+plate kit is *fat* until Strength grows into it, and a looted-up hoarder is
+*overloaded*: carrying capacity is a real progression axis rather than a
+formality.
+
+### 122.1 Climbing (the Acrobatics verb)
+
+BotW-style climbing is a **stamina problem governed by Acrobatics**, and it is
+the reason the skill exists alongside Athletics:
+
+```
+climb speed      = 1.1 m/s × band(0.85 → 1.25)
+stamina drain    = 7.5 /s × band(1.25 → 0.75) × burden (fast 0.85 / mid 1.0 / fat 1.35)
+mantle at the top= 18 stamina × the same band       ledge grab = 8
+hanging still    recovers 12 % of normal stamina regen
+```
+
+What that produces, which is the point of stating it in numbers:
+
+| Climber | Speed | Drain | Reach (with rests) |
+|---|---|---|---|
+| Hour one (Acrobatics 15, mid load) | 1.0 m/s | 8.6 /s | ~12 m |
+| Competent (45, mid load) | 1.2 m/s | 7.1 /s | ~24 m |
+| Scout (70, light load) | 1.3 m/s | 5.2 /s | ~63 m |
+| Master (100, light load) | 1.4 m/s | 4.8 /s | 160 m+ |
+
+So a cliff is a **gate you can see** — a beginner reads 12 m of wall as "not
+yet", and the same wall is nothing to a scout. Falling costs the §122 fall
+rules; being overloaded means you cannot start. Authors get a simple contract:
+**a wall under 10 m is open to everyone, 25 m wants a real climber, and beyond
+40 m is specialist ground** — and, like every other capability, a climb-only
+route needs a fallback (quests 20 §11).
 
 Everything the world's traversal validation consumes is a
 `TraversalCapabilityProfile` field, generated at 10c from the stat system
@@ -617,11 +777,18 @@ misclick-miss, and they are gone.
   magnitude/duration bounded by school skill and Int. Spells you cannot afford
   to cast are makeable and useless, which is self-limiting.
 - **Spell-cost reduction** from enchanted gear is the classic mage endgame and
-  we keep it, **capped at 50 %** across all sources — no stack ever reaches
-  free casting (Skyrim's 100 %-reduction exploit, closed by a cap rather than
-  by removing the fun).
-- **Enchanting**: item capacity by slot/material/weight; constant effect needs a
-  soul of 400+ and effSkill ≥ 60; charged-item use cost `×(1.1 − Enchant/100)`.
+  we keep it, **capped at 75 %** across all sources (owner, round 2: rare,
+  hard-won gear should hit hard). Every spell still costs something, so no
+  infinite-cast loop exists — Skyrim's 100 %-reduction exploit is closed by the
+  cap rather than by removing the fun. Reaching the cap should take genuinely
+  rare, placed items, not shop stock.
+- **Enchanting**: item capacity by slot/material/weight; charged-item use cost
+  `×(1.1 − Enchant/100)`. **Constant effects are tiered by soul size, not one
+  flat gate** (owner, round 2 — they are one of the most enjoyable things in
+  Morrowind and small ones should be attainable): a petty soul (30) buys a
+  small permanent effect, a grand one (600) buys a large one, with lesser,
+  common and greater in between; the magnitude a soul can sustain scales with
+  it, and skill still sets the point budget.
   **Learn-by-disenchanting** (the Skyrim keeper): destroying a magic item
   teaches its effect. Enchanting services exist and are expensive.
 - **Two hard bounds** (the god-loop killers, from the documented Morrowind and
@@ -652,9 +819,22 @@ effSkill 25/55/80, each grade ≈ +8 % damage or AR — bounded so it cannot
 trivialise a danger band), and crafting up to material tier `1 + floor(effSkill/14)`.
 Convergent by rule: nothing fortifies smithing, and smithing reads base stats.
 
-**Trade**: price = base × Mercantile band × disposition adjustment (±15 %). No
-haggling minigame, no flat-value bypass merchants (Morrowind's Creeper), vendor
-purses are finite and refresh on a schedule. Reward design still holds that
+**Trade and what replaces haggling.** Morrowind's barter was a dice-rolled
+haggle per transaction; ours is a **price band you can see**:
+
+```
+buy price  = base × band(1.35 → 0.80 over Mercantile) × dispositionAdjust(±15 %)
+sell price = base × band(0.55 → 0.95 over Mercantile) × dispositionAdjust(±15 %)
+```
+
+So an unskilled, disliked stranger pays about 1.5× what a skilled, welcome one
+pays, and sells for about half as much — a 3× swing across the whole system,
+which is worth investing in without ever opening a minigame. No repeated
+haggling attempts, no "offer" button, no Creeper-style flat-value merchants.
+**Vendor purses are finite and refresh on a schedule**, which is also why
+Mercantile use cannot be farmed on one village grocer (§120.2). Disposition
+moves with race and faction priors, deeds, gifts, bribes and quest state
+(§125). Reward design still holds that
 "gold is the least interesting thing we can give" (quests 00 §4) — gold's real
 job is to feed training, services, potions and enchanting.
 
@@ -699,9 +879,10 @@ vocabulary** (quests 80 §58): `attributeAtLeast`, `skillAtLeast`,
 `factionStanding`, `evidenceFlag`. Nothing in this design requires new NPC
 perception or pathing AI (the deliverability bound).
 
-> **Owed doc fix (not applied — quest docs are owned by a concurrent workstream
-> as of 2026-08-29):** speechcraft is missing from the capability-inspection
-> list in `docs/quests/60-*.md` §49. Add it there when quest docs are free.
+Speechcraft and standing are on the quest plan's inspectable-capability list
+(quests [60 §49](../quests/60-writing-and-lore.md), added 2026-08-29), so a
+quest author can gate a route on a persuasion threshold the same way they gate
+one on water breathing.
 
 ## 126. Health, rest, death and respawn
 
@@ -777,20 +958,27 @@ Fixed danger means every actor is authored as an absolute. The bands are what a
 Phase 13 author means by "a D3 creature" — anchored so the reference character
 (§116) finds D2 a fair fight and D4 a bad idea.
 
-| Band | Meaning (quests 20 §12) | Health | Light hit | AR | Magic resist | Poise |
+| Band | Meaning (quests 20 §12) | Health | Light hit | AR | Magic resist | Blows that kill you |
 |---|---|---|---|---|---|---|
-| D0 | wildlife, nuisance | 20–45 | 4–8 | 0–6 | 0–5 % | 5–12 |
-| D1 | low — an unprepared traveller may survive | 50–90 | 9–16 | 6–18 | 5–10 % | 10–20 |
-| D2 | standard — a new but prepared character survives | 100–170 | 17–28 | 18–45 | 10–20 % | 18–35 |
-| D3 | substantial combat/traversal capability required | 200–350 | 30–48 | 45–80 | 15–30 % | 30–60 |
-| D4 | specialist equipment, route knowledge, allies | 400–700 | 55–85 | 80–130 | 20–35 % | 55–100 |
-| D5 | fixed endgame, reachable early, never scaled | 650–1250 | 90–150 | 100–170 | 25–45 % | 90–180 |
+| D0 | wildlife, nuisance | 20–45 | 4–8 | 0–6 | 0–5 % | 10 |
+| D1 | low — an unprepared traveller may survive | 50–90 | 8–14 | 6–18 | 5–10 % | 5 |
+| D2 | standard — a new but prepared character survives | 100–170 | 24–40 | 18–45 | 10–20 % | 4 |
+| D3 | substantial combat/traversal capability required | 200–350 | 52–92 | 45–80 | 15–30 % | 3.5 |
+| D4 | specialist equipment, route knowledge, allies | 400–700 | 120–210 | 80–130 | 20–35 % | 3 |
+| D5 | fixed endgame, reachable early, never scaled | 650–1250 | 185–320 | 100–170 | 25–45 % | 3 |
+
+**The last column is the design input, and the damage column is derived from
+it** (owner ruling, round 2: *getting hit must matter*). "Blows that kill you"
+means completely unavoided, unblocked hits landing on the character the band is
+meant for, in typical armour for their stage. Heavy armour of the day buys a
+blow or two more; genuinely best-in-slot, tempered, enchanted plate buys five or
+six — and nothing buys more than that. Change the target, re-run the
+calibration, and every band's numbers move together.
 
 `damage` is a **typical light hit**; heavy attacks land at ~2.4× it. Attack
 period runs 3.0 s (D0) down to 1.8 s (D5). Loot value runs 2 → 2200 gold.
-Ranges were retuned by the balance simulation on 2026-08-29 — the first pass
-made endgame armour and health outrun the player's damage growth and pushed
-boss fights past two minutes.
+There is **no poise column**: hit reactions are the sandbox's existing ones
+(§121.3).
 
 **Variants may not invent a tier**: a compiled field is clamped to ±25 % of its
 band's edges, so "strong armoured" stays a hard D5 rather than a secret D6.
@@ -812,8 +1000,7 @@ kills the final boss in 31–52 s depending on archetype (melee, greatsword,
 spear, marksman, stealth and magic all inside a ×1.7 spread) and spends 3–10
 potions doing it.
 
-**Every NPC, enemy, follower and merchant carries the player's schema plus a
-level** — attributes, skills, equipment, effects, respawn class, plus the AI
+**Every NPC, enemy and merchant carries the player's schema plus a level** — attributes, skills, equipment, effects, respawn class, plus the AI
 profile fields the archetype already has. **Authoring is semantic, compiled to
 absolutes** (decision 0019's fourth amendment):
 
@@ -846,7 +1033,8 @@ read:
 | `gear.json` | materials, weapon classes, the moveset, armour slots and sets — mirrored from `packages/game-core` + the armour-class tag |
 | `magic.json` | spell tiers, healing tiers, enchanting bounds, the alchemy formula |
 | `builds.json` | the progression checkpoints and archetype attribute priorities the sweeps run on |
-| `ladder.json` | the D0–D5 bands and the variant modifier packages |
+| `ladder.json` | the D0–D5 bands, the hits-to-die targets they were solved for, and the variant packages |
+| `campaign.json` | the coarse content shape of a playthrough (acts, quests, encounter mix, travel, rests) used by the whole-game simulation |
 | `enemies.json` | worked archetypes on the ladder, including the restated Hollow Warden |
 | `economy.json` | potion/training/service/repair prices, vendor purses |
 
