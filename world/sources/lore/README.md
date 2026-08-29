@@ -59,6 +59,7 @@ everything below the eight majors, plus the canon adjacency graph)
 | [topics/sithis-nisswo-shadowscales.md](topics/sithis-nisswo-shadowscales.md) | Religion: the two Sithises, the Clutch of Nisswo, Shadowscales, death rites, the Scalded Throne |
 | [topics/material-culture.md](topics/material-culture.md) | Building, craft, **boats and waterway travel**, food, drugs, dress, music, sport, calendar, tribal offices, Jel register — **the prop-and-dialogue brief** |
 | [topics/sky-moons-calendar.md](topics/sky-moons-calendar.md) | Calendar (months, Jel names, week), Masser/Secunda and the 28-night cycle, the thirteen constellations, eclipses/Vampire Days, sky geometry over Argonia — the feed for the world clock and light system |
+| [topics/magic-practice.md](topics/magic-practice.md) | How magic is practised here: why **Mysticism survives** as a folk school in 4E 201, magic as folk literacy (no robed-mage guilds), Hist/dream magic, and the lore grounding for ***vastei***, the progression currency (module 76 §120.3) |
 | [topics/fauna-hazards.md](topics/fauna-hazards.md) | Creatures, diseases, flora, minerals, environmental hazards (Phase 13 feed) |
 | [topics/foreign-powers.md](topics/foreign-powers.md) | Empire, Dres/Morrowind, Pact, Dominion, EEC, Cyrodilic Collections, pirates and criminals |
 | [topics/lost-peoples.md](topics/lost-peoples.md) | Kothringi, Lilmothiit, Orma, Yespest, Horwalli, Barsaebic Ayleids (and Fenlords), Cantemiric Velothi |

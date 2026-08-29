@@ -20,7 +20,7 @@ across the repo resolve via the map below.
 | Dungeon families, interiors, combat spaces, encounters | [70-dungeons-interiors.md](70-dungeons-interiors.md) (§47–50) |
 | Navmesh baking, enemy/NPC movement, ambient marks/patrols/territories | [72-navigation-ai.md](72-navigation-ai.md) (§113–115) — what the world bakes and validates for AI movement |
 | Anything touching combat/character/inventory/physics contracts | [75-combat-compatibility.md](75-combat-compatibility.md) (§51–57) — incl. §51.1: the sandbox systems are not frozen |
-| Character statistics, attributes, skills, progression, levelling, birthsigns, the fixed-danger power scale | [76-stats-progression.md](76-stats-progression.md) (§100–104) — design workstream S then Phase 10c |
+| Character statistics, attributes, skills, progression, levelling, birthsigns, the fixed-danger power scale | [76-stats-progression.md](76-stats-progression.md) — **§116–129 is the decided design** (attributes, 27 skills, *vastei* levelling, combat/defence math, magic, crafting, rest/death, the D0–D5 ladder and the NPC schema); §100–104 is the workstream and what Phase 10c ships |
 | Repo layout, packages, bundles, CI/deploy, asset vault | [80-repo-architecture.md](80-repo-architecture.md) (§58–65) |
 | Studio modes, spawn, diagnostic layers, probes, visual evidence | [85-world-studio.md](85-world-studio.md) (§66–70) |
 | Finding/reusing assets: vanilla families + vetted mod candidates (architecture, flora, boats, creatures, ruins) + ingestion order | [90-asset-strategy.md](90-asset-strategy.md) (§71–80) — check before hunting new sources |
@@ -38,7 +38,8 @@ everything. The quest plan ([../quests/](../quests/README.md)) binds via its
 §38–46 → 60 · §47–50 → 70 · §51–57 → 75 · §58–65 → 80 · §66–70 → 85 ·
 §71–80 → 90 · §81–84 → 92 · §85–87 → 95 · §88–92 → 00-core (acceptance) ·
 §93–98 → 55 (added 2026-08-25, decision 0016) · §100–104 → 76 (decision 0019) ·
-§105–108 → 57 · §109–112 → 65 · §113–115 → 72 (added 2026-08-26, decision 0022).
+§105–108 → 57 · §109–112 → 65 · §113–115 → 72 (added 2026-08-26, decision 0022) ·
+§116–129 → 76, the decided stat design (added 2026-08-29, workstream S step 5).
 
 Editing rule: these modules ARE the master plan — improve them in place (same
 authority as before; record non-obvious changes in docs/decisions/).
