@@ -74,9 +74,15 @@ default).
   uniforms, budget probes (visible instances, draw calls, overdraw estimate —
   §69 already reserves them). The **dense-vegetation micro-lab** (§85.3)
   proves the budgets before the province sees them; species selection uses the
-  already-catalogued BM&V tree meshes and grass/reed billboard families (§74.1b).
-- **Phase 13** authors province-wide density: per-region ecology-driven
-  palettes and densities (region grammar §16), seasonal response to `s(t)`.
+  already-catalogued BM&V tree meshes and grass/reed billboard families
+  (§74.1b) plus Tropical Skyrim's flora pool (§74.1a). **Phase 10 also
+  authors the flora ecology for the exemplar areas** — per-region
+  ecology-driven species palettes and densities (region grammar §16), pulled
+  forward from Phase 13 (owner split 2026-08-29, decision 0034), informed by
+  mining vanilla/BM&V/Tropical Skyrim placement data (module 95 §86.0b).
+- **Phase 13** wires seasonal response to `s(t)` through the ecology data;
+  **Phase 15** fills the province palette-by-palette as region packets roll
+  out.
 - **Phase 14** locks quality tiers (T3 ring radius/density, T2 visible cap,
   impostor distances as one declarative table) and per-device budgets.
 

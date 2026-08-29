@@ -26,12 +26,15 @@ exists to answer. Two rules, exactly parallel to light (§93):
    classes, climate fields, world clock and weather states that drive light and
    palettes — one source, many consumers (00-core rule 3). No hand-placed
    one-off ambience except as an authored override layer.
-2. **But sound is polish-tier, not a gate** (owner, decision 0023 —
-   re-sequencing the earlier 0022 stance): unlike light, nothing visual is
-   blocked on it, and place approvals before Phase 12b may run silent. The
-   hard requirement is only that the audio layer exists before **Phase 13**
-   authors creature calls and settlement ambience; *final* regional
-   acceptance (Phase 15 packets) reviews places with their sound.
+2. **But sound is fully polish-tier, not a gate** (owner, decision 0023;
+   hardened by 0034, 2026-08-29): unlike light, nothing is blocked on it, and
+   place approvals before Phase 12b may run silent. 12b runs in the Phase P
+   window **after Phase 13** — creature calls and settlement/ecology ambience
+   are authored *by this system, from the ecology data* (species, territories,
+   schedules), not by Phase 13 into pre-built tables. The only hard edges:
+   it needs 8a's clock and 13's ecology data, and must land before Phase 14
+   locks voice/memory budgets; *final* regional acceptance (Phase 15 packets)
+   reviews places with their sound.
 
 Sound obeys fixed difficulty (0004): night choruses, storm noise and creature
 calls are world state on the calendar, never scaled to the player. Audibility
@@ -103,10 +106,9 @@ gating and variant sets:
 
 ## 108. Tiers, sequencing, acceptance
 
-**Tier 1 — Phase 12b** (was 8d; re-sequenced by decision 0023 — sound is
-polish next to the riskier unknowns, so it runs after water/traversal/
-vegetation/kits and immediately before the phase that consumes it; it needs
-only 8a's clock and may be pulled earlier if the queue allows):
+**Tier 1 — Phase 12b, machinery** (was 8d; polish-tier per 0023/0034 — runs
+in the Phase P window after Phase 13; needs only 8a's clock; may be pulled
+earlier if the queue allows):
 AudioManager + buses + unlock; region ambience beds and detail tables for the
 existing region classes, driven by clock and climate fields; hydrology-derived
 water emitters; acoustic-state stack including underwater; footstep/impact
@@ -114,9 +116,10 @@ material wiring; the 8c weather states gain their audio layer;
 studio tooling — an audio layer in the reproducible URL, sound-table
 hot-reload for tuning by ear, and a voice-count/audio-memory probe.
 
-**Tier 2 — Phase 13 (+ retrofits):** settlement ambience profiles
-(lantern-island night, dock work, market crowds as beds not actors) retrofit
-onto the Phase 11 settlements, creature calls authored with ecology (night
+**Tier 2 — Phase 12b, content authored from the world data** (moved from
+Phase 13 by 0034): settlement ambience profiles (lantern-island night, dock
+work, market crowds as beds not actors) authored onto the Phase 11
+settlements, creature calls authored *from* Phase 13's ecology data (night
 hunting calls as danger telegraphs, §27), Hist sites' low-frequency signature
 (§20.4), interior profiles per cell (Phase 12's dungeons).
 
@@ -128,7 +131,7 @@ regional acceptance (Phase 15 packets) reviews places with their sound.
 fields as light — same instant, same region → same soundscape; night is
 audibly different from day and the deep marsh from the fringe; submerging
 audibly transforms the world; contact sounds follow physical materials; the
-audio layer exists before Phase 13 authors against it; runs inside the
+audio layer lands before Phase 14 locks budgets; runs inside the
 voice/memory budget on mid devices.
 
 ---

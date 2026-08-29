@@ -54,11 +54,38 @@ Small isolated scenes test:
 - dense vegetation performance;
 - dungeon-kit snapping.
 
+### 85.4 Exemplar-first for placement systems (decision 0029; owner re-affirmed 2026-08-29)
+
+The placement-type phases (10 vegetation/kits, 11 settlements, 12 dungeons,
+13 ecology/encounters/loot) do **not** deliver the whole province in one pass.
+Each builds a reusable, configurable *system*, proven small and then rolled
+out as data:
+
+1. prove risky mechanics in disposable micro-labs (§85.3);
+2. build the system by authoring **one retained exemplar through the data
+   format** (blueprint/config → compiler → world), never by hand placement —
+   the exemplar doubles as the compiler's first regression fixture;
+3. validate on **2–3 contrasting instances** (different region class, culture,
+   danger band) — the contrast set is where configurability is proven. Each
+   placement phase opens by *proposing its contrast set* for owner sign-off;
+4. roll out as data, region packet by region packet (Phase 15), with owner
+   gates at the exemplar and the contrast set, not per instance.
+
+Whole-province-at-once remains right for global fields and systems (terrain,
+hydrology, light, water, weather, streaming) — exactly as Phases 2–8 were
+run. Exemplars live in retained content (the Blackrose reference watershed
+where possible, 0008). Wherever the shipped games' data can teach the rules,
+mine it first (§86.0b).
+
 ## 86. Phase plan
 
 Progress through these phases is tracked in [docs/PROGRESS.md](../PROGRESS.md), never
 in this document. Phases are milestones, not straitjackets: a phase may be split
-into sub-milestones in PROGRESS.md when that gives the user earlier playtest gates.
+into sub-milestones in PROGRESS.md when that gives the user earlier playtest
+gates, and **parts of a phase may be re-slotted into another when risk ordering
+favours it** (owner permission 2026-08-29 — e.g. the flora half of ecology now
+runs with Phase 10's vegetation work; a thin swim slice may run any time). The
+§86.0 constraints are what must hold; the phase boundaries are packaging.
 
 ### 86.0 What actually depends on what
 
@@ -73,22 +100,36 @@ can be re-ordered by the owner.
 | 8a world clock | 8c weather, 13 ecology, 11+ quests | the season scalar `s(t)`, schedules and calendared events all read one clock |
 | 9 swim/climb/boats | 10b parity | the §53 orchestration extraction should merge once, against a character package that already has every movement mode |
 | 10 kits | 10b parity | combat-space probes measure against production geometry |
-| 10b parity | 11, 12 | settlement/dungeon authoring is gated on combat-space and critical-animation clearance (00-core acceptance) |
-| **S** stats design | 10c | 10c implements what S decides |
-| 10c stats | 11, 12, **13** | fixed danger (0004) means populations, encounters and loot are authored as absolute numbers against a scale that must already exist |
+| 10b parity | 11/12 **packet freeze** | a region packet freezes only after combat-space and critical-animation probes pass on its geometry (00-core acceptance). Exemplar *authoring* may start before 10b — this is a **freeze-gate, not a start-gate** (owner, 2026-08-29, decision 0034) |
+| **S** stats design | 10c, and 11/12 *authoring* | 10c implements what S decides; content is authored **semantically** against the S schema — ladder references ("strong D3, diseased") compiled to absolutes (0019 fourth amendment, module 76 §128) — so authoring needs the accepted schema, not the implemented system |
+| 10c stats | 11/12 **packet freeze**, **13** | compiled numbers, regenerated capability profiles and the balance harness must exist before authored content is balance-validated/frozen, and before Phase 13 authors encounters and loot |
 | 3/4 climate fields | 8a haze, 8c weather, 13 ecology | one source of climate truth, many consumers (§33.1) |
 | 8a world clock | 12b soundscape | ambience beds crossfade on `dayPhase()` and season (§106) |
-| 12b soundscape | 13 ecology | creature calls and settlement/ecology ambience author into the sound tables (§108); the *only* hard consumer — sound is polish-tier (owner, 0023) |
+| 13 ecology | 12b soundscape | creature calls and settlement/ecology ambience are authored **from** the ecology data (species, territories, schedules) *by the sound phase* — you can't place frog sounds until you know where the frogs are (owner 2026-08-29, reversing the earlier 12b-before-13 direction). 12b needs only 8a's clock, sits in the Phase P polish tier, and must land before Phase 14 locks performance budgets |
 | 10 vegetation renderer + scatter compiler (§109–112) | 11, 13 | places are dressed and judged at real vegetation density; Phase 13 authors densities against measured budgets |
 | 10 kit collision | 10b nav bake (§114) | navmesh is generated from kit collision geometry; 10b's combat-space probes measure "enemy navigation access" on the baked data |
 
 The rows are hard constraints **except the two feeding 10b**, which are
 sequencing *preferences* (merge the §53 extraction once; measure combat spaces
 against real kits) and may bend if a phase stalls. **8c, 9 and 10 are mutually
-independent** — they can run in parallel or in any order relative to each
-other. **12b (soundscape) floats freely**: it needs only 8a and must land
-before 13; its default slot is late because sound is polish-tier next to the
-riskier unknowns (owner, 0023). Workstream S runs alongside everything.
+independent.** **12b (soundscape) floats freely** inside the Phase P polish
+tier: it needs only 8a plus the ecology data it reads, and must land before
+Phase 14 locks budgets (owner, 0023 + 0034). Workstream S runs alongside
+everything.
+
+**The owner-approved order (2026-08-29, decision 0034), risk-first:** after
+8c → **10** (asset deep catalogue, kits, vegetation machinery) → **11 & 12 as
+exemplar-first system phases** (interleaved as convenient) → **9** (traversal)
+→ **10b** (parity + navmesh, which then validates and freezes the 11/12
+exemplar packets) → **10c** (stats implementation) → **13** (ecology system,
+exemplar-first) → **14** (streaming) → **15** (rollout by region packet), with
+**12b in the P polish tier**. Rationale: the unretired dealbreaker risks are
+vegetation-at-scale and whether settlement/dungeon placement can be executed
+well at all — those must be seen early; traversal is well-understood sourcing
+plus known techniques (and boats may slip or, at worst, be dropped without
+killing the game — owner tolerance, 2026-08-29). A thin swim slice may be
+pulled earlier at any time (vanilla clips + the 8b water query make it cheap,
+and it unlocks reviewing underwater POIs).
 
 Deliberately **not** dependencies: the world build does not need the stats
 system (capability profiles are the contract — module 75 §52), and it does not
@@ -99,6 +140,33 @@ Parallel workstreams run alongside the phase queue and block only what the
 table says: **L** (lore extrapolation, module 45 — closed), **N** (quest-plan
 review, decision 0018 — closed), **S** (stats design, module 76 §103.1 — open,
 runnable now).
+
+### 86.0b Mine the shipped worlds for rules (owner directive 2026-08-29)
+
+Skyrim's and the source mods' data files are not just asset containers — they
+are **records of how professional teams solved our placement problems**, and
+the placement phases mine them for rules and principles before inventing
+their own, at both the micro level (which species on which slope/wetness,
+clutter around a hut, grass density per ground type) and the macro level
+(how composition varies across regions, POI spacing, settlement make-up).
+The pattern is already proven twice: the weather system adopted Bethesda's
+`WTHR` record as a *checklist* and computed the values from our fields
+(0016 §4), and the `bmv-v1` ground palette came from mining BM&V's painted
+landscape (90 §74.1b). Generalise it:
+
+- **adopt record schemas as checklists, compute values from our fields**
+  (never hand-copy their numbers into ours);
+- **extend the plugin readers** (`worldgen/esp.py` reads heightfields,
+  `esp_landtex.py` reads texture painting) to the records the task needs —
+  object placements (REFR/CELL), tree/flora statics, grass definitions
+  (GRAS/LTEX bindings), region records (REGN) — and extract *statistics*:
+  species-vs-slope/wetness, densities, cluster spacing, POI spacing along
+  roads, settlement building counts;
+- sources to mine: vanilla Skyrim, **BM&V's worldspaces** (an art-directed
+  Black Marsh — the closest reference that exists), Tropical Skyrim;
+- record findings as `docs/research/` docs and feed them into compiler
+  defaults; the no-lift-and-shift rule (00-core rule 6) is untouched — we
+  mine *rules*, never their authored places.
 
 ### Phase 0 — source, era and credits foundation
 
@@ -420,13 +488,27 @@ gap table in **module 90 §74.3**, which already names researched candidates:
 Micro-laboratories (§85.3) already reserve swimming transitions, climb contact
 and boat control — prove each there before touching the province.
 
-Phase 9 may split into sub-milestones (suggested order: swim → boats → climb,
-easiest-sourced first) per the PROGRESS protocol. Climbing carries the
-animation-sourcing risk — no ready-made wall-climb loops exist, but two
-sourceable pools do (EVGAT's ladder-climb loops as the primary retarget
-candidate, and the SkyParkour mod-authored clip set — module 90 §74.3); Phase
-10b needs the movement-mode *contracts* in place, not final climb polish, so a
-hard climb problem must not block the chain.
+Phase 9 runs **after** the placement-system exemplar phases (10/11/12 — owner
+order, 0034) and before 10b; it may split into sub-milestones (suggested
+order: swim → boats → climb, easiest-sourced first) per the PROGRESS
+protocol, and a thin swim slice may be pulled earlier whenever convenient.
+Climbing carries the animation-sourcing risk — no ready-made wall-climb loops
+exist, but two sourceable pools do (EVGAT's ladder-climb loops as the primary
+retarget candidate, and the SkyParkour mod-authored clip set — module 90
+§74.3); Phase 10b needs the movement-mode *contracts* in place, not final
+climb polish, so a hard climb problem must not block the chain. Boats may
+slip past 10b, and are droppable at worst (owner, 2026-08-29).
+
+**Scope rule (owner, 2026-08-29, decision 0034): Phase 9 covers the player's
+own craft only.** Ferry services and boat fast travel are **Morrowind-style**
+— speak to the ferryman, pay, arrive: instant travel over a defined,
+geographically sensible service graph (the Phase 4 lanes + Phase 11 docks),
+with NPC passengers as set dressing. No vessel simulation, no ride-along.
+Those services are *world content*, delivered with settlements (Phase 11
+deliverable). Player-boat cargo storage, passenger carrying, repair/ownership
+and boat combat hooks are **deferred until a quest brief or playtest demands
+them** — nothing in the current quest plan does (module 60 §45 tiers the
+list).
 
 Deliverables:
 
@@ -436,18 +518,42 @@ Deliverables:
   equipment/inventory systems and UI arrive with Phase 10b, so Phase 9 defines
   the hook and supplies sane defaults rather than waiting on them);
 - climb mode and climb-surface generation;
-- small-boat control and boat graph;
-- docking, storage and passengers;
+- small-boat control on the water query, with boarding and docking/mooring;
 - swim/climb/boat validation.
 
-### Phase 10 — asset catalogue and kit compilers
+### Phase 10 — asset deep catalogue and kit compilers
+
+**The catalogue spans the whole permitted pool, not vanilla-plus-one-kit**
+(owner, 2026-08-29, decision 0034 — no shortcuts here). The sources, in the
+module 90 §71 preference order: **Black Marsh & Valenwood** (12.8k meshes:
+architecture, ~700 swamp/tropical trees, clutter, dungeon and creature packs
+— the house style, already in the vault), **Tropical Skyrim** (trees/palms,
+jungle flora, grasses, creature retextures, architecture — in the vault,
+"sweep this archive FIRST"), the **Xanmeer kit** (85 pieces), and **vanilla
+Skyrim** plus the §75–79 candidate tables where genuinely neutral or better.
+These pools hold thousands of usable assets and the world should draw widely
+and appropriately on them — **creatures explicitly included**, alongside the
+obvious architecture/flora/clutter. Working rule: **catalogue wide,
+kit-compile deep on demand** — the registry sweep covers everything worth
+tagging; full kit/collision/LOD treatment follows what the exemplars and
+region packets actually place, so breadth never stalls the phase.
 
 Deliverables:
 
-- vanilla asset registry;
-- Xanmeer kit metadata and snapping;
-- first current-settlement kit;
-- vegetation and underwater kits;
+- semantic asset registry across all four pools (culture/biome tags, §72),
+  creatures included;
+- Xanmeer kit metadata and snapping; first current-settlement kit;
+- vegetation and underwater kits from the BM&V/Tropical Skyrim flora pools;
+- **data-file rule mining (§86.0b)**: extend the plugin readers to placement/
+  grass/region records and mine vanilla + BM&V + Tropical Skyrim for
+  vegetation-placement and composition statistics, recorded as research docs
+  and fed into the scatter compiler's defaults;
+- **the flora half of ecology, pulled forward from Phase 13** (owner split,
+  2026-08-29): per-region species palettes and density authoring (region
+  grammar §16) for the exemplar areas — deciding *what grows where and how it
+  varies across regions* is inseparable from building the scatter system.
+  Fauna/encounter ecology stays at Phase 13 (it needs enemies and compiled
+  stats); province-wide flora fill lands with the Phase 15 packets;
 - **the vegetation/scatter architecture (module 65, §109–112)**: deterministic
   scatter compiler pass (jittered-grid hash, constraint filters, clearance
   stamping), T1 batched hero statics + T2 bundle-instanced mid detail with LOD
@@ -482,18 +588,22 @@ Deliverables:
 
 Sequenced here because:
 
-- nothing in 8a–10 depends on it (they need Phase 7a's movement and the
-  environment query, which exist), while light, water, swimming, climbing,
-  boats and kits carry the real technical risk and are worth proving first;
+- nothing before it depends on it (the earlier phases need Phase 7a's
+  movement and the environment query, which exist), while the placement
+  systems, light, water, traversal and kits carry the real technical risk and
+  are worth proving first;
 - the orchestration extraction then happens **once**, against a character
   package that already carries swimming, climbing and boat modes (Phase 9),
   instead of being merged twice;
 - combat spaces are measured against Phase 10's real kits, materials and
   collision rather than placeholder ground;
-- it must precede Phases 11–13: settlement and dungeon authoring is gated on
-  "combat spaces and critical-animation clearance validated" (00-core
-  acceptance), and Phase 13 (fixed populations, encounter sockets, fixed loot,
-  arrows) is impossible without enemies, targeting, bow and inventory.
+- **it closes the freeze-gate on Phases 11/12** (owner 2026-08-29, §86.0):
+  exemplar settlements and dungeons may be *authored* before 10b, but a
+  packet freezes only when its combat-space and critical-animation probes
+  pass — so a 10b deliverable is running those probes over the existing
+  exemplar packets and getting them frozen or fixed;
+- Phase 13 (fixed populations, encounter sockets, fixed loot, arrows) is
+  impossible without enemies, targeting, bow and inventory.
 
 Standing risk while it waits: the sandbox stays the only place combat runs, so
 sandbox and studio can drift. Mitigation is the existing package rule —
@@ -511,6 +621,10 @@ Deliverables:
 
 - the accepted stat model implemented, with **baseline-equivalence tests**:
   at neutral stats, combat numbers match today's calibrated values;
+- **the semantic-authoring compiler** (0019 fourth amendment, module 76 §128):
+  ladder references → fixed numbers, with the ±25 % band clamp and literal
+  overrides for uniques — **extended to loot and traps**, which have no
+  semantic schema yet (gap found 2026-08-29; actors-only as designed);
 - capability profiles (§52) regenerated *from* the stat system, with the
   world's traversal and spawn probes still green;
 - enemy archetypes restated on the new scale; character-sheet UI;
@@ -518,12 +632,24 @@ Deliverables:
   numerically), and the birthsign hook left ready (module 55 gives a birth
   date its constellation for free).
 
-Sequenced after 10b and **before Phase 11**: fixed difficulty (0004) means every
-enemy, trap and loot item in Phases 11–13 is authored as an absolute number, so
-the scale has to exist before that content is written. Workstream S can conclude
-any time before this phase starts.
+Sequenced after 10b and **before Phase 13 and any packet freeze**: content in
+11/12 is *authored* semantically against the S schema and doesn't wait for
+this phase (0034), but the compiled numbers, regenerated profiles and the
+balance harness must exist before that content is balance-validated/frozen
+and before Phase 13 writes encounters and loot. Fixed danger (0004) is
+untouched throughout — the numbers are as fixed as ever, merely *derived*.
+Workstream S must conclude before this phase starts.
 
-### Phase 11 — causal locations and settlement authoring
+### Phase 11 — the settlement and location system (exemplar-first)
+
+**This phase builds the reusable settlement/POI system, not the province's
+settlements** (§85.4; owner order 0034). It runs before traversal (9), parity
+(10b) and stats implementation (10c): content is authored *semantically*
+against the accepted workstream-S schema, and packets freeze only later, when
+the 10b combat-space probes and 10c compiled numbers validate them
+(freeze-gates, §86.0). Mass production of the remaining regions is Phase 15.
+Mine BM&V's Lilmoth-area composition and vanilla settlement data for
+composition rules before inventing them (§86.0b).
 
 Deliverables:
 
@@ -533,7 +659,16 @@ Deliverables:
 - Hist-centred settlement grammar;
 - Imperial-fringe settlement grammar;
 - location-orphan validator;
-- retained reference settlement;
+- **one retained exemplar settlement authored *through* the blueprint→compiler
+  path** (never hand placement — it becomes the compiler's first regression
+  fixture), then **2–3 contrasting instances** (different region class,
+  culture, danger band; the contrast set proposed to the owner at phase
+  start) proving the system doesn't over-fit;
+- **Morrowind-style travel services** (owner, 2026-08-29): ferrymen/boat
+  owners/rootworm Waykeepers as talk-pay-arrive instant travel over a
+  defined, geographically sensible service graph (Phase 4 lanes + this
+  phase's docks; quests 20 FAST nodes). NPC passengers are set dressing; no
+  vessel simulation — this is world content, not Phase 9 machinery;
 - **quest location roster**: the per-quest World-generation provisions in
   docs/quests/ are the demand schedule — stable semantic IDs, approach
   alternatives, scene/NPC/evidence/container sockets, and the
@@ -566,7 +701,15 @@ Deliverables:
   root-transit quests and rewards are finalized in the same packet's co-design
   loop.
 
-### Phase 12 — dungeons and interior programmes
+### Phase 12 — the dungeon and interior system (exemplar-first)
+
+**Same shape as Phase 11 and may interleave with it** (§85.4; owner order
+0034): build the grammars and compilers, prove them on one retained exemplar
+per family started, validate on contrasting instances, and leave mass
+production to Phase 15. Authoring is semantic against the S schema; packets
+freeze after 10b/10c validation (§86.0). Interior navmesh bakes land with
+10b's pipeline if this phase runs first — author the geometry, bake when the
+pipeline exists.
 
 Deliverables:
 
@@ -577,22 +720,28 @@ Deliverables:
 - interior navmesh bakes + per-cell acoustic/lighting profiles (§114, §106,
   55 §96);
 - interior streaming contract;
-- one full retained production dungeon;
+- **one full retained exemplar production dungeon authored through the
+  grammar→compiler path**, plus contrasting instances per §85.4 before the
+  family is declared rollout-ready;
 - **quest dungeon reservations** (sites + causal records now, geometry per
   regional packet): the submerged Eye observatory, Blackrose prison
   archive/tunnels, Lilmoth Tidal Palace heist complex, the two optional
   Eye-route chains, and the **Lost City reserved in the deep basin beyond
   Helstrom** (near-final D5 complex; quests 30).
 
-### Phase 12b — the province soundscape (module 57; decision 0022, re-sequenced by 0023)
+### Phase 12b — the province soundscape (module 57; 0022, re-sequenced by 0023, moved to the polish tier by 0034)
 
 The world heard: region/time/weather ambience, water emitters, contact sound.
 Music (the score) is explicitly out of world-build scope. **Owner steer
-(0023): sound is polish-tier** — nothing riskier waits on it, and it sits
-here, after the genuinely uncertain systems (water, traversal, vegetation,
-kits), as the last step before Phase 13 authors creature calls and settlement
-ambience into its tables. It needs only Phase 8a's clock and may be pulled
-earlier if the queue allows.
+(0023, hardened 2026-08-29): sound is fully polish-tier** — it runs inside
+the Phase P window, *after* Phase 13, because it depends on nearly everything
+(you can't place frog sounds until you know where the frogs are) and nothing
+depends on it. Creature calls and settlement/ecology ambience are authored
+**by this phase, from the Phase 13 ecology data** (species, territories,
+schedules) — Phase 13 no longer writes into pre-built sound tables. It needs
+only Phase 8a's clock plus that ecology data, may be pulled earlier if
+convenient, and must land **before Phase 14 locks performance budgets**
+(audio memory and voice counts are part of the budget).
 
 Deliverables:
 
@@ -604,6 +753,8 @@ Deliverables:
   classes, driven by the world clock and climate fields (night-loud tropical
   inversion, §106); sourcing gaps filled per §107 (mod packs with credits,
   Sonniss/CC0);
+- creature calls and settlement/ecology ambience authored from the Phase 13
+  ecology data (moved here from Phase 13 by 0034);
 - hydrology-derived positional emitters (rivers, rapids, shores);
 - acoustic-state stack: exterior / under-canopy / interior / underwater
   (bus filters + synthesized reverb impulses);
@@ -617,7 +768,18 @@ Deliverables:
   day/night chorus flip, underwater transformation, soundscape density (a
   taste call: Morrowind-sparse vs jungle wall-of-sound).
 
-### Phase 13 — ecology, encounters and fixed loot
+### Phase 13 — fauna ecology, encounters and fixed loot (exemplar-first)
+
+**Scope after the 0034 splits**: the *flora* half of ecology (species
+palettes, densities, regional variation) runs with Phase 10's vegetation
+system; creature calls/ambience author later, in 12b, from this phase's data.
+What remains here is the **fauna and content half** — habitats, populations,
+encounters, loot — which genuinely needs 10b (enemies, nav) and 10c (compiled
+stats). Same exemplar-first shape (§85.4): build the habitat/encounter/loot
+systems, prove them on the exemplar areas and a contrast set, roll out per
+region packet in Phase 15. Authoring is semantic (ladder references, §86.0);
+mine the shipped games' data for habitat/encounter patterns where useful
+(§86.0b).
 
 Deliverables:
 
@@ -631,10 +793,10 @@ Deliverables:
 - fixed creature/faction populations, with the Morrowind-leaning ambient
   minimum: idle/work marks, wander radii, patrol splines, daily mark bands on
   the world clock — all nav-validated (§113);
-- province-wide vegetation densities: per-region ecology-driven species
-  palettes and T3 groundcover authoring, seasonal response to `s(t)` (§112);
-- creature calls and settlement/ecology ambience authored into the sound
-  tables (module 57 tier 2);
+- seasonal vegetation response to `s(t)` wired through the ecology data
+  (§112) — palette/density authoring itself lives with Phase 10/15;
+- the ecology data model carries what 12b's sound tables will need (species,
+  territories, schedules);
 - disease, toxin and insect systems;
 - encounter sockets;
 - fixed loot provenance;
@@ -658,6 +820,18 @@ they defer visual/feel work. Each item records where it came from and what
 
 ### Phase 14 — streaming and deployment
 
+**Phase 14 locks budgets and hardens streaming; it does not introduce them**
+(owner concern, 2026-08-29, decision 0034). The province already streams
+(chunked terrain + LODs since Phase 6), and every placement phase ships its
+content *through* the tiered streaming/LOD architecture as it lands —
+vegetation via module 65's tiers and budget probes, kits/interiors via the
+bundle contract (module 80 §63) — so nothing ever renders "everything at
+once". **Standing rule: the province must stay loadable and playable in the
+owner's browser at every phase gate.** If rollout scale (Phase 15) starts to
+strain that, pull Phase 14 items forward into the packets (draw-distance
+rings, impostor distances, instance caps, texture compression) rather than
+waiting for this phase.
+
 Deliverables:
 
 - production chunk format;
@@ -671,31 +845,54 @@ Deliverables:
   quest location: occupants, barricades, banners, clutter, ambience — the
   quest consequence budget, quests 20 §14; never terrain/hydrology).
 
-### Phase 15 — expansion by watershed and region
+### Phase 15 — rollout by region packet (recast 2026-08-29, decision 0034)
 
-Each expansion cycle:
+The original "expansion by watershed" framing predates the province-wide
+build: terrain, hydrology, light, water and weather already cover the whole
+province, so there is no second watershed to *start*. What remains
+region-by-region is **content**: this phase is step 4 of §85.4 — the proven
+placement systems (11 settlements/POIs, 12 dungeons/interiors, 13
+fauna/encounters/loot, plus flora fill from 10's palettes) are rolled out
+across the province as data, packet by packet.
 
-1. refine hydrology;
-2. author regional identity;
-3. compile routes;
-4. establish causal location network;
-5. **quest-brief co-design pass** (quests 90 §65b — local-quest briefs drafted
-   against the draft location network; requested placements reconciled before
-   freeze);
-6. agent-author hero locations;
-7. compile assets;
+**The phase opens by drafting the packet roadmap** (the ordered list of
+region packets with rough scope — none exists yet) for owner sign-off.
+
+Each region packet:
+
+1. local hydrology/terrain refinement where the packet needs it;
+2. author regional identity (region grammar §16 config, species palettes);
+3. compile routes and densify the transport network (module 60 §45), including
+   the Morrowind-style travel-service graph;
+4. establish the causal location network (settlement/POI system, per-packet
+   config);
+5. **quest-brief co-design pass** (quests 90 §65b — a completion gate, 0027:
+   briefs drafted against the draft network, placements reconciled, density
+   budget declared before freeze);
+6. agent-author hero locations and dungeons through the compilers;
+7. compile assets; fauna/encounters/loot per the Phase 13 systems;
 8. integrate gameplay;
-9. validate;
-10. user visual review;
+9. validate (probes, combat-space, density budget, orphan validator,
+   **streaming/performance budgets** — the packet must stream within budget
+   on the owner's browser, not just render in isolation);
+10. owner review — gates at packet level, not per instance (§85.4);
 11. approve world bundles.
 
-The province preview remains available throughout expansion.
+The province preview remains available throughout rollout.
 
 ## 87. Why this sequence controls risk
 
+- **dealbreakers surface first**: if dense vegetation can't perform in the
+  browser, or the settlement/dungeon systems can't produce good places, the
+  project needs to know before investing in the well-understood work
+  (traversal, parity, streaming) — hence assets/vegetation and the placement
+  exemplars ahead of Phase 9/10b (owner, 0034);
+- **exemplar-first placement** (§85.4) means systems are proven cheap and
+  small before the province pays for them, and every exemplar ships;
 - province hydrology cannot drift between independently built local areas;
 - the physical character enters before settlement and dungeon compilers harden;
-- water, swimming and boats are foundational world systems;
+- semantic authoring (0019) decouples content from stat retunes, so authoring
+  can precede the stats implementation without a re-authoring debt;
 - asset gaps become visible within retained production content;
 - source and credits metadata exist before large-scale ingestion;
 - agentic placement operates on stable semantic layers;

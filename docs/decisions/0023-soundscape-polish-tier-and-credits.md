@@ -13,6 +13,10 @@ settlement/ecology ambience into the sound tables. So the phase becomes
 **12b** — after water, weather, traversal, vegetation/kits, parity, stats,
 settlements and dungeons; immediately before its only consumer. It still
 needs only 8a's clock, so it may be pulled earlier if the queue allows.
+*(Addendum 2026-08-29, decision 0034: hardened further — 12b now runs in the
+Phase P window **after** Phase 13, authoring creature calls/ambience **from**
+the ecology data rather than 13 writing into pre-built tables; the hard edge
+is now "before Phase 14 locks budgets".)*
 Consequences applied: the module-57 "no place approved silent" rule is
 softened (pre-12b approvals may run silent; *final* regional acceptance in
 Phase 15 packets includes sound); 00-core glance/acceptance, module 95

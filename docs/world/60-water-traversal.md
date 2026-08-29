@@ -276,21 +276,34 @@ Boat classes:
 §74.3 — no vanilla rowing clips exist) are sourced**. Selection favours craft
 needing only seated poses plus procedural oar/tiller drive.
 
-Gameplay components:
+Gameplay components, **tiered** (owner, 2026-08-29, decision 0034 — the flat
+wishlist here was being read as scope):
+
+*Core (Phase 9 — the player's own craft):*
 
 - multi-point Rapier buoyancy;
 - water-current sampling;
 - rotational and linear drag;
 - shallow grounding;
-- hull collision and damage;
+- hull collision;
 - boarding and disembarking;
 - docking and mooring;
-- cargo/inventory integration;
-- passenger sockets;
 - wake and foam events;
-- rain and flooding interaction;
-- repair and ownership;
-- AI boats and ferries;
+- rain and flooding interaction.
+
+*Travel services (world content, Phase 11+ — never vessel simulation):*
+
+- **ferries and boat fast travel are Morrowind-style**: speak to the
+  ferryman/boat owner, pay, arrive — instant travel over a defined,
+  geographically sensible service graph (Phase 4 lanes + placed docks);
+  NPC passengers are set dressing (parented props at most).
+
+*Deferred until a quest brief or playtest demands them (none currently does):*
+
+- cargo/inventory integration on the player's boat;
+- passenger carrying on the player's boat;
+- hull damage, repair and ownership;
+- free-roaming AI boats;
 - boat combat hooks.
 
 Boat navigation uses depth, channel width, bend radius, current, tide, bridge clearance, submerged obstacles, docking space and vessel capability.

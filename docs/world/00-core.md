@@ -19,7 +19,11 @@ fixed regional danger. Production model:
 
 Three simultaneous scales: (1) whole-province production data from day one,
 (2) one retained reference watershed at full detail (the Blackrose basin,
-decision 0008), (3) small disposable laboratories.
+decision 0008), (3) small disposable laboratories. **Placement systems
+(vegetation, settlements, dungeons, ecology) are built exemplar-first**
+(module 95 §85.4, decision 0029/0034): one retained exemplar authored
+*through* the data format, validated on 2–3 contrasting instances, then
+rolled out as data per region packet — never whole-province hand authoring.
 
 ## The rules that bind every task
 
@@ -89,8 +93,9 @@ waterways connect real needs; historical layers stay distinguishable.
 **Gameplay:** no player-level scaling anywhere; deep areas stay fixed high
 danger; darkness, weather and tides are calendared world state and no visual
 work is approved under placeholder light (Module 55); the soundscape derives
-from the same region/clock/weather data — polish-tier, landing at Phase 12b
-before ecology authors against it (Module 57, decision 0023); swimming/breath/climbing/boats create access progression; Argonian
+from the same region/clock/weather/ecology data — polish-tier, authored in
+the Phase P window *from* Phase 13's ecology output, before Phase 14 locks
+budgets (Module 57, decisions 0023/0034); swimming/breath/climbing/boats create access progression; Argonian
 physiology materially changes underwater play; underwater POIs throughout
 appropriate regions; large logical surfaces climbable by default; combat
 spaces and critical-animation clearance validated.
@@ -114,11 +119,14 @@ reproducible pipeline builds.
 3 hydrology+regions · 4 danger/cultures/transport · 5 World Studio ·
 6 province terrain · 6b rescale+mountain relief+naturalness (0015, after 7a) ·
 7a physical character · 8a world time/natural light/sky (0016) ·
-8b water renderer · 8c weather/atmosphere · 9 swim/climb/boats ·
-10 asset catalogue+kits · 10b full sandbox parity in studio (was 7b, 0017) ·
-10c stats+progression (0019; design workstream S runs in parallel from now) ·
-11 causal locations+settlements ·
-12 dungeons+interiors · 12b province soundscape (0022/0023, was 8d) ·
-13 ecology/encounters/loot · P general polish pass (rolling backlog,
-docs/polish-backlog.md) · 14 streaming+deploy ·
-15 expansion by watershed. Statuses live only in PROGRESS.md.
+8b water renderer · 8c weather/atmosphere · **then risk-first (owner
+re-sequencing 2026-08-29, decision 0034):**
+10 asset deep catalogue+kits+vegetation (incl. flora ecology) ·
+11 settlement system (exemplar-first) · 12 dungeon system (exemplar-first) ·
+9 swim/climb/boats · 10b full sandbox parity in studio (was 7b, 0017) ·
+10c stats+progression implementation (0019; design = workstream S) ·
+13 fauna ecology/encounters/loot (exemplar-first) ·
+P general polish pass (rolling backlog, docs/polish-backlog.md) incl.
+12b province soundscape (polish-tier: after 13, before 14's budget lock) ·
+14 streaming+deploy · 15 rollout by region packet.
+Statuses live only in PROGRESS.md.

@@ -24,6 +24,10 @@ Split it in two, and put it in the plan explicitly:
 2. **Phase 10c — implementation.** After 10b (sandbox parity), **before Phase
    11**. Implements the accepted design in `packages/game-core`, regenerates
    capability profiles from it, restates enemy archetypes on the new scale.
+   *(Addendum 2026-08-29, decision 0034: re-slotted — under this decision's
+   own fourth amendment, 11/12 author semantically against the S schema
+   before 10c; 10c now gates packet **freeze** and Phase 13, not the start
+   of Phase 11.)*
 
 ## Why that placement
 

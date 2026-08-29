@@ -60,6 +60,8 @@ possible, per 0008) so iteration work ships.
 - Per-phase research pointers are carried by the [docs router](../README.md)
   rows; they were **not** folded into world module 95 in this change because
   concurrent quest-workstream edits were sitting uncommitted in that file — a
-  later agent editing module 95 may fold them in.
+  later agent editing module 95 may fold them in. *(Done 2026-08-29: the
+  exemplar-first pattern is now module 95 §85.4 and drives the reworked
+  sequence — decision 0034.)*
 - The research docs end in open questions, not directives, on owner
   instruction: phase agents reason for themselves.

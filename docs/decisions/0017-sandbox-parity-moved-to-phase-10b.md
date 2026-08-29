@@ -34,7 +34,10 @@ Phase 10b.
   authoring is gated on "combat spaces and critical-animation clearance
   validated" (00-core acceptance), and Phase 13 (fixed populations, encounter
   sockets, fixed loot, arrows) is impossible without enemies, targeting, bow
-  and inventory. Placing it after Phase 12 would mean authoring the first
+  and inventory. *(Addendum 2026-08-29, decision 0034: relaxed to a
+  **freeze-gate** — 11/12 exemplar authoring may start before 10b under
+  semantic authoring; a packet freezes only once 10b's probes pass. The
+  Phase 13 dependency stands.)* Placing it after Phase 12 would mean authoring the first
   production dungeon blind to combat.
 
 ## Consequences

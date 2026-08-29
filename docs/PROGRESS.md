@@ -1,8 +1,8 @@
 # Build progress
 
 Single source of truth for where we are in the build sequence
-([world-gen-master-plan.md](world-gen-master-plan.md) §86). Read this file first,
-then open only the master-plan sections the active phase needs.
+([world/95-build-sequence.md](world/95-build-sequence.md) §86). Read this file
+first, then open only the master-plan sections the active phase needs.
 
 ## Protocol (all agents)
 
@@ -44,18 +44,18 @@ then open only the master-plan sections the active phase needs.
 | 8a — world time, natural light and sky | done | owner gate PASS 2026-08-26 after 8 feedback rounds (decisions 0020/**0021** = full defect→fix history; research doc §8–8d). world-time package (calendar/sun/moons/stars, verified phase cycle); physical light rig with **envelope-pinned dome** (CPU Preetham twin `preethamCpu.ts` + `skyScreenModel.ts`; whiteout/black-gap class caught by `npm test`); directional twilight (Earth shadow, Belt of Venus, magnitude-staged stars); moon-aware night floors; owner-locked defaults warmth 1.0, stars ×0.5 (~3300); CSM shadows w/ contact bias; walk+fly city markers; HUD compass. Deferred: beyond-border land apron (module 55 §98b + research doc) |
 | 8b — water renderer and interaction | done | owner CLOSED 2026-08-28 (good-enough, **not perfect** — full water-systems re-review + polish queued in [polish-backlog.md](polish-backlog.md), Phase P). 7 rounds; full defect→fix history in decision 0025. Province W-field water surface, rivers/marsh/estuary/coast/underwater, buoyancy + Rapier water query, monotone slope rivers, shore surf, waterfall shading |
 | 8c — weather and atmosphere | in progress | **round 2 DEPLOYED 2026-08-29, awaiting owner playtest.** All 14 round-1 feedback points addressed (defect→fix log: decision [0032](decisions/0032-phase8c-weather-implementation-shape.md) Round 1) — shared GPU/CPU cloud field, per-state cloud character + coverage wander, celestial occlusion + silver lining, bright fog colour (black caps/purple layer/invisible mist root fix), rain/lightning cloud gates, wider ripples + storm seas, mist force states, calendar wet season live. 16/16 probe scenarios + 400 tests green; god rays → polish backlog. Run-book: top of 0032 |
-| 9 — swimming, climbing, boats | todo | |
-| 10 — asset catalogue and kits | todo | |
-| 10b — full portable-sandbox parity in studio (was 7b; moved 2026-08-25, decision 0017) | todo | Scene orchestration extraction (§53), inventory/equipment UI, enemies/targeting, bow, combat-space probes against real kits. Deferred past the riskier world systems; must precede 11–13 |
+| 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | todo | **next after 8c** — owner re-sequencing 2026-08-29 (0034): riskiest unknowns first |
+| 11 — settlement/location system, exemplar-first (0034) | todo | may start once the S schema is accepted (semantic authoring); packet freeze gated on 10b probes + 10c numbers |
+| 12 — dungeon/interior system, exemplar-first (0034) | todo | may interleave with 11 |
+| 9 — swimming, climbing, boats (re-slotted after the placement exemplars; 0034) | todo | player craft only — ferry/fast travel is Morrowind-style world content (Phase 11); thin swim slice may pull earlier; boats may slip |
+| 10b — full portable-sandbox parity in studio (was 7b; moved 2026-08-25, decision 0017) | todo | Scene orchestration extraction (§53), inventory/equipment UI, enemies/targeting, bow, navmesh; combat-space probes then validate + freeze the 11/12 exemplar packets |
 | S — stats, progression and character-systems **design** (parallel workstream, module 76; decision 0019) | in progress | **Round 1 CLOSED 2026-08-28** — all rulings incl. the F1 souls-from-skill-use levelling design in [owner-round1](research/stats-progression-owner-round1.md) (single source of truth) + decision 0031. **2026-08-29: steps 5–8 delivered, AWAITING OWNER ROUND 2** — design detailed into module 76 **§116–129** (the spec 10c builds from), numbers packet + `tooling/stats-sim` balance harness (13 invariants, all holding; 11 anomalies found and resolved), lore-grounded currency name (*vastei*), decision **0033**. Owner sitting: [owner-round2](research/stats-progression-owner-round2.md) — accept/veto 18 proposed defaults + 5 questions; then fold in, flip 0033 to accepted and this row to done. Run-book: module 76 §103.1 (self-contained — "deliver workstream S" is enough). Skeleton is owner-chosen: **Morrowind chassis, Souls combat layer** (§103.0) — the work is the mapping exercise (seams, Skyrim-item→chassis taxonomy, keep/drop by sourceable movesets, completeness sweep). Docs + owner decisions only, no code; **exactly two batched owner rounds**. Must conclude before 10c |
-| 10c — stats and progression implementation (module 76; decision 0019) | todo | Implements workstream S in `packages/game-core`, wrapping today's tuning as the neutral baseline. After 10b, **before 11–13**: fixed danger (0004) means every enemy and every loot item is authored as an absolute number, so the scale must exist first |
-| 11 — causal locations and settlements | todo | |
-| 12 — dungeons and interiors | todo | |
-| 12b — province soundscape (module 57; was 8d, re-sequenced by 0023: polish tier, riskier unknowns first) | todo | may run earlier if convenient (only needs 8a); hard requirement: before Phase 13 authors creature calls/ambience |
-| 13 — ecology, encounters, fixed loot | todo | |
+| 10c — stats and progression implementation (module 76; decision 0019) | todo | Implements workstream S in `packages/game-core` incl. the semantic-authoring compiler (ladder refs → numbers; extended to loot/traps). After 10b, **before packet freeze and Phase 13** — content in 11/12 authors semantically without it (0019 4th amendment; 0034) |
+| 13 — fauna ecology, encounters, fixed loot (exemplar-first; flora half moved to Phase 10 by 0034) | todo | |
+| 12b — province soundscape (module 57; polish tier — 0023, hardened by 0034) | todo | runs in the P window **after 13** (authors creature calls/ambience *from* the ecology data); must land before 14 locks budgets; may pull earlier |
 | P — general polish pass (rolling backlog, added 2026-08-28) | todo | backlog: [docs/polish-backlog.md](polish-backlog.md) — non-blocking cosmetic/feel leftovers from closed phases land there, owner adds freely |
 | 14 — streaming and deployment | todo | |
-| 15 — expansion by watershed | todo | |
+| 15 — rollout by region packet (recast from "expansion by watershed" by 0034) | todo | opens by drafting the packet roadmap for owner sign-off |
 
 ## Waiting on user
 
