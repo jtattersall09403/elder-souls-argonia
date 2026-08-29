@@ -4,9 +4,13 @@
 answered; follow-ups F1–F3 closed) · **Scope:** design only — implementation
 is Phase 10c.
 
+> **Partly superseded by [0033](0033-workstream-s-design-and-numbers.md) §4:
+> the recovery-speed component was dropped and poise was cut.** Read the body
+> below as the round-1 record; the current design is module 76 §116–129.
+
 The full question-by-question record, including the F1 levelling mechanism in
 self-contained detail, lives in
-[docs/research/stats-progression-owner-round1.md](../research/stats-progression-owner-round1.md)
+[docs/research/archive/workstream-s/stats-progression-owner-round1.md](../research/archive/workstream-s/stats-progression-owner-round1.md)
 (single source of truth for the rulings). Headlines:
 
 - **Seven attributes** (Morrowind's eight minus Luck — no dice for Luck to

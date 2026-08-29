@@ -1,12 +1,18 @@
 # Workstream S — owner round 1: the shaping decisions (one sitting)
 
+> **ARCHIVED — provenance only, never a spec.** Workstream S is closed: the
+> live design is [module 76 §116–129](../../../world/76-stats-progression.md)
+> plus decisions 0019/0031/0033 and `tooling/stats-sim/`. Read
+> [the archive README](README.md) before trusting anything below — the rulings are
+> summarised in [decision 0031](../../../decisions/0031-workstream-s-round1-shape.md).
+
 > Step 4 of module 76 §103.1. Twelve questions + one accept/veto list, each
 > self-contained with a recommendation the owner can simply accept. Reply in
 > chat ("1A, 2A, … 13: accept all" plus any notes); answers get recorded here
 > and as a decision record, then the design is detailed axis-by-axis (step 5),
 > the numbers + simulation packets run (steps 6–7), and round 2 confirms.
 > Analysis behind each: [mapping inventory](stats-progression-mapping-inventory.md);
-> evidence: [reference games](stats-progression-reference-games.md),
+> evidence: [reference games](../../stats-progression-reference-games.md),
 > [repo/quest inputs](stats-progression-repo-baseline-and-quest-inputs.md).
 > Minor calls are not asked here — they are proposed defaults (inventory §5),
 > vetoable at round 2.
@@ -26,7 +32,7 @@
 > **Next: module 76 §103.1 steps 5–8** — detail the decided design into
 > module 76, numbers packet, balance-simulation harness
 > (`tooling/stats-sim/`), owner round 2. Decision record:
-> [0031](../decisions/0031-workstream-s-round1-shape.md).
+> [0031](../../../decisions/0031-workstream-s-round1-shape.md).
 
 ## The questions
 

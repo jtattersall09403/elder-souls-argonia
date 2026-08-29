@@ -22,9 +22,12 @@ numbers and proved them in bulk:
   encumbrance, breath, climbing, economy, exploit hunts and whole-playthrough
   runs, and ends in **16 invariants, all holding**. Its `data/` directory is the canonical numbers; at 10c it is
   re-pointed at the game's tables and the invariants become standing tests.
-- **[numbers packet](../research/stats-progression-numbers-packet.md)** — the
-  worked characters, the ladder as played, pacing, economy, and the eleven
-  anomalies the simulation found with what was done about each.
+- **[`tooling/stats-sim/FINDINGS.md`](../../tooling/stats-sim/FINDINGS.md)** —
+  the tuning history: all nineteen anomalies the simulation found, what was done
+  about each, and the three left open as forward work. The derivation it came
+  from (worked characters, the ladder as played, pacing, economy) is the closed
+  [numbers packet](../research/archive/workstream-s/stats-progression-numbers-packet.md),
+  kept for provenance only.
 
 ## 2. The non-obvious calls
 
@@ -59,8 +62,9 @@ numbers and proved them in bulk:
 
 ## 3. What the simulation forced
 
-Retunes, all recorded in the data files with reasons and listed in the numbers
-packet §8: burden thresholds (0.20/0.35, so the reference kit is *mid*), enemy
+Retunes, all recorded in the data files with reasons and listed in
+[`tooling/stats-sim/FINDINGS.md`](../../tooling/stats-sim/FINDINGS.md):
+burden thresholds (0.20/0.35, so the reference kit is *mid*), enemy
 armour bands down ~40 % and D5 health/damage trimmed (boss fights were beating
 every build), magicka pool and regen up substantially with capped cost-reduction
 gear (mages could not sustain a boss fight), spell tier damage down (they then
@@ -77,7 +81,7 @@ approaches immunity.
 ## 4. Round-2 amendments (owner, 2026-08-29)
 
 Full record and reasoning:
-[owner round 2 §7](../research/stats-progression-owner-round2.md). The
+[owner round 2 §7](../research/archive/workstream-s/stats-progression-owner-round2.md). The
 load-bearing ones:
 
 - **Getting hit matters.** "Blows that kill you" became the danger ladder's
@@ -109,7 +113,8 @@ load-bearing ones:
 - **A whole-playthrough simulation** was added (`src/campaign.mjs`): six builds
   over ~150 hours of Milestone-1-shaped content, reporting levelling pace,
   deaths per act, skill growth and economy. It produced eight further findings
-  (numbers packet §8), three of which are reported rather than fixed: nobody
+  (`tooling/stats-sim/FINDINGS.md`), three of which are reported rather than
+  fixed: nobody
   dies after Act III, gold outgrows its sinks, and non-social builds finish
   with Speechcraft under 20.
 - Standing instruction recorded in the module: **the simulation is evidence,

@@ -25,18 +25,18 @@ allowed to write (module 76 §103.1).
 | `src/sweeps.mjs` | the bulk parameter sweeps; each returns plain data and judges nothing |
 | `src/invariants.mjs` | what must be true, with thresholds in one `THRESHOLDS` object |
 | `run.mjs` | runs everything, prints the report, exits non-zero on a failure |
+| [`FINDINGS.md`](FINDINGS.md) | the tuning history: every anomaly the sim found, its fix, and the three left open |
 
 Rules of thumb: a **rule** goes in `model.mjs`, a **number** goes in `data/`, a
 **judgement** goes in `invariants.mjs`. If you find yourself editing a constant
 in a `.mjs` file, it belongs in `data/`.
 
-## The invariants (13)
+## The invariants
 
-reference-equivalence · d5-overmatches-a-beginner · band-is-fair-for-its-build ·
-overmatch-is-lethal · armour-never-trivialises · no-deferral-advantage ·
-affordability-band · every-build-can-finish · breath-margins ·
-crafting-loops-are-bounded · soft-requirements-never-block ·
-healing-costs-but-pays · vastei-farming-is-throttled.
+Deliberately **not listed here** — a hand-copied list goes stale (it has
+before). `node tooling/stats-sim/run.mjs` prints every invariant by name with
+its one-line evidence and exits non-zero if any fails; `src/invariants.mjs` is
+the source of truth, with all thresholds in one `THRESHOLDS` object.
 
 At **Phase 10c** these are ported as standing tests against the implemented
 system and this harness is re-pointed at the game's own data files, so later

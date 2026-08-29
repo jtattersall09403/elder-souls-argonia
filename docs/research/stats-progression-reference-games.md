@@ -1,12 +1,18 @@
 # Workstream S research: how the reference games actually work
 
+> **Still live evidence** — this is the only record of Morrowind's formula
+> constants and the mod-sourcing permission facts, so it stays in `docs/research/`.
+> The design it fed is [module 76 §116–129](../world/76-stats-progression.md);
+> the rest of workstream S's working papers are closed and archived in
+> [archive/workstream-s/](archive/workstream-s/README.md).
+
 > Research record for workstream S (module [76](../world/76-stats-progression.md)
 > §103.1 step 2): Morrowind's real formulas (UESP trawl, 2026-08-26, ~35 pages via
 > `en.uesp.net/w/api.php`), the Souls layer's mechanics, Skyrim's lessons, and the
 > mod-scene availability evidence for Morrowind-only item categories. Findings and
 > implications, not a wiki dump — but the constants are the value, so they are kept.
 > Internal inputs (sandbox baseline, quest demands):
-> [stats-progression-repo-baseline-and-quest-inputs.md](stats-progression-repo-baseline-and-quest-inputs.md).
+> [archive/workstream-s/stats-progression-repo-baseline-and-quest-inputs.md](archive/workstream-s/stats-progression-repo-baseline-and-quest-inputs.md).
 > Notation: `Fat%` = current/max fatigue.
 
 ## 1. Morrowind — the chassis (all facts cite UESP page names)

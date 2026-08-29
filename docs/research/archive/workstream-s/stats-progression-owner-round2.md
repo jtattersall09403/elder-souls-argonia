@@ -1,6 +1,12 @@
 # Workstream S — owner round 2: confirm the design (one sitting)
 
-> Step 8 of the run-book (module [76](../world/76-stats-progression.md) §103.1)
+> **ARCHIVED — provenance only, never a spec.** Workstream S is closed: the
+> live design is [module 76 §116–129](../../../world/76-stats-progression.md)
+> plus decisions 0019/0031/0033 and `tooling/stats-sim/`. Read
+> [the archive README](README.md) before trusting anything below — the rulings are
+> summarised in [decision 0033 §4](../../../decisions/0033-workstream-s-design-and-numbers.md).
+
+> Step 8 of the run-book (module [76](../../../world/76-stats-progression.md) §103.1)
 > and the **last** owner round for this workstream. Round 1 settled the shape;
 > this round confirmed the detail, the numbers and a list of small calls made on
 > the owner's behalf.

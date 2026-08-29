@@ -1,10 +1,15 @@
 # Workstream S inputs: the sandbox baseline and what the quest plan demands
 
-> Research record for workstream S (module [76](../world/76-stats-progression.md) §103.1
+> **ARCHIVED — provenance only, never a spec.** Workstream S is closed: the
+> live design is [module 76 §116–129](../../../world/76-stats-progression.md)
+> plus decisions 0019/0031/0033 and `tooling/stats-sim/`. Read
+> [the archive README](README.md) before trusting anything below.
+
+> Research record for workstream S (module [76](../../../world/76-stats-progression.md) §103.1
 > step 2). Two internal inputs, snapshotted 2026-08-26: (1) the numbers the combat
 > sandbox actually runs on today — the calibration data the stat design re-bases;
 > (2) every demand the quest plan places on character systems. External reference-game
-> research lives in [stats-progression-reference-games.md](stats-progression-reference-games.md).
+> research lives in [stats-progression-reference-games.md](../../stats-progression-reference-games.md).
 > Code facts cite files as of commit 60f5f9d; verify before implementation (10c).
 
 ## 1. The sandbox baseline (calibration data, not the neutral baseline)
