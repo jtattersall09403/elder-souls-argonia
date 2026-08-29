@@ -1,0 +1,811 @@
+{
+ "sources": [
+  "Tropical Skyrim.esp",
+  "Tropical Skyrim -- Birds.esp",
+  "Black Marsh.esm",
+  "Black Marsh North.esp",
+  "Valenwood.esp"
+ ],
+ "note": "Schema adopted as a checklist; values are the shipped games' own and are recorded for reference, not copied into our compilers (module 95 \u00a786.0b).",
+ "grassesPerTexture": {
+  "observedMax": 3,
+  "distribution": {
+   "0": 20,
+   "1": 9,
+   "2": 10,
+   "3": 8
+  }
+ },
+ "grass": {
+  "CattailGrass01": {
+   "formId": "010043EA",
+   "definedIn": "Tropical Skyrim.esp",
+   "model": "Landscape\\grass\\CattailGrass.nif",
+   "density": 30,
+   "slopeDeg": [
+    0,
+    40
+   ],
+   "unitsFromWater": 0,
+   "waterRule": "below-at-least",
+   "positionJitterUnits": 40.0,
+   "heightVariance": 0.30000001192092896,
+   "colourVariance": 0.30000001192092896,
+   "wavePeriod": 120.0,
+   "flags": 6
+  },
+  "FernGrass01": {
+   "formId": "000173F4",
+   "definedIn": "Skyrim.esm",
+   "model": "Landscape\\grass\\ferngrass01.nif",
+   "density": 37,
+   "slopeDeg": [
+    0,
+    50
+   ],
+   "unitsFromWater": 0,
+   "waterRule": "above-at-least",
+   "positionJitterUnits": 30.0,
+   "heightVariance": 0.33000001311302185,
+   "colourVariance": 0.20000000298023224,
+   "wavePeriod": 240.0,
+   "flags": 6
+  },
+  "ForestGrass01": {
+   "formId": "00014041",
+   "definedIn": "Skyrim.esm",
+   "model": "Landscape\\Grass\\ForestGrass01.nif",
+   "density": 25,
+   "slopeDeg": [
+    0,
+    33
+   ],
+   "unitsFromWater": 0,
+   "waterRule": "above-at-least",
+   "positionJitterUnits": 41.0,
+   "heightVariance": 0.30000001192092896,
+   "colourVariance": 0.10000000149011612,
+   "wavePeriod": 120.0,
+   "flags": 6
+  },
+  "ForestGrass02": {
+   "formId": "000F69A4",
+   "definedIn": "Skyrim.esm",
+   "model": "Landscape\\Grass\\ForestGrass02.nif",
+   "density": 5,
+   "slopeDeg": [
+    0,
+    33
+   ],
+   "unitsFromWater": 0,
+   "waterRule": "above-at-least",
+   "positionJitterUnits": 42.0,
+   "heightVariance": 0.30000001192092896,
+   "colourVariance": 0.10000000149011612,
+   "wavePeriod": 120.0,
+   "flags": 6
+  },
+  "FrozenMarshGrass01": {
+   "formId": "0004013C",
+   "definedIn": "Skyrim.esm",
+   "model": "Landscape\\Grass\\MarshGrassObj01.nif",
+   "density": 60,
+   "slopeDeg": [
+    0,
+    42
+   ],
+   "unitsFromWater": 0,
+   "waterRule": "above-at-least",
+   "positionJitterUnits": 40.0,
+   "heightVariance": 0.30000001192092896,
+   "colourVariance": 0.30000001192092896,
+   "wavePeriod": 120.0,
+   "flags": 6
+  },
+  "ReachGrass01": {
+   "formId": "00053491",
+   "definedIn": "Skyrim.esm",
+   "model": "Landscape\\Grass\\ReachGrassObj01.nif",
+   "density": 30,
+   "slopeDeg": [
+    0,
+    35
+   ],
+   "unitsFromWater": 0,
+   "waterRule": "above-at-least",
+   "positionJitterUnits": 35.0,
+   "heightVariance": 0.3499999940395355,
+   "colourVariance": 0.20000000298023224,
+   "wavePeriod": 228.0,
+   "flags": 6
+  },
+  "ReachGrass02": {
+   "formId": "00053903",
+   "definedIn": "Skyrim.esm",
+   "model": "Landscape\\Grass\\ReachGrassObj02.nif",
+   "density": 30,
+   "slopeDeg": [
+    0,
+    35
+   ],
+   "unitsFromWater": 0,
+   "waterRule": "above-at-least",
+   "positionJitterUnits": 35.0,
+   "heightVariance": 0.3499999940395355,
+   "colourVariance": 0.20000000298023224,
+   "wavePeriod": 252.0,
+   "flags": 6
+  },
+  "RockGrass01": {
+   "formId": "00048749",
+   "definedIn": "Skyrim.esm",
+   "model": "Landscape\\Grass\\RockGrass01.nif",
+   "density": 10,
+   "slopeDeg": [
+    0,
+    40
+   ],
+   "unitsFromWater": 0,
+   "waterRule": "above-at-least",
+   "positionJitterUnits": 32.0,
+   "heightVariance": 0.25,
+   "colourVariance": 0.019999999552965164,
+   "wavePeriod": 60.0,
+   "flags": 6
+  },
+  "TropicalGrass01": {
+   "formId": "01007608",
+   "definedIn": "Tropical Skyrim.esp",
+   "model": "Landscape\\Grass\\MarshGrassObj01.nif",
+   "density": 5,
+   "slopeDeg": [
+    0,
+    42
+   ],
+   "unitsFromWater": 0,
+   "waterRule": "above-at-least",
+   "positionJitterUnits": 40.0,
+   "heightVariance": 0.30000001192092896,
+   "colourVariance": 0.30000001192092896,
+   "wavePeriod": 120.0,
+   "flags": 6
+  },
+  "TropicalGrassPlant01": {
+   "formId": "01002896",
+   "definedIn": "Tropical Skyrim.esp",
+   "model": "Landscape\\grass\\GrassFern01.nif",
+   "density": 5,
+   "slopeDeg": [
+    0,
+    50
+   ],
+   "unitsFromWater": 0,
+   "waterRule": "above-at-least",
+   "positionJitterUnits": 30.0,
+   "heightVariance": 1.0,
+   "colourVariance": 0.0,
+   "wavePeriod": 240.0,
+   "flags": 7
+  },
+  "TropicalGrassPlant02": {
+   "formId": "01007607",
+   "definedIn": "Tropical Skyrim.esp",
+   "model": "Landscape\\grass\\GrassPlant01.nif",
+   "density": 3,
+   "slopeDeg": [
+    0,
+    50
+   ],
+   "unitsFromWater": 40,
+   "waterRule": "above-at-least",
+   "positionJitterUnits": 30.0,
+   "heightVariance": 1.0,
+   "colourVariance": 0.0,
+   "wavePeriod": 240.0,
+   "flags": 7
+  },
+  "TundraGrass01": {
+   "formId": "0002F3FA",
+   "definedIn": "Skyrim.esm",
+   "model": "Landscape\\Grass\\TundraGrass01.nif",
+   "density": 4,
+   "slopeDeg": [
+    0,
+    14
+   ],
+   "unitsFromWater": 0,
+   "waterRule": "above-at-least",
+   "positionJitterUnits": 40.0,
+   "heightVariance": 0.30000001192092896,
+   "colourVariance": 0.20000000298023224,
+   "wavePeriod": 270.0,
+   "flags": 6
+  },
+  "TundraGrass03": {
+   "formId": "0002ACD3",
+   "definedIn": "Skyrim.esm",
+   "model": "Landscape\\Grass\\TundraGrassObj03.nif",
+   "density": 3,
+   "slopeDeg": [
+    0,
+    19
+   ],
+   "unitsFromWater": 0,
+   "waterRule": "above-at-least",
+   "positionJitterUnits": 30.0,
+   "heightVariance": 0.20000000298023224,
+   "colourVariance": 0.25,
+   "wavePeriod": 240.0,
+   "flags": 6
+  },
+  "TundraGrass04": {
+   "formId": "000336FA",
+   "definedIn": "Skyrim.esm",
+   "model": "Landscape\\Grass\\TundraGrassObj04.nif",
+   "density": 5,
+   "slopeDeg": [
+    0,
+    19
+   ],
+   "unitsFromWater": 0,
+   "waterRule": "above-at-least",
+   "positionJitterUnits": 36.0,
+   "heightVariance": 0.20000000298023224,
+   "colourVariance": 0.30000001192092896,
+   "wavePeriod": 270.0,
+   "flags": 6
+  }
+ },
+ "landscapeTextures": {
+  "01MOSS1": {
+   "formId": "05226330",
+   "definedIn": "Black Marsh.esm",
+   "texture": "TEXTUREPACK\\landscape\\fielddirtgrass01.dds",
+   "frictionRestitution": [
+    30,
+    30
+   ],
+   "grasses": []
+  },
+  "01ground": {
+   "formId": "0608A7F7",
+   "definedIn": "Valenwood.esp",
+   "texture": "TEXTUREPACK\\landscape\\dirtcliff\\dirtcliffs01.dds",
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": []
+  },
+  "01road1": {
+   "formId": "0601CD6A",
+   "definedIn": "Black Marsh North.esp",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": []
+  },
+  "01road2": {
+   "formId": "0601CD6B",
+   "definedIn": "Black Marsh North.esp",
+   "texture": "TEXTUREPACK\\landscape\\roads\\road01.dds",
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": []
+  },
+  "DarkRock1": {
+   "formId": "0617678B",
+   "definedIn": "Black Marsh North.esp",
+   "texture": "landscape\\Apel_lh_rock_02.dds",
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": []
+  },
+  "LCaveDirtDUPLICATE001": {
+   "formId": "0601CD46",
+   "definedIn": "Black Marsh North.esp",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": []
+  },
+  "LCoastBeachGrass01": {
+   "formId": "0006DD55",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": []
+  },
+  "LDirt02": {
+   "formId": "00000C16",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "ForestGrass01"
+   ]
+  },
+  "LDirt03": {
+   "formId": "0601CD80",
+   "definedIn": "Black Marsh North.esp",
+   "texture": "vvardenfell\\rm\\rm_rock02.dds",
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": []
+  },
+  "LDirtDUPLICATE002": {
+   "formId": "06022140",
+   "definedIn": "Valenwood.esp",
+   "texture": "LERock30.dds",
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": []
+  },
+  "LDirtDUPLICATE003": {
+   "formId": "0602224A",
+   "definedIn": "Valenwood.esp",
+   "texture": "LERock06.dds",
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": []
+  },
+  "LDirtDUPLICATE004": {
+   "formId": "0605C094",
+   "definedIn": "Valenwood.esp",
+   "texture": "LERock17.dds",
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": []
+  },
+  "LDirtDUPLICATE005": {
+   "formId": "0608A7F6",
+   "definedIn": "Valenwood.esp",
+   "texture": "TEXTUREPACK\\landscape\\mountains\\mountainslab01.dds",
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": []
+  },
+  "LDirtDessert": {
+   "formId": "061071AE",
+   "definedIn": "Valenwood.esp",
+   "texture": "landscape\\sand\\Sand06.dds",
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": []
+  },
+  "LDirtDessertDUPLICATE001": {
+   "formId": "061071AF",
+   "definedIn": "Valenwood.esp",
+   "texture": "landscape\\sand\\Sand03.dds",
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": []
+  },
+  "LDirtPathDUPLICATE002": {
+   "formId": "0601CDF5",
+   "definedIn": "Valenwood.esp",
+   "texture": "Lor\\landscape\\cobblestone01.dds",
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": []
+  },
+  "LFallForestDirt01": {
+   "formId": "00057DCF",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "0005B5A8"
+   ]
+  },
+  "LFallForestGrass01": {
+   "formId": "00058606",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "TropicalGrassPlant01",
+    "000597D1",
+    "0005B5A8"
+   ]
+  },
+  "LFallForestGrass01NoFern": {
+   "formId": "000A7619",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "TropicalGrassPlant01",
+    "000597D1"
+   ]
+  },
+  "LFallForestLeaves01": {
+   "formId": "00057DC7",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "TropicalGrassPlant01"
+   ]
+  },
+  "LFieldDirtGrassDUPLICATE002": {
+   "formId": "06040C03",
+   "definedIn": "Black Marsh North.esp",
+   "texture": "dirtroad01.dds",
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": []
+  },
+  "LFieldGrass01": {
+   "formId": "00013428",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "RockGrass01",
+    "TundraGrass01"
+   ]
+  },
+  "LFieldGrass01NoGrass": {
+   "formId": "00024E46",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": []
+  },
+  "LFieldGrass02": {
+   "formId": "0001342A",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "TropicalGrassPlant01",
+    "TropicalGrassPlant02",
+    "001098CA"
+   ]
+  },
+  "LFieldGrassDUPLICATE002": {
+   "formId": "061071B0",
+   "definedIn": "Valenwood.esp",
+   "texture": "landscape\\sand\\Sand06.dds",
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "TundraGrass01",
+    "TundraGrass04"
+   ]
+  },
+  "LFieldGrassDUPLICATE003": {
+   "formId": "06040BF7",
+   "definedIn": "Black Marsh North.esp",
+   "texture": "TEXTUREPACK\\landscape\\rivermud.dds",
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "000135BE",
+    "001098CA"
+   ]
+  },
+  "LFrozenMarshDirtSlopes01": {
+   "formId": "00075070",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "CattailGrass01"
+   ]
+  },
+  "LGrassSnow01": {
+   "formId": "00000894",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "TropicalGrassPlant02",
+    "TropicalGrassPlant01",
+    "000F17FE"
+   ]
+  },
+  "LPineForest02": {
+   "formId": "000137CC",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "TropicalGrass01",
+    "TropicalGrassPlant02",
+    "TropicalGrassPlant01"
+   ]
+  },
+  "LPineForest03": {
+   "formId": "00013876",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "0005B5A8",
+    "TropicalGrass01",
+    "TropicalGrassPlant01"
+   ]
+  },
+  "LPineForest04": {
+   "formId": "0600C2B6",
+   "definedIn": "Black Marsh North.esp",
+   "texture": "TEXTUREPACK\\landscape\\grass\\rocksgrasswater01.dds",
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "FernGrass01",
+    "000BC025"
+   ]
+  },
+  "LPineForest05": {
+   "formId": "0600C2B5",
+   "definedIn": "Black Marsh North.esp",
+   "texture": "TEXTUREPACK\\landscape\\tundramoss01.dds",
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "FernGrass01",
+    "000BC025"
+   ]
+  },
+  "LPineForestDUPLICATE004": {
+   "formId": "06016A89",
+   "definedIn": "Valenwood.esp",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "FernGrass01",
+    "000BC025"
+   ]
+  },
+  "LPineForestDUPLICATE005": {
+   "formId": "0605C092",
+   "definedIn": "Valenwood.esp",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "FernGrass01",
+    "000BC025"
+   ]
+  },
+  "LReachDirt01": {
+   "formId": "00021711",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "TropicalGrassPlant02",
+    "TropicalGrassPlant01"
+   ]
+  },
+  "LReachMoss01": {
+   "formId": "0001CC43",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "TropicalGrass01"
+   ]
+  },
+  "LSnow01": {
+   "formId": "0000089B",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "TropicalGrass01",
+    "RockGrass01",
+    "ForestGrass01"
+   ]
+  },
+  "LSnow02": {
+   "formId": "0006A1B1",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "0005B5A8",
+    "TropicalGrassPlant01",
+    "TropicalGrassPlant02"
+   ]
+  },
+  "LSnowRocks01": {
+   "formId": "0006A1AF",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "RockGrass01"
+   ]
+  },
+  "LSnowRocks01wGrass": {
+   "formId": "000F871F",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "RockGrass01"
+   ]
+  },
+  "LTundra01": {
+   "formId": "00024E30",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "RockGrass01",
+    "TundraGrass04",
+    "TundraGrass03"
+   ]
+  },
+  "LTundra01NoGrass": {
+   "formId": "000A2741",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": []
+  },
+  "LTundra02": {
+   "formId": "000300E4",
+   "definedIn": "Skyrim.esm",
+   "texture": null,
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "RockGrass01"
+   ]
+  },
+  "LTundraDUPLICATE002": {
+   "formId": "0604FFF7",
+   "definedIn": "Black Marsh North.esp",
+   "texture": "landscape\\sand\\Sand06.dds",
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "TundraGrass03",
+    "TundraGrass04"
+   ]
+  },
+  "LTundraRocksDUPLICATE002": {
+   "formId": "06039829",
+   "definedIn": "Black Marsh North.esp",
+   "texture": "landscape\\Rocks\\RedRock04.dds",
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": [
+    "RockGrass01"
+   ]
+  },
+  "Sand": {
+   "formId": "0602CF4D",
+   "definedIn": "Black Marsh North.esp",
+   "texture": "landscape\\sand\\Sand03.dds",
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": []
+  },
+  "lava": {
+   "formId": "0601CD47",
+   "definedIn": "Black Marsh North.esp",
+   "texture": "landscape\\lavaflow.dds",
+   "frictionRestitution": [
+    2,
+    0
+   ],
+   "grasses": []
+  }
+ }
+}
