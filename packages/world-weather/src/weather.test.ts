@@ -10,13 +10,14 @@ import {
   windDirAt,
 } from "./synoptic";
 import {
+  regionHazeFactor,
   weatherSampleAt,
   weatherSampleForRegime,
   weatherSampleForState,
   whiteoutBell,
   type LocalClimate,
 } from "./express";
-import { PROFILES, WEATHER_KINDS, type StateProfile } from "./states";
+import { PROFILES, WEATHER_KINDS, type StateProfile, type WeatherKind } from "./states";
 
 const at = (month: number, day: number, minuteOfDay = 720) =>
   toEpochMinutes({ era: 4, year: 201, month, day, minuteOfDay });
@@ -305,18 +306,20 @@ describe("round 2 gates (owner feedback 2026-08-29)", () => {
     }
   });
 
-  it("coverage wanders within a clear spell but never fully overcasts it", () => {
-    // Force-clear removes slot rolls; the wander alone must vary the deck.
+  it("coverage wanders within a fair-weather spell but never fully overcasts it", () => {
+    // Force-state removes slot rolls; the wander alone must vary the deck.
+    // Round 4: `clear` now means CLOUDLESS, so the wander lives on the
+    // fair-weather ladder (fair/partly/broken) instead.
     const e0 = at(1, 5, 8 * 60);
     let lo = 1;
     let hi = 0;
     for (let m = 0; m < 600; m += 10) {
-      const p = weatherSampleForState("clear", e0 + m, LOCAL_BASIN).profile;
+      const p = weatherSampleForState("broken", e0 + m, LOCAL_BASIN).profile;
       lo = Math.min(lo, p.cloudMid);
       hi = Math.max(hi, p.cloudMid);
     }
     expect(hi - lo).toBeGreaterThan(0.1); // visibly different hours
-    expect(hi).toBeLessThan(0.5); // clear never becomes a full deck
+    expect(hi).toBeLessThan(0.85); // broken never closes into a full deck
   });
 
   it("forced mist/fog regimes: full CONDITION, locality stays with the rasters", () => {
@@ -348,6 +351,80 @@ describe("round 2 gates (owner feedback 2026-08-29)", () => {
     expect(PROFILES.squall.stormFront).toBe(1);
     expect(PROFILES.thunderstorm.greenTint).toBeGreaterThan(0.3);
     expect(PROFILES.squall.cloudScroll).toBeGreaterThan(2);
+  });
+});
+
+describe("round 4 gates (owner feedback 2026-08-30)", () => {
+  it("the coverage ladder is monotonic and clear means CLOUDLESS", () => {
+    const cov = (k: WeatherKind) =>
+      PROFILES[k].cloudLow + PROFILES[k].cloudMid + PROFILES[k].cloudHigh;
+    expect(cov("clear")).toBeLessThan(0.1); // a wisp of cirrus at most
+    expect(cov("clear")).toBeLessThan(cov("fair"));
+    expect(cov("fair")).toBeLessThan(cov("partly"));
+    expect(cov("partly")).toBeLessThan(cov("broken"));
+    expect(cov("broken")).toBeLessThan(cov("overcast"));
+    // …and the whole ladder stays fair-weather in CHARACTER: crisp cumulus,
+    // no rain, sun still reaching the ground.
+    for (const k of ["fair", "partly", "broken"] as const) {
+      expect(PROFILES[k].rain).toBe(0);
+      expect(PROFILES[k].cloudPuff).toBeGreaterThan(0.7);
+      expect(PROFILES[k].sunDim).toBeLessThan(0.5);
+    }
+    // Sun dimming and ambient lift climb with coverage — the lighting is what
+    // makes these days read as different, not just the cloud sprites.
+    expect(PROFILES.clear.sunDim).toBeLessThan(PROFILES.partly.sunDim);
+    expect(PROFILES.partly.sunDim).toBeLessThan(PROFILES.broken.sunDim);
+    expect(PROFILES.broken.sunDim).toBeLessThan(PROFILES.overcast.sunDim);
+  });
+
+  it("the calendar actually rolls in-between days, not just clear/overcast", () => {
+    // A dry-season month: count how many slots land on each rung.
+    const seen = new Map<WeatherKind, number>();
+    for (let d = 0; d < 30; d += 1) {
+      for (let m = 0; m < MINUTES_PER_DAY; m += 90) {
+        const k = weatherSampleAt(at(1, 1 + d, 0) + m, LOCAL_BASIN).state;
+        seen.set(k, (seen.get(k) ?? 0) + 1);
+      }
+    }
+    for (const k of ["fair", "partly", "broken"] as const) {
+      expect(seen.get(k) ?? 0, `${k} never rolled`).toBeGreaterThan(0);
+    }
+  });
+
+  it("thunderstorms drive the sea as hard as squalls", () => {
+    // Owner: the thunderstorm sea read CALMER than the squall, which is
+    // backwards — outflow gusts are squall-strength.
+    expect(PROFILES.thunderstorm.windMS).toBeGreaterThanOrEqual(PROFILES.squall.windMS * 0.9);
+    const e = at(6, 20, 15 * 60);
+    const storm = weatherSampleForState("thunderstorm", e, LOCAL_COAST);
+    const squall = weatherSampleForState("squall", e, LOCAL_COAST);
+    expect(storm.windSpeedMS).toBeGreaterThan(0.85 * squall.windSpeedMS);
+  });
+
+  it("visibility is local weather: region baseline × a live factor", () => {
+    // Same instant, same weather — murky basin air vs thin ridge air.
+    const e = at(6, 12, 13 * 60);
+    const murky = { ...LOCAL_BASIN, regionExtinction: 0.3 };
+    const crisp = { ...LOCAL_MOUNTAIN, regionExtinction: 0.02 };
+    const a = weatherSampleForState("clear", e, murky);
+    const b = weatherSampleForState("clear", e, crisp);
+    expect(a.regionVisibilityM).toBeLessThan(b.regionVisibilityM);
+    expect(a.visibilityM).toBeLessThanOrEqual(a.regionVisibilityM);
+    // …and it breathes: a wet afternoon steams up, a windy one scours clear.
+    const steamy = regionHazeFactor({
+      humidity: 0.9, rainIntensity: 0, wetness: 0.9, windSpeedMS: 1, minuteOfDay: 870, season: 0.9,
+    });
+    const scoured = regionHazeFactor({
+      humidity: 0.4, rainIntensity: 0, wetness: 0, windSpeedMS: 12, minuteOfDay: 870, season: -0.9,
+    });
+    expect(steamy).toBeGreaterThan(scoured * 1.5);
+    // The renderer uniform and the published number come from one call, so a
+    // finite, bounded factor is the whole contract.
+    for (const f of [steamy, scoured]) {
+      expect(Number.isFinite(f)).toBe(true);
+      expect(f).toBeGreaterThan(0.29);
+      expect(f).toBeLessThan(2.41);
+    }
   });
 });
 

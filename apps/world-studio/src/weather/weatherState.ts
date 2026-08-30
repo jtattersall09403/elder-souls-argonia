@@ -4,6 +4,7 @@ import {
   weatherSampleAt,
   weatherSampleForRegime,
   weatherSampleForState,
+  DEFAULT_REGION_EXTINCTION,
   FORCED_REGIMES,
   PROFILES,
   WEATHER_KINDS,
@@ -68,6 +69,7 @@ const DEFAULT_LOCAL: LocalClimate = {
   humidity: 0.6,
   canopy: 0.3,
   beltMask: 0,
+  regionExtinction: DEFAULT_REGION_EXTINCTION,
   elevationM: 10,
 };
 
@@ -103,6 +105,11 @@ export function weatherAt(
     humidity: air?.[0] ?? DEFAULT_LOCAL.humidity,
     canopy: air?.[2] ?? DEFAULT_LOCAL.canopy,
     beltMask: vis?.[0] ?? DEFAULT_LOCAL.beltMask,
+    // climate-vis G is the region's baseline air thickness (round 4): the
+    // renderer and the published sight distance now derive from this ONE
+    // channel through express.ts, instead of the raster driving the shader
+    // while the HUD number came from the weather state alone.
+    regionExtinction: vis?.[1] ?? DEFAULT_LOCAL.regionExtinction,
     elevationM,
   };
   lastSample =

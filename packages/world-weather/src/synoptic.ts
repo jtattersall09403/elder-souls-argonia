@@ -146,6 +146,13 @@ function stateWeights(
   const convect = convectionFactor(hourOfDay);
   const wet = Math.max(0, s);
   const dry = Math.max(0, -s);
+  // Owner round 4: the old weights only ever rolled "clear" or "overcast"
+  // outside rain, so the sky was binary. The fair-weather ladder
+  // (fair/partly/broken) takes most of what used to be "clear" weight —
+  // cloudless skies are the MINORITY in a humid tropical province, and the
+  // interesting days are the in-between ones. Cumulus is also diurnal: fair
+  // mornings build to partly/broken over land through the afternoon
+  // (`convect`), the same heating curve that drives thunderstorms.
   switch (spell) {
     case "active":
       return [
@@ -154,13 +161,16 @@ function stateWeights(
         ["overcast", 0.25],
         ["thunderstorm", 0.12 * convect],
         ["squall", 0.03],
-        ["clear", 0.04],
+        ["broken", 0.04],
       ] as const;
     case "break":
       // Squall lines are characteristic of monsoon BREAK phases (research
       // §5.2 — Darwin climatology), alongside isolated afternoon storms.
       return [
-        ["clear", 0.32],
+        ["clear", 0.05],
+        ["fair", 0.08],
+        ["partly", 0.09 + 0.06 * convect],
+        ["broken", 0.1 + 0.08 * convect],
         ["overcast", 0.24],
         ["thunderstorm", 0.3 * convect + 0.03],
         ["squall", 0.1],
@@ -168,17 +178,24 @@ function stateWeights(
       ] as const;
     case "fair":
       return [
-        ["clear", 0.55],
-        ["overcast", 0.22],
+        ["clear", 0.16],
+        ["fair", 0.2],
+        ["partly", 0.16 + 0.08 * convect],
+        ["broken", 0.09 + 0.07 * convect],
+        ["overcast", 0.14],
         ["haze", 0.12 * dry],
         ["rain", 0.06 * wet],
         ["thunderstorm", 0.08 * convect * (0.3 + wet)],
       ] as const;
     case "parched":
+      // Dry-season subsidence: genuinely cloudless days are common HERE and
+      // rare elsewhere — that contrast is what makes the seasons read.
       return [
-        ["haze", 0.5],
-        ["clear", 0.4],
-        ["overcast", 0.07],
+        ["haze", 0.44],
+        ["clear", 0.28],
+        ["fair", 0.15],
+        ["partly", 0.06 + 0.04 * convect],
+        ["overcast", 0.04],
         ["thunderstorm", 0.03 * convect],
       ] as const;
   }
@@ -319,7 +336,18 @@ export function clearCalmNightFactor(epochMinutes: number): number {
   let maxRain = 0;
   for (const dt of [-90, 0, 90]) {
     const syn = synopticAt(nightRef + dt);
-    const skyClear = syn.state === "clear" || syn.state === "haze" ? 1 : syn.state === "overcast" ? 0.3 : 0;
+    // How much of the night sky was open to space (radiative cooling): the
+    // fair-weather ladder grades this instead of the old clear/overcast step.
+    const skyClear =
+      syn.state === "clear" || syn.state === "haze" || syn.state === "fair"
+        ? 1
+        : syn.state === "partly"
+          ? 0.75
+          : syn.state === "broken"
+            ? 0.45
+            : syn.state === "overcast"
+              ? 0.3
+              : 0;
     const calm = Math.min(1, Math.max(0, (4.5 - syn.profile.windMS) / 2.5));
     score += skyClear * calm;
     maxRain = Math.max(maxRain, syn.profile.rain);

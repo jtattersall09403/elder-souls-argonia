@@ -1017,10 +1017,11 @@ void main() {
       WHITEOUT_BELT.sigmaAboveM * verticalScale,
       wx.mist.whiteoutBase,
     );
-    // Region ambient haze breathes with the weather: settled days thinner
-    // (clear views), humid rainy days thicker.
-    a.uRegionHaze.value =
-      0.55 + 0.55 * Math.min(1, 0.5 * wx.profile.cloudMid * wx.profile.cloudDensity + wx.rainIntensity);
+    // Region ambient haze (round 4): visibility IS local weather now — the
+    // live multiplier comes off the weather sample (world-weather
+    // regionHazeFactor), the same number that sets wx.visibilityM. The
+    // renderer and the published sight distance can no longer disagree.
+    a.uRegionHaze.value = wx.regionHaze;
     a.uWeatherMie.value = wx.mist.weather;
     a.uFogLum.value.set(...rig.fogLum);
     // Rain wetness into the shared ground shader path; wind into the shared

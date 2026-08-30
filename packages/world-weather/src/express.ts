@@ -42,9 +42,28 @@ export interface LocalClimate {
    * forced up slopes, so it clings to the massif — free air at belt ALTITUDE
    * over the lowlands carries none (owner round 3: fog volumes are LOCAL). */
   beltMask: number;
+  /** Regional ambient-haze extinction, 0..1 = beta 0 … 0.02 per metre
+   * (climate-vis G). This is the *baseline* thickness of the air over this
+   * kind of country — steamy inner-basin marsh is permanently murkier than a
+   * windswept ridge. Owner round 4: region visibility is not a separate
+   * system from weather, it is the SLOWEST-MOVING component of local
+   * weather; `regionHazeFactor` below is the fast component that breathes it
+   * with the hour, the season and the sky. Optional: absent ⇒ a neutral
+   * lowland default, so old call sites keep working. */
+  regionExtinction?: number;
   /** Terrain elevation, metres (true metres, not vertical-scaled). */
   elevationM: number;
 }
+
+/** Neutral fallback when no climate-vis raster is available: thin air
+ * (beta 6e-4/m ≈ 5 km of sight). Deliberately THIN — a missing raster must
+ * not silently impose murk on a caller that has no region data. */
+export const DEFAULT_REGION_EXTINCTION = 0.03;
+
+/** Extinction (per metre) that a `regionExtinction` channel value means. Kept
+ * here because the raster bake, the renderer and this module must agree —
+ * `climate-vis` stores beta/REGION_EXTINCTION_MAX. */
+export const REGION_EXTINCTION_MAX = 0.02;
 
 /** The three mist regimes (module 55 §97). Each has a LOCAL value at the
  * queried position (for AI/HUD/the camera veil) and a province-wide BASE —
@@ -89,8 +108,14 @@ export interface WeatherSample {
   windSpeedMS: number;
   gustiness: number;
   mist: MistRegimes;
-  /** Practical sight distance, metres (min across air/mist/rain). */
+  /** Practical sight distance, metres (min across region air/mist/rain). */
   visibilityM: number;
+  /** Live multiplier on this region's baseline air thickness (round 4) — the
+   * renderer's ambient-haze uniform and `visibilityM` are both derived from
+   * it, so the drawn murk and the published number cannot drift apart. */
+  regionHaze: number;
+  /** Sight distance from the REGION air alone, metres (no mist/rain). */
+  regionVisibilityM: number;
   /** Ground wetness 0..1 (rain trail, decays over tens of minutes). */
   wetness: number;
   /** Traction 0..1 (1 dry): published for Phase 9 climbing/boats, not yet
@@ -140,6 +165,60 @@ export const WHITEOUT_BELT = {
   maskRampHiM: 450,
 } as const;
 
+/**
+ * VISIBILITY AS LOCAL WEATHER (owner round 4). The authored per-region
+ * sightlines ("900 m on firm lowland") were a static sketch sitting beside
+ * the mist/fog work. They are now one system: the region raster supplies the
+ * per-place BASELINE (`regionExtinction` — how thick this kind of country's
+ * air runs on an average day) and this function supplies the LIVE multiplier
+ * that makes it breathe. One number, used by both the renderer's ambient haze
+ * and the published `visibilityM`, so what the AI reads is what you see.
+ *
+ * Grounded in the province climatology (docs/research/black-marsh-climatology
+ * .md) — humid tropical lowland air behaves like this:
+ *  - humidity is the carrier: the wetter the air, the more it scatters;
+ *  - it is murkiest NOT during rain but in the hours AFTER, when standing
+ *    water evaporates into hot afternoon air (the marsh "steam");
+ *  - rain itself adds its own veil (a separate density in the shader), and
+ *    washes aerosol out, so the rain term here is modest;
+ *  - the pre-dawn hours are damp and settled — condensation haze — while
+ *    midday convective mixing over a dry, breezy ridge scours the air clear;
+ *  - wind mixes the boundary layer and thins the murk.
+ */
+export function regionHazeFactor(p: {
+  humidity: number;
+  rainIntensity: number;
+  wetness: number;
+  windSpeedMS: number;
+  minuteOfDay: number;
+  /** Season scalar −1 (dry) … +1 (wet). */
+  season: number;
+}): number {
+  // Afternoon heat drives evaporation off wet ground → the steam term.
+  const dayHeat = Math.exp(-Math.pow((p.minuteOfDay - 870) / 260, 2));
+  const steam = p.wetness * dayHeat;
+  // Damp settled pre-dawn air (distinct from radiation mist, which is its own
+  // regime — this is the thickening that happens even when no bank forms).
+  const preDawn = Math.exp(-Math.pow((p.minuteOfDay - 330) / 150, 2));
+  // Mechanical mixing: a breeze thins the murk, a calm makes it pool.
+  const mixOut = clamp01(1 - 0.05 * (p.windSpeedMS - 2.5)) * 0.35 + 0.65;
+  const raw =
+    0.45 +
+    0.55 * p.humidity +
+    0.35 * p.rainIntensity +
+    0.6 * steam +
+    0.3 * preDawn +
+    0.15 * Math.max(0, p.season);
+  return Math.min(2.4, Math.max(0.3, raw * mixOut));
+}
+
+/** Clear-air sight distance from a region extinction and its live factor
+ * (Koschmieder, 3/beta at the 5 % contrast threshold). */
+export function regionVisibilityM(regionExtinction: number, hazeFactor: number): number {
+  const beta = REGION_EXTINCTION_MAX * Math.max(0, regionExtinction) * hazeFactor;
+  return beta > 1e-6 ? Math.min(30000, 3 / beta) : 30000;
+}
+
 export function whiteoutBell(elevationM: number): number {
   const d = elevationM - WHITEOUT_BELT.centreM;
   const s = d < 0 ? WHITEOUT_BELT.sigmaBelowM : WHITEOUT_BELT.sigmaAboveM;
@@ -173,7 +252,7 @@ export function weatherSampleForState(
   };
   // Forced clear/haze also treats last night as clear so the dawn-mist
   // presets preview mist regardless of what the auto timeline rolled.
-  const clearNight = kind === "clear" || kind === "haze" ? 1 : undefined;
+  const clearNight = kind === "clear" || kind === "haze" || kind === "fair" ? 1 : undefined;
   const sample = express(syn, epochMinutes, local, PROFILES[kind].lightningPerMin, clearNight);
   sample.wetness = Math.max(sample.wetness, clamp01(0.85 * sample.rainIntensity));
   sample.grip = 1 - 0.35 * sample.wetness;
@@ -239,9 +318,19 @@ function express(
   rain *= smoothstep01((cloudMass - 0.45) / 0.3);
   rain = clamp01(rain);
 
-  // Wind: exposed coasts run windier than sheltered interior; squall wind
-  // hits hardest where the storm-exposure field is high.
-  const windSpeedMS = p.windMS * (0.75 + 0.45 * local.stormExposure + 0.4 * squallness * local.stormExposure);
+  // Wind: exposed coasts run windier than sheltered interior; GUST-FRONT
+  // weather (squall lines and thunderstorm outflow alike) hits hardest where
+  // the storm-exposure field is high. Round 4: thunderstorms were excluded
+  // from that boost, so a storm sea read calmer than a squall sea at the same
+  // place — a mature storm's cold pool is the same phenomenon.
+  const stormness =
+    (syn.state === "thunderstorm" ? syn.blend : 0) + (syn.prev === "thunderstorm" ? 1 - syn.blend : 0);
+  // Owner round 4 asked for PARITY, so the coefficient is 1 for both: the two
+  // states now drive the sea and the shore surf identically, and differ where
+  // the owner said they should — the sky (shelf wall, green cast, lightning)
+  // and how long they last.
+  const gustFront = squallness + stormness;
+  const windSpeedMS = p.windMS * (0.75 + 0.45 * local.stormExposure + 0.4 * gustFront * local.stormExposure);
   const gustiness = clamp01(p.gust * (0.8 + 0.4 * local.stormExposure));
 
   // --- The three mist regimes (distinct systems, module 55 §97) ---
@@ -258,7 +347,17 @@ function express(
   // Advection sea fog: humid marine air, strongest mornings and in the wetter
   // half of the year, needs non-violent weather to hold together.
   const morningBell = Math.exp(-Math.pow((minuteOfDay - 420) / 190, 2));
-  const holdsTogether = syn.state === "clear" || syn.state === "overcast" || syn.state === "haze" ? 1 : 0.25;
+  // Sea fog survives settled skies; convection and rain tear it apart. The
+  // fair-weather ladder grades that instead of the old clear/overcast step.
+  const settled =
+    syn.state === "clear" || syn.state === "haze" || syn.state === "fair"
+      ? 1
+      : syn.state === "partly"
+        ? 0.85
+        : syn.state === "broken" || syn.state === "overcast"
+          ? 0.7
+          : 0.25;
+  const holdsTogether = settled;
   const advectionBase = clamp01(
     (0.35 + 0.65 * morningBell) * (0.5 + 0.5 * Math.max(0, s)) * holdsTogether * 0.8,
   );
@@ -291,10 +390,28 @@ function express(
   const visRad = visCurve(mist.radiation, 140);
   const visAdv = visCurve(mist.advection, 350);
   const visWhite = visCurve(mist.whiteout, 70);
-  const visibilityM = Math.max(50, Math.min(visWeather, visRad, visAdv, visWhite));
+  // Region air (round 4): the baseline thickness of THIS country's air,
+  // breathing with the hour/season/sky. Formerly a renderer-only uniform —
+  // now the same number reaches the published sight distance, which is what
+  // made the two read as separate systems.
+  const wetnessNow = clamp01(rainWetness(epochMinutes) * (1 - 0.8 * local.canopy) * (0.4 + 0.8 * local.rainAmp));
+  const regionHaze = regionHazeFactor({
+    humidity: local.humidity,
+    rainIntensity: rain,
+    wetness: wetnessNow,
+    windSpeedMS,
+    minuteOfDay,
+    season: s,
+  });
+  const regionVis = regionVisibilityM(
+    local.regionExtinction ?? DEFAULT_REGION_EXTINCTION,
+    regionHaze,
+  );
+  const visibilityM = Math.max(50, Math.min(visWeather, visRad, visAdv, visWhite, regionVis));
 
-  // Wetness: rain trail × how much sky this ground actually sees.
-  const wetness = clamp01(rainWetness(epochMinutes) * (1 - 0.8 * local.canopy) * (0.4 + 0.8 * local.rainAmp));
+  // Wetness: rain trail × how much sky this ground actually sees (computed
+  // above, since the region-haze steam term needs it).
+  const wetness = wetnessNow;
   const grip = 1 - 0.35 * wetness;
 
   const sunDim = clamp01(Math.max(p.sunDim, mist.whiteout * 0.9));
@@ -313,6 +430,8 @@ function express(
     gustiness,
     mist,
     visibilityM,
+    regionHaze,
+    regionVisibilityM: regionVis,
     wetness,
     grip,
     lightning: lightningAt(epochMinutes, forcedLightningRate) * lightningGate,

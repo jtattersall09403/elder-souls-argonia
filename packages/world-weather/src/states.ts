@@ -9,7 +9,10 @@
  */
 
 export type WeatherKind =
-  | "clear"
+  | "clear" // cloudless blue
+  | "fair" // a few fluffy cumulus drifting (~1/8 cover)
+  | "partly" // scattered cumulus (~3/8), sun mostly out
+  | "broken" // broken deck (~6/8), sun in and out
   | "haze" // dry-season haze
   | "overcast"
   | "rain" // steady monsoonal rain
@@ -19,6 +22,9 @@ export type WeatherKind =
 
 export const WEATHER_KINDS: readonly WeatherKind[] = [
   "clear",
+  "fair",
+  "partly",
+  "broken",
   "haze",
   "overcast",
   "rain",
@@ -78,13 +84,47 @@ export interface StateProfile {
  * cast, ragged racing scud). Differentiation comes from layer character
  * (cloudPuff/cloudScroll/stormFront/greenTint), not only darkness. */
 export const PROFILES: Record<WeatherKind, StateProfile> = {
+  // The FAIR-WEATHER LADDER (owner round 4). Real tropical days are not a
+  // binary of "blue" and "grey deck": most fall between. Four steps of
+  // coverage, all sharing crisp cumulus character (high cloudPuff) and full
+  // sun except where the deck actually closes — the difference is how MUCH
+  // sky is covered, which is what the eye and the lighting read.
+  //   clear   0/8 — genuinely cloudless, the reference blue
+  //   fair    1/8 — a few fluffy cumulus drifting
+  //   partly  3/8 — scattered cumulus, cloud shadows crossing the ground
+  //   broken  6/8 — broken deck, sun in and out
+  //   overcast 8/8 — closed deck (below)
   clear: {
-    cloudLow: 0.08, cloudMid: 0.14, cloudHigh: 0.22,
-    cloudDensity: 0.6, cloudDark: 0.05,
-    cloudPuff: 1.0, cloudScroll: 1, stormFront: 0, greenTint: 0, covJitter: 0.2,
+    cloudLow: 0.0, cloudMid: 0.0, cloudHigh: 0.04,
+    cloudDensity: 0.5, cloudDark: 0.03,
+    cloudPuff: 1.0, cloudScroll: 1, stormFront: 0, greenTint: 0, covJitter: 0.02,
     sunDim: 0, ambientLift: 0, skyGrey: 0,
-    fogMie: 0, visibilityKm: 30, rain: 0,
-    windMS: 2.5, gust: 0.1, lightningPerMin: 0,
+    fogMie: 0, visibilityKm: 34, rain: 0,
+    windMS: 2.2, gust: 0.1, lightningPerMin: 0,
+  },
+  fair: {
+    cloudLow: 0.1, cloudMid: 0.09, cloudHigh: 0.18,
+    cloudDensity: 0.62, cloudDark: 0.06,
+    cloudPuff: 1.0, cloudScroll: 1, stormFront: 0, greenTint: 0, covJitter: 0.09,
+    sunDim: 0.02, ambientLift: 0.02, skyGrey: 0.04,
+    fogMie: 0.05, visibilityKm: 30, rain: 0,
+    windMS: 2.6, gust: 0.12, lightningPerMin: 0,
+  },
+  partly: {
+    cloudLow: 0.28, cloudMid: 0.22, cloudHigh: 0.26,
+    cloudDensity: 0.7, cloudDark: 0.1,
+    cloudPuff: 0.95, cloudScroll: 1.05, stormFront: 0, greenTint: 0, covJitter: 0.15,
+    sunDim: 0.1, ambientLift: 0.07, skyGrey: 0.1,
+    fogMie: 0.1, visibilityKm: 26, rain: 0,
+    windMS: 3.0, gust: 0.16, lightningPerMin: 0,
+  },
+  broken: {
+    cloudLow: 0.42, cloudMid: 0.5, cloudHigh: 0.28,
+    cloudDensity: 0.78, cloudDark: 0.18,
+    cloudPuff: 0.8, cloudScroll: 1.1, stormFront: 0, greenTint: 0, covJitter: 0.2,
+    sunDim: 0.4, ambientLift: 0.18, skyGrey: 0.28,
+    fogMie: 0.18, visibilityKm: 21, rain: 0,
+    windMS: 3.3, gust: 0.2, lightningPerMin: 0,
   },
   haze: {
     cloudLow: 0.04, cloudMid: 0.05, cloudHigh: 0.12,
@@ -131,8 +171,12 @@ export const PROFILES: Record<WeatherKind, StateProfile> = {
     cloudDensity: 1, cloudDark: 0.92,
     cloudPuff: 0.55, cloudScroll: 2.1, stormFront: 0.25, greenTint: 0.65, covJitter: 0,
     sunDim: 0.93, ambientLift: 0.25, skyGrey: 0.8,
+    // Wind raised to squall strength (owner round 4): a mature thunderstorm's
+    // cold-pool outflow gusts as hard as a squall line — the sea and the shore
+    // surf must read as violent, not calmer than a squall. It differs from the
+    // squall in DURATION and in the near-black shelf wall, not in energy.
     fogMie: 1.5, visibilityKm: 4, rain: 0.75,
-    windMS: 9, gust: 0.7, lightningPerMin: 2.5,
+    windMS: 14, gust: 0.85, lightningPerMin: 2.5,
   },
 };
 
@@ -149,6 +193,9 @@ export function blendProfiles(a: StateProfile, b: StateProfile, t: number): Stat
  * legitimately arrives fast — research §5.2). */
 export const TRANSITION_MIN: Record<WeatherKind, number> = {
   clear: 40,
+  fair: 40,
+  partly: 38,
+  broken: 36,
   haze: 45,
   overcast: 35,
   rain: 30,
