@@ -32,6 +32,20 @@ export interface KitSpecies {
   readonly billboardIndex: number | null;
   /** Source-space height in metres at scale 1, for LOD distance choice. */
   readonly heightM: number;
+  /** World-Y offset (model metres, × instance scale) that sits the model's
+   * bounding-box BOTTOM on the ground. The compiler places origins at terrain
+   * height, but not every asset keeps its origin at its base — the tramaroot
+   * arches pivot at their centre and the man-fern's mesh floats a metre above
+   * its origin (owner: "roots floating in the air"). The manifest records
+   * `originOffsetM = -bboxMin` (build_kit.py), so `originOffsetM[2]` is the
+   * origin's height ABOVE the model's bottom in the kit's z-up source space;
+   * adding it re-seats the bottom on the ground. A small sink keeps slopes
+   * from revealing a floating flat base. */
+  readonly anchorYM: number;
+  /** Bounds so far from the origin they are clearly stray geometry (the
+   * algrass03b case: mesh ~83 m from its pivot). Renderers should skip these
+   * — drawing them puts geometry underground or in the sky either way. */
+  readonly suspect: boolean;
 }
 
 export type FloraKit = Map<string, KitSpecies>;
@@ -39,6 +53,9 @@ export type FloraKit = Map<string, KitSpecies>;
 export interface KitManifestAsset {
   id: string;
   sizeM: [number, number, number];
+  /** Origin → bbox max, kit source space (z-up); grounded assets have
+   * `originOffsetM[2] ≈ sizeM[2]`. */
+  originOffsetM?: [number, number, number];
   triangles: number;
   alphaTest?: boolean;
   /** True when the kit carries a `_lod_flat` billboard as the final level. */
@@ -80,6 +97,18 @@ function isBillboard(object: THREE.Object3D): boolean {
 
 export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
   const heights = new Map(manifest.assets.map((a) => [a.id, a.sizeM[2]]));
+  const anchors = new Map(
+    manifest.assets.map((a) => {
+      const originAboveBase = a.originOffsetM?.[2] ?? 0;
+      // Bottom-anchor, then sink slightly so sloped ground doesn't reveal a
+      // floating flat base. Grounded assets (origin at base) come out ~0.
+      const anchor = originAboveBase - Math.min(0.15, 0.05 * a.sizeM[2]);
+      const suspect =
+        !Number.isFinite(anchor) ||
+        Math.abs(originAboveBase) > 2 * Math.max(a.sizeM[0], a.sizeM[1], a.sizeM[2]) + 2;
+      return [a.id, { anchor: suspect ? 0 : anchor, suspect }];
+    }),
+  );
   const alphaTested = new Set(
     manifest.assets.filter((a) => a.alphaTest).map((a) => a.id),
   );
@@ -99,7 +128,18 @@ export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
       const mesh = child as THREE.Mesh;
       if (!mesh.isMesh) return;
       const level = levelOf(mesh);
-      if (isBillboard(mesh)) billboardLevel = level;
+      if (isBillboard(mesh)) {
+        billboardLevel = level;
+        // Bent normals (research doc §4.1 cause 3): a flat card's geometric
+        // normal faces away from the sun half the time, rendering the card
+        // near-black in full daylight. Grass-card practice is to light cards
+        // as if they were ground — normals straight up.
+        const normal = mesh.geometry.getAttribute("normal");
+        if (normal) {
+          for (let i = 0; i < normal.count; i++) normal.setXYZ(i, 0, 1, 0);
+          normal.needsUpdate = true;
+        }
+      }
       const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
       // Foliage is alpha-*tested*, never blended: blending sorts wrongly
       // through a canopy and costs the most on exactly the devices that can
@@ -147,7 +187,14 @@ export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
     }
     const billboardIndex =
       billboardLevel === null ? null : sorted.indexOf(billboardLevel);
-    kit.set(id, { id, levels, billboardIndex, heightM: heights.get(id) ?? 4 });
+    kit.set(id, {
+      id,
+      levels,
+      billboardIndex,
+      heightM: heights.get(id) ?? 4,
+      anchorYM: anchors.get(id)?.anchor ?? 0,
+      suspect: anchors.get(id)?.suspect ?? false,
+    });
   }
   return kit;
 }

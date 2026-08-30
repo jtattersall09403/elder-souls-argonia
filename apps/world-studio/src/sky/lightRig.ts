@@ -344,8 +344,13 @@ export function computeLightRig(
   // sun depression; at full night the boost is 1 and this is a plain 0.11 lx
   // authored gameplay floor (torches stay a luxury, not a necessity).
   const duskGate = smoothstep(2, 7, -altDeg);
+  // Moonless floor (owner 2026-08-30): starlight/airglow supplement that is
+  // the COMPLEMENT of the moon term, so no-moon nights never drop below a
+  // readable minimum while moonlit nights are untouched. This is the "world
+  // never goes fully black" guarantee — a gameplay floor, not physics.
+  const starGlow = 0.1 * (1 - masser.illuminatedFraction) * duskGate * nightBoost;
   const hemiIntensity =
-    (2_000 * daylight + 0.1 * masser.illuminatedFraction + 0.11 * duskGate * nightBoost + 0.02) *
+    (2_000 * daylight + 0.1 * masser.illuminatedFraction + 0.11 * duskGate * nightBoost + starGlow + 0.02) *
     (1 + wx.ambientLift); // overcast sky becomes the light source
 
   // Radiation ground mist pools at dawn (and lightly at dusk) and is a

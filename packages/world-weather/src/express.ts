@@ -233,8 +233,13 @@ function valueNoise1(t: number, salt: number): number {
  */
 export function airmassFactor(epochMinutes: number, xM?: number, zM?: number): number {
   const days = epochMinutes / MINUTES_PER_DAY;
-  const temporal =
+  // Contrast-stretch the octave sum (owner round 3: variation too subtle) —
+  // summed smoothed value noise clusters near 0.5, so the raw envelope was
+  // only ~±17 %. Stretching around the midpoint restores genuinely crisp and
+  // genuinely thick days without moving the climatological mean.
+  const temporalRaw =
     0.6 * valueNoise1(days / 2.3, 11) + 0.4 * valueNoise1(days / 6.1, 12);
+  const temporal = clamp01(0.5 + (temporalRaw - 0.5) * 1.9);
   let spatial = 0.5;
   if (xM !== undefined && zM !== undefined) {
     const gx = xM / 2700 + 2 * valueNoise1(days / 9.0, 13);
@@ -247,9 +252,9 @@ export function airmassFactor(epochMinutes: number, xM?: number, zM?: number): n
     const sz = fz * fz * (3 - 2 * fz);
     const top = hash01(ix, iz, 19) * (1 - sx) + hash01(ix + 1, iz, 19) * sx;
     const bot = hash01(ix, iz + 1, 19) * (1 - sx) + hash01(ix + 1, iz + 1, 19) * sx;
-    spatial = top * (1 - sz) + bot * sz;
+    spatial = clamp01(0.5 + (top * (1 - sz) + bot * sz - 0.5) * 1.5);
   }
-  return (0.7 + 0.6 * temporal) * (0.8 + 0.4 * spatial);
+  return (0.55 + 0.9 * temporal) * (0.7 + 0.6 * spatial);
 }
 
 export function regionHazeFactor(p: {
@@ -273,7 +278,7 @@ export function regionHazeFactor(p: {
   // visibly CLEARS the air on non-rainy days — morning murk should not
   // survive to 15:00 at full strength. (The steam term can still oppose it
   // over wet ground, which is correct: post-rain afternoons steam.)
-  const burnOff = 1 - 0.22 * Math.exp(-Math.pow((p.minuteOfDay - 900) / 210, 2))
+  const burnOff = 1 - 0.4 * Math.exp(-Math.pow((p.minuteOfDay - 900) / 210, 2))
     * (1 - clamp01(p.rainIntensity * 2));
   const raw =
     0.45 +

@@ -21,6 +21,9 @@ import {
   type FloraKit,
   type KitManifest,
 } from "./floraKit";
+import type { QualitySettings } from "@elder-souls/game-core/core/quality";
+import { sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
+import { groundHeightM } from "./terrainHeight";
 import {
   decodeVegetationBundle,
   readInstance,
@@ -67,14 +70,23 @@ export function Vegetation({
   baseUrl,
   verticalScale = 1,
   onStats,
+  quality,
 }: {
   /** Same shape the chunk terrain uses: ground position, not a camera. */
   focusRef: React.MutableRefObject<{ x: number; z: number }>;
   baseUrl: string;
   verticalScale?: number;
   onStats?: (stats: VegetationStats) => void;
+  quality?: QualitySettings;
 }) {
+  const chunkRing = quality?.vegChunkRing ?? CHUNK_RING;
+  const drawScale = quality?.vegDrawScale ?? 1;
   const root = useRef<THREE.Group>(null);
+  // Streamed terrain, for re-grounding baked instance heights: the compiler
+  // bakes Y from its own raster, which can sit a metre off the rendered mesh
+  // on banks/slopes — enough to float a root arch (owner round 3).
+  const store = sharedChunkStore(baseUrl);
+  const [chunksManifest, setChunksManifest] = useState<ChunksManifest | null>(null);
   const [index, setIndex] = useState<VegetationIndex | null>(null);
   const [manifest, setManifest] = useState<KitManifest | null>(null);
   const loaded = useRef(new Map<string, ChunkVegetation>());
@@ -96,9 +108,13 @@ export function Vegetation({
         }
       })
       .catch(() => undefined);
+    store.manifest()
+      .then((m) => { if (!cancelled) setChunksManifest(m); })
+      .catch(() => undefined);
     return () => {
       cancelled = true;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [baseUrl]);
 
   const kit: FloraKit | null = useMemo(
@@ -106,18 +122,28 @@ export function Vegetation({
     [gltf, manifest],
   );
 
-  // Rebuild the instanced meshes whenever the set of loaded chunks changes.
+  // Rebuild the instanced meshes whenever the set of loaded chunks changes —
+  // or the focus has walked far enough that per-instance LOD choices are
+  // stale. Without the movement trigger, LOD was frozen at whatever distance
+  // held when the chunk arrived, so walking up to a far billboard never
+  // upgraded it to the real model (owner round-2 "cardboard cutout" defect).
   const [revision, setRevision] = useState(0);
+  const lastBuildFocus = useRef<{ x: number; z: number } | null>(null);
+  const REBUILD_MOVE_M = 48;
 
   useFrame(() => {
     if (!index || !root.current) return;
     const focus = focusRef.current;
     const size = index.chunkMetres;
+    const last = lastBuildFocus.current;
+    if (last && Math.hypot(focus.x - last.x, focus.z - last.z) > REBUILD_MOVE_M) {
+      setRevision((r) => r + 1);
+    }
     const cx = Math.floor(focus.x / size);
     const cz = Math.floor(focus.z / size);
 
-    for (let dz = -CHUNK_RING; dz <= CHUNK_RING; dz++) {
-      for (let dx = -CHUNK_RING; dx <= CHUNK_RING; dx++) {
+    for (let dz = -chunkRing; dz <= chunkRing; dz++) {
+      for (let dx = -chunkRing; dx <= chunkRing; dx++) {
         const key = chunkKey(cx + dx, cz + dz);
         if (!index.chunks[key] || loaded.current.has(key) || pending.current.has(key)) {
           continue;
@@ -155,6 +181,7 @@ export function Vegetation({
     // measured 449 draws for 13 chunks, which is the wrong end of the budget
     // to be spending on bookkeeping.
     const focus = focusRef.current;
+    lastBuildFocus.current = { x: focus.x, z: focus.z };
     const matrix = new THREE.Matrix4();
     const quaternion = new THREE.Quaternion();
     const euler = new THREE.Euler();
@@ -184,42 +211,71 @@ export function Vegetation({
         const id = index.speciesOrder?.[speciesGroup.index];
         const entry = id ? kit.get(id) : undefined;
         if (!entry) continue;
+        if (entry.suspect) {
+          // Broken bounds (geometry far from the pivot): drawing it puts the
+          // mesh underground or in the sky either way. A sourcing job.
+          culled += speciesGroup.count;
+          continue;
+        }
 
         // Per-species draw-distance cull (T tiers): understory vanishes a
         // hundred metres out, canopy persists to the ring edge. This is what
         // keeps the coming density increase affordable — most instances are
         // small plants that must not render at two kilometres.
-        const maxDraw = maxDrawDistance(entry.heightM);
+        const maxDraw = maxDrawDistance(entry.heightM) * drawScale;
         if (chunkDistance - halfDiagonal > maxDraw) {
           culled += speciesGroup.count;
           continue;
         }
 
-        const rings = lodDistances(entry.heightM);
-        // Beyond ring 1 a billboard species runs entirely on its `_lod_flat`
-        // cards (T4 far tier); species without one keep the decimated chain.
-        const near = chunkDistance < rings[0] ? 0 : chunkDistance < rings[1] ? 1 : 2;
-        const asBillboard = entry.billboardIndex !== null && near === 2;
-        const level = asBillboard
-          ? entry.billboardIndex!
-          : Math.min(entry.levels.length - 1, near);
-        const key = `${id}|${level}`;
-        const bucket = buckets.get(key) ?? { species: id!, level, transforms: [] };
+        // Quality scales the rings too, so lower tiers shift work toward the
+        // cheap levels — but never below the near ring, or plants beside the
+        // camera would regress to cards (the round-2 defect).
+        const rings = lodDistances(entry.heightM).map((r, i) => (i === 0 ? r : r * drawScale));
         const count = Math.min(speciesGroup.count, MAX_PER_DRAW);
         for (let i = 0; i < count; i++) {
           const inst = readInstance(speciesGroup, i);
-          if (Math.hypot(inst.x - focus.x, inst.z - focus.z) > maxDraw) {
+          const instDistance = Math.hypot(inst.x - focus.x, inst.z - focus.z);
+          if (instDistance > maxDraw) {
             culled++;
             continue;
           }
-          position.set(inst.x, inst.y * verticalScale, inst.z);
+          // LOD per INSTANCE, not per chunk: chunk-centre distance put whole
+          // 468 m squares — including the plants beside the camera — on their
+          // far `_lod_flat` cards (owner round-2 "cardboard cutout" defect).
+          // Beyond ring 1 a billboard species runs entirely on its flat cards
+          // (T4 far tier); species without one keep the decimated chain.
+          const near = instDistance < rings[0] ? 0 : instDistance < rings[1] ? 1 : 2;
+          const asBillboard = entry.billboardIndex !== null && near === 2;
+          const level = asBillboard
+            ? entry.billboardIndex!
+            : Math.min(entry.levels.length - 1, near);
+          const key = `${id}|${level}`;
+          let bucket = buckets.get(key);
+          if (!bucket) {
+            bucket = { species: id!, level, transforms: [] };
+            buckets.set(key, bucket);
+          }
+          // Ground Y from the live terrain when a chunk is decoded (baked Y
+          // is the compile raster's, which can disagree with the mesh);
+          // anchorYM then sits the model's bbox bottom on the ground (see
+          // floraKit) — not every asset pivots at its base. Model-space
+          // metres × instance scale — never × verticalScale, which
+          // exaggerates terrain only.
+          const ground = chunksManifest
+            ? groundHeightM(store, chunksManifest, inst.x, inst.z)
+            : null;
+          position.set(
+            inst.x,
+            (ground ?? inst.y) * verticalScale + entry.anchorYM * inst.scale,
+            inst.z,
+          );
           euler.set(inst.tiltX, inst.yaw, inst.tiltZ, "YXZ");
           quaternion.setFromEuler(euler);
           scale.setScalar(inst.scale);
           bucket.transforms.push(matrix.compose(position, quaternion, scale).clone());
           if (asBillboard) billboardInstances++;
         }
-        if (bucket.transforms.length > 0) buckets.set(key, bucket);
       }
     }
 
@@ -267,7 +323,7 @@ export function Vegetation({
     // numbers rather than guessing them from a screenshot.
     (window as unknown as { __STUDIO_VEGETATION_DEBUG__?: VegetationStats })
       .__STUDIO_VEGETATION_DEBUG__ = stats;
-  }, [kit, index, revision, verticalScale, onStats, focusRef]);
+  }, [kit, index, revision, verticalScale, onStats, focusRef, drawScale, chunksManifest, store]);
 
   return <group ref={root} name="vegetation" />;
 }

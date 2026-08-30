@@ -1275,8 +1275,14 @@ the player's capacity to cope (§102).
 **Rest** is the one mechanic that carries: it saves, consolidates one pending
 level and opens the attribute sitting (§120.4), restores health/magicka/stamina,
 and (with safe-rest knowledge, decision 0007) feeds access progression. You may
-camp **anywhere calm** — never in a dungeon, never in combat, never while
-hunted. A hidden suspend-save covers browser interruption.
+camp **anywhere calm in the wild** — never in a dungeon, never in combat, never
+while hunted — but **not inside a settlement** (owner ruling 2026-08-30,
+decision 0039 S3): in towns you may only **wait** (passes time, no
+save/level/recovery); resting there needs a bed you own or rent, which makes
+inns economically real. Beds carry **quality tiers** (camp < rented bed < owned
+bed) whose exact benefit is a 10c calibration call — tiering yes, hunger-style
+survival pressure no (0039 S2: cut). A hidden suspend-save covers browser
+interruption.
 
 **Death**: you wake at your last rest. The world and your character persist; no
 skills, levels, items or gold are lost; your carried **vastei** stays where you

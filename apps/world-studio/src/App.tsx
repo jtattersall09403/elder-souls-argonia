@@ -471,6 +471,8 @@ export function App() {
       exaggeration={exaggeration}
       onExaggeration={setExaggeration}
       lookupRegion={lookupRegionAt}
+      mapCanvas={canvasRef.current}
+      mapMeta={meta}
       onPositionKm={(x, z) => setSpawnKm({ x, z })}
       onExit={() => setView("map")}
       onFlyHere={(x, z) => enterFly(x, z)}

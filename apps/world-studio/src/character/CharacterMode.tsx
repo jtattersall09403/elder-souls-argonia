@@ -31,6 +31,9 @@ import { CityMarkers } from "../CityMarkers";
 import { Vegetation } from "../vegetation/Vegetation";
 import { Groundcover } from "../vegetation/Groundcover";
 import { headingOf } from "../compass";
+import { Minimap } from "./Minimap";
+import { parseQuality, QUALITY_PRESETS, type QualitySettings } from "@elder-souls/game-core/core/quality";
+import type { MapMeta } from "@elder-souls/game-core/hud/minimap";
 
 /**
  * Physical-character mode (master plan §66 "Physical character", Phase 7):
@@ -60,7 +63,7 @@ export interface CharacterHudState {
   grounded: boolean;
 }
 
-export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength, exaggeration, onExaggeration, lookupRegion, onPositionKm, onExit, onFlyHere }: {
+export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength, exaggeration, onExaggeration, lookupRegion, mapCanvas, mapMeta, onPositionKm, onExit, onFlyHere }: {
   spawnKm: { x: number; z: number };
   raceId?: string;
   profileId?: string;
@@ -73,6 +76,9 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   onExaggeration?: (value: number) => void;
   /** Region/biome names at a world position, from the studio's map rasters. */
   lookupRegion?: (xM: number, zM: number) => { regionId: string; biomeId: string };
+  /** The studio's province-map canvas + raster meta for the minimap. */
+  mapCanvas?: HTMLCanvasElement | null;
+  mapMeta?: MapMeta | null;
   onPositionKm: (xKm: number, zKm: number) => void;
   onExit: () => void;
   onFlyHere: (xKm: number, zKm: number) => void;
@@ -96,6 +102,11 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const focusRef = useRef({ x: spawnKm.x * 1000, z: spawnKm.z * 1000 });
   const glRef = useRef<HTMLCanvasElement | null>(null);
   const [touch, setTouch] = useState(false);
+  // On-foot render quality (module 65 first slice — owner: walking lags).
+  // Defaults to MEDIUM in character view: fog usually hides what medium
+  // cuts, and the fly modes keep their own full distances. `?q=` seeds it.
+  const [quality, setQuality] = useState<QualitySettings>(() =>
+    parseQuality(new URLSearchParams(window.location.search).get("q"), "medium"));
   // Settlement beacons in walk mode (owner round 6): on by default.
   const [showMarkers, setShowMarkers] = useState(true);
   const markerGroundAt = useMemo(
@@ -269,8 +280,9 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
       {manifest && spawn ? (
         <Canvas
           camera={{ fov: FOLLOW_CAMERA.fieldOfView, near: 0.3, far: 60000, up: [0, 1, 0] }}
-          // Cap pixel density — see Fly3D (8b round 2 perf)
-          dpr={[1, 1.5]}
+          // Cap pixel density — see Fly3D (8b round 2 perf); the quality
+          // preset tightens it further on foot (fill rate is the retina tax).
+          dpr={[1, quality.dprMax]}
           shadows="soft"
           style={{ width: "100%", height: "100%" }}
           onCreated={({ gl }) => { glRef.current = gl.domElement; }}
@@ -297,6 +309,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               focusRef={focusRef}
               baseUrl={import.meta.env.BASE_URL}
               verticalScale={verticalScale}
+              quality={quality}
             />
             {/* T3 groundcover ring around the walking character — same
                 component and constants as the flyover. */}
@@ -304,6 +317,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               focusRef={focusRef}
               baseUrl={import.meta.env.BASE_URL}
               verticalScale={verticalScale}
+              quality={quality}
             />
           </Suspense>
           {/* Phase 8b water: the compiled province surface + shared pipeline;
@@ -397,6 +411,17 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           <input type="checkbox" checked={showMarkers} onChange={(e) => setShowMarkers(e.target.checked)} />
           markers
         </label>
+        <label title="Render quality on foot: draw distances, plant density, pixel density">
+          quality{" "}
+          <select
+            value={quality.name}
+            onChange={(e) => setQuality(QUALITY_PRESETS[e.target.value as QualitySettings["name"]])}
+          >
+            <option value="low">low</option>
+            <option value="medium">medium</option>
+            <option value="high">high</option>
+          </select>
+        </label>
         <span>race {race} · profile {profile.id}</span>
         {hud && (
           <span style={{ opacity: 0.9 }}>
@@ -421,6 +446,16 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           ? "Left stick to move · drag right side to look · buttons to sprint/jump"
           : "Click to capture the mouse (Esc releases) · WASD move · hold Space to sprint · J jumps · gamepad supported"}
       </div>
+      {hud && mapCanvas && mapMeta && (
+        <Minimap
+          mapCanvas={mapCanvas}
+          meta={mapMeta}
+          xKm={hud.xKm}
+          zKm={hud.zKm}
+          headingDeg={hud.headingDeg}
+          bottomPx={touch ? 210 : 12}
+        />
+      )}
       {touch && <TouchControls />}
     </div>
   );

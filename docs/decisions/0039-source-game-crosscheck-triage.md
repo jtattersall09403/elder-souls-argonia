@@ -1,7 +1,70 @@
 # 0039 — Source-game systems cross-check: triage and owner steers
 
-**Date:** 2026-08-30 · **Status:** §1/§2 applied (register updated); **§3
-PROPOSED — awaiting owner steers**
+**Date:** 2026-08-30 · **Status:** **CLOSED** — owner ruled on all steers
+same day (see "Rulings" below); one item open (pilgrimage circuits, pending
+explanation).
+
+## Rulings (owner, 2026-08-30) — these supersede the proposals below
+
+- **Ownership, corrected and narrowed (Morrowind-visibility model):** the
+  `owner` slot is optional — wilderness/unowned objects are the norm outside
+  settlements and taking them is never theft. **A theft bounty exists only
+  if the act is witnessed** (the taker is *detected* by someone during the
+  taking). **No stolen flag on possessed items, ever**: once you have it,
+  no NPC or merchant can tell where it came from — explicitly NOT
+  Oblivion/Skyrim fencing. CUT from the adopted set: stolen-flag runtime,
+  lawful-merchant refusal, launder-through-a-fence mechanics; the
+  evidence-chest confiscation loop survives only for goods a witness record
+  ties to a crime, else drop it. *Consistency note for the quest docs:* the
+  Reed track's "finite stocked fence" (30 §24b, 0028) is hereby flavour —
+  a no-questions buyer and contraband outlet, not a laundering mechanic.
+- **S1 traversal magic: KEEP ALL the Morrowind families** — levitation
+  ("one of the most fun bits of the whole game"), water walking, Mark/
+  Recall, telekinesis, Open, Detect. Intervention = **shrine networks,
+  yes**. Constraint: flavour must be **race-neutral** — nothing load-bearing
+  may assume an Argonian player (so plain Mark/Recall spells, not
+  Hist-communion-gated Recall). Phase 12 dungeon/underwater design must
+  account for levitation existing (Morrowind's own tools: cost, duration,
+  slow speed, magicka economy, Dispel).
+- **S2 survival: NEITHER — cut.** "This isn't a survival game." Danger
+  comes from encounter frequency/difficulty, diseased creatures, venom —
+  not atmospheric attrition. No hunger/heat/wet layer, no survival item
+  field at 10c, and the module 30 §26 "hazard-preparation goods loop" is
+  closed: counterplay = the normal cure/resist alchemy and effect economy.
+  Guide services stay (travel/economy flavour, not survival).
+- **S3 rest & inns: YES, strengthened** — wait/rest verb split; **no
+  camping inside settlements** (wait only; resting in town needs an owned/
+  rented bed); bed-quality tiers, calibrated at 10c. Module 76 §126 amended
+  in this change.
+- **S4: no corprus-style chronic condition.** Hist-site communion powers:
+  **open design slot** — owner is receptive *if* a design is sensible, fun,
+  simple, reuses existing systems (powers semantics + effect stack), adds
+  little complexity, and respects race-neutral completability (an Argonian
+  advantage is fine; a race-gated progression path is not). Design at
+  magicka round 2 / build-out planning; not a commitment.
+- **S5 customs/standing: YES** — adopted as proposed.
+- **S6: bleedout CUT** — story-essential NPCs get **no extra protection**;
+  the doom-warning message + reload remains the whole model (reconfirms
+  0030). H2H fatigue-drain knockout shape: **YES**.
+- **S7 reprisals: YES.** And confirmed: **the Owing ledger is per-city/
+  region** — a bounty in Gideon doesn't follow you to Lilmoth; where an
+  uncleared bounty exists, guards stop you and the already-designed
+  resolution verbs (pay/audit/buy-out/resist arrest…) apply.
+- **Veto list outcomes:** CUT — generic killmove/finisher layer, projectile
+  interception, requestable tavern musicians. **Fishing: yes, conditional**
+  on the animations being a cheap sourcing job (vanilla Skyrim pre-AE has
+  none — check the vault/mod scene before adopting; drop if expensive).
+  Adopted unopposed: rest-quality tiers (S3), contraband/cursed-offering/
+  attire-signal/donation flags, creature merchants, tavern brawls not
+  requested — dropped with the killmove layer... (brawls were optional;
+  treat as dropped unless a quest brief wants one). **Pilgrimage circuits:
+  owner asked what they are — OPEN, answer pending** (a Morrowind
+  Seven-Graces-style chain of shrine visits with small rituals/blessings
+  forming a province-spanning sightseeing quest line).
+
+---
+
+**Original proposal record below (superseded where the rulings differ).**
 
 ## Context
 

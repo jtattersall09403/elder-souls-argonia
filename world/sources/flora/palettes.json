@@ -335,17 +335,17 @@
      "glade_response": 0.85,
      "slope_deg_max": 40.0,
      "slope_half_angle_deg": 28.0,
-     "shore_boost_gain": 1.1,
+     "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
      "shore_boost_half_width_m": 25.0
     },
     {
      "species": "bmv:landscape/grass/vurt_reeds",
      "tier": "T2",
-     "instances_per_hectare": 220.0,
+     "instances_per_hectare": 350.0,
      "role": "aquatic-reeds",
-     "clump_size_median": 10,
-     "clump_radius_m": 5.0,
+     "clump_size_median": 18,
+     "clump_radius_m": 9.5,
      "water_depth_m": [
       -0.15,
       0.7
@@ -353,8 +353,8 @@
      "depth_peak_m": 0.35,
      "depth_half_width_m": 0.8,
      "shore_m": [
-      -25.0,
-      3.0
+      -30.0,
+      6.0
      ],
      "scale_range": [
       1.0,
@@ -403,7 +403,7 @@
      ]
     }
    ],
-   "targetInstancesPerHectare": 485.0,
+   "targetInstancesPerHectare": 615.0,
    "note": "Reedier, muddier cousin of the lagoon: mangrove lines the channels, reeds carry the flats."
   },
   "4": {
@@ -551,10 +551,10 @@
     {
      "species": "bmv:landscape/grass/vurt_reeds",
      "tier": "T2",
-     "instances_per_hectare": 160.0,
+     "instances_per_hectare": 255.0,
      "role": "aquatic-reeds",
-     "clump_size_median": 10,
-     "clump_radius_m": 5.0,
+     "clump_size_median": 18,
+     "clump_radius_m": 9.5,
      "water_depth_m": [
       -0.15,
       0.7
@@ -562,8 +562,8 @@
      "depth_peak_m": 0.35,
      "depth_half_width_m": 0.8,
      "shore_m": [
-      -25.0,
-      3.0
+      -30.0,
+      6.0
      ],
      "scale_range": [
       1.0,
@@ -607,7 +607,7 @@
      ]
     }
    ],
-   "targetInstancesPerHectare": 640.0,
+   "targetInstancesPerHectare": 735.0,
    "note": "Ecology type 3: mangrove banding by shore distance (fringe densest at the waterline, basin behind, landward palms), salt pans bare by land cover. T3: salt-marsh grass covers."
   },
   "5": {
@@ -660,7 +660,7 @@
       0.9
      ],
      "slope_half_angle_deg": 25.0,
-     "shore_boost_gain": 1.1,
+     "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
      "shore_boost_half_width_m": 25.0
     },
@@ -688,7 +688,7 @@
       0.9
      ],
      "slope_half_angle_deg": 25.0,
-     "shore_boost_gain": 1.1,
+     "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
      "shore_boost_half_width_m": 25.0
     },
@@ -731,7 +731,7 @@
      "glade_response": 0.85,
      "slope_deg_max": 40.0,
      "slope_half_angle_deg": 28.0,
-     "shore_boost_gain": 1.1,
+     "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
      "shore_boost_half_width_m": 25.0
     },
@@ -754,14 +754,14 @@
      "glade_response": 0.85,
      "slope_deg_max": 40.0,
      "slope_half_angle_deg": 28.0,
-     "shore_boost_gain": 1.1,
+     "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
      "shore_boost_half_width_m": 25.0
     },
     {
      "species": "bmv:landscape/plants/bigshrub2(colorful)",
      "tier": "T2",
-     "instances_per_hectare": 130.0,
+     "instances_per_hectare": 180.0,
      "role": "bank-wall",
      "shore_m": [
       0.0,
@@ -782,10 +782,10 @@
     {
      "species": "bmv:landscape/grass/vurt_reeds",
      "tier": "T2",
-     "instances_per_hectare": 120.0,
+     "instances_per_hectare": 190.0,
      "role": "aquatic-reeds",
-     "clump_size_median": 10,
-     "clump_radius_m": 5.0,
+     "clump_size_median": 18,
+     "clump_radius_m": 9.5,
      "water_depth_m": [
       -0.15,
       0.7
@@ -793,8 +793,8 @@
      "depth_peak_m": 0.35,
      "depth_half_width_m": 0.8,
      "shore_m": [
-      -25.0,
-      3.0
+      -30.0,
+      6.0
      ],
      "scale_range": [
       1.0,
@@ -843,7 +843,7 @@
      ]
     }
    ],
-   "targetInstancesPerHectare": 550.1,
+   "targetInstancesPerHectare": 670.1,
    "note": "A moving-water gallery: cypress walls on the banks (riparian boost), aquatics in the margins, open channel kept open."
   },
   "6": {
@@ -916,7 +916,7 @@
       0.9
      ],
      "slope_half_angle_deg": 25.0,
-     "shore_boost_gain": 1.1,
+     "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
      "shore_boost_half_width_m": 25.0
     },
@@ -1095,10 +1095,10 @@
     {
      "species": "bmv:landscape/grass/vurt_reeds",
      "tier": "T2",
-     "instances_per_hectare": 70.0,
+     "instances_per_hectare": 110.0,
      "role": "aquatic-reeds",
-     "clump_size_median": 10,
-     "clump_radius_m": 5.0,
+     "clump_size_median": 18,
+     "clump_radius_m": 9.5,
      "water_depth_m": [
       -0.15,
       0.7
@@ -1106,8 +1106,8 @@
      "depth_peak_m": 0.35,
      "depth_half_width_m": 0.8,
      "shore_m": [
-      -25.0,
-      3.0
+      -30.0,
+      6.0
      ],
      "scale_range": [
       1.0,
@@ -1163,7 +1163,7 @@
      ]
     }
    ],
-   "targetInstancesPerHectare": 800.1,
+   "targetInstancesPerHectare": 840.1,
    "note": "Ecology type 4 (dark deep swamp): few HUGE buttressed trunks, root-dominated ground, almost bare floor (\u00a74.3 \u2014 herbs <5%), moss on everything. Identity from mass and dark, not clutter. T3: MOSS/BC_MOSS covers only."
   },
   "7": {
@@ -1236,7 +1236,7 @@
       0.9
      ],
      "slope_half_angle_deg": 25.0,
-     "shore_boost_gain": 1.1,
+     "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
      "shore_boost_half_width_m": 25.0
     },
@@ -1264,7 +1264,7 @@
       0.9
      ],
      "slope_half_angle_deg": 25.0,
-     "shore_boost_gain": 1.1,
+     "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
      "shore_boost_half_width_m": 25.0
     },
@@ -1371,7 +1371,7 @@
      "glade_response": 0.85,
      "slope_deg_max": 40.0,
      "slope_half_angle_deg": 28.0,
-     "shore_boost_gain": 1.1,
+     "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
      "shore_boost_half_width_m": 25.0
     },
@@ -1394,7 +1394,7 @@
      "glade_response": 0.85,
      "slope_deg_max": 40.0,
      "slope_half_angle_deg": 28.0,
-     "shore_boost_gain": 1.1,
+     "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
      "shore_boost_half_width_m": 25.0
     },
@@ -1466,7 +1466,7 @@
     {
      "species": "bmv:landscape/plants/bigshrub2(colorful)",
      "tier": "T2",
-     "instances_per_hectare": 120.0,
+     "instances_per_hectare": 170.0,
      "role": "bank-wall",
      "shore_m": [
       0.0,
@@ -1521,10 +1521,10 @@
     {
      "species": "bmv:landscape/grass/vurt_reeds",
      "tier": "T2",
-     "instances_per_hectare": 90.0,
+     "instances_per_hectare": 145.0,
      "role": "aquatic-reeds",
-     "clump_size_median": 10,
-     "clump_radius_m": 5.0,
+     "clump_size_median": 18,
+     "clump_radius_m": 9.5,
      "water_depth_m": [
       -0.15,
       0.7
@@ -1532,8 +1532,8 @@
      "depth_peak_m": 0.35,
      "depth_half_width_m": 0.8,
      "shore_m": [
-      -25.0,
-      3.0
+      -30.0,
+      6.0
      ],
      "scale_range": [
       1.0,
@@ -1607,7 +1607,7 @@
      ]
     }
    ],
-   "targetInstancesPerHectare": 1063.1,
+   "targetInstancesPerHectare": 1168.1,
    "note": "Ecology type 2 (flooded forest) on the reference watershed: wading cypress matrix, waterline mangrove, bimodal drowned cypress, pool guilds. T3: SWAMP_GRASS/MARSH_GRASS covers."
   },
   "8": {
@@ -1660,7 +1660,7 @@
       0.9
      ],
      "slope_half_angle_deg": 25.0,
-     "shore_boost_gain": 1.1,
+     "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
      "shore_boost_half_width_m": 25.0
     },
@@ -1723,14 +1723,14 @@
      "glade_response": 0.85,
      "slope_deg_max": 40.0,
      "slope_half_angle_deg": 28.0,
-     "shore_boost_gain": 1.1,
+     "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
      "shore_boost_half_width_m": 25.0
     },
     {
      "species": "bmv:landscape/plants/esloebush08",
      "tier": "T2",
-     "instances_per_hectare": 90.0,
+     "instances_per_hectare": 125.0,
      "role": "bank-wall",
      "shore_m": [
       0.0,
@@ -1751,10 +1751,10 @@
     {
      "species": "bmv:landscape/grass/vurt_reeds",
      "tier": "T2",
-     "instances_per_hectare": 200.0,
+     "instances_per_hectare": 320.0,
      "role": "aquatic-reeds",
-     "clump_size_median": 10,
-     "clump_radius_m": 5.0,
+     "clump_size_median": 18,
+     "clump_radius_m": 9.5,
      "water_depth_m": [
       -0.15,
       0.7
@@ -1762,8 +1762,8 @@
      "depth_peak_m": 0.35,
      "depth_half_width_m": 0.8,
      "shore_m": [
-      -25.0,
-      3.0
+      -30.0,
+      6.0
      ],
      "scale_range": [
       1.0,
@@ -1819,7 +1819,7 @@
      ]
     }
    ],
-   "targetInstancesPerHectare": 502.1,
+   "targetInstancesPerHectare": 657.1,
    "note": "Canopy 0.3 \u2014 genuinely open (the band the player crosses). Reed flats, scattered trees, thickets only at the water."
   },
   "9": {
@@ -1874,7 +1874,7 @@
     {
      "species": "bmv:landscape/plants/esloebush08",
      "tier": "T2",
-     "instances_per_hectare": 80.0,
+     "instances_per_hectare": 110.0,
      "role": "bank-wall",
      "shore_m": [
       0.0,
@@ -1911,7 +1911,7 @@
      "glade_response": 0.85,
      "slope_deg_max": 40.0,
      "slope_half_angle_deg": 28.0,
-     "shore_boost_gain": 1.1,
+     "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
      "shore_boost_half_width_m": 25.0
     },
@@ -1952,10 +1952,10 @@
     {
      "species": "bmv:landscape/grass/vurt_reeds",
      "tier": "T2",
-     "instances_per_hectare": 60.0,
+     "instances_per_hectare": 95.0,
      "role": "aquatic-reeds",
-     "clump_size_median": 10,
-     "clump_radius_m": 5.0,
+     "clump_size_median": 18,
+     "clump_radius_m": 9.5,
      "water_depth_m": [
       -0.15,
       0.7
@@ -1963,8 +1963,8 @@
      "depth_peak_m": 0.35,
      "depth_half_width_m": 0.8,
      "shore_m": [
-      -25.0,
-      3.0
+      -30.0,
+      6.0
      ],
      "scale_range": [
       1.0,
@@ -1972,7 +1972,7 @@
      ]
     }
    ],
-   "targetInstancesPerHectare": 375.0,
+   "targetInstancesPerHectare": 440.0,
    "note": "Ecology 5c-adjacent: open grass (T3 carries it) + gallery ribbons along the channels with an abrupt outer edge (\u00a76.1). The flood takes free-standing trees; the ribbon survives."
   },
   "10": {
@@ -2094,10 +2094,10 @@
     {
      "species": "bmv:landscape/grass/vurt_reeds",
      "tier": "T2",
-     "instances_per_hectare": 90.0,
+     "instances_per_hectare": 145.0,
      "role": "aquatic-reeds",
-     "clump_size_median": 10,
-     "clump_radius_m": 5.0,
+     "clump_size_median": 18,
+     "clump_radius_m": 9.5,
      "water_depth_m": [
       -0.15,
       0.7
@@ -2105,8 +2105,8 @@
      "depth_peak_m": 0.35,
      "depth_half_width_m": 0.8,
      "shore_m": [
-      -25.0,
-      3.0
+      -30.0,
+      6.0
      ],
      "scale_range": [
       1.0,
@@ -2114,7 +2114,7 @@
      ]
     }
    ],
-   "targetInstancesPerHectare": 455.0,
+   "targetInstancesPerHectare": 510.0,
    "note": "Tree islands: dry crest palms/bamboo over a marsh skirt that wades (M1). The crest/skirt split is the depth gate."
   },
   "11": {
@@ -2187,7 +2187,7 @@
       0.9
      ],
      "slope_half_angle_deg": 25.0,
-     "shore_boost_gain": 1.1,
+     "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
      "shore_boost_half_width_m": 25.0
     },
@@ -2324,7 +2324,7 @@
     {
      "species": "bmv:landscape/plants/bigshrub2(colorful)",
      "tier": "T2",
-     "instances_per_hectare": 110.0,
+     "instances_per_hectare": 155.0,
      "role": "bank-wall",
      "shore_m": [
       0.0,
@@ -2377,7 +2377,7 @@
      ]
     }
    ],
-   "targetInstancesPerHectare": 663.1,
+   "targetInstancesPerHectare": 708.1,
    "note": "The drier ground BETWEEN waterways \u2014 still swamp-forest to the eye (owner 0036 Q4 reading), just with dry feet: jungle canopy at ~60% of the jungle target, bamboo brakes, gallery thickening along whatever water crosses it."
   },
   "12": {
@@ -2410,10 +2410,10 @@
     {
      "species": "bmv:landscape/grass/vurt_reeds",
      "tier": "T2",
-     "instances_per_hectare": 130.0,
+     "instances_per_hectare": 210.0,
      "role": "aquatic-reeds",
-     "clump_size_median": 10,
-     "clump_radius_m": 5.0,
+     "clump_size_median": 18,
+     "clump_radius_m": 9.5,
      "water_depth_m": [
       -0.15,
       0.7
@@ -2421,8 +2421,8 @@
      "depth_peak_m": 0.35,
      "depth_half_width_m": 0.8,
      "shore_m": [
-      -25.0,
-      3.0
+      -30.0,
+      6.0
      ],
      "scale_range": [
       1.0,
@@ -2470,7 +2470,7 @@
      "clearance_radius_m": 4.0
     }
    ],
-   "targetInstancesPerHectare": 296.0,
+   "targetInstancesPerHectare": 376.0,
    "note": "Open water: guild-themed aquatics near the shore, deep centre bare, drowned trees for silhouettes (M1 bimodal, deep mode)."
   },
   "13": {
@@ -2543,7 +2543,7 @@
       0.9
      ],
      "slope_half_angle_deg": 25.0,
-     "shore_boost_gain": 1.1,
+     "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
      "shore_boost_half_width_m": 25.0
     },
@@ -2571,7 +2571,7 @@
       0.9
      ],
      "slope_half_angle_deg": 25.0,
-     "shore_boost_gain": 1.1,
+     "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
      "shore_boost_half_width_m": 25.0
     },
@@ -2770,7 +2770,7 @@
     {
      "species": "bmv:landscape/plants/bigshrub2(colorful)",
      "tier": "T2",
-     "instances_per_hectare": 150.0,
+     "instances_per_hectare": 210.0,
      "role": "bank-wall",
      "shore_m": [
       0.0,
@@ -2842,10 +2842,10 @@
     {
      "species": "bmv:landscape/grass/vurt_reeds",
      "tier": "T2",
-     "instances_per_hectare": 60.0,
+     "instances_per_hectare": 95.0,
      "role": "aquatic-reeds",
-     "clump_size_median": 10,
-     "clump_radius_m": 5.0,
+     "clump_size_median": 18,
+     "clump_radius_m": 9.5,
      "water_depth_m": [
       -0.15,
       0.7
@@ -2853,8 +2853,8 @@
      "depth_peak_m": 0.35,
      "depth_half_width_m": 0.8,
      "shore_m": [
-      -25.0,
-      3.0
+      -30.0,
+      6.0
      ],
      "scale_range": [
       1.0,
@@ -2885,7 +2885,7 @@
      "tilt_deg_max": 0.0
     }
    ],
-   "targetInstancesPerHectare": 1241.1,
+   "targetInstancesPerHectare": 1336.1,
    "note": "Ecology type 1 (terra firme interior). Canopy 90-95% closed from ~205 canopy assets/ha; interior deliberately open at eye level (\u00a76.5) \u2014 the thickets live in gaps, on edges and along banks. Herb layer is the T3 ring (JUNGLE cover, 15,500/ha)."
   }
  },

@@ -17,8 +17,10 @@ import { useFrame, useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
 import { buildFloraKit, type FloraKit, type KitManifest } from "./floraKit";
-import { sharedChunkStore, type ChunksManifest, type ChunkStore } from "../character/chunkStore";
+import type { QualitySettings } from "@elder-souls/game-core/core/quality";
+import { sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
 import { sharedWaterAssets } from "../water/waterAssets";
+import { groundHeightM } from "./terrainHeight";
 import type { WaterData } from "@elder-souls/game-core/water/index";
 import groundcoverTable from "../../../../world/sources/flora/groundcover.json";
 
@@ -152,35 +154,7 @@ function coverAt(control: ControlRaster, x: number, z: number): number {
   return control.ids[tz * control.size + tx];
 }
 
-// --- terrain height ----------------------------------------------------------
-
-/** True-metre ground height from the SAME streamed chunks the terrain draws
- * (no new raster fetch): best decoded LOD, bilinear — mirrors
- * `ChunkWorld.groundHeight`, which only reads LOD 1 and so goes blind in the
- * flyover's mid ring. */
-function groundHeightM(
-  store: ChunkStore,
-  manifest: ChunksManifest,
-  x: number,
-  z: number,
-): number | null {
-  const cx = Math.max(0, Math.min(manifest.grid[0] - 1, Math.floor(x / manifest.chunkMetres)));
-  const cy = Math.max(0, Math.min(manifest.grid[1] - 1, Math.floor(z / manifest.chunkMetres)));
-  const grid = store.loaded(cx, cy, "1") ?? store.loaded(cx, cy, "2") ?? store.loaded(cx, cy, "4");
-  if (!grid) return null;
-  const lx = (x - grid.meta.originM[0]) / grid.metresPerSample;
-  const lz = (z - grid.meta.originM[1]) / grid.metresPerSample;
-  const x0 = Math.max(0, Math.min(grid.nx - 2, Math.floor(lx)));
-  const z0 = Math.max(0, Math.min(grid.ny - 2, Math.floor(lz)));
-  const fx = Math.max(0, Math.min(1, lx - x0));
-  const fz = Math.max(0, Math.min(1, lz - z0));
-  const h = grid.heights;
-  const h00 = h[z0 * grid.nx + x0];
-  const h10 = h[z0 * grid.nx + x0 + 1];
-  const h01 = h[(z0 + 1) * grid.nx + x0];
-  const h11 = h[(z0 + 1) * grid.nx + x0 + 1];
-  return (h00 * (1 - fx) + h10 * fx) * (1 - fz) + (h01 * (1 - fx) + h11 * fx) * fz;
-}
+// Terrain height: shared with the baked-scatter renderer — see terrainHeight.ts.
 
 // --- component ---------------------------------------------------------------
 
@@ -199,13 +173,17 @@ export function Groundcover({
   baseUrl,
   verticalScale = 1,
   onStats,
+  quality,
 }: {
   /** Same shape the chunk terrain uses: ground position, not a camera. */
   focusRef: React.MutableRefObject<{ x: number; z: number }>;
   baseUrl: string;
   verticalScale?: number;
   onStats?: (stats: GroundcoverStats) => void;
+  quality?: QualitySettings;
 }) {
+  const ringRadiusM = quality?.groundcoverRadiusM ?? RING_RADIUS_M;
+  const maxInstances = quality?.groundcoverMaxInstances ?? MAX_INSTANCES;
   const root = useRef<THREE.Group>(null);
   const [manifest, setManifest] = useState<KitManifest | null>(null);
   const [kit, setKit] = useState<FloraKit | null>(null);
@@ -258,9 +236,9 @@ export function Groundcover({
     if (chunks) {
       for (const [dx, dz] of [[-1, -1], [-1, 1], [1, -1], [1, 1]] as const) {
         const cx = Math.max(0, Math.min(chunks.grid[0] - 1,
-          Math.floor((focus.x + dx * RING_RADIUS_M) / chunks.chunkMetres)));
+          Math.floor((focus.x + dx * ringRadiusM) / chunks.chunkMetres)));
         const cy = Math.max(0, Math.min(chunks.grid[1] - 1,
-          Math.floor((focus.z + dz * RING_RADIUS_M) / chunks.chunkMetres)));
+          Math.floor((focus.z + dz * ringRadiusM) / chunks.chunkMetres)));
         const key = `${cx},${cy}`;
         if (requested.current.has(key)) continue;
         requested.current.add(key);
@@ -290,8 +268,8 @@ export function Groundcover({
     const focus = focusRef.current;
     const waterData = water.current;
     const tileHa = (TILE_M * TILE_M) / 10_000;
-    const fadeStartM = RING_RADIUS_M * (1 - FADE_FRACTION);
-    const tileReach = Math.ceil(RING_RADIUS_M / TILE_M);
+    const fadeStartM = ringRadiusM * (1 - FADE_FRACTION);
+    const tileReach = Math.ceil(ringRadiusM / TILE_M);
     const [ftx, ftz] = focusTile.current;
 
     // Pass one: generate every surviving instance. Each entry keeps a
@@ -310,7 +288,7 @@ export function Groundcover({
           Math.max(0, Math.abs(focus.x - centreX) - TILE_M / 2),
           Math.max(0, Math.abs(focus.z - centreZ) - TILE_M / 2),
         );
-        if (nearest > RING_RADIUS_M) continue;
+        if (nearest > ringRadiusM) continue;
         tiles++;
 
         for (const plan of SPECIES_PLANS) {
@@ -336,7 +314,7 @@ export function Groundcover({
             if (u01(hash32(tx, tz, plan.index, k * 8 + 3)) >= rule.density / plan.maxDensity) continue;
 
             const distance = Math.hypot(focus.x - x, focus.z - z);
-            if (distance > RING_RADIUS_M) continue;
+            if (distance > ringRadiusM) continue;
 
             const h = groundHeightM(store, chunks, x, z);
             if (h === null) continue;
@@ -361,7 +339,7 @@ export function Groundcover({
 
             const fade = distance <= fadeStartM
               ? 1
-              : 1 - (distance - fadeStartM) / (RING_RADIUS_M - fadeStartM);
+              : 1 - (distance - fadeStartM) / (ringRadiusM - fadeStartM);
             const vary = (u01(hash32(tx, tz, plan.index, k * 8 + 5)) - 0.5) * 2;
             placed[plan.index].push({
               x,
@@ -378,7 +356,7 @@ export function Groundcover({
 
     // Pass two: budget guard — thin every species by the same factor.
     const total = placed.reduce((n, list) => n + list.length, 0);
-    const densityScale = total > MAX_INSTANCES ? MAX_INSTANCES / total : 1;
+    const densityScale = total > maxInstances ? maxInstances / total : 1;
 
     const matrix = new THREE.Matrix4();
     const quaternion = new THREE.Quaternion();
@@ -428,7 +406,7 @@ export function Groundcover({
     // Same convention as __STUDIO_VEGETATION_DEBUG__: probes read numbers.
     (window as unknown as { __STUDIO_GROUNDCOVER_DEBUG__?: GroundcoverStats })
       .__STUDIO_GROUNDCOVER_DEBUG__ = stats;
-  }, [kit, control, chunks, revision, verticalScale, onStats, focusRef, store]);
+  }, [kit, control, chunks, revision, verticalScale, onStats, focusRef, store, ringRadiusM, maxInstances]);
 
   return <group ref={root} name="groundcover" />;
 }

@@ -426,9 +426,12 @@ describe("round 4 gates (owner feedback 2026-08-30)", () => {
     expect(steamy).toBeGreaterThan(scoured * 1.5);
     // The renderer uniform and the published number come from one call, so a
     // finite, bounded factor is the whole contract.
+    // Lower bound reflects the round-3 stronger afternoon burn-off (owner
+    // 2026-08-30: variation was too subtle) — a scoured windy afternoon may
+    // now genuinely reach ~0.2 of baseline.
     for (const f of [steamy, scoured]) {
       expect(Number.isFinite(f)).toBe(true);
-      expect(f).toBeGreaterThan(0.29);
+      expect(f).toBeGreaterThan(0.15);
       expect(f).toBeLessThan(2.41);
     }
   });
@@ -476,11 +479,28 @@ describe("airmass clarity wander (owner 2026-08-30)", () => {
   });
 
   it("stays a mean-one wander around the climatological midpoint", () => {
+    // Mean-one holds ACROSS places; a single place may sit off the mean by
+    // design (one basin runs murkier than the next valley — round-3 widened
+    // amplitude, owner 2026-08-30), so average days × several locations.
     let sum = 0;
+    let count = 0;
     const n = 200;
-    for (let d = 0; d < n; d++) sum += airmassFactor(day(d, 11 * 60), 3200, 4100);
-    expect(sum / n).toBeGreaterThan(0.85);
-    expect(sum / n).toBeLessThan(1.15);
+    for (let d = 0; d < n; d++) {
+      for (let p = 0; p < 5; p++) {
+        sum += airmassFactor(day(d, 11 * 60), 700 + p * 1450, 5900 - p * 1150);
+        count++;
+      }
+    }
+    // Bounds are wide on purpose: the round-3 amplitude stretch means a
+    // 200-day window can legitimately sit ~±20 % off (weeks-long murky or
+    // crisp spells); mean-one holds in expectation, not per window.
+    expect(sum / count).toBeGreaterThan(0.75);
+    expect(sum / count).toBeLessThan(1.3);
+    // A single place stays bounded even at the widened amplitude.
+    let one = 0;
+    for (let d = 0; d < n; d++) one += airmassFactor(day(d, 11 * 60), 3200, 4100);
+    expect(one / n).toBeGreaterThan(0.6);
+    expect(one / n).toBeLessThan(1.45);
   });
 
   it("afternoon burn-off clears calm dry air relative to dawn", () => {

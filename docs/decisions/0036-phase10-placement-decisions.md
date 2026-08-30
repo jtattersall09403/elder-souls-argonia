@@ -101,6 +101,46 @@
 >    open Claude terminal tab; restore half-written rasters from HEAD and
 >    re-run when the box is quiet.
 >
+> ### Round 3 (2026-08-30) — owner round-2 playtest feedback, all root-caused
+>
+> Density/haze/shadows/marsh-read all PASSED. The defect set and fixes:
+>
+> - **"Cardboard cutout" plants up close** (jungle 7,8; hills 3,4): THREE
+>   stacked causes in `Vegetation.tsx`/`floraKit.ts` — (1) LOD was chosen per
+>   468 m CHUNK from its centre, so whole chunks (including plants beside the
+>   camera) ran on their `_lod_flat` cards → now per INSTANCE; (2) LOD froze
+>   at chunk-arrival focus, so walking never upgraded it → rebuild every 48 m
+>   of movement; (3) cards rendered black because a flat card's geometric
+>   normal faces away from the sun half the time (research §4.1 cause 3) →
+>   billboard normals bent straight up at kit load.
+> - **Floating roots/plants** (tramaroots 5,11; manfern): the kit records
+>   `originOffsetM = -bboxMin` (pivot height above base) and NOTHING consumed
+>   it; plus baked Y comes from the compile raster which can sit ~1 m off the
+>   rendered mesh on banks. Fix: renderer re-grounds each instance from the
+>   streamed terrain (`terrainHeight.ts`, shared with Groundcover) and
+>   bottom-anchors by `anchorYM` from the manifest. Species with garbage
+>   bounds (algrass03b, geometry ~83 m from pivot) are skipped as `suspect` —
+>   replacing them is a sourcing job. **New vetting tool**:
+>   `pipeline/vet_kit.py` flags bad pivots/degenerate/stray bounds from a kit
+>   manifest BEFORE a species is chosen for a palette — run it when
+>   shortlisting.
+> - **Reed mini-clusters / bare banks**: `aquatic_reeds()` shore band
+>   −30..+6 m (was −25..+3), clumps 18 @ 9.5 m (was 10 @ 5 m), reed rates
+>   ~1.6×; `RIPARIAN_WET` gain 1.1→1.35; `bank_wall()` ~1.4×; T3
+>   `vurt_reeds` +30 %. Exemplars recompiled (reeds 2.1×, bank shrubs 3.1×
+>   in 5,12+4,10). Guild exclusivity left hard (softening it needs a schema
+>   knob — owner steer if edges still gappy in guild regions).
+> - **Walk-mode lag**: first quality slice — `packages/game-core/src/core/
+>   quality.ts` presets (low/med/high: veg draw scale + chunk ring, T3
+>   radius/budget, dpr cap), injected as props (no globals); character view
+>   defaults MEDIUM, HUD dropdown + `?q=`. Fly modes untouched.
+> - **Minimap in walk mode**: `packages/game-core/src/hud/minimap.ts` (math)
+>   + `character/Minimap.tsx` (blits the province map canvas); click toggles
+>   local/province view.
+> - Weather items fixed alongside (not vegetation): cap-cloud slab
+>   (`WorldSky` read the ungated `whiteoutBase`), wider airmass wander +
+>   stronger burn-off, moonless-night starlight floor (`lightRig.ts`).
+>
 > ### Round 2 (2026-08-30) — what changed and what's still open
 >
 > Owner round-1 feedback (sparse jungle, plants missing on foot, no shadows,

@@ -59,19 +59,19 @@
     11,
     12
    ],
-   "instances": 3696,
+   "instances": 3773,
    "tiers": {
-    "T1": 1755,
-    "T2": 1941
+    "T1": 1781,
+    "T2": 1992
    },
-   "perHectare": 168.8,
-   "clarkEvansR": 0.347,
+   "perHectare": 172.3,
+   "clarkEvansR": 0.349,
    "variation": {
-    "coefficientOfVariation": 1.09,
+    "coefficientOfVariation": 1.07,
     "openSpaceRadiusM": {
-     "p50": 6.1,
+     "p50": 6.0,
      "p75": 13.7,
-     "p95": 29.8
+     "p95": 29.1
     }
    }
   },
@@ -91,19 +91,19 @@
     11,
     12
    ],
-   "instances": 6999,
+   "instances": 7416,
    "tiers": {
-    "T1": 2197,
-    "T2": 4802
+    "T1": 2364,
+    "T2": 5052
    },
-   "perHectare": 319.7,
-   "clarkEvansR": 0.378,
+   "perHectare": 338.7,
+   "clarkEvansR": 0.385,
    "variation": {
-    "coefficientOfVariation": 1.12,
+    "coefficientOfVariation": 1.07,
     "openSpaceRadiusM": {
      "p50": 4.7,
-     "p75": 13.6,
-     "p95": 27.3
+     "p75": 12.2,
+     "p95": 26.2
     }
    }
   },
@@ -122,19 +122,19 @@
     11,
     12
    ],
-   "instances": 3900,
+   "instances": 4336,
    "tiers": {
-    "T1": 1006,
-    "T2": 2894
+    "T1": 1071,
+    "T2": 3265
    },
-   "perHectare": 178.1,
-   "clarkEvansR": 0.321,
+   "perHectare": 198.0,
+   "clarkEvansR": 0.318,
    "variation": {
     "coefficientOfVariation": 0.91,
     "openSpaceRadiusM": {
      "p50": 5.8,
-     "p75": 10.2,
-     "p95": 21.9
+     "p75": 10.1,
+     "p95": 21.7
     }
    }
   },
@@ -152,19 +152,19 @@
     11,
     12
    ],
-   "instances": 3658,
+   "instances": 3872,
    "tiers": {
-    "T1": 1486,
-    "T2": 2172
+    "T1": 1511,
+    "T2": 2361
    },
-   "perHectare": 167.1,
+   "perHectare": 176.8,
    "clarkEvansR": 0.326,
    "variation": {
-    "coefficientOfVariation": 1.16,
+    "coefficientOfVariation": 1.13,
     "openSpaceRadiusM": {
-     "p50": 7.1,
-     "p75": 14.9,
-     "p95": 28.7
+     "p50": 6.5,
+     "p75": 14.5,
+     "p95": 26.8
     }
    }
   },
@@ -183,19 +183,19 @@
     11,
     12
    ],
-   "instances": 6723,
+   "instances": 8555,
    "tiers": {
-    "T1": 2592,
-    "T2": 4131
+    "T1": 2730,
+    "T2": 5825
    },
-   "perHectare": 307.0,
-   "clarkEvansR": 0.364,
+   "perHectare": 390.7,
+   "clarkEvansR": 0.373,
    "variation": {
-    "coefficientOfVariation": 1.03,
+    "coefficientOfVariation": 1.38,
     "openSpaceRadiusM": {
-     "p50": 4.5,
-     "p75": 13.3,
-     "p95": 29.6
+     "p50": 4.1,
+     "p75": 13.7,
+     "p95": 29.4
     }
    }
   },
@@ -215,19 +215,19 @@
     11,
     12
    ],
-   "instances": 2067,
+   "instances": 2401,
    "tiers": {
-    "T1": 518,
-    "T2": 1549
+    "T1": 528,
+    "T2": 1873
    },
-   "perHectare": 94.4,
+   "perHectare": 109.7,
    "clarkEvansR": 0.28,
    "variation": {
-    "coefficientOfVariation": 1.18,
+    "coefficientOfVariation": 1.23,
     "openSpaceRadiusM": {
-     "p50": 9.0,
-     "p75": 14.6,
-     "p95": 27.8
+     "p50": 8.7,
+     "p75": 15.4,
+     "p95": 26.0
     }
    }
   },
@@ -246,15 +246,15 @@
     12,
     13
    ],
-   "instances": 6332,
+   "instances": 6630,
    "tiers": {
-    "T1": 2760,
-    "T2": 3572
+    "T1": 2878,
+    "T2": 3752
    },
-   "perHectare": 289.2,
-   "clarkEvansR": 0.35,
+   "perHectare": 302.8,
+   "clarkEvansR": 0.348,
    "variation": {
-    "coefficientOfVariation": 0.68,
+    "coefficientOfVariation": 0.71,
     "openSpaceRadiusM": {
      "p50": 3.6,
      "p75": 6.4,
@@ -276,18 +276,18 @@
     11,
     12
    ],
-   "instances": 5371,
+   "instances": 5670,
    "tiers": {
-    "T1": 1703,
-    "T2": 3668
+    "T1": 1794,
+    "T2": 3876
    },
-   "perHectare": 245.3,
-   "clarkEvansR": 0.383,
+   "perHectare": 259.0,
+   "clarkEvansR": 0.386,
    "variation": {
-    "coefficientOfVariation": 1.04,
+    "coefficientOfVariation": 1.03,
     "openSpaceRadiusM": {
-     "p50": 4.9,
-     "p75": 10.3,
+     "p50": 4.7,
+     "p75": 9.9,
      "p95": 25.5
     }
    }
@@ -308,19 +308,19 @@
     11,
     12
    ],
-   "instances": 1879,
+   "instances": 1936,
    "tiers": {
-    "T1": 372,
-    "T2": 1507
+    "T1": 399,
+    "T2": 1537
    },
-   "perHectare": 85.8,
-   "clarkEvansR": 0.375,
+   "perHectare": 88.4,
+   "clarkEvansR": 0.342,
    "variation": {
-    "coefficientOfVariation": 1.21,
+    "coefficientOfVariation": 1.08,
     "openSpaceRadiusM": {
-     "p50": 9.8,
-     "p75": 16.2,
-     "p95": 29.0
+     "p50": 9.3,
+     "p75": 15.8,
+     "p95": 28.2
     }
    }
   },
@@ -338,18 +338,18 @@
     12,
     13
    ],
-   "instances": 5770,
+   "instances": 5948,
    "tiers": {
-    "T1": 1836,
-    "T2": 3934
+    "T1": 1900,
+    "T2": 4048
    },
-   "perHectare": 263.5,
+   "perHectare": 271.7,
    "clarkEvansR": 0.317,
    "variation": {
-    "coefficientOfVariation": 1.0,
+    "coefficientOfVariation": 0.99,
     "openSpaceRadiusM": {
-     "p50": 4.7,
-     "p75": 8.9,
+     "p50": 4.6,
+     "p75": 8.8,
      "p95": 27.4
     }
    }
@@ -368,19 +368,19 @@
     12,
     13
    ],
-   "instances": 7816,
+   "instances": 8118,
    "tiers": {
-    "T1": 2567,
-    "T2": 5249
+    "T1": 2717,
+    "T2": 5401
    },
-   "perHectare": 357.0,
-   "clarkEvansR": 0.418,
+   "perHectare": 370.8,
+   "clarkEvansR": 0.416,
    "variation": {
-    "coefficientOfVariation": 0.71,
+    "coefficientOfVariation": 0.7,
     "openSpaceRadiusM": {
-     "p50": 3.3,
-     "p75": 6.3,
-     "p95": 16.9
+     "p50": 3.2,
+     "p75": 5.8,
+     "p95": 16.3
     }
    }
   },
@@ -398,19 +398,19 @@
     12,
     13
    ],
-   "instances": 6494,
+   "instances": 6520,
    "tiers": {
-    "T1": 2829,
-    "T2": 3665
+    "T1": 2914,
+    "T2": 3606
    },
-   "perHectare": 296.6,
-   "clarkEvansR": 0.345,
+   "perHectare": 297.8,
+   "clarkEvansR": 0.347,
    "variation": {
     "coefficientOfVariation": 0.75,
     "openSpaceRadiusM": {
      "p50": 3.7,
      "p75": 6.3,
-     "p95": 17.6
+     "p95": 17.3
     }
    }
   },
@@ -428,15 +428,15 @@
     12,
     13
    ],
-   "instances": 5295,
+   "instances": 5287,
    "tiers": {
-    "T1": 1566,
-    "T2": 3729
+    "T1": 1582,
+    "T2": 3705
    },
-   "perHectare": 241.8,
+   "perHectare": 241.5,
    "clarkEvansR": 0.355,
    "variation": {
-    "coefficientOfVariation": 0.97,
+    "coefficientOfVariation": 0.98,
     "openSpaceRadiusM": {
      "p50": 4.6,
      "p75": 8.7,
@@ -455,19 +455,19 @@
     12,
     13
    ],
-   "instances": 8038,
+   "instances": 8268,
    "tiers": {
-    "T1": 2385,
-    "T2": 5653
+    "T1": 2529,
+    "T2": 5739
    },
-   "perHectare": 367.1,
-   "clarkEvansR": 0.46,
+   "perHectare": 377.6,
+   "clarkEvansR": 0.462,
    "variation": {
-    "coefficientOfVariation": 1.09,
+    "coefficientOfVariation": 1.08,
     "openSpaceRadiusM": {
      "p50": 3.9,
-     "p75": 9.2,
-     "p95": 25.2
+     "p75": 9.1,
+     "p95": 24.7
     }
    }
   },
@@ -482,19 +482,19 @@
     12,
     13
    ],
-   "instances": 7869,
+   "instances": 8330,
    "tiers": {
-    "T1": 2530,
-    "T2": 5339
+    "T1": 2694,
+    "T2": 5636
    },
-   "perHectare": 359.4,
-   "clarkEvansR": 0.417,
+   "perHectare": 380.4,
+   "clarkEvansR": 0.415,
    "variation": {
     "coefficientOfVariation": 0.8,
     "openSpaceRadiusM": {
-     "p50": 3.8,
-     "p75": 8.2,
-     "p95": 20.5
+     "p50": 3.7,
+     "p75": 7.8,
+     "p95": 19.1
     }
    }
   },
@@ -512,19 +512,19 @@
     12,
     13
    ],
-   "instances": 5266,
+   "instances": 5377,
    "tiers": {
-    "T1": 1774,
-    "T2": 3492
+    "T1": 1790,
+    "T2": 3587
    },
-   "perHectare": 240.5,
+   "perHectare": 245.6,
    "clarkEvansR": 0.47,
    "variation": {
-    "coefficientOfVariation": 0.93,
+    "coefficientOfVariation": 0.9,
     "openSpaceRadiusM": {
      "p50": 4.8,
-     "p75": 8.8,
-     "p95": 17.8
+     "p75": 8.6,
+     "p95": 16.9
     }
    }
   },
@@ -539,17 +539,17 @@
     12,
     13
    ],
-   "instances": 8064,
+   "instances": 8423,
    "tiers": {
-    "T1": 3014,
-    "T2": 5050
+    "T1": 3135,
+    "T2": 5288
    },
-   "perHectare": 368.3,
+   "perHectare": 384.7,
    "clarkEvansR": 0.47,
    "variation": {
     "coefficientOfVariation": 0.78,
     "openSpaceRadiusM": {
-     "p50": 3.4,
+     "p50": 3.3,
      "p75": 6.5,
      "p95": 17.3
     }
@@ -566,19 +566,19 @@
     12,
     13
    ],
-   "instances": 7758,
+   "instances": 8000,
    "tiers": {
-    "T1": 2585,
-    "T2": 5173
+    "T1": 2716,
+    "T2": 5284
    },
-   "perHectare": 354.3,
-   "clarkEvansR": 0.494,
+   "perHectare": 365.4,
+   "clarkEvansR": 0.495,
    "variation": {
     "coefficientOfVariation": 0.91,
     "openSpaceRadiusM": {
-     "p50": 4.0,
-     "p75": 7.8,
-     "p95": 19.6
+     "p50": 3.8,
+     "p75": 7.7,
+     "p95": 19.7
     }
    }
   },
@@ -597,18 +597,18 @@
     11,
     12
    ],
-   "instances": 3252,
+   "instances": 3238,
    "tiers": {
-    "T1": 991,
-    "T2": 2261
+    "T1": 1001,
+    "T2": 2237
    },
-   "perHectare": 148.5,
-   "clarkEvansR": 0.372,
+   "perHectare": 147.9,
+   "clarkEvansR": 0.373,
    "variation": {
-    "coefficientOfVariation": 0.93,
+    "coefficientOfVariation": 0.9,
     "openSpaceRadiusM": {
-     "p50": 6.1,
-     "p75": 9.3,
+     "p50": 6.0,
+     "p75": 9.5,
      "p95": 17.2
     }
    }
@@ -630,19 +630,19 @@
     11,
     12
    ],
-   "instances": 3955,
+   "instances": 4082,
    "tiers": {
-    "T1": 819,
-    "T2": 3136
+    "T1": 824,
+    "T2": 3258
    },
-   "perHectare": 180.6,
-   "clarkEvansR": 0.34,
+   "perHectare": 186.4,
+   "clarkEvansR": 0.324,
    "variation": {
-    "coefficientOfVariation": 1.65,
+    "coefficientOfVariation": 1.59,
     "openSpaceRadiusM": {
      "p50": 6.3,
-     "p75": 10.4,
-     "p95": 23.9
+     "p75": 10.3,
+     "p95": 21.1
     }
    }
   },
@@ -664,18 +664,18 @@
     12,
     13
    ],
-   "instances": 3669,
+   "instances": 4103,
    "tiers": {
-    "T1": 1381,
-    "T2": 2288
+    "T1": 1442,
+    "T2": 2661
    },
-   "perHectare": 167.6,
-   "clarkEvansR": 0.314,
+   "perHectare": 187.4,
+   "clarkEvansR": 0.318,
    "variation": {
     "coefficientOfVariation": 0.93,
     "openSpaceRadiusM": {
-     "p50": 5.9,
-     "p75": 11.2,
+     "p50": 5.6,
+     "p75": 10.8,
      "p95": 21.0
     }
    }
@@ -695,19 +695,19 @@
     11,
     12
    ],
-   "instances": 3655,
+   "instances": 3708,
    "tiers": {
-    "T1": 644,
-    "T2": 3011
+    "T1": 681,
+    "T2": 3027
    },
-   "perHectare": 166.9,
-   "clarkEvansR": 0.331,
+   "perHectare": 169.3,
+   "clarkEvansR": 0.327,
    "variation": {
     "coefficientOfVariation": 2.59,
     "openSpaceRadiusM": {
-     "p50": 7.0,
+     "p50": 6.8,
      "p75": 12.4,
-     "p95": 27.0
+     "p95": 25.5
     }
    }
   },
@@ -727,18 +727,18 @@
     11,
     12
    ],
-   "instances": 1571,
+   "instances": 1581,
    "tiers": {
-    "T1": 439,
-    "T2": 1132
+    "T1": 440,
+    "T2": 1141
    },
-   "perHectare": 71.7,
-   "clarkEvansR": 0.339,
+   "perHectare": 72.2,
+   "clarkEvansR": 0.366,
    "variation": {
-    "coefficientOfVariation": 2.48,
+    "coefficientOfVariation": 2.46,
     "openSpaceRadiusM": {
-     "p50": 11.5,
-     "p75": 19.6,
+     "p50": 11.4,
+     "p75": 19.0,
      "p95": 30.6
     }
    }
@@ -758,18 +758,18 @@
     11,
     12
    ],
-   "instances": 1013,
+   "instances": 1059,
    "tiers": {
-    "T1": 238,
-    "T2": 775
+    "T1": 255,
+    "T2": 804
    },
-   "perHectare": 46.3,
-   "clarkEvansR": 0.256,
+   "perHectare": 48.4,
+   "clarkEvansR": 0.293,
    "variation": {
-    "coefficientOfVariation": 1.41,
+    "coefficientOfVariation": 1.4,
     "openSpaceRadiusM": {
      "p50": 12.9,
-     "p75": 21.3,
+     "p75": 21.5,
      "p95": 32.6
     }
    }
@@ -787,19 +787,19 @@
     8,
     11
    ],
-   "instances": 76,
+   "instances": 81,
    "tiers": {
     "T1": 74,
-    "T2": 2
+    "T2": 7
    },
-   "perHectare": 3.5,
+   "perHectare": 3.7,
    "clarkEvansR": 0.071,
    "variation": {
-    "coefficientOfVariation": 5.01,
+    "coefficientOfVariation": 4.71,
     "openSpaceRadiusM": {
      "p50": 16.3,
-     "p75": 29.2,
-     "p95": 38.6
+     "p75": 26.6,
+     "p95": 36.5
     }
    }
   },
@@ -817,17 +817,17 @@
     11,
     12
    ],
-   "instances": 319,
+   "instances": 221,
    "tiers": {
     "T1": 162,
-    "T2": 157
+    "T2": 59
    },
-   "perHectare": 14.6,
+   "perHectare": 10.1,
    "clarkEvansR": 0.089,
    "variation": {
-    "coefficientOfVariation": 4.3,
+    "coefficientOfVariation": 4.84,
     "openSpaceRadiusM": {
-     "p50": 14.8,
+     "p50": 15.3,
      "p75": 24.9,
      "p95": 36.7
     }
@@ -907,15 +907,15 @@
     11,
     12
    ],
-   "instances": 1150,
+   "instances": 1157,
    "tiers": {
     "T1": 90,
-    "T2": 1060
+    "T2": 1067
    },
-   "perHectare": 52.5,
+   "perHectare": 52.8,
    "clarkEvansR": 0.411,
    "variation": {
-    "coefficientOfVariation": 1.31,
+    "coefficientOfVariation": 1.3,
     "openSpaceRadiusM": {
      "p50": 11.4,
      "p75": 18.0,
@@ -965,19 +965,19 @@
     11,
     12
    ],
-   "instances": 2846,
+   "instances": 2847,
    "tiers": {
-    "T1": 709,
+    "T1": 710,
     "T2": 2137
    },
    "perHectare": 130.0,
    "clarkEvansR": 0.597,
    "variation": {
-    "coefficientOfVariation": 1.23,
+    "coefficientOfVariation": 1.22,
     "openSpaceRadiusM": {
-     "p50": 7.1,
+     "p50": 7.2,
      "p75": 11.1,
-     "p95": 19.8
+     "p95": 19.5
     }
    }
   },
@@ -995,18 +995,18 @@
     11,
     12
    ],
-   "instances": 2387,
+   "instances": 2390,
    "tiers": {
-    "T1": 658,
-    "T2": 1729
+    "T1": 674,
+    "T2": 1716
    },
-   "perHectare": 109.0,
+   "perHectare": 109.2,
    "clarkEvansR": 0.381,
    "variation": {
-    "coefficientOfVariation": 0.9,
+    "coefficientOfVariation": 0.89,
     "openSpaceRadiusM": {
      "p50": 6.8,
-     "p75": 12.1,
+     "p75": 11.9,
      "p95": 23.6
     }
    }
@@ -1025,18 +1025,18 @@
     11,
     12
    ],
-   "instances": 1437,
+   "instances": 1468,
    "tiers": {
-    "T1": 439,
-    "T2": 998
+    "T1": 451,
+    "T2": 1017
    },
-   "perHectare": 65.6,
-   "clarkEvansR": 0.327,
+   "perHectare": 67.0,
+   "clarkEvansR": 0.359,
    "variation": {
-    "coefficientOfVariation": 1.4,
+    "coefficientOfVariation": 1.44,
     "openSpaceRadiusM": {
      "p50": 10.3,
-     "p75": 19.0,
+     "p75": 18.9,
      "p95": 31.1
     }
    }
@@ -1055,19 +1055,19 @@
     11,
     12
    ],
-   "instances": 2901,
+   "instances": 2934,
    "tiers": {
-    "T1": 1002,
-    "T2": 1899
+    "T1": 1028,
+    "T2": 1906
    },
-   "perHectare": 132.5,
-   "clarkEvansR": 0.306,
+   "perHectare": 134.0,
+   "clarkEvansR": 0.324,
    "variation": {
-    "coefficientOfVariation": 0.92,
+    "coefficientOfVariation": 0.95,
     "openSpaceRadiusM": {
      "p50": 6.3,
-     "p75": 11.0,
-     "p95": 28.0
+     "p75": 11.1,
+     "p95": 28.2
     }
    }
   },
@@ -1084,19 +1084,19 @@
     11,
     12
    ],
-   "instances": 4432,
+   "instances": 4488,
    "tiers": {
-    "T1": 2099,
-    "T2": 2333
+    "T1": 2135,
+    "T2": 2353
    },
-   "perHectare": 202.4,
-   "clarkEvansR": 0.415,
+   "perHectare": 205.0,
+   "clarkEvansR": 0.399,
    "variation": {
-    "coefficientOfVariation": 0.7,
+    "coefficientOfVariation": 0.69,
     "openSpaceRadiusM": {
-     "p50": 4.4,
+     "p50": 4.3,
      "p75": 7.5,
-     "p95": 17.1
+     "p95": 16.9
     }
    }
   },
@@ -1115,19 +1115,19 @@
     11,
     12
    ],
-   "instances": 2928,
+   "instances": 2946,
    "tiers": {
-    "T1": 1038,
-    "T2": 1890
+    "T1": 1074,
+    "T2": 1872
    },
-   "perHectare": 133.7,
+   "perHectare": 134.5,
    "clarkEvansR": 0.328,
    "variation": {
     "coefficientOfVariation": 1.06,
     "openSpaceRadiusM": {
-     "p50": 6.9,
-     "p75": 11.5,
-     "p95": 24.3
+     "p50": 6.8,
+     "p75": 11.3,
+     "p95": 23.7
     }
    }
   },
@@ -1146,19 +1146,19 @@
     11,
     12
    ],
-   "instances": 3135,
+   "instances": 3134,
    "tiers": {
-    "T1": 1580,
-    "T2": 1555
+    "T1": 1608,
+    "T2": 1526
    },
-   "perHectare": 143.2,
-   "clarkEvansR": 0.354,
+   "perHectare": 143.1,
+   "clarkEvansR": 0.365,
    "variation": {
-    "coefficientOfVariation": 0.81,
+    "coefficientOfVariation": 0.84,
     "openSpaceRadiusM": {
-     "p50": 5.8,
-     "p75": 11.8,
-     "p95": 26.2
+     "p50": 5.9,
+     "p75": 11.6,
+     "p95": 25.9
     }
    }
   },
@@ -1177,18 +1177,18 @@
     11,
     12
    ],
-   "instances": 4104,
+   "instances": 4348,
    "tiers": {
-    "T1": 1629,
-    "T2": 2475
+    "T1": 1714,
+    "T2": 2634
    },
-   "perHectare": 187.4,
+   "perHectare": 198.6,
    "clarkEvansR": 0.355,
    "variation": {
-    "coefficientOfVariation": 0.95,
+    "coefficientOfVariation": 0.93,
     "openSpaceRadiusM": {
-     "p50": 5.6,
-     "p75": 14.3,
+     "p50": 5.5,
+     "p75": 13.6,
      "p95": 27.2
     }
    }
@@ -1206,17 +1206,17 @@
     11,
     12
    ],
-   "instances": 4700,
+   "instances": 4850,
    "tiers": {
-    "T1": 2029,
-    "T2": 2671
+    "T1": 2051,
+    "T2": 2799
    },
-   "perHectare": 214.7,
-   "clarkEvansR": 0.374,
+   "perHectare": 221.5,
+   "clarkEvansR": 0.366,
    "variation": {
-    "coefficientOfVariation": 0.76,
+    "coefficientOfVariation": 0.82,
     "openSpaceRadiusM": {
-     "p50": 5.0,
+     "p50": 4.9,
      "p75": 8.2,
      "p95": 21.9
     }
@@ -1236,19 +1236,19 @@
     11,
     12
    ],
-   "instances": 6968,
+   "instances": 7106,
    "tiers": {
-    "T1": 3544,
-    "T2": 3424
+    "T1": 3629,
+    "T2": 3477
    },
-   "perHectare": 318.2,
-   "clarkEvansR": 0.468,
+   "perHectare": 324.5,
+   "clarkEvansR": 0.466,
    "variation": {
     "coefficientOfVariation": 0.58,
     "openSpaceRadiusM": {
      "p50": 3.3,
      "p75": 5.8,
-     "p95": 15.3
+     "p95": 14.3
     }
    }
   },
@@ -1265,19 +1265,19 @@
     11,
     12
    ],
-   "instances": 4451,
+   "instances": 4527,
    "tiers": {
-    "T1": 2546,
-    "T2": 1905
+    "T1": 2612,
+    "T2": 1915
    },
-   "perHectare": 203.3,
-   "clarkEvansR": 0.412,
+   "perHectare": 206.8,
+   "clarkEvansR": 0.415,
    "variation": {
     "coefficientOfVariation": 0.68,
     "openSpaceRadiusM": {
      "p50": 4.4,
-     "p75": 8.1,
-     "p95": 16.1
+     "p75": 8.0,
+     "p95": 15.8
     }
    }
   },
@@ -1294,17 +1294,17 @@
     11,
     12
    ],
-   "instances": 4225,
+   "instances": 4317,
    "tiers": {
-    "T1": 2611,
-    "T2": 1614
+    "T1": 2715,
+    "T2": 1602
    },
-   "perHectare": 193.0,
-   "clarkEvansR": 0.422,
+   "perHectare": 197.2,
+   "clarkEvansR": 0.417,
    "variation": {
-    "coefficientOfVariation": 0.9,
+    "coefficientOfVariation": 0.89,
     "openSpaceRadiusM": {
-     "p50": 4.5,
+     "p50": 4.4,
      "p75": 11.3,
      "p95": 29.1
     }

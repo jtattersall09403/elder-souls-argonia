@@ -28,7 +28,7 @@ import { waterTimeS } from "../water/waterClock";
 import { wetnessUniforms } from "../water/groundWetness";
 import { lightningNow, weatherAt } from "../weather/weatherState";
 import { RainSystem, rainDropBudget } from "../weather/RainSystem";
-import { WHITEOUT_BELT, type WeatherSample } from "@elder-souls/world-weather";
+import { WHITEOUT_BELT, WHITEOUT_ENABLED, type WeatherSample } from "@elder-souls/world-weather";
 
 /**
  * The natural light and sky system (world module 55, Phase 8a): Preetham sky
@@ -1027,7 +1027,10 @@ void main() {
       WHITEOUT_BELT.centreM * verticalScale,
       WHITEOUT_BELT.sigmaBelowM * verticalScale,
       WHITEOUT_BELT.sigmaAboveM * verticalScale,
-      wx.mist.whiteoutBase,
+      // whiteoutBase is published RAW for probes/re-enable even while the cap
+      // cloud is off — the renderer must apply the same gate as mist.whiteout,
+      // or the belt slab draws for every non-clear deck (owner defect 2026-08-30).
+      WHITEOUT_ENABLED ? wx.mist.whiteoutBase : 0,
     );
     // Region ambient haze (round 4): visibility IS local weather now — the
     // live multiplier comes off the weather sample (world-weather

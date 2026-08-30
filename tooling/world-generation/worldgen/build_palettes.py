@@ -83,7 +83,7 @@ S = {
 }
 
 WADE = 0.35   # M1: terrestrial matrix runs this deep into the water
-RIPARIAN_WET = dict(shore_boost_gain=1.1, shore_boost_peak_m=-2.0,
+RIPARIAN_WET = dict(shore_boost_gain=1.35, shore_boost_peak_m=-2.0,
                     shore_boost_half_width_m=25.0)          # M2 marsh shape
 RIPARIAN_DRY = dict(shore_boost_gain=-0.55, shore_boost_peak_m=0.0,
                     shore_boost_half_width_m=18.0)          # M2 inverted
@@ -232,11 +232,13 @@ def drowned_tree(species: str, per_ha: float, **kw) -> list[dict]:
 
 def aquatic_reeds(per_ha: float, guild: str | None = None, **kw) -> dict:
     """M1: reeds straddle the waterline into the shallows; M3: reed beds
-    stand OFFSHORE more than they fringe the beach."""
+    stand offshore AND fringe the bank — owner round 3: real water edges are
+    densely vegetated, so the belt is wide and the clumps big enough to
+    merge into continuous margins rather than spaced pom-poms."""
     entry = layer("reeds", per_ha, role="aquatic-reeds",
-                  clump_size_median=10, clump_radius_m=5.0,
+                  clump_size_median=18, clump_radius_m=9.5,
                   water_depth_m=[-0.15, 0.7], depth_peak_m=0.35,
-                  depth_half_width_m=0.8, shore_m=[-25.0, 3.0],
+                  depth_half_width_m=0.8, shore_m=[-30.0, 6.0],
                   scale_range=[1.0, 1.8], **kw)
     if guild:
         entry["guild"] = guild
@@ -324,7 +326,7 @@ REGIONS[13] = {
         gap_thicket("trop_shrub", 190.0),
         gap_thicket("bracken", 120.0),
         green_wall("trop_shrub", 130.0),
-        bank_wall("big_shrub", 150.0, shore=(0.0, 15.0)),
+        bank_wall("big_shrub", 210.0, shore=(0.0, 15.0)),
         layer("vines_a", 40.0, role="liana", clump_size_median=4,
               clump_radius_m=8.0, water_depth_m=[-99.0, WADE],
               slope_deg_max=36.0, scale_range=[0.9, 1.6]),
@@ -332,7 +334,7 @@ REGIONS[13] = {
               clump_radius_m=8.0, water_depth_m=[-99.0, WADE],
               slope_deg_max=36.0, scale_range=[0.9, 1.6]),
         epiphyte_moss("moss_b", 40.0),
-        aquatic_reeds(60.0),
+        aquatic_reeds(95.0),
         aquatic_lilypads(30.0),
     ],
 }
@@ -358,12 +360,12 @@ REGIONS[7] = {
         interior_shrub("bracken", 55.0, depth=(-99.0, 0.4)),
         gap_thicket("big_shrub", 150.0, depth=(-99.0, 0.3)),
         green_wall("bracken", 100.0, depth=(-99.0, 0.4)),
-        bank_wall("big_shrub", 120.0),
+        bank_wall("big_shrub", 170.0),
         layer("vines_a", 30.0, role="liana", clump_size_median=3,
               clump_radius_m=8.0, water_depth_m=[-99.0, 0.8],
               slope_deg_max=35.0, scale_range=[0.9, 1.5]),
         epiphyte_moss("moss_a", 45.0),
-        aquatic_reeds(90.0, guild="reed-bed"),
+        aquatic_reeds(145.0, guild="reed-bed"),
         aquatic_lilypads(70.0, guild="lilypad-pond"),
         drowned_thicket_guild("bracken", 60.0),
         aquatic_kelp("wkelp_short", 30.0, depth=(0.6, 4.0), peak=1.5),
@@ -394,7 +396,7 @@ REGIONS[6] = {
         layer("vines_a", 35.0, role="liana", clump_size_median=4,
               clump_radius_m=7.0, water_depth_m=[-3.0, 0.8],
               slope_deg_max=35.0, scale_range=[1.0, 1.8]),
-        aquatic_reeds(70.0, guild="reed-bed"),
+        aquatic_reeds(110.0, guild="reed-bed"),
         aquatic_lilypads(50.0, guild="lilypad-pond"),
         drowned_thicket_guild("fern_big", 45.0),
     ],
@@ -418,7 +420,7 @@ REGIONS[4] = {
                slope_max=28.0, clearance=1.5),
         canopy("fanpalm", 30.0, depth=(-6.0, -0.1), scale=(0.7, 1.2)),
         understory("trop_shrub", 45.0, depth=(-6.0, 0.2)),
-        aquatic_reeds(160.0),
+        aquatic_reeds(255.0),
         aquatic_kelp("wkelp_tall", 60.0, depth=(0.8, 6.0), peak=2.0),
         aquatic_kelp("kelp_tall", 30.0, depth=(1.2, 7.0), peak=2.5),
     ],
@@ -435,7 +437,7 @@ REGIONS[3] = {
               water_depth_m=[-1.0, 1.2], shore_m=[5.0, 40.0],
               scale_range=[0.6, 0.9], clearance_radius_m=1.6),
         understory("trop_plant", 35.0, depth=(-4.0, 0.5), riparian=RIPARIAN_WET),
-        aquatic_reeds(220.0),
+        aquatic_reeds(350.0),
         aquatic_lilypads(60.0),
         aquatic_kelp("wkelp_short", 40.0, depth=(0.6, 4.0), peak=1.4),
     ],
@@ -454,8 +456,8 @@ REGIONS[5] = {
         waterline_tree("willow_a", 20.0, scale=(0.6, 0.9)),
         understory("trop_plant", 45.0, depth=(-99.0, 0.5), riparian=RIPARIAN_WET),
         understory("fern_big", 50.0, depth=(-99.0, 0.4), riparian=RIPARIAN_WET),
-        bank_wall("big_shrub", 130.0),
-        aquatic_reeds(120.0),
+        bank_wall("big_shrub", 180.0),
+        aquatic_reeds(190.0),
         aquatic_lilypads(45.0),
         aquatic_kelp("kelp_tall", 45.0, depth=(1.0, 8.0), peak=2.5),
     ],
@@ -472,8 +474,8 @@ REGIONS[8] = {
         waterline_tree("willow_b", 12.0, scale=(0.6, 0.9)),
         understory("loebush", 40.0, depth=(-99.0, 0.2)),
         understory("fern", 50.0, depth=(-99.0, 0.4), riparian=RIPARIAN_WET),
-        bank_wall("loebush", 90.0),
-        aquatic_reeds(200.0, guild="reed-bed"),
+        bank_wall("loebush", 125.0),
+        aquatic_reeds(320.0, guild="reed-bed"),
         aquatic_lilypads(50.0, guild="lilypad-pond"),
         drowned_thicket_guild("fern", 40.0),
     ],
@@ -487,7 +489,7 @@ REGIONS[9] = {
     "layers": [
         gallery("willow_c", 70.0, shore=(0.0, 30.0)),
         gallery("cypress", 40.0, shore=(0.0, 25.0)),
-        bank_wall("loebush", 80.0, shore=(0.0, 18.0)),
+        bank_wall("loebush", 110.0, shore=(0.0, 18.0)),
         understory("fern", 30.0, depth=(-99.0, 0.4), riparian=RIPARIAN_WET),
         layer("algrass", 55.0, role="tall-grass", clump_size_median=8,
               clump_radius_m=8.0, water_depth_m=[-99.0, 0.5],
@@ -495,7 +497,7 @@ REGIONS[9] = {
         layer("chickweed", 40.0, role="forb", clump_size_median=8,
               clump_radius_m=7.0, water_depth_m=[-99.0, 0.4],
               slope_deg_max=32.0, scale_range=[0.9, 1.5]),
-        aquatic_reeds(60.0),
+        aquatic_reeds(95.0),
     ],
 }
 
@@ -511,7 +513,7 @@ REGIONS[10] = {
                    clump_size_median=9, clump_radius_m=5.0),
         interior_shrub("bracken", 60.0, depth=(-6.0, 0.3)),
         gap_thicket("trop_shrub", 120.0, depth=(-6.0, 0.2)),
-        aquatic_reeds(90.0),
+        aquatic_reeds(145.0),
     ],
 }
 
@@ -532,7 +534,7 @@ REGIONS[11] = {
         interior_shrub("bracken", 50.0),
         gap_thicket("trop_shrub", 140.0),
         green_wall("trop_shrub", 90.0),
-        bank_wall("big_shrub", 110.0),
+        bank_wall("big_shrub", 155.0),
         layer("chickweed", 35.0, role="forb", clump_size_median=7,
               clump_radius_m=7.0, water_depth_m=[-99.0, 0.3],
               slope_deg_max=36.0, scale_range=[0.9, 1.5]),
@@ -546,7 +548,7 @@ REGIONS[12] = {
             " bare, drowned trees for silhouettes (M1 bimodal, deep mode).",
     "layers": [
         aquatic_lilypads(90.0, guild="lilypad-pond"),
-        aquatic_reeds(130.0, guild="reed-bed"),
+        aquatic_reeds(210.0, guild="reed-bed"),
         aquatic_kelp("kelp_tall", 70.0, depth=(1.0, 9.0), peak=3.0,
                      guild="kelp-forest"),
         layer("cypress_big", 6.0, tier="T1", role="drowned-tree",
