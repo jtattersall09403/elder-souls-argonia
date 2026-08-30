@@ -304,8 +304,12 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       // depth-TESTS against the scene depth the blit wrote, so terrain
       // occludes it normally. Rain also tone-maps itself, so drawing it
       // straight to screen after the blit is colour-correct.
-      cam.layers.mask = 1 << PRECIP_LAYER;
-      renderer.render(scene, cam);
+      // (Not when submerged: there is no rain to see from under the surface,
+      // and this pass draws straight to screen, past the underwater fog.)
+      if (!underwater) {
+        cam.layers.mask = 1 << PRECIP_LAYER;
+        renderer.render(scene, cam);
+      }
       // markers etc. draw straight to screen (no tone mapping crush),
       // depth-tested against the scene depth the blit wrote
       cam.layers.mask = 1 << OVERLAY_LAYER;

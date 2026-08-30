@@ -43,7 +43,7 @@ first, then open only the master-plan sections the active phase needs.
 | N — quest-plan cast/lore/deliverability/fun review (parallel workstream, decision 0018) | done | 2026-08-25 (Opus): new `docs/quests/35-cast.md` — depth tiers, six character rules, canon naming system, rewritten principal cast (3 new: Never-Writes-Twice, Spills-The-Ink, Ahnjazzi; 2 renamed), named recurring cast for all 12 faction lines, 6 cross-line faces, oddities roster, C4 texture kit. New lore dossier `topics/labour-and-bondage.md` — **the Owing**, the province's coerced-labour institution (closes the Chainbreakers' shapeless target and the open Archein gap; `washed-out` NPC variant is free canon signposting). Cult method re-grounded on the canon **Mnemic Egg**; Hierem/Synod file moved into the main quest; Marsh Charter re-anchored on the Four Winds, Sunken Archive on folk-literacy magic + the Conclave of Baal; Nisswo *shunatei* critique of the cult added. **Delivery tiers D-A/D-B/D-C** + conversion table; all 9 chase/escort/crowd/riot beats converted. **Boredom test** added; ~12 read-and-talk quests rewritten; Act II verb-variety rule (§21b); Thorn and Umbriel lines diversified. Acceptance criteria 28–33 + cast/deliverability validator sections. **2026-08-26**: cast model realigned to UESP-mined Morrowind structure (desks/arguments, shared places + shadow networks — Owing brokerage as Camonna Tong analogue; no travelling cross-line faces); research doc `docs/research/morrowind-cast-structure.md`; 0018 addendum. **2026-08-26 (2)**: main quest sharpened (decision 0026) — visceral no-lore-assumed stakes (dead clutch, empty throne), villain leads the opening attack + Dagoth-Ur-style dreams, handler purged at Act III (Caius beat), **three player-intent endings** (CUT cult overlord / CLAIM the Scalded Throne / MEND and walk away), main line cut 32→23 quests, all boat-vs-boat pursuit replaced by manhunts, fan-favourite coverage table + LQ31 whodunit, and the **quest–world co-design loop** added to Phases 11/15 (quests 90 §65b; world 95). **2026-08-28**: full quest-plan QA review + same-day repair (decision **0030**, CLOSED — 56 findings across 9 passes: fun, cast, assets, scripting/open-world, lore, consistency, guardrails, world-bones fit, new **tier-protection hard rule** 40 §30b). Highlights: count fixed to 24; Many-Root line fully redesigned; guardrails re-marked hard-rule/strong-default/target + agents-use-own-reasoning rider; 35-cast split (35 rules / 36 roster); final boss switched to **Xal-Krona** on in-vault rigs (research/last-warden-boss-options.md); rootworm permanently never-seen; Umbriel + Varieties-of-Faith dossiers ingested |
 | 8a — world time, natural light and sky | done | owner gate PASS 2026-08-26 after 8 feedback rounds (decisions 0020/**0021** = full defect→fix history; research doc §8–8d). world-time package (calendar/sun/moons/stars, verified phase cycle); physical light rig with **envelope-pinned dome** (CPU Preetham twin `preethamCpu.ts` + `skyScreenModel.ts`; whiteout/black-gap class caught by `npm test`); directional twilight (Earth shadow, Belt of Venus, magnitude-staged stars); moon-aware night floors; owner-locked defaults warmth 1.0, stars ×0.5 (~3300); CSM shadows w/ contact bias; walk+fly city markers; HUD compass. Deferred: beyond-border land apron (module 55 §98b + research doc) |
 | 8b — water renderer and interaction | done | owner CLOSED 2026-08-28 (good-enough, **not perfect** — full water-systems re-review + polish queued in [polish-backlog.md](polish-backlog.md), Phase P). 7 rounds; full defect→fix history in decision 0025. Province W-field water surface, rivers/marsh/estuary/coast/underwater, buoyancy + Rapier water query, monotone slope rivers, shore surf, waterfall shading |
-| 8c — weather and atmosphere | in progress | **round 3 DEPLOYED 2026-08-29, awaiting owner playtest.** All 5 round-2 feedback points fixed at root cause (defect→fix log: decision [0032](decisions/0032-phase8c-weather-implementation-shape.md) Round 3): fog volumes LOCAL (belt clings to the massif, summits above cloud, clear days clear, sea-fog/mist banks you look AT), rain finally visible (billboards were half-culled + contrast; probe screenshot verified), region visibility renders (climate-vis raster), sunset/sunrise cloud colouring, storm seas 0.35–6× + faster + wind-scaled surf. 22/22 probe scenarios + 402 tests green. Run-book: top of 0032 |
+| 8c — weather and atmosphere | in progress | **round 4 DEPLOYED 2026-08-30, awaiting owner playtest.** All 7 round-3 feedback points fixed at root cause (defect→fix log: decision [0032](decisions/0032-phase8c-weather-implementation-shape.md) Round 4): rain drew BEHIND water (transparent, depthWrite-free, overpainted by the pass-3 water surface — now its own PRECIP_LAYER rendered after the water); rain moved off the time-scaled water clock onto real time at true terminal velocity, streak length derived from speed; less white; **GAME_TIME_SCALE = 30** (Morrowind's timescale) written into world-time and selectable in the studio; fair-weather coverage ladder clear→fair→partly→broken→overcast, rolled by the calendar with diurnal cumulus build; visibility integrated INTO weather (climate-vis G baseline × live regionHazeFactor — one call feeds the renderer and the published number); thunderstorm seas raised to squall parity; fog/mist/cap-cloud now lit and COLOURED by the sun (altitude dimming + sunset tint + directional forward-scatter fogSunLum), envelope proof extended; raster ClampToEdge stripes off the map edge fixed; cap cloud dilated + noise-broken. 22/22 probe scenarios + 406 tests green |
 | 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | in progress | **first half delivered 2026-08-30, six placement decisions waiting on the owner ([0036](decisions/0036-phase10-placement-decisions.md)).** Done: structured plugin readers (base objects/cells/refs/LAND painting/REGN/GRAS) → §86.0b mining of 186k placed references → [14 placement rules](research/shipped-world-placement-rules.md); **27,929-row semantic asset registry** across all four pools with a query CLI; Xanmeer kit downloaded, credited and measured (256-unit grid); **kit builder** NIF→GLB with LOD chains, collision proxies and masked-foliage alpha (40 palette species convert clean); **deterministic clustered scatter compiler** hitting the mined Clark-Evans 0.45, with seam/determinism/clearance probes; lore-grounded provisional flora palettes + groundcover table. Next after 0036: the four renderer tiers + the micro-lab budget probe (both need looking at, both consume 0036) |
 | 11 — settlement/location system, exemplar-first (0034) | todo | may start once the S schema is accepted (semantic authoring); packet freeze gated on 10b probes + 10c numbers |
 | 12 — dungeon/interior system, exemplar-first (0034) | todo | may interleave with 11 |
@@ -71,23 +71,32 @@ first, then open only the master-plan sections the active phase needs.
   (needs your Steam login; command below). Nothing else in Phase 10 is
   blocked on ⑥.
 
-- **8c round 3 playtest** — deployed 2026-08-29. Check: ① your clear-day URL
-  (x=2.44 z=6.22, force clear): no fog band in the sky anywhere, looking up
-  or at the mountains — the mountain cloud now clings to the mountains
-  themselves, only on cloudy/rainy days, and the very tallest summits poke
-  up above it (fly to the border mountains under overcast to see the cloud
-  sea from above) ② rain clearly visible at your downpour spot (and
-  everywhere it rains) ③ force "sea fog" / "dawn mist": fog sits WHERE it
-  belongs (coast/estuaries; basins at dawn) — stand outside it and you can
-  look AT the bank; inland stays clear ④ hazy air now varies by region
-  (murky marsh lowlands ~the authored figures, crisp mountain air, long
-  views from summits), breathing a little with the weather ⑤ sunset/sunrise:
-  clouds catch gold-to-red toward the sun, soft pink away from it, high
-  wisps stay lit after the sun sets ⑥ storm seas: much bigger spectrum —
-  calm days near-flat, squalls ~6× wave energy, waves faster, breaking on
-  the shore harder and quicker (watch a beach in force:squall vs clear)
-  ⑦ nothing regressed from round 2 (night clouds, storm ladder, lightning
-  gates, wet season). Defect→fix log: decision 0032 Round 3.
+- **8c round 4 playtest** — deployed 2026-08-30. Check: ① **set the time
+  dropdown to "▶ game speed (×30)"** — that is the speed the real game will
+  run at (Morrowind's; a game hour every 2 real minutes) — and judge the rain
+  at THAT speed: it should fall at a believable, visibly quick rate and no
+  longer speed up or slow down when you change the time setting ② rain is a
+  softer grey now, not near-white ③ **rain no longer disappears behind
+  water** — stand on your mountain looking at the sea, and stand next to a
+  river/pool: streaks should cross in front of the water, near and far
+  ④ force each of the new sky types in the weather dropdown — **clear**
+  (completely cloudless), **fair**, **partly**, **broken**, then overcast:
+  a real ladder of coverage, and watch how the light changes across it; on
+  "auto" the in-between days should now be the common ones, building through
+  the afternoon ⑤ force **thunderstorm** vs **squall** at a beach: the sea
+  and the breaking waves should now look equally violent ⑥ **sunset through
+  fog/mist**: at dusk, force dawn mist / sea fog and look at a mountain band
+  — banks should take the sunset colour, glowing warm when the sun is behind
+  them and staying cool grey when it is not; no more white haze under a red
+  sky, and no more bright white band in front of dark mountains ⑦ the
+  mountain cloud should no longer run off the map edge in straight lines to
+  the horizon, and should look lumpy and drifting rather than painted on
+  ⑧ hazy air should vary by place AND breathe over the day (steamiest in the
+  afternoon after rain, thickest before dawn, thinner when windy)
+  ⑨ nothing regressed from round 3. **Known and deliberate**: a mountain
+  cloud bank is still invisible where open sky is behind it rather than
+  terrain — logged in [polish-backlog.md](polish-backlog.md), needs a
+  volumetric/dome pass. Defect→fix log: decision 0032 Round 4.
 - **Workstream S — closed after the round-4 QA review** (2026-08-30): the
   owner's rulings are folded in ([0037](decisions/0037-workstream-s-round4-qa-rulings.md))
   and the harness holds 19/19 including the Morrowind known-answer test.

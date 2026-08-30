@@ -191,14 +191,23 @@ swamps differ without hand-authoring:
   `materialPalette`, each region class carries characteristic turbidity,
   boundary-layer height, mist regime and night palette. Region identity is
   *air* as well as ground.
-- **Visibility is gameplay AND is rendered**: haze and mist set draw
-  distance, sight-lines, AI perception and encounter design. The current
-  visibility distance is published through the environment query, and (8c
-  round 3) the per-region authored visibility renders as a boundary-layer
-  extinction floor (`climate-vis.png` G, Koschmieder, air floor 250 m —
-  shorter authored figures are vegetation sightlines that Phase 10's flora
-  delivers), so the renderer and the published number agree: murky marsh
-  air, crisp mountain air, long summit vistas.
+- **Visibility IS local weather** (8c round 4 — it is not a separate system
+  from the mist/fog regimes, it is their slowest-moving component). Two
+  parts, and *one* code path so the drawn murk and the published number can
+  never drift:
+  - **Baseline** — `climate-vis.png` G: how thick this kind of country's air
+    runs on an average day (Koschmieder, air floor 250 m; shorter authored
+    figures are vegetation sightlines that Phase 10's flora delivers).
+    Murky inner-basin marsh, crisp mountain air, long summit vistas.
+  - **Live multiplier** — `regionHazeFactor()` (world-weather `express.ts`),
+    grounded in the province climatology: humidity carries it; it peaks not
+    during rain but in the hot afternoon *after* it (marsh steam off wet
+    ground); pre-dawn damp thickens it; wind mixing thins it; the wet season
+    adds a little. So every region keeps its characteristic murk and still
+    has its own daily variation.
+  One call feeds BOTH the renderer's boundary-layer extinction floor and the
+  `visibilityM` published through the environment query to draw distance,
+  sight-lines, AI perception and encounter design. **Do not re-split them.**
 
 ## 98. Weather
 
@@ -209,9 +218,22 @@ pure functions of epoch minutes) drives the whole map, and the
 "region-weighted frequencies" enter through **local expression** against the
 climate fields (`climate-weather.png`: rain amplitude / storm exposure / sea
 fog). Same downpour: wall of water in the interior, drizzle in the NW rain
-shadow; a squall is coastal violence, inland gusty overcast. States:
-clear, dry-haze, overcast, rain, downpour, squall, thunderstorm — **ground
-mist is a derived condition, not a rolled state** (§97 regimes).
+shadow; a squall is coastal violence, inland gusty overcast (as is a
+thunderstorm — round 4 gave storm outflow the same coastal gust-front boost,
+so storm seas and squall seas match). States, as a **coverage ladder** so
+skies are not binary blue-or-grey: clear (cloudless) → fair (~1/8 fluffy
+cumulus) → partly (~3/8) → broken (~6/8) → overcast (8/8), plus dry-haze,
+rain, downpour, squall, thunderstorm — **ground mist is a derived condition,
+not a rolled state** (§97 regimes). Cumulus is diurnal: fair mornings build
+to partly/broken over land through the afternoon on the same convection
+curve that drives storms, and cloudless days belong mainly to dry-season
+subsidence spells.
+
+**The world clock runs at `GAME_TIME_SCALE = 30`** (world-time; Morrowind's
+and Oblivion's `timescale`, Skyrim ships 20) — 1 game hour per 2 real
+minutes, a game day in 48 real minutes. It scales the **calendar only**: sun,
+moons, tides and the weather timeline. Physical motion — rain fall speed,
+wave celerity, animation rates — stays in real seconds, always.
 
 - **Parameterised, not colour-authored.** Bethesda's `WTHR` record is the right
   *checklist* of what a weather state must say (sky upper/lower, horizon,

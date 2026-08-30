@@ -7,7 +7,7 @@ Spec: module [55](../world/55-light-sky-time.md) §97–98; deliverables module 
 
 ## CONTINUING THIS PHASE — run-book for the next agent
 
-**State (2026-08-29): round 3 BUILT + PROBED + DEPLOYED — owner playtesting.**
+**State (2026-08-30): round 4 BUILT + PROBED + DEPLOYED — owner playtesting.**
 You are here because the owner said "Continue phase 8C delivery" with
 feedback points. Protocol: read this file
 in full (Decisions + Implementation notes below are the design rationale);
@@ -22,6 +22,13 @@ row to done, sweep cosmetic leftovers to docs/polish-backlog.md.
 |---|---|
 | "state X too dark / too foggy / rains too hard / winds too strong"; transition speeds | `packages/world-weather/src/states.ts` (PROFILES + TRANSITION_MIN — the per-state parameter blocks) |
 | "too much/little rain overall", "changes too often/rarely", "storms at wrong time of day", spell rhythm | `synoptic.ts` (spellWeights, stateWeights, VOLATILITY, SLOT_MINUTES, convectionFactor) |
+| region VISIBILITY (per-place baseline, or how it breathes with hour/season/weather) | `climate-vis` G channel (baseline) + `express.ts` `regionHazeFactor` (live multiplier). ONE call feeds both the renderer's `uRegionHaze` and the published `visibilityM` — round 4; do not re-split them |
+| cloud-COVERAGE days (clear / fair / partly / broken / overcast), how often each occurs | `states.ts` PROFILES fair-weather ladder + `synoptic.ts` `stateWeights` |
+| how fast the game clock runs | `GAME_TIME_SCALE` in `@elder-souls/world-time` (30, Morrowind's). Calendar only — **never** scale physical motion by it |
+| rain fall speed / streak length | `RainSystem.tsx` (`SHUTTER_S`, `uFall`) — on its OWN real-time clock, deliberately not the world or water clock |
+| anything transparent vanishing behind water | it needs `PRECIP_LAYER` (or the overlay layer) and a pass-3 render — see waterMaterial.ts and round 4 §1 |
+| fog/mist COLOUR under coloured light (sunset etc.) | `lightRig.ts` `fogLum` (neutral side) + `fogSunLum` (into-the-light side); blended by view/sun angle in `aerial.ts` and the dome veil |
+| cap-cloud shape/lumpiness/drift | `aerial.ts` `esCloudLump` + the belt block; mask dilation `pow(visX.r, 0.6)` |
 | regional character (rain shadow, coastal squalls), mist regime strength/timing, belt elevation/shape, visibility numbers, wetness rise/decay rates | `express.ts` (`WHITEOUT_BELT` 470 m, σ 150 below/55 above — asymmetric so summits clear it; wetness trail in `synoptic.ts` `rainWetness`) |
 | fog LOCALITY (where banks sit, camera veil gating, belt mask), region ambient-visibility render | `aerial.ts` (3-point path raster sampling) + `climate-vis.png` (R belt mask, G region extinction — baked in `compile_hydrology`) + the round-3 rules in module 55 §97 |
 | sunset/sunrise cloud colours | `lightRig.ts` `cloudSunsetCol/Amt` + the dome mix in `WorldSky.createSkyDome` (envelope: `skyScreenModel.cloudScreenRange`) |
@@ -317,3 +324,95 @@ fog never follows the camera as a province-wide veil.
    band lifts with storm swash (`uWetWind`). Fair-weather default stays
    ≈ the 8b calibrated feel (factors ≈ 1 at scale 1 — the don't-retune
    rule).
+
+### Round 4 (owner playtest of round 3, 2026-08-30 → fixes same day)
+
+1. **"Rain seems to disappear *behind* water — ocean, rivers, pools, near and
+   far, like the water has been set to 'bring to front'"** → exactly that.
+   The water pipeline (0025) is a THREE-PASS architecture: opaques → RT, blit
+   to screen, then the water surface renders on top. Rain is transparent with
+   `depthWrite:false`, so it wrote no depth in pass 1 and the water surface in
+   pass 3 had nothing to test against — it simply painted over the streaks.
+   Rain now draws on its own `PRECIP_LAYER` (waterMaterial.ts) in pass 3
+   **after** the water surface, still depth-testing against the scene depth
+   the blit wrote, so terrain occludes it and water in front of it occludes
+   it, but water behind it does not. *This class of bug applies to anything
+   transparent added to the scene from now on — put it on the precip/overlay
+   layer or it will vanish behind water.*
+2. **"Rain doesn't fall fast enough — what speed will the real game run at?"**
+   → two separate defects. (a) Rain rode the shared *water* clock, which is
+   scaled by the world-time rate (up to 8×) and by wind, so the same downpour
+   fell at different speeds depending on the studio's time-lapse setting.
+   Rain now has its own real-time accumulator: **fall speed is physics and
+   must never touch the game clock**. (b) The speed itself is now real
+   terminal velocity by drop size (drizzle ~4 m/s → heavy rain ~10 m/s) and
+   streak LENGTH is derived from it through an eye-persistence shutter
+   (`SHUTTER_S`), so faster rain draws longer streaks — which is what
+   actually reads as speed on screen.
+   **The shipping clock rate is now written down**: `GAME_TIME_SCALE = 30` in
+   `@elder-souls/world-time` — Morrowind's and Oblivion's `timescale` (Skyrim
+   ships 20), i.e. 1 game hour per 2 real minutes, 48 real minutes per game
+   day. Selectable as "▶ game speed (×30)" in the studio time dropdown. It
+   scales the CALENDAR only — sun, moons, tides, weather timeline — never
+   physical motion.
+3. **"Make the rain a bit less white"** → streak colour target dropped from
+   1.05 to 0.78 screen and given water's blue-grey cast. Rain reads by
+   contrast and motion, not brightness.
+4. **"Can local region visibility be weather-affected? Should these concepts
+   be integrated?"** → yes, and they now are one system. The authored
+   per-region sightlines were a static sketch (`climate-vis` G) driving a
+   renderer uniform, while the published `visibilityM` came from the weather
+   state alone — two systems that could disagree. Now: the raster is the
+   per-place **baseline** air thickness, `regionHazeFactor()` (express.ts) is
+   the **live** multiplier, and one call feeds BOTH `uRegionHaze` and
+   `wx.visibilityM`. The multiplier is grounded in the province climatology:
+   humidity carries it, it peaks not during rain but in the hot afternoon
+   *after* (marsh steam off wet ground), pre-dawn damp thickens it, wind
+   mixing thins it, wet season adds a little. So each region keeps its
+   characteristic murk and still has its own daily variation.
+5. **"Do we ever get 'mostly clear with fluffy white clouds' days?"** → there
+   was no such state: the ladder went `clear` (which was really "a few
+   clouds") straight to `overcast`. Added a **fair-weather ladder** —
+   `clear` (now genuinely cloudless) → `fair` (~1/8) → `partly` (~3/8) →
+   `broken` (~6/8) → `overcast` (8/8) — with sun dimming and ambient lift
+   climbing across it, all forceable from the dropdown. The synoptic weights
+   were rewritten so these are the *common* days (cloudless skies belong to
+   dry-season `parched` spells), with a diurnal build: fair mornings grow to
+   partly/broken through the afternoon on the same convection curve that
+   drives thunderstorms.
+6. **"Thunderstorm should have the same wave energy as squall; it looks
+   calmer"** → it was: thunderstorm `windMS` was 9 vs squall's 14, and the
+   coastal gust-front boost in express.ts applied to squalls only. A mature
+   storm's cold-pool outflow is the same phenomenon, so thunderstorm wind is
+   now 14 m/s and gets the same boost — identical seas and shore surf. The
+   two states differ where they should: the shelf wall, the green cast, the
+   lightning rate and how long they last.
+7. **"Sunset light works on the clouds but not on the mist/fog/mountain
+   cloud — those are always a whitish haze whatever colour the light is"**
+   (and a white band in front of already-dark mountains at 18:00) → fog
+   colour was a fixed neutral with **no sun-altitude and no sun-colour term**,
+   while cloud faces had both. A fog bank is a cloud seen from beside it. Now
+   `fogLum` dims with the low sun and takes the sunset tint, and a second
+   endpoint `fogSunLum` carries the bright, strongly-tinted **forward-scatter**
+   colour; the aerial term and the dome veil blend between them by the
+   view/sun angle. That gradient is what makes the owner's hardest case read
+   correctly — a distant bank, mountains behind it, the sun behind those: the
+   bank glows warm where it is backlit and stays cool grey where it is not.
+   Envelope proof extended to both endpoints (`skyScreenModel`, `lightRig.test`).
+8. **"Cloud areas extrapolate in straight lines off the edge of the map to the
+   horizon"** → the climate rasters are `ClampToEdge`, so every path sample
+   taken beyond the province repeated the border pixel. All raster-driven
+   densities now fade out at the border (`esInBounds`); the region extinction
+   keeps a floor rather than vanishing, so the beyond-border apron still has
+   air in it.
+9. **"The mountain cloud looks painted onto the mountain, not cloud the
+   summits stick up into"** → the belt mask hugged the terrain footprint
+   exactly and had no internal structure. The mask is now dilated
+   (`pow(mask, 0.6)`) so cloud spills off the massif, and each path sample is
+   multiplied by a drifting two-octave noise lump (`esCloudLump`, drifting
+   downwind on the sky's own cloud clock) so the band is a broken, moving
+   body. **Known remaining limitation**: the aerial term only fogs *surface*
+   fragments, so a cap-cloud bank is still invisible where it would be seen
+   against open sky rather than against terrain. Fixing that properly needs
+   the bank rendered into the dome (or a volumetric pass) — logged for
+   Phase P rather than bodged here.
