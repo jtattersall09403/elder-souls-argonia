@@ -7,7 +7,7 @@ Spec: module [55](../world/55-light-sky-time.md) §97–98; deliverables module 
 
 ## CONTINUING THIS PHASE — run-book for the next agent
 
-**State (2026-08-30): round 4 BUILT + PROBED + DEPLOYED — owner playtesting.**
+**State (2026-08-30): round 5 BUILT + PROBED + DEPLOYED — owner playtesting.**
 You are here because the owner said "Continue phase 8C delivery" with
 feedback points. Protocol: read this file
 in full (Decisions + Implementation notes below are the design rationale);
@@ -25,10 +25,11 @@ row to done, sweep cosmetic leftovers to docs/polish-backlog.md.
 | region VISIBILITY (per-place baseline, or how it breathes with hour/season/weather) | `climate-vis` G channel (baseline) + `express.ts` `regionHazeFactor` (live multiplier). ONE call feeds both the renderer's `uRegionHaze` and the published `visibilityM` — round 4; do not re-split them |
 | cloud-COVERAGE days (clear / fair / partly / broken / overcast), how often each occurs | `states.ts` PROFILES fair-weather ladder + `synoptic.ts` `stateWeights` |
 | how fast the game clock runs | `GAME_TIME_SCALE` in `@elder-souls/world-time` (30, Morrowind's). Calendar only — **never** scale physical motion by it |
-| rain fall speed / streak length | `RainSystem.tsx` (`SHUTTER_S`, `uFall`) — on its OWN real-time clock, deliberately not the world or water clock |
+| rain fall speed / streak length / volume size | `RainSystem.tsx` (`SHUTTER_S`, `uFall` floor 8 m/s round 5, `VOLUME` 72 m + radial edge fade) — on its OWN real-time clock, deliberately not the world or water clock |
 | anything transparent vanishing behind water | it needs `PRECIP_LAYER` (or the overlay layer) and a pass-3 render — see waterMaterial.ts and round 4 §1 |
-| fog/mist COLOUR under coloured light (sunset etc.) | `lightRig.ts` `fogLum` (neutral side) + `fogSunLum` (into-the-light side); blended by view/sun angle in `aerial.ts` and the dome veil |
-| cap-cloud shape/lumpiness/drift | `aerial.ts` `esCloudLump` + the belt block; mask dilation `pow(visX.r, 0.6)` |
+| fog/mist COLOUR or brightness | `lightRig.ts` fog block — **DERIVED from the real light since round 5** (sun term physical via sunIntensity/sunColor; sky term anchored to `skyScreenTarget`; knobs: `FOG_SCATTER`, `fogSkyScreen` factor 0.42, `FOG_FORWARD`); blended by view/sun angle in `aerial.ts` `esFogColFor` |
+| fog banks against OPEN SKY, camera-inside-fog sky veil | `aerial.ts` `DOME_FOG_GLSL` (`esSkyFog` — 12-step march of the same regime densities along the sky ray, round 5; replaced the round-2 `uCamFog` veil) |
+| cap-cloud shape/lumpiness/drift | `aerial.ts` `esCloudLump` + the belt block; mask dilation `pow(mask, 0.6)`; mask sampled at the path's BELT-CROSSING point (round 5) |
 | regional character (rain shadow, coastal squalls), mist regime strength/timing, belt elevation/shape, visibility numbers, wetness rise/decay rates | `express.ts` (`WHITEOUT_BELT` 470 m, σ 150 below/55 above — asymmetric so summits clear it; wetness trail in `synoptic.ts` `rainWetness`) |
 | fog LOCALITY (where banks sit, camera veil gating, belt mask), region ambient-visibility render | `aerial.ts` (3-point path raster sampling) + `climate-vis.png` (R belt mask, G region extinction — baked in `compile_hydrology`) + the round-3 rules in module 55 §97 |
 | sunset/sunrise cloud colours | `lightRig.ts` `cloudSunsetCol/Amt` + the dome mix in `WorldSky.createSkyDome` (envelope: `skyScreenModel.cloudScreenRange`) |
@@ -43,7 +44,7 @@ row to done, sweep cosmetic leftovers to docs/polish-backlog.md.
 | ground wet look (darken/gloss amounts, canopy dryness) | `water/groundWetness.ts` |
 | the baked fields themselves (rain-shadow shape, storm coasts, fog corridors) | `compile_hydrology` climate-weather block — **rerun with the RAW vault heightfield `heightfield-f32.npy`, NOT `province-refined/`** (wrong input silently changes every raster); only province PNGs + meta rewrite, no chunk rebuild needed; then `python3 -m pytest -q` (59) |
 
-**Validation loop**: `npm test` (390) + `npm run typecheck` from root. THE
+**Validation loop**: `npm test` (406) + `npm run typecheck` from root. THE
 ENVELOPE LOCKSTEP RULE: any change to the dome shader, cloud colours or
 exposure must keep `WorldSky.createSkyDome` ↔ `sky/skyScreenModel.ts` ↔
 `sky/lightRig.test.ts` in agreement — the envelope test is what keeps
@@ -411,8 +412,84 @@ fog never follows the camera as a province-wide veil.
    (`pow(mask, 0.6)`) so cloud spills off the massif, and each path sample is
    multiplied by a drifting two-octave noise lump (`esCloudLump`, drifting
    downwind on the sky's own cloud clock) so the band is a broken, moving
-   body. **Known remaining limitation**: the aerial term only fogs *surface*
-   fragments, so a cap-cloud bank is still invisible where it would be seen
-   against open sky rather than against terrain. Fixing that properly needs
-   the bank rendered into the dome (or a volumetric pass) — logged for
-   Phase P rather than bodged here.
+   body. ~~Known remaining limitation: banks invisible against open sky~~ —
+   closed in round 5 §4 (dome fog march).
+
+### Round 5 (owner playtest of round 4, 2026-08-30 → fixes same day)
+
+The owner's core directive this round — **fog is not hand-painted; it is lit
+by the real light** — is now the implementation's shape, not just its goal.
+
+1. **"Mist/fog/haze now looks DARK GREY — distant mountains weirdly dark
+   (image.png, force:clear afternoon); low mist dark grey from above; being
+   in it just darkens the light. It was better when it was white — make it
+   take the light's colour properly"** → two round-4 defects, one root class
+   (authored fog constants instead of lit fog):
+   (a) round 4 gave `fogLum` a hand sun-altitude dimming ramp
+   (`0.18 + 0.82·smoothstep(0,15°)`) that dragged every bank grey; and
+   (b) — the dark mountains — the round-4 visibility integration made the
+   region murk STRONG (vis ~680 m renders real extinction), but that murk's
+   inscatter asymptote was still the thin-haze `uHazeAmbient`, whose daylight
+   value is ~0.05 screen: far terrain extinguished fully and collapsed to
+   near-black. Fix: the fog colour block in `lightRig` is now **derived**:
+   direct-sun irradiance × the sun's actual colour (so it dims and reddens
+   through sunset with the real light, and dies under a storm deck because
+   `sunDim` is already inside `sunIntensity`) + a sky term anchored to the
+   dome's own screen curve (`skyScreenTarget` — raw skyE × the authored
+   exposure curve INVERTS the arc, drawing overcast fog brighter at 07:00
+   than noon) × a deck-absorption factor; multi-scattering desaturates the
+   diffuse side, the forward lobe (`FOG_FORWARD`) throws the sun's full
+   colour at the viewer looking into the light. And the boundary-layer/region
+   murk (`dM`) now counts as fog-class in the aerial `fogFrac`, so daylit
+   murk fades terrain into BRIGHT lit haze (white by day, warm at sunset),
+   never the dim blue ambient. Night keeps the authored moonlit floor
+   (the night scene is stylized ~10× above physics; a physical bank would
+   glow) blended in screen space across twilight.
+2. **"Rain still too slow — the actual descent speed on screen needs to be
+   about double; keep speed ∝ intensity but raise the floor"** → `uFall`
+   floor 4 → 8 m/s, top ~14 (+gust term). Deliberately above textbook
+   terminal velocity at the drizzle end: the READ is what must be right.
+   Streak length still derives from speed via the shutter, so length and
+   speed cannot disagree.
+3. **"Rain sits in small patches around the player with hard edges"** → that
+   patch WAS the camera-following spawn volume: a 36 m box whose wall was a
+   hard line of no-rain. Volume 72 m across, radial alpha fade over the
+   outer quarter, budget 4200 → 12 000 (low tier 1600 → 4200) so near-field
+   density holds. Larger weather-scale rain variation (the part the owner
+   liked) still comes from the rain-amplitude raster.
+4. **"Mountain cloud should be visible against open sky — a scatter effect
+   lit by the real light would be"** → correct, and it now is: the dome
+   shader runs `esSkyFog` (aerial.ts `DOME_FOG_GLSL`), a 12-step march of
+   the SAME regime densities (belt, dawn mist, sea fog, region murk, weather
+   fog) along each sky ray, veiling the dome by the accumulated optical
+   depth with the same directional fog colour surfaces use. One bank, one
+   colour, terrain or sky behind it. Being inside a bank falls out of the
+   march's first samples, so this **replaces** the round-2 `uCamFog` camera
+   veil (the number survives for probes/IBL-rebake). The march starts from
+   an explicit `uEsFogCam` uniform because the PMREM bake renders from a
+   cube camera at the origin. Plain humidity Mie is deliberately NOT in the
+   march — the Preetham dome already carries it as turbidity. The
+   polish-backlog "banks invisible against open sky" item is closed.
+5. **"Cap-cloud stripes off the map edge are still there, different shape
+   (image copy.png)"** → round 4 faded the raster samples at the border but
+   kept the MIDPOINT sampling: a camera at 900 m looking down at the sea
+   puts the path midpoint at belt altitude kilometres offshore, and border-
+   ring mask bleed at that midpoint whited out whole sea fragments — the
+   giant straight-edged slab. The mask/lump are now sampled where the path
+   **crosses the belt altitude** (the only place belt cloud can actually
+   be), so over-the-border crossing points fade to nothing and the slab is
+   gone; probe `edge-sea-no-slab` covers the owner's exact viewpoint.
+6. **"Clear and fair look identical; partly very sparse; broken nice; and
+   the in-between days darken everything too much — the light already dims
+   naturally when a cloud crosses the sun"** → (a) the state `cloud*` values
+   are NOISE THRESHOLDS against a bell-shaped FBM, not sky fractions —
+   cov 0.09 drew ~1 % of sky. fair/partly re-tuned to draw ~1/8 and ~3/8 of
+   sky as seen (broken untouched — it read right). (b) exactly so: the
+   fair-weather ladder's state-level `sunDim` double-counted the cloud-field
+   `sunOcclusion` dimming; fair/partly/broken sunDim cut to 0.01/0.03/0.14
+   (residual thin-spot diffuse loss only) — passing shade now comes from
+   actual clouds crossing the actual sun, and gaps restore full light.
+7. Probe harness: SwiftShader's renderer process accumulates memory across
+   sequential scenarios and crashed mid-suite; the page is now recycled
+   every 4 scenarios with one retry-on-crash. New scenarios:
+   `edge-sea-no-slab`, `cap-cloud-open-sky`.

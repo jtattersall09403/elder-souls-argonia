@@ -46,9 +46,22 @@ import { lastWeatherSample } from "./weatherState";
  *    as speed on screen.
  *  - colour pulled off pure white to the blue-grey of lit rain-water.
  *  - drawn on PRECIP_LAYER, after the water surface (see waterMaterial.ts).
+ *
+ * Round 5 (owner: "rain still feels too slow — the actual on-screen descent
+ * needs to be about double", and "rain sits in tiny patches around the player
+ * with hard edges"):
+ *  - fall speed floor doubled (8 m/s, up to ~14 in a downpour + gusts).
+ *    Deliberately above textbook terminal velocity at the drizzle end: what
+ *    must read right is the visible descent rate, and slow-but-physical read
+ *    as floating. Streak length still derives from speed via the shutter.
+ *  - the camera-following volume WAS the "tiny patch": a 36 m box with a
+ *    hard wall of no-rain at its edge. Now 72 m across with a radial alpha
+ *    fade over the outer quarter, and the streak budget scaled up so the
+ *    near-field density survives. Rain now visibly falls over the landscape
+ *    around you, ending in haze instead of a line.
  */
 
-const VOLUME = new THREE.Vector3(36, 22, 36);
+const VOLUME = new THREE.Vector3(72, 26, 72);
 
 /** Eye/camera persistence, seconds: how long a falling drop smears for. Streak
  * length = fall speed × this, so speed and length can never disagree. */
@@ -78,6 +91,9 @@ void main() {
   vec2 airUv = vec2(pos.x / uExtentM, 1.0 - pos.z / uExtentM);
   float canopy = texture2D(uAir, airUv).b;
   vAlpha = on * (1.0 - 0.55 * canopy);
+  // Soft volume edge (round 5): the box must end in thinning haze, not a
+  // hard wall of suddenly-no-rain around the player.
+  vAlpha *= 1.0 - smoothstep(0.72, 1.0, length((rel - 0.5 * uSpan).xz) / (0.5 * uSpan.x));
   // the flyover far above the weather layer sees no streaks
   vAlpha *= 1.0 - smoothstep(500.0, 900.0, cameraPosition.y);
   vec3 velDir = normalize(vel);
@@ -119,7 +135,9 @@ export function rainDropBudget(): number {
   const coarse = window.matchMedia?.("(pointer: coarse)").matches ?? false;
   const weak = (navigator.hardwareConcurrency ?? 8) <= 4;
   const low = q === "low" || (q !== "high" && (coarse || weak));
-  return low ? 1600 : 4200;
+  // Round 5: budgets scaled with the 36→72 m volume so near-field density
+  // holds (12k quads is still trivial geometry for a desktop GPU).
+  return low ? 4200 : 12000;
 }
 
 export function RainSystem({ count, extentM }: { count: number; extentM: number }) {
@@ -206,11 +224,12 @@ export function RainSystem({ count, extentM }: { count: number; extentM: number 
       // horizontal drift follows the weather wind (gusts wobble it a little)
       const drift = 0.35 * wx.windSpeedMS;
       u.uWindV.value.set(wx.windDirXZ[0] * drift, wx.windDirXZ[1] * drift);
-      // Terminal velocity by drop size: fine drizzle (~0.5 mm) falls ~4 m/s,
-      // heavy-rain drops (~2 mm) ~9 m/s, and a squall's downdraught adds to
-      // that. Real numbers — the previous 8–11 m/s floor was both too uniform
-      // and, ridden on the scaled clock, effectively arbitrary.
-      u.uFall.value = 4 + 5.5 * rain + 0.12 * wx.windSpeedMS;
+      // Fall speed (round 5): the round-4 textbook terminal velocities (4–9
+      // m/s) READ as slow motion on screen — the owner asked for roughly
+      // double the visible descent. Floor 8 m/s (brisk drizzle) to ~14 m/s
+      // in a downpour plus a gust-front kick; still scaled by rain intensity
+      // so heavier rain visibly falls harder.
+      u.uFall.value = 8 + 6 * rain + 0.12 * wx.windSpeedMS;
     }
     // world metres per screen pixel at 1 m depth, for the min-width clamp
     const cam = camera as THREE.PerspectiveCamera;

@@ -532,69 +532,62 @@ export function computeLightRig(
     (sunsetTint[2] * sunsetScreen) / exposureTarget,
   ];
 
-  // Dense-fog inscatter colour (round 2): authored in SCREEN terms like the
-  // clouds. Day fog is bright white-grey (lit cloud-water), storm fog darker
-  // grey, night fog a dim moonlit veil just above the night sky. This is
-  // what the mist regimes/whiteout/heavy haze fade INTO — the thin-haze
-  // ambient asymptote rendered near-black in daylight and was the root of
-  // the black summit caps / purple layer / invisible-mist reports.
-  // Storm fog is GLOOM, not glow: under a heavy deck the fog bank must sit
-  // below the sky's tone (probe round 2: fogged terrain rendered brighter
-  // than the storm clouds above it — inverted).
-  //
-  // Round 4 (owner: "dawn mist and sea fog are always a whitish haze whatever
-  // colour the light is"; the mountain-cloud band read as a WHITE stripe in
-  // front of mountains already gone dark at 18:00). Two things were wrong,
-  // both because fog was authored as a fixed neutral:
-  //
-  //  a) NO SUN-ALTITUDE TERM. Cloud faces already dim with the low sun
-  //     (dayBrightScreen), but fog did not, so at sunset the fog bank stayed
-  //     at full midday brightness while everything around it darkened —
-  //     hence a glowing white band in front of black mountains. Physically,
-  //     a fog bank IS a cloud seen from beside it: its brightness follows the
-  //     same illumination.
-  //  b) NO SUN COLOUR. Cloud droplets scatter whatever light reaches them,
-  //     so at sunset a fog/mist bank goes gold-to-rose on the sunward side
-  //     just like the clouds overhead. A white bank under a red sky is the
-  //     giveaway of a hardcoded fog colour.
-  //
-  // The DIRECTIONAL half of (b) — warm and bright looking toward the sun,
-  // cooler and darker looking away — is `fogSunLum` below, applied by the
-  // aerial shader against the view/sun angle. That gradient is what makes a
-  // distant bank with mountains behind it and the sun behind THOSE read
-  // correctly: the bank glows where it is backlit, and stays a cool grey
-  // where it is not.
-  const fogSunlit = 0.18 + 0.82 * smoothstep(0, 15, altDeg);
-  const fogDayScreen = 0.68 * fogSunlit * (1 - 0.68 * wx.sunDim);
-  const fogNightScreen = 0.028 + 0.045 * moonGlowC;
-  const fogScreen = fogNightScreen + (fogDayScreen - fogNightScreen) * skyFade;
-  // Neutral (anti-solar / overhead) fog colour, warmed toward the sunset tint
-  // as the sun gets low.
-  const fogNeutralTint = mix3(
-    mix3([0.82, 0.87, 1.0], [0.94, 0.96, 1.0], skyFade),
-    sunsetTint,
-    0.45 * cloudSunsetAmt[0],
-  );
-  const fogLum: [number, number, number] = [
-    (fogNeutralTint[0] * fogScreen) / exposureTarget,
-    (fogNeutralTint[1] * fogScreen) / exposureTarget,
-    (fogNeutralTint[2] * fogScreen) / exposureTarget,
+  // Dense-fog inscatter colour — DERIVED from the real light (owner round 5:
+  // "shouldn't the mist just be lit by the actual light, so it takes the
+  // light's colour and brightness?"). Round 4 tried to get sunset fog right
+  // with authored screen ramps (a sun-altitude dim + a hand sunset tint) and
+  // overshot: every mist/haze/cap-cloud went DARK GREY all day. A fog bank is
+  // cloud-water with albedo ≈ 0.9 — by day its luminance tracks the actual
+  // illuminance landing on it (direct sun + sky light), so here we compute
+  // exactly that from the same sunIntensity/sunColor/skyE the surfaces use:
+  //  - high sun → bank is bright white (the round-3 look the owner preferred);
+  //  - sunset → the sun term collapses and REDDENS (sunColor), so the bank
+  //    dims and warms with the real light, no hand tint;
+  //  - under a storm deck the direct term is already killed by sunDim (it is
+  //    inside sunIntensity) and the sky term is absorbed by the deck → gloom;
+  //  - the diffuse (multi-scattered) side is partially DESATURATED toward
+  //    white — multiple scattering whitens transmitted light — while the
+  //    forward single-scatter side (fogSunLum) keeps the sun's full colour.
+  // Night is the one place the physical chain must not run: the night scene
+  // is an authored gameplay floor ~10× brighter than physics, so night fog
+  // keeps its authored moonlit screen level and the two are blended in
+  // SCREEN space across twilight (smooth against the moving exposure).
+  const FOG_SCATTER = 0.3; // albedo/π for the shaded (neutral) side of a bank
+  const FOG_SKY_TINT: [number, number, number] = [0.86, 0.92, 1.0];
+  const sunOnFog = sunIntensity * sinAlt; // direct sun on the bank, lux
+  const fogSunTint = mix3(sunColor, [1, 1, 1], 0.65); // multi-scatter whitening
+  // The SKY-light half is anchored to the same screen curve the dome itself
+  // renders at (skyScreenTarget), not raw skyE × exposure: the authored
+  // exposure curve falls faster over the morning than sky illuminance rises,
+  // so the raw product made a deck-lit fog bank BRIGHTER at 07:00 than at
+  // noon (inverted arc, dark noon fog under overcast). Anchoring to the
+  // dome's own brightness keeps bank and sky in one tonal world; the deck
+  // absorption term is what makes overcast/storm fog genuinely gloomier.
+  const fogSkyScreen = 0.42 * skyScreenTarget * (1 - 0.35 * wx.sunDim);
+  const fogDayScreen: [number, number, number] = [
+    fogSunTint[0] * sunOnFog * FOG_SCATTER * exposureTarget + FOG_SKY_TINT[0] * fogSkyScreen,
+    fogSunTint[1] * sunOnFog * FOG_SCATTER * exposureTarget + FOG_SKY_TINT[1] * fogSkyScreen,
+    fogSunTint[2] * sunOnFog * FOG_SCATTER * exposureTarget + FOG_SKY_TINT[2] * fogSkyScreen,
   ];
-  // Looking INTO the light: forward-scattered sun through the droplets — the
-  // bright, strongly-tinted side of every fog bank. Brighter than the neutral
-  // colour by the classic haze forward-scatter ratio, and fully sunset-tinted
-  // at low sun. Still exposure-anchored, so the envelope holds by
-  // construction (the test asserts both colours in range).
-  const fogSunTint = mix3(
-    mix3([0.95, 0.96, 1.0], [1.0, 0.99, 0.97], skyFade),
-    sunsetTint,
-    0.9 * cloudSunsetAmt[0],
-  );
-  const fogSunScreen = fogNightScreen + (fogDayScreen * 1.5 - fogNightScreen) * skyFade;
+  const fogNightScreen = 0.028 + 0.045 * moonGlowC; // authored night level
+  const FOG_NIGHT_TINT: [number, number, number] = [0.82, 0.88, 1.0];
+  const fogLum: [number, number, number] = [0, 0, 0];
+  for (let i = 0; i < 3; i++) {
+    const night = fogNightScreen * FOG_NIGHT_TINT[i];
+    fogLum[i] = (night + (fogDayScreen[i] - night) * skyFade) / exposureTarget;
+  }
+  // Looking INTO the light: the forward-scatter lobe throws the source's OWN
+  // radiance (and colour) at the viewer — this term is the entire sunset-glow
+  // read: at low sun it is small in absolute terms but red and comparable to
+  // the collapsed neutral side, so a backlit bank glows warm while the
+  // frontlit side of the same bank stays cool grey. The aerial shader blends
+  // fogLum→fogSunLum by the view/sun angle. Exposure-anchored on both ends,
+  // so the envelope holds by construction (the test asserts both in range).
+  const FOG_FORWARD = 0.09; // effective phase gain / π for the sun-side lobe
   const fogSunLum: [number, number, number] = [
-    (fogSunTint[0] * fogSunScreen) / exposureTarget,
-    (fogSunTint[1] * fogSunScreen) / exposureTarget,
-    (fogSunTint[2] * fogSunScreen) / exposureTarget,
+    fogLum[0] + (sunColor[0] * sunIntensity + MOONLIGHT[0] * moonIntensity * 2) * FOG_FORWARD,
+    fogLum[1] + (sunColor[1] * sunIntensity + MOONLIGHT[1] * moonIntensity * 2) * FOG_FORWARD,
+    fogLum[2] + (sunColor[2] * sunIntensity + MOONLIGHT[2] * moonIntensity * 2) * FOG_FORWARD,
   ];
 
   // Cloud edge glow (silver lining, research §8.1): lit by the sun when it

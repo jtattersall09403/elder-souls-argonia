@@ -13,7 +13,7 @@ import {
 } from "@elder-souls/world-time";
 import { setWindWaveScale } from "@elder-souls/game-core/water/index";
 import catalogue from "../../../../world/sources/sky/star-catalogue.json";
-import { createAerialUniforms, type AerialUniforms } from "./aerial";
+import { AERIAL_DOME_PARS_GLSL, createAerialUniforms, type AerialUniforms } from "./aerial";
 import {
   CLOUD_UNIFORMS_GLSL,
   cloudAlphaTowards,
@@ -117,16 +117,13 @@ interface SkyExtras {
   uDawnLum: { value: number };
   uDawnDir: { value: THREE.Vector2 };
   /** Phase 8c weather clouds: colours (exposure-anchored nits, lightRig),
-   * silver-lining glow light, dense-fog colour, camera-in-fog veil,
-   * lightning. Coverage/shape/scroll live in the SHARED cloudUniforms. */
+   * silver-lining glow light, lightning. Coverage/shape/scroll live in the
+   * SHARED cloudUniforms; fog colours/densities live in the SHARED aerial
+   * uniforms (round 5: the dome runs the same fog march as the surfaces). */
   uCloudBright: { value: THREE.Color };
   uCloudDark: { value: THREE.Color };
   uGlowDir: { value: THREE.Vector3 };
   uGlowCol: { value: THREE.Color };
-  uFogLum: { value: THREE.Color };
-  /** Round 4: fog colour looking into the light (see lightRig.fogSunLum). */
-  uFogSunLum: { value: THREE.Color };
-  uCamFog: { value: number };
   uFlash: { value: number };
   /** Round 3: sunset/sunrise cloud light colour + [deck, cirrus] amounts. */
   uCloudSunset: { value: THREE.Color };
@@ -153,17 +150,19 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
     uCloudDark: { value: new THREE.Color(0, 0, 0) },
     uGlowDir: { value: new THREE.Vector3(0, 1, 0) },
     uGlowCol: { value: new THREE.Color(0, 0, 0) },
-    uFogLum: { value: new THREE.Color(0, 0, 0) },
-    uFogSunLum: { value: new THREE.Color(0, 0, 0) },
-    uCamFog: { value: 0 },
     uFlash: { value: 0 },
     uCloudSunset: { value: new THREE.Color(0, 0, 0) },
     uCloudSunsetAmt: { value: new THREE.Vector2(0, 0) },
   };
-  Object.assign(mat.uniforms, extras, cloudUniforms);
+  // The SHARED aerial uniforms ride along (round 5): the dome fog march reads
+  // the same rasters, regime conditions and fog colours as every surface —
+  // both domes (main + PMREM bake) share the very objects, so one WorldSky
+  // write per frame updates them all.
+  Object.assign(mat.uniforms, extras, cloudUniforms, sharedAerialUniforms);
   mat.uniforms.cloudCoverage.value = 0; // stock cloud layer stays off — ours below
   mat.fragmentShader =
-    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform float uSunAltDeg;\nuniform float uNightBoost;\nuniform float uBeltLum;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform vec3 uHorizonLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\nuniform vec3 uCloudBright;\nuniform vec3 uCloudDark;\nuniform vec3 uGlowDir;\nuniform vec3 uGlowCol;\nuniform vec3 uFogLum;\nuniform vec3 uFogSunLum;\nuniform float uCamFog;\nuniform float uFlash;\nuniform vec3 uCloudSunset;\nuniform vec2 uCloudSunsetAmt;\n" +
+    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform float uSunAltDeg;\nuniform float uNightBoost;\nuniform float uBeltLum;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform vec3 uHorizonLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\nuniform vec3 uCloudBright;\nuniform vec3 uCloudDark;\nuniform vec3 uGlowDir;\nuniform vec3 uGlowCol;\nuniform float uFlash;\nuniform vec3 uCloudSunset;\nuniform vec2 uCloudSunsetAmt;\n" +
+    AERIAL_DOME_PARS_GLSL +
     CLOUD_UNIFORMS_GLSL +
     cloudFieldGlsl() +
     mat.fragmentShader.replace(
@@ -289,21 +288,15 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
       } else {
         texColor = mix(uHorizonLum, texColor, smoothstep(-0.02, 0.012, direction.y));
       }
-      // Camera-in-fog veil (round 2): when the camera itself sits inside a
-      // mist regime (the whiteout belt, dawn mist, sea fog), the SKY must
-      // fog too — the aerial term only fogs surface fragments, which is why
-      // flying into the belt looked like an opaque wall that was invisible
-      // from below. uFogLum is exposure-anchored (bounded), so this cannot
-      // break the screen envelope.
-      // Round 4: even standing INSIDE the fog, its colour is directional —
-      // bright and sun-coloured toward the light, cool grey away from it.
-      // Matches the aerial term's esFogCol so the sky veil and the fogged
-      // terrain agree. Both endpoints are exposure-anchored, so the envelope
-      // bound is the max of the two (skyScreenModel).
-      texColor = mix(
-        texColor,
-        mix(uFogLum, uFogSunLum, smoothstep(-0.35, 0.95, dot(direction, uGlowDir))),
-        uCamFog);
+      // Fog banks on the SKY (round 5): the same regime densities the aerial
+      // term integrates over surfaces are marched along this sky ray, so a
+      // cap-cloud bank or sea-fog wall is visible against open sky — lit by
+      // the same derived fog colours, from outside AND from within (being
+      // inside a bank falls out of the march's first samples; this replaces
+      // the round-2 camera-altitude veil). Output is a mix toward
+      // exposure-anchored fog colours, so the screen envelope still holds
+      // (skyScreenModel).
+      texColor = esSkyFog(texColor, direction);
       // Stay below the half-float ceiling (65504): the PMREM env bake renders
       // into a HalfFloat target, and any overflow becomes Infinity there and
       // poisons the environment lighting.
@@ -317,8 +310,10 @@ function copySkyUniforms(from: Sky & { material: THREE.ShaderMaterial }, to: Sky
   const a = from.material.uniforms;
   const b = to.material.uniforms;
   // The cloud-field uniforms (uCloudCov/Dens/Puff/Scroll/Front/Dir/Time/
-  // Noise) are SHARED objects between both dome materials — no copy needed.
-  for (const k of ["turbidity", "rayleigh", "mieCoefficient", "mieDirectionalG", "uSkyLum", "uSkyFade", "uSunAltDeg", "uNightBoost", "uBeltLum", "uDawnLum", "uCamFog", "uFlash"]) {
+  // Noise) AND the aerial fog uniforms (round 5: rasters, regime conditions,
+  // fog colours, march camera) are SHARED objects between both dome
+  // materials — no copy needed.
+  for (const k of ["turbidity", "rayleigh", "mieCoefficient", "mieDirectionalG", "uSkyLum", "uSkyFade", "uSunAltDeg", "uNightBoost", "uBeltLum", "uDawnLum", "uFlash"]) {
     b[k].value = a[k].value;
   }
   (b.uDawnDir.value as THREE.Vector2).copy(a.uDawnDir.value as THREE.Vector2);
@@ -328,8 +323,6 @@ function copySkyUniforms(from: Sky & { material: THREE.ShaderMaterial }, to: Sky
   (b.uCloudSunsetAmt.value as THREE.Vector2).copy(a.uCloudSunsetAmt.value as THREE.Vector2);
   (b.uGlowDir.value as THREE.Vector3).copy(a.uGlowDir.value as THREE.Vector3);
   (b.uGlowCol.value as THREE.Color).copy(a.uGlowCol.value as THREE.Color);
-  (b.uFogLum.value as THREE.Color).copy(a.uFogLum.value as THREE.Color);
-  (b.uFogSunLum.value as THREE.Color).copy(a.uFogSunLum.value as THREE.Color);
   (b.sunPosition.value as THREE.Vector3).copy(a.sunPosition.value as THREE.Vector3);
   (b.uNightZenith.value as THREE.Color).copy(a.uNightZenith.value as THREE.Color);
   (b.uNightHorizon.value as THREE.Color).copy(a.uNightHorizon.value as THREE.Color);
@@ -940,8 +933,6 @@ void main() {
     extras.uCloudDark.value.setRGB(...rig.cloudDarkCol);
     extras.uGlowDir.value.set(...rig.cloudGlowDir);
     extras.uGlowCol.value.setRGB(...rig.cloudGlowCol);
-    extras.uFogLum.value.setRGB(...rig.fogLum);
-    extras.uFogSunLum.value.setRGB(...rig.fogSunLum);
     extras.uFlash.value = flash;
     extras.uCloudSunset.value.setRGB(...rig.cloudSunsetCol);
     extras.uCloudSunsetAmt.value.set(rig.cloudSunsetAmt[0], rig.cloudSunsetAmt[1]);
@@ -953,19 +944,18 @@ void main() {
     cloudUniforms.uCloudFront.value = cloudParams.stormFront;
     cloudUniforms.uCloudDir.value.set(cloudParams.windDir[0], cloudParams.windDir[1]);
     cloudUniforms.uCloudTime.value = cloudParams.timeS;
-    // Camera-in-fog veil: optical depth of the mist regimes AT the camera
-    // over a nominal ~700 m sky ray — inside the whiteout belt or a dawn
-    // mist bank the dome itself whites out. All three terms use the LOCAL
-    // regime values (raster × condition at the camera, round 3): standing
-    // outside a fog bank keeps the sky clear — you look AT the fog, drawn
-    // on terrain by the aerial term, not through a global veil.
+    // Camera-in-fog measure: optical depth of the mist regimes AT the camera
+    // over a nominal ~700 m sky ray. Round 5: no longer a shader uniform —
+    // the dome fog march (esSkyFog) veils the sky from the same densities
+    // per-ray — but the NUMBER stays: the probe scenarios assert fog
+    // locality with it and the IBL re-bake watches it.
     const camYTrue = Math.max(0, camera.position.y / verticalScale);
     const camFogDensity =
       Math.exp(-camYTrue / 16) * wx.mist.radiation * 14 +
       Math.exp(-camYTrue / 22) * wx.mist.advection * 125 +
       wx.mist.whiteout * 550 +
       Math.exp(-camYTrue / 200) * wx.mist.weather * 8 * 0.4;
-    extras.uCamFog.value = 1 - Math.exp(-9e-5 * camFogDensity * 700);
+    const camFogNow = 1 - Math.exp(-9e-5 * camFogDensity * 700);
 
     // Sun (CSM's cascade lights ARE the sun).
     csm.lightDirection.copy(sunDir).negate();
@@ -1038,6 +1028,9 @@ void main() {
     a.uWeatherMie.value = wx.mist.weather;
     a.uFogLum.value.set(...rig.fogLum);
     a.uFogSunLum.value.set(...rig.fogSunLum);
+    // The dome fog march starts here — never from the GLSL cameraPosition,
+    // which is the origin-pinned cube camera during the PMREM bake.
+    a.uEsFogCam.value.copy(camera.position);
     // Cap cloud drifts downwind in the aerial shader's noise space (round 4),
     // on the same clock as the sky's cloud scroll so the two agree.
     a.uWhiteoutDrift.value.set(
@@ -1120,7 +1113,7 @@ void main() {
     // Weather transitions also change the ambient (an overcast deck greys the
     // IBL), so cloud-cover movement forces a re-bake too.
     const bakeCover =
-      rig.cloudCov[0] + rig.cloudCov[1] + rig.cloudCov[2] * 0.4 + extras.uCamFog.value * 2;
+      rig.cloudCov[0] + rig.cloudCov[1] + rig.cloudCov[2] * 0.4 + camFogNow * 2;
     if (
       !Number.isFinite(state.current.lastBakeSunY) ||
       Math.abs(sunDir.y - state.current.lastBakeSunY) > bakeStep ||
@@ -1165,7 +1158,7 @@ void main() {
       sunCastsShadows: rig.sunCastsShadows,
       lightningFlash: flash,
       sunOcclusion,
-      camFog: extras.uCamFog.value,
+      camFog: camFogNow,
       cloudSunsetAmt: rig.cloudSunsetAmt,
       triangles: gl.info.render.triangles,
       sunLightIntensity: csm.lights[0]?.intensity ?? 0,

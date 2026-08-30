@@ -201,6 +201,30 @@ const SCENARIOS = [
     sunsetMin: 0.35,
     brightness: [1, 200],
   },
+  // Round 5 scenarios. The owner's round-5 screenshot spot: high over the SW
+  // corner under overcast — round 4 painted a giant straight-edged white slab
+  // over the out-of-province sea here (belt mask sampled at the path
+  // MIDPOINT). Numeric assert: the camera at 910 m is far above the belt, so
+  // no camera fog; the slab's absence is screenshot evidence.
+  {
+    id: "edge-sea-no-slab",
+    q: "view=fly3d&cam=orbit&x=1.33&z=4.85&ex=1&alt=910&t=14:50&d=8-17&w=overcast",
+    sunAlt: [20, 85],
+    phase: ["afternoon", "noon"],
+    camFog: [0, 0.15],
+    brightness: [10, 235],
+  },
+  // Cap-cloud bank seen from OUTSIDE at low altitude on a rainy day — the
+  // round-5 dome fog march must show the bank against open sky between the
+  // peaks (screenshot evidence; previously invisible by construction).
+  {
+    id: "cap-cloud-open-sky",
+    q: "view=fly3d&cam=orbit&x=2.25&z=1.09&ex=1&alt=200&t=12:00&d=8-17&w=rain",
+    sunAlt: [55, 90],
+    phase: ["noon"],
+    camFog: [0, 0.4],
+    brightness: [5, 235],
+  },
   {
     id: "character-night-moonless",
     q: "view=character&x=2.94&z=5.46&ex=1&t=01:08&d=6-7&w=clear",
@@ -243,15 +267,27 @@ try {
     headless: true,
     args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
   });
-  const page = await browser.newPage({ viewport: { width: 960, height: 540 } });
+  // The renderer process accumulates memory across sequential WebGL-heavy
+  // scenarios under SwiftShader and can crash mid-suite ("Target crashed").
+  // Recycle the page every few scenarios and retry a crashed scenario once
+  // on a fresh page — a crash on the RETRY is a real failure.
   const pageErrors = [];
-  page.on("pageerror", (e) => pageErrors.push(`pageerror: ${e.message}`));
-  page.on("console", (m) => {
-    if (m.type() === "error") pageErrors.push(`console: ${m.text().slice(0, 400)}`);
-  });
+  let page = null;
+  let pageUses = 0;
+  const freshPage = async () => {
+    if (page) await page.close().catch(() => {});
+    page = await browser.newPage({ viewport: { width: 960, height: 540 } });
+    pageUses = 0;
+    page.on("pageerror", (e) => pageErrors.push(`pageerror: ${e.message}`));
+    page.on("console", (m) => {
+      if (m.type() === "error") pageErrors.push(`console: ${m.text().slice(0, 400)}`);
+    });
+  };
+  await freshPage();
 
-  for (const s of RUN) {
-    await page.goto(`${BASE}?${s.q}&smsize=512`);
+  const runScenario = async (s) => {
+    // Generous timeout: this VM often runs several agents' builds at once.
+    await page.goto(`${BASE}?${s.q}&smsize=512`, { timeout: 120_000 });
     // Sky debug appears once WorldSky has rendered a frame with terrain up.
     await page.waitForFunction(
       () => window.__STUDIO_SKY_DEBUG__ && window.__STUDIO_SKY_DEBUG__.envBakes >= 1,
@@ -369,6 +405,20 @@ try {
         ` · illuminance ${dbg.sceneIlluminance.toFixed(2)} lx · mist ${dbg.mistStrength.toFixed(2)}` +
         ` · envBakes ${dbg.envBakes}\nscreenshot: ${path.basename(shot)}\n`,
     );
+  };
+
+  for (const s of RUN) {
+    if (pageUses >= 4) await freshPage();
+    pageUses += 1;
+    try {
+      await runScenario(s);
+    } catch (e) {
+      if (!String(e).includes("crashed")) throw e;
+      report.push(`## ${s.id}\n(renderer crashed — retrying on a fresh page)\n`);
+      await freshPage();
+      pageUses += 1;
+      await runScenario(s);
+    }
   }
   if (pageErrors.length) {
     failures.push(...pageErrors.slice(0, 12));

@@ -178,8 +178,15 @@ swamps differ without hand-authoring:
   comes per-pixel from the climate rasters along the view path. You can stand
   on a ridge and look down on a misty valley, or inland at a coastal fog
   bank — fog is a thing in the world you look at, never a veil that follows
-  the camera. The camera-in-fog whiteout only engages where the local rasters
-  say the camera is genuinely inside a bank.
+  the camera. Since 8c round 5 the sky dome marches the same local densities
+  along each sky ray, so a bank is visible against open sky as well as
+  against terrain, and being inside one fogs the sky for free.
+- **Fog is lit by the real light, never hand-painted** (owner directive, 8c
+  round 5): the fog colours the renderer fades into are derived in the light
+  rig from the actual sun/sky/moon (the sun's own colour and dimming; a sky
+  term anchored to the dome's screen curve), so mist is bright white under a
+  high sun, takes the sunset colour when backlit, and gloams under a storm
+  deck — with no per-state authored fog colour anywhere.
 - **The mountain belt is cap cloud, not permanent whiteout** (round 3,
   superseding the earlier "quasi-permanent" reading): orographic cloud clings
   to the massif (`climate-vis.png` R mask), thickens with the synoptic cloud

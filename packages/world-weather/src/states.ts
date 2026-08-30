@@ -94,6 +94,19 @@ export const PROFILES: Record<WeatherKind, StateProfile> = {
   //   partly  3/8 — scattered cumulus, cloud shadows crossing the ground
   //   broken  6/8 — broken deck, sun in and out
   //   overcast 8/8 — closed deck (below)
+  //
+  // Round 5 tuning, two lessons:
+  //  - the `cloud*` numbers are NOISE THRESHOLDS, not sky fractions: the FBM
+  //    the dome remaps is bell-distributed around 0.5, so low coverages are
+  //    savagely compressed (0.09 drew ~1% of sky — "fair looked identical to
+  //    clear", "partly was very sparse"). Values here are chosen for the sky
+  //    FRACTION they actually draw (~1/8, ~3/8); broken was right already.
+  //  - sunDim on the fair-weather ladder is nearly zero: the direct light
+  //    already dims NATURALLY when a drawn cloud crosses the sun (the CPU
+  //    cloud field's sunOcclusion), so a state-level dim on top double-counts
+  //    it and made every in-between day read too dark (owner round 4→5). The
+  //    residual values are only the thin-spot diffuse loss; overcast/storm
+  //    states keep real dims because their deck is genuinely closed.
   clear: {
     cloudLow: 0.0, cloudMid: 0.0, cloudHigh: 0.04,
     cloudDensity: 0.5, cloudDark: 0.03,
@@ -103,18 +116,18 @@ export const PROFILES: Record<WeatherKind, StateProfile> = {
     windMS: 2.2, gust: 0.1, lightningPerMin: 0,
   },
   fair: {
-    cloudLow: 0.1, cloudMid: 0.09, cloudHigh: 0.18,
+    cloudLow: 0.14, cloudMid: 0.3, cloudHigh: 0.3,
     cloudDensity: 0.62, cloudDark: 0.06,
     cloudPuff: 1.0, cloudScroll: 1, stormFront: 0, greenTint: 0, covJitter: 0.09,
-    sunDim: 0.02, ambientLift: 0.02, skyGrey: 0.04,
+    sunDim: 0.01, ambientLift: 0.02, skyGrey: 0.04,
     fogMie: 0.05, visibilityKm: 30, rain: 0,
     windMS: 2.6, gust: 0.12, lightningPerMin: 0,
   },
   partly: {
-    cloudLow: 0.28, cloudMid: 0.22, cloudHigh: 0.26,
+    cloudLow: 0.34, cloudMid: 0.42, cloudHigh: 0.32,
     cloudDensity: 0.7, cloudDark: 0.1,
     cloudPuff: 0.95, cloudScroll: 1.05, stormFront: 0, greenTint: 0, covJitter: 0.15,
-    sunDim: 0.1, ambientLift: 0.07, skyGrey: 0.1,
+    sunDim: 0.03, ambientLift: 0.07, skyGrey: 0.1,
     fogMie: 0.1, visibilityKm: 26, rain: 0,
     windMS: 3.0, gust: 0.16, lightningPerMin: 0,
   },
@@ -122,7 +135,7 @@ export const PROFILES: Record<WeatherKind, StateProfile> = {
     cloudLow: 0.42, cloudMid: 0.5, cloudHigh: 0.28,
     cloudDensity: 0.78, cloudDark: 0.18,
     cloudPuff: 0.8, cloudScroll: 1.1, stormFront: 0, greenTint: 0, covJitter: 0.2,
-    sunDim: 0.4, ambientLift: 0.18, skyGrey: 0.28,
+    sunDim: 0.14, ambientLift: 0.18, skyGrey: 0.28,
     fogMie: 0.18, visibilityKm: 21, rain: 0,
     windMS: 3.3, gust: 0.2, lightningPerMin: 0,
   },
