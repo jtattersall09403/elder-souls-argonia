@@ -51,6 +51,7 @@ reading one extra doc.
 | Asset pipeline: GLB/skeleton/Blender/Skyrim data | [../tooling/asset-pipeline/README.md](../tooling/asset-pipeline/README.md) |
 | "Why is X the way it is?" | [decisions/README.md](decisions/README.md) — short numbered records |
 | Deferring cosmetic/feel work; picking up Phase P | [polish-backlog.md](polish-backlog.md) |
+| Deferring a whole *game system* past the world build; "who owns system X?"; hooks a phase must leave for future systems | [game-buildout-register.md](game-buildout-register.md) (decision 0038) |
 | Credits/licensing of any external source | root [README.md](../README.md) § Credits and third-party sources |
 | Repo layout, package rules, world bundles, deploy targets | [world/80](world/80-repo-architecture.md) §58–65 |
 | CI, deploy, site layout | root [README.md](../README.md) + `.github/workflows/` |

@@ -41,3 +41,4 @@ record and marking the old one superseded — don't rewrite history.
 - [0034 — build sequence reworked: risk-first order, exemplar-first folded in, freeze-gates, Morrowind-style travel services, sound to polish, Phase 15 → region-packet rollout](0034-build-sequence-rework.md)
 - [0036 — Phase 10 placement decisions: density, tree scale, exemplar contrast set, region mix, groundcover (PROPOSED — awaiting owner)](0036-phase10-placement-decisions.md)
 - [0037 — workstream S round 4 QA rulings: practice discount cut, kill-based armour accrual, damping removed, lockpick wear, poise reinstated (DS1 model), pace target restated](0037-workstream-s-round4-qa-rulings.md)
+- [0038 — the world-build/game-build-out seam: contracts-and-thin-slices policy, the game-buildout-register, detection-model + save-layer gaps found](0038-world-build-vs-game-buildout-seam.md)
