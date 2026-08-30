@@ -824,6 +824,22 @@ a botched opener is just an ordinary attack, and it is the whole reason a
 stealth build can punch above its armour class. In the whole-game runs it is
 what carries a light-armour build through the lethal middle game.
 
+**Ripostes and backstabs are a separate, existing system** (owner, round 4
+addendum). The sandbox already ships paired criticals — a riposte after a
+parry or guard-break, a backstab from behind an engaged enemy — with a
+per-weapon `criticalMultiplier` (today a flat ×2 across the arsenal). The
+design adopts them as-is with two rulings: the multiplier becomes
+**per-weapon-class data** rather than one constant (daggers top the table,
+great weapons bottom it — DS1's shape; provisional values are a 10c sandbox
+calibration, not sacred), and character skill enters only through the normal
+damage pipeline (§121.1: a riposte is `listedDamage × P × strength ×
+critMultiplier`) — earning the opening is player skill, so no extra stat hook.
+**The two tables never stack**: a blow on an *undetected* target uses the
+sneak table above, even when delivered as a backstab animation; ripostes and
+combat backstabs are punishes on an *aware* enemy and use the class
+multiplier. Poise break does not open a riposte — parry and guard-break do,
+exactly as the sandbox behaves today.
+
 ### 121.2 Stamina
 
 `maxStamina = 60 + 0.8×End`; regen `12 + 0.24×Agi` per second after the
@@ -1150,6 +1166,19 @@ Canon's creation roll is deleted: a brew always succeeds, and the skill decides
 how *good* it is. Ingredient effects become visible at skill 15/30/45/60 —
 canon's `fWortChanceValue` of 15, unchanged. Regional ingredients
 come from the lore ecology feed. Potions are the healing economy (§126).
+
+**Weapon poisons and oils** (owner, round 4 addendum — the Oblivion/Skyrim
+mechanic): a brew whose effects are harmful (poison, drain, paralyze) or
+elemental (a fire oil) can be **applied to an equipped weapon** instead of
+drunk. Skyrim's delivery rule, kept for its simplicity: the application coats
+the **next successful hit**, which delivers the effect onto the victim
+through the ordinary effect stack (§127), then wears off. Potency and
+duration come from the same alchemy formula above; applying is a real-time
+action with a commitment animation, like drinking. Arrows can be coated the
+same way (one coating, one arrow). All the standing bounds apply — nothing
+fortifies a crafting skill, resistances resist (an Argonian shrugs your
+poison), and the brew is the same alchemy product economy, so poisons are
+bought, brewed, looted and priced like any other potion.
 
 **Smithing** merges Morrowind's Armorer with Skyrim's forge: repair (rate and
 achievable ceiling by skill), **tempering** to at most three grades (gated at

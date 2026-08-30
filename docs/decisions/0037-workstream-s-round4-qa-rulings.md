@@ -63,3 +63,29 @@ entries (health formula, gold sinks, Speechcraft) marked resolved.
 
 Harness after all of it: **19/19 invariants hold**, including the Morrowind
 known-answer test.
+
+## Addendum (same day, closing the workstream)
+
+Two further owner rulings on the round-4 follow-ups:
+
+7. **Ripostes and backstabs** — already functional in the sandbox as paired
+   criticals with a per-weapon `criticalMultiplier` (flat ×2 today). Adopted
+   into the spec (§121.5): the multiplier becomes per-weapon-class data
+   (dagger-topped, DS1's shape; values calibrated in the sandbox at 10c),
+   skill enters only through the normal damage pipeline, and the sneak-opener
+   table never stacks with it (undetected target → sneak table; aware target
+   → class multiplier). Poise break does not open a riposte; parry and
+   guard-break do.
+
+8. **Weapon poisons and oils** (§124) — the Oblivion/Skyrim mechanic: harmful
+   or elemental brews can be applied to an equipped weapon (or an arrow) and
+   are delivered by the next successful hit through the standard effect
+   stack, potency from the standard alchemy formula. Skyrim's one-hit rule
+   kept for simplicity.
+
+**With these, workstream S is closed for good.** Everything that remains is
+owned elsewhere: Phase 10c implements the spec and calibrates the provisional
+constants (poise, criticals) in the sandbox; Phase 11+ authors content
+against the ladder; the deferred birthsign *contents* land when a phase needs
+them (the slot ships at 10c); the three watch-items live in
+`tooling/stats-sim/FINDINGS.md` § Open.
