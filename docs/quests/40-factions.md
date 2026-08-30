@@ -256,6 +256,13 @@ The deferral principle: cut breadth before depth, and never defer a line's final
 
 **World-generation summary:** Small shrines, funeral platforms, one debating house, travelling camps, prison/hearing spaces and reusable ritual props.
 
+> **Authoring nudge (owner, 2026-08-30 — decision 0039):** when this line is
+> written, consider a **pilgrimage circuit** — a Morrowind
+> Seven-Graces-style chain of shrine visits across the province, each with a
+> small ritual/offering and a blessing (the shrine-blessing service and
+> travel network already exist as adopted systems; this would be pure
+> authored content). Deferred to this line's author to keep or drop on fit.
+
 | ID | Quest | Narrative/choice | World-generation provision | Lore/assets |
 |---|---|---|---|---|
 | NI01 | Ashes in Water | Two families dispute the correct funeral for a person who lived outside their birth community. The player learns that Nisswo practice is interpretive, not a rigid death cult. | **P11/P12/P13:** Funeral platform, family homes, water route and ritual prop sockets. | L04–L05, L33; A19–A20, V07 |

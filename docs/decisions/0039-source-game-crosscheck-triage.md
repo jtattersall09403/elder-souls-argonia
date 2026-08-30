@@ -1,8 +1,8 @@
 # 0039 — Source-game systems cross-check: triage and owner steers
 
 **Date:** 2026-08-30 · **Status:** **CLOSED** — owner ruled on all steers
-same day (see "Rulings" below); one item open (pilgrimage circuits, pending
-explanation).
+same day (see "Rulings" below); pilgrimage circuits deferred to quest
+authoring with a nudge in quests 40 §35.
 
 ## Rulings (owner, 2026-08-30) — these supersede the proposals below
 
@@ -55,12 +55,12 @@ explanation).
   on the animations being a cheap sourcing job (vanilla Skyrim pre-AE has
   none — check the vault/mod scene before adopting; drop if expensive).
   Adopted unopposed: rest-quality tiers (S3), contraband/cursed-offering/
-  attire-signal/donation flags, creature merchants, tavern brawls not
-  requested — dropped with the killmove layer... (brawls were optional;
-  treat as dropped unless a quest brief wants one). **Pilgrimage circuits:
-  owner asked what they are — OPEN, answer pending** (a Morrowind
-  Seven-Graces-style chain of shrine visits with small rituals/blessings
-  forming a province-spanning sightseeing quest line).
+  attire-signal/donation flags, creature merchants. Tavern brawls were
+  optional and not requested — dropped unless a quest brief wants one.
+  **Pilgrimage circuits: DEFERRED to quest authoring** (owner, after
+  explanation) — not adopted as a system now; a nudge is planted in the
+  Nisswo line (quests 40 §35) so that line's author considers a
+  Seven-Graces-style circuit when writing it.
 
 ---
 

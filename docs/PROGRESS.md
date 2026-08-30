@@ -59,15 +59,6 @@ first, then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- **Build-out cross-check steers — seven questions, read
-  [decision 0039](decisions/0039-source-game-crosscheck-triage.md) §3**
-  (2026-08-30). In plain terms: ① which teleport/traversal spells exist
-  (levitation? recall? detect?) — **this one gates Phase 12 dungeon
-  design** ② how deep the wetland survival layer goes ③ whether inns/beds
-  matter for rest ④ an Argonian "chronic condition + Hist-site powers"
-  thread ⑤ village customs/etiquette + outsider standing ⑥ non-lethal
-  combat states ⑦ debt-collector reprisal events; plus a small
-  default-adopt list to veto. Nothing blocks Phase 10 on these.
 - **Phase 10 round-3 playtest** — deployed 2026-08-30. On the DEPLOYED build
   check: ① the "cardboard cutout" plants (e.g. walk 3.48 E / 4.20 S and
   3.49 E / 4.43 S): near plants should be real 3D models, upgrading as you

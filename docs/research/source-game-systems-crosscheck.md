@@ -72,14 +72,20 @@ use-animations (crafting stations, furniture markers, killmove clips).
   generation*, level scaling, dice, haggle minigame, pickpocket, crossbows/
   thrown, estus, moveset unlocks, companions, full VO, multiplayer.
 
-## 3. OWNER STEERS — see decision 0039 (PROPOSED; the questions live there)
+## 3. OWNER STEERS — ALL RULED same day (decision 0039, Rulings section)
 
-Seven genuine forks (teleport/traversal magic incl. levitation; survival
-layer depth; rest/inn economy; an Argonian chronic-condition & Hist-site
-powers thread; civic standing + customs/etiquette; non-lethal combat states;
-reprisal events) plus a default-adopt veto list (fishing, generic killmove
-layer, projectile interception, performers, pilgrimages, rest-quality tiers,
-brawls). Do not implement any §3 item before the 0039 rulings.
+Headlines: traversal magic **kept in full** (levitation included; race-
+neutral flavour; shrine-network Intervention); survival layer **cut**
+("this isn't a survival game" — danger comes from encounters/disease/
+venom); inns **yes** + no camping in settlements (76 §126 amended);
+corpus-style condition **no**, Hist-site powers an open design slot;
+customs/standing **yes**; bleedout **cut** (doom-message model stands),
+H2H takedown shape **yes**; reprisals **yes**, ledger per-city. Ownership
+narrowed to the **Morrowind-visibility model** (optional owner slot,
+witnessed-theft-only, no stolen flags/fencing). Vetoed: killmove layer,
+projectile interception, tavern performers. Fishing conditional on cheap
+clip sourcing; pilgrimages deferred to the Nisswo line's author (nudge in
+quests 40 §35). Read 0039 before acting on anything in this doc.
 
 ## 4. Implementation notes worth stealing (for the owning phase, one line each)
 
