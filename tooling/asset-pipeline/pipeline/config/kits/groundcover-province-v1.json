@@ -1,0 +1,30 @@
+{
+  "id": "groundcover-province-v1",
+  "description": "The seven grass/fern/reed species world/sources/flora/groundcover.json binds to painted ground (T3 runtime ring, module 65 §110). Kept separate from flora-province-v1 so the ring renderer loads a few hundred KB, not the 12 MB tree kit, before the ground can dress. No LOD chain: these are 50–500-triangle alpha cards drawn only inside a ~75 m ring, so decimation would only shred the cutouts. Textures capped at 256 px like the flora kit (ships to GitHub Pages).",
+  "output": "tooling/asset-pipeline/output/kits/groundcover-province-v1.glb",
+  "lodRatios": [],
+  "textureMaxSize": 256,
+  "assets": [
+    {
+      "asset": "bmv:landscape/grass/vurt_reeds"
+    },
+    {
+      "asset": "bmv:landscape/grass/esurosebaywillowherb01"
+    },
+    {
+      "asset": "tropical:landscape/grass/cattailgrass"
+    },
+    {
+      "asset": "tropical:landscape/grass/ferngrass01"
+    },
+    {
+      "asset": "tropical:landscape/grass/grassfern01"
+    },
+    {
+      "asset": "tropical:landscape/grass/grassplant01"
+    },
+    {
+      "asset": "tropical:landscape/grass/marshgrassobj01"
+    }
+  ]
+}

@@ -1,21 +1,23 @@
 # Vegetation renderer (Phase 10)
 
-Draws the scatter compiler's output. Three files, one job each:
+Draws the scatter compiler's output, plus the runtime groundcover ring. One
+job per file:
 
 | File | Job |
 |---|---|
 | `vegetationBundle.ts` | decodes `chunk_<cx>_<cz>_vegetation.bin` — 16 bytes per instance, written by `worldgen/scatter.py` |
-| `floraKit.ts` | indexes the compiled kit GLB (`public/kits/flora-province-v1.glb`) by semantic asset id, with its LOD chain |
-| `Vegetation.tsx` | streams chunk bundles around the focus and draws them as instanced meshes |
+| `floraKit.ts` | indexes a compiled kit GLB by semantic asset id, with its LOD chain (used by both kits) |
+| `Vegetation.tsx` | T1/T2: streams chunk bundles around the focus and draws them as instanced meshes |
+| `Groundcover.tsx` | T3: regenerates grass/fern/reed deterministically inside a 75 m ring from the land-cover raster and `world/sources/flora/groundcover.json`; kit `public/kits/groundcover-province-v1.glb`, hook `window.__STUDIO_GROUNDCOVER_DEBUG__`, hard cap 60k instances (proportional thinning, reported as `densityScale`) |
 
 ## What is here and what is not
 
-Module 65 §110 specifies four tiers. This is **T1 and T2** on plain
-`THREE.InstancedMesh`: enough to see the world dressed and to measure it.
-**T3** (runtime groundcover ring from `world/sources/flora/groundcover.json`)
-and **T4** (impostors beyond the instanced range) are not built. Nor is wind —
-that block belongs to the weather system (module 55 §98) and wiring it while
-Phase 8c is in flight would collide.
+Module 65 §110 specifies four tiers. **T1/T2** (baked scatter) and **T3**
+(the groundcover ring — province-wide, since it needs no compiled bundles)
+are built, on plain `THREE.InstancedMesh`. **T4** (impostors beyond the
+instanced range) is not. Nor is wind — that block belongs to the weather
+system (module 55 §98) and wiring it while Phase 8c is in flight would
+collide; the ring ignores the authored `waveperiod` fields until then.
 
 Plain `InstancedMesh` is deliberate, not a shortcut: it is what any instancing
 wrapper is built on, adds no dependency to pin, and is the honest baseline the

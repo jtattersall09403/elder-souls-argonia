@@ -7,6 +7,7 @@ import { headingOf } from "./compass";
 import { CityMarkers } from "./CityMarkers";
 import { ChunkTerrain } from "./character/ChunkTerrain";
 import { Vegetation, type VegetationStats } from "./vegetation/Vegetation";
+import { Groundcover } from "./vegetation/Groundcover";
 import { WorldSky } from "./sky/WorldSky";
 import { StudioWater } from "./water/StudioWater";
 
@@ -244,8 +245,14 @@ export function Fly3D(props: Fly3DProps) {
                 contrast areas are compiled so far (decision 0036 Q3), so most
                 of the province still has none. */}
             {props.showVegetation !== false && (
-              <Vegetation focusRef={focusRef} baseUrl={import.meta.env.BASE_URL}
-                verticalScale={props.exaggeration} onStats={props.onVegetationStats} />
+              <>
+                <Vegetation focusRef={focusRef} baseUrl={import.meta.env.BASE_URL}
+                  verticalScale={props.exaggeration} onStats={props.onVegetationStats} />
+                {/* T3 groundcover ring: runtime grass keyed on the painted
+                    ground, province-wide (it needs no compiled bundles). */}
+                <Groundcover focusRef={focusRef} baseUrl={import.meta.env.BASE_URL}
+                  verticalScale={props.exaggeration} />
+              </>
             )}
           </Suspense>
         ) : (

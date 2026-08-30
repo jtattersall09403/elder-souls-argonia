@@ -1,0 +1,202 @@
+{
+ "kit": "groundcover-province-v1",
+ "assets": [
+  {
+   "id": "bmv:landscape/grass/vurt_reeds",
+   "node": "bmv__landscape/grass/vurt_reeds",
+   "category": "aquatic-plant",
+   "sizeM": [
+    0.903,
+    0.45,
+    0.7
+   ],
+   "originOffsetM": [
+    0.591,
+    0.167,
+    -0.089
+   ],
+   "triangles": 52,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "v_reeds.dds"
+   ],
+   "materials": [
+    "BSX.Mat"
+   ]
+  },
+  {
+   "id": "bmv:landscape/grass/esurosebaywillowherb01",
+   "node": "bmv__landscape/grass/esurosebaywillowherb01",
+   "category": "grass",
+   "sizeM": [
+    0.735,
+    0.586,
+    0.678
+   ],
+   "originOffsetM": [
+    0.376,
+    0.295,
+    0.039
+   ],
+   "triangles": 6,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "esurosebaywillowherb01.dds"
+   ],
+   "materials": [
+    "SnowGrass01:0.Mat"
+   ]
+  },
+  {
+   "id": "tropical:landscape/grass/cattailgrass",
+   "node": "tropical__landscape/grass/cattailgrass",
+   "category": "aquatic-plant",
+   "sizeM": [
+    1.617,
+    1.29,
+    1.491
+   ],
+   "originOffsetM": [
+    0.826,
+    0.649,
+    0.087
+   ],
+   "triangles": 12,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "grasscattails.dds"
+   ],
+   "materials": [
+    "SnowGrass01:0.001.Mat"
+   ]
+  },
+  {
+   "id": "tropical:landscape/grass/ferngrass01",
+   "node": "tropical__landscape/grass/ferngrass01",
+   "category": "plant",
+   "sizeM": [
+    2.051,
+    1.666,
+    1.454
+   ],
+   "originOffsetM": [
+    0.956,
+    0.693,
+    0.005
+   ],
+   "triangles": 6,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "swordfern.dds"
+   ],
+   "materials": [
+    "FernGrass01:0.Mat"
+   ]
+  },
+  {
+   "id": "tropical:landscape/grass/grassfern01",
+   "node": "tropical__landscape/grass/grassfern01",
+   "category": "plant",
+   "sizeM": [
+    1.297,
+    1.257,
+    0.804
+   ],
+   "originOffsetM": [
+    0.619,
+    0.623,
+    0.044
+   ],
+   "triangles": 128,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "swordfern.dds"
+   ],
+   "materials": [
+    "FernGrass01:0.001.Mat"
+   ]
+  },
+  {
+   "id": "tropical:landscape/grass/grassplant01",
+   "node": "tropical__landscape/grass/grassplant01",
+   "category": "grass",
+   "sizeM": [
+    1.297,
+    1.257,
+    0.804
+   ],
+   "originOffsetM": [
+    0.619,
+    0.623,
+    0.044
+   ],
+   "triangles": 128,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "grassplant01.dds"
+   ],
+   "materials": [
+    "FernGrass01:0.002.Mat"
+   ]
+  },
+  {
+   "id": "tropical:landscape/grass/marshgrassobj01",
+   "node": "tropical__landscape/grass/marshgrassobj01",
+   "category": "grass",
+   "sizeM": [
+    3.144,
+    3.247,
+    3.18
+   ],
+   "originOffsetM": [
+    1.469,
+    1.808,
+    1.096
+   ],
+   "triangles": 50,
+   "lodRatios": [],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "frozenmarshgrassobj01.dds"
+   ],
+   "materials": [
+    "MarshGrassObj01:0.Mat"
+   ]
+  }
+ ],
+ "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\groundcover-province-v1.glb",
+ "metresPerUnit": 0.014224,
+ "texturesMissing": [],
+ "texturesSubstituted": {},
+ "alphaModes": {
+  "MASK": 7,
+  "OPAQUE": 0
+ }
+}

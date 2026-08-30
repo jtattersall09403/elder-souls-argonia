@@ -29,6 +29,7 @@ import { setWaterGroundHeight, sharedWaterAssets } from "../water/waterAssets";
 import type { WaterWorld } from "@elder-souls/game-core/water/index";
 import { CityMarkers } from "../CityMarkers";
 import { Vegetation } from "../vegetation/Vegetation";
+import { Groundcover } from "../vegetation/Groundcover";
 import { headingOf } from "../compass";
 
 /**
@@ -293,6 +294,13 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                 it here was the "plants appear in fly mode but not on foot"
                 defect (owner, Phase 10 round 2). */}
             <Vegetation
+              focusRef={focusRef}
+              baseUrl={import.meta.env.BASE_URL}
+              verticalScale={verticalScale}
+            />
+            {/* T3 groundcover ring around the walking character — same
+                component and constants as the flyover. */}
+            <Groundcover
               focusRef={focusRef}
               baseUrl={import.meta.env.BASE_URL}
               verticalScale={verticalScale}
