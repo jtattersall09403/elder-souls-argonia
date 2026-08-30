@@ -66,7 +66,17 @@
 > | can't navigate / can't see landmarks | giant density and `clearance_radius_m`; the design case is in [vegetation-density-design.md](../research/vegetation-density-design.md) §(a) |
 > | plants pop/vanish at distance | `maxDrawDistance`/`lodDistances` in `floraKit.ts`; billboard tier is the kit's `_lod_flat` levels |
 >
-> ### Three traps, all already sprung once
+> ### Probing and screenshots (round 2)
+>
+> The studio takes `?yaw=` (compass deg) / `?pitch=` (deg, negative looks
+> down) / `?hud=0` (hide all panels) / `?w=clear` (force weather) /
+> `?smsize=256&wq=low` (software-GL relief) — aim the camera at whatever
+> needs capturing. SwiftShader CANNOT render a ground-level dense-area frame
+> in useful time (~2 min per 640×400 frame at 14 M tris): the probe asserts
+> dense areas from 420 m (which exercises the T4 cull/billboard path) and
+> ground-level judgement belongs to the owner on the deployed build.
+>
+> ### FIVE traps, all already sprung once
 >
 > 1. **Never look a kit asset up by its glTF node name.** three.js sanitises
 >    node names and strips the slashes out of
@@ -79,6 +89,17 @@
 >    base is not applied; probes must pass
 >    `--base /elder-souls-argonia/studio/` or every asset 404s and the page
 >    just looks blank.
+> 4. **`ground-control.png` is FULL resolution (4033²) but `refined/meta.json`
+>    describes the half-res height raster (3.66 m/px).** Sampling it with
+>    `meta.metresPerPixel` reads the wrong quadrant of the map — mountain
+>    rock "under" the jungle, zero groundcover, no error anywhere. Derive
+>    the texel scale from the image's own size against the province extent
+>    (Groundcover.tsx and compile_scatter both do this now).
+> 5. **A killed `refine_province` (OOM, exit 137) leaves half-written
+>    outputs** — a fresh `height-rg.png` decoding against a stale
+>    `meta.json`. The VM container has a 12 GiB memory cap shared by every
+>    open Claude terminal tab; restore half-written rasters from HEAD and
+>    re-run when the box is quiet.
 >
 > ### Round 2 (2026-08-30) — what changed and what's still open
 >

@@ -130,10 +130,16 @@ function sharedControlRaster(baseUrl: string): Promise<ControlRaster> {
       bitmap.close();
       const ids = new Uint8Array(canvas.width * canvas.height);
       for (let i = 0; i < ids.length; i++) ids[i] = px[i * 4];
+      // metresPerTexel comes from the image's OWN size against the province
+      // extent: ground-control ships at full resolution (4033²) while
+      // meta.metresPerPixel describes the half-res height raster — using it
+      // directly sampled the wrong quadrant (mountain rock under the jungle,
+      // no groundcover anywhere south-east of the map centre).
+      const extentM = (meta.metresPerPixel as number) * (meta.imageWidth as number);
       return {
         ids,
         size: canvas.width,
-        metresPerTexel: meta.metresPerPixel as number,
+        metresPerTexel: extentM / canvas.width,
       };
     })();
   }

@@ -477,6 +477,10 @@ export function App() {
     />
   ) : null;
 
+  // ?hud=0 hides every overlay panel — probe screenshots must be able to
+  // show ONLY the world (owner 2026-08-30: capture what needs judging).
+  const hudHidden = new URLSearchParams(window.location.search).get("hud") === "0";
+
   // The map canvas must STAY MOUNTED while flying — it is both the terrain
   // texture and the hover data source — so the 3D view overlays it.
   const flyOverlay = view === "fly3d" && meta && heightsRef.current && canvasRef.current && overlaysReady ? (
@@ -497,6 +501,7 @@ export function App() {
         // the tail of this bar (compass unreadable, owner round 6).
         position: "absolute", top: 10, left: 10, right: 360, display: "flex", gap: 10, alignItems: "center",
         background: "rgba(10,14,20,0.8)", padding: "8px 12px", borderRadius: 8, flexWrap: "wrap",
+        visibility: hudHidden ? "hidden" : "visible",
       }}>
         <button onClick={() => setView("map")} style={{ padding: "4px 10px", cursor: "pointer" }}>← Map</button>
         <button onClick={() => enterCharacter(flyKmRef.current.x, flyKmRef.current.z)}
@@ -555,7 +560,7 @@ export function App() {
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: 16 }}>
       {characterOverlay}
       {flyOverlay}
-      {view !== "map" && <TimePanel onChanged={onTimeChanged} onPreset={onLightPreset} />}
+      {view !== "map" && !hudHidden && <TimePanel onChanged={onTimeChanged} onPreset={onLightPreset} />}
       <h1 style={{ font: "600 18px system-ui", margin: 0 }}>Argonia province preview — Phase 2 source ingest</h1>
       <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
         <label>

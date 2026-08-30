@@ -91,6 +91,9 @@ class ProvinceFields:
         self.land_cover = control[..., 0].copy()
 
         self.extent_m = self.height_m.shape[0] * self.px_m
+        # ground-control ships at FULL resolution (double the refined height
+        # raster) — sampling it with px_m read the wrong quadrant entirely.
+        self.control_px_m = self.extent_m / control.shape[0]
 
     # -- sampling --
 
@@ -111,7 +114,7 @@ class ProvinceFields:
             region=lambda x, z: int(
                 v if (v := self._pixel(self.region, x, z, self.region_px_m)) is not None else 0),
             land_cover=lambda x, z: int(
-                v if (v := self._pixel(self.land_cover, x, z, self.px_m)) is not None else 0),
+                v if (v := self._pixel(self.land_cover, x, z, self.control_px_m)) is not None else 0),
             shore=lambda x, z: float(
                 v if (v := self._pixel(self.shore_m, x, z, self.px_m)) is not None else 9999.0),
         )

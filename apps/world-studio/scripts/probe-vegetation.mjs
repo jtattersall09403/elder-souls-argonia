@@ -69,7 +69,7 @@ const results = [];
 for (const scenario of SCENARIOS) {
   // smsize shrinks the CSM maps for the software rasteriser; round-2 density
   // (~180k instances + the T3 ring) made full-size cascades a 30s+ frame.
-  const url = `${BASE}?view=fly3d&cam=orbit&x=${scenario.x}&z=${scenario.z}&ex=1&t=11:00&d=8-17&alt=${scenario.alt}&yaw=25&pitch=${scenario.pitch}&smsize=256&wq=low&w=clear`;
+  const url = `${BASE}?view=fly3d&cam=orbit&x=${scenario.x}&z=${scenario.z}&ex=1&t=11:00&d=8-17&alt=${scenario.alt}&yaw=25&pitch=${scenario.pitch}&smsize=256&wq=low&w=clear&hud=0`;
   // The flora kit is a 12 MB GLB and this runs on a software rasteriser, so
   // "load" plus a fixed sleep is not a safe pair: wait for the DOM, then poll
   // for the renderer's own counters.
