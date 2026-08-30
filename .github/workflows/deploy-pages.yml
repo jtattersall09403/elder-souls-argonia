@@ -29,6 +29,11 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run typecheck
+      # Every asset pool we ship from must be credited in the root README, in
+      # the change that ships it (module 90 §73). Pure-stdlib, no vault needed.
+      - name: Credits check
+        run: python3 -m worldgen.check_credits
+        working-directory: tooling/world-generation
       - run: npm run build
       # Compose the Pages site: combat sandbox at the root path (the playable
       # build until apps/game is real), world studio under /studio/.
