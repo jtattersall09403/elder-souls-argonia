@@ -1,18 +1,48 @@
 {
-  "$schema": "authored region overrides applied after rule-based classing; u/v fractions as settlement-anchors.json",
-  "confidence": "PROJECT_REFERENCE",
-  "note": "Owner-directed macro region authoring (2026-08-23). Polygons are rasterized and override only the listed source classes, so wetlands/rivers keep their hydrological classes inside the shape.",
-  "overrides": [
-    {
-      "id": "central-jungle",
-      "regionClass": 13,
-      "name": "tropical jungle",
-      "appliesToClasses": [2, 9, 11],
-      "polygonUV": [
-        [0.42, 0.55], [0.55, 0.50], [0.68, 0.585], [0.67, 0.70],
-        [0.52, 0.78], [0.42, 0.72]
-      ],
-      "notes": "Dense tropical jungle between the Archon-Gideon trunk (north), the Blackrose-Helstrom road (west) and Archon's hinterland (east). Owner decision; canon-compatible: dense vegetation thickening toward the interior (Tribes of Murkmire: Dead-Water), Murkwood's forest lore nearby to the south."
-    }
-  ]
+ "$schema": "authored region overrides applied after rule-based classing; u/v fractions as settlement-anchors.json",
+ "confidence": "PROJECT_REFERENCE",
+ "note": "Owner-directed macro region authoring (2026-08-23). Polygons are rasterized and override only the listed source classes, so wetlands/rivers keep their hydrological classes inside the shape.",
+ "overrides": [
+  {
+   "id": "central-jungle",
+   "regionClass": 13,
+   "name": "tropical jungle",
+   "appliesToClasses": [
+    2,
+    6,
+    7,
+    8,
+    9,
+    11
+   ],
+   "polygonUV": [
+    [
+     0.42,
+     0.55
+    ],
+    [
+     0.55,
+     0.5
+    ],
+    [
+     0.68,
+     0.585
+    ],
+    [
+     0.67,
+     0.7
+    ],
+    [
+     0.52,
+     0.78
+    ],
+    [
+     0.42,
+     0.72
+    ]
+   ],
+   "notes": "Dense tropical jungle between the Archon-Gideon trunk (north), the Blackrose-Helstrom road (west) and Archon's hinterland (east). Owner decision; canon-compatible: dense vegetation thickening toward the interior (Tribes of Murkmire: Dead-Water), Murkwood's forest lore nearby to the south.",
+   "note": "Owner-authored central tropical jungle. appliesToClasses gained the marsh classes on 2026-08-30: the saturated-ground rebalance (decision 0036 Q4) turned much of this polygon's interior from firm lowland into swamp, which would have shrunk the authored jungle by nearly half. A tropical rainforest standing on saturated ground is what this polygon always meant."
+  }
+ ]
 }

@@ -27,6 +27,27 @@ PEAT_MIN_SEA_DIST_M = 2500 * TUNE
 SWAMP_MIN_SEA_DIST_M = 1200 * TUNE
 DEEP_MARSH_MIN_SEA_DIST_M = 2500 * TUNE
 
+# --- saturated-ground rebalance (owner decision, 2026-08-30; decision 0036 Q4)
+#
+# The first cut called ground "swamp" only where the hydrology solve had
+# modelled standing water — 7.6 % of land — and sent everything above 30 m to
+# the hills, which left the province reading 72 % dry against canon's
+# "enormous swamp". A marsh is not only where water stands: it is low, flat,
+# slow-draining ground that saturates. These constants say so, in the terms
+# the hydrology already computes.
+#
+# The terrain itself is genuinely high in places (43 % of land is above 30 m,
+# 24 % above 150 m) and no reclassification should pretend otherwise — a
+# 300 m hillside must not become "interior swamp". What changes is the low,
+# flat, wet-indexed ground that was being called "firm lowland" by default.
+SATURATED_MAX_HEIGHT_M = 30.0     # above this the ground drains; it is not marsh
+SATURATED_MAX_SLOPE_DEG = 6.0     # marsh is flat; a slope sheds water
+SATURATED_MAX_HAND_M = 6.0        # within this of the water table it stays wet
+SATURATED_MIN_TWI = 6.0           # or the topographic wetness index says it pools
+HILL_MIN_HEIGHT_M = 60.0          # was 30 m — too low for a 654 m province
+HILL_MIN_SLOPE_DEG = 3.0          # a flat terrace above a marsh is not a hill
+MOUNTAIN_MIN_HEIGHT_M = 150.0     # was 40 m, which made a quarter of the land alpine
+
 OVERRIDES_PATH = Path(__file__).resolve().parents[3] / "world" / "sources" / "regions" / "authored-overrides.json"
 
 
@@ -139,7 +160,8 @@ def height_above_drainage(z: np.ndarray, hydro: HydrologyResult) -> np.ndarray:
     return np.maximum(z - drain_elev.reshape(z.shape), 0.0).astype(np.float32)
 
 
-def compute_regions(z: np.ndarray, hydro: HydrologyResult, metres_per_px: float) -> RegionsResult:
+def compute_regions(z: np.ndarray, hydro: HydrologyResult, metres_per_px: float,
+                    apply_overrides: bool = True) -> RegionsResult:
     land = ~hydro.ocean
     hand = height_above_drainage(z, hydro)
 
@@ -174,19 +196,35 @@ def compute_regions(z: np.ndarray, hydro: HydrologyResult, metres_per_px: float)
         (hydro.rivers >= 1) & ndimage.binary_dilation(hydro.ocean, iterations=2), iterations=8)
     near_water = ndimage.binary_dilation((hydro.rivers >= 1) | hydro.lakes, iterations=12)
 
+    # Ground that saturates, whether or not the solve put standing water on it:
+    # low, flat, and either close to the water table or topographically prone
+    # to pooling. This is what makes the province read as marsh rather than as
+    # lowland with ponds in it (decision 0036 Q4).
+    slope_deg = np.degrees(np.arctan(slope))
+    saturated = (
+        land
+        & (z < SATURATED_MAX_HEIGHT_M)
+        & (slope_deg < SATURATED_MAX_SLOPE_DEG)
+        & ((hand < SATURATED_MAX_HAND_M) | (hydro.twi > SATURATED_MIN_TWI))
+    )
+    marsh = hydro.wetlands | saturated
+
     regions = np.full(z.shape, 11, dtype=np.uint8)  # default firm lowland
-    regions[hydro.wetlands] = 8
-    regions[hydro.wetlands & (dist_sea_m > SWAMP_MIN_SEA_DIST_M)] = 7
-    regions[hydro.wetlands & (dist_sea_m > DEEP_MARSH_MIN_SEA_DIST_M)] = 6
-    regions[(flood >= 2) & ~hydro.wetlands & land & near_water] = 9
+    regions[marsh] = 8
+    regions[marsh & (dist_sea_m > SWAMP_MIN_SEA_DIST_M)] = 7
+    regions[marsh & (dist_sea_m > DEEP_MARSH_MIN_SEA_DIST_M)] = 6
+    regions[(flood >= 2) & ~marsh & land & near_water] = 9
     regions[land & near_major & ~hydro.tidal] = 5
     regions[hammock] = 10
     regions[hydro.tidal & land] = 4
-    regions[(hydro.tidal | hydro.wetlands) & land & river_mouth] = 3
-    regions[land & (z > 30)] = 2
-    regions[land & (z > 40) & (interiorness(*z.shape) < 0.35)] = 1
+    regions[(hydro.tidal | marsh) & land & river_mouth] = 3
+    # Uplands need height *and* drainage: a flat terrace standing over a marsh
+    # is hammock or lowland, not hills.
+    regions[land & (z > HILL_MIN_HEIGHT_M) & (slope_deg > HILL_MIN_SLOPE_DEG)] = 2
+    regions[land & (z > MOUNTAIN_MIN_HEIGHT_M) & (interiorness(*z.shape) < 0.35)] = 1
     regions[hydro.lakes] = 12
-    regions = apply_authored_overrides(regions)
+    if apply_overrides:
+        regions = apply_authored_overrides(regions)
     regions[~land] = 0
 
     fractions = {name: round(float((regions == cid).mean()), 4) for cid, (name, _) in REGION_CLASSES.items()}
