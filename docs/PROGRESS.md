@@ -49,7 +49,7 @@ first, then open only the master-plan sections the active phase needs.
 | 12 — dungeon/interior system, exemplar-first (0034) | todo | may interleave with 11 |
 | 9 — swimming, climbing, boats (re-slotted after the placement exemplars; 0034) | todo | player craft only — ferry/fast travel is Morrowind-style world content (Phase 11); thin swim slice may pull earlier; boats may slip |
 | 10b — full portable-sandbox parity in studio (was 7b; moved 2026-08-25, decision 0017) | todo | Scene orchestration extraction (§53), inventory/equipment UI, enemies/targeting, bow, navmesh; combat-space probes then validate + freeze the 11/12 exemplar packets; **incl. fixes to shared combat internals** (owner 2026-08-29: good-enough, not perfect — specifics at kickoff) |
-| S — stats, progression and character-systems **design** (parallel workstream, module 76; decision 0019) | done | **Three owner rounds, all closed** — shape ([0031](decisions/0031-workstream-s-round1-shape.md)), design + numbers ([0033](decisions/0033-workstream-s-design-and-numbers.md)), and the round-3 corrections ([0035](decisions/0035-workstream-s-round3-attributes-and-pace.md)): the attribute model rebuilt on Morrowind's actual formulas (keep the score, drop the roll), levelling pace calibrated against Morrowind's documented one, D0 corrected back to "safe ground", sneak openers to ×8 for bows. Live artefacts: **module 76 §116–129** (the spec), decisions 0019/0031/0033/0035, `tooling/stats-sim/` (**19 invariants, all holding**, including a Morrowind known-answer test) and one evidence packet; the workstream's five working papers are archived under `docs/research/archive/workstream-s/` and the tuning history is `tooling/stats-sim/FINDINGS.md`. Phase 10c implements it |
+| S — stats, progression and character-systems **design** (parallel workstream, module 76; decision 0019) | done | **Four owner rounds, all closed** — shape ([0031](decisions/0031-workstream-s-round1-shape.md)), design + numbers ([0033](decisions/0033-workstream-s-design-and-numbers.md)), round-3 corrections ([0035](decisions/0035-workstream-s-round3-attributes-and-pace.md)), and the round-4 QA rulings ([0037](decisions/0037-workstream-s-round4-qa-rulings.md)): practice discount cut, kill-based class-weighted armour accrual, repeat-target damping removed, lockpick wear, **poise reinstated on the DS1 model**, pace target restated. Live artefacts: **module 76 §116–129** (the spec), decisions 0019/0031/0033/0035/0037, `tooling/stats-sim/` (**19 invariants, all holding**, including a Morrowind known-answer test) and one evidence packet; the workstream's five working papers are archived under `docs/research/archive/workstream-s/` and the tuning history is `tooling/stats-sim/FINDINGS.md`. Phase 10c implements it |
 | 10c — stats and progression implementation (module 76; decision 0019) | todo | Implements workstream S in `packages/game-core` incl. the semantic-authoring compiler (ladder refs → numbers; extended to loot/traps). After 10b, **before packet freeze and Phase 13** — content in 11/12 authors semantically without it (0019 4th amendment; 0034) |
 | 13 — fauna ecology, encounters, fixed loot (exemplar-first; flora half moved to Phase 10 by 0034) | todo | |
 | 12b — province soundscape (module 57; polish tier — 0023, hardened by 0034) | todo | runs in the P window **after 13** (authors creature calls/ambience *from* the ecology data); must land before 14 locks budgets; may pull earlier |
@@ -88,11 +88,10 @@ first, then open only the master-plan sections the active phase needs.
   the shore harder and quicker (watch a beach in force:squall vs clear)
   ⑦ nothing regressed from round 2 (night clouds, storm ladder, lightning
   gates, wet season). Defect→fix log: decision 0032 Round 3.
-- **Workstream S — light sanity check (non-blocking)**: three owner rounds are
-  folded in and the harness holds 19/19 including a Morrowind known-answer
-  test. Nothing is blocked on a reply; the summary is decision
-  [0035](decisions/0035-workstream-s-round3-attributes-and-pace.md) and the
-  pace/economy numbers are in `tooling/stats-sim/FINDINGS.md`.
+- **Workstream S — closed after the round-4 QA review** (2026-08-30): the
+  owner's rulings are folded in ([0037](decisions/0037-workstream-s-round4-qa-rulings.md))
+  and the harness holds 19/19 including the Morrowind known-answer test.
+  Nothing is blocked on a reply.
 - **Phase 10 — vanilla `Skyrim.esm` is not in the vault** (only the three BSAs
   are). It is wanted for mining Bethesda's own scatter rules (REGN object
   tables, GRAS density params) as a checklist. Owner action, ~250 MB, needs

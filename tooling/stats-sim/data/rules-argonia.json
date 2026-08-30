@@ -32,9 +32,21 @@
   },
 
   "worthiness": {
-    "_": "OUR anti-grind rule, and the first deliberate difference from Morrowind. It multiplies COMBAT AND DEFENCE use values only: chipping a sponge for 1 % of its health is worth almost nothing, and eating a scratch teaches your armour skill almost nothing. Blocks, casts, brews, locks, persuasions, repairs, enchantments and travel are NOT worthiness-scaled - they are pass/fail verbs with no magnitude to scale by. Damping relaxed to 8 connects at 0.55 (was 6 at 0.35): the old setting made a long fight against a big actor worth less than a short one against a small one, which is backwards.",
+    "_": "OUR anti-grind rule, and the first deliberate difference from Morrowind. It multiplies COMBAT AND DEFENCE use values only: chipping a sponge for 1 % of its health is worth almost nothing, and eating a scratch teaches your armour skill almost nothing. Blocks, casts, brews, locks, persuasions, repairs, enchantments and travel are NOT worthiness-scaled - they are pass/fail verbs with no magnitude to scale by. The per-actor connect damping was removed by owner ruling 2026-08-30: grinding respawning enemies is legitimate play, and no reference game diminishes repeat use.",
     "$from": "curves.worthiness",
     "appliesTo": ["weapon", "armour"]
+  },
+
+  "armourAccrual": {
+    "_": "Owner ruling 2026-08-30 (decision 0037): in a game where 3-6 hits kill you, 'learn armour by being hit' is starved and perverse, so armour skills earn from two events, class-weighted. KILLS while wearing the class ('win', keyed to the corpse, never to the encounter ending, so aggro-and-flee teaches nothing; worth scales with the dead thing's health against yours, clamped like offence worthiness) and HITS TAKEN in the class ('hit', the Morrowind rule, kept as a bonus). Light armour learns mostly by winning untouched, heavy mostly by tanking, medium in between; unarmored follows light. Absent in rules-morrowind.json, which keeps pure hit-taken accrual for the known-answer test.",
+    "killAward": 3.0,
+    "killHealthDivisor": 2.0,
+    "classWeights": {
+      "lightArmor": { "win": 1.0, "hit": 0.25 },
+      "mediumArmor": { "win": 0.6, "hit": 0.6 },
+      "heavyArmor": { "win": 0.35, "hit": 1.0 },
+      "unarmored": { "win": 1.0, "hit": 0.25 }
+    }
   },
 
   "use": {

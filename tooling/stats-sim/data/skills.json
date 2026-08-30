@@ -550,5 +550,5 @@
     }
   ],
   "_recoveryNote": "Weapon skill no longer scales attack recovery (owner veto, round 2): recovery is animation timing and stats do not touch the feel constants. Skill buys the damage-range position, stamina cost, gear wear and bow handling.",
-  "_scoreNote": "`score` is the attribute Morrowind's own formula for this check names, which is frequently NOT `gov` (Security is governed by Intelligence and rolled on Agility; every school casts through Willpower). `gov` sets the trainer cap and the practice discount only. A skill with no `score` is a pure-skill check in canon too - armour rating, unarmoured and acrobatics take no attribute term."
+  "_scoreNote": "`score` is the attribute Morrowind's own formula for this check names, which is frequently NOT `gov` (Security is governed by Intelligence and rolled on Agility; every school casts through Willpower). `gov` sets the trainer cap only (the practice discount was cut at round 4, decision 0037). A skill with no `score` is a pure-skill check in canon too - armour rating, unarmoured and acrobatics take no attribute term."
 }

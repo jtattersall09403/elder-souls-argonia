@@ -9,11 +9,11 @@ numbers are `data/`; how to run it is [README.md](README.md).**
 
 Findings 1–11 come from round 1 (2026-08-29, before the owner's lethality
 ruling); 12–19 from round 2, which re-solved the danger ladder from "blows that
-kill you" and added the whole-playthrough runs; **20–28 from round 3, which
-rebuilt the campaign model after measuring it against Morrowind and finding it
-was the content, not the rules, that was wrong.** Earlier fixes all still
-stand, but *values* quoted below are pre-retune — where a number matters, trust
-the harness output over this file.
+kill you" and added the whole-playthrough runs; 20–34 from round 3, which
+rebuilt the campaign model on rules × content and then applied the canon
+attribute formulas; **35–39 from round 4 (2026-08-30), the owner's QA rulings
+(decision 0037)**. Earlier fixes all still stand, but *values* quoted below are
+pre-retune — where a number matters, trust the harness output over this file.
 
 ## Round 1 — eleven anomalies
 
@@ -79,44 +79,6 @@ resolved**: warriors now finish at 37–39 rather than 8–20, because the verb
 profile gives them the talking they actually do. It remains a content
 constraint, not a number — see *Open*.
 
-**Open from round 3 — for the orchestrator, not for this harness.**
-
-- **Health per level.** Module 76 states `End/10`; `curves.json` carries
-  `1.5 + End/15`, which is what D0–D5 was calibrated against (+18 % apart by
-  level 50). Switching was tried and immediately fails `getting-hit-matters`.
-  It is one line in `curves.json` **plus one ladder recalibration**, which the
-  orchestrator owns. Change both together or neither.
-- **Our own pacing runs hot at the top.** Argonia rules × Argonia content gives
-  **50–65 by hour 150** against a 45–55 target. This is arithmetic, not a bug:
-  our use values are Morrowind's, and we *add* an ungated 1/3 credit for
-  misc and maxed skills, so identical content must produce a higher level. The
-  same content under Morrowind's rules gives 46–58. Either accept ~50–65, or
-  cut content ~12 % (which breaks the encounter/travel targets), or restate the
-  design target.
-- **There is no hard level ceiling.** A skill at 100 keeps taking ranks at
-  `(101 × classFactor × specFactor)` forever, each worth 1/3 of a credit, so
-  level is bounded only by hours played — not by the "~75" the design assumes.
-
-## Open — reported, not fixed (forward work)
-
-These three are the harness's live output to later phases. None is a defect to
-patch in `data/`; each is something to watch, or to tune where it actually
-lives.
-
-- **After Act III, nobody dies.** Partly correct (fixed danger + mastery = you
-  outgrow the world; it is the promised payoff) and partly a modelling artefact
-  (the sim never mispositions, never gets ambushed, never runs out of potions).
-  **Watch it in playtest.** If it is real, the lever is **more late D5 content,
-  not softer numbers** — softening the numbers would undo the round-2 lethality
-  ruling.
-- **Gold outgrows its sinks** (~55–65 k banked by the end, even after
-  training). A **Phase 13 economy-tuning** item: bigger sinks — services,
-  enchanting, property, bribes — are the answer, not less loot.
-- **Non-social builds finish with Speechcraft under 20** (8–20 for the
-  warriors). Speech is an ending-grade system, so **the endings must stay
-  winnable by the duel route** for those characters — which the quest plan
-  already requires. A content constraint, not a number to change.
-
 ## Round 3, second half — what the canon attribute model changed
 
 Findings 20–28 (above) came from the rules/content split. These came from
@@ -131,6 +93,50 @@ the harness.
 | 32 | Canon's castability boundary (`2×skill + Wil/5 ≥ cost`) is where the cast chance reaches *zero* — using it directly gave a starting mage a 34-damage spell and, because a cast is worth one use-point however big it is, made the mage level *slower*. | **Fixed**: the reliable line sits 50 points inside canon's boundary and the working spell is 60 % of that. A starting mage lands on ~19 damage and a master on ~100, which is where Morrowind's own spellbooks sit. |
 | 33 | **Gold ran away: 860,000 banked over a playthrough.** The campaign credited the ladder's `lootValue` for every kill *and* the content model's `lootGoldPerHour` — the same placed treasure, counted twice. | **Fixed**: a corpse yields its **template drop** only (4/12/35/95/240 by band), because placed treasure never respawns (§126). Lifetime gold is now ~180 k, against ~45 k to take one skill from 30 to 100 — so training is a real choice again. Round-2's "gold outgrows its sinks" finding is closed by this, not by new sinks. |
 | 34 | Fewer potions (a consequence of #33) raised early deaths from ~6 to ~19 per run. | **Accepted**: it is the honest consequence of an economy that no longer prints money, and it moves the death curve toward the front, which is where the design wants it. |
+
+**Resolved since round 3** (formerly listed open here):
+
+- **Health per level** — resolved by finding 30 itself: `curves.json` carries
+  canon's `End/10` and the ladder was re-solved against it. The spec and the
+  data now agree.
+- **Pacing runs hot at the top** — resolved at round 4 by restating the design
+  target (module 76 §120.5): 150-hour target is now 50–70, because Morrowind's
+  use values *plus* the ungated 1/3 misc/maxed credit must level faster than
+  Morrowind on identical content, and that is the "no hour is worth nothing"
+  rule working as intended. The early checkpoints stay on Morrowind's pace.
+- **No hard level ceiling** — accepted as design at round 4 (§120.5): level is
+  bounded by hours played, not by a wall.
+- **Gold outgrows its sinks** — closed by finding 33 (the double-count fix):
+  lifetime gold ~180 k against ~45 k to train one skill 30→100.
+
+## Open — reported, not fixed (forward work)
+
+The harness's live output to later phases. Not defects to patch in `data/`.
+
+- **After Act III, nobody dies.** Partly correct (fixed danger + mastery = you
+  outgrow the world; it is the promised payoff) and partly a modelling artefact
+  (the sim never mispositions, never gets ambushed, never runs out of potions).
+  **Watch it in playtest.** If it is real, the lever is **more late D5 content,
+  not softer numbers** — softening the numbers would undo the round-2 lethality
+  ruling.
+- **Non-social builds finish with Speechcraft in the 30s** (finding 19, partly
+  resolved by the round-3 verb profiles). Speech is an ending-grade system, so
+  **the endings must stay winnable by the duel route** for those characters —
+  which the quest plan already requires. A content constraint, not a number to
+  change.
+- **~19 early-game deaths per run** (finding 34). The front-loaded shape is
+  what a Souls game wants; the magnitude needs a real playtest before anyone
+  trusts or tunes it.
+
+## Round 4 — the owner's QA rulings (2026-08-30, decision 0037)
+
+| # | Finding / ruling | Resolution |
+|---|---|---|
+| 35 | **The practice discount was never implemented.** `attributeCost` in `model.mjs` has no practice term — every validated pace, affordability and deferral figure was already computed at list price. The spec described a mechanic the evidence never covered. | **Resolved by the owner cutting the discount** (it recreated Morrowind's pre-level grind spreadsheet, and trainers would have let gold buy it). Spec now matches the harness; no retune needed. |
+| 36 | Armour skills accrued only from hits taken — starved and perverse in a 3–6-hits-kill game, and the model quietly keyed them to landed enemy swings that a good player never allows. | **Reworked** (owner design): kill award + hit bonus, both class-weighted (light learns by winning, heavy by tanking, medium between; unarmored follows light). Kill award keys to the corpse, never "encounter ended", so aggro-and-flee farms nothing. 19/19 invariants still hold; every build still exercises all ten level-bearing skills. |
+| 37 | Per-actor connect damping (8 connects then ×0.55) had no precedent in any reference game and punished chosen grinding, which the owner rules is legitimate play. | **Removed** (code + curves.json). End-of-run levels moved 51–66 → 53–69, inside the restated 50–70 target. |
+| 38 | Deterministic lockpicking meant one good pick opened everything forever. | **Design change, no sim impact**: picks wear condition per lock scaled by `lockLevel / score` (module 76 §118). The threshold stays dice-free. |
+| 39 | Poise reinstated (owner reversal of round 2) on the DS1 model, with base poise = Agility/2 replacing the bare damage-threshold stagger rule. | **Design only for now** — the harness's fight model is a damage race that never models stagger, so poise adds no simulated numbers yet. Constants are provisional until sandbox calibration at 10c (research: `docs/research/dark-souls-poise-mechanics.md`). |
 
 ## The ceiling, as the sim sees it
 

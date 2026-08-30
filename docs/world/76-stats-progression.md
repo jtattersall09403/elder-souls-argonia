@@ -123,8 +123,10 @@ These are not open questions — they follow from decisions already taken.
 
 ## 103. Workstream S — how the design was settled
 
-Ran as docs + decisions, in parallel with Phases 8–10, over **three owner
-rounds** (0031 shape, 0033 design and numbers, 0035 the round-3 corrections).
+Ran as docs + decisions, in parallel with Phases 8–10, over **four owner
+rounds** (0031 shape, 0033 design and numbers, 0035 the round-3 corrections,
+0037 the round-4 QA rulings: practice discount cut, armour accrual reworked,
+pick wear, poise reinstated, pace target restated).
 
 **One evidence packet is still live**:
 [reference games](../research/stats-progression-reference-games.md) — Morrowind's
@@ -134,7 +136,8 @@ kept for provenance only**, in
 [docs/research/archive/workstream-s/](../research/archive/workstream-s/): both
 owner rounds (who decided what, in whose words), the mapping inventory, a code
 snapshot, and the numbers packet. They contain superseded drafts — two-layer
-fatigue, poise, the estus flask, a four-band sneak table, "wildlife" D0 — and
+fatigue, an early poise draft (poise came back, redesigned, at round 4 —
+§121.3), the estus flask, a four-band sneak table, "wildlife" D0 — and
 **must never be read as a spec**. The tuning history lives with the tool that
 produced it, in [tooling/stats-sim/FINDINGS.md](../../tooling/stats-sim/FINDINGS.md).
 
@@ -155,10 +158,13 @@ with sourcing evidence in module [90 §74.3](90-asset-strategy.md).
 
 ### 103.1 Workstream state: closed
 
-**Closed 2026-08-29** after three owner rounds — the shape (decision 0031), the
-detailed design and its numbers (0033), and the round-3 corrections that
+**Closed 2026-08-30** after four owner rounds — the shape (decision 0031), the
+detailed design and its numbers (0033), the round-3 corrections that
 grounded the attribute model in Morrowind's actual formulas, calibrated the
-levelling pace against Morrowind's known one, and fixed D0 (0035). The
+levelling pace against Morrowind's known one, and fixed D0 (0035), and the
+round-4 QA rulings — practice discount cut, class-weighted armour accrual,
+repeat-target damping removed, lockpick wear, poise reinstated on the DS1
+model, pace target restated (0037). The
 provenance — who decided what, in whose words, and what was rejected — is in
 `docs/research/archive/workstream-s/`; **read it only for provenance, never as
 a spec.**
@@ -197,9 +203,8 @@ consumed by both apps). Definitions land as **data files consumed like
   driven variation is implemented as designed and is not treated as drift;
 - **the progression economy ships whole** (§120): Morrowind's per-use values,
   the worthiness modifier and its damping, the rule that a maxed skill still
-  pays, the 1:3 miscellaneous credit, and the **practice discount** at the level
-  sitting. These are cheap to implement and expensive to retrofit — the pace
-  invariants depend on all of them;
+  pays, and the 1:3 miscellaneous credit. These are cheap to implement and
+  expensive to retrofit — the pace invariants depend on all of them;
 - capability profiles regenerate from the stat system and the world's
   traversal/validation probes still pass (§52, §122);
 - **the NPC/enemy stat model ships alongside the player's**, and with it the
@@ -210,6 +215,10 @@ consumed by both apps). Definitions land as **data files consumed like
   never player state, so 0004 is untouched — the numbers are as fixed as ever,
   merely *derived*, so a curve retune + recompile + sim re-run rebalances all
   content coherently;
+- **poise ships for player and enemies alike** (§121.3): `poiseDamage` on the
+  weapon class table, `poiseLo/poiseHi` on armour pieces, `poise` and
+  `blockStability` on the effect stack — constants calibrated in the sandbox
+  with a controller in hand before any content is authored against them;
 - the estus flask is removed and replaced by the potion economy (§126);
 - character-sheet, level-up and rest UI in the studio and the sandbox;
 - enemy archetypes restated on the new scale;
@@ -228,7 +237,7 @@ avoids.
 
 # The decided design (§116–129)
 
-Everything below is decided (owner rounds 1–3, decisions 0031/0033/0035).
+Everything below is decided (owner rounds 1–4, decisions 0031/0033/0035/0037).
 Numbers are the *shapes and constants*; the machine-readable tables live in
 `tooling/stats-sim/data/` (§129) and are what 10c ports.
 
@@ -306,7 +315,7 @@ column says which it was.
 |---|---|---|
 | **Strength** | melee damage `×(Str+50)/100` · carry capacity · half the health base · repair rate. **Not bows** — see below | *Combat*, *Encumbrance*, *Health*, *Armorer* — all deterministic except the repair roll |
 | **Endurance** | `maxHealth = (Str+End)/2 + level × End/10` · `maxStamina = 60 + 0.8×End` · stamina regen · disease/poison resistance floor | *Health*, *Fatigue* — deterministic. Canon's health-per-level is **not** retroactive; ours is (§117.2) |
-| **Agility** | the score term in every check that was a hit, block, sneak or lock roll (`+Agi/5`) · stagger threshold (a blow staggers you if it deals ≥ Agi/2; at Agi 100 nothing does) · dodge stamina · bow steadiness | *Combat*, *Block*, *Security*, *Sneak* — all were rolls; the knockdown-immunity-at-100 rule is canon exactly |
+| **Agility** | the score term in every check that was a hit, block, sneak or lock roll (`+Agi/5`) · **base poise = Agi/2** (§121.3) · dodge stamina · bow steadiness | *Combat*, *Block*, *Security*, *Sneak* — all were rolls; base poise re-houses canon's knockdown threshold (`Agility × 0.5`) |
 | **Speed** | ground, swim and climb speed (§122). Nothing else — and in canon it appears in **no dice roll at all** | *Speed* — deterministic, and the one attribute we can port verbatim |
 | **Willpower** | the score term in casting (`+Wil/5`, §123) · magicka regen · innate magic resistance | *Spells*, *Willpower* — the cast roll is deleted, the score survives |
 | **Intelligence** | `maxMagicka` · alchemy potency (`+Int/10`, canon's odd half-weight) · enchanting point budget (`+Int/5`) | *Magicka*, *Alchemy*, *Enchant* |
@@ -356,12 +365,11 @@ computed and compared against a fixed difficulty:
 | `SpellSkill×2 + Wil/5 − SpellCost` | a spell is castable iff `2 × SpellSkill + Wil/5 ≥ SpellCost` — canon's own boundary, now a gate instead of a gamble (§123) |
 | `Enchant + Int/5 − 3 × points` | solve it for points: your budget **is** `(Enchant + Int/5)/3` (§123) |
 | `Speechcraft + Per/5 + Reputation` vs the NPC's rating | the same score against an authored threshold (§125) |
-| `Agility × 0.5 ≤ damage` → knocked down (immune at Agi 100) | the same threshold decides whether a blow plays the **heavy** hit reaction the sandbox already has, rather than the light one |
+| `Agility × 0.5 ≤ damage` → knocked down (immune at Agi 100) | the same number becomes your **naked poise** — Agility/2 is the base of the poise pool (§121.3) |
 
-That last row is worth flagging: it gives Agility a real defensive job, using
-Morrowind's exact numbers and the sandbox's **existing** reactions — no poise
-meter, no new system (poise was cut in round 2 and stays cut). If even that is
-unwanted, delete the row and hit reactions stay exactly as they are today.
+That last row is worth flagging: it gives Agility a real defensive job with
+Morrowind's exact coefficient, expressed through the poise system the owner
+reinstated at round 4 (§121.3) rather than as a second, separate threshold.
 
 **What a governing attribute still does.** In canon it does three things: sets
 the level-up multiplier, caps training, and — often — is *not* the attribute in
@@ -371,13 +379,12 @@ Illusion are governed by Intelligence and Personality but both cast through
 Willpower; Acrobatics is governed by Strength, which appears nowhere in jumping;
 Hand-to-hand is governed by Speed and its damage uses neither Speed nor
 Strength. We keep that faithfully — the formula attribute and the governing
-attribute are different things — and the governing attribute keeps two jobs:
+attribute are different things — and the governing attribute keeps one job:
 
 - **the trainer cap**, exactly as canon: *you cannot train a skill above its
   governing attribute* (*Morrowind:Trainers*), reading **base** values, which
-  kills canon's drain-and-train exploit;
-- **the practice discount** at a level sitting (§120.4), which is canon's
-  attribute multiplier expressed as a price instead of a minigame.
+  kills canon's drain-and-train exploit. (It briefly had a second job — a
+  practice discount on attribute prices — cut at round 4, §120.4.)
 
 ### 117.2 How level, Endurance and health fit together
 
@@ -423,7 +430,7 @@ re-expressed as a threshold. No pickpocketing verb, no crossbow or thrown
 skill (decision 0031).
 
 Bands are written `lo→hi` across `k(score)` (§116). **Gov.** is the governing
-attribute — canon's, and it sets the trainer cap and the practice discount
+attribute — canon's, and it sets the trainer cap
 (§117.1), *not* the formula. **Score** is the attribute that actually enters
 this skill's maths, which in canon is frequently a different one. "Wear" is
 condition loss per use (§121).
@@ -435,7 +442,7 @@ condition loss per use (§121).
 | Axe | Str | Agi | Combat | as Long Blade |
 | Spear | End | Agi | Combat | as Long Blade |
 | Short Blade | Spd | Agi | Stealth | as Long Blade; its sneak-opener table is the best after the dagger's (§121.5) |
-| Marksman | Agi | Agi | Stealth | delivered-damage position 0.40→1.00 · draw speed ×0.85→1.20 · sway ×1.4→0.6 · draw stamina ×1.25→0.80. Canon applies the Strength multiplier to bows too, and so do we |
+| Marksman | Agi | Agi | Stealth | delivered-damage position 0.40→1.00 · draw speed ×0.85→1.20 · sway ×1.4→0.6 · draw stamina ×1.25→0.80. **No Strength multiplier** — deliberate divergence from canon, §117 point 1 |
 | Hand-to-Hand | Spd | Agi | Stealth | damage position 0.40→1.00 · stamina damage to the target ×1.0→2.0; empty an opponent's stamina and they can be finished. **No Strength multiplier** — canon's H2H damage uses neither Speed nor Strength |
 | Block | Agi | Agi | Combat | stability ×0.85→1.15 (absolute cap 0.95) · guard stamina ×1.30→0.78 |
 | Heavy Armor | End | — | Combat | worn heavy rating ×0.55→1.20 · its effective weight ×1.10→0.90 · wear ×1.4→0.6. (Canon is `rating × skill/30`, i.e. naked at skill 0 and ×3.3 at 100; ours is compressed because the rating band is calibrated against the hits-to-die targets, §128) |
@@ -445,7 +452,7 @@ condition loss per use (§121).
 | Athletics | Spd | Spd | Combat | run ×0.94→1.10 · **swim ×0.5→1.5** (canon leans on Athletics hard for swimming, and swimming is a pillar) · `breath = 25 + 0.35×Athletics + 0.25×End` seconds · sprint drain ×1.20→0.85 |
 | Acrobatics | Str | — | Stealth | jump ×0.80→1.60 · safe-fall height `2 + Acrobatics/25` m (canon: fall damage is reduced by 1.5 per point) · **climbing**: speed ×0.85→1.25, stamina drain ×1.25→0.75 (§122.1) |
 | Sneak | Agi | Agi | Stealth | `Elusiveness = (Sneak + Agi/5 − boot weight) × (0.5 + distance/500)` against an observer's spot score × canon's direction multiplier (×1.5 front, ×0.5 behind) — compared, never rolled · **the sneak-opener band** (§121.5) |
-| Security | Int | **Agi** | Stealth | a lock opens iff `(Security + Agi/5) × toolQuality ≥ lockLevel`; keys and Open magnitude always work. Canon's mismatch kept: Security is governed by Intelligence and uses Agility |
+| Security | Int | **Agi** | Stealth | a lock opens iff `(Security + Agi/5) × toolQuality ≥ lockLevel`; keys and Open magnitude always work. Canon's mismatch kept: Security is governed by Intelligence and uses Agility. **Picks wear** (owner, round 4): a pick loses condition per lock, scaled by `lockLevel / yourScore` — an easy lock barely scratches it, one near your ceiling chews most of a pick. Hard locks cost real consumables without any die; better picks are a higher ceiling *and* more durable |
 | Smithing | Str | Str | Combat | repair per stroke 6→22 condition · temper grades 0/1/2/3 at score 25/55/80 · craftable material tier ≤ 1+floor(score/14) |
 | Mercantile | Per | Per | Stealth | price band from `Mercantile + 0.2×Per + (disposition−50)` against the merchant's own (§124) |
 | Speechcraft | Per | Per | Stealth | persuasion score `Speechcraft + Per/5 + standing` (§125) · topic access thresholds |
@@ -564,9 +571,9 @@ worthiness function because vastei inherits every skill-grind exploit
 
 | Family | A use counts when… | Damping |
 |---|---|---|
-| Melee / marksman / unarmed | the blow connects with a hostile, living actor that can fight back | value scales with `damageDealt / targetMaxHealth`, capped at 1 per blow; the same individual target yields diminishing value after the 6th connect |
+| Melee / marksman / unarmed | the blow connects with a hostile, living actor that can fight back | value scales with `damageDealt / targetMaxHealth`, capped at 1 per blow |
 | Block | a real incoming attack is absorbed | none needed |
-| Armour skills | you take a hit while wearing that class | value scales with damage taken |
+| Armour skills | **two events, class-weighted** (owner, round 4 — see below): you **kill** a hostile while wearing the class, or you **take a hit** in it | kill value scales with the victim's health against yours; hit value scales with damage taken |
 | Destruction / Restoration / Alteration / Illusion / Conjuration / Mysticism | the spell **has a real effect** — damage dealt, a wound closed, a lock opened, a creature summoned, a mind changed, **or a self/utility effect that mattered** (water-breathing while actually underwater, a light in the dark, feather while over-loaded, invisibility while someone could see you). Untargeted magic is not second-class: it counts when the situation it answers is real | per-spell-per-rest diminishing returns; casting a spell whose effect changes nothing — light at noon, water-breathing on dry land — is worth nothing |
 | Athletics | distance covered while running/swimming **outside settlement bounds** | per-rest cap ≈ 20 minutes of travel |
 | Acrobatics | **climbing** (per metre actually ascended), a jump that clears a real gap, or a survived fall that dealt damage | falls count once per location per rest (kills Morrowind's fall-grinding); climbing counts on the way *up* only |
@@ -580,14 +587,45 @@ worthiness function because vastei inherits every skill-grind exploit
 **Worthiness scales the canon value; it does not replace it.** A blow worth
 ≥15 % of the target's health is a full point; below that it scales down (chip
 damage on a giant is nearly worthless — the anti-grind rule), floored at 0.05.
-Armour skills use the mirror of the same rule on damage *taken*. After the
-**eighth connect on the same actor** the rest of that fight is worth 55 %, so a
-long fight is not a skill mill but a boss is still worth fighting. Blocks,
+Armour hit value uses the mirror of the same rule on damage *taken*. Blocks,
 casts, brews, locks, persuasions, repairs and travel are **not** worthiness-
-scaled — there is no "chip damage" equivalent for them. Nothing accrues at all
+scaled — there is no "chip damage" equivalent for them. **There is no
+repeat-target damping** (owner ruling, round 4): no reference game diminishes
+repeat use, and killing respawning enemies again after a rest is legitimate
+play — nobody *has* to grind, but choosing to is fine. Nothing accrues at all
 against actors that are helpless through a bug (broken pathing, stuck
 geometry), against creatures you summoned yourself, or against anything flagged
 `trainingDummy`.
+
+**Armour accrual in full** (owner, round 4, decision 0037). In a game where
+3–6 unavoided hits kill you, Morrowind's "learn armour by being hit" is both
+starved and perverse — it rewards playing badly, and a skilled light-armour
+character earns nothing in their own signature skill (Skyrim has the same
+defect: UESP documents letting NPCs beat on you as the standard armour-
+levelling method). So armour skills earn from **two events**, each weighted by
+armour class:
+
+```
+on killing a hostile while wearing the class:
+  points = winWeight(class) × 3.0 × clamp(victimMaxHealth / (2 × yourMaxHealth), 0.05, 1)
+on taking a damaging hit in the class:
+  points = hitWeight(class) × 1.0 × hit worthiness (damage taken, as above)
+
+           winWeight   hitWeight
+light        1.0         0.25       (and Unarmored follows light)
+medium       0.6         0.6
+heavy        0.35        1.0
+```
+
+The kill award keys to the **corpse, never to "the encounter ended"** — so
+aggroing something hard and running away teaches nothing, and there is no
+survive-near-danger loophole to farm. Killing something big and dangerous next
+to your own size pays a full award; squashing vermin pays the 0.05 floor. The
+class weighting is the semantics of each armour: a light-armour fighter is
+*supposed* to win without being hit, so wins are their teacher; a heavy-armour
+fighter tanks by design, so tanking is theirs; medium sits between. Vastei
+flows from both events like any other qualifying use. Blocked hits feed
+**Block** (2.5 a blow), never the armour skill — the shield did that work.
 
 **A maxed skill is never a dead end.** Once a skill reaches 100, its qualifying
 uses keep earning **vastei**, and they keep feeding the level counter at the
@@ -650,11 +688,9 @@ Rules:
 - At the sitting you spend vastei on attribute points:
 
 ```
-cost(attr, n) = base(level) × (1 + attrValue/50)² × (1 + 0.5×(n−1)) / practice(attr)
+cost(attr, n) = base(level) × (1 + attrValue/50)² × (1 + 0.5×(n−1))
 base(level)   = 40 × (1 + level/10)^1.3
 n             = the n-th point bought in this attribute this sitting (cap 5)
-practice(attr)= 1 + 0.4 × min(10, ranks gained since your last level in skills
-                              this attribute governs)
 ```
 
   Three brakes in one line: attributes get dearer as they rise (a soft cap that
@@ -662,15 +698,16 @@ practice(attr)= 1 + 0.4 × min(10, ranks gained since your last level in skills
   a real choice), and the level index means a hoarder gains nothing by waiting.
   **Unspent vastei carries over**; no level is ever wasted.
 
-  **The practice term is Morrowind's attribute multiplier, expressed as a
-  price.** In canon, raising skills governed by an attribute earned you a ×1 to
-  ×5 multiplier on that attribute at the level screen (`iLevelUp01Mult`…`10Mult`
-  = 2,2,2,2,3,3,3,4,4,5). Ours reaches the same ×5 at the same ten ranks — but
-  as a discount rather than a multiplier, which removes the pathology without
-  removing the link. Nothing is ever *lost* by not optimising: you pay list
-  price, your vastei carries over, and there is no wasted level to spreadsheet
-  against. Practise what you fight with and your fighting attributes are cheap;
-  practise nothing and everything costs full.
+  **There is no practice discount** (owner ruling, round 4, decision 0037). An
+  earlier draft priced attributes cheaper if you had recently ranked skills
+  they govern — Morrowind's ×1–×5 level-up multiplier expressed as a price.
+  Cut, because a discount worth up to ×5 recreates exactly Morrowind's
+  spreadsheet: grind the right skills before banking a level. It also let
+  gold buy cheaper attributes through trainers (trained ranks would have
+  counted as practice). You spend vastei on whatever you like, at list price,
+  and what you practised has already paid you once — in the skill itself.
+  (The balance harness never implemented the discount, so every validated
+  pace and cost figure was already computed at list price; no retune needed.)
 - **Deferral is strictly bad, by construction**: purchases happen only at a
   sitting, each pending level is its own sitting priced at its own level, and
   delaying levels delays health. The simulation asserts this as the
@@ -686,11 +723,19 @@ harness checks as a standing invariant:
 
 | Hour | Target | What the harness produces |
 |---|---|---|
-| 1.5–2.5 | 2 | 1.4–3.6 (a bow build is slowest: fewer connects a fight) |
-| 20 | 10–14 | 10–16 |
-| 40 (main line's length) | 20–25 | 19–27 · main line alone, 18–28 |
-| 150 (a broad run) | 45–55 | 49–64 |
-| ceiling | — | ~75 by ordinary use, with the misc tail continuing slowly |
+| 1.5–2.5 | 2 | 1.4–2.1 (a bow build is slowest: fewer connects a fight) |
+| 20 | 10–17 | 11–17 |
+| 40 (main line's length) | 20–28 | 20–28 · main line alone, 20–30 |
+| 150 (a broad run) | 50–70 | 52–68 |
+| ceiling | — | none hard: the misc/maxed 1/3 tail keeps paying, ever more slowly |
+
+The 150-hour target was restated from 45–55 to 50–70 at round 4: our rules are
+Morrowind's use values *plus* an ungated 1/3 credit for miscellaneous and
+maxed skills, so identical content necessarily levels a little faster than
+Morrowind — that overshoot is the intended "no hour is worth nothing" rule
+doing its job, and the checkpoints that shape the actual game (hours 2, 20,
+40) sit on Morrowind's own pace. For the same reason there is no hard level
+ceiling — level is bounded by hours played, not by a wall at 78.
 
 Two things make that pace real rather than aspirational: the canon use-values
 in §120.1 (especially Block and Athletics, which tick during play that is not
@@ -733,13 +778,10 @@ Hand-to-hand is the documented exception: canon's unarmed damage uses neither
 Speed nor Strength, only the skill, and drains stamina rather than health. We
 keep that (§118).
 
-**Stagger is Agility's job.** Morrowind knocks you down when a blow's damage
-reaches `Agility × 0.5`, and makes you outright immune at Agility 100. We use
-the same threshold to choose between the sandbox's **existing** light and heavy
-hit reactions: a blow of `≥ Agility/2` plays the heavy one. No poise meter, no
-new animation, no new system — poise was cut in round 2 and stays cut. If even
-this is unwanted, hit reactions revert to today's fixed behaviour and Agility
-loses one job.
+**Stagger is poise's job** (§121.3). Morrowind's knockdown threshold —
+`Agility × 0.5`, immune at 100 — survives as the *base* of the poise pool, and
+whether a blow interrupts you is decided by that pool, worn armour and the
+attacker's weapon-class poise damage, not by a bare damage comparison.
 
 **Soft requirements.** Items keep their `requirements`, but they never block:
 for a shortfall `d` (points below a requirement), stamina cost ×`(1 + 0.07d)`,
@@ -791,15 +833,65 @@ mid, ×1.20 fat). **One bar** — the second "fatigue" layer was rejected (owner
 round 1, Q4); long-loop exertion (sprinting, swimming, climbing, heavy loads)
 hooks this pool instead.
 
-### 121.3 Hit reactions and stagger
+### 121.3 Poise (owner reversal, round 4, decision 0037)
 
-**No poise or posture system.** Reactions stay exactly what the sandbox already
-does: severity comes from the attack and the hit zone, and the existing guard
-system produces guard-break openings. An Elden-Ring-style poise layer was
-drafted and **cut** (owner, round 2) — it is a new mechanic the sandbox has
-never had, and adding one from a design document is how feel gets broken. If
-stagger ever needs to vary by character, the hook is Endurance and worn weight,
-and it is a Phase 10c-or-later conversation with a controller in hand.
+Round 2 cut poise; the owner reinstated it at round 4, on **Dark Souls 1's
+model** (researched at implementation level:
+[research/dark-souls-poise-mechanics.md](../research/dark-souls-poise-mechanics.md)).
+One system, shared by the player and every NPC/enemy.
+
+**The pool.** Every character has a hidden poise pool. Each incoming hit
+subtracts that attack's *poise damage* (independent of health damage). While
+the pool holds, a hit interrupts nothing — a hit flash and sound, no reaction
+animation. When it empties, the character **staggers** (the sandbox's existing
+heavy reaction — no new animation) and the pool refills. As in DS1 the pool
+does not trickle back: it refills **instantly to full** after ~5 s without
+being hit. All constants live in `gear.json`/`curves.json` and are
+**provisional until sandbox calibration at 10c** — poise is feel, and feel is
+tuned with a controller in hand (§102), never from this document.
+
+**Where max poise comes from** — the same trick as weapon damage (§121.1):
+
+```
+maxPoise = Agility/2  +  Σ worn pieces: piece.poiseLo + (piece.poiseHi − piece.poiseLo) × k(armour-class score)
+          + effects (enchantments, spells, potions, rings, amulets)
+```
+
+- **Agility/2 is Morrowind's knockdown rule re-housed**: canon knocks you down
+  when damage reaches `Agility × 0.5` — here that same number is your naked
+  poise, so an agile character shrugs light hits bare-skinned and Agility keeps
+  its defensive job (this *replaces* the damage-threshold stagger rule in
+  earlier drafts of §121.1/§117.1 — one stagger system, not two).
+- **Each armour piece carries a poise range, and your skill in its class sets
+  where in the range you sit** — exactly the weapon-damage construction.
+  Better material within a class raises floor and ceiling; classes tier as
+  **heavy > medium > light** in both; some pieces run wider ranges than others
+  (a great helm is a narrow high band; a chitin cuirass a wide low one).
+- **Effects are first-class**: poise is a `StatEffect` field (§127) like any
+  other, so fortify-poise potions, an Alteration "stone-flesh" spell tier,
+  enchanted rings and amulets (DS1's Wolf Ring), and allegiance rites can all
+  move it. So can drain/damage variants on enemy weapons.
+
+**Attacker side — poise damage is a weapon-class stat**, DS1's shape: each
+weapon class carries a base poise damage (dagger lowest → great hammer
+highest), multiplied by an attack-type factor (light ×1.0, heavy ~×1.5,
+two-handed and running attacks higher), all data on the existing class table —
+no per-item authoring. Spells carry poise damage on the effect. Shield bash
+and guard-break keep their existing special behaviour.
+
+**Enemies use the identical system**: an enemy's poise derives from its band,
+loadout and Agility through the same formula, compiled like everything else
+(§128). This is what makes weapon class matter tactically — a dagger build
+interrupts nothing big and relies on not being hit; a great hammer staggers
+through anything smaller than a troll. Boss-grade actors may carry
+`staggerable: false` exactly as DS1's biggest bosses do.
+
+**What poise touches elsewhere**: the weapon data model gains
+`poiseDamage` (class level), the armour model gains `poiseLo/poiseHi` (piece
+level), the effect stack gains `poise` and `blockStability` fields, and the
+ladder compiler emits poise per actor. The sandbox today flinches on every
+hit; 10c replaces that check with the pool. i-frames, parry windows and attack
+windups remain untouched by all of this (§102).
 
 ### 121.4 Defence
 
@@ -850,10 +942,13 @@ the knob even if the setting screen comes later.
 Beast races wear **every** piece they can wear in Skyrim (owner veto of the
 canon boot/closed-helm ban).
 
-### 121.5 Blocking, condition, and what skill never touches
+### 121.6 Blocking, condition, and what skill never touches
 
 Blocking is the sandbox's existing stability/absorption/chip/guard-break system;
-Block skill scales stability and cuts guard stamina cost. **Condition**: every
+Block skill scales stability and cuts guard stamina cost. **Stability is also
+an effect-stack field** (owner, round 4): enchantments, spells and potions can
+fortify a shield's or weapon's block stability like any other stat (§127).
+**Condition**: every
 item has 0–100 condition, worn by use and by blocking, scaling damage and AR
 through `conditionFactor`; an item at 0 is unusable but **never breaks
 mid-swing** — no surprise. Repair is Smithing plus a hammer, or a service (§124).
@@ -1198,7 +1293,7 @@ the same kind of object:
 | Birthsign | Steed +25 Speed; Atronach absorption, no regen |
 | Disease / blight | swamp fever: −10 End, −15 Athletics until cured (module 30 §26) |
 | Potion / poison | Restore Health 60; Fortify Long Blade 10 for 60 s |
-| Spell / enchantment | Water Breathing; Feather 80; Fortify Strength 20 |
+| Spell / enchantment | Water Breathing; Feather 80; Fortify Strength 20; Fortify Poise 25 (a stone-flesh ring); Fortify Block Stability 10 |
 | **Allegiance rites** (decision 0028) | corprus-style permanent packages: +Str/+End, −Wil/−Per, deepening per tier |
 | Hist / quest state | permanent boons and marks |
 
@@ -1245,8 +1340,9 @@ calibration, and every band's numbers move together.
 
 `damage` is a **typical light hit**; heavy attacks land at ~2.4× it. Attack
 period runs 3.0 s (a mudcrab) down to 1.8 s (D5). Loot value runs 2 → 2200
-gold. There is **no poise column**: hit reactions are the sandbox's existing
-ones, chosen by Agility's stagger threshold (§121.3).
+gold. **Poise is not a hand-authored column**: an actor's poise derives from
+its Agility, loadout and variants through the player's own formula (§121.3),
+compiled with everything else; boss uniques may set `staggerable: false`.
 
 D1 is deliberately the widest band, because "not really dangerous" covers
 everything from a mudcrab to an armed smuggler; the *position* within the band
@@ -1331,7 +1427,7 @@ read:
 | `curves.json` | `k`, `P`, mitigation, health/stamina/magicka, vastei and level-cost constants |
 | `races.json` | racial baselines, skill bonuses, effect packages |
 | `classes.json` | preset classes (majors/minors/specialization/favoured) |
-| `gear.json` | materials, weapon classes, the moveset, armour slots and sets — mirrored from `packages/game-core` + the armour-class tag |
+| `gear.json` | materials, weapon classes, the moveset, armour slots and sets — mirrored from `packages/game-core` + the armour-class tag; the **provisional poise block** (§121.3: class ranges, slot shares, per-class poise damage, attack factors) |
 | `magic.json` | spell tiers, healing tiers, enchanting bounds, the alchemy formula |
 | `builds.json` | the progression checkpoints and archetype attribute priorities the sweeps run on |
 | `ladder.json` | the **D1–D5** combat bands, the hits-to-die targets they were solved *from*, and the variant packages |

@@ -231,11 +231,9 @@
     "note": "you may hang still and recover restOnHoldRegenFraction of normal stamina regen; falling costs the fall-damage rules in module 76 \u00a7122"
   },
   "worthiness": {
-    "_": "A blow worth this fraction of the target's health is a full use-point (module 76 \u00a7120.2). Chip damage on a sponge is worth almost nothing, which is the anti-grind rule. Damping stops a long fight being a skill mill - but at 6 connects worth 0.35 it went too far: a real boss fight ended up teaching you less than a rat did, which is backwards. Relaxed to 8 connects at 0.55. Worthiness and damping scale COMBAT AND DEFENCE only; blocks, casts, brews, locks, persuasions, repairs and travel have no magnitude to scale by (see data/rules-argonia.json).",
+    "_": "A blow worth this fraction of the target's health is a full use-point (module 76 \u00a7120.2). Chip damage on a sponge is worth almost nothing, which is the anti-grind rule. The per-actor connect damping that used to live here was REMOVED by owner ruling 2026-08-30: no reference game diminishes repeat use, and grinding respawning enemies is legitimate play. Worthiness scales COMBAT AND DEFENCE only; blocks, casts, brews, locks, persuasions, repairs and travel have no magnitude to scale by (see data/rules-argonia.json).",
     "fullUseDamageFraction": 0.15,
-    "minUseValue": 0.05,
-    "connectsBeforeDamping": 8,
-    "dampedValue": 0.55
+    "minUseValue": 0.05
   },
   "score": {
     "_": "Morrowind computes skill + primaryAttribute/5 and rolls against it; we compute the same score and compare it deterministically (module 76 \u00a7117.1). The divisor is canon's; the normaliser only rescales so that 100 skill + 100 attribute reads 100. Which attribute is per-skill in skills.json ('score'), and is the attribute Morrowind's formula names - NOT the governing attribute.",

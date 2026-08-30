@@ -476,17 +476,13 @@ export function playCampaign({
           if (opensUnseen) award("sneak", U.sneakSuccess);
 
           // --- offence: REAL connect counts, not enemyHealth/perHit (that
-          // estimate measured 1.36-1.52x too high), times worthiness and the
-          // relaxed damping.
-          // Damping is per ACTOR ("further connects on the same actor"), so it
-          // is applied to one actor's connects and then multiplied out.
+          // estimate measured 1.36-1.52x too high), times worthiness. The
+          // per-actor connect damping was removed by owner ruling (2026-08-30):
+          // no reference game diminishes repeat use, and grinding respawning
+          // enemies is legitimate play. Chip-damage worthiness still applies.
           const connects = fight.swings * hit.player;
           totals.playerConnects += connects * actors;
-          const counted =
-            (W
-              ? Math.min(connects, W.connectsBeforeDamping) +
-                Math.max(0, connects - W.connectsBeforeDamping) * W.dampedValue
-              : connects) * actors;
+          const counted = connects * actors;
           const offenceWorth = W
             ? clamp(fight.meanDamagePerSwing / enemy.health / W.fullUseDamageFraction, W.minUseValue, 1)
             : 1;
@@ -505,9 +501,25 @@ export function playCampaign({
           const defenceWorth = W
             ? clamp(perHit / build.health / W.fullUseDamageFraction, W.minUseValue, 1)
             : 1;
+          // Armour accrual is class-weighted (owner ruling, 2026-08-30): light
+          // armour learns mostly from fights *won* while worn, heavy mostly
+          // from hits *tanked*, medium in between. Rule sets without an
+          // armourAccrual block (Morrowind) keep pure hit-taken accrual.
+          const AK = rules.armourAccrual;
+          const hitWeight = (id) => AK?.classWeights?.[id]?.hit ?? 1;
           awardMix(profile.armourMix, damaging * defenceWorth, (id) =>
-            id === "unarmored" ? U.unarmoredHitTaken : U.armourHitTaken);
+            (id === "unarmored" ? U.unarmoredHitTaken : U.armourHitTaken) * hitWeight(id));
           award("block", blocked * U.block);
+          if (AK && fight.won) {
+            // The kill award: keyed to KILLS, never to "the encounter ended",
+            // so surviving-by-fleeing teaches nothing. Worth scales with how
+            // big the dead thing was next to you, mirroring offence worthiness.
+            const killWorth = clamp(
+              enemy.health / (AK.killHealthDivisor * build.health),
+              W?.minUseValue ?? 0.05, 1);
+            awardMix(profile.armourMix, actors * killWorth * AK.killAward, (id) =>
+              AK.classWeights?.[id]?.win ?? 1);
+          }
 
           if (!fight.won) {
             ch.deaths += 1;
