@@ -4,7 +4,7 @@ import * as THREE from "three";
 import { worldClock } from "../sky/timeState";
 import { sharedAerialUniforms } from "../sky/WorldSky";
 import type { WaterAssets } from "./waterAssets";
-import { OVERLAY_LAYER, WATER_LAYER, type WaterTier } from "./waterMaterial";
+import { OVERLAY_LAYER, PRECIP_LAYER, WATER_LAYER, type WaterTier } from "./waterMaterial";
 import { waterTimeS } from "./waterClock";
 import type { RippleSim } from "./RippleSim";
 import type { WaterSurfaceHandle } from "./WaterSurfaceMesh";
@@ -298,6 +298,14 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
         cam.layers.mask = 1 << WATER_LAYER;
         renderer.render(scene, cam);
       }
+      // Precipitation AFTER the water surface (round 4): rain is depth-write
+      // free, so anything drawn in a later pass overpainted it — which is why
+      // rain disappeared behind every ocean, river and pool. It still
+      // depth-TESTS against the scene depth the blit wrote, so terrain
+      // occludes it normally. Rain also tone-maps itself, so drawing it
+      // straight to screen after the blit is colour-correct.
+      cam.layers.mask = 1 << PRECIP_LAYER;
+      renderer.render(scene, cam);
       // markers etc. draw straight to screen (no tone mapping crush),
       // depth-tested against the scene depth the blit wrote
       cam.layers.mask = 1 << OVERLAY_LAYER;

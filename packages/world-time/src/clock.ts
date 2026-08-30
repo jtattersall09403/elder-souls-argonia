@@ -90,6 +90,27 @@ export function dayPhaseAt(epochMinutes: number): DayPhase {
   return rising ? "morning" : "afternoon";
 }
 
+/**
+ * THE SHIPPING TIMESCALE — how many world seconds pass per real second.
+ *
+ * The Elder Scrolls games expose this as the `timescale` global: Morrowind
+ * and Oblivion ship at **30**, Skyrim at 20. At 30, one in-game day takes 48
+ * real minutes and an in-game hour takes 2 real minutes — long enough that
+ * you notice the sun move on a journey, short enough that a day/night cycle
+ * lands inside one play session. Since this project's world structure is
+ * deliberately Morrowind-shaped, we take Morrowind's number.
+ *
+ * NOTE FOR ANIMATORS/FX: this scales the CALENDAR only — the sun, moons,
+ * tides, and the weather timeline. It must never scale physical motion.
+ * Rain falls at terminal velocity, waves travel at their own celerity and
+ * animations play at their authored rate, all in REAL seconds. (Owner round
+ * 4 caught rain riding a time-scaled clock; see RainSystem.)
+ */
+export const GAME_TIME_SCALE = 30;
+
+/** The same figure in this clock's units (world MINUTES per real second). */
+export const GAME_RATE_MIN_PER_S = GAME_TIME_SCALE / 60;
+
 export class WorldClock {
   /** World minutes advanced per real second; 0 = frozen (studio default). */
   rate = 0;

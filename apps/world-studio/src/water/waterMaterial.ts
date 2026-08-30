@@ -49,6 +49,18 @@ export const WATER_LAYER = 3;
 /** Display-referred UI (city markers) renders in a final overlay pass —
  * the tone-mapped blit would crush `toneMapped:false` materials to black. */
 export const OVERLAY_LAYER = 4;
+/**
+ * Precipitation (rain streaks). Owner round 4: rain vanished BEHIND every
+ * body of water — ocean, rivers, pools, near and far. Root cause: rain is
+ * transparent with `depthWrite:false`, so it wrote no depth into pass 1's
+ * render target; the water surface then renders in pass 3, on top of that
+ * already-composited image, and had nothing to test against — it simply
+ * painted over the streaks. Rain therefore gets its own layer and is drawn
+ * in pass 3 AFTER the water surface, depth-tested against the scene depth
+ * the blit wrote, so it correctly appears in front of water it is in front
+ * of and behind terrain it is behind.
+ */
+export const PRECIP_LAYER = 5;
 export const MAX_CONTACT_BODIES = 8;
 
 export interface WaterUniforms {

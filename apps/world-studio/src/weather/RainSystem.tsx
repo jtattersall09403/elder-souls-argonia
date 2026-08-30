@@ -1,7 +1,7 @@
-import { useMemo, useRef } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useEffect, useMemo, useRef } from "react";
+import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import { waterTimeS } from "../water/waterClock";
+import { PRECIP_LAYER } from "../water/waterMaterial";
 import { lastWeatherSample } from "./weatherState";
 
 /**
@@ -29,9 +29,30 @@ import { lastWeatherSample } from "./weatherState";
  *  - canopy suppression capped at 55 % — the raster is region-scale, not a
  *    literal roof (the real occlusion depth map lands with Phase 10 canopy
  *    geometry, decision 0032 §6).
+ *
+ * Round 4 (owner: "doesn't fall fast enough", "a bit less white", "vanishes
+ * behind water"):
+ *  - RAIN RUNS ON REAL TIME. It used to ride the shared water clock, which is
+ *    scaled by the world-time rate and by wind — so the same downpour fell at
+ *    a different speed depending on the studio's time-lapse setting, and at
+ *    the shipping timescale it would have been wrong by construction.
+ *    Raindrop fall speed is a physical constant (terminal velocity); it has
+ *    nothing to do with how fast the game clock runs. See TIME_SCALE in
+ *    world-time for what the clock does instead.
+ *  - fall speed is now real terminal velocity for the drop size the state
+ *    implies (drizzle ~4 m/s → heavy-rain 2 mm drops ~9 m/s), and the streak
+ *    LENGTH is derived from it via an eye-persistence "shutter", so faster
+ *    rain automatically draws longer streaks — which is what actually reads
+ *    as speed on screen.
+ *  - colour pulled off pure white to the blue-grey of lit rain-water.
+ *  - drawn on PRECIP_LAYER, after the water surface (see waterMaterial.ts).
  */
 
 const VOLUME = new THREE.Vector3(36, 22, 36);
+
+/** Eye/camera persistence, seconds: how long a falling drop smears for. Streak
+ * length = fall speed × this, so speed and length can never disagree. */
+const SHUTTER_S = 0.09;
 
 const RAIN_VERT = /* glsl */ `
 attribute vec3 aSeed;     // 0..1 per drop
@@ -44,6 +65,7 @@ uniform vec3 uSpan;
 uniform sampler2D uAir;   // climate-air (B = canopy)
 uniform float uExtentM;
 uniform float uPixelWorld; // world metres per screen pixel at 1 m depth
+uniform float uShutter;   // eye-persistence smear time, seconds
 varying float vAlpha;
 varying vec2 vProfile;
 void main() {
@@ -67,7 +89,10 @@ void main() {
   // drizzle haze rather than a bright wall.
   float halfW = max(0.016, 0.75 * uPixelWorld * depth);
   vAlpha *= clamp(0.016 / halfW, 0.3, 1.0);
-  float len = (0.5 + 0.5 * uIntensity) * (0.7 + 0.6 * aSeed.z);
+  // Streak length derives from the fall speed (round 4): a drop smears over
+  // the eye's persistence window, so faster rain draws longer streaks. This
+  // is what reads as SPEED on screen — a fast short dash looks slow.
+  float len = uFall * uShutter * (0.7 + 0.6 * aSeed.z);
   vec3 quad = pos + right * (aCorner.x * halfW) + velDir * (aCorner.y * len);
   vProfile = aCorner;
   gl_Position = projectionMatrix * viewMatrix * vec4(quad, 1.0);
@@ -139,8 +164,9 @@ export function RainSystem({ count, extentM }: { count: number; extentM: number 
           uAir: { value: null },
           uExtentM: { value: extentM },
           uPixelWorld: { value: 0.0013 },
+          uShutter: { value: SHUTTER_S },
           uColor: { value: new THREE.Color(0.6, 0.65, 0.7) },
-          uOpacity: { value: 0.65 },
+          uOpacity: { value: 0.6 },
         },
         vertexShader: RAIN_VERT,
         fragmentShader: RAIN_FRAG,
@@ -153,22 +179,38 @@ export function RainSystem({ count, extentM }: { count: number; extentM: number 
     [extentM],
   );
   const meshRef = useRef<THREE.Mesh>(null);
+  // Rain's own REAL-TIME accumulator (round 4): falling water is physics, not
+  // world time. The old shared water clock ran at up to 8× and scaled with
+  // wind, so rain sped up and slowed down with the studio's time-lapse.
+  const clock = useRef(0);
 
-  useFrame(({ camera, size, viewport }) => {
+  // Drawn in the water pipeline's post-water pass — see PRECIP_LAYER.
+  const { camera: defaultCamera } = useThree();
+  useEffect(() => {
+    defaultCamera.layers.enable(PRECIP_LAYER);
+    meshRef.current?.layers.set(PRECIP_LAYER);
+  }, [defaultCamera]);
+
+  useFrame(({ camera, size, viewport }, delta) => {
     const mesh = meshRef.current;
     if (!mesh) return;
+    clock.current += Math.min(delta, 0.1);
     const wx = lastWeatherSample();
     const rain = wx?.rainIntensity ?? 0;
     mesh.visible = rain > 0.02;
     if (!mesh.visible) return;
     const u = material.uniforms;
-    u.uTime.value = waterTimeS();
+    u.uTime.value = clock.current;
     u.uIntensity.value = rain;
     if (wx) {
       // horizontal drift follows the weather wind (gusts wobble it a little)
       const drift = 0.35 * wx.windSpeedMS;
       u.uWindV.value.set(wx.windDirXZ[0] * drift, wx.windDirXZ[1] * drift);
-      u.uFall.value = 8 + 3 * rain;
+      // Terminal velocity by drop size: fine drizzle (~0.5 mm) falls ~4 m/s,
+      // heavy-rain drops (~2 mm) ~9 m/s, and a squall's downdraught adds to
+      // that. Real numbers — the previous 8–11 m/s floor was both too uniform
+      // and, ridden on the scaled clock, effectively arbitrary.
+      u.uFall.value = 4 + 5.5 * rain + 0.12 * wx.windSpeedMS;
     }
     // world metres per screen pixel at 1 m depth, for the min-width clamp
     const cam = camera as THREE.PerspectiveCamera;
@@ -187,18 +229,23 @@ export function RainSystem({ count, extentM }: { count: number; extentM: number 
     // (lightRig fogLum — lit water in air) LIFTED well above it: rain reads
     // through CONTRAST, and under a storm's lifted exposure the ground
     // renders brighter than the fog colour — ×1.25 was invisible over sunlit
-    // mud (round-3 debug screenshots). ×4, capped at ~1.05 screen so day
-    // streaks are bright white-grey without glowing; at night the cap never
-    // engages and streaks stay a dim moonlit veil.
+    // mud (round-3 debug screenshots).
+    //
+    // Round 4 (owner: "make the rain a bit less white"): the target screen
+    // value drops 1.05 → 0.78 and the streaks take the blue-grey cast of
+    // water rather than the fog's near-white. Real rain is not a light
+    // source: it reads by CONTRAST and by motion, not by brightness, and a
+    // near-white streak over a grey storm scene looks like static. At night
+    // the cap never engages and streaks stay a dim moonlit veil.
     if (air) {
       const f = air.uFogLum.value;
       const exposure = window.__STUDIO_SKY_DEBUG__?.exposure;
       let k = 4;
       if (exposure && exposure > 0) {
         const fogScreen = Math.max(f.x, f.y, f.z) * exposure;
-        k = Math.min(4, Math.max(1.2, 1.05 / Math.max(fogScreen, 1e-4)));
+        k = Math.min(4, Math.max(1.0, 0.78 / Math.max(fogScreen, 1e-4)));
       }
-      (u.uColor.value as THREE.Color).setRGB(f.x * k, f.y * k, f.z * k);
+      (u.uColor.value as THREE.Color).setRGB(f.x * k * 0.9, f.y * k * 0.95, f.z * k * 1.02);
     }
     if (air?.uClimateAir.value && !u.uAir.value) u.uAir.value = air.uClimateAir.value;
   });

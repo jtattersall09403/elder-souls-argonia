@@ -1,5 +1,10 @@
 import { useSyncExternalStore } from "react";
-import { MONTHS, type WorldInstant } from "@elder-souls/world-time";
+import {
+  GAME_RATE_MIN_PER_S,
+  GAME_TIME_SCALE,
+  MONTHS,
+  type WorldInstant,
+} from "@elder-souls/world-time";
 import {
   LIGHT_PRESETS,
   clockVersion,
@@ -115,6 +120,7 @@ export function TimePanel({
           }}
         >
           <option value={0}>⏸ paused</option>
+          <option value={GAME_RATE_MIN_PER_S}>▶ game speed (×{GAME_TIME_SCALE})</option>
           <option value={1}>1 min/s</option>
           <option value={10}>10 min/s</option>
           <option value={60}>1 h/s</option>
