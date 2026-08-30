@@ -8,7 +8,7 @@
     6.71
    ],
    "lengthM": 26,
-   "meanGroundM": 1.7
+   "meanGroundM": 2.1
   },
   {
    "lane": "soulrest-lilmoth",
@@ -18,7 +18,7 @@
     6.43
    ],
    "lengthM": 16,
-   "meanGroundM": 2.6
+   "meanGroundM": 2.4
   },
   {
    "lane": "lilmoth-archon",
@@ -28,7 +28,7 @@
     6.42
    ],
    "lengthM": 16,
-   "meanGroundM": 2.6
+   "meanGroundM": 2.4
   },
   {
    "lane": "archon-thorn",
@@ -38,7 +38,7 @@
     0.59
    ],
    "lengthM": 11,
-   "meanGroundM": 38.1
+   "meanGroundM": 38.9
   },
   {
    "lane": "stormhold-alten-corimont",
@@ -48,7 +48,7 @@
     0.73
    ],
    "lengthM": 89,
-   "meanGroundM": 28.4
+   "meanGroundM": 29.1
   },
   {
    "lane": "stormhold-alten-corimont",
@@ -68,7 +68,7 @@
     1.11
    ],
    "lengthM": 39,
-   "meanGroundM": 4.3
+   "meanGroundM": 4.2
   },
   {
    "lane": "blackrose-lilmoth",
@@ -88,7 +88,7 @@
     6.43
    ],
    "lengthM": 16,
-   "meanGroundM": 2.6
+   "meanGroundM": 2.4
   },
   {
    "lane": "alten-corimont-helstrom",
@@ -98,7 +98,7 @@
     1.14
    ],
    "lengthM": 39,
-   "meanGroundM": 4.3
+   "meanGroundM": 4.2
   },
   {
    "lane": "alten-corimont-helstrom",
@@ -108,7 +108,7 @@
     1.77
    ],
    "lengthM": 55,
-   "meanGroundM": -0.4
+   "meanGroundM": -0.3
   },
   {
    "lane": "alten-corimont-helstrom",
@@ -118,7 +118,7 @@
     2.59
    ],
    "lengthM": 44,
-   "meanGroundM": -0.9
+   "meanGroundM": -0.2
   },
   {
    "lane": "alten-corimont-helstrom",

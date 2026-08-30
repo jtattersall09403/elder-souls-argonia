@@ -304,19 +304,19 @@
   },
   "regionFractions": {
     "ocean": 0.3216,
-    "border mountains": 0.1821,
-    "upland hills": 0.0924,
-    "tidal delta": 0.0004,
+    "border mountains": 0.1296,
+    "upland hills": 0.0947,
+    "tidal delta": 0.0008,
     "coastal lagoon & salt marsh": 0.0092,
     "deep river corridor": 0.0019,
-    "rootland deep marsh": 0.0145,
-    "interior swamp": 0.0101,
-    "fringe marsh": 0.0136,
-    "seasonal floodplain": 0.0291,
+    "rootland deep marsh": 0.0688,
+    "interior swamp": 0.0324,
+    "fringe marsh": 0.0563,
+    "seasonal floodplain": 0.0087,
     "raised hammock": 0.0,
-    "firm lowland": 0.2141,
+    "firm lowland": 0.1604,
     "lake & standing water": 0.0609,
-    "tropical jungle": 0.0502
+    "tropical jungle": 0.0547
   },
   "handPercentilesM": {
     "25": 4.81,

@@ -19,12 +19,21 @@ const BASE = `http://127.0.0.1:${PORT}/elder-souls-argonia/studio/`;
 
 // Chunk centres for the areas decision 0036 Q3 signed off. Chunk n spans
 // 467.9 m, so the centre of chunk (cx,cz) is ((cx+0.5)*467.9)/1000 km.
+// minGroundcover asserts the T3 ring (window.__STUDIO_GROUNDCOVER_DEBUG__):
+// firm floors only where the palettes paint grass-bearing ground for certain
+// (jungle floor; the 5,12 interior-swamp exemplar is mostly bare muck by
+// design — decision 0036 Q5 — so its floor is low). Elsewhere report-only.
+// alt: the dense areas are probed FROM ALTITUDE — round-2 density makes a
+// ground-level jungle frame take minutes on SwiftShader, and the high view
+// exercises exactly the far tier (per-species culls + T4 billboards) that a
+// probe can meaningfully assert. Ground-level look in dense areas is the
+// owner's call on a real GPU (deployed build), per the golden rules.
 const SCENARIOS = [
-  { id: "exemplar-interior-swamp", x: 2.574, z: 5.849, minInstances: 500 },
-  { id: "contrast-jungle", x: 3.509, z: 4.445, minInstances: 800 },
-  { id: "contrast-rootland", x: 2.106, z: 4.913, minInstances: 400 },
-  { id: "contrast-coastal-lagoon", x: 5.381, z: 3.510, minInstances: 200 },
-  { id: "contrast-uplands", x: 1.638, z: 1.638, minInstances: 20 },
+  { id: "exemplar-interior-swamp", x: 2.574, z: 5.849, alt: 420, minInstances: 500, minGroundcover: 0 },
+  { id: "contrast-jungle", x: 3.509, z: 4.445, alt: 420, minInstances: 800, minGroundcover: 0 },
+  { id: "contrast-rootland", x: 2.106, z: 4.913, alt: 420, minInstances: 400, minGroundcover: 0 },
+  { id: "contrast-coastal-lagoon", x: 5.381, z: 3.510, alt: 90, minInstances: 200, minGroundcover: 0 },
+  { id: "contrast-uplands", x: 1.638, z: 1.638, alt: 90, minInstances: 20, minGroundcover: 0 },
 ];
 
 const server = spawn("npx", ["vite", "preview", "--port", String(PORT), "--strictPort",
@@ -48,7 +57,9 @@ for (let attempt = 0; attempt < 40; attempt++) {
   await new Promise((r) => setTimeout(r, 500));
 }
 const browser = await chromium.launch({ args: ["--use-gl=angle", "--use-angle=swiftshader"] });
-const page = await browser.newPage({ viewport: { width: 1000, height: 620 } });
+// 640x400: SwiftShader is fill/vertex bound — the dense areas took 100 s
+// per frame even at this size; 1000x620 blew the screenshot timeout.
+const page = await browser.newPage({ viewport: { width: 640, height: 400 } });
 
 const errors = [];
 page.on("pageerror", (e) => errors.push(String(e)));
@@ -56,20 +67,28 @@ page.on("console", (m) => { if (m.type() === "error") errors.push(m.text()); });
 
 const results = [];
 for (const scenario of SCENARIOS) {
-  const url = `${BASE}?view=fly3d&cam=orbit&x=${scenario.x}&z=${scenario.z}&ex=1&t=11:00&d=8-17&alt=90`;
+  // smsize shrinks the CSM maps for the software rasteriser; round-2 density
+  // (~180k instances + the T3 ring) made full-size cascades a 30s+ frame.
+  const url = `${BASE}?view=fly3d&cam=orbit&x=${scenario.x}&z=${scenario.z}&ex=1&t=11:00&d=8-17&alt=${scenario.alt}&smsize=256&wq=low&w=clear`;
   // The flora kit is a 12 MB GLB and this runs on a software rasteriser, so
   // "load" plus a fixed sleep is not a safe pair: wait for the DOM, then poll
   // for the renderer's own counters.
   await page.goto(url, { waitUntil: "domcontentloaded", timeout: 90_000 });
   let stats = null;
-  for (let attempt = 0; attempt < 60 && !stats; attempt++) {
+  let groundcover = null;
+  // The two hooks land independently (T1/T2 waits on the 12 MB flora kit,
+  // the T3 ring on the land-cover raster + chunk heights); wait for both.
+  for (let attempt = 0; attempt < 60 && !(stats && groundcover); attempt++) {
     await page.waitForTimeout(1000);
     stats = await page.evaluate(() => window.__STUDIO_VEGETATION_DEBUG__ ?? null);
+    groundcover = await page.evaluate(() => window.__STUDIO_GROUNDCOVER_DEBUG__ ?? null);
   }
   const file = path.join(artifacts, `vegetation-${scenario.id}.png`);
-  await page.screenshot({ path: file });
-  results.push({ id: scenario.id, stats, file, min: scenario.minInstances });
+  await page.screenshot({ path: file, timeout: 300_000 });
+  results.push({ id: scenario.id, stats, groundcover, file,
+    min: scenario.minInstances, minGroundcover: scenario.minGroundcover });
   console.log(`${scenario.id.padEnd(28)} ${stats ? JSON.stringify(stats) : "NO STATS"}`);
+  console.log(`${" ".repeat(28)} T3 ${groundcover ? JSON.stringify(groundcover) : "NO STATS"}`);
 }
 
 await browser.close();
@@ -78,10 +97,22 @@ stop();
 writeFileSync(path.join(artifacts, "vegetation-probe.json"),
   JSON.stringify({ results, errors }, null, 1));
 
-const failures = results.filter((r) => !r.stats || r.stats.instances < r.min);
+const failures = results.filter((r) =>
+  !r.stats || r.stats.instances < r.min
+  || !r.groundcover || r.groundcover.instances < r.minGroundcover);
 if (errors.length) console.error(`page errors:\n  ${errors.slice(0, 5).join("\n  ")}`);
 if (failures.length) {
   console.error("FAILED: " + failures.map((f) => f.id).join(", "));
+  process.exit(1);
+}
+// T4: far chunks of billboard-carrying tree species must actually draw as
+// `_lod_flat` billboards somewhere across the scenarios — zero would mean the
+// far tier silently regressed to nothing (the extras-lookup trap, again).
+const billboardTotal = results.reduce((s, r) => s + (r.stats?.billboardInstances ?? 0), 0);
+const culledTotal = results.reduce((s, r) => s + (r.stats?.culled ?? 0), 0);
+console.log(`T4 billboard instances across scenarios: ${billboardTotal}; distance-culled: ${culledTotal}`);
+if (billboardTotal === 0) {
+  console.error("FAILED: no billboard-level (T4) draws in any scenario");
   process.exit(1);
 }
 console.log("vegetation probe OK");

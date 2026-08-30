@@ -165,11 +165,11 @@
   ],
   "dangerModel": "base(region) + 2.9*depth/10km(cost) - road relief; edges/coast seed access, Helstrom excluded (canon: unconquered heart); high dry ground capped at band 3",
   "dangerBandFractions": {
-    "danger 1 \u2014 settled": 0.006,
-    "danger 2 \u2014 travelled": 0.168,
-    "danger 3 \u2014 wild": 0.546,
-    "danger 4 \u2014 perilous": 0.195,
-    "danger 5 \u2014 deep peril": 0.084
+    "danger 1 \u2014 settled": 0.005,
+    "danger 2 \u2014 travelled": 0.147,
+    "danger 3 \u2014 wild": 0.521,
+    "danger 4 \u2014 perilous": 0.202,
+    "danger 5 \u2014 deep peril": 0.126
   },
   "depthKmPercentiles": {
     "50": 2.6,
@@ -179,13 +179,13 @@
   },
   "cultureFractions": {
     "hinterland": 0.334,
-    "imperial-fringe": 0.146,
-    "dunmer-north": 0.153,
-    "mercantile-coast": 0.071,
-    "imperial-penal-south": 0.037,
-    "saxhleel-coast": 0.031,
-    "pirate-freeholds": 0.02,
-    "hist-heartland": 0.177,
-    "naga-kur-deeps": 0.031
+    "imperial-fringe": 0.139,
+    "dunmer-north": 0.147,
+    "mercantile-coast": 0.06,
+    "imperial-penal-south": 0.029,
+    "saxhleel-coast": 0.029,
+    "pirate-freeholds": 0.016,
+    "hist-heartland": 0.189,
+    "naga-kur-deeps": 0.057
   }
 }
