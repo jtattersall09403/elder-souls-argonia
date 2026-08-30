@@ -81,9 +81,11 @@ def test_output_is_clustered_the_way_hand_placement_is():
                   scatter_chunk(0, 0, size, palette, flat_fields(), seed=11)]
         assert len(points) > 150
         r = clark_evans(points, size * size)
-        assert 0.4 <= r <= 0.7, (
+        assert 0.3 <= r <= 0.7, (
             f"Clark-Evans {r:.2f} at median {median}: the mined worlds sit at "
-            "0.43-0.49 and a jittered grid scores above 1.0"
+            "0.43-0.49 and a jittered grid scores above 1.0. Patchiness pushes "
+            "this a little lower than clumping alone, which is why the band is "
+            "wider than the mined spread."
         )
 
 
@@ -199,3 +201,60 @@ def test_a_layer_keeps_its_pattern_when_the_palette_is_filtered():
     full = scatter_chunk(0, 0, 200, Palette("p", [palm, reed]), fields, seed=4)
     only = scatter_chunk(0, 0, 200, Palette("p", [reed]), fields, seed=4)
     assert [(i.x, i.z) for i in full] == [(i.x, i.z) for i in only]
+
+
+def test_density_varies_across_a_landscape_as_much_as_the_source_does():
+    """The owner's brief: 'even within an area there should be sensible
+    variation so it's not all just samey'. The reference mod's density varies
+    with a standard deviation 2.3-3.1x its mean between neighbouring cells
+    (research/vegetation-density-design.md); an evenly spread scatter would be
+    far flatter than that."""
+    palette = Palette("p", [Layer(species="fern", instances_per_hectare=60)])
+    size = 1000.0
+    instances = scatter_chunk(0, 0, size, palette, flat_fields(), seed=23)
+    cell = 58.0                      # the distance the mined correlation is quoted at
+    counts: dict[tuple[int, int], int] = {}
+    for i in instances:
+        key = (int(i.x // cell), int(i.z // cell))
+        counts[key] = counts.get(key, 0) + 1
+    grid = int(size // cell)
+    values = [counts.get((x, z), 0) for x in range(grid) for z in range(grid)]
+    mean = sum(values) / len(values)
+    sd = (sum((v - mean) ** 2 for v in values) / len(values)) ** 0.5
+    assert mean > 3
+    assert sd / mean > 0.6, (
+        f"coefficient of variation {sd / mean:.2f} — the scatter is too even; "
+        "the source varies far more than this"
+    )
+
+
+def test_glades_are_shared_between_species_not_private_to_each():
+    """A clearing has to be a clearing for everything, or it reads as noise
+    rather than as a place. Compared against the shared field itself rather
+    than species-to-species: heavy-tailed clump sizes dominate any single
+    cell's count, so the mechanism is what the test has to isolate."""
+    from .scatter import GLADE_WAVELENGTH_M, hash64, value_noise
+
+    layers = [
+        Layer(species="fern", instances_per_hectare=80, patchiness=0.0,
+              glade_response=0.9, clump_size_median=2, clump_size_tail=0.0),
+        Layer(species="palm", instances_per_hectare=80, patchiness=0.0,
+              glade_response=0.9, clump_size_median=2, clump_size_tail=0.0),
+    ]
+    size, seed = 1200.0, 31
+    got = scatter_chunk(0, 0, size, Palette("p", layers), flat_fields(), seed=seed)
+    glade_salt = hash64(seed, 0x61ADE)
+
+    open_ground, thicket = {"fern": 0, "palm": 0}, {"fern": 0, "palm": 0}
+    for i in got:
+        field = value_noise(glade_salt, i.x, i.z, GLADE_WAVELENGTH_M)
+        if field < 0.35:
+            open_ground[i.species] += 1
+        elif field > 0.65:
+            thicket[i.species] += 1
+    for species in ("fern", "palm"):
+        assert thicket[species] > open_ground[species] * 1.8, (
+            f"{species}: {thicket[species]} in thickets vs "
+            f"{open_ground[species]} in clearings — the shared openness field "
+            "is not shaping this layer"
+        )

@@ -337,6 +337,29 @@
    "armour": 0.0
   }
  },
+ "variation": {
+  "perCellCount": {
+   "mean": 73.1,
+   "sd": 226.3,
+   "coefficientOfVariation": 3.094
+  },
+  "densityCorrelationByDistance": {
+   "58m": 0.314,
+   "117m": 0.138,
+   "175m": 0.086,
+   "233m": 0.061,
+   "350m": 0.054,
+   "466m": 0.042,
+   "699m": 0.035
+  },
+  "openSpaceRadiusM": {
+   "p5": 0.567,
+   "p25": 2.967,
+   "p50": 10.229,
+   "p75": 21.139,
+   "p95": 31.492
+  }
+ },
  "bands": {
   "byWaterDepth": {
    "deep>2m": {

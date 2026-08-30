@@ -14,7 +14,8 @@
   "instances_per_hectare": "instances per hectare of ideal ground, before the depth and slope responses thin them \u2014 the same unit the mining measured, so a number here can be read straight against docs/research/shipped-world-placement-rules.md",
   "clumping": "clump_size_median / clump_radius_m / singleton_share shape the clustering; the defaults are calibrated to Clark-Evans R 0.5-0.6 against the mined 0.45",
   "depth_response": "depth_half_width_m defaults to 0 = flat inside the gate; only water-edge species set a peak and a width",
-  "densityScale": "global multiplier over every layer, so 'how dense should Argonia feel' is one owner decision rather than sixty numbers"
+  "densityScale": "global multiplier over every layer, so 'how dense should Argonia feel' is one owner decision rather than sixty numbers",
+  "landmarkGiants": "Layers tagged role=landmark-giant are the owner's 0036 Q2 choice: the ordinary canopy sits near native scale and a few giants (x1.8-2.6, so 58-83 m on a 32 m cypress) stand out to navigate by. They are placed for visibility rather than cover \u2014 roughly one per 8-16 ha \u2014 take no notice of clearance themselves, and stamp a wide clearance so nothing crowds the silhouette. Their density is additive to the climate-derived target, which it barely moves."
  },
  "byRegionClass": {
   "1": {
@@ -35,7 +36,7 @@
       1.1
      ],
      "clearance_radius_m": 1.5,
-     "instances_per_hectare": 3.6
+     "instances_per_hectare": 22.8
     },
     {
      "species": "bmv:landscape/rocks/moss_rockcliff01",
@@ -51,9 +52,10 @@
       0.6,
       1.3
      ],
-     "instances_per_hectare": 6.0
+     "instances_per_hectare": 38.1
     }
-   ]
+   ],
+   "targetInstancesPerHectare": 61.2
   },
   "2": {
    "id": "upland-hills",
@@ -73,7 +75,7 @@
       1.0
      ],
      "clearance_radius_m": 3.5,
-     "instances_per_hectare": 2.4
+     "instances_per_hectare": 10.5
     },
     {
      "species": "bmv:landscape/trees/gkbfallforestshrub02",
@@ -89,7 +91,7 @@
       0.8,
       1.3
      ],
-     "instances_per_hectare": 10.5
+     "instances_per_hectare": 45.6
     },
     {
      "species": "bmv:vvardenfell/flora/algrass03b",
@@ -105,9 +107,10 @@
       0.8,
       1.4
      ],
-     "instances_per_hectare": 18.0
+     "instances_per_hectare": 77.9
     }
-   ]
+   ],
+   "targetInstancesPerHectare": 134.0
   },
   "3": {
    "id": "tidal-delta",
@@ -129,7 +132,7 @@
       1.3
      ],
      "clearance_radius_m": 3.0,
-     "instances_per_hectare": 6.6
+     "instances_per_hectare": 27.2
     },
     {
      "species": "bmv:landscape/grass/vurt_reeds",
@@ -147,7 +150,7 @@
       1.0,
       1.8
      ],
-     "instances_per_hectare": 42.0
+     "instances_per_hectare": 173.7
     },
     {
      "species": "bmv:landscape/trees/gkblillipad2",
@@ -166,9 +169,10 @@
      ],
      "yaw_random": true,
      "tilt_deg_max": 0.0,
-     "instances_per_hectare": 18.0
+     "instances_per_hectare": 74.5
     }
-   ]
+   ],
+   "targetInstancesPerHectare": 275.4
   },
   "4": {
    "id": "coastal-lagoon-salt-marsh",
@@ -190,7 +194,7 @@
       1.3
      ],
      "clearance_radius_m": 3.2,
-     "instances_per_hectare": 9.0
+     "instances_per_hectare": 56.4
     },
     {
      "species": "bmv:landscape/trees/mangrovereachtree0gkb9",
@@ -209,7 +213,7 @@
       1.2
      ],
      "clearance_radius_m": 3.0,
-     "instances_per_hectare": 6.0
+     "instances_per_hectare": 37.7
     },
     {
      "species": "bmv:landscape/trees/beachpalm2",
@@ -226,7 +230,7 @@
       0.85
      ],
      "clearance_radius_m": 3.5,
-     "instances_per_hectare": 2.7
+     "instances_per_hectare": 17.0
     },
     {
      "species": "bmv:landscape/grass/vurt_reeds",
@@ -243,7 +247,7 @@
       1.0,
       1.8
      ],
-     "instances_per_hectare": 36.0
+     "instances_per_hectare": 225.4
     },
     {
      "species": "bmv:landscape/grass/waterkelptall01",
@@ -260,9 +264,10 @@
       0.8,
       1.4
      ],
-     "instances_per_hectare": 15.0
+     "instances_per_hectare": 93.8
     }
-   ]
+   ],
+   "targetInstancesPerHectare": 430.4
   },
   "5": {
    "id": "deep-river-corridor",
@@ -282,7 +287,7 @@
       0.95
      ],
      "clearance_radius_m": 4.0,
-     "instances_per_hectare": 4.2
+     "instances_per_hectare": 14.6
     },
     {
      "species": "bmv:landscape/grass/vurt_reeds",
@@ -299,7 +304,7 @@
       1.0,
       1.8
      ],
-     "instances_per_hectare": 48.0
+     "instances_per_hectare": 168.6
     },
     {
      "species": "bmv:landscape/plants/kelptallstatic01aaa",
@@ -316,7 +321,7 @@
       0.8,
       1.3
      ],
-     "instances_per_hectare": 18.0
+     "instances_per_hectare": 63.2
     },
     {
      "species": "bmv:landscape/trees/gkblillipad2",
@@ -334,14 +339,38 @@
       1.4
      ],
      "tilt_deg_max": 0.0,
-     "instances_per_hectare": 15.0
+     "instances_per_hectare": 52.7
     }
-   ]
+   ],
+   "targetInstancesPerHectare": 299.2
   },
   "6": {
    "id": "rootland-deep-marsh",
    "note": "Canopy 0.95 \u2014 permanent dusk. Roots and blue-moss canopies carry the identity; the tree list is short and the understory is fungal rather than leafy.",
    "layers": [
+    {
+     "species": "bmv:landscape/trees/cypress1",
+     "tier": "T1",
+     "instances_per_hectare": 0.12,
+     "clump_size_median": 1,
+     "clump_size_tail": 0.0,
+     "singleton_share": 1.0,
+     "clump_radius_m": 0.0,
+     "patchiness": 0.2,
+     "glade_response": 0.0,
+     "water_depth_m": [
+      -3.0,
+      1.0
+     ],
+     "slope_deg_max": 30.0,
+     "scale_range": [
+      1.8,
+      2.6
+     ],
+     "clearance_radius_m": 14.0,
+     "respects_clearance": false,
+     "role": "landmark-giant"
+    },
     {
      "species": "bmv:landscape/trees/cypress1",
      "tier": "T1",
@@ -357,7 +386,7 @@
       0.95
      ],
      "clearance_radius_m": 4.5,
-     "instances_per_hectare": 7.8
+     "instances_per_hectare": 48.6
     },
     {
      "species": "bmv:architecture/phitt/ashlands/tramaroot01",
@@ -374,7 +403,7 @@
       2.6
      ],
      "clearance_radius_m": 3.0,
-     "instances_per_hectare": 6.6
+     "instances_per_hectare": 41.1
     },
     {
      "species": "bmv:architecture/phitt/ashlands/tramaroot06",
@@ -390,7 +419,7 @@
       1.0,
       2.2
      ],
-     "instances_per_hectare": 7.8
+     "instances_per_hectare": 48.6
     },
     {
      "species": "bmv:landscape/plants/florahangingmoss02aaa",
@@ -406,7 +435,7 @@
       0.9,
       1.6
      ],
-     "instances_per_hectare": 15.0
+     "instances_per_hectare": 93.5
     },
     {
      "species": "bmv:landscape/plants/fernlarge03",
@@ -422,7 +451,7 @@
       0.7,
       1.3
      ],
-     "instances_per_hectare": 24.0
+     "instances_per_hectare": 149.3
     },
     {
      "species": "bmv:landscape/plants/braken",
@@ -438,7 +467,7 @@
       0.8,
       1.4
      ],
-     "instances_per_hectare": 27.0
+     "instances_per_hectare": 168.0
     },
     {
      "species": "bmv:vurt_shroom/vurt_shroom_big1",
@@ -454,7 +483,7 @@
       0.7,
       1.5
      ],
-     "instances_per_hectare": 7.2
+     "instances_per_hectare": 44.9
     },
     {
      "species": "bmv:landscape/grass/vurt_reeds",
@@ -471,7 +500,7 @@
       1.0,
       1.8
      ],
-     "instances_per_hectare": 24.0
+     "instances_per_hectare": 149.3
     },
     {
      "species": "bmv:landscape/trees/gkblillipad2",
@@ -489,14 +518,38 @@
       1.4
      ],
      "tilt_deg_max": 0.0,
-     "instances_per_hectare": 12.0
+     "instances_per_hectare": 74.8
     }
-   ]
+   ],
+   "targetInstancesPerHectare": 818.0
   },
   "7": {
    "id": "interior-swamp",
    "note": "The reference-watershed palette. Canopy 0.65: cypress over a bracken-and-fern understory, mangrove where the water stands, reeds and lilypads in it.",
    "layers": [
+    {
+     "species": "bmv:landscape/trees/cypress1",
+     "tier": "T1",
+     "instances_per_hectare": 0.12,
+     "clump_size_median": 1,
+     "clump_size_tail": 0.0,
+     "singleton_share": 1.0,
+     "clump_radius_m": 0.0,
+     "patchiness": 0.2,
+     "glade_response": 0.0,
+     "water_depth_m": [
+      -4.0,
+      1.0
+     ],
+     "slope_deg_max": 32.0,
+     "scale_range": [
+      1.8,
+      2.6
+     ],
+     "clearance_radius_m": 14.0,
+     "respects_clearance": false,
+     "role": "landmark-giant"
+    },
     {
      "species": "bmv:landscape/trees/cypress1",
      "tier": "T1",
@@ -512,7 +565,7 @@
       0.95
      ],
      "clearance_radius_m": 4.5,
-     "instances_per_hectare": 6.0
+     "instances_per_hectare": 21.1
     },
     {
      "species": "bmv:landscape/trees/cypress3",
@@ -529,7 +582,7 @@
       0.95
      ],
      "clearance_radius_m": 4.0,
-     "instances_per_hectare": 4.2
+     "instances_per_hectare": 15.0
     },
     {
      "species": "bmv:landscape/trees/mangrovereachtree0gkb9",
@@ -548,7 +601,7 @@
       1.2
      ],
      "clearance_radius_m": 3.0,
-     "instances_per_hectare": 4.8
+     "instances_per_hectare": 17.0
     },
     {
      "species": "bmv:landscape/trees/treewillow01a",
@@ -565,7 +618,7 @@
       0.9
      ],
      "clearance_radius_m": 4.0,
-     "instances_per_hectare": 1.8
+     "instances_per_hectare": 6.5
     },
     {
      "species": "bmv:landscape/trees/hangingvines1",
@@ -581,7 +634,7 @@
       0.9,
       1.5
      ],
-     "instances_per_hectare": 9.0
+     "instances_per_hectare": 32.0
     },
     {
      "species": "bmv:landscape/plants/braken",
@@ -597,7 +650,7 @@
       0.8,
       1.4
      ],
-     "instances_per_hectare": 30.0
+     "instances_per_hectare": 106.1
     },
     {
      "species": "bmv:landscape/plants/fernlarge03",
@@ -613,7 +666,7 @@
       0.7,
       1.3
      ],
-     "instances_per_hectare": 24.0
+     "instances_per_hectare": 85.0
     },
     {
      "species": "bmv:landscape/trees/tropicalplant01",
@@ -629,7 +682,7 @@
       0.8,
       1.5
      ],
-     "instances_per_hectare": 21.0
+     "instances_per_hectare": 74.1
     },
     {
      "species": "bmv:landscape/plants/bigshrub2(colorful)",
@@ -645,7 +698,7 @@
       0.7,
       1.2
      ],
-     "instances_per_hectare": 15.0
+     "instances_per_hectare": 53.0
     },
     {
      "species": "bmv:landscape/grass/vurt_reeds",
@@ -662,7 +715,7 @@
       1.0,
       1.8
      ],
-     "instances_per_hectare": 36.0
+     "instances_per_hectare": 127.2
     },
     {
      "species": "bmv:landscape/trees/gkblillipad2",
@@ -680,7 +733,7 @@
       1.4
      ],
      "tilt_deg_max": 0.0,
-     "instances_per_hectare": 15.0
+     "instances_per_hectare": 53.0
     },
     {
      "species": "bmv:landscape/grass/waterkelpshort01",
@@ -697,14 +750,38 @@
       0.8,
       1.3
      ],
-     "instances_per_hectare": 10.5
+     "instances_per_hectare": 37.1
     }
-   ]
+   ],
+   "targetInstancesPerHectare": 627.0
   },
   "8": {
    "id": "fringe-marsh",
    "note": "Canopy 0.3 \u2014 open. Reeds and grasses with scattered trees; the band the player crosses to reach anywhere.",
    "layers": [
+    {
+     "species": "bmv:landscape/trees/cypress3",
+     "tier": "T1",
+     "instances_per_hectare": 0.06,
+     "clump_size_median": 1,
+     "clump_size_tail": 0.0,
+     "singleton_share": 1.0,
+     "clump_radius_m": 0.0,
+     "patchiness": 0.2,
+     "glade_response": 0.0,
+     "water_depth_m": [
+      -3.0,
+      0.6
+     ],
+     "slope_deg_max": 30.0,
+     "scale_range": [
+      1.8,
+      2.6
+     ],
+     "clearance_radius_m": 14.0,
+     "respects_clearance": false,
+     "role": "landmark-giant"
+    },
     {
      "species": "bmv:landscape/trees/cypress3",
      "tier": "T1",
@@ -720,7 +797,7 @@
       0.9
      ],
      "clearance_radius_m": 4.0,
-     "instances_per_hectare": 2.1
+     "instances_per_hectare": 7.8
     },
     {
      "species": "bmv:landscape/trees/treewillow02a",
@@ -737,7 +814,7 @@
       0.9
      ],
      "clearance_radius_m": 3.5,
-     "instances_per_hectare": 1.5
+     "instances_per_hectare": 5.4
     },
     {
      "species": "bmv:landscape/grass/vurt_reeds",
@@ -754,7 +831,7 @@
       1.0,
       1.8
      ],
-     "instances_per_hectare": 45.0
+     "instances_per_hectare": 168.0
     },
     {
      "species": "bmv:landscape/plants/esloebush08",
@@ -770,7 +847,7 @@
       0.8,
       1.3
      ],
-     "instances_per_hectare": 12.0
+     "instances_per_hectare": 44.9
     },
     {
      "species": "bmv:landscape/plants/fern01",
@@ -786,7 +863,7 @@
       0.8,
       1.3
      ],
-     "instances_per_hectare": 15.0
+     "instances_per_hectare": 56.1
     },
     {
      "species": "bmv:landscape/trees/gkblillipad2",
@@ -804,9 +881,10 @@
       1.4
      ],
      "tilt_deg_max": 0.0,
-     "instances_per_hectare": 12.0
+     "instances_per_hectare": 44.9
     }
-   ]
+   ],
+   "targetInstancesPerHectare": 327.1
   },
   "9": {
    "id": "seasonal-floodplain",
@@ -827,7 +905,7 @@
       0.9
      ],
      "clearance_radius_m": 3.5,
-     "instances_per_hectare": 1.2
+     "instances_per_hectare": 2.7
     },
     {
      "species": "bmv:vvardenfell/flora/algrass03b",
@@ -843,7 +921,7 @@
       0.8,
       1.4
      ],
-     "instances_per_hectare": 30.0
+     "instances_per_hectare": 64.9
     },
     {
      "species": "bmv:landscape/plants/fern01",
@@ -859,7 +937,7 @@
       0.8,
       1.3
      ],
-     "instances_per_hectare": 18.0
+     "instances_per_hectare": 38.8
     },
     {
      "species": "bmv:landscape/plants/chickweed",
@@ -875,7 +953,7 @@
       0.9,
       1.5
      ],
-     "instances_per_hectare": 21.0
+     "instances_per_hectare": 45.6
     },
     {
      "species": "bmv:landscape/grass/vurt_reeds",
@@ -892,9 +970,10 @@
       1.0,
       1.7
      ],
-     "instances_per_hectare": 21.0
+     "instances_per_hectare": 45.6
     }
-   ]
+   ],
+   "targetInstancesPerHectare": 197.2
   },
   "10": {
    "id": "raised-hammock",
@@ -915,7 +994,7 @@
       0.85
      ],
      "clearance_radius_m": 3.5,
-     "instances_per_hectare": 4.8
+     "instances_per_hectare": 19.0
     },
     {
      "species": "bmv:landscape/trees/fanpalm1",
@@ -931,7 +1010,7 @@
       0.7,
       1.2
      ],
-     "instances_per_hectare": 9.0
+     "instances_per_hectare": 35.7
     },
     {
      "species": "bmv:landscape/trees/bambooplant",
@@ -947,7 +1026,7 @@
       0.9,
       1.6
      ],
-     "instances_per_hectare": 15.0
+     "instances_per_hectare": 59.2
     },
     {
      "species": "bmv:landscape/plants/braken",
@@ -963,7 +1042,7 @@
       0.8,
       1.3
      ],
-     "instances_per_hectare": 21.0
+     "instances_per_hectare": 83.0
     },
     {
      "species": "bmv:landscape/grass/vurt_reeds",
@@ -980,13 +1059,37 @@
       1.0,
       1.7
      ],
-     "instances_per_hectare": 24.0
+     "instances_per_hectare": 94.9
     }
-   ]
+   ],
+   "targetInstancesPerHectare": 291.4
   },
   "11": {
    "id": "firm-lowland",
    "layers": [
+    {
+     "species": "bmv:landscape/trees/gkbjungletreenew1",
+     "tier": "T1",
+     "instances_per_hectare": 0.06,
+     "clump_size_median": 1,
+     "clump_size_tail": 0.0,
+     "singleton_share": 1.0,
+     "clump_radius_m": 0.0,
+     "patchiness": 0.2,
+     "glade_response": 0.0,
+     "water_depth_m": [
+      -8.0,
+      0.2
+     ],
+     "slope_deg_max": 32.0,
+     "scale_range": [
+      1.8,
+      2.6
+     ],
+     "clearance_radius_m": 14.0,
+     "respects_clearance": false,
+     "role": "landmark-giant"
+    },
     {
      "species": "bmv:landscape/trees/gkbjungletreenew1",
      "tier": "T1",
@@ -1002,7 +1105,7 @@
       1.2
      ],
      "clearance_radius_m": 4.0,
-     "instances_per_hectare": 4.8
+     "instances_per_hectare": 13.9
     },
     {
      "species": "bmv:landscape/trees/bambooplant",
@@ -1018,7 +1121,7 @@
       0.9,
       1.6
      ],
-     "instances_per_hectare": 12.0
+     "instances_per_hectare": 34.7
     },
     {
      "species": "bmv:landscape/plants/braken",
@@ -1034,7 +1137,7 @@
       0.8,
       1.3
      ],
-     "instances_per_hectare": 24.0
+     "instances_per_hectare": 69.4
     },
     {
      "species": "bmv:landscape/trees/tropicalshrub01",
@@ -1050,7 +1153,7 @@
       0.8,
       1.4
      ],
-     "instances_per_hectare": 15.0
+     "instances_per_hectare": 43.5
     },
     {
      "species": "bmv:landscape/plants/chickweed",
@@ -1066,9 +1169,10 @@
       0.9,
       1.5
      ],
-     "instances_per_hectare": 18.0
+     "instances_per_hectare": 52.0
     }
-   ]
+   ],
+   "targetInstancesPerHectare": 213.5
   },
   "12": {
    "id": "lake-and-standing-water",
@@ -1089,7 +1193,7 @@
       1.4
      ],
      "tilt_deg_max": 0.0,
-     "instances_per_hectare": 21.0
+     "instances_per_hectare": 74.5
     },
     {
      "species": "bmv:landscape/plants/kelptallstatic01aaa",
@@ -1106,7 +1210,7 @@
       0.8,
       1.3
      ],
-     "instances_per_hectare": 18.0
+     "instances_per_hectare": 63.9
     },
     {
      "species": "bmv:landscape/grass/vurt_reeds",
@@ -1123,14 +1227,38 @@
       1.0,
       1.8
      ],
-     "instances_per_hectare": 30.0
+     "instances_per_hectare": 106.4
     }
-   ]
+   ],
+   "targetInstancesPerHectare": 244.5
   },
   "13": {
    "id": "tropical-jungle",
    "note": "The densest class in the province \u2014 canopy 0.95, and the place the vegetation budget is decided.",
    "layers": [
+    {
+     "species": "bmv:landscape/trees/gkbjungletreenew12v3",
+     "tier": "T1",
+     "instances_per_hectare": 0.12,
+     "clump_size_median": 1,
+     "clump_size_tail": 0.0,
+     "singleton_share": 1.0,
+     "clump_radius_m": 0.0,
+     "patchiness": 0.2,
+     "glade_response": 0.0,
+     "water_depth_m": [
+      -9.0,
+      0.6
+     ],
+     "slope_deg_max": 34.0,
+     "scale_range": [
+      1.8,
+      2.6
+     ],
+     "clearance_radius_m": 14.0,
+     "respects_clearance": false,
+     "role": "landmark-giant"
+    },
     {
      "species": "bmv:landscape/trees/gkbjungletreenew12v3",
      "tier": "T1",
@@ -1146,7 +1274,7 @@
       1.25
      ],
      "clearance_radius_m": 4.5,
-     "instances_per_hectare": 9.0
+     "instances_per_hectare": 38.1
     },
     {
      "species": "bmv:landscape/trees/gkbjungletreenew1",
@@ -1163,7 +1291,7 @@
       1.25
      ],
      "clearance_radius_m": 4.0,
-     "instances_per_hectare": 7.2
+     "instances_per_hectare": 30.3
     },
     {
      "species": "bmv:landscape/trees/beachpalm1",
@@ -1180,7 +1308,7 @@
       0.8
      ],
      "clearance_radius_m": 3.5,
-     "instances_per_hectare": 3.6
+     "instances_per_hectare": 15.3
     },
     {
      "species": "bmv:landscape/trees/hangingvines2",
@@ -1196,7 +1324,7 @@
       0.9,
       1.6
      ],
-     "instances_per_hectare": 15.0
+     "instances_per_hectare": 63.2
     },
     {
      "species": "bmv:landscape/plants/florahangingmoss03aaa",
@@ -1212,7 +1340,7 @@
       0.9,
       1.5
      ],
-     "instances_per_hectare": 12.0
+     "instances_per_hectare": 50.7
     },
     {
      "species": "tropical:plants/tropical/manfern",
@@ -1228,7 +1356,7 @@
       0.6,
       1.0
      ],
-     "instances_per_hectare": 15.0
+     "instances_per_hectare": 63.2
     },
     {
      "species": "bmv:landscape/plants/fernlarge03",
@@ -1244,7 +1372,7 @@
       0.7,
       1.3
      ],
-     "instances_per_hectare": 30.0
+     "instances_per_hectare": 126.5
     },
     {
      "species": "bmv:landscape/trees/tropicalplant01",
@@ -1260,7 +1388,7 @@
       0.8,
       1.5
      ],
-     "instances_per_hectare": 27.0
+     "instances_per_hectare": 113.9
     },
     {
      "species": "bmv:landscape/trees/bambooplant",
@@ -1276,7 +1404,7 @@
       0.9,
       1.6
      ],
-     "instances_per_hectare": 18.0
+     "instances_per_hectare": 75.8
     },
     {
      "species": "bmv:landscape/plants/braken",
@@ -1292,7 +1420,7 @@
       0.8,
       1.4
      ],
-     "instances_per_hectare": 27.0
+     "instances_per_hectare": 113.9
     },
     {
      "species": "bmv:landscape/grass/vurt_reeds",
@@ -1309,10 +1437,17 @@
       1.0,
       1.7
      ],
-     "instances_per_hectare": 18.0
+     "instances_per_hectare": 75.8
     }
-   ]
+   ],
+   "targetInstancesPerHectare": 767.0
   }
  },
- "densityScale": 1.0
+ "densityScale": 1.0,
+ "densityModel": {
+  "formula": "instances/ha = 850 * humidity^2 * (0.25 + 0.75 * canopy)",
+  "why": "The ladder falls out of the province's own climate fields (regions.CLIMATE) rather than being asserted per region: water availability dominates in a swamp, canopy closure carries the rest, and bare ground still gets scrub off the 0.25 floor. BASE is set so the province-wide mean lands near the reference mod's dressed median of ~100/ha (the owner's 'matches the reference' choice, 2026-08-30) while the ladder spreads about 12x from jungle to bare mountain. Evidence and the three inputs behind it: docs/research/vegetation-density-design.md",
+  "variation": "Per-region targets are the MEAN. Within a region the shared openness field and per-species patchiness reproduce the reference's coefficient of variation (2.3-3.1x) at its measured wavelengths (~90 m glades, ~190 m stands).",
+  "calibration": "BASE was raised from 250 to 850 against the one statistic measured identically on both sides: median open-space radius between plants. The reference mod sits at 10.2 m; at BASE 250 the compiler produced 18.9 m, and open space scales as 1/sqrt(density). Re-measure with `compile_scatter --report` after any change to the region raster."
+ }
 }

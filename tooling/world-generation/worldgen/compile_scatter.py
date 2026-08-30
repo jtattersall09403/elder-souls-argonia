@@ -171,6 +171,56 @@ def compile_chunk(fields_source: ProvinceFields, palette: Palette,
     return present, instances, encode(instances, species)
 
 
+def variation_probe(instances, size_m: float, cell_m: float = 58.0) -> dict:
+    """Does the compiled scatter vary as much as the source does?
+
+    The two numbers the reference was measured on
+    (research/vegetation-density-design.md): the coefficient of variation of
+    density between neighbouring cells (mined 2.3-3.1), and the open-space
+    radius a player actually walks through (mined p50 ~10 m, p95 ~31 m).
+    """
+    if not instances:
+        return {}
+    counts: Counter = Counter()
+    for i in instances:
+        counts[(int(i.x // cell_m), int(i.z // cell_m))] += 1
+    grid = max(1, int(size_m // cell_m))
+    origin_x = min(int(i.x // cell_m) for i in instances)
+    origin_z = min(int(i.z // cell_m) for i in instances)
+    values = [counts.get((origin_x + x, origin_z + z), 0)
+              for x in range(grid) for z in range(grid)]
+    mean = sum(values) / len(values)
+    if mean <= 0:
+        return {}
+    sd = (sum((v - mean) ** 2 for v in values) / len(values)) ** 0.5
+
+    buckets: dict[tuple[int, int], list] = {}
+    probe_m = 12.0
+    for i in instances:
+        buckets.setdefault((int(i.x // probe_m), int(i.z // probe_m)), []).append(i)
+    gaps = []
+    base_x = min(i.x for i in instances)
+    base_z = min(i.z for i in instances)
+    for step in range(400):
+        px = base_x + (step % 20 + 0.5) * size_m / 20
+        pz = base_z + (step // 20 + 0.5) * size_m / 20
+        bx, bz = int(px // probe_m), int(pz // probe_m)
+        best = math.inf
+        for ix in (-2, -1, 0, 1, 2):
+            for iz in (-2, -1, 0, 1, 2):
+                for q in buckets.get((bx + ix, bz + iz), ()):
+                    best = min(best, math.hypot(px - q.x, pz - q.z))
+        if best is not math.inf:
+            gaps.append(best)
+    gaps.sort()
+    def pct(q):
+        return round(gaps[min(len(gaps) - 1, int(len(gaps) * q))], 1) if gaps else None
+    return {
+        "coefficientOfVariation": round(sd / mean, 2),
+        "openSpaceRadiusM": {"p50": pct(0.5), "p75": pct(0.75), "p95": pct(0.95)},
+    }
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--palettes",
@@ -239,6 +289,7 @@ def main() -> None:
             if values:
                 values.sort()
                 record["clarkEvansR"] = round(values[len(values) // 2], 3)
+            record["variation"] = variation_probe(instances, CHUNK_M)
         per_chunk.append(record)
         if out_dir:
             (out_dir / f"chunk_{cx}_{cz}_vegetation.bin").write_bytes(blob)
@@ -266,6 +317,19 @@ def main() -> None:
             print(f"  {name:28s} {len(values):3d} chunks  "
                   f"mean {sum(values)//len(values):6d}/chunk  {per_ha:6.1f}/ha")
         if args.report:
+            covs = sorted(r["variation"]["coefficientOfVariation"]
+                          for r in per_chunk if r.get("variation"))
+            if covs:
+                print(f"  density coefficient of variation: p50 "
+                      f"{covs[len(covs)//2]:.2f} (mined 2.3-3.1)")
+                gaps = [r["variation"]["openSpaceRadiusM"] for r in per_chunk
+                        if r.get("variation", {}).get("openSpaceRadiusM", {}).get("p50")]
+                if gaps:
+                    for key, mined in (("p50", 10.2), ("p75", 21.1), ("p95", 31.5)):
+                        vals = sorted(g[key] for g in gaps if g.get(key))
+                        if vals:
+                            print(f"  open space {key}: {vals[len(vals)//2]:5.1f} m "
+                                  f"(mined {mined} m)")
             rs = [r["clarkEvansR"] for r in per_chunk if r.get("clarkEvansR")]
             if rs:
                 rs.sort()

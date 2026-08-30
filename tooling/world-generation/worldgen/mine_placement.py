@@ -30,6 +30,7 @@ from pathlib import Path
 from .asset_taxonomy import classify
 from .esp_index import (
     CELL_AREA_M2,
+    CELL_SIZE_M,
     UNITS_PER_METRE,
     Plugin,
     dominant_texture_at,
@@ -395,6 +396,76 @@ def _rotation_uniformity(group: list[Instance]) -> float:
     return entropy / math.log(12)
 
 
+def variation(instances: list[Instance], sample_points: int = 4000) -> dict:
+    """How much density varies *within* a dressed area, and at what scale.
+
+    The owner's density brief (2026-08-30) is that thickness must vary by
+    local geography and inside a single area, "so it's not all just samey".
+    That needs two numbers the overall density cannot give: how strongly
+    neighbouring ground differs, and over what distance the difference plays
+    out. Both are measurable in the source.
+    """
+    by_cell: Counter = Counter()
+    for inst in instances:
+        by_cell[inst.cell] += 1
+    if len(by_cell) < 20:
+        return {}
+    counts = list(by_cell.values())
+    mean = sum(counts) / len(counts)
+    spread = (sum((c - mean) ** 2 for c in counts) / len(counts)) ** 0.5
+
+    # Density autocorrelation against cell-grid lag: how far apart two places
+    # have to be before their thickness stops being related.
+    correlations = {}
+    for lag in (1, 2, 3, 4, 6, 8, 12):
+        pairs = [
+            (by_cell[c], by_cell.get((c[0] + lag, c[1]), 0))
+            for c in by_cell
+            if (c[0] + lag, c[1]) in by_cell
+        ]
+        if len(pairs) < 30:
+            continue
+        ax = sum(p[0] for p in pairs) / len(pairs)
+        ay = sum(p[1] for p in pairs) / len(pairs)
+        num = sum((p[0] - ax) * (p[1] - ay) for p in pairs)
+        dx = sum((p[0] - ax) ** 2 for p in pairs) ** 0.5
+        dy = sum((p[1] - ay) ** 2 for p in pairs) ** 0.5
+        if dx > 0 and dy > 0:
+            correlations[f"{round(lag * CELL_SIZE_M)}m"] = round(num / (dx * dy), 3)
+
+    # Open-space radii: how big the gaps between plants are, which is what a
+    # player actually experiences as "a clearing".
+    from math import hypot
+    cell_m = 12.0
+    buckets: dict[tuple[int, int], list[tuple[float, float]]] = defaultdict(list)
+    for inst in instances:
+        buckets[(int(inst.x // cell_m), int(inst.z // cell_m))].append((inst.x, inst.z))
+    dressed = sorted(by_cell, key=lambda c: -by_cell[c])[: max(1, len(by_cell) // 4)]
+    gaps = []
+    stride = max(1, len(dressed) * 16 // sample_points)
+    for index, (cx, cz) in enumerate(dressed):
+        if index % stride:
+            continue
+        for k in range(16):
+            px = (cx + (k % 4 + 0.5) / 4) * CELL_SIZE_M
+            pz = (cz + (k // 4 + 0.5) / 4) * CELL_SIZE_M
+            bx, bz = int(px // cell_m), int(pz // cell_m)
+            best = math.inf
+            for ix in (-2, -1, 0, 1, 2):
+                for iz in (-2, -1, 0, 1, 2):
+                    for qx, qz in buckets.get((bx + ix, bz + iz), ()):
+                        best = min(best, hypot(px - qx, pz - qz))
+            if best is not math.inf:
+                gaps.append(best)
+
+    return {
+        "perCellCount": {"mean": round(mean, 1), "sd": round(spread, 1),
+                         "coefficientOfVariation": round(spread / mean, 3)},
+        "densityCorrelationByDistance": correlations,
+        "openSpaceRadiusM": _percentiles(gaps) if gaps else {},
+    }
+
+
 def composition(instances: list[Instance]) -> dict:
     """How concentrated the look is: does a place read from 5 species or 50?"""
     counts = Counter(i.species for i in instances)
@@ -555,6 +626,7 @@ def main() -> None:
         },
         "macro": macro,
         "composition": composition(instances),
+        "variation": variation(instances),
         "bands": bands(instances),
         "species": profile(instances),
         "associations": associations(instances),

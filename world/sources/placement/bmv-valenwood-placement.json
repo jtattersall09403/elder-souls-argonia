@@ -307,6 +307,29 @@
    "rock": 0.0
   }
  },
+ "variation": {
+  "perCellCount": {
+   "mean": 17.2,
+   "sd": 40.2,
+   "coefficientOfVariation": 2.331
+  },
+  "densityCorrelationByDistance": {
+   "58m": 0.495,
+   "117m": 0.308,
+   "175m": 0.192,
+   "233m": 0.103,
+   "350m": 0.032,
+   "466m": 0.088,
+   "699m": 0.115
+  },
+  "openSpaceRadiusM": {
+   "p5": 0.91,
+   "p25": 3.174,
+   "p50": 10.441,
+   "p75": 18.668,
+   "p95": 31.675
+  }
+ },
  "bands": {
   "byWaterDepth": {
    "deep>2m": {
