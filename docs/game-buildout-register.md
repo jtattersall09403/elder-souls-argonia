@@ -8,11 +8,12 @@ the quest plan's typed condition vocabulary). Everything past that line
 belongs to the **next goal** — building the world and its proven systems out
 into the full game — whose master plan will be drafted when the world build
 closes and the owner resets CLAUDE.md § GOAL. Policy: decision
-[0038](decisions/0038-world-build-vs-game-buildout-seam.md). **The full
-evidence base is the
-[build-out systems audit](research/game-buildout-systems-audit.md)
-(2026-08-30, five parallel audits)** — read it before drafting the build-out
-plan; this file is the maintained summary.
+[0038](decisions/0038-world-build-vs-game-buildout-seam.md). Evidence base:
+the [build-out systems audit](research/game-buildout-systems-audit.md)
+(2026-08-30) **plus the
+[Morrowind/Skyrim cross-check](research/source-game-systems-crosscheck.md)**
+(triage: decision [0039](decisions/0039-source-game-crosscheck-triage.md) —
+its §3 owner steers are OPEN; don't implement those items before rulings).
 
 This file is the systems twin of [polish-backlog.md](polish-backlog.md)
 (cosmetic/feel leftovers for Phase P — not systems). One row per deferred
@@ -49,59 +50,77 @@ will also use.
   Sneak XP (76 §120.1), sneak-opener bands (§121.5), Elusiveness-vs-Spot,
   watcher-cone and disguise quest conversions, and crime detection all
   consume it; **no phase owns it**. → 10b's enemies or 10c, before 13.
+  Ready-made formulas: cross-check §4 (Skyrim's full model + Morrowind's
+  direction multiplier).
 - **Shield parry ruling** — in [polish-backlog.md](polish-backlog.md) tagged
   `10b`.
-- **At Phase 11 kickoff:** per-body `WaterBody` records (0025 deferred them
-  *to* Phase 11; its deliverable list omits them) · timetable *data* on the
-  travel-service graph (departures/tides as queryable data — manhunt quests
-  are unsolvable without it) · a prior→roster demographic generation rule
-  (92 §84) · the **vastei tutorial scene** flagged into whichever packet owns
-  the game's opening (owner-required, 76 §120.3; currently in no quest doc).
+- **At Phase 11 kickoff:** **`owner`/`ownerFaction` + value tier on every
+  placed interactable** (cross-check §1 — retrofit is the expensive
+  version) · `STATION` socket type (crafting stations; assets in vault) ·
+  per-body `WaterBody` records (0025 deferred them *to* Phase 11) ·
+  timetable *data* on the travel-service graph + **urban water-taxi edges**
+  · a prior→roster demographic generation rule (92 §84) · the **vastei
+  tutorial scene** flagged into the packet owning the opening (template:
+  Morrowind's diegetic chargen, cross-check §1).
 - **At the Phase 10 gate:** schedule or consciously re-defer the
   beyond-border land apron (55 §98b says "alongside Phase 10").
-- **At Phase 12:** underwater POI access-metadata schema (air pockets,
-  return routes, gating tiers — 60 §44) alongside "underwater entrances";
-  artificial-light design (torches/lanterns/magelight) with interiors.
+- **At Phase 12:** dungeon **anchor sockets** (Boss/Boss-Chest/Captive) in
+  the socket vocabulary · underwater POI access-metadata schema (60 §44) ·
+  artificial-light design (torch mechanics gift-wrapped in cross-check §4) ·
+  the unpickable-lock class + spell-as-alternate-key pattern. **Gate: the
+  0039 S1 teleport/traversal-magic ruling must land before dungeon access
+  tiers are authored.**
 - **By 10c:** magic `StatEffect.field` enum + cast-interruption-vs-poise
-  rule (Phase 13's enemy casters need a castable slice; audit §2E) ·
-  weapon poisons/oils + the H2H knockout finisher (decided at S round 4,
-  missed by both 10c deliverable lists) · resolve the 10×-vs-8× training
-  price contradiction (audit §6).
+  rule (13's enemy casters need a castable slice) · weapon poisons/oils +
+  the H2H finisher (decided at S round 4, missed by both 10c lists; H2H
+  shape: cross-check §4) · **Fight/Flee/Alarm ints + creature statblock
+  class + overlay/state flags on the actor schema** (cross-check §1) ·
+  resolve the 10×-vs-8× training price contradiction (audit §6) · the
+  survival item-schema field (0039 S2 hook, whichever way S2 goes).
 
 ## Deferred systems
 
 | System | World build owns (where) | Deferred to build-out | Hook the world build must leave |
 |---|---|---|---|
 | **Stealth, full stack** | detection math + sneak bands designed (76 §120/§121.5); ambient-AI marks/patrols data (72, Phase 13); minimal cone model per pull-in above | light/sound stimuli, alert→search→give-up, distraction verbs, crime response, NPC hearing (57 §105) | one detection *service* consulted by all NPC logic, never per-enemy checks; NPC schema keeps Spot-side stats (76 §129) |
-| **Quest engine + journal** | quest master plan, Milestone-1 provisions, sockets (75 §56), stable IDs, co-design briefs per packet | runtime: flag store, stage machine, journal UI, ending-availability computation, fail-forward successors, the 24-quest main line + faction lines | **the typed condition/action vocabulary must be AUTHORED — it is mandated but enumerated nowhere** (quests 80 §58 now says so; Q1 gate); every placed thing keeps its stable ID |
-| **Dialogue/interaction UI** | Phase 11 needs a minimal talk verb (travel services, merchants); persuasion math (76 §125) | topic web, KnowledgeState (topics/evidence/witnessed/rumours/lies), glossary + newcomer-topic coverage (Q0 gate), disposition verbs | Phase 11 ships talk→service-menu as a small *contract*, not a ferry hack |
-| **Scene & staging runtime** | SCENE sockets + actor marks (11/12); D-tier conversion rules are authored constraints | leash/teleport followers (invulnerable in transit), shared-timer intercepts, ≤6-hostile enforcement, pull-through-the-door verb, dream/vision harness, aftermath pockets, boss stand-down routes | staging composes stock idle/patrol/combat AI only (72 §113 ceiling); scenes survive a missed mark by design |
+| **Quest engine + journal** | quest master plan, Milestone-1 provisions, sockets (75 §56), stable IDs, co-design briefs per packet | runtime: flag store, stage machine, journal UI, ending-availability computation, fail-forward successors (+ the reputation-bypass pattern, cross-check §4), the 24-quest main line + faction lines | **the typed condition/action vocabulary must be AUTHORED — mandated but enumerated nowhere** (quests 80 §58; Q1 gate); add `deedCountAtLeast` + player-state overlay predicates (0039); every placed thing keeps its stable ID |
+| **Dialogue/interaction UI** | Phase 11 needs a minimal talk verb (travel services, merchants); persuasion math (76 §125) | topic web, KnowledgeState, glossary + newcomer-topic coverage (Q0 gate), disposition verbs + the refusal ladder (cross-check §4) | Phase 11 ships talk→service-menu as a small *contract*, not a ferry hack |
+| **Item ownership & theft** (adopted, 0039) | Phase 11/12/13 place `owner`/`ownerFaction` + value tiers (pull-in above) | stolen-flag runtime, lawful-merchant refusal, evidence-chest confiscation loop, read-in-place book rule, trespass-on-unlock | ownership data ships with placement, never retrofitted |
+| **Scene & staging runtime** | SCENE sockets + actor marks (11/12); D-tier conversion rules are authored constraints | leash/teleport followers (invulnerable in transit), shared-timer intercepts, ≤6-hostile enforcement, pull-through-the-door verb, dream/vision harness, aftermath pockets, boss stand-down routes, rest-interrupt events (0039 S7 if kept) | staging composes stock idle/patrol/combat AI only (72 §113 ceiling); scenes survive a missed mark by design |
 | **Local world-state overlay runtime** | 2–3 authored variants per quest location ship in bundles (Phase 14; quests 20 §14 bounds) | LocalStateVariant application: enable/disable refs, schedule/service overrides, ambience, `washed-out` material flag | variants are pure bundle data; no quest rewrites terrain/hydrology |
-| **Reward tracks & stronghold** | stronghold site reserved (11), interiors (12); reward *items* via loot compiler | allegiance ladders + opt-in locks, informant map-marker grants, off-screen service menu, income timers, restricted-door/toll flag class, stronghold 3-layer + 4-overlay compositor | rewards stay data (items/flags/markers/prices/nodes), never behaviour (30 §24b.6) |
-| **Evidence & artifact custody** | EVIDENCE sockets placed (11/12) | evidence items/flags, `essential` tier-protection at runtime (incl. DQ02's topic deletion), the Eye custody invariant ("never permanently lost") | evidence sockets carry stable IDs + copy/alter/return affordances in data |
-| **Map, markers & discovery** | every unmarked POI gets its diegetic pointer (13; briefs at 11) | player map with grantable persistent markers (no quest markers exist — the informant grant is the game's strongest utility reward), rumour pools, discovery feed | pointer + rumour data authored per packet, keyed to local state |
-| **Save/load & persistence** | save-on-rest decided (0031, 76 §126); 10c ships one `SaveGame` contract for player state | versioned format, IndexedDB + export/import, slot UI, migration; the main quest's doom-warning restore prompt depends on it | saves reference versioned bundles + variant flags, never copy world data |
-| **Magic, player-facing breadth** | math + data at 10c; effect enum + interruption rule by 10c (pull-in); castable enemy slice by 13 | spell-effect catalogue, acquisition, spellmaking/enchanting service UIs, soul gems/trap/recharge (+ the Argonian-soul exception), summons, casting input | casting clips + FX tagged by Phase 10's registry sweep; all effects through the one stack |
-| **Combat verb completion** | 10b wires the sourced movesets (pull-in); poise/equip-load at 10c | charged/running/jumping/plunging attacks, kick/shield bash, two-handing (input reserved, unbound), weapon poisons, H2H finisher | attack taxonomy stays data on the class table (76 §121.3) |
-| **Enemy & boss AI depth** | sandbox AI ports at 10b; territories/leashes on baked nav (72/13); archetypes on the D-ladder (76 §128) | DS-style boss behaviour (Xal-Krona), group tactics, morale/flee, ranged AI, aquatic combat actions (75 §57), summon AI | AI reads baked nav + NPC schema only; boss movesets are sourced-clip jobs |
-| **Factions runtime, crime & bounty** | FactionStanding schema (quests 40 §27–28), disposition (76 §125), territories (Phase 4), cast (35/36) | rank advancement, expulsion/reinstatement, **crime-as-Owing ledger** (nushmeekos assessment, regional parameters, jails, audit/buy-out/burn/pay), contract boards | gates stay in the typed vocabulary; crime detection reuses the single detection service |
-| **Economy runtime** | barter/purse/trainer math (76 §124); merchant sockets (75 §56); loot provenance (13) | restock/purse cycles, shop + service UIs (repair/enchant/spellmake/recharge/cure/train), finite fences, income timers, **guide services + hazard-prep goods** (30 §26) — incl. stocking water-breathing consumables (00-core criterion 25, an accessibility guarantee) | merchant stock = loot IDs through the semantic compiler; no parallel item system |
-| **Character creation & onboarding** | races/birthsign slot/specialization data at 10c; birthsign *contents* deferred (76 §119.2) | chargen UI flow, intro sequence, tutorialization, the 13 sign packages | 10c keeps race/sign/class fully data-driven |
-| **Menus, settings, accessibility** | difficulty knob at 10c (76 §121.4) | main menu, settings/rebinding UI, accessibility, (localization: explicitly out unless the owner says otherwise) | input stays behind `PlayerMovementController`; bindings data-driven |
-| **Narrative tooling & QA** | studio shell + probe patterns exist; PROGRESS/validator culture | narrative debugger (quests 80 §64, 12 features), validator suite + LLM-critic (§63/63b), headless ending simulation | quest runtime headlessly drivable from day one (endings must be reachable in automated simulation) |
-| **Music / score** | nothing — out of world-build scope (57) | the whole score (sourcing — no-new-art applies — explore/combat layers, region themes) | 12b's `AudioManager` leaves a music bus + ducking hooks |
+| **Reward tracks & stronghold** | stronghold site reserved (11), interiors (12); reward *items* via loot compiler | allegiance ladders + opt-in locks, informant map-marker grants (shadowmark-shaped, cross-check §4), off-screen service menu, income timers, steward pay-for-service pattern, restricted-door/toll flag class, artifact-donation sink, stronghold 3-layer + 4-overlay compositor | rewards stay data (items/flags/markers/prices/nodes), never behaviour (30 §24b.6) |
+| **Evidence & artifact custody** | EVIDENCE sockets placed (11/12) | evidence items/flags, seal/re-seal tampering verb (cross-check §4), `essential` tier-protection at runtime, the Eye custody invariant | evidence sockets carry stable IDs + copy/alter/return affordances in data |
+| **Map, markers & discovery** | every unmarked POI gets its diegetic pointer (13; briefs at 11) | player map with grantable persistent markers, rumour pools, discovery feed, Detect-spell integration (per 0039 S1) | pointer + rumour data authored per packet, keyed to local state |
+| **Courier & reprisal channel** (adopted, 0039) | letter/rumour pools authored per packet (11/13) | the carrier that finds the player, inheritance/reprisal letters, hired-thug reprisals (0039 S7) | letters are typed content units keyed to world state |
+| **Save/load & persistence** | save-on-rest decided (0031, 76 §126); 10c ships one `SaveGame` contract | versioned format, IndexedDB + export/import, slot UI, migration; doom-warning restore prompt; the lifetime ledgers (crime/Owing per region, dungeon-cleared counters) | saves reference versioned bundles + variant flags, never copy world data |
+| **Magic, player-facing breadth** | math + data at 10c; effect enum + interruption rule by 10c (pull-in); castable enemy slice by 13 | spell-effect catalogue **incl. the 0039 S1 traversal-effect rulings**, acquisition, spellmaking/enchanting service UIs, soul gems (NPC souls untrappable — cross-check §1 resolves the Argonian question), summons, casting input | casting clips + FX tagged by Phase 10's registry sweep; all effects through the one stack; powers = once-per-day semantics (cross-check §4) |
+| **Combat verb completion** | 10b wires the sourced movesets (pull-in); poise/equip-load at 10c | charged/running/jumping/plunging attacks, kick/shield bash, two-handing, weapon poisons, H2H fatigue-takedown finisher, killmove layer + projectile interception (0039 veto list), non-lethal bleedout states (0039 S6) | attack taxonomy stays data on the class table (76 §121.3) |
+| **Enemy & boss AI depth** | sandbox AI ports at 10b; territories/leashes on baked nav (72/13); archetypes on the D-ladder; Fight/Flee/Alarm ints on the schema (pull-in) | DS-style boss behaviour (Xal-Krona), group tactics, morale/flee driven by the Flee value, ranged AI, aquatic combat actions (75 §57), summon AI | AI reads baked nav + NPC schema only; boss movesets are sourced-clip jobs |
+| **Factions runtime, crime & bounty** | FactionStanding schema (quests 40 §27–28), disposition (76 §125), territories (Phase 4), cast (35/36), **reaction matrix as data + attire `factionSignal` tags** (0039) | rank advancement (3-part gate shape, cross-check §4), expulsion/amends, **crime-as-Owing ledger** + adopted counterplay (self-defence rule, provocation verbs, notoriety tiers, custody costs in progress-time, writ item class, 72-h amnesty/decay), contract boards (re-populate cleared sites) | gates stay in the typed vocabulary; crime detection reuses the single detection service; worst-reaction-wins is one computed term |
+| **Deed counters & silent unlocks** (adopted, 0039) | counters are authored per faction/packet (11/13) | runtime accumulation, passphrase/topic unlocks, Twin-Lamps-style hidden factions | `deedCountAtLeast` in the Q1 condition vocabulary |
+| **Economy runtime** | barter/purse/trainer math (76 §124); merchant sockets (75 §56); loot provenance (13); **shrine-blessing services priced by faith standing, contraband flags, staged-disease counterplay goods** (0039) | restock/purse cycles (+ the merchant rules in cross-check §4), shop + service UIs, finite fences, income timers, guide services + hazard-prep goods loop (now shaped by the Blight model), bed rental (0039 S3) — incl. stocking water-breathing consumables (00-core criterion 25) | merchant stock = loot IDs through the semantic compiler; no parallel item system |
+| **Crafting stations & resource nodes** (adopted, 0039) | `STATION` sockets + station/harvest placement (11/12/13); physical materials (10) | station interaction verbs (forge/temper/brew/cook/tan), resource-node yield tables, the pelts→leather and reeds/clay chains, container respawn + safe-storage policy | stations/nodes are placed data with vault meshes + use-animations; repair tools are consumable items |
+| **Character creation & onboarding** | races/birthsign slot/specialization data at 10c; birthsign *contents* deferred (76 §119.2) | chargen UI flow (diegetic class-quiz template, cross-check §1), intro sequence, tutorial-by-object-pickup, the 13 sign packages | 10c keeps race/sign/class fully data-driven |
+| **Menus, settings, accessibility** | difficulty knob at 10c (76 §121.4 — a pure two-sided multiplier, cross-check §4) | main menu, settings/rebinding UI, accessibility, (localization: explicitly out unless the owner says otherwise) | input stays behind `PlayerMovementController`; bindings data-driven |
+| **Narrative tooling & QA** | studio shell + probe patterns exist | narrative debugger (quests 80 §64), validator suite + LLM-critic (§63/63b), headless ending simulation | quest runtime headlessly drivable from day one |
+| **Music / score** | nothing — out of world-build scope (57) | the whole score; requestable tavern performers (0039 veto list) | 12b's `AudioManager` leaves a music bus + ducking hooks |
 
-**Awaiting an explicit keep / cut / defer ruling** (audit §4 — batched, no
-urgency; decide at the phase that would own each or at build-out planning):
-drifting/floating settlements · fire-in-a-wetland + `fire`/`mudResponse` ·
-river-pirate boat encounters · the deferred boat tier (cargo/ownership/AI
-boats; `BoatStorageSocket` orphaned) · boat nav constraints · mounts ·
-swamp-jelly husbandry · Hist systemic layer (dreams/memory/sap physiology) ·
-per-culture doctrine/taboo/burial expression · festivals + ritual time
-gates · tide-gated access gameplay (data built, no consumer) · creature
-boat/tree use + moving root barriers · wild wamasu (blocks quest FG03) ·
+**Awaiting an explicit keep / cut / defer ruling** — now two lists:
+**(i) the 0039 owner steers** (teleport/traversal magic S1 — **gates Phase
+12** — survival depth S2, rest/inn economy S3, Argonian condition + Hist-site
+powers S4, civic standing/customs S5, non-lethal states S6, reprisal events
+S7, + the default-adopt veto list); **(ii) the audit §4 ambitions batch**
+(drifting settlements · fire-in-a-wetland + `fire`/`mudResponse` ·
+river-pirate boat encounters · deferred boat tier (`BoatStorageSocket`
+orphaned) · boat nav constraints · mounts · swamp-jelly husbandry ·
+per-culture doctrine/taboo/burial — *shaped by 0039 S5 if kept* · festivals
++ ritual gates — *shaped by pilgrimage circuits* · tide-gated access
+gameplay · creature boat/tree use · wild wamasu (blocks quest FG03) ·
 era-aware layering (moot at 4E 201) · demographics → language/clothing/
-food/religion · delete the orphaned `rootwormTransit` mode.
+food/religion · delete the orphaned `rootwormTransit` mode). Recorded cuts
+from the cross-check (player vampirism/lycanthropy, shouts, player
+construction, swappable birthstones, apex roamer, marriage/adoption) live in
+its §2 with citations.
 
 **Not rows:** catalogue *breadth* (weapons, armour, uniques, spells, books)
 is **content**, not a system — it lands through Phase 13/15 packets and quest
@@ -109,6 +128,6 @@ briefs via the semantic compiler. The item *data architecture* that must carry
 it at Morrowind scale is 10b/10c work under the CLAUDE.md scaling rule.
 
 When the world build closes: the owner resets CLAUDE.md § GOAL, and the first
-build-out task is turning this register + the audit into a modular master plan
-(mirror the docs/world/ structure — a core, a router, modules; sketch at
-audit §7).
+build-out task is turning this register + the audit + the cross-check into a
+modular master plan (mirror the docs/world/ structure — a core, a router,
+modules; sketch at audit §7).
