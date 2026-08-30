@@ -185,6 +185,23 @@ export const WHITEOUT_BELT = {
  *    midday convective mixing over a dry, breezy ridge scours the air clear;
  *  - wind mixes the boundary layer and thins the murk.
  */
+/**
+ * Post-8c tweaks (owner 2026-08-30, Phase P backlog holds the follow-ups):
+ *
+ * WHITEOUT_ENABLED=false — the mountaintop cap cloud is OFF for now: seen
+ * from ground level it showed hard square edges (raster-resolution artefacts
+ * of the belt mask). It returns, improved, in the polish phase; the bell /
+ * base / mask machinery stays live so probes and the re-enable keep working.
+ *
+ * VISIBILITY_LIFT=0.72 — a global ~30 % thinning of ambient haze/mist ("I
+ * like the mist, the density is just a bit too much"). Applied at the SOURCES
+ * (region haze factor, mist regime bases, weather fog) so the renderer and
+ * the published visibility number move together, per §97's one-authority
+ * rule.
+ */
+export const WHITEOUT_ENABLED = false;
+export const VISIBILITY_LIFT = 0.72;
+
 export function regionHazeFactor(p: {
   humidity: number;
   rainIntensity: number;
@@ -209,7 +226,7 @@ export function regionHazeFactor(p: {
     0.6 * steam +
     0.3 * preDawn +
     0.15 * Math.max(0, p.season);
-  return Math.min(2.4, Math.max(0.3, raw * mixOut));
+  return Math.min(2.4, Math.max(0.3, raw * mixOut)) * VISIBILITY_LIFT;
 }
 
 /** Clear-air sight distance from a region extinction and its live factor
@@ -342,7 +359,7 @@ function express(
       (0.25 + 0.75 * drySeason) *
       (clearNightOverride ?? clearCalmNightFactor(epochMinutes)) *
       (1 - clamp01(rain * 2)), // rain scrubs radiation mist out
-  );
+  ) * VISIBILITY_LIFT;
   const radiation = clamp01(local.mistProp * 1.15) * radiationBase;
   // Advection sea fog: humid marine air, strongest mornings and in the wetter
   // half of the year, needs non-violent weather to hold together.
@@ -360,7 +377,7 @@ function express(
   const holdsTogether = settled;
   const advectionBase = clamp01(
     (0.35 + 0.65 * morningBell) * (0.5 + 0.5 * Math.max(0, s)) * holdsTogether * 0.8,
-  );
+  ) * VISIBILITY_LIFT;
   const advection = clamp01(local.seaFog) * advectionBase;
   // Cloud-forest whiteout: the belt follows the SYNOPTIC cloud — thick under
   // rainy decks, moderate under overcast, and genuinely CLEAR on settled
@@ -369,13 +386,17 @@ function express(
   // the coverage wander gives partly-cloudy days passing wisps for free).
   const cloudDeck = p.cloudMid * p.cloudDensity;
   const whiteoutBase = clamp01(0.95 * smoothstep01((cloudDeck - 0.25) / 0.5) + 0.35 * rain);
-  const weatherFog = p.fogMie * (0.6 + 0.4 * local.humidity);
+  const weatherFog = p.fogMie * (0.6 + 0.4 * local.humidity) * VISIBILITY_LIFT;
   const mist: MistRegimes = {
     radiation,
     radiationBase,
     advection,
     advectionBase,
-    whiteout: clamp01(whiteoutBell(local.elevationM) * whiteoutBase * clamp01(local.beltMask)),
+    // whiteoutBase/bell/mask still computed and published (probes, re-enable),
+    // but the expressed strength is zeroed while the cap cloud is off.
+    whiteout: WHITEOUT_ENABLED
+      ? clamp01(whiteoutBell(local.elevationM) * whiteoutBase * clamp01(local.beltMask))
+      : 0,
     whiteoutBase,
     weather: weatherFog,
   };

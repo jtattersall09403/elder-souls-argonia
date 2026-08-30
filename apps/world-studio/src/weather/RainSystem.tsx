@@ -61,7 +61,16 @@ import { lastWeatherSample } from "./weatherState";
  *    around you, ending in haze instead of a line.
  */
 
+/**
+ * Post-8c tweak (owner 2026-08-30): "rain surrounds you to 70 m — make it
+ * like 300 m". One 300 m box would dilute the near field ~17× (or need ~17×
+ * the budget), so the rain is TWO nested camera volumes: the dense 72 m core
+ * as before, plus a sparse 300 m shell whose streaks read as the grey rain
+ * curtains you see over a landscape. The shell's drops inside the core just
+ * add a little.
+ */
 const VOLUME = new THREE.Vector3(72, 26, 72);
+const OUTER_VOLUME = new THREE.Vector3(300, 60, 300);
 
 /** Eye/camera persistence, seconds: how long a falling drop smears for. Streak
  * length = fall speed × this, so speed and length can never disagree. */
@@ -141,6 +150,26 @@ export function rainDropBudget(): number {
 }
 
 export function RainSystem({ count, extentM }: { count: number; extentM: number }) {
+  // Two nested volumes (see OUTER_VOLUME): dense core + sparse far shell.
+  return (
+    <>
+      <RainStreaks count={count} extentM={extentM} span={VOLUME} opacityScale={1} />
+      <RainStreaks
+        count={Math.round(count * 0.75)}
+        extentM={extentM}
+        span={OUTER_VOLUME}
+        opacityScale={0.85}
+      />
+    </>
+  );
+}
+
+function RainStreaks({ count, extentM, span, opacityScale }: {
+  count: number;
+  extentM: number;
+  span: THREE.Vector3;
+  opacityScale: number;
+}) {
   const geometry = useMemo(() => {
     const g = new THREE.BufferGeometry();
     const seeds = new Float32Array(count * 4 * 3);
@@ -178,13 +207,13 @@ export function RainSystem({ count, extentM }: { count: number; extentM: number 
           uWindV: { value: new THREE.Vector2(0, 0) },
           uFall: { value: 9 },
           uIntensity: { value: 0 },
-          uSpan: { value: VOLUME },
+          uSpan: { value: span },
           uAir: { value: null },
           uExtentM: { value: extentM },
           uPixelWorld: { value: 0.0013 },
           uShutter: { value: SHUTTER_S },
           uColor: { value: new THREE.Color(0.6, 0.65, 0.7) },
-          uOpacity: { value: 0.6 },
+          uOpacity: { value: 0.6 * opacityScale },
         },
         vertexShader: RAIN_VERT,
         fragmentShader: RAIN_FRAG,
@@ -194,6 +223,8 @@ export function RainSystem({ count, extentM }: { count: number; extentM: number 
         // direction — FrontSide silently culled half the streaks (round 3).
         side: THREE.DoubleSide,
       }),
+    // span/opacityScale are per-mount constants (core vs shell).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [extentM],
   );
   const meshRef = useRef<THREE.Mesh>(null);
