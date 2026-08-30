@@ -18,6 +18,7 @@ import {
   windDirAt,
   type SynopticSample,
 } from "./synoptic";
+import { hash01 } from "./hash";
 import { PROFILES, type StateProfile, type WeatherKind } from "./states";
 import { MINUTES_PER_DAY, seasonScalar, fromEpochMinutes, dayOfYear } from "@elder-souls/world-time";
 
@@ -53,6 +54,10 @@ export interface LocalClimate {
   regionExtinction?: number;
   /** Terrain elevation, metres (true metres, not vertical-scaled). */
   elevationM: number;
+  /** World position, metres — enables the LOCAL component of the airmass
+   * clarity wander (airmassFactor). Optional: absent = temporal-only. */
+  xM?: number;
+  zM?: number;
 }
 
 /** Neutral fallback when no climate-vis raster is available: thin air
@@ -202,6 +207,51 @@ export const WHITEOUT_BELT = {
 export const WHITEOUT_ENABLED = false;
 export const VISIBILITY_LIFT = 0.72;
 
+/** Deterministic 1-D value noise on a continuous coordinate (smoothstepped
+ * between hashed lattice values — same family as the synoptic hashes). */
+function valueNoise1(t: number, salt: number): number {
+  const i = Math.floor(t);
+  const f = t - i;
+  const s = f * f * (3 - 2 * f);
+  return hash01(i, salt) * (1 - s) + hash01(i + 1, salt) * s;
+}
+
+/**
+ * Airmass clarity wander (owner 2026-08-30: "same place at same time on
+ * different days looks like it has exactly the same visibility"). The region
+ * haze was a deterministic function of clock + static rasters, so it WAS
+ * identical across days. Real boundary-layer clarity rides the airmass:
+ * subsiding dry days are crisp, stagnant humid days are thick — days-scale
+ * autocorrelation, spatially patchy at valley/basin scale. This models it as
+ * mean-one multiplicative wander around each place's climatological midpoint
+ * (the rasters stay the midpoint; climatology stays in charge):
+ *  - between-day: two octaves, ~2.3- and ~6.1-day periods, ±~30 %;
+ *  - local patches: ~2.7 km cells drifting on a ~9-day period, ±~20 % — one
+ *    basin murky while the next valley is clear, and the pattern moves.
+ * Callers pass position via LocalClimate.xM/zM; without it the factor is
+ * temporal-only, so old call sites stay deterministic and valid.
+ */
+export function airmassFactor(epochMinutes: number, xM?: number, zM?: number): number {
+  const days = epochMinutes / MINUTES_PER_DAY;
+  const temporal =
+    0.6 * valueNoise1(days / 2.3, 11) + 0.4 * valueNoise1(days / 6.1, 12);
+  let spatial = 0.5;
+  if (xM !== undefined && zM !== undefined) {
+    const gx = xM / 2700 + 2 * valueNoise1(days / 9.0, 13);
+    const gz = zM / 2700 + 2 * valueNoise1(days / 9.0, 17);
+    const ix = Math.floor(gx);
+    const iz = Math.floor(gz);
+    const fx = gx - ix;
+    const fz = gz - iz;
+    const sx = fx * fx * (3 - 2 * fx);
+    const sz = fz * fz * (3 - 2 * fz);
+    const top = hash01(ix, iz, 19) * (1 - sx) + hash01(ix + 1, iz, 19) * sx;
+    const bot = hash01(ix, iz + 1, 19) * (1 - sx) + hash01(ix + 1, iz + 1, 19) * sx;
+    spatial = top * (1 - sz) + bot * sz;
+  }
+  return (0.7 + 0.6 * temporal) * (0.8 + 0.4 * spatial);
+}
+
 export function regionHazeFactor(p: {
   humidity: number;
   rainIntensity: number;
@@ -219,6 +269,12 @@ export function regionHazeFactor(p: {
   const preDawn = Math.exp(-Math.pow((p.minuteOfDay - 330) / 150, 2));
   // Mechanical mixing: a breeze thins the murk, a calm makes it pool.
   const mixOut = clamp01(1 - 0.05 * (p.windSpeedMS - 2.5)) * 0.35 + 0.65;
+  // Afternoon burn-off (owner 2026-08-30): convective mixing after midday
+  // visibly CLEARS the air on non-rainy days — morning murk should not
+  // survive to 15:00 at full strength. (The steam term can still oppose it
+  // over wet ground, which is correct: post-rain afternoons steam.)
+  const burnOff = 1 - 0.22 * Math.exp(-Math.pow((p.minuteOfDay - 900) / 210, 2))
+    * (1 - clamp01(p.rainIntensity * 2));
   const raw =
     0.45 +
     0.55 * p.humidity +
@@ -226,7 +282,7 @@ export function regionHazeFactor(p: {
     0.6 * steam +
     0.3 * preDawn +
     0.15 * Math.max(0, p.season);
-  return Math.min(2.4, Math.max(0.3, raw * mixOut)) * VISIBILITY_LIFT;
+  return Math.min(2.4, Math.max(0.3, raw * mixOut * burnOff)) * VISIBILITY_LIFT;
 }
 
 /** Clear-air sight distance from a region extinction and its live factor
@@ -416,6 +472,11 @@ function express(
   // now the same number reaches the published sight distance, which is what
   // made the two read as separate systems.
   const wetnessNow = clamp01(rainWetness(epochMinutes) * (1 - 0.8 * local.canopy) * (0.4 + 0.8 * local.rainAmp));
+  // Airmass wander: day-to-day and basin-to-basin clarity variation around
+  // the climatological midpoint (see airmassFactor). Multiplies the region
+  // haze, so the renderer's uniform and the published visibility move
+  // together, per the one-authority rule.
+  const airmass = airmassFactor(epochMinutes, local.xM, local.zM);
   const regionHaze = regionHazeFactor({
     humidity: local.humidity,
     rainIntensity: rain,
@@ -423,7 +484,7 @@ function express(
     windSpeedMS,
     minuteOfDay,
     season: s,
-  });
+  }) * airmass;
   const regionVis = regionVisibilityM(
     local.regionExtinction ?? DEFAULT_REGION_EXTINCTION,
     regionHaze,

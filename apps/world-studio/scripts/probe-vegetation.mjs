@@ -29,11 +29,11 @@ const BASE = `http://127.0.0.1:${PORT}/elder-souls-argonia/studio/`;
 // probe can meaningfully assert. Ground-level look in dense areas is the
 // owner's call on a real GPU (deployed build), per the golden rules.
 const SCENARIOS = [
-  { id: "exemplar-interior-swamp", x: 2.574, z: 5.849, alt: 420, minInstances: 500, minGroundcover: 0 },
-  { id: "contrast-jungle", x: 3.509, z: 4.445, alt: 420, minInstances: 800, minGroundcover: 0 },
-  { id: "contrast-rootland", x: 2.106, z: 4.913, alt: 420, minInstances: 400, minGroundcover: 0 },
-  { id: "contrast-coastal-lagoon", x: 5.381, z: 3.510, alt: 90, minInstances: 200, minGroundcover: 0 },
-  { id: "contrast-uplands", x: 1.638, z: 1.638, alt: 90, minInstances: 20, minGroundcover: 0 },
+  { id: "exemplar-interior-swamp", x: 2.574, z: 5.849, alt: 420, pitch: -55, minInstances: 500, minGroundcover: 0 },
+  { id: "contrast-jungle", x: 3.509, z: 4.445, alt: 420, pitch: -55, minInstances: 800, minGroundcover: 0 },
+  { id: "contrast-rootland", x: 2.106, z: 4.913, alt: 420, pitch: -55, minInstances: 400, minGroundcover: 0 },
+  { id: "contrast-coastal-lagoon", x: 5.381, z: 3.510, alt: 90, pitch: -18, minInstances: 200, minGroundcover: 0 },
+  { id: "contrast-uplands", x: 1.638, z: 1.638, alt: 90, pitch: -18, minInstances: 20, minGroundcover: 0 },
 ];
 
 const server = spawn("npx", ["vite", "preview", "--port", String(PORT), "--strictPort",
@@ -69,11 +69,11 @@ const results = [];
 for (const scenario of SCENARIOS) {
   // smsize shrinks the CSM maps for the software rasteriser; round-2 density
   // (~180k instances + the T3 ring) made full-size cascades a 30s+ frame.
-  const url = `${BASE}?view=fly3d&cam=orbit&x=${scenario.x}&z=${scenario.z}&ex=1&t=11:00&d=8-17&alt=${scenario.alt}&smsize=256&wq=low&w=clear`;
+  const url = `${BASE}?view=fly3d&cam=orbit&x=${scenario.x}&z=${scenario.z}&ex=1&t=11:00&d=8-17&alt=${scenario.alt}&yaw=25&pitch=${scenario.pitch}&smsize=256&wq=low&w=clear`;
   // The flora kit is a 12 MB GLB and this runs on a software rasteriser, so
   // "load" plus a fixed sleep is not a safe pair: wait for the DOM, then poll
   // for the renderer's own counters.
-  await page.goto(url, { waitUntil: "domcontentloaded", timeout: 90_000 });
+  await page.goto(url, { waitUntil: "domcontentloaded", timeout: 240_000 });
   let stats = null;
   let groundcover = null;
   // The two hooks land independently (T1/T2 waits on the 12 MB flora kit,

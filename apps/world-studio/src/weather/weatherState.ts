@@ -111,6 +111,10 @@ export function weatherAt(
     // while the HUD number came from the weather state alone.
     regionExtinction: vis?.[1] ?? DEFAULT_LOCAL.regionExtinction,
     elevationM,
+    // Position feeds the LOCAL component of the airmass clarity wander
+    // (day-to-day / basin-to-basin visibility variation, airmassFactor).
+    xM,
+    zM,
   };
   lastSample =
     override === "auto"

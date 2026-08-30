@@ -70,7 +70,10 @@ first, then open only the master-plan sections the active phase needs.
   marsh overall (the region rebalance is live — ground paint included)
   ⑤ weather tweaks: no more square-edged mountaintop cloud (it is OFF for
   now, polish-phase item), generally clearer air everywhere, rain
-  surrounding you to ~300 m ⑥ performance on your machine in the jungle —
+  surrounding you to ~300 m, and visibility now VARIES: the same place at
+  the same hour looks clearer on some days than others (try a few different
+  dates), morning murk burns off through the afternoon, and one basin can
+  be hazier than the next valley ⑥ performance on your machine in the jungle —
   if it lags badly say so (levers exist: densityScale, draw distances).
   Feedback in plain words + screenshots as usual. Known gaps, by design this
   round: you can walk THROUGH trees (colliders are a next-round item), no

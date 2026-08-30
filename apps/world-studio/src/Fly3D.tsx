@@ -194,6 +194,25 @@ const INITIAL_ALT = (() => {
   return Number.isFinite(v) && v !== 0 ? v : null;
 })();
 
+// Camera aim overrides (?yaw= compass degrees clockwise from north, ?pitch=
+// degrees, negative looks down). Added for the probes (owner 2026-08-30):
+// screenshots must be able to frame WHATEVER needs judging, not only the
+// default 4 km-north horizon stare. Captured at module load like ?alt=.
+const INITIAL_AIM = (() => {
+  const q = new URLSearchParams(window.location.search);
+  if (!q.has("yaw") && !q.has("pitch")) return null;
+  const yaw = Number(q.get("yaw")) || 0;
+  const pitch = Number(q.get("pitch")) || 0;
+  const yawR = (yaw * Math.PI) / 180;
+  const pitchR = (pitch * Math.PI) / 180;
+  // North is −Z (compass convention shared with headingOf).
+  return new THREE.Vector3(
+    Math.sin(yawR) * Math.cos(pitchR),
+    Math.sin(pitchR),
+    -Math.cos(yawR) * Math.cos(pitchR),
+  );
+})();
+
 export function Fly3D(props: Fly3DProps) {
   const extentM = props.size * props.metresPerPixel;
   const speedRef = useRef(props.flySpeed ?? 60);
@@ -228,7 +247,17 @@ export function Fly3D(props: Fly3DProps) {
       dpr={[1, 1.5]}
       shadows="soft"
       style={{ width: "100%", height: "100%" }}
-      onCreated={({ camera }) => camera.lookAt(start[0], 0, start[2] - 4000)}
+      onCreated={({ camera }) => {
+        if (INITIAL_AIM) {
+          camera.lookAt(
+            start[0] + INITIAL_AIM.x * 2000,
+            start[1] + INITIAL_AIM.y * 2000,
+            start[2] + INITIAL_AIM.z * 2000,
+          );
+        } else {
+          camera.lookAt(start[0], 0, start[2] - 4000);
+        }
+      }}
     >
       {/* Natural light and sky (Phase 8a): sun/moons/stars, CSM shadows,
           exposure and the aerial haze all come from WorldSky — the old fixed
@@ -275,7 +304,12 @@ export function Fly3D(props: Fly3DProps) {
           {!locked && null}
         </>
       ) : (
-        <MapControls target={[start[0], 0, start[2] - 2000]} maxDistance={40000} />
+        <MapControls
+          target={INITIAL_AIM
+            ? [start[0] + INITIAL_AIM.x * 2000, start[1] + INITIAL_AIM.y * 2000, start[2] + INITIAL_AIM.z * 2000]
+            : [start[0], 0, start[2] - 2000]}
+          maxDistance={40000}
+        />
       )}
     </Canvas>
   );

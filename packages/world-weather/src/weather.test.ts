@@ -11,6 +11,7 @@ import {
 } from "./synoptic";
 import {
   WHITEOUT_ENABLED,
+  airmassFactor,
   regionHazeFactor,
   weatherSampleAt,
   weatherSampleForRegime,
@@ -453,5 +454,39 @@ describe("sanity", () => {
       expect(f).toBeGreaterThanOrEqual(0);
       expect(f).toBeLessThanOrEqual(1);
     }
+  });
+});
+
+describe("airmass clarity wander (owner 2026-08-30)", () => {
+  const day = (n: number, minute: number) => n * 24 * 60 + minute;
+
+  it("same place, same hour, different days: visibility differs", () => {
+    // The round-5 defect: region haze was a pure function of clock-of-day +
+    // static rasters, so every clear 11:00 was pixel-identical.
+    const at = (d: number) => airmassFactor(day(d, 11 * 60), 3200, 4100);
+    const values = [1, 2, 3, 5, 8, 13, 21, 34].map(at);
+    const spread = Math.max(...values) - Math.min(...values);
+    expect(spread).toBeGreaterThan(0.2);
+  });
+
+  it("same instant, different basins: local air differs", () => {
+    const t = day(7, 11 * 60);
+    const spread = [0, 1, 2, 3, 4].map((i) => airmassFactor(t, 400 + i * 5400, 6200 - i * 3800));
+    expect(Math.max(...spread) - Math.min(...spread)).toBeGreaterThan(0.08);
+  });
+
+  it("stays a mean-one wander around the climatological midpoint", () => {
+    let sum = 0;
+    const n = 200;
+    for (let d = 0; d < n; d++) sum += airmassFactor(day(d, 11 * 60), 3200, 4100);
+    expect(sum / n).toBeGreaterThan(0.85);
+    expect(sum / n).toBeLessThan(1.15);
+  });
+
+  it("afternoon burn-off clears calm dry air relative to dawn", () => {
+    const base = { humidity: 0.9, rainIntensity: 0, wetness: 0, windSpeedMS: 2, season: 0.5 };
+    const dawn = regionHazeFactor({ ...base, minuteOfDay: 6.5 * 60 });
+    const noonish = regionHazeFactor({ ...base, minuteOfDay: 15 * 60 });
+    expect(noonish).toBeLessThan(dawn * 0.9);
   });
 });
