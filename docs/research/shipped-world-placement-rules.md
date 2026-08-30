@@ -12,6 +12,10 @@ and flora palettes can be built from.
   (vegetation/scatter) and [90 §71–80](../world/90-asset-strategy.md) (assets)
 - Readers: `worldgen/esp_index.py`, `worldgen/mine_placement.py`,
   `worldgen/mine_groundcover.py`
+- One level deeper — per-species waterline siting, riparian density bands,
+  pool ring structure, and the Tropical Skyrim anatomy:
+  [mod-vegetation-micro-siting.md](mod-vegetation-micro-siting.md)
+  (reader: `worldgen/mine_micro_siting.py`)
 
 ## 1. Sources, coverage and what would make a number wrong
 

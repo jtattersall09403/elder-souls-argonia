@@ -16,6 +16,8 @@ which is the human-facing version and states the caveats.
 | `bmv-blackmarsh-placement.json` | Black Marsh & Valenwood, worldspaces `BlackMarsh`, `BlackMarsh2`, `BlackMarshNorth` (144,298 refs, 8,344 cells) | per-species placement profiles, per-hectare densities, water-depth and slope bands, species associations |
 | `bmv-valenwood-placement.json` | Black Marsh & Valenwood, worldspace `Valenwood` (42,107 refs) | the same, for a dry-forest contrast |
 | `groundcover-rules.json` | Tropical Skyrim's overrides of vanilla `GRAS`/`LTEX` records | Bethesda's grass parameter schema with observed values, and which grasses each painted ground texture allows |
+| `bmv-blackmarsh-micrositing.json` | same worldspaces, via `worldgen/mine_micro_siting.py` | per-species water-relation classes with conditional depths, density vs distance-to-waterline (riparian bands), pool-scene ring composition — digest in [docs/research/mod-vegetation-micro-siting.md](../../../docs/research/mod-vegetation-micro-siting.md) |
+| `bmv-valenwood-micrositing.json` | worldspace `Valenwood` | the same, showing the *inverted* (dry-forest) riparian profile |
 
 ## Regenerating
 

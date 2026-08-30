@@ -1,0 +1,5378 @@
+{
+ "source": {
+  "label": "BM&V Black Marsh",
+  "worldspaces": [
+   "BlackMarsh",
+   "BlackMarsh2",
+   "BlackMarshNorth"
+  ],
+  "instances": 144298,
+  "dressedCells": 1973,
+  "gridNodes": 609792,
+  "floodedNodeFraction": 0.442
+ },
+ "speciesWaterRelation": {
+  "dlc01/plants/poisonbloomingredient.nif": {
+   "category": "plant",
+   "count": 9336,
+   "class": {
+    "deepWater>1m": 0.169,
+    "shallows0.3-1m": 0.057,
+    "waterline\u00b10.3m": 0.659,
+    "damp0.3-1m above": 0.046,
+    "dry>1m above": 0.068
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 1.934,
+    "p95": 28.789
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.228,
+    "p50": 0.228,
+    "p75": 0.455,
+    "p95": 6.901
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.114,
+    "p25": 0.538,
+    "p50": 1.393,
+    "p75": 3.088,
+    "p95": 6.938
+   },
+   "originSubmergedFraction": 0.365
+  },
+  "landscape/grass/vurt_reeds.nif": {
+   "category": "aquatic-plant",
+   "count": 8869,
+   "class": {
+    "deepWater>1m": 0.284,
+    "shallows0.3-1m": 0.282,
+    "waterline\u00b10.3m": 0.411,
+    "damp0.3-1m above": 0.019,
+    "dry>1m above": 0.004
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.228,
+    "p50": 0.341,
+    "p75": 1.607,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.034,
+    "p25": -0.0,
+    "p50": 0.114,
+    "p75": 0.442,
+    "p95": 1.081
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.279,
+    "p25": 0.743,
+    "p50": 1.055,
+    "p75": 1.431,
+    "p95": 3.517
+   },
+   "originSubmergedFraction": 0.82
+  },
+  "landscape/plants/braken.nif": {
+   "category": "shrub",
+   "count": 8045,
+   "class": {
+    "deepWater>1m": 0.163,
+    "shallows0.3-1m": 0.061,
+    "waterline\u00b10.3m": 0.627,
+    "damp0.3-1m above": 0.044,
+    "dry>1m above": 0.105
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 2.069,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.228,
+    "p50": 0.228,
+    "p75": 0.635,
+    "p95": 15.453
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.189,
+    "p25": 1.03,
+    "p50": 2.355,
+    "p75": 3.972,
+    "p95": 6.964
+   },
+   "originSubmergedFraction": 0.645
+  },
+  "landscape/plants/fernlarge03.nif": {
+   "category": "plant",
+   "count": 5902,
+   "class": {
+    "deepWater>1m": 0.07,
+    "shallows0.3-1m": 0.04,
+    "waterline\u00b10.3m": 0.762,
+    "damp0.3-1m above": 0.042,
+    "dry>1m above": 0.085
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 0.356,
+    "p95": 28.789
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.228,
+    "p75": 0.228,
+    "p95": 10.385
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.331,
+    "p25": 1.408,
+    "p50": 2.619,
+    "p75": 4.243,
+    "p95": 7.794
+   },
+   "originSubmergedFraction": 0.698
+  },
+  "landscape/trees/tropicalplant01.nif": {
+   "category": "tree",
+   "count": 5897,
+   "class": {
+    "deepWater>1m": 0.122,
+    "shallows0.3-1m": 0.031,
+    "waterline\u00b10.3m": 0.694,
+    "damp0.3-1m above": 0.039,
+    "dry>1m above": 0.114
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 0.341,
+    "p95": 28.789
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.228,
+    "p50": 0.228,
+    "p75": 1.024,
+    "p95": 15.855
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.149,
+    "p25": 0.836,
+    "p50": 2.172,
+    "p75": 4.014,
+    "p95": 7.451
+   },
+   "originSubmergedFraction": 0.548
+  },
+  "skyrim.esm#0B8A66": {
+   "category": "unresolved",
+   "count": 5747,
+   "class": {
+    "deepWater>1m": 0.123,
+    "shallows0.3-1m": 0.061,
+    "waterline\u00b10.3m": 0.22,
+    "damp0.3-1m above": 0.506,
+    "dry>1m above": 0.091
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.117,
+    "p25": 0.516,
+    "p50": 1.282,
+    "p75": 2.162,
+    "p95": 23.854
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.335,
+    "p50": 0.683,
+    "p75": 0.683,
+    "p95": 2.617
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.06,
+    "p25": 0.366,
+    "p50": 0.542,
+    "p75": 1.02,
+    "p95": 2.004
+   },
+   "originSubmergedFraction": 0.296
+  },
+  "skyrim.esm#0B73BC": {
+   "category": "unresolved",
+   "count": 5356,
+   "class": {
+    "deepWater>1m": 0.132,
+    "shallows0.3-1m": 0.112,
+    "waterline\u00b10.3m": 0.295,
+    "damp0.3-1m above": 0.36,
+    "dry>1m above": 0.101
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.168,
+    "p25": 0.341,
+    "p50": 0.816,
+    "p75": 2.295,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.004,
+    "p50": 0.599,
+    "p75": 0.683,
+    "p95": 7.335
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.169,
+    "p25": 0.862,
+    "p50": 3.002,
+    "p75": 5.612,
+    "p95": 20.118
+   },
+   "originSubmergedFraction": 0.512
+  },
+  "landscape/trees/gkblillipad2.nif": {
+   "category": "aquatic-plant",
+   "count": 4482,
+   "class": {
+    "deepWater>1m": 0.559,
+    "shallows0.3-1m": 0.233,
+    "waterline\u00b10.3m": 0.186,
+    "damp0.3-1m above": 0.009,
+    "dry>1m above": 0.013
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.495,
+    "p50": 1.197,
+    "p75": 2.016,
+    "p95": 23.241
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.029,
+    "p25": 0.052,
+    "p50": 0.333,
+    "p75": 1.483,
+    "p95": 21.67
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.079,
+    "p25": 0.475,
+    "p50": 0.841,
+    "p75": 1.289,
+    "p95": 3.517
+   },
+   "originSubmergedFraction": 0.325
+  },
+  "skyrim.esm#0B73B8": {
+   "category": "unresolved",
+   "count": 4447,
+   "class": {
+    "deepWater>1m": 0.125,
+    "shallows0.3-1m": 0.14,
+    "waterline\u00b10.3m": 0.303,
+    "damp0.3-1m above": 0.317,
+    "dry>1m above": 0.115
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.167,
+    "p25": 0.341,
+    "p50": 0.571,
+    "p75": 2.073,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.455,
+    "p75": 0.683,
+    "p95": 13.69
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.127,
+    "p25": 1.025,
+    "p50": 3.22,
+    "p75": 5.382,
+    "p95": 10.619
+   },
+   "originSubmergedFraction": 0.6
+  },
+  "landscape/plants/chickweed.nif": {
+   "category": "plant",
+   "count": 4287,
+   "class": {
+    "deepWater>1m": 0.202,
+    "shallows0.3-1m": 0.087,
+    "waterline\u00b10.3m": 0.475,
+    "damp0.3-1m above": 0.067,
+    "dry>1m above": 0.17
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.379,
+    "p75": 14.793,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.228,
+    "p75": 2.602,
+    "p95": 19.274
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.183,
+    "p25": 0.667,
+    "p50": 1.592,
+    "p75": 3.045,
+    "p95": 5.411
+   },
+   "originSubmergedFraction": 0.67
+  },
+  "edid:TreeSwordFern06": {
+   "category": "unresolved",
+   "count": 3407,
+   "class": {
+    "deepWater>1m": 0.125,
+    "shallows0.3-1m": 0.084,
+    "waterline\u00b10.3m": 0.297,
+    "damp0.3-1m above": 0.4,
+    "dry>1m above": 0.093
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.341,
+    "p50": 0.986,
+    "p75": 2.214,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.128,
+    "p50": 0.683,
+    "p75": 0.683,
+    "p95": 3.44
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.108,
+    "p25": 0.508,
+    "p50": 1.175,
+    "p75": 3.627,
+    "p95": 9.362
+   },
+   "originSubmergedFraction": 0.397
+  },
+  "landscape/plants/bigshrub2(colorful).nif": {
+   "category": "shrub",
+   "count": 3381,
+   "class": {
+    "deepWater>1m": 0.1,
+    "shallows0.3-1m": 0.031,
+    "waterline\u00b10.3m": 0.742,
+    "damp0.3-1m above": 0.036,
+    "dry>1m above": 0.091
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 0.341,
+    "p95": 28.789
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.228,
+    "p50": 0.228,
+    "p75": 0.228,
+    "p95": 13.26
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.237,
+    "p25": 1.366,
+    "p50": 2.533,
+    "p75": 4.464,
+    "p95": 8.27
+   },
+   "originSubmergedFraction": 0.637
+  },
+  "skyrim.esm#0B8A59": {
+   "category": "unresolved",
+   "count": 3001,
+   "class": {
+    "deepWater>1m": 0.138,
+    "shallows0.3-1m": 0.058,
+    "waterline\u00b10.3m": 0.236,
+    "damp0.3-1m above": 0.456,
+    "dry>1m above": 0.112
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.464,
+    "p50": 1.345,
+    "p75": 2.961,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.258,
+    "p50": 0.683,
+    "p75": 0.683,
+    "p95": 4.56
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.097,
+    "p25": 0.398,
+    "p50": 0.698,
+    "p75": 1.307,
+    "p95": 29.123
+   },
+   "originSubmergedFraction": 0.272
+  },
+  "architecture/phitt/ashlands/tramaroot01.nif": {
+   "category": "root",
+   "count": 2585,
+   "class": {
+    "deepWater>1m": 0.127,
+    "shallows0.3-1m": 0.03,
+    "waterline\u00b10.3m": 0.722,
+    "damp0.3-1m above": 0.04,
+    "dry>1m above": 0.082
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 0.341,
+    "p95": 28.789
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.228,
+    "p50": 0.228,
+    "p75": 0.455,
+    "p95": 7.755
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.127,
+    "p25": 0.596,
+    "p50": 1.815,
+    "p75": 4.065,
+    "p95": 426.72
+   },
+   "originSubmergedFraction": 0.166
+  },
+  "skyrim.esm#04B0BA": {
+   "category": "unresolved",
+   "count": 2567,
+   "class": {
+    "deepWater>1m": 0.0,
+    "shallows0.3-1m": 0.0,
+    "waterline\u00b10.3m": 0.282,
+    "damp0.3-1m above": 0.255,
+    "dry>1m above": 0.463
+   },
+   "standingWaterDepthWhenFloodedM": {},
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.831,
+    "p75": 1.707,
+    "p95": 1.707
+   },
+   "originDepthBelowSurfaceM": {},
+   "originSubmergedFraction": 0.0
+  },
+  "skyrim.esm#000021": {
+   "category": "unresolved",
+   "count": 2202,
+   "class": {
+    "deepWater>1m": 0.016,
+    "shallows0.3-1m": 0.042,
+    "waterline\u00b10.3m": 0.396,
+    "damp0.3-1m above": 0.009,
+    "dry>1m above": 0.538
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 0.228,
+    "p95": 0.983
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 1.138,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 16.687
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.922,
+    "p25": 8.417,
+    "p50": 16.744,
+    "p75": 23.445,
+    "p95": 45.126
+   },
+   "originSubmergedFraction": 0.167
+  },
+  "landscape/trees/tropicalshrub01.nif": {
+   "category": "shrub",
+   "count": 2146,
+   "class": {
+    "deepWater>1m": 0.13,
+    "shallows0.3-1m": 0.047,
+    "waterline\u00b10.3m": 0.667,
+    "damp0.3-1m above": 0.052,
+    "dry>1m above": 0.104
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 0.546,
+    "p95": 28.789
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.228,
+    "p50": 0.228,
+    "p75": 0.758,
+    "p95": 10.242
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.127,
+    "p25": 0.937,
+    "p50": 2.475,
+    "p75": 4.642,
+    "p95": 9.037
+   },
+   "originSubmergedFraction": 0.546
+  },
+  "edid:TreeSwordFernCluster06": {
+   "category": "unresolved",
+   "count": 2123,
+   "class": {
+    "deepWater>1m": 0.12,
+    "shallows0.3-1m": 0.064,
+    "waterline\u00b10.3m": 0.22,
+    "damp0.3-1m above": 0.514,
+    "dry>1m above": 0.081
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.148,
+    "p25": 0.548,
+    "p50": 1.221,
+    "p75": 2.185,
+    "p95": 27.734
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.312,
+    "p50": 0.683,
+    "p75": 0.683,
+    "p95": 2.369
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.07,
+    "p25": 0.363,
+    "p50": 0.525,
+    "p75": 0.953,
+    "p95": 1.937
+   },
+   "originSubmergedFraction": 0.268
+  },
+  "skyrim.esm#034DAE": {
+   "category": "unresolved",
+   "count": 1973,
+   "class": {
+    "deepWater>1m": 0.22,
+    "shallows0.3-1m": 0.156,
+    "waterline\u00b10.3m": 0.505,
+    "damp0.3-1m above": 0.051,
+    "dry>1m above": 0.068
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.341,
+    "p50": 0.849,
+    "p75": 3.997,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": 0.228,
+    "p95": 2.188
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 1.15,
+    "p25": 3.943,
+    "p50": 7.17,
+    "p75": 11.102,
+    "p95": 14.99
+   },
+   "originSubmergedFraction": 0.83
+  },
+  "landscape/plants/esloebush08.nif": {
+   "category": "shrub",
+   "count": 1803,
+   "class": {
+    "deepWater>1m": 0.104,
+    "shallows0.3-1m": 0.031,
+    "waterline\u00b10.3m": 0.753,
+    "damp0.3-1m above": 0.036,
+    "dry>1m above": 0.076
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 0.455,
+    "p95": 28.789
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.228,
+    "p50": 0.228,
+    "p75": 0.228,
+    "p95": 4.779
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.188,
+    "p25": 1.138,
+    "p50": 2.517,
+    "p75": 4.433,
+    "p95": 9.037
+   },
+   "originSubmergedFraction": 0.605
+  },
+  "landscape/trees/cypress1.nif": {
+   "category": "tree",
+   "count": 1576,
+   "class": {
+    "deepWater>1m": 0.265,
+    "shallows0.3-1m": 0.058,
+    "waterline\u00b10.3m": 0.372,
+    "damp0.3-1m above": 0.055,
+    "dry>1m above": 0.25
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 2.474,
+    "p75": 28.787,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.114,
+    "p50": 0.773,
+    "p75": 1.707,
+    "p95": 19.307
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.331,
+    "p25": 1.466,
+    "p50": 2.789,
+    "p75": 4.891,
+    "p95": 7.015
+   },
+   "originSubmergedFraction": 0.68
+  },
+  "skyrim.esm#0BB94C": {
+   "category": "unresolved",
+   "count": 1446,
+   "class": {
+    "deepWater>1m": 0.219,
+    "shallows0.3-1m": 0.139,
+    "waterline\u00b10.3m": 0.38,
+    "damp0.3-1m above": 0.185,
+    "dry>1m above": 0.076
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.341,
+    "p50": 0.999,
+    "p75": 4.423,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.114,
+    "p50": 0.228,
+    "p75": 0.341,
+    "p95": 3.528
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.139,
+    "p25": 0.732,
+    "p50": 1.713,
+    "p75": 3.656,
+    "p95": 6.267
+   },
+   "originSubmergedFraction": 0.913
+  },
+  "skyrim.esm#0BE3E1": {
+   "category": "unresolved",
+   "count": 1293,
+   "class": {
+    "deepWater>1m": 0.013,
+    "shallows0.3-1m": 0.026,
+    "waterline\u00b10.3m": 0.041,
+    "damp0.3-1m above": 0.136,
+    "dry>1m above": 0.784
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.091,
+    "p25": 0.235,
+    "p50": 0.545,
+    "p75": 0.774,
+    "p95": 4.117
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.455,
+    "p25": 1.489,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 8.3
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.088,
+    "p25": 0.203,
+    "p50": 0.384,
+    "p75": 0.733,
+    "p95": 1.265
+   },
+   "originSubmergedFraction": 0.294
+  },
+  "landscape/trees/birch-.nif": {
+   "category": "tree",
+   "count": 1289,
+   "class": {
+    "deepWater>1m": 0.116,
+    "shallows0.3-1m": 0.039,
+    "waterline\u00b10.3m": 0.741,
+    "damp0.3-1m above": 0.025,
+    "dry>1m above": 0.079
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 0.341,
+    "p95": 28.789
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.228,
+    "p50": 0.228,
+    "p75": 0.228,
+    "p95": 6.806
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.188,
+    "p25": 1.4,
+    "p50": 3.101,
+    "p75": 4.699,
+    "p95": 8.698
+   },
+   "originSubmergedFraction": 0.62
+  },
+  "skyrim.esm#02D847": {
+   "category": "unresolved",
+   "count": 1201,
+   "class": {
+    "deepWater>1m": 0.176,
+    "shallows0.3-1m": 0.037,
+    "waterline\u00b10.3m": 0.548,
+    "damp0.3-1m above": 0.059,
+    "dry>1m above": 0.18
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.341,
+    "p75": 28.676,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.228,
+    "p75": 2.786,
+    "p95": 14.851
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.188,
+    "p25": 0.72,
+    "p50": 1.506,
+    "p75": 3.014,
+    "p95": 4.163
+   },
+   "originSubmergedFraction": 0.048
+  },
+  "hearthfires.esm#0110C0": {
+   "category": "unresolved",
+   "count": 1151,
+   "class": {
+    "deepWater>1m": 0.241,
+    "shallows0.3-1m": 0.161,
+    "waterline\u00b10.3m": 0.437,
+    "damp0.3-1m above": 0.095,
+    "dry>1m above": 0.066
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.341,
+    "p50": 0.93,
+    "p75": 4.539,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.228,
+    "p75": 0.341,
+    "p95": 5.269
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.484,
+    "p25": 1.862,
+    "p50": 3.595,
+    "p75": 6.318,
+    "p95": 10.751
+   },
+   "originSubmergedFraction": 0.713
+  },
+  "trdata/mushrooms/tr_flora_acbranch_04.nif": {
+   "category": "deadfall",
+   "count": 1150,
+   "class": {
+    "deepWater>1m": 0.11,
+    "shallows0.3-1m": 0.023,
+    "waterline\u00b10.3m": 0.617,
+    "damp0.3-1m above": 0.038,
+    "dry>1m above": 0.212
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 0.341,
+    "p95": 28.789
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.063,
+    "p25": 0.228,
+    "p50": 0.341,
+    "p75": 11.271,
+    "p95": 84.236
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.111,
+    "p25": 0.825,
+    "p50": 2.546,
+    "p75": 5.098,
+    "p95": 426.72
+   },
+   "originSubmergedFraction": 0.129
+  },
+  "skyrim.esm#0B735D": {
+   "category": "unresolved",
+   "count": 1113,
+   "class": {
+    "deepWater>1m": 0.166,
+    "shallows0.3-1m": 0.04,
+    "waterline\u00b10.3m": 0.554,
+    "damp0.3-1m above": 0.059,
+    "dry>1m above": 0.181
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.341,
+    "p75": 28.134,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.228,
+    "p75": 2.346,
+    "p95": 19.851
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.188,
+    "p25": 0.72,
+    "p50": 1.506,
+    "p75": 3.014,
+    "p95": 4.163
+   },
+   "originSubmergedFraction": 0.048
+  },
+  "vvardenfell/flora/firefern01.nif": {
+   "category": "plant",
+   "count": 1078,
+   "class": {
+    "deepWater>1m": 0.048,
+    "shallows0.3-1m": 0.041,
+    "waterline\u00b10.3m": 0.034,
+    "damp0.3-1m above": 0.058,
+    "dry>1m above": 0.818
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.45,
+    "p50": 0.955,
+    "p75": 1.65,
+    "p95": 3.351
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.568,
+    "p25": 1.707,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 1.707
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.191,
+    "p25": 0.815,
+    "p50": 1.453,
+    "p75": 2.329,
+    "p95": 3.23
+   },
+   "originSubmergedFraction": 0.272
+  },
+  "traps/pressureplate/trapstonepressureplate02.nif": {
+   "category": "trap",
+   "count": 1031,
+   "class": {
+    "deepWater>1m": 0.057,
+    "shallows0.3-1m": 0.032,
+    "waterline\u00b10.3m": 0.786,
+    "damp0.3-1m above": 0.082,
+    "dry>1m above": 0.043
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 0.114,
+    "p95": 23.441
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.228,
+    "p50": 0.228,
+    "p75": 0.455,
+    "p95": 2.299
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.642,
+    "p25": 1.157,
+    "p50": 1.361,
+    "p75": 3.4,
+    "p95": 6.441
+   },
+   "originSubmergedFraction": 0.809
+  },
+  "edid:TreePineForest01Dead": {
+   "category": "unresolved",
+   "count": 961,
+   "class": {
+    "deepWater>1m": 0.031,
+    "shallows0.3-1m": 0.078,
+    "waterline\u00b10.3m": 0.419,
+    "damp0.3-1m above": 0.129,
+    "dry>1m above": 0.344
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.302,
+    "p50": 0.341,
+    "p75": 0.793,
+    "p95": 3.613
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.228,
+    "p50": 0.341,
+    "p75": 1.707,
+    "p95": 3.516
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.355,
+    "p25": 1.134,
+    "p50": 2.431,
+    "p75": 5.462,
+    "p95": 9.67
+   },
+   "originSubmergedFraction": 0.734
+  },
+  "landscape/trees/cypress3.nif": {
+   "category": "tree",
+   "count": 933,
+   "class": {
+    "deepWater>1m": 0.256,
+    "shallows0.3-1m": 0.045,
+    "waterline\u00b10.3m": 0.131,
+    "damp0.3-1m above": 0.073,
+    "dry>1m above": 0.496
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.305,
+    "p50": 2.959,
+    "p75": 29.131,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.297,
+    "p25": 1.353,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 4.164
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.36,
+    "p25": 1.489,
+    "p50": 3.497,
+    "p75": 5.356,
+    "p95": 7.207
+   },
+   "originSubmergedFraction": 0.501
+  },
+  "skyrim.esm#0BCCA6": {
+   "category": "unresolved",
+   "count": 822,
+   "class": {
+    "deepWater>1m": 0.281,
+    "shallows0.3-1m": 0.142,
+    "waterline\u00b10.3m": 0.417,
+    "damp0.3-1m above": 0.086,
+    "dry>1m above": 0.075
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.341,
+    "p50": 1.247,
+    "p75": 4.742,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.147,
+    "p75": 0.341,
+    "p95": 4.622
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 1.446,
+    "p25": 5.34,
+    "p50": 7.296,
+    "p75": 10.115,
+    "p95": 16.022
+   },
+   "originSubmergedFraction": 0.982
+  },
+  "dawnguard.esm#002A77": {
+   "category": "unresolved",
+   "count": 816,
+   "class": {
+    "deepWater>1m": 0.247,
+    "shallows0.3-1m": 0.151,
+    "waterline\u00b10.3m": 0.449,
+    "damp0.3-1m above": 0.087,
+    "dry>1m above": 0.067
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.341,
+    "p50": 0.939,
+    "p75": 4.037,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.114,
+    "p75": 0.341,
+    "p95": 3.528
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.773,
+    "p25": 2.626,
+    "p50": 6.507,
+    "p75": 9.445,
+    "p95": 16.022
+   },
+   "originSubmergedFraction": 0.891
+  },
+  "vvardenfell/flora/algrass03b.nif": {
+   "category": "grass",
+   "count": 792,
+   "class": {
+    "deepWater>1m": 0.065,
+    "shallows0.3-1m": 0.033,
+    "waterline\u00b10.3m": 0.062,
+    "damp0.3-1m above": 0.075,
+    "dry>1m above": 0.766
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.109,
+    "p25": 0.311,
+    "p50": 1.015,
+    "p75": 2.108,
+    "p95": 3.416
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.387,
+    "p25": 1.479,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 1.707
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.285,
+    "p25": 0.929,
+    "p50": 1.453,
+    "p75": 2.329,
+    "p95": 3.356
+   },
+   "originSubmergedFraction": 0.37
+  },
+  "landscape/trees/mangrovereachtree0gkb9.nif": {
+   "category": "tree",
+   "count": 767,
+   "class": {
+    "deepWater>1m": 0.206,
+    "shallows0.3-1m": 0.165,
+    "waterline\u00b10.3m": 0.528,
+    "damp0.3-1m above": 0.035,
+    "dry>1m above": 0.065
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.341,
+    "p75": 1.398,
+    "p95": 28.789
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.228,
+    "p50": 0.228,
+    "p75": 0.455,
+    "p95": 12.008
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.192,
+    "p25": 1.035,
+    "p50": 2.176,
+    "p75": 4.09,
+    "p95": 7.236
+   },
+   "originSubmergedFraction": 0.589
+  },
+  "landscape/trees/ztgorsebush04statwhite.nif": {
+   "category": "shrub",
+   "count": 753,
+   "class": {
+    "deepWater>1m": 0.107,
+    "shallows0.3-1m": 0.072,
+    "waterline\u00b10.3m": 0.68,
+    "damp0.3-1m above": 0.056,
+    "dry>1m above": 0.085
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 0.341,
+    "p95": 28.789
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.228,
+    "p50": 0.228,
+    "p75": 0.455,
+    "p95": 12.988
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.199,
+    "p25": 0.711,
+    "p50": 2.031,
+    "p75": 3.709,
+    "p95": 5.66
+   },
+   "originSubmergedFraction": 0.557
+  },
+  "dlc02/landscape/trees/treepineforestbroken01.nif": {
+   "category": "tree",
+   "count": 744,
+   "class": {
+    "deepWater>1m": 0.019,
+    "shallows0.3-1m": 0.015,
+    "waterline\u00b10.3m": 0.027,
+    "damp0.3-1m above": 0.082,
+    "dry>1m above": 0.858
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.054,
+    "p25": 0.627,
+    "p50": 1.194,
+    "p75": 2.567,
+    "p95": 6.197
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.591,
+    "p25": 1.593,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 2.056
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.338,
+    "p25": 1.466,
+    "p50": 3.635,
+    "p75": 9.514,
+    "p95": 19.202
+   },
+   "originSubmergedFraction": 0.718
+  },
+  "landscape/grass/waterkelpshort01.nif": {
+   "category": "aquatic-plant",
+   "count": 739,
+   "class": {
+    "deepWater>1m": 0.248,
+    "shallows0.3-1m": 0.305,
+    "waterline\u00b10.3m": 0.428,
+    "damp0.3-1m above": 0.014,
+    "dry>1m above": 0.004
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.228,
+    "p50": 0.45,
+    "p75": 1.024,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.03,
+    "p25": -0.0,
+    "p50": 0.017,
+    "p75": 0.212,
+    "p95": 0.851
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.279,
+    "p25": 0.758,
+    "p50": 1.116,
+    "p75": 1.821,
+    "p95": 3.641
+   },
+   "originSubmergedFraction": 0.538
+  },
+  "skyrim.esm#045D7B": {
+   "category": "unresolved",
+   "count": 731,
+   "class": {
+    "deepWater>1m": 0.508,
+    "shallows0.3-1m": 0.268,
+    "waterline\u00b10.3m": 0.171,
+    "damp0.3-1m above": 0.006,
+    "dry>1m above": 0.048
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.311,
+    "p25": 0.481,
+    "p50": 1.688,
+    "p75": 4.524,
+    "p95": 29.054
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": 1.138,
+    "p95": 3.726
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.324,
+    "p25": 0.855,
+    "p50": 3.16,
+    "p75": 4.423,
+    "p95": 5.679
+   },
+   "originSubmergedFraction": 0.238
+  },
+  "dragonborn.esm#01D500": {
+   "category": "unresolved",
+   "count": 701,
+   "class": {
+    "deepWater>1m": 0.006,
+    "shallows0.3-1m": 0.02,
+    "waterline\u00b10.3m": 0.024,
+    "damp0.3-1m above": 0.078,
+    "dry>1m above": 0.872
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.054,
+    "p25": 0.49,
+    "p50": 0.601,
+    "p75": 0.767,
+    "p95": 2.063
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.582,
+    "p25": 1.593,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 2.327
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.38,
+    "p25": 1.608,
+    "p50": 3.781,
+    "p75": 9.679,
+    "p95": 20.439
+   },
+   "originSubmergedFraction": 0.789
+  },
+  "landscape/trees/ztgorsebush03pink.nif": {
+   "category": "shrub",
+   "count": 679,
+   "class": {
+    "deepWater>1m": 0.108,
+    "shallows0.3-1m": 0.03,
+    "waterline\u00b10.3m": 0.749,
+    "damp0.3-1m above": 0.037,
+    "dry>1m above": 0.076
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 0.114,
+    "p95": 28.789
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.228,
+    "p25": 0.228,
+    "p50": 0.228,
+    "p75": 0.569,
+    "p95": 5.96
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 1.835,
+    "p25": 4.313,
+    "p50": 6.012,
+    "p75": 7.997,
+    "p95": 10.128
+   },
+   "originSubmergedFraction": 0.772
+  },
+  "skyrim.esm#09F290": {
+   "category": "unresolved",
+   "count": 641,
+   "class": {
+    "deepWater>1m": 0.0,
+    "shallows0.3-1m": 0.0,
+    "waterline\u00b10.3m": 1.0,
+    "damp0.3-1m above": 0.0,
+    "dry>1m above": 0.0
+   },
+   "standingWaterDepthWhenFloodedM": {},
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "p95": -0.0
+   },
+   "originDepthBelowSurfaceM": {},
+   "originSubmergedFraction": 0.0
+  },
+  "landscape/grass/waterkelptall01.nif": {
+   "category": "aquatic-plant",
+   "count": 630,
+   "class": {
+    "deepWater>1m": 0.299,
+    "shallows0.3-1m": 0.28,
+    "waterline\u00b10.3m": 0.399,
+    "damp0.3-1m above": 0.008,
+    "dry>1m above": 0.013
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.228,
+    "p50": 0.528,
+    "p75": 1.734,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.031,
+    "p25": -0.0,
+    "p50": 0.114,
+    "p75": 0.228,
+    "p95": 2.048
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.279,
+    "p25": 0.767,
+    "p50": 1.267,
+    "p75": 2.176,
+    "p95": 26.522
+   },
+   "originSubmergedFraction": 0.609
+  },
+  "dragonborn.esm#01D4F7": {
+   "category": "unresolved",
+   "count": 622,
+   "class": {
+    "deepWater>1m": 0.01,
+    "shallows0.3-1m": 0.014,
+    "waterline\u00b10.3m": 0.04,
+    "damp0.3-1m above": 0.071,
+    "dry>1m above": 0.865
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.078,
+    "p25": 0.218,
+    "p50": 0.623,
+    "p75": 0.877,
+    "p95": 2.929
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.558,
+    "p25": 1.673,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 2.275
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.31,
+    "p25": 1.464,
+    "p50": 3.576,
+    "p75": 9.929,
+    "p95": 19.548
+   },
+   "originSubmergedFraction": 0.683
+  },
+  "landscape/plants/kelptallstatic01aaa.nif": {
+   "category": "aquatic-plant",
+   "count": 609,
+   "class": {
+    "deepWater>1m": 0.773,
+    "shallows0.3-1m": 0.184,
+    "waterline\u00b10.3m": 0.023,
+    "damp0.3-1m above": 0.007,
+    "dry>1m above": 0.013
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.469,
+    "p25": 1.099,
+    "p50": 1.626,
+    "p75": 2.682,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.048,
+    "p25": 0.237,
+    "p50": 0.899,
+    "p75": 12.068,
+    "p95": 22.491
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 1.28,
+    "p25": 1.339,
+    "p50": 1.402,
+    "p75": 1.456,
+    "p95": 1.491
+   },
+   "originSubmergedFraction": 0.801
+  },
+  "dragonborn.esm#01D73A": {
+   "category": "unresolved",
+   "count": 603,
+   "class": {
+    "deepWater>1m": 0.025,
+    "shallows0.3-1m": 0.01,
+    "waterline\u00b10.3m": 0.028,
+    "damp0.3-1m above": 0.081,
+    "dry>1m above": 0.856
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.074,
+    "p25": 0.594,
+    "p50": 1.461,
+    "p75": 2.953,
+    "p95": 7.714
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.571,
+    "p25": 1.593,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 2.905
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.505,
+    "p25": 1.588,
+    "p50": 3.76,
+    "p75": 9.044,
+    "p95": 18.783
+   },
+   "originSubmergedFraction": 0.592
+  },
+  "skyrim.esm#0B945E": {
+   "category": "unresolved",
+   "count": 574,
+   "class": {
+    "deepWater>1m": 0.136,
+    "shallows0.3-1m": 0.025,
+    "waterline\u00b10.3m": 0.695,
+    "damp0.3-1m above": 0.063,
+    "dry>1m above": 0.081
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 1.206,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.228,
+    "p75": 0.569,
+    "p95": 8.521
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.074,
+    "p25": 0.443,
+    "p50": 0.968,
+    "p75": 2.206,
+    "p95": 4.163
+   },
+   "originSubmergedFraction": 0.321
+  },
+  "skyrim.esm#01812D": {
+   "category": "unresolved",
+   "count": 572,
+   "class": {
+    "deepWater>1m": 0.0,
+    "shallows0.3-1m": 0.01,
+    "waterline\u00b10.3m": 0.007,
+    "damp0.3-1m above": 0.003,
+    "dry>1m above": 0.979
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.246,
+    "p25": 0.618,
+    "p50": 0.713,
+    "p75": 0.713,
+    "p95": 0.759
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 1.707,
+    "p25": 1.707,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 10.241
+   },
+   "originDepthBelowSurfaceM": {},
+   "originSubmergedFraction": 0.0
+  },
+  "skyrim.esm#01B065": {
+   "category": "unresolved",
+   "count": 551,
+   "class": {
+    "deepWater>1m": 0.185,
+    "shallows0.3-1m": 0.046,
+    "waterline\u00b10.3m": 0.561,
+    "damp0.3-1m above": 0.057,
+    "dry>1m above": 0.15
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.341,
+    "p75": 28.703,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.228,
+    "p75": 1.024,
+    "p95": 16.419
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.188,
+    "p25": 0.642,
+    "p50": 1.506,
+    "p75": 3.014,
+    "p95": 19.798
+   },
+   "originSubmergedFraction": 0.041
+  },
+  "edid:TreeFloraThistle01": {
+   "category": "unresolved",
+   "count": 538,
+   "class": {
+    "deepWater>1m": 0.006,
+    "shallows0.3-1m": 0.01,
+    "waterline\u00b10.3m": 0.315,
+    "damp0.3-1m above": 0.647,
+    "dry>1m above": 0.022
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.151,
+    "p25": 0.21,
+    "p50": 0.341,
+    "p75": 0.341,
+    "p95": 8.372
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.114,
+    "p25": 0.228,
+    "p50": 0.341,
+    "p75": 0.341,
+    "p95": 0.341
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.139,
+    "p25": 0.139,
+    "p50": 0.252,
+    "p75": 0.366,
+    "p95": 2.131
+   },
+   "originSubmergedFraction": 0.863
+  },
+  "edid:TreeSwordFernCluster02": {
+   "category": "unresolved",
+   "count": 524,
+   "class": {
+    "deepWater>1m": 0.03,
+    "shallows0.3-1m": 0.055,
+    "waterline\u00b10.3m": 0.504,
+    "damp0.3-1m above": 0.207,
+    "dry>1m above": 0.205
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.089,
+    "p25": 0.131,
+    "p50": 0.235,
+    "p75": 0.492,
+    "p95": 4.311
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.196,
+    "p50": 0.332,
+    "p75": 1.053,
+    "p95": 1.821
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.172,
+    "p25": 0.354,
+    "p50": 0.853,
+    "p75": 1.283,
+    "p95": 1.821
+   },
+   "originSubmergedFraction": 0.118
+  },
+  "architecture/phitt/trees/azura_tree02.nif": {
+   "category": "architecture",
+   "count": 523,
+   "class": {
+    "deepWater>1m": 0.057,
+    "shallows0.3-1m": 0.063,
+    "waterline\u00b10.3m": 0.067,
+    "damp0.3-1m above": 0.122,
+    "dry>1m above": 0.69
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.097,
+    "p25": 0.35,
+    "p50": 0.866,
+    "p75": 1.571,
+    "p95": 2.911
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.47,
+    "p25": 1.274,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 1.707
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.938,
+    "p25": 1.042,
+    "p50": 1.042,
+    "p75": 1.168,
+    "p95": 2.472
+   },
+   "originSubmergedFraction": 0.424
+  },
+  "landscape/trees/gkbfallforestshrub02.nif": {
+   "category": "shrub",
+   "count": 520,
+   "class": {
+    "deepWater>1m": 0.0,
+    "shallows0.3-1m": 0.0,
+    "waterline\u00b10.3m": 0.004,
+    "damp0.3-1m above": 0.031,
+    "dry>1m above": 0.965
+   },
+   "standingWaterDepthWhenFloodedM": {},
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 1.35,
+    "p25": 1.707,
+    "p50": 1.707,
+    "p75": 1.716,
+    "p95": 83.348
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.16,
+    "p25": 0.16,
+    "p50": 0.18,
+    "p75": 0.452,
+    "p95": 1.019
+   },
+   "originSubmergedFraction": 0.035
+  },
+  "landscape/stingingnettel_04.nif": {
+   "category": "misc",
+   "count": 518,
+   "class": {
+    "deepWater>1m": 0.012,
+    "shallows0.3-1m": 0.002,
+    "waterline\u00b10.3m": 0.017,
+    "damp0.3-1m above": 0.112,
+    "dry>1m above": 0.857
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.106,
+    "p25": 0.222,
+    "p50": 0.305,
+    "p75": 1.25,
+    "p95": 1.82
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.598,
+    "p25": 1.707,
+    "p50": 46.108,
+    "p75": 114.538,
+    "p95": 132.044
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.26,
+    "p25": 1.147,
+    "p50": 1.499,
+    "p75": 1.499,
+    "p95": 2.776
+   },
+   "originSubmergedFraction": 0.334
+  },
+  "landscape/trees/leafless01.nif": {
+   "category": "tree",
+   "count": 483,
+   "class": {
+    "deepWater>1m": 0.258,
+    "shallows0.3-1m": 0.27,
+    "waterline\u00b10.3m": 0.369,
+    "damp0.3-1m above": 0.065,
+    "dry>1m above": 0.038
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.257,
+    "p50": 0.678,
+    "p75": 1.42,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.114,
+    "p75": 0.341,
+    "p95": 4.455
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.252,
+    "p25": 1.553,
+    "p50": 2.531,
+    "p75": 3.949,
+    "p95": 7.55
+   },
+   "originSubmergedFraction": 0.616
+  },
+  "landscape/trees/gkbjungletreenew1.nif": {
+   "category": "tree",
+   "count": 480,
+   "class": {
+    "deepWater>1m": 0.232,
+    "shallows0.3-1m": 0.284,
+    "waterline\u00b10.3m": 0.381,
+    "damp0.3-1m above": 0.046,
+    "dry>1m above": 0.057
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.299,
+    "p50": 0.654,
+    "p75": 1.501,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.114,
+    "p75": 0.434,
+    "p95": 31.898
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.299,
+    "p25": 0.91,
+    "p50": 0.91,
+    "p75": 2.386,
+    "p95": 4.355
+   },
+   "originSubmergedFraction": 0.648
+  },
+  "landscape/trees/gkbjungletreenew12v3.nif": {
+   "category": "tree",
+   "count": 469,
+   "class": {
+    "deepWater>1m": 0.123,
+    "shallows0.3-1m": 0.054,
+    "waterline\u00b10.3m": 0.694,
+    "damp0.3-1m above": 0.051,
+    "dry>1m above": 0.078
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 0.579,
+    "p95": 28.789
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.228,
+    "p50": 0.228,
+    "p75": 0.341,
+    "p95": 14.064
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.214,
+    "p25": 1.1,
+    "p50": 2.427,
+    "p75": 4.065,
+    "p95": 8.0
+   },
+   "originSubmergedFraction": 0.565
+  },
+  "landscape/plants/fern01.nif": {
+   "category": "plant",
+   "count": 457,
+   "class": {
+    "deepWater>1m": 0.059,
+    "shallows0.3-1m": 0.035,
+    "waterline\u00b10.3m": 0.064,
+    "damp0.3-1m above": 0.081,
+    "dry>1m above": 0.76
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.133,
+    "p25": 0.46,
+    "p50": 1.08,
+    "p75": 2.138,
+    "p95": 3.419
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.27,
+    "p25": 1.478,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 1.707
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.246,
+    "p25": 0.723,
+    "p50": 1.453,
+    "p75": 2.292,
+    "p95": 3.041
+   },
+   "originSubmergedFraction": 0.328
+  },
+  "skyrim.esm#06466F": {
+   "category": "unresolved",
+   "count": 450,
+   "class": {
+    "deepWater>1m": 0.226,
+    "shallows0.3-1m": 0.097,
+    "waterline\u00b10.3m": 0.585,
+    "damp0.3-1m above": 0.028,
+    "dry>1m above": 0.065
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.171,
+    "p75": 2.349,
+    "p95": 28.789
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.228,
+    "p50": 0.228,
+    "p75": 0.455,
+    "p95": 3.953
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.157,
+    "p25": 0.889,
+    "p50": 2.421,
+    "p75": 4.0,
+    "p95": 6.938
+   },
+   "originSubmergedFraction": 0.477
+  },
+  "landscape/trees/leafless02.nif": {
+   "category": "tree",
+   "count": 450,
+   "class": {
+    "deepWater>1m": 0.169,
+    "shallows0.3-1m": 0.201,
+    "waterline\u00b10.3m": 0.526,
+    "damp0.3-1m above": 0.054,
+    "dry>1m above": 0.05
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.341,
+    "p75": 1.13,
+    "p95": 28.931
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.112,
+    "p75": 0.341,
+    "p95": 6.849
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.91,
+    "p25": 1.475,
+    "p50": 3.359,
+    "p75": 4.552,
+    "p95": 7.039
+   },
+   "originSubmergedFraction": 0.948
+  },
+  "landscape/plants/esalixshrub03.nif": {
+   "category": "shrub",
+   "count": 420,
+   "class": {
+    "deepWater>1m": 0.102,
+    "shallows0.3-1m": 0.038,
+    "waterline\u00b10.3m": 0.784,
+    "damp0.3-1m above": 0.028,
+    "dry>1m above": 0.048
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 0.204,
+    "p95": 28.788
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.228,
+    "p50": 0.228,
+    "p75": 0.228,
+    "p95": 3.821
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.157,
+    "p25": 1.126,
+    "p50": 2.427,
+    "p75": 4.0,
+    "p95": 6.938
+   },
+   "originSubmergedFraction": 0.536
+  },
+  "vvardenfell/flora/tramaroot01.nif": {
+   "category": "root",
+   "count": 410,
+   "class": {
+    "deepWater>1m": 0.066,
+    "shallows0.3-1m": 0.044,
+    "waterline\u00b10.3m": 0.071,
+    "damp0.3-1m above": 0.08,
+    "dry>1m above": 0.739
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.083,
+    "p25": 0.396,
+    "p50": 0.907,
+    "p75": 1.68,
+    "p95": 3.417
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.371,
+    "p25": 1.573,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 1.707
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.155,
+    "p25": 0.185,
+    "p50": 0.311,
+    "p75": 1.083,
+    "p95": 1.277
+   },
+   "originSubmergedFraction": 0.044
+  },
+  "skyrim.esm#0BE3E0": {
+   "category": "unresolved",
+   "count": 407,
+   "class": {
+    "deepWater>1m": 0.0,
+    "shallows0.3-1m": 0.005,
+    "waterline\u00b10.3m": 0.338,
+    "damp0.3-1m above": 0.634,
+    "dry>1m above": 0.024
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.057,
+    "p25": 0.169,
+    "p50": 0.191,
+    "p75": 0.311,
+    "p95": 0.336
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.114,
+    "p25": 0.228,
+    "p50": 0.341,
+    "p75": 0.341,
+    "p95": 0.37
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.139,
+    "p25": 0.139,
+    "p50": 0.252,
+    "p75": 0.366,
+    "p95": 2.131
+   },
+   "originSubmergedFraction": 0.762
+  },
+  "architecture/phitt/ashlands/tramaroot06.nif": {
+   "category": "root",
+   "count": 401,
+   "class": {
+    "deepWater>1m": 0.172,
+    "shallows0.3-1m": 0.03,
+    "waterline\u00b10.3m": 0.633,
+    "damp0.3-1m above": 0.057,
+    "dry>1m above": 0.107
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.228,
+    "p75": 29.126,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.208,
+    "p75": 0.569,
+    "p95": 12.412
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.586,
+    "p25": 0.72,
+    "p50": 1.506,
+    "p75": 3.014,
+    "p95": 4.163
+   },
+   "originSubmergedFraction": 0.047
+  },
+  "landscape/trees/mangrovereachtree0gkb3.nif": {
+   "category": "tree",
+   "count": 399,
+   "class": {
+    "deepWater>1m": 0.19,
+    "shallows0.3-1m": 0.234,
+    "waterline\u00b10.3m": 0.462,
+    "damp0.3-1m above": 0.056,
+    "dry>1m above": 0.058
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.455,
+    "p75": 1.213,
+    "p95": 28.903
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.114,
+    "p75": 0.341,
+    "p95": 7.291
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.142,
+    "p25": 0.355,
+    "p50": 1.171,
+    "p75": 2.192,
+    "p95": 7.004
+   },
+   "originSubmergedFraction": 0.31
+  },
+  "landscape/trees/cedartree3.nif": {
+   "category": "tree",
+   "count": 388,
+   "class": {
+    "deepWater>1m": 0.592,
+    "shallows0.3-1m": 0.003,
+    "waterline\u00b10.3m": 0.222,
+    "damp0.3-1m above": 0.032,
+    "dry>1m above": 0.151
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 15.529,
+    "p75": 29.131,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.284,
+    "p25": 1.106,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 7.473
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.615,
+    "p25": 1.254,
+    "p50": 2.363,
+    "p75": 3.631,
+    "p95": 5.259
+   },
+   "originSubmergedFraction": 0.698
+  },
+  "skyrim.esm#0BB94E": {
+   "category": "unresolved",
+   "count": 384,
+   "class": {
+    "deepWater>1m": 0.005,
+    "shallows0.3-1m": 0.016,
+    "waterline\u00b10.3m": 0.326,
+    "damp0.3-1m above": 0.611,
+    "dry>1m above": 0.041
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.096,
+    "p25": 0.258,
+    "p50": 0.341,
+    "p75": 0.341,
+    "p95": 2.231
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.114,
+    "p25": 0.228,
+    "p50": 0.341,
+    "p75": 0.341,
+    "p95": 0.341
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.139,
+    "p25": 0.139,
+    "p50": 0.139,
+    "p75": 0.366,
+    "p95": 2.131
+   },
+   "originSubmergedFraction": 0.874
+  },
+  "vvardenfell/flora/tramaroot04.nif": {
+   "category": "root",
+   "count": 365,
+   "class": {
+    "deepWater>1m": 0.068,
+    "shallows0.3-1m": 0.049,
+    "waterline\u00b10.3m": 0.044,
+    "damp0.3-1m above": 0.09,
+    "dry>1m above": 0.748
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.155,
+    "p25": 0.384,
+    "p50": 1.019,
+    "p75": 1.705,
+    "p95": 3.195
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.462,
+    "p25": 1.479,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 1.707
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.247,
+    "p25": 0.763,
+    "p50": 0.763,
+    "p75": 3.694,
+    "p95": 3.694
+   },
+   "originSubmergedFraction": 0.014
+  },
+  "skyrim.esm#06B1B8": {
+   "category": "unresolved",
+   "count": 353,
+   "class": {
+    "deepWater>1m": 0.096,
+    "shallows0.3-1m": 0.235,
+    "waterline\u00b10.3m": 0.365,
+    "damp0.3-1m above": 0.148,
+    "dry>1m above": 0.157
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.228,
+    "p25": 0.341,
+    "p50": 0.341,
+    "p75": 1.013,
+    "p95": 12.334
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.228,
+    "p75": 1.043,
+    "p95": 23.879
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.905,
+    "p25": 2.477,
+    "p50": 4.609,
+    "p75": 5.629,
+    "p95": 8.25
+   },
+   "originSubmergedFraction": 0.852
+  },
+  "skyrim.esm#0B73BE": {
+   "category": "unresolved",
+   "count": 343,
+   "class": {
+    "deepWater>1m": 0.003,
+    "shallows0.3-1m": 0.028,
+    "waterline\u00b10.3m": 0.463,
+    "damp0.3-1m above": 0.475,
+    "dry>1m above": 0.031
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.125,
+    "p25": 0.179,
+    "p50": 0.329,
+    "p75": 0.406,
+    "p95": 0.942
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.113,
+    "p25": 0.228,
+    "p50": 0.341,
+    "p75": 0.341,
+    "p95": 0.341
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.139,
+    "p25": 0.139,
+    "p50": 0.252,
+    "p75": 0.46,
+    "p95": 2.131
+   },
+   "originSubmergedFraction": 0.646
+  },
+  "landscape/stingingnettel_03.nif": {
+   "category": "misc",
+   "count": 333,
+   "class": {
+    "deepWater>1m": 0.019,
+    "shallows0.3-1m": 0.006,
+    "waterline\u00b10.3m": 0.375,
+    "damp0.3-1m above": 0.568,
+    "dry>1m above": 0.032
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.173,
+    "p50": 0.341,
+    "p75": 1.039,
+    "p95": 1.182
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.142,
+    "p50": 0.341,
+    "p75": 0.341,
+    "p95": 0.341
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.139,
+    "p25": 0.139,
+    "p50": 0.139,
+    "p75": 0.252,
+    "p95": 0.723
+   },
+   "originSubmergedFraction": 0.933
+  },
+  "skyrim.esm#07531F": {
+   "category": "unresolved",
+   "count": 326,
+   "class": {
+    "deepWater>1m": 0.04,
+    "shallows0.3-1m": 0.0,
+    "waterline\u00b10.3m": 0.034,
+    "damp0.3-1m above": 0.018,
+    "dry>1m above": 0.908
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 1.934,
+    "p75": 1.934,
+    "p95": 1.934
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 1.707,
+    "p25": 1.707,
+    "p50": 1.707,
+    "p75": 2.888,
+    "p95": 12.176
+   },
+   "originDepthBelowSurfaceM": {},
+   "originSubmergedFraction": 0.0
+  },
+  "architecture/phitt/ashlands/tramaroot05.nif": {
+   "category": "root",
+   "count": 325,
+   "class": {
+    "deepWater>1m": 0.149,
+    "shallows0.3-1m": 0.019,
+    "waterline\u00b10.3m": 0.693,
+    "damp0.3-1m above": 0.077,
+    "dry>1m above": 0.062
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 28.796,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.228,
+    "p75": 0.228,
+    "p95": 11.131
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.188,
+    "p25": 0.586,
+    "p50": 1.506,
+    "p75": 4.163,
+    "p95": 19.798
+   },
+   "originSubmergedFraction": 0.037
+  },
+  "landscape/trees/treepineforestdead04static.nif": {
+   "category": "tree",
+   "count": 320,
+   "class": {
+    "deepWater>1m": 0.062,
+    "shallows0.3-1m": 0.034,
+    "waterline\u00b10.3m": 0.05,
+    "damp0.3-1m above": 0.062,
+    "dry>1m above": 0.791
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.086,
+    "p25": 0.383,
+    "p50": 1.094,
+    "p75": 2.144,
+    "p95": 3.502
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.557,
+    "p25": 1.691,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 45.751
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.262,
+    "p25": 1.031,
+    "p50": 1.453,
+    "p75": 2.331,
+    "p95": 2.973
+   },
+   "originSubmergedFraction": 0.209
+  },
+  "architecture/phitt/aldredanyia/window.nif": {
+   "category": "architecture",
+   "count": 319,
+   "class": {
+    "deepWater>1m": 0.0,
+    "shallows0.3-1m": 0.0,
+    "waterline\u00b10.3m": 0.0,
+    "damp0.3-1m above": 0.013,
+    "dry>1m above": 0.987
+   },
+   "standingWaterDepthWhenFloodedM": {},
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 1.707,
+    "p25": 1.707,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 10.127
+   },
+   "originDepthBelowSurfaceM": {},
+   "originSubmergedFraction": 0.0
+  },
+  "landscape/trees/gkbjungletreenew6.nif": {
+   "category": "tree",
+   "count": 315,
+   "class": {
+    "deepWater>1m": 0.041,
+    "shallows0.3-1m": 0.06,
+    "waterline\u00b10.3m": 0.794,
+    "damp0.3-1m above": 0.057,
+    "dry>1m above": 0.048
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.228,
+    "p25": 0.341,
+    "p50": 0.341,
+    "p75": 2.401,
+    "p95": 25.744
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.228,
+    "p75": 0.228,
+    "p95": 1.847
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.344,
+    "p25": 1.058,
+    "p50": 2.231,
+    "p75": 4.079,
+    "p95": 8.278
+   },
+   "originSubmergedFraction": 0.74
+  },
+  "landscape/trees/gkbtreeaspen03jungle.nif": {
+   "category": "tree",
+   "count": 306,
+   "class": {
+    "deepWater>1m": 0.158,
+    "shallows0.3-1m": 0.221,
+    "waterline\u00b10.3m": 0.521,
+    "damp0.3-1m above": 0.03,
+    "dry>1m above": 0.069
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.284,
+    "p50": 0.551,
+    "p75": 1.138,
+    "p95": 28.947
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.228,
+    "p75": 0.228,
+    "p95": 35.628
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.471,
+    "p25": 1.553,
+    "p50": 1.821,
+    "p75": 3.146,
+    "p95": 5.715
+   },
+   "originSubmergedFraction": 0.799
+  },
+  "edid:TreeThicket01": {
+   "category": "unresolved",
+   "count": 301,
+   "class": {
+    "deepWater>1m": 0.0,
+    "shallows0.3-1m": 0.045,
+    "waterline\u00b10.3m": 0.352,
+    "damp0.3-1m above": 0.439,
+    "dry>1m above": 0.164
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.105,
+    "p25": 0.188,
+    "p50": 0.278,
+    "p75": 0.424,
+    "p95": 0.795
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.228,
+    "p50": 0.341,
+    "p75": 0.341,
+    "p95": 41.031
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.083,
+    "p25": 0.139,
+    "p50": 0.366,
+    "p75": 1.041,
+    "p95": 2.349
+   },
+   "originSubmergedFraction": 0.578
+  },
+  "skyrim.esm#0BB952": {
+   "category": "unresolved",
+   "count": 296,
+   "class": {
+    "deepWater>1m": 0.118,
+    "shallows0.3-1m": 0.139,
+    "waterline\u00b10.3m": 0.557,
+    "damp0.3-1m above": 0.078,
+    "dry>1m above": 0.108
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.218,
+    "p25": 0.341,
+    "p50": 0.366,
+    "p75": 14.288,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.224,
+    "p75": 0.341,
+    "p95": 15.528
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.678,
+    "p25": 2.164,
+    "p50": 3.816,
+    "p75": 4.785,
+    "p95": 7.602
+   },
+   "originSubmergedFraction": 0.561
+  },
+  "dragonborn.esm#02B5D3": {
+   "category": "unresolved",
+   "count": 284,
+   "class": {
+    "deepWater>1m": 0.06,
+    "shallows0.3-1m": 0.025,
+    "waterline\u00b10.3m": 0.035,
+    "damp0.3-1m above": 0.018,
+    "dry>1m above": 0.863
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.228,
+    "p25": 0.441,
+    "p50": 1.496,
+    "p75": 2.161,
+    "p95": 2.503
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 1.171,
+    "p25": 14.806,
+    "p50": 52.396,
+    "p75": 70.884,
+    "p95": 95.748
+   },
+   "originDepthBelowSurfaceM": {},
+   "originSubmergedFraction": 0.0
+  },
+  "edid:TreePineForest03Dead": {
+   "category": "unresolved",
+   "count": 280,
+   "class": {
+    "deepWater>1m": 0.089,
+    "shallows0.3-1m": 0.064,
+    "waterline\u00b10.3m": 0.089,
+    "damp0.3-1m above": 0.086,
+    "dry>1m above": 0.671
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.102,
+    "p25": 0.456,
+    "p50": 0.745,
+    "p75": 1.477,
+    "p95": 2.687
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.26,
+    "p25": 1.384,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 1.707
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.137,
+    "p25": 0.852,
+    "p50": 1.042,
+    "p75": 2.236,
+    "p95": 3.411
+   },
+   "originSubmergedFraction": 0.175
+  },
+  "landscape/trees/treeofwolene4.nif": {
+   "category": "tree",
+   "count": 276,
+   "class": {
+    "deepWater>1m": 0.138,
+    "shallows0.3-1m": 0.061,
+    "waterline\u00b10.3m": 0.651,
+    "damp0.3-1m above": 0.042,
+    "dry>1m above": 0.107
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 0.684,
+    "p95": 28.789
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.228,
+    "p50": 0.228,
+    "p75": 1.075,
+    "p95": 4.779
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.135,
+    "p25": 0.889,
+    "p50": 1.937,
+    "p75": 3.471,
+    "p95": 5.857
+   },
+   "originSubmergedFraction": 0.575
+  },
+  "landscape/dry trees/drytree05.nif": {
+   "category": "tree",
+   "count": 271,
+   "class": {
+    "deepWater>1m": 0.093,
+    "shallows0.3-1m": 0.035,
+    "waterline\u00b10.3m": 0.732,
+    "damp0.3-1m above": 0.035,
+    "dry>1m above": 0.105
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 0.114,
+    "p95": 28.678
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.228,
+    "p25": 0.228,
+    "p50": 0.228,
+    "p75": 0.616,
+    "p95": 8.214
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.12,
+    "p25": 0.495,
+    "p50": 2.022,
+    "p75": 4.131,
+    "p95": 6.252
+   },
+   "originSubmergedFraction": 0.599
+  },
+  "landscape/trees/cypress5.nif": {
+   "category": "tree",
+   "count": 267,
+   "class": {
+    "deepWater>1m": 0.231,
+    "shallows0.3-1m": 0.394,
+    "waterline\u00b10.3m": 0.337,
+    "damp0.3-1m above": 0.019,
+    "dry>1m above": 0.019
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.228,
+    "p50": 0.569,
+    "p75": 1.019,
+    "p95": 12.305
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.015,
+    "p75": 0.337,
+    "p95": 1.502
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.744,
+    "p25": 1.821,
+    "p50": 2.176,
+    "p75": 2.176,
+    "p95": 3.641
+   },
+   "originSubmergedFraction": 0.352
+  },
+  "skyrim.esm#035267": {
+   "category": "unresolved",
+   "count": 252,
+   "class": {
+    "deepWater>1m": 0.26,
+    "shallows0.3-1m": 0.056,
+    "waterline\u00b10.3m": 0.56,
+    "damp0.3-1m above": 0.056,
+    "dry>1m above": 0.068
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 1.138,
+    "p75": 27.901,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": 0.243,
+    "p95": 3.202
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.218,
+    "p25": 0.586,
+    "p50": 0.713,
+    "p75": 1.506,
+    "p95": 4.163
+   },
+   "originSubmergedFraction": 0.096
+  },
+  "skyrim.esm#0B8A6A": {
+   "category": "unresolved",
+   "count": 246,
+   "class": {
+    "deepWater>1m": 0.057,
+    "shallows0.3-1m": 0.045,
+    "waterline\u00b10.3m": 0.171,
+    "damp0.3-1m above": 0.106,
+    "dry>1m above": 0.622
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.226,
+    "p25": 0.4,
+    "p50": 0.797,
+    "p75": 1.773,
+    "p95": 3.876
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.114,
+    "p25": 0.683,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 8.304
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.285,
+    "p25": 0.803,
+    "p50": 1.616,
+    "p75": 2.453,
+    "p95": 3.746
+   },
+   "originSubmergedFraction": 0.232
+  },
+  "landscape/dry trees/drytree01.nif": {
+   "category": "tree",
+   "count": 224,
+   "class": {
+    "deepWater>1m": 0.013,
+    "shallows0.3-1m": 0.031,
+    "waterline\u00b10.3m": 0.04,
+    "damp0.3-1m above": 0.129,
+    "dry>1m above": 0.786
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.077,
+    "p25": 0.19,
+    "p50": 0.423,
+    "p75": 0.569,
+    "p95": 2.959
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.455,
+    "p25": 1.668,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 4.159
+   },
+   "originDepthBelowSurfaceM": {},
+   "originSubmergedFraction": 0.0
+  },
+  "dawnguard.esm#004322": {
+   "category": "unresolved",
+   "count": 212,
+   "class": {
+    "deepWater>1m": 0.258,
+    "shallows0.3-1m": 0.124,
+    "waterline\u00b10.3m": 0.483,
+    "damp0.3-1m above": 0.072,
+    "dry>1m above": 0.062
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.305,
+    "p50": 1.026,
+    "p75": 4.483,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.114,
+    "p75": 0.341,
+    "p95": 3.114
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.242,
+    "p25": 1.511,
+    "p50": 3.298,
+    "p75": 4.634,
+    "p95": 7.595
+   },
+   "originSubmergedFraction": 0.411
+  },
+  "skyrim.esm#09DAA4": {
+   "category": "unresolved",
+   "count": 211,
+   "class": {
+    "deepWater>1m": 0.0,
+    "shallows0.3-1m": 0.01,
+    "waterline\u00b10.3m": 0.282,
+    "damp0.3-1m above": 0.677,
+    "dry>1m above": 0.031
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.211,
+    "p25": 0.211,
+    "p50": 0.321,
+    "p75": 0.341,
+    "p95": 0.341
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.114,
+    "p25": 0.228,
+    "p50": 0.341,
+    "p75": 0.341,
+    "p95": 0.683
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.139,
+    "p25": 0.139,
+    "p50": 0.723,
+    "p75": 0.967,
+    "p95": 1.892
+   },
+   "originSubmergedFraction": 0.831
+  },
+  "skyrim.esm#0B8A6B": {
+   "category": "unresolved",
+   "count": 204,
+   "class": {
+    "deepWater>1m": 0.162,
+    "shallows0.3-1m": 0.162,
+    "waterline\u00b10.3m": 0.461,
+    "damp0.3-1m above": 0.088,
+    "dry>1m above": 0.127
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.153,
+    "p25": 0.341,
+    "p50": 0.455,
+    "p75": 22.241,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": 0.341,
+    "p95": 22.378
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.341,
+    "p25": 2.155,
+    "p50": 4.358,
+    "p75": 5.629,
+    "p95": 8.249
+   },
+   "originSubmergedFraction": 0.799
+  },
+  "landscape/dry trees/drytree02.nif": {
+   "category": "tree",
+   "count": 192,
+   "class": {
+    "deepWater>1m": 0.01,
+    "shallows0.3-1m": 0.021,
+    "waterline\u00b10.3m": 0.036,
+    "damp0.3-1m above": 0.135,
+    "dry>1m above": 0.797
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.055,
+    "p25": 0.288,
+    "p50": 0.46,
+    "p75": 0.981,
+    "p95": 3.302
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.512,
+    "p25": 1.455,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 4.396
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.121,
+    "p25": 0.229,
+    "p50": 0.33,
+    "p75": 0.6,
+    "p95": 0.854
+   },
+   "originSubmergedFraction": 0.089
+  },
+  "skyrim.esm#03A2BC": {
+   "category": "unresolved",
+   "count": 190,
+   "class": {
+    "deepWater>1m": 0.021,
+    "shallows0.3-1m": 0.026,
+    "waterline\u00b10.3m": 0.053,
+    "damp0.3-1m above": 0.142,
+    "dry>1m above": 0.758
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.1,
+    "p25": 0.323,
+    "p50": 0.589,
+    "p75": 1.351,
+    "p95": 4.637
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.419,
+    "p25": 1.33,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 6.292
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.121,
+    "p25": 0.312,
+    "p50": 0.33,
+    "p75": 0.511,
+    "p95": 0.854
+   },
+   "originSubmergedFraction": 0.079
+  },
+  "barrel01cabbages.nif": {
+   "category": "misc",
+   "count": 188,
+   "class": {
+    "deepWater>1m": 0.49,
+    "shallows0.3-1m": 0.0,
+    "waterline\u00b10.3m": 0.265,
+    "damp0.3-1m above": 0.0,
+    "dry>1m above": 0.245
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 1.934,
+    "p25": 1.934,
+    "p50": 1.934,
+    "p75": 1.934,
+    "p95": 1.934
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.228,
+    "p50": 0.286,
+    "p75": 13.427,
+    "p95": 13.427
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.052,
+    "p25": 0.052,
+    "p50": 0.052,
+    "p75": 0.052,
+    "p95": 0.052
+   },
+   "originSubmergedFraction": 0.01
+  },
+  "vvardenfell/flora/altramashrub01.nif": {
+   "category": "shrub",
+   "count": 187,
+   "class": {
+    "deepWater>1m": 0.011,
+    "shallows0.3-1m": 0.032,
+    "waterline\u00b10.3m": 0.032,
+    "damp0.3-1m above": 0.118,
+    "dry>1m above": 0.807
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.217,
+    "p25": 0.301,
+    "p50": 0.486,
+    "p75": 0.67,
+    "p95": 1.845
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.487,
+    "p25": 1.473,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 5.649
+   },
+   "originDepthBelowSurfaceM": {},
+   "originSubmergedFraction": 0.0
+  },
+  "landscape/trees/dwarfjunip01.nif": {
+   "category": "tree",
+   "count": 186,
+   "class": {
+    "deepWater>1m": 0.0,
+    "shallows0.3-1m": 0.0,
+    "waterline\u00b10.3m": 0.851,
+    "damp0.3-1m above": 0.097,
+    "dry>1m above": 0.051
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.102,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 0.159,
+    "p95": 0.228
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": -0.0,
+    "p95": 1.149
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.173,
+    "p25": 0.173,
+    "p50": 0.319,
+    "p75": 1.309,
+    "p95": 3.393
+   },
+   "originSubmergedFraction": 0.194
+  },
+  "skyrim.esm#0B73BA": {
+   "category": "unresolved",
+   "count": 182,
+   "class": {
+    "deepWater>1m": 0.006,
+    "shallows0.3-1m": 0.167,
+    "waterline\u00b10.3m": 0.822,
+    "damp0.3-1m above": 0.0,
+    "dry>1m above": 0.006
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.193,
+    "p50": 0.251,
+    "p75": 0.463,
+    "p95": 0.746
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.114,
+    "p75": 0.228,
+    "p95": 0.228
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.91,
+    "p25": 0.91,
+    "p50": 0.91,
+    "p75": 0.91,
+    "p95": 0.91
+   },
+   "originSubmergedFraction": 0.006
+  },
+  "dragonborn.esm#01E137": {
+   "category": "unresolved",
+   "count": 179,
+   "class": {
+    "deepWater>1m": 0.056,
+    "shallows0.3-1m": 0.056,
+    "waterline\u00b10.3m": 0.101,
+    "damp0.3-1m above": 0.084,
+    "dry>1m above": 0.704
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.082,
+    "p25": 0.226,
+    "p50": 0.487,
+    "p75": 1.229,
+    "p95": 2.323
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.293,
+    "p25": 1.366,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 7.445
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.365,
+    "p25": 1.22,
+    "p50": 3.42,
+    "p75": 3.655,
+    "p95": 5.1
+   },
+   "originSubmergedFraction": 0.575
+  },
+  "skyrim.esm#02EDED": {
+   "category": "unresolved",
+   "count": 177,
+   "class": {
+    "deepWater>1m": 0.0,
+    "shallows0.3-1m": 0.0,
+    "waterline\u00b10.3m": 0.011,
+    "damp0.3-1m above": 0.011,
+    "dry>1m above": 0.977
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 0.114,
+    "p95": 0.114
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 1.707,
+    "p25": 1.707,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 10.127
+   },
+   "originDepthBelowSurfaceM": {},
+   "originSubmergedFraction": 0.0
+  },
+  "landscape/trees/gkbtundrashrub01.nif": {
+   "category": "shrub",
+   "count": 161,
+   "class": {
+    "deepWater>1m": 0.0,
+    "shallows0.3-1m": 0.006,
+    "waterline\u00b10.3m": 0.006,
+    "damp0.3-1m above": 0.019,
+    "dry>1m above": 0.969
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.827,
+    "p25": 0.827,
+    "p50": 0.827,
+    "p75": 0.827,
+    "p95": 0.827
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 1.462,
+    "p25": 1.707,
+    "p50": 1.707,
+    "p75": 10.127,
+    "p95": 97.88
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.16,
+    "p25": 0.18,
+    "p50": 0.18,
+    "p75": 0.452,
+    "p95": 1.588
+   },
+   "originSubmergedFraction": 0.056
+  },
+  "landscape/trees/giantredwood3.nif": {
+   "category": "tree",
+   "count": 156,
+   "class": {
+    "deepWater>1m": 0.026,
+    "shallows0.3-1m": 0.038,
+    "waterline\u00b10.3m": 0.904,
+    "damp0.3-1m above": 0.026,
+    "dry>1m above": 0.006
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.172,
+    "p50": 0.341,
+    "p75": 0.681,
+    "p95": 7.649
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": 0.228,
+    "p95": 0.228
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.422,
+    "p25": 0.92,
+    "p50": 1.602,
+    "p75": 2.517,
+    "p95": 5.364
+   },
+   "originSubmergedFraction": 0.795
+  },
+  "skyrim.esm#0B788A": {
+   "category": "unresolved",
+   "count": 154,
+   "class": {
+    "deepWater>1m": 0.032,
+    "shallows0.3-1m": 0.078,
+    "waterline\u00b10.3m": 0.097,
+    "damp0.3-1m above": 0.052,
+    "dry>1m above": 0.74
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.133,
+    "p25": 0.318,
+    "p50": 0.654,
+    "p75": 0.938,
+    "p95": 1.859
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.182,
+    "p25": 1.451,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 1.707
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.113,
+    "p25": 0.773,
+    "p50": 1.975,
+    "p75": 2.29,
+    "p95": 4.011
+   },
+   "originSubmergedFraction": 0.273
+  },
+  "edid:TreeFloraJuniper01": {
+   "category": "unresolved",
+   "count": 151,
+   "class": {
+    "deepWater>1m": 0.021,
+    "shallows0.3-1m": 0.021,
+    "waterline\u00b10.3m": 0.507,
+    "damp0.3-1m above": 0.432,
+    "dry>1m above": 0.021
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.18,
+    "p25": 0.341,
+    "p50": 0.341,
+    "p75": 1.886,
+    "p95": 3.778
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.131,
+    "p50": 0.228,
+    "p75": 0.341,
+    "p95": 0.536
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.139,
+    "p25": 0.139,
+    "p50": 0.139,
+    "p75": 0.366,
+    "p95": 0.723
+   },
+   "originSubmergedFraction": 0.521
+  },
+  "skyrim.esm#0AEE0B": {
+   "category": "unresolved",
+   "count": 149,
+   "class": {
+    "deepWater>1m": 0.859,
+    "shallows0.3-1m": 0.027,
+    "waterline\u00b10.3m": 0.107,
+    "damp0.3-1m above": 0.0,
+    "dry>1m above": 0.007
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.228,
+    "p25": 2.278,
+    "p50": 9.47,
+    "p75": 29.131,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 2.374,
+    "p25": 2.374,
+    "p50": 2.374,
+    "p75": 2.374,
+    "p95": 2.374
+   },
+   "originDepthBelowSurfaceM": {},
+   "originSubmergedFraction": 0.0
+  },
+  "sheogorad/menhir01.nif": {
+   "category": "architecture",
+   "count": 144,
+   "class": {
+    "deepWater>1m": 0.271,
+    "shallows0.3-1m": 0.132,
+    "waterline\u00b10.3m": 0.493,
+    "damp0.3-1m above": 0.069,
+    "dry>1m above": 0.035
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.341,
+    "p50": 1.634,
+    "p75": 26.26,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": 0.228,
+    "p95": 2.048
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 7.572,
+    "p25": 22.75,
+    "p50": 26.231,
+    "p75": 27.5,
+    "p95": 28.743
+   },
+   "originSubmergedFraction": 0.986
+  },
+  "dragonborn.esm#039724": {
+   "category": "unresolved",
+   "count": 136,
+   "class": {
+    "deepWater>1m": 0.12,
+    "shallows0.3-1m": 0.032,
+    "waterline\u00b10.3m": 0.704,
+    "damp0.3-1m above": 0.056,
+    "dry>1m above": 0.088
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.114,
+    "p50": 0.114,
+    "p75": 1.019,
+    "p95": 28.789
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.112,
+    "p50": 0.228,
+    "p75": 0.416,
+    "p95": 14.882
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.188,
+    "p25": 2.177,
+    "p50": 4.385,
+    "p75": 7.38,
+    "p95": 426.72
+   },
+   "originSubmergedFraction": 0.232
+  },
+  "dragonborn.esm#01E136": {
+   "category": "unresolved",
+   "count": 136,
+   "class": {
+    "deepWater>1m": 0.059,
+    "shallows0.3-1m": 0.089,
+    "waterline\u00b10.3m": 0.111,
+    "damp0.3-1m above": 0.111,
+    "dry>1m above": 0.63
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.224,
+    "p25": 0.341,
+    "p50": 0.809,
+    "p75": 1.138,
+    "p95": 2.198
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.078,
+    "p25": 1.087,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 1.707
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.147,
+    "p25": 0.535,
+    "p50": 1.104,
+    "p75": 2.314,
+    "p95": 3.516
+   },
+   "originSubmergedFraction": 0.63
+  },
+  "dragonborn.esm#019AD5": {
+   "category": "unresolved",
+   "count": 134,
+   "class": {
+    "deepWater>1m": 0.007,
+    "shallows0.3-1m": 0.03,
+    "waterline\u00b10.3m": 0.03,
+    "damp0.3-1m above": 0.06,
+    "dry>1m above": 0.873
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.263,
+    "p25": 0.354,
+    "p50": 0.51,
+    "p75": 0.761,
+    "p95": 1.371
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.599,
+    "p25": 1.707,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 1.769
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.4,
+    "p25": 2.043,
+    "p50": 4.233,
+    "p75": 11.067,
+    "p95": 20.198
+   },
+   "originSubmergedFraction": 0.761
+  },
+  "skyrim.esm#0B949F": {
+   "category": "unresolved",
+   "count": 134,
+   "class": {
+    "deepWater>1m": 0.134,
+    "shallows0.3-1m": 0.06,
+    "waterline\u00b10.3m": 0.03,
+    "damp0.3-1m above": 0.015,
+    "dry>1m above": 0.761
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.449,
+    "p25": 0.669,
+    "p50": 2.164,
+    "p75": 8.051,
+    "p95": 29.017
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.753,
+    "p25": 1.707,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 4.596
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.991,
+    "p25": 1.661,
+    "p50": 1.661,
+    "p75": 1.661,
+    "p95": 2.693
+   },
+   "originSubmergedFraction": 0.052
+  },
+  "landscape/trees/giantredwood2.nif": {
+   "category": "tree",
+   "count": 133,
+   "class": {
+    "deepWater>1m": 0.053,
+    "shallows0.3-1m": 0.115,
+    "waterline\u00b10.3m": 0.771,
+    "damp0.3-1m above": 0.046,
+    "dry>1m above": 0.015
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.114,
+    "p25": 0.228,
+    "p50": 0.32,
+    "p75": 0.361,
+    "p95": 16.97
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.126,
+    "p75": 0.228,
+    "p95": 0.683
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.739,
+    "p25": 1.452,
+    "p50": 2.549,
+    "p75": 4.124,
+    "p95": 7.196
+   },
+   "originSubmergedFraction": 0.962
+  },
+  "edid:TreePineShrub03": {
+   "category": "unresolved",
+   "count": 127,
+   "class": {
+    "deepWater>1m": 0.0,
+    "shallows0.3-1m": 0.016,
+    "waterline\u00b10.3m": 0.417,
+    "damp0.3-1m above": 0.094,
+    "dry>1m above": 0.472
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.091,
+    "p25": 0.202,
+    "p50": 0.228,
+    "p75": 0.293,
+    "p95": 0.371
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.021,
+    "p50": 1.134,
+    "p75": 17.735,
+    "p95": 56.893
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.128,
+    "p25": 0.737,
+    "p50": 1.981,
+    "p75": 2.402,
+    "p95": 2.685
+   },
+   "originSubmergedFraction": 0.236
+  },
+  "architecture/phitt/trees/telv_mushroom01.nif": {
+   "category": "fungus",
+   "count": 122,
+   "class": {
+    "deepWater>1m": 0.049,
+    "shallows0.3-1m": 0.049,
+    "waterline\u00b10.3m": 0.025,
+    "damp0.3-1m above": 0.115,
+    "dry>1m above": 0.762
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.347,
+    "p25": 0.42,
+    "p50": 0.701,
+    "p75": 1.105,
+    "p95": 1.366
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.559,
+    "p25": 1.441,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 1.707
+   },
+   "originDepthBelowSurfaceM": {},
+   "originSubmergedFraction": 0.0
+  },
+  "barrel01potatoes.nif": {
+   "category": "misc",
+   "count": 121,
+   "class": {
+    "deepWater>1m": 0.494,
+    "shallows0.3-1m": 0.0,
+    "waterline\u00b10.3m": 0.224,
+    "damp0.3-1m above": 0.012,
+    "dry>1m above": 0.271
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 1.934,
+    "p25": 1.934,
+    "p50": 1.934,
+    "p75": 1.934,
+    "p95": 1.934
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.228,
+    "p50": 1.33,
+    "p75": 13.427,
+    "p95": 13.427
+   },
+   "originDepthBelowSurfaceM": {},
+   "originSubmergedFraction": 0.0
+  },
+  "vurt_shroom/vurt_shroom_big1.nif": {
+   "category": "fungus",
+   "count": 118,
+   "class": {
+    "deepWater>1m": 0.076,
+    "shallows0.3-1m": 0.034,
+    "waterline\u00b10.3m": 0.076,
+    "damp0.3-1m above": 0.042,
+    "dry>1m above": 0.771
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.118,
+    "p25": 0.265,
+    "p50": 0.852,
+    "p75": 1.685,
+    "p95": 2.687
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.606,
+    "p25": 1.64,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 1.707
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.343,
+    "p25": 0.929,
+    "p50": 1.031,
+    "p75": 2.453,
+    "p95": 4.269
+   },
+   "originSubmergedFraction": 0.085
+  },
+  "dungeons/caves/green/rocks/cavegrockl05.nif": {
+   "category": "dungeon-kit",
+   "count": 116,
+   "class": {
+    "deepWater>1m": 0.0,
+    "shallows0.3-1m": 0.0,
+    "waterline\u00b10.3m": 0.06,
+    "damp0.3-1m above": 0.112,
+    "dry>1m above": 0.828
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.055,
+    "p25": 0.055,
+    "p50": 0.055,
+    "p75": 0.055,
+    "p95": 0.055
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 0.318,
+    "p25": 1.47,
+    "p50": 1.707,
+    "p75": 1.707,
+    "p95": 3.113
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.052,
+    "p25": 0.917,
+    "p50": 1.05,
+    "p75": 1.076,
+    "p95": 4.72
+   },
+   "originSubmergedFraction": 0.06
+  },
+  "architecture/abx_quadblockfilled.nif": {
+   "category": "architecture",
+   "count": 113,
+   "class": {
+    "deepWater>1m": 0.0,
+    "shallows0.3-1m": 0.0,
+    "waterline\u00b10.3m": 0.99,
+    "damp0.3-1m above": 0.0,
+    "dry>1m above": 0.01
+   },
+   "standingWaterDepthWhenFloodedM": {},
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": -0.0,
+    "p75": 0.118,
+    "p95": 0.228
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.713,
+    "p25": 0.713,
+    "p50": 426.72,
+    "p75": 426.72,
+    "p95": 426.72
+   },
+   "originSubmergedFraction": 0.375
+  },
+  "skyrim.esm#0B73C0": {
+   "category": "unresolved",
+   "count": 111,
+   "class": {
+    "deepWater>1m": 0.009,
+    "shallows0.3-1m": 0.038,
+    "waterline\u00b10.3m": 0.802,
+    "damp0.3-1m above": 0.142,
+    "dry>1m above": 0.009
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.101,
+    "p25": 0.205,
+    "p50": 0.228,
+    "p75": 0.42,
+    "p95": 0.663
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": 0.114,
+    "p50": 0.228,
+    "p75": 0.228,
+    "p95": 0.341
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 0.139,
+    "p25": 0.139,
+    "p50": 0.139,
+    "p75": 0.252,
+    "p95": 0.723
+   },
+   "originSubmergedFraction": 0.208
+  },
+  "skyrim.esm#03441F": {
+   "category": "unresolved",
+   "count": 110,
+   "class": {
+    "deepWater>1m": 0.0,
+    "shallows0.3-1m": 0.0,
+    "waterline\u00b10.3m": 0.0,
+    "damp0.3-1m above": 0.0,
+    "dry>1m above": 1.0
+   },
+   "standingWaterDepthWhenFloodedM": {},
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": 11.004,
+    "p25": 24.435,
+    "p50": 43.703,
+    "p75": 77.847,
+    "p95": 94.879
+   },
+   "originDepthBelowSurfaceM": {},
+   "originSubmergedFraction": 0.0
+  },
+  "barrel01tomatoes.nif": {
+   "category": "misc",
+   "count": 105,
+   "class": {
+    "deepWater>1m": 0.489,
+    "shallows0.3-1m": 0.0,
+    "waterline\u00b10.3m": 0.156,
+    "damp0.3-1m above": 0.0,
+    "dry>1m above": 0.356
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 1.934,
+    "p25": 1.934,
+    "p50": 1.934,
+    "p75": 1.934,
+    "p95": 1.934
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 1.493,
+    "p75": 13.427,
+    "p95": 13.427
+   },
+   "originDepthBelowSurfaceM": {},
+   "originSubmergedFraction": 0.0
+  },
+  "skyrim.esm#10C0E3": {
+   "category": "unresolved",
+   "count": 104,
+   "class": {
+    "deepWater>1m": 0.191,
+    "shallows0.3-1m": 0.0,
+    "waterline\u00b10.3m": 0.382,
+    "damp0.3-1m above": 0.132,
+    "dry>1m above": 0.294
+   },
+   "standingWaterDepthWhenFloodedM": {
+    "p5": 0.166,
+    "p25": 29.131,
+    "p50": 29.131,
+    "p75": 29.131,
+    "p95": 29.131
+   },
+   "groundHeightAboveWaterWhenDryM": {
+    "p5": -0.0,
+    "p25": -0.0,
+    "p50": 0.613,
+    "p75": 1.707,
+    "p95": 8.193
+   },
+   "originDepthBelowSurfaceM": {
+    "p5": 1.135,
+    "p25": 1.135,
+    "p50": 1.135,
+    "p75": 1.135,
+    "p95": 1.135
+   },
+   "originSubmergedFraction": 0.015
+  }
+ },
+ "riparian": {
+  "nodeSpacingM": 3.64,
+  "instancesBanded": 142921,
+  "instancesOffGrid": 1377,
+  "bands": [
+   {
+    "band": "water >20m from shore",
+    "instances": 16092,
+    "areaHa": 125.4,
+    "perHectare": 128.3,
+    "multiplierVsHinterland": 0.76
+   },
+   {
+    "band": "water 5-20m",
+    "instances": 18458,
+    "areaHa": 74.0,
+    "perHectare": 249.4,
+    "multiplierVsHinterland": 1.47
+   },
+   {
+    "band": "water 0-5m",
+    "instances": 23962,
+    "areaHa": 67.3,
+    "perHectare": 356.0,
+    "multiplierVsHinterland": 2.1
+   },
+   {
+    "band": "shore 0-5m",
+    "instances": 10622,
+    "areaHa": 43.3,
+    "perHectare": 245.6,
+    "multiplierVsHinterland": 1.45
+   },
+   {
+    "band": "bank 5-10m",
+    "instances": 11797,
+    "areaHa": 48.7,
+    "perHectare": 242.3,
+    "multiplierVsHinterland": 1.43
+   },
+   {
+    "band": "back 10-20m",
+    "instances": 15453,
+    "areaHa": 66.4,
+    "perHectare": 232.7,
+    "multiplierVsHinterland": 1.37
+   },
+   {
+    "band": "back 20-40m",
+    "instances": 22823,
+    "areaHa": 100.0,
+    "perHectare": 228.2,
+    "multiplierVsHinterland": 1.34
+   },
+   {
+    "band": "hinterland >40m",
+    "instances": 23714,
+    "areaHa": 139.6,
+    "perHectare": 169.9,
+    "multiplierVsHinterland": 1.0
+   }
+  ]
+ },
+ "pools": {
+  "waterBodies": 502,
+  "poolCount": 271,
+  "poolAreaM2": {
+   "p5": 132.594,
+   "p25": 331.485,
+   "p50": 848.601,
+   "p75": 2479.505,
+   "p95": 9705.871
+  },
+  "dressedPools": 255,
+  "aggregateRings": {
+   "open water >5m in": {
+    "instances": 5009,
+    "categoryShare": {
+     "unresolved": 0.307,
+     "plant": 0.185,
+     "aquatic-plant": 0.171,
+     "shrub": 0.126,
+     "tree": 0.1,
+     "root": 0.047
+    },
+    "topSpecies": [
+     [
+      "landscape/trees/gkblillipad2.nif",
+      718
+     ],
+     [
+      "dlc01/plants/poisonbloomingredient.nif",
+      364
+     ],
+     [
+      "landscape/plants/braken.nif",
+      293
+     ],
+     [
+      "landscape/plants/fernlarge03.nif",
+      255
+     ],
+     [
+      "landscape/plants/chickweed.nif",
+      235
+     ],
+     [
+      "landscape/trees/tropicalplant01.nif",
+      219
+     ],
+     [
+      "skyrim.esm#0B8A66",
+      165
+     ],
+     [
+      "landscape/plants/bigshrub2(colorful).nif",
+      140
+     ],
+     [
+      "landscape/plants/kelptallstatic01aaa.nif",
+      137
+     ],
+     [
+      "skyrim.esm#02D847",
+      127
+     ],
+     [
+      "skyrim.esm#0B73BC",
+      124
+     ],
+     [
+      "skyrim.esm#0B735D",
+      119
+     ]
+    ]
+   },
+   "shallows 0-5m in": {
+    "instances": 8558,
+    "categoryShare": {
+     "unresolved": 0.497,
+     "plant": 0.168,
+     "shrub": 0.12,
+     "tree": 0.093,
+     "root": 0.042,
+     "aquatic-plant": 0.031
+    },
+    "topSpecies": [
+     [
+      "skyrim.esm#0B8A66",
+      842
+     ],
+     [
+      "dlc01/plants/poisonbloomingredient.nif",
+      593
+     ],
+     [
+      "skyrim.esm#0B73BC",
+      512
+     ],
+     [
+      "landscape/plants/braken.nif",
+      475
+     ],
+     [
+      "landscape/plants/fernlarge03.nif",
+      443
+     ],
+     [
+      "skyrim.esm#0B8A59",
+      400
+     ],
+     [
+      "landscape/trees/tropicalplant01.nif",
+      355
+     ],
+     [
+      "skyrim.esm#0B73B8",
+      343
+     ],
+     [
+      "edid:TreeSwordFern06",
+      343
+     ],
+     [
+      "edid:TreeSwordFernCluster06",
+      293
+     ],
+     [
+      "landscape/plants/chickweed.nif",
+      290
+     ],
+     [
+      "landscape/plants/bigshrub2(colorful).nif",
+      227
+     ]
+    ]
+   },
+   "margin 0-3m out": {
+    "instances": 4322,
+    "categoryShare": {
+     "unresolved": 0.488,
+     "plant": 0.177,
+     "shrub": 0.118,
+     "tree": 0.107,
+     "root": 0.038,
+     "misc": 0.017
+    },
+    "topSpecies": [
+     [
+      "skyrim.esm#0B8A66",
+      388
+     ],
+     [
+      "dlc01/plants/poisonbloomingredient.nif",
+      331
+     ],
+     [
+      "landscape/plants/braken.nif",
+      258
+     ],
+     [
+      "skyrim.esm#0B73BC",
+      243
+     ],
+     [
+      "landscape/plants/fernlarge03.nif",
+      208
+     ],
+     [
+      "landscape/trees/tropicalplant01.nif",
+      207
+     ],
+     [
+      "skyrim.esm#0B8A59",
+      200
+     ],
+     [
+      "skyrim.esm#0B73B8",
+      179
+     ],
+     [
+      "edid:TreeSwordFern06",
+      171
+     ],
+     [
+      "edid:TreeSwordFernCluster06",
+      153
+     ],
+     [
+      "landscape/plants/chickweed.nif",
+      133
+     ],
+     [
+      "landscape/plants/bigshrub2(colorful).nif",
+      91
+     ]
+    ]
+   },
+   "bank 3-10m out": {
+    "instances": 8005,
+    "categoryShare": {
+     "unresolved": 0.469,
+     "plant": 0.176,
+     "shrub": 0.127,
+     "tree": 0.115,
+     "root": 0.042,
+     "architecture": 0.022
+    },
+    "topSpecies": [
+     [
+      "skyrim.esm#0B8A66",
+      615
+     ],
+     [
+      "dlc01/plants/poisonbloomingredient.nif",
+      594
+     ],
+     [
+      "landscape/plants/braken.nif",
+      433
+     ],
+     [
+      "skyrim.esm#0B73BC",
+      393
+     ],
+     [
+      "landscape/plants/fernlarge03.nif",
+      374
+     ],
+     [
+      "landscape/trees/tropicalplant01.nif",
+      354
+     ],
+     [
+      "landscape/plants/chickweed.nif",
+      298
+     ],
+     [
+      "skyrim.esm#0B8A59",
+      280
+     ],
+     [
+      "edid:TreeSwordFern06",
+      279
+     ],
+     [
+      "skyrim.esm#0B73B8",
+      245
+     ],
+     [
+      "landscape/plants/bigshrub2(colorful).nif",
+      233
+     ],
+     [
+      "edid:TreeSwordFernCluster06",
+      216
+     ]
+    ]
+   },
+   "backdrop 10-25m out": {
+    "instances": 14548,
+    "categoryShare": {
+     "unresolved": 0.441,
+     "plant": 0.186,
+     "shrub": 0.129,
+     "tree": 0.127,
+     "root": 0.043,
+     "architecture": 0.017
+    },
+    "topSpecies": [
+     [
+      "dlc01/plants/poisonbloomingredient.nif",
+      1046
+     ],
+     [
+      "landscape/plants/braken.nif",
+      842
+     ],
+     [
+      "skyrim.esm#0B8A66",
+      788
+     ],
+     [
+      "landscape/plants/fernlarge03.nif",
+      778
+     ],
+     [
+      "landscape/trees/tropicalplant01.nif",
+      688
+     ],
+     [
+      "landscape/plants/chickweed.nif",
+      549
+     ],
+     [
+      "skyrim.esm#0B73BC",
+      530
+     ],
+     [
+      "skyrim.esm#0B8A59",
+      406
+     ],
+     [
+      "landscape/plants/bigshrub2(colorful).nif",
+      390
+     ],
+     [
+      "skyrim.esm#0B73B8",
+      365
+     ],
+     [
+      "edid:TreeSwordFern06",
+      356
+     ],
+     [
+      "skyrim.esm#000021",
+      337
+     ]
+    ]
+   }
+  },
+  "examplePools": [
+   {
+    "waterAreaM2": 5529,
+    "rings": {
+     "open water >5m in": {
+      "instances": 543,
+      "categoryShare": {
+       "unresolved": 0.985,
+       "plant": 0.007,
+       "tree": 0.006,
+       "shrub": 0.002
+      },
+      "topSpecies": [
+       [
+        "skyrim.esm#0B8A66",
+        162
+       ],
+       [
+        "skyrim.esm#0B73BC",
+        104
+       ],
+       [
+        "edid:TreeSwordFern06",
+        76
+       ],
+       [
+        "skyrim.esm#0B8A59",
+        75
+       ],
+       [
+        "skyrim.esm#0B73B8",
+        59
+       ],
+       [
+        "edid:TreeSwordFernCluster06",
+        57
+       ]
+      ]
+     },
+     "shallows 0-5m in": {
+      "instances": 2634,
+      "categoryShare": {
+       "unresolved": 0.989,
+       "tree": 0.005,
+       "shrub": 0.003,
+       "aquatic-plant": 0.001,
+       "plant": 0.001,
+       "architecture": 0.0
+      },
+      "topSpecies": [
+       [
+        "skyrim.esm#0B8A66",
+        823
+       ],
+       [
+        "skyrim.esm#0B73BC",
+        472
+       ],
+       [
+        "skyrim.esm#0B8A59",
+        376
+       ],
+       [
+        "edid:TreeSwordFern06",
+        321
+       ],
+       [
+        "skyrim.esm#0B73B8",
+        306
+       ],
+       [
+        "edid:TreeSwordFernCluster06",
+        283
+       ]
+      ]
+     },
+     "margin 0-3m out": {
+      "instances": 1213,
+      "categoryShare": {
+       "unresolved": 0.981,
+       "shrub": 0.006,
+       "tree": 0.006,
+       "aquatic-plant": 0.004,
+       "plant": 0.002,
+       "architecture": 0.002
+      },
+      "topSpecies": [
+       [
+        "skyrim.esm#0B8A66",
+        353
+       ],
+       [
+        "skyrim.esm#0B73BC",
+        217
+       ],
+       [
+        "skyrim.esm#0B8A59",
+        173
+       ],
+       [
+        "skyrim.esm#0B73B8",
+        152
+       ],
+       [
+        "edid:TreeSwordFern06",
+        146
+       ],
+       [
+        "edid:TreeSwordFernCluster06",
+        143
+       ]
+      ]
+     },
+     "bank 3-10m out": {
+      "instances": 1778,
+      "categoryShare": {
+       "unresolved": 0.979,
+       "aquatic-plant": 0.007,
+       "shrub": 0.007,
+       "tree": 0.004,
+       "plant": 0.002,
+       "architecture": 0.001
+      },
+      "topSpecies": [
+       [
+        "skyrim.esm#0B8A66",
+        544
+       ],
+       [
+        "skyrim.esm#0B73BC",
+        326
+       ],
+       [
+        "skyrim.esm#0B8A59",
+        237
+       ],
+       [
+        "edid:TreeSwordFern06",
+        231
+       ],
+       [
+        "skyrim.esm#0B73B8",
+        200
+       ],
+       [
+        "edid:TreeSwordFernCluster06",
+        187
+       ]
+      ]
+     },
+     "backdrop 10-25m out": {
+      "instances": 2261,
+      "categoryShare": {
+       "unresolved": 0.98,
+       "shrub": 0.007,
+       "aquatic-plant": 0.007,
+       "tree": 0.004,
+       "plant": 0.001,
+       "architecture": 0.001
+      },
+      "topSpecies": [
+       [
+        "skyrim.esm#0B8A66",
+        666
+       ],
+       [
+        "skyrim.esm#0B73BC",
+        407
+       ],
+       [
+        "skyrim.esm#0B8A59",
+        293
+       ],
+       [
+        "edid:TreeSwordFern06",
+        281
+       ],
+       [
+        "skyrim.esm#0B73B8",
+        280
+       ],
+       [
+        "edid:TreeSwordFernCluster06",
+        258
+       ]
+      ]
+     }
+    }
+   },
+   {
+    "waterAreaM2": 15593,
+    "rings": {
+     "open water >5m in": {
+      "instances": 490,
+      "categoryShare": {
+       "shrub": 0.32,
+       "plant": 0.247,
+       "tree": 0.182,
+       "unresolved": 0.12,
+       "root": 0.065,
+       "aquatic-plant": 0.031
+      },
+      "topSpecies": [
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        83
+       ],
+       [
+        "landscape/plants/braken.nif",
+        59
+       ],
+       [
+        "landscape/trees/tropicalplant01.nif",
+        58
+       ],
+       [
+        "landscape/plants/bigshrub2(colorful).nif",
+        33
+       ],
+       [
+        "architecture/phitt/ashlands/tramaroot01.nif",
+        32
+       ],
+       [
+        "landscape/plants/fernlarge03.nif",
+        32
+       ]
+      ]
+     },
+     "shallows 0-5m in": {
+      "instances": 331,
+      "categoryShare": {
+       "shrub": 0.302,
+       "plant": 0.218,
+       "tree": 0.199,
+       "unresolved": 0.091,
+       "aquatic-plant": 0.073,
+       "root": 0.066
+      },
+      "topSpecies": [
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        51
+       ],
+       [
+        "landscape/trees/tropicalplant01.nif",
+        41
+       ],
+       [
+        "landscape/plants/braken.nif",
+        33
+       ],
+       [
+        "architecture/phitt/ashlands/tramaroot01.nif",
+        22
+       ],
+       [
+        "landscape/trees/gkblillipad2.nif",
+        20
+       ],
+       [
+        "landscape/trees/tropicalshrub01.nif",
+        18
+       ]
+      ]
+     },
+     "margin 0-3m out": {
+      "instances": 89,
+      "categoryShare": {
+       "tree": 0.281,
+       "shrub": 0.258,
+       "plant": 0.225,
+       "unresolved": 0.101,
+       "root": 0.079,
+       "misc": 0.034
+      },
+      "topSpecies": [
+       [
+        "landscape/plants/braken.nif",
+        14
+       ],
+       [
+        "landscape/trees/tropicalplant01.nif",
+        13
+       ],
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        12
+       ],
+       [
+        "architecture/phitt/ashlands/tramaroot01.nif",
+        7
+       ],
+       [
+        "landscape/plants/fernlarge03.nif",
+        5
+       ],
+       [
+        "landscape/trees/mangrovereachtree0gkb9.nif",
+        4
+       ]
+      ]
+     },
+     "bank 3-10m out": {
+      "instances": 110,
+      "categoryShare": {
+       "shrub": 0.355,
+       "plant": 0.309,
+       "tree": 0.173,
+       "unresolved": 0.073,
+       "root": 0.027,
+       "trap": 0.027
+      },
+      "topSpecies": [
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        27
+       ],
+       [
+        "landscape/plants/braken.nif",
+        17
+       ],
+       [
+        "landscape/trees/tropicalplant01.nif",
+        12
+       ],
+       [
+        "landscape/plants/bigshrub2(colorful).nif",
+        8
+       ],
+       [
+        "landscape/plants/fernlarge03.nif",
+        7
+       ],
+       [
+        "landscape/trees/tropicalshrub01.nif",
+        6
+       ]
+      ]
+     },
+     "backdrop 10-25m out": {
+      "instances": 187,
+      "categoryShare": {
+       "shrub": 0.332,
+       "plant": 0.273,
+       "tree": 0.23,
+       "root": 0.08,
+       "unresolved": 0.027,
+       "deadfall": 0.027
+      },
+      "topSpecies": [
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        31
+       ],
+       [
+        "landscape/plants/braken.nif",
+        25
+       ],
+       [
+        "landscape/trees/tropicalplant01.nif",
+        24
+       ],
+       [
+        "landscape/plants/bigshrub2(colorful).nif",
+        16
+       ],
+       [
+        "landscape/plants/fernlarge03.nif",
+        13
+       ],
+       [
+        "architecture/phitt/ashlands/tramaroot01.nif",
+        12
+       ]
+      ]
+     }
+    }
+   },
+   {
+    "waterAreaM2": 9083,
+    "rings": {
+     "open water >5m in": {
+      "instances": 481,
+      "categoryShare": {
+       "aquatic-plant": 0.796,
+       "unresolved": 0.083,
+       "plant": 0.054,
+       "root": 0.021,
+       "trap": 0.019,
+       "tree": 0.017
+      },
+      "topSpecies": [
+       [
+        "landscape/trees/gkblillipad2.nif",
+        313
+       ],
+       [
+        "landscape/plants/kelptallstatic01aaa.nif",
+        70
+       ],
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        11
+       ],
+       [
+        "landscape/plants/chickweed.nif",
+        9
+       ],
+       [
+        "traps/pressureplate/trapstonepressureplate02.nif",
+        9
+       ],
+       [
+        "skyrim.esm#02D847",
+        8
+       ]
+      ]
+     },
+     "shallows 0-5m in": {
+      "instances": 156,
+      "categoryShare": {
+       "aquatic-plant": 0.314,
+       "plant": 0.25,
+       "unresolved": 0.186,
+       "root": 0.083,
+       "shrub": 0.064,
+       "tree": 0.045
+      },
+      "topSpecies": [
+       [
+        "landscape/trees/gkblillipad2.nif",
+        33
+       ],
+       [
+        "landscape/plants/chickweed.nif",
+        21
+       ],
+       [
+        "landscape/plants/kelptallstatic01aaa.nif",
+        16
+       ],
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        14
+       ],
+       [
+        "architecture/phitt/ashlands/tramaroot06.nif",
+        8
+       ],
+       [
+        "landscape/plants/braken.nif",
+        7
+       ]
+      ]
+     },
+     "margin 0-3m out": {
+      "instances": 52,
+      "categoryShare": {
+       "plant": 0.385,
+       "unresolved": 0.288,
+       "shrub": 0.135,
+       "root": 0.077,
+       "tree": 0.058,
+       "rock": 0.038
+      },
+      "topSpecies": [
+       [
+        "landscape/plants/chickweed.nif",
+        8
+       ],
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        6
+       ],
+       [
+        "landscape/plants/braken.nif",
+        6
+       ],
+       [
+        "skyrim.esm#02D847",
+        5
+       ],
+       [
+        "landscape/plants/fernlarge03.nif",
+        5
+       ],
+       [
+        "skyrim.esm#0B735D",
+        4
+       ]
+      ]
+     },
+     "bank 3-10m out": {
+      "instances": 89,
+      "categoryShare": {
+       "unresolved": 0.36,
+       "plant": 0.326,
+       "tree": 0.09,
+       "shrub": 0.079,
+       "root": 0.067,
+       "trap": 0.056
+      },
+      "topSpecies": [
+       [
+        "landscape/plants/chickweed.nif",
+        19
+       ],
+       [
+        "skyrim.esm#02D847",
+        9
+       ],
+       [
+        "skyrim.esm#0B735D",
+        8
+       ],
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        6
+       ],
+       [
+        "traps/pressureplate/trapstonepressureplate02.nif",
+        5
+       ],
+       [
+        "landscape/plants/braken.nif",
+        5
+       ]
+      ]
+     },
+     "backdrop 10-25m out": {
+      "instances": 185,
+      "categoryShare": {
+       "unresolved": 0.4,
+       "plant": 0.281,
+       "root": 0.081,
+       "shrub": 0.07,
+       "trap": 0.065,
+       "tree": 0.065
+      },
+      "topSpecies": [
+       [
+        "landscape/plants/chickweed.nif",
+        21
+       ],
+       [
+        "landscape/plants/braken.nif",
+        12
+       ],
+       [
+        "traps/pressureplate/trapstonepressureplate02.nif",
+        12
+       ],
+       [
+        "landscape/plants/fernlarge03.nif",
+        12
+       ],
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        10
+       ],
+       [
+        "skyrim.esm#02D847",
+        9
+       ]
+      ]
+     }
+    }
+   },
+   {
+    "waterAreaM2": 11072,
+    "rings": {
+     "open water >5m in": {
+      "instances": 213,
+      "categoryShare": {
+       "shrub": 0.347,
+       "tree": 0.272,
+       "plant": 0.216,
+       "root": 0.07,
+       "unresolved": 0.042,
+       "deadfall": 0.019
+      },
+      "topSpecies": [
+       [
+        "landscape/trees/tropicalplant01.nif",
+        39
+       ],
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        30
+       ],
+       [
+        "landscape/plants/braken.nif",
+        27
+       ],
+       [
+        "landscape/plants/bigshrub2(colorful).nif",
+        15
+       ],
+       [
+        "architecture/phitt/ashlands/tramaroot01.nif",
+        15
+       ],
+       [
+        "landscape/plants/fernlarge03.nif",
+        12
+       ]
+      ]
+     },
+     "shallows 0-5m in": {
+      "instances": 249,
+      "categoryShare": {
+       "shrub": 0.321,
+       "plant": 0.277,
+       "tree": 0.201,
+       "root": 0.084,
+       "unresolved": 0.056,
+       "deadfall": 0.028
+      },
+      "topSpecies": [
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        42
+       ],
+       [
+        "landscape/plants/braken.nif",
+        32
+       ],
+       [
+        "landscape/trees/tropicalplant01.nif",
+        31
+       ],
+       [
+        "landscape/plants/fernlarge03.nif",
+        19
+       ],
+       [
+        "architecture/phitt/ashlands/tramaroot01.nif",
+        15
+       ],
+       [
+        "landscape/plants/esloebush08.nif",
+        14
+       ]
+      ]
+     },
+     "margin 0-3m out": {
+      "instances": 73,
+      "categoryShare": {
+       "shrub": 0.288,
+       "plant": 0.219,
+       "tree": 0.192,
+       "root": 0.164,
+       "unresolved": 0.096,
+       "trap": 0.014
+      },
+      "topSpecies": [
+       [
+        "landscape/plants/braken.nif",
+        13
+       ],
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        12
+       ],
+       [
+        "landscape/trees/tropicalplant01.nif",
+        10
+       ],
+       [
+        "architecture/phitt/ashlands/tramaroot01.nif",
+        10
+       ],
+       [
+        "landscape/trees/tropicalshrub01.nif",
+        4
+       ],
+       [
+        "landscape/plants/bigshrub2(colorful).nif",
+        4
+       ]
+      ]
+     },
+     "bank 3-10m out": {
+      "instances": 152,
+      "categoryShare": {
+       "plant": 0.329,
+       "shrub": 0.322,
+       "tree": 0.164,
+       "root": 0.105,
+       "unresolved": 0.033,
+       "grass": 0.026
+      },
+      "topSpecies": [
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        37
+       ],
+       [
+        "landscape/plants/braken.nif",
+        22
+       ],
+       [
+        "landscape/trees/tropicalplant01.nif",
+        18
+       ],
+       [
+        "architecture/phitt/ashlands/tramaroot01.nif",
+        10
+       ],
+       [
+        "landscape/plants/fernlarge03.nif",
+        8
+       ],
+       [
+        "landscape/plants/bigshrub2(colorful).nif",
+        7
+       ]
+      ]
+     },
+     "backdrop 10-25m out": {
+      "instances": 269,
+      "categoryShare": {
+       "shrub": 0.316,
+       "plant": 0.275,
+       "tree": 0.208,
+       "unresolved": 0.1,
+       "root": 0.067,
+       "deadfall": 0.019
+      },
+      "topSpecies": [
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        46
+       ],
+       [
+        "landscape/trees/tropicalplant01.nif",
+        37
+       ],
+       [
+        "landscape/plants/braken.nif",
+        27
+       ],
+       [
+        "landscape/plants/bigshrub2(colorful).nif",
+        26
+       ],
+       [
+        "architecture/phitt/ashlands/tramaroot01.nif",
+        14
+       ],
+       [
+        "landscape/trees/tropicalshrub01.nif",
+        12
+       ]
+      ]
+     }
+    }
+   },
+   {
+    "waterAreaM2": 15487,
+    "rings": {
+     "open water >5m in": {
+      "instances": 159,
+      "categoryShare": {
+       "shrub": 0.321,
+       "tree": 0.245,
+       "plant": 0.208,
+       "root": 0.075,
+       "deadfall": 0.057,
+       "unresolved": 0.05
+      },
+      "topSpecies": [
+       [
+        "landscape/trees/tropicalplant01.nif",
+        28
+       ],
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        22
+       ],
+       [
+        "landscape/plants/braken.nif",
+        22
+       ],
+       [
+        "landscape/plants/bigshrub2(colorful).nif",
+        12
+       ],
+       [
+        "architecture/phitt/ashlands/tramaroot01.nif",
+        10
+       ],
+       [
+        "landscape/trees/tropicalshrub01.nif",
+        9
+       ]
+      ]
+     },
+     "shallows 0-5m in": {
+      "instances": 312,
+      "categoryShare": {
+       "shrub": 0.327,
+       "plant": 0.295,
+       "tree": 0.208,
+       "root": 0.064,
+       "unresolved": 0.048,
+       "trap": 0.029
+      },
+      "topSpecies": [
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        62
+       ],
+       [
+        "landscape/plants/braken.nif",
+        45
+       ],
+       [
+        "landscape/trees/tropicalplant01.nif",
+        42
+       ],
+       [
+        "landscape/plants/bigshrub2(colorful).nif",
+        22
+       ],
+       [
+        "landscape/plants/fernlarge03.nif",
+        20
+       ],
+       [
+        "architecture/phitt/ashlands/tramaroot01.nif",
+        19
+       ]
+      ]
+     },
+     "margin 0-3m out": {
+      "instances": 126,
+      "categoryShare": {
+       "shrub": 0.333,
+       "plant": 0.254,
+       "tree": 0.238,
+       "unresolved": 0.071,
+       "root": 0.048,
+       "trap": 0.04
+      },
+      "topSpecies": [
+       [
+        "landscape/plants/braken.nif",
+        27
+       ],
+       [
+        "landscape/trees/tropicalplant01.nif",
+        20
+       ],
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        17
+       ],
+       [
+        "landscape/plants/fernlarge03.nif",
+        12
+       ],
+       [
+        "traps/pressureplate/trapstonepressureplate02.nif",
+        5
+       ],
+       [
+        "landscape/trees/tropicalshrub01.nif",
+        5
+       ]
+      ]
+     },
+     "bank 3-10m out": {
+      "instances": 183,
+      "categoryShare": {
+       "shrub": 0.393,
+       "plant": 0.251,
+       "tree": 0.208,
+       "unresolved": 0.087,
+       "root": 0.022,
+       "trap": 0.022
+      },
+      "topSpecies": [
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        32
+       ],
+       [
+        "landscape/plants/braken.nif",
+        29
+       ],
+       [
+        "landscape/trees/tropicalplant01.nif",
+        20
+       ],
+       [
+        "landscape/plants/bigshrub2(colorful).nif",
+        13
+       ],
+       [
+        "landscape/trees/tropicalshrub01.nif",
+        12
+       ],
+       [
+        "landscape/plants/fernlarge03.nif",
+        11
+       ]
+      ]
+     },
+     "backdrop 10-25m out": {
+      "instances": 154,
+      "categoryShare": {
+       "plant": 0.312,
+       "shrub": 0.305,
+       "tree": 0.214,
+       "root": 0.071,
+       "deadfall": 0.045,
+       "unresolved": 0.039
+      },
+      "topSpecies": [
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        30
+       ],
+       [
+        "landscape/plants/braken.nif",
+        24
+       ],
+       [
+        "landscape/trees/tropicalplant01.nif",
+        21
+       ],
+       [
+        "landscape/plants/fernlarge03.nif",
+        12
+       ],
+       [
+        "architecture/phitt/ashlands/tramaroot01.nif",
+        10
+       ],
+       [
+        "landscape/trees/birch-.nif",
+        7
+       ]
+      ]
+     }
+    }
+   },
+   {
+    "waterAreaM2": 17463,
+    "rings": {
+     "open water >5m in": {
+      "instances": 181,
+      "categoryShare": {
+       "unresolved": 0.414,
+       "plant": 0.204,
+       "tree": 0.122,
+       "shrub": 0.088,
+       "trap": 0.055,
+       "root": 0.055
+      },
+      "topSpecies": [
+       [
+        "skyrim.esm#0B735D",
+        16
+       ],
+       [
+        "skyrim.esm#02D847",
+        15
+       ],
+       [
+        "landscape/plants/chickweed.nif",
+        15
+       ],
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        12
+       ],
+       [
+        "traps/pressureplate/trapstonepressureplate02.nif",
+        10
+       ],
+       [
+        "landscape/trees/tropicalplant01.nif",
+        10
+       ]
+      ]
+     },
+     "shallows 0-5m in": {
+      "instances": 181,
+      "categoryShare": {
+       "unresolved": 0.331,
+       "plant": 0.21,
+       "root": 0.099,
+       "tree": 0.094,
+       "shrub": 0.077,
+       "architecture": 0.061
+      },
+      "topSpecies": [
+       [
+        "landscape/plants/chickweed.nif",
+        15
+       ],
+       [
+        "skyrim.esm#0B735D",
+        12
+       ],
+       [
+        "skyrim.esm#02D847",
+        11
+       ],
+       [
+        "dlc01/plants/poisonbloomingredient.nif",
+        9
+       ],
+       [
+        "vvardenfell/flora/algrass03b.nif",
+        9
+       ],
+       [
+        "landscape/plants/braken.nif",
+        8
+       ]
+      ]
+     },
+     "margin 0-3m out": {
+      "instances": 57,
+      "categoryShare": {
+       "plant": 0.298,
+       "tree": 0.193,
+       "unresolved": 0.158,
+       "architecture": 0.105,
+       "root": 0.07,
+       "shrub": 0.053
+      },
+      "topSpecies": [
+       [
+        "vvardenfell/flora/firefern01.nif",
+        7
+       ],
+       [
+        "landscape/plants/chickweed.nif",
+        5
+       ],
+       [
+        "architecture/phitt/trees/azura_tree02.nif",
+        5
+       ],
+       [
+        "landscape/trees/cypress1.nif",
+        4
+       ],
+       [
+        "landscape/trees/tropicalplant01.nif",
+        4
+       ],
+       [
+        "landscape/plants/fern01.nif",
+        3
+       ]
+      ]
+     },
+     "bank 3-10m out": {
+      "instances": 139,
+      "categoryShare": {
+       "unresolved": 0.439,
+       "plant": 0.165,
+       "tree": 0.101,
+       "architecture": 0.072,
+       "shrub": 0.065,
+       "grass": 0.05
+      },
+      "topSpecies": [
+       [
+        "skyrim.esm#0B735D",
+        11
+       ],
+       [
+        "skyrim.esm#02D847",
+        9
+       ],
+       [
+        "vvardenfell/flora/firefern01.nif",
+        9
+       ],
+       [
+        "vvardenfell/flora/algrass03b.nif",
+        7
+       ],
+       [
+        "skyrim.esm#0224EC",
+        7
+       ],
+       [
+        "landscape/trees/cypress1.nif",
+        6
+       ]
+      ]
+     },
+     "backdrop 10-25m out": {
+      "instances": 322,
+      "categoryShare": {
+       "unresolved": 0.531,
+       "plant": 0.13,
+       "tree": 0.102,
+       "grass": 0.062,
+       "root": 0.047,
+       "architecture": 0.04
+      },
+      "topSpecies": [
+       [
+        "skyrim.esm#0533D5",
+        34
+       ],
+       [
+        "vvardenfell/flora/algrass03b.nif",
+        20
+       ],
+       [
+        "skyrim.esm#000021",
+        20
+       ],
+       [
+        "landscape/plants/chickweed.nif",
+        16
+       ],
+       [
+        "skyrim.esm#04F8EA",
+        16
+       ],
+       [
+        "vvardenfell/flora/firefern01.nif",
+        15
+       ]
+      ]
+     }
+    }
+   }
+  ]
+ }
+}

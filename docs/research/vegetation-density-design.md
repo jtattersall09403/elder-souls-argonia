@@ -1,5 +1,10 @@
 # How dense, and how varied: the three inputs to vegetation density
 
+> Deep ecology evidence (per-stratum densities, zonation ring widths, edge/gap
+> numbers, per-landscape game targets) now lives in
+> [tropical-vegetation-ecology-targets.md](tropical-vegetation-ecology-targets.md);
+> this doc keeps the design synthesis (legibility, variance, mod reference).
+
 **Phase 10, 2026-08-30.** Owner brief: density "should be local-geography
 dependent — dense jungle areas much denser than open grass, mountain forest
 denser than non-forested, and even within an area sensible variation so it's
