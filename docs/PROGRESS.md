@@ -44,7 +44,7 @@ first, then open only the master-plan sections the active phase needs.
 | 8a — world time, natural light and sky | done | owner gate PASS 2026-08-26 after 8 feedback rounds (decisions 0020/**0021** = full defect→fix history; research doc §8–8d). world-time package (calendar/sun/moons/stars, verified phase cycle); physical light rig with **envelope-pinned dome** (CPU Preetham twin `preethamCpu.ts` + `skyScreenModel.ts`; whiteout/black-gap class caught by `npm test`); directional twilight (Earth shadow, Belt of Venus, magnitude-staged stars); moon-aware night floors; owner-locked defaults warmth 1.0, stars ×0.5 (~3300); CSM shadows w/ contact bias; walk+fly city markers; HUD compass. Deferred: beyond-border land apron (module 55 §98b + research doc) |
 | 8b — water renderer and interaction | done | owner CLOSED 2026-08-28 (good-enough, **not perfect** — full water-systems re-review + polish queued in [polish-backlog.md](polish-backlog.md), Phase P). 7 rounds; full defect→fix history in decision 0025. Province W-field water surface, rivers/marsh/estuary/coast/underwater, buoyancy + Rapier water query, monotone slope rivers, shore surf, waterfall shading |
 | 8c — weather and atmosphere | done | owner CLOSED 2026-08-30 (good-enough, **not perfect** — owner will record leftovers in [polish-backlog.md](polish-backlog.md) for Phase P). 5 rounds; full defect→fix history in decision [0032](decisions/0032-phase8c-weather-implementation-shape.md). Deterministic synoptic machine + regional expression, fair-weather coverage ladder on the calendar, rain (real-time clock, PRECIP_LAYER), wind→waves, wetness, lightning; mist/fog/cap-cloud regimes with fog colour DERIVED from the real sun/sky/moon and a dome fog march (banks visible against open sky); visibility = local weather (one number renders and publishes); **GAME_TIME_SCALE = 30** in world-time. 406 tests incl. the extended envelope proof |
-| 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | in progress | **CONTINUING AGENTS: read the run-book at the top of [decision 0036](decisions/0036-phase10-placement-decisions.md) first — it has the edit→recompile→probe→push loop, where owner feedback lands, and the three traps.** Deployed 2026-08-30, owner reviewing the look. **catalogue, mining, kit builder and scatter compiler delivered 2026-08-30; owner placement decisions answered and applied ([0036](decisions/0036-phase10-placement-decisions.md)).** Structured plugin readers → §86.0b mining of 186k placed references → [14 placement rules](research/shipped-world-placement-rules.md); **27,929-row semantic asset registry** across all four pools with a query CLI; Xanmeer kit downloaded, credited, measured (256-unit grid); **kit builder** NIF→GLB with LOD chains, collision proxies and masked-foliage alpha (40 palette species convert clean); **clustered scatter compiler** matching the source on clumping, gap sizes and variation; density [graded by our own climate fields](research/vegetation-density-design.md) and varied within regions; **region rebalance** (marsh follows saturation: wetland 20.6%→35.9% of land) — *in code, not yet applied to the deployed rasters, see Waiting on user*; credits check in CI. **vegetation renders in the studio** (T1/T2 instanced, LOD by distance, probe over all five signed-off areas: 45k instances / 104 draws in rootland down to 1.3k / 33 in uplands — a 15x geography spread). Next: T3 groundcover ring, T4 impostors, wind (waits for 8c), and the micro-lab budget measurement |
+| 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | in progress | **Round 2 underway 2026-08-30** (owner round-1 feedback: plants missing on foot, jungle far too sparse, no shadows, black blobs at distance, plants ignore mist/haze — the look defects ARE system defects, being fixed at the system). Run-book: top of [decision 0036](decisions/0036-phase10-placement-decisions.md). This round: character-mode vegetation mounted; vegetation joins the aerial-haze/CSM patch chain (root cause of black-blobs + in-front-of-weather); leaf-shaped shadows (custom depth material, levels 0–1 cast); **three research docs** ([ecology targets](research/tropical-vegetation-ecology-targets.md), [mod micro-siting M1–M5](research/mod-vegetation-micro-siting.md), [open-world placement architecture](research/openworld-vegetation-placement-architecture.md)); scatter compiler gains the **meso scene layer** (signed shore-distance field, altitude/shore/glade-band gates, riparian boost). In flight: evidence-based palettes v2 (strata model), T3 groundcover ring, T4 impostors, raster rebuild (hydrology+society done; refine blocked on VM memory — see Waiting on user). Round-1 delivery: mining, 27,929-row registry, kit builder, scatter compiler, renderer T1/T2 (details in 0036) |
 | 11 — settlement/location system, exemplar-first (0034) | todo | may start once the S schema is accepted (semantic authoring); packet freeze gated on 10b probes + 10c numbers |
 | 12 — dungeon/interior system, exemplar-first (0034) | todo | may interleave with 11 |
 | 9 — swimming, climbing, boats (re-slotted after the placement exemplars; 0034) | todo | player craft only — ferry/fast travel is Morrowind-style world content (Phase 11); thin swim slice may pull earlier; boats may slip |
@@ -59,17 +59,19 @@ first, then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- **Phase 10 — region rebalance now UNBLOCKED (8c closed 2026-08-30).** The
-  owner asked for more of the province to read as marsh (0036 Q4) and the
-  classifier now does that (wetland 20.6% → 35.9% of land). It was held back
-  because re-running it regenerates the climate rasters the 8c playtest was
-  using — that hold is over. For the Phase 10 agent: from
-  `tooling/world-generation`: `python3 -m worldgen.compile_hydrology
-  "<vault>/argonia-heightfield/heightfield-f32.npy"`, then `compile_society`,
-  `refine_province`, `compile_chunks`, `export_web_chunks` per its README,
-  then re-run `python3 -m worldgen.compile_scatter --report` and re-check the
-  density calibration. `worldgen.report_regions` previews the change without
-  writing anything.
+- **Phase 10 — region-rebalance rebuild is memory-blocked; owner can unblock
+  by closing old Claude terminal tabs.** `compile_hydrology` and
+  `compile_society` have re-run (new region/climate/society rasters in the
+  tree), but `refine_province` is OOM-killed: the VM's 12 GiB container
+  memory cap is shared by every open Claude session, and ~15 idle terminal
+  tabs are holding ~9 GiB. Close the tabs you're not using (keep the active
+  Phase 10 one), then any agent can finish the chain from
+  `tooling/world-generation`: `refine_province`, `compile_chunks`,
+  `export_web_chunks` per its README (heightfield lives at
+  `<vault>/skyrim-source/mod-sources/tamriel-worldspaces-118678/extracted/Argonia
+  Worldspace/argonia-heightfield/`), then re-run `compile_scatter --report`.
+  Until then the ground-texture paint lags the new region map (marsh plants
+  can stand on ground still painted dry).
 
 - **8c polish leftovers** — the owner closed 8c good-enough and will record
   the leftover items in [polish-backlog.md](polish-backlog.md) themselves

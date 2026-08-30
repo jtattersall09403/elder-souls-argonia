@@ -205,8 +205,12 @@ export function Vegetation({
         const mesh = new THREE.InstancedMesh(
           part.geometry, part.material, bucket.transforms.length);
         mesh.frustumCulled = true;
-        mesh.castShadow = bucket.level === 0;
-        mesh.receiveShadow = false;
+        // Levels 0–1 cast: they cover the CSM reach (character maxFar 300 m,
+        // and level 1 runs to ~2.6× the species' near ring). Level 2 is
+        // beyond useful shadow range and would only bloat the cascade passes.
+        mesh.castShadow = bucket.level <= 1;
+        mesh.receiveShadow = true;
+        if (part.depthMaterial) mesh.customDepthMaterial = part.depthMaterial;
         for (let i = 0; i < bucket.transforms.length; i++) {
           mesh.setMatrixAt(i, bucket.transforms[i]);
         }

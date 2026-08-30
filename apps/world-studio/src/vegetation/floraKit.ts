@@ -12,7 +12,13 @@ import * as THREE from "three";
 import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 export interface KitLevel {
-  readonly parts: { geometry: THREE.BufferGeometry; material: THREE.Material }[];
+  readonly parts: {
+    geometry: THREE.BufferGeometry;
+    material: THREE.Material;
+    /** Alpha-tested foliage needs its own shadow depth material, or its
+     * shadow is the whole leaf-card quad rather than the leaf shape. */
+    depthMaterial?: THREE.Material;
+  }[];
   readonly triangles: number;
 }
 
@@ -65,6 +71,9 @@ export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
     manifest.assets.filter((a) => a.alphaTest).map((a) => a.id),
   );
   const kit: FloraKit = new Map();
+  // One depth material per source material: meshes share materials across
+  // LOD levels, and the shadow pass must alpha-test the same texture.
+  const depthMaterials = new Map<THREE.Material, THREE.MeshDepthMaterial>();
 
   for (const root of gltf.scene.children) {
     const id = assetIdOf(root);
@@ -87,8 +96,26 @@ export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
         std.depthWrite = true;
         std.side = THREE.DoubleSide;
       }
+      // Join the shared atmosphere: WorldSky's patchScene applies the aerial
+      // inscatter term to any material tagged esAerial (after its CSM patch).
+      // Unpatched, plants ignore haze/mist and read as dark cut-outs pasted
+      // over the weathered scene.
+      material.userData.esAerial = true;
+      let depthMaterial: THREE.MeshDepthMaterial | undefined;
+      if (std?.alphaTest) {
+        depthMaterial = depthMaterials.get(material);
+        if (!depthMaterial) {
+          depthMaterial = new THREE.MeshDepthMaterial({
+            depthPacking: THREE.RGBADepthPacking,
+            map: std.map,
+            alphaTest: std.alphaTest,
+            side: THREE.DoubleSide,
+          });
+          depthMaterials.set(material, depthMaterial);
+        }
+      }
       const parts = byLevel.get(level) ?? [];
-      parts.push({ geometry: mesh.geometry, material });
+      parts.push({ geometry: mesh.geometry, material, depthMaterial });
       byLevel.set(level, parts);
       const index = mesh.geometry.getIndex();
       if (level === 0) {

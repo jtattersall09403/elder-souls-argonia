@@ -13,7 +13,7 @@ import {
 } from "@elder-souls/world-time";
 import { setWindWaveScale } from "@elder-souls/game-core/water/index";
 import catalogue from "../../../../world/sources/sky/star-catalogue.json";
-import { AERIAL_DOME_PARS_GLSL, createAerialUniforms, type AerialUniforms } from "./aerial";
+import { AERIAL_DOME_PARS_GLSL, applyAerialPerspective, createAerialUniforms, type AerialUniforms } from "./aerial";
 import {
   CLOUD_UNIFORMS_GLSL,
   cloudAlphaTowards,
@@ -663,6 +663,15 @@ export function WorldSky({
         }
         if (lit.isMeshStandardMaterial || (m as THREE.MeshLambertMaterial).isMeshLambertMaterial) {
           csm.setupMaterial(m);
+          // Materials tagged esAerial (vegetation kit) join the one aerial
+          // inscatter authority AFTER the CSM patch — csm.setupMaterial
+          // overwrites onBeforeCompile, so the order is load-bearing. Without
+          // this, plants ignored haze/mist/fog entirely: unfogged dark green
+          // on hazed-out pale terrain, reading as black specks pasted in
+          // front of the weather (owner, Phase 10 round 2).
+          if (m.userData?.esAerial) {
+            applyAerialPerspective(m, sharedAerialUniforms);
+          }
           m.needsUpdate = true;
           anyNew = true;
         }

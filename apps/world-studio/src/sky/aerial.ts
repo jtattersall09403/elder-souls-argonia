@@ -344,7 +344,15 @@ varying vec3 vEsWorldPos;
 `;
 
 export const AERIAL_VARYING_VERTEX = /* glsl */ `
-  vEsWorldPos = (modelMatrix * vec4(transformed, 1.0)).xyz;
+  {
+    vec4 esWp = vec4(transformed, 1.0);
+    #ifdef USE_INSTANCING
+      // Instanced meshes (vegetation) carry their placement in instanceMatrix;
+      // without this every instance fogged as if it stood at the mesh origin.
+      esWp = instanceMatrix * esWp;
+    #endif
+    vEsWorldPos = (modelMatrix * esWp).xyz;
+  }
 `;
 
 /**

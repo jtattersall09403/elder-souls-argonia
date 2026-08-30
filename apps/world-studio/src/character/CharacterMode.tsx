@@ -28,6 +28,7 @@ import { FloatTestCrates } from "../water/FloatTestCrates";
 import { setWaterGroundHeight, sharedWaterAssets } from "../water/waterAssets";
 import type { WaterWorld } from "@elder-souls/game-core/water/index";
 import { CityMarkers } from "../CityMarkers";
+import { Vegetation } from "../vegetation/Vegetation";
 import { headingOf } from "../compass";
 
 /**
@@ -285,6 +286,15 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               focusRef={focusRef}
               matSet={matSet}
               tintStrength={tintStrength}
+              verticalScale={verticalScale}
+            />
+            {/* Phase 10 vegetation — the SAME component and bundles as the
+                flyover, following the walking character's focusRef. Omitting
+                it here was the "plants appear in fly mode but not on foot"
+                defect (owner, Phase 10 round 2). */}
+            <Vegetation
+              focusRef={focusRef}
+              baseUrl={import.meta.env.BASE_URL}
               verticalScale={verticalScale}
             />
           </Suspense>
