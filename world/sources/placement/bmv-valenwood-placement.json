@@ -14,8 +14,8 @@
   "cellsWithRefs": 2445,
   "cellAreaM2": 3394.4,
   "cellsMissingWaterHeight": 0,
-  "unresolvedBaseRefs": 21137,
-  "unresolvedDistinctBases": 829,
+  "unresolvedBaseRefs": 26712,
+  "unresolvedDistinctBases": 862,
   "topUnresolved": [
    [
     "Skyrim.esm:000B73B8",
@@ -26,12 +26,20 @@
     1510
    ],
    [
+    "Skyrim.esm:0005FADA (TreeAspen04)",
+    1292
+   ],
+   [
     "Skyrim.esm:000B73BC",
     1124
    ],
    [
     "Skyrim.esm:0004B0BA",
     1069
+   ],
+   [
+    "Skyrim.esm:000A7329 (TreeThicket01)",
+    662
    ],
    [
     "HearthFires.esm:030110BA",
@@ -54,8 +62,20 @@
     414
    ],
    [
+    "Skyrim.esm:00051126 (TreePineForest05)",
+    370
+   ],
+   [
     "Skyrim.esm:000B8A6B",
     343
+   ],
+   [
+    "Skyrim.esm:0001306D (TreePineForest01)",
+    319
+   ],
+   [
+    "Skyrim.esm:000BCF3F (TreeFloraMountainFlower02Blue)",
+    317
    ],
    [
     "Skyrim.esm:0001BB3D",
@@ -74,28 +94,8 @@
     244
    ],
    [
-    "Skyrim.esm:0010C0E3",
-    215
-   ],
-   [
-    "Skyrim.esm:00000062",
-    196
-   ],
-   [
-    "Skyrim.esm:00061924",
-    183
-   ],
-   [
-    "Skyrim.esm:00089454",
-    178
-   ],
-   [
-    "Skyrim.esm:0008943F",
-    178
-   ],
-   [
-    "Skyrim.esm:000BB94E",
-    173
+    "Skyrim.esm:0007614A (TreeAspen06)",
+    236
    ]
   ],
   "refsPerCell": {
@@ -114,60 +114,44 @@
   },
   "perHectareByCategory": {
    "tree": {
-    "cells": 1930,
+    "cells": 1590,
     "p5": 2.946,
     "p25": 5.892,
     "p50": 8.838,
-    "p75": 23.568,
-    "p95": 55.974
+    "p75": 20.622,
+    "p95": 50.082
    },
    "unresolved": {
-    "cells": 1192,
+    "cells": 1543,
+    "p5": 2.946,
+    "p25": 5.892,
+    "p50": 11.784,
+    "p75": 41.244,
+    "p95": 241.574
+   },
+   "terrain-feature": {
+    "cells": 435,
     "p5": 2.946,
     "p25": 2.946,
-    "p50": 11.784,
-    "p75": 50.082,
-    "p95": 220.952
+    "p50": 2.946,
+    "p75": 5.892,
+    "p95": 11.784
    },
    "shrub": {
-    "cells": 407,
+    "cells": 319,
     "p5": 2.946,
     "p25": 2.946,
     "p50": 5.892,
     "p75": 11.784,
-    "p95": 29.46
-   },
-   "misc": {
-    "cells": 326,
-    "p5": 2.946,
-    "p25": 2.946,
-    "p50": 8.838,
-    "p75": 14.73,
-    "p95": 35.352
-   },
-   "plant": {
-    "cells": 324,
-    "p5": 2.946,
-    "p25": 5.892,
-    "p50": 11.784,
-    "p75": 26.514,
-    "p95": 61.867
-   },
-   "terrain-feature": {
-    "cells": 318,
-    "p5": 2.946,
-    "p25": 2.946,
-    "p50": 2.946,
-    "p75": 2.946,
-    "p95": 8.838
+    "p95": 23.568
    },
    "architecture": {
-    "cells": 281,
+    "cells": 302,
     "p5": 2.946,
     "p25": 2.946,
     "p50": 8.838,
     "p75": 20.622,
-    "p95": 79.543
+    "p95": 82.489
    },
    "clutter": {
     "cells": 170,
@@ -185,13 +169,21 @@
     "p75": 11.784,
     "p95": 159.085
    },
-   "furniture": {
-    "cells": 24,
+   "plant": {
+    "cells": 80,
     "p5": 2.946,
     "p25": 5.892,
-    "p50": 8.838,
-    "p75": 17.676,
-    "p95": 41.244
+    "p50": 14.73,
+    "p75": 20.622,
+    "p95": 38.298
+   },
+   "misc": {
+    "cells": 69,
+    "p5": 2.946,
+    "p25": 2.946,
+    "p50": 2.946,
+    "p75": 5.892,
+    "p95": 11.784
    },
    "ruin": {
     "cells": 22,
@@ -200,6 +192,14 @@
     "p50": 14.73,
     "p75": 32.406,
     "p95": 577.421
+   },
+   "furniture": {
+    "cells": 21,
+    "p5": 2.946,
+    "p25": 5.892,
+    "p50": 11.784,
+    "p75": 23.568,
+    "p95": 41.244
    },
    "boat": {
     "cells": 19,
@@ -225,6 +225,14 @@
     "p75": 5.892,
     "p95": 8.838
    },
+   "bridge": {
+    "cells": 3,
+    "p5": 2.946,
+    "p25": 2.946,
+    "p50": 2.946,
+    "p75": 2.946,
+    "p95": 2.946
+   },
    "fungus": {
     "cells": 3,
     "p5": 2.946,
@@ -233,13 +241,13 @@
     "p75": 8.838,
     "p95": 8.838
    },
-   "grass": {
+   "signage": {
     "cells": 2,
-    "p5": 5.892,
-    "p25": 5.892,
-    "p50": 5.892,
-    "p75": 11.784,
-    "p95": 11.784
+    "p5": 2.946,
+    "p25": 2.946,
+    "p50": 2.946,
+    "p75": 5.892,
+    "p95": 5.892
    },
    "effect": {
     "cells": 2,
@@ -260,15 +268,15 @@
   }
  },
  "composition": {
-  "distinctSpecies": 1287,
+  "distinctSpecies": 1293,
   "cumulativeShare": {
    "top1": 0.092,
-   "top3": 0.164,
-   "top5": 0.216,
-   "top10": 0.288,
-   "top20": 0.397,
-   "top50": 0.571,
-   "top100": 0.731
+   "top3": 0.159,
+   "top5": 0.211,
+   "top10": 0.282,
+   "top20": 0.387,
+   "top50": 0.561,
+   "top100": 0.724
   },
   "speciesPerDressedCell": {
    "p5": 1.0,
@@ -278,23 +286,24 @@
    "p95": 20.0
   },
   "categoryShare": {
-   "unresolved": 0.502,
-   "tree": 0.261,
-   "plant": 0.054,
-   "architecture": 0.047,
-   "shrub": 0.034,
-   "misc": 0.03,
+   "unresolved": 0.634,
+   "tree": 0.195,
+   "architecture": 0.055,
+   "shrub": 0.022,
    "dungeon-kit": 0.022,
-   "clutter": 0.021,
+   "clutter": 0.02,
+   "terrain-feature": 0.018,
    "ruin": 0.015,
-   "terrain-feature": 0.01,
+   "plant": 0.01,
+   "misc": 0.003,
    "furniture": 0.003,
    "boat": 0.001,
    "deadfall": 0.0,
    "root": 0.0,
    "effect": 0.0,
    "fungus": 0.0,
-   "grass": 0.0,
+   "bridge": 0.0,
+   "signage": 0.0,
    "rock": 0.0
   }
  },
@@ -305,14 +314,14 @@
     "cells": 192,
     "perHectareWhereFound": 13.0,
     "categoryShare": {
-     "unresolved": 0.62,
-     "architecture": 0.137,
-     "tree": 0.06,
-     "misc": 0.058,
-     "plant": 0.046,
+     "unresolved": 0.668,
+     "architecture": 0.171,
+     "tree": 0.061,
      "ruin": 0.03,
-     "terrain-feature": 0.018,
-     "boat": 0.009
+     "terrain-feature": 0.019,
+     "misc": 0.014,
+     "boat": 0.009,
+     "shrub": 0.008
     },
     "topSpecies": [
      [
@@ -321,7 +330,7 @@
       0.0555
      ],
      [
-      "plants/citsflorabamboo01.nif",
+      "edid:TreeAspen04",
       36,
       0.0425
      ],
@@ -392,14 +401,14 @@
     "cells": 99,
     "perHectareWhereFound": 7.35,
     "categoryShare": {
-     "unresolved": 0.595,
-     "architecture": 0.117,
+     "unresolved": 0.672,
+     "architecture": 0.134,
      "ruin": 0.057,
-     "tree": 0.053,
-     "plant": 0.053,
-     "misc": 0.04,
-     "terrain-feature": 0.028,
-     "root": 0.024
+     "tree": 0.036,
+     "terrain-feature": 0.036,
+     "root": 0.024,
+     "dungeon-kit": 0.024,
+     "shrub": 0.008
     },
     "topSpecies": [
      [
@@ -408,7 +417,7 @@
       0.0567
      ],
      [
-      "plants/citsflorabamboo01.nif",
+      "edid:TreeAspen04",
       12,
       0.0486
      ],
@@ -453,7 +462,7 @@
       0.0243
      ],
      [
-      "landscape/trees/tropical/mangrovereachtree0gkb8.nif",
+      "edid:TreePineForest01Dead",
       5,
       0.0202
      ],
@@ -479,14 +488,14 @@
     "cells": 72,
     "perHectareWhereFound": 4.91,
     "categoryShare": {
-     "unresolved": 0.608,
-     "terrain-feature": 0.083,
-     "tree": 0.075,
+     "unresolved": 0.642,
+     "terrain-feature": 0.108,
      "ruin": 0.067,
-     "misc": 0.05,
-     "architecture": 0.042,
+     "tree": 0.058,
+     "architecture": 0.05,
      "dungeon-kit": 0.042,
-     "plant": 0.017
+     "rock": 0.017,
+     "bridge": 0.008
     },
     "topSpecies": [
      [
@@ -566,14 +575,13 @@
     "cells": 63,
     "perHectareWhereFound": 10.52,
     "categoryShare": {
-     "unresolved": 0.676,
+     "unresolved": 0.751,
      "ruin": 0.093,
-     "plant": 0.053,
-     "terrain-feature": 0.049,
-     "tree": 0.044,
+     "terrain-feature": 0.058,
+     "tree": 0.036,
      "clutter": 0.031,
      "architecture": 0.022,
-     "misc": 0.013
+     "dungeon-kit": 0.009
     },
     "topSpecies": [
      [
@@ -597,7 +605,7 @@
       0.0667
      ],
      [
-      "plants/citsflorabamboo01.nif",
+      "edid:TreeAspen04",
       12,
       0.0533
      ],
@@ -653,14 +661,14 @@
     "cells": 153,
     "perHectareWhereFound": 8.26,
     "categoryShare": {
-     "unresolved": 0.643,
-     "tree": 0.149,
-     "plant": 0.047,
-     "terrain-feature": 0.044,
-     "architecture": 0.035,
-     "misc": 0.028,
+     "unresolved": 0.704,
+     "tree": 0.138,
+     "terrain-feature": 0.058,
+     "architecture": 0.044,
      "dungeon-kit": 0.019,
-     "shrub": 0.019
+     "shrub": 0.019,
+     "clutter": 0.014,
+     "misc": 0.002
     },
     "topSpecies": [
      [
@@ -679,7 +687,7 @@
       0.049
      ],
      [
-      "plants/citsflorabamboo01.nif",
+      "edid:TreeAspen04",
       18,
       0.042
      ],
@@ -740,14 +748,14 @@
     "cells": 2345,
     "perHectareWhereFound": 49.88,
     "categoryShare": {
-     "unresolved": 0.491,
-     "tree": 0.272,
-     "plant": 0.055,
-     "architecture": 0.045,
-     "shrub": 0.035,
-     "misc": 0.03,
+     "unresolved": 0.629,
+     "tree": 0.203,
+     "architecture": 0.053,
+     "shrub": 0.023,
      "dungeon-kit": 0.022,
-     "clutter": 0.022
+     "clutter": 0.021,
+     "terrain-feature": 0.017,
+     "ruin": 0.014
     },
     "topSpecies": [
      [
@@ -761,9 +769,9 @@
       0.0379
      ],
      [
-      "plants/citsflorabamboo01.nif",
-      1445,
-      0.0364
+      "edid:TreeAspen04",
+      1214,
+      0.0306
      ],
      [
       "skyrim.esm#0B73BC",
@@ -776,7 +784,7 @@
       0.0269
      ],
      [
-      "plants/tropical/manfern.nif",
+      "edid:TreeThicket01",
       660,
       0.0166
      ],
@@ -806,11 +814,6 @@
       0.0133
      ],
      [
-      "landscape/trees/tropical/mangrovereachtree0gkb8.nif",
-      515,
-      0.013
-     ],
-     [
       "dungeons/ayleidruins/exterior/arblock01.nif",
       512,
       0.0129
@@ -819,6 +822,11 @@
       "dungeons/ship/katariah/shipkatariahwoodfloor01.nif",
       484,
       0.0122
+     ],
+     [
+      "skyrim.esm#0D0E40",
+      447,
+      0.0113
      ]
     ]
    }
@@ -829,14 +837,14 @@
     "cells": 1563,
     "perHectareWhereFound": 43.26,
     "categoryShare": {
-     "unresolved": 0.518,
-     "tree": 0.23,
-     "architecture": 0.057,
-     "plant": 0.05,
-     "misc": 0.03,
-     "shrub": 0.029,
+     "unresolved": 0.649,
+     "tree": 0.162,
+     "architecture": 0.066,
      "clutter": 0.026,
-     "dungeon-kit": 0.024
+     "dungeon-kit": 0.024,
+     "ruin": 0.024,
+     "shrub": 0.017,
+     "terrain-feature": 0.014
     },
     "topSpecies": [
      [
@@ -855,14 +863,14 @@
       0.0355
      ],
      [
-      "plants/citsflorabamboo01.nif",
-      663,
-      0.0289
-     ],
-     [
       "skyrim.esm#0B73BA",
       661,
       0.0288
+     ],
+     [
+      "edid:TreeAspen04",
+      524,
+      0.0228
      ],
      [
       "dungeons/ayleidruins/exterior/arblock01.nif",
@@ -875,7 +883,7 @@
       0.0203
      ],
      [
-      "plants/tropical/manfern.nif",
+      "edid:TreeThicket01",
       452,
       0.0197
      ],
@@ -888,11 +896,6 @@
       "skyrim.esm#0AAE89",
       336,
       0.0146
-     ],
-     [
-      "landscape/trees/tropical/mangrovereachtree0gkb8.nif",
-      307,
-      0.0134
      ],
      [
       "dungeons/ship/katariah/shipkatariahwoodfloor01.nif",
@@ -908,6 +911,11 @@
       "landscape/trees/tropicalplant02.nif",
       275,
       0.012
+     ],
+     [
+      "landscape/trees/tropicalplant01.nif",
+      255,
+      0.0111
      ]
     ]
    },
@@ -916,14 +924,14 @@
     "cells": 1496,
     "perHectareWhereFound": 23.09,
     "categoryShare": {
-     "unresolved": 0.475,
-     "tree": 0.305,
-     "plant": 0.055,
-     "shrub": 0.043,
-     "architecture": 0.034,
-     "misc": 0.031,
+     "unresolved": 0.613,
+     "tree": 0.239,
+     "architecture": 0.041,
+     "shrub": 0.028,
      "dungeon-kit": 0.021,
-     "clutter": 0.02
+     "clutter": 0.02,
+     "terrain-feature": 0.015,
+     "plant": 0.012
     },
     "topSpecies": [
      [
@@ -937,9 +945,9 @@
       0.0579
      ],
      [
-      "plants/citsflorabamboo01.nif",
-      475,
-      0.0405
+      "edid:TreeAspen04",
+      407,
+      0.0347
      ],
      [
       "landscape/trees/tropicalplant01.nif",
@@ -982,12 +990,12 @@
       0.0121
      ],
      [
-      "plants/tropical/manfern.nif",
+      "edid:TreeThicket01",
       141,
       0.012
      ],
      [
-      "plants/tamira/new plants/bush03b.nif",
+      "edid:TreeFloraMountainFlower02Blue",
       138,
       0.0118
      ],
@@ -1003,14 +1011,14 @@
     "cells": 1102,
     "perHectareWhereFound": 11.17,
     "categoryShare": {
-     "unresolved": 0.418,
-     "tree": 0.371,
-     "plant": 0.057,
-     "shrub": 0.047,
-     "misc": 0.028,
-     "architecture": 0.028,
-     "terrain-feature": 0.023,
-     "dungeon-kit": 0.009
+     "unresolved": 0.557,
+     "tree": 0.305,
+     "shrub": 0.038,
+     "architecture": 0.037,
+     "terrain-feature": 0.028,
+     "dungeon-kit": 0.009,
+     "clutter": 0.009,
+     "ruin": 0.007
     },
     "topSpecies": [
      [
@@ -1019,9 +1027,9 @@
       0.0687
      ],
      [
-      "plants/citsflorabamboo01.nif",
-      191,
-      0.0457
+      "edid:TreeAspen04",
+      172,
+      0.0412
      ],
      [
       "skyrim.esm#0D1EC3",
@@ -1069,7 +1077,7 @@
       0.0175
      ],
      [
-      "landscape/trees/tropical/gkbtreeofwolene.nif",
+      "edid:TreePineForest05",
       63,
       0.0151
      ],
@@ -1090,20 +1098,20 @@
     "cells": 569,
     "perHectareWhereFound": 7.86,
     "categoryShare": {
-     "unresolved": 0.493,
-     "tree": 0.263,
-     "plant": 0.071,
-     "terrain-feature": 0.04,
-     "architecture": 0.04,
-     "misc": 0.038,
-     "shrub": 0.027,
-     "dungeon-kit": 0.012
+     "unresolved": 0.628,
+     "tree": 0.213,
+     "architecture": 0.055,
+     "terrain-feature": 0.045,
+     "shrub": 0.021,
+     "dungeon-kit": 0.012,
+     "ruin": 0.011,
+     "plant": 0.005
     },
     "topSpecies": [
      [
-      "plants/citsflorabamboo01.nif",
-      101,
-      0.0665
+      "edid:TreeAspen04",
+      98,
+      0.0646
      ],
      [
       "skyrim.esm#0D1EC3",
@@ -1146,7 +1154,7 @@
       0.0171
      ],
      [
-      "landscape/trees/tropical/gkbtreeofwolene.nif",
+      "edid:TreePineForest05",
       25,
       0.0165
      ],
@@ -1161,14 +1169,14 @@
       0.0145
      ],
      [
-      "landscape/trees/tropical/mangrovereachtree0gkb8.nif",
+      "landscape/trees/treeofwolene5.nif",
       21,
       0.0138
      ],
      [
-      "landscape/trees/treeofwolene5.nif",
-      21,
-      0.0138
+      "landscape/trees/bambooplant.nif",
+      19,
+      0.0125
      ]
     ]
    },
@@ -1177,20 +1185,20 @@
     "cells": 334,
     "perHectareWhereFound": 11.1,
     "categoryShare": {
-     "unresolved": 0.595,
-     "tree": 0.134,
-     "plant": 0.091,
-     "architecture": 0.058,
-     "terrain-feature": 0.047,
-     "misc": 0.033,
+     "unresolved": 0.731,
+     "tree": 0.091,
+     "architecture": 0.072,
+     "terrain-feature": 0.048,
      "dungeon-kit": 0.021,
-     "ruin": 0.01
+     "misc": 0.013,
+     "ruin": 0.01,
+     "shrub": 0.009
     },
     "topSpecies": [
      [
-      "plants/citsflorabamboo01.nif",
-      93,
-      0.0739
+      "edid:TreeAspen04",
+      91,
+      0.0723
      ],
      [
       "skyrim.esm#0B73B8",
@@ -1233,12 +1241,7 @@
       0.0183
      ],
      [
-      "landscape/trees/tropical/mangrovereachtree0gkb8.nif",
-      19,
-      0.0151
-     ],
-     [
-      "plants/tropical/manfern.nif",
+      "edid:TreeThicket01",
       19,
       0.0151
      ],
@@ -1256,6 +1259,11 @@
       "landscape/mountains/mountainpeak01.nif",
       16,
       0.0127
+     ],
+     [
+      "skyrim.esm#043947",
+      15,
+      0.0119
      ]
     ]
    }
@@ -1362,128 +1370,10 @@
    ],
    "clearanceToBuiltM": {
     "p5": 5.127,
-    "p25": 17.863,
+    "p25": 17.541,
     "p50": 28.916,
     "p75": 43.832,
     "p95": 57.7
-   }
-  },
-  "plants/citsflorabamboo01.nif": {
-   "category": "plant",
-   "count": 1523,
-   "cells": 195,
-   "perHectareWhereFound": 23.01,
-   "slopeDeg": {
-    "p5": 0.0,
-    "p25": 0.0,
-    "p50": 7.195,
-    "p75": 16.131,
-    "p95": 47.988
-   },
-   "aboveWaterM": {
-    "p5": 8.669,
-    "p25": 11.82,
-    "p50": 177.878,
-    "p75": 305.399,
-    "p95": 362.835
-   },
-   "sinkM": {
-    "p5": -2.306,
-    "p25": -0.286,
-    "p50": 165.473,
-    "p75": 291.513,
-    "p95": 349.484
-   },
-   "groundWaterDepthM": {
-    "p5": -48.708,
-    "p25": -12.523,
-    "p50": -11.948,
-    "p75": -11.732,
-    "p95": -1.619
-   },
-   "floodedGroundFraction": 0.032,
-   "submergedFraction": 0.009,
-   "scale": {
-    "p5": 1.0,
-    "p25": 2.0,
-    "p50": 5.0,
-    "p75": 5.0,
-    "p95": 5.0
-   },
-   "heightM": {
-    "p5": 24.081,
-    "p25": 48.162,
-    "p50": 120.406,
-    "p75": 120.406,
-    "p95": 120.406
-   },
-   "widthM": {
-    "p5": 13.612,
-    "p25": 27.225,
-    "p50": 68.062,
-    "p75": 68.062,
-    "p95": 68.062
-   },
-   "tiltDeg": {
-    "p5": 0.0,
-    "p25": 0.0,
-    "p50": 42.64,
-    "p75": 117.145,
-    "p95": 166.687
-   },
-   "rotationZUniformity": 0.872,
-   "meanNearestNeighbourM": 2.83,
-   "clarkEvansR": 0.271,
-   "clumping": {
-    "linkDistanceM": 5.66,
-    "clumps": 614,
-    "clumpSize": {
-     "p5": 1.0,
-     "p25": 1.0,
-     "p50": 1.0,
-     "p75": 1.0,
-     "p95": 12.0
-    },
-    "clumpSizeForTypicalInstance": {
-     "p5": 1.0,
-     "p25": 1.0,
-     "p50": 12.0,
-     "p75": 12.0,
-     "p95": 12.0
-    },
-    "clumpRadiusM": {
-     "p5": 0.448,
-     "p25": 0.492,
-     "p50": 0.62,
-     "p75": 0.644,
-     "p95": 5.25
-    },
-    "fractionInClumps": 0.636
-   },
-   "groundTop": [
-    [
-     "LPineForest03",
-     594
-    ],
-    [
-     "LPineForestDUPLICATE004",
-     514
-    ],
-    [
-     "LFallForestGrass01",
-     115
-    ],
-    [
-     "LFieldGrass01",
-     77
-    ]
-   ],
-   "clearanceToBuiltM": {
-    "p5": 0.59,
-    "p25": 4.035,
-    "p50": 13.702,
-    "p75": 35.401,
-    "p95": 52.088
    }
   },
   "skyrim.esm#0B73BA": {
@@ -1586,10 +1476,116 @@
    ],
    "clearanceToBuiltM": {
     "p5": 4.798,
-    "p25": 17.894,
-    "p50": 27.498,
+    "p25": 17.531,
+    "p50": 27.201,
     "p75": 42.263,
     "p95": 55.208
+   }
+  },
+  "edid:TreeAspen04": {
+   "category": "unresolved",
+   "count": 1292,
+   "cells": 106,
+   "perHectareWhereFound": 35.91,
+   "slopeDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 7.195,
+    "p75": 16.131,
+    "p95": 47.988
+   },
+   "aboveWaterM": {
+    "p5": 8.401,
+    "p25": 11.75,
+    "p50": 208.605,
+    "p75": 309.343,
+    "p95": 369.153
+   },
+   "sinkM": {
+    "p5": -2.306,
+    "p25": -0.265,
+    "p50": 197.253,
+    "p75": 295.624,
+    "p95": 359.789
+   },
+   "groundWaterDepthM": {
+    "p5": -20.483,
+    "p25": -12.438,
+    "p50": -11.948,
+    "p75": -11.552,
+    "p95": -1.375
+   },
+   "floodedGroundFraction": 0.037,
+   "submergedFraction": 0.011,
+   "scale": {
+    "p5": 1.0,
+    "p25": 2.0,
+    "p50": 5.0,
+    "p75": 5.0,
+    "p95": 5.0
+   },
+   "heightM": {},
+   "widthM": {},
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 60.242,
+    "p75": 122.434,
+    "p95": 169.543
+   },
+   "rotationZUniformity": 0.894,
+   "meanNearestNeighbourM": 2.15,
+   "clarkEvansR": 0.258,
+   "clumping": {
+    "linkDistanceM": 4.3,
+    "clumps": 437,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 1.0,
+     "p95": 12.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 12.0,
+     "p75": 12.0,
+     "p95": 24.0
+    },
+    "clumpRadiusM": {
+     "p5": 0.448,
+     "p25": 0.492,
+     "p50": 0.598,
+     "p75": 0.644,
+     "p95": 1.863
+    },
+    "fractionInClumps": 0.709
+   },
+   "groundTop": [
+    [
+     "LPineForestDUPLICATE004",
+     491
+    ],
+    [
+     "LPineForest03",
+     443
+    ],
+    [
+     "LFallForestGrass01",
+     108
+    ],
+    [
+     "LFieldGrass01",
+     76
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 0.522,
+    "p25": 3.753,
+    "p50": 11.356,
+    "p75": 32.565,
+    "p95": 51.301
    }
   },
   "skyrim.esm#0B73BC": {
@@ -1799,13 +1795,13 @@
    "clearanceToBuiltM": {
     "p5": 8.48,
     "p25": 12.901,
-    "p50": 17.114,
-    "p75": 22.223,
-    "p95": 26.513
+    "p50": 17.096,
+    "p75": 20.878,
+    "p95": 24.956
    }
   },
-  "plants/tropical/manfern.nif": {
-   "category": "plant",
+  "edid:TreeThicket01": {
+   "category": "unresolved",
    "count": 662,
    "cells": 158,
    "perHectareWhereFound": 12.34,
@@ -1846,20 +1842,8 @@
     "p75": 1.0,
     "p95": 2.0
    },
-   "heightM": {
-    "p5": 11.08,
-    "p25": 11.08,
-    "p50": 11.08,
-    "p75": 11.08,
-    "p95": 22.161
-   },
-   "widthM": {
-    "p5": 10.995,
-    "p25": 10.995,
-    "p50": 10.995,
-    "p75": 10.995,
-    "p95": 21.99
-   },
+   "heightM": {},
+   "widthM": {},
    "tiltDeg": {
     "p5": 0.0,
     "p25": 0.0,
@@ -1916,10 +1900,10 @@
    ],
    "clearanceToBuiltM": {
     "p5": 3.578,
-    "p25": 9.029,
-    "p50": 19.503,
-    "p75": 33.426,
-    "p95": 50.18
+    "p25": 9.664,
+    "p50": 21.709,
+    "p75": 34.575,
+    "p95": 54.163
    }
   },
   "landscape/trees/tropicalplant01.nif": {
@@ -2151,7 +2135,7 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 2.385,
+    "p5": 2.015,
     "p25": 16.47,
     "p50": 29.627,
     "p75": 43.805,
@@ -2488,124 +2472,6 @@
     "p95": 58.123
    }
   },
-  "landscape/trees/tropical/mangrovereachtree0gkb8.nif": {
-   "category": "tree",
-   "count": 525,
-   "cells": 326,
-   "perHectareWhereFound": 4.74,
-   "slopeDeg": {
-    "p5": 0.0,
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 10.182,
-    "p95": 41.58
-   },
-   "aboveWaterM": {
-    "p5": -1.503,
-    "p25": 6.279,
-    "p50": 10.084,
-    "p75": 11.807,
-    "p95": 35.625
-   },
-   "sinkM": {
-    "p5": -13.58,
-    "p25": -5.351,
-    "p50": -2.318,
-    "p75": -1.002,
-    "p95": 0.0
-   },
-   "groundWaterDepthM": {
-    "p5": -37.77,
-    "p25": -12.622,
-    "p50": -11.948,
-    "p75": -11.948,
-    "p95": -6.714
-   },
-   "floodedGroundFraction": 0.019,
-   "submergedFraction": 0.084,
-   "scale": {
-    "p5": 1.0,
-    "p25": 1.0,
-    "p50": 2.0,
-    "p75": 2.1,
-    "p95": 6.0
-   },
-   "heightM": {
-    "p5": 17.41,
-    "p25": 18.281,
-    "p50": 21.393,
-    "p75": 21.393,
-    "p95": 128.357
-   },
-   "widthM": {
-    "p5": 19.999,
-    "p25": 20.027,
-    "p50": 20.027,
-    "p75": 20.999,
-    "p95": 120.164
-   },
-   "tiltDeg": {
-    "p5": 0.0,
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "p95": 0.0
-   },
-   "rotationZUniformity": 0.548,
-   "meanNearestNeighbourM": 14.37,
-   "clarkEvansR": 0.626,
-   "clumping": {
-    "linkDistanceM": 28.75,
-    "clumps": 399,
-    "clumpSize": {
-     "p5": 1.0,
-     "p25": 1.0,
-     "p50": 1.0,
-     "p75": 1.0,
-     "p95": 3.0
-    },
-    "clumpSizeForTypicalInstance": {
-     "p5": 1.0,
-     "p25": 1.0,
-     "p50": 1.0,
-     "p75": 2.0,
-     "p95": 4.0
-    },
-    "clumpRadiusM": {
-     "p5": 10.562,
-     "p25": 14.161,
-     "p50": 19.235,
-     "p75": 22.541,
-     "p95": 34.937
-    },
-    "fractionInClumps": 0.196
-   },
-   "groundTop": [
-    [
-     "LPineForest03",
-     171
-    ],
-    [
-     "LFieldGrass02",
-     118
-    ],
-    [
-     "LPineForest02",
-     79
-    ],
-    [
-     "LPineForestDUPLICATE004",
-     52
-    ]
-   ],
-   "clearanceToBuiltM": {
-    "p5": 11.296,
-    "p25": 22.131,
-    "p50": 30.707,
-    "p75": 42.758,
-    "p95": 57.614
-   }
-  },
   "dungeons/ayleidruins/exterior/arblock01.nif": {
    "category": "ruin",
    "count": 512,
@@ -2900,9 +2766,9 @@
    ],
    "clearanceToBuiltM": {
     "p5": 0.478,
-    "p25": 0.647,
-    "p50": 1.224,
-    "p75": 4.891,
+    "p25": 0.517,
+    "p50": 1.174,
+    "p75": 4.491,
     "p95": 32.748
    }
   },
@@ -3005,11 +2871,11 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 9.686,
-    "p25": 21.554,
-    "p50": 32.998,
-    "p75": 43.011,
-    "p95": 60.715
+    "p5": 9.808,
+    "p25": 22.664,
+    "p50": 32.833,
+    "p75": 42.727,
+    "p95": 60.787
    }
   },
   "landscape/trees/palmplant.nif": {
@@ -3348,14 +3214,14 @@
    ],
    "clearanceToBuiltM": {
     "p5": 4.648,
-    "p25": 19.092,
-    "p50": 30.844,
-    "p75": 38.225,
+    "p25": 22.587,
+    "p50": 32.013,
+    "p75": 42.725,
     "p95": 68.106
    }
   },
-  "landscape/trees/tropical/gkbtreeofwolene.nif": {
-   "category": "tree",
+  "edid:TreePineForest05": {
+   "category": "unresolved",
    "count": 370,
    "cells": 221,
    "perHectareWhereFound": 4.93,
@@ -3396,20 +3262,8 @@
     "p75": 1.9,
     "p95": 4.0
    },
-   "heightM": {
-    "p5": 39.685,
-    "p25": 39.685,
-    "p50": 39.685,
-    "p75": 75.401,
-    "p95": 158.74
-   },
-   "widthM": {
-    "p5": 31.037,
-    "p25": 31.037,
-    "p50": 31.037,
-    "p75": 58.97,
-    "p95": 124.147
-   },
+   "heightM": {},
+   "widthM": {},
    "tiltDeg": {
     "p5": 0.0,
     "p25": 0.0,
@@ -3465,11 +3319,11 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 8.809,
-    "p25": 24.015,
-    "p50": 33.686,
-    "p75": 43.97,
-    "p95": 54.468
+    "p5": 6.804,
+    "p25": 17.109,
+    "p50": 30.546,
+    "p75": 40.54,
+    "p95": 57.591
    }
   },
   "landscape/trees/dwarfjunip05.nif": {
@@ -3584,9 +3438,9 @@
    ],
    "clearanceToBuiltM": {
     "p5": 7.195,
-    "p25": 21.38,
-    "p50": 34.957,
-    "p75": 48.278,
+    "p25": 21.916,
+    "p50": 35.364,
+    "p75": 44.261,
     "p95": 55.067
    }
   },
@@ -3689,15 +3543,121 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 5.992,
-    "p25": 9.808,
+    "p5": 4.843,
+    "p25": 9.59,
     "p50": 17.095,
     "p75": 32.478,
     "p95": 49.397
    }
   },
-  "plants/tamira/new plants/bush03b.nif": {
-   "category": "shrub",
+  "edid:TreePineForest01": {
+   "category": "unresolved",
+   "count": 319,
+   "cells": 214,
+   "perHectareWhereFound": 4.39,
+   "slopeDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 7.195,
+    "p75": 14.418,
+    "p95": 42.922
+   },
+   "aboveWaterM": {
+    "p5": -2.246,
+    "p25": 5.109,
+    "p50": 10.057,
+    "p75": 12.71,
+    "p95": 51.969
+   },
+   "sinkM": {
+    "p5": -15.335,
+    "p25": -7.361,
+    "p50": -3.23,
+    "p75": -1.084,
+    "p95": 0.0
+   },
+   "groundWaterDepthM": {
+    "p5": -59.64,
+    "p25": -20.429,
+    "p50": -11.948,
+    "p75": -10.956,
+    "p95": -6.649
+   },
+   "floodedGroundFraction": 0.013,
+   "submergedFraction": 0.107,
+   "scale": {
+    "p5": 1.0,
+    "p25": 1.0,
+    "p50": 1.0,
+    "p75": 2.1,
+    "p95": 6.0
+   },
+   "heightM": {},
+   "widthM": {},
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p95": 0.0
+   },
+   "rotationZUniformity": 0.304,
+   "meanNearestNeighbourM": 14.67,
+   "clarkEvansR": 0.615,
+   "clumping": {
+    "linkDistanceM": 29.34,
+    "clumps": 256,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 1.0,
+     "p95": 2.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 2.0,
+     "p95": 5.0
+    },
+    "clumpRadiusM": {
+     "p5": 14.08,
+     "p25": 14.371,
+     "p50": 22.34,
+     "p75": 30.3,
+     "p95": 39.844
+    },
+    "fractionInClumps": 0.15
+   },
+   "groundTop": [
+    [
+     "LPineForest03",
+     81
+    ],
+    [
+     "LPineForest02",
+     79
+    ],
+    [
+     "LFieldGrass02",
+     50
+    ],
+    [
+     "LPineForestDUPLICATE004",
+     45
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 8.129,
+    "p25": 19.357,
+    "p50": 30.103,
+    "p75": 39.849,
+    "p95": 59.68
+   }
+  },
+  "edid:TreeFloraMountainFlower02Blue": {
+   "category": "unresolved",
    "count": 317,
    "cells": 74,
    "perHectareWhereFound": 12.62,
@@ -3738,20 +3698,8 @@
     "p75": 3.0,
     "p95": 3.0
    },
-   "heightM": {
-    "p5": 5.448,
-    "p25": 5.448,
-    "p50": 5.448,
-    "p75": 16.343,
-    "p95": 16.343
-   },
-   "widthM": {
-    "p5": 5.306,
-    "p25": 5.306,
-    "p50": 5.306,
-    "p75": 15.917,
-    "p95": 15.917
-   },
+   "heightM": {},
+   "widthM": {},
    "tiltDeg": {
     "p5": 0.0,
     "p25": 0.0,
@@ -4031,11 +3979,11 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 7.361,
-    "p25": 12.977,
-    "p50": 18.896,
-    "p75": 40.811,
-    "p95": 51.399
+    "p5": 6.582,
+    "p25": 9.008,
+    "p50": 11.83,
+    "p75": 30.67,
+    "p95": 46.421
    }
   },
   "landscape/trees/birch-red.nif": {
@@ -4149,8 +4097,8 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 0.638,
-    "p25": 2.248,
+    "p5": 0.557,
+    "p25": 1.306,
     "p50": 6.222,
     "p75": 20.287,
     "p95": 42.005
@@ -4256,9 +4204,9 @@
    ],
    "clearanceToBuiltM": {
     "p5": 3.7,
-    "p25": 7.992,
-    "p50": 12.179,
-    "p75": 14.147,
+    "p25": 7.805,
+    "p50": 11.658,
+    "p75": 13.536,
     "p95": 18.658
    }
   },
@@ -4362,128 +4310,10 @@
    ],
    "clearanceToBuiltM": {
     "p5": 2.281,
-    "p25": 8.746,
+    "p25": 8.68,
     "p50": 19.45,
     "p75": 33.495,
     "p95": 52.056
-   }
-  },
-  "landscape/trees/tropical/gkbtreeaspenbamboo01.nif": {
-   "category": "tree",
-   "count": 259,
-   "cells": 63,
-   "perHectareWhereFound": 12.11,
-   "slopeDeg": {
-    "p5": 0.0,
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 7.195,
-    "p95": 19.112
-   },
-   "aboveWaterM": {
-    "p5": 6.362,
-    "p25": 10.12,
-    "p50": 11.122,
-    "p75": 11.846,
-    "p95": 59.064
-   },
-   "sinkM": {
-    "p5": -3.659,
-    "p25": -1.557,
-    "p50": -0.746,
-    "p75": 0.0,
-    "p95": 47.089
-   },
-   "groundWaterDepthM": {
-    "p5": -14.853,
-    "p25": -12.289,
-    "p50": -11.948,
-    "p75": -11.835,
-    "p95": -7.511
-   },
-   "floodedGroundFraction": 0.0,
-   "submergedFraction": 0.019,
-   "scale": {
-    "p5": 1.0,
-    "p25": 1.0,
-    "p50": 2.0,
-    "p75": 2.0,
-    "p95": 2.0
-   },
-   "heightM": {
-    "p5": 21.948,
-    "p25": 21.948,
-    "p50": 43.895,
-    "p75": 43.895,
-    "p95": 43.895
-   },
-   "widthM": {
-    "p5": 10.384,
-    "p25": 10.384,
-    "p50": 20.767,
-    "p75": 20.767,
-    "p95": 20.767
-   },
-   "tiltDeg": {
-    "p5": 0.0,
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "p95": 0.0
-   },
-   "rotationZUniformity": 0.254,
-   "meanNearestNeighbourM": 10.49,
-   "clarkEvansR": 0.73,
-   "clumping": {
-    "linkDistanceM": 20.98,
-    "clumps": 67,
-    "clumpSize": {
-     "p5": 1.0,
-     "p25": 1.0,
-     "p50": 1.0,
-     "p75": 6.0,
-     "p95": 15.0
-    },
-    "clumpSizeForTypicalInstance": {
-     "p5": 1.0,
-     "p25": 4.0,
-     "p50": 7.0,
-     "p75": 17.0,
-     "p95": 27.0
-    },
-    "clumpRadiusM": {
-     "p5": 3.821,
-     "p25": 14.39,
-     "p50": 20.805,
-     "p75": 25.769,
-     "p95": 68.151
-    },
-    "fractionInClumps": 0.792
-   },
-   "groundTop": [
-    [
-     "LPineForestDUPLICATE004",
-     109
-    ],
-    [
-     "LPineForest03",
-     106
-    ],
-    [
-     "?00000C14",
-     10
-    ],
-    [
-     "?000181F9",
-     8
-    ]
-   ],
-   "clearanceToBuiltM": {
-    "p5": 2.323,
-    "p25": 5.267,
-    "p50": 10.624,
-    "p75": 30.127,
-    "p95": 44.844
    }
   },
   "landscape/trees/gkbcyrodilcypress1.nif": {
@@ -4597,10 +4427,10 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 6.096,
-    "p25": 14.101,
-    "p50": 31.383,
-    "p75": 40.573,
+    "p5": 5.864,
+    "p25": 14.221,
+    "p50": 31.962,
+    "p75": 44.086,
     "p95": 59.423
    }
   },
@@ -4940,14 +4770,14 @@
    ],
    "clearanceToBuiltM": {
     "p5": 10.971,
-    "p25": 22.558,
-    "p50": 34.914,
-    "p75": 56.823,
+    "p25": 25.002,
+    "p50": 38.656,
+    "p75": 55.45,
     "p95": 61.873
    }
   },
   "landscape/roads/roadstraightlong02.nif": {
-   "category": "misc",
+   "category": "terrain-feature",
    "count": 239,
    "cells": 100,
    "perHectareWhereFound": 7.04,
@@ -5057,15 +4887,15 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 4.543,
-    "p25": 15.098,
-    "p50": 26.14,
-    "p75": 37.168,
+    "p5": 4.594,
+    "p25": 15.37,
+    "p50": 26.219,
+    "p75": 38.42,
     "p95": 50.557
    }
   },
-  "landscape/trees/tropical/gkbtreeaspenbamboo04.nif": {
-   "category": "tree",
+  "edid:TreeAspen06": {
+   "category": "unresolved",
    "count": 236,
    "cells": 49,
    "perHectareWhereFound": 14.19,
@@ -5106,20 +4936,8 @@
     "p75": 2.0,
     "p95": 2.0
    },
-   "heightM": {
-    "p5": 22.346,
-    "p25": 44.692,
-    "p50": 44.692,
-    "p75": 44.692,
-    "p95": 44.692
-   },
-   "widthM": {
-    "p5": 15.504,
-    "p25": 31.008,
-    "p50": 31.008,
-    "p75": 31.008,
-    "p95": 31.008
-   },
+   "heightM": {},
+   "widthM": {},
    "tiltDeg": {
     "p5": 0.0,
     "p25": 0.0,
@@ -5294,10 +5112,222 @@
    ],
    "clearanceToBuiltM": {
     "p5": 0.957,
-    "p25": 8.716,
+    "p25": 6.257,
     "p50": 20.732,
     "p75": 31.531,
     "p95": 53.329
+   }
+  },
+  "edid:TreeFallForestShrub01": {
+   "category": "unresolved",
+   "count": 231,
+   "cells": 110,
+   "perHectareWhereFound": 6.19,
+   "slopeDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 7.195,
+    "p95": 22.889
+   },
+   "aboveWaterM": {
+    "p5": 11.099,
+    "p25": 11.83,
+    "p50": 11.948,
+    "p75": 13.207,
+    "p95": 61.448
+   },
+   "sinkM": {
+    "p5": -2.276,
+    "p25": -0.286,
+    "p50": -0.003,
+    "p75": 0.0,
+    "p95": 0.658
+   },
+   "groundWaterDepthM": {
+    "p5": -61.448,
+    "p25": -14.679,
+    "p50": -11.948,
+    "p75": -11.948,
+    "p95": -11.466
+   },
+   "floodedGroundFraction": 0.0,
+   "submergedFraction": 0.0,
+   "scale": {
+    "p5": 1.0,
+    "p25": 1.0,
+    "p50": 1.0,
+    "p75": 1.0,
+    "p95": 1.0
+   },
+   "heightM": {},
+   "widthM": {},
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p95": 0.0
+   },
+   "rotationZUniformity": 0.655,
+   "meanNearestNeighbourM": 8.45,
+   "clarkEvansR": 0.42,
+   "clumping": {
+    "linkDistanceM": 16.9,
+    "clumps": 161,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 1.0,
+     "p95": 3.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 3.0,
+     "p95": 22.0
+    },
+    "clumpRadiusM": {
+     "p5": 3.846,
+     "p25": 7.176,
+     "p50": 12.19,
+     "p75": 18.633,
+     "p95": 21.988
+    },
+    "fractionInClumps": 0.277
+   },
+   "groundTop": [
+    [
+     "LPineForest03",
+     151
+    ],
+    [
+     "LFieldGrass02",
+     25
+    ],
+    [
+     "LPineForestDUPLICATE004",
+     23
+    ],
+    [
+     "LReachMoss01",
+     9
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 2.996,
+    "p25": 9.64,
+    "p50": 18.247,
+    "p75": 30.639,
+    "p95": 44.419
+   }
+  },
+  "edid:TreeAspen05": {
+   "category": "unresolved",
+   "count": 231,
+   "cells": 52,
+   "perHectareWhereFound": 13.09,
+   "slopeDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 7.195,
+    "p95": 19.112
+   },
+   "aboveWaterM": {
+    "p5": 6.362,
+    "p25": 9.849,
+    "p50": 10.93,
+    "p75": 11.685,
+    "p95": 18.251
+   },
+   "sinkM": {
+    "p5": -3.728,
+    "p25": -1.823,
+    "p50": -0.914,
+    "p75": -0.083,
+    "p95": 2.682
+   },
+   "groundWaterDepthM": {
+    "p5": -14.818,
+    "p25": -12.29,
+    "p50": -11.948,
+    "p75": -11.948,
+    "p95": -7.51
+   },
+   "floodedGroundFraction": 0.0,
+   "submergedFraction": 0.022,
+   "scale": {
+    "p5": 1.0,
+    "p25": 2.0,
+    "p50": 2.0,
+    "p75": 2.0,
+    "p95": 2.0
+   },
+   "heightM": {},
+   "widthM": {},
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p95": 0.0
+   },
+   "rotationZUniformity": 0.273,
+   "meanNearestNeighbourM": 10.95,
+   "clarkEvansR": 0.793,
+   "clumping": {
+    "linkDistanceM": 21.91,
+    "clumps": 53,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 2.0,
+     "p75": 5.0,
+     "p95": 14.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 5.0,
+     "p50": 11.0,
+     "p75": 15.0,
+     "p95": 36.0
+    },
+    "clumpRadiusM": {
+     "p5": 3.821,
+     "p25": 12.636,
+     "p50": 28.046,
+     "p75": 36.174,
+     "p95": 59.106
+    },
+    "fractionInClumps": 0.805
+   },
+   "groundTop": [
+    [
+     "LPineForestDUPLICATE004",
+     108
+    ],
+    [
+     "LPineForest03",
+     95
+    ],
+    [
+     "?00000C14",
+     10
+    ],
+    [
+     "?000181F9",
+     6
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 2.534,
+    "p25": 5.288,
+    "p50": 11.374,
+    "p75": 33.796,
+    "p95": 48.718
    }
   },
   "landscape/trees/gkbcyrodilcypress2.nif": {
@@ -5411,10 +5441,10 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 6.588,
-    "p25": 21.201,
-    "p50": 31.475,
-    "p75": 43.85,
+    "p5": 1.86,
+    "p25": 17.942,
+    "p50": 30.408,
+    "p75": 43.083,
     "p95": 63.613
    }
   },
@@ -5753,15 +5783,15 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 3.409,
-    "p25": 5.829,
+    "p5": 2.861,
+    "p25": 5.822,
     "p50": 7.386,
-    "p75": 10.003,
+    "p75": 10.002,
     "p95": 22.396
    }
   },
-  "landscape/trees/tropical/gkbtreeaspenbamboo05.nif": {
-   "category": "tree",
+  "edid:TreeAspen03": {
+   "category": "unresolved",
    "count": 215,
    "cells": 48,
    "perHectareWhereFound": 13.2,
@@ -5802,20 +5832,8 @@
     "p75": 2.0,
     "p95": 2.0
    },
-   "heightM": {
-    "p5": 22.46,
-    "p25": 44.919,
-    "p50": 44.919,
-    "p75": 44.919,
-    "p95": 44.919
-   },
-   "widthM": {
-    "p5": 15.675,
-    "p25": 31.35,
-    "p50": 31.35,
-    "p75": 31.35,
-    "p95": 31.35
-   },
+   "heightM": {},
+   "widthM": {},
    "tiltDeg": {
     "p5": 0.0,
     "p25": 0.0,
@@ -5991,9 +6009,9 @@
    "clearanceToBuiltM": {
     "p5": 8.685,
     "p25": 22.628,
-    "p50": 33.167,
-    "p75": 44.708,
-    "p95": 55.239
+    "p50": 32.133,
+    "p75": 44.385,
+    "p95": 61.645
    }
   },
   "landscape/trees/gkbtundrashrub08.nif": {
@@ -6108,8 +6126,8 @@
    ],
    "clearanceToBuiltM": {
     "p5": 7.586,
-    "p25": 9.714,
-    "p50": 12.936,
+    "p25": 10.794,
+    "p50": 25.747,
     "p75": 35.447,
     "p95": 68.15
    }
@@ -6229,7 +6247,7 @@
     "p25": 17.395,
     "p50": 30.035,
     "p75": 39.916,
-    "p95": 60.266
+    "p95": 58.66
    }
   },
   "landscape/trees/gkbcyrodil3.nif": {
@@ -6344,14 +6362,14 @@
    ],
    "clearanceToBuiltM": {
     "p5": 0.718,
-    "p25": 3.099,
+    "p25": 9.136,
     "p50": 22.704,
-    "p75": 41.433,
+    "p75": 41.65,
     "p95": 60.159
    }
   },
-  "landscape/trees/tropical/anvil_palm_trunk.nif": {
-   "category": "tree",
+  "edid:TreePineForest02": {
+   "category": "unresolved",
    "count": 201,
    "cells": 119,
    "perHectareWhereFound": 4.98,
@@ -6392,20 +6410,8 @@
     "p75": 1.0,
     "p95": 1.0
    },
-   "heightM": {
-    "p5": 39.77,
-    "p25": 39.77,
-    "p50": 39.77,
-    "p75": 39.77,
-    "p95": 39.77
-   },
-   "widthM": {
-    "p5": 25.404,
-    "p25": 25.404,
-    "p50": 25.404,
-    "p75": 25.404,
-    "p95": 25.404
-   },
+   "heightM": {},
+   "widthM": {},
    "tiltDeg": {
     "p5": 0.0,
     "p25": 0.0,
@@ -6461,11 +6467,11 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 11.015,
-    "p25": 18.345,
-    "p50": 27.197,
-    "p75": 37.972,
-    "p95": 58.214
+    "p5": 5.138,
+    "p25": 12.505,
+    "p50": 23.828,
+    "p75": 36.851,
+    "p95": 55.237
    }
   },
   "landscape/trees/gkbcyrodil1.nif": {
@@ -6574,10 +6580,10 @@
    ],
    "clearanceToBuiltM": {
     "p5": 8.519,
-    "p25": 18.76,
-    "p50": 33.191,
-    "p75": 43.036,
-    "p95": 56.824
+    "p25": 19.659,
+    "p50": 35.169,
+    "p75": 45.192,
+    "p95": 64.195
    }
   },
   "landscape/trees/cypress1.nif": {
@@ -6793,6 +6799,112 @@
     ]
    ],
    "clearanceToBuiltM": {}
+  },
+  "edid:TreePineForest01Dead": {
+   "category": "unresolved",
+   "count": 194,
+   "cells": 109,
+   "perHectareWhereFound": 5.24,
+   "slopeDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p95": 28.129
+   },
+   "aboveWaterM": {
+    "p5": 1.521,
+    "p25": 7.89,
+    "p50": 9.94,
+    "p75": 10.667,
+    "p95": 12.136
+   },
+   "sinkM": {
+    "p5": -6.557,
+    "p25": -3.428,
+    "p50": -1.925,
+    "p75": -1.264,
+    "p95": 0.154
+   },
+   "groundWaterDepthM": {
+    "p5": -16.311,
+    "p25": -11.948,
+    "p50": -11.948,
+    "p75": -11.948,
+    "p95": -7.684
+   },
+   "floodedGroundFraction": 0.031,
+   "submergedFraction": 0.052,
+   "scale": {
+    "p5": 2.0,
+    "p25": 2.0,
+    "p50": 2.0,
+    "p75": 2.1,
+    "p95": 2.1
+   },
+   "heightM": {},
+   "widthM": {},
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p95": 0.0
+   },
+   "rotationZUniformity": 0.669,
+   "meanNearestNeighbourM": 13.74,
+   "clarkEvansR": 0.629,
+   "clumping": {
+    "linkDistanceM": 27.48,
+    "clumps": 145,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 1.0,
+     "p95": 3.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 2.0,
+     "p95": 5.0
+    },
+    "clumpRadiusM": {
+     "p5": 5.029,
+     "p25": 11.705,
+     "p50": 13.986,
+     "p75": 23.371,
+     "p95": 42.083
+    },
+    "fractionInClumps": 0.201
+   },
+   "groundTop": [
+    [
+     "LPineForest03",
+     85
+    ],
+    [
+     "LFieldGrass02",
+     61
+    ],
+    [
+     "LFieldGrass01",
+     18
+    ],
+    [
+     "?0200CDE8",
+     8
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 9.611,
+    "p25": 16.421,
+    "p50": 29.683,
+    "p75": 43.68,
+    "p95": 52.297
+   }
   },
   "landscape/trees/gkbjungletreenew12v3.nif": {
    "category": "tree",
@@ -7024,8 +7136,8 @@
    ],
    "clearanceToBuiltM": {
     "p5": 4.79,
-    "p25": 21.319,
-    "p50": 33.169,
+    "p25": 21.43,
+    "p50": 33.256,
     "p75": 47.226,
     "p95": 57.374
    }
@@ -7131,9 +7243,9 @@
    "clearanceToBuiltM": {
     "p5": 6.48,
     "p25": 14.051,
-    "p50": 21.552,
-    "p75": 37.149,
-    "p95": 51.611
+    "p50": 21.887,
+    "p75": 37.95,
+    "p95": 52.842
    }
   },
   "skyrim.esm#089454": {
@@ -7461,8 +7573,8 @@
    "clearanceToBuiltM": {
     "p5": 0.945,
     "p25": 14.206,
-    "p50": 22.53,
-    "p75": 42.48,
+    "p50": 23.907,
+    "p75": 43.228,
     "p95": 50.597
    }
   },
@@ -7570,124 +7682,6 @@
     "p50": 9.317,
     "p75": 22.246,
     "p95": 47.014
-   }
-  },
-  "landscape/trees/tropical/gkbtreeaspenbamboo06.nif": {
-   "category": "tree",
-   "count": 168,
-   "cells": 60,
-   "perHectareWhereFound": 8.25,
-   "slopeDeg": {
-    "p5": 0.0,
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 7.195,
-    "p95": 22.889
-   },
-   "aboveWaterM": {
-    "p5": 2.494,
-    "p25": 9.66,
-    "p50": 11.124,
-    "p75": 11.948,
-    "p95": 61.448
-   },
-   "sinkM": {
-    "p5": -6.092,
-    "p25": -1.302,
-    "p50": -0.569,
-    "p75": 0.0,
-    "p95": 0.862
-   },
-   "groundWaterDepthM": {
-    "p5": -61.448,
-    "p25": -12.279,
-    "p50": -11.948,
-    "p75": -11.721,
-    "p95": -5.576
-   },
-   "floodedGroundFraction": 0.0,
-   "submergedFraction": 0.036,
-   "scale": {
-    "p5": 1.0,
-    "p25": 1.0,
-    "p50": 2.0,
-    "p75": 2.0,
-    "p95": 2.0
-   },
-   "heightM": {
-    "p5": 10.625,
-    "p25": 10.625,
-    "p50": 21.251,
-    "p75": 21.251,
-    "p95": 21.251
-   },
-   "widthM": {
-    "p5": 5.59,
-    "p25": 5.59,
-    "p50": 11.18,
-    "p75": 11.18,
-    "p95": 11.18
-   },
-   "tiltDeg": {
-    "p5": 0.0,
-    "p25": 0.0,
-    "p50": 0.0,
-    "p75": 0.0,
-    "p95": 0.0
-   },
-   "rotationZUniformity": 0.374,
-   "meanNearestNeighbourM": 9.86,
-   "clarkEvansR": 0.567,
-   "clumping": {
-    "linkDistanceM": 19.72,
-    "clumps": 91,
-    "clumpSize": {
-     "p5": 1.0,
-     "p25": 1.0,
-     "p50": 1.0,
-     "p75": 2.0,
-     "p95": 5.0
-    },
-    "clumpSizeForTypicalInstance": {
-     "p5": 1.0,
-     "p25": 1.0,
-     "p50": 2.0,
-     "p75": 4.0,
-     "p95": 11.0
-    },
-    "clumpRadiusM": {
-     "p5": 10.73,
-     "p25": 10.73,
-     "p50": 10.73,
-     "p75": 16.238,
-     "p95": 26.091
-    },
-    "fractionInClumps": 0.488
-   },
-   "groundTop": [
-    [
-     "LPineForest03",
-     88
-    ],
-    [
-     "LPineForestDUPLICATE004",
-     56
-    ],
-    [
-     "LFieldGrass02",
-     6
-    ],
-    [
-     "LReachMoss01",
-     5
-    ]
-   ],
-   "clearanceToBuiltM": {
-    "p5": 5.05,
-    "p25": 10.381,
-    "p50": 15.411,
-    "p75": 25.918,
-    "p95": 43.245
    }
   },
   "skyrim.esm#0BCF47": {
@@ -7903,7 +7897,7 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 9.072,
+    "p5": 8.751,
     "p25": 21.593,
     "p50": 33.942,
     "p75": 50.097,
@@ -8353,8 +8347,8 @@
    "clearanceToBuiltM": {
     "p5": 1.817,
     "p25": 5.248,
-    "p50": 8.413,
-    "p75": 19.114,
+    "p50": 8.277,
+    "p75": 18.206,
     "p95": 35.73
    }
   },
@@ -8799,11 +8793,11 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 2.07,
-    "p25": 2.667,
-    "p50": 4.091,
-    "p75": 8.365,
-    "p95": 34.589
+    "p5": 2.317,
+    "p25": 2.688,
+    "p50": 4.449,
+    "p75": 13.525,
+    "p95": 36.681
    }
   },
   "skyrim.esm#0AAE85": {
@@ -8907,7 +8901,7 @@
    "clearanceToBuiltM": {
     "p5": 1.683,
     "p25": 8.606,
-    "p50": 17.746,
+    "p50": 18.056,
     "p75": 29.162,
     "p95": 45.92
    }
@@ -9019,7 +9013,7 @@
    }
   },
   "trdata/flora/pc_flora_motherwort.nif": {
-   "category": "misc",
+   "category": "plant",
    "count": 135,
    "cells": 55,
    "perHectareWhereFound": 7.23,
@@ -9129,7 +9123,7 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 6.331,
+    "p5": 5.83,
     "p25": 12.883,
     "p50": 24.56,
     "p75": 38.163,
@@ -9236,10 +9230,10 @@
    ],
    "clearanceToBuiltM": {
     "p5": 1.069,
-    "p25": 8.271,
-    "p50": 14.137,
-    "p75": 26.821,
-    "p95": 31.103
+    "p25": 8.069,
+    "p50": 13.917,
+    "p75": 23.643,
+    "p95": 30.831
    }
   },
   "skyrim.esm#0AAE87": {
@@ -9341,10 +9335,10 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 0.662,
+    "p5": 0.906,
     "p25": 4.375,
-    "p50": 10.778,
-    "p75": 31.024,
+    "p50": 13.297,
+    "p75": 32.254,
     "p95": 43.493
    }
   },
@@ -9683,15 +9677,15 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 5.75,
+    "p5": 5.231,
     "p25": 16.152,
     "p50": 26.11,
     "p75": 35.65,
     "p95": 55.9
    }
   },
-  "landscape/trees/tropical/gkbjungletreenew8.nif": {
-   "category": "tree",
+  "edid:TreePineForest03": {
+   "category": "unresolved",
    "count": 126,
    "cells": 115,
    "perHectareWhereFound": 3.23,
@@ -9732,20 +9726,8 @@
     "p75": 4.0,
     "p95": 4.0
    },
-   "heightM": {
-    "p5": 35.304,
-    "p25": 63.547,
-    "p50": 81.199,
-    "p75": 141.216,
-    "p95": 141.216
-   },
-   "widthM": {
-    "p5": 32.985,
-    "p25": 59.374,
-    "p50": 75.867,
-    "p75": 131.942,
-    "p95": 131.942
-   },
+   "heightM": {},
+   "widthM": {},
    "tiltDeg": {
     "p5": 0.0,
     "p25": 0.0,
@@ -9795,11 +9777,11 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 15.058,
-    "p25": 22.025,
-    "p50": 28.249,
-    "p75": 46.56,
-    "p95": 58.716
+    "p5": 10.507,
+    "p25": 21.739,
+    "p50": 28.307,
+    "p75": 48.079,
+    "p95": 66.165
    }
   },
   "hearthfires.esm#0110C2": {
@@ -9906,6 +9888,112 @@
     "p50": 26.877,
     "p75": 32.64,
     "p95": 50.251
+   }
+  },
+  "edid:TreeAspen02": {
+   "category": "unresolved",
+   "count": 125,
+   "cells": 42,
+   "perHectareWhereFound": 8.77,
+   "slopeDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 7.195,
+    "p95": 24.022
+   },
+   "aboveWaterM": {
+    "p5": 0.0,
+    "p25": 8.457,
+    "p50": 10.607,
+    "p75": 11.379,
+    "p95": 11.948
+   },
+   "sinkM": {
+    "p5": -11.948,
+    "p25": -1.713,
+    "p50": -0.913,
+    "p75": -0.324,
+    "p95": 0.692
+   },
+   "groundWaterDepthM": {
+    "p5": -13.226,
+    "p25": -11.948,
+    "p50": -11.948,
+    "p75": -10.332,
+    "p95": -5.576
+   },
+   "floodedGroundFraction": 0.0,
+   "submergedFraction": 0.048,
+   "scale": {
+    "p5": 1.0,
+    "p25": 2.0,
+    "p50": 2.0,
+    "p75": 2.0,
+    "p95": 2.0
+   },
+   "heightM": {},
+   "widthM": {},
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p95": 0.0
+   },
+   "rotationZUniformity": 0.262,
+   "meanNearestNeighbourM": 10.67,
+   "clarkEvansR": 0.632,
+   "clumping": {
+    "linkDistanceM": 21.34,
+    "clumps": 71,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 3.0,
+     "p95": 4.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 3.0,
+     "p75": 3.0,
+     "p95": 8.0
+    },
+    "clumpRadiusM": {
+     "p5": 10.727,
+     "p25": 10.73,
+     "p50": 10.73,
+     "p75": 13.502,
+     "p95": 21.107
+    },
+    "fractionInClumps": 0.544
+   },
+   "groundTop": [
+    [
+     "LPineForest03",
+     57
+    ],
+    [
+     "LPineForestDUPLICATE004",
+     56
+    ],
+    [
+     "?00000C14",
+     4
+    ],
+    [
+     "?000181F9",
+     2
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 5.183,
+    "p25": 12.194,
+    "p50": 14.461,
+    "p75": 25.918,
+    "p95": 43.378
    }
   },
   "dungeons/imperial/clutterkits/impfloorpiece01.nif": {
@@ -10022,8 +10110,8 @@
     "p95": 0.0
    }
   },
-  "landscape/trees/tropical/gkbjungletreenew18v2.nif": {
-   "category": "tree",
+  "edid:TreeReachShrub02": {
+   "category": "unresolved",
    "count": 124,
    "cells": 51,
    "perHectareWhereFound": 7.16,
@@ -10064,20 +10152,8 @@
     "p75": 1.0,
     "p95": 1.0
    },
-   "heightM": {
-    "p5": 13.456,
-    "p25": 13.456,
-    "p50": 13.456,
-    "p75": 13.456,
-    "p95": 13.456
-   },
-   "widthM": {
-    "p5": 10.512,
-    "p25": 10.512,
-    "p50": 10.512,
-    "p75": 10.512,
-    "p95": 10.512
-   },
+   "heightM": {},
+   "widthM": {},
    "tiltDeg": {
     "p5": 0.0,
     "p25": 0.0,
@@ -10136,7 +10212,7 @@
     "p5": 2.005,
     "p25": 7.199,
     "p50": 13.331,
-    "p75": 26.673,
+    "p75": 26.995,
     "p95": 42.362
    }
   },
@@ -10258,8 +10334,8 @@
     "p95": 0.0
    }
   },
-  "plants/tamira/new plants/palmplant.nif": {
-   "category": "tree",
+  "edid:TreePineShrub03": {
+   "category": "unresolved",
    "count": 122,
    "cells": 44,
    "perHectareWhereFound": 8.17,
@@ -10300,20 +10376,8 @@
     "p75": 1.0,
     "p95": 1.0
    },
-   "heightM": {
-    "p5": 3.656,
-    "p25": 3.656,
-    "p50": 3.656,
-    "p75": 3.656,
-    "p95": 3.656
-   },
-   "widthM": {
-    "p5": 2.02,
-    "p25": 2.02,
-    "p50": 2.02,
-    "p75": 2.02,
-    "p95": 2.02
-   },
+   "heightM": {},
+   "widthM": {},
    "tiltDeg": {
     "p5": 0.0,
     "p25": 0.0,
@@ -10369,15 +10433,15 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 6.249,
+    "p5": 4.911,
     "p25": 14.839,
     "p50": 35.664,
     "p75": 42.074,
     "p95": 57.074
    }
   },
-  "plants/tamira/new plants/bush03a.nif": {
-   "category": "shrub",
+  "edid:TreeFloraMountainFlower02Purple": {
+   "category": "unresolved",
    "count": 119,
    "cells": 45,
    "perHectareWhereFound": 7.79,
@@ -10418,20 +10482,8 @@
     "p75": 3.0,
     "p95": 3.0
    },
-   "heightM": {
-    "p5": 5.448,
-    "p25": 5.448,
-    "p50": 16.343,
-    "p75": 16.343,
-    "p95": 16.343
-   },
-   "widthM": {
-    "p5": 5.306,
-    "p25": 5.306,
-    "p50": 15.917,
-    "p75": 15.917,
-    "p95": 15.917
-   },
+   "heightM": {},
+   "widthM": {},
    "tiltDeg": {
     "p5": 0.0,
     "p25": 0.0,
@@ -10488,14 +10540,14 @@
    ],
    "clearanceToBuiltM": {
     "p5": 1.465,
-    "p25": 5.135,
-    "p50": 7.807,
+    "p25": 4.597,
+    "p50": 7.537,
     "p75": 16.173,
     "p95": 35.015
    }
   },
-  "landscape/trees/tropical/palmtree3.nif": {
-   "category": "tree",
+  "edid:TreeFallForestShrub02": {
+   "category": "unresolved",
    "count": 118,
    "cells": 41,
    "perHectareWhereFound": 8.48,
@@ -10536,20 +10588,8 @@
     "p75": 1.0,
     "p95": 1.0
    },
-   "heightM": {
-    "p5": 67.493,
-    "p25": 67.493,
-    "p50": 67.493,
-    "p75": 67.493,
-    "p95": 67.493
-   },
-   "widthM": {
-    "p5": 14.267,
-    "p25": 14.267,
-    "p50": 14.267,
-    "p75": 14.267,
-    "p95": 14.267
-   },
+   "heightM": {},
+   "widthM": {},
    "tiltDeg": {
     "p5": 0.0,
     "p25": 0.0,
@@ -10723,11 +10763,11 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 20.251,
-    "p25": 24.851,
-    "p50": 28.941,
-    "p75": 43.351,
-    "p95": 60.767
+    "p5": 11.139,
+    "p25": 20.251,
+    "p50": 26.443,
+    "p75": 41.512,
+    "p95": 50.064
    }
   },
   "skyrim.esm#043947": {
@@ -11260,7 +11300,7 @@
    }
   },
   "trdata/flora/pc_flora_prose.nif": {
-   "category": "misc",
+   "category": "plant",
    "count": 114,
    "cells": 47,
    "perHectareWhereFound": 7.15,
@@ -11366,7 +11406,7 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 7.302,
+    "p5": 5.056,
     "p25": 10.648,
     "p50": 27.657,
     "p75": 38.966,
@@ -11486,7 +11526,7 @@
    }
   },
   "telvanni/tel_int_connector_01.nif": {
-   "category": "misc",
+   "category": "architecture",
    "count": 111,
    "cells": 44,
    "perHectareWhereFound": 7.43,
@@ -11596,11 +11636,11 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 0.183,
-    "p25": 0.403,
-    "p50": 0.793,
-    "p75": 1.849,
-    "p95": 2.648
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p95": 0.0
    }
   },
   "skyrim.esm#0AEF7E": {
@@ -11709,8 +11749,8 @@
     "p95": 48.039
    }
   },
-  "landscape/trees/tropical/anvilgianttrunk.nif": {
-   "category": "tree",
+  "edid:TreePineForest04": {
+   "category": "unresolved",
    "count": 109,
    "cells": 97,
    "perHectareWhereFound": 3.31,
@@ -11751,20 +11791,8 @@
     "p75": 4.0,
     "p95": 4.0
    },
-   "heightM": {
-    "p5": 94.945,
-    "p25": 94.945,
-    "p50": 94.945,
-    "p75": 379.781,
-    "p95": 379.781
-   },
-   "widthM": {
-    "p5": 24.366,
-    "p25": 24.366,
-    "p50": 24.366,
-    "p75": 97.463,
-    "p95": 97.463
-   },
+   "heightM": {},
+   "widthM": {},
    "tiltDeg": {
     "p5": 0.0,
     "p25": 0.0,
@@ -11816,8 +11844,8 @@
    "clearanceToBuiltM": {
     "p5": 9.397,
     "p25": 28.748,
-    "p50": 40.701,
-    "p75": 48.492,
+    "p50": 39.327,
+    "p75": 46.199,
     "p95": 60.941
    }
   },
@@ -11920,8 +11948,8 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 3.278,
-    "p25": 13.798,
+    "p5": 2.93,
+    "p25": 13.5,
     "p50": 26.269,
     "p75": 31.398,
     "p95": 37.084
@@ -12376,15 +12404,15 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 4.574,
-    "p25": 8.418,
-    "p50": 17.561,
+    "p5": 3.951,
+    "p25": 8.058,
+    "p50": 17.891,
     "p75": 38.725,
-    "p95": 59.374
+    "p95": 59.955
    }
   },
-  "landscape/trees/tropical/mangrovereachtree0gkb2.nif": {
-   "category": "tree",
+  "edid:TreePineForest05Dead": {
+   "category": "unresolved",
    "count": 106,
    "cells": 76,
    "perHectareWhereFound": 4.11,
@@ -12425,20 +12453,8 @@
     "p75": 3.0,
     "p95": 3.0
    },
-   "heightM": {
-    "p5": 12.787,
-    "p25": 25.575,
-    "p50": 25.575,
-    "p75": 38.362,
-    "p95": 38.362
-   },
-   "widthM": {
-    "p5": 9.174,
-    "p25": 18.349,
-    "p50": 18.349,
-    "p75": 27.523,
-    "p95": 27.523
-   },
+   "heightM": {},
+   "widthM": {},
    "tiltDeg": {
     "p5": 0.0,
     "p25": 0.0,
@@ -12722,7 +12738,7 @@
     "p25": 1.692,
     "p50": 2.14,
     "p75": 4.89,
-    "p95": 8.009
+    "p95": 7.852
    }
   },
   "hearthfires.esm#0110B9": {
@@ -13564,7 +13580,7 @@
     "p25": 1.385,
     "p50": 2.833,
     "p75": 5.908,
-    "p95": 19.038
+    "p95": 13.78
    }
   },
   "skyrim.esm#08944E": {
@@ -13780,7 +13796,7 @@
    }
   },
   "griffon fortress/outerwall.nif": {
-   "category": "misc",
+   "category": "architecture",
    "count": 88,
    "cells": 26,
    "perHectareWhereFound": 9.97,
@@ -13890,11 +13906,11 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 5.743,
-    "p25": 14.09,
-    "p50": 14.91,
-    "p75": 26.274,
-    "p95": 30.454
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p95": 0.0
    }
   },
   "dawnguard.esm#002A76": {
@@ -14318,7 +14334,7 @@
     "p25": 1.824,
     "p50": 2.623,
     "p75": 5.518,
-    "p95": 8.001
+    "p95": 7.977
    }
   },
   "landscape/trees/gkbtreeofwolene.nif": {
@@ -14409,7 +14425,7 @@
    "clearanceToBuiltM": {
     "p5": 8.209,
     "p25": 28.174,
-    "p50": 34.182,
+    "p50": 33.284,
     "p75": 35.44,
     "p95": 55.96
    }
@@ -15134,7 +15150,7 @@
    ],
    "clearanceToBuiltM": {
     "p5": 19.778,
-    "p25": 27.927,
+    "p25": 27.452,
     "p50": 35.477,
     "p75": 44.277,
     "p95": 60.833
@@ -15241,7 +15257,7 @@
    "clearanceToBuiltM": {
     "p5": 18.415,
     "p25": 25.872,
-    "p50": 31.972,
+    "p50": 31.896,
     "p75": 49.605,
     "p95": 59.364
    }
@@ -15358,8 +15374,8 @@
    ],
    "clearanceToBuiltM": {
     "p5": 1.09,
-    "p25": 3.779,
-    "p50": 5.712,
+    "p25": 2.423,
+    "p50": 4.337,
     "p75": 7.05,
     "p95": 15.265
    }
@@ -15479,7 +15495,7 @@
     "p25": 3.193,
     "p50": 6.689,
     "p75": 10.008,
-    "p95": 17.93
+    "p95": 15.658
    }
   },
   "skyrim.esm#07A60B": {
@@ -15582,7 +15598,7 @@
    ],
    "clearanceToBuiltM": {
     "p5": 1.425,
-    "p25": 3.655,
+    "p25": 3.497,
     "p50": 7.718,
     "p75": 19.745,
     "p95": 35.511
@@ -15887,8 +15903,8 @@
     "p95": 61.013
    }
   },
-  "landscape/trees/tropical/fanpalm4.nif": {
-   "category": "tree",
+  "edid:TreeDeadShrub": {
+   "category": "unresolved",
    "count": 65,
    "cells": 54,
    "perHectareWhereFound": 3.55,
@@ -15929,20 +15945,8 @@
     "p75": 1.9,
     "p95": 1.9
    },
-   "heightM": {
-    "p5": 27.04,
-    "p25": 40.56,
-    "p50": 51.376,
-    "p75": 51.376,
-    "p95": 51.376
-   },
-   "widthM": {
-    "p5": 14.508,
-    "p25": 21.763,
-    "p50": 27.566,
-    "p75": 27.566,
-    "p95": 27.566
-   },
+   "heightM": {},
+   "widthM": {},
    "tiltDeg": {
     "p5": 0.0,
     "p25": 0.0,
@@ -15998,11 +16002,11 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 2.771,
-    "p25": 3.032,
-    "p50": 5.023,
-    "p75": 7.793,
-    "p95": 50.484
+    "p5": 2.901,
+    "p25": 3.637,
+    "p50": 7.793,
+    "p75": 11.812,
+    "p95": 34.745
    }
   },
   "skyrim.esm#0B345A": {
@@ -16320,15 +16324,15 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 3.796,
-    "p25": 6.23,
-    "p50": 6.506,
-    "p75": 6.811,
-    "p95": 14.16
+    "p5": 2.813,
+    "p25": 6.175,
+    "p50": 6.433,
+    "p75": 6.789,
+    "p95": 12.793
    }
   },
-  "landscape/trees/tropical/mangrovereachtree0gkb9.nif": {
-   "category": "tree",
+  "edid:TreePineForest03Dead": {
+   "category": "unresolved",
    "count": 64,
    "cells": 39,
    "perHectareWhereFound": 4.83,
@@ -16369,20 +16373,8 @@
     "p75": 3.0,
     "p95": 3.0
    },
-   "heightM": {
-    "p5": 28.59,
-    "p25": 28.59,
-    "p50": 28.59,
-    "p75": 28.59,
-    "p95": 28.59
-   },
-   "widthM": {
-    "p5": 20.184,
-    "p25": 20.184,
-    "p50": 20.184,
-    "p75": 20.184,
-    "p95": 20.184
-   },
+   "heightM": {},
+   "widthM": {},
    "tiltDeg": {
     "p5": 0.0,
     "p25": 0.0,
@@ -16535,8 +16527,8 @@
     "p5": 0.351,
     "p25": 1.409,
     "p50": 3.268,
-    "p75": 5.79,
-    "p95": 18.408
+    "p75": 5.705,
+    "p95": 14.065
    }
   },
   "skyrim.esm#10D9C1": {
@@ -16750,11 +16742,11 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 7.138,
-    "p25": 21.282,
-    "p50": 24.893,
-    "p75": 40.876,
-    "p95": 59.674
+    "p5": 12.065,
+    "p25": 23.34,
+    "p50": 28.29,
+    "p75": 40.864,
+    "p95": 43.87
    }
   },
   "skyrim.esm#0B8A6D": {
@@ -17176,11 +17168,11 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 0.552,
-    "p25": 5.905,
-    "p50": 8.839,
-    "p75": 13.092,
-    "p95": 36.286
+    "p5": 0.485,
+    "p25": 5.267,
+    "p50": 8.219,
+    "p75": 14.389,
+    "p95": 43.817
    }
   },
   "skyrim.esm#033DA9": {
@@ -17282,11 +17274,11 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 0.938,
-    "p25": 1.214,
-    "p50": 1.639,
-    "p75": 3.238,
-    "p95": 6.787
+    "p5": 0.057,
+    "p25": 0.938,
+    "p50": 1.368,
+    "p75": 1.869,
+    "p95": 5.448
    }
   },
   "skyrim.esm#07A617": {
@@ -18134,7 +18126,7 @@
    }
   },
   "lor/valenwood/ruininteriors/sesacellumgate02.nif": {
-   "category": "misc",
+   "category": "tree",
    "count": 50,
    "cells": 13,
    "perHectareWhereFound": 11.33,
@@ -18345,10 +18337,10 @@
    ],
    "clearanceToBuiltM": {
     "p5": 4.847,
-    "p25": 14.748,
+    "p25": 13.316,
     "p50": 18.841,
     "p75": 39.36,
-    "p95": 46.689
+    "p95": 45.727
    }
   },
   "skyrim.esm#0140BD": {
@@ -18439,7 +18431,7 @@
    ],
    "clearanceToBuiltM": {
     "p5": 2.085,
-    "p25": 5.609,
+    "p25": 5.537,
     "p50": 7.453,
     "p75": 12.298,
     "p95": 15.9
@@ -18651,10 +18643,10 @@
    ],
    "clearanceToBuiltM": {
     "p5": 1.679,
-    "p25": 4.417,
+    "p25": 4.178,
     "p50": 5.946,
     "p75": 9.4,
-    "p95": 32.612
+    "p95": 31.91
    }
   },
   "landscape/trees/scottish-pine11.nif": {
@@ -19061,8 +19053,8 @@
     "p95": 53.542
    }
   },
-  "plants/tamira/new plants/bush01.nif": {
-   "category": "shrub",
+  "edid:TreeReachBush01": {
+   "category": "unresolved",
    "count": 45,
    "cells": 23,
    "perHectareWhereFound": 5.76,
@@ -19103,20 +19095,8 @@
     "p75": 1.0,
     "p95": 2.0
    },
-   "heightM": {
-    "p5": 13.925,
-    "p25": 13.925,
-    "p50": 13.925,
-    "p75": 13.925,
-    "p95": 27.851
-   },
-   "widthM": {
-    "p5": 4.381,
-    "p25": 4.381,
-    "p50": 4.381,
-    "p75": 4.381,
-    "p95": 8.762
-   },
+   "heightM": {},
+   "widthM": {},
    "tiltDeg": {
     "p5": 0.0,
     "p25": 0.0,
@@ -19278,7 +19258,7 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 3.161,
+    "p5": 1.859,
     "p25": 17.155,
     "p50": 19.499,
     "p75": 21.681,
@@ -19485,6 +19465,112 @@
     "p95": 10.989
    }
   },
+  "edid:TreePineShrub02": {
+   "category": "unresolved",
+   "count": 43,
+   "cells": 18,
+   "perHectareWhereFound": 7.04,
+   "slopeDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 7.195,
+    "p95": 21.7
+   },
+   "aboveWaterM": {
+    "p5": 11.762,
+    "p25": 11.948,
+    "p50": 60.858,
+    "p75": 61.448,
+    "p95": 64.059
+   },
+   "sinkM": {
+    "p5": -1.212,
+    "p25": -0.126,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p95": 47.131
+   },
+   "groundWaterDepthM": {
+    "p5": -63.179,
+    "p25": -61.448,
+    "p50": -61.448,
+    "p75": -11.948,
+    "p95": -11.834
+   },
+   "floodedGroundFraction": 0.0,
+   "submergedFraction": 0.0,
+   "scale": {
+    "p5": 1.0,
+    "p25": 1.0,
+    "p50": 1.0,
+    "p75": 1.0,
+    "p95": 1.0
+   },
+   "heightM": {},
+   "widthM": {},
+   "tiltDeg": {
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p95": 0.0
+   },
+   "rotationZUniformity": 0.385,
+   "meanNearestNeighbourM": 7.57,
+   "clarkEvansR": 0.401,
+   "clumping": {
+    "linkDistanceM": 15.13,
+    "clumps": 29,
+    "clumpSize": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 1.0,
+     "p95": 2.0
+    },
+    "clumpSizeForTypicalInstance": {
+     "p5": 1.0,
+     "p25": 1.0,
+     "p50": 1.0,
+     "p75": 2.0,
+     "p95": 9.0
+    },
+    "clumpRadiusM": {
+     "p5": 14.864,
+     "p25": 14.864,
+     "p50": 14.864,
+     "p75": 14.864,
+     "p95": 14.864
+    },
+    "fractionInClumps": 0.209
+   },
+   "groundTop": [
+    [
+     "LPineForest03",
+     31
+    ],
+    [
+     "LReachMoss01",
+     5
+    ],
+    [
+     "LFieldGrass02",
+     4
+    ],
+    [
+     "LPineForest02",
+     3
+    ]
+   ],
+   "clearanceToBuiltM": {
+    "p5": 3.747,
+    "p25": 6.444,
+    "p50": 16.347,
+    "p75": 25.589,
+    "p95": 40.924
+   }
+  },
   "skyrim.esm#000021": {
    "category": "unresolved",
    "count": 43,
@@ -19587,7 +19673,7 @@
     "p5": 1.384,
     "p25": 1.458,
     "p50": 1.594,
-    "p75": 6.849,
+    "p75": 5.896,
     "p95": 32.228
    }
   },
@@ -20319,7 +20405,7 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 4.387,
+    "p5": 2.114,
     "p25": 12.581,
     "p50": 22.326,
     "p75": 25.492,
@@ -20425,8 +20511,8 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 11.732,
-    "p25": 24.005,
+    "p5": 8.723,
+    "p25": 22.482,
     "p50": 33.36,
     "p75": 48.231,
     "p95": 52.255
@@ -20533,7 +20619,7 @@
    "clearanceToBuiltM": {
     "p5": 1.598,
     "p25": 3.518,
-    "p50": 7.338,
+    "p50": 7.276,
     "p75": 9.209,
     "p95": 16.022
    }
@@ -20638,10 +20724,10 @@
    ],
    "clearanceToBuiltM": {
     "p5": 5.363,
-    "p25": 7.146,
-    "p50": 13.56,
-    "p75": 20.601,
-    "p95": 23.653
+    "p25": 6.413,
+    "p50": 11.527,
+    "p75": 17.757,
+    "p95": 23.639
    }
   },
   "architecture/rochester/house/haus01.nif": {
@@ -21182,8 +21268,8 @@
     "p5": 0.046,
     "p25": 0.046,
     "p50": 0.061,
-    "p75": 6.134,
-    "p95": 11.663
+    "p75": 5.112,
+    "p95": 8.994
    }
   },
   "skyrim.esm#0AAE75": {
@@ -21285,9 +21371,9 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 4.674,
-    "p25": 7.009,
-    "p50": 8.99,
+    "p5": 3.654,
+    "p25": 6.894,
+    "p50": 8.685,
     "p75": 20.892,
     "p95": 41.015
    }
@@ -21392,14 +21478,14 @@
    ],
    "clearanceToBuiltM": {
     "p5": 11.416,
-    "p25": 31.053,
-    "p50": 37.774,
+    "p25": 23.72,
+    "p50": 33.639,
     "p75": 52.407,
-    "p95": 62.819
+    "p95": 55.596
    }
   },
   "trdata/flora/pc_flora_milkthisle.nif": {
-   "category": "misc",
+   "category": "plant",
    "count": 39,
    "cells": 34,
    "perHectareWhereFound": 3.38,
@@ -21613,7 +21699,7 @@
    }
   },
   "telvanni/tel_ext_platform01.nif": {
-   "category": "misc",
+   "category": "architecture",
    "count": 38,
    "cells": 21,
    "perHectareWhereFound": 5.33,
@@ -21723,11 +21809,11 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 0.42,
-    "p25": 0.823,
-    "p50": 1.453,
-    "p75": 2.031,
-    "p95": 2.308
+    "p5": 0.0,
+    "p25": 0.0,
+    "p50": 0.0,
+    "p75": 0.0,
+    "p95": 0.0
    }
   },
   "dlc02/architecture/telvannitower/dlc2telvanniroot04.nif": {
@@ -22133,8 +22219,8 @@
     "p5": 15.937,
     "p25": 20.67,
     "p50": 23.683,
-    "p75": 23.683,
-    "p95": 35.626
+    "p75": 57.25,
+    "p95": 59.684
    }
   },
   "clutter/jars/jardragonfliesorange.nif": {
@@ -22547,8 +22633,8 @@
    ],
    "clearanceToBuiltM": {
     "p5": 0.51,
-    "p25": 1.953,
-    "p50": 4.976,
+    "p25": 1.768,
+    "p50": 4.352,
     "p75": 6.292,
     "p95": 8.259
    }
@@ -22756,7 +22842,7 @@
     "p25": 7.092,
     "p50": 22.002,
     "p75": 41.244,
-    "p95": 57.417
+    "p95": 49.492
    }
   },
   "skyrim.esm#09151C": {
@@ -22967,7 +23053,7 @@
     "p5": 2.427,
     "p25": 5.185,
     "p50": 7.441,
-    "p75": 14.472,
+    "p75": 11.315,
     "p95": 20.2
    }
   },
@@ -23143,13 +23229,13 @@
    "clearanceToBuiltM": {
     "p5": 1.367,
     "p25": 5.985,
-    "p50": 7.799,
-    "p75": 13.758,
+    "p50": 7.635,
+    "p75": 13.371,
     "p95": 31.132
    }
   },
   "lor/valenwood/elvenwall2.nif": {
-   "category": "misc",
+   "category": "tree",
    "count": 32,
    "cells": 5,
    "perHectareWhereFound": 18.85,
@@ -23403,11 +23489,11 @@
     ]
    ],
    "clearanceToBuiltM": {
-    "p5": 7.623,
-    "p25": 22.757,
+    "p5": 5.369,
+    "p25": 7.623,
     "p50": 22.864,
-    "p75": 24.078,
-    "p95": 50.315
+    "p75": 38.912,
+    "p95": 57.411
    }
   },
   "dungeons/ayleidruins/exterior/arblock02.nif": {
@@ -23851,7 +23937,7 @@
     "p25": 3.211,
     "p50": 6.834,
     "p75": 13.327,
-    "p95": 23.842
+    "p95": 20.076
    }
   },
   "architecture/citebosmer/passerelles/kiosque/kiosk01.nif": {
@@ -23974,68 +24060,6 @@
   }
  },
  "associations": {
-  "landscape/trees/tropical/mangrovereachtree0gkb8.nif": [
-   [
-    "sheogorad/dagon fel/housetall01.nif",
-    1,
-    1.0
-   ],
-   [
-    "skyrim.esm#02BC11",
-    1,
-    1.0
-   ],
-   [
-    "skyrim.esm#09C8CE",
-    1,
-    1.0
-   ],
-   [
-    "skyrim.esm#104B44",
-    1,
-    1.0
-   ],
-   [
-    "skyrim.esm#052171",
-    1,
-    1.0
-   ],
-   [
-    "skyrim.esm#06E043",
-    1,
-    1.0
-   ],
-   [
-    "dawnguard.esm#01763F",
-    2,
-    1.0
-   ],
-   [
-    "architecture/phitt/ashlands/tramaroot01.nif",
-    1,
-    1.0
-   ],
-   [
-    "skyrim.esm#0B9466",
-    3,
-    1.0
-   ],
-   [
-    "manny_gf/akavir/manny_gf_akavir_pagoda01.nif",
-    1,
-    1.0
-   ],
-   [
-    "skyrim.esm#013800",
-    1,
-    1.0
-   ],
-   [
-    "skyrim.esm#0B7889",
-    2,
-    1.0
-   ]
-  ],
   "landscape/trees/bambooplant.nif": [
    [
     "dawnguard.esm#001C17",
@@ -24284,7 +24308,7 @@
     1.0
    ]
   ],
-  "landscape/trees/tropical/gkbtreeofwolene.nif": [
+  "edid:TreePineForest05": [
    [
     "sheogorad/dagon fel/housetall01.nif",
     1,
@@ -24344,6 +24368,68 @@
     "skyrim.esm#0C2E6F",
     1,
     1.0
+   ]
+  ],
+  "edid:TreePineForest01": [
+   [
+    "sheogorad/dagon fel/housetall01.nif",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#02BC11",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#09C8CE",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#104B44",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#052171",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#06E043",
+    1,
+    1.0
+   ],
+   [
+    "manny_gf/akavir/manny_gf_akavir_pagoda01.nif",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#013800",
+    1,
+    1.0
+   ],
+   [
+    "dragonborn.esm#02AABF",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#0DD060",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#0DD061",
+    1,
+    1.0
+   ],
+   [
+    "edid:TreePineForest02",
+    102,
+    0.857
    ]
   ],
   "landscape/trees/tropicalplant01.nif": [
@@ -24466,68 +24552,6 @@
    ],
    [
     "skyrim.esm#050D03",
-    1,
-    1.0
-   ]
-  ],
-  "plants/citsflorabamboo01.nif": [
-   [
-    "landscape/plants/ver_herbgarden.nif",
-    2,
-    1.0
-   ],
-   [
-    "architecture/cyrodil/cyrupperhome.nif",
-    1,
-    1.0
-   ],
-   [
-    "dungeons/caves/ice/rocks/caveirockl01.nif",
-    1,
-    1.0
-   ],
-   [
-    "landscape/trees/gkbjungletreenew26v2weeping.nif",
-    3,
-    1.0
-   ],
-   [
-    "architecture/citebosmer/houses/houseglanddoor001.nif",
-    3,
-    1.0
-   ],
-   [
-    "architecture/mushroom house/mushroomplant02.nif",
-    3,
-    1.0
-   ],
-   [
-    "dlc02/architecture/telvannitower/dlc2telvannirootbridge01.nif",
-    6,
-    1.0
-   ],
-   [
-    "skyrim.esm#01E16D",
-    1,
-    1.0
-   ],
-   [
-    "skyrim.esm#0D96C3",
-    3,
-    1.0
-   ],
-   [
-    "skyrim.esm#0E3135",
-    1,
-    1.0
-   ],
-   [
-    "lor/stonefalls/exterior/rtmtelextroot03_ac3s04.nif",
-    2,
-    1.0
-   ],
-   [
-    "skyrim.esm#04CBB3",
     1,
     1.0
    ]
@@ -24904,7 +24928,7 @@
     1.0
    ]
   ],
-  "plants/tropical/manfern.nif": [
+  "edid:TreeThicket01": [
    [
     "dawnguard.esm#001C17",
     1,
@@ -25340,6 +25364,11 @@
   ],
   "landscape/trees/dwarfjunip05.nif": [
    [
+    "edid:TreasBanditChest",
+    1,
+    1.0
+   ],
+   [
     "skyrim.esm#0669A9",
     2,
     1.0
@@ -25391,11 +25420,6 @@
    ],
    [
     "skyrim.esm#05D095",
-    1,
-    1.0
-   ],
-   [
-    "skyrim.esm#088A61",
     1,
     1.0
    ]
@@ -25526,6 +25550,11 @@
   ],
   "landscape/trees/gkbtundrashrub04.nif": [
    [
+    "edid:TreasBanditChest",
+    1,
+    1.0
+   ],
+   [
     "architecture/highhrothgar/hhsteps10.nif",
     1,
     1.0
@@ -25577,11 +25606,6 @@
    ],
    [
     "skyrim.esm#0B9E05",
-    1,
-    1.0
-   ],
-   [
-    "skyrim.esm#0CC16A",
     1,
     1.0
    ]
@@ -25732,6 +25756,11 @@
     1.0
    ],
    [
+    "clutter/containers/chest01/chest01.nif",
+    1,
+    1.0
+   ],
+   [
     "dawnguard.esm#000802",
     1,
     1.0
@@ -25765,14 +25794,9 @@
     "skyrim.esm#0153F0",
     1,
     1.0
-   ],
-   [
-    "skyrim.esm#015406",
-    1,
-    1.0
    ]
   ],
-  "landscape/trees/tropical/anvil_palm_trunk.nif": [
+  "edid:TreePineForest02": [
    [
     "skyrim.esm#017404",
     3,
@@ -25896,7 +25920,7 @@
     1.0
    ]
   ],
-  "landscape/trees/tropical/gkbjungletreenew8.nif": [
+  "edid:TreePineForest03": [
    [
     "clutter/oaristys/the witcher/statues/gargoyle01.nif",
     1,
@@ -25938,14 +25962,9 @@
     0.667
    ],
    [
-    "landscape/trees/tropical/gkbtreeofwolene.nif",
+    "edid:TreePineForest05",
     67,
     0.583
-   ],
-   [
-    "landscape/trees/tropical/mangrovereachtree0gkb8.nif",
-    61,
-    0.53
    ],
    [
     "skyrim.esm#0173FE",
@@ -25955,6 +25974,11 @@
    [
     "skyrim.esm#0185B5",
     2,
+    0.5
+   ],
+   [
+    "skyrim.esm#0B788A",
+    1,
     0.5
    ]
   ],
@@ -26146,6 +26170,11 @@
   ],
   "landscape/trees/gkbreachtree01maple.nif": [
    [
+    "edid:TreasBanditChest",
+    1,
+    1.0
+   ],
+   [
     "skyrim.esm#012FE8",
     1,
     1.0
@@ -26176,11 +26205,6 @@
     1.0
    ],
    [
-    "clutter/containers/chest01/chest01.nif",
-    1,
-    0.5
-   ],
-   [
     "skyrim.esm#01AE1B",
     1,
     0.5
@@ -26204,6 +26228,192 @@
     "architecture/phitt/dagonfel/basket02.nif",
     1,
     0.5
+   ]
+  ],
+  "edid:TreeFallForestShrub01": [
+   [
+    "architecture/cyrodil/cyrupperhome.nif",
+    1,
+    1.0
+   ],
+   [
+    "landscape/roads/roadchunkl03.nif",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#0461C9",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#0FEDEE",
+    1,
+    1.0
+   ],
+   [
+    "architecture/fighterskeepcastle.nif",
+    1,
+    1.0
+   ],
+   [
+    "architecture/rochester/holzbalkon.nif",
+    2,
+    1.0
+   ],
+   [
+    "skyrim.esm#017405",
+    1,
+    1.0
+   ],
+   [
+    "architecture/rochester/stairleft.nif",
+    1,
+    1.0
+   ],
+   [
+    "architecture/rochester/stairright.nif",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#016C95",
+    1,
+    1.0
+   ],
+   [
+    "lor/valenwood/elvenarch.nif",
+    4,
+    1.0
+   ],
+   [
+    "skyrim.esm#02EC1F",
+    1,
+    1.0
+   ]
+  ],
+  "edid:TreePineForest01Dead": [
+   [
+    "architecture/phitt/ashlands/tramaroot01.nif",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#0B9466",
+    3,
+    1.0
+   ],
+   [
+    "skyrim.esm#02BCAB",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#05B7E1",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#04D709",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#01CDEF",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#0D1EC4",
+    1,
+    1.0
+   ],
+   [
+    "dawnguard.esm#010457",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#04F518",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#0C5862",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#0C5867",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#0C585F",
+    1,
+    1.0
+   ]
+  ],
+  "edid:TreeAspen04": [
+   [
+    "dungeons/caves/ice/rocks/caveirockl01.nif",
+    1,
+    1.0
+   ],
+   [
+    "landscape/trees/gkbjungletreenew26v2weeping.nif",
+    3,
+    1.0
+   ],
+   [
+    "architecture/citebosmer/houses/houseglanddoor001.nif",
+    3,
+    1.0
+   ],
+   [
+    "architecture/mushroom house/mushroomplant02.nif",
+    3,
+    1.0
+   ],
+   [
+    "skyrim.esm#01E16D",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#0D96C3",
+    3,
+    1.0
+   ],
+   [
+    "skyrim.esm#0E3135",
+    1,
+    1.0
+   ],
+   [
+    "lor/stonefalls/exterior/rtmtelextroot03_ac3s04.nif",
+    2,
+    1.0
+   ],
+   [
+    "skyrim.esm#04CBB3",
+    1,
+    1.0
+   ],
+   [
+    "skyrim.esm#05B60F",
+    1,
+    1.0
+   ],
+   [
+    "architecture/citebosmer/passerelles/troncons/passend01.nif",
+    4,
+    1.0
+   ],
+   [
+    "architecture/citebosmer/passerelles/kiosque/kioskbarrierei01.nif",
+    5,
+    1.0
    ]
   ],
   "landscape/mountains/mountainpeak02.nif": [
@@ -26263,7 +26473,7 @@
     0.048
    ],
    [
-    "landscape/trees/tropical/gkbtreeofwolene.nif",
+    "edid:TreePineForest05",
     4,
     0.038
    ]
@@ -26392,7 +26602,7 @@
     1.0
    ]
   ],
-  "landscape/trees/tropical/anvilgianttrunk.nif": [
+  "edid:TreePineForest04": [
    [
     "dawnguard.esm#006B92",
     1,
@@ -26439,7 +26649,7 @@
     0.667
    ],
    [
-    "landscape/trees/tropical/gkbtreeofwolene.nif",
+    "edid:TreePineForest05",
     52,
     0.536
    ],
@@ -27198,7 +27408,7 @@
     1.0
    ]
   ],
-  "landscape/trees/tropical/mangrovereachtree0gkb2.nif": [
+  "edid:TreePineForest05Dead": [
    [
     "manny_gf/akavir/manny_gf_akavir_pagoda01.nif",
     1,
@@ -27255,9 +27465,9 @@
     1.0
    ],
    [
-    "landscape/trees/tropical/mangrovereachtree0gkb8.nif",
-    65,
-    0.855
+    "skyrim.esm#048DDA",
+    5,
+    0.833
    ]
   ],
   "landscape/trees/birch-red.nif": [
@@ -27322,7 +27532,7 @@
     1.0
    ]
   ],
-  "plants/tamira/new plants/bush03b.nif": [
+  "edid:TreeFloraMountainFlower02Blue": [
    [
     "clutter/oaristys/the witcher/statues/statuewoman02.nif",
     1,
@@ -27567,130 +27777,6 @@
    [
     "dawnguard.esm#002A76",
     42,
-    1.0
-   ]
-  ],
-  "landscape/trees/gkbreachclifftree01.nif": [
-   [
-    "skyrim.esm#016442",
-    1,
-    0.5
-   ],
-   [
-    "skyrim.esm#0B945E",
-    1,
-    0.5
-   ],
-   [
-    "skyrim.esm#0B6043",
-    2,
-    0.4
-   ],
-   [
-    "dawnguard.esm#01763B",
-    1,
-    0.333
-   ],
-   [
-    "dawnguard.esm#01763C",
-    1,
-    0.333
-   ],
-   [
-    "landscape/trees/gkbwrtempletree03.nif",
-    22,
-    0.314
-   ],
-   [
-    "landscape/trees/gkbreachclifftree02.nif",
-    17,
-    0.258
-   ],
-   [
-    "architecture/phitt/rocks/al/altr05.nif",
-    1,
-    0.25
-   ],
-   [
-    "skyrim.esm#095960",
-    1,
-    0.25
-   ],
-   [
-    "landscape/mountains/mountaintrim01.nif",
-    9,
-    0.209
-   ],
-   [
-    "landscape/dry trees/drytree02.nif",
-    4,
-    0.174
-   ],
-   [
-    "landscape/trees/gkbreachtree01maple.nif",
-    11,
-    0.157
-   ]
-  ],
-  "skyrim.esm#0B8A6F": [
-   [
-    "dragonborn.esm#016E25",
-    39,
-    1.0
-   ],
-   [
-    "architecture/incaendo/pillar05.nif",
-    1,
-    1.0
-   ],
-   [
-    "jokerinesresources/blankinnsign/signmagic1.nif",
-    1,
-    1.0
-   ],
-   [
-    "landscape/trees/gkbjungletreenew19.nif",
-    1,
-    1.0
-   ],
-   [
-    "clutter/signage/riften/signale4.nif",
-    1,
-    1.0
-   ],
-   [
-    "roadsignlargevillage1.nif",
-    1,
-    1.0
-   ],
-   [
-    "roadsignleftmountainpass.nif",
-    1,
-    1.0
-   ],
-   [
-    "roadsignleftvillage.nif",
-    1,
-    1.0
-   ],
-   [
-    "skyrim.esm#03AF9D",
-    1,
-    1.0
-   ],
-   [
-    "skyrim.esm#03A2BC",
-    2,
-    1.0
-   ],
-   [
-    "skyrim.esm#018195",
-    1,
-    1.0
-   ],
-   [
-    "skyrim.esm#018199",
-    1,
     1.0
    ]
   ]

@@ -12,6 +12,7 @@ derived registrations (anchors, tolerances, hashes, confidence metadata).
 | All Tamriel Heightmap Beta06 (Nexus SSE mod 573, file 2028, CC BY-NC 4.0) | vault `mod-sources/all-tamriel-heightmap-573/Tamriel10_2016-573-Beta06.7z` | `e32b1faf3c1f3545a2858cc5edcb4b69beca5d67a75548f6a4aa25fbe85b8ca9` |
 | Community Inkarnate map "Black Marsh / Argonian State 4E 231" (Reddit; secondary prior only, master plan §14.1) | vault `mod-sources/community-maps/black-marsh-inkarnate-4e231.jpg` (2048×1536) | `e7a0be7821adf26bfc89f0f9a22d6ec5c02128c6b1d7e1bc80c1a38f1508dcb3` |
 | UESP wiki extract, Morrowind + Black Marsh (6,299 pages, wikitext JSONL; from owner's corpus) | vault `mod-sources/lore/uesp_morrowind_blackmarsh_extract.jsonl.xz` | `b1a1641c3e755dfdd6e1ba7a8a2a6827edd22f1586411c242b02603f5495cb78` |
+| Argonian Xanmeer Tileset — Modder's Resource v1.1 (Nexus SSE mod 181193, file 790547, DarthVitrial) | vault `mod-sources/xanmeer-tileset-181193/xanmeer-resources-1.1.7z` (extracted alongside) | `29baf86a70d81a1b74bead256c6ce2ed2e607ff1a6b04331a651ba6a0e366e2e` |
 
 Extraction cache (float32 heightfield + meta) sits next to the extracted esp in
 the vault; the browser preview raster is committed at

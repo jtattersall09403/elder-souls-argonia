@@ -1,0 +1,129 @@
+{
+ "pools": {
+  "bmv": {
+   "label": "Black Marsh & Valenwood",
+   "source": "https://www.moddb.com/mods/black-marsh-valenwood",
+   "credit": "Black Marsh & Valenwood (ModDB), bundling many credited modder resources",
+   "meshesSeen": 12798,
+   "registered": 12001,
+   "skippedNonContent": {
+    "lod": 690,
+    "effect": 107
+   },
+   "categories": {
+    "architecture": 3103,
+    "creature": 2245,
+    "clutter": 1629,
+    "tree": 932,
+    "armour": 874,
+    "misc": 432,
+    "plant": 416,
+    "rock": 329,
+    "dungeon-kit": 327,
+    "boat": 275,
+    "signage": 256,
+    "grass": 250,
+    "ruin": 244,
+    "shrub": 198,
+    "fungus": 131,
+    "weapon": 99,
+    "terrain-feature": 86,
+    "furniture": 78,
+    "deadfall": 43,
+    "aquatic-plant": 31,
+    "root": 15,
+    "door": 4,
+    "ice": 2,
+    "vehicle": 2
+   },
+   "withLodVariant": 634,
+   "withDimensions": 860,
+   "observedPlaced": 167
+  },
+  "vanilla": {
+   "label": "Vanilla Skyrim (Bethesda)",
+   "source": "Skyrim - Meshes.bsa (owner's copy of the game)",
+   "credit": "Skyrim vanilla assets (Bethesda)",
+   "meshesSeen": 17216,
+   "registered": 14974,
+   "skippedNonContent": {
+    "lod": 843,
+    "marker": 284,
+    "effect": 941,
+    "sky": 154,
+    "water": 20
+   },
+   "categories": {
+    "creature": 3428,
+    "dungeon-kit": 3213,
+    "architecture": 2925,
+    "armour": 2288,
+    "clutter": 1728,
+    "weapon": 307,
+    "furniture": 240,
+    "misc": 211,
+    "plant": 123,
+    "terrain-feature": 98,
+    "trap": 95,
+    "rock": 70,
+    "tree": 47,
+    "ice": 46,
+    "deadfall": 41,
+    "fungus": 37,
+    "shrub": 27,
+    "grass": 25,
+    "root": 16,
+    "aquatic-plant": 5,
+    "bridge": 4
+   },
+   "withLodVariant": 52,
+   "withDimensions": 0,
+   "observedPlaced": 17
+  },
+  "tropical": {
+   "label": "Tropical Skyrim \u2014 A Climate Overhaul",
+   "source": "https://www.nexusmods.com/skyrim/mods/33017",
+   "credit": "Tropical Skyrim (Nexus classic 33017, Soolie)",
+   "meshesSeen": 876,
+   "registered": 869,
+   "skippedNonContent": {
+    "lod": 1,
+    "effect": 4,
+    "marker": 2
+   },
+   "categories": {
+    "tree": 707,
+    "deadfall": 42,
+    "shrub": 29,
+    "creature": 27,
+    "grass": 25,
+    "plant": 18,
+    "aquatic-plant": 10,
+    "ice": 7,
+    "root": 2,
+    "rock": 2
+   },
+   "withLodVariant": 1,
+   "withDimensions": 51,
+   "observedPlaced": 0
+  },
+  "xanmeer": {
+   "label": "Argonian Xanmeer Tileset \u2014 Modder's Resource",
+   "source": "https://www.nexusmods.com/skyrimspecialedition/mods/181193",
+   "credit": "Argonian Xanmeer Tileset (Nexus SSE 181193, DarthVitrial)",
+   "meshesSeen": 85,
+   "registered": 85,
+   "skippedNonContent": {},
+   "categories": {
+    "dungeon-kit": 27,
+    "furniture": 24,
+    "clutter": 19,
+    "architecture": 9,
+    "container": 6
+   },
+   "withLodVariant": 0,
+   "withDimensions": 77,
+   "observedPlaced": 0
+  }
+ }
+}

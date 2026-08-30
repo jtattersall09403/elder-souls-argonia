@@ -158,10 +158,12 @@ class WorldSpace:
 class ExteriorCell:
     form_id: int
     world: int
-    grid: tuple[int, int]
+    grid: tuple[int, int] | None
+    """`None` for interior cells."""
     water_height: float | None = None
     land: LandData | None = None
     refs: list[ObjectRef] = field(default_factory=list)
+    editor_id: str | None = None
 
 
 @dataclass
@@ -327,6 +329,41 @@ class Plugin:
                     world.default_water = _sane_height(water)
             out[rec.form_id] = world
         return out
+
+    def interior_cells(self, *, with_refs=True):
+        """Yield `ExteriorCell` records (grid `None`) for interior cells.
+
+        Interiors are where kit resources demonstrate their own assembly, so
+        this is the entry point for mining snap grids and room grammars
+        (Phase 12) rather than landscape.
+        """
+        current: ExteriorCell | None = None
+        for rec, stack in self.records():
+            types = [f.type for f in stack]
+            if GT_WORLD_CHILDREN in types:
+                current = None
+                continue
+            if rec.type == b"CELL":
+                if current is not None:
+                    yield current
+                    current = None
+                if any(
+                    st == b"XCLC" for st, _ in rec.subrecords()
+                ):
+                    continue  # exterior — handled by exterior_cells()
+                edid = None
+                for st, payload in rec.subrecords():
+                    if st == b"EDID":
+                        edid = _cstr(payload)
+                current = ExteriorCell(rec.form_id, 0, None, None, editor_id=edid)
+            elif current is None:
+                continue
+            elif rec.type == b"REFR" and with_refs:
+                ref = decode_ref(rec)
+                if ref is not None:
+                    current.refs.append(ref)
+        if current is not None:
+            yield current
 
     def exterior_cells(self, *, with_land=True, with_refs=True):
         """Yield `ExteriorCell` for every exterior cell in every worldspace.

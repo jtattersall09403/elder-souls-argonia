@@ -108,15 +108,30 @@ def _nearest_neighbour_metres(points: list[tuple[float, float]], cell_m: float =
 
 def collect(plugins: list[Plugin], world_names: set[str],
             name_sources: list[Plugin] | None = None) -> tuple[list[Instance], dict]:
-    """Walk every requested worldspace and build the per-instance table."""
+    """Walk every requested worldspace and build the per-instance table.
+
+    Two separate lookups, deliberately:
+
+    * `bases` — records the **mined** plugins define. Their model path is what
+      the world was authored with, so it is safe to call it the species.
+    * `aliases` — editor ids contributed by `name_sources`. A retexture mod
+      overrides a vanilla record *keeping its form id but replacing its model*,
+      so its model is emphatically **not** what the mined world placed; only
+      the editor id survives the override and is worth borrowing.
+    """
     bases: dict[tuple[str, int], object] = {}
     ltex: dict[tuple[str, int], object] = {}
-    for plugin in list(name_sources or []) + plugins:
-        # A plugin names the records it *defines*; an override of a master's
-        # record keeps the master's form id, so a mod that retextures vanilla
-        # trees hands us the vanilla names we would otherwise be missing.
+    aliases: dict[tuple[str, int], str] = {}
+    for plugin in plugins:
         for form_id, base in plugin.base_objects().items():
             bases.setdefault(_key(plugin.source_of(form_id), form_id), base)
+        for form_id, entry in plugin.landscape_textures().items():
+            ltex.setdefault(_key(plugin.source_of(form_id), form_id), entry)
+    for plugin in name_sources or []:
+        for form_id, base in plugin.base_objects().items():
+            if base.editor_id:
+                aliases.setdefault(_key(plugin.source_of(form_id), form_id),
+                                   base.editor_id)
         for form_id, entry in plugin.landscape_textures().items():
             ltex.setdefault(_key(plugin.source_of(form_id), form_id), entry)
 
@@ -150,9 +165,15 @@ def collect(plugins: list[Plugin], world_names: set[str],
                     # A reference into a master we do not hold (vanilla
                     # Skyrim/DLC). Keep it — it is a real placed object and its
                     # environment statistics are still evidence; it gains a
-                    # name the moment the master lands in the vault.
-                    unresolved[f"{source}:{ref.base:08X}"] += 1
-                    species = f"{source.lower()}#{ref.base & 0xFFFFFF:06X}"
+                    # mesh the moment the master lands in the vault.
+                    alias = aliases.get(_key(source, ref.base))
+                    unresolved[
+                        f"{source}:{ref.base:08X}" + (f" ({alias})" if alias else "")
+                    ] += 1
+                    species = (
+                        f"edid:{alias}" if alias
+                        else f"{source.lower()}#{ref.base & 0xFFFFFF:06X}"
+                    )
                     category = "unresolved"
                     size = None
                 else:

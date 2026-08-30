@@ -91,6 +91,11 @@ asset registry.
 - **Landscape – Aendemika of Vvardenfell** (Nexus Morrowind mod 59713) —
   Bitter Coast swamp ground set in the terrain material library
   (bank/scum/muck/mud/moss/undergrowth/grass/scrub/rock).
+- **Argonian Xanmeer Tileset — Modder's Resource** (Nexus SSE mod 181193,
+  DarthVitrial, v1.1) — the Argonian ruin/interior architecture kit: 85 meshes
+  (exterior shells, hallway and room modules, roofs, stairs, furniture, urns
+  and pots, the animated mouth-door), catalogued in the Phase 10 asset
+  registry and the source of the Xanmeer kit grid.
 - **Black Marsh & Valenwood** (https://www.moddb.com/mods/black-marsh-valenwood;
   itself bundling many credited modder resources — see its page) — ground
   textures in the `bmv-v1` terrain material set; mesh pool for later phases.
@@ -119,8 +124,6 @@ asset registry.
 - **Fan-story inspirations** — Matthew Aaron Evans (Eye treasure-hunt core)
   and named Eye-interpretation contributors, per
   [docs/quests/99-sources-credits.md](docs/quests/99-sources-credits.md).
-- **Argonian Xanmeer Tileset — Modder's Resource** (Nexus mod 181193) — Xanmeer
-  architecture kit.
 - **Ground-texture mod pool** (vetted in
   [docs/research/black-marsh-ground-texture-sources.md](docs/research/black-marsh-ground-texture-sources.md)):
   A Cathedralist's PBR Landscape (SSE 137333), Cathedral Landscapes (SSE
