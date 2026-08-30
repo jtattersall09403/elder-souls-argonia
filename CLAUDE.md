@@ -64,6 +64,16 @@ The overall goal at this point is to build the province-scale world, in a way th
 - **Game played from github pages.** The game will be built from github actions and played in the browser at github pages. So the code must work for that context. e.g. make sure animation files that are needed in the game are included.
 - **Controller-independent.** Combat/input/lock-on/animation depend on
   `PlayerMovementController`, not ecctrl directly (ecctrl is behind `EcctrlAdapter`). This is so we can easily change the controller later if we need to
+- **Anything the final game will need lives in `packages/`, from the moment
+  it's written** (owner ruling 2026-08-30, decision 0038 addendum). This
+  extends the old combat package rule (0013) to *everything* — rendering
+  included (sky, water, weather, terrain streaming, vegetation, HUD-free
+  systems). Apps (`combat-sandbox`, `world-studio`, `game`) hold only scene
+  composition, app-only tooling and debug UI. Don't couple via new
+  module-level singletons or `__STUDIO_*` globals — inject, or put debug
+  hooks behind a dev-only export. Pre-existing app-private runtime code is
+  recorded debt (audit §1, docs/research/game-buildout-systems-audit.md):
+  when you touch such a file substantially, extract it rather than growing it.
 - **Don't casually retune gameplay** (damage, stamina, i-frames, hit/parry windows,
   speeds) unless asked to. Fix visual/animation timing on the animation side instead.
   This protects the calibrated *feel*, not the code: the sandbox's systems are

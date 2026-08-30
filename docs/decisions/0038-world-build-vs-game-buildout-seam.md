@@ -40,6 +40,17 @@ phase builds it), and a **save/persistence layer** (save-on-rest is decided in
    semantic compiler covers loot/traps (10c), provenance and placement are
    Phase 13, catalogue breadth is 13/15 content.
 
+## Addendum 2026-08-30 (2) — the package rule is now universal
+
+**Owner ruling** on reading the audit: portable code was always *intended* to
+land in shared packages; the renderer drift was never the design. From now on
+**everything the final game will need is written package-shaped from the
+start — rendering included** — apps hold only scene composition, app-only
+tooling and debug UI; no new cross-system module singletons or `__STUDIO_*`
+globals. Codified as a CLAUDE.md golden rule (binding on every agent).
+Existing app-private runtime code stays recorded debt (audit §1), paid down
+when touched substantially, not grown.
+
 ## Addendum 2026-08-30 — the comprehensive audit
 
 The owner commissioned the full build-out systems audit the same day. Five

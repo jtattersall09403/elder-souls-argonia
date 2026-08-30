@@ -30,10 +30,12 @@ driver) live app-private in `apps/world-studio/src`, coupled by module-level
 singletons, plus ~130 MB of world data in its `public/`. Simulation packages
 (~17k LOC) are already shared. Recommendation: "apps/game becomes real"
 (renderer extraction as one `world-render` package, game shell, deploy slice)
-is the build-out's **first milestone**. **Standing hook now:** new
-world-render code lands package-shaped where cheap; new debug hooks go behind
-a dev-only seam, not more `__STUDIO_*` globals; Phase 10b's §53 scene-adapter
-merge is designed as *the* adapter the game app will also use.
+is the build-out's **first milestone**. **Standing hook — now a binding
+CLAUDE.md golden rule (owner ruling 2026-08-30, 0038 addendum 2):** anything
+the final game will need is written in `packages/` from the start, rendering
+included; debug hooks behind a dev-only seam, not more `__STUDIO_*` globals;
+Phase 10b's §53 scene-adapter merge is designed as *the* adapter the game app
+will also use.
 
 ## Recommended pull-ins — world-build scope, owner ratifies at the named kickoff
 
