@@ -1,5 +1,106 @@
 # 0036 — Phase 10 placement decisions
 
+> ## RUN-BOOK — start here if you are continuing Phase 10
+>
+> Read this box, then [00-core](../world/00-core.md), then come back. The rest
+> of this record is *why*; this is *where things are*.
+>
+> ### You are here
+>
+> The vegetation pipeline works end to end and is **deployed**: mining →
+> asset registry → kit builder (NIF→GLB) → scatter compiler → instanced
+> renderer in the studio. The owner has seen it and is giving feedback on how
+> it *looks*. Five areas have plants; the rest of the province is bare on
+> purpose (exemplar-first, module 95 §85.4).
+>
+> ### The loop you will be running
+>
+> ```bash
+> # 1. change palettes/densities/species      world/sources/flora/palettes.json
+> # 2. recompile the five areas' bundles      (from tooling/world-generation)
+> CH=""; for c in 5,12 7,9 11,7 3,3 4,10; do cx=${c%,*}; cz=${c#*,}
+>   for dx in -1 0 1; do for dz in -1 0 1; do
+>     CH="$CH --chunk $((cx+dx)),$((cz+dz))"; done; done; done
+> python3 -m worldgen.compile_scatter $CH --report \
+>   --out ../../apps/world-studio/public/province/vegetation
+>
+> # 3. only if the SPECIES LIST changed — rebuild + copy the kit GLB
+> #    (from tooling/asset-pipeline; ~70 s, needs the vault)
+> python3 -m pipeline.build_kit --kit flora-province-v1
+> cp output/kits/flora-province-v1.{glb,kit.json} \
+>    ../../apps/world-studio/public/kits/
+>
+> # 4. check it renders            (from apps/combat-sandbox, ~6 min)
+> cd apps/world-studio && npm run build && cd ../combat-sandbox
+> node ../world-studio/scripts/probe-vegetation.mjs
+>
+> # 5. gates, commit, PUSH — the owner playtests the DEPLOYED build
+> npm test && npm run typecheck && git push origin main
+> ```
+>
+> **Push, every time.** The first round of owner feedback was "I can't see any
+> plants" and the cause was nine committed-but-unpushed commits. Committing is
+> not delivering here.
+>
+> ### Where the owner's feedback lands
+>
+> | If they say… | Change |
+> |---|---|
+> | too thin / too thick overall | `densityScale` in `palettes.json`, or `BASE` in its `densityModel.formula` |
+> | one region wrong, others fine | that region's layer densities; keep `targetInstancesPerHectare` in step |
+> | too samey / too patchy | `patchiness` + `glade_response` defaults in `scatter.py`; wavelengths `GLADE_WAVELENGTH_M` (90 m) / `STAND_WAVELENGTH_M` (190 m) |
+> | trees too big / small | per-layer `scale_range`; giants are the `role: landmark-giant` layers |
+> | wrong plants somewhere | swap species ids — query the registry first, then rebuild the kit (step 3) |
+> | can't navigate / can't see landmarks | giant density and `clearance_radius_m`; the design case is in [vegetation-density-design.md](../research/vegetation-density-design.md) §(a) |
+>
+> ### Three traps, all already sprung once
+>
+> 1. **Never look a kit asset up by its glTF node name.** three.js sanitises
+>    node names and strips the slashes out of
+>    `bmv__landscape/trees/cypress1`; every lookup misses and the kit renders
+>    **empty, with no error anywhere**. Ids travel in glTF `extras`
+>    (`export_extras=True` in the kit builder).
+> 2. **One instanced mesh per chunk is a draw call per chunk** — 449 for 13
+>    chunks. Bucket by (species, LOD) across chunks: 96.
+> 3. **`vite preview` runs with `command === "serve"`**, so the build-time
+>    base is not applied; probes must pass
+>    `--base /elder-souls-argonia/studio/` or every asset 404s and the page
+>    just looks blank.
+>
+> ### Not built yet, in the order I would take it
+>
+> These are four largely **independent** jobs — a good fan-out point:
+>
+> 1. **T3 groundcover ring** — runtime grass from
+>    `world/sources/flora/groundcover.json` keyed on the land-cover raster.
+>    Biggest visual return per hour; the ground currently reads bare between
+>    the plants.
+> 2. **T4 distant tiers** — 634 BM&V assets already ship `_lod_flat`
+>    billboards (registry field `lodVariant`), so this is wiring, not
+>    authoring.
+> 3. **Wind** — one uniform block owned by the weather system (module 55
+>    §98). **Wait for 8c to close**; touching it now collides.
+> 4. **Budget measurement** — the dense-vegetation micro-lab (§85.3). Current
+>    numbers are 43k–45k instances / ~100 draws / 6.6–10 M triangles per view
+>    on a software rasteriser; nobody has measured a real GPU or a mid device.
+>
+> Also outstanding: the **scree/gravel ground material** deferred from 6b, and
+> the settlement/interior mining for Phases 11–12 (same readers,
+> `Plugin.interior_cells`).
+>
+> ### Blocked, not forgotten
+>
+> - **The region rebalance is written and tested but NOT applied to the
+>   deployed rasters** (wetland 20.6 % → 35.9 % of land). Re-running
+>   `compile_hydrology` regenerates the climate rasters the 8c playtest is
+>   running against. Full run-book in PROGRESS *Waiting on user*;
+>   `worldgen.report_regions` previews it without writing. **Once 8c closes,
+>   do this first** — it changes which palette applies where, so density
+>   calibration must be re-checked (`compile_scatter --report`) after it.
+> - **`Skyrim.esm` is still not in the vault.** Would name ~40 % of the mined
+>   references and dimension the 14,974 vanilla registry rows. Owner action,
+>   not blocking.
+
 **Date:** 2026-08-30 · **Status:** **accepted** — owner answered Q1–Q4 the
 same day; Q5 and Q6 stand on the recommendation. Each question below records
 the answer and what was built from it.
