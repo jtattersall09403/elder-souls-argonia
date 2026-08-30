@@ -84,3 +84,19 @@ def test_set_alpha_modes_rejects_a_file_that_is_not_a_glb(tmp_path):
     path.write_bytes(b"nope" + b"\x00" * 32)
     with pytest.raises(ValueError):
         set_alpha_modes(path, {"assets": []})
+
+
+def test_find_by_basename_prefers_the_closest_folder_match(tmp_path):
+    for rel in ("textures/landscape/plants/bamboo.dds",
+                "textures/landscape/Tamira/NewPlants/Bamboo.dds",
+                "textures/armor/unrelated/bamboo.dds"):
+        target = tmp_path / rel
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(b"dds")
+    source = DirSource(tmp_path)
+    # The mesh asks for a path no pool ships; the Tamira copy shares two
+    # trailing folders with the request and must win.
+    assert source.find_by_basename("textures/plants/tamira/newplants/bamboo.dds") == (
+        "textures/landscape/tamira/newplants/bamboo.dds"
+    )
+    assert source.find_by_basename("textures/plants/nothing/absent.dds") is None

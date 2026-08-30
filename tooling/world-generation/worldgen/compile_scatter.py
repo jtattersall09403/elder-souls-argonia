@@ -1,0 +1,280 @@
+"""Compile vegetation scatter for the province from the committed rasters.
+
+Reads exactly the data the runtime reads — the studio's height, water, region
+and ground-control rasters — so the compiler and the game can never disagree
+about where the waterline is (00-core: rendering and gameplay sample the same
+water data). Emits one `vegetation-instances.bin` per chunk plus an index.
+
+Usage:
+  python3 -m worldgen.compile_scatter --palettes world/sources/flora/palettes.json
+  python3 -m worldgen.compile_scatter --chunk 8,8 --chunk 3,12 --report
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import math
+from collections import Counter
+from pathlib import Path
+
+import numpy as np
+from PIL import Image
+from scipy import ndimage
+
+from .regions import REGION_CLASSES
+from .scale import RAW_M
+from .scatter import Fields, Palette, clark_evans, encode, scatter_chunk
+
+REPO_ROOT = Path(__file__).resolve().parents[3]
+PROVINCE = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
+CHUNK_SAMPLES = 256                       # matches compile_chunks
+CHUNK_M = CHUNK_SAMPLES * RAW_M           # 467.9 m
+DEFAULT_SEED = 0x5CA77E5
+
+
+class ProvinceFields:
+    """Raster-backed `Fields` for the whole province.
+
+    The one derived quantity is **height above the local water table**: the
+    water raster stores depth only where water is visible, but the mined rule
+    that matters (R2 — density peaks at the waterline) needs a signed value on
+    dry ground too. Taking each dry cell's nearest wet cell's water level
+    generalises BM&V's single flat water plane to our varied one.
+    """
+
+    def __init__(self, province: Path = PROVINCE):
+        refined = json.loads((province / "refined" / "meta.json").read_text())
+        water_meta = json.loads((province / "water" / "water-meta.json").read_text())
+        hydro = json.loads((province / "hydrology-meta.json").read_text())
+
+        self.px_m = refined["metresPerPixel"]
+        rgb = np.asarray(Image.open(province / "refined" / "height-rg.png")
+                         .convert("RGB")).astype(np.float32)
+        lo, hi = refined["heightMinMetres"], refined["heightMaxMetres"]
+        self.height_m = (rgb[..., 0] * 256 + rgb[..., 1]) / 65535.0 * (hi - lo) + lo
+
+        surface = np.asarray(Image.open(province / "water" / "water-surface.png")
+                             .convert("RGB")).astype(np.float32)
+        wlo, whi = water_meta["surface"]["minM"], water_meta["surface"]["maxM"]
+        water_level = (surface[..., 0] * 256 + surface[..., 1]) / 65535.0 * (whi - wlo) + wlo
+        depth = surface[..., 2] * 0.1
+        wet = depth > 0.05
+
+        # Nearest wet cell's water level, everywhere.
+        _, (iy, ix) = ndimage.distance_transform_edt(~wet, return_indices=True)
+        table = water_level[iy, ix]
+        self.depth_m = np.where(wet, depth, table - self.height_m).astype(np.float32)
+        # Beyond a few metres the distinction stops meaning anything, and an
+        # unclamped value would let a distant mountain read as "-200 m above
+        # the water table" and skew every response curve.
+        np.clip(self.depth_m, -20.0, 25.5, out=self.depth_m)
+
+        gy, gx = np.gradient(self.height_m, self.px_m)
+        self.slope_deg = np.degrees(np.arctan(np.hypot(gx, gy))).astype(np.float32)
+
+        region_rgb = np.asarray(Image.open(province / "hydro-regions.png")
+                                .convert("RGB"))
+        self.region_px_m = hydro["metresPerPixel"]
+        self.region = np.zeros(region_rgb.shape[:2], dtype=np.uint8)
+        for class_id, (_name, colour) in REGION_CLASSES.items():
+            match = np.all(region_rgb == np.array(colour, dtype=np.uint8), axis=-1)
+            self.region[match] = class_id
+
+        control = np.asarray(Image.open(province / "refined" / "ground-control.png")
+                             .convert("RGBA"))
+        self.land_cover = control[..., 0].copy()
+
+        self.extent_m = self.height_m.shape[0] * self.px_m
+
+    # -- sampling --
+
+    def _pixel(self, array, x: float, z: float, px_m: float):
+        col = int(x / px_m)
+        row = int(z / px_m)
+        if not (0 <= row < array.shape[0] and 0 <= col < array.shape[1]):
+            return None
+        return array[row, col]
+
+    def as_fields(self) -> Fields:
+        return Fields(
+            height=lambda x, z: float(self._pixel(self.height_m, x, z, self.px_m) or 0.0),
+            water_depth=lambda x, z: float(
+                v if (v := self._pixel(self.depth_m, x, z, self.px_m)) is not None else -20.0),
+            slope=lambda x, z: float(
+                v if (v := self._pixel(self.slope_deg, x, z, self.px_m)) is not None else 90.0),
+            region=lambda x, z: int(
+                v if (v := self._pixel(self.region, x, z, self.region_px_m)) is not None else 0),
+            land_cover=lambda x, z: int(
+                v if (v := self._pixel(self.land_cover, x, z, self.px_m)) is not None else 0),
+        )
+
+    def chunk_grid(self) -> int:
+        return int(math.ceil(self.extent_m / CHUNK_M))
+
+    def modal_region(self, cx: int, cz: int) -> int:
+        """The region class most of a chunk sits in — a report label only,
+        never a palette selector (see `regions_in`)."""
+        window = self._region_window(cx, cz)
+        return int(np.bincount(window.ravel()).argmax()) if window.size else 0
+
+    def _region_window(self, cx: int, cz: int):
+        step = self.region_px_m
+        x0, z0 = int(cx * CHUNK_M / step), int(cz * CHUNK_M / step)
+        x1, z1 = int((cx + 1) * CHUNK_M / step) + 1, int((cz + 1) * CHUNK_M / step) + 1
+        return self.region[z0:z1, x0:x1]
+
+    def regions_in(self, cx: int, cz: int) -> set[int]:
+        """Every region class a chunk touches.
+
+        Argonia's regions interdigitate well below the 468 m chunk — the
+        province has swamp, lowland and lake threading through single chunks —
+        so a chunk cannot have "a" palette. Layers are gated per sample
+        instead, and this set only decides which layers are worth evaluating.
+        """
+        window = self._region_window(cx, cz)
+        return set(np.unique(window).tolist()) if window.size else set()
+
+
+def merge_palettes(palettes: dict[int, Palette], density_scale: float = 1.0) -> Palette:
+    """One province palette whose layers carry their own region gate.
+
+    Ordering is by clearance radius, largest first, because clearance stamping
+    is one-directional big-to-small (module 65 §111) — and a merged palette
+    must keep that property across regions, not just within one.
+    """
+    layers = []
+    for region, palette in sorted(palettes.items()):
+        for layer in palette.layers:
+            if not layer.region_classes:
+                layer.region_classes = (region,)
+            layer.instances_per_hectare *= density_scale
+            layers.append(layer)
+    layers.sort(key=lambda layer: (-layer.clearance_radius_m, layer.species))
+    return Palette(id="province", layers=layers)
+
+
+def compile_chunk(fields_source: ProvinceFields, palette: Palette,
+                  cx: int, cz: int, seed: int):
+    present = fields_source.regions_in(cx, cz)
+    active = [
+        layer for layer in palette.layers
+        if not layer.region_classes or present & set(layer.region_classes)
+    ]
+    if not active:
+        return present, [], b""
+    instances = scatter_chunk(
+        cx * CHUNK_M, cz * CHUNK_M, CHUNK_M, Palette(palette.id, active),
+        fields_source.as_fields(), seed, chunk_id=(cx, cz),
+    )
+    species = sorted({layer.species for layer in palette.layers})
+    return present, instances, encode(instances, species)
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--palettes",
+                    default=str(REPO_ROOT / "world/sources/flora/palettes.json"))
+    ap.add_argument("--out", default=None,
+                    help="write bundles here (default: report only)")
+    ap.add_argument("--chunk", action="append", default=[],
+                    help="cx,cz — repeatable; default is every chunk")
+    ap.add_argument("--seed", type=lambda v: int(v, 0), default=DEFAULT_SEED)
+    ap.add_argument("--density-scale", type=float, default=None,
+                    help="global multiplier on every layer's authored density "
+                         "— the one knob the density decision turns")
+    ap.add_argument("--report", action="store_true")
+    args = ap.parse_args()
+
+    data = json.loads(Path(args.palettes).read_text())
+    scale = args.density_scale if args.density_scale is not None else float(
+        data.get("densityScale", 1.0))
+    palette = merge_palettes({
+        int(region): Palette.from_dict(entry)
+        for region, entry in data["byRegionClass"].items()
+    }, scale)
+    print(f"density scale x{scale:g}")
+    source = ProvinceFields()
+    grid = source.chunk_grid()
+    if args.chunk:
+        wanted = [tuple(int(v) for v in c.split(",")) for c in args.chunk]
+    else:
+        wanted = [(cx, cz) for cz in range(grid) for cx in range(grid)]
+
+    out_dir = Path(args.out) if args.out else None
+    if out_dir:
+        out_dir.mkdir(parents=True, exist_ok=True)
+
+    index = {}
+    totals: Counter = Counter()
+    per_chunk = []
+    for cx, cz in wanted:
+        present, instances, blob = compile_chunk(source, palette, cx, cz, args.seed)
+        if not instances:
+            continue
+        tiers = Counter(i.tier for i in instances)
+        totals.update(tiers)
+        totals["chunks"] += 1
+        region = source.modal_region(cx, cz)
+        record = {
+            "chunk": [cx, cz],
+            "region": region,
+            "regionName": REGION_CLASSES[region][0],
+            "regionsPresent": sorted(present),
+            "instances": len(instances),
+            "tiers": dict(tiers),
+            "perHectare": round(len(instances) / (CHUNK_M * CHUNK_M / 10_000), 1),
+        }
+        if args.report:
+            # Per *species*, to compare like with like: the mined 0.45 is a
+            # per-species figure, and pooling every layer's points would
+            # measure the palette's overlap rather than its clumping.
+            by_species: dict[str, list[tuple[float, float]]] = {}
+            for instance in instances:
+                by_species.setdefault(instance.species, []).append((instance.x, instance.z))
+            values = [
+                r for points in by_species.values() if len(points) >= 40
+                for r in [clark_evans(points[:1200], CHUNK_M * CHUNK_M)] if r
+            ]
+            if values:
+                values.sort()
+                record["clarkEvansR"] = round(values[len(values) // 2], 3)
+        per_chunk.append(record)
+        if out_dir:
+            (out_dir / f"chunk_{cx}_{cz}_vegetation.bin").write_bytes(blob)
+            index[f"{cx}_{cz}"] = record
+
+    if out_dir:
+        (out_dir / "vegetation-index.json").write_text(
+            json.dumps({"seed": args.seed, "chunkMetres": round(CHUNK_M, 2),
+                        "chunks": index}, indent=1) + "\n")
+
+    dressed = len(per_chunk)
+    if dressed:
+        counts = sorted(r["instances"] for r in per_chunk)
+        print(f"{dressed} chunks dressed of {len(wanted)}; "
+              f"instances total {sum(counts):,}")
+        print("  per chunk  p5 %d  p50 %d  p95 %d  max %d" % (
+            counts[len(counts) // 20], counts[len(counts) // 2],
+            counts[min(len(counts) - 1, 19 * len(counts) // 20)], counts[-1]))
+        print("  tiers:", {k: v for k, v in totals.items() if k != "chunks"})
+        by_region: dict[str, list[int]] = {}
+        for record in per_chunk:
+            by_region.setdefault(record["regionName"], []).append(record["instances"])
+        for name, values in sorted(by_region.items(), key=lambda kv: -len(kv[1])):
+            per_ha = sum(values) / len(values) / (CHUNK_M * CHUNK_M / 10_000)
+            print(f"  {name:28s} {len(values):3d} chunks  "
+                  f"mean {sum(values)//len(values):6d}/chunk  {per_ha:6.1f}/ha")
+        if args.report:
+            rs = [r["clarkEvansR"] for r in per_chunk if r.get("clarkEvansR")]
+            if rs:
+                rs.sort()
+                print(f"  Clark-Evans R: p5 {rs[len(rs)//20]:.2f} "
+                      f"p50 {rs[len(rs)//2]:.2f} p95 {rs[19*len(rs)//20]:.2f} "
+                      f"(mined worlds sit at ~0.45)")
+    else:
+        print("no chunks dressed — check the palettes' region classes")
+
+
+if __name__ == "__main__":
+    main()

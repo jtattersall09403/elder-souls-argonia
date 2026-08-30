@@ -1,0 +1,1318 @@
+{
+ "id": "argonia-flora-provisional-v1",
+ "status": "PROVISIONAL \u2014 densities, species mix and scale ranges are the phase agent's proposal, pending the owner's placement decisions (see docs/world/decisions pack in PROGRESS). The machinery is not provisional; these numbers are.",
+ "grounding": {
+  "canonFlora": "world/sources/lore/topics/fauna-hazards.md \u00a7 Flora \u2014 CANON_EXPLICIT: cypress, mangrove (a ten-mile wall near Lilmoth), bamboo, sleeping palms, palm, bog willow, flint vine, dragon's-tongue, nightbloom, somnalius fern, marshweed, blue moss canopies, fields of ferns and flowered grasses, lucan mold, starblossom, toxicodor, nirnroot",
+  "gradient": "world/sources/lore/black-marsh-province.md: temperate grassland north-east -> rainforest and drowned coast south",
+  "minedRules": "docs/research/shipped-world-placement-rules.md \u2014 R1 clumping, R2 waterline density peak, R3 slope falloff, R4 flooding classes, R5/R6 palette breadth and region contrast, R7 guilds",
+  "regionClasses": "tooling/world-generation/worldgen/regions.py REGION_CLASSES"
+ },
+ "conventions": {
+  "water_depth_m": "hard gate on standing water over the ground: positive is flooded, negative is height above the local water table",
+  "scale_range": "multiplier on the source mesh's native size. The source pools are deliberately oversized (a 32 m cypress at 1.0); staying near 1.0 is a decision, not a default",
+  "tier": "T1 hero placed statics, T2 instanced mid detail. Groundcover is not here \u2014 it is groundcover.json, keyed on land cover like Bethesda's LTEX->GRAS binding",
+  "instances_per_hectare": "instances per hectare of ideal ground, before the depth and slope responses thin them \u2014 the same unit the mining measured, so a number here can be read straight against docs/research/shipped-world-placement-rules.md",
+  "clumping": "clump_size_median / clump_radius_m / singleton_share shape the clustering; the defaults are calibrated to Clark-Evans R 0.5-0.6 against the mined 0.45",
+  "depth_response": "depth_half_width_m defaults to 0 = flat inside the gate; only water-edge species set a peak and a width",
+  "densityScale": "global multiplier over every layer, so 'how dense should Argonia feel' is one owner decision rather than sixty numbers"
+ },
+ "byRegionClass": {
+  "1": {
+   "id": "border-mountains",
+   "layers": [
+    {
+     "species": "bmv:landscape/trees/dwarfjunip05",
+     "tier": "T2",
+     "clump_size_median": 2,
+     "clump_radius_m": 12.0,
+     "water_depth_m": [
+      -20.0,
+      -1.0
+     ],
+     "slope_deg_max": 40.0,
+     "scale_range": [
+      0.7,
+      1.1
+     ],
+     "clearance_radius_m": 1.5,
+     "instances_per_hectare": 3.6
+    },
+    {
+     "species": "bmv:landscape/rocks/moss_rockcliff01",
+     "tier": "T2",
+     "clump_size_median": 3,
+     "clump_radius_m": 8.0,
+     "water_depth_m": [
+      -20.0,
+      -0.5
+     ],
+     "slope_deg_max": 55.0,
+     "scale_range": [
+      0.6,
+      1.3
+     ],
+     "instances_per_hectare": 6.0
+    }
+   ]
+  },
+  "2": {
+   "id": "upland-hills",
+   "layers": [
+    {
+     "species": "bmv:landscape/trees/cedartree3",
+     "tier": "T1",
+     "clump_size_median": 3,
+     "clump_radius_m": 16.0,
+     "water_depth_m": [
+      -20.0,
+      -0.8
+     ],
+     "slope_deg_max": 35.0,
+     "scale_range": [
+      0.7,
+      1.0
+     ],
+     "clearance_radius_m": 3.5,
+     "instances_per_hectare": 2.4
+    },
+    {
+     "species": "bmv:landscape/trees/gkbfallforestshrub02",
+     "tier": "T2",
+     "clump_size_median": 4,
+     "clump_radius_m": 10.0,
+     "water_depth_m": [
+      -20.0,
+      -0.3
+     ],
+     "slope_deg_max": 40.0,
+     "scale_range": [
+      0.8,
+      1.3
+     ],
+     "instances_per_hectare": 10.5
+    },
+    {
+     "species": "bmv:vvardenfell/flora/algrass03b",
+     "tier": "T2",
+     "clump_size_median": 6,
+     "clump_radius_m": 7.0,
+     "water_depth_m": [
+      -20.0,
+      0.1
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "instances_per_hectare": 18.0
+    }
+   ]
+  },
+  "3": {
+   "id": "tidal-delta",
+   "layers": [
+    {
+     "species": "bmv:landscape/trees/mangrovereachtree0gkb9",
+     "tier": "T1",
+     "clump_size_median": 5,
+     "clump_radius_m": 12.0,
+     "water_depth_m": [
+      -0.6,
+      2.5
+     ],
+     "depth_peak_m": 0.4,
+     "depth_half_width_m": 1.4,
+     "slope_deg_max": 25.0,
+     "scale_range": [
+      0.8,
+      1.3
+     ],
+     "clearance_radius_m": 3.0,
+     "instances_per_hectare": 6.6
+    },
+    {
+     "species": "bmv:landscape/grass/vurt_reeds",
+     "tier": "T2",
+     "clump_size_median": 9,
+     "clump_radius_m": 5.5,
+     "water_depth_m": [
+      -0.3,
+      1.2
+     ],
+     "depth_peak_m": 0.35,
+     "depth_half_width_m": 0.8,
+     "slope_deg_max": 30.0,
+     "scale_range": [
+      1.0,
+      1.8
+     ],
+     "instances_per_hectare": 42.0
+    },
+    {
+     "species": "bmv:landscape/trees/gkblillipad2",
+     "tier": "T2",
+     "clump_size_median": 8,
+     "clump_radius_m": 6.0,
+     "water_depth_m": [
+      0.3,
+      2.2
+     ],
+     "depth_peak_m": 1.0,
+     "depth_half_width_m": 0.8,
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "yaw_random": true,
+     "tilt_deg_max": 0.0,
+     "instances_per_hectare": 18.0
+    }
+   ]
+  },
+  "4": {
+   "id": "coastal-lagoon-salt-marsh",
+   "layers": [
+    {
+     "species": "bmv:landscape/trees/mangrovereachtree0gkb3",
+     "tier": "T1",
+     "clump_size_median": 6,
+     "clump_radius_m": 11.0,
+     "water_depth_m": [
+      -0.8,
+      2.5
+     ],
+     "depth_peak_m": 0.3,
+     "depth_half_width_m": 1.5,
+     "slope_deg_max": 25.0,
+     "scale_range": [
+      0.8,
+      1.3
+     ],
+     "clearance_radius_m": 3.2,
+     "instances_per_hectare": 9.0
+    },
+    {
+     "species": "bmv:landscape/trees/mangrovereachtree0gkb9",
+     "tier": "T1",
+     "clump_size_median": 5,
+     "clump_radius_m": 10.0,
+     "water_depth_m": [
+      -1.0,
+      2.0
+     ],
+     "depth_peak_m": 0.2,
+     "depth_half_width_m": 1.4,
+     "slope_deg_max": 25.0,
+     "scale_range": [
+      0.8,
+      1.2
+     ],
+     "clearance_radius_m": 3.0,
+     "instances_per_hectare": 6.0
+    },
+    {
+     "species": "bmv:landscape/trees/beachpalm2",
+     "tier": "T1",
+     "clump_size_median": 3,
+     "clump_radius_m": 14.0,
+     "water_depth_m": [
+      -6.0,
+      -0.2
+     ],
+     "slope_deg_max": 28.0,
+     "scale_range": [
+      0.55,
+      0.85
+     ],
+     "clearance_radius_m": 3.5,
+     "instances_per_hectare": 2.7
+    },
+    {
+     "species": "bmv:landscape/grass/vurt_reeds",
+     "tier": "T2",
+     "clump_size_median": 9,
+     "clump_radius_m": 5.0,
+     "water_depth_m": [
+      -0.4,
+      1.2
+     ],
+     "depth_peak_m": 0.3,
+     "depth_half_width_m": 0.9,
+     "scale_range": [
+      1.0,
+      1.8
+     ],
+     "instances_per_hectare": 36.0
+    },
+    {
+     "species": "bmv:landscape/grass/waterkelptall01",
+     "tier": "T2",
+     "clump_size_median": 7,
+     "clump_radius_m": 7.0,
+     "water_depth_m": [
+      0.8,
+      6.0
+     ],
+     "depth_peak_m": 2.0,
+     "depth_half_width_m": 2.0,
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "instances_per_hectare": 15.0
+    }
+   ]
+  },
+  "5": {
+   "id": "deep-river-corridor",
+   "layers": [
+    {
+     "species": "bmv:landscape/trees/cypress3",
+     "tier": "T1",
+     "clump_size_median": 3,
+     "clump_radius_m": 14.0,
+     "water_depth_m": [
+      -2.5,
+      0.6
+     ],
+     "slope_deg_max": 30.0,
+     "scale_range": [
+      0.6,
+      0.95
+     ],
+     "clearance_radius_m": 4.0,
+     "instances_per_hectare": 4.2
+    },
+    {
+     "species": "bmv:landscape/grass/vurt_reeds",
+     "tier": "T2",
+     "clump_size_median": 10,
+     "clump_radius_m": 5.0,
+     "water_depth_m": [
+      -0.3,
+      1.0
+     ],
+     "depth_peak_m": 0.3,
+     "depth_half_width_m": 0.7,
+     "scale_range": [
+      1.0,
+      1.8
+     ],
+     "instances_per_hectare": 48.0
+    },
+    {
+     "species": "bmv:landscape/plants/kelptallstatic01aaa",
+     "tier": "T2",
+     "clump_size_median": 8,
+     "clump_radius_m": 7.0,
+     "water_depth_m": [
+      1.0,
+      8.0
+     ],
+     "depth_peak_m": 2.5,
+     "depth_half_width_m": 2.5,
+     "scale_range": [
+      0.8,
+      1.3
+     ],
+     "instances_per_hectare": 18.0
+    },
+    {
+     "species": "bmv:landscape/trees/gkblillipad2",
+     "tier": "T2",
+     "clump_size_median": 9,
+     "clump_radius_m": 6.5,
+     "water_depth_m": [
+      0.3,
+      2.0
+     ],
+     "depth_peak_m": 0.9,
+     "depth_half_width_m": 0.8,
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "tilt_deg_max": 0.0,
+     "instances_per_hectare": 15.0
+    }
+   ]
+  },
+  "6": {
+   "id": "rootland-deep-marsh",
+   "note": "Canopy 0.95 \u2014 permanent dusk. Roots and blue-moss canopies carry the identity; the tree list is short and the understory is fungal rather than leafy.",
+   "layers": [
+    {
+     "species": "bmv:landscape/trees/cypress1",
+     "tier": "T1",
+     "clump_size_median": 4,
+     "clump_radius_m": 15.0,
+     "water_depth_m": [
+      -3.0,
+      1.0
+     ],
+     "slope_deg_max": 30.0,
+     "scale_range": [
+      0.6,
+      0.95
+     ],
+     "clearance_radius_m": 4.5,
+     "instances_per_hectare": 7.8
+    },
+    {
+     "species": "bmv:architecture/phitt/ashlands/tramaroot01",
+     "tier": "T1",
+     "clump_size_median": 3,
+     "clump_radius_m": 11.0,
+     "water_depth_m": [
+      -3.0,
+      1.2
+     ],
+     "slope_deg_max": 35.0,
+     "scale_range": [
+      1.2,
+      2.6
+     ],
+     "clearance_radius_m": 3.0,
+     "instances_per_hectare": 6.6
+    },
+    {
+     "species": "bmv:architecture/phitt/ashlands/tramaroot06",
+     "tier": "T2",
+     "clump_size_median": 3,
+     "clump_radius_m": 9.0,
+     "water_depth_m": [
+      -3.0,
+      1.2
+     ],
+     "slope_deg_max": 35.0,
+     "scale_range": [
+      1.0,
+      2.2
+     ],
+     "instances_per_hectare": 7.8
+    },
+    {
+     "species": "bmv:landscape/plants/florahangingmoss02aaa",
+     "tier": "T2",
+     "clump_size_median": 5,
+     "clump_radius_m": 8.0,
+     "water_depth_m": [
+      -3.0,
+      0.8
+     ],
+     "slope_deg_max": 35.0,
+     "scale_range": [
+      0.9,
+      1.6
+     ],
+     "instances_per_hectare": 15.0
+    },
+    {
+     "species": "bmv:landscape/plants/fernlarge03",
+     "tier": "T2",
+     "clump_size_median": 6,
+     "clump_radius_m": 7.0,
+     "water_depth_m": [
+      -3.0,
+      0.5
+     ],
+     "slope_deg_max": 35.0,
+     "scale_range": [
+      0.7,
+      1.3
+     ],
+     "instances_per_hectare": 24.0
+    },
+    {
+     "species": "bmv:landscape/plants/braken",
+     "tier": "T2",
+     "clump_size_median": 7,
+     "clump_radius_m": 7.5,
+     "water_depth_m": [
+      -3.0,
+      0.4
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "instances_per_hectare": 27.0
+    },
+    {
+     "species": "bmv:vurt_shroom/vurt_shroom_big1",
+     "tier": "T2",
+     "clump_size_median": 4,
+     "clump_radius_m": 5.0,
+     "water_depth_m": [
+      -2.0,
+      0.3
+     ],
+     "slope_deg_max": 30.0,
+     "scale_range": [
+      0.7,
+      1.5
+     ],
+     "instances_per_hectare": 7.2
+    },
+    {
+     "species": "bmv:landscape/grass/vurt_reeds",
+     "tier": "T2",
+     "clump_size_median": 9,
+     "clump_radius_m": 5.0,
+     "water_depth_m": [
+      -0.3,
+      1.4
+     ],
+     "depth_peak_m": 0.4,
+     "depth_half_width_m": 0.9,
+     "scale_range": [
+      1.0,
+      1.8
+     ],
+     "instances_per_hectare": 24.0
+    },
+    {
+     "species": "bmv:landscape/trees/gkblillipad2",
+     "tier": "T2",
+     "clump_size_median": 8,
+     "clump_radius_m": 6.0,
+     "water_depth_m": [
+      0.3,
+      2.2
+     ],
+     "depth_peak_m": 0.9,
+     "depth_half_width_m": 0.8,
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "tilt_deg_max": 0.0,
+     "instances_per_hectare": 12.0
+    }
+   ]
+  },
+  "7": {
+   "id": "interior-swamp",
+   "note": "The reference-watershed palette. Canopy 0.65: cypress over a bracken-and-fern understory, mangrove where the water stands, reeds and lilypads in it.",
+   "layers": [
+    {
+     "species": "bmv:landscape/trees/cypress1",
+     "tier": "T1",
+     "clump_size_median": 4,
+     "clump_radius_m": 16.0,
+     "water_depth_m": [
+      -4.0,
+      1.0
+     ],
+     "slope_deg_max": 32.0,
+     "scale_range": [
+      0.6,
+      0.95
+     ],
+     "clearance_radius_m": 4.5,
+     "instances_per_hectare": 6.0
+    },
+    {
+     "species": "bmv:landscape/trees/cypress3",
+     "tier": "T1",
+     "clump_size_median": 3,
+     "clump_radius_m": 14.0,
+     "water_depth_m": [
+      -4.0,
+      0.8
+     ],
+     "slope_deg_max": 32.0,
+     "scale_range": [
+      0.6,
+      0.95
+     ],
+     "clearance_radius_m": 4.0,
+     "instances_per_hectare": 4.2
+    },
+    {
+     "species": "bmv:landscape/trees/mangrovereachtree0gkb9",
+     "tier": "T1",
+     "clump_size_median": 5,
+     "clump_radius_m": 11.0,
+     "water_depth_m": [
+      -0.5,
+      2.0
+     ],
+     "depth_peak_m": 0.4,
+     "depth_half_width_m": 1.2,
+     "slope_deg_max": 28.0,
+     "scale_range": [
+      0.8,
+      1.2
+     ],
+     "clearance_radius_m": 3.0,
+     "instances_per_hectare": 4.8
+    },
+    {
+     "species": "bmv:landscape/trees/treewillow01a",
+     "tier": "T1",
+     "clump_size_median": 2,
+     "clump_radius_m": 12.0,
+     "water_depth_m": [
+      -2.0,
+      0.5
+     ],
+     "slope_deg_max": 28.0,
+     "scale_range": [
+      0.6,
+      0.9
+     ],
+     "clearance_radius_m": 4.0,
+     "instances_per_hectare": 1.8
+    },
+    {
+     "species": "bmv:landscape/trees/hangingvines1",
+     "tier": "T2",
+     "clump_size_median": 3,
+     "clump_radius_m": 8.0,
+     "water_depth_m": [
+      -3.0,
+      0.8
+     ],
+     "slope_deg_max": 35.0,
+     "scale_range": [
+      0.9,
+      1.5
+     ],
+     "instances_per_hectare": 9.0
+    },
+    {
+     "species": "bmv:landscape/plants/braken",
+     "tier": "T2",
+     "clump_size_median": 7,
+     "clump_radius_m": 7.5,
+     "water_depth_m": [
+      -3.0,
+      0.4
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "instances_per_hectare": 30.0
+    },
+    {
+     "species": "bmv:landscape/plants/fernlarge03",
+     "tier": "T2",
+     "clump_size_median": 6,
+     "clump_radius_m": 7.0,
+     "water_depth_m": [
+      -3.0,
+      0.5
+     ],
+     "slope_deg_max": 35.0,
+     "scale_range": [
+      0.7,
+      1.3
+     ],
+     "instances_per_hectare": 24.0
+    },
+    {
+     "species": "bmv:landscape/trees/tropicalplant01",
+     "tier": "T2",
+     "clump_size_median": 6,
+     "clump_radius_m": 8.0,
+     "water_depth_m": [
+      -2.5,
+      0.6
+     ],
+     "slope_deg_max": 35.0,
+     "scale_range": [
+      0.8,
+      1.5
+     ],
+     "instances_per_hectare": 21.0
+    },
+    {
+     "species": "bmv:landscape/plants/bigshrub2(colorful)",
+     "tier": "T2",
+     "clump_size_median": 5,
+     "clump_radius_m": 8.0,
+     "water_depth_m": [
+      -3.0,
+      0.3
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      0.7,
+      1.2
+     ],
+     "instances_per_hectare": 15.0
+    },
+    {
+     "species": "bmv:landscape/grass/vurt_reeds",
+     "tier": "T2",
+     "clump_size_median": 10,
+     "clump_radius_m": 5.0,
+     "water_depth_m": [
+      -0.3,
+      1.4
+     ],
+     "depth_peak_m": 0.4,
+     "depth_half_width_m": 0.9,
+     "scale_range": [
+      1.0,
+      1.8
+     ],
+     "instances_per_hectare": 36.0
+    },
+    {
+     "species": "bmv:landscape/trees/gkblillipad2",
+     "tier": "T2",
+     "clump_size_median": 9,
+     "clump_radius_m": 6.5,
+     "water_depth_m": [
+      0.3,
+      2.2
+     ],
+     "depth_peak_m": 0.9,
+     "depth_half_width_m": 0.8,
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "tilt_deg_max": 0.0,
+     "instances_per_hectare": 15.0
+    },
+    {
+     "species": "bmv:landscape/grass/waterkelpshort01",
+     "tier": "T2",
+     "clump_size_median": 7,
+     "clump_radius_m": 6.0,
+     "water_depth_m": [
+      0.6,
+      4.0
+     ],
+     "depth_peak_m": 1.5,
+     "depth_half_width_m": 1.5,
+     "scale_range": [
+      0.8,
+      1.3
+     ],
+     "instances_per_hectare": 10.5
+    }
+   ]
+  },
+  "8": {
+   "id": "fringe-marsh",
+   "note": "Canopy 0.3 \u2014 open. Reeds and grasses with scattered trees; the band the player crosses to reach anywhere.",
+   "layers": [
+    {
+     "species": "bmv:landscape/trees/cypress3",
+     "tier": "T1",
+     "clump_size_median": 3,
+     "clump_radius_m": 18.0,
+     "water_depth_m": [
+      -3.0,
+      0.6
+     ],
+     "slope_deg_max": 30.0,
+     "scale_range": [
+      0.6,
+      0.9
+     ],
+     "clearance_radius_m": 4.0,
+     "instances_per_hectare": 2.1
+    },
+    {
+     "species": "bmv:landscape/trees/treewillow02a",
+     "tier": "T1",
+     "clump_size_median": 2,
+     "clump_radius_m": 12.0,
+     "water_depth_m": [
+      -2.0,
+      0.5
+     ],
+     "slope_deg_max": 28.0,
+     "scale_range": [
+      0.6,
+      0.9
+     ],
+     "clearance_radius_m": 3.5,
+     "instances_per_hectare": 1.5
+    },
+    {
+     "species": "bmv:landscape/grass/vurt_reeds",
+     "tier": "T2",
+     "clump_size_median": 11,
+     "clump_radius_m": 5.5,
+     "water_depth_m": [
+      -0.4,
+      1.4
+     ],
+     "depth_peak_m": 0.35,
+     "depth_half_width_m": 1.0,
+     "scale_range": [
+      1.0,
+      1.8
+     ],
+     "instances_per_hectare": 45.0
+    },
+    {
+     "species": "bmv:landscape/plants/esloebush08",
+     "tier": "T2",
+     "clump_size_median": 5,
+     "clump_radius_m": 9.0,
+     "water_depth_m": [
+      -3.0,
+      0.2
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      0.8,
+      1.3
+     ],
+     "instances_per_hectare": 12.0
+    },
+    {
+     "species": "bmv:landscape/plants/fern01",
+     "tier": "T2",
+     "clump_size_median": 6,
+     "clump_radius_m": 7.0,
+     "water_depth_m": [
+      -3.0,
+      0.4
+     ],
+     "slope_deg_max": 35.0,
+     "scale_range": [
+      0.8,
+      1.3
+     ],
+     "instances_per_hectare": 15.0
+    },
+    {
+     "species": "bmv:landscape/trees/gkblillipad2",
+     "tier": "T2",
+     "clump_size_median": 8,
+     "clump_radius_m": 6.0,
+     "water_depth_m": [
+      0.3,
+      2.0
+     ],
+     "depth_peak_m": 0.8,
+     "depth_half_width_m": 0.8,
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "tilt_deg_max": 0.0,
+     "instances_per_hectare": 12.0
+    }
+   ]
+  },
+  "9": {
+   "id": "seasonal-floodplain",
+   "note": "Open and grassy \u2014 canon 'fields of ferns and flowered grasses'; trees only on the margins because the flood takes them.",
+   "layers": [
+    {
+     "species": "bmv:landscape/trees/treewillow03a",
+     "tier": "T1",
+     "clump_size_median": 3,
+     "clump_radius_m": 16.0,
+     "water_depth_m": [
+      -3.0,
+      0.3
+     ],
+     "slope_deg_max": 26.0,
+     "scale_range": [
+      0.6,
+      0.9
+     ],
+     "clearance_radius_m": 3.5,
+     "instances_per_hectare": 1.2
+    },
+    {
+     "species": "bmv:vvardenfell/flora/algrass03b",
+     "tier": "T2",
+     "clump_size_median": 8,
+     "clump_radius_m": 8.0,
+     "water_depth_m": [
+      -3.0,
+      0.5
+     ],
+     "slope_deg_max": 32.0,
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "instances_per_hectare": 30.0
+    },
+    {
+     "species": "bmv:landscape/plants/fern01",
+     "tier": "T2",
+     "clump_size_median": 6,
+     "clump_radius_m": 8.0,
+     "water_depth_m": [
+      -3.0,
+      0.4
+     ],
+     "slope_deg_max": 32.0,
+     "scale_range": [
+      0.8,
+      1.3
+     ],
+     "instances_per_hectare": 18.0
+    },
+    {
+     "species": "bmv:landscape/plants/chickweed",
+     "tier": "T2",
+     "clump_size_median": 8,
+     "clump_radius_m": 7.0,
+     "water_depth_m": [
+      -3.0,
+      0.4
+     ],
+     "slope_deg_max": 32.0,
+     "scale_range": [
+      0.9,
+      1.5
+     ],
+     "instances_per_hectare": 21.0
+    },
+    {
+     "species": "bmv:landscape/grass/vurt_reeds",
+     "tier": "T2",
+     "clump_size_median": 9,
+     "clump_radius_m": 6.0,
+     "water_depth_m": [
+      -0.2,
+      1.2
+     ],
+     "depth_peak_m": 0.3,
+     "depth_half_width_m": 0.8,
+     "scale_range": [
+      1.0,
+      1.7
+     ],
+     "instances_per_hectare": 21.0
+    }
+   ]
+  },
+  "10": {
+   "id": "raised-hammock",
+   "note": "Tree islands standing out of the marsh: the dry crest carries palms and bamboo, the skirt carries the marsh species.",
+   "layers": [
+    {
+     "species": "bmv:landscape/trees/beachpalm3",
+     "tier": "T1",
+     "clump_size_median": 4,
+     "clump_radius_m": 12.0,
+     "water_depth_m": [
+      -8.0,
+      -0.2
+     ],
+     "slope_deg_max": 30.0,
+     "scale_range": [
+      0.55,
+      0.85
+     ],
+     "clearance_radius_m": 3.5,
+     "instances_per_hectare": 4.8
+    },
+    {
+     "species": "bmv:landscape/trees/fanpalm1",
+     "tier": "T2",
+     "clump_size_median": 4,
+     "clump_radius_m": 9.0,
+     "water_depth_m": [
+      -8.0,
+      -0.1
+     ],
+     "slope_deg_max": 32.0,
+     "scale_range": [
+      0.7,
+      1.2
+     ],
+     "instances_per_hectare": 9.0
+    },
+    {
+     "species": "bmv:landscape/trees/bambooplant",
+     "tier": "T2",
+     "clump_size_median": 9,
+     "clump_radius_m": 5.0,
+     "water_depth_m": [
+      -6.0,
+      0.2
+     ],
+     "slope_deg_max": 32.0,
+     "scale_range": [
+      0.9,
+      1.6
+     ],
+     "instances_per_hectare": 15.0
+    },
+    {
+     "species": "bmv:landscape/plants/braken",
+     "tier": "T2",
+     "clump_size_median": 6,
+     "clump_radius_m": 7.0,
+     "water_depth_m": [
+      -6.0,
+      0.3
+     ],
+     "slope_deg_max": 36.0,
+     "scale_range": [
+      0.8,
+      1.3
+     ],
+     "instances_per_hectare": 21.0
+    },
+    {
+     "species": "bmv:landscape/grass/vurt_reeds",
+     "tier": "T2",
+     "clump_size_median": 9,
+     "clump_radius_m": 5.5,
+     "water_depth_m": [
+      -0.3,
+      1.2
+     ],
+     "depth_peak_m": 0.35,
+     "depth_half_width_m": 0.8,
+     "scale_range": [
+      1.0,
+      1.7
+     ],
+     "instances_per_hectare": 24.0
+    }
+   ]
+  },
+  "11": {
+   "id": "firm-lowland",
+   "layers": [
+    {
+     "species": "bmv:landscape/trees/gkbjungletreenew1",
+     "tier": "T1",
+     "clump_size_median": 4,
+     "clump_radius_m": 14.0,
+     "water_depth_m": [
+      -8.0,
+      0.2
+     ],
+     "slope_deg_max": 32.0,
+     "scale_range": [
+      0.8,
+      1.2
+     ],
+     "clearance_radius_m": 4.0,
+     "instances_per_hectare": 4.8
+    },
+    {
+     "species": "bmv:landscape/trees/bambooplant",
+     "tier": "T2",
+     "clump_size_median": 8,
+     "clump_radius_m": 5.5,
+     "water_depth_m": [
+      -8.0,
+      0.2
+     ],
+     "slope_deg_max": 34.0,
+     "scale_range": [
+      0.9,
+      1.6
+     ],
+     "instances_per_hectare": 12.0
+    },
+    {
+     "species": "bmv:landscape/plants/braken",
+     "tier": "T2",
+     "clump_size_median": 6,
+     "clump_radius_m": 7.5,
+     "water_depth_m": [
+      -8.0,
+      0.3
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      0.8,
+      1.3
+     ],
+     "instances_per_hectare": 24.0
+    },
+    {
+     "species": "bmv:landscape/trees/tropicalshrub01",
+     "tier": "T2",
+     "clump_size_median": 5,
+     "clump_radius_m": 8.0,
+     "water_depth_m": [
+      -8.0,
+      0.2
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "instances_per_hectare": 15.0
+    },
+    {
+     "species": "bmv:landscape/plants/chickweed",
+     "tier": "T2",
+     "clump_size_median": 7,
+     "clump_radius_m": 7.0,
+     "water_depth_m": [
+      -8.0,
+      0.3
+     ],
+     "slope_deg_max": 36.0,
+     "scale_range": [
+      0.9,
+      1.5
+     ],
+     "instances_per_hectare": 18.0
+    }
+   ]
+  },
+  "12": {
+   "id": "lake-and-standing-water",
+   "layers": [
+    {
+     "species": "bmv:landscape/trees/gkblillipad2",
+     "tier": "T2",
+     "clump_size_median": 10,
+     "clump_radius_m": 7.0,
+     "water_depth_m": [
+      0.3,
+      2.5
+     ],
+     "depth_peak_m": 1.0,
+     "depth_half_width_m": 1.0,
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "tilt_deg_max": 0.0,
+     "instances_per_hectare": 21.0
+    },
+    {
+     "species": "bmv:landscape/plants/kelptallstatic01aaa",
+     "tier": "T2",
+     "clump_size_median": 8,
+     "clump_radius_m": 7.0,
+     "water_depth_m": [
+      1.0,
+      9.0
+     ],
+     "depth_peak_m": 3.0,
+     "depth_half_width_m": 3.0,
+     "scale_range": [
+      0.8,
+      1.3
+     ],
+     "instances_per_hectare": 18.0
+    },
+    {
+     "species": "bmv:landscape/grass/vurt_reeds",
+     "tier": "T2",
+     "clump_size_median": 10,
+     "clump_radius_m": 5.0,
+     "water_depth_m": [
+      -0.2,
+      1.0
+     ],
+     "depth_peak_m": 0.3,
+     "depth_half_width_m": 0.7,
+     "scale_range": [
+      1.0,
+      1.8
+     ],
+     "instances_per_hectare": 30.0
+    }
+   ]
+  },
+  "13": {
+   "id": "tropical-jungle",
+   "note": "The densest class in the province \u2014 canopy 0.95, and the place the vegetation budget is decided.",
+   "layers": [
+    {
+     "species": "bmv:landscape/trees/gkbjungletreenew12v3",
+     "tier": "T1",
+     "clump_size_median": 5,
+     "clump_radius_m": 15.0,
+     "water_depth_m": [
+      -9.0,
+      0.6
+     ],
+     "slope_deg_max": 34.0,
+     "scale_range": [
+      0.8,
+      1.25
+     ],
+     "clearance_radius_m": 4.5,
+     "instances_per_hectare": 9.0
+    },
+    {
+     "species": "bmv:landscape/trees/gkbjungletreenew1",
+     "tier": "T1",
+     "clump_size_median": 4,
+     "clump_radius_m": 14.0,
+     "water_depth_m": [
+      -9.0,
+      0.6
+     ],
+     "slope_deg_max": 34.0,
+     "scale_range": [
+      0.8,
+      1.25
+     ],
+     "clearance_radius_m": 4.0,
+     "instances_per_hectare": 7.2
+    },
+    {
+     "species": "bmv:landscape/trees/beachpalm1",
+     "tier": "T1",
+     "clump_size_median": 3,
+     "clump_radius_m": 12.0,
+     "water_depth_m": [
+      -9.0,
+      0.2
+     ],
+     "slope_deg_max": 32.0,
+     "scale_range": [
+      0.5,
+      0.8
+     ],
+     "clearance_radius_m": 3.5,
+     "instances_per_hectare": 3.6
+    },
+    {
+     "species": "bmv:landscape/trees/hangingvines2",
+     "tier": "T2",
+     "clump_size_median": 4,
+     "clump_radius_m": 8.0,
+     "water_depth_m": [
+      -9.0,
+      0.4
+     ],
+     "slope_deg_max": 36.0,
+     "scale_range": [
+      0.9,
+      1.6
+     ],
+     "instances_per_hectare": 15.0
+    },
+    {
+     "species": "bmv:landscape/plants/florahangingmoss03aaa",
+     "tier": "T2",
+     "clump_size_median": 5,
+     "clump_radius_m": 8.0,
+     "water_depth_m": [
+      -9.0,
+      0.4
+     ],
+     "slope_deg_max": 36.0,
+     "scale_range": [
+      0.9,
+      1.5
+     ],
+     "instances_per_hectare": 12.0
+    },
+    {
+     "species": "tropical:plants/tropical/manfern",
+     "tier": "T2",
+     "clump_size_median": 5,
+     "clump_radius_m": 7.5,
+     "water_depth_m": [
+      -9.0,
+      0.4
+     ],
+     "slope_deg_max": 36.0,
+     "scale_range": [
+      0.6,
+      1.0
+     ],
+     "instances_per_hectare": 15.0
+    },
+    {
+     "species": "bmv:landscape/plants/fernlarge03",
+     "tier": "T2",
+     "clump_size_median": 7,
+     "clump_radius_m": 7.0,
+     "water_depth_m": [
+      -9.0,
+      0.5
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      0.7,
+      1.3
+     ],
+     "instances_per_hectare": 30.0
+    },
+    {
+     "species": "bmv:landscape/trees/tropicalplant01",
+     "tier": "T2",
+     "clump_size_median": 7,
+     "clump_radius_m": 8.0,
+     "water_depth_m": [
+      -9.0,
+      0.5
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      0.8,
+      1.5
+     ],
+     "instances_per_hectare": 27.0
+    },
+    {
+     "species": "bmv:landscape/trees/bambooplant",
+     "tier": "T2",
+     "clump_size_median": 10,
+     "clump_radius_m": 5.0,
+     "water_depth_m": [
+      -9.0,
+      0.3
+     ],
+     "slope_deg_max": 34.0,
+     "scale_range": [
+      0.9,
+      1.6
+     ],
+     "instances_per_hectare": 18.0
+    },
+    {
+     "species": "bmv:landscape/plants/braken",
+     "tier": "T2",
+     "clump_size_median": 7,
+     "clump_radius_m": 7.5,
+     "water_depth_m": [
+      -9.0,
+      0.4
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "instances_per_hectare": 27.0
+    },
+    {
+     "species": "bmv:landscape/grass/vurt_reeds",
+     "tier": "T2",
+     "clump_size_median": 9,
+     "clump_radius_m": 5.0,
+     "water_depth_m": [
+      -0.3,
+      1.2
+     ],
+     "depth_peak_m": 0.35,
+     "depth_half_width_m": 0.8,
+     "scale_range": [
+      1.0,
+      1.7
+     ],
+     "instances_per_hectare": 18.0
+    }
+   ]
+  }
+ },
+ "densityScale": 1.0
+}

@@ -32,6 +32,7 @@ import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Iterable
 
 from .bsa import BSAArchive
 from .build import BUILD_DIR, TOOLCHAIN, _expand, _referenced_textures, to_windows
@@ -74,6 +75,36 @@ class Source:
     def extract_many(self, rels: list[str], dest: Path) -> None:  # pragma: no cover
         raise NotImplementedError
 
+    def names_available(self) -> Iterable[str]:  # pragma: no cover - interface
+        return ()
+
+    def find_by_basename(self, rel: str) -> str | None:
+        """Same filename, different folder.
+
+        Mods routinely reference a texture at the path some *other* mod used
+        (BM&V's meshes ask for `textures/plants/tamira/newplants/bamboo.dds`
+        while shipping it at `textures/landscape/Tamira/NewPlants/Bamboo.dds`),
+        and the result is untextured flora. Where the exact path misses, match
+        on filename and prefer the candidate sharing the most trailing folders,
+        so a same-named texture in an unrelated tree loses.
+        """
+        target = rel.rsplit("/", 1)[-1].lower()
+        wanted = rel.lower().split("/")
+        best, best_score = None, -1
+        for candidate in self.names_available():
+            lower = candidate.lower()
+            if lower.rsplit("/", 1)[-1] != target:
+                continue
+            parts = lower.split("/")
+            score = 0
+            for a, b in zip(reversed(parts), reversed(wanted)):
+                if a != b:
+                    break
+                score += 1
+            if score > best_score:
+                best, best_score = candidate, score
+        return best
+
 
 class BsaSource(Source):
     def __init__(self, path: Path):
@@ -85,6 +116,9 @@ class BsaSource(Source):
     def extract_many(self, rels: list[str], dest: Path) -> None:
         if rels:
             self.archive.extract(rels, dest)
+
+    def names_available(self) -> Iterable[str]:
+        return self.archive.namelist()
 
 
 class DirSource(Source):
@@ -105,6 +139,9 @@ class DirSource(Source):
             target = dest / rel
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(self.index[rel.lower()], target)
+
+    def names_available(self) -> Iterable[str]:
+        return self.index.keys()
 
 
 class RarSource(Source):
@@ -129,6 +166,9 @@ class RarSource(Source):
 
     def contains(self, rel: str) -> bool:
         return rel.lower() in self.names
+
+    def names_available(self) -> Iterable[str]:
+        return self.names.keys()
 
     def extract_many(self, rels: list[str], dest: Path) -> None:
         members = [self.names[rel.lower()] for rel in rels if rel.lower() in self.names]
@@ -160,10 +200,16 @@ def pool_sources(pool: str, vault: Path) -> PoolSources:
     vanilla_tex = BsaSource(vault / "skyrim-source/Data/Skyrim - Textures.bsa")
     bmv = REPO_ROOT / "tooling/asset-pipeline/black-marsh-mod-source"
     tropical = vault / "skyrim-source/mod-sources/tropical-skyrim-33017/extracted"
+    # Several pools bundle the same modder resources (both BM&V and Tropical
+    # Skyrim ship Tamira's plants), and BM&V's texture archive is missing some
+    # of the files its own meshes ask for. Searching the sibling pool before
+    # vanilla recovers those rather than shipping untextured flora; both pools
+    # are credited either way.
     if pool == "bmv":
         return PoolSources(
             meshes=RarSource(bmv / "Data1.rar", bmv / "manifest-data1.txt"),
-            textures=[RarSource(bmv / "Data2.rar", bmv / "manifest.txt"), vanilla_tex],
+            textures=[RarSource(bmv / "Data2.rar", bmv / "manifest.txt"),
+                      DirSource(tropical), vanilla_tex],
         )
     if pool == "vanilla":
         return PoolSources(
@@ -250,6 +296,7 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
     # vanilla texture paths.
     filled: set[str] = set()
     missing: set[str] = set()
+    substituted: dict[str, str] = {}
     for pool, textures in wanted.items():
         outstanding = {t for t in textures if not (data_root / t).exists()}
         for source in sources[pool].textures:
@@ -260,13 +307,33 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
             landed = {t for t in available if (data_root / t).exists()}
             filled |= landed
             outstanding -= landed
+        # Only now, after every source has been asked for the exact path.
+        for source in sources[pool].textures:
+            for rel in sorted(outstanding):
+                alternative = source.find_by_basename(rel)
+                if not alternative:
+                    continue
+                source.extract_many([alternative], data_root)
+                origin = data_root / alternative
+                if not origin.exists():
+                    continue
+                target = data_root / rel
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(origin, target)
+                substituted[rel] = alternative
+                filled.add(rel)
+            outstanding -= set(substituted)
         missing |= outstanding
+
+    for rel, alternative in sorted(substituted.items()):
+        print(f"[kit]   texture path fixed up: {rel} <- {alternative}")
 
     print(f"[kit] {len(resolved)} assets, textures filled={len(filled)} "
           f"missing={len(missing)}")
     for texture in sorted(missing)[:10]:
         print(f"[kit]   missing texture: {texture}")
-    return work, resolved, {"texturesMissing": sorted(missing)}
+    return work, resolved, {"texturesMissing": sorted(missing),
+                            "texturesSubstituted": substituted}
 
 
 FOLIAGE_CATEGORIES = {"tree", "shrub", "plant", "grass", "aquatic-plant", "fungus"}
@@ -378,6 +445,7 @@ def build(kit_id: str, vault: Path) -> dict:
 
     summary = json.loads(summary_json.read_text())
     summary["texturesMissing"] = notes["texturesMissing"]
+    summary["texturesSubstituted"] = notes["texturesSubstituted"]
     summary["alphaModes"] = set_alpha_modes(output_glb, summary)
     manifest_path = output_glb.with_suffix(".kit.json")
     manifest_path.write_text(json.dumps(summary, indent=1) + "\n")

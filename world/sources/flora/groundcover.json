@@ -1,0 +1,69 @@
+{
+  "id": "argonia-groundcover-provisional-v1",
+  "status": "PROVISIONAL — species choice and densities are the phase agent's proposal pending owner placement decisions. The schema is not provisional: it is Bethesda's GRAS field list, adopted as a checklist per module 95 §86.0b.",
+  "grounding": {
+    "schema": "docs/research/shipped-world-placement-rules.md R10 — GRAS carries density, slope limits, a distance-from-water rule with a mode enum, position jitter, height/colour variance and a wind wave period; LTEX.GNAM binds grasses to painted ground and never allows more than three",
+    "observedValues": "world/sources/placement/groundcover-rules.json",
+    "landCoverIds": "tooling/world-generation/worldgen/landcover.py — the same ids the ground-control raster stores in its red channel"
+  },
+  "rules": {
+    "maxSpeciesPerCover": 3,
+    "bareGroundIsFine": "20 of the 47 mined landscape textures allow no grass at all; mud, silt, rock and road are meant to read bare",
+    "tier": "T3 — regenerated at runtime from the land-cover raster inside a camera ring, never written into chunk bundles (module 65 §110)",
+    "densityUnit": "instances per hectare inside the ring, before the slope response"
+  },
+  "byLandCover": {
+    "11": {"cover": "MARSH_GRASS", "species": [
+      {"asset": "bmv:landscape/grass/vurt_reeds", "density": 9000, "slopeDegMax": 40, "heightVariance": 0.3, "positionJitterM": 0.55, "waveperiod": 120},
+      {"asset": "tropical:landscape/grass/cattailgrass", "density": 3000, "slopeDegMax": 35, "heightVariance": 0.3, "positionJitterM": 0.55, "waveperiod": 120, "waterRule": "below-at-least", "unitsFromWater": 0}
+    ]},
+    "12": {"cover": "UNDERGROWTH", "species": [
+      {"asset": "tropical:landscape/grass/ferngrass01", "density": 6000, "slopeDegMax": 50, "heightVariance": 0.33, "positionJitterM": 0.42, "waveperiod": 240},
+      {"asset": "bmv:landscape/grass/esurosebaywillowherb01", "density": 2500, "slopeDegMax": 45, "heightVariance": 0.3, "positionJitterM": 0.42, "waveperiod": 200}
+    ]},
+    "13": {"cover": "BC_MOSS", "species": [
+      {"asset": "tropical:landscape/grass/grassfern01", "density": 4000, "slopeDegMax": 50, "heightVariance": 0.3, "positionJitterM": 0.4, "waveperiod": 240}
+    ]},
+    "14": {"cover": "MOSS", "species": [
+      {"asset": "tropical:landscape/grass/grassfern01", "density": 3500, "slopeDegMax": 50, "heightVariance": 0.3, "positionJitterM": 0.4, "waveperiod": 240}
+    ]},
+    "15": {"cover": "SWAMP_GRASS", "species": [
+      {"asset": "bmv:landscape/grass/vurt_reeds", "density": 7000, "slopeDegMax": 40, "heightVariance": 0.3, "positionJitterM": 0.55, "waveperiod": 120},
+      {"asset": "tropical:landscape/grass/grassplant01", "density": 3500, "slopeDegMax": 45, "heightVariance": 0.35, "positionJitterM": 0.42, "waveperiod": 200}
+    ]},
+    "16": {"cover": "TROP_GRASS", "species": [
+      {"asset": "tropical:landscape/grass/marshgrassobj01", "density": 6000, "slopeDegMax": 42, "heightVariance": 0.3, "positionJitterM": 0.55, "waveperiod": 120},
+      {"asset": "tropical:landscape/grass/grassfern01", "density": 3000, "slopeDegMax": 50, "heightVariance": 0.3, "positionJitterM": 0.4, "waveperiod": 240}
+    ]},
+    "17": {"cover": "GRASS_DIRT", "species": [
+      {"asset": "tropical:landscape/grass/grassplant01", "density": 2500, "slopeDegMax": 45, "heightVariance": 0.3, "positionJitterM": 0.42, "waveperiod": 200}
+    ]},
+    "18": {"cover": "SCRUB", "species": [
+      {"asset": "bmv:landscape/grass/esurosebaywillowherb01", "density": 2000, "slopeDegMax": 45, "heightVariance": 0.3, "positionJitterM": 0.45, "waveperiod": 220}
+    ]},
+    "19": {"cover": "JUNGLE", "species": [
+      {"asset": "tropical:landscape/grass/ferngrass01", "density": 8000, "slopeDegMax": 50, "heightVariance": 0.33, "positionJitterM": 0.42, "waveperiod": 240},
+      {"asset": "tropical:landscape/grass/grassfern01", "density": 5000, "slopeDegMax": 50, "heightVariance": 0.3, "positionJitterM": 0.4, "waveperiod": 240},
+      {"asset": "tropical:landscape/grass/grassplant01", "density": 2500, "slopeDegMax": 45, "heightVariance": 0.35, "positionJitterM": 0.42, "waveperiod": 200}
+    ]},
+    "20": {"cover": "FOREST_FLOOR", "species": [
+      {"asset": "tropical:landscape/grass/ferngrass01", "density": 5000, "slopeDegMax": 50, "heightVariance": 0.33, "positionJitterM": 0.42, "waveperiod": 240}
+    ]},
+    "21": {"cover": "LITTER", "species": [
+      {"asset": "tropical:landscape/grass/grassfern01", "density": 1800, "slopeDegMax": 45, "heightVariance": 0.3, "positionJitterM": 0.4, "waveperiod": 240}
+    ]},
+    "3": {"cover": "SCUM", "species": [
+      {"asset": "bmv:landscape/grass/vurt_reeds", "density": 2500, "slopeDegMax": 30, "heightVariance": 0.3, "positionJitterM": 0.55, "waveperiod": 120, "waterRule": "below-at-least", "unitsFromWater": 0}
+    ]},
+    "9": {"cover": "PEAT", "species": [
+      {"asset": "tropical:landscape/grass/marshgrassobj01", "density": 3000, "slopeDegMax": 40, "heightVariance": 0.3, "positionJitterM": 0.55, "waveperiod": 120}
+    ]},
+    "10": {"cover": "MUD_LEAVES", "species": [
+      {"asset": "tropical:landscape/grass/grassfern01", "density": 1500, "slopeDegMax": 40, "heightVariance": 0.3, "positionJitterM": 0.4, "waveperiod": 240}
+    ]}
+  },
+  "bare": {
+    "covers": ["SILT", "RIVER_MUD", "BANK_WET", "BLACK_MUD", "PUDDLE", "CLAY", "MUCK", "BC_MUD", "MOSSY_ROCK", "BC_ROCK", "SAND", "SALT", "DRY_CLAY", "PATH", "PEAT_SLOPE", "TRACK", "BC_ROAD", "MOUNTAIN_ROCK", "BEACH_SAND", "SEABED_SAND", "PEBBLES", "OCEAN_FLOOR", "DIRT_CLIFF"],
+    "why": "roads, rock, open mud and the seabed carry no groundcover — the mined ratio is 20 bare of 47 ground types, and bare ground is what makes a reed bed read as a reed bed"
+  }
+}
