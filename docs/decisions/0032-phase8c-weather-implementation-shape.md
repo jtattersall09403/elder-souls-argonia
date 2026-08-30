@@ -1,20 +1,25 @@
 # 0032 — Phase 8c weather and atmosphere: implementation shape
 
-Date: 2026-08-28 · Status: accepted · Owner review: pending (visual gate)
+Date: 2026-08-28 · Status: accepted · Owner review: **CLOSED 2026-08-30 after
+round 5** (good-enough, not perfect — the owner will record their remaining
+polish items in docs/polish-backlog.md for Phase P)
 Research: [docs/research/weather-clouds-rain-threejs.md](../research/weather-clouds-rain-threejs.md)
 · climate model: [black-marsh-climatology.md](../research/black-marsh-climatology.md)
 Spec: module [55](../world/55-light-sky-time.md) §97–98; deliverables module 95 §86.
 
 ## CONTINUING THIS PHASE — run-book for the next agent
 
-**State (2026-08-30): round 5 BUILT + PROBED + DEPLOYED — owner playtesting.**
-You are here because the owner said "Continue phase 8C delivery" with
-feedback points. Protocol: read this file
-in full (Decisions + Implementation notes below are the design rationale);
-fix the feedback at root cause; log each iteration as a numbered **Round N**
-section at the bottom (defect → root cause → fix, the 0021/0025 pattern);
-redeploy and hand back the checklist. On owner PASS: flip the PROGRESS 8c
-row to done, sweep cosmetic leftovers to docs/polish-backlog.md.
+**State: PHASE CLOSED by the owner 2026-08-30 after round 5** (good-enough,
+not perfect — owner-recorded leftovers land in docs/polish-backlog.md,
+Phase P). If you are iterating on weather/atmosphere again (Phase P or a
+regression), the protocol still applies: read this file in full (Decisions +
+Implementation notes below are the design rationale); fix at root cause; log
+each iteration as a numbered **Round N** section at the bottom (defect →
+root cause → fix, the 0021/0025 pattern); redeploy and hand back a
+checklist. Two invariants that must survive any future round: fog colours
+are DERIVED from the real light (round 5 — never reintroduce authored
+per-state fog colours or a camera-altitude sky veil), and rain physics never
+rides the game clock (round 4).
 
 **Where feedback lands** (most tuning is one table or one constant):
 
