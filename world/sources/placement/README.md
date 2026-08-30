@@ -37,11 +37,13 @@ masters we do not hold get resolved.
 
 ## Known gap — vanilla `Skyrim.esm`
 
-34 % of Black Marsh's references (and 50 % of Valenwood's) point at base
-objects defined in `Skyrim.esm`, which **is not in the vault** (only the three
-BSAs are). Those references are still counted and profiled — under stable
-`skyrim.esm#0B73BC`-style ids — so every density, band and clumping number
-covers them; only their *names* are missing. Dropping the ESM into
+41 % of Black Marsh's references (and 63 % of Valenwood's) point at base
+objects defined in `Skyrim.esm` or a DLC master, none of which are **in the
+vault** (only the three base-game BSAs are). Those references are still
+counted and profiled — under stable `skyrim.esm#0B73BC` ids, or
+`edid:TreeSwordFern06` where a name source supplies the editor id — so every
+density, band and clumping number covers them; only their *meshes* are
+missing. Dropping the ESM into
 `<vault>/skyrim-source/Data/` and re-running the commands above names them,
 and additionally unlocks Bethesda's own `REGN`/`GRAS` tables. The owner ask is
 recorded in [docs/PROGRESS.md](../../../docs/PROGRESS.md).

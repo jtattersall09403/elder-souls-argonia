@@ -486,30 +486,45 @@ def bands(instances: list[Instance], top: int = 14) -> dict:
     }
 
 
+MIN_ASSOCIATION_SUPPORT = 15
+"""Cells a species must appear in before it can be called anyone's companion."""
+
+
 def associations(instances: list[Instance], top: int = 12) -> dict:
-    """Which species share a cell — the raw material for palette guilds."""
+    """Which species share a cell more often than chance — palette guilds.
+
+    Scored by **lift** (observed co-occurrence over the independent
+    expectation) with a support floor: without the floor the ranking fills up
+    with one-cell curiosities that trivially co-occur with everything.
+    """
     by_cell: dict[tuple[int, int], set[str]] = defaultdict(set)
     for inst in instances:
         by_cell[inst.cell].add(inst.species)
+    total_cells = len(by_cell)
     presence: Counter = Counter()
     for members in by_cell.values():
         presence.update(members)
+    eligible = {s for s, n in presence.items() if n >= MIN_ASSOCIATION_SUPPORT}
     pair: Counter = Counter()
     for members in by_cell.values():
-        ordered = sorted(members)
+        ordered = sorted(members & eligible)
         for i, a in enumerate(ordered):
             for b in ordered[i + 1:]:
                 pair[(a, b)] += 1
+
+    ranked = Counter(i.species for i in instances)
     out: dict[str, list] = {}
-    common = [s for s, n in presence.most_common(60)]
-    for species in common:
+    for species, _ in ranked.most_common(60):
+        if species not in eligible:
+            continue
         partners = []
         for (a, b), n in pair.items():
-            if a == species or b == species:
-                other = b if a == species else a
-                lift = n / min(presence[a], presence[b])
-                partners.append((other, n, round(lift, 3)))
-        partners.sort(key=lambda t: -t[2])
+            if species not in (a, b):
+                continue
+            other = b if a == species else a
+            expected = presence[a] * presence[b] / total_cells
+            partners.append((other, n, round(n / expected, 2) if expected else None))
+        partners.sort(key=lambda t: (-(t[2] or 0), -t[1]))
         out[species] = partners[:top]
     return out
 
