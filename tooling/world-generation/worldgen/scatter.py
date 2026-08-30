@@ -79,6 +79,12 @@ STAND_WAVELENGTH_M = 190.0
 The mined correlation reaches the noise floor by ~200 m, so stand-scale
 variation must play out over that distance, not over the 340 m first guessed."""
 
+GUILD_WAVELENGTH_M = 220.0
+"""Water-guild theming patch size (rule M3). The mined pools are 100–25,000 m²
+(median ~30 m across, p95 ~110 m), so a 220 m selector field makes almost
+every pool fall wholly inside one guild's patch — a lilypad pond OR a reed
+bed, never a per-instance mix."""
+
 
 def value_noise(salt: int, x: float, z: float, wavelength: float) -> float:
     """Smooth deterministic noise in [0, 1] — bilinear over a hash lattice.
@@ -201,6 +207,13 @@ class Layer:
     """How strongly it follows the *shared* openness field — the glades and
     thickets every species in a place agrees on. Species that fill gaps
     (reeds in an opening) can set this negative to grow where trees do not."""
+    guild: str = ""
+    """Mined rule M3: a dressed pool is matrix + ONE water guild (lilypad
+    pond / reed bed / drowned thicket), themed per water body, never mixed
+    per instance. Layers sharing a region and carrying different guild names
+    are mutually exclusive: a ~220 m guild-noise field picks which one is
+    active locally, approximating per-pool theming without water-body ids.
+    Empty = always active (the matrix)."""
     # Presentation.
     scale_range: tuple[float, float] = (0.9, 1.2)
     yaw_random: bool = True
@@ -368,6 +381,19 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
     # species, which is what makes clearings read as places rather than as
     # per-species noise.
     glade_salt = hash64(seed, 0x61ADE)
+    # Water-guild selector (rule M3). A layer's competitors are the other
+    # guild names sharing a region class with it, so each region themes its
+    # own pools from its own guild list.
+    guild_salt = hash64(seed, 0x9011D)
+    guild_pools: dict[int, list[str]] = {}
+    for layer in palette.layers:
+        if layer.guild:
+            mine = set(layer.region_classes)
+            guild_pools[id(layer)] = sorted({
+                other.guild for other in palette.layers if other.guild
+                and (not mine or not other.region_classes
+                     or mine & set(other.region_classes))
+            })
 
     for layer in palette.layers:
         salt = _layer_salt(seed, layer)
@@ -412,6 +438,17 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
                 # edge-wall thicket does not straddle into the deep interior.
                 glade_cell = value_noise(glade_salt, seed_x, seed_z,
                                          GLADE_WAVELENGTH_M)
+                if layer.guild:
+                    # One guild per global 220 m tile — hard patch identity,
+                    # like the source's per-pool theming, not a soft blend.
+                    pool = guild_pools[id(layer)]
+                    tile_x = math.floor(seed_x / GUILD_WAVELENGTH_M)
+                    tile_z = math.floor(seed_z / GUILD_WAVELENGTH_M)
+                    pick = min(len(pool) - 1, int(uniform(
+                        guild_salt, tile_x & 0xFFFFFFFF, tile_z & 0xFFFFFFFF)
+                        * len(pool)))
+                    if pool[pick] != layer.guild:
+                        continue
                 expected_here = per_cell * layer.patchiness_at(
                     salt, glade_cell, seed_x, seed_z,
                 ) * layer.shore_factor(fields.shore(seed_x, seed_z))
@@ -431,8 +468,12 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
                                       shore_m=fields.shore(cx, cz),
                                       glade=glade_cell):
                         continue
-                    if uniform_at(key, 3) > layer.weight(depth, slope):
-                        continue
+                    # The soft response is rolled ONCE, per member. Rolling it
+                    # here as well squared it (slope 0.7 delivered 0.49) —
+                    # authored density silently under-delivered everywhere
+                    # (round-2 sparse-jungle root cause #1). The centre keeps
+                    # only the hard gate: a clump seeded on ineligible ground
+                    # still dies.
 
                     singles = uniform_at(key, 4) < singleton_centre_share
                     count = 1 if singles else _clump_size(

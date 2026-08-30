@@ -273,6 +273,9 @@ def main() -> None:
     index = {}
     totals: Counter = Counter()
     species_totals: Counter = Counter()
+    class_counts: Counter = Counter()
+    class_area_px: Counter = Counter()
+    fields_for_report = source.as_fields()
     per_chunk = []
     for cx, cz in wanted:
         present, instances, blob = compile_chunk(source, palette, cx, cz, args.seed)
@@ -282,6 +285,15 @@ def main() -> None:
         totals.update(tiers)
         totals["chunks"] += 1
         species_totals.update(i.species for i in instances)
+        if args.report:
+            # Delivered density per REGION CLASS at the instance, against the
+            # class's own area — the per-modal-chunk numbers mix classes and
+            # understate every dense class that shares its chunks.
+            class_counts.update(
+                fields_for_report.region(i.x, i.z) for i in instances)
+            window = source._region_window(cx, cz)
+            for value, count in zip(*np.unique(window, return_counts=True)):
+                class_area_px[int(value)] += int(count)
         region = source.modal_region(cx, cz)
         record = {
             "chunk": [cx, cz],
@@ -334,6 +346,13 @@ def main() -> None:
             per_ha = sum(values) / len(values) / (CHUNK_M * CHUNK_M / 10_000)
             print(f"  {name:28s} {len(values):3d} chunks  "
                   f"mean {sum(values)//len(values):6d}/chunk  {per_ha:6.1f}/ha")
+        if args.report and class_counts:
+            print("  delivered per region class (/ha of that class's area):")
+            for class_id, count in class_counts.most_common():
+                ha = class_area_px[class_id] * (source.region_px_m ** 2) / 10_000
+                if ha > 0:
+                    name = REGION_CLASSES.get(class_id, ("?",))[0]
+                    print(f"    {name:28s} {count:8,d}  {count / ha:8.1f}")
         if args.report:
             # Delivered per species over the dressed area — read against the
             # palette's authored instances_per_hectare to see what the gates

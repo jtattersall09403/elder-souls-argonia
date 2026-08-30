@@ -316,3 +316,24 @@ def test_glade_band_puts_the_edge_wall_at_the_glade_edge():
     # The band admits only part of the landscape, so the banded layer places
     # fewer — and both place something (the band is not degenerate).
     assert 0 < len(placed) < len(everywhere)
+
+
+def test_water_guilds_theme_by_place_and_never_mix():
+    """Rule M3: pools are matrix + ONE guild. Layers with different guild
+    names in the same region never share a ~110 m neighbourhood."""
+    lily = Layer(species="lilypad", instances_per_hectare=120, guild="lilypad",
+                 patchiness=0.0, glade_response=0.0)
+    reed = Layer(species="reed", instances_per_hectare=120, guild="reed-bed",
+                 patchiness=0.0, glade_response=0.0)
+    fields = flat_fields(depth=1.0)
+    placed = scatter_chunk(0, 0, 936, Palette("p", [lily, reed]), fields, 7)
+    assert {i.species for i in placed} == {"lilypad", "reed"}
+    # Guild identity is per 220 m tile: away from tile borders (> one clump
+    # radius in), a tile holds exactly one guild.
+    tiles: dict[tuple[int, int], set] = {}
+    for i in placed:
+        bx, bz = i.x % 220.0, i.z % 220.0
+        if 15.0 < bx < 205.0 and 15.0 < bz < 205.0:
+            tiles.setdefault((int(i.x // 220), int(i.z // 220)), set()).add(i.species)
+    assert tiles
+    assert all(len(kinds) == 1 for kinds in tiles.values())
