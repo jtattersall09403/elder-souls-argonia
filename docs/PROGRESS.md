@@ -44,7 +44,7 @@ first, then open only the master-plan sections the active phase needs.
 | 8a — world time, natural light and sky | done | owner gate PASS 2026-08-26 after 8 feedback rounds (decisions 0020/**0021** = full defect→fix history; research doc §8–8d). world-time package (calendar/sun/moons/stars, verified phase cycle); physical light rig with **envelope-pinned dome** (CPU Preetham twin `preethamCpu.ts` + `skyScreenModel.ts`; whiteout/black-gap class caught by `npm test`); directional twilight (Earth shadow, Belt of Venus, magnitude-staged stars); moon-aware night floors; owner-locked defaults warmth 1.0, stars ×0.5 (~3300); CSM shadows w/ contact bias; walk+fly city markers; HUD compass. Deferred: beyond-border land apron (module 55 §98b + research doc) |
 | 8b — water renderer and interaction | done | owner CLOSED 2026-08-28 (good-enough, **not perfect** — full water-systems re-review + polish queued in [polish-backlog.md](polish-backlog.md), Phase P). 7 rounds; full defect→fix history in decision 0025. Province W-field water surface, rivers/marsh/estuary/coast/underwater, buoyancy + Rapier water query, monotone slope rivers, shore surf, waterfall shading |
 | 8c — weather and atmosphere | in progress | **round 4 DEPLOYED 2026-08-30, awaiting owner playtest.** All 7 round-3 feedback points fixed at root cause (defect→fix log: decision [0032](decisions/0032-phase8c-weather-implementation-shape.md) Round 4): rain drew BEHIND water (transparent, depthWrite-free, overpainted by the pass-3 water surface — now its own PRECIP_LAYER rendered after the water); rain moved off the time-scaled water clock onto real time at true terminal velocity, streak length derived from speed; less white; **GAME_TIME_SCALE = 30** (Morrowind's timescale) written into world-time and selectable in the studio; fair-weather coverage ladder clear→fair→partly→broken→overcast, rolled by the calendar with diurnal cumulus build; visibility integrated INTO weather (climate-vis G baseline × live regionHazeFactor — one call feeds the renderer and the published number); thunderstorm seas raised to squall parity; fog/mist/cap-cloud now lit and COLOURED by the sun (altitude dimming + sunset tint + directional forward-scatter fogSunLum), envelope proof extended; raster ClampToEdge stripes off the map edge fixed; cap cloud dilated + noise-broken. 22/22 probe scenarios + 406 tests green |
-| 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | in progress | **first half delivered 2026-08-30, six placement decisions waiting on the owner ([0036](decisions/0036-phase10-placement-decisions.md)).** Done: structured plugin readers (base objects/cells/refs/LAND painting/REGN/GRAS) → §86.0b mining of 186k placed references → [14 placement rules](research/shipped-world-placement-rules.md); **27,929-row semantic asset registry** across all four pools with a query CLI; Xanmeer kit downloaded, credited and measured (256-unit grid); **kit builder** NIF→GLB with LOD chains, collision proxies and masked-foliage alpha (40 palette species convert clean); **deterministic clustered scatter compiler** hitting the mined Clark-Evans 0.45, with seam/determinism/clearance probes; lore-grounded provisional flora palettes + groundcover table. Next after 0036: the four renderer tiers + the micro-lab budget probe (both need looking at, both consume 0036) |
+| 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | in progress | **catalogue, mining, kit builder and scatter compiler delivered 2026-08-30; owner placement decisions answered and applied ([0036](decisions/0036-phase10-placement-decisions.md)).** Structured plugin readers → §86.0b mining of 186k placed references → [14 placement rules](research/shipped-world-placement-rules.md); **27,929-row semantic asset registry** across all four pools with a query CLI; Xanmeer kit downloaded, credited, measured (256-unit grid); **kit builder** NIF→GLB with LOD chains, collision proxies and masked-foliage alpha (40 palette species convert clean); **clustered scatter compiler** matching the source on clumping, gap sizes and variation; density [graded by our own climate fields](research/vegetation-density-design.md) and varied within regions; **region rebalance** (marsh follows saturation: wetland 20.6%→35.9% of land) — *in code, not yet applied to the deployed rasters, see Waiting on user*; credits check in CI. Next: the four renderer tiers + the micro-lab budget probe (both need owner eyes) |
 | 11 — settlement/location system, exemplar-first (0034) | todo | may start once the S schema is accepted (semantic authoring); packet freeze gated on 10b probes + 10c numbers |
 | 12 — dungeon/interior system, exemplar-first (0034) | todo | may interleave with 11 |
 | 9 — swimming, climbing, boats (re-slotted after the placement exemplars; 0034) | todo | player craft only — ferry/fast travel is Morrowind-style world content (Phase 11); thin swim slice may pull earlier; boats may slip |
@@ -59,17 +59,17 @@ first, then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- **Phase 10 placement decisions — six questions, read
-  [decision 0036](decisions/0036-phase10-placement-decisions.md)** (2026-08-30).
-  In plain terms: ① how dense should the world's plant life be (measured
-  options ×1/×3/×6/×10 against the reference mod — recommend ×3) ② how big
-  should the trees be (the source trees are giants; recommend mostly-normal
-  with a few landmark giants) ③ sign off the exemplar area + three contrast
-  areas ④ **the region map says the province is 72 % dry ground and only 20 %
-  marsh** — is that fine, or should it be rebalanced? ⑤ keep bare ground bare
-  between the grass? ⑥ five-minute unblock: copy `Skyrim.esm` into the vault
-  (needs your Steam login; command below). Nothing else in Phase 10 is
-  blocked on ⑥.
+- **Phase 10 — apply the region rebalance once 8c closes.** The owner asked
+  for more of the province to read as marsh (0036 Q4) and the classifier now
+  does that (wetland 20.6% → 35.9% of land). It is **not applied to the
+  deployed rasters**, because re-running it also regenerates the climate
+  rasters the 8c playtest is running against. When 8c is closed, from
+  `tooling/world-generation`: `python3 -m worldgen.compile_hydrology
+  "<vault>/argonia-heightfield/heightfield-f32.npy"`, then `compile_society`,
+  `refine_province`, `compile_chunks`, `export_web_chunks` per its README,
+  then re-run `python3 -m worldgen.compile_scatter --report` and re-check the
+  density calibration. `worldgen.report_regions` previews the change without
+  writing anything.
 
 - **8c round 4 playtest** — deployed 2026-08-30. Check: ① **set the time
   dropdown to "▶ game speed (×30)"** — that is the speed the real game will
