@@ -39,3 +39,20 @@ phase builds it), and a **save/persistence layer** (save-on-rest is decided in
    seamed: gear.json is the single source (76 §129) ported at 10c, the
    semantic compiler covers loot/traps (10c), provenance and placement are
    Phase 13, catalogue breadth is 13/15 content.
+
+## Addendum 2026-08-30 — the comprehensive audit
+
+The owner commissioned the full build-out systems audit the same day. Five
+parallel audits (architecture, quest-plan demands, stats-design demands,
+implemented stack, world-plan residue) → evidence doc
+[research/game-buildout-systems-audit.md](../research/game-buildout-systems-audit.md);
+the register was expanded to match (architecture-debt section, ~7 new system
+rows, per-kickoff pull-in list, keep/cut batch). Headline findings: `apps/game`
+is a stub and ~7.3k LOC of game-runtime renderer sits app-private in the
+studio (extraction unowned → build-out milestone 1 recommended); the typed
+quest condition vocabulary is mandated but enumerated nowhere (now flagged in
+quests 80 §58, a Q1 gate); magic's *numbers* are settled but the casting
+system is not; weapon poisons + the H2H finisher post-date both 10c
+deliverable lists. Three doc/data defects fixed in the same change (76 §121.4
+stale constant, stale stats-sim divergence note, the §58 flag); the training
+price contradiction (10× vs 8×) is recorded for 10c, not resolved.

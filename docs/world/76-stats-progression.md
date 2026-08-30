@@ -912,7 +912,7 @@ windups remain untouched by all of this (§102).
 ### 121.4 Defence
 
 ```
-mitigation = AR / (AR + 126 + incomingDamage)          # 0…1, never reaches 1
+mitigation = AR / (AR + 135.6 + 0.6 × incomingDamage)  # 0…1, never reaches 1
 AR = Σ worn pieces (× that class's armour-skill band) + unarmoured contribution + effects
 ```
 

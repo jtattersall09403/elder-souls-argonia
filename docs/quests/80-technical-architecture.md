@@ -74,6 +74,16 @@ interface QuestStage {
 
 Conditions and actions must come from a finite typed vocabulary. Avoid arbitrary per-quest script code.
 
+**Status (audit 2026-08-30): the vocabulary is mandated but not yet enumerated
+anywhere.** The only concrete list is the eight stats-facing predicates in
+world module 76 §125 (`attributeAtLeast` … `evidenceFlag`), which cannot
+express stage/journal state, topic knowledge, evidence *absence*, artifact
+custody, local-state variants, time-of-day or tier-lock status — all of which
+the quest tables gate on. Authoring the full condition/action vocabulary is a
+**Q1 gate** (it must exist before quests become machine-readable); tracked in
+[../game-buildout-register.md](../game-buildout-register.md) and the
+[build-out systems audit](../research/game-buildout-systems-audit.md).
+
 ## 59. Dialogue and knowledge
 
 ```ts
