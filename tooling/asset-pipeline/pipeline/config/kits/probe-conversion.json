@@ -1,0 +1,36 @@
+{
+  "id": "probe-conversion",
+  "description": "Phase 10 conversion probe: seven assets across three pools, chosen so the output can be checked against numbers we already know. The two Xanmeer pieces validate the unit conversion against the kit's own 256-unit grid; the flora exercise alpha-tested foliage, a trunk capsule and a water plant; the Tropical fern proves the third pool's texture path.",
+  "output": "tooling/asset-pipeline/output/kits/probe-conversion.glb",
+  "lodRatios": [
+    0.35,
+    0.12
+  ],
+  "assets": [
+    {
+      "asset": "xanmeer:architecture/xanmeer/exterior/xanmeer_exterior_floor"
+    },
+    {
+      "asset": "xanmeer:architecture/xanmeer/interior/xanmeer_hallway_2way"
+    },
+    {
+      "asset": "bmv:landscape/trees/beachpalm1"
+    },
+    {
+      "asset": "bmv:landscape/trees/gkblillipad2"
+    },
+    {
+      "asset": "bmv:landscape/grass/vurt_reeds",
+      "lodRatios": [
+        0.5
+      ]
+    },
+    {
+      "asset": "bmv:architecture/phitt/ashlands/tramaroot01"
+    },
+    {
+      "asset": "tropical:plants/tropical/manfern"
+    }
+  ],
+  "inspect": true
+}
