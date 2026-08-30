@@ -1,12 +1,12 @@
 {
   "id": "flora-province-v1",
-  "description": "Every species the provisional province palettes place (world/sources/flora/palettes.json). Built to turn instance counts into triangle counts \u2014 the number that decides whether the province renders in a browser.",
+  "description": "Every species the provisional province palettes place (world/sources/flora/palettes.json). Built to turn instance counts into triangle counts \u2014 the number that decides whether the province renders in a browser. Textures are capped at 256 px: this ships to GitHub Pages, where the browser has no vault, so the GLB is committed and its size is the budget. Proper compression (KTX2/Basis) is Phase 14's job.",
   "output": "tooling/asset-pipeline/output/kits/flora-province-v1.glb",
   "lodRatios": [
     0.35,
     0.12
   ],
-  "textureMaxSize": 512,
+  "textureMaxSize": 256,
   "assets": [
     {
       "asset": "bmv:landscape/trees/dwarfjunip05"

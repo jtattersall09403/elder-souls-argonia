@@ -86,12 +86,25 @@ default).
 
 **Built so far (Phase 10, 2026-08-30):** the scatter compiler
 (`worldgen/scatter.py`, `worldgen/compile_scatter.py`) with its clustering,
-seam and determinism probes; the kit builder that turns sourced NIFs into
-runtime GLBs with LOD chains and collision proxies
+seam, variation and determinism probes; the kit builder that turns sourced
+NIFs into runtime GLBs with LOD chains and collision proxies
 (`pipeline/build_kit.py`); the flora palettes and groundcover table
-(`world/sources/flora/`, provisional pending decision 0036). **Not built:**
-the four renderer tiers and the micro-lab budget probe — both need looking at
-to judge, and both consume 0036's answers.
+(`world/sources/flora/`, densities settled by decision 0036); and **T1/T2 of
+the renderer** on plain `InstancedMesh`
+([apps/world-studio/src/vegetation/](../../apps/world-studio/src/vegetation/README.md))
+with a probe that reads instance/draw/triangle counters.
+
+First measured numbers, 13 chunks around the jungle contrast area:
+**43,536 instances, 96 draw calls, 6.6 M triangles**. Two lessons already
+paid for and recorded in that README: never look a kit asset up by its glTF
+node name (three.js sanitises the slashes out and the kit renders empty,
+silently), and bucket instances by (species, LOD) across chunks rather than
+per chunk (449 draws → 96 for the same instances).
+
+**Not built:** T3's runtime groundcover ring, T4 impostors, wind (that block
+belongs to the weather system and Phase 8c is still in flight), and the
+dense-vegetation micro-lab budget measurement that should decide whether
+`@three.ez/instanced-mesh` and impostors are worth their complexity.
 
 - **Phase 10** builds the machinery against the reference watershed: scatter
   compiler pass, T1/T2 renderers + LOD chains, T3 groundcover ring, wind

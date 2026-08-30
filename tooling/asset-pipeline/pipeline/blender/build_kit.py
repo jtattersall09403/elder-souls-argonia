@@ -207,6 +207,12 @@ for asset in PLAN["assets"]:
     root = bpy.data.objects.new(asset["id"].replace(":", "__"), None)
     bpy.context.scene.collection.objects.link(root)
     root.empty_display_size = 0.1
+    # The semantic id travels as glTF `extras`, not as the node name: three.js
+    # sanitises node names for its animation property paths and silently
+    # strips the slashes out of `bmv__landscape/trees/cypress1`, so a
+    # name-based lookup finds nothing and the whole kit renders empty.
+    root["assetId"] = asset["id"]
+    root["category"] = asset["category"]
     for obj in meshes:
         obj.parent = root
 
@@ -221,6 +227,7 @@ for asset in PLAN["assets"]:
             modifier.ratio = ratio
             copy.parent = root
             copy["lod"] = level
+            copy["assetId"] = asset["id"]
             lods.append((level, ratio, copy))
     bpy.context.view_layer.update()
 
@@ -271,6 +278,7 @@ bpy.ops.export_scene.gltf(
     export_animations=False,
     export_morph=False,
     export_apply=True,
+    export_extras=True,          # carries assetId and lod through to the runtime
     export_image_format="AUTO",
     export_jpeg_quality=88,
 )

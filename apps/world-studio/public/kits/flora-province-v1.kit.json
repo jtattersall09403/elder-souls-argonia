@@ -1,0 +1,1601 @@
+{
+ "kit": "flora-province-v1",
+ "assets": [
+  {
+   "id": "bmv:landscape/trees/dwarfjunip05",
+   "node": "bmv__landscape/trees/dwarfjunip05",
+   "category": "tree",
+   "sizeM": [
+    4.415,
+    4.754,
+    2.879
+   ],
+   "originOffsetM": [
+    2.036,
+    2.284,
+    0.303
+   ],
+   "triangles": 5708,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "-trunk.dds",
+    "juniptex-z.dds"
+   ],
+   "materials": [
+    "ReachCliffTree01:0 - L1_ReachCliffTree01:0.Mat",
+    "ReachCliffTree01:0 - L1_ReachCliffTree01:0_1.Mat"
+   ],
+   "collisionCapsule": {
+    "radiusM": 1.277,
+    "heightM": 2.879,
+    "centreOffsetM": [
+     -0.081,
+     -0.093
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/rocks/moss_rockcliff01",
+   "node": "bmv__landscape/rocks/moss_rockcliff01",
+   "category": "plant",
+   "sizeM": [
+    10.506,
+    22.72,
+    9.886
+   ],
+   "originOffsetM": [
+    5.284,
+    11.36,
+    4.964
+   ],
+   "triangles": 1728,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "dirt02.dds",
+    "mountainslab03.dds",
+    "mountainslab05.dds",
+    "rocks01.dds"
+   ],
+   "materials": [
+    "RockCliff01:0.Mat",
+    "RockCliff01:1.Mat",
+    "RockCliff01:3.Mat",
+    "RockCliff01:8.Mat"
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/cedartree3",
+   "node": "bmv__landscape/trees/cedartree3",
+   "category": "tree",
+   "sizeM": [
+    23.12,
+    19.476,
+    18.965
+   ],
+   "originOffsetM": [
+    11.812,
+    10.444,
+    -0.07
+   ],
+   "triangles": 1266,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbcedarbark9.dds",
+    "gkbconifer4.dds",
+    "gkbmapleconifer1.dds"
+   ],
+   "materials": [
+    "cedartree3.Mat",
+    "cedartree3_1.Mat",
+    "cedartree3_2.Mat"
+   ],
+   "collisionCapsule": {
+    "radiusM": 0.907,
+    "heightM": 18.965,
+    "centreOffsetM": [
+     0.117,
+     0.999
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/gkbfallforestshrub02",
+   "node": "bmv__landscape/trees/gkbfallforestshrub02",
+   "category": "shrub",
+   "sizeM": [
+    2.571,
+    2.937,
+    2.152
+   ],
+   "originOffsetM": [
+    1.272,
+    1.568,
+    0.245
+   ],
+   "triangles": 273,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "gkbfallforestshrub01.dds"
+   ],
+   "materials": [
+    "BSTriShape.Mat"
+   ]
+  },
+  {
+   "id": "bmv:vvardenfell/flora/algrass03b",
+   "node": "bmv__vvardenfell/flora/algrass03b",
+   "category": "grass",
+   "sizeM": [
+    2.621,
+    3.049,
+    2.811
+   ],
+   "originOffsetM": [
+    8.233,
+    6.565,
+    86.058
+   ],
+   "triangles": 272,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "ashgrass03.dds"
+   ],
+   "materials": [
+    "Ivy01:1.Mat"
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/mangrovereachtree0gkb9",
+   "node": "bmv__landscape/trees/mangrovereachtree0gkb9",
+   "category": "tree",
+   "sizeM": [
+    6.186,
+    5.269,
+    9.051
+   ],
+   "originOffsetM": [
+    2.855,
+    2.702,
+    0.622
+   ],
+   "triangles": 1960,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [
+    {
+     "shape": "BSX",
+     "offsetM": [
+      7.23,
+      32.75,
+      -30.69
+     ]
+    },
+    {
+     "shape": "BSX_1",
+     "offsetM": [
+      4.41,
+      31.33,
+      -30.44
+     ]
+    },
+    {
+     "shape": "BSX_2",
+     "offsetM": [
+      8.06,
+      31.69,
+      -30.7
+     ]
+    },
+    {
+     "shape": "BSX_3",
+     "offsetM": [
+      6.53,
+      32.93,
+      -29.79
+     ]
+    },
+    {
+     "shape": "BSX_4",
+     "offsetM": [
+      4.24,
+      32.8,
+      -30.38
+     ]
+    },
+    {
+     "shape": "TundraDriftWood01",
+     "offsetM": [
+      4.88,
+      29.74,
+      -31.18
+     ]
+    }
+   ],
+   "textures": [
+    "gkbbark10.dds",
+    "gkbbranch10.dds",
+    "gkbtundradriftwoodbark01.dds",
+    "gkbtundradriftwoodbranches01.dds"
+   ],
+   "materials": [
+    "BSX.Mat",
+    "BSX_1.Mat",
+    "BSX_2.Mat",
+    "BSX_3.Mat",
+    "BSX_4.Mat",
+    "TundraDriftWood01.Mat",
+    "TundraDriftWood01:0 - L1_TundraDriftWood01:0.Mat",
+    "TundraDriftWood01:1 - L1_TundraDriftWood01:1 - L2_TundraDri.001",
+    "TundraDriftWood01:1 - L1_TundraDriftWood01:1 - L2_TundraDri.002",
+    "TundraDriftWood01:1 - L1_TundraDriftWood01:1 - L2_TundraDri.Mat",
+    "TundraDriftWood01:1 - L1_TundraDriftWood01:1 - L2_TundraDriftWo"
+   ],
+   "collisionCapsule": {
+    "radiusM": 1.767,
+    "heightM": 9.051,
+    "centreOffsetM": [
+     0.028,
+     -0.06
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/vurt_reeds",
+   "node": "bmv__landscape/grass/vurt_reeds",
+   "category": "aquatic-plant",
+   "sizeM": [
+    0.903,
+    0.45,
+    0.7
+   ],
+   "originOffsetM": [
+    0.591,
+    0.167,
+    -0.089
+   ],
+   "triangles": 52,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "v_reeds.dds"
+   ],
+   "materials": [
+    "BSX.Mat.001"
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/gkblillipad2",
+   "node": "bmv__landscape/trees/gkblillipad2",
+   "category": "aquatic-plant",
+   "sizeM": [
+    0.938,
+    0.814,
+    2.334
+   ],
+   "originOffsetM": [
+    0.317,
+    0.362,
+    2.334
+   ],
+   "triangles": 6,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "lillipadreed.dds",
+    "lillipads3.dds"
+   ],
+   "materials": [
+    "lillipad.Mat",
+    "lillipad_1.Mat"
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/mangrovereachtree0gkb3",
+   "node": "bmv__landscape/trees/mangrovereachtree0gkb3",
+   "category": "tree",
+   "sizeM": [
+    9.275,
+    8.527,
+    9.746
+   ],
+   "originOffsetM": [
+    4.556,
+    3.545,
+    0.957
+   ],
+   "triangles": 1439,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [
+    {
+     "shape": "BSX.001",
+     "offsetM": [
+      4.48,
+      2.98,
+      50.69
+     ]
+    },
+    {
+     "shape": "BSX_1",
+     "offsetM": [
+      1.61,
+      1.94,
+      50.95
+     ]
+    },
+    {
+     "shape": "BSX_2",
+     "offsetM": [
+      5.25,
+      2.28,
+      50.68
+     ]
+    },
+    {
+     "shape": "BSX_3",
+     "offsetM": [
+      4.27,
+      3.15,
+      51.59
+     ]
+    },
+    {
+     "shape": "BSX_4",
+     "offsetM": [
+      1.53,
+      3.47,
+      51.0
+     ]
+    },
+    {
+     "shape": "ReachCliffTree01",
+     "offsetM": [
+      2.33,
+      0.12,
+      50.2
+     ]
+    }
+   ],
+   "textures": [
+    "gkbbark10.dds",
+    "gkbbranch10.dds",
+    "gkbtundradriftwoodbranches01.dds"
+   ],
+   "materials": [
+    "BSX.001.Mat",
+    "BSX_1.Mat.001",
+    "BSX_2.Mat.001",
+    "BSX_3.Mat.001",
+    "BSX_4.Mat.001",
+    "L1_ReachCliffTree01:1 - L2_ReachCliffTree01:1.Mat",
+    "ReachCliffTree01.Mat",
+    "ReachCliffTree01:0 - L1_ReachCliffTree01:0.001.Mat",
+    "ReachCliffTree01:2 - L1_ReachCliffTree01:2 - L2_ReachCliffT.Mat",
+    "ReachCliffTree01:2 - L1_ReachCliffTree01:2 - L2_ReachCliffTree0"
+   ],
+   "collisionCapsule": {
+    "radiusM": 1.359,
+    "heightM": 9.746,
+    "centreOffsetM": [
+     -0.083,
+     -0.757
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/beachpalm2",
+   "node": "bmv__landscape/trees/beachpalm2",
+   "category": "tree",
+   "sizeM": [
+    9.313,
+    8.909,
+    19.132
+   ],
+   "originOffsetM": [
+    4.587,
+    4.229,
+    0.055
+   ],
+   "triangles": 876,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbpalmbark14.dds",
+    "palmbarknew9.dds",
+    "palmleafnew3dead.dds",
+    "palmleafnew3full2.dds",
+    "palmleafnew3full4.dds",
+    "palmleafnew3sat.dds"
+   ],
+   "materials": [
+    "palmtree2.Mat",
+    "palmtree2_1.Mat",
+    "palmtree2_2.Mat",
+    "palmtree2_3.Mat",
+    "palmtree2_4.Mat",
+    "palmtree2_5.Mat"
+   ],
+   "collisionCapsule": {
+    "radiusM": 0.364,
+    "heightM": 19.132,
+    "centreOffsetM": [
+     -0.104,
+     -0.29
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/grass/waterkelptall01",
+   "node": "bmv__landscape/grass/waterkelptall01",
+   "category": "aquatic-plant",
+   "sizeM": [
+    1.522,
+    1.425,
+    3.983
+   ],
+   "originOffsetM": [
+    0.751,
+    0.706,
+    0.09
+   ],
+   "triangles": 18,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "coastkelpgrass01.dds"
+   ],
+   "materials": [
+    "CoastKelpTall01:0.Mat"
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/cypress3",
+   "node": "bmv__landscape/trees/cypress3",
+   "category": "tree",
+   "sizeM": [
+    24.815,
+    22.169,
+    26.548
+   ],
+   "originOffsetM": [
+    14.505,
+    9.216,
+    0.941
+   ],
+   "triangles": 2046,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "cypressbark3.dds",
+    "cypressbark4.dds",
+    "gkbmapleconifer21.dds",
+    "grandoak12.dds",
+    "spanishmoss6.dds"
+   ],
+   "materials": [
+    "cypress3.Mat",
+    "cypress3_1.Mat",
+    "cypress3_2.Mat",
+    "cypress3_3.Mat",
+    "cypress3_4.Mat",
+    "cypress3_5.Mat",
+    "cypress3_6.Mat",
+    "cypress3_7.Mat"
+   ],
+   "collisionCapsule": {
+    "radiusM": 2.402,
+    "heightM": 26.548,
+    "centreOffsetM": [
+     2.376,
+     -1.672
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/plants/kelptallstatic01aaa",
+   "node": "bmv__landscape/plants/kelptallstatic01aaa",
+   "category": "aquatic-plant",
+   "sizeM": [
+    1.476,
+    1.38,
+    3.983
+   ],
+   "originOffsetM": [
+    0.734,
+    0.688,
+    0.09
+   ],
+   "triangles": 34,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "coastkelpgrass01.dds"
+   ],
+   "materials": [
+    "StaticKelpTall01:0.Mat"
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/cypress1",
+   "node": "bmv__landscape/trees/cypress1",
+   "category": "tree",
+   "sizeM": [
+    20.174,
+    22.656,
+    32.009
+   ],
+   "originOffsetM": [
+    10.164,
+    12.682,
+    0.941
+   ],
+   "triangles": 2447,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "cypressbark3.dds",
+    "cypressbark4.dds",
+    "gkbmapleconifer21.dds",
+    "spanishmoss11.dds",
+    "spanishmoss6.dds"
+   ],
+   "materials": [
+    "cypress1.Mat",
+    "cypress1_1.Mat",
+    "cypress1_2.Mat",
+    "cypress1_3.Mat",
+    "cypress1_4.Mat"
+   ],
+   "collisionCapsule": {
+    "radiusM": 2.421,
+    "heightM": 32.009,
+    "centreOffsetM": [
+     0.02,
+     1.189
+    ]
+   }
+  },
+  {
+   "id": "bmv:architecture/phitt/ashlands/tramaroot01",
+   "node": "bmv__architecture/phitt/ashlands/tramaroot01",
+   "category": "root",
+   "sizeM": [
+    3.246,
+    1.117,
+    1.602
+   ],
+   "originOffsetM": [
+    1.623,
+    0.559,
+    0.801
+   ],
+   "triangles": 1264,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "tramaplant01.dds"
+   ],
+   "materials": [
+    "Root1 0.Mat",
+    "Root1 1.Mat"
+   ]
+  },
+  {
+   "id": "bmv:architecture/phitt/ashlands/tramaroot06",
+   "node": "bmv__architecture/phitt/ashlands/tramaroot06",
+   "category": "root",
+   "sizeM": [
+    3.449,
+    1.576,
+    2.04
+   ],
+   "originOffsetM": [
+    1.725,
+    0.788,
+    1.02
+   ],
+   "triangles": 1152,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "tramaplant01.dds"
+   ],
+   "materials": [
+    "pasted  polySurface16 0.Mat"
+   ]
+  },
+  {
+   "id": "bmv:landscape/plants/florahangingmoss02aaa",
+   "node": "bmv__landscape/plants/florahangingmoss02aaa",
+   "category": "plant",
+   "sizeM": [
+    1.348,
+    0.651,
+    2.606
+   ],
+   "originOffsetM": [
+    0.674,
+    0.322,
+    1.302
+   ],
+   "triangles": 398,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "reachgrassobj01.dds"
+   ],
+   "materials": [
+    "L1_FloraHangingMoss02:0 - L2_FloraHangingMoss02:0.Mat"
+   ]
+  },
+  {
+   "id": "bmv:landscape/plants/fernlarge03",
+   "node": "bmv__landscape/plants/fernlarge03",
+   "category": "plant",
+   "sizeM": [
+    3.671,
+    2.398,
+    1.292
+   ],
+   "originOffsetM": [
+    1.99,
+    1.502,
+    0.056
+   ],
+   "triangles": 236,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "ferny3.dds"
+   ],
+   "materials": [
+    "Ivy01:0.Mat"
+   ]
+  },
+  {
+   "id": "bmv:landscape/plants/braken",
+   "node": "bmv__landscape/plants/braken",
+   "category": "shrub",
+   "sizeM": [
+    2.836,
+    2.705,
+    1.125
+   ],
+   "originOffsetM": [
+    1.243,
+    1.342,
+    0.03
+   ],
+   "triangles": 176,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "braken.dds"
+   ],
+   "materials": [
+    "Ivy01:0.001.Mat"
+   ]
+  },
+  {
+   "id": "bmv:vurt_shroom/vurt_shroom_big1",
+   "node": "bmv__vurt_shroom/vurt_shroom_big1",
+   "category": "fungus",
+   "sizeM": [
+    7.096,
+    6.421,
+    8.518
+   ],
+   "originOffsetM": [
+    2.534,
+    2.692,
+    3.291
+   ],
+   "triangles": 1658,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "vurt_amanita3.dds",
+    "vurt_mushbottom.dds",
+    "vurt_shroomstemmoss.dds"
+   ],
+   "materials": [
+    "Tri plant_pmat2 0.Mat",
+    "Tri plant_pmat2 02.Mat",
+    "Tri plant_pmat2 03.Mat",
+    "Tri plant_pmat2 1.Mat",
+    "plant_pmat1.001.Mat",
+    "plant_pmat1.02.Mat"
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/treewillow01a",
+   "node": "bmv__landscape/trees/treewillow01a",
+   "category": "tree",
+   "sizeM": [
+    20.208,
+    19.027,
+    22.06
+   ],
+   "originOffsetM": [
+    10.382,
+    9.923,
+    4.066
+   ],
+   "triangles": 11652,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "treewillow01.dds",
+    "treewillowbark01.dds"
+   ],
+   "materials": [
+    "ReachTree02:3.Mat",
+    "ReachTree02:3_1.Mat"
+   ],
+   "collisionCapsule": {
+    "radiusM": 5.287,
+    "heightM": 22.06,
+    "centreOffsetM": [
+     6.441,
+     -4.252
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/hangingvines1",
+   "node": "bmv__landscape/trees/hangingvines1",
+   "category": "plant",
+   "sizeM": [
+    1.567,
+    1.13,
+    2.729
+   ],
+   "originOffsetM": [
+    0.787,
+    0.634,
+    1.325
+   ],
+   "triangles": 272,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "rainforestvine5.dds"
+   ],
+   "materials": [
+    "hangingvines.Mat"
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/tropicalplant01",
+   "node": "bmv__landscape/trees/tropicalplant01",
+   "category": "tree",
+   "sizeM": [
+    2.198,
+    2.128,
+    1.264
+   ],
+   "originOffsetM": [
+    1.056,
+    1.131,
+    0.062
+   ],
+   "triangles": 1152,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "tropicalplant01.dds"
+   ],
+   "materials": [
+    "TropicalPlant01:5.Mat"
+   ],
+   "collisionCapsule": {
+    "radiusM": 0.101,
+    "heightM": 1.264,
+    "centreOffsetM": [
+     -0.106,
+     0.066
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/plants/bigshrub2(colorful)",
+   "node": "bmv__landscape/plants/bigshrub2(colorful)",
+   "category": "shrub",
+   "sizeM": [
+    4.246,
+    4.134,
+    3.781
+   ],
+   "originOffsetM": [
+    2.091,
+    2.14,
+    1.15
+   ],
+   "triangles": 420,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "leafcol.dds"
+   ],
+   "materials": [
+    "Ivy01:0.002.Mat"
+   ]
+  },
+  {
+   "id": "bmv:landscape/grass/waterkelpshort01",
+   "node": "bmv__landscape/grass/waterkelpshort01",
+   "category": "aquatic-plant",
+   "sizeM": [
+    0.737,
+    0.794,
+    1.36
+   ],
+   "originOffsetM": [
+    0.369,
+    0.33,
+    0.024
+   ],
+   "triangles": 17,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "coastkelpgrass01.dds"
+   ],
+   "materials": [
+    "CoastKelpShort01:0.Mat"
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/treewillow02a",
+   "node": "bmv__landscape/trees/treewillow02a",
+   "category": "tree",
+   "sizeM": [
+    19.083,
+    18.366,
+    19.24
+   ],
+   "originOffsetM": [
+    7.623,
+    10.889,
+    2.925
+   ],
+   "triangles": 11576,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "treewillow01.dds",
+    "treewillowbark01.dds"
+   ],
+   "materials": [
+    "ReachTree02:3.001.Mat",
+    "ReachTree02:3_1.001.Mat"
+   ],
+   "collisionCapsule": {
+    "radiusM": 2.312,
+    "heightM": 19.24,
+    "centreOffsetM": [
+     6.742,
+     -1.374
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/plants/esloebush08",
+   "node": "bmv__landscape/plants/esloebush08",
+   "category": "shrub",
+   "sizeM": [
+    1.906,
+    3.615,
+    1.99
+   ],
+   "originOffsetM": [
+    0.939,
+    1.675,
+    0.138
+   ],
+   "triangles": 62,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "esloebranch02.dds"
+   ],
+   "materials": [
+    "L2_ReachBush02:2 - L1_ReachBush02:2.Mat"
+   ]
+  },
+  {
+   "id": "bmv:landscape/plants/fern01",
+   "node": "bmv__landscape/plants/fern01",
+   "category": "plant",
+   "sizeM": [
+    3.705,
+    3.358,
+    0.941
+   ],
+   "originOffsetM": [
+    1.82,
+    1.71,
+    0.103
+   ],
+   "triangles": 128,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "fern2.dds"
+   ],
+   "materials": [
+    "Ivy01:0.003.Mat"
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/treewillow03a",
+   "node": "bmv__landscape/trees/treewillow03a",
+   "category": "tree",
+   "sizeM": [
+    11.591,
+    10.216,
+    17.206
+   ],
+   "originOffsetM": [
+    4.674,
+    4.264,
+    0.002
+   ],
+   "triangles": 5694,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "treewillow01.dds",
+    "treewillowbark01.dds"
+   ],
+   "materials": [
+    "ReachCliffTree01:0 - L1_ReachCliffTree01:0.002.Mat",
+    "ReachCliffTree01:0 - L1_ReachCliffTree01:0_1.001.Mat"
+   ],
+   "collisionCapsule": {
+    "radiusM": 5.005,
+    "heightM": 17.206,
+    "centreOffsetM": [
+     0.552,
+     0.431
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/plants/chickweed",
+   "node": "bmv__landscape/plants/chickweed",
+   "category": "plant",
+   "sizeM": [
+    0.843,
+    0.864,
+    0.279
+   ],
+   "originOffsetM": [
+    0.396,
+    0.431,
+    0.065
+   ],
+   "triangles": 3832,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "chickweed.dds",
+    "stem1.dds"
+   ],
+   "materials": [
+    "Ivy01:0.004.Mat",
+    "Ivy01:0_1.Mat"
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/beachpalm3",
+   "node": "bmv__landscape/trees/beachpalm3",
+   "category": "tree",
+   "sizeM": [
+    9.313,
+    8.909,
+    19.136
+   ],
+   "originOffsetM": [
+    4.587,
+    4.229,
+    0.059
+   ],
+   "triangles": 876,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbpalmbark14.dds",
+    "palmbarknew9.dds",
+    "palmleafnew3dead.dds",
+    "palmleafnew3full2.dds",
+    "palmleafnew3full4.dds",
+    "palmleafnew3sat.dds"
+   ],
+   "materials": [
+    "palmtree3.Mat",
+    "palmtree3_1.Mat",
+    "palmtree3_2.Mat",
+    "palmtree3_3.Mat",
+    "palmtree3_4.Mat",
+    "palmtree3_5.Mat"
+   ],
+   "collisionCapsule": {
+    "radiusM": 0.384,
+    "heightM": 19.136,
+    "centreOffsetM": [
+     -0.104,
+     -1.537
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/fanpalm1",
+   "node": "bmv__landscape/trees/fanpalm1",
+   "category": "tree",
+   "sizeM": [
+    9.664,
+    9.568,
+    23.423
+   ],
+   "originOffsetM": [
+    5.106,
+    4.428,
+    0.055
+   ],
+   "triangles": 588,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "fanpalm3.dds",
+    "fanpalm4.dds",
+    "fanpalm6.dds",
+    "fanpalm7.dds",
+    "gkbpalmbark14.dds",
+    "palmbarknew14.dds",
+    "palmmiddle3.dds"
+   ],
+   "materials": [
+    "palmtree1.Mat",
+    "palmtree1_1.Mat",
+    "palmtree1_2.Mat",
+    "palmtree1_3.Mat",
+    "palmtree1_4.Mat",
+    "palmtree1_5.Mat",
+    "palmtree1_6.Mat",
+    "palmtree1_7.Mat"
+   ],
+   "collisionCapsule": {
+    "radiusM": 0.878,
+    "heightM": 23.423,
+    "centreOffsetM": [
+     0.241,
+     -3.749
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/bambooplant",
+   "node": "bmv__landscape/trees/bambooplant",
+   "category": "tree",
+   "sizeM": [
+    1.266,
+    1.216,
+    2.988
+   ],
+   "originOffsetM": [
+    0.61,
+    0.522,
+    0.005
+   ],
+   "triangles": 1440,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "bamboo.dds"
+   ],
+   "materials": [
+    "Bamboo:2.Mat"
+   ],
+   "collisionCapsule": {
+    "radiusM": 0.08,
+    "heightM": 2.988,
+    "centreOffsetM": [
+     -0.025,
+     -0.084
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/gkbjungletreenew1",
+   "node": "bmv__landscape/trees/gkbjungletreenew1",
+   "category": "tree",
+   "sizeM": [
+    7.614,
+    8.071,
+    6.302
+   ],
+   "originOffsetM": [
+    3.998,
+    3.632,
+    0.492
+   ],
+   "triangles": 2598,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbjunglebranch2.dds",
+    "gkbtundradriftwoodbark01.dds",
+    "tundradriftwoodbranches01.dds"
+   ],
+   "materials": [
+    "jungletreenew1.Mat",
+    "jungletreenew1_1.Mat",
+    "jungletreenew1_2.Mat",
+    "jungletreenew1_3.Mat"
+   ],
+   "collisionCapsule": {
+    "radiusM": 0.08,
+    "heightM": 6.302,
+    "centreOffsetM": [
+     0.212,
+     -0.382
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/tropicalshrub01",
+   "node": "bmv__landscape/trees/tropicalshrub01",
+   "category": "shrub",
+   "sizeM": [
+    1.765,
+    1.834,
+    1.193
+   ],
+   "originOffsetM": [
+    0.889,
+    0.989,
+    0.004
+   ],
+   "triangles": 508,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "tropicalshrub01.dds"
+   ],
+   "materials": [
+    "TropicalShrub01:5.Mat"
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/gkbjungletreenew12v3",
+   "node": "bmv__landscape/trees/gkbjungletreenew12v3",
+   "category": "tree",
+   "sizeM": [
+    8.56,
+    6.796,
+    7.911
+   ],
+   "originOffsetM": [
+    3.677,
+    2.271,
+    0.036
+   ],
+   "triangles": 1179,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbbark27.dds",
+    "gkbtreeaspenbranchcompgreen1dark.dds"
+   ],
+   "materials": [
+    "jungletree12v3.Mat",
+    "jungletree12v3_1.Mat",
+    "jungletree12v3_2.Mat",
+    "jungletree12v3_3.Mat"
+   ],
+   "collisionCapsule": {
+    "radiusM": 1.091,
+    "heightM": 7.911,
+    "centreOffsetM": [
+     -0.361,
+     -0.731
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/beachpalm1",
+   "node": "bmv__landscape/trees/beachpalm1",
+   "category": "tree",
+   "sizeM": [
+    9.313,
+    9.018,
+    19.132
+   ],
+   "originOffsetM": [
+    4.587,
+    4.338,
+    0.055
+   ],
+   "triangles": 844,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbpalmbark14.dds",
+    "palmbarknew9.dds",
+    "palmleafnew3dead.dds",
+    "palmleafnew3full2.dds",
+    "palmleafnew3full4.dds",
+    "palmleafnew3sat.dds"
+   ],
+   "materials": [
+    "palmtree1.001.Mat",
+    "palmtree1_1.001.Mat",
+    "palmtree1_2.001.Mat",
+    "palmtree1_3.001.Mat",
+    "palmtree1_4.001.Mat",
+    "palmtree1_5.001.Mat"
+   ],
+   "collisionCapsule": {
+    "radiusM": 0.36,
+    "heightM": 19.132,
+    "centreOffsetM": [
+     -0.103,
+     -4.166
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/hangingvines2",
+   "node": "bmv__landscape/trees/hangingvines2",
+   "category": "plant",
+   "sizeM": [
+    0.873,
+    0.81,
+    2.708
+   ],
+   "originOffsetM": [
+    0.411,
+    0.634,
+    1.325
+   ],
+   "triangles": 195,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "rainforestvine5.dds"
+   ],
+   "materials": [
+    "hangingvines2.Mat"
+   ]
+  },
+  {
+   "id": "bmv:landscape/plants/florahangingmoss03aaa",
+   "node": "bmv__landscape/plants/florahangingmoss03aaa",
+   "category": "plant",
+   "sizeM": [
+    0.716,
+    0.328,
+    1.618
+   ],
+   "originOffsetM": [
+    0.359,
+    0.165,
+    0.809
+   ],
+   "triangles": 209,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "reachgrassobj01.dds"
+   ],
+   "materials": [
+    "L1_FloraHangingMoss03:0.Mat"
+   ]
+  },
+  {
+   "id": "tropical:plants/tropical/manfern",
+   "node": "tropical__plants/tropical/manfern",
+   "category": "plant",
+   "sizeM": [
+    9.434,
+    9.104,
+    6.903
+   ],
+   "originOffsetM": [
+    4.793,
+    4.456,
+    -0.981
+   ],
+   "triangles": 450,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [
+    {
+     "shape": "Tri Tube.001",
+     "offsetM": [
+      4.33,
+      16.48,
+      -118.46
+     ]
+    }
+   ],
+   "textures": [
+    "fernbark.dds",
+    "frond.dds",
+    "fronddead.dds"
+   ],
+   "materials": [
+    "Plane.003.Mat",
+    "Plane.018.Mat",
+    "Tri Tube.001.Mat"
+   ]
+  }
+ ],
+ "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\flora-province-v1.glb",
+ "metresPerUnit": 0.014224,
+ "texturesMissing": [
+  "textures/landscape/trees/gkbjunglebranch10.dds",
+  "textures/landscape/trees/gkbpalmbark22_n.dds",
+  "textures/vurt_amanita3_n.dds",
+  "textures/vurt_mushbottom_n.dds",
+  "textures/vurt_shroomstem.dds",
+  "textures/vurt_shroomstem_n.dds"
+ ],
+ "texturesSubstituted": {
+  "textures/plants/groundplants1/fern2.dds": "textures/landscape/plants/fern2.dds",
+  "textures/plants/groundplants1/fern2_n.dds": "textures/landscape/plants/fern2_n.dds",
+  "textures/plants/grplants2/leafcol.dds": "textures/landscape/plants/leafcol.dds",
+  "textures/plants/grplants2/leafcol_n.dds": "textures/landscape/plants/leafcol_n.dds",
+  "textures/plants/tamira/newplants/bamboo.dds": "textures/landscape/tamira/newplants/bamboo.dds",
+  "textures/plants/tamira/newplants/bamboo_n.dds": "textures/landscape/tamira/newplants/bamboo_n.dds",
+  "textures/plants/tamira/newplants/tropicalshrub01.dds": "textures/landscape/tamira/newplants/tropicalshrub01.dds",
+  "textures/plants/tamira/newplants/tropicalshrub01_n.dds": "textures/landscape/tamira/newplants/tropicalshrub01_n.dds"
+ },
+ "alphaModes": {
+  "MASK": 101,
+  "OPAQUE": 3
+ }
+}

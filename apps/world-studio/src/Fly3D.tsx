@@ -6,6 +6,7 @@ import { sharedChunkStore, type ChunksManifest } from "./character/chunkStore";
 import { headingOf } from "./compass";
 import { CityMarkers } from "./CityMarkers";
 import { ChunkTerrain } from "./character/ChunkTerrain";
+import { Vegetation, type VegetationStats } from "./vegetation/Vegetation";
 import { WorldSky } from "./sky/WorldSky";
 import { StudioWater } from "./water/StudioWater";
 
@@ -29,6 +30,8 @@ export interface Fly3DProps {
   matSet?: string;
   tintStrength?: number; // 0..2 multiplier on the macro climate tint
   showLanes?: boolean;   // boat-lane overlay (cyan water / amber portage)
+  showVegetation?: boolean;  // Phase 10 scatter (exemplar + contrast areas only)
+  onVegetationStats?: (stats: VegetationStats) => void;
   flySpeed?: number;     // m/s (owner slider: running pace up to fast skim)
   onPosition?: (xKm: number, zKm: number, altM: number, headingDeg: number) => void;
 }
@@ -236,6 +239,14 @@ export function Fly3D(props: Fly3DProps) {
             <ChunkTerrain store={store} manifest={chunkManifest} focusRef={focusRef}
               matSet={props.matSet} tintStrength={props.tintStrength}
               verticalScale={props.exaggeration} />
+            {/* Phase 10 vegetation: the scatter compiler's chunk bundles,
+                instanced from the compiled flora kit. Only the exemplar and
+                contrast areas are compiled so far (decision 0036 Q3), so most
+                of the province still has none. */}
+            {props.showVegetation !== false && (
+              <Vegetation focusRef={focusRef} baseUrl={import.meta.env.BASE_URL}
+                verticalScale={props.exaggeration} onStats={props.onVegetationStats} />
+            )}
           </Suspense>
         ) : (
           <Terrain heights={props.heights} size={props.size} metresPerPixel={props.metresPerPixel}

@@ -154,6 +154,15 @@ def merge_palettes(palettes: dict[int, Palette], density_scale: float = 1.0) -> 
     return Palette(id="province", layers=layers)
 
 
+def species_order(palette: Palette) -> list[str]:
+    """The species index every bundle is written against.
+
+    Derived from the whole palette, not from the layers a given chunk happens
+    to activate, so one index in the manifest decodes every chunk.
+    """
+    return sorted({layer.species for layer in palette.layers})
+
+
 def compile_chunk(fields_source: ProvinceFields, palette: Palette,
                   cx: int, cz: int, seed: int):
     present = fields_source.regions_in(cx, cz)
@@ -167,8 +176,7 @@ def compile_chunk(fields_source: ProvinceFields, palette: Palette,
         cx * CHUNK_M, cz * CHUNK_M, CHUNK_M, Palette(palette.id, active),
         fields_source.as_fields(), seed, chunk_id=(cx, cz),
     )
-    species = sorted({layer.species for layer in palette.layers})
-    return present, instances, encode(instances, species)
+    return present, instances, encode(instances, species_order(palette))
 
 
 def variation_probe(instances, size_m: float, cell_m: float = 58.0) -> dict:
@@ -298,6 +306,7 @@ def main() -> None:
     if out_dir:
         (out_dir / "vegetation-index.json").write_text(
             json.dumps({"seed": args.seed, "chunkMetres": round(CHUNK_M, 2),
+                        "speciesOrder": species_order(palette),
                         "chunks": index}, indent=1) + "\n")
 
     dressed = len(per_chunk)

@@ -1,0 +1,117 @@
+/**
+ * Loads the compiled flora kit GLB and indexes it by semantic asset id.
+ *
+ * The kit builder exports one root node per asset (`bmv__landscape/trees/...`,
+ * the id with its colon escaped) whose children are the base meshes plus a
+ * decimated LOD chain marked with an `lod` extra. This turns that into the
+ * shape a renderer wants: per species, an array of levels, each a list of
+ * geometry/material pairs to instance.
+ */
+
+import * as THREE from "three";
+import type { GLTF } from "three/examples/jsm/loaders/GLTFLoader.js";
+
+export interface KitLevel {
+  readonly parts: { geometry: THREE.BufferGeometry; material: THREE.Material }[];
+  readonly triangles: number;
+}
+
+export interface KitSpecies {
+  readonly id: string;
+  /** Level 0 is the full mesh; later entries are progressively decimated. */
+  readonly levels: KitLevel[];
+  /** Source-space height in metres at scale 1, for LOD distance choice. */
+  readonly heightM: number;
+}
+
+export type FloraKit = Map<string, KitSpecies>;
+
+export interface KitManifestAsset {
+  id: string;
+  sizeM: [number, number, number];
+  triangles: number;
+  alphaTest?: boolean;
+  doubleSided?: boolean;
+  collision?: string;
+  collisionCapsule?: { radiusM: number; heightM: number; centreOffsetM: [number, number] };
+}
+
+export interface KitManifest {
+  kit: string;
+  assets: KitManifestAsset[];
+}
+
+/**
+ * The semantic id comes from glTF `extras`, never from the node name: three.js
+ * sanitises node names for animation property paths and strips the slashes out
+ * of `bmv__landscape/trees/cypress1`, which silently emptied the whole kit.
+ * The name is kept only as a legible fallback.
+ */
+function assetIdOf(object: THREE.Object3D): string | null {
+  const extras = (object.userData ?? {}) as { assetId?: string };
+  if (typeof extras.assetId === "string") return extras.assetId;
+  return object.name ? object.name.replace("__", ":") : null;
+}
+
+/** Level index from the exporter's `lod` extra; base meshes have none. */
+function levelOf(object: THREE.Object3D): number {
+  const extras = (object.userData ?? {}) as { lod?: number };
+  return typeof extras.lod === "number" ? extras.lod : 0;
+}
+
+export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
+  const heights = new Map(manifest.assets.map((a) => [a.id, a.sizeM[2]]));
+  const alphaTested = new Set(
+    manifest.assets.filter((a) => a.alphaTest).map((a) => a.id),
+  );
+  const kit: FloraKit = new Map();
+
+  for (const root of gltf.scene.children) {
+    const id = assetIdOf(root);
+    if (!id || !heights.has(id)) continue;
+    const byLevel = new Map<number, KitLevel["parts"]>();
+    let triangles = 0;
+
+    root.traverse((child) => {
+      const mesh = child as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      const level = levelOf(mesh);
+      const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+      // Foliage is alpha-*tested*, never blended: blending sorts wrongly
+      // through a canopy and costs the most on exactly the devices that can
+      // least afford it (module 65 §111).
+      const std = material as THREE.MeshStandardMaterial;
+      if (alphaTested.has(id) && std) {
+        std.alphaTest = 0.5;
+        std.transparent = false;
+        std.depthWrite = true;
+        std.side = THREE.DoubleSide;
+      }
+      const parts = byLevel.get(level) ?? [];
+      parts.push({ geometry: mesh.geometry, material });
+      byLevel.set(level, parts);
+      const index = mesh.geometry.getIndex();
+      if (level === 0) {
+        triangles += (index ? index.count : mesh.geometry.attributes.position.count) / 3;
+      }
+    });
+
+    if (byLevel.size === 0) continue;
+    const levels: KitLevel[] = [];
+    for (const level of [...byLevel.keys()].sort((a, b) => a - b)) {
+      levels.push({ parts: byLevel.get(level)!, triangles: level === 0 ? triangles : 0 });
+    }
+    kit.set(id, { id, levels, heightM: heights.get(id) ?? 4 });
+  }
+  return kit;
+}
+
+/**
+ * LOD distances, scaled by how big the thing is: a 60 m landmark tree has to
+ * keep its silhouette much further out than a knee-high fern, and one fixed
+ * ring would either pop the tree or waste triangles on the fern.
+ */
+export function lodDistances(heightM: number): number[] {
+  const reach = Math.max(12, heightM * 6);
+  return [reach, reach * 2.6];
+}
