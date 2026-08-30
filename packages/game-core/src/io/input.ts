@@ -24,6 +24,9 @@ export const SWITCH_GAMEPAD = {
   R_LIGHT: 5,
   ZL_PARRY: 6,
   ZR_HEAVY: 7,
+  // Menu buttons: read by the UI layer (io/uiMenus.ts), not by combat.
+  SELECT_MENU: 8,
+  START_MENU: 9,
   L_STICK_JUMP: 10,
   R_STICK_LOCK: 11,
   DPAD_RIGHT_EQUIP: 15,

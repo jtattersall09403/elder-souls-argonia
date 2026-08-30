@@ -109,6 +109,9 @@ button { color: inherit; font: inherit; }
 .action-button.lock { left: 72px; top: 63px; width: 48px; height: 48px; }
 .action-button.heal { right: 0; top: 121px; width: 44px; height: 44px; }.action-button.equip { right: 101px; top: 0; width: 43px; height: 43px; }
 .action-button.jump { left: 88px; top: 150px; width: 43px; height: 43px; }
+/* Menu (UI screen) buttons, top-right under the help button — one per UI_MENU_BINDINGS. */
+.menu-buttons { pointer-events: none; position: absolute; right: calc(max(18px, env(safe-area-inset-right)) + 182px); top: max(38px, calc(env(safe-area-inset-top) + 38px)); display: flex; flex-direction: column; gap: 8px; }
+.action-button.menu { position: relative; width: 48px; height: 48px; }
 
 @media (max-width: 760px) {
   .player-vitals { width: 42vw; min-width: 190px; }

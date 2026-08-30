@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { BASE_FIELD_OF_VIEW } from "@elder-souls/game-core/physics/characterPhysics";
 import { CombatScene } from "./components/CombatScene";
 import { input } from "@elder-souls/game-core/io/input";
+import { menuForKey, uiMenuInput, type UiMenu } from "@elder-souls/game-core/io/uiMenus";
 import { InventoryScreen } from "./ui/inventory/InventoryScreen";
 import { RacePicker } from "./ui/RacePicker";
 import { enterFullscreen, FullscreenButton } from "./components/FullscreenButton";
@@ -105,24 +106,48 @@ export function App() {
 
   // The inventory is a modal screen, so it owns the keyboard while it is up and
   // releases the pointer lock the combat camera holds.
+  const setMenuOpen = useCallback((menu: UiMenu, next: boolean) => {
+    if (menu !== "inventory") return;
+    setInventoryOpen(next);
+    input.clearHeld();
+    // Closing the inventory hands the camera back. The keypress that closed
+    // it is the user gesture the browser wants, so this is the one moment
+    // re-locking is guaranteed to be allowed.
+    if (next && document.pointerLockElement) document.exitPointerLock();
+    else if (!next) requestMouseLook();
+  }, [requestMouseLook, setInventoryOpen]);
+
   useEffect(() => {
     if (visualScenario) return;
     const onKey = (event: KeyboardEvent) => {
-      if (event.code === "KeyI" || (event.code === "Escape" && useInventoryStore.getState().open)) {
+      const menu = menuForKey(event.code);
+      if (menu) {
         event.preventDefault();
-        const next = event.code === "Escape" ? false : !useInventoryStore.getState().open;
-        setInventoryOpen(next);
-        input.clearHeld();
-        // Closing the inventory hands the camera back. The keypress that closed
-        // it is the user gesture the browser wants, so this is the one moment
-        // re-locking is guaranteed to be allowed.
-        if (next && document.pointerLockElement) document.exitPointerLock();
-        else if (!next) requestMouseLook();
+        setMenuOpen(menu, !useInventoryStore.getState().open);
+      } else if (event.code === "Escape" && useInventoryStore.getState().open) {
+        event.preventDefault();
+        setMenuOpen("inventory", false);
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [requestMouseLook, setInventoryOpen, visualScenario]);
+  }, [setMenuOpen, visualScenario]);
+
+  // Gamepad Start and the on-screen menu button are polled here rather than in
+  // the combat frame loop: that loop is deliberately frozen while a modal
+  // screen is up, so it could never see the press that closes the screen.
+  useEffect(() => {
+    if (visualScenario) return;
+    let request = 0;
+    const tick = () => {
+      for (const menu of uiMenuInput.poll()) {
+        setMenuOpen(menu, !useInventoryStore.getState().open);
+      }
+      request = window.requestAnimationFrame(tick);
+    };
+    request = window.requestAnimationFrame(tick);
+    return () => window.cancelAnimationFrame(request);
+  }, [setMenuOpen, visualScenario]);
 
   const [looking, setLooking] = useState(false);
   useEffect(() => {

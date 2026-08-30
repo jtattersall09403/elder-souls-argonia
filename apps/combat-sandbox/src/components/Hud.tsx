@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { input, type InputAction } from "@elder-souls/game-core/io/input";
+import { UI_MENU_BINDINGS, uiMenuInput } from "@elder-souls/game-core/io/uiMenus";
 import { useGameStore } from "@elder-souls/game-core/core/store";
 import { MAX_ENEMIES } from "@elder-souls/game-core/combat/tuning";
 import { FullscreenButton } from "./FullscreenButton";
@@ -31,6 +32,38 @@ function ActionButton({ action, label, sublabel, className = "" }: { action: Inp
       <strong>{label}</strong>
       {sublabel && <small>{sublabel}</small>}
     </button>
+  );
+}
+
+/**
+ * On-screen buttons for the UI screens, generated from UI_MENU_BINDINGS so a
+ * future map/journal/pause screen appears here without touching this file.
+ */
+function MenuButtons() {
+  return (
+    <div className="menu-buttons">
+      {UI_MENU_BINDINGS.map((binding) => {
+        const release = () => uiMenuInput.press(binding.menu, false);
+        return (
+          <button
+            key={binding.menu}
+            className={`action-button menu menu-${binding.menu}`}
+            aria-label={binding.label}
+            onPointerDown={(event) => {
+              event.preventDefault();
+              event.currentTarget.setPointerCapture(event.pointerId);
+              uiMenuInput.press(binding.menu, true);
+            }}
+            onPointerUp={release}
+            onPointerCancel={release}
+            onLostPointerCapture={release}
+          >
+            <strong>{binding.padLabel}</strong>
+            <small>{binding.label.toUpperCase()}</small>
+          </button>
+        );
+      })}
+    </div>
   );
 }
 
@@ -230,6 +263,7 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
               <dt>Dodge / sprint</dt><dd>Space tap / hold</dd>
               <dt>Jump</dt><dd>J</dd>
               <dt>Lock / heal / equip</dt><dd>Q / H / Tab</dd>
+              <dt>Inventory</dt><dd>I (Esc closes)</dd>
               <dt>Switch target</dt><dd>, / .</dd>
               <dt>Bow: raise / draw</dt><dd>Mouse 1 tap / hold</dd>
               <dt>Bow: lower</dt><dd>Mouse 2</dd>
@@ -241,6 +275,7 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
               <dt>Dodge / sprint</dt><dd>B tap / hold</dd>
               <dt>Jump</dt><dd>A / L3</dd>
               <dt>Lock / heal / equip</dt><dd>R3 / X / D-pad →</dd>
+              <dt>Inventory</dt><dd>Start</dd>
               <dt>Bow: raise / draw</dt><dd>R tap / hold</dd>
               <dt>Bow: lower</dt><dd>L</dd>
               <dt>Switch target</dt><dd>Right stick ←/→</dd>
@@ -254,6 +289,7 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
         <div className="touch-controls">
           <CameraZone />
           <TouchJoystick />
+          <MenuButtons />
           <div className="touch-actions">
             <ActionButton action="lockOn" label="R3" sublabel="LOCK" className="lock" />
             <ActionButton action="targetLeft" label="◀" sublabel="TARGET" className="target-left" />
