@@ -343,6 +343,28 @@ export const AERIAL_VARYING_PARS = /* glsl */ `
 varying vec3 vEsWorldPos;
 `;
 
+/**
+ * Mip-alpha coverage boost for alpha-tested foliage (research doc
+ * openworld-vegetation-placement-architecture §4.1 cause 1): box-filtered mips
+ * average cutout alpha downward, so ever fewer texels pass `alphaTest` in
+ * lower mips and canopies dissolve to sticks at distance. The offline fix
+ * (per-mip coverage scaling) is unavailable — three.js generates mips at
+ * runtime — so estimate the mip level from the UV footprint and scale alpha
+ * up before the cutoff. Compiled out entirely for materials without both an
+ * alpha test and a map (the sea plane uses this patch with alphaTest 0).
+ */
+const MIP_ALPHA_BOOST_GLSL = /* glsl */ `
+#if defined( USE_ALPHATEST ) && defined( USE_MAP )
+  {
+    vec2 esTexels = vec2(textureSize(map, 0));
+    vec2 esDx = dFdx(vMapUv) * esTexels;
+    vec2 esDy = dFdy(vMapUv) * esTexels;
+    float esMip = 0.5 * log2(max(max(dot(esDx, esDx), dot(esDy, esDy)), 1.0));
+    diffuseColor.a *= 1.0 + 0.25 * min(esMip, 4.0);
+  }
+#endif
+`;
+
 export const AERIAL_VARYING_VERTEX = /* glsl */ `
   {
     vec4 esWp = vec4(transformed, 1.0);
@@ -377,6 +399,9 @@ export function applyAerialPerspective(
       );
     shader.fragmentShader = shader.fragmentShader
       .replace("#include <common>", `#include <common>\n${AERIAL_VARYING_PARS}\n${AERIAL_PARS_GLSL}`)
+      // Boost, THEN the stock cutoff: distant foliage keeps its coverage as
+      // runtime-generated mips take over, instead of thinning to sticks.
+      .replace("#include <alphatest_fragment>", `${MIP_ALPHA_BOOST_GLSL}\n#include <alphatest_fragment>`)
       .replace("#include <tonemapping_fragment>", `${AERIAL_APPLY_GLSL}\n#include <tonemapping_fragment>`);
   };
   material.customProgramCacheKey = () => "es-aerial";

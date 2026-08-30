@@ -3,7 +3,20 @@ import struct
 
 import pytest
 
-from .build_kit import DirSource, RarSource, _default_collision, set_alpha_modes
+from .build_kit import (
+    DirSource, RarSource, _default_collision, _flat_lod_of, set_alpha_modes,
+)
+
+
+def test_only_flat_lod_variants_become_billboards():
+    # `_lod`/`_distant` siblings are decimated full meshes — our own LOD chain
+    # already covers those; only the authored flat cards are the T4 tier.
+    assert _flat_lod_of({"lodVariant": "meshes/t/x_lod_flat.nif"}) == (
+        "meshes/t/x_lod_flat.nif"
+    )
+    assert _flat_lod_of({"lodVariant": "meshes/t/x_lod.nif"}) is None
+    assert _flat_lod_of({"lodVariant": "meshes/t/x_distant.nif"}) is None
+    assert _flat_lod_of({}) is None
 
 
 def test_rar_source_maps_lowercase_paths_back_to_real_member_names(tmp_path):
@@ -55,16 +68,19 @@ def test_set_alpha_modes_masks_foliage_and_clears_everything_else(tmp_path):
             {"name": "leaf", "alphaMode": "BLEND"},
             {"name": "bark", "alphaMode": "BLEND"},
             {"name": "stone"},
+            {"name": "card", "alphaMode": "BLEND"},
         ],
     })
     summary = {"assets": [
         {"alphaTest": True, "materials": ["leaf", "bark"]},
-        {"alphaTest": False, "materials": ["stone"]},
+        # Billboard cards are cutouts even on a non-alpha-tested base asset.
+        {"alphaTest": False, "materials": ["stone"],
+         "billboardMaterials": ["card"]},
     ]}
 
     counts = set_alpha_modes(glb, summary)
 
-    assert counts == {"MASK": 2, "OPAQUE": 1}
+    assert counts == {"MASK": 3, "OPAQUE": 1}
     data = glb.read_bytes()
     magic, version, length = struct.unpack_from("<4sII", data, 0)
     assert magic == b"glTF" and length == len(data)   # header length rewritten
@@ -75,6 +91,7 @@ def test_set_alpha_modes_masks_foliage_and_clears_everything_else(tmp_path):
     assert modes["leaf"] == ("MASK", 0.5)
     assert modes["bark"] == ("MASK", 0.5)
     assert modes["stone"] == (None, None)
+    assert modes["card"] == ("MASK", 0.5)
     # The binary chunk must survive the JSON rewrite intact.
     assert data[20 + chunk_length + 8:] == b"\x00\x00\x00\x00"
 

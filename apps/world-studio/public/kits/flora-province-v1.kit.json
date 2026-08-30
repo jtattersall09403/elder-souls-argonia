@@ -103,12 +103,17 @@
    "textures": [
     "gkbcedarbark9.dds",
     "gkbconifer4.dds",
-    "gkbmapleconifer1.dds"
+    "gkbmapleconifer1.dds",
+    "tamrieltreelod.dds"
    ],
    "materials": [
     "cedartree3.Mat",
     "cedartree3_1.Mat",
     "cedartree3_2.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "cedartree3_LOD_FLAT:0.Mat"
    ],
    "collisionCapsule": {
     "radiusM": 0.907,
@@ -143,10 +148,15 @@
    "collision": "none",
    "droppedShapes": [],
    "textures": [
-    "gkbfallforestshrub01.dds"
+    "gkbfallforestshrub01.dds",
+    "tamrieltreelod.dds"
    ],
    "materials": [
     "BSTriShape.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "gkbfallforestshrub02_LOD_FLAT:0.Mat"
    ]
   },
   {
@@ -255,7 +265,8 @@
     "gkbbark10.dds",
     "gkbbranch10.dds",
     "gkbtundradriftwoodbark01.dds",
-    "gkbtundradriftwoodbranches01.dds"
+    "gkbtundradriftwoodbranches01.dds",
+    "tamrieltreelod.dds"
    ],
    "materials": [
     "BSX.Mat",
@@ -269,6 +280,10 @@
     "TundraDriftWood01:1 - L1_TundraDriftWood01:1 - L2_TundraDri.002",
     "TundraDriftWood01:1 - L1_TundraDriftWood01:1 - L2_TundraDri.Mat",
     "TundraDriftWood01:1 - L1_TundraDriftWood01:1 - L2_TundraDriftWo"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "mangrovereachtree0gkb9_LOD_FLAT:0.Mat"
    ],
    "collisionCapsule": {
     "radiusM": 1.767,
@@ -416,7 +431,8 @@
    "textures": [
     "gkbbark10.dds",
     "gkbbranch10.dds",
-    "gkbtundradriftwoodbranches01.dds"
+    "gkbtundradriftwoodbranches01.dds",
+    "tamrieltreelod.dds"
    ],
    "materials": [
     "BSX.001.Mat",
@@ -429,6 +445,10 @@
     "ReachCliffTree01:0 - L1_ReachCliffTree01:0.001.Mat",
     "ReachCliffTree01:2 - L1_ReachCliffTree01:2 - L2_ReachCliffT.Mat",
     "ReachCliffTree01:2 - L1_ReachCliffTree01:2 - L2_ReachCliffTree0"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "mangrovereachtree0gkb3_LOD_FLAT:0.Mat"
    ],
    "collisionCapsule": {
     "radiusM": 1.359,
@@ -468,7 +488,8 @@
     "palmleafnew3dead.dds",
     "palmleafnew3full2.dds",
     "palmleafnew3full4.dds",
-    "palmleafnew3sat.dds"
+    "palmleafnew3sat.dds",
+    "tamrieltreelod.dds"
    ],
    "materials": [
     "palmtree2.Mat",
@@ -477,6 +498,10 @@
     "palmtree2_3.Mat",
     "palmtree2_4.Mat",
     "palmtree2_5.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "beachpalm2_LOD_FLAT:0.Mat"
    ],
    "collisionCapsule": {
     "radiusM": 0.364,
@@ -854,12 +879,17 @@
    "collision": "trunk-capsule",
    "droppedShapes": [],
    "textures": [
+    "tamrieltreelod.dds",
     "treewillow01.dds",
     "treewillowbark01.dds"
    ],
    "materials": [
     "ReachTree02:3.Mat",
     "ReachTree02:3_1.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "TreeAspen01_LOD_FLAT:0.Mat"
    ],
    "collisionCapsule": {
     "radiusM": 5.287,
@@ -1022,12 +1052,17 @@
    "collision": "trunk-capsule",
    "droppedShapes": [],
    "textures": [
+    "tamrieltreelod.dds",
     "treewillow01.dds",
     "treewillowbark01.dds"
    ],
    "materials": [
     "ReachTree02:3.001.Mat",
     "ReachTree02:3_1.001.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "TreeAspen01_LOD_FLAT:0.001.Mat"
    ],
    "collisionCapsule": {
     "radiusM": 2.312,
@@ -1122,12 +1157,17 @@
    "collision": "trunk-capsule",
    "droppedShapes": [],
    "textures": [
+    "tamrieltreelod.dds",
     "treewillow01.dds",
     "treewillowbark01.dds"
    ],
    "materials": [
     "ReachCliffTree01:0 - L1_ReachCliffTree01:0.002.Mat",
     "ReachCliffTree01:0 - L1_ReachCliffTree01:0_1.001.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "TreeAspen01_LOD_FLAT:0.002.Mat"
    ],
    "collisionCapsule": {
     "radiusM": 5.005,
@@ -1199,7 +1239,8 @@
     "palmleafnew3dead.dds",
     "palmleafnew3full2.dds",
     "palmleafnew3full4.dds",
-    "palmleafnew3sat.dds"
+    "palmleafnew3sat.dds",
+    "tamrieltreelod.dds"
    ],
    "materials": [
     "palmtree3.Mat",
@@ -1208,6 +1249,10 @@
     "palmtree3_3.Mat",
     "palmtree3_4.Mat",
     "palmtree3_5.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "beachpalm3_LOD_FLAT:0.Mat"
    ],
    "collisionCapsule": {
     "radiusM": 0.384,
@@ -1248,7 +1293,8 @@
     "fanpalm7.dds",
     "gkbpalmbark14.dds",
     "palmbarknew14.dds",
-    "palmmiddle3.dds"
+    "palmmiddle3.dds",
+    "tamrieltreelod.dds"
    ],
    "materials": [
     "palmtree1.Mat",
@@ -1259,6 +1305,10 @@
     "palmtree1_5.Mat",
     "palmtree1_6.Mat",
     "palmtree1_7.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "fanpalm1_LOD_FLAT:0.Mat"
    ],
    "collisionCapsule": {
     "radiusM": 0.878,
@@ -1333,6 +1383,7 @@
    "textures": [
     "gkbjunglebranch2.dds",
     "gkbtundradriftwoodbark01.dds",
+    "tamrieltreelod.dds",
     "tundradriftwoodbranches01.dds"
    ],
    "materials": [
@@ -1340,6 +1391,10 @@
     "jungletreenew1_1.Mat",
     "jungletreenew1_2.Mat",
     "jungletreenew1_3.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "gkbjungletreenew1_LOD_FLAT:0.Mat"
    ],
    "collisionCapsule": {
     "radiusM": 0.08,
@@ -1405,13 +1460,18 @@
    "droppedShapes": [],
    "textures": [
     "gkbbark27.dds",
-    "gkbtreeaspenbranchcompgreen1dark.dds"
+    "gkbtreeaspenbranchcompgreen1dark.dds",
+    "tamrieltreelod.dds"
    ],
    "materials": [
     "jungletree12v3.Mat",
     "jungletree12v3_1.Mat",
     "jungletree12v3_2.Mat",
     "jungletree12v3_3.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "gkbjungletreenew12v3_LOD_FLAT:0.Mat"
    ],
    "collisionCapsule": {
     "radiusM": 1.091,
@@ -1451,7 +1511,8 @@
     "palmleafnew3dead.dds",
     "palmleafnew3full2.dds",
     "palmleafnew3full4.dds",
-    "palmleafnew3sat.dds"
+    "palmleafnew3sat.dds",
+    "tamrieltreelod.dds"
    ],
    "materials": [
     "palmtree1.001.Mat",
@@ -1460,6 +1521,10 @@
     "palmtree1_3.001.Mat",
     "palmtree1_4.001.Mat",
     "palmtree1_5.001.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "beachpalm1_LOD_FLAT:0.Mat"
    ],
    "collisionCapsule": {
     "radiusM": 0.36,
@@ -1579,6 +1644,7 @@
  "texturesMissing": [
   "textures/landscape/trees/gkbjunglebranch10.dds",
   "textures/landscape/trees/gkbpalmbark22_n.dds",
+  "textures/terrain/tamriel/trees/tamrieltreelod_n.dds",
   "textures/vurt_amanita3_n.dds",
   "textures/vurt_mushbottom_n.dds",
   "textures/vurt_shroomstem.dds",
@@ -1595,7 +1661,7 @@
   "textures/plants/tamira/newplants/tropicalshrub01_n.dds": "textures/landscape/tamira/newplants/tropicalshrub01_n.dds"
  },
  "alphaModes": {
-  "MASK": 101,
+  "MASK": 114,
   "OPAQUE": 3
  }
 }

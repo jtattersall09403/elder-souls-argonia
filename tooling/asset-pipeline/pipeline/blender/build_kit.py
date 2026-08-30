@@ -17,10 +17,15 @@ summary_json.
 import bpy
 import json
 import os
+import numpy as np
 from mathutils import Matrix, Vector
 
 PLAN = json.loads(open(os.environ["BUILD_PLAN"], "r", encoding="utf-8").read())
 SUMMARY = {"kit": PLAN["kit"], "assets": []}
+
+#: Diffuse images whose alpha channel drives an alpha test at runtime; these
+#: get their transparent RGB dilated before export (see dilate_edge_rgb).
+ALPHA_TESTED_IMAGES = set()
 
 bpy.ops.preferences.addon_enable(module="io_scene_nifly")
 bpy.ops.object.select_all(action="SELECT")
@@ -69,6 +74,7 @@ def rebuild_material(mat, double_sided):
         tree.links.new(tex.outputs["Color"], bsdf.inputs["Base Color"])
         if double_sided and diffuse.depth in (32, 64):   # alpha-tested foliage
             tree.links.new(tex.outputs["Alpha"], bsdf.inputs["Alpha"])
+            ALPHA_TESTED_IMAGES.add(diffuse.name)
     mat.use_backface_culling = not double_sided
     # Alpha only reaches the exporter for foliage; opaque kit pieces stay
     # opaque so their textures can leave as JPEG rather than PNG.
@@ -78,6 +84,79 @@ def rebuild_material(mat, double_sided):
         except TypeError:
             pass
     return diffuse.name if diffuse else None
+
+
+def dilate_edge_rgb(image, iterations=12):
+    """Flood opaque RGB outward into fully transparent texels.
+
+    NIF-converted foliage textures usually carry black (or grey) RGB under
+    their transparent texels, and mip generation averages RGB regardless of
+    alpha — so every runtime-generated mip inherits a black halo and distant
+    canopies darken toward black blocks (research doc
+    openworld-vegetation-placement-architecture §4.1 cause 2). three.js mips
+    at upload time, so the only place to fix the source data is here, before
+    export. Iterative 8-neighbour averaging is deterministic; ~12 texels of
+    flood at the shipped 256 px covers the mips (level 3–4) that dominate at
+    the distances where the defect reads.
+    """
+    width, height = image.size
+    if not (width and height):
+        return False
+    pixels = np.empty(width * height * 4, dtype=np.float32)
+    image.pixels.foreach_get(pixels)
+    rgba = pixels.reshape(height, width, 4)
+    solid = rgba[..., 3] > 0.1
+    if solid.all() or not solid.any():
+        return False
+    rgb = rgba[..., :3]
+    for _ in range(iterations):
+        if solid.all():
+            break
+        summed = np.zeros_like(rgb)
+        counts = np.zeros((height, width), dtype=np.float32)
+        for dy in (-1, 0, 1):
+            for dx in (-1, 0, 1):
+                if dy == 0 and dx == 0:
+                    continue
+                # np.roll wraps, which matches the GPU's repeat sampling.
+                neighbour_solid = np.roll(np.roll(solid, dy, axis=0), dx, axis=1)
+                neighbour_rgb = np.roll(np.roll(rgb, dy, axis=0), dx, axis=1)
+                summed += neighbour_rgb * neighbour_solid[..., None]
+                counts += neighbour_solid
+        grow = (~solid) & (counts > 0)
+        if not grow.any():
+            break
+        rgb[grow] = summed[grow] / counts[grow][:, None]
+        solid |= grow
+    rgba[..., :3] = rgb
+    image.pixels.foreach_set(pixels)
+    return True
+
+
+def import_nif_meshes(filepath):
+    """Import a NIF, bake unit scale into the meshes, drop everything else."""
+    before = set(bpy.data.objects)
+    bpy.ops.import_scene.pynifly(
+        filepath=filepath,
+        create_bones=False,
+        import_tris=False,
+        import_animations=False,
+        import_collisions=False,
+        blender_xf=False,
+        rotate_bones_pretty=False,
+    )
+    imported = [o for o in bpy.data.objects if o not in before]
+    meshes = [o for o in imported if o.type == "MESH"]
+    scale_matrix = Matrix.Scale(UNIT_SCALE, 4)
+    for obj in meshes:
+        obj.data.transform(scale_matrix @ obj.matrix_world)
+        obj.matrix_world = Matrix.Identity(4)
+        obj.parent = None
+    for obj in imported:
+        if obj.type != "MESH":
+            bpy.data.objects.remove(obj, do_unlink=True)
+    bpy.context.view_layer.update()
+    return meshes
 
 
 def world_bounds(objects):
@@ -152,35 +231,12 @@ def trunk_capsule(objects, lo, hi):
 
 exported = []
 for asset in PLAN["assets"]:
-    before = set(bpy.data.objects)
-    bpy.ops.import_scene.pynifly(
-        filepath=asset["nif"],
-        create_bones=False,
-        import_tris=False,
-        import_animations=False,
-        import_collisions=False,
-        blender_xf=False,
-        rotate_bones_pretty=False,
-    )
-    imported = [o for o in bpy.data.objects if o not in before]
-    meshes = [o for o in imported if o.type == "MESH"]
-    if not meshes:
-        print("[kit] WARNING no mesh in %s" % asset["id"])
-        for obj in imported:
-            bpy.data.objects.remove(obj, do_unlink=True)
-        continue
-
     # Bake transforms and convert units in one step, then detach from any
     # imported parents so each asset is a clean root.
-    scale_matrix = Matrix.Scale(UNIT_SCALE, 4)
-    for obj in meshes:
-        obj.data.transform(scale_matrix @ obj.matrix_world)
-        obj.matrix_world = Matrix.Identity(4)
-        obj.parent = None
-    for obj in imported:
-        if obj.type != "MESH":
-            bpy.data.objects.remove(obj, do_unlink=True)
-    bpy.context.view_layer.update()
+    meshes = import_nif_meshes(asset["nif"])
+    if not meshes:
+        print("[kit] WARNING no mesh in %s" % asset["id"])
+        continue
 
     textures = set()
     materials = set()
@@ -231,6 +287,44 @@ for asset in PLAN["assets"]:
             lods.append((level, ratio, copy))
     bpy.context.view_layer.update()
 
+    # T4 far tier: the source pool's authored `_lod_flat` billboard, exported
+    # one level past the decimated chain and flagged so the runtime can pick
+    # it beyond the mesh rings. These are static cross/flat cutout cards —
+    # fine at distance, no octahedral impostor authoring (module 65 §110).
+    billboard_materials = set()
+    if asset.get("lodFlatNif"):
+        flat_meshes = import_nif_meshes(asset["lodFlatNif"])
+        flat_textures = set()
+        for obj in flat_meshes:
+            for slot in obj.material_slots:
+                if slot.material:
+                    name = rebuild_material(slot.material, True)
+                    billboard_materials.add(slot.material.name)
+                    if name:
+                        flat_textures.add(name)
+        # A billboard whose texture carries no alpha channel would pass the
+        # runtime alpha test everywhere and read as solid black slabs — the
+        # exact defect this tier exists to fix. Drop it; the decimated chain
+        # stays the final level for that species.
+        has_alpha = any(
+            bpy.data.images[n].depth in (32, 64)
+            for n in flat_textures if n in bpy.data.images
+        )
+        if flat_meshes and has_alpha:
+            for obj in flat_meshes:
+                obj.parent = root
+                obj["lod"] = len(asset["lodRatios"]) + 1
+                obj["billboard"] = True
+                obj["assetId"] = asset["id"]
+            textures |= flat_textures
+        else:
+            print("[kit] WARNING billboard unusable (no mesh or no alpha) in %s"
+                  % asset["id"])
+            for obj in flat_meshes:
+                bpy.data.objects.remove(obj, do_unlink=True)
+            billboard_materials = set()
+        bpy.context.view_layer.update()
+
     record = {
         "id": asset["id"],
         "node": root.name,
@@ -246,6 +340,9 @@ for asset in PLAN["assets"]:
         "textures": sorted(textures),
         "materials": sorted(materials),
     }
+    if billboard_materials:
+        record["billboard"] = True
+        record["billboardMaterials"] = sorted(billboard_materials)
     if asset["collision"] == "trunk-capsule":
         radius, height, centre = trunk_capsule(meshes, lo, hi)
         record["collisionCapsule"] = {
@@ -266,6 +363,14 @@ for image in bpy.data.images:
         image.scale(max(1, int(image.size[0] * factor)),
                     max(1, int(image.size[1] * factor)))
         print("[kit] resized %s -> %dx%d" % (image.name, image.size[0], image.size[1]))
+# After the resize, so the flood works on the texels that actually ship and
+# stays cheap; before packing, so the dilated buffer is what gets exported.
+dilated = 0
+for image in bpy.data.images:
+    if image.name in ALPHA_TESTED_IMAGES and image.source == "FILE":
+        if dilate_edge_rgb(image):
+            dilated += 1
+print("[kit] dilated transparent-texel RGB in %d foliage textures" % dilated)
 bpy.ops.file.pack_all()
 bpy.ops.object.select_all(action="SELECT")
 bpy.ops.export_scene.gltf(

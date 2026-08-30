@@ -26,6 +26,10 @@ export interface KitSpecies {
   readonly id: string;
   /** Level 0 is the full mesh; later entries are progressively decimated. */
   readonly levels: KitLevel[];
+  /** Index into `levels` of the T4 flat-billboard mesh (the source pool's
+   * `_lod_flat` variant, exported one past the decimated chain), or null
+   * where the species ships none and the last decimated level is final. */
+  readonly billboardIndex: number | null;
   /** Source-space height in metres at scale 1, for LOD distance choice. */
   readonly heightM: number;
 }
@@ -37,6 +41,8 @@ export interface KitManifestAsset {
   sizeM: [number, number, number];
   triangles: number;
   alphaTest?: boolean;
+  /** True when the kit carries a `_lod_flat` billboard as the final level. */
+  billboard?: boolean;
   doubleSided?: boolean;
   collision?: string;
   collisionCapsule?: { radiusM: number; heightM: number; centreOffsetM: [number, number] };
@@ -65,6 +71,13 @@ function levelOf(object: THREE.Object3D): number {
   return typeof extras.lod === "number" ? extras.lod : 0;
 }
 
+/** The kit builder flags the `_lod_flat` far-tier mesh with a `billboard`
+ * extra (glTF extras, same channel as `lod` — never the node name). */
+function isBillboard(object: THREE.Object3D): boolean {
+  const extras = (object.userData ?? {}) as { billboard?: boolean };
+  return extras.billboard === true;
+}
+
 export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
   const heights = new Map(manifest.assets.map((a) => [a.id, a.sizeM[2]]));
   const alphaTested = new Set(
@@ -79,18 +92,21 @@ export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
     const id = assetIdOf(root);
     if (!id || !heights.has(id)) continue;
     const byLevel = new Map<number, KitLevel["parts"]>();
+    let billboardLevel: number | null = null;
     let triangles = 0;
 
     root.traverse((child) => {
       const mesh = child as THREE.Mesh;
       if (!mesh.isMesh) return;
       const level = levelOf(mesh);
+      if (isBillboard(mesh)) billboardLevel = level;
       const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
       // Foliage is alpha-*tested*, never blended: blending sorts wrongly
       // through a canopy and costs the most on exactly the devices that can
-      // least afford it (module 65 §111).
+      // least afford it (module 65 §111). Billboards are always cutout cards,
+      // whatever the base asset's mode.
       const std = material as THREE.MeshStandardMaterial;
-      if (alphaTested.has(id) && std) {
+      if ((alphaTested.has(id) || isBillboard(mesh)) && std) {
         std.alphaTest = 0.5;
         std.transparent = false;
         std.depthWrite = true;
@@ -125,10 +141,13 @@ export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
 
     if (byLevel.size === 0) continue;
     const levels: KitLevel[] = [];
-    for (const level of [...byLevel.keys()].sort((a, b) => a - b)) {
+    const sorted = [...byLevel.keys()].sort((a, b) => a - b);
+    for (const level of sorted) {
       levels.push({ parts: byLevel.get(level)!, triangles: level === 0 ? triangles : 0 });
     }
-    kit.set(id, { id, levels, heightM: heights.get(id) ?? 4 });
+    const billboardIndex =
+      billboardLevel === null ? null : sorted.indexOf(billboardLevel);
+    kit.set(id, { id, levels, billboardIndex, heightM: heights.get(id) ?? 4 });
   }
   return kit;
 }
@@ -136,9 +155,22 @@ export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
 /**
  * LOD distances, scaled by how big the thing is: a 60 m landmark tree has to
  * keep its silhouette much further out than a knee-high fern, and one fixed
- * ring would either pop the tree or waste triangles on the fern.
+ * ring would either pop the tree or waste triangles on the fern. Beyond
+ * ring 1 a species runs on its `_lod_flat` billboard where the kit carries
+ * one (T4, module 65 §110), or its last decimated mesh where it does not.
  */
 export function lodDistances(heightM: number): number[] {
   const reach = Math.max(12, heightM * 6);
   return [reach, reach * 2.6];
+}
+
+/**
+ * Per-species draw distance (T-tier cull): beyond this an instance is not
+ * drawn at all. Scaled by height so a 1 m fern leaves the scene ~80–100 m out
+ * while a 30 m cypress persists past the chunk ring edge (~1,170 m). This is
+ * what makes dense understory affordable — most instances are small plants
+ * that must not cost draws at two kilometres.
+ */
+export function maxDrawDistance(heightM: number): number {
+  return Math.max(80, heightM * 35);
 }

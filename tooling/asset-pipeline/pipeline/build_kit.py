@@ -266,10 +266,15 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
             raise KeyError(f"{entry['asset']} is not in the asset registry")
         rows.append((entry, row))
 
-    # Pass 1: every mesh, one extraction per archive.
+    # Pass 1: every mesh, one extraction per archive. Species whose source
+    # pool ships a ready-made `x_lod_flat.nif` billboard (registry field
+    # `lodVariant`) bring it along as the T4 far tier — flat cutout cards the
+    # renderer switches to beyond the decimated chain (module 65 §110).
     by_pool: dict[str, list[str]] = {}
     for _entry, row in rows:
         by_pool.setdefault(row["pool"], []).append(row["path"])
+        if _flat_lod_of(row):
+            by_pool[row["pool"]].append(_flat_lod_of(row))
     for pool, paths in by_pool.items():
         sources[pool].meshes.extract_many(sorted(set(paths)), data_root)
 
@@ -280,7 +285,7 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
         if not nif.exists():
             raise FileNotFoundError(f"{entry['asset']}: {row['path']} not extracted")
         wanted.setdefault(row["pool"], set()).update(_referenced_textures(nif))
-        resolved.append({
+        record = {
             "id": entry["asset"],
             "nif": to_windows(nif),
             "category": row.get("category", "misc"),
@@ -289,7 +294,14 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
             "doubleSided": entry.get(
                 "doubleSided", row.get("category") in FOLIAGE_CATEGORIES
             ),
-        })
+        }
+        flat = _flat_lod_of(row)
+        if flat and (data_root / flat).exists():
+            wanted[row["pool"]].update(_referenced_textures(data_root / flat))
+            record["lodFlatNif"] = to_windows(data_root / flat)
+        elif flat:
+            print(f"[kit]   billboard NIF missing from archive: {flat}")
+        resolved.append(record)
 
     # Pass 2: textures, pool by pool, each archive visited once. A pool's own
     # textures win; vanilla is the fallback because mod meshes routinely reuse
@@ -338,6 +350,17 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
 
 FOLIAGE_CATEGORIES = {"tree", "shrub", "plant", "grass", "aquatic-plant", "fungus"}
 
+
+def _flat_lod_of(row: dict) -> str | None:
+    """The registry's `lodVariant` where it is a `_lod_flat` billboard.
+
+    Only the flat variants are wanted this round: `_lod` and `_distant`
+    siblings are decimated full meshes, which our own LOD chain already
+    covers, while `_lod_flat` is authored cutout cards — the T4 tier.
+    """
+    variant = row.get("lodVariant")
+    return variant if variant and variant.endswith("_lod_flat.nif") else None
+
 #: Collision proxy per category (module 65 §111: tiered collision — hero
 #: assets get compiled colliders, trees a trunk capsule, groundcover none).
 _COLLISION_BY_CATEGORY = {
@@ -374,6 +397,11 @@ def set_alpha_modes(glb: Path, summary: dict) -> dict:
     masked = {
         name for asset in summary["assets"] if asset.get("alphaTest")
         for name in asset.get("materials", [])
+    }
+    # Billboard cards are cutouts whatever the base asset's mode.
+    masked |= {
+        name for asset in summary["assets"]
+        for name in asset.get("billboardMaterials", [])
     }
     data = bytearray(glb.read_bytes())
     header = struct.unpack_from("<4sII", data, 0)

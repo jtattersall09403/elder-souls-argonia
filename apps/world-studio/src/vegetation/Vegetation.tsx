@@ -17,6 +17,7 @@ import * as THREE from "three";
 import {
   buildFloraKit,
   lodDistances,
+  maxDrawDistance,
   type FloraKit,
   type KitManifest,
 } from "./floraKit";
@@ -51,6 +52,10 @@ export interface VegetationStats {
   instances: number;
   draws: number;
   triangles: number;
+  /** Instances skipped by the per-species draw-distance cull. */
+  culled: number;
+  /** Instances drawn as their `_lod_flat` far billboard (T4). */
+  billboardInstances: number;
 }
 
 function chunkKey(cx: number, cz: number): string {
@@ -163,6 +168,12 @@ export function Vegetation({
       transforms: THREE.Matrix4[];
     }
     const buckets = new Map<string, Bucket>();
+    // A chunk instance can sit anywhere in its 468 m square, so chunk-level
+    // culls must allow for the worst case: focus at one corner, instance at
+    // the opposite one.
+    const halfDiagonal = index.chunkMetres * Math.SQRT1_2;
+    let culled = 0;
+    let billboardInstances = 0;
     for (const chunk of loaded.current.values()) {
       const centreX = chunk.originX + index.chunkMetres / 2;
       const centreZ = chunk.originZ + index.chunkMetres / 2;
@@ -174,23 +185,41 @@ export function Vegetation({
         const entry = id ? kit.get(id) : undefined;
         if (!entry) continue;
 
+        // Per-species draw-distance cull (T tiers): understory vanishes a
+        // hundred metres out, canopy persists to the ring edge. This is what
+        // keeps the coming density increase affordable — most instances are
+        // small plants that must not render at two kilometres.
+        const maxDraw = maxDrawDistance(entry.heightM);
+        if (chunkDistance - halfDiagonal > maxDraw) {
+          culled += speciesGroup.count;
+          continue;
+        }
+
         const rings = lodDistances(entry.heightM);
-        const level = Math.min(
-          entry.levels.length - 1,
-          chunkDistance < rings[0] ? 0 : chunkDistance < rings[1] ? 1 : 2,
-        );
+        // Beyond ring 1 a billboard species runs entirely on its `_lod_flat`
+        // cards (T4 far tier); species without one keep the decimated chain.
+        const near = chunkDistance < rings[0] ? 0 : chunkDistance < rings[1] ? 1 : 2;
+        const asBillboard = entry.billboardIndex !== null && near === 2;
+        const level = asBillboard
+          ? entry.billboardIndex!
+          : Math.min(entry.levels.length - 1, near);
         const key = `${id}|${level}`;
         const bucket = buckets.get(key) ?? { species: id!, level, transforms: [] };
         const count = Math.min(speciesGroup.count, MAX_PER_DRAW);
         for (let i = 0; i < count; i++) {
           const inst = readInstance(speciesGroup, i);
+          if (Math.hypot(inst.x - focus.x, inst.z - focus.z) > maxDraw) {
+            culled++;
+            continue;
+          }
           position.set(inst.x, inst.y * verticalScale, inst.z);
           euler.set(inst.tiltX, inst.yaw, inst.tiltZ, "YXZ");
           quaternion.setFromEuler(euler);
           scale.setScalar(inst.scale);
           bucket.transforms.push(matrix.compose(position, quaternion, scale).clone());
+          if (asBillboard) billboardInstances++;
         }
-        buckets.set(key, bucket);
+        if (bucket.transforms.length > 0) buckets.set(key, bucket);
       }
     }
 
@@ -230,6 +259,8 @@ export function Vegetation({
       instances,
       draws: groups.current.length,
       triangles: Math.round(triangles),
+      culled,
+      billboardInstances,
     };
     onStats?.(stats);
     // Same convention as the sky and water debug hooks: probes read the
