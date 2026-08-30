@@ -81,6 +81,7 @@ The overall goal at this point is to build the province-scale world, in a way th
 - **Use git sensibly and safely**. You are an experienced lead, you know what this means in practical terms.
 - **Update on progress**. While you're working, give the user frequent, short, plain-english progress updates. Assume that they are not experienced in the techical aspects of this project so use plain non-jargon english. (Especially non-technical language - the user is not an expert in game dev or technical concepts)
 - **Don't search by keyword in skyrim/mod/asset files**. Keyword searching isn't reliable. Read directory names and infer which ones to look in; read all filenames in a directory and decide what you need.
+- **Keep the repo tidy**. Everything needs to be neatly organised, modular and structured, so it's easy to navigate and find what you need and we don't get lost and confused (which can quietly happen when you have many agents creating things over time). Follow general good practices for this.
 
 ## Map
 

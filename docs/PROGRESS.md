@@ -44,7 +44,7 @@ first, then open only the master-plan sections the active phase needs.
 | 8a — world time, natural light and sky | done | owner gate PASS 2026-08-26 after 8 feedback rounds (decisions 0020/**0021** = full defect→fix history; research doc §8–8d). world-time package (calendar/sun/moons/stars, verified phase cycle); physical light rig with **envelope-pinned dome** (CPU Preetham twin `preethamCpu.ts` + `skyScreenModel.ts`; whiteout/black-gap class caught by `npm test`); directional twilight (Earth shadow, Belt of Venus, magnitude-staged stars); moon-aware night floors; owner-locked defaults warmth 1.0, stars ×0.5 (~3300); CSM shadows w/ contact bias; walk+fly city markers; HUD compass. Deferred: beyond-border land apron (module 55 §98b + research doc) |
 | 8b — water renderer and interaction | done | owner CLOSED 2026-08-28 (good-enough, **not perfect** — full water-systems re-review + polish queued in [polish-backlog.md](polish-backlog.md), Phase P). 7 rounds; full defect→fix history in decision 0025. Province W-field water surface, rivers/marsh/estuary/coast/underwater, buoyancy + Rapier water query, monotone slope rivers, shore surf, waterfall shading |
 | 8c — weather and atmosphere | done | owner CLOSED 2026-08-30 (good-enough, **not perfect** — owner will record leftovers in [polish-backlog.md](polish-backlog.md) for Phase P). 5 rounds; full defect→fix history in decision [0032](decisions/0032-phase8c-weather-implementation-shape.md). Deterministic synoptic machine + regional expression, fair-weather coverage ladder on the calendar, rain (real-time clock, PRECIP_LAYER), wind→waves, wetness, lightning; mist/fog/cap-cloud regimes with fog colour DERIVED from the real sun/sky/moon and a dome fog march (banks visible against open sky); visibility = local weather (one number renders and publishes); **GAME_TIME_SCALE = 30** in world-time. 406 tests incl. the extended envelope proof |
-| 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | in progress | **Round 2 underway 2026-08-30** (owner round-1 feedback: plants missing on foot, jungle far too sparse, no shadows, black blobs at distance, plants ignore mist/haze — the look defects ARE system defects, being fixed at the system). Run-book: top of [decision 0036](decisions/0036-phase10-placement-decisions.md). This round: character-mode vegetation mounted; vegetation joins the aerial-haze/CSM patch chain (root cause of black-blobs + in-front-of-weather); leaf-shaped shadows (custom depth material, levels 0–1 cast); **three research docs** ([ecology targets](research/tropical-vegetation-ecology-targets.md), [mod micro-siting M1–M5](research/mod-vegetation-micro-siting.md), [open-world placement architecture](research/openworld-vegetation-placement-architecture.md)); scatter compiler gains the **meso scene layer** (signed shore-distance field, altitude/shore/glade-band gates, riparian boost). In flight: evidence-based palettes v2 (strata model), T3 groundcover ring, T4 impostors, raster rebuild (hydrology+society done; refine blocked on VM memory — see Waiting on user). Round-1 delivery: mining, 27,929-row registry, kit builder, scatter compiler, renderer T1/T2 (details in 0036) |
+| 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | in progress | **Round 2 DELIVERED 2026-08-30, awaiting owner playtest** (run-book + round-2 record: top of [decision 0036](decisions/0036-phase10-placement-decisions.md)). Every round-1 defect root-caused at the system: character-mode vegetation mounted; plants join the aerial-haze/CSM chain (black-blobs + "in front of the weather"); leaf-shaped shadows; foliage texture RGB dilation + shader mip-alpha boost; **T3 groundcover ring** (75 m runtime floor from the land-cover raster, own kit); **T4 `_lod_flat` billboards + per-species draw culls**; **meso scene layer** in the compiler (shore-distance bands, glade bands, signed riparian, per-tile water guilds); sampler double-roll + crown-clearance defects fixed; **palettes v2 generated from three new research docs** (ecology targets, mod micro-siting M1–M5, placement architecture) — delivered jungle 353/ha (was ~85), interior swamp 456, rootland 276, hills 107, per class area; **region rebalance applied to the deployed world** (wetland 20.6%→35.2% of land, full raster chain re-run, 117 worldgen tests green). Next after playtest: wind (unblocked), micro-lab GPU budget probe, tree colliders |
 | 11 — settlement/location system, exemplar-first (0034) | todo | may start once the S schema is accepted (semantic authoring); packet freeze gated on 10b probes + 10c numbers |
 | 12 — dungeon/interior system, exemplar-first (0034) | todo | may interleave with 11 |
 | 9 — swimming, climbing, boats (re-slotted after the placement exemplars; 0034) | todo | player craft only — ferry/fast travel is Morrowind-style world content (Phase 11); thin swim slice may pull earlier; boats may slip |
@@ -59,19 +59,22 @@ first, then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- **Phase 10 — region-rebalance rebuild is memory-blocked; owner can unblock
-  by closing old Claude terminal tabs.** `compile_hydrology` and
-  `compile_society` have re-run (new region/climate/society rasters in the
-  tree), but `refine_province` is OOM-killed: the VM's 12 GiB container
-  memory cap is shared by every open Claude session, and ~15 idle terminal
-  tabs are holding ~9 GiB. Close the tabs you're not using (keep the active
-  Phase 10 one), then any agent can finish the chain from
-  `tooling/world-generation`: `refine_province`, `compile_chunks`,
-  `export_web_chunks` per its README (heightfield lives at
-  `<vault>/skyrim-source/mod-sources/tamriel-worldspaces-118678/extracted/Argonia
-  Worldspace/argonia-heightfield/`), then re-run `compile_scatter --report`.
-  Until then the ground-texture paint lags the new region map (marsh plants
-  can stand on ground still painted dry).
+- **Phase 10 round-2 playtest** — deployed 2026-08-30. On the DEPLOYED build
+  check, in this order: ① walk mode in the jungle contrast area (fly to
+  ~3.5, 4.4 then Walk here): plants now exist on foot, with a grass/fern
+  floor around you, gaps and thickets rather than even sprinkling, and
+  reed/lilypad margins on pools ② the same area in fly mode: plants fade
+  into the haze WITH the terrain (no more dark specks "in front of the
+  weather"), and distant canopy reads as trees, not black blocks ③ shadows:
+  near trees cast leaf-shaped shadows in sun ④ the province reads much more
+  marsh overall (the region rebalance is live — ground paint included)
+  ⑤ weather tweaks: no more square-edged mountaintop cloud (it is OFF for
+  now, polish-phase item), generally clearer air everywhere, rain
+  surrounding you to ~300 m ⑥ performance on your machine in the jungle —
+  if it lags badly say so (levers exist: densityScale, draw distances).
+  Feedback in plain words + screenshots as usual. Known gaps, by design this
+  round: you can walk THROUGH trees (colliders are a next-round item), no
+  wind on plants yet, and only the five exemplar areas have vegetation.
 
 - **8c polish leftovers** — the owner closed 8c good-enough and will record
   the leftover items in [polish-backlog.md](polish-backlog.md) themselves
