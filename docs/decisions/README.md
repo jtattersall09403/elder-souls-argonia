@@ -39,3 +39,4 @@ record and marking the old one superseded — don't rewrite history.
 - [0033 — workstream S: the detailed stat design, its numbers, the balance harness and the whole-game simulation (both owner rounds closed)](0033-workstream-s-design-and-numbers.md)
 - [0035 — workstream S round 3: attributes rebuilt on Morrowind's formulas, levelling pace calibrated against Morrowind's, D0 corrected to "safe ground"](0035-workstream-s-round3-attributes-and-pace.md)
 - [0034 — build sequence reworked: risk-first order, exemplar-first folded in, freeze-gates, Morrowind-style travel services, sound to polish, Phase 15 → region-packet rollout](0034-build-sequence-rework.md)
+- [0036 — Phase 10 placement decisions: density, tree scale, exemplar contrast set, region mix, groundcover (PROPOSED — awaiting owner)](0036-phase10-placement-decisions.md)

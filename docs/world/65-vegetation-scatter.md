@@ -43,14 +43,29 @@ default).
 
 ## 111. Deterministic scatter, wind, and constraints
 
-- **Scatter is a compiler pass**: jittered-grid sampling with
-  `hash(seed, layer, cell)` per decision — deterministic, chunk-local,
-  byte-stable across recompiles. Density comes from the land-cover raster and
-  ecology fields; constraint filters run cheapest-first (density → slope →
-  wetness/salinity → clearance). Hero assets and larger layers stamp clearance
-  rasters that smaller layers reject against (one-directional, big → small),
-  so a reed never grows through a hull. Water vegetation (lilypads, emergent
-  reeds) samples the water surface, not the ground.
+- **Scatter is a compiler pass**, and it is **clustered, not jittered**
+  (corrected 2026-08-30 by the Phase 10 mining — [research](../research/shipped-world-placement-rules.md)
+  rule R1). Every species in both mined worldspaces sits at a Clark-Evans R of
+  ~0.45: neighbours half as far apart as random. A plain jittered grid scores
+  *above* 1.0 — more even than random, the opposite of hand placement. The
+  sampler therefore places **clump centres** on a jittered grid and members
+  around them (median clump radius ~10 m), with a singleton share between
+  them, and `clark_evans` is a standing probe on compiler output.
+  Determinism is `hash(seed, layer, cell)` over a **global** grid, not a
+  chunk-relative one, so a clump straddling a chunk edge is generated
+  identically from both sides instead of thinning every seam.
+- Density comes from the land-cover raster and ecology fields as a **field,
+  not a constant**: it peaks at the waterline and falls by half per ~12° of
+  slope to a floor (rules R2, R3). Constraint filters run cheapest-first
+  (density → slope → wetness/salinity → clearance). Hero assets and larger
+  layers stamp clearance rasters that smaller layers reject against
+  (one-directional, big → small), so a reed never grows through a hull. Water
+  vegetation (lilypads, emergent reeds) samples the water surface, not the
+  ground.
+- **Palettes gate per sample, not per chunk.** Argonia's region classes
+  interdigitate well below the 468 m chunk, so there is no such thing as "the
+  chunk's palette": layers carry their own region gate and the region raster
+  decides at each candidate position.
 - **Collision is tiered**: T1 hero assets get compiled colliders; T2 trees get
   trunk capsules only; T3 groundcover is visual-only. Scatter placements land
   in the same bundle files the streaming contract already reserves
@@ -68,6 +83,15 @@ default).
   CSM `setupMaterial()` path like chunk materials (research doc gotcha).
 
 ## 112. Sequencing and acceptance
+
+**Built so far (Phase 10, 2026-08-30):** the scatter compiler
+(`worldgen/scatter.py`, `worldgen/compile_scatter.py`) with its clustering,
+seam and determinism probes; the kit builder that turns sourced NIFs into
+runtime GLBs with LOD chains and collision proxies
+(`pipeline/build_kit.py`); the flora palettes and groundcover table
+(`world/sources/flora/`, provisional pending decision 0036). **Not built:**
+the four renderer tiers and the micro-lab budget probe — both need looking at
+to judge, and both consume 0036's answers.
 
 - **Phase 10** builds the machinery against the reference watershed: scatter
   compiler pass, T1/T2 renderers + LOD chains, T3 groundcover ring, wind

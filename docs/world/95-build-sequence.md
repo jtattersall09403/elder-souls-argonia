@@ -166,6 +166,16 @@ landscape (90 §74.1b). Generalise it:
   defaults; the no-lift-and-shift rule (00-core rule 6) is untouched — we
   mine *rules*, never their authored places.
 
+**Done for vegetation (Phase 10, 2026-08-30):**
+[shipped-world-placement-rules.md](../research/shipped-world-placement-rules.md)
+— 14 rules from 186k placed references across BM&V's Black Marsh and
+Valenwood plus Bethesda's grass schema. The readers are
+`worldgen/esp_index.py` (base objects, worldspace cells, references, LAND
+painting, REGN object tables, GRAS), driven by `worldgen/mine_placement.py`
+and `worldgen/mine_groundcover.py`. **Still to mine, with the same readers:**
+settlement composition (Phase 11 — BM&V's Lilmoth-area cells) and interior /
+dungeon assembly (Phase 12 — `Plugin.interior_cells`).
+
 ### 86.1 Done — Phases 0–8c (summary; statuses and evidence in PROGRESS.md)
 
 The original deliverable lists served their purpose; they live in this file's

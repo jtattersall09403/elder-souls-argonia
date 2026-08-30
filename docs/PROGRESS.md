@@ -44,7 +44,7 @@ first, then open only the master-plan sections the active phase needs.
 | 8a — world time, natural light and sky | done | owner gate PASS 2026-08-26 after 8 feedback rounds (decisions 0020/**0021** = full defect→fix history; research doc §8–8d). world-time package (calendar/sun/moons/stars, verified phase cycle); physical light rig with **envelope-pinned dome** (CPU Preetham twin `preethamCpu.ts` + `skyScreenModel.ts`; whiteout/black-gap class caught by `npm test`); directional twilight (Earth shadow, Belt of Venus, magnitude-staged stars); moon-aware night floors; owner-locked defaults warmth 1.0, stars ×0.5 (~3300); CSM shadows w/ contact bias; walk+fly city markers; HUD compass. Deferred: beyond-border land apron (module 55 §98b + research doc) |
 | 8b — water renderer and interaction | done | owner CLOSED 2026-08-28 (good-enough, **not perfect** — full water-systems re-review + polish queued in [polish-backlog.md](polish-backlog.md), Phase P). 7 rounds; full defect→fix history in decision 0025. Province W-field water surface, rivers/marsh/estuary/coast/underwater, buoyancy + Rapier water query, monotone slope rivers, shore surf, waterfall shading |
 | 8c — weather and atmosphere | in progress | **round 3 DEPLOYED 2026-08-29, awaiting owner playtest.** All 5 round-2 feedback points fixed at root cause (defect→fix log: decision [0032](decisions/0032-phase8c-weather-implementation-shape.md) Round 3): fog volumes LOCAL (belt clings to the massif, summits above cloud, clear days clear, sea-fog/mist banks you look AT), rain finally visible (billboards were half-culled + contrast; probe screenshot verified), region visibility renders (climate-vis raster), sunset/sunrise cloud colouring, storm seas 0.35–6× + faster + wind-scaled surf. 22/22 probe scenarios + 402 tests green. Run-book: top of 0032 |
-| 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | in progress | **started 2026-08-29** (runs parallel to the 8c playtest). Current task: §86.0b data-file rule mining (plugin readers → placement/grass/region statistics) + the semantic asset registry sweep, ahead of an owner decision pack on placement/palettes |
+| 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | in progress | **first half delivered 2026-08-30, six placement decisions waiting on the owner ([0036](decisions/0036-phase10-placement-decisions.md)).** Done: structured plugin readers (base objects/cells/refs/LAND painting/REGN/GRAS) → §86.0b mining of 186k placed references → [14 placement rules](research/shipped-world-placement-rules.md); **27,929-row semantic asset registry** across all four pools with a query CLI; Xanmeer kit downloaded, credited and measured (256-unit grid); **kit builder** NIF→GLB with LOD chains, collision proxies and masked-foliage alpha (40 palette species convert clean); **deterministic clustered scatter compiler** hitting the mined Clark-Evans 0.45, with seam/determinism/clearance probes; lore-grounded provisional flora palettes + groundcover table. Next after 0036: the four renderer tiers + the micro-lab budget probe (both need looking at, both consume 0036) |
 | 11 — settlement/location system, exemplar-first (0034) | todo | may start once the S schema is accepted (semantic authoring); packet freeze gated on 10b probes + 10c numbers |
 | 12 — dungeon/interior system, exemplar-first (0034) | todo | may interleave with 11 |
 | 9 — swimming, climbing, boats (re-slotted after the placement exemplars; 0034) | todo | player craft only — ferry/fast travel is Morrowind-style world content (Phase 11); thin swim slice may pull earlier; boats may slip |
@@ -58,6 +58,18 @@ first, then open only the master-plan sections the active phase needs.
 | 15 — rollout by region packet (recast from "expansion by watershed" by 0034) | todo | opens by drafting the packet roadmap for owner sign-off |
 
 ## Waiting on user
+
+- **Phase 10 placement decisions — six questions, read
+  [decision 0036](decisions/0036-phase10-placement-decisions.md)** (2026-08-30).
+  In plain terms: ① how dense should the world's plant life be (measured
+  options ×1/×3/×6/×10 against the reference mod — recommend ×3) ② how big
+  should the trees be (the source trees are giants; recommend mostly-normal
+  with a few landmark giants) ③ sign off the exemplar area + three contrast
+  areas ④ **the region map says the province is 72 % dry ground and only 20 %
+  marsh** — is that fine, or should it be rebalanced? ⑤ keep bare ground bare
+  between the grass? ⑥ five-minute unblock: copy `Skyrim.esm` into the vault
+  (needs your Steam login; command below). Nothing else in Phase 10 is
+  blocked on ⑥.
 
 - **8c round 3 playtest** — deployed 2026-08-29. Check: ① your clear-day URL
   (x=2.44 z=6.22, force clear): no fog band in the sky anywhere, looking up
@@ -86,8 +98,9 @@ first, then open only the master-plan sections the active phase needs.
   tables, GRAS density params) as a checklist. Owner action, ~250 MB, needs
   your Steam login: `! ~/tools/DepotDownloader/DepotDownloader -app 72850
   -depot 72851 -manifest 430694959351693705 -username <you> -filelist
-  /tmp/esm-filelist.txt -dir ~/workspace/elder-souls-dev/elder-scrolls-asset-pipeline/skyrim-source`
-  (filelist written by the phase agent). **Not blocking** — BM&V's authored
+  ~/workspace/elder-souls-dev/elder-scrolls-asset-pipeline/skyrim-source/esm-filelist.txt
+  -dir ~/workspace/elder-souls-dev/elder-scrolls-asset-pipeline/skyrim-source`
+  (filelist already written). **Not blocking** — BM&V's authored
   Black Marsh is the primary and more relevant mining source.
 - **6b terrain-feel re-review** — owner closed 8b (2026-08-28) without
   explicitly confirming the terrain-feel re-check that was bundled into that

@@ -97,6 +97,18 @@ interface AssetRecord {
 
 The registry exists to make generation, physics, performance and credits reliable. It is not intended to become a heavyweight compliance ledger.
 
+**Built at Phase 10 (2026-08-30):** `world/sources/assets/` — 27,929 tagged
+rows across all four pools (BM&V 12,001 / vanilla 14,974 / Tropical Skyrim 869
+/ Xanmeer 85), with category, culture and biome tags, LOD-billboard siblings,
+plugin dimensions and how often a shipped world actually placed each mesh.
+**Query it, never read it** (`python3 -m worldgen.asset_registry query
+--category tree --biome swamp --used`); the pool table and row shape are in
+that directory's README. `--used` is the fastest way to separate "exists in
+the archive" from "an art team chose it for a swamp". Rows carry the cheap
+facts only: collision, snap points, sockets and LOD chains are added per asset
+by `pipeline/build_kit.py` when a kit actually places it — the
+catalogue-wide, kit-compile-deep rule.
+
 ## 73. Source and credits process
 
 Keep this deliberately lightweight:
