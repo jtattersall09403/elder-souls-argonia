@@ -159,6 +159,17 @@ describe("weathered light (Phase 8c, decision 0032)", () => {
         const fogScreen = Math.max(...rig.fogLum) * rig.exposureTarget;
         expect(fogScreen, `fog black: ${kind} @ ${h}h`).toBeGreaterThan(0.015);
         expect(fogScreen, `fog blown: ${kind} @ ${h}h`).toBeLessThan(1.3);
+        // Round 4: the directional (into-the-light) fog colour is the other
+        // endpoint the frame can be mixed toward — bound it identically, or
+        // the envelope proof has a hole in it.
+        const fogSunScreen = Math.max(...rig.fogSunLum) * rig.exposureTarget;
+        expect(fogSunScreen, `fog-sun black: ${kind} @ ${h}h`).toBeGreaterThan(0.015);
+        expect(fogSunScreen, `fog-sun blown: ${kind} @ ${h}h`).toBeLessThan(1.6);
+        // …and it is never DIMMER than the neutral side (fog lit from behind
+        // is the bright side, always).
+        expect(fogSunScreen + 1e-9, `fog-sun dimmer: ${kind} @ ${h}h`).toBeGreaterThanOrEqual(
+          fogScreen * 0.99,
+        );
         const glowScreen = Math.max(...rig.cloudGlowCol) * rig.exposureTarget;
         expect(glowScreen, `glow blown: ${kind} @ ${h}h`).toBeLessThan(2.6);
         // Round 3: the sunset cloud light is exposure-anchored too — never

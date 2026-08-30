@@ -67,7 +67,11 @@ export function domeScreen(rig: LightRig, dir: Vec3): Vec3 {
  * same way: the silver-lining glow adds ≤ cloudGlowCol (asserted in the
  * test), and the camera-in-fog veil / dense-fog inscatter mix the frame
  * toward fogLum, which is exposure-anchored and asserted in-range — a mix
- * of two bounded colours is bounded. Round 3: cloud pixels may also mix
+ * of two bounded colours is bounded. Round 4 makes that fog colour
+ * DIRECTIONAL — the frame is mixed toward `mix(fogLum, fogSunLum, f)` with
+ * f ∈ [0,1] — so the reachable set is still the convex hull of two
+ * exposure-anchored colours; the test asserts BOTH endpoints in range,
+ * which is the whole bound. Round 3: cloud pixels may also mix
  * toward the sunset light colour (weights ≤ 1), so the range's ceiling is
  * the max of the bright and sunset colours — mixing bounded colours stays
  * bounded, and the floor cannot drop (sunset only brightens dark pixels).

@@ -53,6 +53,13 @@ export interface AerialUniforms {
    * ambient's asymptote is near-black in daylight, which painted black caps
    * on fogged summits and made mist invisible. */
   uFogLum: { value: THREE.Vector3 };
+  /** Fog colour looking INTO the light (round 4) — forward-scattered and
+   * sun-tinted. Blended against uFogLum by the view/sun angle so banks are
+   * warm and bright when backlit, cool and grey when frontlit. */
+  uFogSunLum: { value: THREE.Vector3 };
+  /** Cap-cloud drift (round 4): metres of noise-space offset, so the belt
+   * cloud is a moving lumpy body rather than a static painted band. */
+  uWhiteoutDrift: { value: THREE.Vector2 };
 }
 
 /** One shared uniform set: WorldSky writes it, every patched material reads it. */
@@ -74,6 +81,8 @@ export function createAerialUniforms(): AerialUniforms {
     uRegionHaze: { value: 0.55 },
     uWeatherMie: { value: 0 },
     uFogLum: { value: new THREE.Vector3(0, 0, 0) },
+    uFogSunLum: { value: new THREE.Vector3(0, 0, 0) },
+    uWhiteoutDrift: { value: new THREE.Vector2(0, 0) },
   };
 }
 
@@ -94,6 +103,40 @@ uniform sampler2D uClimateVis;
 uniform float uRegionHaze;
 uniform float uWeatherMie;
 uniform vec3 uFogLum;
+uniform vec3 uFogSunLum;
+uniform vec2 uWhiteoutDrift;
+
+// Province bounds fade (owner round 4): the climate rasters are
+// ClampToEdge, so every sample taken beyond the province edge repeated that
+// edge pixel — which drew the cap-cloud mask as straight stripes running off
+// the map all the way to the horizon. Outside the province there is no data,
+// so there is no fog: fade to nothing just inside the border.
+float esInBounds(vec2 uv) {
+  vec2 e = min(uv, vec2(1.0) - uv);
+  return smoothstep(-0.015, 0.02, min(e.x, e.y));
+}
+
+// Cheap value noise, for breaking the cap cloud into lumps.
+float esHash2(vec2 p) {
+  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+}
+float esNoise2(vec2 p) {
+  vec2 i = floor(p);
+  vec2 f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  return mix(mix(esHash2(i), esHash2(i + vec2(1.0, 0.0)), f.x),
+             mix(esHash2(i + vec2(0.0, 1.0)), esHash2(i + vec2(1.0, 1.0)), f.x), f.y);
+}
+/** Cap-cloud lumpiness at a world point: two octaves drifting on the wind,
+ * with the height folded in so it is a BODY of cloud rather than a vertical
+ * column of paint (owner round 4: "it almost looks like the cloud is painted
+ * onto the mountain"). */
+float esCloudLump(vec3 p) {
+  vec2 q = p.xz * 0.0055 + uWhiteoutDrift;
+  float n = 0.62 * esNoise2(q + vec2(p.y * 0.004, 0.0))
+          + 0.38 * esNoise2(q * 2.7 + vec2(0.0, p.y * 0.006));
+  return clamp(0.25 + 1.7 * n, 0.0, 1.9);
+}
 
 // Mean of exp(-y/H) over the straight path between two heights.
 float esPathDensity(float yA, float yB, float H) {
@@ -129,6 +172,16 @@ vec3 esAerialPerspective(vec3 color, vec3 worldPos, vec3 camPos) {
   vec3 visF = texture2D(uClimateVis, airUv).rgb; // r belt mask, g region extinction
   vec3 visC = texture2D(uClimateVis, camUv).rgb;
   vec3 visM = texture2D(uClimateVis, midUv).rgb;
+  // Beyond the province edge the rasters have no data — fade every LOCAL
+  // (raster-driven) density out rather than smearing the border pixel to the
+  // horizon. The region extinction keeps a floor instead of vanishing, so the
+  // beyond-border apron still has air in it.
+  float bF = esInBounds(airUv);
+  float bC = esInBounds(camUv);
+  float bM = esInBounds(midUv);
+  visF.r *= bF; visC.r *= bC; visM.r *= bM;
+  visF.g *= mix(0.5, 1.0, bF); visC.g *= mix(0.5, 1.0, bC); visM.g *= mix(0.5, 1.0, bM);
+  air.g *= bF; airC.g *= bC; airM.g *= bM;
 
   float dR = esPathDensity(camPos.y, worldPos.y, 8000.0);
   float dM = esPathDensity(camPos.y, worldPos.y, uBoundaryLayerM) * (0.25 + 1.1 * air.r);
@@ -146,19 +199,24 @@ vec3 esAerialPerspective(vec3 color, vec3 worldPos, vec3 camPos) {
   float dMist = esPathDensity(camPos.y, worldPos.y, 16.0) * esMist3 * uMistStrength * 14.0;
   // Regime 2: advection sea fog — a shallow marine layer over the coastal /
   // estuary corridors (climate-weather B channel along the path).
-  float esAdv3 = 0.25 * texture2D(uClimateWeather, camUv).b
-               + 0.5 * texture2D(uClimateWeather, midUv).b
-               + 0.25 * texture2D(uClimateWeather, airUv).b;
+  float esAdv3 = 0.25 * texture2D(uClimateWeather, camUv).b * bC
+               + 0.5 * texture2D(uClimateWeather, midUv).b * bM
+               + 0.25 * texture2D(uClimateWeather, airUv).b * bF;
   float dAdv = esPathDensity(camPos.y, worldPos.y, 22.0) * esAdv3 * uAdvectionFog * 125.0;
   // Regime 3: cloud-forest whiteout — the asymmetric elevation band, each
   // path point masked by the orographic belt raster (cap cloud clings to
   // the massif; free air at belt altitude over the lowlands is clear).
   float dWhite = 0.0;
   if (uWhiteout.w > 0.003) {
-    float yMid = 0.5 * (camPos.y + worldPos.y);
-    float esWg = (esBeltBell(camPos.y) * visC.r
-                + esBeltBell(yMid) * visM.r * 2.0
-                + esBeltBell(worldPos.y) * visF.r) / 4.0;
+    vec3 pMid = 0.5 * (camPos + worldPos);
+    // Round 4: the mask is DILATED (pow < 1) so cap cloud spills off the
+    // massif's footprint instead of stopping dead at the terrain silhouette,
+    // and each sample is multiplied by a drifting noise lump so the band is
+    // a broken, moving cloud body — the two things that made it read as
+    // paint on the mountain rather than cloud the summits poke into.
+    float esWg = (esBeltBell(camPos.y) * pow(visC.r, 0.6) * esCloudLump(camPos)
+                + esBeltBell(pMid.y) * pow(visM.r, 0.6) * esCloudLump(pMid) * 2.0
+                + esBeltBell(worldPos.y) * pow(visF.r, 0.6) * esCloudLump(worldPos)) / 4.0;
     dWhite = esWg * uWhiteout.w * 550.0;
   }
   // Regime 4: weather fog/haze — rain veil and dry haze fill the air column
@@ -183,7 +241,17 @@ vec3 esAerialPerspective(vec3 color, vec3 worldPos, vec3 camPos) {
   // dim haze ambient that painted fogged summits near-black.
   float scatMFog = uBetaM * ((dMist + dAdv + dWhite + 0.7 * dWx) * dist);
   float fogFrac = clamp(scatMFog / max(dot(extinction, vec3(0.3333)), 1e-5), 0.0, 1.0);
-  vec3 ambient = mix(uHazeAmbient, uFogLum, fogFrac);
+  // Round 4: fog is a strongly FORWARD-scattering medium, so its apparent
+  // colour depends on where the light is. Looking toward the sun a bank is
+  // bright and takes the sun's colour (gold at sunset); looking away it is a
+  // cooler, darker grey. A single flat fog colour is what made every mist,
+  // sea fog and cap cloud a white haze regardless of the light — including
+  // the sunset case where a backlit bank should be the warmest thing in
+  // frame. The mu weighting is broad (no hotspot), and both endpoints are
+  // exposure-anchored, so mixing them keeps the screen envelope bounded.
+  float esFogFwd = smoothstep(-0.35, 0.95, mu);
+  vec3 esFogCol = mix(uFogLum, uFogSunLum, esFogFwd);
+  vec3 ambient = mix(uHazeAmbient, esFogCol, fogFrac);
   vec3 inscatter = (sunScatter * (1.0 - 0.85 * fogFrac) + ambient) * (1.0 - transmittance);
   return color * transmittance + inscatter;
 }

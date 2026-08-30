@@ -124,6 +124,8 @@ interface SkyExtras {
   uGlowDir: { value: THREE.Vector3 };
   uGlowCol: { value: THREE.Color };
   uFogLum: { value: THREE.Color };
+  /** Round 4: fog colour looking into the light (see lightRig.fogSunLum). */
+  uFogSunLum: { value: THREE.Color };
   uCamFog: { value: number };
   uFlash: { value: number };
   /** Round 3: sunset/sunrise cloud light colour + [deck, cirrus] amounts. */
@@ -152,6 +154,7 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
     uGlowDir: { value: new THREE.Vector3(0, 1, 0) },
     uGlowCol: { value: new THREE.Color(0, 0, 0) },
     uFogLum: { value: new THREE.Color(0, 0, 0) },
+    uFogSunLum: { value: new THREE.Color(0, 0, 0) },
     uCamFog: { value: 0 },
     uFlash: { value: 0 },
     uCloudSunset: { value: new THREE.Color(0, 0, 0) },
@@ -160,7 +163,7 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
   Object.assign(mat.uniforms, extras, cloudUniforms);
   mat.uniforms.cloudCoverage.value = 0; // stock cloud layer stays off — ours below
   mat.fragmentShader =
-    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform float uSunAltDeg;\nuniform float uNightBoost;\nuniform float uBeltLum;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform vec3 uHorizonLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\nuniform vec3 uCloudBright;\nuniform vec3 uCloudDark;\nuniform vec3 uGlowDir;\nuniform vec3 uGlowCol;\nuniform vec3 uFogLum;\nuniform float uCamFog;\nuniform float uFlash;\nuniform vec3 uCloudSunset;\nuniform vec2 uCloudSunsetAmt;\n" +
+    "uniform float uSkyLum;\nuniform float uSkyFade;\nuniform float uSunAltDeg;\nuniform float uNightBoost;\nuniform float uBeltLum;\nuniform vec3 uNightZenith;\nuniform vec3 uNightHorizon;\nuniform vec3 uGroundLum;\nuniform vec3 uHorizonLum;\nuniform float uDawnLum;\nuniform vec2 uDawnDir;\nuniform vec3 uCloudBright;\nuniform vec3 uCloudDark;\nuniform vec3 uGlowDir;\nuniform vec3 uGlowCol;\nuniform vec3 uFogLum;\nuniform vec3 uFogSunLum;\nuniform float uCamFog;\nuniform float uFlash;\nuniform vec3 uCloudSunset;\nuniform vec2 uCloudSunsetAmt;\n" +
     CLOUD_UNIFORMS_GLSL +
     cloudFieldGlsl() +
     mat.fragmentShader.replace(
@@ -292,7 +295,15 @@ function createSkyDome(scale: number): { sky: Sky; extras: SkyExtras } {
       // flying into the belt looked like an opaque wall that was invisible
       // from below. uFogLum is exposure-anchored (bounded), so this cannot
       // break the screen envelope.
-      texColor = mix(texColor, uFogLum, uCamFog);
+      // Round 4: even standing INSIDE the fog, its colour is directional —
+      // bright and sun-coloured toward the light, cool grey away from it.
+      // Matches the aerial term's esFogCol so the sky veil and the fogged
+      // terrain agree. Both endpoints are exposure-anchored, so the envelope
+      // bound is the max of the two (skyScreenModel).
+      texColor = mix(
+        texColor,
+        mix(uFogLum, uFogSunLum, smoothstep(-0.35, 0.95, dot(direction, uGlowDir))),
+        uCamFog);
       // Stay below the half-float ceiling (65504): the PMREM env bake renders
       // into a HalfFloat target, and any overflow becomes Infinity there and
       // poisons the environment lighting.
@@ -318,6 +329,7 @@ function copySkyUniforms(from: Sky & { material: THREE.ShaderMaterial }, to: Sky
   (b.uGlowDir.value as THREE.Vector3).copy(a.uGlowDir.value as THREE.Vector3);
   (b.uGlowCol.value as THREE.Color).copy(a.uGlowCol.value as THREE.Color);
   (b.uFogLum.value as THREE.Color).copy(a.uFogLum.value as THREE.Color);
+  (b.uFogSunLum.value as THREE.Color).copy(a.uFogSunLum.value as THREE.Color);
   (b.sunPosition.value as THREE.Vector3).copy(a.sunPosition.value as THREE.Vector3);
   (b.uNightZenith.value as THREE.Color).copy(a.uNightZenith.value as THREE.Color);
   (b.uNightHorizon.value as THREE.Color).copy(a.uNightHorizon.value as THREE.Color);
@@ -929,6 +941,7 @@ void main() {
     extras.uGlowDir.value.set(...rig.cloudGlowDir);
     extras.uGlowCol.value.setRGB(...rig.cloudGlowCol);
     extras.uFogLum.value.setRGB(...rig.fogLum);
+    extras.uFogSunLum.value.setRGB(...rig.fogSunLum);
     extras.uFlash.value = flash;
     extras.uCloudSunset.value.setRGB(...rig.cloudSunsetCol);
     extras.uCloudSunsetAmt.value.set(rig.cloudSunsetAmt[0], rig.cloudSunsetAmt[1]);
@@ -1024,6 +1037,13 @@ void main() {
     a.uRegionHaze.value = wx.regionHaze;
     a.uWeatherMie.value = wx.mist.weather;
     a.uFogLum.value.set(...rig.fogLum);
+    a.uFogSunLum.value.set(...rig.fogSunLum);
+    // Cap cloud drifts downwind in the aerial shader's noise space (round 4),
+    // on the same clock as the sky's cloud scroll so the two agree.
+    a.uWhiteoutDrift.value.set(
+      -wx.windDirXZ[0] * cloudParams.timeS * wx.windSpeedMS * 0.0011,
+      -wx.windDirXZ[1] * cloudParams.timeS * wx.windSpeedMS * 0.0011,
+    );
     // Rain wetness into the shared ground shader path; wind into the shared
     // wave-energy scale (CPU query + water vertex stage read the same value).
     wetnessUniforms.uRainWet.value = wx.wetness;

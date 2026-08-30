@@ -82,6 +82,11 @@ export interface LightRig {
    * whose asymptote renders near-black in daylight (owner round 2: black
    * summit caps, invisible mist, the purple fly-mode layer). */
   fogLum: [number, number, number];
+  /** Fog colour looking INTO the light (round 4): the forward-scattered,
+   * strongly sun-tinted side of a fog/mist/cap-cloud bank. The aerial shader
+   * blends between this and `fogLum` by the view/sun angle, which is what
+   * makes a backlit bank glow gold at sunset instead of staying white. */
+  fogSunLum: [number, number, number];
   /** Cloud edge-glow light (silver lining): direction + exposure-anchored
    * colour — the sun by day, Masser by night (research §8.1). */
   cloudGlowDir: [number, number, number];
@@ -510,6 +515,23 @@ export function computeLightRig(
     Math.max((darkTint[2] * darkScreen) / exposureTarget, nightZenith[2] * 0.45),
   ];
 
+  // Sunrise/sunset light colour (owner round 3; research §9.2) — computed
+  // BEFORE the fog block (round 4) because fog is lit by exactly the same
+  // reddened light and must be tinted by it.
+  const sunsetBell = (alt: number) => Math.exp(-Math.pow((alt - 1) / 5.5, 2));
+  const cloudSunsetAmt: [number, number] = [
+    sunsetBell(altDeg) * (1 - 0.75 * wx.cloudDark),
+    sunsetBell(altDeg + 4),
+  ];
+  const deepening = 1 - smoothstep(-3, 5, altDeg);
+  const sunsetTint = mix3([1.0, 0.66, 0.33], [1.0, 0.36, 0.18], deepening);
+  const sunsetScreen = 0.62;
+  const cloudSunsetCol: [number, number, number] = [
+    (sunsetTint[0] * sunsetScreen) / exposureTarget,
+    (sunsetTint[1] * sunsetScreen) / exposureTarget,
+    (sunsetTint[2] * sunsetScreen) / exposureTarget,
+  ];
+
   // Dense-fog inscatter colour (round 2): authored in SCREEN terms like the
   // clouds. Day fog is bright white-grey (lit cloud-water), storm fog darker
   // grey, night fog a dim moonlit veil just above the night sky. This is
@@ -519,14 +541,60 @@ export function computeLightRig(
   // Storm fog is GLOOM, not glow: under a heavy deck the fog bank must sit
   // below the sky's tone (probe round 2: fogged terrain rendered brighter
   // than the storm clouds above it — inverted).
-  const fogDayScreen = 0.68 * (1 - 0.68 * wx.sunDim);
+  //
+  // Round 4 (owner: "dawn mist and sea fog are always a whitish haze whatever
+  // colour the light is"; the mountain-cloud band read as a WHITE stripe in
+  // front of mountains already gone dark at 18:00). Two things were wrong,
+  // both because fog was authored as a fixed neutral:
+  //
+  //  a) NO SUN-ALTITUDE TERM. Cloud faces already dim with the low sun
+  //     (dayBrightScreen), but fog did not, so at sunset the fog bank stayed
+  //     at full midday brightness while everything around it darkened —
+  //     hence a glowing white band in front of black mountains. Physically,
+  //     a fog bank IS a cloud seen from beside it: its brightness follows the
+  //     same illumination.
+  //  b) NO SUN COLOUR. Cloud droplets scatter whatever light reaches them,
+  //     so at sunset a fog/mist bank goes gold-to-rose on the sunward side
+  //     just like the clouds overhead. A white bank under a red sky is the
+  //     giveaway of a hardcoded fog colour.
+  //
+  // The DIRECTIONAL half of (b) — warm and bright looking toward the sun,
+  // cooler and darker looking away — is `fogSunLum` below, applied by the
+  // aerial shader against the view/sun angle. That gradient is what makes a
+  // distant bank with mountains behind it and the sun behind THOSE read
+  // correctly: the bank glows where it is backlit, and stays a cool grey
+  // where it is not.
+  const fogSunlit = 0.18 + 0.82 * smoothstep(0, 15, altDeg);
+  const fogDayScreen = 0.68 * fogSunlit * (1 - 0.68 * wx.sunDim);
   const fogNightScreen = 0.028 + 0.045 * moonGlowC;
   const fogScreen = fogNightScreen + (fogDayScreen - fogNightScreen) * skyFade;
-  const fogTint = mix3([0.82, 0.87, 1.0], [0.94, 0.96, 1.0], skyFade);
+  // Neutral (anti-solar / overhead) fog colour, warmed toward the sunset tint
+  // as the sun gets low.
+  const fogNeutralTint = mix3(
+    mix3([0.82, 0.87, 1.0], [0.94, 0.96, 1.0], skyFade),
+    sunsetTint,
+    0.45 * cloudSunsetAmt[0],
+  );
   const fogLum: [number, number, number] = [
-    (fogTint[0] * fogScreen) / exposureTarget,
-    (fogTint[1] * fogScreen) / exposureTarget,
-    (fogTint[2] * fogScreen) / exposureTarget,
+    (fogNeutralTint[0] * fogScreen) / exposureTarget,
+    (fogNeutralTint[1] * fogScreen) / exposureTarget,
+    (fogNeutralTint[2] * fogScreen) / exposureTarget,
+  ];
+  // Looking INTO the light: forward-scattered sun through the droplets — the
+  // bright, strongly-tinted side of every fog bank. Brighter than the neutral
+  // colour by the classic haze forward-scatter ratio, and fully sunset-tinted
+  // at low sun. Still exposure-anchored, so the envelope holds by
+  // construction (the test asserts both colours in range).
+  const fogSunTint = mix3(
+    mix3([0.95, 0.96, 1.0], [1.0, 0.99, 0.97], skyFade),
+    sunsetTint,
+    0.9 * cloudSunsetAmt[0],
+  );
+  const fogSunScreen = fogNightScreen + (fogDayScreen * 1.5 - fogNightScreen) * skyFade;
+  const fogSunLum: [number, number, number] = [
+    (fogSunTint[0] * fogSunScreen) / exposureTarget,
+    (fogSunTint[1] * fogSunScreen) / exposureTarget,
+    (fogSunTint[2] * fogSunScreen) / exposureTarget,
   ];
 
   // Cloud edge glow (silver lining, research §8.1): lit by the sun when it
@@ -545,27 +613,12 @@ export function computeLightRig(
     (glowTint[2] * glowScreen) / exposureTarget,
   ];
 
-  // Sunrise/sunset cloud colouring (owner round 3; research §9.2): around
-  // sunrise/sunset clouds are lit by the sun's transmitted light, reddened by
-  // the long atmospheric path — gold while the sun is a few degrees up,
+  // (The sunrise/sunset cloud colouring — owner round 3, research §9.2 — is
+  // computed above the fog block since round 4, because fog is lit by the
+  // same reddened light. Clouds are gold while the sun is a few degrees up,
   // deepening to orange-red at the horizon, with high cirrus staying lit
-  // (pink afterglow) a few degrees of sun depression after the deck greys
-  // out. Screen-anchored like every other cloud colour, so the §8d envelope
-  // holds by construction; heavy storm decks barely colour (light cannot
-  // reach their bases — the wx.cloudDark damping).
-  const sunsetBell = (alt: number) => Math.exp(-Math.pow((alt - 1) / 5.5, 2));
-  const cloudSunsetAmt: [number, number] = [
-    sunsetBell(altDeg) * (1 - 0.75 * wx.cloudDark),
-    sunsetBell(altDeg + 4),
-  ];
-  const deepening = 1 - smoothstep(-3, 5, altDeg);
-  const sunsetTint = mix3([1.0, 0.66, 0.33], [1.0, 0.36, 0.18], deepening);
-  const sunsetScreen = 0.62;
-  const cloudSunsetCol: [number, number, number] = [
-    (sunsetTint[0] * sunsetScreen) / exposureTarget,
-    (sunsetTint[1] * sunsetScreen) / exposureTarget,
-    (sunsetTint[2] * sunsetScreen) / exposureTarget,
-  ];
+  // for a few degrees of sun depression after the deck greys out; heavy storm
+  // decks barely colour — the wx.cloudDark damping.)
 
   return {
     sun,
@@ -603,6 +656,7 @@ export function computeLightRig(
     cloudDarkCol,
     sunCastsShadows,
     fogLum,
+    fogSunLum,
     cloudGlowDir,
     cloudGlowCol,
     cloudSunsetCol,
