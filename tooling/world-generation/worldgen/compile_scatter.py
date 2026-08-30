@@ -62,9 +62,14 @@ class ProvinceFields:
         wet = depth > 0.05
 
         # Nearest wet cell's water level, everywhere.
-        _, (iy, ix) = ndimage.distance_transform_edt(~wet, return_indices=True)
+        land_d, (iy, ix) = ndimage.distance_transform_edt(~wet, return_indices=True)
         table = water_level[iy, ix]
         self.depth_m = np.where(wet, depth, table - self.height_m).astype(np.float32)
+        # Signed distance to the water's EDGE (+ land, − water): the meso
+        # 'scene' field — reed belts, bank thickets and riparian galleries all
+        # band on it (research/openworld-vegetation-placement-architecture.md).
+        water_d = ndimage.distance_transform_edt(wet)
+        self.shore_m = (np.where(wet, -water_d, land_d) * self.px_m).astype(np.float32)
         # Beyond a few metres the distinction stops meaning anything, and an
         # unclamped value would let a distant mountain read as "-200 m above
         # the water table" and skew every response curve.
@@ -107,6 +112,8 @@ class ProvinceFields:
                 v if (v := self._pixel(self.region, x, z, self.region_px_m)) is not None else 0),
             land_cover=lambda x, z: int(
                 v if (v := self._pixel(self.land_cover, x, z, self.px_m)) is not None else 0),
+            shore=lambda x, z: float(
+                v if (v := self._pixel(self.shore_m, x, z, self.px_m)) is not None else 9999.0),
         )
 
     def chunk_grid(self) -> int:
@@ -265,6 +272,7 @@ def main() -> None:
 
     index = {}
     totals: Counter = Counter()
+    species_totals: Counter = Counter()
     per_chunk = []
     for cx, cz in wanted:
         present, instances, blob = compile_chunk(source, palette, cx, cz, args.seed)
@@ -273,6 +281,7 @@ def main() -> None:
         tiers = Counter(i.tier for i in instances)
         totals.update(tiers)
         totals["chunks"] += 1
+        species_totals.update(i.species for i in instances)
         region = source.modal_region(cx, cz)
         record = {
             "chunk": [cx, cz],
@@ -326,6 +335,14 @@ def main() -> None:
             print(f"  {name:28s} {len(values):3d} chunks  "
                   f"mean {sum(values)//len(values):6d}/chunk  {per_ha:6.1f}/ha")
         if args.report:
+            # Delivered per species over the dressed area — read against the
+            # palette's authored instances_per_hectare to see what the gates
+            # and responses actually let through (the round-2 sparse-jungle
+            # defect was invisible without this).
+            dressed_ha = dressed * (CHUNK_M * CHUNK_M / 10_000)
+            print("  delivered per species (/ha of dressed area):")
+            for name, count in species_totals.most_common():
+                print(f"    {name:56s} {count:8,d}  {count / dressed_ha:8.2f}")
             covs = sorted(r["variation"]["coefficientOfVariation"]
                           for r in per_chunk if r.get("variation"))
             if covs:

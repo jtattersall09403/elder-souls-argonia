@@ -258,3 +258,61 @@ def test_glades_are_shared_between_species_not_private_to_each():
             f"{open_ground[species]} in clearings — the shared openness field "
             "is not shaping this layer"
         )
+
+
+def test_altitude_gate_separates_montane_from_lowland():
+    lowland = Layer(species="palm", instances_per_hectare=40,
+                    altitude_m=(-999, 120))
+    montane = Layer(species="juniper", instances_per_hectare=40,
+                    altitude_m=(300, 9999))
+    fields = flat_fields(depth=-2.0)
+    fields.height = lambda x, z: 400.0
+    placed = scatter_chunk(0, 0, 200, Palette("p", [lowland, montane]), fields, 7)
+    assert placed and all(i.species == "juniper" for i in placed)
+
+
+def test_shore_band_confines_the_reed_belt_to_the_edge():
+    """The meso scene control: a species banded to the water's edge appears
+    there and nowhere else, however big the chunk."""
+    reed = Layer(species="reed", instances_per_hectare=200,
+                 shore_m=(-6.0, 3.0))
+    fields = flat_fields(depth=0.1)
+    # A shoreline running down x=100: water to the left, land to the right.
+    fields.shore = lambda x, z: x - 100.0
+    placed = scatter_chunk(0, 0, 400, Palette("p", [reed]), fields, 7)
+    assert placed
+    assert all(94.0 <= i.x <= 103.0 for i in placed)
+
+
+def test_shore_boost_thickens_the_bank_the_mined_2x():
+    """Mined rule M2: Black Marsh density roughly doubles at the water and
+    relaxes inland. The boost is soft, so both bands still place plants."""
+    shrub = Layer(species="shrub", instances_per_hectare=60,
+                  shore_boost_gain=1.1, shore_boost_peak_m=-2.0,
+                  shore_boost_half_width_m=25.0,
+                  patchiness=0.0, glade_response=0.0)
+    fields = flat_fields(depth=-0.5)
+    fields.shore = lambda x, z: x  # bank at x=0, inland to the right
+    placed = scatter_chunk(0, 0, 400, Palette("p", [shrub]), fields, 7)
+    near = sum(1 for i in placed if i.x < 40)
+    # Baseline over the whole inland run, not one 40 m band — clumping makes
+    # any single band noisy.
+    inland = sum(1 for i in placed if 120 <= i.x < 400)
+    inland_per_band = inland / 7.0
+    assert near > inland_per_band * 1.4
+    assert inland > 0
+
+
+def test_glade_band_puts_the_edge_wall_at_the_glade_edge():
+    """Green-wall species live on the openness field's mid band; the deep
+    interior and the open glade centres both stay clear of them."""
+    wall = Layer(species="thicket", instances_per_hectare=150,
+                 glade_band=(0.55, 0.8), patchiness=0.0, glade_response=0.0)
+    fields = flat_fields(depth=-1.0)
+    placed = scatter_chunk(0, 0, 468, Palette("p", [wall]), fields, 7)
+    open_everywhere = Layer(species="thicket", instances_per_hectare=150,
+                            patchiness=0.0, glade_response=0.0)
+    everywhere = scatter_chunk(0, 0, 468, Palette("p", [open_everywhere]), fields, 7)
+    # The band admits only part of the landscape, so the banded layer places
+    # fewer — and both place something (the band is not degenerate).
+    assert 0 < len(placed) < len(everywhere)

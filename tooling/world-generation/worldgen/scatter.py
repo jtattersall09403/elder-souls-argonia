@@ -153,6 +153,22 @@ class Layer:
     water_depth_m: tuple[float, float] = (-99.0, 99.0)
     slope_deg_max: float = 45.0
     land_cover: tuple[int, ...] = ()
+    altitude_m: tuple[float, float] = (-999.0, 9999.0)
+    """Height above sea level, metres — montane species vs lowland species.
+    Region class is a coarse proxy; this is the direct control."""
+    shore_m: tuple[float, float] = (-9999.0, 9999.0)
+    """Signed horizontal distance to the water's EDGE: positive on land,
+    negative in water. This is the meso 'scene' control the open-world
+    placement research says every engine expresses as distance-to-feature
+    fields (research/openworld-vegetation-placement-architecture.md): reed
+    belts hug the edge, shrub thickets band behind it, gallery forest ribbons
+    follow watercourses through open country. Depth gates are the vertical
+    relation; this is the horizontal one, and they compose."""
+    glade_band: tuple[float, float] = (0.0, 1.0)
+    """Band on the shared openness field (0 closed .. 1 open). The ecology
+    research's edge effects live here: 'green wall' species take the band
+    around a clearing (~[0.45, 0.75]), gap-fill pioneers take the open end
+    ([0.7, 1.0]), deep-interior species the closed end ([0.0, 0.55])."""
     # Soft response.
     depth_peak_m: float = 0.0
     depth_half_width_m: float = 0.0
@@ -163,6 +179,17 @@ class Layer:
     of rule R2 emerges from the *gates* anyway — marsh species outnumber
     upland ones, so density peaks where they overlap."""
     slope_half_angle_deg: float = 12.0
+    # Riparian response (mined rule M2, research/mod-vegetation-micro-siting.md):
+    # Black Marsh's density peaks at ~2.1x just OFF the shore and holds ~1.4x
+    # for 40 m inland; Valenwood's dry forest inverts and stands back. A
+    # signed, per-layer gaussian boost on the cell's shore distance —
+    # deliberately NOT mean-one: water margins really do carry more plants.
+    shore_boost_gain: float = 0.0
+    """0 = off. Positive thickens the band (marsh), negative thins it
+    (dry-country species that stand back from rivers; floor 0.15)."""
+    shore_boost_peak_m: float = 0.0
+    """Where the boost peaks — negative is just off the bank, in the water."""
+    shore_boost_half_width_m: float = 25.0
     patchiness: float = 0.85
     """How strongly this species alone thickens and thins across a landscape.
 
@@ -183,7 +210,8 @@ class Layer:
     respects_clearance: bool = True
 
     def gate(self, depth_m: float, slope_deg: float, region: int,
-             cover: int) -> bool:
+             cover: int, altitude_m: float = 0.0,
+             shore_m: float = 0.0, glade: float = 0.5) -> bool:
         if self.region_classes and region not in self.region_classes:
             return False
         if not (self.water_depth_m[0] <= depth_m <= self.water_depth_m[1]):
@@ -191,6 +219,12 @@ class Layer:
         if slope_deg > self.slope_deg_max:
             return False
         if self.land_cover and cover not in self.land_cover:
+            return False
+        if not (self.altitude_m[0] <= altitude_m <= self.altitude_m[1]):
+            return False
+        if not (self.shore_m[0] <= shore_m <= self.shore_m[1]):
+            return False
+        if not (self.glade_band[0] <= glade <= self.glade_band[1]):
             return False
         return True
 
@@ -206,6 +240,14 @@ class Layer:
         own = value_noise(salt ^ 0x9E37, x, z, STAND_WAVELENGTH_M)
         return patch_factor(own, self.patchiness) * patch_factor(
             glade, self.glade_response)
+
+    def shore_factor(self, shore_m: float) -> float:
+        """Riparian density multiplier at a shore distance (1 when off)."""
+        if self.shore_boost_gain == 0.0:
+            return 1.0
+        bell = math.exp(-((shore_m - self.shore_boost_peak_m)
+                          / self.shore_boost_half_width_m) ** 2)
+        return max(0.15, 1.0 + self.shore_boost_gain * bell)
 
 
 @dataclass
@@ -231,7 +273,8 @@ class Palette:
             for key in ("region_classes", "land_cover"):
                 if key in fields:
                     fields[key] = tuple(fields[key])
-            for key in ("water_depth_m", "scale_range"):
+            for key in ("water_depth_m", "scale_range", "altitude_m",
+                        "shore_m", "glade_band"):
                 if key in fields:
                     fields[key] = tuple(fields[key])
             layers.append(Layer(**fields))
@@ -269,6 +312,8 @@ class Fields:
     slope: Callable[[float, float], float]
     region: Callable[[float, float], int]
     land_cover: Callable[[float, float], int] = lambda x, z: 0
+    shore: Callable[[float, float], float] = lambda x, z: 9999.0
+    """Signed distance to the water's edge, metres (+ land, − water)."""
 
 
 HECTARE_M2 = 10_000.0
@@ -362,11 +407,14 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
                 # of what the source shows.
                 seed_x = (cell_x + 0.5) * cell_m
                 seed_z = (cell_z + 0.5) * cell_m
+                # One openness value per cell: it multiplies the density AND
+                # gates glade_band, so a clump is wholly of its place — an
+                # edge-wall thicket does not straddle into the deep interior.
+                glade_cell = value_noise(glade_salt, seed_x, seed_z,
+                                         GLADE_WAVELENGTH_M)
                 expected_here = per_cell * layer.patchiness_at(
-                    salt,
-                    value_noise(glade_salt, seed_x, seed_z, GLADE_WAVELENGTH_M),
-                    seed_x, seed_z,
-                )
+                    salt, glade_cell, seed_x, seed_z,
+                ) * layer.shore_factor(fields.shore(seed_x, seed_z))
                 centres = int(expected_here)
                 if uniform_at(cell_key, 0) < expected_here - centres:
                     centres += 1
@@ -378,7 +426,10 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
                     depth = fields.water_depth(cx, cz)
                     slope = fields.slope(cx, cz)
                     if not layer.gate(depth, slope, fields.region(cx, cz),
-                                      fields.land_cover(cx, cz)):
+                                      fields.land_cover(cx, cz),
+                                      altitude_m=fields.height(cx, cz),
+                                      shore_m=fields.shore(cx, cz),
+                                      glade=glade_cell):
                         continue
                     if uniform_at(key, 3) > layer.weight(depth, slope):
                         continue
@@ -407,7 +458,10 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
                         depth_m = fields.water_depth(px, pz)
                         slope_m = fields.slope(px, pz)
                         if not layer.gate(depth_m, slope_m, fields.region(px, pz),
-                                          fields.land_cover(px, pz)):
+                                          fields.land_cover(px, pz),
+                                          altitude_m=fields.height(px, pz),
+                                          shore_m=fields.shore(px, pz),
+                                          glade=glade_cell):
                             continue
                         if uniform_at(mkey, 2) > layer.weight(depth_m, slope_m):
                             continue
