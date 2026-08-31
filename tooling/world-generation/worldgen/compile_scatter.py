@@ -16,12 +16,14 @@ import argparse
 import json
 import math
 from collections import Counter
+from dataclasses import replace
 from pathlib import Path
 
 import numpy as np
 from PIL import Image
 from scipy import ndimage
 
+from .composition import Composition
 from .regions import REGION_CLASSES
 from .scale import RAW_M
 from .scatter import Fields, Palette, clark_evans, encode, scatter_chunk
@@ -86,6 +88,16 @@ class ProvinceFields:
             match = np.all(region_rgb == np.array(colour, dtype=np.uint8), axis=-1)
             self.region[match] = class_id
 
+        # Salt-exposure field (round 4): signed distance to the OCEAN, from
+        # the region raster's ocean class. Distinct from `shore_m` (nearest
+        # water of any kind) — an interior lake is wet but not salty.
+        # Mangrove-classified intertidal shallows count as land here: they
+        # are the coast's own vegetation, not open sea.
+        ocean = self.region == 0
+        coast_in = ndimage.distance_transform_edt(~ocean) * self.region_px_m
+        coast_out = ndimage.distance_transform_edt(ocean) * self.region_px_m
+        self.coast_m = np.where(ocean, -coast_out, coast_in).astype(np.float32)
+
         control = np.asarray(Image.open(province / "refined" / "ground-control.png")
                              .convert("RGBA"))
         self.land_cover = control[..., 0].copy()
@@ -117,6 +129,8 @@ class ProvinceFields:
                 v if (v := self._pixel(self.land_cover, x, z, self.control_px_m)) is not None else 0),
             shore=lambda x, z: float(
                 v if (v := self._pixel(self.shore_m, x, z, self.px_m)) is not None else 9999.0),
+            coast=lambda x, z: float(
+                v if (v := self._pixel(self.coast_m, x, z, self.region_px_m)) is not None else 99999.0),
         )
 
     def chunk_grid(self) -> int:
@@ -174,19 +188,30 @@ def species_order(palette: Palette) -> list[str]:
 
 
 def compile_chunk(fields_source: ProvinceFields, palette: Palette,
-                  cx: int, cz: int, seed: int):
+                  cx: int, cz: int, seed: int,
+                  composition: Composition | None = None):
     present = fields_source.regions_in(cx, cz)
     active = [
         layer for layer in palette.layers
         if not layer.region_classes or present & set(layer.region_classes)
     ]
     if not active:
-        return present, [], b""
+        return present, [], b"", {}
+    fields = fields_source.as_fields()
+    composition = composition or Composition.load()
+    # C3: attachment species never free-scatter; C4: cluster-part densities
+    # are pre-divided so the clump pass keeps totals authored.
+    scatter_layers, attachment_layers = composition.split_layers(
+        [replace(layer) for layer in active])
     instances = scatter_chunk(
-        cx * CHUNK_M, cz * CHUNK_M, CHUNK_M, Palette(palette.id, active),
-        fields_source.as_fields(), seed, chunk_id=(cx, cz),
+        cx * CHUNK_M, cz * CHUNK_M, CHUNK_M, Palette(palette.id, scatter_layers),
+        fields, seed, chunk_id=(cx, cz),
     )
-    return present, instances, encode(instances, species_order(palette))
+    order = species_order(palette)
+    instances, counts = composition.compose(
+        instances, attachment_layers, fields, seed,
+        area_ha=CHUNK_M * CHUNK_M / 10_000, allowed=set(order))
+    return present, instances, encode(instances, order), counts
 
 
 def variation_probe(instances, size_m: float, cell_m: float = 58.0) -> dict:
@@ -279,13 +304,16 @@ def main() -> None:
     class_counts: Counter = Counter()
     class_area_px: Counter = Counter()
     fields_for_report = source.as_fields()
+    composition = Composition.load()
     per_chunk = []
     for cx, cz in wanted:
-        present, instances, blob = compile_chunk(source, palette, cx, cz, args.seed)
+        present, instances, blob, counts = compile_chunk(
+            source, palette, cx, cz, args.seed, composition)
         if not instances:
             continue
         tiers = Counter(i.tier for i in instances)
         totals.update(tiers)
+        totals.update(counts)
         totals["chunks"] += 1
         species_totals.update(i.species for i in instances)
         if args.report:
@@ -341,7 +369,10 @@ def main() -> None:
         print("  per chunk  p5 %d  p50 %d  p95 %d  max %d" % (
             counts[len(counts) // 20], counts[len(counts) // 2],
             counts[min(len(counts) - 1, 19 * len(counts) // 20)], counts[-1]))
-        print("  tiers:", {k: v for k, v in totals.items() if k != "chunks"})
+        skip = ("chunks", "clumpPieces", "attachments")
+        print("  tiers:", {k: v for k, v in totals.items() if k not in skip})
+        print(f"  composition: {totals['clumpPieces']:,} clump companion "
+              f"pieces, {totals['attachments']:,} attachments on hosts")
         by_region: dict[str, list[int]] = {}
         for record in per_chunk:
             by_region.setdefault(record["regionName"], []).append(record["instances"])

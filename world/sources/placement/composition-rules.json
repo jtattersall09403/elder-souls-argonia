@@ -1,0 +1,118 @@
+{
+  "source": {
+    "label": "Composition + anchoring mining over BM&V (BlackMarsh, BlackMarsh2, BlackMarshNorth; Valenwood) with Tropical Skyrim edid aliases",
+    "plugins": ["Black Marsh.esm", "Black Marsh North.esp", "Valenwood.esp"],
+    "doc": "docs/research/vegetation-composition-rules.md",
+    "minedBy": "ad-hoc script over worldgen.mine_placement.collect, 2026-08-31",
+    "signConvention": "pivotOffsetM = placed pivot Z minus terrain Z at XY, metres; negative = sunk below terrain"
+  },
+  "anchoring": {
+    "rule": "Anchor is the model PIVOT (authored at trunk base / stem base), never bbox-min. Models routinely carry geometry below the pivot (willow bboxMinZ -4.05 m, cypress -0.94 m, mangrove -2.03 m, lilypad -2.33 m) which the authors let penetrate terrain or water. Snap pivot to terrain, then sink by class/species; ignore bbox-min entirely.",
+    "evidence": "treewillow01a/02a/03a: pivotOffset p50 exactly 0.00 with bboxMinZ -4.05/-2.92/0.0; if bbox-min were the anchor the offsets would cluster at +4/+3 m.",
+    "perClassPivotOffsetM": {
+      "note": "Valenwood is the clean signal (real slopes, dry ground); Black Marsh medians are contaminated by deliberate wetland sinking toward water and by cliff dressing.",
+      "valenwood": {
+        "tree":  { "flat<10deg": { "p25": -2.16, "p50": -0.79, "p75": 0.0 }, "mid10-25deg": { "p25": -3.44, "p50": -1.42, "p75": -0.04 }, "steep>=25deg": { "p25": -4.05, "p50": -1.17, "p75": 1.31 } },
+        "shrub": { "flat<10deg": { "p25": -2.35, "p50": -0.13, "p75": 0.07 }, "mid10-25deg": { "p25": -3.84, "p50": -1.42, "p75": -0.21 }, "steep>=25deg": { "p25": -4.94, "p50": -1.82, "p75": 0.13 } },
+        "plant": { "flat<10deg": { "p25": -0.25, "p50": 0.0, "p75": 0.16 }, "mid10-25deg": { "p25": -0.35, "p50": -0.14, "p75": 0.0 } }
+      },
+      "blackmarsh": {
+        "tree":  { "flat<10deg": { "p25": -2.25, "p50": -0.23, "p75": 0.82 } },
+        "shrub": { "flat<10deg": { "p25": -2.73, "p50": -0.27, "p75": 1.30 } },
+        "grass": { "flat<10deg": { "p25": -1.95, "p50": -0.72, "p75": 0.02 } }
+      }
+    },
+    "recommendedSinkDepthM": {
+      "tree":  { "flat": 0.5, "perSlopeDegOver10": 0.05, "max": 2.5 },
+      "shrub": { "flat": 0.3, "perSlopeDegOver10": 0.07, "max": 2.0 },
+      "plant": { "flat": 0.05, "perSlopeDegOver10": 0.02, "max": 0.5 },
+      "grass": { "flat": 0.3, "perSlopeDegOver10": 0.05, "max": 1.5 },
+      "note": "medians of the mined distributions; jitter within roughly +/-50% reproduces the observed spread"
+    }
+  },
+  "categories": {
+    "standalone": "snap pivot to terrain, sink per class; no host needed",
+    "attachment": "must be composed onto/into a host (tree trunk/canopy, cliff face); never place free-floating",
+    "cluster-part": "authors virtually never place it alone; spawn as member of a mixed clump with its companion set",
+    "ground-addon": "flat composed piece laid at ground level inside a bush/plant stack (dist ~0 m from companion, small dz)",
+    "water-surface": "anchor to WATER surface, not terrain (pivot at model top for lilypads)",
+    "bed-anchored-aquatic": "anchor pivot to submerged terrain (bed), plant reaches up through water"
+  },
+  "species": {
+    "bmv:landscape/trees/cypress1": { "class": "standalone", "count": 1775, "pivotOffsetM": { "vwFlatP50": -1.24, "vwSlopeP50": -2.07, "bmP50": -0.82 }, "bboxMinZM": -0.94 },
+    "bmv:landscape/trees/cypress3": { "class": "standalone", "count": 1011, "pivotOffsetM": { "vwFlatP50": -0.67, "bmP50": -0.29 }, "bboxMinZM": -0.94 },
+    "bmv:landscape/trees/cedartree3": { "class": "standalone", "count": 388, "pivotOffsetM": { "bmP50": 1.91 }, "note": "wide spread; many placed on cliff/ledge dressing in BM; sink 0.3-0.8 m on normal ground" },
+    "bmv:landscape/trees/treewillow01a": { "class": "standalone", "count": 103, "pivotOffsetM": { "p50": 0.0 }, "bboxMinZM": -4.05, "note": "snap-to-terrain exactly; 4 m of frond/root geometry hangs below pivot and penetrates ground - do NOT lift by bbox" },
+    "bmv:landscape/trees/treewillow02a": { "class": "standalone", "count": 75, "pivotOffsetM": { "p50": 0.0 }, "bboxMinZM": -2.92 },
+    "bmv:landscape/trees/treewillow03a": { "class": "standalone", "count": 35, "pivotOffsetM": { "p50": 0.0 }, "bboxMinZM": 0.0 },
+    "bmv:landscape/trees/mangrovereachtree0gkb3": { "class": "standalone", "count": 399, "pivotOffsetM": { "bmP50": 1.82 }, "bboxMinZM": -2.03, "waterline": true, "note": "pivot sits ~1.8 m above submerged bed = stilt roots straddle the waterline; anchor near water level over flooded ground" },
+    "bmv:landscape/trees/mangrovereachtree0gkb9": { "class": "standalone", "count": 767, "pivotOffsetM": { "bmP50": -0.08 }, "bboxMinZM": -1.18, "waterline": true },
+    "bmv:landscape/trees/gkbjungletreenew1": { "class": "standalone", "count": 480, "pivotOffsetM": { "bmFlatP50": -0.23 }, "bboxMinZM": -0.48 },
+    "bmv:landscape/trees/gkbjungletreenew12v3": { "class": "standalone", "count": 659, "pivotOffsetM": { "bmP50": -0.23, "vwP50": -0.57 }, "bboxMinZM": -0.03 },
+    "bmv:landscape/trees/bambooplant": { "class": "standalone", "count": 536, "pivotOffsetM": { "vwFlatP50": -1.39, "vwSlopeP50": -2.43 }, "note": "sunk deep - bamboo clumps buried to hide stem bases" },
+    "bmv:landscape/trees/dwarfjunip05": { "class": "standalone", "count": 347, "pivotOffsetM": { "vwFlatP50": -2.39, "vwSlopeP50": -2.77 }, "note": "deepest-sunk shrub-tree in the data" },
+    "bmv:landscape/trees/beachpalm1": { "class": "standalone", "count": 18, "evidence": "thin", "pivotOffsetM": null },
+    "bmv:landscape/trees/beachpalm2": { "class": "standalone", "count": 1, "evidence": "thin" },
+    "bmv:landscape/trees/beachpalm3": { "class": "standalone", "count": 8, "evidence": "thin" },
+    "bmv:landscape/trees/fanpalm1": { "class": "standalone", "count": 19, "evidence": "thin" },
+    "bmv:landscape/trees/gkbfallforestshrub02": { "class": "standalone", "count": 520, "pivotOffsetM": { "bmP50": -0.07 }, "note": "85% placed at or below terrain; tight snap" },
+    "bmv:vurt_shroom/vurt_shroom_big1": { "class": "standalone", "count": 118, "pivotOffsetM": { "bmP50": 0.06 }, "bboxMinZM": -3.29 },
+    "bmv:landscape/plants/fern01": { "class": "standalone", "count": 457, "pivotOffsetM": { "bmP50": -0.69 } },
+    "tropical:plants/tropical/manfern": { "class": "standalone", "count": 0, "evidence": "none-in-mined-sources", "note": "Tropical Skyrim override of a vanilla fern; vanilla places it standalone groundcover - treat as standalone plant, sink ~0.05 m" },
+
+    "bmv:landscape/plants/fernlarge03": { "class": "cluster-part", "count": 5902, "companions": ["bmv:landscape/plants/esloebush08", "bmv:landscape/trees/tropicalplant01", "bmv:landscape/plants/braken"], "fracWithin2mOfCompanion": 0.933, "pivotOffsetM": { "bmP50": -1.56 }, "note": "sunk deep so only fronds show through undergrowth" },
+    "bmv:landscape/plants/esloebush08": { "class": "cluster-part", "count": 1803, "companions": ["bmv:landscape/plants/fernlarge03", "bmv:landscape/plants/braken", "bmv:landscape/trees/tropicalplant01"], "fracWithin2mOfCompanion": 0.997 },
+    "bmv:landscape/plants/braken": { "class": "cluster-part", "count": 8045, "companions": ["bmv:landscape/plants/esloebush08", "bmv:landscape/plants/chickweed", "bmv:landscape/trees/tropicalplant01"], "fracWithin2mOfCompanion": 0.993, "pivotOffsetM": { "bmP50": -0.56 } },
+    "bmv:landscape/plants/chickweed": { "class": "cluster-part", "count": 4287, "companions": ["bmv:landscape/trees/mangrovereachtree0gkb9", "bmv:landscape/trees/tropicalshrub01", "bmv:landscape/plants/braken"], "fracWithin2mOfCompanion": 0.8 },
+    "bmv:landscape/plants/bigshrub2(colorful)": { "class": "cluster-part", "count": 3381, "companions": ["bmv:landscape/plants/esloebush08", "bmv:landscape/plants/fernlarge03", "bmv:landscape/trees/tropicalplant01"], "fracWithin2mOfCompanion": 0.987, "pivotOffsetM": { "bmP50": -1.03 } },
+    "bmv:landscape/trees/tropicalplant01": { "class": "cluster-part", "count": 6508, "companions": ["bmv:landscape/plants/esloebush08", "bmv:landscape/plants/braken", "bmv:landscape/plants/bigshrub2(colorful)"], "fracWithin2mOfCompanion": 1.0, "pivotOffsetM": { "bmFlatP50": -0.19, "vwFlatP50": -1.77, "vwSlopeP50": -2.71 }, "note": "the bush-cluster core piece; also the host that tramaroot add-ons are stacked onto at dist 0" },
+    "bmv:landscape/trees/tropicalshrub01": { "class": "cluster-part", "count": 2146, "companions": ["bmv:landscape/plants/esloebush08", "bmv:landscape/plants/chickweed", "bmv:landscape/plants/braken"], "fracWithin2mOfCompanion": 1.0 },
+
+    "bmv:architecture/phitt/ashlands/tramaroot01": { "class": "attachment", "count": 2585, "hosts": ["bmv:landscape/trees/tropicalplant01", "bmv:landscape/plants/bigshrub2(colorful)", "cliff-face"], "hostEvidence": "399/400 sampled have a large neighbour within 8 m; top host tropicalplant01 at horizontal dist p50 0.00 m (co-located), dz p50 +2.35 m", "attachHeightM": { "p25": 0.41, "p50": 3.19, "p75": 5.19, "aboveTerrain": true }, "bboxZM": [-0.8, 0.8], "note": "dangling-root piece; authors stack it INTO a bush/tree at the same XY with pivot 2-5 m up, or hang it on cliff faces (slope p95 31 deg)" },
+    "bmv:architecture/phitt/ashlands/tramaroot06": { "class": "attachment", "count": 401, "hosts": ["cliff-face", "bmv:landscape/trees/cypress1", "bmv:landscape/trees/tropicalplant01"], "hostEvidence": "368/400 have a large neighbour within 8 m; sits dz +4 to +13 m above nearby ground plants = hung high on cliff faces above them; tropicalplant01 co-located at dist 0 when tree-hung", "attachHeightM": { "p25": 4.25, "p50": 5.78, "p75": 9.88, "aboveTerrain": true }, "bboxZM": [-1.01, 1.01] },
+    "bmv:landscape/trees/hangingvines1": { "class": "attachment", "count": 0, "evidence": "NEVER placed by sources", "hosts": ["tree-canopy", "branch", "overhang"], "attachHeightM": { "recommended": [2.5, 6.0] }, "note": "unused mesh in BM&V; classify by analogy with tramaroot01 and vanilla FloraTreeVine convention: hang from a tree branch/canopy, bottom clear of ground by 0.3-1.5 m" },
+    "bmv:landscape/trees/hangingvines2": { "class": "attachment", "count": 0, "evidence": "NEVER placed by sources", "hosts": ["tree-canopy", "branch", "overhang"], "attachHeightM": { "recommended": [2.5, 6.0] } },
+    "bmv:landscape/plants/florahangingmoss02aaa": { "class": "attachment", "count": 0, "evidence": "NEVER placed by sources (vanilla mesh; vanilla places FloraHangingMoss on tree limbs)", "hosts": ["tree-canopy", "branch"], "attachHeightM": { "recommended": [2.0, 5.0] } },
+    "bmv:landscape/plants/florahangingmoss03aaa": { "class": "attachment", "count": 0, "evidence": "NEVER placed by sources", "hosts": ["tree-canopy", "branch"], "attachHeightM": { "recommended": [2.0, 5.0] } },
+    "bmv:landscape/rocks/moss_rockcliff01": { "class": "standalone", "count": 0, "evidence": "NEVER placed by sources", "note": "mossy cliff rock; treat as standalone rock snapped to terrain / embedded in slopes, sink 0.3-1.0 m" },
+
+    "bmv:landscape/trees/gkblillipad2": { "class": "water-surface", "count": 4482, "pivotOffsetM": { "bmP50": 1.19, "meaning": "pivot at WATER level over submerged bed" }, "bboxZM": [-2.33, 0.0], "note": "pivot is at the model TOP (pad); anchor pivot to water surface, stalk hangs to bed. Companions: waterkelptall01 at dz 0 within ~3 m, kelptallstatic01aaa 1.4 m BELOW (on the bed under the pads)" },
+    "bmv:landscape/grass/waterkelpshort01": { "class": "bed-anchored-aquatic", "count": 739, "pivotOffsetM": { "bmP50": 0.11 }, "companions": ["bmv:landscape/trees/gkblillipad2", "bmv:landscape/grass/vurt_reeds"], "fracWithin2mOfCompanion": 0.987 },
+    "bmv:landscape/grass/waterkelptall01": { "class": "bed-anchored-aquatic", "count": 630, "pivotOffsetM": { "bmP50": 0.11 }, "companions": ["bmv:landscape/grass/vurt_reeds", "bmv:landscape/trees/gkblillipad2"] },
+    "bmv:landscape/plants/kelptallstatic01aaa": { "class": "bed-anchored-aquatic", "count": 609, "pivotOffsetM": { "bmP50": 0.39 }, "companions": ["bmv:landscape/trees/gkblillipad2"], "note": "placed on the bed 1.4-1.9 m below neighbouring lilypads" },
+    "bmv:landscape/grass/vurt_reeds": { "class": "standalone", "count": 8869, "pivotOffsetM": { "bmP50": -0.36 }, "waterline": true, "note": "waterline species (59% pivot below terrain = sunk into soft mud/shallows); companions kelp + lilypads" },
+    "bmv:vvardenfell/flora/algrass03b": { "class": "standalone", "count": 792, "pivotOffsetM": { "bmP50": -0.84 }, "note": "sunk ~0.8 m; bboxMinZ +0.26 so sinking hides the stem ring" }
+  },
+  "attachmentSpawn": {
+    "note": "Per-host spawn PROBABILITY for the attachment pass (compile-time knob, round 4). Attachments are accents, not per-host decorations: tramaroot01's rate on tropicalplant01 tracks its mined co-occurrence (2585 roots vs 6508 hosts ~= 0.4); the zero-precedent vines/moss default to sparse 8-12% of eligible hosts. Multiplied by regionHumidityMultiplier at the host's region class (deep swamp/rootland dressed more than dry uplands); values are per-host expected counts, may exceed 1 for guaranteed+extra.",
+    "perHostProbability": {
+      "bmv:architecture/phitt/ashlands/tramaroot01": { "default": 0.12, "bmv:landscape/trees/tropicalplant01": 0.4, "bmv:landscape/plants/bigshrub2(colorful)": 0.25 },
+      "bmv:architecture/phitt/ashlands/tramaroot06": { "default": 0.06, "bmv:landscape/trees/cypress1": 0.15, "bmv:landscape/trees/tropicalplant01": 0.15 },
+      "bmv:landscape/trees/hangingvines1": { "default": 0.1 },
+      "bmv:landscape/trees/hangingvines2": { "default": 0.08 },
+      "bmv:landscape/plants/florahangingmoss02aaa": { "default": 0.12 },
+      "bmv:landscape/plants/florahangingmoss03aaa": { "default": 0.1 }
+    },
+    "regionHumidityMultiplier": {
+      "1": 0.15, "2": 0.25, "3": 1.0, "4": 0.9, "5": 1.0, "6": 1.4, "7": 1.2,
+      "8": 0.7, "9": 0.5, "10": 0.7, "11": 0.9, "12": 1.0, "13": 1.0, "14": 1.3
+    }
+  },
+  "neverPlacedStandaloneBySources": [
+    "bmv:landscape/trees/hangingvines1",
+    "bmv:landscape/trees/hangingvines2",
+    "bmv:landscape/plants/florahangingmoss02aaa",
+    "bmv:landscape/plants/florahangingmoss03aaa",
+    "bmv:landscape/rocks/moss_rockcliff01",
+    "bmv:architecture/phitt/ashlands/tramaroot01",
+    "bmv:architecture/phitt/ashlands/tramaroot06"
+  ],
+  "neverPlacedAtAllBySources": [
+    "bmv:landscape/trees/hangingvines1",
+    "bmv:landscape/trees/hangingvines2",
+    "bmv:landscape/plants/florahangingmoss02aaa",
+    "bmv:landscape/plants/florahangingmoss03aaa",
+    "bmv:landscape/rocks/moss_rockcliff01",
+    "tropical:plants/tropical/manfern"
+  ]
+}

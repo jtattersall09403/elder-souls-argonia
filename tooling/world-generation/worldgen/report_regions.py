@@ -22,11 +22,11 @@ from .hydrology import HydrologyResult
 from .regions import REGION_CLASSES, compute_regions
 from .scale import RAW_METRES_PER_SAMPLE
 
-STEP = 4   # compile_hydrology's decimation; keeps this comparable to the shipped raster
+STEP = 3   # compile_hydrology's decimation; keeps this comparable to the shipped raster
 
 #: Classes that should read as wetland when the province is described as "an
 #: enormous swamp" — the number the 2026-08-30 rebalance is judged on.
-WETLAND_CLASSES = (3, 4, 5, 6, 7, 8, 9, 12)
+WETLAND_CLASSES = (3, 4, 5, 6, 7, 8, 9, 12, 14)
 DRY_CLASSES = (1, 2, 10, 11)
 
 

@@ -153,7 +153,9 @@ def test_bundle_size_stays_inside_the_budget():
     instances = [Instance("reed", "T3", float(i), 0.0, 0.0, 0.0, 1.0, 0.0, 0.0)
                  for i in range(1000)]
     blob = encode(instances, ["reed"])
-    assert (len(blob) - 28) / 1000 == 16.0    # module 65: ~12-16 B/instance
+    # v2: 12-byte file header + one 28-byte species header; 17 B/instance
+    # (module 65's ~12-16 B budget +1 byte for the composition sink).
+    assert (len(blob) - 12 - 28) / 1000 == 17.0
 
 
 def test_palette_loads_from_plain_data():

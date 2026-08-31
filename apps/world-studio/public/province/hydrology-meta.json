@@ -126,6 +126,14 @@
         175,
         45
       ]
+    },
+    "14": {
+      "name": "mangrove forest",
+      "rgb": [
+        0,
+        120,
+        105
+      ]
     }
   },
   "climateProfiles": {
@@ -226,6 +234,13 @@
       "rain": "monsoonal downpour",
       "visibility": 90,
       "canopy": 1.0
+    },
+    "mangrove forest": {
+      "humidity": 0.95,
+      "mist": 0.6,
+      "rain": "tidal storms",
+      "visibility": 150,
+      "canopy": 0.8
     }
   },
   "climateAir": {
@@ -303,11 +318,11 @@
     "mud": 0.015
   },
   "regionFractions": {
-    "ocean": 0.3216,
+    "ocean": 0.3026,
     "border mountains": 0.1296,
     "upland hills": 0.0947,
-    "tidal delta": 0.0008,
-    "coastal lagoon & salt marsh": 0.0092,
+    "tidal delta": 0.0007,
+    "coastal lagoon & salt marsh": 0.0032,
     "deep river corridor": 0.0019,
     "rootland deep marsh": 0.0688,
     "interior swamp": 0.0324,
@@ -316,7 +331,8 @@
     "raised hammock": 0.0,
     "firm lowland": 0.1604,
     "lake & standing water": 0.0609,
-    "tropical jungle": 0.0547
+    "tropical jungle": 0.0547,
+    "mangrove forest": 0.0251
   },
   "handPercentilesM": {
     "25": 4.81,

@@ -196,6 +196,19 @@ class Layer:
     shore_boost_peak_m: float = 0.0
     """Where the boost peaks — negative is just off the bank, in the water."""
     shore_boost_half_width_m: float = 25.0
+    # Coastal gradient (Phase 10 round 4, research/mangrove-coastal-ecology.md
+    # §4): salt exposure grades ~0.5-2 km inland from any coast, so coastal
+    # influence is a graded FACTOR on every layer, not just the two thin
+    # tidal region classes. `coast_m` is horizontal distance to the OCEAN
+    # (not to the nearest pond — that is `shore_m`).
+    coast_m: tuple[float, float] = (-9999.0, 99999.0)
+    """Hard gate on distance to the ocean, metres (negative = in the sea).
+    Obligate-coastal species (kelp beds, strand palms) band on it."""
+    coast_boost_gain: float = 0.0
+    """0 = off. Positive mixes a salt-tolerant species IN toward the coast;
+    negative fades a salt-intolerant one OUT (floor 0.15). Peak is at the
+    coast itself; there is no inland peak because salt exposure is monotone."""
+    coast_half_width_m: float = 800.0
     patchiness: float = 0.85
     """How strongly this species alone thickens and thins across a landscape.
 
@@ -214,6 +227,12 @@ class Layer:
     are mutually exclusive: a ~220 m guild-noise field picks which one is
     active locally, approximating per-pool theming without water-body ids.
     Empty = always active (the matrix)."""
+    guild_off_share: float = 0.0
+    """Density multiplier where ANOTHER guild wins the tile (Phase 10 round
+    4, owner: water edges must never be bare). 0 = hard exclusivity (the
+    original M3 behaviour); e.g. 0.45 keeps a thinned baseline everywhere so
+    guilds THEME the extras rather than suppress the belt — reed layers use
+    this so a lilypad tile still carries its reed margin."""
     # Presentation.
     scale_range: tuple[float, float] = (0.9, 1.2)
     yaw_random: bool = True
@@ -224,7 +243,8 @@ class Layer:
 
     def gate(self, depth_m: float, slope_deg: float, region: int,
              cover: int, altitude_m: float = 0.0,
-             shore_m: float = 0.0, glade: float = 0.5) -> bool:
+             shore_m: float = 0.0, glade: float = 0.5,
+             coast_m: float = 99999.0) -> bool:
         if self.region_classes and region not in self.region_classes:
             return False
         if not (self.water_depth_m[0] <= depth_m <= self.water_depth_m[1]):
@@ -238,6 +258,8 @@ class Layer:
         if not (self.shore_m[0] <= shore_m <= self.shore_m[1]):
             return False
         if not (self.glade_band[0] <= glade <= self.glade_band[1]):
+            return False
+        if not (self.coast_m[0] <= coast_m <= self.coast_m[1]):
             return False
         return True
 
@@ -261,6 +283,14 @@ class Layer:
         bell = math.exp(-((shore_m - self.shore_boost_peak_m)
                           / self.shore_boost_half_width_m) ** 2)
         return max(0.15, 1.0 + self.shore_boost_gain * bell)
+
+    def coast_factor(self, coast_m: float) -> float:
+        """Salt-exposure density multiplier at a distance from the ocean
+        (1 when off). Monotone: peaks at the coast, fades inland."""
+        if self.coast_boost_gain == 0.0:
+            return 1.0
+        bell = math.exp(-(max(0.0, coast_m) / self.coast_half_width_m) ** 2)
+        return max(0.15, 1.0 + self.coast_boost_gain * bell)
 
 
 @dataclass
@@ -287,7 +317,7 @@ class Palette:
                 if key in fields:
                     fields[key] = tuple(fields[key])
             for key in ("water_depth_m", "scale_range", "altitude_m",
-                        "shore_m", "glade_band"):
+                        "shore_m", "glade_band", "coast_m"):
                 if key in fields:
                     fields[key] = tuple(fields[key])
             layers.append(Layer(**fields))
@@ -297,18 +327,32 @@ class Palette:
 # --- the sampler -------------------------------------------------------------
 
 
+# Anchor modes (bundle v2, composition rules C1/C3/C5 — see composition.py).
+ANCHOR_TERRAIN = 0
+"""Pivot to the ground: renderer places pivot at runtimeGround(x,z) − sink.
+Never add a bbox-derived lift — the pivot IS the anchor (rule C1)."""
+ANCHOR_WATER_SURFACE = 1
+"""`y` is the ABSOLUTE water-surface elevation; use it as-is (lilypads)."""
+ANCHOR_ATTACHED = 2
+"""`y` is an ABSOLUTE elevation up a host (vines, moss); use it as-is."""
+
+
 @dataclass
 class Instance:
     species: str
     tier: str
     x: float
     y: float
-    """Ground height at the instance, metres — sea level is 0 (decision 0003)."""
+    """ANCHOR_TERRAIN: ground height at the instance, metres (sea level 0,
+    decision 0003). Other anchor modes: the absolute pivot elevation."""
     z: float
     yaw: float
     scale: float
     tilt_x: float
     tilt_z: float
+    anchor: int = ANCHOR_TERRAIN
+    sink: float = 0.0
+    """Metres the pivot sits BELOW the ground (rule C2); ≥ 0, terrain mode only."""
 
 
 @dataclass
@@ -327,6 +371,9 @@ class Fields:
     land_cover: Callable[[float, float], int] = lambda x, z: 0
     shore: Callable[[float, float], float] = lambda x, z: 9999.0
     """Signed distance to the water's edge, metres (+ land, − water)."""
+    coast: Callable[[float, float], float] = lambda x, z: 99999.0
+    """Signed distance to the OCEAN, metres (+ inland, − at sea) — the salt-
+    exposure field the coastal gradient reads (round 4)."""
 
 
 HECTARE_M2 = 10_000.0
@@ -438,9 +485,13 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
                 # edge-wall thicket does not straddle into the deep interior.
                 glade_cell = value_noise(glade_salt, seed_x, seed_z,
                                          GLADE_WAVELENGTH_M)
+                guild_scale = 1.0
                 if layer.guild:
                     # One guild per global 220 m tile — hard patch identity,
                     # like the source's per-pool theming, not a soft blend.
+                    # `guild_off_share` softens it (round 4): a losing layer
+                    # keeps that fraction as a baseline instead of vanishing,
+                    # so guilds theme the extras without baring the edges.
                     pool = guild_pools[id(layer)]
                     tile_x = math.floor(seed_x / GUILD_WAVELENGTH_M)
                     tile_z = math.floor(seed_z / GUILD_WAVELENGTH_M)
@@ -448,10 +499,13 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
                         guild_salt, tile_x & 0xFFFFFFFF, tile_z & 0xFFFFFFFF)
                         * len(pool)))
                     if pool[pick] != layer.guild:
-                        continue
-                expected_here = per_cell * layer.patchiness_at(
+                        if layer.guild_off_share <= 0.0:
+                            continue
+                        guild_scale = layer.guild_off_share
+                expected_here = per_cell * guild_scale * layer.patchiness_at(
                     salt, glade_cell, seed_x, seed_z,
-                ) * layer.shore_factor(fields.shore(seed_x, seed_z))
+                ) * layer.shore_factor(fields.shore(seed_x, seed_z)) \
+                    * layer.coast_factor(fields.coast(seed_x, seed_z))
                 centres = int(expected_here)
                 if uniform_at(cell_key, 0) < expected_here - centres:
                     centres += 1
@@ -466,7 +520,8 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
                                       fields.land_cover(cx, cz),
                                       altitude_m=fields.height(cx, cz),
                                       shore_m=fields.shore(cx, cz),
-                                      glade=glade_cell):
+                                      glade=glade_cell,
+                                      coast_m=fields.coast(cx, cz)):
                         continue
                     # The soft response is rolled ONCE, per member. Rolling it
                     # here as well squared it (slope 0.7 delivered 0.49) —
@@ -502,7 +557,8 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
                                           fields.land_cover(px, pz),
                                           altitude_m=fields.height(px, pz),
                                           shore_m=fields.shore(px, pz),
-                                          glade=glade_cell):
+                                          glade=glade_cell,
+                                          coast_m=fields.coast(px, pz)):
                             continue
                         if uniform_at(mkey, 2) > layer.weight(depth_m, slope_m):
                             continue
@@ -566,18 +622,21 @@ def clark_evans(points: list[tuple[float, float]], area_m2: float) -> float | No
 # --- bundle format -----------------------------------------------------------
 
 MAGIC = b"ESVG"
-VERSION = 1
-INSTANCE_STRUCT = struct.Struct("<3f4B")
-assert INSTANCE_STRUCT.size == 16
+VERSION = 2
+INSTANCE_STRUCT = struct.Struct("<3f5B")
+assert INSTANCE_STRUCT.size == 17
+SPECIES_HEADER_STRUCT = struct.Struct("<IIffffB3x")
+assert SPECIES_HEADER_STRUCT.size == 28
 
 
 def encode(instances: list[Instance], species_order: list[str]) -> bytes:
     """Pack instances into the chunk bundle's `vegetation-instances.bin`.
 
-    16 bytes per instance (module 65's ~12–16 B budget): position as three
-    float32s, then yaw, scale and two tilt axes quantised to a byte each —
-    1.4° of yaw and sub-percent scale steps, both well under what anyone can
-    see on a shrub.
+    v2 (composition rules): per species the header carries the anchor MODE
+    and a sink range; per instance a fifth quantised byte carries the sink
+    within that range. 17 bytes per instance (module 65's ~12–16 B budget,
+    +1 for anchoring): position as three float32s, then yaw, scale, two tilt
+    axes and sink quantised to a byte each.
     """
     by_species: dict[str, list[Instance]] = {name: [] for name in species_order}
     for instance in instances:
@@ -589,8 +648,13 @@ def encode(instances: list[Instance], species_order: list[str]) -> bytes:
         group = by_species.get(name, [])
         scales = [i.scale for i in group] or [1.0]
         lo, hi = min(scales), max(scales)
-        header += struct.pack("<IIff", index, len(group), lo, hi)
+        sinks = [i.sink for i in group] or [0.0]
+        sink_lo, sink_hi = min(sinks), max(sinks)
+        anchor = group[0].anchor if group else ANCHOR_TERRAIN
+        header += SPECIES_HEADER_STRUCT.pack(
+            index, len(group), lo, hi, sink_lo, sink_hi, anchor)
         span = (hi - lo) or 1.0
+        sink_span = (sink_hi - sink_lo) or 1.0
         for instance in group:
             body += INSTANCE_STRUCT.pack(
                 instance.x, instance.y, instance.z,
@@ -598,6 +662,7 @@ def encode(instances: list[Instance], species_order: list[str]) -> bytes:
                 _quantise((instance.scale - lo) / span),
                 _quantise(instance.tilt_x / math.pi + 0.5),
                 _quantise(instance.tilt_z / math.pi + 0.5),
+                _quantise((instance.sink - sink_lo) / sink_span),
             )
     return bytes(header + body)
 
@@ -617,14 +682,18 @@ def decode(blob: bytes) -> list[dict]:
     groups = []
     offset = 12
     for _ in range(count):
-        index, n, lo, hi = struct.unpack_from("<IIff", blob, offset)
-        offset += 16
-        groups.append({"index": index, "count": n, "scaleRange": (lo, hi)})
+        index, n, lo, hi, sink_lo, sink_hi, anchor = \
+            SPECIES_HEADER_STRUCT.unpack_from(blob, offset)
+        offset += SPECIES_HEADER_STRUCT.size
+        groups.append({"index": index, "count": n, "scaleRange": (lo, hi),
+                       "sinkRange": (sink_lo, sink_hi), "anchor": anchor})
     for group in groups:
         span = (group["scaleRange"][1] - group["scaleRange"][0]) or 1.0
+        sink_span = (group["sinkRange"][1] - group["sinkRange"][0]) or 1.0
         items = []
         for _ in range(group["count"]):
-            x, y, z, yaw, scale, tilt_x, tilt_z = INSTANCE_STRUCT.unpack_from(blob, offset)
+            x, y, z, yaw, scale, tilt_x, tilt_z, sink = \
+                INSTANCE_STRUCT.unpack_from(blob, offset)
             offset += INSTANCE_STRUCT.size
             items.append({
                 "x": x, "y": y, "z": z,
@@ -632,6 +701,8 @@ def decode(blob: bytes) -> list[dict]:
                 "scale": group["scaleRange"][0] + scale / 255.0 * span,
                 "tiltX": (tilt_x / 255.0 - 0.5) * math.pi,
                 "tiltZ": (tilt_z / 255.0 - 0.5) * math.pi,
+                "sink": group["sinkRange"][0] + sink / 255.0 * sink_span,
+                "anchor": group["anchor"],
             })
         group["instances"] = items
     return groups

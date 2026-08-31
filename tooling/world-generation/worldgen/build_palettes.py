@@ -241,7 +241,12 @@ def aquatic_reeds(per_ha: float, guild: str | None = None, **kw) -> dict:
                   depth_half_width_m=0.8, shore_m=[-30.0, 6.0],
                   scale_range=[1.0, 1.8], **kw)
     if guild:
+        # Round 4 (owner: edges must never be bare): the reed belt is the
+        # BASELINE water margin — the guild only themes the extras. Where
+        # another guild wins the tile the reeds keep a thinned belt instead
+        # of vanishing (the round-3 bare-bank defect in guild regions).
         entry["guild"] = guild
+        entry["guild_off_share"] = 0.45
     return entry
 
 
@@ -559,6 +564,48 @@ REGIONS[12] = {
     ],
 }
 
+REGIONS[14] = {
+    "id": "mangrove-forest",
+    "note": "The canon Lilmoth mangrove wall (lore/regions/murkmire.md),"
+            " built to real mangal structure (research/mangrove-coastal-"
+            "ecology.md): dense Rhizophora-analogue fringe standing in the"
+            " intertidal (the wall read from the sea), closed low-diversity"
+            " interior over prop roots with a near-bare floor, landward"
+            " palm/shrub transition. No lilypads — saline. Gaps come from"
+            " the shared glade field at real dieback scale, left bare.",
+    "layers": [
+        # Seaward fringe: the wall. Committed to the waterline, standing in
+        # 0-1.2 m of water, dense enough for crowns to interlock.
+        waterline_tree("mangrove_a", 170.0, scale=(0.8, 1.25),
+                       shore_m=[-25.0, 8.0], patchiness=0.6),
+        waterline_tree("mangrove_b", 110.0, scale=(0.75, 1.15),
+                       shore_m=[-20.0, 10.0], patchiness=0.6),
+        # Interior: closed canopy behind the fringe; high patchiness + glade
+        # response give the round/elliptic dieback gaps (10-1000 m^2).
+        layer("mangrove_b", 130.0, tier="T1", role="canopy",
+              clump_size_median=5, clump_radius_m=10.0,
+              water_depth_m=[-1.5, 1.0], shore_m=[0.0, 90.0],
+              slope_deg_max=14.0, scale_range=[0.65, 1.0],
+              clearance_radius_m=1.6, patchiness=1.2, glade_response=0.9,
+              glade_band=[0.0, 0.88]),
+        # Prop-root understory: the root clutter IS the interior.
+        root_cluster("root_a", 110.0, depth=(-1.5, 1.2)),
+        root_cluster("root_b", 80.0, depth=(-1.5, 1.2)),
+        epiphyte_moss("moss_a", 50.0, depth=(-1.5, 1.0)),
+        # Near-bare floor (light + salt suppress seedlings): one thin tier.
+        understory("trop_shrub", 18.0, depth=(-1.0, 0.4), scale=(0.6, 1.0)),
+        # Landward transition to palms/salt marsh.
+        canopy("fanpalm", 25.0, depth=(-4.0, -0.1), scale=(0.7, 1.1),
+               slope_max=20.0, shore_m=[60.0, 180.0], clearance=1.5),
+        canopy("palm_b", 15.0, depth=(-4.0, -0.2), scale=(0.55, 0.85),
+               slope_max=20.0, shore_m=[60.0, 180.0], clearance=1.5),
+        # Aquatic tier: brackish — seaweed in the channels, reeds on the
+        # landward brack margin; no freshwater lilypads.
+        aquatic_kelp("wkelp_tall", 40.0, depth=(0.8, 5.0), peak=1.8),
+        aquatic_reeds(90.0),
+    ],
+}
+
 REGIONS[2] = {
     "id": "upland-hills",
     "note": "Ecology 5a/5b mix: cedar hill forest in stands (high"
@@ -609,9 +656,42 @@ REGIONS[1] = {
 }
 
 
+# --- coastal gradient (round 4; research/mangrove-coastal-ecology.md §4) -----
+#
+# Salt exposure grades ~0.5-2 km inland from the OCEAN (the compiler's
+# `coast_m` field), so coastal influence is a factor on every region's
+# layers, not a property of the two thin tidal classes: salt-tolerant strand
+# species mix IN toward any coast, salt-intolerant freshwater/forest species
+# fade OUT. Applied per SPECIES so a region table never has to repeat it.
+SALT_TOLERANT = dict(coast_boost_gain=0.5, coast_half_width_m=900.0)
+SALT_INTOLERANT = dict(coast_boost_gain=-0.6, coast_half_width_m=700.0)
+SALT_BY_SPECIES = {
+    # strand / brackish: mix in near the sea
+    **{S[k]: SALT_TOLERANT for k in (
+        "palm_a", "palm_b", "palm_c", "fanpalm", "mangrove_a", "mangrove_b",
+        "kelp_tall", "wkelp_tall", "wkelp_short", "reeds")},
+    # freshwater / interior forest: fade toward the sea
+    **{S[k]: SALT_INTOLERANT for k in (
+        "cypress_big", "cypress", "willow_a", "willow_b", "willow_c",
+        "cedar", "shroom", "fern", "fern_big", "manfern", "bracken",
+        "bamboo", "jungle_tree", "jungle_tree_hero", "moss_a", "moss_b",
+        "root_a", "root_b", "chickweed")},
+    # freshwater OBLIGATE: lilypads die in brack
+    S["lilypad"]: dict(coast_boost_gain=-0.85, coast_half_width_m=700.0),
+}
+
+
+def apply_coastal_gradient(layers: list[dict]) -> None:
+    for entry in layers:
+        salt = SALT_BY_SPECIES.get(entry["species"])
+        if salt and "coast_boost_gain" not in entry:
+            entry.update(salt)
+
+
 def build() -> dict:
     total = {}
     for region, spec in sorted(REGIONS.items()):
+        apply_coastal_gradient(spec["layers"])
         per_ha = sum(l["instances_per_hectare"] for l in spec["layers"])
         entry = {"id": spec["id"], "layers": spec["layers"],
                  "targetInstancesPerHectare": round(per_ha, 1)}
@@ -652,7 +732,14 @@ def build() -> dict:
                           "shrubs low end, green walls mid, gap thickets "
                           "high end",
             "guild": "per ~220 m tile, one water guild (M3): lilypad-pond / "
-                     "reed-bed / drowned-thicket / kelp-forest",
+                     "reed-bed / drowned-thicket / kelp-forest; "
+                     "guild_off_share keeps a thinned baseline where another "
+                     "guild wins (round 4 — reed belts never vanish)",
+            "coast_m / coast_boost_gain": "distance to the OCEAN (salt "
+                    "exposure, round 4): salt-tolerant species mix in near "
+                    "any coast, salt-intolerant fade out over ~0.5-2 km "
+                    "(research/mangrove-coastal-ecology.md §4); applied per "
+                    "species by apply_coastal_gradient",
             "tier": "T1 hero statics, T2 instanced mid. Herb layer is "
                     "groundcover.json (T3 ring) — most of the 'dense' read "
                     "lives THERE (M5), not here",

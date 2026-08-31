@@ -13,7 +13,8 @@
   "water_depth_m": "standing water over ground; negative is height above the local water table. Dry-tolerant species gate [-99, +0.35]: the WADING rule (M1) \u2014 never re-tighten to a water-table band, that was the v1 sparse-jungle defect",
   "shore_m": "signed distance to the water's edge (+ land, \u2212 water): reed belts, bank walls, mangrove banding, gallery ribbons",
   "glade_band": "band on the shared openness field: interior shrubs low end, green walls mid, gap thickets high end",
-  "guild": "per ~220 m tile, one water guild (M3): lilypad-pond / reed-bed / drowned-thicket / kelp-forest",
+  "guild": "per ~220 m tile, one water guild (M3): lilypad-pond / reed-bed / drowned-thicket / kelp-forest; guild_off_share keeps a thinned baseline where another guild wins (round 4 \u2014 reed belts never vanish)",
+  "coast_m / coast_boost_gain": "distance to the OCEAN (salt exposure, round 4): salt-tolerant species mix in near any coast, salt-intolerant fade out over ~0.5-2 km (research/mangrove-coastal-ecology.md \u00a74); applied per species by apply_coastal_gradient",
   "tier": "T1 hero statics, T2 instanced mid. Herb layer is groundcover.json (T3 ring) \u2014 most of the 'dense' read lives THERE (M5), not here",
   "densityScale": "global multiplier, owner's one knob"
  },
@@ -83,7 +84,9 @@
      "slope_half_angle_deg": 25.0,
      "shore_boost_gain": -0.55,
      "shore_boost_peak_m": 0.0,
-     "shore_boost_half_width_m": 18.0
+     "shore_boost_half_width_m": 18.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/gkbfallforestshrub02",
@@ -159,7 +162,9 @@
      ],
      "shore_boost_gain": -0.55,
      "shore_boost_peak_m": 0.0,
-     "shore_boost_half_width_m": 18.0
+     "shore_boost_half_width_m": 18.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/gkbfallforestshrub02",
@@ -227,7 +232,9 @@
       0.6,
       1.0
      ],
-     "clearance_radius_m": 1.5
+     "clearance_radius_m": 1.5,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:vvardenfell/flora/algrass03b",
@@ -293,7 +300,9 @@
      "shore_m": [
       -12.0,
       8.0
-     ]
+     ],
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/trees/mangrovereachtree0gkb3",
@@ -314,7 +323,9 @@
       0.6,
       0.9
      ],
-     "clearance_radius_m": 1.6
+     "clearance_radius_m": 1.6,
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/trees/tropicalplant01",
@@ -359,7 +370,9 @@
      "scale_range": [
       1.0,
       1.8
-     ]
+     ],
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/trees/gkblillipad2",
@@ -382,7 +395,9 @@
       0.8,
       1.4
      ],
-     "tilt_deg_max": 0.0
+     "tilt_deg_max": 0.0,
+     "coast_boost_gain": -0.85,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/grass/waterkelpshort01",
@@ -400,7 +415,9 @@
      "scale_range": [
       0.8,
       1.3
-     ]
+     ],
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     }
    ],
    "targetInstancesPerHectare": 615.0,
@@ -431,7 +448,9 @@
      "shore_m": [
       -12.0,
       6.0
-     ]
+     ],
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/trees/mangrovereachtree0gkb9",
@@ -455,7 +474,9 @@
      "shore_m": [
       -10.0,
       8.0
-     ]
+     ],
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/trees/mangrovereachtree0gkb3",
@@ -476,7 +497,9 @@
       0.6,
       0.95
      ],
-     "clearance_radius_m": 1.6
+     "clearance_radius_m": 1.6,
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/trees/beachpalm2",
@@ -501,7 +524,9 @@
       0.0,
       0.9
      ],
-     "slope_half_angle_deg": 25.0
+     "slope_half_angle_deg": 25.0,
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/trees/fanpalm1",
@@ -526,7 +551,9 @@
       0.0,
       0.9
      ],
-     "slope_half_angle_deg": 25.0
+     "slope_half_angle_deg": 25.0,
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/trees/tropicalshrub01",
@@ -568,7 +595,9 @@
      "scale_range": [
       1.0,
       1.8
-     ]
+     ],
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/grass/waterkelptall01",
@@ -586,7 +615,9 @@
      "scale_range": [
       0.8,
       1.3
-     ]
+     ],
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/plants/kelptallstatic01aaa",
@@ -604,7 +635,9 @@
      "scale_range": [
       0.8,
       1.3
-     ]
+     ],
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     }
    ],
    "targetInstancesPerHectare": 735.0,
@@ -634,7 +667,9 @@
       2.6
      ],
      "clearance_radius_m": 14.0,
-     "respects_clearance": false
+     "respects_clearance": false,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/cypress3",
@@ -662,7 +697,9 @@
      "slope_half_angle_deg": 25.0,
      "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
-     "shore_boost_half_width_m": 25.0
+     "shore_boost_half_width_m": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/cypress1",
@@ -690,7 +727,9 @@
      "slope_half_angle_deg": 25.0,
      "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
-     "shore_boost_half_width_m": 25.0
+     "shore_boost_half_width_m": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/treewillow01a",
@@ -710,7 +749,9 @@
       0.6,
       0.9
      ],
-     "clearance_radius_m": 1.6
+     "clearance_radius_m": 1.6,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/tropicalplant01",
@@ -756,7 +797,9 @@
      "slope_half_angle_deg": 28.0,
      "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
-     "shore_boost_half_width_m": 25.0
+     "shore_boost_half_width_m": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/plants/bigshrub2(colorful)",
@@ -799,7 +842,9 @@
      "scale_range": [
       1.0,
       1.8
-     ]
+     ],
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/trees/gkblillipad2",
@@ -822,7 +867,9 @@
       0.8,
       1.4
      ],
-     "tilt_deg_max": 0.0
+     "tilt_deg_max": 0.0,
+     "coast_boost_gain": -0.85,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/plants/kelptallstatic01aaa",
@@ -840,7 +887,9 @@
      "scale_range": [
       0.8,
       1.3
-     ]
+     ],
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     }
    ],
    "targetInstancesPerHectare": 670.1,
@@ -870,7 +919,9 @@
       2.6
      ],
      "clearance_radius_m": 14.0,
-     "respects_clearance": false
+     "respects_clearance": false,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/cypress1",
@@ -890,7 +941,9 @@
       1.15,
       1.5
      ],
-     "clearance_radius_m": 4.0
+     "clearance_radius_m": 4.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/cypress1",
@@ -918,7 +971,9 @@
      "slope_half_angle_deg": 25.0,
      "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
-     "shore_boost_half_width_m": 25.0
+     "shore_boost_half_width_m": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/cypress3",
@@ -943,7 +998,9 @@
       0.0,
       0.9
      ],
-     "slope_half_angle_deg": 25.0
+     "slope_half_angle_deg": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:architecture/phitt/ashlands/tramaroot01",
@@ -962,7 +1019,9 @@
       1.1,
       2.4
      ],
-     "clearance_radius_m": 1.2
+     "clearance_radius_m": 1.2,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:architecture/phitt/ashlands/tramaroot06",
@@ -981,7 +1040,9 @@
       1.1,
       2.4
      ],
-     "clearance_radius_m": 1.2
+     "clearance_radius_m": 1.2,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/tropicalplant01",
@@ -1022,7 +1083,9 @@
      "scale_range": [
       0.7,
       1.2
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:vurt_shroom/vurt_shroom_big1",
@@ -1039,7 +1102,9 @@
      "scale_range": [
       0.7,
       1.5
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/plants/florahangingmoss02aaa",
@@ -1056,7 +1121,9 @@
      "scale_range": [
       0.9,
       1.6
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/plants/florahangingmoss03aaa",
@@ -1073,7 +1140,9 @@
      "scale_range": [
       0.9,
       1.6
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/hangingvines1",
@@ -1113,7 +1182,10 @@
       1.0,
       1.8
      ],
-     "guild": "reed-bed"
+     "guild": "reed-bed",
+     "guild_off_share": 0.45,
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/trees/gkblillipad2",
@@ -1137,7 +1209,9 @@
       1.4
      ],
      "tilt_deg_max": 0.0,
-     "guild": "lilypad-pond"
+     "guild": "lilypad-pond",
+     "coast_boost_gain": -0.85,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/plants/fernlarge03",
@@ -1160,7 +1234,9 @@
      "scale_range": [
       0.8,
       1.4
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     }
    ],
    "targetInstancesPerHectare": 840.1,
@@ -1190,7 +1266,9 @@
       2.6
      ],
      "clearance_radius_m": 14.0,
-     "respects_clearance": false
+     "respects_clearance": false,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/cypress1",
@@ -1210,7 +1288,9 @@
       1.15,
       1.5
      ],
-     "clearance_radius_m": 4.0
+     "clearance_radius_m": 4.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/cypress1",
@@ -1238,7 +1318,9 @@
      "slope_half_angle_deg": 25.0,
      "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
-     "shore_boost_half_width_m": 25.0
+     "shore_boost_half_width_m": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/cypress3",
@@ -1266,7 +1348,9 @@
      "slope_half_angle_deg": 25.0,
      "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
-     "shore_boost_half_width_m": 25.0
+     "shore_boost_half_width_m": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/mangrovereachtree0gkb9",
@@ -1286,7 +1370,9 @@
       0.75,
       1.2
      ],
-     "clearance_radius_m": 1.6
+     "clearance_radius_m": 1.6,
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/trees/cypress3",
@@ -1306,7 +1392,9 @@
       0.6,
       0.95
      ],
-     "clearance_radius_m": 1.8
+     "clearance_radius_m": 1.8,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/cypress3",
@@ -1325,7 +1413,9 @@
       0.65,
       1.0
      ],
-     "clearance_radius_m": 1.8
+     "clearance_radius_m": 1.8,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/treewillow01a",
@@ -1350,7 +1440,9 @@
       0.0,
       0.9
      ],
-     "slope_half_angle_deg": 25.0
+     "slope_half_angle_deg": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/tropicalplant01",
@@ -1396,7 +1488,9 @@
      "slope_half_angle_deg": 28.0,
      "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
-     "shore_boost_half_width_m": 25.0
+     "shore_boost_half_width_m": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/plants/braken",
@@ -1417,7 +1511,9 @@
      "scale_range": [
       0.7,
       1.2
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/plants/bigshrub2(colorful)",
@@ -1461,7 +1557,9 @@
      "scale_range": [
       0.8,
       1.4
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/plants/bigshrub2(colorful)",
@@ -1516,7 +1614,9 @@
      "scale_range": [
       0.9,
       1.6
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/grass/vurt_reeds",
@@ -1539,7 +1639,10 @@
       1.0,
       1.8
      ],
-     "guild": "reed-bed"
+     "guild": "reed-bed",
+     "guild_off_share": 0.45,
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/trees/gkblillipad2",
@@ -1563,7 +1666,9 @@
       1.4
      ],
      "tilt_deg_max": 0.0,
-     "guild": "lilypad-pond"
+     "guild": "lilypad-pond",
+     "coast_boost_gain": -0.85,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/plants/braken",
@@ -1586,7 +1691,9 @@
      "scale_range": [
       0.8,
       1.4
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/grass/waterkelpshort01",
@@ -1604,7 +1711,9 @@
      "scale_range": [
       0.8,
       1.3
-     ]
+     ],
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     }
    ],
    "targetInstancesPerHectare": 1168.1,
@@ -1634,7 +1743,9 @@
       2.6
      ],
      "clearance_radius_m": 14.0,
-     "respects_clearance": false
+     "respects_clearance": false,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/cypress3",
@@ -1662,7 +1773,9 @@
      "slope_half_angle_deg": 25.0,
      "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
-     "shore_boost_half_width_m": 25.0
+     "shore_boost_half_width_m": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/treewillow02a",
@@ -1682,7 +1795,9 @@
       0.6,
       0.9
      ],
-     "clearance_radius_m": 1.6
+     "clearance_radius_m": 1.6,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/plants/esloebush08",
@@ -1725,7 +1840,9 @@
      "slope_half_angle_deg": 28.0,
      "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
-     "shore_boost_half_width_m": 25.0
+     "shore_boost_half_width_m": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/plants/esloebush08",
@@ -1769,7 +1886,10 @@
       1.0,
       1.8
      ],
-     "guild": "reed-bed"
+     "guild": "reed-bed",
+     "guild_off_share": 0.45,
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/trees/gkblillipad2",
@@ -1793,7 +1913,9 @@
       1.4
      ],
      "tilt_deg_max": 0.0,
-     "guild": "lilypad-pond"
+     "guild": "lilypad-pond",
+     "coast_boost_gain": -0.85,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/plants/fern01",
@@ -1816,7 +1938,9 @@
      "scale_range": [
       0.8,
       1.4
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     }
    ],
    "targetInstancesPerHectare": 657.1,
@@ -1846,7 +1970,9 @@
       0.6,
       1.0
      ],
-     "clearance_radius_m": 1.5
+     "clearance_radius_m": 1.5,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/cypress3",
@@ -1869,7 +1995,9 @@
       0.6,
       1.0
      ],
-     "clearance_radius_m": 1.5
+     "clearance_radius_m": 1.5,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/plants/esloebush08",
@@ -1913,7 +2041,9 @@
      "slope_half_angle_deg": 28.0,
      "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
-     "shore_boost_half_width_m": 25.0
+     "shore_boost_half_width_m": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:vvardenfell/flora/algrass03b",
@@ -1947,7 +2077,9 @@
      "scale_range": [
       0.9,
       1.5
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/grass/vurt_reeds",
@@ -1969,7 +2101,9 @@
      "scale_range": [
       1.0,
       1.8
-     ]
+     ],
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     }
    ],
    "targetInstancesPerHectare": 440.0,
@@ -2001,7 +2135,9 @@
       0.0,
       0.9
      ],
-     "slope_half_angle_deg": 25.0
+     "slope_half_angle_deg": 25.0,
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/trees/fanpalm1",
@@ -2026,7 +2162,9 @@
       0.0,
       0.9
      ],
-     "slope_half_angle_deg": 25.0
+     "slope_half_angle_deg": 25.0,
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/trees/bambooplant",
@@ -2046,7 +2184,9 @@
      "patchiness": 1.1,
      "glade_response": 0.85,
      "slope_deg_max": 40.0,
-     "slope_half_angle_deg": 28.0
+     "slope_half_angle_deg": 28.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/plants/braken",
@@ -2067,7 +2207,9 @@
      "scale_range": [
       0.7,
       1.2
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/tropicalshrub01",
@@ -2111,7 +2253,9 @@
      "scale_range": [
       1.0,
       1.8
-     ]
+     ],
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     }
    ],
    "targetInstancesPerHectare": 510.0,
@@ -2141,7 +2285,9 @@
       2.6
      ],
      "clearance_radius_m": 14.0,
-     "respects_clearance": false
+     "respects_clearance": false,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/gkbjungletreenew1",
@@ -2161,7 +2307,9 @@
       1.15,
       1.5
      ],
-     "clearance_radius_m": 4.0
+     "clearance_radius_m": 4.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/gkbjungletreenew1",
@@ -2189,7 +2337,9 @@
      "slope_half_angle_deg": 25.0,
      "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
-     "shore_boost_half_width_m": 25.0
+     "shore_boost_half_width_m": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/gkbjungletreenew12v3",
@@ -2214,7 +2364,9 @@
       0.0,
       0.9
      ],
-     "slope_half_angle_deg": 25.0
+     "slope_half_angle_deg": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/bambooplant",
@@ -2234,7 +2386,9 @@
      "patchiness": 1.1,
      "glade_response": 0.85,
      "slope_deg_max": 40.0,
-     "slope_half_angle_deg": 28.0
+     "slope_half_angle_deg": 28.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/tropicalplant01",
@@ -2275,7 +2429,9 @@
      "scale_range": [
       0.7,
       1.2
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/tropicalshrub01",
@@ -2357,7 +2513,9 @@
      "scale_range": [
       0.9,
       1.5
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/plants/florahangingmoss03aaa",
@@ -2374,7 +2532,9 @@
      "scale_range": [
       0.9,
       1.6
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     }
    ],
    "targetInstancesPerHectare": 708.1,
@@ -2405,7 +2565,9 @@
       1.4
      ],
      "tilt_deg_max": 0.0,
-     "guild": "lilypad-pond"
+     "guild": "lilypad-pond",
+     "coast_boost_gain": -0.85,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/grass/vurt_reeds",
@@ -2428,7 +2590,10 @@
       1.0,
       1.8
      ],
-     "guild": "reed-bed"
+     "guild": "reed-bed",
+     "guild_off_share": 0.45,
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/plants/kelptallstatic01aaa",
@@ -2447,7 +2612,9 @@
       0.8,
       1.3
      ],
-     "guild": "kelp-forest"
+     "guild": "kelp-forest",
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/trees/cypress1",
@@ -2467,7 +2634,9 @@
       0.6,
       0.95
      ],
-     "clearance_radius_m": 4.0
+     "clearance_radius_m": 4.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     }
    ],
    "targetInstancesPerHectare": 376.0,
@@ -2497,7 +2666,9 @@
       2.6
      ],
      "clearance_radius_m": 14.0,
-     "respects_clearance": false
+     "respects_clearance": false,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/gkbjungletreenew12v3",
@@ -2517,7 +2688,9 @@
       1.15,
       1.5
      ],
-     "clearance_radius_m": 4.0
+     "clearance_radius_m": 4.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/gkbjungletreenew12v3",
@@ -2545,7 +2718,9 @@
      "slope_half_angle_deg": 25.0,
      "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
-     "shore_boost_half_width_m": 25.0
+     "shore_boost_half_width_m": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/gkbjungletreenew1",
@@ -2573,7 +2748,9 @@
      "slope_half_angle_deg": 25.0,
      "shore_boost_gain": 1.35,
      "shore_boost_peak_m": -2.0,
-     "shore_boost_half_width_m": 25.0
+     "shore_boost_half_width_m": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/beachpalm1",
@@ -2598,7 +2775,9 @@
       0.0,
       0.9
      ],
-     "slope_half_angle_deg": 25.0
+     "slope_half_angle_deg": 25.0,
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/trees/bambooplant",
@@ -2618,7 +2797,9 @@
      "patchiness": 1.1,
      "glade_response": 0.85,
      "slope_deg_max": 40.0,
-     "slope_half_angle_deg": 28.0
+     "slope_half_angle_deg": 28.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/tropicalplant01",
@@ -2658,7 +2839,9 @@
      "patchiness": 1.1,
      "glade_response": 0.85,
      "slope_deg_max": 40.0,
-     "slope_half_angle_deg": 28.0
+     "slope_half_angle_deg": 28.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/plants/fernlarge03",
@@ -2678,7 +2861,9 @@
      "patchiness": 1.1,
      "glade_response": 0.85,
      "slope_deg_max": 40.0,
-     "slope_half_angle_deg": 28.0
+     "slope_half_angle_deg": 28.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/plants/braken",
@@ -2699,7 +2884,9 @@
      "scale_range": [
       0.7,
       1.2
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/tropicalshrub01",
@@ -2743,7 +2930,9 @@
       0.8,
       1.4
      ],
-     "slope_deg_max": 40.0
+     "slope_deg_max": 40.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/tropicalshrub01",
@@ -2837,7 +3026,9 @@
      "scale_range": [
       0.9,
       1.6
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/grass/vurt_reeds",
@@ -2859,7 +3050,9 @@
      "scale_range": [
       1.0,
       1.8
-     ]
+     ],
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
     },
     {
      "species": "bmv:landscape/trees/gkblillipad2",
@@ -2882,11 +3075,291 @@
       0.8,
       1.4
      ],
-     "tilt_deg_max": 0.0
+     "tilt_deg_max": 0.0,
+     "coast_boost_gain": -0.85,
+     "coast_half_width_m": 700.0
     }
    ],
    "targetInstancesPerHectare": 1336.1,
    "note": "Ecology type 1 (terra firme interior). Canopy 90-95% closed from ~205 canopy assets/ha; interior deliberately open at eye level (\u00a76.5) \u2014 the thickets live in gaps, on edges and along banks. Herb layer is the T3 ring (JUNGLE cover, 15,500/ha)."
+  },
+  "14": {
+   "id": "mangrove-forest",
+   "layers": [
+    {
+     "species": "bmv:landscape/trees/mangrovereachtree0gkb3",
+     "tier": "T1",
+     "instances_per_hectare": 170.0,
+     "role": "waterline-tree",
+     "clump_size_median": 5,
+     "clump_radius_m": 11.0,
+     "water_depth_m": [
+      -0.6,
+      1.4
+     ],
+     "depth_peak_m": 0.4,
+     "depth_half_width_m": 1.2,
+     "slope_deg_max": 28.0,
+     "scale_range": [
+      0.8,
+      1.25
+     ],
+     "clearance_radius_m": 1.6,
+     "shore_m": [
+      -25.0,
+      8.0
+     ],
+     "patchiness": 0.6,
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
+    },
+    {
+     "species": "bmv:landscape/trees/mangrovereachtree0gkb9",
+     "tier": "T1",
+     "instances_per_hectare": 110.0,
+     "role": "waterline-tree",
+     "clump_size_median": 5,
+     "clump_radius_m": 11.0,
+     "water_depth_m": [
+      -0.6,
+      1.4
+     ],
+     "depth_peak_m": 0.4,
+     "depth_half_width_m": 1.2,
+     "slope_deg_max": 28.0,
+     "scale_range": [
+      0.75,
+      1.15
+     ],
+     "clearance_radius_m": 1.6,
+     "shore_m": [
+      -20.0,
+      10.0
+     ],
+     "patchiness": 0.6,
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
+    },
+    {
+     "species": "bmv:landscape/trees/mangrovereachtree0gkb9",
+     "tier": "T1",
+     "instances_per_hectare": 130.0,
+     "role": "canopy",
+     "clump_size_median": 5,
+     "clump_radius_m": 10.0,
+     "water_depth_m": [
+      -1.5,
+      1.0
+     ],
+     "shore_m": [
+      0.0,
+      90.0
+     ],
+     "slope_deg_max": 14.0,
+     "scale_range": [
+      0.65,
+      1.0
+     ],
+     "clearance_radius_m": 1.6,
+     "patchiness": 1.2,
+     "glade_response": 0.9,
+     "glade_band": [
+      0.0,
+      0.88
+     ],
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
+    },
+    {
+     "species": "bmv:architecture/phitt/ashlands/tramaroot01",
+     "tier": "T1",
+     "instances_per_hectare": 110.0,
+     "role": "root",
+     "clump_size_median": 7,
+     "clump_radius_m": 4.5,
+     "singleton_share": 0.05,
+     "water_depth_m": [
+      -1.5,
+      1.2
+     ],
+     "slope_deg_max": 35.0,
+     "scale_range": [
+      1.1,
+      2.4
+     ],
+     "clearance_radius_m": 1.2,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
+     "species": "bmv:architecture/phitt/ashlands/tramaroot06",
+     "tier": "T1",
+     "instances_per_hectare": 80.0,
+     "role": "root",
+     "clump_size_median": 7,
+     "clump_radius_m": 4.5,
+     "singleton_share": 0.05,
+     "water_depth_m": [
+      -1.5,
+      1.2
+     ],
+     "slope_deg_max": 35.0,
+     "scale_range": [
+      1.1,
+      2.4
+     ],
+     "clearance_radius_m": 1.2,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
+     "species": "bmv:landscape/plants/florahangingmoss02aaa",
+     "tier": "T2",
+     "instances_per_hectare": 50.0,
+     "role": "epiphyte",
+     "clump_size_median": 5,
+     "clump_radius_m": 6.0,
+     "water_depth_m": [
+      -1.5,
+      1.0
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      0.9,
+      1.6
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
+     "species": "bmv:landscape/trees/tropicalshrub01",
+     "tier": "T2",
+     "instances_per_hectare": 18.0,
+     "role": "understory",
+     "water_depth_m": [
+      -1.0,
+      0.4
+     ],
+     "scale_range": [
+      0.6,
+      1.0
+     ],
+     "clump_size_median": 5,
+     "clump_radius_m": 8.0,
+     "patchiness": 1.1,
+     "glade_response": 0.85,
+     "slope_deg_max": 40.0,
+     "slope_half_angle_deg": 28.0
+    },
+    {
+     "species": "bmv:landscape/trees/fanpalm1",
+     "tier": "T1",
+     "instances_per_hectare": 25.0,
+     "role": "canopy",
+     "water_depth_m": [
+      -4.0,
+      -0.1
+     ],
+     "slope_deg_max": 20.0,
+     "scale_range": [
+      0.7,
+      1.1
+     ],
+     "clearance_radius_m": 1.5,
+     "clump_size_median": 4,
+     "clump_radius_m": 14.0,
+     "shore_m": [
+      60.0,
+      180.0
+     ],
+     "patchiness": 1.0,
+     "glade_response": 0.95,
+     "glade_band": [
+      0.0,
+      0.9
+     ],
+     "slope_half_angle_deg": 25.0,
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
+    },
+    {
+     "species": "bmv:landscape/trees/beachpalm2",
+     "tier": "T1",
+     "instances_per_hectare": 15.0,
+     "role": "canopy",
+     "water_depth_m": [
+      -4.0,
+      -0.2
+     ],
+     "slope_deg_max": 20.0,
+     "scale_range": [
+      0.55,
+      0.85
+     ],
+     "clearance_radius_m": 1.5,
+     "clump_size_median": 4,
+     "clump_radius_m": 14.0,
+     "shore_m": [
+      60.0,
+      180.0
+     ],
+     "patchiness": 1.0,
+     "glade_response": 0.95,
+     "glade_band": [
+      0.0,
+      0.9
+     ],
+     "slope_half_angle_deg": 25.0,
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
+    },
+    {
+     "species": "bmv:landscape/grass/waterkelptall01",
+     "tier": "T2",
+     "instances_per_hectare": 40.0,
+     "role": "aquatic-kelp",
+     "clump_size_median": 7,
+     "clump_radius_m": 7.0,
+     "water_depth_m": [
+      0.8,
+      5.0
+     ],
+     "depth_peak_m": 1.8,
+     "depth_half_width_m": 2.0,
+     "scale_range": [
+      0.8,
+      1.3
+     ],
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
+    },
+    {
+     "species": "bmv:landscape/grass/vurt_reeds",
+     "tier": "T2",
+     "instances_per_hectare": 90.0,
+     "role": "aquatic-reeds",
+     "clump_size_median": 18,
+     "clump_radius_m": 9.5,
+     "water_depth_m": [
+      -0.15,
+      0.7
+     ],
+     "depth_peak_m": 0.35,
+     "depth_half_width_m": 0.8,
+     "shore_m": [
+      -30.0,
+      6.0
+     ],
+     "scale_range": [
+      1.0,
+      1.8
+     ],
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
+    }
+   ],
+   "targetInstancesPerHectare": 838.0,
+   "note": "The canon Lilmoth mangrove wall (lore/regions/murkmire.md), built to real mangal structure (research/mangrove-coastal-ecology.md): dense Rhizophora-analogue fringe standing in the intertidal (the wall read from the sea), closed low-diversity interior over prop roots with a near-bare floor, landward palm/shrub transition. No lilypads \u2014 saline. Gaps come from the shared glade field at real dieback scale, left bare."
   }
  },
  "densityScale": 1.0

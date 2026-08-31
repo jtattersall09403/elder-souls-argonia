@@ -40,6 +40,7 @@ DANGER_BASE = {
     11: 1.5,  # firm lowland
     12: 2.0,  # lake & standing water
     13: 2.6,  # tropical jungle — dense, low visibility, predator country
+    14: 2.1,  # mangrove forest — the canon "nigh-impenetrable" wall; hard to move through, close ambush cover
 }
 # Naga are deep-swamp people (Lore:Naga) — their influence exists only on
 # swampy ground, never on firm lowland/jungle/uplands.

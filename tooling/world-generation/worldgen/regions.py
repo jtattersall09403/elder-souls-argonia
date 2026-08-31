@@ -48,6 +48,26 @@ HILL_MIN_HEIGHT_M = 60.0          # was 30 m — too low for a 654 m province
 HILL_MIN_SLOPE_DEG = 3.0          # a flat terrace above a marsh is not a hill
 MOUNTAIN_MIN_HEIGHT_M = 150.0     # was 40 m, which made a quarter of the land alpine
 
+# --- mangrove forest (owner-approved, Phase 10 round 4) -----------------------
+#
+# Canon puts a "nigh-impenetrable" ten-mile wall of mangroves near Lilmoth
+# (lore/regions/murkmire.md; lore/topics/fauna-hazards.md § Flora) and
+# mangrove-screened estuaries at Soulrest and Bramman's river
+# (lore/regions/waters.md; topics/history-timeline.md, 1E 1033).
+# Real-world grounding: docs/research/mangrove-coastal-ecology.md — a mangal
+# is the INTERTIDAL fringe of SHELTERED, low-energy saline coasts and estuary
+# mouths, on fine mud, in belts typically tens to hundreds of metres deep.
+# Salinity here is geodesic-through-water (hydrology.py), which already
+# encodes estuary reach; exposure to OPEN sea (the storm-exposure construction
+# from climate-weather, decision 0032) excludes high-energy outer coasts.
+MANGROVE_MIN_SALINITY = 0.30      # tidal needs 0.15; the mangal wants near-sea brack
+MANGROVE_MAX_SEA_DIST_M = 700.0   # belt depth: tens-hundreds of m, not km (research §3)
+MANGROVE_MAX_SLOPE_DEG = 8.0      # prop roots need mud flats, not banks
+MANGROVE_MAX_EXPOSURE = 0.55      # e^(-d_openSea/1200 m); excludes wave-beaten fronts
+MANGROVE_INTERTIDAL_MIN_Z = -2.0  # the fringe stands in shallow water at high tide
+MANGROVE_INTERTIDAL_REACH_M = 60.0  # how far the stand walks out over the shallows
+OPEN_SEA_MIN_LAND_DIST_M = 2500.0   # ocean this far from any land = open sea (0032)
+
 OVERRIDES_PATH = Path(__file__).resolve().parents[3] / "world" / "sources" / "regions" / "authored-overrides.json"
 
 
@@ -100,6 +120,7 @@ REGION_CLASSES = {
     11: ("firm lowland", (140, 160, 110)),
     12: ("lake & standing water", (70, 140, 215)),
     13: ("tropical jungle", (55, 175, 45)),
+    14: ("mangrove forest", (0, 120, 105)),
 }
 
 # Macro climate/atmosphere profile per region class (master plan §33.1):
@@ -123,6 +144,7 @@ CLIMATE = {
     11: {"humidity": 0.7, "mist": 0.3, "rain": "seasonal", "visibility": 900, "canopy": 0.35},
     12: {"humidity": 1.0, "mist": 0.8, "rain": "monsoonal", "visibility": 300, "canopy": 0.05},
     13: {"humidity": 0.95, "mist": 0.7, "rain": "monsoonal downpour", "visibility": 90, "canopy": 1.0},
+    14: {"humidity": 0.95, "mist": 0.6, "rain": "tidal storms", "visibility": 150, "canopy": 0.8},
 }
 
 
@@ -218,6 +240,26 @@ def compute_regions(z: np.ndarray, hydro: HydrologyResult, metres_per_px: float,
     regions[hammock] = 10
     regions[hydro.tidal & land] = 4
     regions[(hydro.tidal | marsh) & land & river_mouth] = 3
+    # Mangrove forest: the seaward, strongly saline, flat, SHELTERED mud
+    # fringe of the tidal band — a wall read from the sea (canon: the Lilmoth
+    # mangrove wall, Bramman's screened river mouth; real siting rules in
+    # docs/research/mangrove-coastal-ecology.md §1). Takes the fringe from
+    # salt marsh AND from delta mouths (mangroves line estuary channels), but
+    # never wave-beaten open-sea fronts or rocky ground.
+    land_over_ocean_m = ndimage.distance_transform_edt(hydro.ocean) * metres_per_px
+    open_sea = hydro.ocean & (land_over_ocean_m > OPEN_SEA_MIN_LAND_DIST_M)
+    if open_sea.any():
+        dist_open_m = ndimage.distance_transform_edt(~open_sea) * metres_per_px
+        exposure = np.exp(-dist_open_m / 1200.0)
+    else:
+        exposure = np.zeros(z.shape, dtype=np.float32)  # enclosed water: all sheltered
+    mangrove = (hydro.tidal & land
+                & (hydro.salinity >= MANGROVE_MIN_SALINITY)
+                & (dist_sea_m < MANGROVE_MAX_SEA_DIST_M)
+                & (slope_deg < MANGROVE_MAX_SLOPE_DEG)
+                & (exposure < MANGROVE_MAX_EXPOSURE)
+                & (soil != 1))
+    regions[mangrove] = 14
     # Uplands need height *and* drainage: a flat terrace standing over a marsh
     # is hammock or lowland, not hills.
     regions[land & (z > HILL_MIN_HEIGHT_M) & (slope_deg > HILL_MIN_SLOPE_DEG)] = 2
@@ -226,6 +268,15 @@ def compute_regions(z: np.ndarray, hydro: HydrologyResult, metres_per_px: float,
     if apply_overrides:
         regions = apply_authored_overrides(regions)
     regions[~land] = 0
+    # The mangrove fringe stands IN the water: extend class 14 over the
+    # adjoining shallow intertidal (research §1 — between low water and the
+    # spring-tide line), so the seaward wall is classified where it grows,
+    # not clipped at the land raster's edge. Sheltered shallows only.
+    reach_px = max(1, int(round(MANGROVE_INTERTIDAL_REACH_M / metres_per_px)))
+    intertidal = (hydro.ocean & (z > MANGROVE_INTERTIDAL_MIN_Z)
+                  & (exposure < MANGROVE_MAX_EXPOSURE)
+                  & ndimage.binary_dilation(regions == 14, iterations=reach_px))
+    regions[intertidal] = 14
 
     fractions = {name: round(float((regions == cid).mean()), 4) for cid, (name, _) in REGION_CLASSES.items()}
     stats = {

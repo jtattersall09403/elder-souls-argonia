@@ -76,6 +76,25 @@ def test_real_hills_and_mountains_survive_the_rebalance():
     assert _classify(height=350.0, slope_deg=28.0) in (1, 2)
 
 
+def test_mangrove_forest_takes_the_sheltered_saline_fringe():
+    """Phase 10 round 4: the mangal (class 14) is the flat, strongly saline,
+    sheltered tidal fringe — and it extends into the adjoining shallows
+    (research/mangrove-coastal-ecology.md §1)."""
+    z, metres = _terrain_with(height=0.5, slope_deg=0.0)
+    z[:, 3] = -1.0                       # a shallow nearshore strip (< 2 m deep)
+    hydro = compute(z, metres_per_px=metres)
+    reg = compute_regions(z, hydro, metres, apply_overrides=False)
+    mang = reg.regions == 14
+    assert mang.any()
+    land_mang = mang & ~hydro.ocean
+    assert land_mang.any()
+    # every land mangrove pixel is tidal and strongly saline
+    assert hydro.tidal[land_mang].all()
+    assert (hydro.salinity[land_mang] >= 0.30).all()
+    # and the class walks out over shallow water (the intertidal fringe)
+    assert (mang & hydro.ocean).any()
+
+
 def test_a_flat_terrace_high_above_the_marsh_is_not_a_hill():
     """Hills need drainage as well as height — height alone made a quarter of
     the province alpine."""
