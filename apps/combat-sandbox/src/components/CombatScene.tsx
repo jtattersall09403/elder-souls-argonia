@@ -2,7 +2,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { CapsuleCollider, CuboidCollider, Physics, RigidBody, useRapier, type RapierRigidBody } from "@react-three/rapier";
 import { Ecctrl, type EcctrlHandle } from "ecctrl";
 import { useGLTF } from "@react-three/drei";
-import { Suspense, useCallback, useEffect, useMemo, useRef, type MutableRefObject, type RefObject } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState, type MutableRefObject, type RefObject } from "react";
 import * as THREE from "three";
 import { createAnimationCommand, updateAnimationCommand, type AnimationCommand } from "@elder-souls/game-core/anim/animationCommand";
 import {
@@ -128,6 +128,12 @@ import {
   phaseAt,
 } from "@elder-souls/game-core/combat/weapon";
 import {
+  PARRY_VOLUME_MARGIN_METERS,
+  hitCapsuleFor,
+  measureHeldObject,
+  type HitCapsule,
+} from "@elder-souls/game-core/combat/hitVolume";
+import {
   executionAnchor,
   executionBladeIntersectsVictim,
   executionFacingYaw,
@@ -181,29 +187,25 @@ const RIPOSTE_QUEUE_WINDOW = 0.7;
 /** Distance out along the aim axis the first-person camera looks. */
 const AIM_LOOK_DISTANCE_METERS = 40;
 /**
- * How far *behind* the eye the aim camera sits, in metres.
+ * How far *ahead* of the eye the aim camera sits, along the shot axis, in metres.
  *
- * The camera used to sit slightly ahead of the face, which is where a true
- * first-person view belongs — and it does not work on a third-person rig. Games
- * that put a camera in a character's head author the arms *to* that camera; our
- * archer's arms are authored for a body being watched from outside, so from
- * inside the skull they are either out of frame or passing through it. That is
- * both reported symptoms at once: nothing of the draw visible, and the view
- * ending up inside a limb when the aim lean brings an arm up.
+ * This number has been wrong in both directions and the reason is worth keeping.
+ * A camera exactly on the eye of a third-person rig ends up inside the skull and
+ * inside whichever limb the aim lean swings up. The previous pass answered that
+ * by pulling the camera 0.55 m *back* along the axis — which put the archer's own
+ * shoulders and back squarely between the camera and the target. That is a
+ * first-person view of your own spine, and it is what the owner reported.
  *
- * Sitting back along the shot axis fixes both without giving up anything the
- * first-person view was for. The camera is still exactly on the aim ray, so
- * screen centre is still where the arrow goes and the crosshair stays honest;
- * the head bone is still collapsed, so there is no skull in the way; and the
- * bow arm, the bow, the string and the nocked shaft are all now in front of the
- * camera where the player can watch them.
+ * The correct offset is small and forward: clear of the collapsed head and clear
+ * of the torso, but still behind the bow arm, so the bow, the string and the
+ * nocked shaft stay in frame ahead of the camera while the target does too.
  *
  * Deliberately on the axis and not over a shoulder: a lateral offset would put
  * the crosshair ray and the arrow's line a fixed distance apart at every range,
  * which reads as the bow shooting slightly wide of the aim the further out you
  * shoot.
  */
-const AIM_EYE_BEHIND_METERS = 0.55;
+const AIM_EYE_AHEAD_METERS = 0.12;
 /**
  * Field of view while aiming, at each end of the zoom.
  *
@@ -336,53 +338,109 @@ function LockOnReticle({
   );
 }
 
-function WeaponHitbox({
-  weapon,
+/**
+ * A sensor shaped like, and riding on, a held object.
+ *
+ * Used for both jobs a held object does in combat: the volume a swing cuts
+ * with, and the volume a parry catches with. Both are the same question — where
+ * is this thing right now, and how big is it — and answering it once means a
+ * greatsword's hitbox is a greatsword and a dagger's is a dagger, from the
+ * pipeline's own measurement of the mesh rather than from a constant.
+ *
+ * The optional `outline` is what the debug panel's weapon-hitbox switch draws.
+ * It is deliberately its own view rather than Rapier's global collider debug,
+ * because that one renders *every* collider in the world and the whole point of
+ * the switch is to watch the blade with everything else turned off.
+ */
+function HeldObjectHitbox({
+  object,
+  margin,
   overlaps,
   name,
   active,
+  outline,
+  outlineColor,
 }: {
-  weapon: RefObject<THREE.Object3D | null>;
+  object: RefObject<THREE.Object3D | null>;
+  /** Grown by this much all round. Zero for a swing, wider for a parry. */
+  margin: number;
   overlaps: MutableRefObject<OverlapCounter>;
   name: string;
   active: RefObject<boolean>;
+  outline: boolean;
+  outlineColor: string;
 }) {
   const body = useRef<RapierRigidBody>(null);
+  const marker = useRef<THREE.Group>(null);
   const { rapier } = useRapier();
   const center = useMemo(() => new THREE.Vector3(), []);
   const rotation = useMemo(() => new THREE.Quaternion(), []);
+  // Measured from the mesh actually mounted, not from the item manifest.
+  //
+  // The manifest reports extents, and extents are not enough: a weapon's origin
+  // is its grip, so its box starts at zero, but a shield's origin is its boss
+  // and its box straddles it. Sizing from extents alone parks a shield's volume
+  // a third of a metre off the shield. The mounted object knows the truth, and
+  // asking it costs one traversal per equip.
+  const measured = useRef<THREE.Object3D | null>(null);
+  const [capsule, setCapsule] = useState<HitCapsule>(() => hitCapsuleFor(
+    { width: 0.1, height: 0.1, length: 0.9, minZ: 0 },
+    margin,
+  ));
 
   useFrame(() => {
-    if (!body.current || !weapon.current || !active.current) {
+    if (!body.current || !object.current || !active.current) {
       overlaps.current.clear();
       body.current?.setNextKinematicTranslation({ x: 0, y: -100, z: 0 });
+      if (marker.current) marker.current.visible = false;
       return;
     }
-    weapon.current.updateWorldMatrix(true, false);
-    // Blade runs along the weapon frame's +Z from the grip at the origin.
-    center.set(0, 0, 0.42).applyMatrix4(weapon.current.matrixWorld);
-    weapon.current.getWorldQuaternion(rotation);
+    object.current.updateWorldMatrix(true, false);
+    if (measured.current !== object.current) {
+      measured.current = object.current;
+      setCapsule(hitCapsuleFor(measureHeldObject(object.current), margin));
+    }
+    // The object runs along its own frame's +Z from the grip at the origin.
+    center.set(0, 0, capsule.centerOffset).applyMatrix4(object.current.matrixWorld);
+    object.current.getWorldQuaternion(rotation);
     body.current.setNextKinematicTranslation(center);
     body.current.setNextKinematicRotation(rotation);
+    if (marker.current) {
+      marker.current.visible = outline;
+      marker.current.position.copy(center);
+      marker.current.quaternion.copy(rotation);
+    }
   });
 
-  const updateOverlap = (active: boolean, target?: string) => {
+  const updateOverlap = (isActive: boolean, target?: string) => {
     if (!target) return;
-    if (active) overlaps.current.add(target);
+    if (isActive) overlaps.current.add(target);
     else overlaps.current.delete(target);
   };
 
   return (
-    <RigidBody ref={body} type="kinematicPosition" colliders={false} position={[0, -100, 0]} name={name}>
-      <CapsuleCollider
-        args={[0.49, 0.085]}
-        rotation={[Math.PI / 2, 0, 0]}
-        sensor
-        activeCollisionTypes={rapier.ActiveCollisionTypes.ALL}
-        onIntersectionEnter={({ other }) => updateOverlap(true, other.rigidBodyObject?.name)}
-        onIntersectionExit={({ other }) => updateOverlap(false, other.rigidBodyObject?.name)}
-      />
-    </RigidBody>
+    <>
+      <RigidBody ref={body} type="kinematicPosition" colliders={false} position={[0, -100, 0]} name={name}>
+        <CapsuleCollider
+          args={[capsule.halfLength, capsule.radius]}
+          rotation={[Math.PI / 2, 0, 0]}
+          sensor
+          activeCollisionTypes={rapier.ActiveCollisionTypes.ALL}
+          onIntersectionEnter={({ other }) => updateOverlap(true, other.rigidBodyObject?.name)}
+          onIntersectionExit={({ other }) => updateOverlap(false, other.rigidBodyObject?.name)}
+        />
+      </RigidBody>
+      {/* Drawn in world space, not parented to the sensor body, so it is not
+          subject to the physics interpolation the collider is. */}
+      <group ref={marker} visible={false}>
+        {/* THREE builds a capsule along +Y; the collider is turned onto +Z to
+            lie down the object, and this has to make the same turn. */}
+        <mesh rotation={[Math.PI / 2, 0, 0]} renderOrder={999}>
+          <capsuleGeometry args={[capsule.radius, capsule.halfLength * 2, 4, 12]} />
+          <meshBasicMaterial color={outlineColor} wireframe transparent opacity={0.85} depthTest={false} />
+        </mesh>
+      </group>
+    </>
   );
 }
 
@@ -427,57 +485,24 @@ function CapsuleHurtbox({
   );
 }
 
-// A parry lands against a wide zone in front of the body, not the thin blade
-// volume — matching the punishing-but-fair brief window the animation gives,
-// rather than requiring exact blade-to-blade contact.
-function ParryShield({
-  controller,
-  overlaps,
-  name,
-  active,
-}: {
-  controller: RefObject<EcctrlHandle | null>;
-  overlaps: MutableRefObject<OverlapCounter>;
-  name: string;
-  active: RefObject<boolean>;
-}) {
-  const body = useRef<RapierRigidBody>(null);
-  const { rapier } = useRapier();
-  const center = useMemo(() => new THREE.Vector3(), []);
-
-  useFrame(() => {
-    const handle = controller.current;
-    if (!body.current || !handle || !active.current) {
-      // Shield overlap state is deliberately separate from weapon overlap
-      // state. An inactive parry window must not leave a stale clash from the
-      // prior frame, but clearing it must never erase a normal attack contact.
-      overlaps.current.clear();
-      body.current?.setNextKinematicTranslation({ x: 0, y: -100, z: 0 });
-      return;
-    }
-    center.copy(handle.bodyZAxis).setY(0).normalize().multiplyScalar(0.55).add(handle.currPos);
-    center.y = handle.currPos.y + 0.55;
-    body.current.setNextKinematicTranslation(center);
-    body.current.setNextKinematicRotation(handle.body.rotation());
-  });
-
-  const updateOverlap = (isActive: boolean, target?: string) => {
-    if (!target) return;
-    if (isActive) overlaps.current.add(target);
-    else overlaps.current.delete(target);
-  };
-
-  return (
-    <RigidBody ref={body} type="kinematicPosition" colliders={false} position={[0, -100, 0]} name={name}>
-      <CuboidCollider
-        args={[0.62, 0.55, 0.32]}
-        sensor
-        activeCollisionTypes={rapier.ActiveCollisionTypes.ALL}
-        onIntersectionEnter={({ other }) => updateOverlap(true, other.rigidBodyObject?.name)}
-        onIntersectionExit={({ other }) => updateOverlap(false, other.rigidBodyObject?.name)}
-      />
-    </RigidBody>
-  );
+/**
+ * The volume a parry catches with.
+ *
+ * This used to be a fixed 1.24 x 1.10 x 0.64 m box parked 0.55 m in front of
+ * the chest, active on a hard-coded window and identical whether the actor was
+ * holding a dagger or a tower shield. It caught things nothing on screen was
+ * anywhere near, and it never moved with the parry it was supposed to belong to.
+ *
+ * It is now the parrying object itself — the shield if there is one in the off
+ * hand, otherwise the weapon — grown by `PARRY_VOLUME_MARGIN_METERS` so a
+ * correctly *timed* parry is not also a positioning test. Same component as the
+ * weapon hitbox, because it is the same question.
+ */
+function parryObjectRef(
+  offHand: RefObject<THREE.Object3D | null>,
+  weapon: RefObject<THREE.Object3D | null>,
+): RefObject<THREE.Object3D | null> {
+  return { get current() { return offHand.current ?? weapon.current; } } as RefObject<THREE.Object3D | null>;
 }
 
 // One enemy's full runtime: its Fighter combat model plus the view/physics
@@ -492,6 +517,10 @@ type EnemyRuntime = {
   startYaw: number;
   handle: RefObject<EcctrlHandle | null>;
   weapon: MutableRefObject<THREE.Object3D | null>;
+  /** The mounted shield, when there is one. A parry rides this in preference. */
+  offHand: MutableRefObject<THREE.Object3D | null>;
+  /** Whichever of the two is doing the parrying, resolved live. */
+  parryObject: RefObject<THREE.Object3D | null>;
   targetAnchor: MutableRefObject<THREE.Object3D | null>;
   hurtbox: MutableRefObject<readonly HurtboxBone[] | null>;
   overlaps: MutableRefObject<OverlapCounter>;
@@ -526,6 +555,8 @@ function createEnemyRuntime(
 ): EnemyRuntime {
   const fighter = createFighter(`enemy-${id}`, "enemy", archetype);
   fighter.attack = archetype.loadout.mainHand.attacks.light1;
+  const weapon: MutableRefObject<THREE.Object3D | null> = { current: null };
+  const offHand: MutableRefObject<THREE.Object3D | null> = { current: null };
   return {
     id,
     fighter,
@@ -533,7 +564,9 @@ function createEnemyRuntime(
     start: start.clone(),
     startYaw,
     handle: { current: null },
-    weapon: { current: null },
+    weapon,
+    offHand,
+    parryObject: parryObjectRef(offHand, weapon),
     targetAnchor: { current: null },
     hurtbox: { current: null },
     overlaps: { current: new OverlapCounter() },
@@ -558,6 +591,7 @@ function createEnemyRuntime(
 }
 
 function EnemyActor({ runtime, reticleVisible, validation }: { runtime: EnemyRuntime; reticleVisible: boolean; validation: boolean }) {
+  const showWeaponHitboxes = useGameStore((state) => state.showWeaponHitboxes);
   const enemyArmour = useMemo(
     () => wornArmourFor(runtime.archetype.armour),
     [runtime.archetype.armour],
@@ -618,6 +652,7 @@ function EnemyActor({ runtime, reticleVisible, validation }: { runtime: EnemyRun
           equipped
           enemy
           weaponRef={runtime.weapon}
+          offHandRef={runtime.offHand}
           targetAnchorRef={runtime.targetAnchor}
           hurtboxRef={runtime.hurtbox}
           visualProbe={validation ? runtime.visualProbe : undefined}
@@ -630,12 +665,23 @@ function EnemyActor({ runtime, reticleVisible, validation }: { runtime: EnemyRun
       {HAS_SKELETAL_HURTBOX
         ? <SkeletalHurtbox rig={runtime.hurtbox} name={runtime.hurtboxName} probe={validation} />
         : <CapsuleHurtbox controller={runtime.handle} name={runtime.hurtboxName} />}
-      <WeaponHitbox weapon={runtime.weapon} overlaps={runtime.overlaps} name={runtime.weaponName} active={runtime.hitboxActive} />
-      <ParryShield
-        controller={runtime.handle}
+      <HeldObjectHitbox
+        object={runtime.weapon}
+        margin={0}
+        overlaps={runtime.overlaps}
+        name={runtime.weaponName}
+        active={runtime.hitboxActive}
+        outline={showWeaponHitboxes}
+        outlineColor="#ff9d4d"
+      />
+      <HeldObjectHitbox
+        object={runtime.parryObject}
+        margin={PARRY_VOLUME_MARGIN_METERS}
         overlaps={runtime.parryOverlaps}
         name={`enemy-parry-shield-${runtime.id}`}
         active={runtime.parryActive}
+        outline={showWeaponHitboxes}
+        outlineColor="#4dd2ff"
       />
     </>
   );
@@ -702,6 +748,12 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   const playerStartYaw = visualScenario?.player.yaw ?? Math.PI;
   const player = useRef<EcctrlHandle>(null);
   const playerWeaponObject = useRef<THREE.Object3D>(null);
+  const playerOffHandObject = useRef<THREE.Object3D | null>(null);
+  const showWeaponHitboxes = useGameStore((state) => state.showWeaponHitboxes);
+  const playerParryObject = useMemo(
+    () => parryObjectRef(playerOffHandObject, playerWeaponObject),
+    [],
+  );
   const playerHurtbox = useRef<readonly HurtboxBone[] | null>(null);
   const playerWeaponOverlaps = useRef(new OverlapCounter());
   const playerParryOverlaps = useRef(new OverlapCounter());
@@ -1839,8 +1891,16 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       // A queued press only buys the execution it was queued for. Without this
       // it would also fire an ordinary swing a beat after the parry, which is
       // not what the player asked for and eats their stamina.
+      //
+      // It must *wait*, though, rather than give up. This used to zero the queue
+      // the first frame the player was free, which is normally the frame the
+      // parry clip ends — before the stagger has settled into a riposteable
+      // pose, or while the victim is still being pushed inside range. The queued
+      // press then bought nothing at all, which is the reported symptom. Leaving
+      // the timer to run means the press is honoured any time in its window and
+      // simply lapses if the opening never comes.
       if (!intent.lightPressed && !riposteVictim) {
-        riposteQueued.current = 0;
+        // Waiting, not cancelled: `riposteQueued` decays on its own clock.
       } else {
       const victim = riposteVictim ?? backstabVictim;
       const attack = riposteVictim
@@ -2671,6 +2731,22 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     }
 
     const lockTargetActive = lockTarget !== null && (lockTarget.fighter.health > 0 || lockTarget.fighter.state === "critical");
+    // Zoom belongs to the bow, not to the camera mode. It used to live inside
+    // the free-aim branch below, which is skipped entirely while a target is
+    // locked, so a locked-on archer had no zoom at all. Nothing about lock-on
+    // makes magnification meaningless — if anything that is when you want it.
+    if (isAiming(bowCycle.current)) {
+      // Held triggers sweep it and a wheel notch steps it, so the same control
+      // exists on a pad, a mouse and a trackpad without a fourth binding:
+      // neither heavy nor parry does anything with a bow raised.
+      aimZoom.current = THREE.MathUtils.clamp(
+        aimZoom.current
+        + (Number(intent.zoomInHeld) - Number(intent.zoomOutHeld)) * (delta / AIM_ZOOM_SECONDS)
+        + intent.zoomWheel * AIM_ZOOM_PER_WHEEL_NOTCH,
+        0,
+        1,
+      );
+    }
     if (playerAttack.current) {
       handle.setForwardDir(playerAttackDirection.current);
       handle.setLockForward(true);
@@ -2678,6 +2754,20 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     if (lockTargetActive && lockTarget) {
       const yaws = lockOnYaws(playerPos, lockTarget.position);
       cameraYaw.current = yaws.cameraYaw;
+      if (isAiming(bowCycle.current)) {
+        // Lock-on drives the yaw; without this the pitch stays wherever free aim
+        // left it, so the first-person view swung onto the target and then looked
+        // over or under them. Elevate onto the target's chest instead.
+        const flatRange = Math.hypot(
+          lockTarget.position.x - playerPos.x,
+          lockTarget.position.z - playerPos.z,
+        );
+        aimPitch.current = THREE.MathUtils.clamp(
+          Math.atan2(lockTarget.position.y - (playerPos.y + PLAYER_EYE_OFFSET_Y), Math.max(flatRange, 0.001)),
+          -AIM_PITCH_LIMIT,
+          AIM_PITCH_LIMIT,
+        );
+      }
       tmp.current.quaternion.setFromAxisAngle(UP, yaws.playerFacingYaw);
       if (!playerAttack.current && playerAction.current !== "roll" && playerAction.current !== "backstep") {
         tmp.current.forward.set(
@@ -2690,16 +2780,6 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       }
       if (playerAction.current === "idle" || playerAction.current === "guard") body.setRotation(tmp.current.quaternion, true);
     } else if (isAiming(bowCycle.current)) {
-      // Zoom. Held triggers sweep it, and a wheel notch steps it, so the same
-      // control exists on a pad, a mouse and a trackpad without a fourth
-      // binding: neither heavy nor parry does anything with a bow raised.
-      aimZoom.current = THREE.MathUtils.clamp(
-        aimZoom.current
-        + (Number(intent.zoomInHeld) - Number(intent.zoomOutHeld)) * (delta / AIM_ZOOM_SECONDS)
-        + intent.zoomWheel * AIM_ZOOM_PER_WHEEL_NOTCH,
-        0,
-        1,
-      );
       // Aiming looks where the archer looks: the same stick, a wider arc, and
       // no orbit. Inverted relative to the third-person pitch because that one
       // raises the camera while this one raises the bow.
@@ -2777,10 +2857,11 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       // Riding the skeleton sounds right and is not: the draw pose moves the
       // head, the upper body leans to follow the aim, and a camera chasing both
       // ends up inside the bow it is supposed to be looking past. With a
-      // third-person body the stable eye is the one that reads — set back along
-      // the shot axis so the arms it was authored for stay in frame.
+      // third-person body the stable eye is the one that reads — nudged a little
+      // way *forward* along the shot axis, which clears the collapsed head and
+      // the torso while leaving the bow arm ahead of the camera.
       tmp.current.flat.set(playerPos.x, playerPos.y + PLAYER_EYE_OFFSET_Y, playerPos.z)
-        .addScaledVector(tmp.current.aimDirection, -AIM_EYE_BEHIND_METERS);
+        .addScaledVector(tmp.current.aimDirection, AIM_EYE_AHEAD_METERS);
       tmp.current.desiredCamera.lerp(tmp.current.flat, blend);
       // Sighted from the camera, not from the eye, so screen centre is the shot
       // direction exactly rather than approximately.
@@ -2950,6 +3031,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           equipped={equipped.current}
           equippedRef={equipped}
           weaponRef={playerWeaponObject}
+          offHandRef={playerOffHandObject}
           hurtboxRef={playerHurtbox}
           headBoneRef={playerHeadBone}
           aimPitchRef={aimPitch}
@@ -2961,11 +3043,27 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       {HAS_SKELETAL_HURTBOX
         ? <SkeletalHurtbox rig={playerHurtbox} name={PLAYER_HURTBOX_NAME} probe={Boolean(visualScenario)} />
         : <CapsuleHurtbox controller={player} name={PLAYER_HURTBOX_NAME} />}
-      <WeaponHitbox weapon={playerWeaponObject} overlaps={playerWeaponOverlaps} name="player-weapon" active={playerHitboxActive} />
+      <HeldObjectHitbox
+        object={playerWeaponObject}
+        margin={0}
+        overlaps={playerWeaponOverlaps}
+        name="player-weapon"
+        active={playerHitboxActive}
+        outline={showWeaponHitboxes}
+        outlineColor="#ffd24d"
+      />
       <Suspense fallback={null}>
         <Arrows onHit={handleArrowHit} />
       </Suspense>
-      <ParryShield controller={player} overlaps={playerParryOverlaps} name="player-parry-shield" active={playerParryActive} />
+      <HeldObjectHitbox
+        object={playerParryObject}
+        margin={PARRY_VOLUME_MARGIN_METERS}
+        overlaps={playerParryOverlaps}
+        name="player-parry-shield"
+        active={playerParryActive}
+        outline={showWeaponHitboxes}
+        outlineColor="#4dd2ff"
+      />
       <AnalogueSpeedLimiter
         controller={player}
         magnitude={moveMagnitudeRef}

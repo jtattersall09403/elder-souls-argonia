@@ -174,6 +174,7 @@ function buildWeapon(itemId: string, built: BuiltItem): ArsenalWeapon {
         localScale: 1,
       },
       sheathed: { socket: built.sheathSocket, localPosition: [0, 0, 0], localRotation: [0, 0, 0, 1], localScale: 1 },
+      sizeMeters: built.sizeMeters,
     },
     // Clips and authored timing come from the resolved moveset; how hard and
     // how far come from the class. Neither is restated per item.
@@ -241,6 +242,7 @@ function buildShield(itemId: string, built: BuiltItem): ArsenalShield {
       // Slung on the same node when the weapon is stowed, so it keeps the same
       // correction: it is the same mount, not a second convention.
       sheathed: { socket: "Shield", localPosition: [0, 0, 0], localRotation: SHIELD_HELD_ROTATION, localScale: 1 },
+      sizeMeters: built.sizeMeters,
     },
     materialId,
     icon: built.icon,

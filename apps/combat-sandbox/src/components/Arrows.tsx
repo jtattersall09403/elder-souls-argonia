@@ -14,8 +14,9 @@ import {
   ARROW_LIFETIME_SECONDS,
   ARROW_SHAFT_LENGTH_METERS,
   aerodynamicDrag,
+  aerodynamicPitchDamping,
+  aerodynamicRestoringTorque,
   arrowMassSplit,
-  dragLeverMeters,
   impactObliquity,
 } from "@elder-souls/game-core/combat/arrowFlight";
 import { useArrowStore, type LiveArrow } from "@elder-souls/game-core/combat/arrowStore";
@@ -26,11 +27,12 @@ import type { ArrowDefinition } from "@elder-souls/game-core/equipment/arrows";
  * Arrows in flight.
  *
  * Rapier owns the flight. Each arrow is an ordinary dynamic body under gravity
- * with its mass carried by a collider set *forward* of the body origin — that
- * offset is the arrow's centre of mass, and it is what makes the drag force,
- * applied behind it, turn the shaft onto its path instead of letting it tumble.
- * The only thing this component adds per tick is that one force; everything
- * else — collision, CCD, interpolation — is the solver's job.
+ * with its mass carried by a collider set *forward* of the body origin, which
+ * is the forward centre of mass a real arrow has. The component adds three
+ * things per tick, all from `combat/arrowFlight`: drag, the torque that turns a
+ * yawed shaft back onto its path, and the torque that damps that turn so it
+ * settles rather than rings. Everything else — collision, CCD, interpolation —
+ * is the solver's job.
  */
 
 export type ArrowHit = {
@@ -101,7 +103,6 @@ function Arrow({ live, onHit }: { live: LiveArrow; onHit: (hit: ArrowHit) => voi
    */
   const landed = useRef(false);
   const forceTmp = useRef(new THREE.Vector3());
-  const pointTmp = useRef(new THREE.Vector3());
   const forwardTmp = useRef(new THREE.Vector3());
   const quaternionTmp = useRef(new THREE.Quaternion());
   const velocityTmp = useRef(new THREE.Vector3());
@@ -150,17 +151,33 @@ function Arrow({ live, onHit }: { live: LiveArrow; onHit: (hit: ArrowHit) => voi
     const drag = aerodynamicDrag(velocity, live.arrow.physics);
     forceTmp.current.set(drag.x, drag.y, drag.z);
 
-    // Applied a lever's length behind the centre of mass, which is where the
-    // fletching is. That offset is the whole stabilisation.
-    const translation = rigid.translation();
+    // Drag is a pure force on the centre of mass. Attitude is handled by two
+    // explicit torques below rather than by applying this one off-centre: that
+    // shortcut is what made the shaft's stabilisation an order of magnitude too
+    // weak to follow its own arc. Each term is now separately meaningful.
+    rigid.addForce(forceTmp.current, true);
+
     const rotation = rigid.rotation();
     quaternionTmp.current.set(rotation.x, rotation.y, rotation.z, rotation.w);
     forwardTmp.current.set(0, 0, 1).applyQuaternion(quaternionTmp.current);
-    const lever = dragLeverMeters(live.arrow.physics, ARROW_SHAFT_LENGTH_METERS);
-    pointTmp.current
-      .set(translation.x, translation.y, translation.z)
-      .addScaledVector(forwardTmp.current, -lever);
-    rigid.addForceAtPoint(forceTmp.current, pointTmp.current, true);
+
+    // Weathercocking: the air turning a yawed shaft back onto its path.
+    rigid.addTorque(
+      aerodynamicRestoringTorque(velocity, forwardTmp.current, live.arrow.physics, ARROW_SHAFT_LENGTH_METERS),
+      true,
+    );
+    // And the air resisting that rotation. Without it the term above is an
+    // undamped spring and the arrow rings about its path instead of settling.
+    rigid.addTorque(
+      aerodynamicPitchDamping(
+        rigid.angvel(),
+        velocity,
+        forwardTmp.current,
+        live.arrow.physics,
+        ARROW_SHAFT_LENGTH_METERS,
+      ),
+      true,
+    );
   });
 
   /**

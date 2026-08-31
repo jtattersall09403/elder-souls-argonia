@@ -1,6 +1,6 @@
 import { assetUrl } from "./assetBase";
 import { useGLTF } from "@react-three/drei";
-import { useLayoutEffect, useMemo } from "react";
+import { useLayoutEffect, useMemo, type MutableRefObject } from "react";
 import * as THREE from "three";
 
 import { RIG_SOCKET_ROTATION } from "@elder-souls/game-core/anim/animationManifest";
@@ -18,12 +18,19 @@ export function OffHandItem({
   model: actor,
   profile,
   sheathed,
+  objectRef,
 }: {
   /** The actor's body, whose socket bones this mounts onto. */
   model: THREE.Object3D;
   profile: WeaponVisualProfile;
   /** True while the actor's weapon is stowed. */
   sheathed: boolean;
+  /**
+   * Published so combat can hang a sensor on the mounted shield — a parry is
+   * caught by the shield's own volume, riding the shield's own bone. Mirrors
+   * `weaponRef` on the fighter; null while nothing is in the off hand.
+   */
+  objectRef?: MutableRefObject<THREE.Object3D | null>;
 }) {
   const gltf = useGLTF(assetUrl(profile.asset));
   const mount = useMemo(() => {
@@ -54,8 +61,12 @@ export function OffHandItem({
       .multiply(new THREE.Quaternion().fromArray(transform.localRotation).normalize())
       .normalize();
     socket.add(mount);
-    return () => { socket.remove(mount); };
-  }, [actor, mount, transform]);
+    if (objectRef) objectRef.current = mount;
+    return () => {
+      socket.remove(mount);
+      if (objectRef?.current === mount) objectRef.current = null;
+    };
+  }, [actor, mount, objectRef, transform]);
 
   return null;
 }

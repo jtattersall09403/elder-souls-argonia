@@ -224,6 +224,16 @@ export type WeaponVisualProfile = {
   asset: string;
   held: WeaponSocketTransform;
   sheathed: WeaponSocketTransform;
+  /**
+   * The built mesh's own extents in metres, as measured by the pipeline.
+   *
+   * Carried through from the item manifest rather than left in it, because this
+   * is what combat sizes its sensor volumes from (`combat/hitVolume`). A hitbox
+   * that does not come from here is a hitbox that has to be guessed per weapon,
+   * which is exactly how one sword-sized capsule ended up swinging on the end
+   * of a warhammer.
+   */
+  sizeMeters: readonly [number, number, number];
 };
 
 export type PairedCriticalProfile = {

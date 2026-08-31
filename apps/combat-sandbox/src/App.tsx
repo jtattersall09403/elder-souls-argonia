@@ -37,6 +37,7 @@ export function App() {
       enemyAiEnabled: false,
       enemyCount: 1,
       showHitboxes: new URLSearchParams(window.location.search).get("hitboxes") === "1",
+      showWeaponHitboxes: new URLSearchParams(window.location.search).get("weaponhitboxes") === "1",
       message: visualScenario.label,
     });
   }, [patch, visualScenario]);

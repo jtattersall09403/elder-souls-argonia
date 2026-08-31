@@ -233,6 +233,7 @@ function PosedActor({
   speedMultiplierRef,
   weaponProfile,
   offHandProfile = null,
+  offHandRef,
   armour = NO_ARMOUR,
   nockedArrow = null,
   firstPerson = false,
@@ -250,6 +251,8 @@ function PosedActor({
   equippedRef?: MutableRefObject<boolean>;
   enemy?: boolean;
   weaponRef?: MutableRefObject<THREE.Object3D | null>;
+  /** Receives the mounted off-hand item, so a parry can use its own volume. */
+  offHandRef?: MutableRefObject<THREE.Object3D | null>;
   /** Animated upper-body anchor for lock-on UI or other actor-following effects. */
   targetAnchorRef?: MutableRefObject<THREE.Object3D | null>;
   /** Receives this actor's live skeleton-fitted combat capsules. */
@@ -1067,7 +1070,7 @@ function PosedActor({
       <primitive object={model} />
       {offHandProfile && (
         <Suspense fallback={null}>
-          <OffHandItem model={model} profile={offHandProfile} sheathed={!equipped} />
+          <OffHandItem model={model} profile={offHandProfile} sheathed={!equipped} objectRef={offHandRef} />
         </Suspense>
       )}
       {nockedArrow && (

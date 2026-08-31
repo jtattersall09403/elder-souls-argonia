@@ -314,10 +314,18 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
         <label>
           <input
             type="checkbox"
+            checked={state.showWeaponHitboxes}
+            onChange={(event) => state.patch({ showWeaponHitboxes: event.target.checked })}
+          />
+          Show weapon &amp; parry volumes
+        </label>
+        <label>
+          <input
+            type="checkbox"
             checked={state.showHitboxes}
             onChange={(event) => state.patch({ showHitboxes: event.target.checked })}
           />
-          Show hitboxes
+          Show all other colliders
         </label>
         <FullscreenButton />
         <button onClick={state.reset}>RESET &amp; RESTART</button>

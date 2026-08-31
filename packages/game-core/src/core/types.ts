@@ -169,6 +169,15 @@ export type GameSnapshot = {
   enemyAiEnabled: boolean;
   enemyCount: number;
   showHitboxes: boolean;
+  /**
+   * Weapon and parry volumes only, drawn by combat itself.
+   *
+   * Separate from `showHitboxes`, which switches on Rapier's debug renderer and
+   * therefore draws every collider in the world — terrain, navigation capsules,
+   * arrows, the lot. Watching a blade's contact window against that is
+   * impossible, which is why this is its own switch and its own view.
+   */
+  showWeaponHitboxes: boolean;
   resetToken: number;
   /** A bow is raised: the view is first person and the crosshair is up. */
   aiming: boolean;
