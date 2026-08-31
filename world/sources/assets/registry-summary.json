@@ -38,7 +38,7 @@
    },
    "withLodVariant": 634,
    "withDimensions": 860,
-   "observedPlaced": 167
+   "observedPlaced": 180
   },
   "vanilla": {
    "label": "Vanilla Skyrim (Bethesda)",
@@ -54,31 +54,35 @@
     "water": 20
    },
    "categories": {
-    "creature": 3428,
-    "dungeon-kit": 3213,
-    "architecture": 2925,
+    "creature": 3423,
+    "dungeon-kit": 3130,
+    "architecture": 2828,
     "armour": 2288,
-    "clutter": 1728,
-    "weapon": 307,
-    "furniture": 240,
-    "misc": 211,
+    "clutter": 1599,
+    "weapon": 326,
+    "furniture": 264,
+    "misc": 209,
+    "door": 172,
     "plant": 123,
     "terrain-feature": 98,
-    "trap": 95,
-    "rock": 70,
+    "container": 91,
+    "trap": 91,
+    "rock": 68,
     "tree": 47,
     "ice": 46,
-    "deadfall": 41,
+    "deadfall": 39,
     "fungus": 37,
     "shrub": 27,
     "grass": 25,
+    "ammo": 17,
     "root": 16,
     "aquatic-plant": 5,
-    "bridge": 4
+    "bridge": 4,
+    "light": 1
    },
    "withLodVariant": 52,
-   "withDimensions": 0,
-   "observedPlaced": 17
+   "withDimensions": 8620,
+   "observedPlaced": 677
   },
   "tropical": {
    "label": "Tropical Skyrim \u2014 A Climate Overhaul",
@@ -105,7 +109,7 @@
    },
    "withLodVariant": 1,
    "withDimensions": 51,
-   "observedPlaced": 0
+   "observedPlaced": 6
   },
   "xanmeer": {
    "label": "Argonian Xanmeer Tileset \u2014 Modder's Resource",

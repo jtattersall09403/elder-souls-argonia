@@ -18,6 +18,9 @@ which is the human-facing version and states the caveats.
 | `groundcover-rules.json` | Tropical Skyrim's overrides of vanilla `GRAS`/`LTEX` records | Bethesda's grass parameter schema with observed values, and which grasses each painted ground texture allows |
 | `bmv-blackmarsh-micrositing.json` | same worldspaces, via `worldgen/mine_micro_siting.py` | per-species water-relation classes with conditional depths, density vs distance-to-waterline (riparian bands), pool-scene ring composition — digest in [docs/research/mod-vegetation-micro-siting.md](../../../docs/research/mod-vegetation-micro-siting.md) |
 | `bmv-valenwood-micrositing.json` | worldspace `Valenwood` | the same, showing the *inverted* (dry-forest) riparian profile |
+| `vanilla-tamriel-placement.json` | **Vanilla Skyrim**, worldspace `Tamriel` (250,830 refs, 11,187 cells) | the same profile for Bethesda's own shipped world — the cross-check on every BM&V-derived rule |
+| `vanilla-groundcover-rules.json` | `Skyrim.esm` `GRAS`/`LTEX` | Bethesda's *own* grass parameters (27 records, 68 textures), as opposed to Tropical Skyrim's retune in `groundcover-rules.json` |
+| `vanilla-region-object-tables.json` | `Skyrim.esm`/`Update.esm` `REGN` | the region object-generator census: 317 regions, 69 declaring an object block, **all of them empty** (`worldgen/mine_regions.py`) |
 
 ## Regenerating
 
@@ -37,15 +40,28 @@ python3 -m worldgen.mine_placement \
 overrides those records *keeping their form ids*, which is how references into
 masters we do not hold get resolved.
 
-## Known gap — vanilla `Skyrim.esm`
+## Vanilla `Skyrim.esm` — landed 2026-08-31
 
-41 % of Black Marsh's references (and 63 % of Valenwood's) point at base
-objects defined in `Skyrim.esm` or a DLC master, none of which are **in the
-vault** (only the three base-game BSAs are). Those references are still
-counted and profiled — under stable `skyrim.esm#0B73BC` ids, or
-`edid:TreeSwordFern06` where a name source supplies the editor id — so every
-density, band and clumping number covers them; only their *meshes* are
-missing. Dropping the ESM into
-`<vault>/skyrim-source/Data/` and re-running the commands above names them,
-and additionally unlocks Bethesda's own `REGN`/`GRAS` tables. The owner ask is
-recorded in [docs/PROGRESS.md](../../../docs/PROGRESS.md).
+The esm (and `Update.esm`) now sit in `<vault>/skyrim-source/Data/` from the
+owner's Steam copy, and are declared on the `vanilla` pool in
+`worldgen/asset_registry.py`. Regenerate the vanilla files with:
+
+```bash
+cd tooling/world-generation
+D=<vault>/skyrim-source/Data
+python3 -m worldgen.mine_regions --plugin "$D/Skyrim.esm" --plugin "$D/Update.esm" \
+  --out ../../world/sources/placement/vanilla-region-object-tables.json
+python3 -m worldgen.mine_groundcover --plugin "$D/Skyrim.esm" \
+  --out ../../world/sources/placement/vanilla-groundcover-rules.json
+python3 -m worldgen.mine_placement --plugin "$D/Skyrim.esm" --world Tamriel \
+  --out ../../world/sources/placement/vanilla-tamriel-placement.json
+```
+
+Digest and the deltas worth acting on:
+[docs/research/vanilla-skyrim-esm-placement-crosscheck.md](../../../docs/research/vanilla-skyrim-esm-placement-crosscheck.md).
+
+**Still open:** the BM&V files were mined before the esm arrived, so 41 % of
+Black Marsh's and 63 % of Valenwood's references are still `unresolved`.
+Re-running the BM&V commands above with an extra
+`--names "$D/Skyrim.esm"` resolves nearly all of them — worth doing as a
+standalone step, since it changes what `build_palettes.py` reads.

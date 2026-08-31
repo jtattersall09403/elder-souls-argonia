@@ -59,6 +59,14 @@ asset registry.
   sandbox, MIT.
 - Skyrim vanilla assets (Bethesda) — processed via `tooling/asset-pipeline` for
   this non-commercial fan project; source archives stay out of the repo.
+- **The Elder Scrolls V: Skyrim** game data — `Skyrim.esm` / `Update.esm` from
+  the owner's own legally-purchased Steam copy, installed to the local asset
+  vault (2026-08-31) and never redistributed. Read offline only, for asset
+  names/dimensions and for *statistics* about placement (`REGN`, `GRAS`,
+  reference distributions — see
+  [the cross-check](docs/research/vanilla-skyrim-esm-placement-crosscheck.md));
+  no plugin content or authored location is copied, and the only Bethesda data
+  that reaches a build is what the pipeline bakes from the owner's copy.
 - Full runtime npm dependency licences: see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 - **UESP (en.uesp.net)** — lore reference for all canon dossiers (wiki content
   CC-BY-SA; we cite page names, no wiki text ships in the game).

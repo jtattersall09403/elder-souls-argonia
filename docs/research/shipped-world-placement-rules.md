@@ -12,6 +12,10 @@ and flora palettes can be built from.
   (vegetation/scatter) and [90 §71–80](../world/90-asset-strategy.md) (assets)
 - Readers: `worldgen/esp_index.py`, `worldgen/mine_placement.py`,
   `worldgen/mine_groundcover.py`
+- **Cross-checked against Bethesda's own shipped numbers** (`Skyrim.esm`,
+  2026-08-31): [vanilla-skyrim-esm-placement-crosscheck.md](vanilla-skyrim-esm-placement-crosscheck.md)
+  — what holds, what was a mod artefact, and the deltas worth acting on. Read
+  it alongside R1, R3, R5, R8, R9, R10 and R11 below.
 - One level deeper — per-species waterline siting, riparian density bands,
   pool ring structure, and the Tropical Skyrim anatomy:
   [mod-vegetation-micro-siting.md](mod-vegetation-micro-siting.md)
@@ -258,14 +262,19 @@ texture** (`LTEX.GNAM`), and **no texture allows more than three grasses** —
 Skyrim inherited Oblivion's `REGN` object generator — a per-region table with
 density, clustering, slope limits and sink variance — and our reader parses it
 (`decode_rdot`). **None of the 16 vanilla `REGN` records Tropical Skyrim
-overrides carries an object table, and neither do BM&V's six.** In evidence so
-far, Skyrim's exteriors are hand-placed statics plus procedural `GRAS`, with
-the region generator unused.
+overrides carries an object table, and neither do BM&V's six.** Confirmed
+against `Skyrim.esm` itself (2026-08-31): of **317** vanilla `REGN` records,
+**69** declare an object-generator block and **every one of their `RDOT` tables
+is zero bytes**; none carries a grass block either. Skyrim's exteriors are
+hand-placed statics plus `LTEX`-bound procedural `GRAS`, with the region
+generator inherited in the format and unused in the data.
 
 > **Rule.** Module 65 §110's split — compiler-placed clumped statics (T1/T2)
-> over a procedural groundcover ring (T3) — matches what the shipped games
-> actually do. Confirm against `Skyrim.esm` when it lands; if vanilla regions
-> *do* carry object tables, their fields are already a parsed structure here.
+> over a procedural groundcover ring (T3) — is what the shipped game actually
+> does. **Settled.** The census lives in
+> `world/sources/placement/vanilla-region-object-tables.json`
+> (`worldgen/mine_regions.py`), kept in case a mod plugin ever does ship
+> tables.
 
 ### R12 — The Xanmeer kit is a 256-unit grid
 
@@ -319,9 +328,12 @@ budget by 3×, which is the case the dense-vegetation micro-lab must measure.
 
 ## 4. Open items
 
-- **`Skyrim.esm` is not in the vault** (ask recorded in PROGRESS). It would
-  name ~40 k of the measured references, give vanilla assets their dimensions
-  and editor ids in the registry, and settle R11. Re-running is two commands.
+- **`Skyrim.esm` landed 2026-08-31**, settling R11 and giving 8,620 vanilla
+  assets their editor ids and dimensions in the registry. **Still to do:**
+  re-run the BM&V mining with
+  `--names "<vault>/skyrim-source/Data/Skyrim.esm"` to resolve the 41 %/63 % of
+  references that remain nameless — delta D8 in the
+  [cross-check](vanilla-skyrim-esm-placement-crosscheck.md).
 - **Interior/dungeon composition is unmined.** The reader now walks interior
   cells (`Plugin.interior_cells`), and BM&V's interior `CELL` group alone is
   1.17 MB — that is Phase 12's mining job, not Phase 10's.

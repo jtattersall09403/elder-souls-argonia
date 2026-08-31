@@ -18,6 +18,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import json
 from pathlib import Path
 
@@ -75,6 +76,16 @@ def main() -> None:
             }
 
     report = {
+        "source": {
+            "method": (
+                "worldgen.mine_groundcover — GRAS parameters and LTEX->grass "
+                "bindings read straight from the plugin (module 95 §86.0b)"
+            ),
+            "date": dt.date.today().isoformat(),
+            "plugins": [Path(p).name for p in args.plugin],
+            "grassRecords": len(grasses),
+            "landscapeTextures": len(textures),
+        },
         "sources": [Path(p).name for p in args.plugin],
         "note": (
             "Schema adopted as a checklist; values are the shipped games' own "

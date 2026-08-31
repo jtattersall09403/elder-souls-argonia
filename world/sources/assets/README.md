@@ -28,7 +28,7 @@ placement count: the fastest way to separate "exists in the archive" from
 | Pool | Rows | Notes |
 |---|---|---|
 | `bmv` | 12,001 | Black Marsh & Valenwood — the house style; 634 assets ship a flat LOD billboard (ready-made T4 impostors), 860 carry dimensions from the mod's own plugins |
-| `vanilla` | 14,974 | Skyrim meshes BSA. **No dimensions or editor ids yet** — those need `Skyrim.esm`, which is not in the vault (see the placement README) |
+| `vanilla` | 14,974 | Skyrim meshes BSA, named and dimensioned from `Skyrim.esm`/`Update.esm` since 2026-08-31: 8,620 rows carry editor ids and dimensions, 677 are marked observed-placed with a count from the mined `Tamriel` worldspace |
 | `tropical` | 869 | Tropical Skyrim — 718 tree/palm meshes, plus raptor/therium/imga creature meshes |
 | `xanmeer` | 85 | Argonian Xanmeer Tileset — the whole kit, dimensioned from its own plugin |
 

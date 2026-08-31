@@ -95,6 +95,10 @@ POOLS: tuple[Pool, ...] = (
         source="Skyrim - Meshes.bsa (owner's copy of the game)",
         credit="Skyrim vanilla assets (Bethesda)",
         manifest="{vault}/skyrim-source/manifest-skyrim-meshes.txt",
+        plugins=[
+            "{vault}/skyrim-source/Data/Skyrim.esm",
+            "{vault}/skyrim-source/Data/Update.esm",
+        ],
     ),
     Pool(
         id="tropical",

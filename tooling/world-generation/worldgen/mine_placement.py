@@ -21,6 +21,7 @@ memory unless --dump-instances is given.
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import json
 import math
 from collections import Counter, defaultdict
@@ -620,6 +621,11 @@ def main() -> None:
     report = {
         "source": {
             "label": args.label or ", ".join(Path(p).name for p in args.plugin),
+            "method": (
+                "worldgen.mine_placement — every placed reference measured against the "
+                "terrain, water table and painted ground under it (module 95 §86.0b)"
+            ),
+            "date": dt.date.today().isoformat(),
             "plugins": [Path(p).name for p in args.plugin],
             "worldspaces": args.world,
             "instances": len(instances),
