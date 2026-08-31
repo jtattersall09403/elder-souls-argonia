@@ -44,7 +44,7 @@ first, then open only the master-plan sections the active phase needs.
 | 8a — world time, natural light and sky | done | owner gate PASS 2026-08-26 after 8 feedback rounds (decisions 0020/**0021** = full defect→fix history; research doc §8–8d). world-time package (calendar/sun/moons/stars, verified phase cycle); physical light rig with **envelope-pinned dome** (CPU Preetham twin `preethamCpu.ts` + `skyScreenModel.ts`; whiteout/black-gap class caught by `npm test`); directional twilight (Earth shadow, Belt of Venus, magnitude-staged stars); moon-aware night floors; owner-locked defaults warmth 1.0, stars ×0.5 (~3300); CSM shadows w/ contact bias; walk+fly city markers; HUD compass. Deferred: beyond-border land apron (module 55 §98b + research doc) |
 | 8b — water renderer and interaction | done | owner CLOSED 2026-08-28 (good-enough, **not perfect** — full water-systems re-review + polish queued in [polish-backlog.md](polish-backlog.md), Phase P). 7 rounds; full defect→fix history in decision 0025. Province W-field water surface, rivers/marsh/estuary/coast/underwater, buoyancy + Rapier water query, monotone slope rivers, shore surf, waterfall shading |
 | 8c — weather and atmosphere | done | owner CLOSED 2026-08-30 (good-enough, **not perfect** — owner will record leftovers in [polish-backlog.md](polish-backlog.md) for Phase P). 5 rounds; full defect→fix history in decision [0032](decisions/0032-phase8c-weather-implementation-shape.md). Deterministic synoptic machine + regional expression, fair-weather coverage ladder on the calendar, rain (real-time clock, PRECIP_LAYER), wind→waves, wetness, lightning; mist/fog/cap-cloud regimes with fog colour DERIVED from the real sun/sky/moon and a dome fog march (banks visible against open sky); visibility = local weather (one number renders and publishes); **GAME_TIME_SCALE = 30** in world-time. 406 tests incl. the extended envelope proof |
-| 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | in progress | **Round 4 DELIVERED 2026-08-31, awaiting owner playtest** (full record: round-4 sections atop [decision 0036](decisions/0036-phase10-placement-decisions.md)). Region rebalance APPLIED (wetland 37% of land); mangrove-forest region class + researched coastal ecology (docs/research/mangrove-coastal-ecology.md) + graded coastal gradient; mined composition rules C1–C5 (docs/research/vegetation-composition-rules.md) → bundle v2: pivot anchoring + sink (tiptoe-tree fix), attachments as per-host accents, bush clump templates, water-surface lilypads; billboard atlas root cause fixed (vanilla-vs-BM&V atlas + 256px shrink); guild knob un-bares reed banks; per-pixel wet edges; sixth exemplar = Lilmoth mangrove wall (7,14). **Next: deliver the round-4 feedback fixes + remaining scope per the DELIVERY PLAN in 0036 §"Round 5+"** (owner feedback 2026-08-31 is folded into it; GPU micro-lab probe CUT — owner's M2 Air playtests are the budget measurement) |
+| 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | in progress | **Round 5 = the WHOLE remaining scope, DELIVERED 2026-08-31, awaiting the owner's playtest — Phase 10 closes on their say-so** (full record: round-5 section atop [decision 0036](decisions/0036-phase10-placement-decisions.md)). Round-4 feedback root-caused and fixed (A1 LOD/decimation floor, A2 closed boulders + slope alignment + clearance + rock sink class, A3 ground-anchored tramaroots, A4 real tall jungle canopy, A5 card brightness); plus the left-for-Phase-10 items: **wind sway** (packaged, shadow-synced), **flora solidity** (trunks/boulders solid, undergrowth not), **scree/gravel** on the sculpt's talus aprons, **settlement/interior mining** for Phases 11–12, and the **`Skyrim.esm` cross-check** (vanilla pool registered, 8,620 rows; vanilla REGN ships EMPTY — settles rule R11). GPU micro-lab CUT (owner): the M2 Air playtest is the budget measurement, so **every hand-off now asks for an FPS read**. B6's deltas are recorded, not applied — they are the next round's work if the owner wants one |
 | 11 — settlement/location system, exemplar-first (0034) | todo | may start once the S schema is accepted (semantic authoring); packet freeze gated on 10b probes + 10c numbers |
 | 12 — dungeon/interior system, exemplar-first (0034) | todo | may interleave with 11 |
 | 9 — swimming, climbing, boats (re-slotted after the placement exemplars; 0034) | todo | player craft only — ferry/fast travel is Morrowind-style world content (Phase 11); thin swim slice may pull earlier; boats may slip |
@@ -60,26 +60,65 @@ first, then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- **Phase 10 round-4 playtest** — deployed 2026-08-31. On the DEPLOYED build
-  check: ① no more solid grey/black rectangles anywhere — distant stand-in
-  trees should show real leafy silhouettes (the old squares were the wrong
-  game's tree atlas), including the uplands slabs, which now resolve
-  ② hanging vines/roots/moss only ever appear ON trees and big plants, as
-  occasional accents (commonest in deep swamp, rare in the uplands); the
-  waist-height floating leaf whorls are now merged into composed bushes
-  ③ trees sit ON the ground — trunk bases planted (slightly sunk, more on
-  slopes), no more tiptoes; lilypads float on the water surface ④ the bare
-  bank at 2.72 E / 5.25 S (and water edges generally) now carries reeds
-  ⑤ wet-ground edges near water are soft and irregular, not straight
-  triangles ⑥ distant trees in clear air should sit into the scene rather
-  than reading near-black (if still a touch dark, say so — next lever is a
-  card brightness factor) ⑦ NEW: the mangrove wall — walk/boat the coast at
-  ~3.51 km E / 6.78 km S near Lilmoth: a dense green wall standing in the
-  shallows, prop roots, near-bare dark interior, palms landward (densest
-  alternative: ~5.38 km E / 3.5–4.5 km S) ⑧ more of the province now
-  classes as marsh (rebalance applied) — sanity-check nothing looks newly
-  wrong in the old five areas. Known gaps unchanged: walk-through trees, no
-  wind, six exemplar areas only.
+- **Phase 10 round-5 playtest — this is the WHOLE of the rest of Phase 10.**
+  Deployed 2026-08-31. If this passes, Phase 10 closes and anything left
+  over goes to [polish-backlog.md](polish-backlog.md). All on foot, on the
+  DEPLOYED build, in **walk mode**:
+
+  **The five things you told us about last time**
+  1. **No more flat cutouts near you.** Go to **1.59 km E / 1.63 km S**
+     (uplands) — the exact spot in your screenshot. Every plant within
+     sight should be a real 3D plant, not a flat dark leaf shape lying
+     against the ground. Walk away and it may simplify in the far distance;
+     that's fine. What matters is that nothing near you is a cutout.
+  2. **Rocks.** Same area. They should be proper closed boulders sitting
+     *in* the hillside — no hollow open backs to look into, no rock stuck
+     inside another rock, and they should lie along the slope rather than
+     standing bolt upright on it. (The old hollow shell now only appears on
+     genuinely steep cliff faces, tucked into the rock.)
+  3. **The big curved spiky root.** It should now always come *out of the
+     ground* — never floating in mid-air. Commonest in the swamp areas.
+  4. **The jungle should feel like a jungle.** Go to **~3.3 km E /
+     4.2 km S** (chunks 7,9 and 6,9). There was genuinely no tall tree in
+     that region before — the biggest was under 8 m. There are now trees of
+     11–14 m, and rare giants up to ~35 m. Look UP: you should be under a
+     roof of tall trees, with the undergrowth you already approved
+     underneath, and occasional bright gaps where a big tree has fallen.
+  5. **Distant trees** should look a little less dark in bright clear air.
+     If they're still too dark — or now too bright — just say which; it's a
+     one-number change.
+
+  **New things to try**
+  6. **Wind.** Trees, bushes and grass should now sway, and gust together
+     rather than each doing their own thing. Trunks stay planted; only the
+     crowns move. **Please check one specific thing**: watch a tree's
+     *shadow* on the ground while it sways — the shadow should move with the
+     tree, not sit still. Use the weather debug controls to find a windy or
+     stormy hour; in calm weather there will be very little movement, which
+     is correct.
+  7. **Solid trees and rocks.** You can no longer walk through tree trunks
+     or boulders — walk into one and you should stop. But you *should*
+     still be able to walk straight through reeds, ferns, grass, small
+     bushes and lily pads, exactly as in Skyrim. Tell us if anything feels
+     solid that shouldn't be, or if you get stopped by thin air where
+     there's nothing visible. (The HUD now shows `solid N` — how many
+     things around you are solid.)
+  8. **Grey gravel on the mountainsides.** Viewpoints: **5.01 / 0.99**
+     (the biggest patch), **1.63 / 0.79**, **1.85 / 0.36**,
+     **1.40 / 2.24** (km E / km S). Mountainsides should show gravel
+     aprons in the gullies and at the foot of slopes, with bare rock still
+     on the ridges. **Check there's no stripy banding** on the slopes —
+     that was the problem with an earlier rock texture.
+
+  **The one number we can't measure ourselves**
+  9. **How does it RUN?** We have no graphics card on the build machine, so
+     your M2 Air is now the *only* real performance measurement we have.
+     Please say roughly how smooth it feels on foot in the thick jungle
+     (7,9 / 6,9) and which quality setting you used. The densest spot in
+     the world is **chunk 6,9** — if anywhere struggles it'll be there.
+
+  Known gaps, unchanged: only six exemplar areas have plants; the rest of
+  the province is bare on purpose.
 
 - **8c polish leftovers** — the owner closed 8c good-enough and will record
   the leftover items in [polish-backlog.md](polish-backlog.md) themselves

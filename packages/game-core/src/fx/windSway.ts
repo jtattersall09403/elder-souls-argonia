@@ -96,14 +96,23 @@ float esWindPhase(vec2 p) {
  */
 const VERTEX_BODY = /* glsl */ `
 {
-  // Instance origin in world space. Height above the instance's OWN base (not
-  // above sea level) is what weights the bend, so a trunk's foot never slides.
+  // transformed is still in OBJECT space here — three.js applies
+  // instanceMatrix later, in project_vertex. That matters more than it looks:
+  // adding the wind offset straight to transformed would send it through each
+  // instance's own yaw rotation, so every tree in a stand would bend in a
+  // different direction. The offset is therefore computed in WORLD space and
+  // converted back into object space before it is applied.
   #ifdef USE_INSTANCING
+    mat3 esBasis = mat3(instanceMatrix);
     vec3 esInstanceOrigin = instanceMatrix[3].xyz;
-    float esHeight = max(0.0, (instanceMatrix * vec4(transformed, 1.0)).y - esInstanceOrigin.y);
+    float esHeight = max(0.0, (esBasis * transformed).y);
+    // Uniform instance scale, so squared length of any basis column gives s².
+    float esScaleSq = max(1e-6, dot(esBasis[0], esBasis[0]));
   #else
+    mat3 esBasis = mat3(1.0);
     vec3 esInstanceOrigin = vec3(0.0);
     float esHeight = max(0.0, transformed.y);
+    float esScaleSq = 1.0;
   #endif
   float esWindStrength = length(esWindVec.xy);
   if (esWindStrength > 0.0001 && esHeight > 0.01) {
@@ -121,10 +130,19 @@ const VERTEX_BODY = /* glsl */ `
     float esWeight = pow(min(esHeight / 10.0, 1.6), 1.5);
     float esFade = 1.0 - smoothstep(esWindFadeM * 0.6, esWindFadeM,
                                     length(cameraPosition - esInstanceOrigin));
-    vec2 esOffset = esWindVec.xy * esWeight * esFade * (0.65 + 0.35 * esGust);
-    transformed.xz += esOffset;
+    float esAmount = esWeight * esFade * (0.65 + 0.35 * esGust);
+    vec3 esWorldOffset = vec3(esWindVec.x, 0.0, esWindVec.y) * esAmount;
     // Length-preserving correction: without it a bent plant visibly stretches.
-    transformed.y -= esHeight * (1.0 - cos(min(length(esOffset) / max(esHeight, 0.01), 1.0)));
+    float esLean = length(esWorldOffset);
+    esWorldOffset.y -= esHeight * (1.0 - cos(min(esLean / max(esHeight, 0.01), 1.0)));
+    // World -> object: the basis is rotation × uniform scale, so its inverse
+    // is transpose / s². (Written out because GLSL ES 1.00 has no
+    // transpose() and no inverse().)
+    mat3 esBasisT = mat3(
+      esBasis[0][0], esBasis[1][0], esBasis[2][0],
+      esBasis[0][1], esBasis[1][1], esBasis[2][1],
+      esBasis[0][2], esBasis[1][2], esBasis[2][2]);
+    transformed += (esBasisT * esWorldOffset) / esScaleSq;
   }
 }
 `;

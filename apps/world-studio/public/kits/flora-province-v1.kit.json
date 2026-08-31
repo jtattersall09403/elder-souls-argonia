@@ -696,7 +696,19 @@
    "materials": [
     "Root1 0.Mat",
     "Root1 1.Mat"
-   ]
+   ],
+   "collisionBox": {
+    "halfExtentsM": [
+     1.428,
+     0.492,
+     0.705
+    ],
+    "centreOffsetM": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
   },
   {
    "id": "bmv:architecture/phitt/ashlands/tramaroot06",
@@ -726,7 +738,19 @@
    ],
    "materials": [
     "pasted  polySurface16 0.Mat"
-   ]
+   ],
+   "collisionBox": {
+    "halfExtentsM": [
+     1.518,
+     0.693,
+     0.897
+    ],
+    "centreOffsetM": [
+     0.0,
+     0.0,
+     -0.0
+    ]
+   }
   },
   {
    "id": "bmv:landscape/plants/florahangingmoss02aaa",
@@ -1638,6 +1662,366 @@
     "Plane.018.Mat",
     "Tri Tube.001.Mat"
    ]
+  },
+  {
+   "id": "bmv:landscape/trees/gkbjungletreenew17v2tropical",
+   "node": "bmv__landscape/trees/gkbjungletreenew17v2tropical",
+   "category": "tree",
+   "sizeM": [
+    10.07,
+    9.23,
+    14.413
+   ],
+   "originOffsetM": [
+    5.484,
+    4.464,
+    -0.0
+   ],
+   "triangles": 3773,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbsmoothdarkbark20.dds",
+    "gkbsmoothdarkbark22.dds",
+    "junglemapleaspen2.dds",
+    "junglemapletest3.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "jungletree17.Mat",
+    "jungletree17_1.Mat",
+    "jungletree17_2.Mat",
+    "jungletree17_3.Mat",
+    "jungletree17_4.Mat",
+    "jungletree17_5.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "gkbjungletreenew17v2tropical_LOD_FLAT:0.Mat"
+   ],
+   "collisionCapsule": {
+    "radiusM": 2.859,
+    "heightM": 14.413,
+    "centreOffsetM": [
+     -0.274,
+     0.504
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/gkbjungletreenew19v3",
+   "node": "bmv__landscape/trees/gkbjungletreenew19v3",
+   "category": "tree",
+   "sizeM": [
+    9.857,
+    8.948,
+    13.884
+   ],
+   "originOffsetM": [
+    5.406,
+    4.835,
+    0.036
+   ],
+   "triangles": 2611,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbbark27.dds",
+    "gkbtreeaspenbranchcompgreen1dark.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "jungletree19v3.Mat",
+    "jungletree19v3_1.Mat",
+    "jungletree19v3_2.Mat",
+    "jungletree19v3_3.Mat",
+    "jungletree19v3_4.Mat",
+    "jungletree19v3_5.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "gkbjungletreenew19v3_LOD_FLAT:0.Mat"
+   ],
+   "collisionCapsule": {
+    "radiusM": 1.631,
+    "heightM": 13.884,
+    "centreOffsetM": [
+     0.277,
+     0.415
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/gkbjungletreenew21v3",
+   "node": "bmv__landscape/trees/gkbjungletreenew21v3",
+   "category": "tree",
+   "sizeM": [
+    9.457,
+    8.467,
+    11.411
+   ],
+   "originOffsetM": [
+    5.299,
+    5.133,
+    0.052
+   ],
+   "triangles": 1418,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbbark27.dds",
+    "gkbtreeaspenbranchcompgreen1dark.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "jungletree21v3.Mat",
+    "jungletree21v3_1.Mat",
+    "jungletree21v3_2.Mat",
+    "jungletree21v3_3.Mat",
+    "jungletree21v3_4.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "gkbjungletreenew21v3_LOD_FLAT:0.Mat"
+   ],
+   "collisionCapsule": {
+    "radiusM": 1.572,
+    "heightM": 11.411,
+    "centreOffsetM": [
+     0.745,
+     0.936
+    ]
+   }
+  },
+  {
+   "id": "vanilla:landscape/rocks/rockl04",
+   "node": "vanilla__landscape/rocks/rockl04",
+   "category": "rock",
+   "sizeM": [
+    3.078,
+    4.056,
+    5.963
+   ],
+   "originOffsetM": [
+    1.837,
+    1.928,
+    0.69
+   ],
+   "triangles": 335,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockL04:1.Mat"
+   ],
+   "collisionBox": {
+    "halfExtentsM": [
+     1.354,
+     1.784,
+     2.624
+    ],
+    "centreOffsetM": [
+     -0.298,
+     0.1,
+     2.291
+    ]
+   }
+  },
+  {
+   "id": "vanilla:landscape/rocks/rockl02",
+   "node": "vanilla__landscape/rocks/rockl02",
+   "category": "rock",
+   "sizeM": [
+    8.823,
+    7.196,
+    3.749
+   ],
+   "originOffsetM": [
+    4.265,
+    3.433,
+    0.573
+   ],
+   "triangles": 449,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab01.dds",
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockL02:0.Mat",
+    "RockL02:1.Mat"
+   ],
+   "collisionBox": {
+    "halfExtentsM": [
+     3.882,
+     3.166,
+     1.65
+    ],
+    "centreOffsetM": [
+     0.146,
+     0.164,
+     1.302
+    ]
+   }
+  },
+  {
+   "id": "vanilla:landscape/rocks/rockm03",
+   "node": "vanilla__landscape/rocks/rockm03",
+   "category": "rock",
+   "sizeM": [
+    4.003,
+    3.576,
+    2.446
+   ],
+   "originOffsetM": [
+    2.055,
+    1.649,
+    0.47
+   ],
+   "triangles": 348,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockM03:1.Mat"
+   ],
+   "collisionBox": {
+    "halfExtentsM": [
+     1.761,
+     1.573,
+     1.076
+    ],
+    "centreOffsetM": [
+     -0.054,
+     0.138,
+     0.753
+    ]
+   }
+  },
+  {
+   "id": "vanilla:landscape/rocks/rockm02",
+   "node": "vanilla__landscape/rocks/rockm02",
+   "category": "container",
+   "sizeM": [
+    3.205,
+    3.2,
+    1.881
+   ],
+   "originOffsetM": [
+    1.562,
+    1.581,
+    0.336
+   ],
+   "triangles": 123,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockM02:1.Mat"
+   ],
+   "collisionBox": {
+    "halfExtentsM": [
+     1.41,
+     1.408,
+     0.827
+    ],
+    "centreOffsetM": [
+     0.04,
+     0.019,
+     0.605
+    ]
+   }
+  },
+  {
+   "id": "vanilla:landscape/rocks/rocks03",
+   "node": "vanilla__landscape/rocks/rocks03",
+   "category": "rock",
+   "sizeM": [
+    1.451,
+    1.697,
+    1.465
+   ],
+   "originOffsetM": [
+    0.748,
+    0.702,
+    0.383
+   ],
+   "triangles": 68,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": false,
+   "alphaTest": false,
+   "collision": "convex",
+   "droppedShapes": [],
+   "textures": [
+    "mountainslab02.dds"
+   ],
+   "materials": [
+    "RockS03:1.Mat"
+   ],
+   "collisionBox": {
+    "halfExtentsM": [
+     0.638,
+     0.747,
+     0.645
+    ],
+    "centreOffsetM": [
+     -0.023,
+     0.146,
+     0.35
+    ]
+   }
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\flora-province-v1.glb",
@@ -1672,7 +2056,7 @@
   "textures/vurt_shroomstem.dds": "textures/landscape/plants/vurt_shroomstem2.dds"
  },
  "alphaModes": {
-  "MASK": 114,
-  "OPAQUE": 3
+  "MASK": 134,
+  "OPAQUE": 9
  }
 }
