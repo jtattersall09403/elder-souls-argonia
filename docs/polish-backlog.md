@@ -24,7 +24,7 @@ cosmetic/feel work lives — do not park polish items in decision docs.
 | Weather: screen-space lens droplets during squalls (third-person, tasteful) | 8c deferred | brief droplets on the camera in driving rain |
 | Weather: thunder audio (distance-delayed crack + rumble tail) | 8c → module 57 (Phase 12b owns all audio) | flash→delayed thunder at 3 s/km |
 | Physics mass-unit scale cleanup (ecctrl capsule ~0.25 units vs real-mass props) | 8b round 6 §5 | one consistent mass scale; Phase 9 boats depend on it |
-| Combat `10b`: shield parry — with a shield equipped, parrying still uses the weapon parry. Owner taste ruling at 10b kickoff: DS-style small-shield parry (a clip-sourcing job) vs keep weapon-only. Block-vs-parry already matters mechanically (guard stability + poise, 76 §120/§121.3) | owner question 2026-08-30 (decision 0038) | ruling recorded; if kept, shield parry works in the studio |
+| ~~Combat `10b`: shield parry uses the weapon parry~~ — **done 2026-08-31.** A shield now parries with its own shield-bash clips (Rim Parry's SHD set), on its own catch window, selected by `activeGuardAnimations`. Remaining owner taste question, if any: whether a *small* shield should parry differently from a tower shield | owner question 2026-08-30 (decision 0038) | shipped; row kept only until the owner has seen it |
 
 ## Combat (added 2026-08-31, from the parallel combat pass — decision 0040)
 
@@ -35,14 +35,28 @@ cosmetic/feel work lives — do not park polish items in decision docs.
   declare that it has no melee and have the combat FSM refuse the input, the
   way it already refuses a guard with a bow raised, rather than borrowing
   clips. Touches the non-optional melee fields of `WeaponAnimationProfile`.
-- **Contact windows need re-measuring.** `scripts/measure-contact-windows.mjs`
-  had been reading a GLB path that stopped existing at the Phase 7 package
-  extraction, so it has not run since; it is fixed and pack-aware now, but its
-  output no longer agrees with the calibrated one-handed windows it originally
-  produced. Both sets — one-handed and the two new two-handed movesets, which
-  currently inherit the one-handed contact *fractions* — want measuring against
-  the production rig in one focused pass. Do not retune the calibrated
-  one-handed feel on the tool's word until the disagreement is explained.
+- **Per-weapon executions (ripostes) are sourced but not wired.** Rim Parry
+  ships thirteen distinct execution clips (dagger, axe, mace, greatsword,
+  waraxe, warhammer, spear, four shield variants, unarmed, dual) and we use one.
+  The blocker is not sourcing: each one needs its own contact time, withdrawal
+  time and paired separation, which for the one-handed clip took an exhaustive
+  hand audit. `measure-contact-windows.mjs --critical` was written to automate
+  that audit and **does not yet reproduce the hand-audited one-handed numbers**
+  — until it does, wiring a clip means guessing, and a guessed execution swings
+  at air. Fix the tool against the known answer first, then the other twelve are
+  cheap. (Done when a two-hander ripostes with its own clip and connects.)
+- **Per-weapon backstabs are not available and should not be faked.** Vanilla
+  has exactly one back-facing paired killmove (the 1hm one we use); its
+  per-weapon killmoves are front-facing finishers. The "backstabs for all weapon
+  types" mods re-point existing killmoves through an ESP rather than shipping
+  new animation. Revisit only if a genuine per-weapon back-facing paired source
+  turns up. (Done when either sourced, or the owner accepts one shared backstab.)
+- **Contact windows for the one-handed set.** The measuring tool is fixed and
+  now reproduces the calibrated LIGHT_1/LIGHT_2 windows to within a frame, and
+  the two-handed set has been re-measured off it. LIGHT_3, HEAVY and HEAVY_2 on
+  the one-handed set still differ from what it measures; those are
+  owner-calibrated feel and were left alone. Worth one deliberate comparison
+  playtest rather than a silent retune.
 - **Two-handed heavy chains are unaffordable.** `heavy` into `heavy2` costs
   about 130 stamina against a 100 bar, so `GREATSWORD_HEAVY_2` and
   `GREATAXE_HEAVY_2` are built, wired and unreachable (recorded as animation

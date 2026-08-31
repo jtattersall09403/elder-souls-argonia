@@ -11,10 +11,12 @@ import type { GuardAnimationProfile } from "../types";
  * the shield arm doing nothing. Playing the weapon set with a shield equipped
  * is the exact defect this file removes.
  *
- * Its parry is the shield *bash* rather than a blade catch. That is a stronger
- * read of the same action and needs no gameplay change: the bash intro's
- * authored catch and the weapon parry's are timed alike in the pipeline
- * config, so the parry window is unaffected by which guard is raised.
+ * Its parry is the shield *bash* rather than a blade catch — a stronger read of
+ * the same action, and now on the parry mod's own SHD clips rather than the
+ * vanilla ones. It carries its own catch window: braced surfaces are the
+ * forgiving way to parry, and pretending every guard catches over the same
+ * slice of quite different animations was the defect `ParryProfile.active`
+ * exists to remove.
  */
 export const SHIELD_ANIMATIONS: GuardAnimationProfile = {
   enter: "SHIELD_GUARD_ENTER",

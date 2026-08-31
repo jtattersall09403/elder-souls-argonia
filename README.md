@@ -74,7 +74,9 @@ asset registry.
   of the combat sandbox's `ROLL` animation (DMCO base `MCO_DodgeForward2.hkx`).
 - **Rim Parry and Execution** (Nexus SSE mod 114366, SHADOWPQ, v1.1) — source
   of `PARRY`/`PARRY_FOLLOW_THROUGH`, `RIPOSTE`, `RIPOSTED_HIT1`,
-  `CRITICAL_KNOCKDOWN`, `CRITICAL_DEATH`, `DEATH` and `GUARD_HIT_A/B`.
+  `CRITICAL_KNOCKDOWN`, `CRITICAL_DEATH`, `DEATH` and `GUARD_HIT_A/B`, and of
+  the per-family parries: `GREATSWORD_PARRY`, `SHIELD_PARRY` and
+  `GREATAXE_PARRY` (with their follow-throughs).
 - **Backstab animation for sneak killmove SE** (Nexus SSE mod 74453, Ichaflash
   original / rhonjhonson uploader, v1) — source of `BACKSTAB`/`BACKSTABBED`.
 - **Tamriel Worldspaces — Argonia worldspace** (Nexus SSE mod 118678, author

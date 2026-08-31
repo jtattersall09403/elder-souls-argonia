@@ -114,3 +114,82 @@ its own, in the polish backlog.
    about 130 stamina against a 100 bar, so `GREATSWORD_HEAVY_2` and
    `GREATAXE_HEAVY_2` are built and wired but unreachable. Recorded as
    animation exclusions rather than fixed by quietly retuning stamina.
+
+---
+
+# Round 2 (2026-08-31) — the owner's feedback on round 1
+
+Fifteen items. What follows is only the parts that are not obvious from the
+code; the rest is in the commits.
+
+## 4. What the animation sources actually contain
+
+Three of the owner's items ("are there more granular categories?", "use all the
+parry animations", "backstabs per weapon type") turn on the same audit, so it is
+recorded once here.
+
+**Vanilla Skyrim has four melee animation families and no more**: `1hm` (sword,
+axe, mace *and* dagger share it — there is no dagger set), `2hm` (greatswords),
+`2hw` (battleaxes and warhammers share), plus `h2h` and `dw`. Our
+one-handed/greatsword/greataxe split already *is* that split. Going finer is not
+a decision we are declining; it is not available.
+
+**Rim Parry is where per-weapon motion exists that vanilla lacks** — nine
+block-bash sets and thirteen executions (dagger, axe, mace, greatsword, waraxe,
+warhammer, spear, four shield variants, unarmed, dual). So the rule this round
+applies is: movesets stay at vanilla granularity, parries and executions go as
+granular as the mod allows.
+
+**Backstabs are a genuine gap.** Vanilla ships exactly one back-facing paired
+killmove, the 1hm one we already use. Its per-weapon killmoves are *frontal*
+finishers and would read as nonsense performed from behind, and the Nexus mods
+advertising "backstabs for all weapon types" re-point existing killmoves through
+an ESP rather than shipping new animation. Recorded rather than faked.
+
+## 5. Why the two-handed executions are built but not shipped
+
+Both were sourced, built and measured, and then backed out. A
+`PairedCriticalProfile` needs a contact time, a withdrawal time and a paired
+separation *per clip*; getting those for the one-handed riposte took an
+exhaustive hand audit against rendered geometry. `measure-contact-windows.mjs`
+gained a `--critical` mode to automate exactly that audit, and it does not
+reproduce the hand-audited answer — it finds a closer approach, earlier, at a
+moment that audit explicitly rejected as the entry blend. Two candidate causes
+are that it sweeps a straight line from the weapon socket rather than the built
+sword's own geometry, and that the victim capsule it assumes is not the one the
+audit used.
+
+The rule applied: **the tool is trusted exactly as far as it reproduces a known
+answer.** For sweep windows it does (LIGHT_1 and LIGHT_2 to within a frame), so
+its two-handed numbers were taken. For critical contact it does not, so its
+numbers were not taken and the clips were removed from the build rather than
+shipped on a guess. Fixing it against the known answer makes the other twelve
+executions cheap; that is the polish-backlog item.
+
+## 6. The measuring tool's actual bug
+
+Worth naming because it invalidated a documented conclusion. `updateWorld`
+composed node world matrices in glTF file order, which does not guarantee a
+parent precedes its child — so a child was multiplied by its parent's matrix
+from the *previous* call. `poseAt` was therefore not idempotent, and the
+armature's 0.1 import scale landed once too often. It measured a 0.92 m sword as
+9 cm long, found nothing ever within reach, and produced windows that disagreed
+with the calibrated ones. Round 1 read that disagreement as the tool having
+"drifted" and declined to act on it, which was the right call on the evidence
+available and the wrong conclusion about the cause.
+
+## 7. Parry catch windows are per family
+
+One pair of constants used to decide when *anything* was parrying, so a dagger
+and a tower shield caught over the same 0.10–0.29 s of quite different
+animations — most of it, on the one-handed clips, in the dead beat between the
+raise and the bash. `ParryProfile.active` now carries a measured start (where
+that family's clip has the parrying object sweeping in front of the body) and a
+per-family duration, which is the only number here anyone should tune: shield
+the most forgiving at 0.26 s, one-handed 0.20 s (the calibrated allowance,
+re-aligned), two-handers the most committal at 0.16 s.
+
+This lands alongside the parry *volume* changing from a fixed 1.24 m box parked
+in front of the chest to the parrying object's own measured volume plus a stated
+margin. The two changes push difficulty in opposite directions — longer, tighter
+— and the net feel is the main thing to judge on playtest.

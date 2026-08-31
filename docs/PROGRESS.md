@@ -48,7 +48,7 @@ first, then open only the master-plan sections the active phase needs.
 | 11 — settlement/location system, exemplar-first (0034) | todo | may start once the S schema is accepted (semantic authoring); packet freeze gated on 10b probes + 10c numbers |
 | 12 — dungeon/interior system, exemplar-first (0034) | todo | may interleave with 11 |
 | 9 — swimming, climbing, boats (re-slotted after the placement exemplars; 0034) | todo | player craft only — ferry/fast travel is Morrowind-style world content (Phase 11); thin swim slice may pull earlier; boats may slip |
-| C — parallel combat workstream (sandbox; feeds 10b) | done, awaiting owner playtest | Rig split into per-weapon **animation packs** (decision [0040](decisions/0040-animation-packs-and-combat-parallel-pass.md)); crouch stance; shield block + orientation; **poise** (module 76 §121.3, switchable while it is judged); greatsword + battleaxe movesets; arrow flight and first-person bow fixed, bow zoom added; responsive inventory. 39 visual scenarios and 422 tests green; two combo/heavy defects and one silent missing-clip class fixed. **Two owner questions in 0040 §"Owner questions"** |
+| C — parallel combat workstream (sandbox; feeds 10b) | done, awaiting owner playtest | **Round 2 delivered 2026-08-31** on the owner's 15-item feedback list (record: [0040](decisions/0040-animation-packs-and-combat-parallel-pass.md) round-2 section). First-person bow camera, bow zoom under lock-on, arrow flight model rebuilt (weathercocking + damping), per-weapon hit and parry volumes from measured mesh geometry (`combat/hitVolume`), riposte queueing, split hitbox debug switches, inventory item panel + paper doll + declarative armour hiding, poise surfaced in item stats, **contact-window measuring tool root-caused and fixed** (non-idempotent world-matrix build) with two-handed windows and per-family parry windows re-measured off it, and the parry mod's own clips on greatsword/shield plus a new battleaxe parry. Round 1 = the animation-pack split, crouch, shield block, poise, two-handed movesets. **Not done, recorded in [polish-backlog.md](polish-backlog.md): per-weapon executions** (sourced, not wired — the critical-contact audit does not yet reproduce its known answer) and **per-weapon backstabs** (no back-facing source exists). Gates green; `visual:check -- defense` passes
 | 10b — full portable-sandbox parity in studio (was 7b; moved 2026-08-25, decision 0017) | todo | Scene orchestration extraction (§53), inventory/equipment UI, enemies/targeting, bow, navmesh; combat-space probes then validate + freeze the 11/12 exemplar packets; **incl. fixes to shared combat internals** (owner 2026-08-29: good-enough, not perfect — specifics at kickoff) |
 | S — stats, progression and character-systems **design** (parallel workstream, module 76; decision 0019) | done | **Four owner rounds, all closed** — shape ([0031](decisions/0031-workstream-s-round1-shape.md)), design + numbers ([0033](decisions/0033-workstream-s-design-and-numbers.md)), round-3 corrections ([0035](decisions/0035-workstream-s-round3-attributes-and-pace.md)), and the round-4 QA rulings ([0037](decisions/0037-workstream-s-round4-qa-rulings.md)): practice discount cut, kill-based class-weighted armour accrual, repeat-target damping removed, lockpick wear, **poise reinstated on the DS1 model**, pace target restated. Live artefacts: **module 76 §116–129** (the spec), decisions 0019/0031/0033/0035/0037, `tooling/stats-sim/` (**19 invariants, all holding**, including a Morrowind known-answer test) and one evidence packet; the workstream's five working papers are archived under `docs/research/archive/workstream-s/` and the tuning history is `tooling/stats-sim/FINDINGS.md`. Phase 10c implements it |
 | 10c — stats and progression implementation (module 76; decision 0019) | todo | Implements workstream S in `packages/game-core` incl. the semantic-authoring compiler (ladder refs → numbers; extended to loot/traps). After 10b, **before packet freeze and Phase 13** — content in 11/12 authors semantically without it (0019 4th amendment; 0034) |
@@ -119,6 +119,50 @@ first, then open only the master-plan sections the active phase needs.
 
   Known gaps, unchanged: only six exemplar areas have plants; the rest of
   the province is bare on purpose.
+
+- **Combat round-2 playtest (workstream C).** Deployed 2026-08-31. In the
+  sandbox, not the world. What to check, and how it should feel:
+  1. **Bow in first person** — tap light with a bow out. You should be looking
+     forward at your target with the bow and your draw arm in frame, not at
+     your own back. Scroll to zoom; **now also zoom while locked on** (it did
+     nothing before), and locking on should raise the aim onto the target
+     rather than looking over or under them.
+  2. **Arrows fired steeply upward** should arc over point-first and settle,
+     not tumble. Fire high and watch one all the way down.
+  3. **Weapon volumes** — new debug tickbox, "Show weapon & parry volumes",
+     separate from "Show all other colliders". Orange/yellow is what your
+     swing cuts with, blue is what your parry catches with. Both should be the
+     size and shape of the actual thing you are holding, and the swing volume
+     should appear only while the weapon is genuinely sweeping.
+  4. **Parry feel is the main judgement call.** The catch window now starts
+     where the animation starts moving and the catch volume is the shield or
+     blade itself rather than a big box in front of your chest. That is
+     longer *and* tighter at once. Try weapon, shield and greatsword parries
+     and say whether each is too easy, too hard, or right.
+  5. **Battleaxe parry** is a new animation — it used to borrow the
+     greatsword's. Greatsword and shield parries are now the parry mod's own
+     clips rather than vanilla ones.
+  6. **Two-handed swings** now connect where the animation actually connects,
+     which for a greatsword is much later in the swing than before. Does the
+     contact land when you expect it to?
+  7. **Riposte** — press attack *during* a successful parry; it should now come
+     out automatically as the parry finishes.
+  8. **Inventory** — no longer cut off at the right or bottom on a phone; the
+     item panel sits under the grid instead of over the top of things; no more
+     flavour text; unequipping a cuirass shows the body underneath; and the
+     character view holds your weapon in its proper stance with a shield if
+     you have one. Weapons and armour now list their poise numbers.
+
+  **Answers to three of your questions:** Skyrim only has four melee animation
+  sets (one-handed covers sword/axe/mace/dagger together, greatsword, and
+  battleaxe/warhammer together), so our movesets are already as granular as
+  vanilla goes. Parries and executions *do* have per-weapon versions in the
+  parry mod, so parries now use them. Per-weapon **backstabs do not exist** in
+  vanilla or any mod as real animation, so there is still one shared backstab.
+  Per-weapon **ripostes** exist and are sourced but are not switched on yet —
+  each needs its own hand-audit of when the blade lands, and the tool I wrote
+  to do that automatically does not yet agree with the one clip we audited by
+  hand, so switching them on would have meant guessing.
 
 - **8c polish leftovers** — the owner closed 8c good-enough and will record
   the leftover items in [polish-backlog.md](polish-backlog.md) themselves
