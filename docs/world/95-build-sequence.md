@@ -244,8 +244,9 @@ Deliverables:
   impostor/merged far LOD, weather-driven wind uniforms — proven first in the
   dense-vegetation micro-lab (§85.3), budget-probed (§69), landed on the
   reference watershed;
-- physical materials, including the scree/gravel ground material deferred
-  from 6b (module 90 sourcing);
+- physical materials (the scree/gravel ground material deferred from 6b
+  landed 2026-08-31: material slot 37 + the talus-apron rule in
+  `landcover.py`, see docs/research/black-marsh-ground-texture-sources.md);
 - LOD and collision generation;
 - source/credits reference check in CI.
 

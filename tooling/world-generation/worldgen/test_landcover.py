@@ -73,3 +73,34 @@ def test_roads_painted_on_ground_not_water():
     road = np.isin(mat[149, 10:60], [BC_ROAD, PATH, TRACK])
     assert road.mean() > 0.7                              # road on dry ground
     assert (mat[149, 120:122] == SILT).all()              # channel wins at crossing
+
+
+def _mountain_fixture(seed=3):
+    """A concave mountain flank: a near-vertical upper face relaxing into a
+    debris apron, exactly the profile the Phase 6b thermal pass produces."""
+    n = 200
+    y = np.arange(n, dtype=np.float32)
+    # slope steepens with height: crest face far above SCREE_MAX_TAN, foot
+    # inside the repose window, toe below it
+    prof = 600.0 * np.exp(-(y / 70.0) ** 1.6)
+    height = np.repeat(prof[:, None], n, axis=1).astype(np.float32)
+    region = np.full((n, n), 1, dtype=np.uint8)      # border mountains
+    rivers = np.zeros((n, n), dtype=np.uint8)
+    gy, gx = np.gradient(height, M_PER_PX)
+    slope = np.hypot(gx, gy).astype(np.float32)
+    rng = np.random.default_rng(seed)
+    return compile_ground_control(height, region, rivers, slope, M_PER_PX, rng)
+
+
+def test_scree_paints_the_debris_apron_not_the_crag_face():
+    from .landcover import MOUNTAIN_ROCK, SCREE, SCREE_MAX_TAN
+    from scipy import ndimage
+    mat, _ = _mountain_fixture()
+    h = np.repeat((600.0 * np.exp(-(np.arange(200, dtype=np.float32) / 70.0) ** 1.6))[:, None], 200, axis=1)
+    gy, gx = np.gradient(h, M_PER_PX)
+    slope_lf = ndimage.gaussian_filter(np.hypot(gx, gy).astype(np.float32), 22.0 / M_PER_PX / 3.0)
+    assert (mat == SCREE).mean() > 0.02                    # apron exists
+    # nothing above the angle debris can rest at is scree
+    assert (mat[slope_lf > SCREE_MAX_TAN * 1.3] == SCREE).mean() < 0.02
+    # the steepest ground keeps bare mountain slab
+    assert (mat[slope_lf > SCREE_MAX_TAN * 1.3] == MOUNTAIN_ROCK).mean() > 0.5

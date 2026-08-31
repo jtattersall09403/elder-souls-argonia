@@ -57,6 +57,11 @@ K_FLUVIAL = 0.0026            # stream-power constant (E = K·sqrt(A)·S per ste
 K_LOWLAND_FRACTION = 0.10     # erosion outside the uplift envelope
 TALUS_TAN = 0.78              # ~38 deg repose angle for coarse talus pass
 TALUS_ITERS = 10
+# Full-res relaxation cap (~49 deg): the steepest angle loose debris is left
+# resting at after benching. Ground BETWEEN ~0.8*TALUS_TAN and this is
+# debris-mantled; steeper than this is structural rock face. landcover.py
+# reads both to paint scree without inventing a second slope threshold.
+TALUS_FULL_TAN = 1.15
 # Passes and anchors: uplift is suppressed and erosion boosted along the
 # Phase 4 road corridors crossing the belts, and around settlement anchors.
 CORRIDOR_HALF_W_M = 140.0
@@ -334,7 +339,7 @@ def sculpt(full_conditioned, rng, log=print):
     z = crag(z, env_full, slope, rng2)
     del slope
     # light full-res talus so benched knife-edges relax into rock, not spikes
-    z = thermal(z, env_full > 0.3, 1.15, RAW_M, 4)
+    z = thermal(z, env_full > 0.3, TALUS_FULL_TAN, RAW_M, 4)
     z = naturalness(z, env_full, rng2, log=log)
     # sea-floor guarantee: no orogeny bleed underwater (an upsampled mountain
     # delta at a coastal belt raised near-shore floor into a wall). Sea cells

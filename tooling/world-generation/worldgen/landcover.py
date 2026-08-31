@@ -26,6 +26,7 @@ import numpy as np
 from scipy import ndimage
 
 from .scale import TUNE, TUNE_A, TUNE_S
+from .sculpt import TALUS_FULL_TAN, TALUS_TAN
 
 # Material ids — index order of build_ground_materials.MATERIALS.
 (SILT, RIVER_MUD, BANK_WET, SCUM, BLACK_MUD, PUDDLE, CLAY, MUCK, BC_MUD,
@@ -33,8 +34,8 @@ from .scale import TUNE, TUNE_A, TUNE_S
  TROP_GRASS, GRASS_DIRT, SCRUB, JUNGLE, FOREST_FLOOR, LITTER, MOSSY_ROCK,
  BC_ROCK, SAND, SALT, DRY_CLAY, PATH, PEAT_SLOPE, TRACK, BC_ROAD,
  MOUNTAIN_ROCK, BEACH_SAND, SEABED_SAND, PEBBLES, OCEAN_FLOOR,
- DIRT_CLIFF) = range(37)
-N_MATERIALS = 37
+ DIRT_CLIFF, SCREE) = range(38)
+N_MATERIALS = 38
 
 # Per-region palettes (regions.py class ids). Slots: base ground, damp patch
 # (mid wetness), wet patch (hollows), channel/shore bank, local-high ground,
@@ -86,6 +87,15 @@ LAKE_MIN_KM2 = 0.15 * TUNE_A  # fresh water bigger than this shores like a lake
 # Phase 6b: belts rescaled to the sculpted ranges (summits ~650 m; foothill
 # tropical forest -> cloud-forest belt -> crag, climatology exception 33.1).
 MONT_FOREST_M, MONT_CLOUD_M, MONT_CRAG_M = 100.0, 280.0, 440.0
+# Scree/talus aprons (Phase 10 B4). NOT a new slope threshold: the Phase 6b
+# sculpt already decided where debris lies — its thermal passes relax mountain
+# faces to the repose angle (sculpt.TALUS_TAN) and, at full res after
+# benching, to sculpt.TALUS_FULL_TAN. Ground resting inside that angular
+# window is therefore debris-mantled; anything steeper is a structural bench
+# riser or crag face and stays bare slab. These are TRUE rise/run (the sculpt
+# runs in metres), so they take no TUNE_S.
+SCREE_MIN_TAN = 0.8 * TALUS_TAN     # below this the slope holds soil/vegetation
+SCREE_MAX_TAN = TALUS_FULL_TAN      # above this loose debris cannot rest
 
 
 def _noise(shape, sigma, rng):
@@ -217,6 +227,17 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
     steep_rock = np.where(np.isin(region, (1, 2)), MOUNTAIN_ROCK,
                           np.where(marshy | (region == 13), BC_ROCK, DIRT_CLIFF))
     mat = np.where((slope_lf > 0.14 * TUNE_S) & above_water, steep_rock, mat)
+
+    # Scree/talus aprons over that rock (Phase 10 B4): mountain and upland
+    # ground that sits inside the sculpt's debris-repose window (above) AND on
+    # the accumulation side of the slope — prom < 0 is the gully floors, slope
+    # feet and hollows debris runs INTO, so spurs and ridge crests keep their
+    # bare slab and the mountainsides stop reading as one texture. Broken by
+    # the broad noise field so aprons are patchy, not a slope-band stripe.
+    repose = (slope_lf >= SCREE_MIN_TAN) & (slope_lf <= SCREE_MAX_TAN)
+    scree = (np.isin(region, (1, 2)) & above_water & repose
+             & (prom < 0.0) & (broad > -0.9))
+    mat = np.where(scree, SCREE, mat)
 
     # Salt flats where brackish, flat and low (noise-broken).
     if salinity is not None:

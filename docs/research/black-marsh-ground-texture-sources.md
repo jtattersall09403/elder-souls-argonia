@@ -110,3 +110,38 @@ Bethesda assets, keep the vanilla wet/mossy set with tint shifts, treat #5/#7
 as references/gap-fillers with credits. Nexus downloads via the API key (see
 memory/asset-pipeline notes); record every acquired source in
 docs/CREDITS.md.
+
+## Scree / talus (Phase 10 B4, 2026-08-31 — deferred from 6b)
+
+Material `scree` (slot 37) is `volcanictundragravel01.dds` — Black Marsh &
+Valenwood's copy in the default `bmv-v1` set, Tropical Skyrim's in
+`aendemika-v1`. Both mods are already in the vault and credited in the root
+README; nothing new was downloaded.
+
+**Why that file, and the anti-"stripes" check.** The owner's round-6 defect
+was anisotropic rock textures (cliff-face strata) tiling as parallel bands on
+slopes. Screen for it numerically before adopting any rock/slope texture:
+compute the std of the ROW means vs the COLUMN means of the greyscale image
+and take the larger over the smaller. Measured on the candidates:
+
+| file | anisotropy |
+|---|---|
+| `volcanictundragravel01` (BM&V) | **1.06** |
+| `fallforestrocks01`, `tundrarocks01`, `rocks01` | 1.10–1.20 |
+| `volcanictundragravel01` (Tropical Skyrim) | 1.44 |
+| `mountainslab01` (in use, `mountain_rock`) | 2.78 |
+| `dirtcliffsroots01` (BANNED, round 6) | 4.85 |
+
+Keep any replacement under ~1.5. Tiled at 7 m so the fragments read at
+fragment size on a slope rather than as banding.
+
+**Where it is painted** (`landcover.py`, after the steep-rock rule): NOT a new
+slope threshold — the Phase 6b sculpt already decided where debris lies, so
+the rule reads its constants back. Ground in regions 1/2 whose landform slope
+sits inside the sculpt's debris-repose window (`0.8 * sculpt.TALUS_TAN` to
+`sculpt.TALUS_FULL_TAN`) and on the accumulation side of the slope
+(`prom < 0`: gully floors, slope feet, hollows), broken by the broad noise
+field. Steeper ground is a structural bench riser or crag face and keeps bare
+slab; spurs and crests keep slab too. Result on the shipped raster: scree is
+the dominant material on 3.3 % of the province and the secondary on a further
+6.3 %, in 1–2 ha aprons — mountain slab stays at 13.5 %.

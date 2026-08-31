@@ -121,6 +121,16 @@ MATERIALS = [
     # cliff-face STRIP (hanging roots over strata) — unusable as ground
     # tiling (owner round 6, "stripy"). Tropical rocks01 is isotropic.
     ("trop_rocks",    "ts",  "rocks01.dds",                                12.0, None, 55),
+    # slot 37 (landcover SCREE) — Phase 10 B4: loose talus/gravel debris for
+    # the aprons the Phase 6b thermal pass physically laid below the crags.
+    # volcanictundragravel01 is a fine ANGULAR-FRAGMENT gravel with no
+    # directional structure, so it cannot restage the round-6 "stripy" defect
+    # above: measured profile anisotropy (std of row means vs column means)
+    # 1.06 for the BM&V file and 1.44 for the Tropical Skyrim one, against
+    # 4.85 for the banned dirtcliffsroots01 and 2.78 for mountainslab01.
+    # Keep any future replacement under ~1.5 on that measure. Tiled small
+    # (7 m) so fragments read at fragment size on a slope, not as banding.
+    ("scree",         "ts",  "volcanictundragravel01.dds",                  7.0, None, 58),
 ]
 
 # bmv-v1: Black Marsh & Valenwood winners — contact-sheet ranked 2026-08-23,
@@ -159,6 +169,9 @@ BMV_OVERRIDES = {
     # air (owner round 6) — use the flat CC0 tidal mud-sand in this set too
     "salt_flat":  ("acg", "Ground054",                    9.0, None, 78),
     "mountain_rock": ("bmv", "mountains/mountainslab01.dds", 16.0, None, 62),
+    # scree: BM&V's own gravel is the most isotropic of the candidates
+    # measured (1.06) — the safest possible file for a steep-slope material.
+    "scree":      ("bmv", "volcanictundragravel01.dds",  7.0, None, 58),
 }
 
 MATERIAL_SETS = {
