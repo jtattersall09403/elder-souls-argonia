@@ -20,6 +20,10 @@ which is the human-facing version and states the caveats.
 | `bmv-valenwood-micrositing.json` | worldspace `Valenwood` | the same, showing the *inverted* (dry-forest) riparian profile |
 | `vanilla-tamriel-placement.json` | **Vanilla Skyrim**, worldspace `Tamriel` (250,830 refs, 11,187 cells) | the same profile for Bethesda's own shipped world — the cross-check on every BM&V-derived rule |
 | `vanilla-groundcover-rules.json` | `Skyrim.esm` `GRAS`/`LTEX` | Bethesda's *own* grass parameters (27 records, 68 textures), as opposed to Tropical Skyrim's retune in `groundcover-rules.json` |
+| `bmv-interior-assembly.json` | vanilla `Skyrim.esm` + the three BM&V plugins, via `worldgen/mine_interiors.py` (660 interiors, 490 profiled) | **Phase 12 input:** per-kit snap/rotation quantisation, piece-pair adjacency with join offsets, chamber dimensions, clutter density per 100 m² |
+| `bmv-settlement-form.json` | BM&V Black Marsh worldspaces, via `worldgen/mine_settlements.py` (1,474 buildings, 47 settlements) | **Phase 11 input:** buildings per settlement, spacing, radius, orientation coherence, distance to water/road |
+| `bmv-valenwood-settlement-form.json` | worldspace `Valenwood` | the same — the dry, road-led contrast to Black Marsh's waterline siting |
+| `vanilla-tamriel-settlement-form.json` | vanilla `Skyrim.esm`, worldspace `Tamriel` | the same for Bethesda's own world — the cross-check |
 | `vanilla-region-object-tables.json` | `Skyrim.esm`/`Update.esm` `REGN` | the region object-generator census: 317 regions, 69 declaring an object block, **all of them empty** (`worldgen/mine_regions.py`) |
 
 ## Regenerating
@@ -59,6 +63,35 @@ python3 -m worldgen.mine_placement --plugin "$D/Skyrim.esm" --world Tamriel \
 
 Digest and the deltas worth acting on:
 [docs/research/vanilla-skyrim-esm-placement-crosscheck.md](../../../docs/research/vanilla-skyrim-esm-placement-crosscheck.md).
+
+## Interiors and settlement form (Phase 11/12 inputs, mined 2026-08-31)
+
+```bash
+cd tooling/world-generation
+BMV=../asset-pipeline/black-marsh-mod-source/plugins
+D=<vault>/skyrim-source/Data
+OUT=../../world/sources/placement
+
+python3 -m worldgen.mine_interiors \
+  --plugin "$D/Skyrim.esm" --plugin "$BMV/Black Marsh.esm" \
+  --plugin "$BMV/Black Marsh North.esp" --plugin "$BMV/Valenwood.esp" \
+  --out $OUT/bmv-interior-assembly.json
+
+python3 -m worldgen.mine_settlements \
+  --plugin "$BMV/Black Marsh.esm" --plugin "$BMV/Black Marsh North.esp" \
+  --names "$D/Skyrim.esm" \
+  --world BlackMarsh --world BlackMarsh2 --world BlackMarshNorth \
+  --out $OUT/bmv-settlement-form.json
+python3 -m worldgen.mine_settlements --plugin "$BMV/Valenwood.esp" \
+  --names "$D/Skyrim.esm" --names "$BMV/Black Marsh.esm" --world Valenwood \
+  --out $OUT/bmv-valenwood-settlement-form.json
+python3 -m worldgen.mine_settlements --plugin "$D/Skyrim.esm" --world Tamriel \
+  --out $OUT/vanilla-tamriel-settlement-form.json
+```
+
+Digest, headline numbers and the honest gaps (no facade-facing signal, no
+shipped Argonian interior, ceiling heights not measurable from plugins):
+[docs/research/mined-interior-assembly-and-settlement-form.md](../../../docs/research/mined-interior-assembly-and-settlement-form.md).
 
 **Still open:** the BM&V files were mined before the esm arrived, so 41 % of
 Black Marsh's and 63 % of Valenwood's references are still `unresolved`.

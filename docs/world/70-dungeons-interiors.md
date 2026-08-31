@@ -4,6 +4,21 @@
 > and [00-core.md](00-core.md) for the universal principles. Section numbers (§NN)
 > preserved from the original plan; cross-doc references resolve via the README map.
 
+> **Before authoring any interior or kit assembler (Phases 11–12), read the
+> measured evidence, not just this plan:**
+> [research/mined-interior-assembly-and-settlement-form.md](../research/mined-interior-assembly-and-settlement-form.md)
+> — per-kit snap module (128 units ≈ 1.82 m, but *statistical*: town kits lift
+> 14–23×, cave shells 0.9× i.e. not snapped at all), yaw quantised to 90°,
+> chamber sizes (p50 ≈ 20 × 14 m), clutter density (lived interiors carry
+> 10–20× a dungeon's), and settlement form (buildings ~15 m apart everywhere;
+> Black Marsh settlements sit 3.9 m from water and 79 m from a road, Skyrim's
+> the other way round). Tables:
+> [`world/sources/placement/`](../../world/sources/placement/README.md)
+> (`bmv-interior-assembly.json`, `*-settlement-form.json`). It also records
+> what could **not** be mined — no facade-facing signal, no ceiling clearance,
+> and **no shipped Argonian interior anywhere**, so the Xanmeer kit's grammar
+> has to be derived rather than copied.
+
 ## 47. Argonia dungeon families
 
 | Family | Spatial grammar | Common water/traversal features |

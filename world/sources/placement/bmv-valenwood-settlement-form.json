@@ -1,0 +1,1194 @@
+{
+ "source": {
+  "label": "Settlement form \u2014 Black Marsh & Valenwood, Valenwood worldspace",
+  "plugins": [
+   "Valenwood.esp"
+  ],
+  "nameSources": [
+   "Skyrim.esm",
+   "Black Marsh.esm"
+  ],
+  "worldspaces": [
+   "Valenwood"
+  ],
+  "method": "worldgen.mine_settlements \u2014 architecture refs single-link clustered; water from LAND vertices below the cell water height; roads from road/bridge refs and road-painted ground. Statistics only, no authored layouts.",
+  "date": "2026-08-31"
+ },
+ "macro": {
+  "cellsWalked": 3876,
+  "buildingRefs": 3284,
+  "waterSamples": 59669,
+  "roadSamples": 566,
+  "roadSamplesFromPaintedGround": 255,
+  "dockRefs": 0,
+  "unresolvedRefs": 3594,
+  "landSampleSpacingM": 7.28,
+  "buildings": 1040,
+  "structureLinkM": 8.0
+ },
+ "form": {
+  "settlementCount": 30,
+  "linkDistanceM": 45.0,
+  "minBuildings": 4,
+  "buildingsPerSettlement": {
+   "p5": 4.0,
+   "p25": 5.0,
+   "p50": 7.0,
+   "p75": 49.0,
+   "p95": 161.0
+  },
+  "sizeHistogram": {
+   "4-6": 13,
+   "7-12": 7,
+   "13-25": 2,
+   "26-60": 5,
+   "61+": 3
+  },
+  "buildingSpacingM": {
+   "p5": 9.02,
+   "p25": 11.33,
+   "p50": 13.78,
+   "p75": 17.56,
+   "p95": 30.42
+  },
+  "settlementRadiusM": {
+   "p5": 16.0,
+   "p25": 29.5,
+   "p50": 45.1,
+   "p75": 137.7,
+   "p95": 348.6
+  },
+  "buildingsPerHectare": {
+   "p5": 1.79,
+   "p25": 6.64,
+   "p50": 10.99,
+   "p75": 17.33,
+   "p95": 74.26
+  },
+  "orientationCoherence": {
+   "p5": 0.25,
+   "p25": 0.4,
+   "p50": 0.56,
+   "p75": 0.8,
+   "p95": 1.0
+  },
+  "waterDistanceM": {
+   "p5": 3.18,
+   "p25": 35.94,
+   "p50": 68.66,
+   "p75": 98.42,
+   "p95": 139.94
+  },
+  "facingVsWaterBearingDeg": {
+   "p5": 1.97,
+   "p25": 11.86,
+   "p50": 24.66,
+   "p75": 35.25,
+   "p95": 43.43
+  },
+  "roadDistanceM": {
+   "p5": 10.65,
+   "p25": 24.3,
+   "p50": 41.05,
+   "p75": 84.39,
+   "p95": 151.36
+  },
+  "facingVsRoadAxisDeg": {
+   "p5": 0.93,
+   "p25": 8.05,
+   "p50": 19.8,
+   "p75": 34.54,
+   "p95": 41.32
+  },
+  "settlements": [
+   {
+    "buildings": 260,
+    "centreM": [
+     -1592.2,
+     -865.8
+    ],
+    "radiusM": 348.6,
+    "buildingsPerHectare": 6.81,
+    "spacingM": {
+     "p5": 9.24,
+     "p25": 11.33,
+     "p50": 13.78,
+     "p75": 13.78,
+     "p95": 21.31
+    },
+    "orientationCoherence": 0.908,
+    "planAxisDeg": 99.0,
+    "kits": [
+     [
+      "architecture/riften",
+      173
+     ],
+     [
+      "architecture/newcastle",
+      37
+     ],
+     [
+      "architecture/solitude",
+      25
+     ]
+    ],
+    "medianWaterDistanceM": 68.7,
+    "medianRoadDistanceM": 39.3,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 161,
+    "centreM": [
+     1024.5,
+     1700.8
+    ],
+    "radiusM": 534.4,
+    "buildingsPerHectare": 1.79,
+    "spacingM": {
+     "p5": 9.17,
+     "p25": 12.33,
+     "p50": 14.73,
+     "p75": 16.17,
+     "p95": 19.14
+    },
+    "orientationCoherence": 0.745,
+    "planAxisDeg": 1.9,
+    "kits": [
+     [
+      "griffon fortress",
+      87
+     ],
+     [
+      "architecture/seaview",
+      15
+     ],
+     [
+      "architecture/phitt",
+      14
+     ]
+    ],
+    "medianWaterDistanceM": 87.0,
+    "medianRoadDistanceM": 79.8,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 103,
+    "centreM": [
+     288.9,
+     -824.3
+    ],
+    "radiusM": 221.3,
+    "buildingsPerHectare": 6.69,
+    "spacingM": {
+     "p5": 9.24,
+     "p25": 12.38,
+     "p50": 14.82,
+     "p75": 21.72,
+     "p95": 38.82
+    },
+    "orientationCoherence": 0.563,
+    "planAxisDeg": 167.2,
+    "kits": [
+     [
+      "architecture/citebosmer",
+      52
+     ],
+     [
+      "architecture/phitt",
+      14
+     ],
+     [
+      "architecture/solitude",
+      9
+     ]
+    ],
+    "medianWaterDistanceM": 38.1,
+    "medianRoadDistanceM": 37.0,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 57,
+    "centreM": [
+     -899.6,
+     508.6
+    ],
+    "radiusM": 165.3,
+    "buildingsPerHectare": 6.64,
+    "spacingM": {
+     "p5": 8.49,
+     "p25": 10.21,
+     "p50": 14.35,
+     "p75": 18.69,
+     "p95": 33.02
+    },
+    "orientationCoherence": 0.895,
+    "planAxisDeg": 45.7,
+    "kits": [
+     [
+      "architecture/rochester",
+      25
+     ],
+     [
+      "architecture/riften",
+      9
+     ],
+     [
+      "architecture/citebosmer",
+      6
+     ]
+    ],
+    "medianWaterDistanceM": 72.3,
+    "medianRoadDistanceM": 24.4,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 53,
+    "centreM": [
+     1691.8,
+     -1123.3
+    ],
+    "radiusM": 137.7,
+    "buildingsPerHectare": 8.9,
+    "spacingM": {
+     "p5": 8.93,
+     "p25": 11.72,
+     "p50": 14.48,
+     "p75": 22.38,
+     "p95": 27.57
+    },
+    "orientationCoherence": 0.472,
+    "planAxisDeg": 17.5,
+    "kits": [
+     [
+      "architecture/rochester",
+      16
+     ],
+     [
+      "architecture/phitt",
+      12
+     ],
+     [
+      "architecture/solitude",
+      11
+     ]
+    ],
+    "medianWaterDistanceM": 76.6,
+    "medianRoadDistanceM": 24.7,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 51,
+    "centreM": [
+     434.1,
+     -1753.4
+    ],
+    "radiusM": 162.6,
+    "buildingsPerHectare": 6.14,
+    "spacingM": {
+     "p5": 10.09,
+     "p25": 12.65,
+     "p50": 17.81,
+     "p75": 21.37,
+     "p95": 33.76
+    },
+    "orientationCoherence": 0.667,
+    "planAxisDeg": 175.5,
+    "kits": [
+     [
+      "architecture/newcastle",
+      21
+     ],
+     [
+      "architecture/rochester",
+      10
+     ],
+     [
+      "architecture/phitt",
+      7
+     ]
+    ],
+    "medianWaterDistanceM": 60.4,
+    "medianRoadDistanceM": 85.5,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 50,
+    "centreM": [
+     -578.3,
+     -104.2
+    ],
+    "radiusM": 162.3,
+    "buildingsPerHectare": 6.04,
+    "spacingM": {
+     "p5": 8.8,
+     "p25": 10.07,
+     "p50": 10.92,
+     "p75": 15.52,
+     "p95": 39.76
+    },
+    "orientationCoherence": 0.3,
+    "planAxisDeg": 49.4,
+    "kits": [
+     [
+      "architecture/citebosmer",
+      27
+     ],
+     [
+      "architecture/phitt",
+      13
+     ],
+     [
+      "telvanni",
+      4
+     ]
+    ],
+    "medianWaterDistanceM": 76.7,
+    "medianRoadDistanceM": null,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 49,
+    "centreM": [
+     -449.5,
+     -1066.4
+    ],
+    "radiusM": 328.4,
+    "buildingsPerHectare": 1.45,
+    "spacingM": {
+     "p5": 8.82,
+     "p25": 11.58,
+     "p50": 13.88,
+     "p75": 23.13,
+     "p95": 39.69
+    },
+    "orientationCoherence": 0.286,
+    "planAxisDeg": 4.4,
+    "kits": [
+     [
+      "architecture/citebosmer",
+      22
+     ],
+     [
+      "dlc01/architecture",
+      13
+     ],
+     [
+      "dlc02/architecture",
+      7
+     ]
+    ],
+    "medianWaterDistanceM": 90.4,
+    "medianRoadDistanceM": 191.0,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 20,
+    "centreM": [
+     968.8,
+     1042.3
+    ],
+    "radiusM": 60.6,
+    "buildingsPerHectare": 17.33,
+    "spacingM": {
+     "p5": 9.39,
+     "p25": 9.39,
+     "p50": 11.23,
+     "p75": 12.17,
+     "p95": 21.37
+    },
+    "orientationCoherence": 0.25,
+    "planAxisDeg": 76.7,
+    "kits": [
+     [
+      "architecture/citebosmer",
+      10
+     ],
+     [
+      "sheogorad/dagon fel",
+      5
+     ],
+     [
+      "telvanni",
+      3
+     ]
+    ],
+    "medianWaterDistanceM": 45.5,
+    "medianRoadDistanceM": 110.9,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 13,
+    "centreM": [
+     -669.3,
+     697.3
+    ],
+    "radiusM": 66.1,
+    "buildingsPerHectare": 9.47,
+    "spacingM": {
+     "p5": 11.02,
+     "p25": 11.9,
+     "p50": 13.25,
+     "p75": 16.87,
+     "p95": 18.58
+    },
+    "orientationCoherence": 0.615,
+    "planAxisDeg": 56.2,
+    "kits": [
+     [
+      "architecture/phitt",
+      8
+     ],
+     [
+      "dlc02/architecture",
+      4
+     ],
+     [
+      "architecture/highhrothgar",
+      1
+     ]
+    ],
+    "medianWaterDistanceM": 3.0,
+    "medianRoadDistanceM": 87.8,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 11,
+    "centreM": [
+     16.6,
+     445.3
+    ],
+    "radiusM": 51.1,
+    "buildingsPerHectare": 13.42,
+    "spacingM": {
+     "p5": 10.01,
+     "p25": 10.26,
+     "p50": 13.64,
+     "p75": 15.24,
+     "p95": 24.85
+    },
+    "orientationCoherence": 0.455,
+    "planAxisDeg": 36.1,
+    "kits": [
+     [
+      "architecture/skyhaventemple",
+      4
+     ],
+     [
+      "dlc02/architecture",
+      3
+     ],
+     [
+      "architecture/citebosmer",
+      2
+     ]
+    ],
+    "medianWaterDistanceM": 174.9,
+    "medianRoadDistanceM": null,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 11,
+    "centreM": [
+     204.7,
+     861.0
+    ],
+    "radiusM": 40.2,
+    "buildingsPerHectare": 21.67,
+    "spacingM": {
+     "p5": 10.25,
+     "p25": 15.1,
+     "p50": 17.38,
+     "p75": 19.07,
+     "p95": 25.55
+    },
+    "orientationCoherence": 0.273,
+    "planAxisDeg": 60.3,
+    "kits": [
+     [
+      "architecture/phitt",
+      9
+     ],
+     [
+      "architecture/newcastle",
+      1
+     ],
+     [
+      "architecture/seaview",
+      1
+     ]
+    ],
+    "medianWaterDistanceM": 189.1,
+    "medianRoadDistanceM": 23.6,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 10,
+    "centreM": [
+     -1306.3,
+     -1244.9
+    ],
+    "radiusM": 75.1,
+    "buildingsPerHectare": 5.64,
+    "spacingM": {
+     "p5": 12.91,
+     "p25": 14.4,
+     "p50": 14.9,
+     "p75": 22.1,
+     "p95": 35.76
+    },
+    "orientationCoherence": 0.8,
+    "planAxisDeg": 90.7,
+    "kits": [
+     [
+      "architecture/solitude",
+      5
+     ],
+     [
+      "architecture/rochester",
+      2
+     ],
+     [
+      "architecture/phitt",
+      2
+     ]
+    ],
+    "medianWaterDistanceM": 91.6,
+    "medianRoadDistanceM": 16.3,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 9,
+    "centreM": [
+     461.6,
+     -115.0
+    ],
+    "radiusM": 51.1,
+    "buildingsPerHectare": 10.99,
+    "spacingM": {
+     "p5": 9.84,
+     "p25": 12.63,
+     "p50": 16.6,
+     "p75": 25.34,
+     "p95": 40.45
+    },
+    "orientationCoherence": 0.556,
+    "planAxisDeg": 119.4,
+    "kits": [
+     [
+      "architecture/citebosmer",
+      6
+     ],
+     [
+      "dlc02/architecture",
+      3
+     ]
+    ],
+    "medianWaterDistanceM": 3.1,
+    "medianRoadDistanceM": null,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 9,
+    "centreM": [
+     1141.4,
+     -225.4
+    ],
+    "radiusM": 42.2,
+    "buildingsPerHectare": 16.11,
+    "spacingM": {
+     "p5": 10.57,
+     "p25": 10.86,
+     "p50": 10.86,
+     "p75": 11.06,
+     "p95": 31.47
+    },
+    "orientationCoherence": 0.889,
+    "planAxisDeg": 10.9,
+    "kits": [
+     [
+      "manny_gf/alikr",
+      9
+     ]
+    ],
+    "medianWaterDistanceM": 106.5,
+    "medianRoadDistanceM": null,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 7,
+    "centreM": [
+     22.8,
+     692.0
+    ],
+    "radiusM": 26.4,
+    "buildingsPerHectare": 32.03,
+    "spacingM": {
+     "p5": 15.8,
+     "p25": 18.61,
+     "p50": 18.61,
+     "p75": 20.17,
+     "p95": 20.74
+    },
+    "orientationCoherence": 0.714,
+    "planAxisDeg": 178.7,
+    "kits": [
+     [
+      "architecture/orchuts",
+      4
+     ],
+     [
+      "architecture/orclonghouse",
+      3
+     ]
+    ],
+    "medianWaterDistanceM": 96.4,
+    "medianRoadDistanceM": 41.1,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 7,
+    "centreM": [
+     1690.8,
+     762.8
+    ],
+    "radiusM": 26.9,
+    "buildingsPerHectare": 30.76,
+    "spacingM": {
+     "p5": 16.04,
+     "p25": 16.25,
+     "p50": 16.85,
+     "p75": 18.28,
+     "p95": 21.45
+    },
+    "orientationCoherence": 0.571,
+    "planAxisDeg": 76.7,
+    "kits": [
+     [
+      "manny_gf/alikr",
+      6
+     ],
+     [
+      "architecture/orclonghouse",
+      1
+     ]
+    ],
+    "medianWaterDistanceM": 28.8,
+    "medianRoadDistanceM": 81.5,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 6,
+    "centreM": [
+     721.8,
+     789.9
+    ],
+    "radiusM": 43.2,
+    "buildingsPerHectare": 10.23,
+    "spacingM": {
+     "p5": 30.42,
+     "p25": 30.42,
+     "p50": 35.72,
+     "p75": 36.77,
+     "p95": 36.77
+    },
+    "orientationCoherence": 0.5,
+    "planAxisDeg": 133.6,
+    "kits": [
+     [
+      "telvanni",
+      3
+     ],
+     [
+      "architecture/seaview",
+      3
+     ]
+    ],
+    "medianWaterDistanceM": 168.5,
+    "medianRoadDistanceM": 58.1,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 6,
+    "centreM": [
+     911.2,
+     1139.8
+    ],
+    "radiusM": 16.0,
+    "buildingsPerHectare": 74.26,
+    "spacingM": {
+     "p5": 9.39,
+     "p25": 9.39,
+     "p50": 11.23,
+     "p75": 12.17,
+     "p95": 12.54
+    },
+    "orientationCoherence": 0.167,
+    "planAxisDeg": 141.7,
+    "kits": [
+     [
+      "architecture/citebosmer",
+      4
+     ],
+     [
+      "telvanni",
+      1
+     ],
+     [
+      "sheogorad/dagon fel",
+      1
+     ]
+    ],
+    "medianWaterDistanceM": 32.3,
+    "medianRoadDistanceM": null,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 6,
+    "centreM": [
+     930.6,
+     1968.2
+    ],
+    "radiusM": 34.4,
+    "buildingsPerHectare": 16.17,
+    "spacingM": {
+     "p5": 16.33,
+     "p25": 16.33,
+     "p50": 18.0,
+     "p75": 19.45,
+     "p95": 23.98
+    },
+    "orientationCoherence": 1.0,
+    "planAxisDeg": 177.5,
+    "kits": [
+     [
+      "griffon fortress",
+      4
+     ],
+     [
+      "bshighrock/architecture",
+      2
+     ]
+    ],
+    "medianWaterDistanceM": 33.2,
+    "medianRoadDistanceM": null,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 6,
+    "centreM": [
+     -1045.7,
+     -529.4
+    ],
+    "radiusM": 45.1,
+    "buildingsPerHectare": 9.38,
+    "spacingM": {
+     "p5": 23.59,
+     "p25": 23.59,
+     "p50": 24.98,
+     "p75": 34.77,
+     "p95": 39.1
+    },
+    "orientationCoherence": 0.333,
+    "planAxisDeg": 131.6,
+    "kits": [
+     [
+      "architecture/farmhouse",
+      4
+     ],
+     [
+      "architecture",
+      2
+     ]
+    ],
+    "medianWaterDistanceM": 72.4,
+    "medianRoadDistanceM": 166.0,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 6,
+    "centreM": [
+     -285.4,
+     -821.5
+    ],
+    "radiusM": 57.5,
+    "buildingsPerHectare": 5.77,
+    "spacingM": {
+     "p5": 8.48,
+     "p25": 8.48,
+     "p50": 14.46,
+     "p75": 15.4,
+     "p95": 42.77
+    },
+    "orientationCoherence": 0.5,
+    "planAxisDeg": 64.3,
+    "kits": [
+     [
+      "dlc02/architecture",
+      3
+     ],
+     [
+      "architecture/whiterun",
+      2
+     ],
+     [
+      "architecture/phitt",
+      1
+     ]
+    ],
+    "medianWaterDistanceM": 33.8,
+    "medianRoadDistanceM": 50.2,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 5,
+    "centreM": [
+     1534.1,
+     518.0
+    ],
+    "radiusM": 35.1,
+    "buildingsPerHectare": 12.92,
+    "spacingM": {
+     "p5": 9.02,
+     "p25": 9.02,
+     "p50": 18.19,
+     "p75": 18.19,
+     "p95": 26.1
+    },
+    "orientationCoherence": 0.6,
+    "planAxisDeg": 116.9,
+    "kits": [
+     [
+      "manny_gf/alikr",
+      5
+     ]
+    ],
+    "medianWaterDistanceM": 36.4,
+    "medianRoadDistanceM": 152.6,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 5,
+    "centreM": [
+     728.5,
+     -1168.1
+    ],
+    "radiusM": 24.6,
+    "buildingsPerHectare": 26.33,
+    "spacingM": {
+     "p5": 11.74,
+     "p25": 11.74,
+     "p50": 17.92,
+     "p75": 17.92,
+     "p95": 18.74
+    },
+    "orientationCoherence": 0.4,
+    "planAxisDeg": 38.4,
+    "kits": [
+     [
+      "dlc02/architecture",
+      5
+     ]
+    ],
+    "medianWaterDistanceM": 78.1,
+    "medianRoadDistanceM": 39.2,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 5,
+    "centreM": [
+     -953.1,
+     675.1
+    ],
+    "radiusM": 24.0,
+    "buildingsPerHectare": 27.59,
+    "spacingM": {
+     "p5": 17.2,
+     "p25": 17.2,
+     "p50": 19.62,
+     "p75": 19.62,
+     "p95": 20.58
+    },
+    "orientationCoherence": 0.4,
+    "planAxisDeg": 107.4,
+    "kits": [
+     [
+      "stroti/tree house",
+      3
+     ],
+     [
+      "dlc02/architecture",
+      2
+     ]
+    ],
+    "medianWaterDistanceM": 2.3,
+    "medianRoadDistanceM": 86.4,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 5,
+    "centreM": [
+     -728.1,
+     -529.4
+    ],
+    "radiusM": 32.9,
+    "buildingsPerHectare": 14.74,
+    "spacingM": {
+     "p5": 18.87,
+     "p25": 18.87,
+     "p50": 21.48,
+     "p75": 21.48,
+     "p95": 25.64
+    },
+    "orientationCoherence": 1.0,
+    "planAxisDeg": 41.5,
+    "kits": [
+     [
+      "telvanni",
+      4
+     ],
+     [
+      "architecture/docks",
+      1
+     ]
+    ],
+    "medianWaterDistanceM": 88.6,
+    "medianRoadDistanceM": 182.5,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 4,
+    "centreM": [
+     615.4,
+     -1200.1
+    ],
+    "radiusM": 13.0,
+    "buildingsPerHectare": 75.87,
+    "spacingM": {
+     "p5": 8.03,
+     "p25": 8.03,
+     "p50": 8.98,
+     "p75": 8.98,
+     "p95": 12.26
+    },
+    "orientationCoherence": 1.0,
+    "planAxisDeg": 53.9,
+    "kits": [
+     [
+      "architecture/phitt",
+      4
+     ]
+    ],
+    "medianWaterDistanceM": 108.9,
+    "medianRoadDistanceM": 38.8,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 4,
+    "centreM": [
+     824.1,
+     -1184.5
+    ],
+    "radiusM": 28.6,
+    "buildingsPerHectare": 15.51,
+    "spacingM": {
+     "p5": 14.93,
+     "p25": 14.93,
+     "p50": 18.62,
+     "p75": 18.62,
+     "p95": 24.93
+    },
+    "orientationCoherence": 1.0,
+    "planAxisDeg": 139.1,
+    "kits": [
+     [
+      "architecture/phitt",
+      4
+     ]
+    ],
+    "medianWaterDistanceM": 1.4,
+    "medianRoadDistanceM": 33.4,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 4,
+    "centreM": [
+     -859.3,
+     193.5
+    ],
+    "radiusM": 29.5,
+    "buildingsPerHectare": 14.61,
+    "spacingM": {
+     "p5": 34.07,
+     "p25": 34.07,
+     "p50": 34.07,
+     "p75": 34.07,
+     "p95": 34.07
+    },
+    "orientationCoherence": 0.5,
+    "planAxisDeg": 70.6,
+    "kits": [
+     [
+      "stroti/tree house",
+      4
+     ]
+    ],
+    "medianWaterDistanceM": 94.8,
+    "medianRoadDistanceM": 123.6,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 4,
+    "centreM": [
+     -77.9,
+     1058.6
+    ],
+    "radiusM": 47.6,
+    "buildingsPerHectare": 5.62,
+    "spacingM": {
+     "p5": 12.45,
+     "p25": 12.45,
+     "p50": 30.17,
+     "p75": 30.17,
+     "p95": 40.28
+    },
+    "orientationCoherence": 0.75,
+    "planAxisDeg": 8.6,
+    "kits": [
+     [
+      "architecture/farmhouse",
+      4
+     ]
+    ],
+    "medianWaterDistanceM": 87.6,
+    "medianRoadDistanceM": null,
+    "nearestDockM": null
+   }
+  ]
+ },
+ "buildingKits": [
+  [
+   "architecture/riften",
+   197
+  ],
+  [
+   "architecture/phitt",
+   143
+  ],
+  [
+   "architecture/citebosmer",
+   136
+  ],
+  [
+   "griffon fortress",
+   91
+  ],
+  [
+   "architecture/rochester",
+   77
+  ],
+  [
+   "architecture/newcastle",
+   66
+  ],
+  [
+   "architecture/solitude",
+   55
+  ],
+  [
+   "dlc02/architecture",
+   50
+  ],
+  [
+   "architecture/farmhouse",
+   24
+  ],
+  [
+   "manny_gf/alikr",
+   21
+  ],
+  [
+   "architecture/seaview",
+   19
+  ],
+  [
+   "telvanni",
+   19
+  ],
+  [
+   "architecture/whiterun",
+   13
+  ],
+  [
+   "dlc01/architecture",
+   13
+  ],
+  [
+   "architecture/cyrodil",
+   12
+  ],
+  [
+   "stroti/tree house",
+   11
+  ],
+  [
+   "architecture/docks",
+   10
+  ],
+  [
+   "architecture",
+   10
+  ],
+  [
+   "architecture/orclonghouse",
+   9
+  ],
+  [
+   "architecture/ships",
+   9
+  ]
+ ],
+ "kitPiecesPerBuilding": {
+  "p5": 1.0,
+  "p25": 1.0,
+  "p50": 2.0,
+  "p75": 2.0,
+  "p95": 9.0
+ },
+ "buildingPlanLongM": {
+  "p5": 2.42,
+  "p25": 9.53,
+  "p50": 15.65,
+  "p75": 21.85,
+  "p95": 45.83
+ },
+ "buildingHeightM": {
+  "p5": 0.04,
+  "p25": 3.36,
+  "p50": 12.7,
+  "p75": 30.02,
+  "p95": 55.53
+ },
+ "pieceFootprintM": {
+  "long": {
+   "p5": 1.38,
+   "p25": 2.73,
+   "p50": 4.95,
+   "p75": 13.37,
+   "p95": 22.09
+  },
+  "short": {
+   "p5": 0.18,
+   "p25": 1.49,
+   "p50": 3.98,
+   "p75": 7.94,
+   "p95": 18.76
+  },
+  "height": {
+   "p5": 0.04,
+   "p25": 1.51,
+   "p50": 3.42,
+   "p75": 10.98,
+   "p95": 47.66
+  }
+ }
+}
