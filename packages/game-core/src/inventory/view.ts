@@ -39,7 +39,13 @@ export type InventoryCell = {
   category: ItemCategory;
   equipped: boolean;
   slot: EquipSlot | null;
-  description: string;
+  /*
+   * There is deliberately no `description` here. Item definitions still carry
+   * one, but it is a per-material blurb repeated across every item made of that
+   * material, and the owner's ruling (2026-08-31) is that it should not be in
+   * the inventory: it reads as noise beside the numbers that actually decide
+   * what to wear. Do not add it back without asking.
+   */
   /** Present when the item works but its presentation is incomplete. */
   provisional?: string;
   /**
@@ -139,7 +145,6 @@ function toCell(
     category: definition.category,
     equipped: isEquipped(inventory, definition.id),
     slot: definition.equip?.slot ?? null,
-    description: definition.description,
     provisional: definition.provisional,
     stats: itemStatLines(definition),
     equipBlocked: equipBlockedReason(definition, inventory),

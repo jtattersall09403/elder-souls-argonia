@@ -1,9 +1,10 @@
 import { Canvas } from "@react-three/fiber";
-import { Suspense, useMemo, useRef } from "react";
+import { Suspense, useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { createAnimationCommand } from "@elder-souls/game-core/anim/animationCommand";
 import { CHARACTER_MODEL_OFFSET } from "@elder-souls/game-core/physics/characterPhysics";
 import { SkyrimFighter } from "@elder-souls/character";
+import { loadoutAnimationPacks } from "@elder-souls/game-core/equipment/animationPacks";
 import { useEquippedLoadout, useWornArmour } from "@elder-souls/game-core/inventory/store";
 import { usePlayerRace } from "@elder-souls/game-core/actors/raceStore";
 
@@ -22,6 +23,22 @@ function Doll() {
   const command = useRef(createAnimationCommand(loadout.mainHand.animations.combatIdle));
   const time = useRef(0);
   const equipped = useRef(true);
+  // The doll needs the same packs the fighter would download for this loadout.
+  //
+  // Without them it was handed no packs at all, so it had the core set and not
+  // the weapon set — and a mixer asked for an action it does not have does not
+  // error, it simply leaves the previous one playing. The doll therefore stood
+  // in the neutral bind pose instead of the weapon's combat idle, which is what
+  // "always a neutral stand" was. The same omission is why nothing was ever in
+  // the off hand: the shield was not passed either.
+  const packs = useMemo(() => loadoutAnimationPacks(loadout), [loadout]);
+
+  // Keep the pose honest when the weapon changes: a greatsword idle is not a
+  // sword idle, and the doll is meant to show what you would actually stand in.
+  useLayoutEffect(() => {
+    command.current = createAnimationCommand(loadout.mainHand.animations.combatIdle);
+    time.current = 0;
+  }, [loadout]);
 
   // The actor faces its own +Z and the camera looks down -Z from in front of
   // it, so no rotation is needed to meet the viewer's eye. The support plane
@@ -32,6 +49,8 @@ function Doll() {
       animationCommandRef={command}
       animationTimeRef={time}
       weaponProfile={loadout.mainHand.visual}
+      offHandProfile={loadout.offHand?.visual ?? null}
+      animationPacks={packs}
       armour={armour}
       raceId={raceId}
       modelOffsetY={CHARACTER_MODEL_OFFSET}

@@ -137,19 +137,41 @@ export function mountArmour(
     for (const slot of piece.coversBipedSlots) covered.add(slot);
   }
 
-  if (covered.size > 0) {
-    modelRoot.traverse((object) => {
-      if (!(object instanceof THREE.Mesh)) return;
-      if (result.meshes.includes(object as THREE.SkinnedMesh)) return;
-      const slots = slotsByMesh.get(THREE.PropertyBinding.sanitizeNodeName(object.name));
-      if (!slots?.some((slot) => covered.has(slot))) return;
-      if (!object.visible) return;
-      object.visible = false;
-      result.hidden.push(object);
-    });
+  // Recomputed from scratch, not toggled.
+  //
+  // This used to hide covered meshes and remember which ones to put back, which
+  // is only correct if every mount is paired with exactly one unmount in the
+  // right order. It is not: a Suspense boundary re-suspending on an equip tears
+  // down and re-runs this component's layout effects, and a second mount over a
+  // first one sees an already-hidden body, records nothing, and then "restores"
+  // nothing — leaving a headless, bodiless figure wearing armour, or bare air
+  // once the armour came off. Setting visibility from the covered set every
+  // time makes the result depend only on what is worn now.
+  for (const [name, slots] of slotsByMesh) {
+    const mesh = findBodyMesh(modelRoot, name, result.meshes);
+    if (!mesh) continue;
+    const isCovered = slots.some((slot) => covered.has(slot));
+    mesh.visible = !isCovered;
+    if (isCovered) result.hidden.push(mesh);
   }
 
   return result;
+}
+
+/** A body mesh by its sanitised name, excluding anything just mounted. */
+function findBodyMesh(
+  modelRoot: THREE.Object3D,
+  sanitisedName: string,
+  mounted: readonly THREE.SkinnedMesh[],
+): THREE.Mesh | null {
+  let found: THREE.Mesh | null = null;
+  modelRoot.traverse((object) => {
+    if (found || !(object instanceof THREE.Mesh)) return;
+    if (mounted.includes(object as THREE.SkinnedMesh)) return;
+    if (THREE.PropertyBinding.sanitizeNodeName(object.name) !== sanitisedName) return;
+    found = object;
+  });
+  return found;
 }
 
 /**
@@ -168,4 +190,6 @@ export function unmountArmour(mounted: MountedArmour) {
   for (const mesh of mounted.hidden) mesh.visible = true;
   mounted.meshes.length = 0;
   mounted.hidden.length = 0;
+  mounted.torsoMeshes.length = 0;
+  mounted.handMeshes.length = 0;
 }

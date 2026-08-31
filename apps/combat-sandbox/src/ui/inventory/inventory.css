@@ -10,20 +10,23 @@
  * black grid of item art with worn things framed and first.
  */
 
-/* `fixed` and dynamic viewport units, deliberately.
+/* Sized to the game shell, not to the viewport.
  *
- * On a phone `100vh` is the *large* viewport — the height the page has once the
- * browser toolbars have retracted — so a panel sized in `vh` and centred inside
- * an absolutely positioned parent hangs off both the top and the bottom of what
- * is actually on screen, which is the reported "cut off the screen edges".
- * `100dvh`/`100dvw` track the visible viewport instead. The safe-area padding
- * keeps the frame clear of a notch, a punch-hole camera and the rounded corners
- * of a folding phone in landscape. */
+ * Two previous attempts sized this against the page — first `vh`, then `dvw`
+ * and `dvh` — and both were still reported as cut off at the right and bottom
+ * edges. Viewport units are the wrong tool here: on a phone they answer
+ * questions about the *browser*, and they disagree with what is on screen as
+ * soon as the visual viewport shifts (pinch zoom, or the keyboard opening
+ * under the search box). The HUD in the same app has never had this problem
+ * because it fills its parent instead, and this now does the same — the shell
+ * is already exactly the drawable area. The safe-area padding stays, so the
+ * frame keeps clear of a notch or a rounded corner. */
 .inv-root {
-  position: fixed;
+  position: absolute;
   inset: 0;
-  width: 100dvw;
-  height: 100dvh;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: hidden;
   display: grid;
   place-items: center;
   padding:
@@ -197,10 +200,9 @@
 /* ---- right column: tabs, grid, detail ---------------------------------- */
 
 .inv-items {
-  position: relative;
   min-height: 0;
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto minmax(0, 1fr) auto;
   gap: 8px;
 }
 
@@ -321,25 +323,50 @@
 
 .inv-empty { grid-column: 1 / -1; margin: 12px; color: var(--ink-dim); }
 
-.inv-footer {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-  min-height: 56px;
-  padding: 6px 10px;
+/* The item panel: a row of the item column, never floating over anything. */
+.inv-panel {
+  min-height: 92px;
+  padding: 6px 10px 7px;
   border: 2px solid var(--frame);
   border-radius: 3px;
-  background: #100f0c;
+  background: linear-gradient(#171512, #0d0c0a);
+  color: var(--ink);
+  font-size: 13px;
+  overflow: hidden;
 }
 
-.inv-detail { margin: 0; display: grid; gap: 1px; font-size: 13px; }
-.inv-detail strong { font-size: 15px; color: var(--frame-light); }
-.inv-detail-stats { color: var(--ink-dim); }
-.inv-detail-flavour { color: var(--ink-dim); font-style: italic; }
-.inv-detail-warning { color: var(--warn); }
-.inv-detail-hint { color: var(--ink-dim); font-style: italic; }
-.inv-gold { white-space: nowrap; color: var(--frame-light); }
+.inv-panel-title {
+  display: flex; justify-content: space-between; gap: 8px; align-items: baseline;
+  font-size: 15px; color: var(--frame-light);
+  border-bottom: 1px solid var(--panel-edge);
+  padding-bottom: 3px; margin-bottom: 4px;
+}
+.inv-panel-count { color: var(--ink-dim); font-size: 12px; }
+
+/* Stats flow into as many columns as the panel is wide. On a phone that is one
+   or two; on a desktop it is four or five, which is what keeps a full stat
+   block inside a panel that is only a few lines tall. */
+.inv-panel-stats {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  column-gap: 16px;
+  row-gap: 1px;
+}
+.inv-panel-stat { display: flex; justify-content: space-between; gap: 10px; min-width: 0; }
+.inv-panel-stat dt { margin: 0; color: var(--ink-dim); }
+.inv-panel-stat dd { margin: 0; color: var(--frame-light); text-align: right; white-space: nowrap; }
+
+.inv-panel-foot,
+.inv-panel-hint {
+  margin: 5px 0 0;
+  display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+  font-size: 12px;
+}
+.inv-panel-hint { margin: 0; color: var(--ink-dim); font-style: italic; }
+.inv-panel-action { color: #cbb27a; letter-spacing: .05em; }
+.inv-panel-warning { color: var(--warn); }
+.inv-gold { white-space: nowrap; color: var(--frame-light); margin-left: auto; }
 
 /* Narrow: the paper doll goes above the grid instead of beside it. */
 @media (max-width: 780px) {
@@ -366,10 +393,9 @@
   .inv-tab { padding: 3px 10px; font-size: 13px; }
   .inv-search { padding: 3px 8px; font-size: 13px; }
   .inv-slots { font-size: 11px; }
-  /* The detail line is the first thing to give up room: the same text is in
-     the item card, which is what the player is actually reading. */
-  .inv-footer { min-height: 0; padding: 4px 8px; }
-  .inv-detail-flavour { display: none; }
+  .inv-panel { min-height: 0; padding: 4px 8px 5px; font-size: 12px; }
+  .inv-panel-title { font-size: 13px; }
+  .inv-panel-stats { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
 }
 
 /* Shorter still (a handset in landscape): drop the paper doll's portrait
@@ -378,46 +404,8 @@
 @media (max-height: 460px) {
   .inv-doll > :not(.inv-slots) { display: none; }
   .inv-doll { border: 0; background: none; }
-  .inv-detail { display: none; }
-  .inv-footer { padding: 3px 8px; }
+  .inv-panel { padding: 3px 8px; }
 }
-
-/* --- the item card -------------------------------------------------------
-   Morrowind put an item's whole stat block in a bordered panel beside the
-   cursor. Floating over the grid on a pointer device, docked to the bottom on
-   a touch screen where there is no cursor to sit beside. */
-.inv-card {
-  position: absolute; right: 10px; bottom: 10px;
-  width: min(250px, calc(100% - 20px)); max-height: calc(100% - 20px);
-  overflow: hidden; z-index: 3;
-  padding: 8px 10px 9px; pointer-events: none;
-  background: linear-gradient(#171512, #0d0c0a);
-  border: 2px solid var(--frame); border-radius: 3px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, .75);
-  color: var(--ink); font-size: 12px;
-}
-/* Docked to the bottom of the *window*, not of the page. `position: fixed` put
-   it against the layout viewport, which on a phone is the one that extends
-   behind the browser chrome — so the card the player is meant to read was the
-   part most likely to be off screen. */
-.inv-card[data-docked] {
-  left: 50%; right: auto; bottom: 8px;
-  transform: translateX(-50%); width: min(100%, 420px);
-  max-height: 45%; overflow: hidden;
-}
-.inv-card-title {
-  display: flex; justify-content: space-between; gap: 8px; align-items: baseline;
-  font: 600 14px Cinzel, serif; color: var(--ink-bright);
-  border-bottom: 1px solid var(--panel-edge); padding-bottom: 4px; margin-bottom: 5px;
-}
-.inv-card-count { color: var(--ink-dim); font-size: 12px; }
-.inv-card-stats { margin: 0; display: grid; gap: 1px; }
-.inv-card-stat { display: flex; justify-content: space-between; gap: 10px; }
-.inv-card-stat dt { color: var(--ink-dim); margin: 0; }
-.inv-card-stat dd { margin: 0; color: var(--ink-bright); text-align: right; }
-.inv-card-flavour { margin: 6px 0 0; color: var(--ink-dim); font-style: italic; line-height: 1.35; }
-.inv-card-action { margin: 5px 0 0; color: #cbb27a; font-size: 11px; letter-spacing: .05em; }
-.inv-card-warning { margin: 4px 0 0; color: #c8933f; font-size: 11px; }
 
 /* The cursor a pad or the arrow keys drive. Distinct from the worn frame, which
    means something else entirely. */

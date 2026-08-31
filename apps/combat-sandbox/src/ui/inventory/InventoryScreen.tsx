@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { useInventoryStore } from "@elder-souls/game-core/inventory/store";
 import { EQUIP_SLOTS } from "@elder-souls/game-core/inventory/types";
-import { buildInventoryView, type InventoryCell, type InventoryView } from "@elder-souls/game-core/inventory/view";
+import { buildInventoryView, type InventoryCell } from "@elder-souls/game-core/inventory/view";
 import { PaperDoll } from "./PaperDoll";
 import { useInventoryCursor, type CursorDirection } from "./useInventoryCursor";
 import "./inventory.css";
@@ -59,57 +59,60 @@ function Cell({
 }
 
 /**
- * The item card.
+ * The item panel.
  *
  * Morrowind put an item's whole stat block in a bordered panel beside the
- * cursor, and that is what this is: name, every number the item has, and the
- * flavour underneath. The same panel serves all three platforms — beside the
- * cursor on desktop and pad, and docked to the bottom of the screen on touch,
- * where there is no cursor to sit beside and no room to float over the grid.
+ * cursor. This is that panel, with two changes the owner asked for.
+ *
+ * It does not float. It used to be absolutely positioned over the bottom-right
+ * of the item column, which meant it covered the encumbrance and gold line
+ * underneath it — and on a phone, where it docks, it covered them completely.
+ * It is now a row of the item column in its own right, so it can never overlap
+ * anything, and the old separate one-line summary underneath it is gone: there
+ * is one item panel, in one place, on every screen size.
+ *
+ * And it carries no flavour text. Item descriptions were a per-material blurb
+ * repeated across every item made of that material, which is noise beside the
+ * numbers that actually decide what to wear.
  */
-function ItemCard({ cell, docked }: { cell: InventoryCell; docked: boolean }) {
-  const action = cell.equipped
+function ItemPanel({ cell, hint, gold, touch }: {
+  cell: InventoryCell | null;
+  hint: string;
+  gold: number;
+  touch: boolean;
+}) {
+  const action = cell?.equipped
     ? "Equipped"
-    : cell.equipBlocked ?? (docked ? "Tap again to equip" : "Click to equip");
+    : cell?.equipBlocked ?? (touch ? "Tap again to equip" : "Click to equip");
   return (
-    <div className="inv-card" data-docked={docked || undefined} role="tooltip">
-      <header className="inv-card-title">
-        <span>{cell.name}</span>
-        {cell.count > 1 && <span className="inv-card-count">×{cell.count}</span>}
-      </header>
-      <dl className="inv-card-stats">
-        {cell.stats.map((stat) => (
-          <div key={stat.label} className="inv-card-stat" title={stat.note}>
-            <dt>{stat.label}</dt>
-            <dd>{stat.value}</dd>
-          </div>
-        ))}
-      </dl>
-      <p className="inv-card-flavour">{cell.description}</p>
-      {cell.slot && (
-        <p className="inv-card-action">
-          {action}
+    <div className="inv-panel" role="status">
+      {cell ? (
+        <>
+          <header className="inv-panel-title">
+            <span>{cell.name}</span>
+            {cell.count > 1 && <span className="inv-panel-count">×{cell.count}</span>}
+          </header>
+          <dl className="inv-panel-stats">
+            {cell.stats.map((stat) => (
+              <div key={stat.label} className="inv-panel-stat" title={stat.note}>
+                <dt>{stat.label}</dt>
+                <dd>{stat.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="inv-panel-foot">
+            {cell.slot && <span className="inv-panel-action">{action}</span>}
+            {cell.provisional && <span className="inv-panel-warning">{cell.provisional}</span>}
+            <span className="inv-gold">{gold} gold</span>
+          </p>
+        </>
+      ) : (
+        <p className="inv-panel-hint">
+          <span>{hint}</span>
+          <span className="inv-gold">{gold} gold</span>
         </p>
       )}
-      {cell.provisional && <p className="inv-card-warning">{cell.provisional}</p>}
     </div>
-  );
-}
-
-function DetailLine({ view, focusedId }: { view: InventoryView; focusedId: string | null }) {
-  const focused = view.cells.find((cell) => cell.itemId === focusedId);
-  if (!focused) {
-    return <p className="inv-detail inv-detail-hint">{CATEGORY_HINT[String(view.tabs.find((t) => t.active)?.id)] ?? ""}</p>;
-  }
-  return (
-    <p className="inv-detail">
-      <strong>{focused.name}</strong>
-      <span className="inv-detail-stats">
-        {focused.stats.slice(0, 4).map((stat) => `${stat.label} ${stat.value}`).join(" · ")}
-      </span>
-      <span className="inv-detail-flavour">{focused.description}</span>
-      {focused.provisional && <span className="inv-detail-warning">{focused.provisional}</span>}
-    </p>
   );
 }
 
@@ -247,15 +250,13 @@ export function InventoryScreen({ theme = "morrowind" }: { theme?: InventoryThem
               ))}
               {view.cells.length === 0 && <p className="inv-empty">Nothing here.</p>}
             </div>
-            {/* Outside the grid, which scrolls: the card is positioned against
-                the item column so it stays inside the window on every screen
-                rather than against a scrolling box or the page. */}
-            {focusedCell && <ItemCard cell={focusedCell} docked={touchLike} />}
-
-            <div className="inv-footer">
-              <DetailLine view={view} focusedId={focused} />
-              <span className="inv-gold">{view.gold} gold</span>
-            </div>
+            {/* A row of the column, not a floating card: see `ItemPanel`. */}
+            <ItemPanel
+              cell={focusedCell}
+              hint={CATEGORY_HINT[String(view.tabs.find((tab) => tab.active)?.id)] ?? ""}
+              gold={view.gold}
+              touch={touchLike}
+            />
           </section>
         </div>
       </div>

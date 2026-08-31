@@ -93,6 +93,37 @@ describe("mounting armour on an actor", () => {
     expect(actor.root.getObjectByName("steel-cuirass-mesh")).toBeUndefined();
   });
 
+  it("leaves the body showing when a mount is repeated without an unmount", () => {
+    // The paper-doll defect: unequip a cuirass and the figure is empty air.
+    // A Suspense boundary re-suspending on an equip re-runs this component's
+    // layout effects, so a second mount can land on top of a first. The old
+    // hide-and-remember recorded nothing the second time — the body was already
+    // hidden — so the eventual unmount had nothing to restore. Visibility is
+    // now recomputed from what is worn, which makes repeats harmless.
+    const actor = buildActor(["Torso", "Hands"]);
+    const slots = { Torso: [32], Hands: [33] };
+    mountArmour(actor.root, [buildPiece("steel-cuirass", [32])], slots);
+    const second = mountArmour(actor.root, [buildPiece("steel-cuirass", [32])], slots);
+    expect(actor.body[0].visible).toBe(false);
+
+    unmountArmour(second);
+    expect(actor.body[0].visible).toBe(true);
+  });
+
+  it("shows the body again when the piece covering it is taken off", () => {
+    // Mounting the reduced set is what actually happens on unequip: React runs
+    // the new effect for [boots] after the old one for [cuirass, boots].
+    const actor = buildActor(["Torso", "Feet"]);
+    const slots = { Torso: [32], Feet: [37] };
+    mountArmour(actor.root, [buildPiece("cuirass", [32]), buildPiece("boots", [37])], slots);
+    expect(actor.body[0].visible).toBe(false);
+
+    const remaining = mountArmour(actor.root, [buildPiece("boots", [37])], slots);
+    expect(actor.body[0].visible).toBe(true);
+    expect(actor.body[1].visible).toBe(false);
+    expect(remaining.hidden.map((mesh) => mesh.name)).toEqual(["Feet"]);
+  });
+
   it("matches body meshes whose authored names glTF sanitises", () => {
     // "MaleUnderwearBody:0" in the roster arrives as "MaleUnderwearBody0".
     const actor = buildActor(["MaleUnderwearBody0"]);
