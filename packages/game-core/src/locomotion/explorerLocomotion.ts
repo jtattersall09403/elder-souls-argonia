@@ -12,6 +12,7 @@ import { locomotionSpeedMultiplier } from "../anim/locomotionCadence";
 import { clipPlaybackSourceSpan } from "../anim/animationManifest";
 import { JUMP_LAUNCH_ANIMATION_DURATION } from "../physics/characterPhysics";
 import { analogueMoveSpeed, cameraRelativeDirection } from "../io/input";
+import { CROUCH_SPEED, crouchLocomotionAnimation, nextStance, type Stance } from "./stance";
 
 /**
  * Grounded exploration locomotion behind the `PlayerMovementController`
@@ -33,6 +34,8 @@ export class ExplorerLocomotion {
   animationSpeed = 1;
   sprinting = false;
   moveMagnitude = 0;
+  /** Standing or crouching. Read by stealth and by anything sizing the actor. */
+  stance: Stance = "standing";
 
   private dodgeHold = 0;
   private jumpStartTimer = 0;
@@ -53,6 +56,7 @@ export class ExplorerLocomotion {
     this.animationSpeed = 1;
     this.sprinting = false;
     this.moveMagnitude = 0;
+    this.stance = "standing";
     this.dodgeHold = 0;
     this.jumpStartTimer = 0;
     this.airborneTime = 0;
@@ -109,8 +113,16 @@ export class ExplorerLocomotion {
     if (intent.dodgePressed) this.dodgeHold = 0;
     if (intent.dodgeHeld) this.dodgeHold += delta;
     this.sprinting = intent.dodgeHeld && this.dodgeHold > 0.22 && moveMagnitude > 0.15;
+    // Crouch resolves after sprint, because breaking into a run stands you up.
+    this.stance = nextStance(this.stance, {
+      toggled: intent.crouchPressed,
+      grounded,
+      acting: false,
+      sprinting: this.sprinting,
+    });
+    const crouching = this.stance === "crouching" && grounded;
 
-    if (intent.jumpPressed && grounded) {
+    if (intent.jumpPressed && grounded && !crouching) {
       this.jumpStartTimer = JUMP_LAUNCH_ANIMATION_DURATION;
       this.landingTimer = 0;
       this.maximumDownwardSpeed = 0;
@@ -123,7 +135,9 @@ export class ExplorerLocomotion {
     controller.setMovement({
       joystick: { x: intent.move.x, y: intent.move.y },
       run: this.sprinting,
-      jump: intent.jumpHeld,
+      // A crouched actor stands up to jump rather than hopping in a crouch;
+      // the stance clears itself above the moment it leaves the ground.
+      jump: intent.jumpHeld && !crouching,
     });
 
     // Ecctrl normalises joystick input; restore analogue magnitude to planar
@@ -131,7 +145,7 @@ export class ExplorerLocomotion {
     const planar = controller.linearVelocity(this.velocity);
     const planarSpeed = Math.hypot(planar.x, planar.z);
     if (moveMagnitude > 0.01) {
-      const maximum = analogueMoveSpeed(moveMagnitude, this.sprinting);
+      const maximum = analogueMoveSpeed(moveMagnitude, this.sprinting, crouching ? CROUCH_SPEED : undefined);
       if (planarSpeed > maximum && planarSpeed > 0.001) {
         const scale = maximum / planarSpeed;
         controller.setLinearVelocity({ x: planar.x * scale, y: planar.y, z: planar.z * scale });
@@ -142,7 +156,7 @@ export class ExplorerLocomotion {
 
     const moveSpeed = Math.min(
       controller.moveSpeed(),
-      analogueMoveSpeed(moveMagnitude, this.sprinting),
+      analogueMoveSpeed(moveMagnitude, this.sprinting, crouching ? CROUCH_SPEED : undefined),
     );
     const locomotion: AnimationState = this.jumpStartTimer > 0
       ? "JUMP_START"
@@ -150,6 +164,8 @@ export class ExplorerLocomotion {
         ? this.landingAnimation
         : airborne
           ? "JUMP_IDLE"
+          : crouching
+            ? crouchLocomotionAnimation(intent.move, moveMagnitude)
           : this.sprinting
             ? "SPRINT"
             : moveMagnitude > 0.72

@@ -10,6 +10,7 @@ export type InputAction =
   | "heal"
   | "equip"
   | "jump"
+  | "crouch"
   | "targetLeft"
   | "targetRight";
 
@@ -27,7 +28,8 @@ export const SWITCH_GAMEPAD = {
   // Menu buttons: read by the UI layer (io/uiMenus.ts), not by combat.
   SELECT_MENU: 8,
   START_MENU: 9,
-  L_STICK_JUMP: 10,
+  // L3 was a second jump binding, which the A face button already covers.
+  L_STICK_CROUCH: 10,
   R_STICK_LOCK: 11,
   DPAD_RIGHT_EQUIP: 15,
 } as const;
@@ -165,7 +167,8 @@ export class InputController {
     this.current.set("lockOn", active("lockOn") || this.keys.has("KeyQ") || button(SWITCH_GAMEPAD.R_STICK_LOCK));
     this.current.set("heal", active("heal") || this.keys.has("KeyH") || button(SWITCH_GAMEPAD.X_TOP_ITEM));
     this.current.set("equip", active("equip") || this.keys.has("Tab") || button(SWITCH_GAMEPAD.DPAD_RIGHT_EQUIP));
-    this.current.set("jump", active("jump") || this.keys.has("KeyJ") || button(SWITCH_GAMEPAD.A_RIGHT_JUMP) || button(SWITCH_GAMEPAD.L_STICK_JUMP));
+    this.current.set("jump", active("jump") || this.keys.has("KeyJ") || button(SWITCH_GAMEPAD.A_RIGHT_JUMP));
+    this.current.set("crouch", active("crouch") || this.keys.has("KeyC") || button(SWITCH_GAMEPAD.L_STICK_CROUCH));
     // When locked on, the right stick is free for target switching; the frame
     // ignores camera input in that mode. `pressed` turns a stick push into one edge.
     const rightStickX = pad ? deadZone(pad.axes[2] ?? 0) : 0;
@@ -221,7 +224,17 @@ export const PLAYER_SPRINT_SPEED = 6.0;
 // target reads better at a different pace than walking in a straight line.
 export const PLAYER_LOCK_ON_WALK_SPEED = 3.0;
 
-export function analogueMoveSpeed(magnitude: number, sprinting: boolean) {
+export function analogueMoveSpeed(
+  magnitude: number,
+  sprinting: boolean,
+  /**
+   * Crouched top speed, when crouching. Passed in rather than imported so this
+   * stays the one place a *cap* is applied while `locomotion/stance` stays the
+   * one place the crouched speed is decided.
+   */
+  crouchSpeed?: number,
+) {
   const amount = Math.min(1, Math.max(0, magnitude));
+  if (crouchSpeed !== undefined) return crouchSpeed * amount;
   return (sprinting ? PLAYER_SPRINT_SPEED : PLAYER_WALK_SPEED) * amount;
 }

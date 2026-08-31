@@ -62,7 +62,24 @@ import {
   DEFAULT_ENEMY_ARCHETYPE,
   type EnemyArchetype,
 } from "@elder-souls/game-core/actors/enemyArchetypes";
-import { activeGuardProfile } from "@elder-souls/game-core/equipment/guard";
+import { activeGuardAnimations, activeGuardProfile } from "@elder-souls/game-core/equipment/guard";
+import { loadoutAnimationPacks } from "@elder-souls/game-core/equipment/animationPacks";
+import {
+  CROUCH_SPEED,
+  crouchLocomotionAnimation,
+  nextStance,
+  type Stance,
+} from "@elder-souls/game-core/locomotion/stance";
+import {
+  ARROW_POISE_DAMAGE,
+  advancePoise,
+  applyPoiseDamage,
+  attackPoiseDamage,
+  createPoise,
+  refreshPoise,
+  resetPoise,
+  type PoiseState,
+} from "@elder-souls/game-core/combat/poise";
 import { locomotionSpeedMultiplier } from "@elder-souls/game-core/anim/locomotionCadence";
 import {
   CHARACTER_CAPSULE_HALF_HEIGHT,
@@ -510,6 +527,10 @@ function EnemyActor({ runtime, reticleVisible, validation }: { runtime: EnemyRun
     () => wornArmourFor(runtime.archetype.armour),
     [runtime.archetype.armour],
   );
+  const enemyAnimationPacks = useMemo(
+    () => loadoutAnimationPacks(runtime.archetype.loadout),
+    [runtime.archetype.loadout],
+  );
   // Read from the live fighter each frame rather than through props: health
   // changes inside the combat update, and routing it through React would cost a
   // render per hit for a number that is already sitting in a ref.
@@ -554,6 +575,7 @@ function EnemyActor({ runtime, reticleVisible, validation }: { runtime: EnemyRun
           animationTimeRef={runtime.actionTimeRef}
           weaponProfile={runtime.archetype.loadout.mainHand.visual}
           offHandProfile={runtime.archetype.loadout.offHand?.visual ?? null}
+          animationPacks={enemyAnimationPacks}
           armour={enemyArmour}
           raceId={runtime.archetype.race}
           speedMultiplierRef={runtime.animationSpeed}
@@ -630,6 +652,14 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   const playerWeapon = playerLoadout.mainHand;
   const consumeArrow = useInventoryStore((state) => state.remove);
   const playerGuard = useMemo(() => activeGuardProfile(playerLoadout), [playerLoadout]);
+  // What a raised guard is *made of* and what it *looks like* come from the
+  // same place: the off hand if there is one, the weapon otherwise. Deriving
+  // both from the loadout is what stops a shielded player angling a sword edge.
+  const playerGuardAnimations = useMemo(() => activeGuardAnimations(playerLoadout), [playerLoadout]);
+  // Which slices of the rig this actor must have downloaded to fight with what
+  // it is holding. Changing it remounts the actor (see SkyrimFighter), which is
+  // why it is memoised on the loadout rather than recomputed per frame.
+  const playerAnimationPacks = useMemo(() => loadoutAnimationPacks(playerLoadout), [playerLoadout]);
   const playerStart = useMemo(
     () => visualScenario ? new THREE.Vector3(...visualScenario.player.position) : DEFAULT_PLAYER_START.clone(),
     [visualScenario],
@@ -689,6 +719,19 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   const jumpStartTimer = useRef(0);
   const guardHitUntil = useRef(0);
   const nextGuardHitVariant = useRef(0);
+  /**
+   * Standing or crouching. A stance, not a speed: the crouched clips are their
+   * own authored locomotion set. Today it changes pace and pose only — combat
+   * is untouched, and stealth reads this field when it arrives (module 76
+   * §121.5).
+   */
+  const playerStance = useRef<Stance>("standing");
+  /**
+   * The player's poise pool (module 76 §121.3). While it holds, a hit costs
+   * health and nothing else; when it empties the blow interrupts. Enemies carry
+   * the same structure on their Fighter.
+   */
+  const playerPoise = useRef<PoiseState>(createPoise(playerArmour));
   /** Seconds a light press made during a parry stays live as a riposte. */
   const riposteQueued = useRef(0);
 
@@ -948,7 +991,8 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         ), true);
       }
       startPlayerAction("recoil", "RECOIL");
-      const guardHit = enemyWeapon.animations.guard.hitVariants[nextGuardHitVariant.current % enemyWeapon.animations.guard.hitVariants.length];
+      const enemyGuardAnimations = activeGuardAnimations(f.archetype.loadout);
+      const guardHit = enemyGuardAnimations.hitVariants[nextGuardHitVariant.current % enemyGuardAnimations.hitVariants.length];
       nextGuardHitVariant.current += 1;
       e.guardHitUntil = f.actionTime + (clipPlaybackDuration(guardHit) ?? 0.8333);
       setEnemyAnim(e, guardHit, 0, true);
@@ -988,8 +1032,18 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       // The critical victim timeline was started before contact. Let its
       // profile continue through blade withdrawal and the selected recovery.
     } else {
-      f.staggerDuration = f.archetype.stateDurations.staggerLight;
-      setEnemyMode(e, "stagger", reaction.animation);
+      // Poise decides whether the blow interrupts (module 76 §121.3). While the
+      // pool holds, the hit lands and the enemy keeps doing what it was doing —
+      // which is what makes weapon class tactical: a dagger interrupts nothing
+      // large, a warhammer staggers through almost anything.
+      const broke = applyPoiseDamage(
+        f.poise,
+        attackPoiseDamage(playerWeapon.stats.class, attack.id),
+      ).staggered;
+      if (broke) {
+        f.staggerDuration = f.archetype.stateDurations.staggerLight;
+        setEnemyMode(e, "stagger", reaction.animation);
+      }
     }
     return true;
   }, [announce, clearLockIfTarget, setEnemyAnim, setEnemyMode, startPlayerAction, triggerShake]);
@@ -1062,12 +1116,19 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       return;
     }
     combatAudio.play("hit");
+    // A head hit ignores poise outright, as it does in Dark Souls; a shaft
+    // turned by mail spends none at all. Everything between goes through the
+    // pool like any other blow.
+    const arrowPoise = applyPoiseDamage(
+      f.poise,
+      impact.penetrated ? ARROW_POISE_DAMAGE : 0,
+      { ignoresPoise: zone.heavyReaction },
+    );
     if (zone.heavyReaction) {
       f.staggerDuration = f.archetype.stateDurations.staggerDefault;
       setEnemyMode(victim, "stagger", "HIT_HEAVY");
       announce("HEADSHOT", 0.8);
-    } else if (impact.penetrated) {
-      // A shaft through the mail staggers; one turned by it does not.
+    } else if (arrowPoise.staggered) {
       f.staggerDuration = f.archetype.stateDurations.staggerLight;
       setEnemyMode(victim, "stagger", "HIT");
     }
@@ -1117,7 +1178,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         ), true);
       }
       setEnemyMode(e, "recoil", "RECOIL");
-      const guardHit = playerWeapon.animations.guard.hitVariants[nextGuardHitVariant.current % playerWeapon.animations.guard.hitVariants.length];
+      const guardHit = playerGuardAnimations.hitVariants[nextGuardHitVariant.current % playerGuardAnimations.hitVariants.length];
       nextGuardHitVariant.current += 1;
       guardHitUntil.current = playerActionTime.current + (clipConfig(guardHit).sourceDuration ?? 0.83);
       setAnim(guardHit, 0, true);
@@ -1154,7 +1215,13 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     if (result.killed) {
       startPlayerAction("dead", "DEATH");
       announce("YOU DIED", 8);
-    } else {
+    } else if (applyPoiseDamage(
+      playerPoise.current,
+      attackPoiseDamage(enemyWeapon.stats.class, attack.id),
+    ).staggered) {
+      // Same rule for the player. Shrugging off a light hit mid-swing is the
+      // whole reward for wearing armour, and being stopped dead by a heavy is
+      // the whole reason not to over-commit.
       startPlayerAction(reaction.action, reaction.animation);
     }
   }, [announce, playerGuard, playerWeapon, setAnim, setEnemyMode, startPlayerAction, triggerDamageVignette, triggerShake]);
@@ -1202,6 +1269,10 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     previousActiveCount.current = current;
   }, [activeEnemies.length, enemies, setEnemyAnim]);
 
+  useEffect(() => {
+    refreshPoise(playerPoise.current, playerArmour);
+  }, [playerArmour]);
+
   useEffect(() => input.attach(), []);
   useEffect(() => bus.on((event) => {
     if (event.type === "sound") combatAudio.play(event.sound);
@@ -1247,6 +1318,8 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     clearArrows();
     playerHealth.current = visualScenario?.player.health ?? COMBAT_TUNING.maxHealth;
     playerStamina.current = COMBAT_TUNING.maxStamina;
+    resetPoise(playerPoise.current);
+    playerStance.current = "standing";
     estus.current = 3;
     equipped.current = visualScenario?.player.equipped ?? true;
     lockedOn.current = false;
@@ -1438,6 +1511,10 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     const aliveEnemies = activeEnemies.filter((e) => e.fighter.health > 0);
     playerActionTime.current += delta;
     staminaCooldown.current -= delta;
+    // Poise does not trickle back: it sits where the last hit left it and snaps
+    // to full after a quiet interval (DS1). That is what makes it a breakpoint
+    // stat rather than a second stamina bar.
+    advancePoise(playerPoise.current, delta);
     messageTimer.current -= delta;
     landingTimer.current = Math.max(0, landingTimer.current - delta);
     jumpStartTimer.current = Math.max(0, jumpStartTimer.current - delta);
@@ -1467,7 +1544,8 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     }
     if (intent.dodgePressed) dodgeHold.current = 0;
     if (intent.dodgeHeld) dodgeHold.current += delta;
-    const jumpStarted = intent.jumpPressed && handle.isOnGround && playerAction.current === "idle" && spendStamina(COMBAT_TUNING.jumpCost);
+    const jumpStarted = intent.jumpPressed && handle.isOnGround && playerStance.current !== "crouching"
+      && playerAction.current === "idle" && spendStamina(COMBAT_TUNING.jumpCost);
     if (jumpStarted) {
       jumpStartTimer.current = JUMP_LAUNCH_ANIMATION_DURATION;
       landingTimer.current = 0;
@@ -1516,7 +1594,20 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       && moveMagnitude > 0.15
       && playerAction.current === "idle";
     sprintingRef.current = sprinting;
-    playerMoveSpeed.current = Math.min(handle.moveSpeed, analogueMoveSpeed(moveMagnitude, sprinting));
+    // Crouch is a toggle resolved after sprint, because breaking into a run
+    // stands you up — and it is refused mid-action, so you cannot duck out of
+    // a swing. Leaving the ground clears it on its own.
+    playerStance.current = nextStance(playerStance.current, {
+      toggled: intent.crouchPressed,
+      grounded: handle.isOnGround,
+      acting: playerAction.current !== "idle",
+      sprinting,
+    });
+    const crouching = playerStance.current === "crouching";
+    playerMoveSpeed.current = Math.min(
+      handle.moveSpeed,
+      analogueMoveSpeed(moveMagnitude, sprinting, crouching ? CROUCH_SPEED : undefined),
+    );
 
     if (playerAction.current === "roll" && equipped.current) {
       if (intent.lightPressed) rollAttackQueued.current = "light";
@@ -1637,7 +1728,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       startPlayerAction("heal", "HEAL");
       combatAudio.play("heal");
     } else if (canStartAction && intent.parryPressed && equipped.current && spendStamina(COMBAT_TUNING.parryCost)) {
-      startPlayerAction("parry", playerWeapon.animations.parry.intro);
+      startPlayerAction("parry", playerGuardAnimations.parry.intro);
       announce("SWORD PARRY", 0.55);
     } else if (canStartAction && intent.heavyPressed && equipped.current && spendStamina(playerWeapon.attacks.heavy.stamina)) {
       startPlayerAction("heavy", "HEAVY");
@@ -1748,7 +1839,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       }
       }
     } else if (playerAction.current === "idle" && intent.guardHeld && equipped.current && !ranged) {
-      startPlayerAction("guard", playerWeapon.animations.guard.enter);
+      startPlayerAction("guard", playerGuardAnimations.enter);
       announce("GUARDING", 0.55);
     } else if (
       playerAction.current === "guard"
@@ -1921,15 +2012,15 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       playerParryActive.current = playerAction.current === "parry" && isParryActive(playerActionTime.current);
       if (playerAction.current === "guard"
         && playerActionTime.current >= Math.max(
-          clipConfig(playerWeapon.animations.guard.enter).sourceDuration ?? 0.83,
+          clipConfig(playerGuardAnimations.enter).sourceDuration ?? 0.83,
           guardHitUntil.current,
         )) {
-        if (intent.guardHeld) setAnim(playerWeapon.animations.guard.loop);
+        if (intent.guardHeld) setAnim(playerGuardAnimations.loop);
         else finishPlayerAction();
       }
       if (playerAction.current === "parry"
-        && playerActionTime.current >= (clipConfig(playerWeapon.animations.parry.intro).sourceDuration ?? 0.83)) {
-        setAnim(playerWeapon.animations.parry.followThrough);
+        && playerActionTime.current >= (clipConfig(playerGuardAnimations.parry.intro).sourceDuration ?? 0.83)) {
+        setAnim(playerGuardAnimations.parry.followThrough);
       }
       const duration = ACTION_DURATIONS[playerAction.current];
       if (playerAction.current === "heal" && playerActionTime.current > 0.82 && !healedThisAction.current) {
@@ -1998,7 +2089,11 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     movementAllowedRef.current = movementAllowed;
     const lockOnMoveScale = aiming
       ? AIM_MOVE_SPEED / PLAYER_WALK_SPEED
-      : lockedOn.current && moveMagnitude > 0.08 ? PLAYER_LOCK_ON_WALK_SPEED / PLAYER_WALK_SPEED : 1;
+      : crouching
+        // The crouched cap comes from the authored sneak stride, so the stance
+        // moves at the speed its clips were timed for instead of scrubbing.
+        ? CROUCH_SPEED / PLAYER_WALK_SPEED
+        : lockedOn.current && moveMagnitude > 0.08 ? PLAYER_LOCK_ON_WALK_SPEED / PLAYER_WALK_SPEED : 1;
     // The controller retains horizontal authority through touchdown. Moving
     // landings use a short directional compression and crossfade quickly into
     // locomotion, so there is no planted stationary pose to skate across the
@@ -2007,7 +2102,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       ? {
         joystick: { x: intent.move.x * lockOnMoveScale, y: intent.move.y * lockOnMoveScale },
         run: sprinting && !aiming,
-        jump: intent.jumpHeld && playerStamina.current >= COMBAT_TUNING.jumpCost,
+        jump: intent.jumpHeld && !crouching && playerStamina.current >= COMBAT_TUNING.jumpCost,
       }
       : { joystick: { x: 0, y: 0 }, run: false, jump: false });
     // Ecctrl decelerates released input asymptotically, which leaves a brief
@@ -2039,23 +2134,45 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         ? lockOnOrientationWarp(intent.move, playerLocomotionReversing.current)
         : null;
       playerLocomotionReversing.current = lockWarp?.reversing ?? false;
-      const lockedLocomotion = lockWarp
+      const lockedStandard = lockWarp
         ? lockOnLocomotionAnimation(intent.move, moveMagnitude, lockWarp.reversing)
         : null;
+      // The lock-on selector answers in core clips; a weapon that overrides its
+      // locomotion answers for the same directions in its own.
+      const weaponLocomotion = playerWeapon.animations.locomotion;
+      const lockedLocomotion = lockedStandard && weaponLocomotion
+        ? ({
+          WALK: weaponLocomotion.walk,
+          WALK_BACK: weaponLocomotion.walkBack,
+          STRAFE_LEFT: weaponLocomotion.strafeLeft,
+          STRAFE_RIGHT: weaponLocomotion.strafeRight,
+          RUN: weaponLocomotion.run,
+        } as Partial<Record<string, AnimationState>>)[lockedStandard] ?? lockedStandard
+        : lockedStandard;
       const locomotion = jumpStartTimer.current > 0
         ? "JUMP_START"
         : landingTimer.current > 0
           ? landingAnimation.current
           : !handle.isOnGround
             ? "JUMP_IDLE"
+            : crouching
+              ? crouchLocomotionAnimation(
+                intent.move,
+                moveMagnitude,
+                equipped.current ? playerWeapon.animations : undefined,
+              )
             : sprinting
               ? playerWeapon.animations.sprintOverride ?? "SPRINT"
               : lockedLocomotion
                 ? lockedLocomotion
+              // A weapon carried differently moves differently: a greatsword
+              // is held across the body at a run and the arms genuinely do not
+              // swing. Absent overrides fall back to the shared core clips, so
+              // most weapons need no entry at all.
               : moveMagnitude > 0.72
-                ? "RUN"
+                ? playerWeapon.animations.locomotion?.run ?? "RUN"
                 : moveMagnitude > 0.08
-                  ? "WALK"
+                  ? playerWeapon.animations.locomotion?.walk ?? "WALK"
                   : equipped.current
                     ? playerWeapon.animations.combatIdle
                     : "IDLE";
@@ -2085,6 +2202,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       f.actionTime += delta;
       f.decisionTimer -= delta;
       f.staminaCooldown -= delta;
+      advancePoise(f.poise, delta);
       const enemyHandle = e.handle.current;
       const toPlayerX = playerPos.x - e.position.x;
       const toPlayerZ = playerPos.z - e.position.z;
@@ -2194,11 +2312,11 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
             f.staminaCooldown = COMBAT_TUNING.staminaRegenDelay;
             setEnemyMode(e, "attack", f.attack.animation);
           } else if (enemyIntent === "guard") {
-            setEnemyMode(e, "guard", weapon.animations.guard.enter);
+            setEnemyMode(e, "guard", activeGuardAnimations(archetype.loadout).enter);
           } else if (enemyIntent === "parry") {
             f.stamina -= COMBAT_TUNING.parryCost;
             f.staminaCooldown = COMBAT_TUNING.staminaRegenDelay;
-            setEnemyMode(e, "parry", weapon.animations.parry.intro);
+            setEnemyMode(e, "parry", activeGuardAnimations(archetype.loadout).parry.intro);
           } else if (enemyIntent === "dodge") {
             const side = scriptedCue?.side ?? (Math.random() > 0.5 ? 1 : -1);
             e.dodgeDirection.set(dirZ * side, 0, -dirX * side);
@@ -2333,8 +2451,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         const parryActive = isParryActive(f.actionTime);
         e.hitboxActive.current = parryActive;
         e.parryActive.current = parryActive;
-        if (f.actionTime >= (clipConfig(weapon.animations.parry.intro).sourceDuration ?? 0.83)) {
-          setEnemyAnim(e, weapon.animations.parry.followThrough);
+        const enemyParry = activeGuardAnimations(archetype.loadout).parry;
+        if (f.actionTime >= (clipConfig(enemyParry.intro).sourceDuration ?? 0.83)) {
+          setEnemyAnim(e, enemyParry.followThrough);
         }
         if (f.actionTime > ENEMY_SHARED_DURATIONS.parry) {
           setEnemyMode(e, "recover", weapon.animations.combatIdle);
@@ -2723,6 +2842,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           animationTimeRef={playerActionTime}
           weaponProfile={playerWeapon.visual}
           offHandProfile={playerLoadout.offHand?.visual ?? null}
+          animationPacks={playerAnimationPacks}
           armour={playerArmour}
           nockedArrow={playerNockedArrow}
           firstPerson={aimingSnapshot}

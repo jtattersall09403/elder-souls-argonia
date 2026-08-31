@@ -3,8 +3,7 @@ import { defineWeapon } from "./defineWeapon";
 import { MATERIAL_PROFILES, scaleGuardValue, type MaterialId, type MaterialProfile } from "./materials";
 import { SHIELD_STABILITY_BAND, WEAPON_STABILITY_BAND, clampToBand } from "./guard";
 import { WEAPON_CLASSES, resolveMoveset, scaleMoveset } from "./weaponClasses";
-import { REFERENCE_MOVESET, ONE_HANDED_ANIMATIONS } from "./movesets/oneHanded";
-import { BOW_ANIMATIONS } from "./movesets/bow";
+import { SHIELD_ANIMATIONS } from "./movesets/shield";
 import type {
   Absorption,
   AttributeMap,
@@ -134,6 +133,7 @@ function buildWeapon(itemId: string, built: BuiltItem): ArsenalWeapon {
   const classId = PIPELINE_CLASS_TO_WEAPON_CLASS[built.class];
   if (!classId) throw new RangeError(`arsenal item "${itemId}" has unmapped class ${built.class}`);
   const profile = WEAPON_CLASSES[classId];
+  const moveset = resolveMoveset(profile);
   const weightKg = Number((profile.weightKg * material.weightScale).toFixed(2));
 
   const definition = defineWeapon({
@@ -175,8 +175,10 @@ function buildWeapon(itemId: string, built: BuiltItem): ArsenalWeapon {
       },
       sheathed: { socket: built.sheathSocket, localPosition: [0, 0, 0], localRotation: [0, 0, 0, 1], localScale: 1 },
     },
-    animations: profile.ranged ? BOW_ANIMATIONS : ONE_HANDED_ANIMATIONS,
-    moveset: scaleMoveset(REFERENCE_MOVESET, profile),
+    // Clips and authored timing come from the resolved moveset; how hard and
+    // how far come from the class. Neither is restated per item.
+    animations: moveset.animations,
+    moveset: scaleMoveset(moveset.attacks, profile, moveset),
   });
 
   return {
@@ -190,9 +192,29 @@ function buildWeapon(itemId: string, built: BuiltItem): ArsenalWeapon {
     // whole of what a bow does. Only the melee it borrows for a desperate bash
     // is stand-in motion, and flagging that would tell a player their bow is
     // unfinished when it is not.
-    borrowedMoveset: !profile.ranged && resolveMoveset(profile) !== profile.moveset,
+    borrowedMoveset: !profile.ranged && moveset.id !== profile.moveset,
   };
 }
+
+/**
+ * The shield's own held-socket offset, on top of the rig convention.
+ *
+ * A half turn about the shield's vertical axis. The rig convention is measured
+ * from *weapons*, whose attach node points down the blade; a Bethesda shield
+ * node does not share that basis, so inheriting the weapon convention unchanged
+ * mounted every shield facing the wrong way — arm correctly through the straps,
+ * but the outer face turned in toward the body.
+ *
+ * Measured on the built meshes rather than tuned by eye, because a rotation
+ * picked by eye is the failure the rig-convention note in the animation
+ * contract warns about. In shield-asset space the thin axis is Y and the mesh
+ * hangs from about +0.03 to −0.14 on it, so the convex outer face is −Y and the
+ * mount sits on the arm side; the pointed foot of a kite shield is −Z (elven
+ * spans −0.373..+0.247). A half turn about **Z** therefore sends −Y outward
+ * while leaving the point down. The other in-plane axis, X, would flip the
+ * normal too — and stand every kite shield on its point.
+ */
+const SHIELD_HELD_ROTATION: readonly [number, number, number, number] = [0, 0, 1, 0];
 
 function buildShield(itemId: string, built: BuiltItem): ArsenalShield {
   const materialId = materialOf(itemId, built);
@@ -212,10 +234,13 @@ function buildShield(itemId: string, built: BuiltItem): ArsenalShield {
         absorption: { physical: scaleGuardValue(0.96, material.guardScale) },
       },
     },
+    animations: SHIELD_ANIMATIONS,
     visual: {
       asset: built.asset,
-      held: { socket: "Shield", localPosition: [0, 0, 0], localRotation: [0, 0, 0, 1], localScale: 1 },
-      sheathed: { socket: "Shield", localPosition: [0, 0, 0], localRotation: [0, 0, 0, 1], localScale: 1 },
+      held: { socket: "Shield", localPosition: [0, 0, 0], localRotation: SHIELD_HELD_ROTATION, localScale: 1 },
+      // Slung on the same node when the weapon is stowed, so it keeps the same
+      // correction: it is the same mount, not a second convention.
+      sheathed: { socket: "Shield", localPosition: [0, 0, 0], localRotation: SHIELD_HELD_ROTATION, localScale: 1 },
     },
     materialId,
     icon: built.icon,

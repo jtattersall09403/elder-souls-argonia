@@ -83,7 +83,56 @@ export type AnimationState =
   | "BOW_DRAWN"
   | "BOW_RELEASE"
   | "BOW_EQUIP"
-  | "BOW_UNEQUIP";
+  | "BOW_UNEQUIP"
+  // Crouched locomotion. Its own set rather than a slowed walk: Skyrim authors
+  // sneaking as a complete stance, and the crouched top speed is read off
+  // CROUCH_WALK's measured stride rather than guessed as a fraction of a walk.
+  | "CROUCH_IDLE"
+  | "CROUCH_WALK"
+  | "CROUCH_WALK_BACK"
+  | "CROUCH_STRAFE_LEFT"
+  | "CROUCH_STRAFE_RIGHT"
+  /** Crouched with a one-handed weapon drawn — the blade stays on guard. */
+  | "SWORD_CROUCH_IDLE"
+  // Guarding behind a shield. A shield is a braced face rather than an edge, so
+  // it has its own guard and its own bash-as-parry; which set an actor plays is
+  // decided by the off hand, not by the weapon (see `activeGuardAnimations`).
+  | "SHIELD_GUARD"
+  | "SHIELD_GUARD_ENTER"
+  | "SHIELD_GUARD_HIT_A"
+  | "SHIELD_GUARD_HIT_B"
+  | "SHIELD_PARRY"
+  | "SHIELD_PARRY_FOLLOW_THROUGH"
+  // Two-handed blade moveset.
+  | "GREATSWORD_IDLE"
+  | "GREATSWORD_WALK"
+  | "GREATSWORD_WALK_BACK"
+  | "GREATSWORD_STRAFE_LEFT"
+  | "GREATSWORD_STRAFE_RIGHT"
+  | "GREATSWORD_RUN"
+  | "GREATSWORD_SPRINT"
+  | "GREATSWORD_LIGHT_1"
+  | "GREATSWORD_LIGHT_2"
+  | "GREATSWORD_LIGHT_3"
+  | "GREATSWORD_HEAVY"
+  | "GREATSWORD_HEAVY_2"
+  | "GREATSWORD_GUARD"
+  | "GREATSWORD_GUARD_ENTER"
+  | "GREATSWORD_GUARD_HIT_A"
+  | "GREATSWORD_GUARD_HIT_B"
+  | "GREATSWORD_PARRY"
+  | "GREATSWORD_PARRY_FOLLOW_THROUGH"
+  | "GREATSWORD_EQUIP"
+  | "GREATSWORD_UNEQUIP"
+  // Two-handed haft moveset: only the swings differ from the blade set, so the
+  // carriage, locomotion, guard and draw above are shared rather than doubled.
+  | "GREATAXE_IDLE"
+  | "GREATAXE_SPRINT"
+  | "GREATAXE_LIGHT_1"
+  | "GREATAXE_LIGHT_2"
+  | "GREATAXE_LIGHT_3"
+  | "GREATAXE_HEAVY"
+  | "GREATAXE_HEAVY_2";
 
 export type CombatPhase = "windup" | "active" | "recovery" | "none";
 

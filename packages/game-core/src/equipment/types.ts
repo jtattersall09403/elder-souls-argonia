@@ -146,6 +146,26 @@ export type ShieldStats = {
 };
 
 /**
+ * The motion of holding *something* between you and a blow.
+ *
+ * Split out of `WeaponAnimationProfile` because the thing being guarded with is
+ * not always the weapon. A shield is a braced face carried on the off arm and a
+ * sword is an angled edge; playing the sword's block while a shield is equipped
+ * is the defect this type exists to make impossible. `activeGuardProfile`
+ * already picks the shield's *numbers* when one is worn — this is the matching
+ * pick for its *motion*, resolved by `activeGuardAnimations`.
+ */
+export type GuardAnimationProfile = {
+  enter: AnimationState;
+  loop: AnimationState;
+  hitVariants: readonly AnimationState[];
+  parry: {
+    intro: AnimationState;
+    followThrough: AnimationState;
+  };
+};
+
+/**
  * One entry in a weapon's moveset. `motionValue` is a multiplier on the
  * weapon's `baseDamage` (Souls' "motion value"), so re-statting a weapon or
  * adding a new one of the same class never restates the whole chain.
@@ -297,6 +317,24 @@ export type WeaponAnimationProfile = {
   /** Present only on bows; its presence is what makes a weapon shootable. */
   bow?: BowAnimationProfile;
   sprintOverride?: AnimationState;
+  /**
+   * Crouched carriage with this weapon drawn. Absent falls back to the
+   * weapon-neutral `CROUCH_IDLE` in the core pack, which is right for anything
+   * whose sneak pose Skyrim never authored separately.
+   */
+  crouchIdle?: AnimationState;
+  /**
+   * Free-roam locomotion overrides for weapons carried differently. A
+   * greatsword is held across the body at a run; a sword is not. Absent members
+   * fall back to the shared core clips.
+   */
+  locomotion?: Partial<{
+    walk: AnimationState;
+    walkBack: AnimationState;
+    strafeLeft: AnimationState;
+    strafeRight: AnimationState;
+    run: AnimationState;
+  }>;
   guard: {
     enter: AnimationState;
     loop: AnimationState;
@@ -328,6 +366,8 @@ export type ShieldDefinition = {
   id: string;
   label: string;
   stats: ShieldStats;
+  /** How this shield is guarded and bashed with; overrides the weapon's. */
+  animations: GuardAnimationProfile;
   visual: WeaponVisualProfile;
 };
 

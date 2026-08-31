@@ -330,6 +330,20 @@ def run_blender(plan_path: Path, output_glb: Path) -> dict:
 # Runtime manifest
 # ---------------------------------------------------------------------------
 
+def _pack_id_of(plan: BuildPlan, export: dict) -> str:
+    """Which pack an export's action list belongs to.
+
+    Matched on the clip set rather than trusting a name in two places: the
+    export list is built from the same plan, so a mismatch here means the pack
+    assignment and the emitted file have genuinely diverged.
+    """
+    clips = set(export["actions"])
+    for pack_id in plan.animation_packs or {}:
+        if {a.semantic for a in plan.animations if a.pack == pack_id} == clips:
+            return pack_id
+    raise ValueError(f"export {export['path']} does not match any declared animation pack")
+
+
 def write_runtime_manifest(plan: BuildPlan, summary: dict) -> None:
     durations = summary.get("durations", {})
     root_deltas = summary.get("rootMotionDeltas", {})
@@ -436,9 +450,40 @@ def write_runtime_manifest(plan: BuildPlan, summary: dict) -> None:
     bbox = summary.get("bboxSize", [0, 0, 0])
     height = bbox[2] if len(bbox) == 3 and bbox[2] else 1.0
     recommended_scale = round(plan.target_height / height, 5) if height else 1.0
+    # Animation packs: which GLB each clip actually ships in, so the runtime can
+    # fetch a weapon's motion only when an actor holds that weapon. Sizes and
+    # hashes are recorded here because this manifest is the game's contract with
+    # the built binaries — a pack the game asks for and cannot verify is exactly
+    # the failure the rig's own `assetSha256` already guards against.
+    pack_exports = {
+        pack_id: export
+        for export in plan.exports
+        if export.get("actions")
+        for pack_id in [_pack_id_of(plan, export)]
+    }
+    packs = {}
+    for pack_id, meta in (plan.animation_packs or {}).items():
+        export = pack_exports.get(pack_id)
+        if export is None:
+            continue
+        asset = (ROOT / export["path"]).resolve()
+        packs[pack_id] = {
+            "asset": asset.name,
+            "description": meta.get("description", ""),
+            "sha256": hashlib.sha256(asset.read_bytes()).hexdigest(),
+            "bytes": asset.stat().st_size,
+            "clips": sorted(export["actions"]),
+        }
+        # A pack that borrows another's carriage or shared choreography names it
+        # here, so the runtime resolves the closure instead of every call site
+        # remembering that a warhammer also needs the greatsword's footwork.
+        if meta.get("requires"):
+            packs[pack_id]["requires"] = list(meta["requires"])
+
     manifest = {
         "character": plan.character_id,
         "assetSha256": hashlib.sha256(plan.output_glb.read_bytes()).hexdigest(),
+        "packs": packs,
         "source": "Skyrim vanilla + permitted mod HKX (locally regenerated authorized runtime build)",
         "rig": {
             "rootBone": plan.root_bone,
@@ -470,6 +515,7 @@ def write_runtime_manifest(plan: BuildPlan, summary: dict) -> None:
         },
         "animations": {
             s.semantic: {
+                "pack": s.pack,
                 "looping": s.looping,
                 "rootMotion": s.root_motion,
                 "playbackRate": s.playback_rate,

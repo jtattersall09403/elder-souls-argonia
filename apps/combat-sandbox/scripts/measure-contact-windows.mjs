@@ -22,11 +22,19 @@ import * as THREE from "three";
  * Usage: node scripts/measure-contact-windows.mjs [CLIP ...]
  */
 
-const GLB = new URL("../public/rig-skyrim-humanoid.glb", import.meta.url);
+const ASSETS = new URL("../../../packages/character-assets/files/", import.meta.url);
 const MANIFEST = new URL("../../../packages/game-core/src/anim/generated/rig-skyrim-humanoid.animations.json", import.meta.url);
 
-/** Blade tip, in metres along the weapon frame's +Z from the grip. */
-const BLADE_LENGTH = 0.92;
+/**
+ * Blade tip, in metres along the weapon frame's +Z from the grip.
+ *
+ * A property of the weapon, not of the clip: a greatsword reaches half a metre
+ * further than a sword from the same pose, and measuring its swing against a
+ * sword's tip finds contact late. Pass `--blade <metres>` (the class's
+ * `lengthMeters`) when measuring a moveset for a longer weapon.
+ */
+const bladeFlag = process.argv.indexOf("--blade");
+const BLADE_LENGTH = bladeFlag >= 0 ? Number(process.argv[bladeFlag + 1]) : 0.92;
 /** Share of peak tip speed above which the blade counts as sweeping. */
 const SWEEP_THRESHOLD = 0.3;
 /**
@@ -251,26 +259,43 @@ function measure(gltf, nodes, animationName, socketRotation, scale) {
   };
 }
 
-const gltf = parseGlb(await readFile(GLB));
 const manifest = JSON.parse(await readFile(MANIFEST, "utf8"));
-const nodes = buildNodes(gltf);
 const scale = manifest.rig.recommendedScale;
 const socketRotation = manifest.rig.socketRotation ?? [0, 0, 0, 1];
 
-const clips = process.argv.slice(2);
+/**
+ * The rig ships as one GLB per animation pack, so a clip has to be looked up
+ * in the file that actually carries it. Reading the pack out of the manifest
+ * keeps this correct as movesets are added.
+ */
+const loaded = new Map();
+async function packFor(clip) {
+  const pack = manifest.animations[clip]?.pack ?? "core";
+  const asset = manifest.packs?.[pack]?.asset ?? "rig-skyrim-humanoid.glb";
+  if (!loaded.has(asset)) {
+    const gltf = parseGlb(await readFile(new URL(asset, ASSETS)));
+    loaded.set(asset, { gltf, nodes: buildNodes(gltf) });
+  }
+  return loaded.get(asset);
+}
+
+const clips = process.argv.slice(2).filter((arg, i, all) =>
+  !arg.startsWith("--") && all[i - 1] !== "--blade");
 const wanted = clips.length > 0
   ? clips
   : ["LIGHT_1", "LIGHT_2", "LIGHT_3", "HEAVY", "HEAVY_2"];
 
-console.log("clip        dur    sweep start..end (fraction)   seconds        peak tip m/s");
+console.log(`blade ${BLADE_LENGTH} m`);
+console.log("clip                     dur    sweep start..end (fraction)   seconds        peak tip m/s");
 for (const name of wanted) {
+  const { gltf, nodes } = await packFor(name);
   const result = measure(gltf, nodes, name, socketRotation, scale);
   if (result.start === null) {
-    console.log(`${name.padEnd(11)} ${result.duration.toFixed(3)}  no sweep found in reach`);
+    console.log(`${name.padEnd(24)} ${result.duration.toFixed(3)}  no sweep found in reach`);
     continue;
   }
   console.log(
-    `${name.padEnd(11)} ${result.duration.toFixed(3)}  `
+    `${name.padEnd(24)} ${result.duration.toFixed(3)}  `
     + `${result.start.toFixed(3)} .. ${result.end.toFixed(3)}          `
     + `${result.startSeconds.toFixed(3)}..${result.endSeconds.toFixed(3)}   `
     + `${result.peakTipSpeed.toFixed(1)}`,

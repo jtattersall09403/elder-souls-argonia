@@ -29,6 +29,9 @@ _asset_root = os.environ.get("ELDER_SOULS_ASSET_ROOT")
 ROOT = Path(_asset_root).expanduser().resolve() if _asset_root else Path(__file__).resolve().parent.parent
 CONFIG = Path(__file__).resolve().parent / "config"
 SUPPORT_MODES = frozenset({"airborne", "penetration", "floor-contact"})
+#: The animation pack every actor always loads. Anything a character can do
+#: without knowing what it is holding belongs here.
+CORE_ANIMATION_PACK = "core"
 
 
 def _load(kind: str, name: str) -> dict:
@@ -94,6 +97,11 @@ class AnimationSpec:
     #: to this clip's own source name, because Skyrim authors the pair together.
     #: Explicitly null opts a clip out.
     tail_source: str | None = None
+    #: Which downloadable animation pack this clip ships in. ``core`` is the
+    #: always-loaded set (locomotion, reactions, death); every other pack is
+    #: fetched only by an actor that can actually play it, so adding a weapon
+    #: type costs nothing to a character that never equips one.
+    pack: str = "core"
     extra: dict = field(default_factory=dict)
 
 
@@ -115,7 +123,11 @@ class BuildPlan:
     skin_tint: tuple[float, float, float]
     #: GLBs this build should emit. A rig carries the shared motion, a race
     #: carries only its own skin, and both is the single-file legacy shape.
+    #: An export may also name ``actions``, restricting it to one pack's clips.
     exports: tuple[dict, ...]
+    #: Ordered pack id -> emitted filename, from the animation config. The first
+    #: entry is the core pack every actor loads.
+    animation_packs: dict
     sockets: dict
     #: Quaternion XYZW from weapon-asset space into any socket bone's local
     #: space on this rig. A rig-level convention offset, never per weapon.
@@ -150,6 +162,7 @@ class BuildPlan:
             "texture_substitutions": self.texture_substitutions,
             "skin_tint": list(self.skin_tint),
             "exports": [dict(export) for export in self.exports],
+            "animation_packs": dict(self.animation_packs),
             "sockets": self.sockets,
             "socket_rotation": list(self.socket_rotation),
             "root_bone": self.root_bone,
@@ -187,6 +200,7 @@ class BuildPlan:
                         for check in a.exported_continuity
                     ],
                     "provenance": a.provenance,
+                    "pack": a.pack,
                 }
                 for a in self.animations
             ],
@@ -397,8 +411,30 @@ def resolve_character(character_id: str, overrides: dict | None = None) -> Build
         raise ValueError(
             "supportCalibration.airborneImpactProximityMeters must be between 0 and 0.1"
         )
+    # Animation packs: separately downloadable slices of the same rig build.
+    # Declared here rather than inferred, so a pack that no clip is assigned to
+    # yet is still a visible, reviewable part of the contract.
+    animation_packs = dict(anim.get("packs") or {})
+    if animation_packs:
+        if CORE_ANIMATION_PACK not in animation_packs:
+            raise ValueError(
+                f"animation packs must include the always-loaded "
+                f"'{CORE_ANIMATION_PACK}' pack"
+            )
+        for pack_id, pack in animation_packs.items():
+            if not isinstance(pack, dict) or not isinstance(pack.get("description"), str):
+                raise ValueError(
+                    f"animation pack {pack_id!r} needs a string 'description' "
+                    "saying which actors need it"
+                )
+
     animations: list[AnimationSpec] = []
     for semantic, entry in anim["animations"].items():
+        pack = entry.get("pack", CORE_ANIMATION_PACK)
+        if animation_packs and pack not in animation_packs:
+            raise ValueError(
+                f"{semantic}: pack {pack!r} is not declared in the config's 'packs'"
+            )
         explicit_axes = entry.get("preserveRootMotionAxes")
         if explicit_axes is not None:
             if entry.get("stripVerticalRootMotion", False):
@@ -509,11 +545,12 @@ def resolve_character(character_id: str, overrides: dict | None = None) -> Build
                 preserve_root_motion_axes=tuple(explicit_axes or ()),
                 support_mode=support_mode,
                 support_phases=tuple(support_phases),
+                pack=pack,
                 support_sample_rate=support_sample_rate,
                 remove_quaternion_keys=remove_quaternion_keys,
                 exported_continuity=exported_continuity,
                 extra={k: v for k, v in entry.items()
-                       if k not in {"source", "looping", "rootMotion", "playbackRate", "crossFadeDuration", "crossFadeOutDuration", "playbackStartTime", "playbackEndTime", "provenance", "preserveRootMotion", "stripVerticalRootMotion", "preserveRootMotionAxes", "tailSource", "supportMode", "supportPhases", "supportSampleRate", "curveConditioning"}},
+                       if k not in {"source", "looping", "rootMotion", "playbackRate", "crossFadeDuration", "crossFadeOutDuration", "playbackStartTime", "playbackEndTime", "provenance", "preserveRootMotion", "stripVerticalRootMotion", "preserveRootMotionAxes", "tailSource", "pack", "supportMode", "supportPhases", "supportSampleRate", "curveConditioning"}},
             )
         )
 
@@ -535,6 +572,7 @@ def resolve_character(character_id: str, overrides: dict | None = None) -> Build
         texture_substitutions=dict(race.get("textureSubstitutions", {})),
         skin_tint=parse_skin_tint(race.get("skinTint")),
         exports=tuple(char.get("exports", ())),
+        animation_packs=animation_packs,
         meshes=meshes,
         mesh_import=body["import"],
         morph=morph,

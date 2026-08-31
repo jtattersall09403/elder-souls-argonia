@@ -1,5 +1,8 @@
-import type { AnimationState } from "../core/types";
+import { MOVESETS, BUILT_MOVESETS, type MovesetDefinition, type MovesetId } from "./movesets";
+import { WEAPON_CLASS_POISE_DAMAGE } from "../combat/poise";
 import type { AttackId, AttackSpec, RangedStats, WeaponClass } from "./types";
+
+export type { MovesetId } from "./movesets";
 
 /**
  * What it is like to fight with a *kind* of weapon.
@@ -10,16 +13,6 @@ import type { AttackId, AttackSpec, RangedStats, WeaponClass } from "./types";
  * because they must agree with an authored clip, while damage is a motion value
  * the material scales.
  */
-
-/**
- * Which set of authored clips a class fights with.
- *
- * Only `oneHanded` is built today. A class that names a set the character asset
- * does not contain falls back to it — the weapon is usable and correctly
- * statted, but it swings with borrowed motion until that set is built. See
- * `docs/assets/animation-source-audit.md`.
- */
-export type MovesetId = "oneHanded" | "twoHanded" | "bow";
 
 export type WeaponClassProfile = {
   id: WeaponClass;
@@ -35,6 +28,11 @@ export type WeaponClassProfile = {
    * Scales every attack's authored windup/active/recovery. Above 1 is slower
    * and more committed; the contact window scales with it, so a heavy class
    * stays honest against its own animation rather than gaining free frames.
+   *
+   * One global scale across the whole arsenal — a warhammer is slower than a
+   * sword, full stop. Its moveset's own authored pace is divided out
+   * (`MovesetDefinition.speedReference`), so a two-handed clip that is already
+   * slow does not have its heaviness counted twice.
    */
   speedScale: number;
   /** Added to each attack's authored reach, in metres. */
@@ -97,7 +95,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     sheathSocket: "WeaponSword",
   },
   greatsword: {
-    id: "greatsword", label: "Greatsword", moveset: "twoHanded", twoHanded: true,
+    id: "greatsword", label: "Greatsword", moveset: "greatsword", twoHanded: true,
     lengthMeters: 1.42, weightKg: 7.5, speedScale: 1.34, reachBonus: 0.55,
     powerScale: 1.62, staminaScale: 1.4, stability: 0.62, physicalAbsorption: 0.95,
     sheathSocket: "WeaponBack",
@@ -109,7 +107,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     sheathSocket: "WeaponAxe",
   },
   greataxe: {
-    id: "greataxe", label: "Battleaxe", moveset: "twoHanded", twoHanded: true,
+    id: "greataxe", label: "Battleaxe", moveset: "greataxe", twoHanded: true,
     lengthMeters: 1.35, weightKg: 9, speedScale: 1.42, reachBonus: 0.45,
     powerScale: 1.78, staminaScale: 1.5, stability: 0.55, physicalAbsorption: 0.92,
     sheathSocket: "WeaponBack",
@@ -121,19 +119,19 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     sheathSocket: "WeaponMace",
   },
   warhammer: {
-    id: "warhammer", label: "Warhammer", moveset: "twoHanded", twoHanded: true,
+    id: "warhammer", label: "Warhammer", moveset: "greataxe", twoHanded: true,
     lengthMeters: 1.3, weightKg: 11, speedScale: 1.55, reachBonus: 0.35,
     powerScale: 2.05, staminaScale: 1.62, stability: 0.5, physicalAbsorption: 0.9,
     sheathSocket: "WeaponBack",
   },
   spear: {
-    id: "spear", label: "Spear", moveset: "twoHanded", twoHanded: true,
+    id: "spear", label: "Spear", moveset: "greatsword", twoHanded: true,
     lengthMeters: 2.1, weightKg: 5, speedScale: 1.15, reachBonus: 1.1,
     powerScale: 1.15, staminaScale: 1.05, stability: 0.4, physicalAbsorption: 0.78,
     sheathSocket: "WeaponBack",
   },
   halberd: {
-    id: "halberd", label: "Halberd", moveset: "twoHanded", twoHanded: true,
+    id: "halberd", label: "Halberd", moveset: "greataxe", twoHanded: true,
     lengthMeters: 2.2, weightKg: 8, speedScale: 1.4, reachBonus: 1.2,
     powerScale: 1.6, staminaScale: 1.45, stability: 0.45, physicalAbsorption: 0.85,
     sheathSocket: "WeaponBack",
@@ -184,27 +182,47 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     },
   },
   staff: {
-    id: "staff", label: "Staff", moveset: "twoHanded", twoHanded: true,
+    id: "staff", label: "Staff", moveset: "greatsword", twoHanded: true,
     lengthMeters: 1.6, weightKg: 4, speedScale: 1.25, reachBonus: 0.4,
     powerScale: 0.7, staminaScale: 0.9, stability: 0.35, physicalAbsorption: 0.5,
     sheathSocket: "WeaponBack",
   },
 };
 
-/** Movesets the character asset actually ships. */
-export const BUILT_MOVESETS: ReadonlySet<MovesetId> = new Set<MovesetId>(["oneHanded"]);
+export { BUILT_MOVESETS };
 
-export function resolveMoveset(profile: WeaponClassProfile): MovesetId {
-  return BUILT_MOVESETS.has(profile.moveset) ? profile.moveset : "oneHanded";
+/**
+ * The moveset a class actually fights with.
+ *
+ * A class naming a set the built character does not ship falls back to the
+ * one-handed reference: the weapon stays usable and correctly statted, and
+ * swings with borrowed motion until that set is sourced. `borrowedMoveset` on
+ * the arsenal item is what tells the player so.
+ */
+export function resolveMoveset(profile: WeaponClassProfile): MovesetDefinition {
+  return MOVESETS[BUILT_MOVESETS.has(profile.moveset) ? profile.moveset : "oneHanded"];
 }
 
-/** Apply a class profile to one authored attack. */
-export function scaleAttack(spec: AttackSpec, profile: WeaponClassProfile): AttackSpec {
+/**
+ * Apply a class profile to one authored attack.
+ *
+ * `speedScale` is divided by the moveset's own reference class, because the
+ * authored clip already carries that family's pace: a two-handed swing is
+ * authored at two-handed speed *and* the class table says a warhammer is slow,
+ * and multiplying both would count the same heaviness twice.
+ */
+export function scaleAttack(
+  spec: AttackSpec,
+  profile: WeaponClassProfile,
+  moveset: MovesetDefinition = resolveMoveset(profile),
+): AttackSpec {
+  const reference = WEAPON_CLASSES[moveset.speedReference].speedScale || 1;
+  const speed = profile.speedScale / reference;
   return {
     ...spec,
-    windup: spec.windup * profile.speedScale,
-    active: spec.active * profile.speedScale,
-    recovery: spec.recovery * profile.speedScale,
+    windup: spec.windup * speed,
+    active: spec.active * speed,
+    recovery: spec.recovery * speed,
     motionValue: spec.motionValue * profile.powerScale,
     stamina: Math.round(spec.stamina * profile.staminaScale),
     range: Math.max(0.6, spec.range + profile.reachBonus),
@@ -214,17 +232,21 @@ export function scaleAttack(spec: AttackSpec, profile: WeaponClassProfile): Atta
 export function scaleMoveset(
   moveset: Record<AttackId, AttackSpec>,
   profile: WeaponClassProfile,
+  definition: MovesetDefinition = resolveMoveset(profile),
 ): Record<AttackId, AttackSpec> {
   return Object.fromEntries(
     (Object.entries(moveset) as [AttackId, AttackSpec][])
-      .map(([id, spec]) => [id, scaleAttack(spec, profile)]),
+      .map(([id, spec]) => [id, scaleAttack(spec, profile, definition)]),
   ) as Record<AttackId, AttackSpec>;
 }
 
-/** Animation set a class fights with, once fallbacks are resolved. */
-export function movesetAnimations(_moveset: MovesetId): Partial<Record<string, AnimationState>> {
-  // The animation profile itself lives on the weapon definition; this hook
-  // exists so a future set can override individual semantic states without
-  // every weapon restating the whole profile.
-  return {};
+/**
+ * Poise damage this class's attacks deal (module 76 §121.3).
+ *
+ * Class-level, never per item — DS1's shape and the same construction as reach
+ * and power. Kept beside the class table so a new class cannot be added
+ * without answering "how hard does this interrupt?".
+ */
+export function classPoiseDamage(profile: WeaponClassProfile) {
+  return WEAPON_CLASS_POISE_DAMAGE[profile.id];
 }

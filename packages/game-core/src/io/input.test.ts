@@ -33,8 +33,14 @@ describe("movement translation", () => {
 });
 
 describe("GameSir controls", () => {
-  it("maps jump to the Nintendo-layout A face button and L3", () => {
+  it("maps jump to the Nintendo-layout A face button", () => {
     expect(SWITCH_GAMEPAD.A_RIGHT_JUMP).toBe(1);
-    expect(SWITCH_GAMEPAD.L_STICK_JUMP).toBe(10);
+  });
+
+  // L3 used to be a second jump binding, which A already covers. Crouch has no
+  // face button left and is a stance rather than an action, so the stick click
+  // is the right home for it.
+  it("maps crouch to the left stick click", () => {
+    expect(SWITCH_GAMEPAD.L_STICK_CROUCH).toBe(10);
   });
 });

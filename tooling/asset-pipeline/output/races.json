@@ -2,7 +2,7 @@
   "roster": "skyrim-playable",
   "rig": {
     "asset": "rig-skyrim-humanoid.glb",
-    "sha256": "42acf0b1c27e600e044ce7d08347a867c0b17226d561685d6cd988abf86cd4a1"
+    "sha256": "d55e40543c0011e54ada6a85a5df62c941e690fafff610a7eb133555eab5d04d"
   },
   "referenceRace": "dunmer",
   "races": {

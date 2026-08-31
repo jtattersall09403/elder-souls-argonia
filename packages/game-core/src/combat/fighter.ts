@@ -3,6 +3,8 @@ import type { AttackDefinition } from "../equipment/types";
 import type { EnemyArchetype } from "../actors/enemyArchetypes";
 import { DEFAULT_ENEMY_ARCHETYPE } from "../actors/enemyArchetypes";
 import { COMBAT_TUNING } from "./weapon";
+import { createPoise, resetPoise, type PoiseState } from "./poise";
+import { wornArmourFor } from "../inventory/store";
 import { PLAYER_ESTUS, PLAYER_MAX_HEALTH } from "./tuning";
 
 // The enemy state machine owns a few locomotion/decision states the player
@@ -42,6 +44,13 @@ export type Fighter = {
   staminaCooldown: number;
   estus: number;
   equipped: boolean;
+  /**
+   * Poise pool (module 76 §121.3). Whether a blow interrupts this actor is
+   * decided here rather than by a damage threshold: while the pool holds, a hit
+   * costs health and plays no reaction. Enemies derive theirs from the same
+   * formula the player does — worn armour and (at 10c) Agility.
+   */
+  poise: PoiseState;
 
   state: FighterState;
   actionTime: number;
@@ -95,6 +104,7 @@ export function createFighter(
     staminaCooldown: 0,
     estus: player ? PLAYER_ESTUS : archetype.estus,
     equipped: true,
+    poise: createPoise(wornArmourFor(archetype.armour)),
     state: player ? "idle" : "watching",
     actionTime: 0,
     attack: null,
@@ -122,6 +132,7 @@ export function resetFighter(fighter: Fighter) {
   fighter.staminaCooldown = 0;
   fighter.estus = fighter.team === "player" ? PLAYER_ESTUS : fighter.archetype.estus;
   fighter.equipped = true;
+  resetPoise(fighter.poise);
   fighter.state = fighter.team === "player" ? "idle" : "watching";
   fighter.actionTime = 0;
   fighter.attack = null;

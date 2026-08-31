@@ -34,7 +34,7 @@ from .build import (
     write_blender_plan,
     write_runtime_manifest,
 )
-from .models import CONFIG, ROOT, resolve_character
+from .models import CONFIG, CORE_ANIMATION_PACK, ROOT, resolve_character
 
 
 def _load_roster(roster_id: str) -> dict:
@@ -50,12 +50,45 @@ def _race_label(race_id: str) -> tuple[str, str]:
     return race.get("label", race_id), race.get("description", "")
 
 
+def pack_asset_path(rig_output: str, pack_id: str) -> str:
+    """Where one animation pack's GLB lands, next to the core rig.
+
+    Derived rather than configured: the core rig's path is already declared by
+    the roster, and having a second place name the same directory is how a pack
+    ends up shipped somewhere the game does not look for it.
+    """
+    rig = Path(rig_output)
+    if pack_id == CORE_ANIMATION_PACK:
+        return str(rig)
+    return str(rig.with_suffix("")) + f".{pack_id}.glb"
+
+
 def build_race(roster: dict, race_id: str, *, reference: bool) -> dict:
     """Build one race, and on the reference race the shared rig as well."""
     race_glb = Path(roster["raceOutputDir"]) / f"{race_id}.glb"
     exports = [{"path": str(race_glb), "animations": False, "meshes": True}]
     if reference:
-        exports.append({"path": roster["rigOutput"], "animations": True, "meshes": False})
+        # The rig is emitted once per animation pack. Every pack repeats the
+        # skeleton (cheap) and carries only its own clips, so a character that
+        # never picks up a greatsword never downloads the greatsword moveset.
+        probe = resolve_character(roster["id"], {
+            "id": f"{roster['id']}-{race_id}",
+            "race": race_id,
+            "exports": [],
+            "output": str(race_glb),
+            "manifestOutput": roster["manifestOutput"],
+        })
+        packs = probe.animation_packs or {CORE_ANIMATION_PACK: {}}
+        for pack_id in packs:
+            clips = [a.semantic for a in probe.animations if a.pack == pack_id]
+            if not clips:
+                raise ValueError(f"animation pack {pack_id!r} contains no clips")
+            exports.append({
+                "path": pack_asset_path(roster["rigOutput"], pack_id),
+                "animations": True,
+                "meshes": False,
+                "actions": clips,
+            })
 
     plan = resolve_character(roster["id"], {
         "id": f"{roster['id']}-{race_id}",

@@ -40,6 +40,8 @@ export type SupportEnvelope = {
 };
 
 export type ClipConfig = {
+  /** Which downloadable pack ships this clip. See {@link AnimationPack}. */
+  pack?: string;
   looping: boolean;
   playbackRate: number;
   rootMotion: RootMotionPolicy;
@@ -107,8 +109,31 @@ export type HurtboxSegment = {
   halfLength: number;
 };
 
+/**
+ * One separately downloadable slice of the rig's clip set.
+ *
+ * The rig is built once and emitted as several GLBs that share a skeleton:
+ * `core` (what a body can do regardless of what it holds) plus one pack per
+ * weapon family. An actor fetches only the packs it can actually play, so
+ * adding a moveset for a weapon nobody has equipped costs a player nothing.
+ * Adding a *new* weapon family is a pipeline config entry and an entry in
+ * `MOVESET_PACKS` — no change to loading, binding or the actor.
+ */
+export type AnimationPack = {
+  /** GLB filename, beside the core rig in `character-assets/files/`. */
+  asset: string;
+  description: string;
+  /** Binds the pack to the exact binary this manifest describes. */
+  sha256: string;
+  bytes: number;
+  /** Packs that must be loaded alongside this one. */
+  requires?: string[];
+  clips: string[];
+};
+
 type CharacterManifest = {
   assetSha256?: string;
+  packs?: Record<string, AnimationPack>;
   rig: RigManifest;
   supportCalibration?: {
     /** Near-plane guard for one fixed-step overshoot at physical impact. */
@@ -124,7 +149,63 @@ const CHARACTER_MANIFEST = manifest as unknown as CharacterManifest;
 const RIG = CHARACTER_MANIFEST.rig;
 const ANIMATIONS = CHARACTER_MANIFEST.animations;
 
-export const RIG_GLB = "rig-skyrim-humanoid.glb";
+/** The always-loaded pack: everything a body can do without holding anything. */
+export const CORE_ANIMATION_PACK = "core";
+
+export const ANIMATION_PACKS: Readonly<Record<string, AnimationPack>> =
+  CHARACTER_MANIFEST.packs ?? {};
+
+export const RIG_GLB = ANIMATION_PACKS[CORE_ANIMATION_PACK]?.asset ?? "rig-skyrim-humanoid.glb";
+
+/** GLB filename for a pack id, or null if the build does not contain it. */
+export function animationPackAsset(pack: string): string | null {
+  return ANIMATION_PACKS[pack]?.asset ?? null;
+}
+
+/**
+ * Expand a wanted pack set into everything that must actually be loaded:
+ * `core` always, the requested packs, and whatever they declare they need.
+ *
+ * Returned in a stable order so the result can be used as a component key —
+ * a set that reorders between renders would remount the actor for no reason.
+ */
+export function resolveAnimationPacks(wanted: Iterable<string>): readonly string[] {
+  const resolved = new Set<string>([CORE_ANIMATION_PACK]);
+  const pending = [...wanted];
+  while (pending.length > 0) {
+    const pack = pending.pop()!;
+    if (!ANIMATION_PACKS[pack] || resolved.has(pack)) continue;
+    resolved.add(pack);
+    pending.push(...(ANIMATION_PACKS[pack].requires ?? []));
+  }
+  // Manifest order, which is build order: core first, shared packs before the
+  // weapon packs that borrow from them.
+  return Object.keys(ANIMATION_PACKS).filter((pack) => resolved.has(pack));
+}
+
+/**
+ * Files to fetch for a resolved pack list.
+ *
+ * Each carries its own content hash as a cache-busting revision, so rebuilding
+ * one moveset does not invalidate the others and a stale pack cannot be paired
+ * with a fresh manifest by a CDN.
+ */
+export function animationPackFiles(packs: readonly string[]) {
+  return packs.flatMap((pack) => {
+    const entry = ANIMATION_PACKS[pack];
+    return entry ? [{ pack, asset: entry.asset, revision: entry.sha256.slice(0, 16) }] : [];
+  });
+}
+
+/** Which pack ships a clip. Unknown states answer `core`, as the fallback does. */
+export function clipPack(state: AnimationState): string {
+  return ANIMATIONS[state]?.pack ?? CORE_ANIMATION_PACK;
+}
+
+/** The packs a set of semantic states needs between them, already expanded. */
+export function packsForStates(states: Iterable<AnimationState>): readonly string[] {
+  return resolveAnimationPacks([...states].map(clipPack));
+}
 
 
 export const RIG_ROOT_BONE = RIG.rootBone;
@@ -253,6 +334,28 @@ export const LOCOMOTION_STATES: ReadonlySet<AnimationState> = new Set<AnimationS
   // further into the source idle the longer the string is held, which is how a
   // three-second hold ends up somewhere the clip never meant to be.
   "BOW_DRAWN",
+  // Crouched movement is ordinary locomotion that happens to be low: self-timed
+  // and cadence-matched to the actor's ground speed like any other stride.
+  "CROUCH_IDLE",
+  "CROUCH_WALK",
+  "CROUCH_WALK_BACK",
+  "CROUCH_STRAFE_LEFT",
+  "CROUCH_STRAFE_RIGHT",
+  "SWORD_CROUCH_IDLE",
+  // Two-handed carriage and locomotion. The attacks are combat actions on the
+  // gameplay clock, exactly as the one-handed ones are; only these are free.
+  "GREATSWORD_IDLE",
+  "GREATSWORD_WALK",
+  "GREATSWORD_WALK_BACK",
+  "GREATSWORD_STRAFE_LEFT",
+  "GREATSWORD_STRAFE_RIGHT",
+  "GREATSWORD_RUN",
+  "GREATSWORD_SPRINT",
+  "GREATSWORD_GUARD",
+  "GREATAXE_IDLE",
+  "GREATAXE_SPRINT",
+  // A raised shield is a held stance, like the weapon guard beside it.
+  "SHIELD_GUARD",
 ]);
 
 /** Every semantic state the built GLB is expected to contain. */

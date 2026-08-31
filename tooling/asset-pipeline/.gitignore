@@ -1,6 +1,12 @@
 # --- Proprietary Bethesda source & generated assets (NEVER commit) ---
+# Trailing-slash forms match a real directory but not a symlink, and the owned
+# Skyrim data is usually linked in from wherever it was downloaded rather than
+# copied. Match both.
+skyrim-source/Data
 skyrim-source/Data/
+skyrim-source/extracted
 skyrim-source/extracted/
+skyrim-source/mod-sources
 skyrim-source/mod-sources/
 skyrim-source/.DepotDownloader/
 build/

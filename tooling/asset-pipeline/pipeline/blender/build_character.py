@@ -1151,7 +1151,37 @@ reset_armature_pose(arm)
 # ---------------------------------------------------------------------------
 # 8. Export GLB (no cameras/lights)
 # ---------------------------------------------------------------------------
-def export_glb(path, *, animations, meshes_included):
+def set_action_allowlist(kept):
+    """Restrict the next glTF export to `kept` action names, or all if None.
+
+    The exporter has no "these actions only" argument. What it does have is the
+    Scene-level filter its UI checkbox list is backed by, consulted on every
+    path that can contribute an action — the active action, NLA strips, and the
+    single-armature "include everything" sweep this build relies on. Registering
+    the property here rather than letting the operator do it is what lets the
+    collection be *populated* before the export runs; the operator only creates
+    it when it is absent, so it will not clobber ours.
+    """
+    scene = bpy.data.scenes[0]
+    if not hasattr(bpy.types.Scene, "gltf_action_filter"):
+        from io_scene_gltf2 import GLTF2_filter_action
+        bpy.types.Scene.gltf_action_filter = bpy.props.CollectionProperty(type=GLTF2_filter_action)
+        bpy.types.Scene.gltf_action_filter_active = bpy.props.IntProperty()
+    scene.gltf_action_filter.clear()
+    if kept is None:
+        return False
+    allowed = set(kept)
+    missing = allowed - set(bpy.data.actions.keys())
+    if missing:
+        raise RuntimeError("export pack names unknown actions: %s" % sorted(missing))
+    for action in bpy.data.actions:
+        item = scene.gltf_action_filter.add()
+        item.action = action
+        item.keep = action.name in allowed
+    return True
+
+
+def export_glb(path, *, animations, meshes_included, actions=None):
     """Export one GLB.
 
     Animations and skinned bodies are separable products of the same build: a
@@ -1159,18 +1189,27 @@ def export_glb(path, *, animations, meshes_included):
     skin. Keeping them in one file would duplicate three megabytes of authored
     animation for every race that exists, so the plan names which of the two
     (or both) it wants.
+
+    `actions` narrows an animation export to one *pack* — a slice of the clip
+    set an actor only downloads if it can actually play it. The skeleton is
+    re-emitted in every pack (a hundred nodes, next to nothing) because glTF
+    animation channels address nodes by index and a pack has to be a valid
+    document on its own.
     """
+    filtered = set_action_allowlist(actions if animations else None)
     bpy.ops.object.select_all(action="DESELECT")
     arm.select_set(True)
     if meshes_included:
         for obj in meshes:
             obj.select_set(True)
     bpy.context.view_layer.objects.active = arm
-    log("exporting GLB (animations=%s meshes=%s) -> %s" % (animations, meshes_included, path))
+    log("exporting GLB (animations=%s meshes=%s clips=%s) -> %s" % (
+        animations, meshes_included, "all" if actions is None else len(actions), path))
     bpy.ops.export_scene.gltf(
         filepath=path,
         export_format="GLB",
         use_selection=True,
+        export_action_filter=filtered,
         export_cameras=False,
         export_lights=False,
         export_yup=True,
@@ -1198,6 +1237,7 @@ for export in exports:
         export["path"],
         animations=bool(export.get("animations", True)) and bool(PLAN["animations"]),
         meshes_included=bool(export.get("meshes", True)),
+        actions=export.get("actions"),
     )
 SUMMARY["exports"] = [export["path"] for export in exports]
 SUMMARY["outputGlb"] = out

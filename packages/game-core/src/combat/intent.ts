@@ -29,6 +29,11 @@ export type PlayerIntent = {
   equipPressed: boolean;
   jumpPressed: boolean;
   jumpHeld: boolean;
+  /**
+   * Rising edge of the crouch toggle. A toggle, not a hold: stealth is a mode
+   * you stay in, and holding a button for minutes is unusable on touch.
+   */
+  crouchPressed: boolean;
   targetLeftPressed: boolean;
   targetRightPressed: boolean;
 };
@@ -51,6 +56,7 @@ export function inputToIntent(source: InputController): PlayerIntent {
     equipPressed: source.pressed("equip"),
     jumpPressed: source.pressed("jump"),
     jumpHeld: source.held("jump"),
+    crouchPressed: source.pressed("crouch"),
     targetLeftPressed: source.pressed("targetLeft"),
     targetRightPressed: source.pressed("targetRight"),
   };

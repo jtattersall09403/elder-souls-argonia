@@ -179,10 +179,16 @@ describe("the view a UI is handed", () => {
     expect(sword?.equipBlocked).toBeUndefined();
   });
 
-  it("flags an item whose presentation is still incomplete", () => {
+  // Two-handed weapons swung with borrowed one-handed motion until the
+  // greatsword and greataxe packs were sourced; this is what proves they no
+  // longer do. The flag itself stays — the next weapon family to be added
+  // (spears, dual wield) borrows until its clips exist, and a player is owed
+  // that warning.
+  it("no longer flags two-handed weapons as borrowing a moveset", () => {
     const greatsword = buildInventoryView(carried).cells
       .find((c) => c.itemId === "daedric-greatsword");
-    expect(greatsword?.provisional).toContain("moveset");
+    expect(greatsword).toBeDefined();
+    expect(greatsword?.provisional).toBeUndefined();
   });
 
   it("reports encumbrance, armour and the worn slots", () => {

@@ -26,8 +26,48 @@
     "crossFadeDuration": 0.12,
     "supportMode": "penetration"
   },
+  "packs": {
+    "core": {
+      "label": "Core",
+      "description": "Everything a character can do without knowing what it is holding: locomotion, crouch/sneak, jump, dodge, hit reactions, guard-break stagger, healing and death. Always loaded."
+    },
+    "criticals": {
+      "label": "Paired criticals",
+      "description": "The riposte and backstab choreography, both roles. Shared by every melee weapon rather than duplicated per moveset, because the paired clips are the weapon-independent half of a critical."
+    },
+    "oneHanded": {
+      "label": "One-handed",
+      "description": "Sword, axe and mace moveset: combat idle and crouch, the light and heavy chains, weapon guard and parry, draw and sheathe.",
+      "requires": [
+        "criticals"
+      ]
+    },
+    "shield": {
+      "label": "Shield",
+      "description": "Blocking behind a braced shield face rather than a weapon edge, plus the shield bash that serves as its parry. Loaded whenever something is in the off hand."
+    },
+    "bow": {
+      "label": "Bow",
+      "description": "The shooting cycle and bow-carry locomotion."
+    },
+    "greatsword": {
+      "label": "Greatsword",
+      "description": "Two-handed blade moveset (Skyrim's 2hm set): its own carriage, locomotion, chains, guard, parry and draw. The two-handed base every haft weapon also builds on.",
+      "requires": [
+        "criticals"
+      ]
+    },
+    "greataxe": {
+      "label": "Battleaxe and warhammer",
+      "description": "The heavier two-handed haft chains (Skyrim's 2hw set). Carriage, locomotion, guard and draw come from the greatsword pack, so only the swings differ.",
+      "requires": [
+        "greatsword"
+      ]
+    }
+  },
   "animations": {
     "IDLE": {
+      "pack": "core",
       "source": "mt_idle_a_base",
       "looping": true,
       "preserveRootMotion": true,
@@ -35,45 +75,53 @@
       "tailSource": "mt_idle"
     },
     "SWORD_IDLE": {
+      "pack": "oneHanded",
       "source": "1hm_idle",
       "looping": true,
       "preserveRootMotion": true,
       "provenance": "vanilla 1hm_idle (sword-drawn idle); separate action so IDLE/SWORD_IDLE swap independently"
     },
     "WALK": {
+      "pack": "core",
       "source": "1hm_walkforward",
       "looping": true,
       "provenance": "vanilla directional walk (real forward locomotion)"
     },
     "WALK_BACK": {
+      "pack": "core",
       "source": "1hm_walkbackward",
       "looping": true,
       "provenance": "vanilla directional walk-back (real, not reversed forward)",
       "tailSource": "mt_walkbackward"
     },
     "STRAFE_LEFT": {
+      "pack": "core",
       "source": "1hm_walkleft",
       "looping": true,
       "provenance": "vanilla left strafe",
       "tailSource": "mt_walkleft"
     },
     "STRAFE_RIGHT": {
+      "pack": "core",
       "source": "1hm_walkright",
       "looping": true,
       "provenance": "vanilla right strafe",
       "tailSource": "mt_walkright"
     },
     "RUN": {
+      "pack": "core",
       "source": "male/mt_runforward",
       "looping": true,
       "provenance": "vanilla male mt_runforward. Replaces 1hm_runforward, whose combat carriage holds both arms near the body: measured on the production rig its upper arms swing only 24/19 degrees against 88/79 degrees of thigh swing, which reads as shoulders bobbing with no arm swing. mt_runforward swings 43/35 degrees at the shoulder and 32/37 at the elbow over the identical stride."
     },
     "SPRINT": {
+      "pack": "core",
       "source": "male/mt_sprintforward",
       "looping": true,
       "provenance": "vanilla male mt_sprintforward. mt_sprintforwardsword is the same sprint with the sword arm damped - measured on the production rig the two are identical on the left arm (49.2/50.8 degrees) and legs, and differ only on the right, which drops from 63.8 to 51.1 at the shoulder and 30.9 to 27.3 at the elbow. That asymmetry is exactly the reported 'left arm swings, right arm bobs'."
     },
     "JUMP_START": {
+      "pack": "core",
       "source": "mt_jump",
       "playbackEndTime": 0.5667,
       "crossFadeDuration": 0.18,
@@ -83,6 +131,7 @@
       "stripVerticalRootMotion": true
     },
     "JUMP_IDLE": {
+      "pack": "core",
       "source": "mt_jumpfast",
       "looping": false,
       "playbackStartTime": 0.5667,
@@ -93,52 +142,61 @@
       "stripVerticalRootMotion": true
     },
     "JUMP_LAND": {
+      "pack": "core",
       "source": "mt_jumpland",
       "crossFadeDuration": 0.18,
       "supportMode": "floor-contact",
       "provenance": "vanilla stationary landing with a production-audited 0.18s entry blend and exact visible-surface contact"
     },
     "JUMP_LAND_LEFT": {
+      "pack": "core",
       "source": "mt_jumplandleft",
       "supportMode": "floor-contact",
       "provenance": "vanilla directional landing, left-foot transition with exact visible-surface contact",
       "tailSource": "mt_jumpland"
     },
     "JUMP_LAND_RIGHT": {
+      "pack": "core",
       "source": "mt_jumplandright",
       "supportMode": "floor-contact",
       "provenance": "vanilla directional landing, right-foot transition with exact visible-surface contact",
       "tailSource": "mt_jumpland"
     },
     "LIGHT_1": {
+      "pack": "oneHanded",
       "source": "1hm_attackright",
       "rootMotion": "consume",
       "combo": 1,
       "provenance": "vanilla right swing (combo hit 1)"
     },
     "LIGHT_2": {
+      "pack": "oneHanded",
       "source": "1hm_attackleft",
       "rootMotion": "consume",
       "combo": 2,
       "provenance": "vanilla left swing (combo hit 2, alternating)"
     },
     "LIGHT_3": {
+      "pack": "oneHanded",
       "source": "1hm_attackpower",
       "rootMotion": "consume",
       "combo": 3,
       "provenance": "vanilla standing power attack (combo finisher)"
     },
     "HEAVY": {
+      "pack": "oneHanded",
       "source": "1hm_attackpowerright",
       "rootMotion": "consume",
       "provenance": "vanilla right power attack"
     },
     "HEAVY_2": {
+      "pack": "oneHanded",
       "source": "1hm_attackpowerleft",
       "rootMotion": "consume",
       "provenance": "vanilla left power attack"
     },
     "ROLL": {
+      "pack": "core",
       "source": "dynamic_dodge_roll_1hm",
       "rootMotion": "consume",
       "playbackRate": 1.35422,
@@ -168,6 +226,7 @@
       "tailSource": "mt_jump"
     },
     "BACKSTEP": {
+      "pack": "core",
       "source": "1hm_walkbackward",
       "looping": false,
       "rootMotion": "consume",
@@ -179,12 +238,14 @@
       "tailSource": "mt_walkbackward"
     },
     "GUARD_ENTER": {
+      "pack": "oneHanded",
       "source": "1hm_blockanticipate",
       "provenance": "vanilla one-handed sword block anticipate/guard entry. Its stance sits 0.174 m lower at the COM than the sword idle it blends from; now that both clips are correctly grounded that difference is real geometry rather than a hover, so the entry blend is lengthened to spread the support solve over more frames instead of stepping it in one.",
       "crossFadeDuration": 0.2,
       "tailSource": "2hm_blockanticipate"
     },
     "GUARD": {
+      "pack": "oneHanded",
       "source": "1hm_blockidle",
       "looping": true,
       "preserveRootMotion": true,
@@ -192,16 +253,19 @@
       "tailSource": "2hm_idle"
     },
     "GUARD_HIT_A": {
+      "pack": "oneHanded",
       "source": "1hm_blockhita",
       "provenance": "vanilla one-handed sword block-hit variant A",
       "tailSource": "2hm_blockhit"
     },
     "GUARD_HIT_B": {
+      "pack": "oneHanded",
       "source": "1hm_blockhitb",
       "provenance": "vanilla one-handed sword block-hit variant B",
       "tailSource": "2hm_blockhit"
     },
     "PARRY": {
+      "pack": "oneHanded",
       "source": "rim_parry_intro_1hm",
       "rootMotion": "consume",
       "crossFadeDuration": 0.06,
@@ -210,6 +274,7 @@
       "tailSource": "2hm_blockbash"
     },
     "PARRY_FOLLOW_THROUGH": {
+      "pack": "oneHanded",
       "source": "rim_parry_follow_1hm",
       "rootMotion": "consume",
       "crossFadeDuration": 0.05,
@@ -218,6 +283,7 @@
       "tailSource": "2hm_blockbash"
     },
     "RIPOSTE": {
+      "pack": "criticals",
       "source": "rim_riposte_1hm",
       "rootMotion": "consume",
       "playbackStartTime": 0.1667,
@@ -228,6 +294,7 @@
       "tailSource": null
     },
     "RIPOSTED_HIT1": {
+      "pack": "criticals",
       "source": "rim_riposted_hit1_1hm",
       "rootMotion": "consume",
       "playbackStartTime": 0.1333,
@@ -239,6 +306,7 @@
       "tailSource": null
     },
     "CRITICAL_KNOCKDOWN": {
+      "pack": "core",
       "source": "rim_critical_knockdown_1hm",
       "rootMotion": "consume",
       "supportMode": "penetration",
@@ -258,6 +326,7 @@
       "tailSource": null
     },
     "CRITICAL_DEATH": {
+      "pack": "core",
       "source": "rim_critical_knockdown_1hm",
       "rootMotion": "consume",
       "playbackEndTime": 1.9,
@@ -278,6 +347,7 @@
       "tailSource": null
     },
     "BACKSTAB": {
+      "pack": "criticals",
       "source": "backstab_paired_1hm",
       "rootMotion": "consume",
       "pairedTrackPrefix": "",
@@ -285,6 +355,7 @@
       "tailSource": null
     },
     "BACKSTABBED": {
+      "pack": "criticals",
       "source": "backstab_paired_1hm",
       "rootMotion": "consume",
       "pairedTrackPrefix": "2_",
@@ -293,41 +364,49 @@
       "tailSource": null
     },
     "HEAL": {
+      "pack": "core",
       "source": "idledrinkpotion",
       "playbackRate": 3.65594,
       "provenance": "vanilla drink-potion idle (estus heal, full clip fitted to the 1.55s gameplay window)",
       "tailSource": "mt_idle"
     },
     "EQUIP": {
+      "pack": "oneHanded",
       "source": "1hm_equip",
       "provenance": "vanilla draw one-handed"
     },
     "UNEQUIP": {
+      "pack": "oneHanded",
       "source": "1hm_unequip",
       "provenance": "vanilla sheathe one-handed"
     },
     "HIT": {
+      "pack": "core",
       "source": "1hm_staggerbacksmall",
       "playbackRate": 2.52694,
       "provenance": "vanilla small back stagger (full clip fitted to the 0.62s light-hit reaction window)"
     },
     "HIT_HEAVY": {
+      "pack": "core",
       "source": "1hm_staggerbacklarge",
       "playbackRate": 3.97855,
       "provenance": "vanilla large back stagger (full clip fitted to the 0.62s heavy-hit reaction window)"
     },
     "RECOIL": {
+      "pack": "core",
       "source": "1hm_recoiltimed",
       "playbackRate": 2.69833,
       "provenance": "vanilla weapon recoil (full clip fitted to the 0.42s blocked/clashed window)",
       "tailSource": "2hm_recoiltimed"
     },
     "GUARD_BREAK": {
+      "pack": "core",
       "source": "1hm_staggerbacklarge",
       "playbackRate": 1.0,
       "provenance": "vanilla 1hm_staggerbacklarge standing recoil, played at its native 2.4667s so the guard-break opening reads as a full Souls-style stagger instead of a 1.4x-compressed 1.75s window; selected over the kneeling OAR largest-stagger candidate"
     },
     "DEATH": {
+      "pack": "core",
       "source": "rim_critical_knockdown_1hm",
       "rootMotion": "consume",
       "playbackEndTime": 1.9,
@@ -348,6 +427,7 @@
       "tailSource": null
     },
     "BOW_IDLE": {
+      "pack": "bow",
       "source": "bow_idleheld",
       "looping": true,
       "preserveRootMotion": true,
@@ -355,60 +435,331 @@
       "tailSource": "mt_idle"
     },
     "BOW_WALK": {
+      "pack": "bow",
       "source": "bow_walkforward",
       "looping": true,
       "provenance": "vanilla bow-carry walk",
       "tailSource": "mt_walkforward"
     },
     "BOW_WALK_BACK": {
+      "pack": "bow",
       "source": "bow_walkbackward",
       "looping": true,
       "provenance": "vanilla bow-carry walk-back",
       "tailSource": "mt_walkbackward"
     },
     "BOW_STRAFE_LEFT": {
+      "pack": "bow",
       "source": "bow_walkleft",
       "looping": true,
       "provenance": "vanilla bow-carry left strafe",
       "tailSource": "mt_walkleft"
     },
     "BOW_STRAFE_RIGHT": {
+      "pack": "bow",
       "source": "bow_walkright",
       "looping": true,
       "provenance": "vanilla bow-carry right strafe",
       "tailSource": "mt_walkright"
     },
     "BOW_RUN": {
+      "pack": "bow",
       "source": "bow_runforward",
       "looping": true,
       "provenance": "vanilla bow-carry run",
       "tailSource": "mt_runforward"
     },
     "BOW_DRAW": {
+      "pack": "bow",
       "source": "bow_drawlight",
       "provenance": "vanilla bow_drawlight (nock through to full draw); the game scales it to the bow's own draw time",
       "tailSource": "mt_idle"
     },
     "BOW_DRAWN": {
+      "pack": "bow",
       "source": "bow_idledrawn",
       "looping": true,
       "provenance": "vanilla bow_idledrawn (held at full draw)",
       "tailSource": "mt_idle"
     },
     "BOW_RELEASE": {
+      "pack": "bow",
       "source": "bow_release",
       "provenance": "vanilla bow_release (loose and follow-through)",
       "tailSource": "mt_idle"
     },
     "BOW_EQUIP": {
+      "pack": "bow",
       "source": "bow_equip",
       "provenance": "vanilla bow_equip (bow off the back into the hand)",
       "tailSource": "mt_idle"
     },
     "BOW_UNEQUIP": {
+      "pack": "bow",
       "source": "bow_unequip",
       "provenance": "vanilla bow_unequip (bow back onto the back)",
       "tailSource": "mt_idle"
+    },
+    "CROUCH_IDLE": {
+      "pack": "core",
+      "source": "sneakmtidle",
+      "looping": true,
+      "preserveRootMotion": true,
+      "provenance": "Crouched movement is authored as its own locomotion set in Skyrim rather than a scaled walk, which is why crouching is a stance and not a speed multiplier on the standing clips. vanilla sneakmtidle, the neutral crouched hold."
+    },
+    "CROUCH_WALK": {
+      "pack": "core",
+      "source": "sneakwalk_forward",
+      "looping": true,
+      "provenance": "vanilla sneakwalk_forward: the authored crouched stride, ~0.9 m/s, which is what sets the crouched top speed rather than a guessed fraction of a walk."
+    },
+    "CROUCH_WALK_BACK": {
+      "pack": "core",
+      "source": "sneakwalk_bckward",
+      "looping": true,
+      "provenance": "vanilla sneakwalk_bckward (real crouched reverse, not a reversed forward stride)."
+    },
+    "CROUCH_STRAFE_LEFT": {
+      "pack": "core",
+      "source": "sneakwalk_left",
+      "looping": true,
+      "provenance": "vanilla crouched left strafe."
+    },
+    "CROUCH_STRAFE_RIGHT": {
+      "pack": "core",
+      "source": "sneakwalk_right",
+      "looping": true,
+      "provenance": "vanilla crouched right strafe."
+    },
+    "SWORD_CROUCH_IDLE": {
+      "pack": "oneHanded",
+      "source": "sneak1hm_idle",
+      "looping": true,
+      "preserveRootMotion": true,
+      "provenance": "vanilla sneak1hm_idle: crouched with a one-handed weapon drawn, so a drawn blade is still held on guard while sneaking. Separate from CROUCH_IDLE for the same reason SWORD_IDLE is separate from IDLE.",
+      "tailSource": "sneakmtidle"
+    },
+    "SHIELD_GUARD_ENTER": {
+      "pack": "shield",
+      "source": "shd_blockanticipate",
+      "crossFadeDuration": 0.2,
+      "provenance": "vanilla shd_blockanticipate: raising a shield, which brings the off arm across the body rather than angling the sword edge as 1hm_blockanticipate does. Entry blend matched to GUARD_ENTER's, whose stance sits at a comparable COM drop.",
+      "tailSource": "2hm_idle"
+    },
+    "SHIELD_GUARD": {
+      "pack": "shield",
+      "source": "shd_blockidle",
+      "looping": true,
+      "preserveRootMotion": true,
+      "provenance": "vanilla shd_blockidle: held behind the shield face.",
+      "tailSource": "2hm_idle"
+    },
+    "SHIELD_GUARD_HIT_A": {
+      "pack": "shield",
+      "source": "shd_blockhit_vara",
+      "provenance": "vanilla shield block-hit variant A.",
+      "tailSource": "2hm_idle"
+    },
+    "SHIELD_GUARD_HIT_B": {
+      "pack": "shield",
+      "source": "shd_blockhit_varb",
+      "provenance": "vanilla shield block-hit variant B.",
+      "tailSource": "2hm_idle"
+    },
+    "SHIELD_PARRY": {
+      "pack": "shield",
+      "source": "shd_blockbashintro",
+      "rootMotion": "consume",
+      "crossFadeDuration": 0.06,
+      "crossFadeOutDuration": 0.05,
+      "provenance": "vanilla shd_blockbashintro: the shield-bash catch. Blend timings mirror the audited weapon PARRY so the gameplay parry window is unchanged by which guard is raised.",
+      "tailSource": "2hm_blockbash"
+    },
+    "SHIELD_PARRY_FOLLOW_THROUGH": {
+      "pack": "shield",
+      "source": "shd_blockbash",
+      "rootMotion": "consume",
+      "crossFadeDuration": 0.05,
+      "crossFadeOutDuration": 0.14,
+      "provenance": "vanilla shd_blockbash: the bash deflection and recovery.",
+      "tailSource": "2hm_blockbash"
+    },
+    "GREATSWORD_IDLE": {
+      "pack": "greatsword",
+      "source": "2hm_idle",
+      "looping": true,
+      "preserveRootMotion": true,
+      "provenance": "vanilla two-handed blade set (Skyrim 2hm): drawn idle."
+    },
+    "GREATSWORD_WALK": {
+      "pack": "greatsword",
+      "source": "2hm_walkforward",
+      "looping": true,
+      "provenance": "vanilla two-handed blade set (Skyrim 2hm): walk.",
+      "tailSource": "mt_walkforward"
+    },
+    "GREATSWORD_WALK_BACK": {
+      "pack": "greatsword",
+      "source": "2hm_walkbackward",
+      "looping": true,
+      "provenance": "vanilla two-handed blade set (Skyrim 2hm): real walk-back.",
+      "tailSource": "mt_walkbackward"
+    },
+    "GREATSWORD_STRAFE_LEFT": {
+      "pack": "greatsword",
+      "source": "2hm_walkleft",
+      "looping": true,
+      "provenance": "vanilla two-handed blade set (Skyrim 2hm): left strafe.",
+      "tailSource": "mt_walkleft"
+    },
+    "GREATSWORD_STRAFE_RIGHT": {
+      "pack": "greatsword",
+      "source": "2hm_walkright",
+      "looping": true,
+      "provenance": "vanilla two-handed blade set (Skyrim 2hm): right strafe.",
+      "tailSource": "mt_walkright"
+    },
+    "GREATSWORD_RUN": {
+      "pack": "greatsword",
+      "source": "2hm_runforward",
+      "looping": true,
+      "provenance": "vanilla two-handed blade set (Skyrim 2hm): run. Unlike the one-handed set this keeps its combat carriage: a greatsword is carried across the body at a run and the arms genuinely do not swing.",
+      "tailSource": "mt_runforward"
+    },
+    "GREATSWORD_SPRINT": {
+      "pack": "greatsword",
+      "source": "2hm_sprintforwardsword",
+      "looping": true,
+      "provenance": "vanilla two-handed blade set (Skyrim 2hm): sprint.",
+      "tailSource": "mt_sprintforward"
+    },
+    "GREATSWORD_LIGHT_1": {
+      "pack": "greatsword",
+      "source": "2hm_attackright",
+      "rootMotion": "consume",
+      "provenance": "vanilla two-handed blade set (Skyrim 2hm): right swing (chain hit 1)."
+    },
+    "GREATSWORD_LIGHT_2": {
+      "pack": "greatsword",
+      "source": "2hm_attackleft",
+      "rootMotion": "consume",
+      "provenance": "vanilla two-handed blade set (Skyrim 2hm): left swing (chain hit 2, alternating)."
+    },
+    "GREATSWORD_LIGHT_3": {
+      "pack": "greatsword",
+      "source": "2hm_attackpowerforward",
+      "rootMotion": "consume",
+      "provenance": "vanilla two-handed blade set (Skyrim 2hm): forward power attack as the chain finisher, mirroring the one-handed chain's shape."
+    },
+    "GREATSWORD_HEAVY": {
+      "pack": "greatsword",
+      "source": "2hm_attackpower",
+      "rootMotion": "consume",
+      "provenance": "vanilla two-handed blade set (Skyrim 2hm): standing power attack."
+    },
+    "GREATSWORD_HEAVY_2": {
+      "pack": "greatsword",
+      "source": "2hm_attackpowerleft",
+      "rootMotion": "consume",
+      "provenance": "vanilla two-handed blade set (Skyrim 2hm): left power attack (heavy follow-up)."
+    },
+    "GREATSWORD_GUARD_ENTER": {
+      "pack": "greatsword",
+      "source": "2hm_blockanticipate",
+      "crossFadeDuration": 0.2,
+      "provenance": "vanilla two-handed blade set (Skyrim 2hm): raising the blade to guard."
+    },
+    "GREATSWORD_GUARD": {
+      "pack": "greatsword",
+      "source": "2hm_blockidle",
+      "looping": true,
+      "preserveRootMotion": true,
+      "provenance": "vanilla two-handed blade set (Skyrim 2hm): block idle.",
+      "tailSource": "2hm_idle"
+    },
+    "GREATSWORD_GUARD_HIT_A": {
+      "pack": "greatsword",
+      "source": "2hm_blockhita",
+      "provenance": "vanilla two-handed blade set (Skyrim 2hm): block-hit variant A.",
+      "tailSource": "2hm_idle"
+    },
+    "GREATSWORD_GUARD_HIT_B": {
+      "pack": "greatsword",
+      "source": "2hm_blockhitb",
+      "provenance": "vanilla two-handed blade set (Skyrim 2hm): block-hit variant B.",
+      "tailSource": "2hm_idle"
+    },
+    "GREATSWORD_PARRY": {
+      "pack": "greatsword",
+      "source": "2hm_blockbashintro",
+      "rootMotion": "consume",
+      "crossFadeDuration": 0.06,
+      "crossFadeOutDuration": 0.05,
+      "provenance": "vanilla two-handed blade set (Skyrim 2hm): block-bash catch, timed like the audited one-handed PARRY.",
+      "tailSource": "2hm_blockbash"
+    },
+    "GREATSWORD_PARRY_FOLLOW_THROUGH": {
+      "pack": "greatsword",
+      "source": "2hm_blockbash",
+      "rootMotion": "consume",
+      "crossFadeDuration": 0.05,
+      "crossFadeOutDuration": 0.14,
+      "provenance": "vanilla two-handed blade set (Skyrim 2hm): block-bash deflection and recovery."
+    },
+    "GREATSWORD_EQUIP": {
+      "pack": "greatsword",
+      "source": "2hc_equip",
+      "provenance": "vanilla two-handed blade set (Skyrim 2hm): draw from the back."
+    },
+    "GREATSWORD_UNEQUIP": {
+      "pack": "greatsword",
+      "source": "2hc_unequip",
+      "provenance": "vanilla two-handed blade set (Skyrim 2hm): sheathe onto the back."
+    },
+    "GREATAXE_IDLE": {
+      "pack": "greataxe",
+      "source": "2hw_idle",
+      "looping": true,
+      "preserveRootMotion": true,
+      "provenance": "vanilla two-handed haft set (Skyrim 2hw): drawn idle; a haft weapon is carried differently from a blade even though its footwork is the same.",
+      "tailSource": "2hm_idle"
+    },
+    "GREATAXE_LIGHT_1": {
+      "pack": "greataxe",
+      "source": "2hw_attackright",
+      "rootMotion": "consume",
+      "provenance": "vanilla two-handed haft set (Skyrim 2hw): right swing (chain hit 1)."
+    },
+    "GREATAXE_LIGHT_2": {
+      "pack": "greataxe",
+      "source": "2hw_attackleft",
+      "rootMotion": "consume",
+      "provenance": "vanilla two-handed haft set (Skyrim 2hw): left swing (chain hit 2)."
+    },
+    "GREATAXE_LIGHT_3": {
+      "pack": "greataxe",
+      "source": "2hw_attackpowerforward",
+      "rootMotion": "consume",
+      "provenance": "vanilla two-handed haft set (Skyrim 2hw): forward power attack as the chain finisher."
+    },
+    "GREATAXE_HEAVY": {
+      "pack": "greataxe",
+      "source": "2hw_attackpower",
+      "rootMotion": "consume",
+      "provenance": "vanilla two-handed haft set (Skyrim 2hw): standing overhead power attack."
+    },
+    "GREATAXE_HEAVY_2": {
+      "pack": "greataxe",
+      "source": "2hw_attackpowerleft",
+      "rootMotion": "consume",
+      "provenance": "vanilla two-handed haft set (Skyrim 2hw): left power attack (heavy follow-up)."
+    },
+    "GREATAXE_SPRINT": {
+      "pack": "greataxe",
+      "source": "2hw_sprintforwardsword",
+      "looping": true,
+      "provenance": "vanilla two-handed haft set (Skyrim 2hw): sprint.",
+      "tailSource": "mt_sprintforward"
     }
   }
 }

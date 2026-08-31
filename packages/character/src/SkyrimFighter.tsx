@@ -20,7 +20,8 @@ import {
   usesCrossFadeSoleProxy,
 } from "@elder-souls/game-core/anim/grounding";
 import {
-  RIG_GLB,
+  animationPackFiles,
+  resolveAnimationPacks,
   HURTBOX_SEGMENTS,
   sanitizeBoneName,
   CHARACTER_SCALE,
@@ -37,7 +38,7 @@ import type { AnimationState, WeaponSocketTransform, WeaponVisualProfile } from 
 import { VISUAL_PROBE_BONES, type ActorVisualProbe } from "@elder-souls/game-core/validation/actorVisualMetrics";
 import { VISUAL_FRAME_PHASE_PRIORITY } from "@elder-souls/game-core/validation/visualFrameMarker";
 import { applyAppearance, clearAppearance } from "@elder-souls/game-core/actors/appearance";
-import { DEFAULT_RACE, RIG_REVISION, raceById, type RaceDefinition, type RaceId } from "@elder-souls/game-core/actors/races";
+import { DEFAULT_RACE, raceById, type RaceDefinition, type RaceId } from "@elder-souls/game-core/actors/races";
 import type { ArmourDefinition } from "@elder-souls/game-core/equipment/armour";
 import type { MountedArmour } from "@elder-souls/game-core/actors/armourMounting";
 import { ArmourAttachments } from "./ArmourAttachments";
@@ -46,15 +47,24 @@ import { OffHandItem } from "./OffHandItem";
 import type { HurtboxBone, HurtboxRigRef } from "./SkeletalHurtbox";
 
 /**
- * The rig carries the skeleton and every semantic clip; a race GLB carries only
+ * The rig carries the skeleton and the semantic clips; a race GLB carries only
  * that race's skin. They are separate downloads because the animations are
  * identical for every race and would otherwise be duplicated per body.
  *
  * Nothing has to be re-bound to join them: both are built from the same
  * skeleton, so the clips' bone names resolve against whichever race model is
  * mounted, and `useAnimations` binds by name.
+ *
+ * The rig is itself several downloads — one *animation pack* per weapon family
+ * plus an always-loaded core (see `animationManifest`). Every pack repeats the
+ * same skeleton and adds only its own clips, so joining them is concatenating
+ * clip lists; nothing knows or cares which file a clip arrived in.
  */
-const RIG_URL = assetUrl(`${RIG_GLB}?v=${RIG_REVISION}`);
+function packUrls(packs: readonly string[]) {
+  return animationPackFiles(packs).map(({ asset, revision }) => assetUrl(`${asset}?v=${revision}`));
+}
+
+const CORE_PACK_URLS = packUrls(resolveAnimationPacks([]));
 
 const NO_ARMOUR: readonly ArmourDefinition[] = [];
 
@@ -177,13 +187,39 @@ function createHealingFlask() {
  * bind pose for the rest of the session. Rebuilding the mixer is the only
  * honest fix, and remounting is how a React component rebuilds.
  */
-export function SkyrimFighter(props: SkyrimFighterProps) {
-  return <PosedActor key={props.raceId ?? DEFAULT_RACE} {...props} />;
+export function SkyrimFighter({ animationPacks, ...props }: SkyrimFighterProps) {
+  // Resolved here, not inside, so the key and the loaded files come from one
+  // answer. `requires` closure included, `core` always present.
+  const packs = useMemo(
+    () => resolveAnimationPacks(animationPacks ?? []),
+    [animationPacks],
+  );
+  // Keyed by pack set as well as race, for the same reason: the mixer resolves
+  // each clip's bones once, against whatever was mounted when the action was
+  // first played. Changing the clip list under a live mixer leaves its existing
+  // bindings pointing at the old data; rebuilding it is the only honest fix,
+  // and remounting is how a React component rebuilds. Weapon swaps happen
+  // through the (world-paused) inventory, so the remount is not visible.
+  return (
+    <PosedActor
+      key={`${props.raceId ?? DEFAULT_RACE}|${packs.join(",")}`}
+      packs={packs}
+      {...props}
+    />
+  );
 }
 
-type SkyrimFighterProps = Parameters<typeof PosedActor>[0];
+type SkyrimFighterProps = Omit<Parameters<typeof PosedActor>[0], "packs"> & {
+  /**
+   * Animation packs this actor must be able to play, usually
+   * `loadoutAnimationPacks(loadout)`. Dependencies and the core pack are added
+   * for you; an empty list is a body that only ever does core motion.
+   */
+  animationPacks?: readonly string[];
+};
 
 function PosedActor({
+  packs,
   animationCommandRef,
   equipped,
   equippedRef,
@@ -207,6 +243,8 @@ function PosedActor({
   visualSupportY = 0,
   visualSupportYRef,
 }: {
+  /** Already-resolved pack ids; the wrapper above owns the resolution. */
+  packs: readonly string[];
   animationCommandRef: MutableRefObject<AnimationCommand>;
   equipped: boolean;
   equippedRef?: MutableRefObject<boolean>;
@@ -273,7 +311,12 @@ function PosedActor({
   visualSupportYRef?: MutableRefObject<number>;
 }) {
   const race = raceById(raceId);
-  const rig = useGLTF(RIG_URL);
+  // The pack list is fixed for this component's lifetime (the wrapper keys on
+  // it), so this array-form load has a stable length even though its contents
+  // are computed.
+  const rigUrls = useMemo(() => packUrls(packs), [packs]);
+  const rigs = useGLTF(rigUrls) as unknown as { animations: THREE.AnimationClip[] }[];
+  const rigClips = useMemo(() => rigs.flatMap((pack) => pack.animations), [rigs]);
   const gltf = useGLTF(raceUrl(race));
   const weaponUrl = assetUrl(weaponProfile.asset);
   const weaponGltf = useGLTF(weaponUrl);
@@ -418,7 +461,7 @@ function PosedActor({
   const weaponTipTmp = useRef(new THREE.Vector3());
 
   // Clips come from the rig, the skeleton they drive comes from the race body.
-  const { actions, mixer } = useAnimations(rig.animations, root);
+  const { actions, mixer } = useAnimations(rigClips, root);
 
   // drei's useAnimations normally advances its mixer from raw render-wall
   // delta. Combat and the deterministic visual scenarios deliberately cap
@@ -1052,4 +1095,6 @@ function PosedActor({
   );
 }
 
-useGLTF.preload(RIG_URL);
+// Warm the core pack: every actor needs it, and it is the one download that
+// is never conditional on what anybody is holding.
+for (const url of CORE_PACK_URLS) useGLTF.preload(url);

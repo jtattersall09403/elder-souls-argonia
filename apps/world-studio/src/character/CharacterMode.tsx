@@ -356,6 +356,11 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
                   speedMultiplierRef={speedMultiplierRef}
                   weaponProfile={loadout.mainHand.visual}
                   offHandProfile={loadout.offHand?.visual ?? null}
+                  // Character mode explores; it does not fight. The core pack
+                  // carries every clip it can reach (locomotion, crouch, jump,
+                  // landings), so a weapon moveset is not downloaded to walk
+                  // around the province.
+                  animationPacks={[]}
                   armour={armour}
                   raceId={race}
                   modelOffsetY={CHARACTER_MODEL_OFFSET}

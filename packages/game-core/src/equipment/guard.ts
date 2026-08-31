@@ -1,4 +1,10 @@
-import type { Absorption, DamageType, GuardProfile, Loadout } from "./types";
+import type {
+  Absorption,
+  DamageType,
+  GuardAnimationProfile,
+  GuardProfile,
+  Loadout,
+} from "./types";
 
 /**
  * Stability bands, documented so a new item is statted against a scale rather
@@ -41,6 +47,29 @@ export function absorbedFraction(absorption: Absorption, type: DamageType) {
  */
 export function activeGuardProfile(loadout: Loadout): GuardProfile {
   return loadout.offHand?.stats.guard ?? loadout.mainHand.stats.guard;
+}
+
+/**
+ * The block/parry *motion* for whatever is actually being guarded with.
+ *
+ * The same rule as `activeGuardProfile`, and deliberately its neighbour: if the
+ * shield decides the numbers it has to decide the animation too, or the actor
+ * angles a sword edge it is not using while a shield hangs unused on its arm.
+ * Every guard read in combat goes through here rather than through
+ * `weapon.animations.guard`, so a future off-hand item — a torch, a second
+ * blade, a spell — brings its own block by supplying this profile and nothing
+ * in the combat FSM changes.
+ */
+export function activeGuardAnimations(loadout: Loadout): GuardAnimationProfile {
+  const shield = loadout.offHand;
+  if (shield) return shield.animations;
+  const weapon = loadout.mainHand.animations;
+  return {
+    enter: weapon.guard.enter,
+    loop: weapon.guard.loop,
+    hitVariants: weapon.guard.hitVariants,
+    parry: weapon.parry,
+  };
 }
 
 /** Stamina an incoming hit costs the defender, given the guard's stability. */

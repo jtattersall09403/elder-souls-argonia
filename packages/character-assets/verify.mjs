@@ -70,6 +70,31 @@ const roster = JSON.parse(await readFile(
   "utf8",
 ));
 await assertMatchingGltf(roster.rig.asset, roster.rig.sha256);
+
+// The rig ships as one GLB per animation pack — a core set every actor loads
+// plus one per weapon family, fetched on demand. A missing or stale pack is not
+// a cosmetic gap: the actor suspends forever waiting for a clip, or worse binds
+// a moveset measured against a different build. Check every one against the
+// hash the animation manifest recorded for it.
+const animations = JSON.parse(await readFile(
+  new URL("../game-core/src/anim/generated/rig-skyrim-humanoid.animations.json", import.meta.url),
+  "utf8",
+));
+const packs = Object.entries(animations.packs ?? {});
+if (packs.length === 0) throw new Error("Animation manifest declares no packs");
+const packedClips = new Set();
+for (const [id, pack] of packs) {
+  if (typeof pack.asset !== "string") throw new Error(`Animation pack ${id} is missing its asset path`);
+  await assertMatchingGltf(pack.asset, pack.sha256);
+  for (const clip of pack.clips ?? []) packedClips.add(clip);
+}
+// Every semantic state the game can ask for must live in exactly one shipped
+// pack. A clip in the manifest but in no pack is one the runtime would ask a
+// mixer for and silently never get.
+const unpacked = Object.keys(animations.animations ?? {}).filter((clip) => !packedClips.has(clip));
+if (unpacked.length > 0) {
+  throw new Error(`Animation manifest declares clips that ship in no pack: ${unpacked.join(", ")}`);
+}
 const races = Object.entries(roster.races ?? {});
 if (races.length === 0) throw new Error("Race roster declares no races");
 for (const [id, race] of races) {
@@ -147,6 +172,6 @@ for (const [id, shaft] of shafts) {
 }
 
 console.log(
-  `verified rig, ${races.length} race bodies, ${items.length} arsenal items, `
+  `verified ${packs.length} animation packs, ${races.length} race bodies, ${items.length} arsenal items, `
   + `${pieces.length} armour pieces and ${shafts.length} arrows`,
 );
