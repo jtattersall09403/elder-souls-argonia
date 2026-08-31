@@ -25,6 +25,7 @@ import type { QualitySettings } from "@elder-souls/game-core/core/quality";
 import { sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
 import { groundHeightM } from "./terrainHeight";
 import {
+  ANCHOR_PIVOT_TERRAIN,
   decodeVegetationBundle,
   readInstance,
   type VegetationBundle,
@@ -256,20 +257,25 @@ export function Vegetation({
             bucket = { species: id!, level, transforms: [] };
             buckets.set(key, bucket);
           }
-          // Ground Y from the live terrain when a chunk is decoded (baked Y
-          // is the compile raster's, which can disagree with the mesh);
-          // anchorYM then sits the model's bbox bottom on the ground (see
-          // floraKit) — not every asset pivots at its base. Model-space
-          // metres × instance scale — never × verticalScale, which
-          // exaggerates terrain only.
-          const ground = chunksManifest
-            ? groundHeightM(store, chunksManifest, inst.x, inst.z)
-            : null;
-          position.set(
-            inst.x,
-            (ground ?? inst.y) * verticalScale + entry.anchorYM * inst.scale,
-            inst.z,
-          );
+          // Anchor per the mined authoring conventions (bundle v2,
+          // docs/research/vegetation-composition-rules.md): terrain species
+          // put their PIVOT on the live streamed ground minus a baked sink —
+          // never the bbox bottom, whose lowest point is often a hanging
+          // frond tip and lifted whole trunks into the air ("tiptoe trees",
+          // owner round 3). Water-surface species (lilypads) and attachments
+          // (vines on hosts) keep their baked absolute Y and must NOT be
+          // re-grounded to terrain. Sink is world metres, not × verticalScale
+          // (which exaggerates terrain only).
+          let y: number;
+          if (speciesGroup.anchorMode === ANCHOR_PIVOT_TERRAIN) {
+            const ground = chunksManifest
+              ? groundHeightM(store, chunksManifest, inst.x, inst.z)
+              : null;
+            y = (ground ?? inst.y) * verticalScale - inst.sink;
+          } else {
+            y = inst.y * verticalScale;
+          }
+          position.set(inst.x, y, inst.z);
           euler.set(inst.tiltX, inst.yaw, inst.tiltZ, "YXZ");
           quaternion.setFromEuler(euler);
           scale.setScalar(inst.scale);
@@ -294,7 +300,14 @@ export function Vegetation({
         // and level 1 runs to ~2.6× the species' near ring). Level 2 is
         // beyond useful shadow range and would only bloat the cascade passes.
         mesh.castShadow = bucket.level <= 1;
-        mesh.receiveShadow = true;
+        // Flat cards are lit as ground (normals bent up at kit load) and sit
+        // mostly beyond the CSM reach; letting the nearer ones receive the
+        // cascade's shadows over their whole up-facing quad blacks the card
+        // out wholesale rather than shading leaves (round-4 "stark dark
+        // distant trees"). Mesh levels keep receiving.
+        const isCard =
+          entry.billboardIndex !== null && bucket.level === entry.billboardIndex;
+        mesh.receiveShadow = !isCard;
         if (part.depthMaterial) mesh.customDepthMaterial = part.depthMaterial;
         for (let i = 0; i < bucket.transforms.length; i++) {
           mesh.setMatrixAt(i, bucket.transforms[i]);

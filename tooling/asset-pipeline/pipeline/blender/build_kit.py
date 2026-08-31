@@ -27,6 +27,13 @@ SUMMARY = {"kit": PLAN["kit"], "assets": []}
 #: get their transparent RGB dilated before export (see dilate_edge_rgb).
 ALPHA_TESTED_IMAGES = set()
 
+#: Images sampled by `_lod_flat` billboard cards. These are SHARED atlases
+#: (one tamrieltreelod.dds carries every species' silhouette in a small UV
+#: rect), so the general textureMaxSize downscale would leave each species a
+#: handful of texels and the cards render as solid slabs (owner Phase 10
+#: round 3). They keep their own, larger cap (billboardTextureMaxSize).
+BILLBOARD_IMAGES = set()
+
 bpy.ops.preferences.addon_enable(module="io_scene_nifly")
 bpy.ops.object.select_all(action="SELECT")
 bpy.ops.object.delete(use_global=False)
@@ -243,6 +250,12 @@ for asset in PLAN["assets"]:
     for obj in meshes:
         for slot in obj.material_slots:
             if slot.material:
+                # Single-user copy: NIF material names are generic
+                # ("plant_pmat1") and PyNifly can bind a later import to an
+                # earlier asset's same-named material, so rebuilding it for
+                # this asset would silently retexture the other one.
+                if slot.material.users > 1:
+                    slot.material = slot.material.copy()
                 name = rebuild_material(slot.material, asset["doubleSided"])
                 materials.add(slot.material.name)
                 if name:
@@ -298,6 +311,8 @@ for asset in PLAN["assets"]:
         for obj in flat_meshes:
             for slot in obj.material_slots:
                 if slot.material:
+                    if slot.material.users > 1:
+                        slot.material = slot.material.copy()
                     name = rebuild_material(slot.material, True)
                     billboard_materials.add(slot.material.name)
                     if name:
@@ -317,6 +332,7 @@ for asset in PLAN["assets"]:
                 obj["billboard"] = True
                 obj["assetId"] = asset["id"]
             textures |= flat_textures
+            BILLBOARD_IMAGES |= flat_textures
         else:
             print("[kit] WARNING billboard unusable (no mesh or no alpha) in %s"
                   % asset["id"])
@@ -354,12 +370,16 @@ for asset in PLAN["assets"]:
         asset["id"], triangles, size.x, size.y, size.z))
 
 max_texture = PLAN.get("textureMaxSize", 1024)
+max_billboard = PLAN.get("billboardTextureMaxSize", 1024)
 for image in bpy.data.images:
     if image.source != "FILE" or not max(image.size or (0, 0)):
         continue
+    # Shared billboard atlases keep more resolution: each species only owns a
+    # small UV rect of them (see BILLBOARD_IMAGES).
+    cap = max_billboard if image.name in BILLBOARD_IMAGES else max_texture
     longest = max(image.size)
-    if longest > max_texture:
-        factor = max_texture / longest
+    if longest > cap:
+        factor = cap / longest
         image.scale(max(1, int(image.size[0] * factor)),
                     max(1, int(image.size[1] * factor)))
         print("[kit] resized %s -> %dx%d" % (image.name, image.size[0], image.size[1]))
@@ -368,7 +388,9 @@ for image in bpy.data.images:
 dilated = 0
 for image in bpy.data.images:
     if image.name in ALPHA_TESTED_IMAGES and image.source == "FILE":
-        if dilate_edge_rgb(image):
+        # Larger billboard atlases need a deeper flood for the same mip reach.
+        iterations = 24 if image.name in BILLBOARD_IMAGES else 12
+        if dilate_edge_rgb(image, iterations=iterations):
             dilated += 1
 print("[kit] dilated transparent-texel RGB in %d foliage textures" % dilated)
 bpy.ops.file.pack_all()

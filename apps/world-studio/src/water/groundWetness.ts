@@ -60,6 +60,26 @@ uniform float uWetKlassExtent;
 uniform vec2 uWetLevels;
 uniform float uRainWet;
 uniform float uWetWind;
+
+// 16-bit water level at one texel of the W raster (r hi byte, g lo byte),
+// normalised 0..1 of the surface span.
+float esWetLvl(ivec2 t) {
+  vec4 s = texelFetch(uWetSurf, clamp(t, ivec2(0), ivec2(uWetParams.z) - 1), 0);
+  return (s.r * 255.0 * 256.0 + s.g * 255.0) / 65535.0;
+}
+
+// Cheap value noise for breaking the wet band's edge up (own hash — the
+// aerial patch's noise is only present when both patches share a material).
+float esWetHash(vec2 p) {
+  return fract(sin(dot(p, vec2(157.31, 113.97))) * 43137.5453);
+}
+float esWetNoise(vec2 p) {
+  vec2 i = floor(p);
+  vec2 f = fract(p);
+  f = f * f * (3.0 - 2.0 * f);
+  return mix(mix(esWetHash(i), esWetHash(i + vec2(1.0, 0.0)), f.x),
+             mix(esWetHash(i + vec2(0.0, 1.0)), esWetHash(i + vec2(1.0, 1.0)), f.x), f.y);
+}
 `;
 
 /**
@@ -85,10 +105,21 @@ if (uWetParams.z > 0.5) {
     vec3 esWetSS = texture2D(uWetShore, esWetUv).rgb; // shore, season, tannin
     float esWetShore = esWetSS.r * uWetShoreMax;
     if (esWetShore < 22.0) {
-      vec4 esWetT = texelFetch(uWetSurf, ivec2(esWetUv * uWetParams.z), 0);
+      // Manual bilinear over the 16-bit level raster: nearest texelFetch at
+      // 3.66 m/px stepped the recent-waterline height, which — cut against a
+      // height interpolated across the coarse far-LOD terrain triangles —
+      // drew the wet band as triangle-shaped patches with dead-straight
+      // edges (owner round 4 "squared wet-ground edges").
+      vec2 esWetP = esWetUv * uWetParams.z - 0.5;
+      ivec2 esWetP0 = ivec2(floor(esWetP));
+      vec2 esWetF = fract(esWetP);
+      float esWetLevel = mix(
+        mix(esWetLvl(esWetP0), esWetLvl(esWetP0 + ivec2(1, 0)), esWetF.x),
+        mix(esWetLvl(esWetP0 + ivec2(0, 1)), esWetLvl(esWetP0 + ivec2(1, 1)), esWetF.x),
+        esWetF.y);
       vec4 esWetK = texture2D(uWetKlass, vEsWorldPos.xz / uWetKlassExtent);
       float esWetW = uWetParams.x
-        + ((esWetT.r * 255.0 * 256.0 + esWetT.g * 255.0) / 65535.0) * uWetParams.y
+        + esWetLevel * uWetParams.y
         + smoothstep(0.02, 0.15, esWetK.b) * uWetLevels.x
         + esWetSS.g * uWetLevels.y;
       float esWetH = vEsWorldPos.y / uVerticalScale;
@@ -96,9 +127,15 @@ if (uWetParams.z > 0.5) {
       // wind-scaled like the swash itself (game-core surfWindScale twin)
       float esWetLift = ${f(0.7 * SWASH.amplitudeM)} * clamp(pow(uWetWind, 0.8), 0.6, 3.2)
         * max(1.0 - esWetShore / ${f(SWASH.bandM)}, 0.0) + 0.12;
-      float esAbove = esWetH - esWetW;
-      float esWet = (1.0 - smoothstep(esWetLift * 0.7, esWetLift * 1.5, esAbove))
-                  * (1.0 - smoothstep(14.0, 22.0, esWetShore));
+      // Organic edge: two octaves of world-space noise wobble the band's
+      // reach (real swash never leaves a ruler line), and a soft coverage
+      // ramble keeps the interior from reading flat.
+      float esWetN = 0.65 * esWetNoise(vEsWorldPos.xz * 0.35)
+                   + 0.35 * esWetNoise(vEsWorldPos.xz * 1.7);
+      float esAbove = esWetH - esWetW + (esWetN - 0.5) * esWetLift * 0.9;
+      float esWet = (1.0 - smoothstep(esWetLift * 0.55, esWetLift * 1.65, esAbove))
+                  * (1.0 - smoothstep(14.0, 22.0, esWetShore))
+                  * (0.8 + 0.4 * esWetN);
       // swash never wets steep walls (research §3) — kills dark stripes on
       // gorge sides
       esWet *= smoothstep(0.78, 0.9, normalize(esNrmW).y);

@@ -105,6 +105,34 @@ class Source:
                 best, best_score = candidate, score
         return best
 
+    def find_by_stem(self, rel: str) -> str | None:
+        """Last resort: a longer-named sibling of the same texture family.
+
+        BM&V's shroom NIFs reference `vurt_shroomstem.dds`, which no archive
+        anywhere ships — only `vurt_shroomstemmoss.dds` exists. Untextured,
+        the giant mushroom's stem exported as a flat grey material and read
+        as a solid slab in the world (owner Phase 10 round 3). Prefer the
+        SHORTEST same-diffuse candidate whose stem extends the wanted one,
+        skipping map-suffix variants (`_n`, `_s`, ...).
+        """
+        stem = rel.rsplit("/", 1)[-1].rsplit(".", 1)[0].lower()
+        if len(stem) < 6:
+            return None
+        suffixes = ("_n", "_msn", "_s", "_sk", "_g", "_m", "_em", "_e", "_p", "_b")
+        best, best_len = None, 10 ** 9
+        for candidate in self.names_available():
+            base = candidate.rsplit("/", 1)[-1].lower()
+            if not base.endswith(".dds"):
+                continue
+            cstem = base.rsplit(".", 1)[0]
+            if not cstem.startswith(stem) or cstem == stem:
+                continue
+            if cstem.endswith(suffixes):
+                continue
+            if len(cstem) < best_len:
+                best, best_len = candidate, len(cstem)
+        return best
+
 
 class BsaSource(Source):
     def __init__(self, path: Path):
@@ -311,6 +339,15 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
     substituted: dict[str, str] = {}
     for pool, textures in wanted.items():
         outstanding = {t for t in textures if not (data_root / t).exists()}
+        # Each source is tried FULLY (exact path, then trailing-component
+        # match) before the next source is consulted. The old two-phase order
+        # (all sources exact, then all sources fuzzy) let VANILLA's exact-path
+        # copy of a file beat the mod's own relocated one — the flora kit's
+        # `_lod_flat` cards UV against BM&V's 4096² tamrieltreelod atlas
+        # (shipped at textures/landscape/trees/), but vanilla ships a
+        # different 1024² atlas at the exact path the NIFs name, so every gkb
+        # tree card sampled the wrong picture and rendered as a grey slab
+        # (owner Phase 10 round 3). A pool's own textures win, full stop.
         for source in sources[pool].textures:
             if not outstanding:
                 break
@@ -319,10 +356,8 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
             landed = {t for t in available if (data_root / t).exists()}
             filled |= landed
             outstanding -= landed
-        # Only now, after every source has been asked for the exact path.
-        for source in sources[pool].textures:
             for rel in sorted(outstanding):
-                alternative = source.find_by_basename(rel)
+                alternative = source.find_by_basename(rel) or source.find_by_stem(rel)
                 if not alternative:
                     continue
                 source.extract_many([alternative], data_root)
@@ -446,6 +481,11 @@ def build(kit_id: str, vault: Path) -> dict:
         "metresPerUnit": METRES_PER_UNIT,
         "inspect": bool(kit.get("inspect")),
         "textureMaxSize": kit.get("textureMaxSize", 1024),
+        # Billboard `_lod_flat` cards UV tiny per-species rects out of ONE
+        # shared tree-LOD atlas; shrinking that atlas to textureMaxSize left
+        # each species ~10 texels and cards rendered as solid slabs (owner
+        # Phase 10 round 3). The atlas keeps its own, larger cap.
+        "billboardTextureMaxSize": kit.get("billboardTextureMaxSize", 1024),
         "output_glb": to_windows(output_glb),
         "summary_json": to_windows(summary_json),
     }

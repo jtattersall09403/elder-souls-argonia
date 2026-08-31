@@ -32,16 +32,6 @@ export interface KitSpecies {
   readonly billboardIndex: number | null;
   /** Source-space height in metres at scale 1, for LOD distance choice. */
   readonly heightM: number;
-  /** World-Y offset (model metres, × instance scale) that sits the model's
-   * bounding-box BOTTOM on the ground. The compiler places origins at terrain
-   * height, but not every asset keeps its origin at its base — the tramaroot
-   * arches pivot at their centre and the man-fern's mesh floats a metre above
-   * its origin (owner: "roots floating in the air"). The manifest records
-   * `originOffsetM = -bboxMin` (build_kit.py), so `originOffsetM[2]` is the
-   * origin's height ABOVE the model's bottom in the kit's z-up source space;
-   * adding it re-seats the bottom on the ground. A small sink keeps slopes
-   * from revealing a floating flat base. */
-  readonly anchorYM: number;
   /** Bounds so far from the origin they are clearly stray geometry (the
    * algrass03b case: mesh ~83 m from its pivot). Renderers should skip these
    * — drawing them puts geometry underground or in the sky either way. */
@@ -128,7 +118,13 @@ export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
       const mesh = child as THREE.Mesh;
       if (!mesh.isMesh) return;
       const level = levelOf(mesh);
+      const material0 = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
       if (isBillboard(mesh)) {
+        // A card whose material lost its texture would draw as a solid
+        // untextured rectangle at distance (the owner's "grey slab" defect).
+        // Better to skip the card and let that species end on its last
+        // decimated mesh level.
+        if (!(material0 as THREE.MeshStandardMaterial)?.map) return;
         billboardLevel = level;
         // Bent normals (research doc §4.1 cause 3): a flat card's geometric
         // normal faces away from the sun half the time, rendering the card
@@ -140,7 +136,7 @@ export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
           normal.needsUpdate = true;
         }
       }
-      const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+      const material = material0;
       // Foliage is alpha-*tested*, never blended: blending sorts wrongly
       // through a canopy and costs the most on exactly the devices that can
       // least afford it (module 65 §111). Billboards are always cutout cards,
@@ -192,7 +188,9 @@ export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
       levels,
       billboardIndex,
       heightM: heights.get(id) ?? 4,
-      anchorYM: anchors.get(id)?.anchor ?? 0,
+      // Round-4 note: bbox-bottom anchoring (`anchorYM`) is GONE — bundle v2
+      // species anchor by PIVOT with a baked sink (mined convention; the bbox
+      // bottom is often a hanging frond tip and lifted trunks into the air).
       suspect: anchors.get(id)?.suspect ?? false,
     });
   }

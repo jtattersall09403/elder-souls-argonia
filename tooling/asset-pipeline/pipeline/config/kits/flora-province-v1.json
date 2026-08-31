@@ -7,6 +7,7 @@
     0.12
   ],
   "textureMaxSize": 256,
+  "billboardTextureMaxSize": 1024,
   "assets": [
     {
       "asset": "bmv:landscape/trees/dwarfjunip05"

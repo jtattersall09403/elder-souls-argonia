@@ -34,6 +34,8 @@ const SCENARIOS = [
   { id: "contrast-rootland", x: 2.106, z: 4.913, alt: 420, pitch: -55, minInstances: 400, minGroundcover: 0 },
   { id: "contrast-coastal-lagoon", x: 5.381, z: 3.510, alt: 90, pitch: -18, minInstances: 200, minGroundcover: 0 },
   { id: "contrast-uplands", x: 1.638, z: 1.638, alt: 90, pitch: -18, minInstances: 20, minGroundcover: 0 },
+  // Round 4: the mangrove wall on the Lilmoth approach (chunk 7,14).
+  { id: "contrast-mangrove", x: 3.51, z: 6.78, alt: 90, pitch: -18, minInstances: 200, minGroundcover: 0 },
 ];
 
 const server = spawn("npx", ["vite", "preview", "--port", String(PORT), "--strictPort",
