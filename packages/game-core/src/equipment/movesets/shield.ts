@@ -23,5 +23,10 @@ export const SHIELD_ANIMATIONS: GuardAnimationProfile = {
   parry: {
     intro: "SHIELD_PARRY",
     followThrough: "SHIELD_PARRY_FOLLOW_THROUGH",
+    // The shield face starts moving at the same 0.067 s, and a shield is the
+    // forgiving way to parry: it is a braced surface rather than an edge, and
+    // the same argument that puts shield stability above every weapon's puts
+    // its catch window above theirs too.
+    active: { start: 0.067, duration: 0.26 },
   },
 };

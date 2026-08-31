@@ -1,5 +1,11 @@
 import { ARROWHEADS, launchSpeed, kineticEnergyJoules } from "../combat/ballistics";
 import { armourMitigation } from "../combat/armourMitigation";
+import {
+  ARROW_POISE_DAMAGE,
+  ATTACK_POISE_FACTOR,
+  WEAPON_CLASS_POISE_DAMAGE,
+  armourPoiseBand,
+} from "../combat/poise";
 import { ARROW_SHAFTS } from "../equipment/arrows";
 import { MATERIAL_PROFILES } from "../equipment/materials";
 import { WEAPON_CLASSES } from "../equipment/weaponClasses";
@@ -74,6 +80,14 @@ export function itemStatLines(definition: ItemDefinition): ItemStatLine[] {
         { label: "Reach", value: `${light.range.toFixed(2)} m` },
         { label: "Guard stability", value: percent(weapon.stats.guard.stability),
           note: "share of a blocked blow's stamina cost absorbed" },
+        // Poise damage is a class stat, never authored per item (76 §121.3), so
+        // a player comparing two hammers should see the same figure on both —
+        // and a player comparing a dagger with a hammer should see why one of
+        // them interrupts things and the other does not.
+        { label: "Stagger", value: `${Math.round(WEAPON_CLASS_POISE_DAMAGE[weapon.stats.class])}`,
+          note: "poise taken off a defender by one light attack" },
+        { label: "Heavy stagger",
+          value: `${Math.round(WEAPON_CLASS_POISE_DAMAGE[weapon.stats.class] * ATTACK_POISE_FACTOR.heavy)}` },
         { label: "Grip", value: weapon.stats.occupiesOffHand ? "Two-handed" : "One-handed" },
       );
       return lines;
@@ -100,6 +114,11 @@ export function itemStatLines(definition: ItemDefinition): ItemStatLine[] {
         { label: "Armour", value: `${armour.armourRating}` },
         { label: "Damage stopped", value: percent(armourMitigation(armour.armourRating)),
           note: "this piece alone, on any hit" },
+        // §121.3 gives each piece a poise *band*; where in it you sit is set by
+        // your skill in its armour class. Both ends are shown, because the
+        // spread is the interesting part — and once the armour skills arrive at
+        // 10c the same line will read as a range you can move within.
+        { label: "Poise", value: poiseBand(armour) },
       ];
     }
 
@@ -116,7 +135,24 @@ export function itemStatLines(definition: ItemDefinition): ItemStatLine[] {
         { label: "Against armour", value: `${head.armourPiercing.toFixed(2)}×`,
           note: head.description },
         { label: "Wound", value: `${head.woundSeverity.toFixed(2)}×`, note: "once the point is through" },
+        { label: "Stagger", value: `${ARROW_POISE_DAMAGE}`,
+          note: "poise taken off a defender; a head hit interrupts regardless" },
       ];
     }
   }
+}
+
+/**
+ * A worn piece's poise contribution, as the band §121.3 stores it.
+ *
+ * Collapses to a single figure while the floor and ceiling are the same, which
+ * they are not today and will not be at 10c either — but a stat line that reads
+ * "12" when there is nothing to choose between is kinder than one that reads
+ * "12-12".
+ */
+function poiseBand(armour: { armourRating: number }) {
+  const band = armourPoiseBand(armour);
+  const lo = Math.round(band.lo);
+  const hi = Math.round(band.hi);
+  return lo === hi ? `${lo}` : `${lo}-${hi}`;
 }

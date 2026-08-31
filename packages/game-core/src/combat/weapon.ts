@@ -2,6 +2,7 @@ import type { AnimationState, CombatAction } from "../core/types";
 import type {
   AttackDefinition,
   PairedCriticalProfile,
+  ParryProfile,
   WeaponDefinition,
 } from "../equipment/types";
 import { clipConfig, clipPlaybackSourceSpan } from "../anim/animationManifest";
@@ -195,6 +196,9 @@ export const COMBAT_TUNING = {
   // reskinned. A shorter authored pair holds its recovered end pose rather
   // than silently shrinking the defender's punish window.
   parryDuration: 1.1,
+  // Fallback catch window, for an actor with no resolved guard profile. Real
+  // parries use the family's own measured window — see `ParryProfile.active`
+  // and `isParryActive`.
   parryActiveStart: 0.1,
   parryActiveEnd: 0.29,
   healDuration: 1.55,
@@ -217,8 +221,18 @@ export function isRollInvulnerable(elapsed: number) {
   return elapsed >= COMBAT_TUNING.rollIFrameStart && elapsed <= COMBAT_TUNING.rollIFrameEnd;
 }
 
-export function isParryActive(elapsed: number) {
-  return elapsed >= COMBAT_TUNING.parryActiveStart && elapsed <= COMBAT_TUNING.parryActiveEnd;
+/**
+ * Whether the parry is catching, for the thing actually being parried with.
+ *
+ * `profile` is the parrying family's own window (`ParryProfile.active`), which
+ * is aligned to where that family's clip has the shield or blade moving in
+ * front of the body. Omitting it falls back to the shared constants, which is
+ * only right for an actor with no resolved guard profile at all.
+ */
+export function isParryActive(elapsed: number, profile?: ParryProfile) {
+  const start = profile?.active.start ?? COMBAT_TUNING.parryActiveStart;
+  const end = profile ? start + profile.active.duration : COMBAT_TUNING.parryActiveEnd;
+  return elapsed >= start && elapsed <= end;
 }
 
 export function isBackstabPosition(

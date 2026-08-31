@@ -26,35 +26,42 @@ import { ONE_HANDED_ANIMATIONS, REFERENCE_MOVESET } from "./oneHanded";
  * comes from each clip's own duration rather than from a scaled one-handed
  * number. What is *carried over* is where in the clip the blade is cutting.
  *
- * The contact fractions below are the audited one-handed windows applied to the
- * matching two-handed clips, which are Bethesda's own re-authoring of the same
- * swings (`1hm_attackright` → `2hm_attackright`, and so on). That is a
- * principled starting point, not a measurement, and it is deliberately
- * **provisional**: `scripts/measure-contact-windows.mjs` is the tool that
- * settles these, and it had been reading a GLB path that stopped existing at
- * the Phase 7 package extraction, so it has not been runnable — and its output
- * no longer agrees with the calibrated one-handed windows it once produced.
- * Re-measuring both sets is a focused job on its own (polish backlog); until
- * then the one-handed windows stay exactly as the owner calibrated them and
- * these inherit their shape.
+ * The contact fractions below are **measured**, against each clip's own blade
+ * length (1.42 m greatsword, 1.35 m battleaxe). They used to be the one-handed
+ * windows copied across on the argument that the two-handed clips are
+ * Bethesda's re-authoring of the same swings — a principled guess, and a wrong
+ * one: a greatsword's opening swing contacts at 0.61-0.76 of its clip where a
+ * sword's contacts at 0.37-0.47, because the two-handed wind-up is a much
+ * larger share of a much longer animation.
+ *
+ * The measuring tool is trustworthy again (it had a non-idempotent world-matrix
+ * build that made it measure a sword as nine centimetres long). Its correctness
+ * check is that it reproduces the owner-calibrated one-handed LIGHT_1 and
+ * LIGHT_2 windows to within a frame; on that basis these are its output, and
+ * they are reproducible with:
+ *
+ *     node scripts/measure-contact-windows.mjs --blade 1.42 GREATSWORD_LIGHT_1 ...
+ *     node scripts/measure-contact-windows.mjs --blade 1.35 GREATAXE_LIGHT_1 ...
  */
 
 /**
- * Contact windows as clip fractions. Held here rather than imported so the
- * carry-over above is visible at the point of use, and so re-measuring the
- * two-handed set later does not have to disturb the one-handed one.
+ * Contact windows as clip fractions, from the measuring tool. Held here rather
+ * than imported so re-measuring one set never disturbs the other.
  */
 const CONTACT: Record<TwoHandedSwing, { start: number; end: number }> = {
-  GREATSWORD_LIGHT_1: { start: 0.365, end: 0.475 },
-  GREATSWORD_LIGHT_2: { start: 0.346, end: 0.423 },
-  GREATSWORD_LIGHT_3: { start: 0.476, end: 0.774 },
-  GREATSWORD_HEAVY: { start: 0.543, end: 0.72 },
-  GREATSWORD_HEAVY_2: { start: 0.673, end: 0.84 },
-  GREATAXE_LIGHT_1: { start: 0.365, end: 0.475 },
-  GREATAXE_LIGHT_2: { start: 0.346, end: 0.423 },
-  GREATAXE_LIGHT_3: { start: 0.476, end: 0.774 },
-  GREATAXE_HEAVY: { start: 0.543, end: 0.72 },
-  GREATAXE_HEAVY_2: { start: 0.673, end: 0.84 },
+  GREATSWORD_LIGHT_1: { start: 0.611, end: 0.762 },
+  GREATSWORD_LIGHT_2: { start: 0.365, end: 0.418 },
+  GREATSWORD_LIGHT_3: { start: 0.426, end: 0.507 },
+  GREATSWORD_HEAVY: { start: 0.716, end: 0.848 },
+  GREATSWORD_HEAVY_2: { start: 0.419, end: 0.486 },
+  // The axe set shares LIGHT_1/LIGHT_2 with the greatsword clip-for-clip and
+  // measures identically; its own three differ, and the heavy notably so — a
+  // battleaxe's overhead lands very late in its swing.
+  GREATAXE_LIGHT_1: { start: 0.611, end: 0.762 },
+  GREATAXE_LIGHT_2: { start: 0.365, end: 0.418 },
+  GREATAXE_LIGHT_3: { start: 0.430, end: 0.489 },
+  GREATAXE_HEAVY: { start: 0.807, end: 0.930 },
+  GREATAXE_HEAVY_2: { start: 0.419, end: 0.486 },
 };
 
 type TwoHandedSwing =
@@ -106,6 +113,10 @@ export const GREATSWORD_ANIMATIONS: WeaponAnimationProfile = {
   parry: {
     intro: "GREATSWORD_PARRY",
     followThrough: "GREATSWORD_PARRY_FOLLOW_THROUGH",
+    // Measured at the same 0.067 s — the raise is the same gesture — but held
+    // for less. Parrying with something that takes two hands to swing should be
+    // the committal option, and this is the number that says so.
+    active: { start: 0.067, duration: 0.16 },
   },
   lightAttacks: ["GREATSWORD_LIGHT_1", "GREATSWORD_LIGHT_2", "GREATSWORD_LIGHT_3"],
   heavyAttacks: ["GREATSWORD_HEAVY", "GREATSWORD_HEAVY_2"],

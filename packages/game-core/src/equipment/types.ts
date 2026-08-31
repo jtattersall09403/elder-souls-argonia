@@ -159,9 +159,32 @@ export type GuardAnimationProfile = {
   enter: AnimationState;
   loop: AnimationState;
   hitVariants: readonly AnimationState[];
-  parry: {
-    intro: AnimationState;
-    followThrough: AnimationState;
+  parry: ParryProfile;
+};
+
+/**
+ * How a family parries, and — the part that used to be missing — *when*.
+ *
+ * The catch window was one pair of constants shared by everything that could
+ * parry, so a tower shield and a greatsword both caught blows over the same
+ * 0.10-0.29 s of their own quite different animations. On the one-handed clips
+ * that put most of the window in the dead beat *between* the raise and the
+ * bash; on a two-hander it had no relationship to the motion at all.
+ *
+ * `active.start` is measured, not chosen: it is where the parrying object
+ * actually begins sweeping in front of the body, from
+ * `scripts/measure-contact-windows.mjs`. `active.duration` is the family's
+ * design allowance — a shield is the forgiving way to parry and a two-hander
+ * the committal one — and is the only number here anyone should be tuning.
+ */
+export type ParryProfile = {
+  intro: AnimationState;
+  followThrough: AnimationState;
+  active: {
+    /** Seconds into the parry action at which the catch volume opens. */
+    start: number;
+    /** How long it stays open, seconds. */
+    duration: number;
   };
 };
 
@@ -350,10 +373,7 @@ export type WeaponAnimationProfile = {
     loop: AnimationState;
     hitVariants: readonly AnimationState[];
   };
-  parry: {
-    intro: AnimationState;
-    followThrough: AnimationState;
-  };
+  parry: ParryProfile;
   lightAttacks: readonly [AnimationState, AnimationState, AnimationState];
   heavyAttacks: readonly [AnimationState, AnimationState];
   guardBreak: AnimationState;

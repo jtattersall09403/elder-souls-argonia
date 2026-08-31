@@ -132,7 +132,7 @@ export type PoiseModifiers = {
  * derived from slot and material. When 10c introduces armour classes with
  * their own tiers, this is the one function that changes.
  */
-export function armourPoiseBand(piece: ArmourDefinition) {
+export function armourPoiseBand(piece: Pick<ArmourDefinition, "armourRating">) {
   const hi = piece.armourRating * POISE_TUNING.poisePerArmourRating;
   return { lo: hi * POISE_TUNING.bandFloorFraction, hi };
 }

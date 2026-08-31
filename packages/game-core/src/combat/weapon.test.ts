@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { clipConfig, clipPlaybackDuration } from "../anim/animationManifest";
 import { ACTION_DURATIONS } from "./tuning";
+import { ONE_HANDED_ANIMATIONS } from "../equipment/movesets/oneHanded";
+import { GREATSWORD_ANIMATIONS } from "../equipment/movesets/twoHanded";
+import { SHIELD_ANIMATIONS } from "../equipment/movesets/shield";
 import {
   COMBAT_TUNING,
   attackDuration,
@@ -55,6 +58,28 @@ describe("straight sword moveset", () => {
     expect(isParryActive(COMBAT_TUNING.parryActiveEnd + 0.01)).toBe(false);
     expect(COMBAT_TUNING.parryDuration).toBe(1.1);
     expect(COMBAT_TUNING.parryDuration).toBeGreaterThan(COMBAT_TUNING.parryActiveEnd);
+  });
+
+  it("catches with the family's own window, not one shared constant", () => {
+    // The defect: a tower shield and a greatsword caught over the same slice of
+    // two quite different animations. Each family now carries the window its
+    // own clip measured, and `isParryActive` has to honour it.
+    const sword = ONE_HANDED_ANIMATIONS.parry;
+    const twoHander = GREATSWORD_ANIMATIONS.parry;
+    expect(twoHander.active.duration).toBeLessThan(sword.active.duration);
+    const justPastTheTwoHander = twoHander.active.start + twoHander.active.duration + 0.01;
+    expect(isParryActive(justPastTheTwoHander, twoHander)).toBe(false);
+    expect(isParryActive(justPastTheTwoHander, sword)).toBe(true);
+  });
+
+  it("opens every family's parry where its clip actually starts moving", () => {
+    for (const profile of [ONE_HANDED_ANIMATIONS.parry, GREATSWORD_ANIMATIONS.parry, SHIELD_ANIMATIONS.parry]) {
+      expect(isParryActive(profile.active.start - 0.01, profile)).toBe(false);
+      expect(isParryActive(profile.active.start + 0.01, profile)).toBe(true);
+      // Inside the action it belongs to, always.
+      expect(profile.active.start + profile.active.duration)
+        .toBeLessThan(COMBAT_TUNING.parryDuration);
+    }
   });
 
   it("keeps heavier attacks slower, stronger, and more expensive", () => {

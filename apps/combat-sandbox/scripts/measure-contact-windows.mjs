@@ -38,15 +38,29 @@ const BLADE_LENGTH = bladeFlag >= 0 ? Number(process.argv[bladeFlag + 1]) : 0.92
 /** Share of peak tip speed above which the blade counts as sweeping. */
 const SWEEP_THRESHOLD = 0.3;
 /**
- * The body a defender occupies, in the attacker's own frame.
+ * Where a defender can be, in the attacker's own frame.
  *
- * Contact is not "the tip is somewhere in front"; it is "some part of the blade
- * is inside a standing person". Anyone from `near` to `far` ahead counts, since
- * a moveset has to work at the whole range its lunge can leave it at.
+ * A half-disc in front of the actor, not a corridor dead ahead. This was a
+ * narrow box centred on the forward axis, which is wrong for the question being
+ * asked: a swing *arcs across* the front, so it crosses any one point in that
+ * corridor for two or three frames, and the tool duly reported active windows
+ * of 25 ms. The defender is not pinned to the centreline — the moveset has to
+ * work against someone anywhere in the arc, which is what the reach and arc
+ * numbers on the attack already say. So contact is: some part of the blade is
+ * in the front half-plane, within striking distance of the actor's own axis,
+ * at a height a standing body occupies.
  */
-const TARGET = { near: 0.7, far: 2.3, radius: 0.45, low: 0.4, high: 1.9 };
+const TARGET = { near: 0.6, far: 2.3, low: 0.4, high: 2 };
 /** Points sampled along the blade, grip to tip. */
 const BLADE_SAMPLES = 9;
+/**
+ * How many non-qualifying samples a single contact window may span.
+ *
+ * At 120 Hz this is about a fortieth of a second: enough to bridge a blade
+ * flicking a hand's width outside the target box mid-sweep, far too short to
+ * join a wind-up to the swing that follows it.
+ */
+const RUN_BRIDGE_SAMPLES = 3;
 /** Frames ignored at each end, where a clip's channels have not all started. */
 const EDGE_GUARD = 8;
 const SAMPLE_HZ = 120;
@@ -97,19 +111,48 @@ function buildNodes(gltf) {
     };
     for (const child of node.children) nodes[child].parent = node.index;
   }
-  return nodes;
+  return { nodes, order: parentsFirst(nodes) };
 }
 
-function updateWorld(nodes) {
+/**
+ * Node indices ordered so a parent always precedes its children.
+ *
+ * glTF does not require it, and this rig does not have it — which is what broke
+ * this tool. Composing world matrices in file order meant a child could be
+ * multiplied by its parent's matrix from the *previous* call, so `poseAt` was
+ * not idempotent: sampling the same clip at the same time twice gave two
+ * different answers, and the armature's 0.1 import scale landed once too often
+ * or once too few. The visible symptom was a sword measured as nine
+ * centimetres long, which is why no swing was ever found to be "in reach" and
+ * why every window this tool reported disagreed with the calibrated ones.
+ */
+function parentsFirst(nodes) {
+  const order = [];
+  const walk = (index) => {
+    order.push(index);
+    for (const child of nodes[index].children) walk(child);
+  };
+  for (const node of nodes) if (node.parent < 0) walk(node.index);
+  // Anything unreachable from a root (a malformed file) still gets posed, at
+  // its own local transform, rather than silently dropped.
+  if (order.length !== nodes.length) {
+    const seen = new Set(order);
+    for (const node of nodes) if (!seen.has(node.index)) order.push(node.index);
+  }
+  return order;
+}
+
+function updateWorld(nodes, order) {
   const local = new THREE.Matrix4();
-  for (const node of nodes) {
+  for (const index of order) {
+    const node = nodes[index];
     local.compose(node.translation, node.rotation, node.scale);
     if (node.parent < 0) node.world.copy(local);
     else node.world.multiplyMatrices(nodes[node.parent].world, local);
   }
 }
 
-function poseAt(gltf, nodes, animation, time) {
+function poseAt(gltf, nodes, order, animation, time) {
   for (const node of nodes) {
     node.translation.copy(node.rest.translation);
     node.rotation.copy(node.rest.rotation);
@@ -143,7 +186,7 @@ function poseAt(gltf, nodes, animation, time) {
       target.copy(a).lerp(b, alpha);
     }
   }
-  updateWorld(nodes);
+  updateWorld(nodes, order);
 }
 
 /**
@@ -164,13 +207,13 @@ function actorFrame(nodes) {
   return { forward, pelvis };
 }
 
-function measure(gltf, nodes, animationName, socketRotation, scale) {
+function measure(gltf, nodes, order, animationName, socketRotation, scale) {
   const animation = gltf.json.animations.find((entry) => entry.name === animationName);
   if (!animation) throw new Error(`no clip named ${animationName}`);
   const socket = nodes.find((node) => node.name === "Weapon");
   if (!socket) throw new Error("rig has no Weapon socket");
 
-  poseAt(gltf, nodes, animation, 0);
+  poseAt(gltf, nodes, order, animation, 0);
   const { forward, pelvis } = actorFrame(nodes);
 
   const duration = Math.max(...animation.samplers.map((sampler) => {
@@ -186,13 +229,13 @@ function measure(gltf, nodes, animationName, socketRotation, scale) {
   // whatever the armature scale and the character scale multiply to. Deriving
   // it from the socket's own world matrix means the measurement never has to
   // know what those were.
-  poseAt(gltf, nodes, animation, 0);
+  poseAt(gltf, nodes, order, animation, 0);
   const socketScale = new THREE.Vector3().setFromMatrixScale(socket.world).x || 1;
   const tipLocal = new THREE.Vector3(0, 0, BLADE_LENGTH / (scale * socketScale));
   const samples = [];
   for (let step = 0; step <= Math.round(duration * SAMPLE_HZ); step += 1) {
     const time = Math.min(duration, step / SAMPLE_HZ);
-    poseAt(gltf, nodes, animation, time);
+    poseAt(gltf, nodes, order, animation, time);
     grip.multiplyMatrices(socket.world, convention);
     const tip = tipLocal.clone().applyMatrix4(grip);
     const origin = new THREE.Vector3().setFromMatrixPosition(pelvis.world);
@@ -203,13 +246,10 @@ function measure(gltf, nodes, animationName, socketRotation, scale) {
       const along = gripPoint.clone().lerp(tip, i / (BLADE_SAMPLES - 1));
       const local = along.clone().sub(origin).multiplyScalar(scale);
       const ahead = local.dot(forward);
-      const lateral = Math.hypot(
-        local.x - forward.x * ahead,
-        local.z - forward.z * ahead,
-      );
+      const range = Math.hypot(local.x, local.z);
       const height = along.y * scale;
-      reachable = ahead >= TARGET.near && ahead <= TARGET.far
-        && lateral <= TARGET.radius
+      reachable = ahead > 0
+        && range >= TARGET.near && range <= TARGET.far
         && height >= TARGET.low && height <= TARGET.high;
     }
     samples.push({
@@ -245,18 +285,52 @@ function measure(gltf, nodes, animationName, socketRotation, scale) {
     console.log("  profile", samples.filter((_, i) => i % stride === 0)
       .map((s) => `${(s.time / duration).toFixed(2)}:${(s.speed ?? 0).toFixed(0)}${s.reachable ? "*" : ""}`).join(" "));
   }
-  const live = usable.filter((sample) => sample.speed >= peak * SWEEP_THRESHOLD && sample.reachable);
-  if (live.length === 0) return { animation: animationName, duration, peak, start: null, end: null };
+  if (process.env.MEASURE_RAW) {
+    console.log("  raw", samples.map((x) => (x.speed ?? 0).toFixed(0)).join(" "));
+  }
+  // The *longest contiguous run*, not every qualifying frame.
+  //
+  // Taking the first and last qualifying sample is what the code used to do,
+  // and it is not what the docstring above promises. One incidental frame early
+  // in a wind-up — the blade momentarily crossing the target box as the arm
+  // comes back — stretched the reported window across the whole clip, which is
+  // how LIGHT_2 came out as contacting from 6% to 41% of its swing. A short
+  // bridge is allowed, because a fast blade can flick outside the box for a
+  // frame or two in the middle of a single genuine sweep.
+  const live = longestRun(
+    usable.map((sample) => sample.speed >= peak * SWEEP_THRESHOLD && sample.reachable),
+    RUN_BRIDGE_SAMPLES,
+  );
+  if (live === null) return { animation: animationName, duration, peak, start: null, end: null };
+  const first = usable[live.from];
+  const last = usable[live.to];
 
   return {
     animation: animationName,
     duration,
     peakTipSpeed: peak,
-    start: live[0].time / duration,
-    end: live[live.length - 1].time / duration,
-    startSeconds: live[0].time,
-    endSeconds: live[live.length - 1].time,
+    start: first.time / duration,
+    end: last.time / duration,
+    startSeconds: first.time,
+    endSeconds: last.time,
   };
+}
+
+/** Longest run of true, allowing runs to be joined across up to `bridge` false. */
+function longestRun(flags, bridge) {
+  let best = null;
+  let from = -1;
+  let last = -1;
+  for (let i = 0; i < flags.length; i += 1) {
+    if (!flags[i]) continue;
+    if (from < 0 || i - last > bridge + 1) {
+      if (from >= 0 && (best === null || last - from > best.to - best.from)) best = { from, to: last };
+      from = i;
+    }
+    last = i;
+  }
+  if (from >= 0 && (best === null || last - from > best.to - best.from)) best = { from, to: last };
+  return best;
 }
 
 const manifest = JSON.parse(await readFile(MANIFEST, "utf8"));
@@ -274,7 +348,7 @@ async function packFor(clip) {
   const asset = manifest.packs?.[pack]?.asset ?? "rig-skyrim-humanoid.glb";
   if (!loaded.has(asset)) {
     const gltf = parseGlb(await readFile(new URL(asset, ASSETS)));
-    loaded.set(asset, { gltf, nodes: buildNodes(gltf) });
+    loaded.set(asset, { gltf, ...buildNodes(gltf) });
   }
   return loaded.get(asset);
 }
@@ -288,8 +362,8 @@ const wanted = clips.length > 0
 console.log(`blade ${BLADE_LENGTH} m`);
 console.log("clip                     dur    sweep start..end (fraction)   seconds        peak tip m/s");
 for (const name of wanted) {
-  const { gltf, nodes } = await packFor(name);
-  const result = measure(gltf, nodes, name, socketRotation, scale);
+  const { gltf, nodes, order } = await packFor(name);
+  const result = measure(gltf, nodes, order, name, socketRotation, scale);
   if (result.start === null) {
     console.log(`${name.padEnd(24)} ${result.duration.toFixed(3)}  no sweep found in reach`);
     continue;

@@ -2079,7 +2079,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           for (const e of activeEnemies) {
             if (
               e.fighter.state === "parry"
-              && isParryActive(e.fighter.actionTime)
+              && isParryActive(e.fighter.actionTime, activeGuardAnimations(e.archetype.loadout).parry)
               && (e.parryOverlaps.current.has("player-weapon") || e.overlaps.current.has("player-weapon"))
             ) {
               parriedBy = e;
@@ -2146,8 +2146,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       }
     } else {
       playerHitboxActive.current = playerAction.current === "guard"
-        || (playerAction.current === "parry" && isParryActive(playerActionTime.current));
-      playerParryActive.current = playerAction.current === "parry" && isParryActive(playerActionTime.current);
+        || (playerAction.current === "parry" && isParryActive(playerActionTime.current, playerGuardAnimations.parry));
+      playerParryActive.current = playerAction.current === "parry"
+        && isParryActive(playerActionTime.current, playerGuardAnimations.parry);
       if (playerAction.current === "guard"
         && playerActionTime.current >= Math.max(
           clipConfig(playerGuardAnimations.enter).sourceDuration ?? 0.83,
@@ -2524,7 +2525,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         if (
           weaponActive
           && playerAction.current === "parry"
-          && isParryActive(playerActionTime.current)
+          && isParryActive(playerActionTime.current, playerGuardAnimations.parry)
           && (
             playerParryOverlaps.current.has(e.weaponName)
             || playerWeaponOverlaps.current.has(e.weaponName)
@@ -2586,7 +2587,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           setEnemyAnim(e, guardStep.nextAnimation);
         }
       } else if (f.state === "parry") {
-        const parryActive = isParryActive(f.actionTime);
+        const parryActive = isParryActive(f.actionTime, activeGuardAnimations(archetype.loadout).parry);
         e.hitboxActive.current = parryActive;
         e.parryActive.current = parryActive;
         const enemyParry = activeGuardAnimations(archetype.loadout).parry;
