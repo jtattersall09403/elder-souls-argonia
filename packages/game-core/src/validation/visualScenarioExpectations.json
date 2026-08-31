@@ -2606,5 +2606,49 @@
         "LIGHT_3"
       ]
     }
+  },
+  "greataxe-parry": {
+    "playerActions": [
+      "idle",
+      "parry"
+    ],
+    "playerAnimations": [
+      "GREATAXE_IDLE",
+      "GREATAXE_PARRY",
+      "GREATAXE_PARRY_FOLLOW_THROUGH"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "parry",
+        "idle",
+        "parry",
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "GREATAXE_IDLE",
+        "GREATAXE_PARRY",
+        "GREATAXE_PARRY_FOLLOW_THROUGH",
+        "GREATAXE_IDLE",
+        "GREATAXE_PARRY",
+        "GREATAXE_PARRY_FOLLOW_THROUGH",
+        "GREATAXE_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "GREATAXE_PARRY",
+        "GREATAXE_PARRY_FOLLOW_THROUGH"
+      ]
+    },
+    "groundingLimits": {
+      "maxBlendedGroundCorrectionMeters": 0.2,
+      "maxGroundCorrectionSpeedMetersPerSecond": 4.2,
+      "note": "Same allowance as greatsword-guard: the parry stance is lower than the idle it blends from and both clips are correctly grounded, so the difference the solver spreads across the blend is real geometry rather than a hover."
+    }
   }
 }

@@ -33,7 +33,8 @@
     "enemy-parry",
     "shield-guard",
     "shield-parry",
-    "greatsword-guard"
+    "greatsword-guard",
+    "greataxe-parry"
   ],
   "reactions": [
     "hit-reactions",

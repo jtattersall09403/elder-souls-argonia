@@ -132,7 +132,9 @@ export type AnimationState =
   | "GREATAXE_LIGHT_2"
   | "GREATAXE_LIGHT_3"
   | "GREATAXE_HEAVY"
-  | "GREATAXE_HEAVY_2";
+  | "GREATAXE_HEAVY_2"
+  | "GREATAXE_PARRY"
+  | "GREATAXE_PARRY_FOLLOW_THROUGH";
 
 export type CombatPhase = "windup" | "active" | "recovery" | "none";
 

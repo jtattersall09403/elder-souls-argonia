@@ -808,9 +808,16 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   const nextGuardHitVariant = useRef(0);
   /**
    * Standing or crouching. A stance, not a speed: the crouched clips are their
-   * own authored locomotion set. Today it changes pace and pose only — combat
-   * is untouched, and stealth reads this field when it arrives (module 76
-   * §121.5).
+   * own authored locomotion set. Stealth reads this field when it arrives
+   * (module 76 §121.5).
+   *
+   * What crouching already does to volumes, because this was reported wrongly
+   * once and it is worth being exact about. The actor's *combat* volume is the
+   * skeleton-fitted hurtbox, whose capsules ride the live bones — so crouching
+   * genuinely lowers what can be hit, with no code here, and ducking a high
+   * swing works today. The actor's *navigation* capsule is Ecctrl's, and that
+   * one is a fixed size: crouching does not let you pass under low world
+   * geometry. Two different volumes, and only the second is still to do.
    */
   const playerStance = useRef<Stance>("standing");
   /**

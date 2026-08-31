@@ -53,6 +53,8 @@ const SWEEP_THRESHOLD = 0.3;
 const TARGET = { near: 0.6, far: 2.3, low: 0.4, high: 2 };
 /** Points sampled along the blade, grip to tip. */
 const BLADE_SAMPLES = 9;
+/** Where the cutting edge begins, as a fraction from grip to tip. */
+const BLADE_EDGE_START = 0.45;
 /**
  * How many non-qualifying samples a single contact window may span.
  *
@@ -252,8 +254,25 @@ function measure(gltf, nodes, order, animationName, socketRotation, scale) {
         && range >= TARGET.near && range <= TARGET.far
         && height >= TARGET.low && height <= TARGET.high;
     }
+    // The cutting part only, for the critical pass: the grip half is the
+    // attacker's own hands, and they pass close to a victim during any lunge.
+    // Including them found "contact" during the entry blend, at a moment the
+    // hand audit of the one-handed execution explicitly rejected.
+    // In *world* metres, not relative to the attacker's pelvis. A critical
+    // lunges: the attacker travels several tens of centimetres during the clip
+    // while the victim stands still. Measuring the blade against a victim held
+    // at a fixed offset from the moving attacker is measuring the wrong thing,
+    // and it found "contact" during the entry blend — a moment the one-handed
+    // hand audit had explicitly rejected.
+    const blade = [];
+    for (let i = 0; i < BLADE_SAMPLES; i += 1) {
+      const along = gripPoint.clone().lerp(tip, BLADE_EDGE_START + (1 - BLADE_EDGE_START) * (i / (BLADE_SAMPLES - 1)));
+      blade.push(along.clone().multiplyScalar(scale));
+    }
     samples.push({
       time,
+      blade,
+      origin: origin.clone(),
       tip: tip.clone().multiplyScalar(scale),
       ahead: offset.dot(forward),
       reachable,
@@ -297,6 +316,21 @@ function measure(gltf, nodes, order, animationName, socketRotation, scale) {
   // how LIGHT_2 came out as contacting from 6% to 41% of its swing. A short
   // bridge is allowed, because a fast blade can flick outside the box for a
   // frame or two in the middle of a single genuine sweep.
+  if (process.env.MEASURE_RUNS) {
+    // Every contact phase, not just the longest. A packaged execution is a
+    // multi-hit sequence and the game plays one hit of it, so choosing which
+    // phase to trim to needs the whole list.
+    const flags = usable.map((sample) => sample.speed >= peak * SWEEP_THRESHOLD && sample.reachable);
+    const runs = [];
+    let from = -1;
+    for (let i = 0; i <= flags.length; i += 1) {
+      if (flags[i]) { if (from < 0) from = i; continue; }
+      if (from >= 0) { runs.push([usable[from].time, usable[i - 1].time]); from = -1; }
+    }
+    console.log("  phases", runs
+      .filter(([a, b]) => b - a >= 0.05)
+      .map(([a, b]) => `${a.toFixed(3)}..${b.toFixed(3)}`).join("  "));
+  }
   const live = longestRun(
     usable.map((sample) => sample.speed >= peak * SWEEP_THRESHOLD && sample.reachable),
     RUN_BRIDGE_SAMPLES,
@@ -304,6 +338,51 @@ function measure(gltf, nodes, order, animationName, socketRotation, scale) {
   if (live === null) return { animation: animationName, duration, peak, start: null, end: null };
   const first = usable[live.from];
   const last = usable[live.to];
+
+  if (criticalFlag) {
+    // The victim stands where the pairing puts them: ahead of where the
+    // attacker *started*, and stationary in world space thereafter.
+    const startPelvis = samples[0].origin.clone().multiplyScalar(scale);
+    // Closest approach of the blade to a victim torso standing `separation`
+    // metres ahead, for each candidate separation.
+    const rows = SEPARATIONS.map((separation) => {
+      let best = { distance: Infinity, time: 0 };
+      let clearAfter = null;
+      for (const sample of samples) {
+        let closest = Infinity;
+        for (const point of sample.blade) {
+          closest = Math.min(closest, victimDistance(point, startPelvis, forward, separation));
+        }
+        if (closest < best.distance) best = { distance: closest, time: sample.time };
+      }
+      for (const sample of samples) {
+        if (sample.time <= best.time) continue;
+        let closest = Infinity;
+        for (const point of sample.blade) {
+          closest = Math.min(closest, victimDistance(point, startPelvis, forward, separation));
+        }
+        if (closest > 0.45) { clearAfter = sample.time; break; }
+      }
+      return { separation, ...best, clearAfter };
+    });
+    if (process.env.CRITICAL_TRACE) {
+      const sep = Number(process.env.CRITICAL_TRACE);
+      console.log("  trace sep", sep, samples.filter((_, i) => i % 4 === 0).map((sample) => {
+        let closest = Infinity;
+        for (const point of sample.blade) {
+          closest = Math.min(closest, victimDistance(point, startPelvis, forward, sep) + VICTIM.radius);
+        }
+        return `${sample.time.toFixed(2)}:${closest.toFixed(2)}`;
+      }).join(" "));
+    }
+    const chosen = rows.reduce((a, b) => (b.distance < a.distance ? b : a));
+    console.log(`  ${animationName} closest approach by separation:`);
+    for (const row of rows) {
+      console.log(`    ${row.separation.toFixed(2)} m  ->  ${row.distance.toFixed(3)} m at t=${row.time.toFixed(4)}s`
+        + (row.clearAfter === null ? "  (never clears)" : `, clear by ${row.clearAfter.toFixed(4)}s`)
+        + (row === chosen ? "   <-- best" : ""));
+    }
+  }
 
   return {
     animation: animationName,
@@ -314,6 +393,15 @@ function measure(gltf, nodes, order, animationName, socketRotation, scale) {
     startSeconds: first.time,
     endSeconds: last.time,
   };
+}
+
+/** Distance from a blade point to the victim's torso capsule, metres. */
+function victimDistance(point, startPelvis, forward, separation) {
+  const cx = startPelvis.x + forward.x * separation;
+  const cz = startPelvis.z + forward.z * separation;
+  const height = Math.min(VICTIM.high, Math.max(VICTIM.low, point.y));
+  const radial = Math.hypot(point.x - cx, point.z - cz);
+  return Math.hypot(radial, point.y - height) - VICTIM.radius;
 }
 
 /** Longest run of true, allowing runs to be joined across up to `bridge` false. */
@@ -352,6 +440,26 @@ async function packFor(clip) {
   }
   return loaded.get(asset);
 }
+
+/**
+ * Critical mode: where a paired execution actually lands.
+ *
+ * A packaged Rim execution is a three- or four-hit sequence and the game plays
+ * one hit of it, so the numbers a `PairedCriticalProfile` needs — which phase to
+ * trim to, when to deal the damage, when to release the alignment, and how far
+ * apart to stand the two actors — are not answered by "when is the blade
+ * sweeping". They are answered by "when is the blade closest to the victim's
+ * chest, and how far away does that victim have to be for it to be *close*".
+ *
+ * That is exactly the sweep the one-handed riposte was audited by hand against,
+ * and doing it by hand does not scale to a clip per weapon family. `--critical`
+ * runs it: for a range of candidate separations it reports the frame of closest
+ * approach and how close it gets, so the separation is chosen on evidence.
+ */
+const criticalFlag = process.argv.includes("--critical");
+/** Victim torso: a standing capsule, in the attacker's frame. */
+const VICTIM = { radius: 0.22, low: 0.95, high: 1.55 };
+const SEPARATIONS = [0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.4, 1.6, 1.8, 2.0];
 
 const clips = process.argv.slice(2).filter((arg, i, all) =>
   !arg.startsWith("--") && all[i - 1] !== "--blade");

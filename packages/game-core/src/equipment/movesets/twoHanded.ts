@@ -127,13 +127,27 @@ export const GREATSWORD_ANIMATIONS: WeaponAnimationProfile = {
   unequip: "GREATSWORD_UNEQUIP",
 };
 
-/** Only the carriage and the swings differ; everything else is the blade set. */
+/**
+ * Carriage, locomotion, guard and draw are the blade set's; the swings and the
+ * parry are its own.
+ *
+ * The parry used to be borrowed too, and it should not have been: Skyrim
+ * authors the two-handed haft set (`2hw`) separately from the two-handed blade
+ * set (`2hm`) precisely because an axe is not held or swung like a sword, and
+ * the parry mod follows suit with its own 2HW block-bash. A battleaxe was
+ * parrying with a greatsword's hands.
+ */
 export const GREATAXE_ANIMATIONS: WeaponAnimationProfile = {
   ...GREATSWORD_ANIMATIONS,
   combatIdle: "GREATAXE_IDLE",
   sprintOverride: "GREATAXE_SPRINT",
   lightAttacks: ["GREATAXE_LIGHT_1", "GREATAXE_LIGHT_2", "GREATAXE_LIGHT_3"],
   heavyAttacks: ["GREATAXE_HEAVY", "GREATAXE_HEAVY_2"],
+  parry: {
+    intro: "GREATAXE_PARRY",
+    followThrough: "GREATAXE_PARRY_FOLLOW_THROUGH",
+    active: { ...GREATSWORD_ANIMATIONS.parry.active },
+  },
 };
 
 /**

@@ -43,6 +43,7 @@ export const VISUAL_SCENARIO_IDS = [
   "greatsword-locomotion",
   "greatsword-chain",
   "greatsword-guard",
+  "greataxe-parry",
   "greataxe-chain",
   "poise-break",
 ] as const;
@@ -830,6 +831,25 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
       // The haft carriage differs at a sprint too; everything between is the
       // greatsword pack's footwork and is reviewed there.
       { from: 14.6, to: 16.6, actions: ["dodge"], move: [0, 1] },
+    ],
+  },
+  "greataxe-parry": {
+    id: "greataxe-parry",
+    label: "Battleaxe parry \u2192 the haft block-bash, which is not the blade's",
+    warmup: 0.5,
+    duration: 5.4,
+    // Its own scene because the haft parry is its own clip. It used to borrow
+    // the greatsword's, which is the wrong hands on the wrong weapon; Skyrim
+    // and the parry mod both author 2hw separately from 2hm.
+    player: { ...REVIEW_PLAYER, weaponId: "steel-battleaxe" },
+    enemy: SOLO_ENEMY,
+    // The clip is the deliverable here, not the interaction: whether a parry
+    // *lands* is already reviewed by `parry`, `shield-parry` and
+    // `greatsword-guard`, and what has never been looked at is the haft
+    // block-bash itself. Two clean plays, nothing else in frame.
+    cues: [
+      { from: 1.15, to: 1.24, actions: ["parry"] },
+      { from: 3.65, to: 3.74, actions: ["parry"] },
     ],
   },
 };
