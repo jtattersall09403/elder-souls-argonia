@@ -213,6 +213,18 @@ export type AttackSpec = {
    * which is why the branch point is not simply `windup + active`.
    */
   comboBranchProgress?: number;
+  /**
+   * Fraction of the action at which the *input* for the next swing starts being
+   * accepted. Omitted means "once the contact window's wind-up is over".
+   *
+   * That default is fine while the wind-up is an early third of the animation,
+   * which it is on the one-handed set. It is not fine on a two-hander: those
+   * clips connect well over half way through, so tying the input buffer to the
+   * contact wind-up made a greatsword ignore a press made during the visible
+   * swing and only accept one made after the blade had already landed. The
+   * player commits to a chain when they see the swing start, not when it hits.
+   */
+  comboQueueOpenProgress?: number;
 };
 
 export type AttackId =

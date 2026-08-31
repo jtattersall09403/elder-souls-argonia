@@ -12,14 +12,29 @@ evidence ignored. The exception is limited to runtime install artifacts.
 
 ## Build + install
 
-```bash
-cd ../elder-scrolls-asset-pipeline
-python3 -m pipeline.build    --character dunmer-combat
-python3 -m pipeline.validate --character dunmer-combat
+The pipeline lives in this repo at `tooling/asset-pipeline` and reads the asset
+vault through `ELDER_SOULS_ASSET_ROOT`. The rig ships as **one GLB per animation
+pack** (decision 0040), so there are several files to install, not one.
 
-cp output/rig-skyrim-humanoid.glb                 ../elder-souls-argonia/packages/character-assets/files/
-cp output/rig-skyrim-humanoid.animations.json     ../elder-souls-argonia/packages/game-core/src/anim/generated/
+```bash
+cd tooling/asset-pipeline
+# Rebuilds the rig, every pack, and the races. `--only <race>` limits the race
+# skins; the rig and all packs are rebuilt regardless. About 3 minutes.
+python3 -m pipeline.build_races --roster skyrim-playable --only dunmer
+
+cp output/rig-skyrim-humanoid*.glb            ../../packages/character-assets/files/
+cp output/rig-skyrim-humanoid.animations.json ../../packages/game-core/src/anim/generated/
 ```
+
+**The build is byte-for-byte deterministic**, and that is the check to run after
+any animation-config change: `md5sum` the pack GLBs before and after, and every
+pack whose clips you did not touch must be identical. A pack that changes when
+it should not means the config edit reached further than intended.
+
+Adding or reskinning a clip also has to satisfy two gates that will fail loudly:
+`visualScenarios.test.ts` requires every semantic animation to be covered by a
+review scenario or explicitly excluded, and `animationPacks.test.ts` proves
+every weapon can play every clip its profile references.
 
 - The `.glb` lands in `public/` and must remain versioned with the deployment.
 - The `.animations.json` manifest is committed (metadata only — no Bethesda

@@ -80,6 +80,19 @@ const CONTACT_MARGIN_FRACTION = 0.04;
  */
 const LIGHT_COMBO_BRANCH_PROGRESS = 0.9;
 
+/**
+ * Where a two-handed swing starts accepting the next input, as a fraction.
+ *
+ * Explicit here because the default — the contact wind-up — is measured, and
+ * these clips are measured as connecting late: a greatsword's opening swing
+ * contacts at 0.61 of its animation, so the default would have refused a press
+ * made through the whole first half of a visible swing and then accepted one
+ * made after the blade had landed. A quarter of the way in is where the
+ * commitment is legible on screen, and it leaves the branch point (0.9)
+ * untouched, so the chain's *cadence* is exactly what it was.
+ */
+const COMBO_QUEUE_OPEN_PROGRESS = 0.25;
+
 function contactTiming(animation: TwoHandedSwing) {
   // The authored clip *is* the action: a two-handed swing that finishes before
   // its motion does reads as the weapon weighing nothing.
@@ -165,6 +178,7 @@ function twoHandedMoveset(
     ...REFERENCE_MOVESET[id],
     animation: animation as AnimationState,
     ...contactTiming(animation),
+    comboQueueOpenProgress: COMBO_QUEUE_OPEN_PROGRESS,
     ...(branch === undefined ? {} : { comboBranchProgress: branch }),
   });
   return {

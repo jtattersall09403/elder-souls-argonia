@@ -162,7 +162,14 @@ export function comboQueueOpen(
   previousElapsed: number,
   attack: AttackDefinition,
 ) {
-  return elapsed >= attack.windup && previousElapsed < comboTransitionTime(attack);
+  return elapsed >= comboQueueOpenTime(attack) && previousElapsed < comboTransitionTime(attack);
+}
+
+/** When the next swing's input starts being accepted. See `comboQueueOpenProgress`. */
+export function comboQueueOpenTime(attack: AttackDefinition) {
+  return attack.comboQueueOpenProgress == null
+    ? attack.windup
+    : attackDuration(attack) * attack.comboQueueOpenProgress;
 }
 
 export function comboSuccessorStartTime(elapsed: number, attack: AttackDefinition) {

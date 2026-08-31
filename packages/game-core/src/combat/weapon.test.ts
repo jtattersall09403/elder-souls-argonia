@@ -3,6 +3,7 @@ import { clipConfig, clipPlaybackDuration } from "../anim/animationManifest";
 import { ACTION_DURATIONS } from "./tuning";
 import { ONE_HANDED_ANIMATIONS } from "../equipment/movesets/oneHanded";
 import { GREATSWORD_ANIMATIONS } from "../equipment/movesets/twoHanded";
+import { ARSENAL_WEAPONS } from "../equipment/arsenal";
 import { SHIELD_ANIMATIONS } from "../equipment/movesets/shield";
 import {
   COMBAT_TUNING,
@@ -13,6 +14,7 @@ import {
   comboEntryTime,
   comboCrossFadeDuration,
   comboQueueOpen,
+  comboQueueOpenTime,
   comboSuccessorStartTime,
   comboTransitionTime,
   criticalVictimDeathPlayback,
@@ -58,6 +60,23 @@ describe("straight sword moveset", () => {
     expect(isParryActive(COMBAT_TUNING.parryActiveEnd + 0.01)).toBe(false);
     expect(COMBAT_TUNING.parryDuration).toBe(1.1);
     expect(COMBAT_TUNING.parryDuration).toBeGreaterThan(COMBAT_TUNING.parryActiveEnd);
+  });
+
+  it("accepts a chain input during the visible swing, not only after contact", () => {
+    // The regression the measured two-handed windows introduced. A greatsword's
+    // opening swing connects at 0.61 of its clip, and the input buffer used to
+    // open at the contact wind-up — so a press made through the whole first
+    // half of a visible swing was ignored, and only one made after the blade had
+    // landed counted. The branch point is untouched, so the cadence is the same.
+    const greatsword = Object.values(ARSENAL_WEAPONS).find((w) => w.classId === "greatsword")!;
+    const swing = greatsword.attacks.light1;
+    const duration = attackDuration(swing);
+    expect(comboQueueOpenTime(swing)).toBeLessThan(swing.windup);
+    expect(comboQueueOpenTime(swing)).toBeLessThan(duration * 0.35);
+    expect(comboQueueOpen(duration * 0.3, 0, swing)).toBe(true);
+    // And a one-handed swing is untouched: no override, so still the wind-up.
+    expect(comboQueueOpenTime(STRAIGHT_SWORD.attacks.light1))
+      .toBe(STRAIGHT_SWORD.attacks.light1.windup);
   });
 
   it("catches with the family's own window, not one shared constant", () => {
