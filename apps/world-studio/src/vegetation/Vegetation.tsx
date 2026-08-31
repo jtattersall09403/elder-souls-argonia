@@ -22,6 +22,13 @@ import {
   type KitManifest,
 } from "./floraKit";
 import type { QualitySettings } from "@elder-souls/game-core/core/quality";
+import {
+  applyWindSwayWithShadow,
+  createWindUniforms,
+  updateWindSway,
+} from "@elder-souls/game-core/fx/windSway";
+import { isSolid, type SolidInstance } from "@elder-souls/game-core/physics/floraSolids";
+import { lastWeatherSample } from "../weather/weatherState";
 import { sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
 import { groundHeightM } from "./terrainHeight";
 import {
@@ -72,6 +79,7 @@ export function Vegetation({
   verticalScale = 1,
   onStats,
   quality,
+  onSolids,
 }: {
   /** Same shape the chunk terrain uses: ground position, not a camera. */
   focusRef: React.MutableRefObject<{ x: number; z: number }>;
@@ -79,6 +87,11 @@ export function Vegetation({
   verticalScale?: number;
   onStats?: (stats: VegetationStats) => void;
   quality?: QualitySettings;
+  /** Solid instances (trunks, boulders, root arches) placed this rebuild, in
+   * final world positions. Character mode turns these into Rapier colliders;
+   * fly mode passes nothing and pays nothing. Injected rather than published
+   * to a global so the two apps stay uncoupled. */
+  onSolids?: (solids: SolidInstance[]) => void;
 }) {
   const chunkRing = quality?.vegChunkRing ?? CHUNK_RING;
   const drawScale = quality?.vegDrawScale ?? 1;
@@ -132,7 +145,14 @@ export function Vegetation({
   const lastBuildFocus = useRef<{ x: number; z: number } | null>(null);
   const REBUILD_MOVE_M = 48;
 
-  useFrame(() => {
+  // Wind sway (module 55 §98): one uniform block shared by every plant
+  // material AND its shadow-depth twin, fed from the same weather sample the
+  // sky, rain and waves read — so the world gusts together.
+  const wind = useMemo(() => createWindUniforms(), []);
+
+  useFrame((_, delta) => {
+    const weather = lastWeatherSample();
+    if (weather) updateWindSway(wind, delta, weather);
     if (!index || !root.current) return;
     const focus = focusRef.current;
     const size = index.chunkMetres;
@@ -196,6 +216,13 @@ export function Vegetation({
       transforms: THREE.Matrix4[];
     }
     const buckets = new Map<string, Bucket>();
+    // Solid instances collected as they are placed — the collider ring needs
+    // the same final world position the mesh got, sink and re-grounding
+    // included, or the invisible wall stands somewhere the tree does not.
+    const solidByAsset = new Map(
+      (manifest?.assets ?? []).map((a) => [a.id, isSolid(a)]),
+    );
+    const solids: SolidInstance[] = [];
     // A chunk instance can sit anywhere in its 468 m square, so chunk-level
     // culls must allow for the worst case: focus at one corner, instance at
     // the opposite one.
@@ -281,6 +308,12 @@ export function Vegetation({
           scale.setScalar(inst.scale);
           bucket.transforms.push(matrix.compose(position, quaternion, scale).clone());
           if (asBillboard) billboardInstances++;
+          if (onSolids && solidByAsset.get(id!)) {
+            solids.push({
+              species: id!, x: inst.x, y, z: inst.z,
+              yaw: inst.yaw, scale: inst.scale,
+            });
+          }
         }
       }
     }
@@ -309,6 +342,14 @@ export function Vegetation({
           entry.billboardIndex !== null && bucket.level === entry.billboardIndex;
         mesh.receiveShadow = !isCard;
         if (part.depthMaterial) mesh.customDepthMaterial = part.depthMaterial;
+        // Sway the mesh tiers only. Cards are the far/impostor tier — sway is
+        // invisible there and the research is explicit that wind never runs
+        // on it. The shadow-depth twin is patched in the same call: patch the
+        // colour material alone and every tree's shadow stands still while
+        // the tree moves.
+        if (!isCard) {
+          applyWindSwayWithShadow(part.material, part.depthMaterial, wind);
+        }
         for (let i = 0; i < bucket.transforms.length; i++) {
           mesh.setMatrixAt(i, bucket.transforms[i]);
         }
@@ -332,11 +373,13 @@ export function Vegetation({
       billboardInstances,
     };
     onStats?.(stats);
+    onSolids?.(solids);
     // Same convention as the sky and water debug hooks: probes read the
     // numbers rather than guessing them from a screenshot.
     (window as unknown as { __STUDIO_VEGETATION_DEBUG__?: VegetationStats })
       .__STUDIO_VEGETATION_DEBUG__ = stats;
-  }, [kit, index, revision, verticalScale, onStats, focusRef, drawScale, chunksManifest, store]);
+  }, [kit, index, manifest, revision, verticalScale, onStats, onSolids, focusRef,
+      drawScale, chunksManifest, store, wind]);
 
   return <group ref={root} name="vegetation" />;
 }

@@ -126,6 +126,13 @@ export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
         // decimated mesh level.
         if (!(material0 as THREE.MeshStandardMaterial)?.map) return;
         billboardLevel = level;
+        // Lift the card out of its baked-in canopy shade (round-4 lever).
+        // Materials are shared across a species' cards, so brighten once.
+        const card = material0 as THREE.MeshStandardMaterial;
+        if (!card.userData.esBillboardBrightened) {
+          card.color.multiplyScalar(BILLBOARD_BRIGHTNESS);
+          card.userData.esBillboardBrightened = true;
+        }
         // Bent normals (research doc §4.1 cause 3): a flat card's geometric
         // normal faces away from the sun half the time, rendering the card
         // near-black in full daylight. Grass-card practice is to light cards
@@ -205,9 +212,27 @@ export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
  * one (T4, module 65 §110), or its last decimated mesh where it does not.
  */
 export function lodDistances(heightM: number): number[] {
-  const reach = Math.max(12, heightM * 6);
+  const reach = Math.max(MIN_MESH_LOD_REACH_M, heightM * 6);
   return [reach, reach * 2.6];
 }
+
+/**
+ * Floor on the full-mesh ring. Height × 6 gives a 2 m shrub only 12 m of full
+ * mesh and 33 m before it becomes a flat card — which is why the uplands
+ * screenshot (owner round 4, 1.59 km E / 1.63 km S) showed dark leaf-shaped
+ * cutouts a few strides away. Small plants are cheap; hold their real geometry
+ * out to a distance where the player cannot read the difference.
+ */
+export const MIN_MESH_LOD_REACH_M = 24;
+
+/**
+ * Billboard cards bake shadowed-canopy lighting into their atlas texture, so
+ * in bright open air they read darker than the meshes they replace (owner
+ * round 4: "distant trees read near-black"). Scale the card material's colour
+ * to compensate. One constant on purpose — the next tune is a one-line change,
+ * and the owner judges the value on the deployed build.
+ */
+export const BILLBOARD_BRIGHTNESS = 1.25;
 
 /**
  * Per-species draw distance (T-tier cull): beyond this an instance is not

@@ -12,13 +12,19 @@
  * draw call per tile (the trap Vegetation.tsx already sprang per chunk).
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
 import { buildFloraKit, type FloraKit, type KitManifest } from "./floraKit";
 import type { QualitySettings } from "@elder-souls/game-core/core/quality";
 import { sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
+import {
+  applyWindSway,
+  createWindUniforms,
+  updateWindSway,
+} from "@elder-souls/game-core/fx/windSway";
+import { lastWeatherSample } from "../weather/weatherState";
 import { sharedWaterAssets } from "../water/waterAssets";
 import { groundHeightM } from "./terrainHeight";
 import type { WaterData } from "@elder-souls/game-core/water/index";
@@ -229,7 +235,13 @@ export function Groundcover({
     if (manifest) setKit(buildFloraKit(gltf, manifest));
   }, [gltf, manifest]);
 
-  useFrame(() => {
+  // The easy half of the wind work: groundcover casts no shadows, so there is
+  // no depth-material twin to keep in step (see Vegetation.tsx).
+  const wind = useMemo(() => createWindUniforms(), []);
+
+  useFrame((_, delta) => {
+    const weather = lastWeatherSample();
+    if (weather) updateWindSway(wind, delta, weather);
     const focus = focusRef.current;
     // Ensure the chunks under the ring are decoding at LOD 1 (the store
     // dedups with the terrain's own requests); a decode arrival rebuilds.
@@ -378,6 +390,7 @@ export function Groundcover({
         // thousands of alpha-tested casters would dominate the cascades.
         mesh.castShadow = false;
         mesh.receiveShadow = true;
+        applyWindSway(part.material, wind);
         for (let i = 0; i < list.length; i++) {
           const p = list[i];
           position.set(p.x, p.y, p.z);

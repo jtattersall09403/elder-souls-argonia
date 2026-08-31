@@ -21,6 +21,8 @@ import { sharedChunkStore, type ChunksManifest } from "./chunkStore";
 import { ChunkWorld } from "./chunkWorld";
 import { ChunkTerrain } from "./ChunkTerrain";
 import { ChunkColliders } from "./ChunkColliders";
+import { VegetationColliders } from "./VegetationColliders";
+import type { SolidInstance } from "@elder-souls/game-core/physics/floraSolids";
 import { TouchControls } from "./TouchControls";
 import { WorldSky } from "../sky/WorldSky";
 import { StudioWater } from "../water/StudioWater";
@@ -262,6 +264,15 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store, world]);
 
+  // Bridge between the renderer (which knows where every plant ended up) and
+  // the physics ring (which makes the near ones solid). A ref, not state: the
+  // list changes on every vegetation rebuild and must not re-render the scene.
+  const floraSolidsRef = useRef<SolidInstance[]>([]);
+  const [floraColliderCount, setFloraColliderCount] = useState(0);
+  const handleSolids = useCallback((solids: SolidInstance[]) => {
+    floraSolidsRef.current = solids;
+  }, []);
+
   const extentM = manifest ? manifest.grid[0] * manifest.chunkMetres : 22460;
 
   if (error) {
@@ -310,6 +321,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               baseUrl={import.meta.env.BASE_URL}
               verticalScale={verticalScale}
               quality={quality}
+              onSolids={handleSolids}
             />
             {/* T3 groundcover ring around the walking character — same
                 component and constants as the flyover. */}
@@ -348,6 +360,15 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             )}
             <ChunkColliders store={store} manifest={manifest} focusRef={focusRef}
               verticalScale={verticalScale} onReady={() => setCollidersReady(true)} />
+            {/* Solidity (Phase 10 round 5): trunks, boulders and root arches
+                stop the player; reeds and ferns do not. The kit has shipped
+                collision proxies since round 1 with nothing consuming them. */}
+            <VegetationColliders
+              solidsRef={floraSolidsRef}
+              focusRef={focusRef}
+              baseUrl={import.meta.env.BASE_URL}
+              onCount={setFloraColliderCount}
+            />
             <PlayerBody handleRef={player} position={[spawn.x, spawn.y, spawn.z]} rotationY={Math.PI}>
               <Suspense fallback={null}>
                 <SkyrimFighter
@@ -428,6 +449,9 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           </select>
         </label>
         <span>race {race} · profile {profile.id}</span>
+        <span title="Solid plants and rocks around you (trunks and boulders are solid; reeds and ferns are not)">
+          solid {floraColliderCount}
+        </span>
         {hud && (
           <span style={{ opacity: 0.9 }}>
             {hud.xKm.toFixed(2)} km E · {hud.zKm.toFixed(2)} km S · alt {hud.altM.toFixed(1)} m
