@@ -88,15 +88,6 @@ first, then open only the master-plan sections the active phase needs.
   owner's rulings are folded in ([0037](decisions/0037-workstream-s-round4-qa-rulings.md))
   and the harness holds 19/19 including the Morrowind known-answer test.
   Nothing is blocked on a reply.
-- **Phase 10 — vanilla `Skyrim.esm` is not in the vault** (only the three BSAs
-  are). It is wanted for mining Bethesda's own scatter rules (REGN object
-  tables, GRAS density params) as a checklist. Owner action, ~250 MB, needs
-  your Steam login: `! ~/tools/DepotDownloader/DepotDownloader -app 72850
-  -depot 72851 -manifest 430694959351693705 -username <you> -filelist
-  ~/workspace/elder-souls-dev/elder-scrolls-asset-pipeline/skyrim-source/esm-filelist.txt
-  -dir ~/workspace/elder-souls-dev/elder-scrolls-asset-pipeline/skyrim-source`
-  (filelist already written). **Not blocking** — BM&V's authored
-  Black Marsh is the primary and more relevant mining source.
 - **6b terrain-feel re-review** — owner closed 8b (2026-08-28) without
   explicitly confirming the terrain-feel re-check that was bundled into that
   pass. Confirm it's fine, or drop issues into

@@ -292,57 +292,66 @@
 >
 > - ~~The region rebalance is not applied to the deployed rasters~~ —
 >   **APPLIED, round 4 worldgen (2026-08-31), see that section above.**
-> - **`Skyrim.esm` is still not in the vault.** Would name ~40 % of the mined
->   references and dimension the 14,974 vanilla registry rows. Owner action,
->   not blocking.
+> - ~~`Skyrim.esm` is still not in the vault~~ — **owner downloaded it
+>   2026-08-31** (to `elder-scrolls-asset-pipeline/skyrim-source/`); the
+>   cross-check is item B6 of the Round 5+ delivery plan below.
 
 ## Round 5+ — DELIVERY PLAN for the rest of Phase 10 (authored 2026-08-31)
 
 Written by the planning agent for the delivering agent. If you were told to
 "deliver the rest of Phase 10", this section is your work order. Read the
 RUN-BOOK box above first (the loop, the feedback table, the five traps), then
-work through Part A, then Part B. All golden rules in CLAUDE.md apply in
-full — nothing here overrides them. The root causes below were established by
+work through Part A, then Part B. The root causes below were established by
 code reading on 2026-08-31; verify each briefly before building on it, but do
 not re-derive from scratch.
 
-**Delivery shape:** two pushed rounds, each ending in an owner playtest
-hand-off written in plain English (what to look at, where, how to feed back).
-Round 5 = Part A + wind (everything the owner can *see*). Round 6 = colliders
-+ scree (things the owner *feels* while walking). B5 (interior mining) is
-offline data work — do it whenever a build/probe is running, it needs no
-playtest. Small commits, gates green each commit, **push every round** — and
-run `pytest` from `tooling/world-generation` and `tooling/asset-pipeline`
-whenever you touch the Python side.
+**Delivery shape (owner ruling 2026-08-31): deliver EVERYTHING in one pass,
+then hand the owner ONE batched playtest checklist** in plain English (what
+to look at, where, how to feed back) — no intermediate playtest rounds.
+Small commits, gates green each commit, push when delivered; run `pytest`
+from `tooling/world-generation` and `tooling/asset-pipeline` whenever you
+touch the Python side.
+
+**Fan out subagents where it helps (owner-approved).** Spawn subagents at
+**low effort** for parallelisable or self-contained items — B5 (interior
+mining) is pure offline data work and should run in parallel with the
+rendering work from the start; B6 likewise; diagnosis reproductions (A1)
+and registry queries are also good candidates. Keep the tightly coupled
+renderer/kit work (A1/A5/B1 all touch `floraKit.ts`) in one pair of hands
+to avoid conflicts, and remember concurrent agents share this worktree —
+pathspec-only commits.
 
 ### Part A — round-4 feedback fixes
 
 **A1 — plant cutouts that never upgrade near the player** (owner screenshot:
 flat dark leaf-shaped cutouts lying against the ground right beside the
-player at 1.59 km E · 1.63 km S, uplands). Diagnosis first: reproduce at that
-coordinate (probe URL params in the run-book) and identify the species and
-LOD level being drawn. Two established facts to test against:
-- Non-tree plants mostly have **no billboard card at all** (only 13/40 kit
-  assets carry `billboard: true`, all but `gkbfallforestshrub02` are trees).
-  At ring 2 they sit forever on the 0.12-ratio decimated mesh
-  (`lodRatios: [0.35, 0.12]` in
-  `tooling/asset-pipeline/pipeline/config/kits/flora-province-v1.json`, no
-  minimum-triangle guard) — a 62-tri bush decimated to 12 % *is* a flat
-  cutout, and it never "upgrades" because it is already the mesh.
-- The LOD ring floor is tiny for short species: `lodDistances` in
-  `apps/world-studio/src/vegetation/floraKit.ts:207` gives
-  `reach = max(12, h*6)` — a 1 m plant drops to its worst level 12 m away.
-Fix at the root, kit-side and threshold-side, not per-spot: add a
-minimum-triangle floor to decimation in the kit builder (never decimate below
-a count that holds silhouette — smaller meshes simply keep their full mesh at
-all levels; they're cheap), and raise the `lodDistances` floor for short
-species so level 0 holds to a sensible walking distance. Also confirm
-`gkbfallforestshrub02`'s card behaves (it is the one non-tree billboard; the
-flat-against-ground look in the screenshot may be its card with the
-bent-to-up normals reading as unlit ground on a bright slope). Rebuild kit +
-bundles per the run-book. Success test: walk up to the screenshot coordinate
-— every plant resolves to a real mesh well before you reach it, and degrades
-again as you leave.
+player at 1.59 km E · 1.63 km S, uplands — the owner was standing
+**directly next to them**, so a too-short LOD ring distance alone cannot
+explain it: at ~0 m the instance should select level 0). Diagnose first:
+reproduce at that coordinate (probe URL params in the run-book) and identify
+the species and level actually drawn. Candidate causes, in likely order:
+- **Level 0 itself is degenerate for that species** — kit-build side. The
+  decimation config (`lodRatios: [0.35, 0.12]` in
+  `tooling/asset-pipeline/pipeline/config/kits/flora-province-v1.json`) has
+  no minimum-triangle guard, and several plant sources are tiny (6–128
+  tris); check what the kit actually holds for the culprit species at every
+  level — if all levels collapsed to cross-planes, "upgrading" changes
+  nothing visible.
+- **It's the one non-tree billboard, `gkbfallforestshrub02`**, drawing its
+  flat card even up close (an eligibility/selection bug in
+  `Vegetation.tsx:237-283`), or its card reading as an unlit dark shape via
+  the bent-to-up normals on a bright slope.
+- **The LOD rebuild isn't firing** — rebuild triggers on ~48 m focus
+  movement (`Vegetation.tsx:127-131`); check the instance's assigned level
+  actually updates as the player approaches.
+Fix whatever the reproduction shows at the root (kit builder guard,
+selection logic, or rebuild trigger — not a per-spot patch), and take the
+cheap hardening anyway: minimum-triangle floor in the kit builder (small
+meshes just keep their full mesh at all levels) and a higher
+`lodDistances` floor for short species (`floraKit.ts:207`,
+`reach = max(12, h*6)` is only 12 m for a 1 m plant). Rebuild kit + bundles
+per the run-book. Success test: at the screenshot coordinate every plant is
+a real mesh well before you reach it, and degrades again as you leave.
 
 **A2 — rocky volumes in uplands: open backs, nesting, no slope alignment**
 (owner screenshot: looking *into* the hollow open side of a large rocky
@@ -365,8 +374,7 @@ the downhill azimuth + tilt toward the terrain normal), a mechanism trees
 must NOT get (trees grow vertical; rocks lie with the ground). (3) Give the
 rock layers a clearance radius so they stop nesting, (4) add a `rock` size
 class in `composition.py` with a sink proportional to mesh height (bury the
-base properly, more on slopes). If a new source mod is tapped for rocks,
-credits go in root README in the same change. Success test: the screenshot
+base properly, more on slopes). Success test: the screenshot
 spot — no visible open backs, no rock-inside-rock, bases buried, long axes
 roughly following the slope.
 
@@ -387,7 +395,14 @@ height.
 **A4 — tropical jungle reads open, not jungly.** The undergrowth and
 micro-variation are approved — do not touch them. What's missing is the
 **tall closed canopy overhead**: the region reads as clumps of small bushy
-trees + occasional palms. Work only in `REGIONS[13]` in
+trees + occasional palms, and the owner reports (2026-08-31) that exploring
+on foot they find **no tall trees or tall canopy anywhere in the region at
+all** — so before tuning densities, check whether the tall layers are even
+*delivering*: compare authored vs delivered per-species counts in
+`compile_scatter --report` for the jungle chunks (the emergent/canopy layers
+may be silently filtered — slope/clearance/water masks, species missing from
+the kit, or a species list that simply tops out short). Then work only in
+`REGIONS[13]` in
 `build_palettes.py:312-346`: strengthen the `emergent`/`canopy` archetype
 layers with genuinely tall species (query the registry for the tallest
 suitable jungle/tropical trees in the kit — add species and rebuild the kit
@@ -413,7 +428,7 @@ build.
 
 ### Part B — the "left for Phase 10" items
 
-**B1 — wind sway (deliver with Round 5).** Owner: yes. The weather system
+**B1 — wind sway.** Owner: yes. The weather system
 already publishes `windDirXZ` + `windSpeedMS`
 (`packages/world-weather/src/express.ts:112-113`). Recipe is already
 researched: [vegetation-scatter-instancing-threejs.md](../research/vegetation-scatter-instancing-threejs.md)
@@ -423,12 +438,11 @@ via `onBeforeCompile` — and **the shadow-sync trap is the whole game**:
 flora casts shadows through a separate `customDepthMaterial`
 (`floraKit.ts:156-168`), so the identical displacement, uniforms and clock
 must be injected into BOTH materials or shadows detach from their trees.
-Per the packages golden rule this is game machinery: put the sway
-material-patching in a package (e.g. alongside the flora-kit loading code —
-and note `Vegetation.tsx`/`floraKit.ts` living app-side is recorded debt; if
-this work substantially rewrites them, extract to a package rather than
-growing them in place; if it's a light touch, a package module consumed by
-the app is enough). Billboards should not bend (they're distant; at most a
+Note `Vegetation.tsx`/`floraKit.ts` living app-side is recorded debt under
+the packages rule: if this work substantially rewrites them, extract to a
+package rather than growing them in place; if it's a light touch, a package
+module consumed by the app is enough. Billboards should not bend (they're
+distant; at most a
 subtle uniform sway — try none first). Groundcover (`Groundcover.tsx`) gets
 the same treatment but casts no shadows, so it's the easy half. Gate: no
 visual probe can judge motion — hand to the owner with "watch a tree in
@@ -444,7 +458,7 @@ from module 65's open-risk note, record the M2-Air-playtest calibration as
 the budget evidence, and keep asking for an FPS-feel read in each playtest
 hand-off so the budget stays measured.
 
-**B3 — solidity: tree, rock and large-plant colliders (Round 6).** The kit
+**B3 — solidity: tree, rock and large-plant colliders.** The kit
 already ships `collisionCapsule` on all 17 tree assets; **nothing consumes
 them** (the only references are the writer in `build_kit.py:364` and the
 type in `floraKit.ts`). Build a per-instance collider spawner next to
@@ -457,12 +471,12 @@ boulders solid; shrubs, ferns, grasses, reeds, mushrooms, groundcover,
 lilypads walk-through; the tramaroot arches solid (they already carry
 `collision: "convex"` — a capsule approximation per arch is fine). Rocks
 need shapes added in the kit manifest first (the builder's dropped-shapes
-path is the place). Package rule applies to the spawning logic. Success:
+path is the place). Success:
 you can't walk through a trunk or a boulder, you CAN wade through reeds,
 and walking a dense exemplar stays smooth (report collider counts in the
 hand-off).
 
-**B4 — scree/gravel ground material (Round 6).** Genuinely new — nothing
+**B4 — scree/gravel ground material.** Genuinely new — nothing
 parked, no TODO exists. Add a scree/gravel material in
 `build_ground_materials.py` (source a suitable texture from the vault —
 BM&V or vanilla; heed the owner's round-6 warning at `:122-123` about
@@ -471,8 +485,8 @@ says talus/steep-debris in the uplands/mountain belts. Modest scope: one
 material, sensibly mapped; it's a ground-truth read ("mountainsides stop
 being bare height-tint"), not a new system.
 
-**B5 — settlement/interior mining (prep for Phases 11–12; run in the
-gaps).** Pure data work with the existing readers:
+**B5 — settlement/interior mining (prep for Phases 11–12; run in parallel
+via a subagent from the start).** Pure data work with the existing readers:
 `esp_index.interior_cells(with_refs=True)` plus the REFR machinery, over
 BM&V (and any settlement-relevant source mods in the vault). Mine what
 Phases 11/12 will actually ask for: per-interior kit-piece assembly stats
@@ -484,22 +498,24 @@ sibling), a `docs/research/` doc recording method + headline numbers, and
 pointers added where Phase 11 will look (module 70 / docs README router).
 No renderer work, no placement changes.
 
-**B6 — `Skyrim.esm` cross-check (only if the owner has run the Steam
-command in PROGRESS by then).** If the esm appears in the vault: mine REGN
-object tables + GRAS density params with `esp_index` as a cross-check
-against our mined rules, and record deltas worth acting on in the round
-record. If it isn't there, skip silently — it is not blocking and never
-was.
+**B6 — `Skyrim.esm` cross-check.** The owner ran the Steam download on
+2026-08-31, so the esm should now be at
+`~/workspace/elder-souls-dev/elder-scrolls-asset-pipeline/skyrim-source/`
+(verify; move/register it per the vault conventions). Mine REGN object
+tables + GRAS density params with `esp_index` as a cross-check against our
+mined rules, and record deltas worth acting on in the round record. Good
+subagent candidate, parallel with B5.
 
-### Wrap-up (same session as Round 6)
+### Wrap-up
 
-Record what shipped as round sections here (defect → root cause → fix, same
-style as rounds 1–4), keep PROGRESS.md's row and *Waiting on user* current
-per its protocol, update the docs the work touched (module 65 budget note,
-docs README router if files were added), and leave the playtest checklist
-for the owner in PROGRESS. What remains of Phase 10 after this plan is
-owner sign-off; the phase closes on their say-so, with leftovers routed to
-[polish-backlog.md](../polish-backlog.md).
+Record what shipped as a round section here (defect → root cause → fix,
+same style as rounds 1–4), keep PROGRESS.md's row and *Waiting on user*
+current per its protocol, update the docs the work touched (module 65
+budget note, docs README router if files were added), and leave ONE batched
+playtest checklist for the owner in PROGRESS covering everything above
+(including an FPS-feel ask, per B2). What remains of Phase 10 after this
+plan is owner sign-off; the phase closes on their say-so, with leftovers
+routed to [polish-backlog.md](../polish-backlog.md).
 
 ---
 
