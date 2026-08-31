@@ -25,3 +25,29 @@ cosmetic/feel work lives — do not park polish items in decision docs.
 | Weather: thunder audio (distance-delayed crack + rumble tail) | 8c → module 57 (Phase 12b owns all audio) | flash→delayed thunder at 3 s/km |
 | Physics mass-unit scale cleanup (ecctrl capsule ~0.25 units vs real-mass props) | 8b round 6 §5 | one consistent mass scale; Phase 9 boats depend on it |
 | Combat `10b`: shield parry — with a shield equipped, parrying still uses the weapon parry. Owner taste ruling at 10b kickoff: DS-style small-shield parry (a clip-sourcing job) vs keep weapon-only. Block-vs-parry already matters mechanically (guard stability + poise, 76 §120/§121.3) | owner question 2026-08-30 (decision 0038) | ruling recorded; if kept, shield parry works in the studio |
+
+## Combat (added 2026-08-31, from the parallel combat pass — decision 0040)
+
+- **A bow downloads a sword's moveset.** `BOW_ANIMATIONS` borrows the
+  one-handed set for the clumsy bash a bow makes when swung, so the `bow`
+  animation pack has to depend on `oneHanded` (and through it `criticals`) —
+  about 3 MB an archer fetches for a fallback swing. The fix is to let a weapon
+  declare that it has no melee and have the combat FSM refuse the input, the
+  way it already refuses a guard with a bow raised, rather than borrowing
+  clips. Touches the non-optional melee fields of `WeaponAnimationProfile`.
+- **Contact windows need re-measuring.** `scripts/measure-contact-windows.mjs`
+  had been reading a GLB path that stopped existing at the Phase 7 package
+  extraction, so it has not run since; it is fixed and pack-aware now, but its
+  output no longer agrees with the calibrated one-handed windows it originally
+  produced. Both sets — one-handed and the two new two-handed movesets, which
+  currently inherit the one-handed contact *fractions* — want measuring against
+  the production rig in one focused pass. Do not retune the calibrated
+  one-handed feel on the tool's word until the disagreement is explained.
+- **Two-handed heavy chains are unaffordable.** `heavy` into `heavy2` costs
+  about 130 stamina against a 100 bar, so `GREATSWORD_HEAVY_2` and
+  `GREATAXE_HEAVY_2` are built, wired and unreachable (recorded as animation
+  exclusions). Either the chain should be affordable or the second heavy should
+  not be chain-only — an owner/10c call, not a quiet stamina retune.
+- **Poise numbers are provisional** (module 76 §121.3 says so explicitly).
+  `poisePerArmourRating` is the one most likely to move; the debug panel's
+  Poise switch and the HUD bar exist to make the comparison cheap.

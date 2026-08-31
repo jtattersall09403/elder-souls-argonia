@@ -33,6 +33,7 @@ view model are core, its stylesheet is not. See
 | [architecture/items-and-inventory.md](architecture/items-and-inventory.md) | Items from class x material, worn armour, and the inventory's three layers |
 | [architecture/ranged-combat.md](architecture/ranged-combat.md) | Aiming, the draw cycle, first person, and the arrow as a rigid body |
 | [architecture/movement-speed-tuning.md](architecture/movement-speed-tuning.md) | Where to edit travel speed vs animation playback speed for locomotion/dodges |
+| [architecture/poise-and-stagger.md](architecture/poise-and-stagger.md) | Whether a hit interrupts: the pool, its numbers, and the seam to the stat system |
 | [research/archery-ballistics.md](research/archery-ballistics.md) | How bows are modelled, and the real-world figures that calibrate them |
 | [assets/rebuilding-the-character.md](assets/rebuilding-the-character.md) | Rebuild the character GLB from Skyrim source |
 | [assets/animation-source-audit.md](assets/animation-source-audit.md) | Selected Skyrim clips, external-source provenance, and audition results |

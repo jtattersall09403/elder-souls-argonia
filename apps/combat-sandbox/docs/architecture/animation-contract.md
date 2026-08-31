@@ -6,6 +6,34 @@ The game speaks in **semantic** animation states (`packages/game-core/src/core/t
 `GUARD`, `PARRY`, `RIPOSTE`, `CRITICAL_KNOCKDOWN`, `CRITICAL_DEATH`, `BACKSTAB`,
 `BACKSTABBED`, reactions, `HEAL`, `EQUIP`/`UNEQUIP`, `DEATH`.
 
+## The rig is several files: animation packs
+
+The rig ships as one GLB per **animation pack** — `core` (everything a body can
+do without knowing what it holds: locomotion, crouch, jump, dodge, reactions,
+death), `criticals` (the paired riposte/backstab every melee weapon reuses),
+and one per weapon family. Every pack repeats the same skeleton and carries
+only its own clips, so joining them is concatenating clip lists and nothing
+knows which file a clip arrived in.
+
+An actor is handed `loadoutAnimationPacks(loadout)` and loads exactly those;
+`SkyrimFighter` is keyed on the resolved set as well as the race, because the
+mixer binds each clip's bones once and changing the clip list under a live
+mixer leaves its bindings pointing at the old data. Packs declare what they
+borrow (`greataxe` needs `greatsword`'s carriage, which needs `criticals`) and
+`resolveAnimationPacks` takes the closure.
+
+**A missing pack does not error.** A mixer asked for an action it does not have
+leaves the previous one playing, so the symptom is a riposte that renders the
+idle pose. `equipment/animationPacks.test.ts` is the guard: it proves every
+weapon and shield in the arsenal can play every clip its profile names, from
+the packs its own loadout resolves. Adding a weapon family means adding to that
+arsenal and letting the test check it — not remembering this paragraph.
+
+Adding a family: clips into the pipeline's animation config with a `pack`, a
+pack entry saying what it borrows, a `MovesetDefinition` in
+`equipment/movesets/`, and the class table pointing at it. Nothing in loading,
+binding, the actor or the combat FSM changes. See decision 0040.
+
 ## Manifest-driven
 
 `packages/game-core/src/anim/animationManifest.ts` loads
@@ -65,6 +93,16 @@ of resetting at takeoff; driving a clip from that stale clock clamps it to its
 last frame from the very first rendered frame. Self-timing sidesteps that
 entirely — don't move a state out of `LOCOMOTION_STATES` unless its combat
 action clock is actually reset at entry.
+
+## Guarding is decided by the off hand
+
+`activeGuardProfile` picks a shield's numbers over the weapon's, and
+`activeGuardAnimations` picks its *motion* the same way — a shield is a braced
+face carried on the off arm, not an angled edge, and Skyrim authors the two as
+separate clip sets. Every guard, block-hit and parry read in combat goes
+through that resolver rather than through `weapon.animations.guard`, so a
+future off-hand item (a torch, a second blade) brings its own block by
+supplying a `GuardAnimationProfile` and the combat FSM is unchanged.
 
 ## Weapon sockets
 
@@ -145,6 +183,17 @@ The external action clock is rebased whenever a command changes mid-action.
 This permits sequences such as `PARRY` → `PARRY_FOLLOW_THROUGH` and
 `GUARD_ENTER` → looping `GUARD` without resetting the gameplay parry/guard
 clock or clamping the second clip to its last frame.
+
+## Crouch
+
+Crouching is a **stance**, not a slowed walk (`locomotion/stance.ts`). Skyrim
+authors sneaking as a complete locomotion set — its own idle, stride, reverse
+and strafes — and the crouched top speed is read off `CROUCH_WALK`'s measured
+`authoredGroundSpeed` rather than guessed as a fraction of a walk, so
+re-sourcing the sneak clip retunes the speed with it. A weapon may override the
+crouched *hold* (`crouchIdle`) without owning the movement; a drawn blade does.
+
+Today it changes pace and pose only. Stealth reads `Stance`.
 
 ## Locomotion cadence
 

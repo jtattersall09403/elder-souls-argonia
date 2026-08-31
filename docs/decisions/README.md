@@ -43,3 +43,4 @@ record and marking the old one superseded — don't rewrite history.
 - [0037 — workstream S round 4 QA rulings: practice discount cut, kill-based armour accrual, damping removed, lockpick wear, poise reinstated (DS1 model), pace target restated](0037-workstream-s-round4-qa-rulings.md)
 - [0038 — the world-build/game-build-out seam: contracts-and-thin-slices policy, the game-buildout-register, detection-model + save-layer gaps found](0038-world-build-vs-game-buildout-seam.md)
 - [0039 — Morrowind/Skyrim systems cross-check triage: ~22 adoptions applied, cuts recorded, seven owner steers (PROPOSED — awaiting owner)](0039-source-game-crosscheck-triage.md)
+- [0040 — animation packs (the rig split per weapon family), poise made switchable while it is judged, contact windows left unmeasured rather than guessed](0040-animation-packs-and-combat-parallel-pass.md)
