@@ -844,6 +844,7 @@
    "textures": [
     "vurt_amanita3.dds",
     "vurt_mushbottom.dds",
+    "vurt_shroomstem.dds",
     "vurt_shroomstemmoss.dds"
    ],
    "materials": [
@@ -1647,18 +1648,28 @@
   "textures/terrain/tamriel/trees/tamrieltreelod_n.dds",
   "textures/vurt_amanita3_n.dds",
   "textures/vurt_mushbottom_n.dds",
-  "textures/vurt_shroomstem.dds",
   "textures/vurt_shroomstem_n.dds"
  ],
  "texturesSubstituted": {
+  "textures/landscape/dirt02.dds": "textures/texturepack/landscape/dirt02.dds",
+  "textures/landscape/dirt02_n.dds": "textures/actors/dwarven centurion/land dreugh/mud/terrains/dirt02_n.dds",
+  "textures/landscape/grass/coastkelpgrass01.dds": "textures/texturepack/landscape/grass/coastkelpgrass01.dds",
+  "textures/landscape/mountains/mountainslab01_n.dds": "textures/rocks/mountainslab01_n.dds",
+  "textures/landscape/rocks01.dds": "textures/texturepack/landscape/rocks01.dds",
+  "textures/landscape/trees/tundradriftwoodbark01_n.dds": "textures/landscape/4k/tundradriftwoodbark01_n.dds",
+  "textures/landscape/trees/tundradriftwoodbranches01.dds": "textures/texturepack/landscape/trees/tundradriftwoodbranches01.dds",
   "textures/plants/groundplants1/fern2.dds": "textures/landscape/plants/fern2.dds",
   "textures/plants/groundplants1/fern2_n.dds": "textures/landscape/plants/fern2_n.dds",
   "textures/plants/grplants2/leafcol.dds": "textures/landscape/plants/leafcol.dds",
   "textures/plants/grplants2/leafcol_n.dds": "textures/landscape/plants/leafcol_n.dds",
   "textures/plants/tamira/newplants/bamboo.dds": "textures/landscape/tamira/newplants/bamboo.dds",
   "textures/plants/tamira/newplants/bamboo_n.dds": "textures/landscape/tamira/newplants/bamboo_n.dds",
+  "textures/plants/tamira/newplants/tropicalplant01.dds": "textures/landscape/tamira/newplants/tropicalplant01.dds",
+  "textures/plants/tamira/newplants/tropicalplant01_n.dds": "textures/landscape/tamira/newplants/tropicalplant01_n.dds",
   "textures/plants/tamira/newplants/tropicalshrub01.dds": "textures/landscape/tamira/newplants/tropicalshrub01.dds",
-  "textures/plants/tamira/newplants/tropicalshrub01_n.dds": "textures/landscape/tamira/newplants/tropicalshrub01_n.dds"
+  "textures/plants/tamira/newplants/tropicalshrub01_n.dds": "textures/landscape/tamira/newplants/tropicalshrub01_n.dds",
+  "textures/terrain/tamriel/trees/tamrieltreelod.dds": "textures/landscape/trees/tamrieltreelod.dds",
+  "textures/vurt_shroomstem.dds": "textures/landscape/plants/vurt_shroomstem2.dds"
  },
  "alphaModes": {
   "MASK": 114,

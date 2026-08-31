@@ -59,19 +59,19 @@
     11,
     12
    ],
-   "instances": 3773,
+   "instances": 3812,
    "tiers": {
-    "T1": 1781,
-    "T2": 1992
+    "T1": 1886,
+    "T2": 1926
    },
-   "perHectare": 172.3,
-   "clarkEvansR": 0.349,
+   "perHectare": 174.1,
+   "clarkEvansR": 0.492,
    "variation": {
-    "coefficientOfVariation": 1.07,
+    "coefficientOfVariation": 1.15,
     "openSpaceRadiusM": {
-     "p50": 6.0,
-     "p75": 13.7,
-     "p95": 29.1
+     "p50": 7.6,
+     "p75": 15.0,
+     "p95": 26.9
     }
    }
   },
@@ -91,19 +91,19 @@
     11,
     12
    ],
-   "instances": 7416,
+   "instances": 6453,
    "tiers": {
-    "T1": 2364,
-    "T2": 5052
+    "T1": 1612,
+    "T2": 4841
    },
-   "perHectare": 338.7,
+   "perHectare": 294.7,
    "clarkEvansR": 0.385,
    "variation": {
-    "coefficientOfVariation": 1.07,
+    "coefficientOfVariation": 1.3,
     "openSpaceRadiusM": {
-     "p50": 4.7,
-     "p75": 12.2,
-     "p95": 26.2
+     "p50": 6.7,
+     "p75": 12.0,
+     "p95": 24.0
     }
    }
   },
@@ -122,19 +122,19 @@
     11,
     12
    ],
-   "instances": 4336,
+   "instances": 3276,
    "tiers": {
-    "T1": 1071,
-    "T2": 3265
+    "T1": 593,
+    "T2": 2683
    },
-   "perHectare": 198.0,
-   "clarkEvansR": 0.318,
+   "perHectare": 149.6,
+   "clarkEvansR": 0.328,
    "variation": {
-    "coefficientOfVariation": 0.91,
+    "coefficientOfVariation": 0.92,
     "openSpaceRadiusM": {
-     "p50": 5.8,
-     "p75": 10.1,
-     "p95": 21.7
+     "p50": 9.0,
+     "p75": 15.2,
+     "p95": 26.5
     }
    }
   },
@@ -152,19 +152,19 @@
     11,
     12
    ],
-   "instances": 3872,
+   "instances": 3792,
    "tiers": {
-    "T1": 1511,
-    "T2": 2361
+    "T1": 1449,
+    "T2": 2343
    },
-   "perHectare": 176.8,
-   "clarkEvansR": 0.326,
+   "perHectare": 173.2,
+   "clarkEvansR": 0.35,
    "variation": {
-    "coefficientOfVariation": 1.13,
+    "coefficientOfVariation": 1.15,
     "openSpaceRadiusM": {
-     "p50": 6.5,
-     "p75": 14.5,
-     "p95": 26.8
+     "p50": 7.9,
+     "p75": 13.6,
+     "p95": 22.7
     }
    }
   },
@@ -183,19 +183,19 @@
     11,
     12
    ],
-   "instances": 8555,
+   "instances": 5919,
    "tiers": {
-    "T1": 2730,
-    "T2": 5825
+    "T1": 2155,
+    "T2": 3764
    },
-   "perHectare": 390.7,
-   "clarkEvansR": 0.373,
+   "perHectare": 270.3,
+   "clarkEvansR": 0.377,
    "variation": {
-    "coefficientOfVariation": 1.38,
+    "coefficientOfVariation": 1.52,
     "openSpaceRadiusM": {
-     "p50": 4.1,
-     "p75": 13.7,
-     "p95": 29.4
+     "p50": 6.3,
+     "p75": 13.3,
+     "p95": 24.6
     }
    }
   },
@@ -215,19 +215,19 @@
     11,
     12
    ],
-   "instances": 2401,
+   "instances": 1765,
    "tiers": {
-    "T1": 528,
-    "T2": 1873
+    "T1": 209,
+    "T2": 1556
    },
-   "perHectare": 109.7,
-   "clarkEvansR": 0.28,
+   "perHectare": 80.6,
+   "clarkEvansR": 0.263,
    "variation": {
-    "coefficientOfVariation": 1.23,
+    "coefficientOfVariation": 1.32,
     "openSpaceRadiusM": {
-     "p50": 8.7,
-     "p75": 15.4,
-     "p95": 26.0
+     "p50": 11.6,
+     "p75": 18.8,
+     "p95": 30.6
     }
    }
   },
@@ -246,19 +246,19 @@
     12,
     13
    ],
-   "instances": 6630,
+   "instances": 5863,
    "tiers": {
-    "T1": 2878,
-    "T2": 3752
+    "T1": 2825,
+    "T2": 3038
    },
-   "perHectare": 302.8,
-   "clarkEvansR": 0.348,
+   "perHectare": 267.8,
+   "clarkEvansR": 0.369,
    "variation": {
-    "coefficientOfVariation": 0.71,
+    "coefficientOfVariation": 1.06,
     "openSpaceRadiusM": {
-     "p50": 3.6,
-     "p75": 6.4,
-     "p95": 16.4
+     "p50": 5.0,
+     "p75": 8.7,
+     "p95": 18.5
     }
    }
   },
@@ -276,19 +276,19 @@
     11,
     12
    ],
-   "instances": 5670,
+   "instances": 5365,
    "tiers": {
-    "T1": 1794,
-    "T2": 3876
+    "T1": 1354,
+    "T2": 4011
    },
-   "perHectare": 259.0,
-   "clarkEvansR": 0.386,
+   "perHectare": 245.0,
+   "clarkEvansR": 0.33,
    "variation": {
-    "coefficientOfVariation": 1.03,
+    "coefficientOfVariation": 1.7,
     "openSpaceRadiusM": {
-     "p50": 4.7,
-     "p75": 9.9,
-     "p95": 25.5
+     "p50": 7.7,
+     "p75": 13.2,
+     "p95": 26.3
     }
    }
   },
@@ -306,21 +306,22 @@
     8,
     9,
     11,
-    12
+    12,
+    14
    ],
-   "instances": 1936,
+   "instances": 2249,
    "tiers": {
-    "T1": 399,
-    "T2": 1537
+    "T1": 565,
+    "T2": 1684
    },
-   "perHectare": 88.4,
-   "clarkEvansR": 0.342,
+   "perHectare": 102.7,
+   "clarkEvansR": 0.259,
    "variation": {
-    "coefficientOfVariation": 1.08,
+    "coefficientOfVariation": 1.45,
     "openSpaceRadiusM": {
-     "p50": 9.3,
-     "p75": 15.8,
-     "p95": 28.2
+     "p50": 11.8,
+     "p75": 19.3,
+     "p95": 30.9
     }
    }
   },
@@ -338,19 +339,19 @@
     12,
     13
    ],
-   "instances": 5948,
+   "instances": 5473,
    "tiers": {
-    "T1": 1900,
-    "T2": 4048
+    "T1": 1928,
+    "T2": 3545
    },
-   "perHectare": 271.7,
-   "clarkEvansR": 0.317,
+   "perHectare": 250.0,
+   "clarkEvansR": 0.328,
    "variation": {
-    "coefficientOfVariation": 0.99,
+    "coefficientOfVariation": 1.02,
     "openSpaceRadiusM": {
-     "p50": 4.6,
-     "p75": 8.8,
-     "p95": 27.4
+     "p50": 5.9,
+     "p75": 10.5,
+     "p95": 24.5
     }
    }
   },
@@ -368,19 +369,19 @@
     12,
     13
    ],
-   "instances": 8118,
+   "instances": 14730,
    "tiers": {
-    "T1": 2717,
-    "T2": 5401
+    "T1": 2806,
+    "T2": 11924
    },
-   "perHectare": 370.8,
-   "clarkEvansR": 0.416,
+   "perHectare": 672.7,
+   "clarkEvansR": 0.358,
    "variation": {
-    "coefficientOfVariation": 0.7,
+    "coefficientOfVariation": 0.71,
     "openSpaceRadiusM": {
-     "p50": 3.2,
-     "p75": 5.8,
-     "p95": 16.3
+     "p50": 4.0,
+     "p75": 7.5,
+     "p95": 16.4
     }
    }
   },
@@ -398,19 +399,19 @@
     12,
     13
    ],
-   "instances": 6520,
+   "instances": 6041,
    "tiers": {
-    "T1": 2914,
-    "T2": 3606
+    "T1": 3057,
+    "T2": 2984
    },
-   "perHectare": 297.8,
-   "clarkEvansR": 0.347,
+   "perHectare": 275.9,
+   "clarkEvansR": 0.329,
    "variation": {
-    "coefficientOfVariation": 0.75,
+    "coefficientOfVariation": 0.73,
     "openSpaceRadiusM": {
-     "p50": 3.7,
-     "p75": 6.3,
-     "p95": 17.3
+     "p50": 4.5,
+     "p75": 8.0,
+     "p95": 15.8
     }
    }
   },
@@ -428,19 +429,19 @@
     12,
     13
    ],
-   "instances": 5287,
+   "instances": 4582,
    "tiers": {
-    "T1": 1582,
-    "T2": 3705
+    "T1": 1576,
+    "T2": 3006
    },
-   "perHectare": 241.5,
-   "clarkEvansR": 0.355,
+   "perHectare": 209.3,
+   "clarkEvansR": 0.379,
    "variation": {
-    "coefficientOfVariation": 0.98,
+    "coefficientOfVariation": 0.99,
     "openSpaceRadiusM": {
-     "p50": 4.6,
-     "p75": 8.7,
-     "p95": 28.8
+     "p50": 5.6,
+     "p75": 11.0,
+     "p95": 30.5
     }
    }
   },
@@ -455,19 +456,19 @@
     12,
     13
    ],
-   "instances": 8268,
+   "instances": 7714,
    "tiers": {
-    "T1": 2529,
-    "T2": 5739
+    "T1": 2431,
+    "T2": 5283
    },
-   "perHectare": 377.6,
-   "clarkEvansR": 0.462,
+   "perHectare": 352.3,
+   "clarkEvansR": 0.421,
    "variation": {
-    "coefficientOfVariation": 1.08,
+    "coefficientOfVariation": 1.18,
     "openSpaceRadiusM": {
-     "p50": 3.9,
-     "p75": 9.1,
-     "p95": 24.7
+     "p50": 5.2,
+     "p75": 10.2,
+     "p95": 26.4
     }
    }
   },
@@ -482,19 +483,19 @@
     12,
     13
    ],
-   "instances": 8330,
+   "instances": 8107,
    "tiers": {
-    "T1": 2694,
-    "T2": 5636
+    "T1": 2696,
+    "T2": 5411
    },
-   "perHectare": 380.4,
-   "clarkEvansR": 0.415,
+   "perHectare": 370.3,
+   "clarkEvansR": 0.381,
    "variation": {
-    "coefficientOfVariation": 0.8,
+    "coefficientOfVariation": 0.96,
     "openSpaceRadiusM": {
-     "p50": 3.7,
-     "p75": 7.8,
-     "p95": 19.1
+     "p50": 4.7,
+     "p75": 9.0,
+     "p95": 20.3
     }
    }
   },
@@ -512,19 +513,19 @@
     12,
     13
    ],
-   "instances": 5377,
+   "instances": 5608,
    "tiers": {
-    "T1": 1790,
-    "T2": 3587
+    "T1": 1774,
+    "T2": 3834
    },
-   "perHectare": 245.6,
-   "clarkEvansR": 0.47,
+   "perHectare": 256.1,
+   "clarkEvansR": 0.443,
    "variation": {
-    "coefficientOfVariation": 0.9,
+    "coefficientOfVariation": 1.42,
     "openSpaceRadiusM": {
-     "p50": 4.8,
-     "p75": 8.6,
-     "p95": 16.9
+     "p50": 6.4,
+     "p75": 10.8,
+     "p95": 19.1
     }
    }
   },
@@ -539,19 +540,19 @@
     12,
     13
    ],
-   "instances": 8423,
+   "instances": 8396,
    "tiers": {
-    "T1": 3135,
-    "T2": 5288
+    "T1": 2892,
+    "T2": 5504
    },
-   "perHectare": 384.7,
-   "clarkEvansR": 0.47,
+   "perHectare": 383.5,
+   "clarkEvansR": 0.405,
    "variation": {
-    "coefficientOfVariation": 0.78,
+    "coefficientOfVariation": 0.84,
     "openSpaceRadiusM": {
-     "p50": 3.3,
-     "p75": 6.5,
-     "p95": 17.3
+     "p50": 4.2,
+     "p75": 7.8,
+     "p95": 21.0
     }
    }
   },
@@ -566,19 +567,19 @@
     12,
     13
    ],
-   "instances": 8000,
+   "instances": 7095,
    "tiers": {
-    "T1": 2716,
-    "T2": 5284
+    "T1": 2390,
+    "T2": 4705
    },
-   "perHectare": 365.4,
-   "clarkEvansR": 0.495,
+   "perHectare": 324.0,
+   "clarkEvansR": 0.392,
    "variation": {
-    "coefficientOfVariation": 0.91,
+    "coefficientOfVariation": 0.78,
     "openSpaceRadiusM": {
-     "p50": 3.8,
-     "p75": 7.7,
-     "p95": 19.7
+     "p50": 5.0,
+     "p75": 10.6,
+     "p95": 21.1
     }
    }
   },
@@ -597,19 +598,19 @@
     11,
     12
    ],
-   "instances": 3238,
+   "instances": 3127,
    "tiers": {
-    "T1": 1001,
-    "T2": 2237
+    "T1": 643,
+    "T2": 2484
    },
-   "perHectare": 147.9,
-   "clarkEvansR": 0.373,
+   "perHectare": 142.8,
+   "clarkEvansR": 0.321,
    "variation": {
-    "coefficientOfVariation": 0.9,
+    "coefficientOfVariation": 1.85,
     "openSpaceRadiusM": {
-     "p50": 6.0,
-     "p75": 9.5,
-     "p95": 17.2
+     "p50": 9.4,
+     "p75": 15.6,
+     "p95": 24.7
     }
    }
   },
@@ -630,19 +631,19 @@
     11,
     12
    ],
-   "instances": 4082,
+   "instances": 1979,
    "tiers": {
-    "T1": 824,
-    "T2": 3258
+    "T1": 453,
+    "T2": 1526
    },
-   "perHectare": 186.4,
-   "clarkEvansR": 0.324,
+   "perHectare": 90.4,
+   "clarkEvansR": 0.293,
    "variation": {
-    "coefficientOfVariation": 1.59,
+    "coefficientOfVariation": 1.17,
     "openSpaceRadiusM": {
-     "p50": 6.3,
-     "p75": 10.3,
-     "p95": 21.1
+     "p50": 9.8,
+     "p75": 15.2,
+     "p95": 26.9
     }
    }
   },
@@ -662,21 +663,22 @@
     9,
     11,
     12,
-    13
+    13,
+    14
    ],
-   "instances": 4103,
+   "instances": 3776,
    "tiers": {
-    "T1": 1442,
-    "T2": 2661
+    "T1": 662,
+    "T2": 3114
    },
-   "perHectare": 187.4,
-   "clarkEvansR": 0.318,
+   "perHectare": 172.5,
+   "clarkEvansR": 0.308,
    "variation": {
-    "coefficientOfVariation": 0.93,
+    "coefficientOfVariation": 1.45,
     "openSpaceRadiusM": {
-     "p50": 5.6,
-     "p75": 10.8,
-     "p95": 21.0
+     "p50": 9.0,
+     "p75": 14.2,
+     "p95": 23.8
     }
    }
   },
@@ -693,21 +695,22 @@
     8,
     9,
     11,
-    12
+    12,
+    14
    ],
-   "instances": 3708,
+   "instances": 2316,
    "tiers": {
-    "T1": 681,
-    "T2": 3027
+    "T1": 968,
+    "T2": 1348
    },
-   "perHectare": 169.3,
-   "clarkEvansR": 0.327,
+   "perHectare": 105.8,
+   "clarkEvansR": 0.322,
    "variation": {
-    "coefficientOfVariation": 2.59,
+    "coefficientOfVariation": 1.09,
     "openSpaceRadiusM": {
-     "p50": 6.8,
-     "p75": 12.4,
-     "p95": 25.5
+     "p50": 8.6,
+     "p75": 14.1,
+     "p95": 21.7
     }
    }
   },
@@ -716,8 +719,8 @@
     11,
     7
    ],
-   "region": 0,
-   "regionName": "ocean",
+   "region": 14,
+   "regionName": "mangrove forest",
    "regionsPresent": [
     0,
     3,
@@ -725,21 +728,22 @@
     8,
     9,
     11,
-    12
+    12,
+    14
    ],
-   "instances": 1581,
+   "instances": 3759,
    "tiers": {
-    "T1": 440,
-    "T2": 1141
+    "T1": 2739,
+    "T2": 1020
    },
-   "perHectare": 72.2,
-   "clarkEvansR": 0.366,
+   "perHectare": 171.7,
+   "clarkEvansR": 0.514,
    "variation": {
-    "coefficientOfVariation": 2.46,
+    "coefficientOfVariation": 1.04,
     "openSpaceRadiusM": {
-     "p50": 11.4,
-     "p75": 19.0,
-     "p95": 30.6
+     "p50": 7.1,
+     "p75": 13.4,
+     "p95": 25.9
     }
    }
   },
@@ -748,29 +752,30 @@
     11,
     8
    ],
-   "region": 0,
-   "regionName": "ocean",
+   "region": 14,
+   "regionName": "mangrove forest",
    "regionsPresent": [
     0,
     4,
     8,
     9,
     11,
-    12
+    12,
+    14
    ],
-   "instances": 1059,
+   "instances": 3953,
    "tiers": {
-    "T1": 255,
-    "T2": 804
+    "T1": 2274,
+    "T2": 1679
    },
-   "perHectare": 48.4,
-   "clarkEvansR": 0.293,
+   "perHectare": 180.5,
+   "clarkEvansR": 0.274,
    "variation": {
-    "coefficientOfVariation": 1.4,
+    "coefficientOfVariation": 1.14,
     "openSpaceRadiusM": {
-     "p50": 12.9,
-     "p75": 21.5,
-     "p95": 32.6
+     "p50": 7.4,
+     "p75": 15.0,
+     "p95": 26.5
     }
    }
   },
@@ -785,21 +790,22 @@
     0,
     4,
     8,
-    11
+    11,
+    14
    ],
-   "instances": 81,
+   "instances": 606,
    "tiers": {
-    "T1": 74,
-    "T2": 7
+    "T1": 381,
+    "T2": 225
    },
-   "perHectare": 3.7,
-   "clarkEvansR": 0.071,
+   "perHectare": 27.7,
+   "clarkEvansR": 0.232,
    "variation": {
-    "coefficientOfVariation": 4.71,
+    "coefficientOfVariation": 3.03,
     "openSpaceRadiusM": {
-     "p50": 16.3,
-     "p75": 26.6,
-     "p95": 36.5
+     "p50": 8.8,
+     "p75": 19.3,
+     "p95": 26.6
     }
    }
   },
@@ -815,21 +821,48 @@
     4,
     8,
     11,
-    12
+    12,
+    14
    ],
-   "instances": 221,
+   "instances": 633,
    "tiers": {
-    "T1": 162,
-    "T2": 59
+    "T1": 524,
+    "T2": 109
    },
-   "perHectare": 10.1,
-   "clarkEvansR": 0.089,
+   "perHectare": 28.9,
+   "clarkEvansR": 0.264,
    "variation": {
-    "coefficientOfVariation": 4.84,
+    "coefficientOfVariation": 2.48,
     "openSpaceRadiusM": {
-     "p50": 15.3,
-     "p75": 24.9,
-     "p95": 36.7
+     "p50": 9.6,
+     "p75": 18.6,
+     "p95": 33.6
+    }
+   }
+  },
+  "12_8": {
+   "chunk": [
+    12,
+    8
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    14
+   ],
+   "instances": 7,
+   "tiers": {
+    "T1": 3,
+    "T2": 4
+   },
+   "perHectare": 0.3,
+   "variation": {
+    "coefficientOfVariation": 6.88,
+    "openSpaceRadiusM": {
+     "p50": 24.6,
+     "p75": 29.4,
+     "p95": 33.0
     }
    }
   },
@@ -847,15 +880,15 @@
     11,
     12
    ],
-   "instances": 1330,
+   "instances": 1335,
    "tiers": {
     "T1": 573,
-    "T2": 757
+    "T2": 762
    },
-   "perHectare": 60.7,
+   "perHectare": 61.0,
    "clarkEvansR": 0.441,
    "variation": {
-    "coefficientOfVariation": 1.24,
+    "coefficientOfVariation": 1.23,
     "openSpaceRadiusM": {
      "p50": 9.8,
      "p75": 16.1,
@@ -877,12 +910,12 @@
     11,
     12
    ],
-   "instances": 2270,
+   "instances": 2267,
    "tiers": {
     "T1": 449,
-    "T2": 1821
+    "T2": 1818
    },
-   "perHectare": 103.7,
+   "perHectare": 103.5,
    "clarkEvansR": 0.577,
    "variation": {
     "coefficientOfVariation": 1.33,
@@ -907,15 +940,15 @@
     11,
     12
    ],
-   "instances": 1157,
+   "instances": 1149,
    "tiers": {
     "T1": 90,
-    "T2": 1067
+    "T2": 1059
    },
-   "perHectare": 52.8,
+   "perHectare": 52.5,
    "clarkEvansR": 0.411,
    "variation": {
-    "coefficientOfVariation": 1.3,
+    "coefficientOfVariation": 1.31,
     "openSpaceRadiusM": {
      "p50": 11.4,
      "p75": 18.0,
@@ -965,19 +998,19 @@
     11,
     12
    ],
-   "instances": 2847,
+   "instances": 2854,
    "tiers": {
     "T1": 710,
-    "T2": 2137
+    "T2": 2144
    },
-   "perHectare": 130.0,
+   "perHectare": 130.3,
    "clarkEvansR": 0.597,
    "variation": {
-    "coefficientOfVariation": 1.22,
+    "coefficientOfVariation": 1.21,
     "openSpaceRadiusM": {
-     "p50": 7.2,
-     "p75": 11.1,
-     "p95": 19.5
+     "p50": 7.1,
+     "p75": 11.2,
+     "p95": 21.2
     }
    }
   },
@@ -995,19 +1028,19 @@
     11,
     12
    ],
-   "instances": 2390,
+   "instances": 2315,
    "tiers": {
-    "T1": 674,
-    "T2": 1716
+    "T1": 675,
+    "T2": 1640
    },
-   "perHectare": 109.2,
-   "clarkEvansR": 0.381,
+   "perHectare": 105.7,
+   "clarkEvansR": 0.402,
    "variation": {
-    "coefficientOfVariation": 0.89,
+    "coefficientOfVariation": 0.93,
     "openSpaceRadiusM": {
-     "p50": 6.8,
-     "p75": 11.9,
-     "p95": 23.6
+     "p50": 7.4,
+     "p75": 12.5,
+     "p95": 23.7
     }
    }
   },
@@ -1025,19 +1058,19 @@
     11,
     12
    ],
-   "instances": 1468,
+   "instances": 1394,
    "tiers": {
     "T1": 451,
-    "T2": 1017
+    "T2": 943
    },
-   "perHectare": 67.0,
+   "perHectare": 63.7,
    "clarkEvansR": 0.359,
    "variation": {
-    "coefficientOfVariation": 1.44,
+    "coefficientOfVariation": 1.46,
     "openSpaceRadiusM": {
-     "p50": 10.3,
-     "p75": 18.9,
-     "p95": 31.1
+     "p50": 10.6,
+     "p75": 19.5,
+     "p95": 31.3
     }
    }
   },
@@ -1055,19 +1088,19 @@
     11,
     12
    ],
-   "instances": 2934,
+   "instances": 2881,
    "tiers": {
-    "T1": 1028,
-    "T2": 1906
+    "T1": 1001,
+    "T2": 1880
    },
-   "perHectare": 134.0,
-   "clarkEvansR": 0.324,
+   "perHectare": 131.6,
+   "clarkEvansR": 0.303,
    "variation": {
-    "coefficientOfVariation": 0.95,
+    "coefficientOfVariation": 1.29,
     "openSpaceRadiusM": {
-     "p50": 6.3,
-     "p75": 11.1,
-     "p95": 28.2
+     "p50": 7.1,
+     "p75": 12.8,
+     "p95": 28.8
     }
    }
   },
@@ -1084,19 +1117,19 @@
     11,
     12
    ],
-   "instances": 4488,
+   "instances": 4468,
    "tiers": {
-    "T1": 2135,
-    "T2": 2353
+    "T1": 2239,
+    "T2": 2229
    },
-   "perHectare": 205.0,
-   "clarkEvansR": 0.399,
+   "perHectare": 204.1,
+   "clarkEvansR": 0.491,
    "variation": {
-    "coefficientOfVariation": 0.69,
+    "coefficientOfVariation": 0.77,
     "openSpaceRadiusM": {
-     "p50": 4.3,
-     "p75": 7.5,
-     "p95": 16.9
+     "p50": 5.3,
+     "p75": 9.6,
+     "p95": 19.7
     }
    }
   },
@@ -1115,19 +1148,19 @@
     11,
     12
    ],
-   "instances": 2946,
+   "instances": 2893,
    "tiers": {
-    "T1": 1074,
-    "T2": 1872
+    "T1": 1070,
+    "T2": 1823
    },
-   "perHectare": 134.5,
-   "clarkEvansR": 0.328,
+   "perHectare": 132.1,
+   "clarkEvansR": 0.332,
    "variation": {
-    "coefficientOfVariation": 1.06,
+    "coefficientOfVariation": 0.96,
     "openSpaceRadiusM": {
-     "p50": 6.8,
-     "p75": 11.3,
-     "p95": 23.7
+     "p50": 8.9,
+     "p75": 13.6,
+     "p95": 25.0
     }
    }
   },
@@ -1146,19 +1179,19 @@
     11,
     12
    ],
-   "instances": 3134,
+   "instances": 3106,
    "tiers": {
-    "T1": 1608,
-    "T2": 1526
+    "T1": 1626,
+    "T2": 1480
    },
-   "perHectare": 143.1,
-   "clarkEvansR": 0.365,
+   "perHectare": 141.9,
+   "clarkEvansR": 0.418,
    "variation": {
     "coefficientOfVariation": 0.84,
     "openSpaceRadiusM": {
-     "p50": 5.9,
-     "p75": 11.6,
-     "p95": 25.9
+     "p50": 7.8,
+     "p75": 12.2,
+     "p95": 25.0
     }
    }
   },
@@ -1177,19 +1210,19 @@
     11,
     12
    ],
-   "instances": 4348,
+   "instances": 5079,
    "tiers": {
-    "T1": 1714,
-    "T2": 2634
+    "T1": 1694,
+    "T2": 3385
    },
-   "perHectare": 198.6,
-   "clarkEvansR": 0.355,
+   "perHectare": 232.0,
+   "clarkEvansR": 0.272,
    "variation": {
-    "coefficientOfVariation": 0.93,
+    "coefficientOfVariation": 1.34,
     "openSpaceRadiusM": {
-     "p50": 5.5,
-     "p75": 13.6,
-     "p95": 27.2
+     "p50": 7.3,
+     "p75": 13.2,
+     "p95": 23.6
     }
    }
   },
@@ -1206,18 +1239,18 @@
     11,
     12
    ],
-   "instances": 4850,
+   "instances": 4042,
    "tiers": {
-    "T1": 2051,
-    "T2": 2799
+    "T1": 2139,
+    "T2": 1903
    },
-   "perHectare": 221.5,
-   "clarkEvansR": 0.366,
+   "perHectare": 184.6,
+   "clarkEvansR": 0.445,
    "variation": {
-    "coefficientOfVariation": 0.82,
+    "coefficientOfVariation": 1.01,
     "openSpaceRadiusM": {
-     "p50": 4.9,
-     "p75": 8.2,
+     "p50": 6.4,
+     "p75": 10.8,
      "p95": 21.9
     }
    }
@@ -1236,19 +1269,19 @@
     11,
     12
    ],
-   "instances": 7106,
+   "instances": 6834,
    "tiers": {
-    "T1": 3629,
-    "T2": 3477
+    "T1": 4047,
+    "T2": 2787
    },
-   "perHectare": 324.5,
-   "clarkEvansR": 0.466,
+   "perHectare": 312.1,
+   "clarkEvansR": 0.444,
    "variation": {
-    "coefficientOfVariation": 0.58,
+    "coefficientOfVariation": 0.83,
     "openSpaceRadiusM": {
-     "p50": 3.3,
-     "p75": 5.8,
-     "p95": 14.3
+     "p50": 4.2,
+     "p75": 7.5,
+     "p95": 16.8
     }
    }
   },
@@ -1265,19 +1298,19 @@
     11,
     12
    ],
-   "instances": 4527,
+   "instances": 4870,
    "tiers": {
-    "T1": 2612,
-    "T2": 1915
+    "T1": 2791,
+    "T2": 2079
    },
-   "perHectare": 206.8,
-   "clarkEvansR": 0.415,
+   "perHectare": 222.4,
+   "clarkEvansR": 0.335,
    "variation": {
-    "coefficientOfVariation": 0.68,
+    "coefficientOfVariation": 0.77,
     "openSpaceRadiusM": {
-     "p50": 4.4,
-     "p75": 8.0,
-     "p95": 15.8
+     "p50": 5.6,
+     "p75": 9.4,
+     "p95": 18.2
     }
    }
   },
@@ -1294,19 +1327,178 @@
     11,
     12
    ],
-   "instances": 4317,
+   "instances": 4589,
    "tiers": {
-    "T1": 2715,
-    "T2": 1602
+    "T1": 3017,
+    "T2": 1572
    },
-   "perHectare": 197.2,
-   "clarkEvansR": 0.417,
+   "perHectare": 209.6,
+   "clarkEvansR": 0.67,
    "variation": {
-    "coefficientOfVariation": 0.89,
+    "coefficientOfVariation": 1.0,
     "openSpaceRadiusM": {
-     "p50": 4.4,
-     "p75": 11.3,
-     "p95": 29.1
+     "p50": 5.9,
+     "p75": 11.0,
+     "p95": 23.5
+    }
+   }
+  },
+  "6_14": {
+   "chunk": [
+    6,
+    14
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    4,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 1255,
+   "tiers": {
+    "T1": 655,
+    "T2": 600
+   },
+   "perHectare": 57.3,
+   "clarkEvansR": 0.306,
+   "variation": {
+    "coefficientOfVariation": 1.49,
+    "openSpaceRadiusM": {
+     "p50": 10.1,
+     "p75": 20.8,
+     "p95": 32.1
+    }
+   }
+  },
+  "7_13": {
+   "chunk": [
+    7,
+    13
+   ],
+   "region": 8,
+   "regionName": "fringe marsh",
+   "regionsPresent": [
+    3,
+    4,
+    7,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 4186,
+   "tiers": {
+    "T1": 425,
+    "T2": 3761
+   },
+   "perHectare": 191.2,
+   "clarkEvansR": 0.302,
+   "variation": {
+    "coefficientOfVariation": 1.21,
+    "openSpaceRadiusM": {
+     "p50": 8.5,
+     "p75": 12.4,
+     "p95": 23.6
+    }
+   }
+  },
+  "7_14": {
+   "chunk": [
+    7,
+    14
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    3,
+    4,
+    8,
+    9,
+    11,
+    14
+   ],
+   "instances": 2171,
+   "tiers": {
+    "T1": 1265,
+    "T2": 906
+   },
+   "perHectare": 99.2,
+   "clarkEvansR": 0.329,
+   "variation": {
+    "coefficientOfVariation": 1.47,
+    "openSpaceRadiusM": {
+     "p50": 8.1,
+     "p75": 15.4,
+     "p95": 28.7
+    }
+   }
+  },
+  "8_13": {
+   "chunk": [
+    8,
+    13
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    3,
+    4,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 1862,
+   "tiers": {
+    "T1": 1063,
+    "T2": 799
+   },
+   "perHectare": 85.0,
+   "clarkEvansR": 0.296,
+   "variation": {
+    "coefficientOfVariation": 1.28,
+    "openSpaceRadiusM": {
+     "p50": 9.1,
+     "p75": 16.0,
+     "p95": 30.1
+    }
+   }
+  },
+  "8_14": {
+   "chunk": [
+    8,
+    14
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    4,
+    8,
+    11,
+    14
+   ],
+   "instances": 30,
+   "tiers": {
+    "T1": 16,
+    "T2": 14
+   },
+   "perHectare": 1.4,
+   "variation": {
+    "coefficientOfVariation": 3.68,
+    "openSpaceRadiusM": {
+     "p50": 11.8,
+     "p75": 25.7,
+     "p95": 33.6
     }
    }
   }

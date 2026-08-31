@@ -23,7 +23,7 @@
 > # 1b. T3 groundcover densities are separate: world/sources/flora/groundcover.json
 > #     (runtime ring — no recompile needed, just rebuild/deploy the studio)
 > # 2. recompile the five areas' bundles      (from tooling/world-generation)
-> CH=""; for c in 5,12 7,9 11,7 3,3 4,10; do cx=${c%,*}; cz=${c#*,}
+> CH=""; for c in 5,12 7,9 11,7 3,3 4,10 7,14; do cx=${c%,*}; cz=${c#*,}
 >   for dx in -1 0 1; do for dz in -1 0 1; do
 >     CH="$CH --chunk $((cx+dx)),$((cz+dz))"; done; done; done
 > python3 -m worldgen.compile_scatter $CH --report \
@@ -100,6 +100,116 @@
 >    `meta.json`. The VM container has a 12 GiB memory cap shared by every
 >    open Claude terminal tab; restore half-written rasters from HEAD and
 >    re-run when the box is quiet.
+>
+> ### Round 4 worldgen (2026-08-31) — rebalance applied; mangrove forest; coastal gradient; guild knob
+>
+> - **Region rebalance APPLIED to the deployed rasters** (8c closed, so the
+>   Q4 gate lifted): `compile_hydrology` re-run against the RAW vault
+>   `heightfield-f32.npy` (0032 warning — never `province-refined/`).
+>   Verified with `report_regions` (its STEP was fixed 4→3 to match the
+>   bake): **wetland 37.0 % of land, dry 55.2 %** (was 20.6/72.0). Scatter
+>   recalibration on the exemplar rings: per-chunk totals within ±10 % of
+>   the deployed round-3 build (179.2k→178.1k over the common 42 chunks) —
+>   no generator retune needed. Jungle chunks still peak ~8.2k instances
+>   (pre-existing; the module-65 budget probe remains the open risk).
+> - **Mangrove forest = region class 14** (owner-approved; real-world rules
+>   in [mangrove-coastal-ecology.md](../research/mangrove-coastal-ecology.md),
+>   canon wall near Lilmoth in lore/regions/murkmire.md): the flat
+>   (<8°), strongly saline (≥0.30), SHELTERED (open-sea exposure < 0.55,
+>   the 0032 storm construction), non-rock tidal fringe within 700 m of the
+>   sea — and it extends ~60 m over the adjoining <2 m shallows, so the wall
+>   stands IN the intertidal. 3.6 % of land incl. shallows (~0.9 % dry-land).
+>   Palette 14 (`build_palettes.py`): waterline mangrove wall, closed
+>   low-diversity interior over prop-root clusters, near-bare floor,
+>   landward palm transition, brackish aquatics, **no lilypads** (saline).
+>   Danger base 2.1 (society.py). **The wall lands on the Lilmoth approach:
+>   best exemplar chunk 7,14 (29.6 % mangrove; centre ≈ 3.51 km E,
+>   6.78 km S — 600 m from the Lilmoth anchor); densest overall is the
+>   eastern estuary 11,7–11,9 (43–51 %, ≈ 5.38 km E, 3.5–4.5 km S).**
+> - **Coastal influence is now a graded FACTOR** (research doc §4): new
+>   compiler field `coast_m` (signed distance to the OCEAN, from the region
+>   raster) + per-layer `coast_m` gate and `coast_boost_gain`/
+>   `coast_half_width_m` response; `apply_coastal_gradient` in
+>   `build_palettes.py` maps species → salt behaviour (strand/kelp/mangrove
+>   mix in near any coast, freshwater forest fades over ~0.5–2 km, lilypads
+>   nearly obligate-fresh). Beaches stay bare via ground-cover (R10), not
+>   this gradient.
+> - **Guild exclusivity softened — schema knob `guild_off_share`**
+>   (round-3 owner steer landed: edges must never be bare). A losing guild
+>   layer keeps that fraction as baseline instead of vanishing; reed layers
+>   set 0.45, lilypad/kelp/drowned-thicket stay 0 (exclusive extras).
+>   Owner's bare bank (~2.72 km E / 5.25 km S): chunk 5,12 reeds 8→209,
+>   5,11 336→531.
+> - **Composition passes (rules C1–C5) + bundle v2** (mining doc
+>   [vegetation-composition-rules.md](../research/vegetation-composition-rules.md),
+>   machine form `world/sources/placement/composition-rules.json`; new module
+>   `worldgen/composition.py`, wired into `compile_scatter`):
+>   - **Pivot anchoring + sink (C1/C2)** — bbox-min anchoring is dead. Per
+>     instance the compiler bakes a sink (per-species mined p50 flat depth,
+>     class slope term over 10°, ±50 % jitter, class cap) and the bundle is
+>     now **v2**: 28-byte species header (`index,count,scaleLo,scaleHi,
+>     sinkLo,sinkHi,anchorMode`, `<IIffffB3x`), 17-byte instances (`<3f5B`,
+>     fifth byte = quantised sink). Anchor modes: 0 pivot-to-terrain
+>     (renderer: `ground(x,z) − sink`, NO bbox lift), 1 water-surface
+>     (`y` is the absolute water-surface elevation — do not re-ground,
+>     lilypads), 2 attached (`y` absolute up a host — vines/moss/tramaroots).
+>     **The studio renderer must be updated to v2 before recompiling into
+>     `public/` — a v1 reader hard-fails on the version field.**
+>   - **Attachments (C3) are ACCENTS** — hangingvines/moss/tramaroot layers
+>     never free-scatter; they spawn on placed hosts (JSON host lists;
+>     generic "tree-canopy" resolves to every real tree species) at mined
+>     attach heights. The spawn is a per-host PROBABILITY, not the layer's
+>     authored density: rates live in `composition-rules.json`
+>     `attachmentSpawn.perHostProbability` (tramaroot01-on-tropicalplant01
+>     0.4 = its mined co-occurrence; the zero-precedent vines/moss 8–12 %
+>     defaults) × `regionHumidityMultiplier` (rootland/swamp 1.2–1.4, dry
+>     uplands 0.15–0.25). No species dropped: all five zero-precedent
+>     meshes have plausible host mappings (moss_rockcliff01 and manfern
+>     stay standalone per the JSON).
+>   - **Cluster-parts (C4)** — the seven mid-storey bush species spawn as
+>     clump templates: anchor + 1–4 companions from the mined companion
+>     sets within 2 m, sunk 0.5–1.6 m; layer densities pre-divided by the
+>     mean 3.5 pieces so totals stay authored.
+>   - Exemplar-ring compile (TEMP dir): **186.3k instances over 45 chunks
+>     (+4.0 % on the 179.2k round-3 deployed)** — 45.7k clump companion
+>     pieces, 29.2k attachments (vines1 6.2k, moss03 6.2k, moss02 5.0k,
+>     tramaroot01 4.1k, tramaroot06 3.4k, vines2 2.2k). A density-driven
+>     first cut over-delivered 96k attachments (+41 % total) and was
+>     replaced by the per-host rates above; tune those, not code, if the
+>     budget probe or the owner objects.
+> - **Round 4 renderer/kit (same day)** — the round-3 leftover defects,
+>   root-caused:
+>   - **Solid grey slab billboards**: the `_lod_flat` cards all UV a tiny
+>     rect of ONE shared `tamrieltreelod.dds` atlas — and the kit was baking
+>     **vanilla Skyrim's 1024² atlas instead of BM&V's 4096²** (exact-path
+>     texture resolution preferred vanilla's archive), then
+>     `textureMaxSize: 256` shrank it to ~6–25 texels per species.
+>     `build_kit.py` now tries each source pool fully before the next, and a
+>     new `billboardTextureMaxSize` (1024) exempts billboard atlases.
+>   - **Uplands slab that never resolved**: `vurt_shroom_big1`'s stem names
+>     `vurt_shroomstem.dds`, which NO archive ships — untextured at every
+>     LOD. New same-stem texture fallback binds the moss variant; the
+>     rebuilt GLB has zero untextured primitives, and `vet_kit.py` now flags
+>     texture-less primitives and non-MASK flat cards.
+>   - **LOD downgrade**: confirmed working (the 48 m rebuild recomputes all
+>     buckets from current distances) — no fix needed.
+>   - **Stark dark distant trees**: dominated by the mushed atlas above;
+>     plus cards no longer `receiveShadow` (a CSM cascade blacked whole
+>     up-normal quads) and `floraKit.ts` drops any card whose material lost
+>     its texture (falls back to the last decimated mesh). If cards still
+>     read dark, the next lever is a brightness factor at kit load — owner
+>     judges first.
+>   - **Squared wet-ground edges** (`groundWetness.ts`): nearest-texel water
+>     level vs vertex-interpolated height flipped whole far-LOD triangles;
+>     now per-pixel bilinear decode + two-octave noise on the band.
+>   - **Bundle v2 wired in the renderer** (`vegetationBundle.ts`,
+>     `Vegetation.tsx`): per-species anchor mode — pivot-to-terrain species
+>     place at `ground − sink` (bbox `anchorYM` lift removed from
+>     `floraKit.ts`), water-surface and attached species keep their baked
+>     absolute Y (never re-grounded).
+> - Central recompile DONE (this round): six rings incl. mangrove **7,14**,
+>   51 chunks dressed, 198k instances, mangrove forest 176/ha led by real
+>   mangrove trees; gates green.
 >
 > ### Round 3 (2026-08-30) — owner round-2 playtest feedback, all root-caused
 >
@@ -180,13 +290,8 @@
 >
 > ### Blocked, not forgotten
 >
-> - **The region rebalance is written and tested but NOT applied to the
->   deployed rasters** (wetland 20.6 % → 35.9 % of land). Re-running
->   `compile_hydrology` regenerates the climate rasters the 8c playtest is
->   running against. Full run-book in PROGRESS *Waiting on user*;
->   `worldgen.report_regions` previews it without writing. **Once 8c closes,
->   do this first** — it changes which palette applies where, so density
->   calibration must be re-checked (`compile_scatter --report`) after it.
+> - ~~The region rebalance is not applied to the deployed rasters~~ —
+>   **APPLIED, round 4 worldgen (2026-08-31), see that section above.**
 > - **`Skyrim.esm` is still not in the vault.** Would name ~40 % of the mined
 >   references and dimension the 14,974 vanilla registry rows. Owner action,
 >   not blocking.

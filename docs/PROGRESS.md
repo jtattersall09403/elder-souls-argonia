@@ -44,7 +44,7 @@ first, then open only the master-plan sections the active phase needs.
 | 8a — world time, natural light and sky | done | owner gate PASS 2026-08-26 after 8 feedback rounds (decisions 0020/**0021** = full defect→fix history; research doc §8–8d). world-time package (calendar/sun/moons/stars, verified phase cycle); physical light rig with **envelope-pinned dome** (CPU Preetham twin `preethamCpu.ts` + `skyScreenModel.ts`; whiteout/black-gap class caught by `npm test`); directional twilight (Earth shadow, Belt of Venus, magnitude-staged stars); moon-aware night floors; owner-locked defaults warmth 1.0, stars ×0.5 (~3300); CSM shadows w/ contact bias; walk+fly city markers; HUD compass. Deferred: beyond-border land apron (module 55 §98b + research doc) |
 | 8b — water renderer and interaction | done | owner CLOSED 2026-08-28 (good-enough, **not perfect** — full water-systems re-review + polish queued in [polish-backlog.md](polish-backlog.md), Phase P). 7 rounds; full defect→fix history in decision 0025. Province W-field water surface, rivers/marsh/estuary/coast/underwater, buoyancy + Rapier water query, monotone slope rivers, shore surf, waterfall shading |
 | 8c — weather and atmosphere | done | owner CLOSED 2026-08-30 (good-enough, **not perfect** — owner will record leftovers in [polish-backlog.md](polish-backlog.md) for Phase P). 5 rounds; full defect→fix history in decision [0032](decisions/0032-phase8c-weather-implementation-shape.md). Deterministic synoptic machine + regional expression, fair-weather coverage ladder on the calendar, rain (real-time clock, PRECIP_LAYER), wind→waves, wetness, lightning; mist/fog/cap-cloud regimes with fog colour DERIVED from the real sun/sky/moon and a dome fog march (banks visible against open sky); visibility = local weather (one number renders and publishes); **GAME_TIME_SCALE = 30** in world-time. 406 tests incl. the extended envelope proof |
-| 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | in progress | **Round 4 IN PROGRESS 2026-08-31** (round-3 playtest feedback: minimap/quality/weather PASS). Working: apply region rebalance (8c closed); solid-slab billboards + non-resolving uplands cards + LOD downgrade check + billboard contrast; mined placement-together/attachment rules (hanging vines etc.); trunk-base anchoring; mangrove forest region + coastal-vs-inland ecology pass; reed-gap guild fix; squared wet-ground edges. Round-3 history: [decision 0036](decisions/0036-phase10-placement-decisions.md) |
+| 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | in progress | **Round 4 DELIVERED 2026-08-31, awaiting owner playtest** (full record: round-4 sections atop [decision 0036](decisions/0036-phase10-placement-decisions.md)). Region rebalance APPLIED (wetland 37% of land); mangrove-forest region class + researched coastal ecology (docs/research/mangrove-coastal-ecology.md) + graded coastal gradient; mined composition rules C1–C5 (docs/research/vegetation-composition-rules.md) → bundle v2: pivot anchoring + sink (tiptoe-tree fix), attachments as per-host accents, bush clump templates, water-surface lilypads; billboard atlas root cause fixed (vanilla-vs-BM&V atlas + 256px shrink); guild knob un-bares reed banks; per-pixel wet edges; sixth exemplar = Lilmoth mangrove wall (7,14). Next after playtest: wind, micro-lab GPU budget probe, tree colliders |
 | 11 — settlement/location system, exemplar-first (0034) | todo | may start once the S schema is accepted (semantic authoring); packet freeze gated on 10b probes + 10c numbers |
 | 12 — dungeon/interior system, exemplar-first (0034) | todo | may interleave with 11 |
 | 9 — swimming, climbing, boats (re-slotted after the placement exemplars; 0034) | todo | player craft only — ferry/fast travel is Morrowind-style world content (Phase 11); thin swim slice may pull earlier; boats may slip |
@@ -60,8 +60,26 @@ first, then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- Nothing new — Phase 10 round 4 is in progress (round-3 feedback received
-  2026-08-31; playtest hand-off will land here when round 4 deploys).
+- **Phase 10 round-4 playtest** — deployed 2026-08-31. On the DEPLOYED build
+  check: ① no more solid grey/black rectangles anywhere — distant stand-in
+  trees should show real leafy silhouettes (the old squares were the wrong
+  game's tree atlas), including the uplands slabs, which now resolve
+  ② hanging vines/roots/moss only ever appear ON trees and big plants, as
+  occasional accents (commonest in deep swamp, rare in the uplands); the
+  waist-height floating leaf whorls are now merged into composed bushes
+  ③ trees sit ON the ground — trunk bases planted (slightly sunk, more on
+  slopes), no more tiptoes; lilypads float on the water surface ④ the bare
+  bank at 2.72 E / 5.25 S (and water edges generally) now carries reeds
+  ⑤ wet-ground edges near water are soft and irregular, not straight
+  triangles ⑥ distant trees in clear air should sit into the scene rather
+  than reading near-black (if still a touch dark, say so — next lever is a
+  card brightness factor) ⑦ NEW: the mangrove wall — walk/boat the coast at
+  ~3.51 km E / 6.78 km S near Lilmoth: a dense green wall standing in the
+  shallows, prop roots, near-bare dark interior, palms landward (densest
+  alternative: ~5.38 km E / 3.5–4.5 km S) ⑧ more of the province now
+  classes as marsh (rebalance applied) — sanity-check nothing looks newly
+  wrong in the old five areas. Known gaps unchanged: walk-through trees, no
+  wind, six exemplar areas only.
 
 - **8c polish leftovers** — the owner closed 8c good-enough and will record
   the leftover items in [polish-backlog.md](polish-backlog.md) themselves
