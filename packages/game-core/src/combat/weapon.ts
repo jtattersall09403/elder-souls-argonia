@@ -93,10 +93,19 @@ function criticalVictimOutcomePlayback(
   };
 }
 
+/**
+ * The next attack in a chain, for the weapon actually being swung.
+ *
+ * `weapon` is required rather than defaulted. It used to fall back to the
+ * reference sword, which was invisible while there was one moveset and became
+ * a real defect the moment there were three: a greatsword opened with its own
+ * two-handed swing and then chained into the one-handed clips, because the
+ * successor was looked up on a weapon nobody was holding.
+ */
 export function getComboSuccessor(
   current: AttackDefinition,
   queued: ComboInput | null,
-  weapon: WeaponDefinition = STRAIGHT_SWORD,
+  weapon: WeaponDefinition,
 ) {
   if (queued === "light" && current.id === "light1") return weapon.attacks.light2;
   if (queued === "light" && current.id === "light2") return weapon.attacks.light3;

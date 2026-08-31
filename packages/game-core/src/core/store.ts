@@ -30,6 +30,10 @@ export const initialSnapshot: GameSnapshot = {
   bowPhase: "lowered" as const,
   drawFraction: 0,
   arrowsLeft: 0,
+  aimZoom: 0,
+  playerPoise: 0,
+  playerMaxPoise: 0,
+  poiseEnabled: true,
 };
 
 export const useGameStore = create<GameStore>((set) => ({
@@ -43,6 +47,7 @@ export const useGameStore = create<GameStore>((set) => ({
     enemyAiEnabled: state.enemyAiEnabled,
     enemyCount: state.enemyCount,
     showHitboxes: state.showHitboxes,
+    poiseEnabled: state.poiseEnabled,
     resetToken: state.resetToken + 1,
   })),
 }));

@@ -106,3 +106,26 @@ export function clearStuckArrows(bone: THREE.Object3D) {
 }
 
 const ONE = new THREE.Vector3(1, 1, 1);
+
+/**
+ * Is this rigid body an actor's *navigation* capsule?
+ *
+ * Arrows must ignore them. The navigation capsule is a suspension and
+ * collision shape for walking, not a combat volume — the animation playbook is
+ * explicit that the two are separate — and the skeleton-fitted hurtbox beside
+ * it is what an arrow is actually supposed to find. Letting a shaft be stopped
+ * or deflected by the capsule both steals hits from the hurtbox and leaves the
+ * arrow resting against a moving body.
+ *
+ * Named rather than group-filtered because the capsules are created by the
+ * controller, which does not expose their collision groups. The convention is
+ * one line, here, rather than a magic string in every scene: an actor capsule
+ * is named for the actor, and every combat *sensor* carries a suffix.
+ */
+export function isActorCapsuleName(name: string | undefined): boolean {
+  if (!name) return false;
+  if (name.endsWith("-hurtbox") || name.endsWith("-weapon") || name.includes("parry-shield")) {
+    return false;
+  }
+  return name === "player" || /^enemy-\d+$/.test(name);
+}

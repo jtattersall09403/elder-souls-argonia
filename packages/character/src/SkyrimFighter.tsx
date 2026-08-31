@@ -286,11 +286,13 @@ function PosedActor({
     aimDirection: MutableRefObject<THREE.Vector3>;
   } | null;
   /**
-   * The camera is inside this actor's head.
+   * The aim camera is looking down this actor's own shot axis.
    *
    * Collapses the head bone rather than hiding meshes: eyes, mouth, hair and a
    * helmet are all weighted to it, so scaling the bone away takes every one of
    * them with it and nothing has to know which mesh is a face on which race.
+   * The camera sits behind the eye, so the head would otherwise be centre
+   * frame; everything below the neck stays visible on purpose.
    */
   firstPerson?: boolean;
   /** Which body to mount on the shared rig. */
@@ -1085,8 +1087,13 @@ function PosedActor({
             model={model}
             armour={armour}
             bodyMeshSlots={race.meshBipedSlots}
-            hideTorso={firstPerson}
-            hideHands={firstPerson}
+            // Worn armour stays on in the aim view. It used to be hidden
+            // because the camera was inside the chest; now that the aim camera
+            // sits back on the shot axis, the cuirass and gauntlets are part of
+            // what the player is looking at — a mailed forearm drawing a
+            // string is the shot, and a bare one under worn armour is a bug.
+            hideTorso={false}
+            hideHands={false}
             onMountedChange={onArmourChange}
           />
         </Suspense>

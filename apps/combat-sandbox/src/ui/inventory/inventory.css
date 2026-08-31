@@ -10,11 +10,25 @@
  * black grid of item art with worn things framed and first.
  */
 
+/* `fixed` and dynamic viewport units, deliberately.
+ *
+ * On a phone `100vh` is the *large* viewport — the height the page has once the
+ * browser toolbars have retracted — so a panel sized in `vh` and centred inside
+ * an absolutely positioned parent hangs off both the top and the bottom of what
+ * is actually on screen, which is the reported "cut off the screen edges".
+ * `100dvh`/`100dvw` track the visible viewport instead. The safe-area padding
+ * keeps the frame clear of a notch, a punch-hole camera and the rounded corners
+ * of a folding phone in landscape. */
 .inv-root {
-  position: absolute;
+  position: fixed;
   inset: 0;
+  width: 100dvw;
+  height: 100dvh;
   display: grid;
   place-items: center;
+  padding:
+    max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right))
+    max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
   z-index: 40;
   background: rgba(4, 5, 6, 0.55);
   backdrop-filter: blur(2px);
@@ -33,9 +47,13 @@
   --warn: #c9903f;
 }
 
+/* Sized against the padded root rather than the viewport, so the frame can
+   never be larger than the space it was given. */
 .inv-window {
-  width: min(1180px, 94vw);
-  height: min(660px, 90vh);
+  width: min(1180px, 100%);
+  height: min(660px, 100%);
+  max-width: 100%;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
   color: var(--ink);
@@ -179,6 +197,7 @@
 /* ---- right column: tabs, grid, detail ---------------------------------- */
 
 .inv-items {
+  position: relative;
   min-height: 0;
   display: grid;
   grid-template-rows: auto 1fr auto;
@@ -322,10 +341,45 @@
 .inv-detail-hint { color: var(--ink-dim); font-style: italic; }
 .inv-gold { white-space: nowrap; color: var(--frame-light); }
 
+/* Narrow: the paper doll goes above the grid instead of beside it. */
 @media (max-width: 780px) {
   .inv-body { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
   .inv-doll-column { grid-template-rows: auto auto auto; }
   .inv-doll { height: 180px; }
+}
+
+/* A folding phone opened in landscape is wide and *short*: the two-column
+   layout is right, but a fixed 260px doll column and full-size chrome are not.
+   Height is the axis that runs out first, so these queries key off it. */
+@media (max-width: 1040px) {
+  .inv-body { grid-template-columns: minmax(150px, 30%) 1fr; gap: 8px; padding: 8px; }
+  .inv-grid { grid-template-columns: repeat(auto-fill, minmax(52px, 1fr)); }
+}
+
+@media (max-height: 620px) {
+  .inv-titlebar { height: 32px; }
+  .inv-title { font-size: 16px; padding: 1px 16px; }
+  .inv-body { gap: 6px; padding: 6px; }
+  .inv-encumbrance { height: 22px; }
+  .inv-encumbrance-label { font-size: 12px; }
+  .inv-armor { font-size: 13px; padding: 3px; }
+  .inv-tab { padding: 3px 10px; font-size: 13px; }
+  .inv-search { padding: 3px 8px; font-size: 13px; }
+  .inv-slots { font-size: 11px; }
+  /* The detail line is the first thing to give up room: the same text is in
+     the item card, which is what the player is actually reading. */
+  .inv-footer { min-height: 0; padding: 4px 8px; }
+  .inv-detail-flavour { display: none; }
+}
+
+/* Shorter still (a handset in landscape): drop the paper doll's portrait
+   entirely and keep the worn-slot list, which is the part that carries the
+   information. */
+@media (max-height: 460px) {
+  .inv-doll > :not(.inv-slots) { display: none; }
+  .inv-doll { border: 0; background: none; }
+  .inv-detail { display: none; }
+  .inv-footer { padding: 3px 8px; }
 }
 
 /* --- the item card -------------------------------------------------------
@@ -333,16 +387,23 @@
    cursor. Floating over the grid on a pointer device, docked to the bottom on
    a touch screen where there is no cursor to sit beside. */
 .inv-card {
-  position: absolute; right: 10px; bottom: 10px; width: 250px; z-index: 3;
+  position: absolute; right: 10px; bottom: 10px;
+  width: min(250px, calc(100% - 20px)); max-height: calc(100% - 20px);
+  overflow: hidden; z-index: 3;
   padding: 8px 10px 9px; pointer-events: none;
   background: linear-gradient(#171512, #0d0c0a);
   border: 2px solid var(--frame); border-radius: 3px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, .75);
   color: var(--ink); font-size: 12px;
 }
+/* Docked to the bottom of the *window*, not of the page. `position: fixed` put
+   it against the layout viewport, which on a phone is the one that extends
+   behind the browser chrome — so the card the player is meant to read was the
+   part most likely to be off screen. */
 .inv-card[data-docked] {
-  position: fixed; left: 50%; right: auto; bottom: 12px;
-  transform: translateX(-50%); width: min(94vw, 420px);
+  left: 50%; right: auto; bottom: 8px;
+  transform: translateX(-50%); width: min(100%, 420px);
+  max-height: 45%; overflow: hidden;
 }
 .inv-card-title {
   display: flex; justify-content: space-between; gap: 8px; align-items: baseline;

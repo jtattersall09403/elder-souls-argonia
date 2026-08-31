@@ -48,7 +48,10 @@
     },
     "bow": {
       "label": "Bow",
-      "description": "The shooting cycle and bow-carry locomotion."
+      "description": "The shooting cycle and bow-carry locomotion. Depends on the one-handed pack because a bow borrows that moveset for the clumsy bash it makes when swung \u2014 see the polish-backlog item about giving a bow its own melee, or none at all, so an archer stops downloading a sword's moveset for a fallback swing.",
+      "requires": [
+        "oneHanded"
+      ]
     },
     "greatsword": {
       "label": "Greatsword",

@@ -2121,5 +2121,490 @@
       "minEndClipTimeSeconds": 1.95,
       "maxClipStepSeconds": 0.15
     }
+  },
+  "crouch-locomotion": {
+    "playerActions": [
+      "equip",
+      "idle"
+    ],
+    "playerAnimations": [
+      "CROUCH_IDLE",
+      "CROUCH_STRAFE_LEFT",
+      "CROUCH_STRAFE_RIGHT",
+      "CROUCH_WALK",
+      "CROUCH_WALK_BACK",
+      "EQUIP",
+      "IDLE",
+      "SWORD_CROUCH_IDLE"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "equip",
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "IDLE",
+        "CROUCH_IDLE",
+        "CROUCH_WALK",
+        "CROUCH_IDLE",
+        "CROUCH_WALK_BACK",
+        "CROUCH_IDLE",
+        "CROUCH_STRAFE_LEFT",
+        "CROUCH_IDLE",
+        "CROUCH_STRAFE_RIGHT",
+        "CROUCH_IDLE",
+        "EQUIP",
+        "SWORD_CROUCH_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "CROUCH_IDLE",
+        "CROUCH_WALK",
+        "CROUCH_WALK_BACK",
+        "CROUCH_STRAFE_LEFT",
+        "CROUCH_STRAFE_RIGHT",
+        "SWORD_CROUCH_IDLE"
+      ]
+    }
+  },
+  "shield-guard": {
+    "playerActions": [
+      "guard",
+      "idle"
+    ],
+    "playerAnimations": [
+      "SHIELD_GUARD",
+      "SHIELD_GUARD_ENTER",
+      "SHIELD_GUARD_HIT_A",
+      "SHIELD_GUARD_HIT_B",
+      "SWORD_IDLE"
+    ],
+    "enemyActions": [
+      "attack",
+      "recoil",
+      "watching"
+    ],
+    "enemyAnimations": [
+      "LIGHT_1",
+      "RECOIL",
+      "SWORD_IDLE"
+    ],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "guard",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "attack",
+        "recoil",
+        "watching",
+        "attack",
+        "recoil",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "SHIELD_GUARD_ENTER",
+        "SHIELD_GUARD",
+        "SHIELD_GUARD_HIT_A",
+        "SHIELD_GUARD",
+        "SHIELD_GUARD_HIT_B",
+        "SWORD_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "RECOIL",
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "RECOIL",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "SHIELD_GUARD_ENTER",
+        "SHIELD_GUARD",
+        "SHIELD_GUARD_HIT_A",
+        "SHIELD_GUARD_HIT_B"
+      ],
+      "enemy": [
+        "LIGHT_1",
+        "RECOIL"
+      ]
+    },
+    "groundingLimits": {
+      "maxBlendedGroundCorrectionMeters": 0.2,
+      "maxGroundCorrectionSpeedMetersPerSecond": 4.2,
+      "note": "A raised guard is a lower stance than the idle it blends from, and both clips are correctly grounded, so the difference the solver spreads across the blend is real geometry rather than a hover. Same allowance as guard-defense, which is the same interaction with a different thing held. The deformed-mesh penetration gate, which is what actually proves grounding, is unchanged."
+    }
+  },
+  "shield-parry": {
+    "playerActions": [
+      "idle",
+      "parry"
+    ],
+    "playerAnimations": [
+      "SHIELD_PARRY",
+      "SHIELD_PARRY_FOLLOW_THROUGH",
+      "SWORD_IDLE"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "parry",
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "SHIELD_PARRY",
+        "SHIELD_PARRY_FOLLOW_THROUGH",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "SHIELD_PARRY",
+        "SHIELD_PARRY_FOLLOW_THROUGH"
+      ]
+    }
+  },
+  "greatsword-locomotion": {
+    "playerActions": [
+      "equip",
+      "idle",
+      "unequip"
+    ],
+    "playerAnimations": [
+      "GREATSWORD_EQUIP",
+      "GREATSWORD_IDLE",
+      "GREATSWORD_RUN",
+      "GREATSWORD_SPRINT",
+      "GREATSWORD_STRAFE_LEFT",
+      "GREATSWORD_STRAFE_RIGHT",
+      "GREATSWORD_UNEQUIP",
+      "GREATSWORD_WALK",
+      "GREATSWORD_WALK_BACK",
+      "IDLE"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "unequip",
+        "idle",
+        "equip",
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "GREATSWORD_IDLE",
+        "GREATSWORD_WALK",
+        "GREATSWORD_IDLE",
+        "GREATSWORD_RUN",
+        "GREATSWORD_IDLE",
+        "GREATSWORD_RUN",
+        "GREATSWORD_SPRINT",
+        "GREATSWORD_RUN",
+        "GREATSWORD_IDLE",
+        "GREATSWORD_WALK_BACK",
+        "GREATSWORD_IDLE",
+        "GREATSWORD_STRAFE_LEFT",
+        "GREATSWORD_IDLE",
+        "GREATSWORD_STRAFE_RIGHT",
+        "GREATSWORD_IDLE",
+        "GREATSWORD_UNEQUIP",
+        "IDLE",
+        "GREATSWORD_EQUIP",
+        "GREATSWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "GREATSWORD_WALK",
+        "GREATSWORD_RUN",
+        "GREATSWORD_SPRINT",
+        "GREATSWORD_WALK_BACK",
+        "GREATSWORD_STRAFE_LEFT",
+        "GREATSWORD_STRAFE_RIGHT",
+        "GREATSWORD_EQUIP",
+        "GREATSWORD_UNEQUIP"
+      ]
+    }
+  },
+  "greatsword-chain": {
+    "playerActions": [
+      "heavy",
+      "idle",
+      "light1",
+      "light2",
+      "light3"
+    ],
+    "playerAnimations": [
+      "GREATSWORD_HEAVY",
+      "GREATSWORD_IDLE",
+      "GREATSWORD_LIGHT_1",
+      "GREATSWORD_LIGHT_2",
+      "GREATSWORD_LIGHT_3"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "light1",
+        "light2",
+        "light3",
+        "idle",
+        "heavy",
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "GREATSWORD_IDLE",
+        "GREATSWORD_LIGHT_1",
+        "GREATSWORD_LIGHT_2",
+        "GREATSWORD_LIGHT_3",
+        "GREATSWORD_IDLE",
+        "GREATSWORD_HEAVY",
+        "GREATSWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "GREATSWORD_LIGHT_1",
+        "GREATSWORD_LIGHT_2",
+        "GREATSWORD_LIGHT_3",
+        "GREATSWORD_HEAVY"
+      ]
+    },
+    "groundingLimits": {
+      "maxGroundCorrectionMeters": 0.1,
+      "maxBlendedGroundCorrectionMeters": 0.22,
+      "note": "A two-handed swing drops its stance further than a one-handed one \u2014 the whole reason it reads as heavy \u2014 so the blend between the carriage and the swing carries a larger, and real, height difference than the sword chain's. Measured from this passing run; the penetration gate is unchanged. The correction *rate* is allowed the same headroom for the same reason: the stance drop is larger and the swing that causes it is not slower in proportion, so the solve has to cover more ground in a comparable time.",
+      "maxGroundCorrectionSpeedMetersPerSecond": 4.6
+    }
+  },
+  "greatsword-guard": {
+    "playerActions": [
+      "guard",
+      "idle",
+      "parry"
+    ],
+    "playerAnimations": [
+      "GREATSWORD_GUARD",
+      "GREATSWORD_GUARD_ENTER",
+      "GREATSWORD_GUARD_HIT_A",
+      "GREATSWORD_GUARD_HIT_B",
+      "GREATSWORD_IDLE",
+      "GREATSWORD_PARRY",
+      "GREATSWORD_PARRY_FOLLOW_THROUGH"
+    ],
+    "enemyActions": [
+      "attack",
+      "recoil",
+      "watching"
+    ],
+    "enemyAnimations": [
+      "LIGHT_1",
+      "RECOIL",
+      "SWORD_IDLE"
+    ],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "guard",
+        "idle",
+        "parry",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "attack",
+        "recoil",
+        "watching",
+        "attack",
+        "recoil",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "GREATSWORD_IDLE",
+        "GREATSWORD_GUARD_ENTER",
+        "GREATSWORD_GUARD",
+        "GREATSWORD_GUARD_HIT_A",
+        "GREATSWORD_GUARD",
+        "GREATSWORD_GUARD_HIT_B",
+        "GREATSWORD_IDLE",
+        "GREATSWORD_PARRY",
+        "GREATSWORD_PARRY_FOLLOW_THROUGH",
+        "GREATSWORD_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "RECOIL",
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "RECOIL",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "GREATSWORD_GUARD_ENTER",
+        "GREATSWORD_GUARD",
+        "GREATSWORD_GUARD_HIT_A",
+        "GREATSWORD_GUARD_HIT_B",
+        "GREATSWORD_PARRY",
+        "GREATSWORD_PARRY_FOLLOW_THROUGH"
+      ],
+      "enemy": [
+        "LIGHT_1",
+        "RECOIL"
+      ]
+    },
+    "groundingLimits": {
+      "maxBlendedGroundCorrectionMeters": 0.2,
+      "maxGroundCorrectionSpeedMetersPerSecond": 4.2,
+      "note": "A raised guard is a lower stance than the idle it blends from, and both clips are correctly grounded, so the difference the solver spreads across the blend is real geometry rather than a hover. Same allowance as guard-defense, which is the same interaction with a different thing held. The deformed-mesh penetration gate, which is what actually proves grounding, is unchanged."
+    }
+  },
+  "greataxe-chain": {
+    "playerActions": [
+      "heavy",
+      "idle",
+      "light1",
+      "light2",
+      "light3"
+    ],
+    "playerAnimations": [
+      "GREATAXE_HEAVY",
+      "GREATAXE_IDLE",
+      "GREATAXE_LIGHT_1",
+      "GREATAXE_LIGHT_2",
+      "GREATAXE_LIGHT_3",
+      "GREATAXE_SPRINT",
+      "GREATSWORD_RUN"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "light1",
+        "light2",
+        "light3",
+        "idle",
+        "heavy",
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "GREATAXE_IDLE",
+        "GREATAXE_LIGHT_1",
+        "GREATAXE_LIGHT_2",
+        "GREATAXE_LIGHT_3",
+        "GREATAXE_IDLE",
+        "GREATAXE_HEAVY",
+        "GREATAXE_IDLE",
+        "GREATSWORD_RUN",
+        "GREATAXE_SPRINT",
+        "GREATAXE_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "GREATAXE_LIGHT_1",
+        "GREATAXE_LIGHT_2",
+        "GREATAXE_LIGHT_3",
+        "GREATAXE_HEAVY",
+        "GREATAXE_SPRINT"
+      ]
+    },
+    "groundingLimits": {
+      "maxGroundCorrectionMeters": 0.1,
+      "maxBlendedGroundCorrectionMeters": 0.22,
+      "note": "A two-handed swing drops its stance further than a one-handed one \u2014 the whole reason it reads as heavy \u2014 so the blend between the carriage and the swing carries a larger, and real, height difference than the sword chain's. Measured from this passing run; the penetration gate is unchanged. The correction *rate* is allowed the same headroom for the same reason: the stance drop is larger and the swing that causes it is not slower in proportion, so the solve has to cover more ground in a comparable time.",
+      "maxGroundCorrectionSpeedMetersPerSecond": 4.6
+    }
+  },
+  "poise-break": {
+    "playerActions": [
+      "hit",
+      "idle"
+    ],
+    "playerAnimations": [
+      "HIT",
+      "SWORD_IDLE"
+    ],
+    "enemyActions": [
+      "attack",
+      "recover",
+      "watching"
+    ],
+    "enemyAnimations": [
+      "LIGHT_1",
+      "LIGHT_2",
+      "LIGHT_3",
+      "SWORD_IDLE"
+    ],
+    "playerHealthLessThan": 150,
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "hit",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "attack",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "HIT",
+        "SWORD_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "LIGHT_2",
+        "LIGHT_3",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "HIT"
+      ],
+      "enemy": [
+        "LIGHT_1",
+        "LIGHT_2",
+        "LIGHT_3"
+      ]
+    }
   }
 }

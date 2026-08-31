@@ -40,6 +40,7 @@ button { color: inherit; font: inherit; }
 .crosshair-tick.down { top: 0; transform: translateY(var(--spread)); }
 .crosshair-tick.left { left: 0; transform: translateX(calc(-1 * var(--spread) - 9px)); }
 .crosshair-tick.right { left: 0; transform: translateX(var(--spread)); }
+.crosshair-zoom { position: absolute; left: 14px; top: 32px; font: 600 11px Cinzel, serif; color: rgba(255,246,226,.82); text-shadow: 0 0 4px #000; }
 .crosshair-count { position: absolute; left: 14px; top: 20px; font: 600 12px Cinzel, serif; color: rgba(255,246,226,.7); text-shadow: 0 0 4px #000; }
 
 .player-vitals { position: absolute; left: max(22px, env(safe-area-inset-left)); top: max(20px, env(safe-area-inset-top)); width: min(340px, 44vw); }
@@ -51,6 +52,11 @@ button { color: inherit; font: inherit; }
 .health span { background: linear-gradient(#9b302b, #621813); }
 .stamina { width: calc(100% - 42px); margin: 5px 0 0 42px; height: 10px; }
 .stamina span { background: linear-gradient(#5d9550, #315d31); }
+.poise-row { display: flex; align-items: center; gap: 6px; margin: 5px 0 0 42px; width: calc(100% - 42px); opacity: .45; transition: opacity .18s ease-out; }
+.poise-row[data-spent] { opacity: 1; }
+.poise { height: 7px; }
+.poise span { background: linear-gradient(#9d8ec4, #4d4270); }
+.poise-row small { font: 600 9px Cinzel, serif; color: #a99c83; white-space: nowrap; }
 
 .combat-message { position: absolute; top: 25%; left: 50%; transform: translateX(-50%); font: 600 14px Cinzel, serif; letter-spacing: .16em; color: #d3c6aa; text-shadow: 0 2px 4px #000; white-space: nowrap; }
 .combat-message.major { top: 40%; font-size: clamp(34px, 7vw, 76px); color: #a53c32; letter-spacing: .2em; text-shadow: 0 3px 12px #000; }
@@ -109,6 +115,7 @@ button { color: inherit; font: inherit; }
 .action-button.lock { left: 72px; top: 63px; width: 48px; height: 48px; }
 .action-button.heal { right: 0; top: 121px; width: 44px; height: 44px; }.action-button.equip { right: 101px; top: 0; width: 43px; height: 43px; }
 .action-button.jump { left: 88px; top: 150px; width: 43px; height: 43px; }
+.action-button.crouch { left: 32px; top: 158px; width: 43px; height: 43px; }
 /* Menu (UI screen) buttons, top-right under the help button — one per UI_MENU_BINDINGS. */
 .menu-buttons { pointer-events: none; position: absolute; right: calc(max(18px, env(safe-area-inset-right)) + 182px); top: max(38px, calc(env(safe-area-inset-top) + 38px)); display: flex; flex-direction: column; gap: 8px; }
 .action-button.menu { position: relative; width: 48px; height: 48px; }

@@ -2,7 +2,9 @@
   "locomotion": [
     "locomotion-free",
     "locomotion-lock-on",
-    "enemy-approach"
+    "enemy-approach",
+    "crouch-locomotion",
+    "greatsword-locomotion"
   ],
   "evasion": [
     "roll",
@@ -19,18 +21,24 @@
     "heavy-chain",
     "offense-outcomes",
     "enemy-light-combo",
-    "enemy-heavy-attack"
+    "enemy-heavy-attack",
+    "greatsword-chain",
+    "greataxe-chain"
   ],
   "defense": [
     "guard-defense",
     "parry",
     "guard-break",
     "enemy-block",
-    "enemy-parry"
+    "enemy-parry",
+    "shield-guard",
+    "shield-parry",
+    "greatsword-guard"
   ],
   "reactions": [
     "hit-reactions",
-    "death"
+    "death",
+    "poise-break"
   ],
   "criticals": [
     "backstab",

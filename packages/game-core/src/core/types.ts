@@ -178,4 +178,22 @@ export type GameSnapshot = {
   drawFraction: number;
   /** Arrows of the equipped kind still in the quiver. */
   arrowsLeft: number;
+  /** 0 = wide aim view, 1 = fully zoomed. Only meaningful while `aiming`. */
+  aimZoom: number;
+  /**
+   * Poise left in the player's pool, and its size (module 76 §121.3).
+   *
+   * On the HUD because poise is the one combat number a player has to be able
+   * to reason about and cannot infer: health and stamina have bars, and "why
+   * did that hit not stop me" has no other answer. Provisional presentation,
+   * like the numbers themselves.
+   */
+  playerPoise: number;
+  playerMaxPoise: number;
+  /**
+   * Poise enabled at all. A debug switch, not a game option: it exists so the
+   * pool can be judged against the flinch-on-every-hit behaviour it replaced,
+   * in one sitting, with everything else identical.
+   */
+  poiseEnabled: boolean;
 };

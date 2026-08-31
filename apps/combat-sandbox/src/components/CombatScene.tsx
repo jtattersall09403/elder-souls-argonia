@@ -181,14 +181,44 @@ const RIPOSTE_QUEUE_WINDOW = 0.7;
 /** Distance out along the aim axis the first-person camera looks. */
 const AIM_LOOK_DISTANCE_METERS = 40;
 /**
- * How far in front of the head bone the eye sits.
+ * How far *behind* the eye the aim camera sits, in metres.
  *
- * The head bone is at the base of the skull; a face is forward of it, and the
- * near plane has to clear the neck and shoulders behind it.
+ * The camera used to sit slightly ahead of the face, which is where a true
+ * first-person view belongs — and it does not work on a third-person rig. Games
+ * that put a camera in a character's head author the arms *to* that camera; our
+ * archer's arms are authored for a body being watched from outside, so from
+ * inside the skull they are either out of frame or passing through it. That is
+ * both reported symptoms at once: nothing of the draw visible, and the view
+ * ending up inside a limb when the aim lean brings an arm up.
+ *
+ * Sitting back along the shot axis fixes both without giving up anything the
+ * first-person view was for. The camera is still exactly on the aim ray, so
+ * screen centre is still where the arrow goes and the crosshair stays honest;
+ * the head bone is still collapsed, so there is no skull in the way; and the
+ * bow arm, the bow, the string and the nocked shaft are all now in front of the
+ * camera where the player can watch them.
+ *
+ * Deliberately on the axis and not over a shoulder: a lateral offset would put
+ * the crosshair ray and the arrow's line a fixed distance apart at every range,
+ * which reads as the bow shooting slightly wide of the aim the further out you
+ * shoot.
  */
-const EYE_AHEAD_OF_HEAD_METERS = 0.22;
-/** Field of view while aiming. Wider than the follow camera, as a bow sight is. */
-const AIM_FIELD_OF_VIEW = 68;
+const AIM_EYE_BEHIND_METERS = 0.55;
+/**
+ * Field of view while aiming, at each end of the zoom.
+ *
+ * The wide end is the default: wide enough to hold both arms and the bow limbs
+ * at the camera's set-back distance, which is also how an archer actually looks
+ * at a target with both eyes open. The narrow end is roughly a 2.7x
+ * magnification, which is about what picking a target out at fifty metres asks
+ * for without turning the view into a scope the rest of the game does not have.
+ */
+const AIM_FIELD_OF_VIEW = 75;
+const AIM_FIELD_OF_VIEW_ZOOMED = 28;
+/** Full sweep of the zoom, in seconds, on a held button. */
+const AIM_ZOOM_SECONDS = 0.9;
+/** How much of the zoom one wheel notch covers. */
+const AIM_ZOOM_PER_WHEEL_NOTCH = 0.12;
 /** How far above and below level the bow can be aimed, radians. */
 const AIM_PITCH_LIMIT = 1.15;
 
@@ -220,6 +250,11 @@ function facingTheShot(victim: EnemyRuntime, impactPoint: THREE.Vector3) {
 
 /** How far off dead-ahead a guard still covers. About 70 degrees either side. */
 const GUARD_FACING_COSINE = 0.34;
+
+/** Field of view at a zoom fraction. Linear in FOV, which reads as even. */
+function aimFieldOfView(zoom: number) {
+  return THREE.MathUtils.lerp(AIM_FIELD_OF_VIEW, AIM_FIELD_OF_VIEW_ZOOMED, zoom);
+}
 
 function aimDirectionInto(target: THREE.Vector3, yaw: number, pitch: number) {
   const horizontal = Math.cos(pitch);
@@ -770,6 +805,8 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   // where the archer is actually looking.
   const bowCycle = useRef<BowCycle>(IDLE_BOW_CYCLE);
   const aimPitch = useRef(0);
+  /** 0 = wide, 1 = fully zoomed. Reset whenever the bow comes down. */
+  const aimZoom = useRef(0);
   const aimBlendAmount = useRef(0);
   const playerHeadBone = useRef<THREE.Object3D | null>(null);
   /** Where the shot is going, shared with anything that has to point along it. */
@@ -793,6 +830,10 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   const enemyEnabled = useGameStore((state) => state.enemyEnabled);
   const enemyAiEnabled = useGameStore((state) => state.enemyAiEnabled);
   const enemyCount = useGameStore((state) => state.enemyCount);
+  // A visual scenario may isolate the pre-poise reaction rule (see the scenario
+  // type's `poise` field); everything else follows the debug switch.
+  const poiseEnabled = useGameStore((state) => state.poiseEnabled)
+    && (visualScenario?.player.poise ?? true);
   const lockedOnSnapshot = useGameStore((state) => state.lockedOn);
   const lockedTargetSnapshot = useGameStore((state) => state.lockedTarget);
   const playerActionSnapshot = useGameStore((state) => state.playerAction);
@@ -1036,7 +1077,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       // pool holds, the hit lands and the enemy keeps doing what it was doing —
       // which is what makes weapon class tactical: a dagger interrupts nothing
       // large, a warhammer staggers through almost anything.
-      const broke = applyPoiseDamage(
+      const broke = !poiseEnabled || applyPoiseDamage(
         f.poise,
         attackPoiseDamage(playerWeapon.stats.class, attack.id),
       ).staggered;
@@ -1046,7 +1087,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       }
     }
     return true;
-  }, [announce, clearLockIfTarget, setEnemyAnim, setEnemyMode, startPlayerAction, triggerShake]);
+  }, [announce, clearLockIfTarget, playerWeapon, poiseEnabled, setEnemyAnim, setEnemyMode, startPlayerAction, triggerShake]);
 
   /**
    * An arrow arriving somewhere.
@@ -1128,11 +1169,11 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       f.staggerDuration = f.archetype.stateDurations.staggerDefault;
       setEnemyMode(victim, "stagger", "HIT_HEAVY");
       announce("HEADSHOT", 0.8);
-    } else if (arrowPoise.staggered) {
+    } else if (!poiseEnabled || arrowPoise.staggered) {
       f.staggerDuration = f.archetype.stateDurations.staggerLight;
       setEnemyMode(victim, "stagger", "HIT");
     }
-  }, [announce, clearLockIfTarget, enemies, setEnemyMode, triggerShake]);
+  }, [announce, clearLockIfTarget, enemies, poiseEnabled, setEnemyMode, triggerShake]);
 
   const attemptEnemyHit = useCallback((e: EnemyRuntime) => {
     const f = e.fighter;
@@ -1215,7 +1256,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     if (result.killed) {
       startPlayerAction("dead", "DEATH");
       announce("YOU DIED", 8);
-    } else if (applyPoiseDamage(
+    } else if (!poiseEnabled || applyPoiseDamage(
       playerPoise.current,
       attackPoiseDamage(enemyWeapon.stats.class, attack.id),
     ).staggered) {
@@ -1224,7 +1265,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       // the whole reason not to over-commit.
       startPlayerAction(reaction.action, reaction.animation);
     }
-  }, [announce, playerGuard, playerWeapon, setAnim, setEnemyMode, startPlayerAction, triggerDamageVignette, triggerShake]);
+  }, [announce, playerGuard, playerWeapon, poiseEnabled, setAnim, setEnemyMode, startPlayerAction, triggerDamageVignette, triggerShake]);
 
   // The debug panel can grow/shrink the fight without a full reset. Only the
   // leading `enemyCount` enemies are simulated and rendered.
@@ -1315,6 +1356,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     bowCycle.current = IDLE_BOW_CYCLE;
     aimBlendAmount.current = 0;
     aimPitch.current = 0;
+    aimZoom.current = 0;
     clearArrows();
     playerHealth.current = visualScenario?.player.health ?? COMBAT_TUNING.maxHealth;
     playerStamina.current = COMBAT_TUNING.maxStamina;
@@ -1443,8 +1485,12 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   useEffect(() => {
     const staged = visualScenario?.player;
     if (!staged) return;
-    const { equip } = useInventoryStore.getState();
+    const { equip, unequip } = useInventoryStore.getState();
+    // Off hand first: a two-handed weapon takes the slot with it, so clearing
+    // afterwards would fight the equip rule rather than express the scene.
+    if (staged.emptyOffHand) unequip("offHand");
     if (staged.weaponId) equip(staged.weaponId);
+    if (staged.offHandId) equip(staged.offHandId);
     if (staged.ammoId) equip(staged.ammoId);
   }, [visualScenario]);
 
@@ -1666,6 +1712,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       }
       if (bowStep.entered) {
         aimPitch.current = 0;
+        aimZoom.current = 0;
         startPlayerAction("aim", bowAnimations.idle, 0, undefined, null, false);
       }
       // Kept current every frame the bow is up: the nocked shaft points along
@@ -1695,6 +1742,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       }
       if (bowStep.exited) {
         aimPitch.current = 0;
+        aimZoom.current = 0;
         finishPlayerAction();
       } else if (isAiming(bowStep.cycle)) {
         const pose = bowPose(bowStep.cycle, bowAnimations, bowTravelFor(intent.move, moveMagnitude));
@@ -1715,6 +1763,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       bowCycle.current = IDLE_BOW_CYCLE;
       aimBlendAmount.current = 0;
       aimPitch.current = 0;
+      aimZoom.current = 0;
       if (playerAction.current === "aim") finishPlayerAction();
     }
 
@@ -1731,7 +1780,10 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       startPlayerAction("parry", playerGuardAnimations.parry.intro);
       announce("SWORD PARRY", 0.55);
     } else if (canStartAction && intent.heavyPressed && equipped.current && spendStamina(playerWeapon.attacks.heavy.stamina)) {
-      startPlayerAction("heavy", "HEAVY");
+      // The weapon's own heavy, not the reference sword's. Hard-coding the
+      // semantic here was invisible while there was one moveset and became a
+      // greatsword opening with a one-handed swing the moment there were three.
+      startPlayerAction("heavy", playerWeapon.attacks.heavy.animation);
       combatAudio.play("swing");
     } else if (canStartAction && (intent.lightPressed || riposteQueued.current > 0) && equipped.current) {
       // Riposte the nearest enemy we just parried; otherwise backstab the
@@ -1988,7 +2040,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           if (hitEnemy) playerAttackHit.current = damageEnemy(hitEnemy, null);
         }
       }
-      const nextAttack = getComboSuccessor(attack, comboQueued.current);
+      const nextAttack = getComboSuccessor(attack, comboQueued.current, playerWeapon);
       if (nextAttack && playerActionTime.current >= transitionAt) {
         if (nextAttack && spendStamina(nextAttack.stamina)) {
           const successorStart = comboEntryTime(nextAttack) + comboSuccessorStartTime(playerActionTime.current, attack);
@@ -2612,12 +2664,27 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       }
       if (playerAction.current === "idle" || playerAction.current === "guard") body.setRotation(tmp.current.quaternion, true);
     } else if (isAiming(bowCycle.current)) {
+      // Zoom. Held triggers sweep it, and a wheel notch steps it, so the same
+      // control exists on a pad, a mouse and a trackpad without a fourth
+      // binding: neither heavy nor parry does anything with a bow raised.
+      aimZoom.current = THREE.MathUtils.clamp(
+        aimZoom.current
+        + (Number(intent.zoomInHeld) - Number(intent.zoomOutHeld)) * (delta / AIM_ZOOM_SECONDS)
+        + intent.zoomWheel * AIM_ZOOM_PER_WHEEL_NOTCH,
+        0,
+        1,
+      );
       // Aiming looks where the archer looks: the same stick, a wider arc, and
       // no orbit. Inverted relative to the third-person pitch because that one
       // raises the camera while this one raises the bow.
-      cameraYaw.current -= intent.camera.x * delta * 2.35;
+      //
+      // Turn rate falls with the field of view. A magnified view moves the same
+      // number of on-screen degrees for far less stick, and leaving the rate
+      // alone makes a zoomed shot impossible to hold on a target.
+      const zoomedTurn = aimFieldOfView(aimZoom.current) / AIM_FIELD_OF_VIEW;
+      cameraYaw.current -= intent.camera.x * delta * 2.35 * zoomedTurn;
       aimPitch.current = THREE.MathUtils.clamp(
-        aimPitch.current - intent.camera.y * delta * 1.7,
+        aimPitch.current - intent.camera.y * delta * 1.7 * zoomedTurn,
         -AIM_PITCH_LIMIT,
         AIM_PITCH_LIMIT,
       );
@@ -2683,12 +2750,14 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       //
       // Riding the skeleton sounds right and is not: the draw pose moves the
       // head, the upper body leans to follow the aim, and a camera chasing both
-      // ends up inside the bow it is supposed to be looking past. Games that
-      // put a camera in a character's head author the arms *to* that camera.
-      // With a third-person body the stable eye is the one that reads.
+      // ends up inside the bow it is supposed to be looking past. With a
+      // third-person body the stable eye is the one that reads — set back along
+      // the shot axis so the arms it was authored for stay in frame.
       tmp.current.flat.set(playerPos.x, playerPos.y + PLAYER_EYE_OFFSET_Y, playerPos.z)
-        .addScaledVector(tmp.current.aimDirection, EYE_AHEAD_OF_HEAD_METERS);
+        .addScaledVector(tmp.current.aimDirection, -AIM_EYE_BEHIND_METERS);
       tmp.current.desiredCamera.lerp(tmp.current.flat, blend);
+      // Sighted from the camera, not from the eye, so screen centre is the shot
+      // direction exactly rather than approximately.
       tmp.current.desiredLook
         .copy(tmp.current.flat)
         .addScaledVector(tmp.current.aimDirection, AIM_LOOK_DISTANCE_METERS);
@@ -2722,7 +2791,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     if (camera instanceof THREE.PerspectiveCamera) {
       const wanted = THREE.MathUtils.lerp(
         BASE_FIELD_OF_VIEW,
-        AIM_FIELD_OF_VIEW,
+        aimFieldOfView(aimZoom.current),
         aimBlendAmount.current,
       );
       if (Math.abs(camera.fov - wanted) > 0.01) {
@@ -2762,6 +2831,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         bowPhase: bowCycle.current.phase,
         drawFraction: bowCycle.current.drawFraction,
         arrowsLeft: playerQuiver?.count ?? 0,
+        aimZoom: aimZoom.current,
+        playerPoise: playerPoise.current.current,
+        playerMaxPoise: playerPoise.current.max,
       });
     }
   }, visualScenario ? VISUAL_FRAME_PHASE_PRIORITY.combat : 0);

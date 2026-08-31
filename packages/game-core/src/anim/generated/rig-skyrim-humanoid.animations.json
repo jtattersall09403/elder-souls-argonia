@@ -70,6 +70,9 @@
         "SWORD_CROUCH_IDLE",
         "SWORD_IDLE",
         "UNEQUIP"
+      ],
+      "requires": [
+        "criticals"
       ]
     },
     "shield": {
@@ -88,7 +91,7 @@
     },
     "bow": {
       "asset": "rig-skyrim-humanoid.bow.glb",
-      "description": "The shooting cycle and bow-carry locomotion.",
+      "description": "The shooting cycle and bow-carry locomotion. Depends on the one-handed pack because a bow borrows that moveset for the clumsy bash it makes when swung \u2014 see the polish-backlog item about giving a bow its own melee, or none at all, so an archer stops downloading a sword's moveset for a fallback swing.",
       "sha256": "ec951ba7cb18cbc31934ff1295378c16c9aab89cccf1ab5d72567be8a87959d8",
       "bytes": 1572364,
       "clips": [
@@ -103,6 +106,9 @@
         "BOW_UNEQUIP",
         "BOW_WALK",
         "BOW_WALK_BACK"
+      ],
+      "requires": [
+        "oneHanded"
       ]
     },
     "greatsword": {
@@ -131,6 +137,9 @@
         "GREATSWORD_UNEQUIP",
         "GREATSWORD_WALK",
         "GREATSWORD_WALK_BACK"
+      ],
+      "requires": [
+        "criticals"
       ]
     },
     "greataxe": {
@@ -146,6 +155,9 @@
         "GREATAXE_LIGHT_2",
         "GREATAXE_LIGHT_3",
         "GREATAXE_SPRINT"
+      ],
+      "requires": [
+        "greatsword"
       ]
     }
   },

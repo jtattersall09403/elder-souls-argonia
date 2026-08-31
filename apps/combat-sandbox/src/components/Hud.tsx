@@ -139,9 +139,18 @@ function CameraZone() {
  * much weaker shot and the player has to be able to see they are about to take
  * one. The centre dot stays fixed: that is where the arrow goes.
  */
-function Crosshair({ drawFraction, arrowsLeft }: { drawFraction: number; arrowsLeft: number }) {
+function Crosshair({ drawFraction, arrowsLeft, zoom }: {
+  drawFraction: number;
+  arrowsLeft: number;
+  /** 0-1 of the aim zoom, shown as magnification once it is off the wide end. */
+  zoom: number;
+}) {
   // Widest at rest, closing onto the dot at full draw.
   const spread = 26 - drawFraction * 18;
+  // 75 degrees down to 28: the magnification a player reads is the ratio of
+  // the tangents, not of the angles.
+  const fov = 75 - zoom * (75 - 28);
+  const magnification = Math.tan((75 * Math.PI) / 360) / Math.tan((fov * Math.PI) / 360);
   return (
     <div className="crosshair" aria-hidden="true">
       <span className="crosshair-dot" />
@@ -153,6 +162,7 @@ function Crosshair({ drawFraction, arrowsLeft }: { drawFraction: number; arrowsL
         />
       ))}
       <span className="crosshair-count">{arrowsLeft}</span>
+      {zoom > 0.01 && <span className="crosshair-zoom">{magnification.toFixed(1)}\u00d7</span>}
     </div>
   );
 }
@@ -181,9 +191,18 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
       <section className="player-vitals" aria-label="Player status">
         <div className="vital-row"><span className="level-orb">08</span><Bar value={state.playerHealth} max={100} className="health" label="Health" /></div>
         <Bar value={state.playerStamina} max={100} className="stamina" label="Stamina" />
+        {/* Poise: how much more you can be hit before a blow interrupts you.
+            Dimmed when full, because full poise is the normal state and a bar
+            that is always solid teaches nothing. */}
+        {state.poiseEnabled && state.playerMaxPoise > 0 && (
+          <div className="poise-row" data-spent={state.playerPoise < state.playerMaxPoise || undefined}>
+            <Bar value={state.playerPoise} max={state.playerMaxPoise} className="poise" label="Poise" />
+            <small>{Math.round(state.playerPoise)}/{Math.round(state.playerMaxPoise)}</small>
+          </div>
+        )}
       </section>
 
-      {state.aiming && <Crosshair drawFraction={state.drawFraction} arrowsLeft={state.arrowsLeft} />}
+      {state.aiming && <Crosshair drawFraction={state.drawFraction} arrowsLeft={state.arrowsLeft} zoom={state.aimZoom} />}
 
       {state.damagePulse > 0 && <div key={state.damagePulse} className="damage-vignette" aria-hidden="true" />}
       {state.message && (
@@ -242,6 +261,14 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
         <label>
           <input
             type="checkbox"
+            checked={state.poiseEnabled}
+            onChange={(event) => state.patch({ poiseEnabled: event.target.checked })}
+          />
+          Poise (off = flinch on every hit)
+        </label>
+        <label>
+          <input
+            type="checkbox"
             checked={state.showHitboxes}
             onChange={(event) => state.patch({ showHitboxes: event.target.checked })}
           />
@@ -262,26 +289,30 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
               <dt>Guard / parry</dt><dd>Mouse 2 / F</dd>
               <dt>Dodge / sprint</dt><dd>Space tap / hold</dd>
               <dt>Jump</dt><dd>J</dd>
+              <dt>Crouch</dt><dd>C</dd>
               <dt>Lock / heal / equip</dt><dd>Q / H / Tab</dd>
               <dt>Inventory</dt><dd>I (Esc closes)</dd>
               <dt>Switch target</dt><dd>, / .</dd>
               <dt>Bow: raise / draw</dt><dd>Mouse 1 tap / hold</dd>
               <dt>Bow: lower</dt><dd>Mouse 2</dd>
+              <dt>Bow: zoom</dt><dd>Scroll wheel</dd>
             </dl>
             <dl>
               <dt>Move / camera</dt><dd>L stick / R stick</dd>
               <dt>Light / heavy</dt><dd>R / ZR</dd>
               <dt>Guard / parry</dt><dd>L / ZL</dd>
               <dt>Dodge / sprint</dt><dd>B tap / hold</dd>
-              <dt>Jump</dt><dd>A / L3</dd>
+              <dt>Jump</dt><dd>A</dd>
+              <dt>Crouch</dt><dd>L3</dd>
               <dt>Lock / heal / equip</dt><dd>R3 / X / D-pad →</dd>
               <dt>Inventory</dt><dd>Start</dd>
               <dt>Bow: raise / draw</dt><dd>R tap / hold</dd>
               <dt>Bow: lower</dt><dd>L</dd>
+              <dt>Bow: zoom</dt><dd>ZR in / ZL out</dd>
               <dt>Switch target</dt><dd>Right stick ←/→</dd>
             </dl>
           </div>
-          <p>GameSir mapping uses Nintendo-layout button positions. Release dodge quickly to roll; hold while moving to sprint. Press R or ZR again during the current swing to chain without recovering between attacks. An attack pressed during a roll comes out as the roll ends. Parry during the enemy windup, then light attack at close range. Circle behind the enemy and use a light attack at close range to backstab. With a bow drawn, tap light to raise it into first person, hold light to draw — the longer the pull, the harder the shot, and holding at full draw bleeds stamina — and release to loose. Guard lowers the bow.</p>
+          <p>GameSir mapping uses Nintendo-layout button positions. Release dodge quickly to roll; hold while moving to sprint. Press R or ZR again during the current swing to chain without recovering between attacks. An attack pressed during a roll comes out as the roll ends. Parry during the enemy windup, then light attack at close range. Circle behind the enemy and use a light attack at close range to backstab. With a bow drawn, tap light to raise it into first person, hold light to draw — the longer the pull, the harder the shot, and holding at full draw bleeds stamina — and release to loose. Guard lowers the bow; with it raised, scroll (or hold ZR/ZL) to zoom, and the view turns more slowly the further in you are. Crouch is a toggle: it halves your pace and drops you into a sneak, and you stand back up automatically to sprint or jump.</p>
         </aside>
       )}
 
@@ -300,13 +331,27 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
               sublabel={state.aiming ? "LOWER" : "GUARD"}
               className="guard"
             />
-            <ActionButton action="parry" label="ZL" sublabel="PARRY" className="parry" />
-            <ActionButton action="light" label="R" sublabel="LIGHT" className="light" />
-            <ActionButton action="heavy" label="ZR" sublabel="HEAVY" className="heavy" />
+            {/* Parry and heavy do nothing while a bow is raised, so they become
+                the zoom rather than two more buttons competing for the thumb.
+                The pad reuses the same physical triggers for the same reason. */}
+            <ActionButton
+              action={state.aiming ? "zoomOut" : "parry"}
+              label="ZL"
+              sublabel={state.aiming ? "ZOOM \u2212" : "PARRY"}
+              className="parry"
+            />
+            <ActionButton action="light" label="R" sublabel={state.aiming ? "DRAW" : "LIGHT"} className="light" />
+            <ActionButton
+              action={state.aiming ? "zoomIn" : "heavy"}
+              label="ZR"
+              sublabel={state.aiming ? "ZOOM +" : "HEAVY"}
+              className="heavy"
+            />
             <ActionButton action="dodge" label="B" sublabel="DODGE" className="dodge" />
             <ActionButton action="heal" label="X" sublabel="ESTUS" className="heal" />
             <ActionButton action="equip" label="→" sublabel="EQUIP" className="equip" />
             <ActionButton action="jump" label="A" sublabel="JUMP" className="jump" />
+            <ActionButton action="crouch" label="L3" sublabel="CROUCH" className="crouch" />
           </div>
         </div>
       )}

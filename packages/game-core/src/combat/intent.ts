@@ -34,6 +34,11 @@ export type PlayerIntent = {
    * you stay in, and holding a button for minutes is unusable on touch.
    */
   crouchPressed: boolean;
+  /** Held zoom, for the aimed bow view. Ignored when no bow is raised. */
+  zoomInHeld: boolean;
+  zoomOutHeld: boolean;
+  /** Desktop scroll since the last frame; positive zooms in. */
+  zoomWheel: number;
   targetLeftPressed: boolean;
   targetRightPressed: boolean;
 };
@@ -57,6 +62,9 @@ export function inputToIntent(source: InputController): PlayerIntent {
     jumpPressed: source.pressed("jump"),
     jumpHeld: source.held("jump"),
     crouchPressed: source.pressed("crouch"),
+    zoomInHeld: source.held("zoomIn"),
+    zoomOutHeld: source.held("zoomOut"),
+    zoomWheel: source.takeWheel(),
     targetLeftPressed: source.pressed("targetLeft"),
     targetRightPressed: source.pressed("targetRight"),
   };

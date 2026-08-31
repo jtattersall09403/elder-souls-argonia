@@ -109,6 +109,9 @@ function criticalAttackTiming(duration: number, contactTime: number) {
 export const ONE_HANDED_ANIMATIONS: WeaponAnimationProfile = {
   combatIdle: "SWORD_IDLE",
   sprintOverride: "SPRINT",
+  // Sneaking with a blade drawn keeps it on guard. Separate from the shared
+  // CROUCH_IDLE for the same reason SWORD_IDLE is separate from IDLE.
+  crouchIdle: "SWORD_CROUCH_IDLE",
   guard: {
     enter: "GUARD_ENTER",
     loop: "GUARD",

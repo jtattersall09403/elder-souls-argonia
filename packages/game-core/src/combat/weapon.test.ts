@@ -75,9 +75,9 @@ describe("straight sword moveset", () => {
 
   it("queues during a swing, then starts each complete successor after that swing", () => {
     const { light1, light2, light3 } = STRAIGHT_SWORD.attacks;
-    expect(getComboSuccessor(light1, "light")).toBe(light2);
-    expect(getComboSuccessor(light2, "light")).toBe(light3);
-    expect(getComboSuccessor(light3, "light")).toBeNull();
+    expect(getComboSuccessor(light1, "light", STRAIGHT_SWORD)).toBe(light2);
+    expect(getComboSuccessor(light2, "light", STRAIGHT_SWORD)).toBe(light3);
+    expect(getComboSuccessor(light3, "light", STRAIGHT_SWORD)).toBeNull();
 
     const phaseSequence = [
       phaseAt(0, light1),
@@ -145,11 +145,11 @@ describe("straight sword moveset", () => {
 
   it("supports the heavy successor and rejects unrelated combo inputs", () => {
     const { light1, heavy, heavy2 } = STRAIGHT_SWORD.attacks;
-    expect(getComboSuccessor(heavy, "heavy")).toBe(heavy2);
+    expect(getComboSuccessor(heavy, "heavy", STRAIGHT_SWORD)).toBe(heavy2);
     expect(comboEntryTime(heavy2)).toBe(0);
-    expect(getComboSuccessor(light1, "heavy")).toBeNull();
-    expect(getComboSuccessor(heavy, "light")).toBeNull();
-    expect(getComboSuccessor(heavy2, "heavy")).toBeNull();
+    expect(getComboSuccessor(light1, "heavy", STRAIGHT_SWORD)).toBeNull();
+    expect(getComboSuccessor(heavy, "light", STRAIGHT_SWORD)).toBeNull();
+    expect(getComboSuccessor(heavy2, "heavy", STRAIGHT_SWORD)).toBeNull();
     expect(comboCrossFadeDuration(heavy, heavy2)).toBe(0.24);
     expect(comboCrossFadeDuration(light1, heavy2)).toBeNull();
   });

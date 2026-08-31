@@ -8,5 +8,7 @@
   "BOW_STRAFE_RIGHT": "As BOW_WALK.",
   "BOW_RUN": "As BOW_WALK.",
   "BOW_EQUIP": "Bow draw/stow shares the equip-cycle scene's inputs; that scene holds a sword.",
-  "BOW_UNEQUIP": "As BOW_EQUIP."
+  "BOW_UNEQUIP": "As BOW_EQUIP.",
+  "GREATSWORD_HEAVY_2": "Unreachable by the player at current stamina, not unwanted: heavy2 is only entered as the chained successor to heavy, and a two-handed heavy pair costs about 130 stamina against a 100 bar (heavy 45 and heavy2 48, both times the class's ~1.4x stamina scale), with no room to regenerate inside the chain window. The clip is built, wired and correct; whether a two-handed heavy chain should be affordable is a balance question for the owner and for 10c calibration, not something to hide by retuning stamina here.",
+  "GREATAXE_HEAVY_2": "Unreachable by the player at current stamina, not unwanted: heavy2 is only entered as the chained successor to heavy, and a two-handed heavy pair costs about 130 stamina against a 100 bar (heavy 45 and heavy2 48, both times the class's ~1.4x stamina scale), with no room to regenerate inside the chain window. The clip is built, wired and correct; whether a two-handed heavy chain should be affordable is a balance question for the owner and for 10c calibration, not something to hide by retuning stamina here."
 }

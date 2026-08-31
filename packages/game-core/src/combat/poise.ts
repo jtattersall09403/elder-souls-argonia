@@ -86,8 +86,16 @@ export const POISE_TUNING = {
    * Poise a worn piece is worth per point of its armour rating, at the top of
    * its band. Armour rating already carries the slot's bulk and the material's
    * quality, so poise rides it rather than restating both axes.
+   *
+   * First calibration point, and the number most likely to move at 10c. At 1.1
+   * the sandbox's *starting* steel kit came to 69 poise against a 20-point
+   * sword light, so a new character shrugged off four hits in a row and combat
+   * stopped answering. DS1 makes that a build you commit heavy armour to, not
+   * the default; 0.55 puts starting steel at about 50 — enough that a sword
+   * needs three hits, a greatsword two and a warhammer one, which is a table a
+   * player can feel and read.
    */
-  poisePerArmourRating: 1.1,
+  poisePerArmourRating: 0.55,
   /** Bottom of a piece's band as a fraction of its top. */
   bandFloorFraction: 0.6,
 } as const;

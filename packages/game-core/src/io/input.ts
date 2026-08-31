@@ -11,6 +11,17 @@ export type InputAction =
   | "equip"
   | "jump"
   | "crouch"
+  /**
+   * Zoom the aimed bow view in and out.
+   *
+   * Deliberately the heavy and parry buttons rather than two new ones: neither
+   * does anything while a bow is raised (a bow cannot parry, and an attack
+   * press is the draw), so the inputs are already free and a player has no
+   * fourth binding to learn — the same reasoning that put "lower the bow" on
+   * guard.
+   */
+  | "zoomIn"
+  | "zoomOut"
   | "targetLeft"
   | "targetRight";
 
@@ -58,6 +69,8 @@ export class InputController {
   private current = new Map<InputAction, boolean>();
   private touchMove: Vec2 = { x: 0, y: 0 };
   private touchCamera: Vec2 = { x: 0, y: 0 };
+  /** Accumulated wheel/trackpad scroll since the last update, in notches. */
+  private wheel = 0;
   private attached = false;
 
   attach() {
@@ -76,16 +89,25 @@ export class InputController {
       if (!document.pointerLockElement) return;
       this.addTouchCamera({ x: event.movementX * MOUSE_LOOK_SENSITIVITY, y: event.movementY * MOUSE_LOOK_SENSITIVITY });
     };
+    // Scroll is the desktop zoom. Normalised out of the browser's three
+    // delta modes so a trackpad's pixel-sized flicks and a wheel's line-sized
+    // notches mean roughly the same thing.
+    const wheelMove = (event: WheelEvent) => {
+      const scale = event.deltaMode === 1 ? 1 / 3 : event.deltaMode === 2 ? 1 : 1 / 100;
+      this.wheel += -event.deltaY * scale;
+    };
     const blur = () => {
       this.keys.clear();
       this.mouse.clear();
       this.virtual.clear();
+      this.wheel = 0;
     };
     window.addEventListener("keydown", down, { passive: false });
     window.addEventListener("keyup", up);
     window.addEventListener("mousedown", mouseDown);
     window.addEventListener("mouseup", mouseUp);
     window.addEventListener("mousemove", mouseMove);
+    window.addEventListener("wheel", wheelMove, { passive: true });
     window.addEventListener("blur", blur);
     return () => {
       this.attached = false;
@@ -94,6 +116,7 @@ export class InputController {
       window.removeEventListener("mousedown", mouseDown);
       window.removeEventListener("mouseup", mouseUp);
       window.removeEventListener("mousemove", mouseMove);
+      window.removeEventListener("wheel", wheelMove);
       window.removeEventListener("blur", blur);
     };
   }
@@ -113,6 +136,14 @@ export class InputController {
     this.current.clear();
     this.touchMove = { x: 0, y: 0 };
     this.touchCamera = { x: 0, y: 0 };
+    this.wheel = 0;
+  }
+
+  /** Scroll accumulated since the last call; positive is toward the player. */
+  takeWheel() {
+    const wheel = this.wheel;
+    this.wheel = 0;
+    return wheel;
   }
 
   setVirtual(action: InputAction, active: boolean) {
@@ -168,6 +199,8 @@ export class InputController {
     this.current.set("heal", active("heal") || this.keys.has("KeyH") || button(SWITCH_GAMEPAD.X_TOP_ITEM));
     this.current.set("equip", active("equip") || this.keys.has("Tab") || button(SWITCH_GAMEPAD.DPAD_RIGHT_EQUIP));
     this.current.set("jump", active("jump") || this.keys.has("KeyJ") || button(SWITCH_GAMEPAD.A_RIGHT_JUMP));
+    this.current.set("zoomIn", active("zoomIn") || button(SWITCH_GAMEPAD.ZR_HEAVY));
+    this.current.set("zoomOut", active("zoomOut") || button(SWITCH_GAMEPAD.ZL_PARRY));
     this.current.set("crouch", active("crouch") || this.keys.has("KeyC") || button(SWITCH_GAMEPAD.L_STICK_CROUCH));
     // When locked on, the right stick is free for target switching; the frame
     // ignores camera input in that mode. `pressed` turns a stick push into one edge.

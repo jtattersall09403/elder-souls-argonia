@@ -37,6 +37,14 @@ export const VISUAL_SCENARIO_IDS = [
   "bow-partial-draw",
   "bow-aim-tracking",
   "riposte-queued",
+  "crouch-locomotion",
+  "shield-guard",
+  "shield-parry",
+  "greatsword-locomotion",
+  "greatsword-chain",
+  "greatsword-guard",
+  "greataxe-chain",
+  "poise-break",
 ] as const;
 
 export type VisualScenarioId = typeof VISUAL_SCENARIO_IDS[number];
@@ -93,6 +101,27 @@ export type VisualScenario = {
     weaponId?: string;
     /** Ammunition to nock, for the same reason. */
     ammoId?: string;
+    /** Off-hand item, for the scenes about guarding behind a shield. */
+    offHandId?: string;
+    /**
+     * Start with nothing in the off hand.
+     *
+     * The sandbox character starts wearing a shield, and a shield now decides
+     * how a guard is held. The scenes that are about the *weapon's* block have
+     * to say so explicitly, or they quietly become second shield scenes.
+     */
+    emptyOffHand?: boolean;
+    /**
+     * Run this scene with poise disabled, so every hit interrupts.
+     *
+     * For the scenes that review a *reaction clip*: under poise an armoured
+     * actor shrugs off single light hits (module 76 §121.3), which is correct,
+     * and is what `poise-break` exists to show — but it means a scene staged to
+     * render HIT no longer does. Bending those setups until a reaction falls
+     * out would make them worse evidence of the thing they are for. Saying
+     * which rule a scene isolates is the honest alternative.
+     */
+    poise?: boolean;
   };
   enemy: {
     enabled: boolean;
@@ -255,7 +284,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     label: "Guard → two blocks, release during block-stun, and complete recovery",
     warmup: 0.5,
     duration: 5.95,
-    player: REVIEW_PLAYER,
+    player: { ...REVIEW_PLAYER, emptyOffHand: true },
     enemy: REVIEW_ENEMY,
     // Hold through the first complete hit and return to GUARD. Release shortly
     // after the second impact; production must still finish GUARD_HIT_B before
@@ -271,7 +300,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     label: "Parry input → catch and follow-through",
     warmup: 0.5,
     duration: 2.05,
-    player: { position: [0, Y, 0], yaw: Math.PI },
+    player: { position: [0, Y, 0], yaw: Math.PI, emptyOffHand: true },
     enemy: SOLO_ENEMY,
     cues: [{ from: 0.2, to: 0.29, actions: ["parry"] }],
   },
@@ -289,7 +318,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     label: "Enemy light and heavy strikes → both player hit reactions",
     warmup: 0.5,
     duration: 5.7,
-    player: REVIEW_PLAYER,
+    player: { ...REVIEW_PLAYER, poise: false },
     enemy: REVIEW_ENEMY,
     // The opening light closes the initial gap. Walk backward through the
     // normal player controller after recovery so the later heavy's wider arc
@@ -308,7 +337,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     // the first hit establishes overlap/facing and the second is lethal. Leave
     // the 1.9s fall plus at least one full second of its clamped prone pose.
     duration: 7,
-    player: { ...REVIEW_PLAYER, health: 34 },
+    player: { ...REVIEW_PLAYER, health: 34, poise: false },
     enemy: REVIEW_ENEMY,
     cues: [],
     enemyCues: [
@@ -320,7 +349,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     id: "backstab",
     label: "Rear light input → complete paired backstab and authored victim recovery",
     warmup: 0.5,
-    duration: 7.6,
+    duration: 7.9,
     player: { position: [0, Y, -1.15], yaw: 0 },
     enemy: FACING_ENEMY,
     cues: [{ from: 0.55, to: 0.64, actions: ["light"] }],
@@ -330,7 +359,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     label: "Enemy attack → real parry → riposte hit reaction and full recovery",
     warmup: 0.5,
     duration: 8.8,
-    player: RIPOSTE_REVIEW_PLAYER,
+    player: { ...RIPOSTE_REVIEW_PLAYER, emptyOffHand: true },
     enemy: RIPOSTE_REVIEW_ENEMY,
     cues: [
       // LIGHT_1's contact window is the measured blade sweep, which opens
@@ -351,7 +380,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     label: "Lethal riposte → immediate hit reaction and held prone outcome",
     warmup: 0.5,
     duration: 6.4,
-    player: { position: [0, Y, 1.45], yaw: Math.PI },
+    player: { position: [0, Y, 1.45], yaw: Math.PI, emptyOffHand: true },
     enemy: {
       ...FACING_ENEMY,
       state: "parried",
@@ -375,7 +404,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     label: "Riposte requested *during* the parry → still lands when the window opens",
     warmup: 0.5,
     duration: 8.8,
-    player: RIPOSTE_REVIEW_PLAYER,
+    player: { ...RIPOSTE_REVIEW_PLAYER, emptyOffHand: true },
     enemy: RIPOSTE_REVIEW_ENEMY,
     cues: [
       { from: 0.6, to: 0.69, actions: ["parry"] },
@@ -391,7 +420,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     label: "Light input against depleted guard → posture break",
     warmup: 0.5,
     duration: 4.1,
-    player: FOCUSED_CONTACT_PLAYER,
+    player: { ...FOCUSED_CONTACT_PLAYER, emptyOffHand: true },
     enemy: { ...FOCUSED_CONTACT_ENEMY, state: "guard", animation: "GUARD", stamina: 1, holdInitialState: true },
     cues: [{ from: 0.12, to: 0.21, actions: ["light"] }],
   },
@@ -402,7 +431,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     // The final hit lands around 5.37 s; retain the full 1.9 s authored fall
     // plus at least one second of the clamped prone outcome.
     duration: 8.4,
-    player: REVIEW_PLAYER,
+    player: { ...REVIEW_PLAYER, poise: false },
     enemy: { ...REVIEW_ENEMY, health: 62 },
     cues: [
       { from: 0.05, to: 0.14, actions: ["lockOn"] },
@@ -416,7 +445,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     label: "Enemy guard → one real blade block and player recoil",
     warmup: 0.5,
     duration: 3.35,
-    player: FOCUSED_CONTACT_PLAYER,
+    player: { ...FOCUSED_CONTACT_PLAYER, emptyOffHand: true },
     enemy: FOCUSED_CONTACT_ENEMY,
     cues: [
       // Swing late enough that the blade arrives after GUARD is established
@@ -435,7 +464,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     // compressed 1.75s, so the recording has to stay open long enough to show
     // the player recover from it.
     duration: 4.5,
-    player: FOCUSED_CONTACT_PLAYER,
+    player: { ...FOCUSED_CONTACT_PLAYER, emptyOffHand: true },
     enemy: FOCUSED_CONTACT_ENEMY,
     cues: [{ from: 0.35, to: 0.44, actions: ["light"] }],
     enemyCues: [
@@ -453,7 +482,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     // The production three-hit chain reaches recover around 3.8 s and returns
     // to watching around 4.6 s; keep that final readable idle in-frame.
     duration: 4.9,
-    player: { ...FOCUSED_CONTACT_PLAYER, health: 150 },
+    player: { ...FOCUSED_CONTACT_PLAYER, health: 150, poise: false },
     enemy: FOCUSED_CONTACT_ENEMY,
     cues: [],
     enemyCues: [{ at: 0.2, intent: "lightCombo", attack: "light1", comboRemaining: 2 }],
@@ -463,7 +492,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     label: "Enemy heavy intent → HEAVY_2 contact and recovery",
     warmup: 0.5,
     duration: 3.2,
-    player: { ...FOCUSED_CONTACT_PLAYER, health: 150 },
+    player: { ...FOCUSED_CONTACT_PLAYER, health: 150, poise: false },
     enemy: FOCUSED_CONTACT_ENEMY,
     cues: [],
     enemyCues: [{ at: 0.2, intent: "heavy", attack: "heavy2" }],
@@ -656,11 +685,158 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
       { from: 5.2, to: 5.3, actions: ["guard"] },
     ],
   },
+
+  // --- crouch ---------------------------------------------------------------
+  "crouch-locomotion": {
+    id: "crouch-locomotion",
+    label: "Crouch \u2192 sneak idle, stride, reverse, both strafes, then draw",
+    warmup: 0.5,
+    duration: 9.4,
+    // Starts with the sword stowed so both the weapon-neutral crouch hold and
+    // the drawn one are reached through the ordinary equip path.
+    player: { position: [0, Y, 3], yaw: Math.PI, equipped: false },
+    enemy: SOLO_ENEMY,
+    cues: [
+      { from: 0.15, to: 0.24, actions: ["crouch"] },
+      { from: 0.75, to: 2.0, move: [0, 0.6] },
+      { from: 2.2, to: 3.35, move: [0, -0.6] },
+      { from: 3.55, to: 4.7, move: [-0.6, 0] },
+      { from: 4.9, to: 6.05, move: [0.6, 0] },
+      { from: 6.6, to: 6.69, actions: ["equip"] },
+    ],
+  },
+
+  // --- shield ---------------------------------------------------------------
+  "shield-guard": {
+    id: "shield-guard",
+    label: "Shield raised \u2192 two blocks behind the shield face",
+    warmup: 0.5,
+    duration: 6.25,
+    player: { ...REVIEW_PLAYER, weaponId: "steel-sword", offHandId: "steel-shield" },
+    enemy: REVIEW_ENEMY,
+    // Not at 0.05: the opening idle has to render as its own run to be
+    // evidence that the guard was entered from a normal stance.
+    cues: [{ from: 0.3, to: 4.65, actions: ["guard"] }],
+    enemyCues: [
+      { at: 1.3, intent: "lightCombo", attack: "light1", comboRemaining: 0 },
+      { at: 3.5, intent: "lightCombo", attack: "light1", comboRemaining: 0 },
+    ],
+  },
+  "shield-parry": {
+    id: "shield-parry",
+    label: "Shield bash \u2192 the parry a shield makes instead of a blade catch",
+    warmup: 0.5,
+    duration: 2.05,
+    player: {
+      position: [0, Y, 0], yaw: Math.PI,
+      weaponId: "steel-sword", offHandId: "steel-shield",
+    },
+    enemy: SOLO_ENEMY,
+    cues: [{ from: 0.2, to: 0.29, actions: ["parry"] }],
+  },
+
+  // --- two-handed -----------------------------------------------------------
+  "greatsword-locomotion": {
+    id: "greatsword-locomotion",
+    label: "Greatsword carriage \u2192 walk, run, sprint, locked-on retreat and strafes, draw and stow",
+    warmup: 0.5,
+    duration: 14.6,
+    // One scene rather than three: the point of review is that a greatsword is
+    // carried differently in *every* direction, which only reads if the whole
+    // set is seen back to back.
+    player: { position: [0, Y, 5], yaw: Math.PI, weaponId: "steel-greatsword" },
+    // Off the running line, not dead ahead: a sprint straight into the other
+    // actor's capsule bounces the player airborne and puts a jump in the middle
+    // of a locomotion review. Still close enough to lock onto.
+    enemy: { ...FACING_ENEMY, position: [3.4, Y, -1] as const },
+    cues: [
+      { from: 0.15, to: 1.55, move: [0, 0.45] },
+      { from: 1.7, to: 2.6, move: [0, 1] },
+      { from: 2.75, to: 3.8, actions: ["dodge"], move: [0, 1] },
+      { from: 3.8, to: 4.25, move: [0, 1] },
+      // Lock on: strafes and a real reverse stride are only reachable here.
+      { from: 4.6, to: 4.69, actions: ["lockOn"] },
+      { from: 4.9, to: 5.95, move: [0, -0.42] },
+      { from: 6.15, to: 7.2, move: [-0.42, 0] },
+      { from: 7.4, to: 8.45, move: [0.42, 0] },
+      { from: 8.7, to: 8.79, actions: ["lockOn"] },
+      // Stow and draw, which is its own two-handed pair off the back.
+      { from: 9.1, to: 9.19, actions: ["equip"] },
+      { from: 11.6, to: 11.69, actions: ["equip"] },
+    ],
+  },
+  "greatsword-chain": {
+    id: "greatsword-chain",
+    label: "Greatsword \u2192 the three-hit light chain and both heavies",
+    warmup: 0.5,
+    duration: 16.4,
+    player: { position: [0, Y, 0], yaw: Math.PI, weaponId: "steel-greatsword" },
+    enemy: SOLO_ENEMY,
+    cues: [
+      { from: 0.15, to: 0.24, actions: ["light"] },
+      { from: 1.1, to: 1.19, actions: ["light"] },
+      { from: 2.9, to: 2.99, actions: ["light"] },
+      // Long gap on purpose: a full light chain plus a heavy costs more than a
+      // 100-point bar holds, and the follow-up heavy is another 67. Waiting for
+      // the bar is what a player has to do, so the scene does it too.
+      { from: 9.6, to: 9.69, actions: ["heavy"] },
+      { from: 11.1, to: 11.19, actions: ["heavy"] },
+    ],
+  },
+  "greatsword-guard": {
+    id: "greatsword-guard",
+    label: "Greatsword guard \u2192 two blocks, both block-hits, and the two-handed parry",
+    warmup: 0.5,
+    duration: 7.9,
+    player: { ...REVIEW_PLAYER, weaponId: "steel-greatsword" },
+    enemy: REVIEW_ENEMY,
+    cues: [
+      { from: 0.3, to: 4.65, actions: ["guard"] },
+      { from: 5.75, to: 5.84, actions: ["parry"] },
+    ],
+    enemyCues: [
+      { at: 1.3, intent: "lightCombo", attack: "light1", comboRemaining: 0 },
+      { at: 3.5, intent: "lightCombo", attack: "light1", comboRemaining: 0 },
+    ],
+  },
+  // --- poise ----------------------------------------------------------------
+  "poise-break": {
+    id: "poise-break",
+    label: "Poise \u2192 two light hits absorbed without flinching, the third breaks through",
+    warmup: 0.5,
+    // Every hit inside one refill window (the pool snaps back to full after a
+    // quiet interval, so spacing them out would prove nothing).
+    duration: 6.4,
+    player: { ...REVIEW_PLAYER, health: 150 },
+    enemy: REVIEW_ENEMY,
+    cues: [],
+    enemyCues: [
+      { at: 0.25, intent: "lightCombo", attack: "light1", comboRemaining: 2 },
+    ],
+  },
+  "greataxe-chain": {
+    id: "greataxe-chain",
+    label: "Battleaxe \u2192 the haft chain and sprint that differ from the blade set",
+    warmup: 0.5,
+    duration: 18.4,
+    player: { position: [0, Y, 4], yaw: Math.PI, weaponId: "steel-battleaxe" },
+    enemy: SOLO_ENEMY,
+    cues: [
+      { from: 0.15, to: 0.24, actions: ["light"] },
+      { from: 1.1, to: 1.19, actions: ["light"] },
+      { from: 2.9, to: 2.99, actions: ["light"] },
+      { from: 9.6, to: 9.69, actions: ["heavy"] },
+      { from: 11.1, to: 11.19, actions: ["heavy"] },
+      // The haft carriage differs at a sprint too; everything between is the
+      // greatsword pack's footwork and is reviewed there.
+      { from: 14.6, to: 16.6, actions: ["dodge"], move: [0, 1] },
+    ],
+  },
 };
 
 const SCRIPTABLE_ACTIONS: readonly InputAction[] = [
   "light", "heavy", "guard", "parry", "dodge", "lockOn", "heal", "equip",
-  "jump", "targetLeft", "targetRight",
+  "jump", "crouch", "targetLeft", "targetRight",
 ];
 
 export class VisualScenarioDriver {

@@ -246,8 +246,11 @@ export function InventoryScreen({ theme = "morrowind" }: { theme?: InventoryThem
                 />
               ))}
               {view.cells.length === 0 && <p className="inv-empty">Nothing here.</p>}
-              {focusedCell && <ItemCard cell={focusedCell} docked={touchLike} />}
             </div>
+            {/* Outside the grid, which scrolls: the card is positioned against
+                the item column so it stays inside the window on every screen
+                rather than against a scrolling box or the page. */}
+            {focusedCell && <ItemCard cell={focusedCell} docked={touchLike} />}
 
             <div className="inv-footer">
               <DetailLine view={view} focusedId={focused} />
