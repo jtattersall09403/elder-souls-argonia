@@ -167,6 +167,37 @@ function Crosshair({ drawFraction, arrowsLeft, zoom }: {
   );
 }
 
+/**
+ * One debug pool, stepped rather than typed.
+ *
+ * Steps of 50 up to 400: enough headroom for the chains that do not fit a
+ * hundred-point bar, and coarse enough that a value is a deliberate choice
+ * rather than a number someone tuned by nudging. Raising a pool refills it.
+ */
+function PoolStepper({ label, value, onChange }: {
+  label: string;
+  value: number;
+  onChange: (value: number) => void;
+}) {
+  const step = (delta: number) => onChange(
+    Math.min(POOL_MAXIMUM, Math.max(POOL_STEP, value + delta)),
+  );
+  return (
+    <label className="pool-stepper">
+      {label}: {value}
+      <button type="button" disabled={value <= POOL_STEP} onClick={() => step(-POOL_STEP)}>−</button>
+      <button type="button" disabled={value >= POOL_MAXIMUM} onClick={() => step(POOL_STEP)}>+</button>
+      <button type="button" className="pool-reset" disabled={value === POOL_DEFAULT} onClick={() => onChange(POOL_DEFAULT)}>
+        reset
+      </button>
+    </label>
+  );
+}
+
+const POOL_STEP = 50;
+const POOL_MAXIMUM = 400;
+const POOL_DEFAULT = 100;
+
 export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario | null }) {
   const state = useGameStore();
   const [help, setHelp] = useState(false);
@@ -189,8 +220,8 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
         </div>
       )}
       <section className="player-vitals" aria-label="Player status">
-        <div className="vital-row"><span className="level-orb">08</span><Bar value={state.playerHealth} max={100} className="health" label="Health" /></div>
-        <Bar value={state.playerStamina} max={100} className="stamina" label="Stamina" />
+        <div className="vital-row"><span className="level-orb">08</span><Bar value={state.playerHealth} max={state.playerMaxHealth} className="health" label="Health" /></div>
+        <Bar value={state.playerStamina} max={state.playerMaxStamina} className="stamina" label="Stamina" />
         {/* Poise: how much more you can be hit before a blow interrupts you.
             Dimmed when full, because full poise is the normal state and a bar
             that is always solid teaches nothing. */}
@@ -258,6 +289,20 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
             +
           </button>
         </label>
+        {/* Player pools. Sandbox-only, and here rather than in the tuning
+            constants because the point is to look at a rule you cannot
+            otherwise reach — a two-handed heavy chain costs more stamina than
+            the standard bar holds — without changing what the game ships. */}
+        <PoolStepper
+          label="Health"
+          value={state.playerMaxHealth}
+          onChange={(playerMaxHealth) => state.patch({ playerMaxHealth })}
+        />
+        <PoolStepper
+          label="Stamina"
+          value={state.playerMaxStamina}
+          onChange={(playerMaxStamina) => state.patch({ playerMaxStamina })}
+        />
         <label>
           <input
             type="checkbox"

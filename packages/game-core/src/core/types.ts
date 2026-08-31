@@ -191,6 +191,17 @@ export type GameSnapshot = {
   playerPoise: number;
   playerMaxPoise: number;
   /**
+   * Player pool sizes, overridable from the sandbox debug panel.
+   *
+   * Debug controls, not a game option: they exist so a rule that a starting
+   * character cannot reach — a two-handed heavy chain costs more stamina than
+   * the standard bar holds — can still be looked at before deciding whether to
+   * change the rule. The HUD bars read these rather than a constant, so a
+   * raised pool is visible rather than silently off the end of the bar.
+   */
+  playerMaxHealth: number;
+  playerMaxStamina: number;
+  /**
    * Poise enabled at all. A debug switch, not a game option: it exists so the
    * pool can be judged against the flinch-on-every-hit behaviour it replaced,
    * in one sitting, with everything else identical.

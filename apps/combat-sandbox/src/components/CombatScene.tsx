@@ -832,6 +832,10 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   const enemyCount = useGameStore((state) => state.enemyCount);
   // A visual scenario may isolate the pre-poise reaction rule (see the scenario
   // type's `poise` field); everything else follows the debug switch.
+  // Debug-panel overrides for the player's pools. Read as live values rather
+  // than captured once, so raising the bar mid-fight takes effect immediately.
+  const playerMaxHealth = useGameStore((state) => state.playerMaxHealth);
+  const playerMaxStamina = useGameStore((state) => state.playerMaxStamina);
   const poiseEnabled = useGameStore((state) => state.poiseEnabled)
     && (visualScenario?.player.poise ?? true);
   const lockedOnSnapshot = useGameStore((state) => state.lockedOn);
@@ -1314,6 +1318,23 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     refreshPoise(playerPoise.current, playerArmour);
   }, [playerArmour]);
 
+  // Debug pools. Raising one fills to it — the point is to try a rule you
+  // otherwise cannot reach, not to then have to wait for regen — and lowering
+  // one clamps into it so the bar cannot read over full.
+  const previousPools = useRef({ health: playerMaxHealth, stamina: playerMaxStamina });
+  useEffect(() => {
+    const previous = previousPools.current;
+    if (playerMaxHealth !== previous.health) {
+      playerHealth.current = playerHealth.current > 0
+        ? Math.min(playerMaxHealth, Math.max(playerHealth.current, playerMaxHealth))
+        : 0;
+    }
+    if (playerMaxStamina !== previous.stamina) {
+      playerStamina.current = Math.min(playerMaxStamina, Math.max(playerStamina.current, playerMaxStamina));
+    }
+    previousPools.current = { health: playerMaxHealth, stamina: playerMaxStamina };
+  }, [playerMaxHealth, playerMaxStamina]);
+
   useEffect(() => input.attach(), []);
   useEffect(() => bus.on((event) => {
     if (event.type === "sound") combatAudio.play(event.sound);
@@ -1358,8 +1379,13 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     aimPitch.current = 0;
     aimZoom.current = 0;
     clearArrows();
-    playerHealth.current = visualScenario?.player.health ?? COMBAT_TUNING.maxHealth;
-    playerStamina.current = COMBAT_TUNING.maxStamina;
+    // Read at reset time rather than closed over: this effect deliberately does
+    // not re-run when the debug pools change, or moving a slider would restart
+    // the fight you are using it to test.
+    const pools = useGameStore.getState();
+    playerHealth.current = visualScenario?.player.health ?? pools.playerMaxHealth;
+    playerStamina.current = pools.playerMaxStamina;
+    previousPools.current = { health: pools.playerMaxHealth, stamina: pools.playerMaxStamina };
     resetPoise(playerPoise.current);
     playerStance.current = "standing";
     estus.current = 3;
@@ -1772,7 +1798,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       equipped.current = !equipped.current;
       startPlayerAction(equipped.current ? "equip" : "unequip", equipped.current ? playerWeapon.animations.equip : playerWeapon.animations.unequip);
       announce(equipped.current ? playerWeapon.label.toUpperCase() : "WEAPON STOWED");
-    } else if (canStartAction && intent.healPressed && estus.current > 0 && playerHealth.current < COMBAT_TUNING.maxHealth) {
+    } else if (canStartAction && intent.healPressed && estus.current > 0 && playerHealth.current < playerMaxHealth) {
       estus.current -= 1;
       startPlayerAction("heal", "HEAL");
       combatAudio.play("heal");
@@ -2077,7 +2103,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       const duration = ACTION_DURATIONS[playerAction.current];
       if (playerAction.current === "heal" && playerActionTime.current > 0.82 && !healedThisAction.current) {
         healedThisAction.current = true;
-        playerHealth.current = Math.min(COMBAT_TUNING.maxHealth, playerHealth.current + COMBAT_TUNING.healAmount);
+        playerHealth.current = Math.min(playerMaxHealth, playerHealth.current + COMBAT_TUNING.healAmount);
       }
       if (duration && playerActionTime.current >= duration) {
         if (playerAction.current === "roll" && rollAttackQueued.current) {
@@ -2169,7 +2195,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       playerStamina.current = Math.max(0, playerStamina.current - COMBAT_TUNING.sprintDrainPerSecond * delta);
       staminaCooldown.current = COMBAT_TUNING.staminaRegenDelay;
     } else if (staminaCooldown.current <= 0 && playerAction.current !== "guard") {
-      playerStamina.current = Math.min(COMBAT_TUNING.maxStamina, playerStamina.current + COMBAT_TUNING.staminaRegenPerSecond * delta);
+      playerStamina.current = Math.min(playerMaxStamina, playerStamina.current + COMBAT_TUNING.staminaRegenPerSecond * delta);
     }
 
     if (playerAction.current === "roll") {
