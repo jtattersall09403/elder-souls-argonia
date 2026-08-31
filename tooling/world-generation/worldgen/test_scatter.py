@@ -339,3 +339,61 @@ def test_water_guilds_theme_by_place_and_never_mix():
             tiles.setdefault((int(i.x // 220), int(i.z // 220)), set()).add(i.species)
     assert tiles
     assert all(len(kinds) == 1 for kinds in tiles.values())
+
+
+# --- slope alignment (Phase 10 round 5, A2) ----------------------------------
+
+
+def _ramp_fields(grade):
+    """A plane falling toward +X at `grade` (rise over run)."""
+    return Fields(
+        height=lambda x, z: -grade * x,
+        water_depth=lambda x, z: -5.0,
+        slope=lambda x, z: math.degrees(math.atan(grade)),
+        region=lambda x, z: 2,
+    )
+
+
+def test_terrain_aim_points_downhill_at_the_true_slope_angle():
+    from .scatter import terrain_aim
+
+    aim, pitch = terrain_aim(_ramp_fields(0.5), 100.0, 100.0)
+    assert pitch == pytest.approx(math.atan(0.5))
+    # Yaw convention: this value points the model's +Z axis downhill, and
+    # downhill here is +X, so +Z must rotate onto +X — a quarter turn.
+    assert math.sin(aim) == pytest.approx(1.0)
+    assert math.cos(aim) == pytest.approx(0.0, abs=1e-6)
+    # Flat ground has no downhill to speak of and must not spin instances.
+    assert terrain_aim(_ramp_fields(0.0), 10.0, 10.0) == (0.0, 0.0)
+
+
+def test_aligned_layers_lie_with_the_slope_and_trees_do_not():
+    """Rocks settle into a hillside; trunks stay vertical whatever it does."""
+    fields = _ramp_fields(0.4)
+    expected = math.atan(0.4)
+
+    def place(align):
+        palette = Palette("t", [Layer(species="rock", instances_per_hectare=400.0,
+                                      slope_deg_max=80.0, align_to_slope=align)])
+        return scatter_chunk(0.0, 0.0, 200.0, palette, fields, seed=5)
+
+    aligned = place(0.9)
+    upright = place(0.0)
+    assert aligned and upright
+    # Aligned instances tip by ~0.9 of the slope, jittered by the ±4° default.
+    for rock in aligned:
+        assert rock.tilt_x == pytest.approx(0.9 * expected,
+                                            abs=math.radians(4.5))
+        assert math.sin(rock.yaw) > 0.5          # still broadly downhill
+    # Unaligned ones keep the small random tilt only — the tree behaviour.
+    for tree in upright:
+        assert abs(tree.tilt_x) <= math.radians(4.5)
+
+
+def test_slope_min_gate_keeps_cliff_dressing_off_flat_ground():
+    palette = Palette("t", [Layer(species="shell", instances_per_hectare=500.0,
+                                  slope_deg_min=28.0, slope_deg_max=70.0)])
+    flat = scatter_chunk(0.0, 0.0, 200.0, palette, _ramp_fields(0.05), seed=5)
+    steep = scatter_chunk(0.0, 0.0, 200.0, palette, _ramp_fields(0.8), seed=5)
+    assert flat == []
+    assert steep

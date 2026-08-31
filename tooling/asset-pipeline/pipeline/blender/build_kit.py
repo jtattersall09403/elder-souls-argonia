@@ -34,6 +34,15 @@ ALPHA_TESTED_IMAGES = set()
 #: round 3). They keep their own, larger cap (billboardTextureMaxSize).
 BILLBOARD_IMAGES = set()
 
+#: Floor on the triangle count a decimated LOD level may fall to. The kit's
+#: `lodRatios` are proportions, which is right for a 12k-triangle willow and
+#: destructive for a 273-triangle shrub: 0.12 leaves it ~33 triangles, i.e. a
+#: collapsed cross-plane that reads as a flat dark cutout however close the
+#: player stands (owner Phase 10 round 4, uplands 1.59 km E / 1.63 km S).
+#: A mesh already at or below the floor keeps its full geometry at every
+#: level — there is nothing to save on a mesh this small anyway.
+MIN_LOD_TRIANGLES = 300
+
 bpy.ops.preferences.addon_enable(module="io_scene_nifly")
 bpy.ops.object.select_all(action="SELECT")
 bpy.ops.object.delete(use_global=False)
@@ -292,8 +301,14 @@ for asset in PLAN["assets"]:
             copy.data = obj.data.copy()
             copy.name = "%s__lod%d" % (obj.name, level)
             bpy.context.scene.collection.objects.link(copy)
+            # Ratios are proportional; the floor is absolute. Small source
+            # meshes keep their geometry rather than collapsing to a plane.
+            source_tris = len(obj.data.loop_triangles) or len(obj.data.polygons)
+            effective = ratio
+            if source_tris > 0:
+                effective = min(1.0, max(ratio, MIN_LOD_TRIANGLES / source_tris))
             modifier = copy.modifiers.new(name="decimate", type="DECIMATE")
-            modifier.ratio = ratio
+            modifier.ratio = effective
             copy.parent = root
             copy["lod"] = level
             copy["assetId"] = asset["id"]
@@ -363,6 +378,27 @@ for asset in PLAN["assets"]:
         radius, height, centre = trunk_capsule(meshes, lo, hi)
         record["collisionCapsule"] = {
             "radiusM": radius, "heightM": height, "centreOffsetM": centre,
+        }
+    elif asset["collision"] == "convex":
+        # Boulders and root arches: a box proxy about the mesh bounds, sized
+        # in the SAME axes the manifest reports and offset from the PIVOT (not
+        # from bbox-min), because that is what the runtime places by. Inset a
+        # little so the collider hides inside the silhouette — a proxy that
+        # sticks out reads as an invisible wall beside the rock. A convex hull
+        # would be tighter, but this ships as three numbers rather than a mesh
+        # and a boulder is a box to within what the player can feel.
+        inset = 0.88
+        record["collisionBox"] = {
+            "halfExtentsM": [
+                round((hi.x - lo.x) / 2 * inset, 3),
+                round((hi.y - lo.y) / 2 * inset, 3),
+                round((hi.z - lo.z) / 2 * inset, 3),
+            ],
+            "centreOffsetM": [
+                round((lo.x + hi.x) / 2, 3),
+                round((lo.y + hi.y) / 2, 3),
+                round((lo.z + hi.z) / 2, 3),
+            ],
         }
     SUMMARY["assets"].append(record)
     exported.append(root)

@@ -143,15 +143,36 @@ def test_attachments_hang_on_hosts_above_the_ground(comp):
     assert 1 <= len(spawned) <= 15
 
 
-def test_tramaroot_stacks_onto_its_mined_host(comp):
+def test_tramaroot_is_ground_anchored_not_hung(comp):
+    """Owner ruling (Phase 10 round-4 feedback) overrides the mined rule.
+
+    The sources hang tramaroots 3–10 m up a bush or cliff face; in our world
+    that read as a big curved spiky root hovering in mid-air. The arch must
+    always grow OUT OF the ground, so it is standalone with a terrain anchor
+    — and it must never come back as an attachment.
+    """
     hosts = [inst(CLUSTER, x=i * 15.0, z=10.0) for i in range(60)]
     layer = Layer(species=ROOT, instances_per_hectare=30.0)
-    spawned = comp.spawn_attachments(hosts, [layer], fields(), seed=3, area_ha=1.0)
-    assert spawned
-    heights = sorted(v.y - 5.0 for v in spawned)
-    assert 0.0 < heights[len(heights) // 2] < 6.0     # mined p50 ~3.2 m up
-    # Rate tracks the mined co-occurrence (~0.4 roots per tropicalplant).
-    assert 10 <= len(spawned) <= 45
+    assert comp.klass(ROOT) == "standalone"
+    assert comp.anchor_mode(ROOT) == ANCHOR_TERRAIN
+    assert comp.spawn_attachments(hosts, [layer], fields(), seed=3,
+                                  area_ha=1.0) == []
+    # It stays in free scatter (an attachment-class layer would be split out),
+    # and it sinks rather than floating.
+    scatter, attachments = comp.split_layers([layer])
+    assert [entry.species for entry in scatter] == [ROOT]
+    assert attachments == []
+    # Small on purpose: the pivot is at the arch centre, so terrain-anchoring
+    # already half-buries it. A class-default sink would swallow it whole.
+    assert 0.02 < comp.sink_m(ROOT, slope_deg=0.0, rand=0.5) < 0.3
+
+
+def test_cliff_face_hosts_never_resolve_to_trees(comp):
+    """`cliff-face` used to resolve to the tree host list, so anything the
+    sources hung on rock was silently hung on trees instead."""
+    assert "cliff-face" not in comp._hosts_for(VINES)
+    for host in comp._hosts_for(VINES):
+        assert "/trees/" in host
 
 
 def test_attachments_without_hosts_spawn_nothing(comp):

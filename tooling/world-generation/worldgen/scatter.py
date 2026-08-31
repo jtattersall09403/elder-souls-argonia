@@ -158,6 +158,11 @@ class Layer:
     region_classes: tuple[int, ...] = ()
     water_depth_m: tuple[float, float] = (-99.0, 99.0)
     slope_deg_max: float = 45.0
+    slope_deg_min: float = 0.0
+    """Lower slope gate. Almost everything wants only the upper one; cliff
+    dressing is the exception — a shell authored to be embedded in a rock face
+    needs a rock face to be embedded in, and on flat ground it reads as a
+    hollow open-backed slab (owner round 4)."""
     land_cover: tuple[int, ...] = ()
     altitude_m: tuple[float, float] = (-999.0, 9999.0)
     """Height above sea level, metres — montane species vs lowland species.
@@ -237,6 +242,17 @@ class Layer:
     scale_range: tuple[float, float] = (0.9, 1.2)
     yaw_random: bool = True
     tilt_deg_max: float = 4.0
+    align_to_slope: float = 0.0
+    """How strongly this layer lies WITH the ground (0 = off, 1 = fully).
+
+    Trees grow vertical whatever the hillside does; rocks and deadfall do not
+    — they settle into the slope, long axis following it. Random yaw plus a
+    ±4° tilt (the default for everything) is right for a trunk and wrong for a
+    boulder, which is why the uplands read as rocks dropped onto the hill
+    rather than resting in it (owner Phase 10 round 4). When set, yaw comes
+    from the downhill azimuth and the tilt tips the model's up-axis toward the
+    terrain normal by this fraction of the local slope. Never give this to a
+    tree layer."""
     # Clearance: what this layer stamps, and what it refuses to grow inside.
     clearance_radius_m: float = 0.0
     respects_clearance: bool = True
@@ -249,7 +265,7 @@ class Layer:
             return False
         if not (self.water_depth_m[0] <= depth_m <= self.water_depth_m[1]):
             return False
-        if slope_deg > self.slope_deg_max:
+        if not (self.slope_deg_min <= slope_deg <= self.slope_deg_max):
             return False
         if self.land_cover and cover not in self.land_cover:
             return False
@@ -570,6 +586,15 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
                         yaw = (uniform_at(mkey, 4) * math.tau
                                if layer.yaw_random else 0.0)
                         tilt = math.radians(layer.tilt_deg_max)
+                        tilt_x = (uniform_at(mkey, 5) * 2 - 1) * tilt
+                        tilt_z = (uniform_at(mkey, 6) * 2 - 1) * tilt
+                        if layer.align_to_slope > 0.0:
+                            aim, pitch = terrain_aim(fields, px, pz)
+                            # Yaw so the model's +Z points downhill (jittered,
+                            # or every boulder on a hillside faces alike), then
+                            # tip the up-axis downhill to meet the normal.
+                            yaw = aim + (uniform_at(mkey, 4) - 0.5) * 0.8
+                            tilt_x = pitch * layer.align_to_slope + tilt_x
                         instances.append(Instance(
                             species=layer.species,
                             tier=layer.tier,
@@ -577,13 +602,39 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
                             y=fields.height(px, pz),
                             yaw=yaw,
                             scale=scale,
-                            tilt_x=(uniform_at(mkey, 5) * 2 - 1) * tilt,
-                            tilt_z=(uniform_at(mkey, 6) * 2 - 1) * tilt,
+                            tilt_x=tilt_x,
+                            tilt_z=tilt_z,
                         ))
                         if layer.clearance_radius_m > 0:
                             stamps.append(
                                 (px, pz, layer.clearance_radius_m * scale))
     return instances
+
+
+#: Finite-difference step for the terrain-normal estimate, metres. Wider than
+#: the raster's own cell so the aim follows the hillside a boulder rests on
+#: rather than a single noisy texel.
+AIM_STEP_M = 6.0
+
+
+def terrain_aim(fields: Fields, x: float, z: float) -> tuple[float, float]:
+    """(downhill azimuth in radians, slope angle in radians) at a position.
+
+    Derived from `fields.height` rather than a new raster: every caller — the
+    province compiler, the tests' closures, the micro-lab's flat plane —
+    already provides it, and the gradient of the surface a thing actually sits
+    on is exactly the quantity wanted. The azimuth is measured so that a yaw
+    of this value points the model's +Z axis downhill, matching the renderer's
+    YXZ euler convention.
+    """
+    step = AIM_STEP_M
+    dhdx = (fields.height(x + step, z) - fields.height(x - step, z)) / (2 * step)
+    dhdz = (fields.height(x, z + step) - fields.height(x, z - step)) / (2 * step)
+    # Downhill is the negative gradient; slope angle is its magnitude.
+    grade = math.hypot(dhdx, dhdz)
+    if grade < 1e-6:
+        return 0.0, 0.0
+    return math.atan2(-dhdx, -dhdz), math.atan(grade)
 
 
 def _blocked(x: float, z: float, stamps: Iterable[tuple[float, float, float]]) -> bool:

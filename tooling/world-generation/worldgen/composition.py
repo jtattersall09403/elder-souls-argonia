@@ -90,6 +90,12 @@ class Composition:
         "shrub": (0.3, 0.07, 2.0),
         "plant": (0.05, 0.02, 0.5),
         "grass": (0.3, 0.05, 1.5),
+        # Rocks were falling into "plant" on the path test and getting a 0.05 m
+        # sink — a 10 m cliff shell resting on the surface (owner round 4).
+        # A rock settles INTO the ground, and more so on a slope where debris
+        # banks up behind it. Per-species depths in the rules file scale this
+        # with the mesh; these are the fallback.
+        "rock": (0.4, 0.05, 3.0),
     }
 
     def __init__(self, data: dict):
@@ -150,6 +156,8 @@ class Composition:
         return ANCHOR_TERRAIN            # standalone, cluster-part, bed-anchored
 
     def _size_class(self, species: str) -> str:
+        if "/rocks/" in species:
+            return "rock"
         if "/grass/" in species:
             return "grass"
         if "/trees/" in species:
@@ -254,11 +262,20 @@ class Composition:
 
     # -- pass 3: attachments (C3) ------------------------------------------
 
+    #: Host tokens that mean "somewhere up a tree". `cliff-face` is NOT one of
+    #: them: it used to resolve here too, so anything the sources hung on rock
+    #: was silently hung on trees instead. We place no cliff-face hosts, so the
+    #: token now resolves to nothing and a species whose only hosts are cliff
+    #: faces simply does not spawn as an attachment (round 5).
+    CANOPY_HOST_TOKENS = ("tree-canopy", "branch", "overhang")
+
     def _hosts_for(self, species: str) -> set[str]:
         resolved: set[str] = set()
         for host in self.species[species].hosts if species in self.species else ():
-            if host in ("tree-canopy", "branch", "overhang", "cliff-face"):
+            if host in self.CANOPY_HOST_TOKENS:
                 resolved.update(self.tree_hosts)
+            elif host == "cliff-face":
+                continue
             else:
                 resolved.add(host)
         return resolved

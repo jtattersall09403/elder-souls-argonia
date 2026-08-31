@@ -128,6 +128,30 @@
     },
     {
       "asset": "tropical:plants/tropical/manfern"
+    },
+    {
+      "asset": "bmv:landscape/trees/gkbjungletreenew17v2tropical"
+    },
+    {
+      "asset": "bmv:landscape/trees/gkbjungletreenew19v3"
+    },
+    {
+      "asset": "bmv:landscape/trees/gkbjungletreenew21v3"
+    },
+    {
+      "asset": "vanilla:landscape/rocks/rockl04"
+    },
+    {
+      "asset": "vanilla:landscape/rocks/rockl02"
+    },
+    {
+      "asset": "vanilla:landscape/rocks/rockm03"
+    },
+    {
+      "asset": "vanilla:landscape/rocks/rockm02"
+    },
+    {
+      "asset": "vanilla:landscape/rocks/rocks03"
     }
   ]
 }

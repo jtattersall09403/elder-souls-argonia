@@ -113,24 +113,139 @@
      "slope_half_angle_deg": 28.0
     },
     {
-     "species": "bmv:landscape/rocks/moss_rockcliff01",
-     "tier": "T2",
-     "instances_per_hectare": 55.0,
+     "species": "vanilla:landscape/rocks/rockl04",
+     "tier": "T1",
+     "instances_per_hectare": 3.3,
      "role": "rock",
      "clump_size_median": 3,
-     "clump_radius_m": 8.0,
+     "clump_size_tail": 0.55,
+     "clump_radius_m": 9.0,
      "water_depth_m": [
       -99.0,
       -0.5
      ],
      "slope_deg_max": 60.0,
      "scale_range": [
-      0.6,
+      0.7,
       1.3
-     ]
+     ],
+     "patchiness": 1.1,
+     "glade_response": 0.0,
+     "clearance_radius_m": 5.0,
+     "align_to_slope": 0.9
+    },
+    {
+     "species": "vanilla:landscape/rocks/rockl02",
+     "tier": "T1",
+     "instances_per_hectare": 7.7,
+     "role": "rock",
+     "clump_size_median": 3,
+     "clump_size_tail": 0.55,
+     "clump_radius_m": 9.0,
+     "water_depth_m": [
+      -99.0,
+      -0.5
+     ],
+     "slope_deg_max": 60.0,
+     "scale_range": [
+      0.7,
+      1.4
+     ],
+     "patchiness": 1.1,
+     "glade_response": 0.0,
+     "clearance_radius_m": 4.5,
+     "align_to_slope": 0.9
+    },
+    {
+     "species": "vanilla:landscape/rocks/rockm03",
+     "tier": "T1",
+     "instances_per_hectare": 13.75,
+     "role": "rock",
+     "clump_size_median": 3,
+     "clump_size_tail": 0.55,
+     "clump_radius_m": 9.0,
+     "water_depth_m": [
+      -99.0,
+      -0.5
+     ],
+     "slope_deg_max": 60.0,
+     "scale_range": [
+      0.7,
+      1.4
+     ],
+     "patchiness": 1.1,
+     "glade_response": 0.0,
+     "clearance_radius_m": 2.6,
+     "align_to_slope": 0.9
+    },
+    {
+     "species": "vanilla:landscape/rocks/rockm02",
+     "tier": "T1",
+     "instances_per_hectare": 16.5,
+     "role": "rock",
+     "clump_size_median": 3,
+     "clump_size_tail": 0.55,
+     "clump_radius_m": 9.0,
+     "water_depth_m": [
+      -99.0,
+      -0.5
+     ],
+     "slope_deg_max": 60.0,
+     "scale_range": [
+      0.7,
+      1.5
+     ],
+     "patchiness": 1.1,
+     "glade_response": 0.0,
+     "clearance_radius_m": 2.0,
+     "align_to_slope": 0.9
+    },
+    {
+     "species": "vanilla:landscape/rocks/rocks03",
+     "tier": "T1",
+     "instances_per_hectare": 13.75,
+     "role": "rock",
+     "clump_size_median": 3,
+     "clump_size_tail": 0.55,
+     "clump_radius_m": 9.0,
+     "water_depth_m": [
+      -99.0,
+      -0.5
+     ],
+     "slope_deg_max": 60.0,
+     "scale_range": [
+      0.8,
+      1.8
+     ],
+     "patchiness": 1.1,
+     "glade_response": 0.0,
+     "clearance_radius_m": 1.1,
+     "align_to_slope": 0.9
+    },
+    {
+     "species": "bmv:landscape/rocks/moss_rockcliff01",
+     "tier": "T1",
+     "instances_per_hectare": 16.0,
+     "role": "cliff-dressing",
+     "clump_size_median": 2,
+     "clump_radius_m": 12.0,
+     "water_depth_m": [
+      -99.0,
+      -0.5
+     ],
+     "slope_deg_min": 28.0,
+     "slope_deg_max": 70.0,
+     "slope_half_angle_deg": 60.0,
+     "scale_range": [
+      0.6,
+      1.1
+     ],
+     "glade_response": 0.0,
+     "clearance_radius_m": 9.0,
+     "align_to_slope": 1.0
     }
    ],
-   "targetInstancesPerHectare": 147.0,
+   "targetInstancesPerHectare": 163.0,
    "note": "The sparse, dry proof (owner 0036 Q3): juniper scrub thinning with altitude, bare rock carrying the view. Trees stop at the high altitude band; scrub climbs a little further."
   },
   "2": {
@@ -255,24 +370,139 @@
      ]
     },
     {
-     "species": "bmv:landscape/rocks/moss_rockcliff01",
-     "tier": "T2",
-     "instances_per_hectare": 30.0,
+     "species": "vanilla:landscape/rocks/rockl04",
+     "tier": "T1",
+     "instances_per_hectare": 1.8,
      "role": "rock",
      "clump_size_median": 3,
-     "clump_radius_m": 8.0,
+     "clump_size_tail": 0.55,
+     "clump_radius_m": 9.0,
      "water_depth_m": [
       -99.0,
       -0.5
      ],
      "slope_deg_max": 55.0,
      "scale_range": [
-      0.6,
+      0.7,
       1.3
-     ]
+     ],
+     "patchiness": 1.1,
+     "glade_response": 0.0,
+     "clearance_radius_m": 5.0,
+     "align_to_slope": 0.9
+    },
+    {
+     "species": "vanilla:landscape/rocks/rockl02",
+     "tier": "T1",
+     "instances_per_hectare": 4.2,
+     "role": "rock",
+     "clump_size_median": 3,
+     "clump_size_tail": 0.55,
+     "clump_radius_m": 9.0,
+     "water_depth_m": [
+      -99.0,
+      -0.5
+     ],
+     "slope_deg_max": 55.0,
+     "scale_range": [
+      0.7,
+      1.4
+     ],
+     "patchiness": 1.1,
+     "glade_response": 0.0,
+     "clearance_radius_m": 4.5,
+     "align_to_slope": 0.9
+    },
+    {
+     "species": "vanilla:landscape/rocks/rockm03",
+     "tier": "T1",
+     "instances_per_hectare": 7.5,
+     "role": "rock",
+     "clump_size_median": 3,
+     "clump_size_tail": 0.55,
+     "clump_radius_m": 9.0,
+     "water_depth_m": [
+      -99.0,
+      -0.5
+     ],
+     "slope_deg_max": 55.0,
+     "scale_range": [
+      0.7,
+      1.4
+     ],
+     "patchiness": 1.1,
+     "glade_response": 0.0,
+     "clearance_radius_m": 2.6,
+     "align_to_slope": 0.9
+    },
+    {
+     "species": "vanilla:landscape/rocks/rockm02",
+     "tier": "T1",
+     "instances_per_hectare": 9.0,
+     "role": "rock",
+     "clump_size_median": 3,
+     "clump_size_tail": 0.55,
+     "clump_radius_m": 9.0,
+     "water_depth_m": [
+      -99.0,
+      -0.5
+     ],
+     "slope_deg_max": 55.0,
+     "scale_range": [
+      0.7,
+      1.5
+     ],
+     "patchiness": 1.1,
+     "glade_response": 0.0,
+     "clearance_radius_m": 2.0,
+     "align_to_slope": 0.9
+    },
+    {
+     "species": "vanilla:landscape/rocks/rocks03",
+     "tier": "T1",
+     "instances_per_hectare": 7.5,
+     "role": "rock",
+     "clump_size_median": 3,
+     "clump_size_tail": 0.55,
+     "clump_radius_m": 9.0,
+     "water_depth_m": [
+      -99.0,
+      -0.5
+     ],
+     "slope_deg_max": 55.0,
+     "scale_range": [
+      0.8,
+      1.8
+     ],
+     "patchiness": 1.1,
+     "glade_response": 0.0,
+     "clearance_radius_m": 1.1,
+     "align_to_slope": 0.9
+    },
+    {
+     "species": "bmv:landscape/rocks/moss_rockcliff01",
+     "tier": "T1",
+     "instances_per_hectare": 9.0,
+     "role": "cliff-dressing",
+     "clump_size_median": 2,
+     "clump_radius_m": 12.0,
+     "water_depth_m": [
+      -99.0,
+      -0.5
+     ],
+     "slope_deg_min": 28.0,
+     "slope_deg_max": 70.0,
+     "slope_half_angle_deg": 60.0,
+     "scale_range": [
+      0.6,
+      1.1
+     ],
+     "glade_response": 0.0,
+     "clearance_radius_m": 9.0,
+     "align_to_slope": 1.0
     }
    ],
-   "targetInstancesPerHectare": 430.0,
+   "targetInstancesPerHectare": 439.0,
    "note": "Ecology 5a/5b mix: cedar hill forest in stands (high patchiness), thin-stem scrub between, grass via T3; rivers run OPEN (M2 inverted) but carry gallery ribbons where the land is otherwise bare."
   },
   "3": {
@@ -2646,7 +2876,7 @@
    "id": "tropical-jungle",
    "layers": [
     {
-     "species": "bmv:landscape/trees/gkbjungletreenew12v3",
+     "species": "bmv:landscape/trees/gkbjungletreenew17v2tropical",
      "tier": "T1",
      "instances_per_hectare": 0.12,
      "role": "landmark-giant",
@@ -2666,12 +2896,10 @@
       2.6
      ],
      "clearance_radius_m": 14.0,
-     "respects_clearance": false,
-     "coast_boost_gain": -0.6,
-     "coast_half_width_m": 700.0
+     "respects_clearance": false
     },
     {
-     "species": "bmv:landscape/trees/gkbjungletreenew12v3",
+     "species": "bmv:landscape/trees/gkbjungletreenew17v2tropical",
      "tier": "T1",
      "instances_per_hectare": 6.0,
      "role": "emergent",
@@ -2688,14 +2916,96 @@
       1.15,
       1.5
      ],
-     "clearance_radius_m": 4.0,
-     "coast_boost_gain": -0.6,
-     "coast_half_width_m": 700.0
+     "clearance_radius_m": 4.0
+    },
+    {
+     "species": "bmv:landscape/trees/gkbjungletreenew17v2tropical",
+     "tier": "T1",
+     "instances_per_hectare": 55.0,
+     "role": "canopy",
+     "water_depth_m": [
+      -99.0,
+      0.35
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      0.8,
+      1.25
+     ],
+     "clearance_radius_m": 2.4,
+     "clump_size_median": 5,
+     "clump_radius_m": 16.0,
+     "patchiness": 1.0,
+     "glade_response": 0.95,
+     "glade_band": [
+      0.0,
+      0.9
+     ],
+     "slope_half_angle_deg": 25.0,
+     "shore_boost_gain": 1.35,
+     "shore_boost_peak_m": -2.0,
+     "shore_boost_half_width_m": 25.0
+    },
+    {
+     "species": "bmv:landscape/trees/gkbjungletreenew19v3",
+     "tier": "T1",
+     "instances_per_hectare": 45.0,
+     "role": "canopy",
+     "water_depth_m": [
+      -99.0,
+      0.35
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      0.8,
+      1.2
+     ],
+     "clearance_radius_m": 2.2,
+     "clump_size_median": 4,
+     "clump_radius_m": 15.0,
+     "patchiness": 1.0,
+     "glade_response": 0.95,
+     "glade_band": [
+      0.0,
+      0.9
+     ],
+     "slope_half_angle_deg": 25.0,
+     "shore_boost_gain": 1.35,
+     "shore_boost_peak_m": -2.0,
+     "shore_boost_half_width_m": 25.0
+    },
+    {
+     "species": "bmv:landscape/trees/gkbjungletreenew21v3",
+     "tier": "T1",
+     "instances_per_hectare": 35.0,
+     "role": "canopy",
+     "water_depth_m": [
+      -99.0,
+      0.35
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      0.7,
+      1.05
+     ],
+     "clearance_radius_m": 1.6,
+     "clump_size_median": 4,
+     "clump_radius_m": 14.0,
+     "patchiness": 1.0,
+     "glade_response": 0.95,
+     "glade_band": [
+      0.0,
+      0.9
+     ],
+     "slope_half_angle_deg": 25.0,
+     "shore_boost_gain": 1.35,
+     "shore_boost_peak_m": -2.0,
+     "shore_boost_half_width_m": 25.0
     },
     {
      "species": "bmv:landscape/trees/gkbjungletreenew12v3",
      "tier": "T1",
-     "instances_per_hectare": 75.0,
+     "instances_per_hectare": 25.0,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -2725,7 +3035,7 @@
     {
      "species": "bmv:landscape/trees/gkbjungletreenew1",
      "tier": "T1",
-     "instances_per_hectare": 85.0,
+     "instances_per_hectare": 25.0,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -2755,7 +3065,7 @@
     {
      "species": "bmv:landscape/trees/beachpalm1",
      "tier": "T1",
-     "instances_per_hectare": 45.0,
+     "instances_per_hectare": 25.0,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -3080,8 +3390,8 @@
      "coast_half_width_m": 700.0
     }
    ],
-   "targetInstancesPerHectare": 1336.1,
-   "note": "Ecology type 1 (terra firme interior). Canopy 90-95% closed from ~205 canopy assets/ha; interior deliberately open at eye level (\u00a76.5) \u2014 the thickets live in gaps, on edges and along banks. Herb layer is the T3 ring (JUNGLE cover, 15,500/ha)."
+   "targetInstancesPerHectare": 1341.1,
+   "note": "Ecology type 1 (terra firme interior). Canopy 90-95% closed from ~205 canopy assets/ha; interior deliberately open at eye level (\u00a76.5) \u2014 the thickets live in gaps, on edges and along banks. Herb layer is the T3 ring (JUNGLE cover, 15,500/ha). ROUND 5: the canopy tier was rebuilt on genuinely tall species. It had none \u2014 the tallest tree in the region was 7.9 m at \u00d71.1, so on foot there was no roof overhead at all, just clumps of small bushy trees (owner round-4 feedback). The tier keeps its ~215/ha total (budget: jungle chunks already peak ~8.2k instances) but half of it is now 9\u201320 m trees."
   },
   "14": {
    "id": "mangrove-forest",

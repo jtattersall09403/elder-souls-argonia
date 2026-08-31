@@ -80,6 +80,21 @@ S = {
     "reeds": "bmv:landscape/grass/vurt_reeds",
     "algrass": "bmv:vvardenfell/flora/algrass03b",
     "moss_rock": "bmv:landscape/rocks/moss_rockcliff01",
+    # Closed vanilla boulders (round 5, A2). moss_rockcliff01 is an
+    # open-backed cliff-face DRESSING shell — freestanding scatter needs
+    # meshes that are closed on every side, which these are (measured by the
+    # rock-probe kit: convex collision, single-sided, 1.5–6.0 m).
+    "boulder_hero": "vanilla:landscape/rocks/rockl04",     # 5.96 m
+    "boulder_big": "vanilla:landscape/rocks/rockl02",      # 3.75 m, broad
+    "boulder_mid": "vanilla:landscape/rocks/rockm03",      # 2.45 m
+    "boulder_small": "vanilla:landscape/rocks/rockm02",    # 1.88 m
+    "stone": "vanilla:landscape/rocks/rocks03",            # 1.47 m
+    # Tall jungle canopy (round 5, A4): the region had NO tree over 8 m, so it
+    # read as clumps of bushes. Heights measured by the jungle-canopy-probe
+    # kit; all three carry a base pivot and a billboard.
+    "jungle_tall": "bmv:landscape/trees/gkbjungletreenew17v2tropical",  # 14.4 m
+    "jungle_tall_b": "bmv:landscape/trees/gkbjungletreenew19v3",        # 13.9 m
+    "jungle_mid": "bmv:landscape/trees/gkbjungletreenew21v3",           # 11.4 m
 }
 
 WADE = 0.35   # M1: terrestrial matrix runs this deep into the water
@@ -292,6 +307,48 @@ def root_cluster(species: str, per_ha: float, depth=(-3.0, 1.2)) -> dict:
                  scale_range=[1.1, 2.4], clearance_radius_m=1.2)
 
 
+def boulders(per_ha: float, slope_max: float = 55.0) -> list[dict]:
+    """Freestanding rock scatter — a size ladder of CLOSED boulders (round 5).
+
+    Three round-4 defects, one layer set: rocks were the open-backed
+    `moss_rockcliff01` cliff shell (you could look into its hollow side); they
+    stamped no clearance, so they grew inside each other; and they took the
+    default random yaw + ±4° tilt, which is right for a trunk and wrong for a
+    rock. Clearance is generous relative to each mesh's footprint, and
+    `align_to_slope` lays the long axis with the hill.
+    """
+    ladder = (("boulder_hero", 0.06, (0.7, 1.3), 5.0),
+              ("boulder_big", 0.14, (0.7, 1.4), 4.5),
+              ("boulder_mid", 0.25, (0.7, 1.4), 2.6),
+              ("boulder_small", 0.30, (0.7, 1.5), 2.0),
+              ("stone", 0.25, (0.8, 1.8), 1.1))
+    return [
+        layer(species, per_ha * share, role="rock", tier="T1",
+              clump_size_median=3, clump_size_tail=0.55, clump_radius_m=9.0,
+              water_depth_m=[-99.0, -0.5], slope_deg_max=slope_max,
+              scale_range=list(scale), patchiness=1.1, glade_response=0.0,
+              # Big-to-small: each size stamps clearance for the next, so a
+              # hero boulder never has a second rock standing inside it.
+              clearance_radius_m=clearance, align_to_slope=0.9)
+        for species, share, scale, clearance in ladder
+    ]
+
+
+def cliff_dressing(per_ha: float) -> dict:
+    """`moss_rockcliff01` used as what it actually is: a shell that dresses a
+    cliff face. Steep ground only, laid into the slope, so the open back faces
+    the hill rather than the player (round 5, A2)."""
+    return layer("moss_rock", per_ha, role="cliff-dressing", tier="T1",
+                 clump_size_median=2, clump_radius_m=12.0,
+                 water_depth_m=[-99.0, -0.5],
+                 # Steep-only: below 28° the shell has no cliff to hide in and
+                 # its hollow back faces the player.
+                 slope_deg_min=28.0, slope_deg_max=70.0,
+                 slope_half_angle_deg=60.0, scale_range=[0.6, 1.1],
+                 glade_response=0.0, clearance_radius_m=9.0,
+                 align_to_slope=1.0)
+
+
 def epiphyte_moss(species: str, per_ha: float, depth=(-99.0, 1.0)) -> dict:
     """Hanging moss/epiphyte dressing rides where the big trees are (same
     gates), clumped so trunks read dressed rather than the air."""
@@ -314,14 +371,29 @@ REGIONS[13] = {
     "note": "Ecology type 1 (terra firme interior). Canopy 90-95% closed from"
             " ~205 canopy assets/ha; interior deliberately open at eye level"
             " (§6.5) — the thickets live in gaps, on edges and along banks."
-            " Herb layer is the T3 ring (JUNGLE cover, 15,500/ha).",
+            " Herb layer is the T3 ring (JUNGLE cover, 15,500/ha)."
+            " ROUND 5: the canopy tier was rebuilt on genuinely tall species."
+            " It had none — the tallest tree in the region was 7.9 m at ×1.1,"
+            " so on foot there was no roof overhead at all, just clumps of"
+            " small bushy trees (owner round-4 feedback). The tier keeps its"
+            " ~215/ha total (budget: jungle chunks already peak ~8.2k"
+            " instances) but half of it is now 9–20 m trees.",
     "layers": [
-        landmark_giant("jungle_tree_hero", 0.12, depth=(-99.0, 0.6), slope_max=34.0),
-        emergent("jungle_tree_hero", 6.0),
-        canopy("jungle_tree_hero", 75.0, riparian=RIPARIAN_WET,
+        landmark_giant("jungle_tall", 0.12, depth=(-99.0, 0.6), slope_max=34.0),
+        emergent("jungle_tall", 6.0),
+        # The roof: 14.4 m and 13.9 m natives, held near or above full scale.
+        canopy("jungle_tall", 55.0, riparian=RIPARIAN_WET,
+               scale=(0.8, 1.25), clump_size_median=5, clump_radius_m=16.0,
+               clearance=2.4),
+        canopy("jungle_tall_b", 45.0, riparian=RIPARIAN_WET,
+               scale=(0.8, 1.2), clump_radius_m=15.0, clearance=2.2),
+        # Sub-canopy: the old canopy species, now filling the layer they are
+        # actually the right height for.
+        canopy("jungle_mid", 35.0, riparian=RIPARIAN_WET, scale=(0.7, 1.05)),
+        canopy("jungle_tree_hero", 25.0, riparian=RIPARIAN_WET,
                scale=(0.7, 1.1), clump_size_median=5, clump_radius_m=15.0),
-        canopy("jungle_tree", 85.0, riparian=RIPARIAN_WET, scale=(0.65, 1.0)),
-        canopy("palm_a", 45.0, scale=(0.5, 0.8), clearance=1.4),
+        canopy("jungle_tree", 25.0, riparian=RIPARIAN_WET, scale=(0.65, 1.0)),
+        canopy("palm_a", 25.0, scale=(0.5, 0.8), clearance=1.4),
         understory("bamboo", 45.0, scale=(0.9, 1.6), clump_size_median=9,
                    clump_radius_m=5.0),
         understory("trop_plant", 50.0, scale=(0.7, 1.2)),
@@ -629,9 +701,8 @@ REGIONS[2] = {
               clump_radius_m=7.0, water_depth_m=[-99.0, 0.1],
               slope_deg_max=50.0, slope_half_angle_deg=35.0,
               scale_range=[0.8, 1.4]),
-        layer("moss_rock", 30.0, role="rock", clump_size_median=3,
-              clump_radius_m=8.0, water_depth_m=[-99.0, -0.5],
-              slope_deg_max=55.0, scale_range=[0.6, 1.3]),
+        *boulders(30.0, slope_max=55.0),
+        cliff_dressing(9.0),
     ],
 }
 
@@ -649,9 +720,8 @@ REGIONS[1] = {
                riparian=RIPARIAN_DRY, patchiness=1.3),
         understory("fall_shrub", 45.0, depth=(-99.0, -0.3),
                    altitude_m=[0.0, 480.0], scale=(0.7, 1.2)),
-        layer("moss_rock", 55.0, role="rock", clump_size_median=3,
-              clump_radius_m=8.0, water_depth_m=[-99.0, -0.5],
-              slope_deg_max=60.0, scale_range=[0.6, 1.3]),
+        *boulders(55.0, slope_max=60.0),
+        cliff_dressing(16.0),
     ],
 }
 
