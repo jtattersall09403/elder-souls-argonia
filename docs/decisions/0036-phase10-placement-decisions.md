@@ -101,6 +101,126 @@
 >    open Claude terminal tab; restore half-written rasters from HEAD and
 >    re-run when the box is quiet.
 >
+> ### Round 5 (2026-08-31) — the round-4 feedback fixes + the rest of Phase 10
+>
+> Delivered against the "Round 5+" plan below, in one batch. Defect → root
+> cause → fix:
+>
+> - **A1, flat leaf cutouts right beside the player** (uplands 1.59 E /
+>   1.63 S). Reproduced by decoding the chunk-3,3 bundle at that coordinate:
+>   the near field is `gkbfallforestshrub02`, a **273-triangle** shrub. TWO
+>   independent causes, both fixed:
+>   - `lodRatios` are PROPORTIONS. 0.12 of 273 tris is ~33 — a collapsed
+>     cross-plane, so "upgrading" the LOD changed nothing visible. The kit
+>     builder now applies an absolute floor (`MIN_LOD_TRIANGLES = 300`);
+>     meshes at or below it keep full geometry at every level.
+>   - `lodDistances` was `max(12, h×6)`: a 2.15 m shrub got 12.9 m of full
+>     mesh and became a flat card at 33 m. Floor raised to 24 m
+>     (`MIN_MESH_LOD_REACH_M`).
+> - **A2, rocky volumes: open backs, nesting, no slope alignment.** Four
+>   confirmed causes, all in the placement rules, none needing a per-spot
+>   patch:
+>   - the mesh is `moss_rockcliff01`, a 9.9 m **open-backed cliff-face
+>     dressing shell** (doubleSided, collision `none`) used as a freestanding
+>     boulder. Freestanding scatter now runs on **five closed vanilla
+>     boulders** — `rockl04/rockl02/rockm03/rockm02/rocks03`, chosen by
+>     building a throwaway probe kit and measuring them (convex collision,
+>     single-sided, 1.47–5.96 m). The shell survives only as
+>     `cliff_dressing()`: steep ground (new `Layer.slope_deg_min`, 28°),
+>     laid into the hill.
+>   - **no terrain alignment existed at all** — rocks took random yaw and a
+>     ±4° tilt. New `Layer.align_to_slope` + `terrain_aim()` (finite
+>     differences on `fields.height`, so every caller already supplies it):
+>     yaw from the downhill azimuth, tilt toward the terrain normal.
+>     **Trees must never get this** — they grow vertical, rocks lie with the
+>     ground.
+>   - rock layers stamped **no clearance**, hence the rock-inside-rock. The
+>     new size ladder stamps big-to-small.
+>   - rocks classed as *plants* in `composition.py`, so a 9.9 m shell got a
+>     0.05 m sink. New `rock` size class + per-species depths (~12 % of mesh
+>     height, measured).
+> - **A3, the hovering spiky root.** Owner ruling overrides the mined
+>   convention: tramaroot01/06 retagged **standalone, ground-anchored**,
+>   removed from the attachment lists. Their pivot is at the arch CENTRE, so
+>   the sink is deliberately small (0.10/0.15 m) — the class default would
+>   swallow the arch whole. Also fixed the bug this exposed: `_hosts_for`
+>   resolved the **`cliff-face` token to the TREE host list**, so anything
+>   the sources hung on rock was silently hung on trees.
+> - **A4, jungle reads open, not jungly.** Measured before tuning, as the
+>   plan asked. The tall layers were not being filtered — **they did not
+>   exist**: the region's tallest species was `gkbjungletreenew12v3` at
+>   **7.91 m**, canopy-scaled to 4–9 m. There was no roof to be under.
+>   Fixed by adding three genuinely tall species picked on measured heights
+>   (probe kit again, not by name): `gkbjungletreenew17v2tropical` 14.41 m,
+>   `19v3` 13.88 m, `21v3` 11.41 m — all with base pivots and billboards.
+>   (`30v3` is taller at 15.95 m but its pivot sits 4.75 m above its base —
+>   the "tiptoe tree" shape — so it was rejected.) The sub-canopy was trimmed
+>   to hold the tier at the ecology target (~216/ha authored, was ~211), so
+>   the roof is bought with HEIGHT, not with more instances. Delivered:
+>   **11.1 k tall trees across the exemplar rings**, 22 % of all jungle
+>   instances.
+> - **A5, dark distant cards.** The documented lever pulled:
+>   `BILLBOARD_BRIGHTNESS = 1.25` on the card material at kit load. One named
+>   constant — the next tune is a one-line change. Owner judges the value.
+> - **B1, wind.** `packages/game-core/src/fx/windSway.ts` (a package, not the
+>   app — 0038 addendum), fed from the weather system's published
+>   `windDirXZ`/`windSpeedMS`, so plants gust with the same air the sky, rain
+>   and waves read. Height-weighted bend, per-instance phase, length-preserving
+>   correction, distance fade, **no sway on the billboard tier**. The
+>   shadow-sync trap is handled by `applyWindSwayWithShadow`, which patches the
+>   colour material and its `customDepthMaterial` twin from ONE call site with
+>   ONE shared uniform block — patch only the first and every shadow stands
+>   still while its tree moves. Detail (per-leaf) bending is deliberately not
+>   implemented: our meshes carry no authored vertex colours to drive it.
+> - **B2, GPU micro-lab: CUT** per the owner. Module 65 rewritten: the M2 Air
+>   playtest IS the budget measurement, and **every hand-off must now ask for
+>   an FPS read** or the budget silently stops being measured.
+> - **B3, solidity.** The kit had shipped `collisionCapsule` on all 17 trees
+>   since round 1 with **nothing consuming it**. Rocks had no shape recorded
+>   at all — the kit builder now emits a `collisionBox` proxy for
+>   convex-collision assets. What is solid follows the source games and lives
+>   in `packages/game-core/src/physics/floraSolids.ts` as pure functions over
+>   the kit manifest (so a species added to a palette next month gets the
+>   right answer without a hand-kept list): trunks, boulders and root arches
+>   solid; reeds, ferns, grasses, mushrooms, lily pads, groundcover and the
+>   open-backed shell walk-through. `VegetationColliders` spawns a moving
+>   45 m / 96-body ring of fixed Rapier bodies — whole-chunk colliders would
+>   be thousands of bodies for a forest crossed in a minute. Count is on the
+>   HUD (`solid N`).
+> - **B4, scree/gravel** (subagent): `volcanictundragravel01`, screened
+>   NUMERICALLY against the owner's round-6 "stripy rock" warning (row/column
+>   mean-std ratio 1.06, against 2.78 for the in-use slab and 4.85 for the
+>   banned texture; threshold <1.5 recorded in the research doc). Driven off
+>   Phase 6b's EXISTING talus signal rather than a new slope threshold —
+>   `sculpt.py`'s repose constants are now named (`TALUS_TAN`,
+>   `TALUS_FULL_TAN`) and imported by `landcover.py`; scree paints the
+>   accumulation side (`prom < 0`) inside the repose window in regions 1–2.
+>   Dominant on 3.3 % of the province, secondary on 6.3 %.
+> - **B5, settlement/interior mining** (subagent) — see its research doc; the
+>   Phase 11/12 prep tables live under `world/sources/placement/`.
+> - **B6, `Skyrim.esm` cross-check** (subagent). The esm is in the vault and
+>   the **vanilla pool is now registered** (0 → 8,620 rows with editor ids and
+>   dimensions); credited in the root README. **Headline: vanilla REGN ships
+>   EMPTY** — 317 regions, 69 with an object-generator block, every RDOT table
+>   zero bytes, no region grass. Bethesda hand-places statics and runs grass
+>   off painted textures only, which settles rule R11 and confirms module 65's
+>   two-tier split. Deltas are RECORDED, NOT APPLIED (the plan's instruction),
+>   and are the obvious next round's work; full list and confidences in
+>   `docs/research/vanilla-skyrim-esm-placement-crosscheck.md`. The three
+>   worth acting on first: **(D1)** our zero-tilt/uniform-yaw habits are the
+>   *mod's*, not Bethesda's (vanilla tilt median 5.8°, p95 28.7°) — this
+>   round's rock alignment moves the right way and the same should reach
+>   plants; **(D2)** the T3 grass ladder was measured off Tropical Skyrim's
+>   retune, and the true vanilla spread is ~2.5×, not 12×; **(D3)** Bethesda
+>   ships an **underwater groundcover tier** and we have none — a bigger gap
+>   for a swimming-heavy province than it was for Skyrim.
+>
+> Recompiled: six rings, 51 chunks, **184.6 k instances** (round 4: 198 k —
+> the drop is the tramaroots leaving the attachment pass, 29.2 k → 17.7 k
+> attachments). Budget hot spot to watch: **chunk 6,9 at 12,017 instances**,
+> and it is *pre-existing* dense understory (esloebush/braken/tropicalplant
+> clump companions), not the new canopy.
+>
 > ### Round 4 worldgen (2026-08-31) — rebalance applied; mangrove forest; coastal gradient; guild knob
 >
 > - **Region rebalance APPLIED to the deployed rasters** (8c closed, so the

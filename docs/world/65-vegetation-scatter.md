@@ -101,16 +101,30 @@ node name (three.js sanitises the slashes out and the kit renders empty,
 silently), and bucket instances by (species, LOD) across chunks rather than
 per chunk (449 draws → 96 for the same instances).
 
-**Not built:** T3's runtime groundcover ring, T4 impostors, wind (that block
-belongs to the weather system and Phase 8c is still in flight), and the
-dense-vegetation micro-lab budget measurement that should decide whether
-`@three.ez/instanced-mesh` and impostors are worth their complexity.
+**Not built:** T4 impostors, and the decision on whether
+`@three.ez/instanced-mesh` and impostors are worth their complexity. T3's
+groundcover ring (round 2) and wind (round 5, driven by the weather system's
+published wind — 8c is closed) have since landed.
+
+**Budget measurement — how it is done here (owner decision, 2026-08-31).**
+The dense-vegetation micro-lab (§85.3) is **CUT**, not deferred. This VM has
+no GPU: a SwiftShader probe predicts nothing about a real device, and it
+cannot render a ground-level dense frame in useful time at all (~2 min per
+640×400 frame at 14 M tris). The owner instead playtests the deployed studio
+on an **M2 MacBook Air** — real target-class hardware — and their feel report
+IS the measurement. The round-3 finding that the `low` quality preset performs
+best there is the first data point, and the quality presets
+(`packages/game-core/core/quality.ts`) are the knob it calibrates. **Every
+Phase 10+ playtest hand-off must therefore ask for an FPS/smoothness read**,
+or the budget silently stops being measured. Agents keep reporting the numeric
+side — instances, draws, triangles, collider counts — from
+`__STUDIO_VEGETATION_DEBUG__`; the device side comes from the owner.
 
 - **Phase 10** builds the machinery against the reference watershed: scatter
   compiler pass, T1/T2 renderers + LOD chains, T3 groundcover ring, wind
   uniforms, budget probes (visible instances, draw calls, overdraw estimate —
-  §69 already reserves them). The **dense-vegetation micro-lab** (§85.3)
-  proves the budgets before the province sees them; species selection uses the
+  §69 already reserves them). Budgets are proved by owner playtest on target
+  hardware, not by a micro-lab (CUT — see above); species selection uses the
   already-catalogued BM&V tree meshes and grass/reed billboard families
   (§74.1b) plus Tropical Skyrim's flora pool (§74.1a). **Phase 10 also
   authors the flora ecology for the exemplar areas** — per-region
