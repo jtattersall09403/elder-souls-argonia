@@ -150,12 +150,43 @@ export function mountArmour(
   for (const [name, slots] of slotsByMesh) {
     const mesh = findBodyMesh(modelRoot, name, result.meshes);
     if (!mesh) continue;
-    const isCovered = slots.some((slot) => covered.has(slot));
+    const isCovered = bodyMeshIsCovered(slots, covered);
     mesh.visible = !isCovered;
     if (isCovered) result.hidden.push(mesh);
   }
 
   return result;
+}
+
+/**
+ * Whether a worn set covers a body mesh enough to hide it.
+ *
+ * Not "shares any slot", which is what this used to be and which had a
+ * spectacular failure mode: Bethesda's body mesh occupies **32 torso, 34
+ * forearms and 38 calves** in one object, and a pair of boots covers **37 feet
+ * and 38 calves**. They overlap on the calves, so putting boots on an otherwise
+ * naked actor deleted its entire body. That is the archer who turned up with no
+ * body, and the paper doll that went empty the moment a cuirass came off — one
+ * bug reported twice.
+ *
+ * The rule is the mesh's **primary slot**: the lowest-numbered one it occupies.
+ * Bethesda's numbering runs head 30, hair 31, body 32, hands 33, forearms 34 …
+ * feet 37, calves 38, so the lowest slot is the part the mesh principally *is*,
+ * and the rest are the regions it happens to extend into. A cuirass covers 32
+ * and hides the body; boots cover 37 and hide the feet; neither reaches into
+ * the other's territory.
+ *
+ * A set that covers *every* slot a mesh occupies still hides it, which costs
+ * nothing and keeps the old behaviour wherever the old behaviour was right.
+ *
+ * The genuinely correct model is per-partition visibility, which is what Skyrim
+ * does — but our meshes arrive from the pipeline as whole objects with a union
+ * of slots, and hiding half an object is not something this data supports.
+ */
+function bodyMeshIsCovered(slots: readonly number[], covered: ReadonlySet<number>) {
+  if (slots.length === 0) return false;
+  const primary = Math.min(...slots);
+  return covered.has(primary) || slots.every((slot) => covered.has(slot));
 }
 
 /** A body mesh by its sanitised name, excluding anything just mounted. */

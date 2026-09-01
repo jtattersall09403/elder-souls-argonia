@@ -108,8 +108,25 @@ export function scoreEnemyIntents(context: EnemyAiContext): EnemyIntentScore[] {
         ? (0.34 - tactics.aggression * 0.22) + close * 0.24 + (context.playerRecovering ? 0.38 : 0)
         : 0,
     },
-    { intent: "guard" as const, score: threatened && context.stamina >= 14 ? 0.48 + (heavyIncoming ? -0.12 : 0.1) : 0 },
-    { intent: "parry" as const, score: threatened && !heavyIncoming && context.stamina >= 18 ? 0.64 : 0 },
+    {
+      intent: "guard" as const,
+      // Scaled by what the loadout can actually block with. A shield warden
+      // that scored guarding the same as a two-handed fighter did what the
+      // numbers told it to and never raised the shield it was carrying; it
+      // parried instead, because parrying outscored guarding for everyone.
+      score: threatened && context.stamina >= 14
+        ? 0.24 + tactics.guarding * 0.62 + (heavyIncoming ? -0.22 : 0.1)
+        : 0,
+    },
+    {
+      intent: "parry" as const,
+      // And correspondingly *less* attractive the better the block is. Parrying
+      // is the high-risk option; taking it every time with a tower shield on
+      // your arm is not confidence, it is a bug.
+      score: threatened && !heavyIncoming && context.stamina >= 18
+        ? 0.64 - tactics.guarding * 0.18
+        : 0,
+    },
     { intent: "dodge" as const, score: threatened && context.stamina >= 30 ? (heavyIncoming ? 0.92 : 0.7) : 0 },
     // Backing off is about being *fouled*, which is a property of the weapon:
     // a dagger is happy at a distance a halberd cannot use at all.

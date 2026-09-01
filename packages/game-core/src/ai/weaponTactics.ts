@@ -1,5 +1,6 @@
 import { WEAPON_CLASSES } from "../equipment/weaponClasses";
 import { isBowClass, type Loadout, type WeaponDefinition } from "../equipment/types";
+import { SHIELD_STABILITY_BAND, WEAPON_STABILITY_BAND } from "../equipment/guard";
 
 /**
  * How a weapon wants to be fought with.
@@ -54,6 +55,22 @@ export type WeaponTactics = {
   circling: number;
   /** True for bows: the whole intent set changes shape. */
   ranged: boolean;
+  /**
+   * How good this loadout is at simply *taking* a blow, 0-1.
+   *
+   * The one number on here that is not a property of the main hand, because
+   * blocking is the one thing the off hand does. It was missing entirely, and
+   * the consequence was reported straight back from playtesting: the shield
+   * warden "tries to parry a lot but always gets it wrong and never seems to
+   * try to block". It had no idea it was carrying a shield — `loadoutTactics`
+   * read the sword and threw the off hand away — so it scored guarding exactly
+   * as a two-handed fighter would, which is to say below parrying and dodging.
+   *
+   * Derived from the stability of whatever is actually between it and the
+   * blow, normalised across the weapon and shield bands so that "a good shield"
+   * reads near 1 and "a dagger" near 0.
+   */
+  guarding: number;
 };
 
 /**
@@ -91,6 +108,9 @@ export function weaponTactics(weapon: WeaponDefinition): WeaponTactics {
       aggression: 0.5,
       circling: 0.55,
       ranged: true,
+      // A bow blocks nothing. The ranged intent set has no guard branch at all,
+      // so this is documentation rather than arithmetic.
+      guarding: 0,
     };
   }
   // Reach comes from the moveset the weapon actually swings, which already has
@@ -109,12 +129,43 @@ export function weaponTactics(weapon: WeaponDefinition): WeaponTactics {
     // Short weapons have to earn an angle; a halberd holds the line it is on.
     circling: clamp01(0.85 - reach * 0.28),
     ranged: false,
+    guarding: guardingFromStability(profile.stability),
   };
 }
 
-/** The tactics for what an actor is actually holding. */
+/**
+ * Stability as a 0-1 "how much do I want to just block this".
+ *
+ * Normalised *within* each band rather than across both, because the two bands
+ * are a deliberate step and not a continuum: everything you can block with is
+ * either an edge or a braced face, and the whole reason `SHIELD_STABILITY_BAND`
+ * sits clear above `WEAPON_STABILITY_BAND` is that the difference is a kind
+ * rather than a degree. Interpolating straight across the gap loses that step
+ * and leaves a good sword rating almost as blockable as a shield.
+ *
+ * So a weapon spans the bottom 45% of the scale and a shield the top 45%, each
+ * ranked within its own kind. A new class needs no new number.
+ */
+function guardingFromStability(stability: number) {
+  if (stability <= WEAPON_STABILITY_BAND.max) {
+    return clamp01((stability - WEAPON_STABILITY_BAND.min)
+      / (WEAPON_STABILITY_BAND.max - WEAPON_STABILITY_BAND.min)) * 0.45;
+  }
+  return 0.55 + clamp01((stability - SHIELD_STABILITY_BAND.min)
+    / (SHIELD_STABILITY_BAND.max - SHIELD_STABILITY_BAND.min)) * 0.45;
+}
+
+/**
+ * The tactics for what an actor is actually holding — **both hands**.
+ *
+ * Everything except `guarding` is the main hand's, because reach, cadence and
+ * standoff are properties of the thing you swing. `guarding` is the off hand's
+ * when there is something in it, because that is the thing you block with.
+ */
 export function loadoutTactics(loadout: Loadout): WeaponTactics {
-  return weaponTactics(loadout.mainHand);
+  const tactics = weaponTactics(loadout.mainHand);
+  if (!loadout.offHand || tactics.ranged) return tactics;
+  return { ...tactics, guarding: guardingFromStability(loadout.offHand.stats.guard.stability) };
 }
 
 function clamp01(value: number) {

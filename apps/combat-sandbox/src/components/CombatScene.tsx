@@ -2469,11 +2469,16 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         const targetYaw = Math.atan2(dirX, dirZ);
         const yawDelta = Math.atan2(Math.sin(targetYaw - f.yaw), Math.cos(targetYaw - f.yaw));
         const turnRates = archetype.locomotion.turnRate;
-        const turnRate = f.state === "approach"
+        const turnRate = f.state === "approach" || f.state === "withdraw"
+          // Giving ground is walking backwards while still facing the threat,
+          // so it turns at the same rate as closing does.
           ? turnRates.approach
           : f.state === "strafe"
             ? turnRates.strafe
-            : f.state === "watching"
+            // Tracking a target with a drawn bow is the same act as watching
+            // one. Leaving `shoot` at zero was why the archer could not even
+            // turn to follow the player.
+            : f.state === "watching" || f.state === "shoot"
               ? turnRates.watching
               : f.state === "recover"
                 ? turnRates.recover
@@ -2617,6 +2622,37 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           ? archetype.locomotion.strafeAnimations.left
           : archetype.locomotion.strafeAnimations.right);
         if (f.actionTime > archetype.stateDurations.strafe) {
+          setEnemyMode(e, "watching", weapon.animations.combatIdle);
+        }
+      } else if (f.state === "shoot") {
+        // The shot cycle: draw, hold at full draw so the player can read it,
+        // loose, recover. Without this the archer entered `shoot`, played the
+        // first frame of BOW_DRAW and stood there forever — the state was
+        // emitted by the AI and never implemented.
+        const ranged = weapon.stats.ranged;
+        if (!ranged) {
+          setEnemyMode(e, "watching", weapon.animations.combatIdle);
+        } else {
+          const step = advanceEnemyBow(f.actionTime, f.actionTime - delta, ranged);
+          setEnemyAnim(e, step.animation);
+          if (step.loosed) looseEnemyArrow(e, ranged, playerPos, distance);
+          if (step.phase === "done") {
+            f.decisionTimer = 0;
+            setEnemyMode(e, "watching", weapon.animations.combatIdle);
+          }
+        }
+      } else if (f.state === "withdraw") {
+        // Backing away to re-open the range a bow needs. Also never implemented,
+        // which is the other half of why the archer never moved: an archer
+        // decides `shoot` or `withdraw` almost every time, and neither branch
+        // existed, so nothing ever set its joystick.
+        enemyMoveY = -1;
+        setEnemyAnim(e, weapon.animations.bow?.locomotion.walkBack ?? "BOW_WALK_BACK");
+        // Stop as soon as the standoff the weapon itself asks for is restored,
+        // rather than backing away for a fixed time regardless.
+        const standoff = loadoutTactics(archetype.loadout).standoffRange;
+        if (f.actionTime > archetype.stateDurations.strafe || (standoff !== null && distance > standoff)) {
+          f.decisionTimer = 0;
           setEnemyMode(e, "watching", weapon.animations.combatIdle);
         }
       } else if (f.state === "attack") {

@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 
-import { weaponById } from "../equipment/arsenal";
+import { shieldById, weaponById } from "../equipment/arsenal";
 import { selectEnemyIntent, scoreEnemyIntents, type EnemyAiContext } from "./enemyAi";
-import { weaponTactics } from "./weaponTactics";
+import { loadoutTactics, weaponTactics } from "./weaponTactics";
 
 /**
  * The property under test is the one the hard-coded distances broke: an enemy
@@ -98,5 +98,64 @@ describe("how that changes what an enemy decides", () => {
     // weapon behaves exactly as it did before any of this existed.
     const at = context({ distance: 2.4 });
     expect(scoreEnemyIntents(at)).toEqual(scoreEnemyIntents({ ...at, tactics: sword }));
+  });
+});
+
+describe("blocking is the off hand's business", () => {
+  // Reported: the shield warden "tries to parry a lot but always gets it wrong
+  // and never seems to try to block". It did not know it had a shield —
+  // `loadoutTactics` read the main hand and discarded the off hand entirely.
+  it("rates a sword and board far better at blocking than the same sword alone", () => {
+    const sword = weaponById("steel-sword");
+    const alone = loadoutTactics({ mainHand: sword, offHand: null });
+    const withShield = loadoutTactics({ mainHand: sword, offHand: shieldById("steel-shield") });
+    expect(withShield.guarding).toBeGreaterThan(alone.guarding + 0.25);
+    expect(alone.guarding).toBeLessThan(0.5);
+    expect(withShield.guarding).toBeGreaterThan(0.55);
+    // And nothing else about how it fights changed: reach and cadence are
+    // still the sword's.
+    expect(withShield.engageRange).toBe(alone.engageRange);
+    expect(withShield.aggression).toBe(alone.aggression);
+  });
+
+  it("has a shield warden choose to block a light attack, and dodge a heavy", () => {
+    const context = {
+      distance: 1.6,
+      healthRatio: 1,
+      stamina: 100,
+      estus: 3,
+      personality: 0.5,
+      playerPhase: "windup" as const,
+      playerAction: "light1" as const,
+      playerRecovering: false,
+      tactics: loadoutTactics({
+        mainHand: weaponById("steel-sword"),
+        offHand: shieldById("steel-shield"),
+      }),
+    };
+    const light = scoreEnemyIntents(context);
+    const best = light.reduce((a, b) => (b.score > a.score ? b : a));
+    expect(best.intent).toBe("guard");
+
+    const heavy = scoreEnemyIntents({ ...context, playerAction: "heavy" });
+    const bestHeavy = heavy.reduce((a, b) => (b.score > a.score ? b : a));
+    expect(bestHeavy.intent).toBe("dodge");
+  });
+
+  it("leaves a dagger preferring to parry, having nothing worth blocking with", () => {
+    const scores = scoreEnemyIntents({
+      distance: 1.2,
+      healthRatio: 1,
+      stamina: 100,
+      estus: 3,
+      personality: 0.5,
+      playerPhase: "windup",
+      playerAction: "light1",
+      playerRecovering: false,
+      tactics: loadoutTactics({ mainHand: weaponById("steel-dagger"), offHand: null }),
+    });
+    const guard = scores.find((entry) => entry.intent === "guard")!.score;
+    const parry = scores.find((entry) => entry.intent === "parry")!.score;
+    expect(parry).toBeGreaterThan(guard);
   });
 });

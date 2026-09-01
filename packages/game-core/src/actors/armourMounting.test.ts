@@ -124,6 +124,34 @@ describe("mounting armour on an actor", () => {
     expect(remaining.hidden.map((mesh) => mesh.name)).toEqual(["Feet"]);
   });
 
+  it("does not delete the whole body because boots reach the calves", () => {
+    // Reported twice from one bug: the sandbox archer turned up with no body,
+    // and the paper doll went empty as soon as the cuirass came off. Bethesda's
+    // body mesh is torso *and* forearms *and* calves in one object (32/34/38),
+    // and boots cover feet and calves (37/38). Under "hide any mesh sharing a
+    // slot" the calves overlap deleted the torso.
+    const actor = buildActor(["MaleUnderwearBody0", "FootMale_Big"]);
+    const slots = { "MaleUnderwearBody:0": [32, 34, 38], FootMale_Big: [37] };
+    mountArmour(actor.root, [buildPiece("iron-boots", [37, 38])], slots);
+    expect(actor.body[0].visible).toBe(true);
+    expect(actor.body[1].visible).toBe(false);
+  });
+
+  it("still hides the body under a real cuirass", () => {
+    const actor = buildActor(["MaleUnderwearBody0"]);
+    const slots = { "MaleUnderwearBody:0": [32, 34, 38] };
+    mountArmour(actor.root, [buildPiece("iron-cuirass", [32, 34, 38])], slots);
+    expect(actor.body[0].visible).toBe(false);
+  });
+
+  it("hides a mesh whose every slot is covered even without its primary", () => {
+    // Belt and braces: a set that covers all of a mesh keeps hiding it, so the
+    // primary-slot rule only ever *adds* cases where the body stays visible.
+    const actor = buildActor(["Calves"]);
+    mountArmour(actor.root, [buildPiece("greaves", [38, 39])], { Calves: [38, 39] });
+    expect(actor.body[0].visible).toBe(false);
+  });
+
   it("matches body meshes whose authored names glTF sanitises", () => {
     // "MaleUnderwearBody:0" in the roster arrives as "MaleUnderwearBody0".
     const actor = buildActor(["MaleUnderwearBody0"]);
