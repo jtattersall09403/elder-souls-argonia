@@ -56,19 +56,39 @@ cosmetic/feel work lives — do not park polish items in decision docs.
   but fine for now" and explicitly asked to revisit it in polish. Done when a
   shaft fired near-vertical arcs over point-first and settles without visible
   wobble on the way down.
-- **Per-weapon riposte clips: which family plays which execution.** Round 4:
-  the owner wants a *stab* for the one-handed sword and the dagger and a *swing*
-  for the battleaxe (its current trim reads as a thrust, though the source is an
-  overhead). Rim ships an authored execution for every weapon type and all of
-  them are already extracted in the vault
-  (`1Execution/(2130000019)dagger`, `(2130000020)axe`, `(2130000021)mace`,
-  `(2130000024)warhammer`). Not attempted this round: `pipeline.audition` — the
-  tool for viewing candidates before committing to one — fails because it wants
-  a `dunmer-combat` character data-root that no current build target produces,
-  so choosing a clip would have been a guess. **Fix the audition target first**,
-  then pick each family's clip and trim it with
-  `measure-contact-windows.mjs --critical`. Done when sword/dagger riposte read
-  as thrusts and the battleaxe's as a swing.
+- **Per-weapon riposte clips: which family plays which execution.** The owner
+  wants a *stab* for the one-handed sword and dagger and a *swing* for the
+  battleaxe. Round 5 fixed the audition tool and did the whole measurement pass;
+  the answers are known and recorded here so the next attempt starts from
+  evidence rather than repeating it. **The change itself was built and then
+  reverted**, because it could not be made green — see below.
+
+  What the clips actually contain (all six executions auditioned and every
+  contact phase classified by tip-travel direction, `MEASURE_SHAPE=1`):
+  - **The only reaching stab in the one-handed executions is Rim's dagger
+    clip**, `1Execution/(2130000019)dagger`, strike at source 2.432 s. It works
+    at sword blade length as well as dagger, reaching a torso out to 1.00 m.
+    The spear and dual-wield executions contain no reaching thrust at all.
+  - **The 2HW execution contains no chop that lands.** Its only two phases that
+    bring the head within reach of a torso are forward drives (52% and 47% of
+    travel along the attacker's facing); its one genuine overhead never comes
+    closer than 0.72 m at any separation, because it is the wind-up.
+
+  Why it was reverted: the one-handed thrust reached green on its own three
+  scenarios, but a battleaxe swinging its own light attack cannot satisfy
+  `riposteWeaponContact` — that check measures the blade against the victim's
+  **spine**, a swing lands on the flank, and it measures 0.44 m against a 0.25 m
+  limit at every separation the navigation capsules allow. And `greatsword-riposte`
+  regressed to 0.48 m for reasons that were not isolated: the greatsword's
+  profile and spec numbers were verified identical to the passing state, and the
+  runtime pair measured ~0.25 m further apart than the anchor asks for.
+  **That last one is the thing to understand first** — it is a discrepancy
+  between `executionAnchor` and where the actors actually end up, and it
+  probably affects every paired critical rather than just this one.
+
+  Owner call needed on the battleaxe: either accept its authored (thrust-like)
+  execution, or accept a swing-specific contact contract for swings (the swing
+  *backstabs* already carry no such check).
 - **The remaining ten per-weapon executions.** The greatsword and battleaxe now
   have their own; Rim Parry ships thirteen (dagger, mace, spear, four shield
   variants, unarmed, dual and the one-handed one we already had). The blocker is
