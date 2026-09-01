@@ -44,11 +44,11 @@ first, then open only the master-plan sections the active phase needs.
 | 8a — world time, natural light and sky | done | owner gate PASS 2026-08-26 after 8 feedback rounds (decisions 0020/**0021** = full defect→fix history; research doc §8–8d). world-time package (calendar/sun/moons/stars, verified phase cycle); physical light rig with **envelope-pinned dome** (CPU Preetham twin `preethamCpu.ts` + `skyScreenModel.ts`; whiteout/black-gap class caught by `npm test`); directional twilight (Earth shadow, Belt of Venus, magnitude-staged stars); moon-aware night floors; owner-locked defaults warmth 1.0, stars ×0.5 (~3300); CSM shadows w/ contact bias; walk+fly city markers; HUD compass. Deferred: beyond-border land apron (module 55 §98b + research doc) |
 | 8b — water renderer and interaction | done | owner CLOSED 2026-08-28 (good-enough, **not perfect** — full water-systems re-review + polish queued in [polish-backlog.md](polish-backlog.md), Phase P). 7 rounds; full defect→fix history in decision 0025. Province W-field water surface, rivers/marsh/estuary/coast/underwater, buoyancy + Rapier water query, monotone slope rivers, shore surf, waterfall shading |
 | 8c — weather and atmosphere | done | owner CLOSED 2026-08-30 (good-enough, **not perfect** — owner will record leftovers in [polish-backlog.md](polish-backlog.md) for Phase P). 5 rounds; full defect→fix history in decision [0032](decisions/0032-phase8c-weather-implementation-shape.md). Deterministic synoptic machine + regional expression, fair-weather coverage ladder on the calendar, rain (real-time clock, PRECIP_LAYER), wind→waves, wetness, lightning; mist/fog/cap-cloud regimes with fog colour DERIVED from the real sun/sky/moon and a dome fog march (banks visible against open sky); visibility = local weather (one number renders and publishes); **GAME_TIME_SCALE = 30** in world-time. 406 tests incl. the extended envelope proof |
-| 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | in progress | **Round 6 in progress (2026-09-01)** on the owner's round-5 playtest feedback: items 1/2/3/5 PASSED; fixing (a) jungle canopy species — trees read non-tropical, short, narrow crowns, (b) wind sway invisible even in forced storms, (c) collider shapes not matching trunk/rock volumes, (d) scree not visible at 5.01/0.99, (e) hanging decorations must attach to trunks only. Performance PASSED on all three settings. (full record: round-5 section atop [decision 0036](decisions/0036-phase10-placement-decisions.md)). Round-4 feedback root-caused and fixed (A1 LOD/decimation floor, A2 closed boulders + slope alignment + clearance + rock sink class, A3 ground-anchored tramaroots, A4 real tall jungle canopy, A5 card brightness); plus the left-for-Phase-10 items: **wind sway** (packaged, shadow-synced), **flora solidity** (trunks/boulders solid, undergrowth not), **scree/gravel** on the sculpt's talus aprons, **settlement/interior mining** for Phases 11–12, and the **`Skyrim.esm` cross-check** (vanilla pool registered, 8,620 rows; vanilla REGN ships EMPTY — settles rule R11). GPU micro-lab CUT (owner): the M2 Air playtest is the budget measurement, so **every hand-off now asks for an FPS read**. B6's deltas are recorded, not applied — they are the next round's work if the owner wants one |
+| 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | in progress | **Round 6 DELIVERED 2026-09-01, awaiting owner playtest** (record: round-6 section atop [decision 0036](decisions/0036-phase10-placement-decisions.md)). Round-5 items 1/2/3/5/9 PASSED; fixed: wide-crowned tropical canopy (7 new measured species), wind sway root-caused (CSM clobbered the shader hook + amplitude, now tested), collider frame contract v2 (trunk-shaped, yaw/tilt-correct), scree retextured (bare grey, brightness-separated), vines trunk-anchored. Watch: chunk 6,9 now 13.8k instances — FPS read gates. | (full record: round-5 section atop [decision 0036](decisions/0036-phase10-placement-decisions.md)). Round-4 feedback root-caused and fixed (A1 LOD/decimation floor, A2 closed boulders + slope alignment + clearance + rock sink class, A3 ground-anchored tramaroots, A4 real tall jungle canopy, A5 card brightness); plus the left-for-Phase-10 items: **wind sway** (packaged, shadow-synced), **flora solidity** (trunks/boulders solid, undergrowth not), **scree/gravel** on the sculpt's talus aprons, **settlement/interior mining** for Phases 11–12, and the **`Skyrim.esm` cross-check** (vanilla pool registered, 8,620 rows; vanilla REGN ships EMPTY — settles rule R11). GPU micro-lab CUT (owner): the M2 Air playtest is the budget measurement, so **every hand-off now asks for an FPS read**. B6's deltas are recorded, not applied — they are the next round's work if the owner wants one |
 | 11 — settlement/location system, exemplar-first (0034) | todo | may start once the S schema is accepted (semantic authoring); packet freeze gated on 10b probes + 10c numbers |
 | 12 — dungeon/interior system, exemplar-first (0034) | todo | may interleave with 11 |
 | 9 — swimming, climbing, boats (re-slotted after the placement exemplars; 0034) | todo | player craft only — ferry/fast travel is Morrowind-style world content (Phase 11); thin swim slice may pull earlier; boats may slip |
-| C — parallel combat workstream (sandbox; feeds 10b) | done, awaiting owner playtest | **Round 2 delivered 2026-08-31** on the owner's 15-item feedback list (record: [0040](decisions/0040-animation-packs-and-combat-parallel-pass.md) round-2 section). First-person bow camera, bow zoom under lock-on, arrow flight model rebuilt (weathercocking + damping), per-weapon hit and parry volumes from measured mesh geometry (`combat/hitVolume`), riposte queueing, split hitbox debug switches, inventory item panel + paper doll + declarative armour hiding, poise surfaced in item stats, **contact-window measuring tool root-caused and fixed** (non-idempotent world-matrix build) with two-handed windows and per-family parry windows re-measured off it, and the parry mod's own clips on greatsword/shield plus a new battleaxe parry. Round 1 = the animation-pack split, crouch, shield block, poise, two-handed movesets. **Round 3 (same day): the execution blocker cleared** — the critical audit tool was root-caused (three modelling errors), now reproduces the hand-audited one-handed riposte to within a frame under `critical-known-answer.test.mjs`, and the greatsword and battleaxe have their own executions. Head hidden (not shrunk) in first person, camera on the eye. Still **not available: per-weapon backstabs** (no back-facing source exists in vanilla or any mod). **Round 3 (2026-09-01, four owner goals):** crouch now lowers the *navigation* capsule (shrinks upward, soles pinned — `physics/stanceCapsule`); **attack movement taken from the feet** rather than an authored lunge (`locomotion/footAnchoredMotion`, measured into each clip's `groundTrack` at build time; reversible from the debug panel); **weapon-aware enemy AI** (`ai/weaponTactics` — ranges/aggression/circling derived from the weapon, a separate intent set and real ballistic aiming for bows) with six new archetypes pickable in the sandbox; **per-weapon backstabs** assembled from each weapon's execution plus a from-behind victim stagger. Gates green; `visual:check` passes for criticals, defense, attacks, evasion, locomotion and ranged
+| C — parallel combat workstream (sandbox; feeds 10b) | round 4 delivered, awaiting owner playtest | **Round 2 delivered 2026-08-31** on the owner's 15-item feedback list (record: [0040](decisions/0040-animation-packs-and-combat-parallel-pass.md) round-2 section). First-person bow camera, bow zoom under lock-on, arrow flight model rebuilt (weathercocking + damping), per-weapon hit and parry volumes from measured mesh geometry (`combat/hitVolume`), riposte queueing, split hitbox debug switches, inventory item panel + paper doll + declarative armour hiding, poise surfaced in item stats, **contact-window measuring tool root-caused and fixed** (non-idempotent world-matrix build) with two-handed windows and per-family parry windows re-measured off it, and the parry mod's own clips on greatsword/shield plus a new battleaxe parry. Round 1 = the animation-pack split, crouch, shield block, poise, two-handed movesets. **Round 3 (same day): the execution blocker cleared** — the critical audit tool was root-caused (three modelling errors), now reproduces the hand-audited one-handed riposte to within a frame under `critical-known-answer.test.mjs`, and the greatsword and battleaxe have their own executions. Head hidden (not shrunk) in first person, camera on the eye. Still **not available: per-weapon backstabs** (no back-facing source exists in vanilla or any mod). **Round 3 (2026-09-01, four owner goals):** crouch now lowers the *navigation* capsule (shrinks upward, soles pinned — `physics/stanceCapsule`); **attack movement taken from the feet** rather than an authored lunge (`locomotion/footAnchoredMotion`, measured into each clip's `groundTrack` at build time; reversible from the debug panel); **weapon-aware enemy AI** (`ai/weaponTactics` — ranges/aggression/circling derived from the weapon, a separate intent set and real ballistic aiming for bows) with six new archetypes pickable in the sandbox; **per-weapon backstabs** assembled from each weapon's execution plus a from-behind victim stagger. Gates green; `visual:check` passes for criticals, defense, attacks, evasion, locomotion and ranged. **Round 4 (2026-09-01, the owner's playtest list):** hitbox timing root-caused twice over — the class speed factor now scales the *clip* as well as the gameplay timing (`AttackSpec.timeScale`; a dagger cut during its wind-up and a mace during its recovery), and the measuring tool now selects a clip's *fastest* contact phase rather than its longest (it had been measuring the settle on both two-handed opening swings and the one-handed second heavy). Parry catch windows re-measured across each family's raise+bash clip *pair* (`--parry` mode) — shield, greatsword and battleaxe were all catching during the raise. `criticalStyle` per weapon class: an axe backstabs by swinging its own light attack, because it has no point. Directional blocking (`guardCovers`). Archer given a body (armour coverage is by primary biped slot; boots were deleting the whole body), a working shoot/withdraw FSM — both states were emitted by the AI and never implemented — and a turn rate. Shield wardens now block (`WeaponTactics.guarding` reads the off hand). Bow no longer held string-forward (`OFF_HAND_NODE_HALF_TURN` — a fact about the node, not about shields). One owner for `mesh.visible` (`actors/meshVisibility`). Inventory sized by `window.visualViewport`; gamepad B no longer backsteps out of the menu; healing draught and lockpick have real icons from a new `clutter` pipeline set. Enemies take attack movement from their feet too. **Not delivered:** per-weapon riposte clip selection (`pipeline.audition` cannot build its candidate GLB) — polish backlog. Gates green; `visual:check` passes for criticals, defense, attacks, evasion, locomotion and ranged
 | 10b — full portable-sandbox parity in studio (was 7b; moved 2026-08-25, decision 0017) | todo | Scene orchestration extraction (§53), inventory/equipment UI, enemies/targeting, bow, navmesh; combat-space probes then validate + freeze the 11/12 exemplar packets; **incl. fixes to shared combat internals** (owner 2026-08-29: good-enough, not perfect — specifics at kickoff) |
 | S — stats, progression and character-systems **design** (parallel workstream, module 76; decision 0019) | done | **Four owner rounds, all closed** — shape ([0031](decisions/0031-workstream-s-round1-shape.md)), design + numbers ([0033](decisions/0033-workstream-s-design-and-numbers.md)), round-3 corrections ([0035](decisions/0035-workstream-s-round3-attributes-and-pace.md)), and the round-4 QA rulings ([0037](decisions/0037-workstream-s-round4-qa-rulings.md)): practice discount cut, kill-based class-weighted armour accrual, repeat-target damping removed, lockpick wear, **poise reinstated on the DS1 model**, pace target restated. Live artefacts: **module 76 §116–129** (the spec), decisions 0019/0031/0033/0035/0037, `tooling/stats-sim/` (**19 invariants, all holding**, including a Morrowind known-answer test) and one evidence packet; the workstream's five working papers are archived under `docs/research/archive/workstream-s/` and the tuning history is `tooling/stats-sim/FINDINGS.md`. Phase 10c implements it |
 | 10c — stats and progression implementation (module 76; decision 0019) | todo | Implements workstream S in `packages/game-core` incl. the semantic-authoring compiler (ladder refs → numbers; extended to loot/traps). After 10b, **before packet freeze and Phase 13** — content in 11/12 authors semantically without it (0019 4th amendment; 0034) |
@@ -60,114 +60,95 @@ first, then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- **Phase 10: nothing — round-5 playtest feedback received 2026-09-01, round 6
-  in progress** (canopy species, wind visibility, collider fit, scree
-  visibility, decoration attachment). Round-5 checklist below is superseded
-  and kept only until round 6 replaces it with a new hand-off.
-
-- **Phase 10 round-5 playtest (SUPERSEDED by round 6).**
-  Deployed 2026-08-31. If this passes, Phase 10 closes and anything left
-  over goes to [polish-backlog.md](polish-backlog.md). All on foot, on the
-  DEPLOYED build, in **walk mode**:
-
-  **The five things you told us about last time**
-  1. **No more flat cutouts near you.** Go to **1.59 km E / 1.63 km S**
-     (uplands) — the exact spot in your screenshot. Every plant within
-     sight should be a real 3D plant, not a flat dark leaf shape lying
-     against the ground. Walk away and it may simplify in the far distance;
-     that's fine. What matters is that nothing near you is a cutout.
-  2. **Rocks.** Same area. They should be proper closed boulders sitting
-     *in* the hillside — no hollow open backs to look into, no rock stuck
-     inside another rock, and they should lie along the slope rather than
-     standing bolt upright on it. (The old hollow shell now only appears on
-     genuinely steep cliff faces, tucked into the rock.)
-  3. **The big curved spiky root.** It should now always come *out of the
-     ground* — never floating in mid-air. Commonest in the swamp areas.
-  4. **The jungle should feel like a jungle.** Go to **~3.3 km E /
-     4.2 km S** (chunks 7,9 and 6,9). There was genuinely no tall tree in
-     that region before — the biggest was under 8 m. There are now trees of
-     11–14 m, and rare giants up to ~35 m. Look UP: you should be under a
-     roof of tall trees, with the undergrowth you already approved
-     underneath, and occasional bright gaps where a big tree has fallen.
-  5. **Distant trees** should look a little less dark in bright clear air.
-     If they're still too dark — or now too bright — just say which; it's a
-     one-number change.
-
-  **New things to try**
-  6. **Wind.** Trees, bushes and grass should now sway, and gust together
-     rather than each doing their own thing. Trunks stay planted; only the
-     crowns move. **Please check one specific thing**: watch a tree's
-     *shadow* on the ground while it sways — the shadow should move with the
-     tree, not sit still. Use the weather debug controls to find a windy or
-     stormy hour; in calm weather there will be very little movement, which
-     is correct.
-  7. **Solid trees and rocks.** You can no longer walk through tree trunks
-     or boulders — walk into one and you should stop. But you *should*
-     still be able to walk straight through reeds, ferns, grass, small
-     bushes and lily pads, exactly as in Skyrim. Tell us if anything feels
-     solid that shouldn't be, or if you get stopped by thin air where
-     there's nothing visible. (The HUD now shows `solid N` — how many
-     things around you are solid.)
-  8. **Grey gravel on the mountainsides.** Viewpoints: **5.01 / 0.99**
-     (the biggest patch), **1.63 / 0.79**, **1.85 / 0.36**,
-     **1.40 / 2.24** (km E / km S). Mountainsides should show gravel
-     aprons in the gullies and at the foot of slopes, with bare rock still
-     on the ridges. **Check there's no stripy banding** on the slopes —
-     that was the problem with an earlier rock texture.
-
-  **The one number we can't measure ourselves**
-  9. **How does it RUN?** We have no graphics card on the build machine, so
-     your M2 Air is now the *only* real performance measurement we have.
-     Please say roughly how smooth it feels on foot in the thick jungle
-     (7,9 / 6,9) and which quality setting you used. The densest spot in
-     the world is **chunk 6,9** — if anywhere struggles it'll be there.
+- **Phase 10 round-6 playtest** (deployed 2026-09-01) — the five round-5
+  fixes. If these pass, Phase 10 closes; leftovers go to
+  [polish-backlog.md](polish-backlog.md). All on foot, DEPLOYED build,
+  walk mode:
+  1. **The jungle roof, again** (~3.3 km E / 4.2 km S). The tall trees are
+     now proper tropical shapes: most of the roof is trees whose crowns are
+     as wide as they are tall or wider — big spreading umbrellas at 18–28 m
+     — plus rare 30–40 m giants (one kapok-like with huge limbs, one thick
+     buttressed column) and tall palms poking through. Look up: you should
+     be under wide interlocking crowns, not narrow poles.
+  2. **Wind** — this genuinely works now (it was being switched off by the
+     shadow system about a second after load, so round 5 shipped with no
+     movement at all; there's a test for it now). Force a thunderstorm or
+     squall: canopies sway, understory plants and ferns visibly move,
+     trunks stay planted, and a swaying tree's shadow moves with it. Calm
+     weather = near-stillness, which is correct.
+  3. **Solidity** — colliders are now shaped and placed to the actual
+     trunk/boulder (they were built in the wrong frame before — solid air
+     beside trees, walk-through trunks). Walk into trunks and boulders all
+     round; brush past their foliage freely; no invisible walls.
+  4. **Scree** — the old texture was gravel buried under green lichen and
+     the same brightness as the rock, so it was invisible. It is now bare
+     light-grey gravel, clearly lighter than the rock faces. Best
+     viewpoints: **1.85 / 0.36** and **1.63 / 0.79** (km E / km S) — at
+     **5.01 / 0.99** the patch is mostly ~75 m out from the standing spot,
+     so look around, not down. Still no stripes, please confirm.
+  5. **Hanging vines/moss** now sit on trunks (never on outer leaves or in
+     mid-air), facing outward, never above the tree.
+  6. **How does it RUN?** The jungle got denser (the hot spot chunk 6,9 is
+     now ~13.8k things, was 12k) — please say how the thick jungle feels
+     on each quality setting again. If it stutters we trim the understory.
 
   Known gaps, unchanged: only six exemplar areas have plants; the rest of
   the province is bare on purpose.
 
-- **Combat round-2 playtest (workstream C).** Deployed 2026-08-31. In the
-  sandbox, not the world. What to check, and how it should feel:
-  1. **Bow in first person** — tap light with a bow out. You should be looking
-     forward at your target with the bow and your draw arm in frame, not at
-     your own back. Scroll to zoom; **now also zoom while locked on** (it did
-     nothing before), and locking on should raise the aim onto the target
-     rather than looking over or under them.
-  2. **Arrows fired steeply upward** should arc over point-first and settle,
-     not tumble. Fire high and watch one all the way down.
-  3. **Weapon volumes** — new debug tickbox, "Show weapon & parry volumes",
-     separate from "Show all other colliders". Orange/yellow is what your
-     swing cuts with, blue is what your parry catches with. Both should be the
-     size and shape of the actual thing you are holding, and the swing volume
-     should appear only while the weapon is genuinely sweeping.
-  4. **Parry feel is the main judgement call.** The catch window now starts
-     where the animation starts moving and the catch volume is the shield or
-     blade itself rather than a big box in front of your chest. That is
-     longer *and* tighter at once. Try weapon, shield and greatsword parries
-     and say whether each is too easy, too hard, or right.
-  5. **Battleaxe parry** is a new animation — it used to borrow the
-     greatsword's. Greatsword and shield parries are now the parry mod's own
-     clips rather than vanilla ones.
-  6. **Two-handed swings** now connect where the animation actually connects,
-     which for a greatsword is much later in the swing than before. Does the
-     contact land when you expect it to?
-  7. **Riposte** — press attack *during* a successful parry; it should now come
-     out automatically as the parry finishes.
-  8. **Inventory** — no longer cut off at the right or bottom on a phone; the
-     item panel sits under the grid instead of over the top of things; no more
-     flavour text; unequipping a cuirass shows the body underneath; and the
-     character view holds your weapon in its proper stance with a shield if
-     you have one. Weapons and armour now list their poise numbers.
+- **Combat round-4 playtest (workstream C).** In the sandbox, not the world.
+  Everything below is on your last list.
 
-  **Answers to three of your questions:** Skyrim only has four melee animation
-  sets (one-handed covers sword/axe/mace/dagger together, greatsword, and
-  battleaxe/warhammer together), so our movesets are already as granular as
-  vanilla goes. Parries and executions *do* have per-weapon versions in the
-  parry mod, so parries now use them. Per-weapon **backstabs do not exist** in
-  vanilla or any mod as real animation, so there is still one shared backstab.
-  Per-weapon **ripostes** exist and are sourced but are not switched on yet —
-  each needs its own hand-audit of when the blade lands, and the tool I wrote
-  to do that automatically does not yet agree with the one clip we audited by
-  hand, so switching them on would have meant guessing.
+  **Weapon hitboxes — the big one.** Two separate causes were found and
+  fixed, so please re-check *every* weapon, light and heavy, first and
+  chained. What should now be true everywhere: the hitbox is off during the
+  wind-up, on through the visible swing, and off again during the recovery.
+  Specifically the ones you called out: the dagger (it was cutting during its
+  wind-up), the one-handed axe and mace second heavy (cutting during their
+  recovery), and the two-handed sword and axe first light and first heavy
+  (only cutting after the swing had finished).
+
+  **Parry volumes.** Shield, two-handed sword and two-handed axe were all
+  catching while the guard was still coming *up*. They now catch during the
+  parry itself. **This is a feel judgement and I need your call**: too easy,
+  too hard, or right, for each of the three? The battleaxe in particular
+  catches from the moment the axe is fully up, because its guard sweeps
+  across and past your body in about a tenth of a second — if that feels
+  generous, say so.
+
+  **Backstabs.** A one-handed axe or mace, and a two-handed axe or hammer,
+  now backstab by swinging their own attack instead of stabbing with a blade
+  they do not have. The two-handed sword backstab should now actually
+  register when it visibly connects.
+
+  **Enemy picker.** The archer has a body, fires its bow, and can turn and
+  back away to keep its distance — none of that existed. The shield enemy
+  should now block as well as parry: expect it to block a light attack and
+  dodge a heavy.
+
+  **Blocking.** You can no longer block anything that hits you from outside
+  roughly the front 140 degrees. Try getting hit in the back while guarding.
+
+  **Bow.** It is held the right way round now — the curve toward you, the
+  string away — in both first and third person. In first person your head
+  should be gone rather than in the way.
+
+  **Inventory.** On the phone, in and out of full screen, all four edges
+  should be visible. The health potion and lockpick have proper icons. On the
+  pad, B should close the inventory and nothing else. Taking your cuirass off
+  should show the body underneath and keep showing it.
+
+  **Enemy feet.** Enemies take their swing movement from their feet now, as
+  you approved for the player.
+
+  **One thing I did not do.** You asked for a stabbing riposte on the
+  one-handed sword and the dagger, and a swinging one on the two-handed axe.
+  The mod does ship a separate execution for every weapon and they are all
+  already downloaded — but the tool for *looking* at them before choosing is
+  broken, and picking one blind would have been a guess. It is written up in
+  the polish backlog with what needs fixing first.
+
+  **Also known, not fixed:** arrows fired straight up are still a little
+  tumbly (you said leave it for polish, so it is in the backlog).
 
 - **8c polish leftovers** — the owner closed 8c good-enough and will record
   the leftover items in [polish-backlog.md](polish-backlog.md) themselves
