@@ -101,6 +101,78 @@
 >    open Claude terminal tab; restore half-written rasters from HEAD and
 >    re-run when the box is quiet.
 >
+> ### Round 6 (2026-09-01) — the round-5 playtest fixes
+>
+> Round-5 items 1 (cutouts), 2 (rocks), 3 (tramaroot), 5 (card brightness)
+> and 9 (performance, all three settings) PASSED. The five defects, each
+> root-caused before touching anything:
+>
+> - **C1, wind invisible even in a forced thunderstorm.** TWO independent
+>   causes. (a) `CSM.setupMaterial` (WorldSky's ≤1 s `patchScene` pass)
+>   OVERWRITES `onBeforeCompile` — the very trap the aerial patch already
+>   re-applies around, but wind had no re-application, so every flora
+>   material lost its sway hook ~1 s after load, permanently (the
+>   idempotency guard blocked repair). Fix: `windSway.ts` now stores its
+>   state on `material.userData`, exports `reapplyWindSway` (no-op unless
+>   the live hook is not ours; chains whatever clobbered it), and WorldSky
+>   calls it right after `setupMaterial` + the aerial re-apply. It also now
+>   sets a chained `customProgramCacheKey` ("|es-wind") — without one, a
+>   patched material silently shares an unpatched twin's compiled program
+>   (the aerial patch keys everything to one constant string, so the
+>   collision is real). (b) The amplitude weight `pow(h/10, 1.5)` gave every
+>   sub-2 m plant millimetres of motion; exponent now 0.8 and the
+>   oscillating share raised to half, so understory visibly moves in a
+>   storm while trunks stay pinned. Plus: Vegetation and Groundcover each
+>   ran their OWN uniform block over shared kit materials — now one shared
+>   block (`vegetation/windUniforms.ts`) and `updateWindSway` takes absolute
+>   elapsed time so double per-frame calls are harmless. All of this is
+>   under test (`windSway.test.ts`) — round 5 shipped with zero coverage.
+> - **C2, colliders not shaped to trunks/rocks.** The kit emitted capsule
+>   offsets relative to the BBOX CENTRE in Blender z-up; the runtime read
+>   them as pivot-relative y-up and assumed the pivot sat at the bbox
+>   bottom (willow: 7 m lateral + 4 m vertical error), never yaw-rotated
+>   the offset, dropped rock tilt, and measured the "trunk" radius on the
+>   bottom 10 % of the whole tree (skirt cards → 1.3–5.3 m bollards).
+>   Fix is a versioned contract: the kit builder now emits
+>   `collisionFrame: "pivot-yup-v2"` with pivot-relative glTF-Y-up offsets
+>   (capsule `baseOffsetM`, box `centreOffsetM`), trunk radius measured on
+>   a 0.3–2 m slice about the MEDIAN centre at a low percentile;
+>   `floraSolids.colliderFor` REFUSES untagged kits (misplaced colliders
+>   are worse than none), and `VegetationColliders` rotates the offset by
+>   the instance's full YXZ euler and tilts rock boxes with the mesh.
+> - **C3, jungle canopy "short, not tropical, no wide crowns".** Round 5
+>   fixed HEIGHT but picked narrow-crowned species. The tall-canopy probe
+>   kit measured every plausible tree in the vault by height AND crown
+>   width; the roof is rebuilt on wide-crowned picks (crown:height 0.9–1.7):
+>   `gkbjungletreenew3` (34 m crown / 20 m, 924 tris) as the closure
+>   workhorse, `gkbwrtempletree03`, `cedartree5`, `treeofwolene2`;
+>   `gkbtreeofwolene` (33.7 m, 31 m crown) as the kapok-form emergent,
+>   `giantredwood2` at ×0.55–0.68 as rare buttressed giants, `fanpalm3`
+>   punching through. Round-5's 11–14 m species drop to the sub-canopy
+>   tier they are actually the height of. Watch: chunk 6,9 is now 13.8 k
+>   instances (was 12.0 k) — the owner's FPS read is the gate.
+> - **C4, scree invisible.** The pipeline was CLEAN (raster deployed, 25–53 %
+>   scree at every advertised viewpoint) — the TEXTURE was wrong:
+>   volcanictundragravel01 is dark gravel under yellow-green lichen mottle,
+>   luma-normalised within 4 of mountain_rock, i.e. indistinguishable from
+>   more mossy rock, and the far field renders only per-material average
+>   colours. Lesson recorded in `build_ground_materials.py`: the anisotropy
+>   screen is necessary, not sufficient — LOOK at the candidate. Replaced
+>   with ambientCG `Gravel015` (bare neutral grey, chroma 6, aniso 1.06),
+>   12 m tile, luma 72 vs the rock's 62 so aprons read at distance.
+> - **C5, hangers on leaves/air.** `spawn_attachments` used a ±0.5 m square
+>   about the model PIVOT (willow trunk: 7 m away) and let shrubby
+>   "/trees/" pseudo-trees host 2–6 m vines. Attachments now sit ON the
+>   measured trunk: `composition.py` loads the kit's v2 capsules
+>   (`load_trunk_capsules`), hosts require ≥6 m of measured trunk (which
+>   also ADMITS the new canopy species the rules file never met), the vine
+>   lands at a random angle 0.9×radius from the yaw-rotated trunk axis,
+>   facing outward, clamped below 0.8× trunk height.
+>
+> Recompiled: six rings, 51 chunks, 186.1 k instances (attachments
+> 17.7 k → 15.8 k). Kit: 55 assets, 21.7 MB GLB, every asset on the v2
+> collision frame, all seven new trees with billboards.
+>
 > ### Round 5 (2026-08-31) — the round-4 feedback fixes + the rest of Phase 10
 >
 > Delivered against the "Round 5+" plan below, in one batch. Defect → root
