@@ -1,0 +1,317 @@
+{
+ "id": "probe-tall-tropical",
+ "description": "Round-7 measurement probe (transient): every plausible tall wide-crowned TROPICAL tree in the BM&V and Tropical Skyrim pools, measured for height, crown width and triangles to rebuild the jungle roof at 30-40 m with 40-60 m giants.",
+ "output": "tooling/asset-pipeline/output/kits/probe-tall-tropical.glb",
+ "lodRatios": [
+  0.35
+ ],
+ "textureMaxSize": 256,
+ "assets": [
+  {
+   "asset": "bmv:landscaping/trees/my_own_made/fernpine_african_01"
+  },
+  {
+   "asset": "bmv:landscaping/trees/my_own_made/fernpine_african_02"
+  },
+  {
+   "asset": "bmv:landscaping/trees/my_own_made/tempskya_01"
+  },
+  {
+   "asset": "bmv:landscaping/trees/my_own_made/tempskya_02"
+  },
+  {
+   "asset": "bmv:landscaping/trees/my_own_made/treefern_huge"
+  },
+  {
+   "asset": "bmv:landscaping/trees/my_own_made/treefern_hugecrooked"
+  },
+  {
+   "asset": "bmv:landscaping/trees/my_own_made/treefern_tall"
+  },
+  {
+   "asset": "bmv:landscaping/trees/my_own_made/treefern_tallcrooked"
+  },
+  {
+   "asset": "bmv:landscaping/trees/my_own_made/treefern_medium"
+  },
+  {
+   "asset": "tropical:landscape/trees/anvilgianttrunk"
+  },
+  {
+   "asset": "tropical:landscape/trees/anvil_palm_trunk"
+  },
+  {
+   "asset": "tropical:landscape/trees/anvil_palm foliage"
+  },
+  {
+   "asset": "tropical:landscape/trees/anvil_palm foliage02"
+  },
+  {
+   "asset": "tropical:landscape/trees/anvil_palm foliage03"
+  },
+  {
+   "asset": "tropical:landscape/trees/anvil_palm foliage04"
+  },
+  {
+   "asset": "tropical:landscape/trees/anvil_root01"
+  },
+  {
+   "asset": "tropical:landscape/trees/mp_valenwood_oaktype1"
+  },
+  {
+   "asset": "tropical:landscape/trees/mp_valenwood_oaktype2"
+  },
+  {
+   "asset": "tropical:landscape/trees/mp_valenwood_oaktype3"
+  },
+  {
+   "asset": "bmv:plants/trees/banana_tree"
+  },
+  {
+   "asset": "bmv:lor/trees/maple/bskacacia05c"
+  },
+  {
+   "asset": "bmv:lor/trees/trees/jtree02c"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/trees/treegiant01"
+  },
+  {
+   "asset": "bmv:plants/trees/palm_tree"
+  },
+  {
+   "asset": "bmv:landscape/trees/flatpalm1"
+  },
+  {
+   "asset": "bmv:landscape/trees/flatpalm2"
+  },
+  {
+   "asset": "bmv:landscape/trees/datepalm1"
+  },
+  {
+   "asset": "bmv:landscape/trees/datepalm2"
+  },
+  {
+   "asset": "bmv:landscape/trees/datepalm3"
+  },
+  {
+   "asset": "bmv:landscape/trees/wrtempletree02aaa"
+  },
+  {
+   "asset": "bmv:landscape/trees/lb_wrtempletree02"
+  },
+  {
+   "asset": "bmv:landscape/trees/ethas/paradise-b"
+  },
+  {
+   "asset": "bmv:lor/trees/tree_japan"
+  },
+  {
+   "asset": "bmv:landscape/trees/beachpalm4"
+  },
+  {
+   "asset": "bmv:landscape/trees/beachpalm5"
+  },
+  {
+   "asset": "bmv:landscape/trees/beachpalm6"
+  },
+  {
+   "asset": "bmv:landscape/trees/fanpalm4"
+  },
+  {
+   "asset": "bmv:landscape/trees/fanpalm5"
+  },
+  {
+   "asset": "bmv:landscape/trees/fanpalm6"
+  },
+  {
+   "asset": "bmv:landscape/trees/coastredwood1"
+  },
+  {
+   "asset": "bmv:landscape/trees/coastredwood3"
+  },
+  {
+   "asset": "bmv:landscape/trees/coastredwood6"
+  },
+  {
+   "asset": "bmv:landscape/trees/giantredwood1"
+  },
+  {
+   "asset": "bmv:landscape/trees/giantredwood3"
+  },
+  {
+   "asset": "bmv:landscape/trees/giantredwood4"
+  },
+  {
+   "asset": "bmv:landscape/trees/treeofwolene3"
+  },
+  {
+   "asset": "bmv:landscape/trees/treeofwolene4"
+  },
+  {
+   "asset": "bmv:landscape/trees/treeofwolene5"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew2v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew6v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew7v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew8v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew9v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew13v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew14v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew16v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew17v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew18v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew19v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew20v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew21v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew22v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew23v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew26v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew29v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew30v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew31v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew32v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew33v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew2v2tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew6v2tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew7v2tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew8v2tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew9v2tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew11v2tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew13v2tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew14v2tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew15v2tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew16v2tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew18v2tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew19v2tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew20v2tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew21v2tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew22v2tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew23v2tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew24v2tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew25v2tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew26v2tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew4"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew5"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew6"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew7"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew8"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew9"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew10"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew11"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbtreeaspen02tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbtreeaspen02jungle"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbtreeaspen03tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbtreeaspen03jungle"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbtreeaspen05tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbtreeaspen05jungle"
+  }
+ ]
+}
