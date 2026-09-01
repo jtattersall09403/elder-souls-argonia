@@ -50,7 +50,16 @@ export type CriticalStyle = "thrust" | "swing";
  * settle comes closer than its strike does, and the tool duly recommended
  * standing far enough back that the blade never touched anything.
  */
-const SWING_CRITICAL_SEPARATION = 1.1;
+const SWING_BACKSTAB_SEPARATION = 1.1;
+
+/**
+ * A riposte stands closer than a backstab does, because its victim is doubled
+ * over in a held guard-break facing the attacker rather than standing upright
+ * facing away — which puts its spine somewhere else entirely. Measured the same
+ * way: `--critical --victim-clip GUARD_BREAK --victim-time 0.55 --window` over
+ * the swing's own contact window.
+ */
+const SWING_RIPOSTE_SEPARATION = 0.8;
 
 /** The victim's half of any assembled from-behind critical. */
 const BACKSTAB_VICTIM = {
@@ -71,9 +80,7 @@ const BACKSTAB_VICTIM = {
  * without a second set of hand-audited numbers.
  */
 export function swingBackstab(lightAttack: AttackSpec): PairedCriticalProfile {
-  const total = lightAttack.windup + lightAttack.active + lightAttack.recovery;
-  const damageProgress = lightAttack.windup / total;
-  const releaseProgress = (lightAttack.windup + lightAttack.active) / total;
+  const { damageProgress, releaseProgress } = swingCriticalContact(lightAttack);
   const riposte = ONE_HANDED_ANIMATIONS.riposte;
   return {
     ...riposte,
@@ -83,7 +90,7 @@ export function swingBackstab(lightAttack: AttackSpec): PairedCriticalProfile {
     // the step onto the paired anchor rather than a pose change as well.
     entryBlendDuration: 0.18,
     victimActionStartProgress: damageProgress,
-    startingSeparation: SWING_CRITICAL_SEPARATION,
+    startingSeparation: SWING_BACKSTAB_SEPARATION,
     // Both actors face the same way: the attacker is behind.
     relativeFacing: 0,
     damageProgress,
@@ -94,17 +101,17 @@ export function swingBackstab(lightAttack: AttackSpec): PairedCriticalProfile {
 }
 
 /**
- * The attack spec a swing backstab runs on: the light attack's timing, with the
- * critical's power and commitment.
+ * The attack spec a swing critical runs on: the light attack's timing, with the
+ * critical's power and commitment. Used by both the riposte and the backstab.
  *
  * Timing has to come from the swing, because `damageProgress` above is a
  * fraction of *this* duration and the two must describe the same performance.
  * Reach, lunge and cost come from the critical, because it is one — the actors
  * are already aligned, so a lunge would push them apart.
  */
-export function swingBackstabAttack(lightAttack: AttackSpec, backstab: AttackSpec): AttackSpec {
+export function swingCriticalAttack(lightAttack: AttackSpec, critical: AttackSpec): AttackSpec {
   return {
-    ...backstab,
+    ...critical,
     animation: lightAttack.animation,
     windup: lightAttack.windup,
     active: lightAttack.active,
@@ -115,10 +122,70 @@ export function swingBackstabAttack(lightAttack: AttackSpec, backstab: AttackSpe
 }
 
 /**
+ * A riposte the attacker performs with its own light attack.
+ *
+ * Same construction as `swingBackstab` and the same reason — an axe has no
+ * point — but face to face, so the victim's half stays the riposte's own held
+ * guard-break and reaction rather than a blow from behind.
+ *
+ * A substitute rather than a preference. Rim's 2HW execution contains no chop
+ * that lands: its only two phases that bring the head within reach of a torso
+ * are forward drives (52% and 47% of their travel along the attacker's facing),
+ * and its one genuine overhead never comes closer than 0.72 m to a victim at
+ * any separation, because it is the wind-up and not the strike. Established by
+ * auditioning all six executions and classifying every contact phase by the
+ * direction the weapon tip travels (`pipeline.audition`, `MEASURE_SHAPE=1`).
+ * There is no authored battleaxe chop to ship, so the weapon's own swing is the
+ * honest stand-in — exactly as it is for the backstab.
+ */
+export function swingRiposte(lightAttack: AttackSpec): PairedCriticalProfile {
+  const riposte = ONE_HANDED_ANIMATIONS.riposte;
+  const { damageProgress, releaseProgress } = swingCriticalContact(lightAttack);
+  return {
+    ...riposte,
+    attackerAction: lightAttack.animation,
+    entryBlendDuration: 0.18,
+    startingSeparation: SWING_RIPOSTE_SEPARATION,
+    damageProgress,
+    releaseProgress,
+    // The victim keeps its held guard-break until the swing actually arrives,
+    // which is the rule the authored executions follow too. Only the moment
+    // differs, because this swing's contact is its own measured window rather
+    // than an authored annotation.
+    victimActionStartProgress: damageProgress,
+    victimOutcomeProgress: damageProgress,
+  };
+}
+
+/**
+ * When a swing critical lands, as fractions of its action.
+ *
+ * The **middle** of the contact window, not its start. A critical deals its
+ * damage on one frame and the visual gate checks the blade against the victim's
+ * spine on exactly that frame, so it has to be the moment the swing is deepest
+ * rather than the moment it first becomes dangerous. Taking the start put the
+ * battleaxe's damage 0.13 s before its head arrived, with the axe still 1.36 m
+ * from the victim — a critical that dealt its damage into the air.
+ *
+ * The midpoint is a property of the measured window rather than a second
+ * measurement to keep in step, and it lands within a frame or two of the
+ * measured closest approach on both families: 0.410 against 0.388 one-handed,
+ * 0.447 against 0.439 two-handed.
+ */
+function swingCriticalContact(lightAttack: AttackSpec) {
+  const total = lightAttack.windup + lightAttack.active + lightAttack.recovery;
+  return {
+    damageProgress: (lightAttack.windup + lightAttack.active / 2) / total,
+    releaseProgress: (lightAttack.windup + lightAttack.active) / total,
+  };
+}
+
+/**
  * Apply a class's critical style to a moveset's animation profile.
  *
- * Only the backstab varies today. The riposte does not, because every family
- * has an authored execution of its own that is honest for that weapon.
+ * A thrusting class keeps its authored executions. A swinging class performs
+ * both criticals with its own opening light attack, because the executions
+ * available to it are all thrusts and it has nothing to thrust with.
  */
 export function applyCriticalStyle(
   animations: WeaponAnimationProfile,
@@ -126,7 +193,11 @@ export function applyCriticalStyle(
   style: CriticalStyle,
 ): WeaponAnimationProfile {
   if (style === "thrust") return animations;
-  return { ...animations, backstab: swingBackstab(attacks.light1) };
+  return {
+    ...animations,
+    riposte: swingRiposte(attacks.light1),
+    backstab: swingBackstab(attacks.light1),
+  };
 }
 
 /** The clip a swing critical plays, for provenance checks and tests. */

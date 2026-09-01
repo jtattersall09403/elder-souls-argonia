@@ -2022,6 +2022,11 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           };
           victim.fighter.criticalType = attack.id;
           victim.fighter.criticalVictimYaw = victim.fighter.yaw;
+          // Where the victim stands for the whole execution. Recorded now and
+          // held, because the attacker is about to be placed at the profile's
+          // measured separation from it and a dynamic victim would simply be
+          // pushed away by the arriving capsule.
+          victim.fighter.criticalVictimAnchor = { x: victim.position.x, z: victim.position.z };
           const type = attack.id;
           const pair = criticalPair;
           const forward = tmp.current.forward.set(Math.sin(victim.fighter.criticalVictimYaw), 0, Math.cos(victim.fighter.criticalVictimYaw));
@@ -2518,6 +2523,16 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           enemyHandle.body.setAngvel({ x: 0, y: 0, z: 0 }, true);
           tmp.current.quaternion.setFromAxisAngle(UP, frozenYaw);
           enemyHandle.body.setRotation(tmp.current.quaternion, true);
+          // Position is frozen too, not just facing. The rotation was already
+          // pinned here; leaving the translation to physics meant the attacker
+          // arriving at its authored separation shoved the victim backwards,
+          // so every paired critical landed further out than it was measured
+          // to. See `Fighter.criticalVictimAnchor`.
+          const anchor = f.criticalVictimAnchor;
+          if (anchor) {
+            enemyHandle.body.setTranslation({ x: anchor.x, y: e.position.y, z: anchor.z }, true);
+            enemyHandle.body.setLinvel({ x: 0, y: enemyHandle.body.linvel().y, z: 0 }, true);
+          }
         } else {
           tmp.current.forward.set(Math.sin(f.yaw), 0, Math.cos(f.yaw));
           enemyHandle.setForwardDir(tmp.current.forward);

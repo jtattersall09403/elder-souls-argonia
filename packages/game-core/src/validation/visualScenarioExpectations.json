@@ -2785,7 +2785,7 @@
       "GREATAXE_IDLE",
       "GREATAXE_PARRY",
       "GREATAXE_PARRY_FOLLOW_THROUGH",
-      "GREATAXE_RIPOSTE"
+      "GREATAXE_LIGHT_1"
     ],
     "enemyActions": [
       "attack",
@@ -2825,7 +2825,7 @@
         "GREATAXE_PARRY",
         "GREATAXE_PARRY_FOLLOW_THROUGH",
         "GREATAXE_IDLE",
-        "GREATAXE_RIPOSTE",
+        "GREATAXE_LIGHT_1",
         "GREATAXE_IDLE"
       ],
       "enemy": [
@@ -2840,7 +2840,7 @@
       "player": [
         "GREATAXE_PARRY",
         "GREATAXE_PARRY_FOLLOW_THROUGH",
-        "GREATAXE_RIPOSTE"
+        "GREATAXE_LIGHT_1"
       ],
       "enemy": [
         "LIGHT_1",
@@ -2864,16 +2864,17 @@
       "attackerActor": "player",
       "victimActor": "enemy",
       "victimHealthField": "enemyHealth",
-      "attackerAnimation": "GREATAXE_RIPOSTE",
+      "attackerAnimation": "GREATAXE_LIGHT_1",
       "victimReactionAnimation": "RIPOSTED_HIT1",
       "maxAttackerBladeDistanceMeters": 0.25,
       "minRoleSeparationMeters": 0.15,
-      "maxEarlyContactLeadSeconds": 0.08
+      "maxEarlyContactLeadSeconds": 0.08,
+      "contactStyle": "swing"
     },
     "transitionMotionChecks": [
       {
         "actor": "player",
-        "fromAnimation": "GREATAXE_RIPOSTE",
+        "fromAnimation": "GREATAXE_LIGHT_1",
         "fromOccurrence": 1,
         "toAnimation": "GREATAXE_IDLE",
         "toOccurrence": 3,

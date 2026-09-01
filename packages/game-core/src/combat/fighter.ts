@@ -75,6 +75,21 @@ export type Fighter = {
 
   criticalType: "riposte" | "backstab" | null;
   criticalVictimYaw: number;
+  /**
+   * Where the victim stood when the critical took it, in world XZ.
+   *
+   * A paired critical is authored choreography: the profile states exactly how
+   * far apart the two actors stand, and the attacker is placed at that
+   * distance. But the victim is a dynamic body, so the attacker's navigation
+   * capsule *pushed it away* as it arrived — closing the pair by 0.25 m only
+   * closed the real gap by 0.12 m, because both bodies moved. Every paired
+   * critical was therefore landing further out than its measured separation,
+   * which is what put a greatsword's blade half a metre off its victim.
+   *
+   * Pinning the victim here for the duration makes `startingSeparation` mean
+   * what it says. Null whenever the fighter is not in a paired critical.
+   */
+  criticalVictimAnchor: { x: number; z: number } | null;
 
   /** Intent currently being carried out, so the AI can commit to it. */
   lastIntent: string | null;
@@ -124,6 +139,7 @@ export function createFighter(
     staggerDuration: archetype.stateDurations.staggerDefault,
     criticalType: null,
     criticalVictimYaw: 0,
+    criticalVictimAnchor: null,
     lastIntent: null,
     personality: Math.random(),
   };
@@ -152,6 +168,7 @@ export function resetFighter(fighter: Fighter) {
   fighter.staggerDuration = 0.58;
   fighter.criticalType = null;
   fighter.criticalVictimYaw = 0;
+  fighter.criticalVictimAnchor = null;
 }
 
 export function isAlive(fighter: Fighter) {

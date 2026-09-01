@@ -1,5 +1,5 @@
 import { MOVESETS, BUILT_MOVESETS, type MovesetDefinition, type MovesetId } from "./movesets";
-import { applyCriticalStyle, swingBackstabAttack, type CriticalStyle } from "./movesets/criticals";
+import { applyCriticalStyle, swingCriticalAttack, type CriticalStyle } from "./movesets/criticals";
 import { WEAPON_CLASS_POISE_DAMAGE } from "../combat/poise";
 import type { AttackId, AttackSpec, RangedStats, WeaponClass } from "./types";
 
@@ -282,11 +282,12 @@ export function scaleMoveset(
     (Object.entries(moveset) as [AttackId, AttackSpec][])
       .map(([id, spec]) => [id, scaleAttack(spec, profile, definition)]),
   ) as Record<AttackId, AttackSpec>;
-  // A swinging class's backstab *is* its opening light attack, so its timing
-  // has to be that swing's — `swingBackstab`'s damage moment is a fraction of
-  // this duration and the two have to describe the same performance.
+  // A swinging class performs *both* criticals with its opening light attack,
+  // so their timing has to be that swing's — the profiles' damage moments are
+  // fractions of this duration and the two have to describe one performance.
   if (profile.criticalStyle === "swing") {
-    scaled.backstab = swingBackstabAttack(scaled.light1, scaled.backstab);
+    scaled.riposte = swingCriticalAttack(scaled.light1, scaled.riposte);
+    scaled.backstab = swingCriticalAttack(scaled.light1, scaled.backstab);
   }
   return scaled;
 }

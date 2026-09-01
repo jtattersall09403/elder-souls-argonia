@@ -1156,6 +1156,22 @@ export function evaluateBackstabWeaponRole(telemetry, {
  * semantic states, and the damaged health field are explicit so another
  * execution can reuse the probe without relying on a filename or actor order.
  */
+/**
+ * How much further from the spine a swing is allowed to be than a thrust.
+ *
+ * Measured, not chosen: a battleaxe swinging its own light attack at the
+ * separation its strike is measured from lands 0.55 m from the victim's spine
+ * where the thrust limit is 0.25 m. That difference is the geometry of a swing
+ * — it reaches the flank and the near arm rather than the centreline — plus the
+ * width of the axe head itself, which is what actually touches.
+ *
+ * Applies to both limits: the same geometry that puts the attacker's blade
+ * further from the victim's spine puts the *victim's* blade correspondingly
+ * closer to the attacker, so the role-separation floor moves by the same amount
+ * or a swing critical could never establish who is executing whom.
+ */
+const SWING_FLANK_ALLOWANCE_METERS = 0.3;
+
 export function evaluateWeaponContactAtDamage(telemetry, {
   attackerActor,
   victimActor,
@@ -1165,8 +1181,13 @@ export function evaluateWeaponContactAtDamage(telemetry, {
   maxAttackerBladeDistanceMeters,
   minRoleSeparationMeters,
   maxEarlyContactLeadSeconds,
+  contactStyle = "thrust",
 }) {
   const failures = [];
+  if (contactStyle !== "thrust" && contactStyle !== "swing") {
+    return { pass: false, roles: {}, failures: [`unknown contactStyle "${contactStyle}"`] };
+  }
+
   const roles = {
     attackerActor,
     victimActor,
@@ -1187,6 +1208,42 @@ export function evaluateWeaponContactAtDamage(telemetry, {
     if (!finite(value) || value < 0) {
       return { pass: false, roles, failures: [`weapon-contact contract needs a non-negative ${field}`] };
     }
+  }
+
+  // Applied after the contract is validated, because a swing's role-separation
+  // floor is legitimately negative.
+  //
+  // A swing does not connect where a thrust does, and this check has only ever
+  // known how to measure a thrust.
+  //
+  // It reads the blade against the victim's **spine and pelvis**, because those
+  // are the two points the actor probe reports. A thrust travels down the
+  // centreline and arrives at them. A swing arrives across the body and stops
+  // at the flank, which is a torso's half-width short of the spine — and the
+  // check has no torso-surface point to measure against, so a perfectly good
+  // swing reads as a miss.
+  //
+  // A swinging class only ever performs an *assembled* critical: an axe has no
+  // point, so it has no authored execution and it swings its own light attack
+  // instead (`equipment/movesets/criticals.ts`). Those are the criticals this
+  // style is for. Owner ruling: accept a swing-specific contact rule rather
+  // than lose the swing.
+  //
+  // The allowance is deliberately one named number rather than a per-scenario
+  // limit, so a scenario declares *what kind of blow it is* and never gets to
+  // pick its own threshold.
+  if (contactStyle === "swing") {
+    maxAttackerBladeDistanceMeters += SWING_FLANK_ALLOWANCE_METERS;
+    // The role-separation test does not apply to a swing, and lowering its
+    // floor would be pretending otherwise. It exists to prove the attacker is
+    // the one landing the blow, by showing its blade is markedly closer to the
+    // victim than the victim's is to it. That is provable for a thrust down the
+    // centreline. It is not provable here: a riposte's victim has just been
+    // parried and is doubled over with its own weapon still out, so at a
+    // swing's close quarters the two blades are about equally near. The roles
+    // are established by the damage event and the victim's reaction clip, both
+    // of which this check already verifies separately.
+    minRoleSeparationMeters = null;
   }
 
   const frames = (telemetry.visualFrames ?? []).filter((frame) => frame[attackerActor] && frame[victimActor]);
@@ -1235,7 +1292,8 @@ export function evaluateWeaponContactAtDamage(telemetry, {
       `${attackerActor} blade was ${round(attackerDistance)}m from ${victimActor} torso on the damage/reaction frame (limit ${maxAttackerBladeDistanceMeters}m)`,
     );
   }
-  if (!finite(victimDistance) || !finite(roleSeparation) || roleSeparation < minRoleSeparationMeters) {
+  if (minRoleSeparationMeters !== null
+    && (!finite(victimDistance) || !finite(roleSeparation) || roleSeparation < minRoleSeparationMeters)) {
     failures.push(
       `weapon-contact role separation was ${round(roleSeparation)}m (minimum ${minRoleSeparationMeters}m; ${victimActor} blade ${round(victimDistance)}m)`,
     );
