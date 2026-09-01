@@ -2680,7 +2680,31 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         const transitionAt = comboTransitionTime(attack);
         e.hitboxActive.current = weaponActive && f.health > 0;
         if (phase === "windup" && f.actionTime <= delta * 1.5) combatAudio.play("swing");
-        if (phase === "windup" && distance > archetype.lungeBeyondDistance && enemyHandle) {
+        if (enemyHandle && footDrivenMotion && hasGroundTrack(attack.animation)) {
+          // The same foot-driven attack movement the player gets, for the same
+          // reason: an enemy whose swing slides it forward while its planted
+          // sole says otherwise reads exactly as wrong on a warden as it does
+          // on the player, and it is the same clip doing it.
+          //
+          // Two differences, both because an enemy is not aiming with a stick.
+          // It runs for the whole action rather than only the wind-up, since
+          // that is the point of taking the motion from the feet; and it is
+          // gated on the same `lungeBeyondDistance` as the authored lunge, so
+          // an enemy already standing on top of the player still does not walk
+          // further into them.
+          const step = footAnchoredVelocity(
+            attack.animation,
+            f.actionTime,
+            delta,
+            Math.max(attack.lunge, 0),
+          );
+          const closing = distance > archetype.lungeBeyondDistance ? step.forward : 0;
+          enemyHandle.body.setLinvel({
+            x: dirX * closing,
+            y: enemyHandle.body.linvel().y,
+            z: dirZ * closing,
+          }, true);
+        } else if (phase === "windup" && distance > archetype.lungeBeyondDistance && enemyHandle) {
           enemyHandle.body.setLinvel({
             x: dirX * attack.lunge,
             y: enemyHandle.body.linvel().y,
