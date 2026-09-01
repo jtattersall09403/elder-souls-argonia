@@ -115,9 +115,15 @@ describe("wind sway shader patch", () => {
   it("scales sway by the trunk's width, both ways off the reference", () => {
     expect(windStiffness(WIND_REFERENCE_TRUNK_RADIUS_M)).toBeCloseTo(1, 5);
     const [floor, ceiling] = WIND_STIFFNESS_RANGE;
-    // A buttressed giant barely stirs; a sapling whips.
+    // A buttressed giant barely stirs; a slender trunk keeps the calibrated
+    // amplitude and is never pushed ABOVE it (owner round 7: palms swayed
+    // too much once thin trunks were allowed a multiplier over 1).
     expect(windStiffness(1.6)).toBe(floor);
     expect(windStiffness(0.05)).toBe(ceiling);
+    expect(ceiling).toBe(1);
+    // A 0.26 m palm trunk — the case the owner called out — must not exceed
+    // the baseline it was tuned at.
+    expect(windStiffness(0.26)).toBe(1);
     // Monotonic in between, and strictly decreasing with width.
     expect(windStiffness(0.25)).toBeGreaterThan(windStiffness(0.45));
     expect(windStiffness(0.45)).toBeLessThan(1);

@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { CapsuleCollider, CuboidCollider, RigidBody } from "@react-three/rapier";
 import {
-  colliderFor,
+  collidersFor,
   selectNearestSolids,
   type FloraCollisionAsset,
   type SolidInstance,
@@ -24,10 +23,6 @@ import {
  * from the kit manifest, not here — reeds, ferns and lily pads stay
  * walk-through, as they are in Skyrim and Morrowind.
  */
-
-// Scratch objects for the per-body offset rotation (render-loop allocation-free).
-const euler = new THREE.Euler();
-const offset = new THREE.Vector3();
 
 /** Metres. Comfortably past anything the player can reach this frame. */
 const RING_M = 45;
@@ -93,51 +88,52 @@ export function VegetationColliders({
   return (
     <>
       {active.map((instance, i) => {
-        const shape = colliderFor(byId.get(instance.species));
-        if (!shape) return null;
+        const shapes = collidersFor(byId.get(instance.species));
+        if (!shapes.length) return null;
         const s = instance.scale;
-        // Position is the instance's own final world position (already sunk
-        // and re-grounded by the renderer), plus the proxy's scaled offset
-        // ROTATED exactly as the renderer rotates the mesh (same YXZ euler)
-        // — round 5 added the offset in world axes and yawed the body about
-        // its displaced centre, so off-axis trunks landed metres from their
-        // trees, in a direction that changed per instance.
-        euler.set(instance.tiltX, instance.yaw, instance.tiltZ, "YXZ");
-        offset
-          .set(shape.offsetM[0] * s, shape.offsetM[1] * s, shape.offsetM[2] * s)
-          .applyEuler(euler);
-        const position: [number, number, number] = [
-          instance.x + offset.x,
-          instance.y + offset.y,
-          instance.z + offset.z,
-        ];
+        // ONE rigid body per instance, carrying every shape. The body sits at
+        // the instance and is rotated exactly as the renderer rotates the mesh
+        // (same YXZ euler), so each shape's own offset is a plain local
+        // position — which is also what keeps a curved trunk's chain of
+        // capsules following the trunk once the instance is yawed. (Round 5
+        // added the offset in world axes and yawed the body about its
+        // displaced centre; off-axis trunks landed metres from their trees.)
         return (
           <RigidBody
             key={`${instance.species}|${instance.x.toFixed(2)}|${instance.z.toFixed(2)}|${i}`}
             type="fixed"
             colliders={false}
-            position={position}
+            position={[instance.x, instance.y, instance.z]}
             rotation={[instance.tiltX, instance.yaw, instance.tiltZ, "YXZ"]}
           >
-            {shape.kind === "capsule" ? (
-              // Rapier's capsule half-height excludes the caps, so subtract
-              // the radius — otherwise a trunk's collider stands taller than
-              // the trunk and the player bumps into thin air above it.
-              <CapsuleCollider
-                args={[
-                  Math.max(0.05, (shape.heightM / 2 - shape.radiusM) * s),
-                  shape.radiusM * s,
-                ]}
-              />
-            ) : (
-              <CuboidCollider
-                args={[
-                  shape.halfExtentsM[0] * s,
-                  shape.halfExtentsM[1] * s,
-                  shape.halfExtentsM[2] * s,
-                ]}
-              />
-            )}
+            {shapes.map((shape, j) => {
+              const local: [number, number, number] = [
+                shape.offsetM[0] * s, shape.offsetM[1] * s, shape.offsetM[2] * s,
+              ];
+              return shape.kind === "capsule" ? (
+                // Rapier's capsule half-height excludes the caps, so subtract
+                // the radius — otherwise a trunk's collider stands taller than
+                // the trunk and the player bumps into thin air above it.
+                <CapsuleCollider
+                  key={j}
+                  position={local}
+                  args={[
+                    Math.max(0.05, (shape.heightM / 2 - shape.radiusM) * s),
+                    shape.radiusM * s,
+                  ]}
+                />
+              ) : (
+                <CuboidCollider
+                  key={j}
+                  position={local}
+                  args={[
+                    shape.halfExtentsM[0] * s,
+                    shape.halfExtentsM[1] * s,
+                    shape.halfExtentsM[2] * s,
+                  ]}
+                />
+              );
+            })}
           </RigidBody>
         );
       })}

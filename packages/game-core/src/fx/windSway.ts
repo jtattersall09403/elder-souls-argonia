@@ -69,9 +69,16 @@ export const WIND_TUNE_ATTRIBUTE = "esWindTune";
  */
 export const WIND_REFERENCE_TRUNK_RADIUS_M = 0.36;
 
-/** Clamp on the stiffness multiplier — a giant still moves a little, and a
- * sapling never whips. */
-export const WIND_STIFFNESS_RANGE: readonly [number, number] = [0.18, 2.2];
+/**
+ * Clamp on the stiffness multiplier. The ceiling is **1.0 on purpose**: this
+ * term only ever STIFFENS a plant relative to the calibrated baseline, never
+ * loosens it. Round 7 let thin trunks scale up to 2.2 and the owner
+ * immediately read palms as swaying too much, worst in light winds — which
+ * makes sense, because the round-6 amplitude they had already accepted was
+ * tuned for exactly those slender trees. Fat trunks were the defect; thin ones
+ * were never the problem, so they keep the amplitude that passed.
+ */
+export const WIND_STIFFNESS_RANGE: readonly [number, number] = [0.18, 1.0];
 
 /**
  * How much a plant sways relative to the calibrated median, from the width of
@@ -83,7 +90,9 @@ export const WIND_STIFFNESS_RANGE: readonly [number, number] = [0.18, 2.2];
  * moment `I ∝ r⁴`; the wind load `q` scales with crown area, which in tree
  * allometry grows roughly as `r²`. The two together leave deflection `∝ r⁻²`,
  * which is the exponent used here — a 1.2 m-radius buttressed giant lands on
- * the floor of the clamp and barely stirs, while a 0.15 m sapling whips.
+ * the floor of the clamp and barely stirs. The result is capped at 1 (see
+ * WIND_STIFFNESS_RANGE): slender trunks keep the amplitude that was already
+ * signed off, they are not amplified.
  *
  * `scale` is the instance's uniform scale, because a species placed at ×2 has
  * a trunk twice as thick.

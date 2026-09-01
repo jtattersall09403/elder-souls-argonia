@@ -49,6 +49,21 @@ export interface FloraCollisionAsset {
     /** Pivot -> capsule BOTTOM, world axes. */
     baseOffsetM: [number, number, number];
   };
+  /**
+   * A CHAIN of capsules following a trunk that leans or curves, bottom to top.
+   * One upright capsule cannot describe the Anvil canopy tree, whose trunk
+   * wanders ~14 m sideways over its 34 m: the owner walked through the parts
+   * the cylinder missed (round 7). Emitted only where the trunk is its own
+   * mesh and can be measured band by band — for an ordinary straight tree the
+   * single capsule is right and stays. Preferred over `collisionCapsule` when
+   * present; the capsule remains as the fallback.
+   */
+  collisionSegments?: {
+    radiusM: number;
+    heightM: number;
+    /** Pivot -> segment CENTRE, world axes. */
+    centreOffsetM: [number, number, number];
+  }[];
   collisionBox?: {
     halfExtentsM: [number, number, number];
     /** Pivot -> box centre, world axes. */
@@ -70,11 +85,40 @@ export function isSolid(asset: FloraCollisionAsset | undefined): boolean {
 }
 
 /**
- * The collider for one species, in instance-local metres (multiply by the
- * instance scale at spawn, and rotate `offsetM` by the instance rotation —
- * offsets are pivot-relative in the asset's UNROTATED local frame).
- * Returns null where the species is walk-through or the manifest carries no
- * usable shape, including any kit still on the pre-v2 collision frame.
+ * Every collider for one species, in instance-local metres (multiply by the
+ * instance scale at spawn, and rotate each `offsetM` by the instance rotation
+ * — offsets are pivot-relative in the asset's UNROTATED local frame).
+ *
+ * Usually one shape; a leaning or curved trunk returns a chain of capsules
+ * following its axis. Empty where the species is walk-through or the manifest
+ * carries no usable shape, including any kit still on the pre-v2 frame.
+ */
+export function collidersFor(
+  asset: FloraCollisionAsset | undefined,
+): FloraCollider[] {
+  if (!isSolid(asset) || !asset) return [];
+  if (asset.collisionFrame !== "pivot-yup-v2") return [];
+  const segments = asset.collisionSegments;
+  if (segments?.length) {
+    const chain = segments
+      .filter((s) => s.radiusM > 0 && s.heightM > 0)
+      .map((s): FloraCollider => ({
+        kind: "capsule",
+        radiusM: s.radiusM,
+        heightM: s.heightM,
+        // Already a centre, unlike the single capsule's base offset.
+        offsetM: [s.centreOffsetM[0], s.centreOffsetM[1], s.centreOffsetM[2]],
+      }));
+    if (chain.length) return chain;
+  }
+  const single = colliderFor(asset);
+  return single ? [single] : [];
+}
+
+/**
+ * The single fallback shape for one species — the trunk capsule or the box.
+ * Prefer `collidersFor`, which also handles curved trunks; this is exported
+ * for the cases that genuinely want one shape (and for its own tests).
  */
 export function colliderFor(
   asset: FloraCollisionAsset | undefined,

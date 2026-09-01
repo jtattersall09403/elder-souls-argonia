@@ -2299,7 +2299,162 @@
      0.383,
      0.716
     ]
-   }
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 2.805,
+     "heightM": 1.985,
+     "centreOffsetM": [
+      0.273,
+      1.375,
+      1.353
+     ]
+    },
+    {
+     "radiusM": 2.734,
+     "heightM": 1.985,
+     "centreOffsetM": [
+      0.273,
+      3.36,
+      1.544
+     ]
+    },
+    {
+     "radiusM": 2.203,
+     "heightM": 1.985,
+     "centreOffsetM": [
+      -0.309,
+      5.345,
+      1.544
+     ]
+    },
+    {
+     "radiusM": 1.931,
+     "heightM": 1.985,
+     "centreOffsetM": [
+      -0.559,
+      7.33,
+      0.762
+     ]
+    },
+    {
+     "radiusM": 1.759,
+     "heightM": 1.985,
+     "centreOffsetM": [
+      -0.584,
+      9.315,
+      0.54
+     ]
+    },
+    {
+     "radiusM": 1.671,
+     "heightM": 1.985,
+     "centreOffsetM": [
+      -0.584,
+      11.3,
+      -0.196
+     ]
+    },
+    {
+     "radiusM": 1.671,
+     "heightM": 1.985,
+     "centreOffsetM": [
+      0.201,
+      13.285,
+      -0.268
+     ]
+    },
+    {
+     "radiusM": 1.671,
+     "heightM": 1.985,
+     "centreOffsetM": [
+      0.741,
+      15.27,
+      -1.509
+     ]
+    },
+    {
+     "radiusM": 1.687,
+     "heightM": 1.985,
+     "centreOffsetM": [
+      1.549,
+      17.255,
+      -2.697
+     ]
+    },
+    {
+     "radiusM": 1.872,
+     "heightM": 1.985,
+     "centreOffsetM": [
+      2.593,
+      19.24,
+      -3.221
+     ]
+    },
+    {
+     "radiusM": 2.014,
+     "heightM": 1.985,
+     "centreOffsetM": [
+      3.7,
+      21.225,
+      -4.392
+     ]
+    },
+    {
+     "radiusM": 2.24,
+     "heightM": 1.985,
+     "centreOffsetM": [
+      8.692,
+      23.21,
+      -7.476
+     ]
+    },
+    {
+     "radiusM": 2.24,
+     "heightM": 1.985,
+     "centreOffsetM": [
+      8.692,
+      25.195,
+      -8.007
+     ]
+    },
+    {
+     "radiusM": 2.24,
+     "heightM": 1.985,
+     "centreOffsetM": [
+      8.692,
+      27.18,
+      -8.143
+     ]
+    },
+    {
+     "radiusM": 1.85,
+     "heightM": 1.985,
+     "centreOffsetM": [
+      10.046,
+      29.165,
+      -10.567
+     ]
+    },
+    {
+     "radiusM": 1.85,
+     "heightM": 1.985,
+     "centreOffsetM": [
+      10.208,
+      31.15,
+      -10.709
+     ]
+    },
+    {
+     "radiusM": 1.85,
+     "heightM": 1.985,
+     "centreOffsetM": [
+      10.272,
+      33.135,
+      -10.709
+     ]
+    }
+   ]
   },
   {
    "id": "composite:jungle/anvil-emergent-giant",
@@ -2348,7 +2503,225 @@
      -0.211,
      4.848
     ]
-   }
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 5.262,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      -0.088,
+      0.963,
+      2.646
+     ]
+    },
+    {
+     "radiusM": 4.029,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      -0.289,
+      3.313,
+      2.646
+     ]
+    },
+    {
+     "radiusM": 4.029,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      -1.595,
+      5.662,
+      -2.354
+     ]
+    },
+    {
+     "radiusM": 3.306,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      -1.595,
+      8.012,
+      -2.354
+     ]
+    },
+    {
+     "radiusM": 3.306,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      -0.893,
+      10.361,
+      0.084
+     ]
+    },
+    {
+     "radiusM": 3.306,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      1.132,
+      12.711,
+      0.084
+     ]
+    },
+    {
+     "radiusM": 2.99,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      1.132,
+      15.06,
+      -0.51
+     ]
+    },
+    {
+     "radiusM": 2.99,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      -0.576,
+      17.409,
+      -0.51
+     ]
+    },
+    {
+     "radiusM": 2.72,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      -0.576,
+      19.759,
+      -0.51
+     ]
+    },
+    {
+     "radiusM": 2.63,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      0.3,
+      22.108,
+      1.309
+     ]
+    },
+    {
+     "radiusM": 2.645,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      0.3,
+      24.458,
+      1.771
+     ]
+    },
+    {
+     "radiusM": 2.63,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      0.259,
+      26.807,
+      1.771
+     ]
+    },
+    {
+     "radiusM": 2.509,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      0.198,
+      29.157,
+      1.312
+     ]
+    },
+    {
+     "radiusM": 2.022,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      -0.129,
+      31.506,
+      1.094
+     ]
+    },
+    {
+     "radiusM": 1.993,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      -0.129,
+      33.855,
+      -1.952
+     ]
+    },
+    {
+     "radiusM": 2.022,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      0.725,
+      36.205,
+      -1.952
+     ]
+    },
+    {
+     "radiusM": 2.424,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      1.102,
+      38.554,
+      -1.275
+     ]
+    },
+    {
+     "radiusM": 2.424,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      1.102,
+      40.904,
+      -1.275
+     ]
+    },
+    {
+     "radiusM": 2.652,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      0.91,
+      43.253,
+      -1.275
+     ]
+    },
+    {
+     "radiusM": 2.988,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      0.553,
+      45.603,
+      2.649
+     ]
+    },
+    {
+     "radiusM": 3.35,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      0.065,
+      47.952,
+      2.649
+     ]
+    },
+    {
+     "radiusM": 3.35,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      -0.039,
+      50.302,
+      1.938
+     ]
+    },
+    {
+     "radiusM": 3.719,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      -0.078,
+      52.651,
+      0.047
+     ]
+    },
+    {
+     "radiusM": 4.152,
+     "heightM": 2.349,
+     "centreOffsetM": [
+      -0.078,
+      55.0,
+      -0.175
+     ]
+    }
+   ]
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\flora-province-v1.glb",

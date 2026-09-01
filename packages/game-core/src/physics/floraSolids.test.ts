@@ -2,9 +2,24 @@ import { describe, expect, it } from "vitest";
 import {
   colliderFor,
   isSolid,
+  collidersFor,
   selectNearestSolids,
   type FloraCollisionAsset,
 } from "./floraSolids";
+
+/** A composite whose trunk leans: measured band by band, bottom to top. */
+const leaningTrunk: FloraCollisionAsset = {
+  id: "composite:jungle/anvil-canopy-tree",
+  sizeM: [33.8, 28.5, 42.4],
+  collision: "trunk-capsule",
+  collisionFrame: "pivot-yup-v2",
+  collisionCapsule: { radiusM: 1.6, heightM: 33.7, baseOffsetM: [1.19, 0.38, 0.72] },
+  collisionSegments: [
+    { radiusM: 2.81, heightM: 2.0, centreOffsetM: [0.27, 1.38, 1.35] },
+    { radiusM: 1.76, heightM: 2.0, centreOffsetM: [-0.58, 9.31, 0.54] },
+    { radiusM: 1.85, heightM: 2.0, centreOffsetM: [10.27, 33.13, -10.71] },
+  ],
+};
 
 const trunk: FloraCollisionAsset = {
   id: "bmv:landscape/trees/cypress1",
@@ -101,5 +116,49 @@ describe("the collider ring", () => {
   it("caps the count so a dense stand cannot flood the physics world", () => {
     const dense = Array.from({ length: 500 }, (_, i) => at(i * 0.1, 0));
     expect(selectNearestSolids(dense, { x: 0, z: 0 }, 100, 64)).toHaveLength(64);
+  });
+});
+
+describe("a trunk that leans", () => {
+  it("returns a chain that follows the trunk, not one upright cylinder", () => {
+    const chain = collidersFor(leaningTrunk);
+    expect(chain).toHaveLength(3);
+    expect(chain.every((c) => c.kind === "capsule")).toBe(true);
+    // The whole point: the top of the trunk is ~14 m from the base in plan,
+    // which a single capsule at the base cannot cover — the owner walked
+    // through it (round 7).
+    expect(chain[0].offsetM[0]).toBeCloseTo(0.27);
+    expect(chain[2].offsetM[0]).toBeCloseTo(10.27);
+    expect(chain[2].offsetM[2]).toBeCloseTo(-10.71);
+  });
+
+  it("takes segment offsets as CENTRES, unlike the single capsule's base", () => {
+    const [first] = collidersFor(leaningTrunk);
+    // Not lifted by half the height — the builder already emits centres.
+    expect(first.offsetM[1]).toBeCloseTo(1.38);
+  });
+
+  it("still exposes one usable shape for callers that want a single proxy", () => {
+    expect(colliderFor(leaningTrunk)?.kind).toBe("capsule");
+  });
+});
+
+describe("collidersFor on ordinary species", () => {
+  it("wraps the single shape so every caller can treat it as a chain", () => {
+    expect(collidersFor(trunk)).toEqual([colliderFor(trunk)]);
+    expect(collidersFor(boulder)).toEqual([colliderFor(boulder)]);
+  });
+
+  it("gives walk-through species and pre-v2 kits nothing at all", () => {
+    expect(collidersFor(reeds)).toEqual([]);
+    expect(collidersFor({ ...leaningTrunk, collisionFrame: undefined })).toEqual([]);
+  });
+
+  it("falls back to the capsule when every segment is degenerate", () => {
+    const broken = {
+      ...leaningTrunk,
+      collisionSegments: [{ radiusM: 0, heightM: 2, centreOffsetM: [0, 1, 0] as [number, number, number] }],
+    };
+    expect(collidersFor(broken)).toEqual([colliderFor(leaningTrunk)]);
   });
 });

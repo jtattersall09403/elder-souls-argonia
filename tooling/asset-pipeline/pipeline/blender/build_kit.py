@@ -272,6 +272,75 @@ def _median(values):
     return ordered[len(ordered) // 2]
 
 
+def trunk_segments(objects, bands=None):
+    """A CHAIN of capsules following the trunk, for trunks that are not poles.
+
+    `trunk_capsule` fits one vertical capsule at a chest-height slice, which is
+    right for a tree that grows straight up and wrong for one that leans or
+    curves: the Anvil canopy tree's trunk wanders ~9 m sideways over its 34 m,
+    so a single upright cylinder at its base missed most of it and the owner
+    walked through the trunk (round 7 feedback).
+
+    Only ever called where the trunk is its OWN mesh — i.e. composites. For an
+    ordinary tree the upper bands are full of canopy, so a band's median centre
+    and radius would describe the crown, not the trunk; that is exactly why the
+    single-slice fit exists, and it is left alone (fifty capsules the owner has
+    already signed off depend on it).
+
+    Returns a list of (radius, height, centre_gltf[x, y, z]).
+    """
+    vertices = [obj.matrix_world @ v.co for obj in objects for v in obj.data.vertices]
+    if not vertices:
+        return []
+    lo_z = min(v.z for v in vertices)
+    hi_z = max(v.z for v in vertices)
+    height = hi_z - lo_z
+    if height <= 0:
+        return []
+    if bands is None:
+        # ~2 m bands. Thin bands matter: a leaning trunk drifts sideways WITHIN
+        # a band, and any radius estimator reads that drift as girth. Four-metre
+        # bands gave the canopy tree a 3.2 m base radius against a true ~1.5 m.
+        bands = max(3, min(24, int(round(height / 2.0))))
+    step = height / bands
+    raw = []
+    for index in range(bands):
+        centre_z = lo_z + (index + 0.5) * step
+        # OVERLAPPING window, one band either side. `anvilgianttrunk` is 784
+        # triangles over 56 m, so its vertex rings are metres apart and a band
+        # narrower than the spacing catches half a ring — which produced radii
+        # alternating 5.3, 1.5, 4.0, 0.6 up a smooth column.
+        inside = [v for v in vertices if abs(v.z - centre_z) <= step]
+        if len(inside) < 8:
+            continue
+        # Half the SMALLER horizontal extent of the window. Purely geometric,
+        # so unlike a vertex percentile it cannot be fooled by where the
+        # modeller put their triangles — a low percentile landed inside the
+        # giant column's dense centre cap and called a 56 m tree 17 cm thick.
+        # The smaller axis rather than the larger keeps residual lean (which is
+        # directional) out of the girth.
+        x_extent = max(v.x for v in inside) - min(v.x for v in inside)
+        y_extent = max(v.y for v in inside) - min(v.y for v in inside)
+        raw.append((max(0.15, 0.5 * min(x_extent, y_extent)),
+                    _median([v.x for v in inside]),
+                    _median([v.y for v in inside]),
+                    centre_z))
+
+    # Median-of-three along the chain: a trunk tapers, it does not jump. This
+    # removes the last of the low-poly sampling noise in both radius and axis.
+    segments = []
+    for i, (radius, cx, cy, cz) in enumerate(raw):
+        window = raw[max(0, i - 1):i + 2]
+        radius = _median([w[0] for w in window])
+        cx = _median([w[1] for w in window])
+        cy = _median([w[2] for w in window])
+        # Blender z-up -> glTF Y-up: (x, y, z) -> (x, z, -y). Height is one
+        # band, so consecutive capsules meet without a gap.
+        segments.append((round(radius, 3), round(step, 3),
+                         [round(cx, 3), round(cz, 3), round(-cy, 3)]))
+    return segments
+
+
 def trunk_capsule(objects, lo, hi):
     """The capsule a tree should collide with: its trunk, not its canopy.
 
@@ -484,6 +553,16 @@ for asset in PLAN["assets"]:
         record["collisionCapsule"] = {
             "radiusM": radius, "heightM": height, "baseOffsetM": base,
         }
+        # A composite's trunk is its own mesh, so it can be followed band by
+        # band. The single capsule stays in the manifest as the fallback for
+        # any runtime that does not read segments.
+        if trunk_meshes:
+            segments = trunk_segments(trunk_meshes)
+            if segments:
+                record["collisionSegments"] = [
+                    {"radiusM": r, "heightM": h, "centreOffsetM": c}
+                    for r, h, c in segments
+                ]
     elif asset["collision"] == "convex":
         # Boulders and root arches: a box proxy about the mesh bounds, inset a
         # little so the collider hides inside the silhouette — a proxy that

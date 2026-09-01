@@ -101,6 +101,51 @@
 >    open Claude terminal tab; restore half-written rasters from HEAD and
 >    re-run when the box is quiet.
 >
+> ### Round 8 (2026-09-01) — the round-7 playtest fixes
+>
+> Owner: "new canopy is fantastic". Two defects, both in what round 7 added.
+>
+> - **S1 — you can walk through parts of the new trees' trunks.** The
+>   collision model assumed a trunk is a POLE. `trunk_capsule` fits one
+>   upright capsule at a chest-height slice, which is right for the fifty
+>   species already signed off and wrong for the Anvil canopy tree, whose
+>   trunk wanders ~14 m sideways over its 34 m — the cylinder at its base
+>   covered the bottom and missed the rest.
+>
+>   Trunks can now be a CHAIN. `trunk_segments` walks the trunk in ~2 m
+>   bands and emits a capsule per band following its axis
+>   (`collisionSegments`, additive to the v2 frame; the single capsule stays
+>   as the fallback). It runs **only where the trunk is its own mesh** —
+>   i.e. composites. For an ordinary tree the upper bands are full of
+>   canopy, so a band would measure the crown, which is precisely why the
+>   single-slice fit exists. Verified: every pre-existing capsule is
+>   byte-identical.
+>
+>   Two estimator traps, both from the source meshes being low-poly:
+>   1. A vertex percentile reads *lateral drift within a band* as girth —
+>      4 m bands gave the canopy tree a 3.2 m base radius against a true
+>      ~1.5 m. Radius is now half the band's **smaller** horizontal extent:
+>      purely geometric (so vertex density cannot fool it, which also
+>      retires the reason for the `collisionRadiusM` override) and taking
+>      the smaller axis keeps directional lean out of the girth.
+>   2. `anvilgianttrunk` is 784 triangles over 56 m, so its vertex rings are
+>      metres apart and a 2.35 m band catches *half a ring* — radii
+>      alternated 5.3, 1.5, 4.0, 0.6 up a smooth column. Fixed with an
+>      overlapping ±1-band window plus a median-of-three along the chain, in
+>      both radius and axis. A trunk tapers; it does not jump.
+>
+>   Runtime: `collidersFor()` replaces `colliderFor()` as the entry point and
+>   returns an array. One rigid body per instance now carries every shape,
+>   with each shape's offset as a plain LOCAL position — which is what keeps
+>   a curved chain following the trunk once the instance is yawed.
+>
+> - **S2 — thin trees (palms) sway too much, worst in light wind.** Round 7
+>   let `windStiffness` scale thin trunks UP to ×2.2, and palms measure
+>   0.25-0.27 m, so they landed near the ceiling and nearly doubled their
+>   sway. The ceiling is now **1.0**: the term only ever stiffens relative to
+>   the calibrated baseline. Fat trunks were the defect; slender ones were
+>   never the problem and keep the amplitude that was already signed off.
+>
 > ### Round 7 (2026-09-01) — the round-6 playtest fixes
 >
 > Owner: everything except the jungle roof, the wind and the hanging roots
