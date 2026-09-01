@@ -1,0 +1,20 @@
+{
+  "_": "Engineering standard 7. Runtime data the game reads must carry a top-level integer `schemaVersion`. New runtime data paths are registered here with enforced:true from birth. Existing bundles predate the standard: they are listed with enforced:false and an owning phase, they print as notes on every run so the debt stays visible, and the flag flips when that phase next touches them. Never delete an entry to silence a note.",
+  "paths": [
+    {
+      "path": "world/sources/flora/palettes.json",
+      "enforced": false,
+      "owner": "Phase 10 (vegetation) — version when the palette schema next changes"
+    },
+    {
+      "path": "packages/game-core/src/anim/generated/rig-skyrim-humanoid.animations.json",
+      "enforced": false,
+      "owner": "Phase 10b (moveset wiring adds the polearm families)"
+    },
+    {
+      "path": "packages/game-core/src/validation/visualScenarioExpectations.json",
+      "enforced": false,
+      "owner": "Phase 10b"
+    }
+  ]
+}

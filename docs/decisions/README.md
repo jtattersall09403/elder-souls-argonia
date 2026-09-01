@@ -44,3 +44,4 @@ record and marking the old one superseded — don't rewrite history.
 - [0038 — the world-build/game-build-out seam: contracts-and-thin-slices policy, the game-buildout-register, detection-model + save-layer gaps found](0038-world-build-vs-game-buildout-seam.md)
 - [0039 — Morrowind/Skyrim systems cross-check triage: ~22 adoptions applied, cuts recorded, seven owner steers (PROPOSED — awaiting owner)](0039-source-game-crosscheck-triage.md)
 - [0040 — animation packs (the rig split per weapon family), poise made switchable while it is judged, contact windows left unmeasured rather than guessed](0040-animation-packs-and-combat-parallel-pass.md)
+- [0042 — build-out steers: Hist powers kept, the §4 ambitions batch ruled, renderer extraction moved to Phase 14, polearms to 10b, a 10c combat proving round, TES-voice review, and eleven engineering standards with checks](0042-buildout-steers-and-engineering-standards.md)

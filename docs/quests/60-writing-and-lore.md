@@ -83,6 +83,49 @@ asking basic questions is in character.
 - Validator: glossary terms carry topic coverage and an Act-I availability
   flag; `opaque` entries are exempt (80 §59b, §63).
 
+## 45e. TES voice, and the AI-voice failure mode (binding, owner 2026-09-01)
+
+Owner directive, decision
+[0042 §6](../decisions/0042-buildout-steers-and-engineering-standards.md).
+**Model-written prose reaches for gravitas and produces constructions nobody
+writes.** The owner's example, from a death message: *"With this death, a root
+the story grew along is severed"* — a stranded preposition wrapped round a
+relative clause, reaching for weight. Grammatical would be *"a root along which
+the story grew"*; **good** is *"With this death, a root is severed."*
+
+**TES prose is plainer than people remember.** Short declaratives. Concrete
+nouns. Archaism carried by *vocabulary and idiom* — not by inverted or twisted
+syntax. When a line feels portentous, cut it in half; what remains is usually
+the line.
+
+Three stages, and this is a *requirement on writing*, not a cleanup afterwards:
+
+1. **A voice research pass** derives the rulebook from the actual corpus
+   (Morrowind dialogue and books, Skyrim's better-written material): register,
+   sentence length, permitted archaism, how each culture and class speaks, and
+   — the place AI voice hides best — **how system messages sound** (deaths,
+   tutorials, item descriptions, failure text, where no character anchors the
+   register).
+2. **The rulebook binds every text-producing agent** as an input to writing.
+3. **An independent voice-review agent** — a different agent from the writer,
+   by design, because a writer will not catch its own register — reviews
+   written text against the rulebook and proposes the specific edit.
+
+Engineering standard 4 (one keyed text catalogue,
+[../engineering-standards.md](../engineering-standards.md)) is what makes stage
+3 mechanical: the reviewer sweeps one catalogue instead of hunting through code.
+
+### 45e.1 Banned constructions (grows — add on sight)
+
+| Don't | Do | Why |
+|---|---|---|
+| "a root the story grew along is severed" | "a root is severed" | stranded preposition reaching for weight; cut to the image |
+| "With this act, the very fabric of…" | name the actual thing | "the very" is always padding |
+| "You feel a sense of unease wash over you." | "You are uneasy." / say what is wrong | telling the player their feelings, at length |
+| Tricolons in system text ("the lost, the drowned, the forgotten") | one noun | the single loudest AI tell |
+| "Perhaps… perhaps not." / trailing ellipses for mood | end the sentence | |
+| "It is said that…" as an opener | say it, or attribute it to someone | |
+
 ## 46. Dialogue model
 
 Most dialogue should use Morrowind-like text and topics:

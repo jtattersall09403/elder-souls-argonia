@@ -51,6 +51,9 @@ reading one extra doc.
 | Asset pipeline: GLB/skeleton/Blender/Skyrim data | [../tooling/asset-pipeline/README.md](../tooling/asset-pipeline/README.md) |
 | "Why is X the way it is?" | [decisions/README.md](decisions/README.md) — short numbered records |
 | Deferring cosmetic/feel work; picking up Phase P | [polish-backlog.md](polish-backlog.md) |
+| **Writing any code at all** — the eleven standing rules (stable IDs, one text catalogue, `schemaVersion`, determinism, no new singletons, provenance…) and their checks | [engineering-standards.md](engineering-standards.md) + decision [0042](decisions/0042-buildout-steers-and-engineering-standards.md). Four are mechanical: `npm test -w @elder-souls/repo-standards` |
+| Writing **any player-visible text** (dialogue, books, journal, system messages, UI labels) | [quests/60 §45e](quests/60-writing-and-lore.md) (TES voice + the banned-constructions list) + `packages/text-catalogue` — every string is registered there, never a literal |
+| Gating a quest, dialogue line or reward on world state | [quests/85-condition-vocabulary.md](quests/85-condition-vocabulary.md) — the only language conditions and actions may be written in; add a predicate there rather than inventing prose |
 | Deferring a whole *game system* past the world build; "who owns system X?"; hooks a phase must leave for future systems | [game-buildout-register.md](game-buildout-register.md) (decision 0038) + the full [build-out systems audit](research/game-buildout-systems-audit.md) |
 | Credits/licensing of any external source | root [README.md](../README.md) § Credits and third-party sources |
 | Repo layout, package rules, world bundles, deploy targets | [world/80](world/80-repo-architecture.md) §58–65 |

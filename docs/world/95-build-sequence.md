@@ -430,6 +430,16 @@ Deliverables:
   studio compose the same packages through different scene adapters;
 - inventory and equipment systems and UI in the studio;
 - enemies, targeting and lock-on; the bow;
+- **polearm sourcing *and* moveset wiring, together** (owner ruling
+  2026-09-01, [0042 §4](../decisions/0042-buildout-steers-and-engineering-standards.md)
+  — moved here from Phase 10): download, convert and audition the clips for the
+  kept chassis classes, then wire them, in one pass with one owner playtest.
+  Sources verified in [90 §74.3](90-asset-strategy.md): Animated Armoury (SSE
+  35978, rapier/pike/halberd/quarterstaff/claw/katana + player *and* NPC
+  loose-`.hkx` movesets), Animated Heavy Armory (51100), Skyrim Spear Mechanic
+  (25146). Today `spear`, `halberd` and `staff` are classes borrowing the
+  `greatsword`/`greataxe` movesets — a spear swings rather than thrusts.
+  Credits go into the root README in the same change (§73);
 - **navmesh bake pipeline + `NavService`** (module 72, §114): recast tiled
   bake from kit/terrain collision in the world compiler, two agent classes,
   version pin asserted in CI — enemies in the studio path on baked data;
@@ -473,7 +483,19 @@ Deliverables:
 - enemy archetypes restated on the new scale; character-sheet UI;
 - the power ladder documented for Phase 13 authors (what D0–D5 means
   numerically), and the birthsign hook left ready (module 55 gives a birth
-  date its constellation for free).
+  date its constellation for free);
+- **the combat proving round** — the last thing this phase does, because it
+  measures calibrated numbers rather than placeholders (owner, 2026-09-01,
+  [0042 §5](../decisions/0042-buildout-steers-and-engineering-standards.md)).
+  The machine does the sweep: `tooling/stats-sim` runs **every enemy archetype
+  against five preset builds** (heavy brawler, light dodger, archer, caster,
+  sneak) and reports the outliers — unhittable enemies, trivial enemies, builds
+  that hit a wall. The **owner playtests only the flagged cases**, plus one
+  deliberate sample per feel category (fast swarmer, slow heavy, ranged), which
+  needs a **preset-loadout picker in the sandbox** — that picker is part of the
+  deliverable. Target ~a dozen fights, not hundreds. **Bosses are out of
+  scope**: a boss is authored, not tuned; one prototype (Xal-Krona) is built
+  and playtested in the build-out and sets the pattern.
 
 Sequenced after 10b and **before Phase 13 and any packet freeze**: content in
 11/12 is *authored* semantically against the S schema and doesn't wait for
@@ -584,6 +606,23 @@ texture compression) rather than waiting for this phase.
 
 Deliverables:
 
+- **the renderer extraction — `packages/world-render`** (owner ruling
+  2026-09-01, decision
+  [0042 §3](../decisions/0042-buildout-steers-and-engineering-standards.md);
+  moved here from build-out milestone G0). ~7,300 LOC of game-runtime rendering
+  still lives app-private in `apps/world-studio/src` — sky/light, the water
+  frame pipeline, weather expression, terrain streaming + the only
+  `EnvironmentQuery` implementation, vegetation, ground splat material, the
+  character driver, touch input. It is extracted here because this phase must
+  touch that code anyway, and because Phase 15 should author content for the
+  real game app rather than for a studio that is subsequently rewritten.
+  Constraints from the audit (§1): extract as **one** package first — sky,
+  water, weather and terrain are a five-way import cycle coupled by mutable
+  module-level singletons, so splitting comes after; re-validate anything tuned
+  under the studio's paused-by-default clock against `GAME_TIME_SCALE = 30`
+  rather than assuming a re-import is neutral; and resolve the `__STUDIO_*`
+  debug globals into a dev-only seam (engineering standard 8). The game shell,
+  menus and deploy slice stay in the build-out;
 - production chunk format;
 - dependency-aware streaming (nav tiles stream with chunks, §114);
 - LOD and instance batching; vegetation quality tiers locked as one

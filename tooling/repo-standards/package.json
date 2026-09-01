@@ -1,0 +1,10 @@
+{
+  "name": "@elder-souls/repo-standards",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Mechanical enforcement of docs/engineering-standards.md — determinism, no new package singletons, stable IDs, schemaVersion, asset credits. No dependencies by design.",
+  "scripts": {
+    "test": "node check.mjs"
+  }
+}

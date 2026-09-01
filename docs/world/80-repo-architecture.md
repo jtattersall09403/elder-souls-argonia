@@ -49,6 +49,16 @@ when their phase needs them, not speculatively.
 > `character` (R3F/Rapier/ecctrl actor layer) and `character-assets` (tracked
 > runtime GLBs + a vite plugin). Split further only when a consumer needs a
 > slice without the rest.
+>
+> Added since: `world-time`, `world-weather`, and **`text-catalogue`** (every
+> player-visible string, keyed by ID — engineering standard 4). Scheduled:
+> **`world-render`** at Phase 14, which is where the ~7,300 LOC of renderer
+> still living in `apps/world-studio/src` comes out (decision 0042 §3);
+> `narrative-core` in the build-out. Package rules and the standards that bind
+> every package are [../engineering-standards.md](../engineering-standards.md) —
+> note especially standard 8 (no new module-level mutable singletons), which is
+> the specific thing that made the renderer expensive to extract, and is now a
+> ratcheting check in `npm test`.
 
 ```text
 elder-souls-argonia/

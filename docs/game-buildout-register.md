@@ -16,6 +16,12 @@ the [build-out systems audit](research/game-buildout-systems-audit.md)
 [0039](decisions/0039-source-game-crosscheck-triage.md) — **all steers RULED
 2026-08-30**; read its Rulings section before touching any cross-check item).
 
+**Hooks that apply to every row** are the eleven
+[engineering standards](engineering-standards.md) (decision 0042 §8) — stable
+IDs, one text catalogue, `schemaVersion`, determinism, no new singletons, the
+typed condition vocabulary and the rest. Read those before adding a row; four
+of them are mechanical checks in `npm test`.
+
 This file is the systems twin of [polish-backlog.md](polish-backlog.md)
 (cosmetic/feel leftovers for Phase P — not systems). One row per deferred
 system: what the world build already owns, what is deferred, and the
@@ -30,9 +36,16 @@ freely; shrink or delete rows as phases absorb them.
 (sky/light, water pipeline, weather, terrain streaming, vegetation, character
 driver) live app-private in `apps/world-studio/src`, coupled by module-level
 singletons, plus ~130 MB of world data in its `public/`. Simulation packages
-(~17k LOC) are already shared. Recommendation: "apps/game becomes real"
-(renderer extraction as one `world-render` package, game shell, deploy slice)
-is the build-out's **first milestone**. **Standing hook — now a binding
+(~17k LOC) are already shared.
+
+**RULED 2026-09-01 (0042 §3): the renderer extraction happens at Phase 14, not
+in the build-out.** Phase 14 (streaming and deployment) must touch this code
+anyway, and extracting there means Phase 15's regional rollout produces content
+for the real game app rather than for a studio that is then rewritten. Extract
+as **one** `world-render` package first (the five-way import cycle splits
+later), and re-validate anything tuned under the studio's paused-by-default
+clock against `GAME_TIME_SCALE = 30`. The game shell, menus and deploy slice
+remain build-out milestone G0. **Standing hook — now a binding
 CLAUDE.md golden rule (owner ruling 2026-08-30, 0038 addendum 2):** anything
 the final game will need is written in `packages/` from the start, rendering
 included; debug hooks behind a dev-only seam, not more `__STUDIO_*` globals;
@@ -42,11 +55,13 @@ will also use.
 ## Recommended pull-ins — world-build scope, owner ratifies at the named kickoff
 
 - **Full movesets for the kept weapon classes** (Blunt, Axe, Spear/pike/
-  halberd/staff, Short Blade, unarmed — chassis taxonomy per 0031). Clip
-  *sourcing* is already a registered Phase 10 job with verified candidates
-  (90 §74.3). Recommendation: wire clips at **10b** (combat-space probes
-  under-measure with only 1H+bow), class numbers at **10c**, all before
-  **13**. Ratify at 10b kickoff.
+  halberd/staff, Short Blade, unarmed — chassis taxonomy per 0031).
+  **RULED 2026-09-01 (0042 §4): clip *sourcing* moves from Phase 10 to 10b and
+  happens in the same pass as the wiring** — auditioning clips you are about to
+  wire is one playtest, not two. Sources verified in 90 §74.3 (Animated Armoury
+  SSE 35978 + 51100 + 25146). Class numbers at **10c**, all before **13**.
+  Today `spear`/`halberd`/`staff` exist as classes borrowing the
+  `greatsword`/`greataxe` movesets, so a spear swings rather than thrusts.
 - **Minimal NPC detection model** (view cones + seen/unseen, one service).
   Sneak XP (76 §120.1), sneak-opener bands (§121.5), Elusiveness-vs-Spot,
   watcher-cone and disguise quest conversions, and crime detection all
@@ -104,26 +119,28 @@ will also use.
 | **Economy runtime** | barter/purse/trainer math (76 §124); merchant sockets (75 §56); loot provenance (13); **shrine-blessing services priced by faith standing, contraband flags, staged-disease counterplay goods** (0039) | restock/purse cycles (+ the merchant rules in cross-check §4), shop + service UIs, income timers, guide services, **bed rental (0039 S3: no camping in settlements — wait only; resting in town needs a bed, so inns are economically real)** — incl. stocking water-breathing consumables (00-core criterion 25) and disease/venom cures (the S2 survival layer is CUT; counterplay lives in the normal cure/resist economy) | merchant stock = loot IDs through the semantic compiler; no parallel item system |
 | **Crafting stations & resource nodes** (adopted, 0039) | `STATION` sockets + station/harvest placement (11/12/13); physical materials (10) | station interaction verbs (forge/temper/brew/cook/tan), resource-node yield tables, the pelts→leather and reeds/clay chains, container respawn + safe-storage policy | stations/nodes are placed data with vault meshes + use-animations; repair tools are consumable items |
 | **Character creation & onboarding** | races/birthsign slot/specialization data at 10c; birthsign *contents* deferred (76 §119.2) | chargen UI flow (diegetic class-quiz template, cross-check §1), intro sequence, tutorial-by-object-pickup, the 13 sign packages | 10c keeps race/sign/class fully data-driven |
+| **HUD & UI design system** (0042 §7) | the shipped Morrowind-skinned inventory UI is the **seed the token set is extracted from**; the sandbox HUD is the second data point | one token set (colour/type/spacing/iconography), one component layer, one input model (mouse/touch/pad), one Morrowind-derived visual language — **defined before the second screen is built**, then every screen (journal, map, character sheet, barter, dialogue, menus) composes it | the design system is extracted *before* G1's first new screen, not after; every screen is pad- and touch-navigable by construction, never mouse-first with a pad bolted on |
+| **TES voice for all text** (0042 §6) | the voice rules and the growing banned-constructions list ([quests 60 §45e](quests/60-writing-and-lore.md)) | the corpus-derived rulebook (stage 1), and an **independent voice-review agent** separate from the writer (stage 3) | every player-visible string lives in `packages/text-catalogue` (engineering standard 4) so the review is one sweep, not a grep; system text (deaths, tutorials, item descriptions) is reviewed like dialogue |
+| **Hist communion powers** (0042 §1, KEPT) | Phase 11 places the ~10 hero Hist with a stable ID and a power slot | the powers themselves as effect-stack data (once-per-day semantics), plus the flavour/dream layer | race-neutral: anyone may drink; Argonians get flavour and a dream, never mechanics, and nothing is gated on race |
 | **Menus, settings, accessibility** | difficulty knob at 10c (76 §121.4 — a pure two-sided multiplier, cross-check §4) | main menu, settings/rebinding UI, accessibility, (localization: explicitly out unless the owner says otherwise) | input stays behind `PlayerMovementController`; bindings data-driven |
 | **Narrative tooling & QA** | studio shell + probe patterns exist | narrative debugger (quests 80 §64), validator suite + LLM-critic (§63/63b), headless ending simulation | quest runtime headlessly drivable from day one |
 | **Music / score** | nothing — out of world-build scope (57) | the whole score (requestable tavern performers CUT by 0039) | 12b's `AudioManager` leaves a music bus + ducking hooks |
 
-**Awaiting an explicit keep / cut / defer ruling.** The 0039 steers are all
-RULED (see its Rulings section). Still open from them: **Hist-site communion
-powers** — a design slot, pursued only if a proposal is simple, fun,
-reuses powers/effect-stack semantics and stays race-neutral-completable;
-**pilgrimage circuits** — deferred to quest authoring with a nudge planted
-in the Nisswo line (quests 40); **fishing** — adopted iff the animation is
-a cheap sourcing job (check vault/mod scene first). Remaining: **the audit
-§4 ambitions batch** (drifting settlements · fire-in-a-wetland +
-`fire`/`mudResponse` · river-pirate boat encounters · deferred boat tier
-(`BoatStorageSocket` orphaned) · boat nav constraints · mounts ·
-swamp-jelly husbandry · per-culture doctrine/burial *expression* (the
-customs/standing mechanic itself was adopted, 0039 S5) · festivals +
-ritual gates (pilgrimages deferred as above) · tide-gated access gameplay ·
-creature boat/tree use · wild wamasu (blocks quest FG03) · era-aware
-layering (moot at 4E 201) · demographics → language/clothing/food/religion
-· delete the orphaned `rootwormTransit` mode). Recorded cuts from the
+**Nothing is awaiting a ruling.** The 0039 steers were ruled 2026-08-30; the
+audit §4 ambitions batch and the Hist-powers slot were ruled 2026-09-01 in
+decision [0042](decisions/0042-buildout-steers-and-engineering-standards.md)
+— read its §1–2 for the full table. Headlines: **Hist communion powers KEPT**
+(once-per-day powers on the existing effect stack, race-neutral, ~10 hero
+trees) · **CUT**: drifting settlements, wetland fire spread, river-pirate boat
+encounters, mounts, swamp-jelly husbandry, creature boat/tree use, tide-gated
+access · **KEPT cheap**: boat nav clearance as a Phase 11 authoring rule, Hist
+hero-site root motion as set dressing, per-culture doctrine/burial as content,
+demographics→culture expression as an authoring rule · **DEFERRED to G3**:
+the boat tier, festivals/ritual gates · **RULED**: wild wamasu exist (FG03
+stands) · **DELETED**: era-aware layering, `rootwormTransit`,
+`BoatStorageSocket`. Still deferred from 0039, unchanged: **pilgrimage
+circuits** (to quest authoring, nudge in the Nisswo line) and **fishing**
+(adopted iff the animation is a cheap sourcing job). Recorded cuts from the
 cross-check + 0039 rulings (player vampirism/lycanthropy, shouts, player
 construction, swappable birthstones, apex roamer, marriage/adoption,
 survival attrition, bleedout, killmove layer, projectile interception,

@@ -1,0 +1,20 @@
+{
+  "name": "@elder-souls/text-catalogue",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "The one catalogue of player-visible text, keyed by stable ID (engineering standard 4). Pure data — no rendering, no formatting engine.",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit --pretty false"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3",
+    "vitest": "^4.0.18"
+  }
+}

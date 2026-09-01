@@ -78,6 +78,14 @@ The overall goal at this point is to build the province-scale world, in a way th
   **not finished or frozen** — re-architect and extend them when the game needs
   it (see world module 75 §51.1), keeping the controller boundary and the
   package rule intact.
+- **Obey the eleven engineering standards** ([docs/engineering-standards.md](docs/engineering-standards.md),
+  decision 0042): stable IDs on everything placed; every player-visible string
+  in `packages/text-catalogue`, never a literal; `schemaVersion` on runtime
+  data; determinism in world building; no new module-level mutable singletons
+  in `packages/`; asset source+hash+credit in the same change; quest gates only
+  in the typed vocabulary ([docs/quests/85](docs/quests/85-condition-vocabulary.md)).
+  Four are checked mechanically by `npm test` — they are cheap now and brutal
+  to retrofit, which is the whole reason they exist.
 - **Don't over-validate.** `npm test` and `npm run typecheck` are the routine
   gates. If you touched animation/movement/physics/camera code, also run
   `npm run visual:check -- <group>` (fast, no video). Nothing else is required

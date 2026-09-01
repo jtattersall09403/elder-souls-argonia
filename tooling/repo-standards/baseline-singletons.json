@@ -1,0 +1,25 @@
+{
+  "_": "Engineering standard 8. Module-level mutable singletons that already exist in packages/. This list may SHRINK, never grow — the check fails on anything new, and notes anything here that has been removed so the entry gets deleted. When you substantially touch a file listed here, take the singleton with you: inject it instead.",
+  "known": [
+    {
+      "file": "packages/game-core/src/io/input.ts",
+      "symbol": "input",
+      "note": "global input controller; the PlayerMovementController boundary should own it — untangle at 10b's §53 scene-adapter merge"
+    },
+    {
+      "file": "packages/game-core/src/io/uiMenus.ts",
+      "symbol": "uiMenuInput",
+      "note": "menu input singleton; same fix as `input`"
+    },
+    {
+      "file": "packages/game-core/src/combat/actorRegistry.ts",
+      "symbol": "actorRegistry",
+      "note": "scene-scoped in reality — becomes a per-scene service at 10b (§53 lists actor spawning and target registration)"
+    },
+    {
+      "file": "packages/game-core/src/fx/audio.ts",
+      "symbol": "combatAudio",
+      "note": "currently a no-op stub; 12b replaces it with an injected AudioManager carrying the music bus"
+    }
+  ]
+}

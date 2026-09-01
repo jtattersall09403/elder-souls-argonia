@@ -1,0 +1,21 @@
+{
+  "_": "Engineering standard 6. Scopes are the code that generates, compiles or places WORLD DATA — runtime gameplay jitter (an enemy's decision timer) is not world building and is out of scope by construction. Every allowlist entry needs a reason; an entry with no reason is a bug.",
+  "scopes": [
+    { "dir": "tooling/world-generation/worldgen", "exts": [".py"] },
+    { "dir": "tooling/asset-pipeline/pipeline", "exts": [".py"] },
+    { "dir": "packages/world-time/src", "exts": [".ts"] },
+    { "dir": "packages/world-weather/src", "exts": [".ts"] }
+  ],
+  "allowed": [
+    {
+      "file": "tooling/world-generation/worldgen/sculpt_province.py",
+      "line": 28,
+      "reason": "wall-clock start for an elapsed-time field in the run report; does not affect any generated world data"
+    },
+    {
+      "file": "tooling/world-generation/worldgen/sculpt_province.py",
+      "line": 34,
+      "reason": "matching elapsed-time read for the same report field"
+    }
+  ]
+}

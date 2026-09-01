@@ -1,0 +1,5 @@
+{
+  "_": "Engineering standard 2. Every file that carries stable IDs for placed or referenceable things registers here, and the check asserts ID shape (<domain>.<packet>.<name>, lower kebab), global uniqueness across all sources, and that no retired ID is reused. Phase 11 is where this goes from empty to load-bearing: add each placement file as you create it. `idKey` defaults to \"id\".",
+  "sources": [],
+  "retired": []
+}
