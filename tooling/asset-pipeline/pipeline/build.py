@@ -534,6 +534,14 @@ def write_runtime_manifest(plan: BuildPlan, summary: dict) -> None:
                     support_envelopes[s.semantic]["authoredGroundSpeed"] * recommended_scale,
                     5,
                 ),
+                # The planar displacement the planted foot says the body made,
+                # per support sample, in runtime metres and in the actor's own
+                # frame. Blender is Z-up and its planar pair is (x, y); glTF is
+                # Y-up, where the same pair is (x, z).
+                "groundTrack": [
+                    [round(x * recommended_scale, 5), round(y * recommended_scale, 5)]
+                    for x, y in support_envelopes[s.semantic].get("groundTrack") or []
+                ],
                 "supportEnvelope": {
                     "sampleStartTimeSeconds": support_envelopes[s.semantic]["sampleStartTimeSeconds"],
                     "sampleIntervalSeconds": support_envelopes[s.semantic]["sampleIntervalSeconds"],

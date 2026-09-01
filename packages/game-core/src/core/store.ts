@@ -27,6 +27,7 @@ export const initialSnapshot: GameSnapshot = {
   enemyCount: DEFAULT_ENEMY_COUNT,
   showHitboxes: false,
   showWeaponHitboxes: false,
+  footDrivenMotion: true,
   resetToken: 0,
   aiming: false,
   bowPhase: "lowered" as const,
@@ -52,6 +53,7 @@ export const useGameStore = create<GameStore>((set) => ({
     enemyCount: state.enemyCount,
     showHitboxes: state.showHitboxes,
     showWeaponHitboxes: state.showWeaponHitboxes,
+    footDrivenMotion: state.footDrivenMotion,
     poiseEnabled: state.poiseEnabled,
     // Debug overrides survive a restart, or testing a rule that needs a raised
     // pool would mean re-setting them after every death.

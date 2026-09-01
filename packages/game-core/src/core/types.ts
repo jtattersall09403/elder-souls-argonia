@@ -182,6 +182,15 @@ export type GameSnapshot = {
    * impossible, which is why this is its own switch and its own view.
    */
   showWeaponHitboxes: boolean;
+  /**
+   * Take a committed action's movement from its own feet rather than from the
+   * attack's authored `lunge` speed (`locomotion/footAnchoredMotion`).
+   *
+   * A switch because it is a change of principle, not a tuning value, and the
+   * owner asked to be able to judge it against what it replaces without a
+   * rebuild. Off restores the constant-velocity lunge exactly.
+   */
+  footDrivenMotion: boolean;
   resetToken: number;
   /** A bow is raised: the view is first person and the crosshair is up. */
   aiming: boolean;

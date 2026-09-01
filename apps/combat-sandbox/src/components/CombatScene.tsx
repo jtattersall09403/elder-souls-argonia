@@ -133,6 +133,7 @@ import {
   measureHeldObject,
   type HitCapsule,
 } from "@elder-souls/game-core/combat/hitVolume";
+import { footAnchoredVelocity, hasGroundTrack } from "@elder-souls/game-core/locomotion/footAnchoredMotion";
 import {
   executionAnchor,
   executionBladeIntersectsVictim,
@@ -826,6 +827,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   // ducked on its own — these are two separate volumes, and this is the one the
   // world stops rather than the one combat hits.
   useStanceCapsule(player, playerStance);
+  const footDrivenMotion = useGameStore((state) => state.footDrivenMotion);
   /**
    * The player's poise pool (module 76 §121.3). While it holds, a hit costs
    * health and nothing else; when it empties the blow interrupts. Enemies carry
@@ -2063,6 +2065,32 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         const yawDelta = Math.atan2(Math.sin(targetYaw - startYaw), Math.cos(targetYaw - startYaw));
         tmp.current.quaternion.setFromAxisAngle(UP, startYaw + yawDelta * alignmentProgress);
         body.setRotation(tmp.current.quaternion, true);
+      } else if (footDrivenMotion && attackDashDistance.current <= 0 && hasGroundTrack(attack.animation)) {
+        // Movement from the clip's own feet, for the whole action rather than
+        // just the wind-up. `footAnchoredVelocity` is the derivative of the
+        // distance the planted sole actually covered, so a swing that plants
+        // and stays planted moves the body by nothing at all — which is most of
+        // what the authored lunge was getting wrong.
+        // Capped by the lunge it replaces, so this can only ever move the
+        // actor less than today's behaviour — see `footAnchoredMotion`.
+        const step = footAnchoredVelocity(
+          attack.animation,
+          playerActionTime.current,
+          delta,
+          Math.max(attack.lunge, 0),
+        );
+        // Along the attack direction only. The measurement's sideways component
+        // is where its one blind spot lives — a pivoting clip's planted foot
+        // traces the same arc as a travelling one, and the one-handed heavy
+        // spins — while an attack is a thing you aim, so its own facing is the
+        // axis that means anything. Cheap and total: the artefact is entirely
+        // lateral, and dropping that axis drops all of it.
+        const forward = playerAttackDirection.current;
+        body.setLinvel({
+          x: forward.x * step.forward,
+          y: body.linvel().y,
+          z: forward.z * step.forward,
+        }, true);
       } else if (phase === "windup" && (attack.lunge > 0 || attackDashDistance.current > 0)) {
         const dashSpeed = attackDashDistance.current > 0 && attack.windup > 0
           ? attackDashDistance.current / attack.windup

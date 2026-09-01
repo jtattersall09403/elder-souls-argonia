@@ -62,6 +62,12 @@ export type ClipConfig = {
   /** Pipeline-baked visible-surface samples; never skinned at gameplay runtime. */
   supportEnvelope?: SupportEnvelope | null;
   /**
+   * Cumulative planar displacement the clip's planted foot says the body made,
+   * per support sample, in metres and in the actor's own frame. See
+   * `locomotion/footAnchoredMotion`.
+   */
+  groundTrack?: readonly (readonly [number, number])[] | null;
+  /**
    * Measured ground speed (m/s) this clip's authored stride is timed for, from
    * the planar velocity of its planted sole. ~0 for standing actions.
    */
@@ -253,6 +259,7 @@ const FALLBACK: ClipConfig = {
   supportMode: "penetration",
   supportPhases: [],
   supportEnvelope: null,
+  groundTrack: null,
   authoredGroundSpeed: null,
   rootMotionDelta: null,
   provenance: "",

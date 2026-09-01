@@ -435,7 +435,16 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     // plus at least one second of the clamped prone outcome.
     duration: 8.4,
     player: { ...REVIEW_PLAYER, poise: false },
-    enemy: { ...REVIEW_ENEMY, health: 62 },
+    // Staged at melee distance rather than at the review spacing.
+    //
+    // That spacing was chosen when an attack's authored lunge closed about
+    // 0.6 m of it on its own. Movement now comes from the clip's feet
+    // (`footAnchoredMotion`) and a sword's light attack steps 0.13 m, so an
+    // attacker who wants to be in range has to already be in range. This scene
+    // reviews *hit reactions*, so it is staged where they happen; whether the
+    // new spacing is the right thing to ask of a player is a feel question for
+    // playtest, and the switch that turns it off is in the debug panel.
+    enemy: { ...REVIEW_ENEMY, position: [0.5, Y, 0.5] as const, health: 62 },
     cues: [
       { from: 0.05, to: 0.14, actions: ["lockOn"] },
       { from: 0.25, to: 0.34, actions: ["light"] },

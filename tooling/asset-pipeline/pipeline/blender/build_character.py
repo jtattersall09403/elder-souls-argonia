@@ -724,6 +724,11 @@ for marker_id, bone_name in sole_marker_bones:
 STANCE_HEIGHT_BAND = 0.18
 
 
+# How much lower the other foot has to be before the anchor moves to it.
+# In armature units; about a centimetre at runtime scale.
+STANCE_ANCHOR_HYSTERESIS = 0.065
+
+
 def measure_authored_ground_speed(planar_by_id, height_by_id, sample_rate):
     """Median planar speed of a planted sole marker, in armature units/second."""
     speeds = []
@@ -748,6 +753,75 @@ def measure_authored_ground_speed(planar_by_id, height_by_id, sample_rate):
     median = (speeds[middle] if len(speeds) % 2
               else (speeds[middle - 1] + speeds[middle]) / 2.0)
     return round(float(median), 6)
+
+
+def measure_ground_track(planar_by_id, height_by_id):
+    """Planar body displacement implied by whichever sole is planted.
+
+    The principle the owner asked for, and the one a real body obeys: while a
+    foot is on the ground it does not slide, so any planar motion of that foot
+    *relative to the in-place root* is motion the body actually made. Integrate
+    the negative of it and you have the clip's own ground track — no authored
+    lunge, no per-clip hand tuning, and it is zero for a clip whose feet are
+    planted, which is exactly the "if the feet aren't moving, the capsule
+    shouldn't be either" case.
+
+    Returns cumulative (x, y) displacement in armature units, one entry per
+    support sample, starting at zero.
+
+    Only the *feet* are used, not the toes: a toe marker keeps moving through a
+    heel-off while the foot as a whole is still anchored, which reads as motion
+    that is not there.
+
+    **Known limitation, handled at runtime.** With one anchor point and no
+    knowledge of the body's own rotation, a *pivoting* clip is indistinguishable
+    from a travelling one: a planted foot swinging round a turn traces the same
+    arc either way. Skyrim's one-handed power attack turns the body through most
+    of a circle and this reads it as 1.8 m of sideways travel it plainly does
+    not make. Measuring the rotation out needs a reliable body-facing axis, and
+    neither the pelvis bone (whose local axis runs up the spine, not forward)
+    nor the line between the feet (which swings through every stride) is one.
+    So the runtime caps what it will apply — see `footAnchoredMotion` — which
+    means this can only ever move an actor *less* than the authored lunge it
+    replaces, never more.
+    """
+    feet = [marker for marker in ("footL", "footR") if marker in planar_by_id]
+    if len(feet) < 2:
+        return []
+    count = min(len(planar_by_id[marker]) for marker in feet)
+    if count < 2:
+        return []
+
+    # Per foot, how far above its own lowest point it is at each sample. A
+    # planted foot is the one nearest its own floor, which is robust against
+    # the two feet having different marker heights.
+    lift = {}
+    for marker in feet:
+        heights = height_by_id[marker][:count]
+        lowest = min(heights)
+        lift[marker] = [height - lowest for height in heights]
+
+    track = [(0.0, 0.0)]
+    planted = min(feet, key=lambda marker: lift[marker][0])
+    x = y = 0.0
+    for index in range(1, count):
+        # Switch anchor only when the other foot is clearly the lower one. The
+        # hysteresis matters: at a stride's crossover the two lifts are equal
+        # for a frame or two, and flip-flopping between them injects the
+        # difference between the feet as spurious body motion.
+        other = feet[0] if planted == feet[1] else feet[1]
+        if lift[other][index] < lift[planted][index] - STANCE_ANCHOR_HYSTERESIS:
+            planted = other
+            # A foot that has just landed contributes nothing for the step it
+            # landed on; its previous sample was mid-swing.
+            track.append((x, y))
+            continue
+        previous = planar_by_id[planted][index - 1]
+        current = planar_by_id[planted][index]
+        x -= current[0] - previous[0]
+        y -= current[1] - previous[1]
+        track.append((x, y))
+    return [[round(px, 6), round(py, 6)] for px, py in track]
 
 
 for semantic in SUMMARY["animationNames"]:
@@ -846,6 +920,12 @@ for semantic in SUMMARY["animationNames"]:
             sole_marker_planar_by_id,
             sole_marker_z_by_id,
             support_sample_rate,
+        ),
+        # Cumulative planar displacement the planted foot says the body made,
+        # per support sample. See measure_ground_track.
+        "groundTrack": measure_ground_track(
+            sole_marker_planar_by_id,
+            sole_marker_z_by_id,
         ),
         # Blender's glTF exporter preserves absolute action-frame time. PyNifly
         # actions begin on frame 1, so the exported clip holds its first pose

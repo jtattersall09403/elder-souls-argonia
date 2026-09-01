@@ -322,6 +322,14 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
         <label>
           <input
             type="checkbox"
+            checked={state.footDrivenMotion}
+            onChange={(event) => state.patch({ footDrivenMotion: event.target.checked })}
+          />
+          Attack movement from the feet
+        </label>
+        <label>
+          <input
+            type="checkbox"
             checked={state.showHitboxes}
             onChange={(event) => state.patch({ showHitboxes: event.target.checked })}
           />
