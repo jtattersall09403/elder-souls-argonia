@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { setMeshHidden } from "./meshVisibility";
 
 /**
  * Wearing armour on a skinned actor.
@@ -151,7 +152,11 @@ export function mountArmour(
     const mesh = findBodyMesh(modelRoot, name, result.meshes);
     if (!mesh) continue;
     const isCovered = bodyMeshIsCovered(slots, covered);
-    mesh.visible = !isCovered;
+    // Armour speaks only for armour. The head is a body mesh in the roster
+    // (slots 30 and 43), and a first-person camera hides it — so assigning
+    // `visible` here would put the player back inside their own skull every
+    // time a piece mounted. See `meshVisibility`.
+    setMeshHidden(mesh, "armour", isCovered);
     if (isCovered) result.hidden.push(mesh);
   }
 
@@ -218,7 +223,7 @@ function findBodyMesh(
 /** Undo `mountArmour`, leaving the actor exactly as it was found. */
 export function unmountArmour(mounted: MountedArmour) {
   for (const mesh of mounted.meshes) mesh.removeFromParent();
-  for (const mesh of mounted.hidden) mesh.visible = true;
+  for (const mesh of mounted.hidden) setMeshHidden(mesh, "armour", false);
   mounted.meshes.length = 0;
   mounted.hidden.length = 0;
   mounted.torsoMeshes.length = 0;

@@ -39,6 +39,7 @@ import { VISUAL_PROBE_BONES, type ActorVisualProbe } from "@elder-souls/game-cor
 import { VISUAL_FRAME_PHASE_PRIORITY } from "@elder-souls/game-core/validation/visualFrameMarker";
 import { applyAppearance, clearAppearance } from "@elder-souls/game-core/actors/appearance";
 import { headMeshes } from "@elder-souls/game-core/actors/headMeshes";
+import { releaseMeshHiding, setMeshHidden } from "@elder-souls/game-core/actors/meshVisibility";
 import { DEFAULT_RACE, raceById, type RaceDefinition, type RaceId } from "@elder-souls/game-core/actors/races";
 import type { ArmourDefinition } from "@elder-souls/game-core/equipment/armour";
 import type { MountedArmour } from "@elder-souls/game-core/actors/armourMounting";
@@ -391,9 +392,12 @@ function PosedActor({
   // Restored on the way out, so the actor is left exactly as it was found.
   useLayoutEffect(() => {
     if (!firstPerson) return undefined;
-    const restore = faceMeshes.map((mesh) => [mesh, mesh.visible] as const);
-    for (const mesh of faceMeshes) mesh.visible = false;
-    return () => { for (const [mesh, visible] of restore) mesh.visible = visible; };
+    // Claimed under this component's own reason rather than assigned, because
+    // the head is also a *body* mesh as far as the race roster is concerned and
+    // `mountArmour` has its own opinion about those. Two owners of one boolean
+    // is decided by effect ordering, which is to say by nothing.
+    for (const mesh of faceMeshes) setMeshHidden(mesh, "firstPerson", true);
+    return () => releaseMeshHiding(faceMeshes, "firstPerson");
   }, [firstPerson, faceMeshes]);
 
   useLayoutEffect(() => {
