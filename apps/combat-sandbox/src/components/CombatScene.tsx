@@ -17,6 +17,8 @@ import {
   BLOCK_RECOIL_DURATION,
   PARRY_RECOIL_SPEED,
   blockRecoilVelocity,
+  forwardFromYaw,
+  guardCovers,
   resolveGuardImpact,
 } from "@elder-souls/game-core/combat/blockReaction";
 import { enemyGuardTacticalDuration, resolveEnemyGuardVisualStep } from "@elder-souls/game-core/combat/enemyGuard";
@@ -245,20 +247,10 @@ const AIM_PITCH_LIMIT = 1.15;
  * defender who is fully protected from every direction at once is a defender no
  * archer can ever flank.
  */
-function facingTheShot(victim: EnemyRuntime, impactPoint: THREE.Vector3) {
-  const forwardX = Math.sin(victim.fighter.yaw);
-  const forwardZ = Math.cos(victim.fighter.yaw);
-  const toShot = new THREE.Vector2(
-    impactPoint.x - victim.position.x,
-    impactPoint.z - victim.position.z,
-  );
-  if (toShot.lengthSq() < 1e-6) return true;
-  toShot.normalize();
-  return forwardX * toShot.x + forwardZ * toShot.y > GUARD_FACING_COSINE;
+/** `guardCovers` for an enemy, whose facing and position live in two places. */
+function enemyGuardCovers(victim: EnemyRuntime, threat: { x: number; z: number }) {
+  return guardCovers(forwardFromYaw(victim.fighter.yaw), victim.position, threat);
 }
-
-/** How far off dead-ahead a guard still covers. About 70 degrees either side. */
-const GUARD_FACING_COSINE = 0.34;
 
 /** Field of view at a zoom fraction. Linear in FOV, which reads as even. */
 function aimFieldOfView(zoom: number) {
@@ -1142,7 +1134,11 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     const enemyWeapon = f.archetype.loadout.mainHand;
     const result = resolveHit(f.health, f.stamina, {
       attack,
-      guard: f.state === "guard" && !execution ? activeGuardProfile(f.archetype.loadout) : null,
+      // A guard only covers what the defender is facing. Without this a
+      // shield stopped a sword swung into the back of its owner's head.
+      guard: f.state === "guard" && !execution && player.current && enemyGuardCovers(e, player.current.currPos)
+        ? activeGuardProfile(f.archetype.loadout)
+        : null,
       iframe: f.state === "dodge" && isRollInvulnerable(f.actionTime),
       execution,
       armourRating: totalArmourRating(wornArmourFor(f.archetype.armour)),
@@ -1252,7 +1248,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     // guard's stability decides the stamina it costs and its absorption decides
     // what still gets through — because a shield does not care what hit it.
     // Only from the front: an arrow into the back finds no shield there.
-    if (f.state === "guard" && facingTheShot(victim, hit.point)) {
+    if (f.state === "guard" && enemyGuardCovers(victim, hit.point)) {
       const guarded = resolveGuardImpact({
         health: f.health,
         stamina: f.stamina,
@@ -1326,7 +1322,12 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       || playerAction.current === "riposte";
     const result = resolveHit(playerHealth.current, playerStamina.current, {
       attack,
-      guard: playerAction.current === "guard" && equipped.current ? playerGuard : null,
+      // Facing, not just guarding: you cannot get a shield between yourself
+      // and something behind you.
+      guard: playerAction.current === "guard" && equipped.current
+        && guardCovers(handle.bodyZAxis, handle.currPos, e.position)
+        ? playerGuard
+        : null,
       iframe: playerInvulnerable,
       execution: null,
       guardBreakDamage: 18,

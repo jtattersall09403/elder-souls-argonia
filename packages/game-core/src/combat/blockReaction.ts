@@ -17,6 +17,44 @@ export const BLOCK_HIT_STOP = 0.04;
 
 export type PlanarPoint = Readonly<{ x: number; z: number }>;
 
+/**
+ * How far off dead-ahead a guard still covers: about 70 degrees either side.
+ *
+ * A shield is a thing you hold in front of you, so this is not a difficulty
+ * knob — it is the fact that you cannot block what you are not facing. It was
+ * only ever applied to arrows, which meant a shield stopped a sword swung into
+ * your back. Same number for every guard, because the arc a raised guard covers
+ * is a property of arms, not of the item.
+ */
+export const GUARD_FACING_COSINE = 0.34;
+
+/**
+ * Whether a defender's raised guard is between them and a blow.
+ *
+ * `forward` need not be normalised. A threat on top of the defender counts as
+ * covered: there is no direction to test, and failing open there would make a
+ * point-blank clash randomly unblockable.
+ *
+ * Takes a direction rather than an angle because the two actors carry their
+ * facing differently — the player has a body axis from the physics handle, an
+ * enemy has a yaw — and neither should have to convert to the other's form to
+ * ask the same question. `forwardFromYaw` is the bridge.
+ */
+export function guardCovers(forward: PlanarPoint, defender: PlanarPoint, threat: PlanarPoint) {
+  const toThreatX = threat.x - defender.x;
+  const toThreatZ = threat.z - defender.z;
+  const distance = Math.hypot(toThreatX, toThreatZ);
+  const facing = Math.hypot(forward.x, forward.z);
+  if (distance < 1e-3 || facing < 1e-6) return true;
+  const cosine = (forward.x * toThreatX + forward.z * toThreatZ) / (distance * facing);
+  return cosine > GUARD_FACING_COSINE;
+}
+
+/** Engine convention: yaw 0 faces +Z. */
+export function forwardFromYaw(yaw: number): PlanarPoint {
+  return { x: Math.sin(yaw), z: Math.cos(yaw) };
+}
+
 export type GuardImpactInput = Readonly<{
   health: number;
   stamina: number;

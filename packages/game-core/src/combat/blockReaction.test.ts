@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { BLOCK_HIT_STOP, BLOCK_RECOIL_DURATION, BLOCK_RECOIL_SPEED, blockRecoilVelocity, resolveGuardImpact } from "./blockReaction";
+import { BLOCK_HIT_STOP, BLOCK_RECOIL_DURATION, BLOCK_RECOIL_SPEED, blockRecoilVelocity, forwardFromYaw, guardCovers, resolveGuardImpact } from "./blockReaction";
 import { SHIELD_STABILITY_BAND, WEAPON_STABILITY_BAND } from "../equipment/guard";
 import { STRAIGHT_SWORD } from "../equipment/arsenal";
 
@@ -79,5 +79,47 @@ describe("blocked-attack recoil", () => {
     expect(stability).toBeLessThanOrEqual(WEAPON_STABILITY_BAND.max);
     // The whole point of the stat: a shield must be steadier than any weapon.
     expect(stability).toBeLessThan(SHIELD_STABILITY_BAND.min);
+  });
+});
+
+describe("a guard only covers what the defender is facing", () => {
+  // The reported defect: a shield stopped a sword swung into its owner's back.
+  // The facing test existed but was only ever applied to arrows.
+  const defender = { x: 0, z: 0 };
+  const facingNorth = forwardFromYaw(0);
+
+  it("covers a blow from ahead", () => {
+    expect(guardCovers(facingNorth, defender, { x: 0, z: 3 })).toBe(true);
+  });
+
+  it("does not cover a blow from behind", () => {
+    expect(guardCovers(facingNorth, defender, { x: 0, z: -3 })).toBe(false);
+  });
+
+  it("does not cover a blow from directly beside", () => {
+    expect(guardCovers(facingNorth, defender, { x: 3, z: 0 })).toBe(false);
+    expect(guardCovers(facingNorth, defender, { x: -3, z: 0 })).toBe(false);
+  });
+
+  it("covers the whole arc a raised guard physically spans", () => {
+    // About 70 degrees either side, symmetrically.
+    for (const sign of [1, -1]) {
+      expect(guardCovers(facingNorth, defender, { x: sign * Math.sin(1.1), z: Math.cos(1.1) })).toBe(true);
+      expect(guardCovers(facingNorth, defender, { x: sign * Math.sin(1.35), z: Math.cos(1.35) })).toBe(false);
+    }
+  });
+
+  it("reads any facing convention the same way", () => {
+    // An enemy carries a yaw and the player carries a body axis; both have to
+    // get the same answer for the same geometry.
+    const yaw = 2.1;
+    expect(guardCovers(forwardFromYaw(yaw), defender, { x: Math.sin(yaw) * 2, z: Math.cos(yaw) * 2 })).toBe(true);
+    expect(guardCovers(forwardFromYaw(yaw), defender, { x: -Math.sin(yaw) * 2, z: -Math.cos(yaw) * 2 })).toBe(false);
+  });
+
+  it("counts a threat standing on top of the defender as covered", () => {
+    // No direction to test; failing open would make point-blank clashes
+    // randomly unblockable.
+    expect(guardCovers(facingNorth, defender, { x: 0, z: 0 })).toBe(true);
   });
 });
