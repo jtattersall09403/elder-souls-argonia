@@ -2,7 +2,7 @@ import manifest from "./generated/arsenal.items.json";
 import { defineWeapon } from "./defineWeapon";
 import { MATERIAL_PROFILES, scaleGuardValue, type MaterialId, type MaterialProfile } from "./materials";
 import { SHIELD_STABILITY_BAND, WEAPON_STABILITY_BAND, clampToBand } from "./guard";
-import { WEAPON_CLASSES, resolveMoveset, resolveWeaponAnimations, scaleMoveset } from "./weaponClasses";
+import { OFF_HAND_NODE_HALF_TURN, WEAPON_CLASSES, resolveMoveset, resolveWeaponAnimations, scaleMoveset } from "./weaponClasses";
 import { SHIELD_ANIMATIONS } from "./movesets/shield";
 import type {
   Absorption,
@@ -198,13 +198,13 @@ function buildWeapon(itemId: string, built: BuiltItem): ArsenalWeapon {
 }
 
 /**
- * The shield's own held-socket offset, on top of the rig convention.
+ * The shield's held-socket offset: the off-hand node's half turn.
  *
- * A half turn about the shield's vertical axis. The rig convention is measured
- * from *weapons*, whose attach node points down the blade; a Bethesda shield
- * node does not share that basis, so inheriting the weapon convention unchanged
- * mounted every shield facing the wrong way — arm correctly through the straps,
- * but the outer face turned in toward the body.
+ * The rig convention is measured from *weapons*, whose attach node points down
+ * the blade; a Bethesda shield node does not share that basis, so inheriting
+ * the weapon convention unchanged mounted every shield facing the wrong way —
+ * arm correctly through the straps, but the outer face turned in toward the
+ * body.
  *
  * Measured on the built meshes rather than tuned by eye, because a rotation
  * picked by eye is the failure the rig-convention note in the animation
@@ -214,8 +214,12 @@ function buildWeapon(itemId: string, built: BuiltItem): ArsenalWeapon {
  * spans −0.373..+0.247). A half turn about **Z** therefore sends −Y outward
  * while leaving the point down. The other in-plane axis, X, would flip the
  * normal too — and stand every kite shield on its point.
+ *
+ * This was written as a fact about shields, and it is not: it is a fact about
+ * the node, which is why bows on the same node need the identical turn and
+ * why it now lives with the weapon classes. See `OFF_HAND_NODE_HALF_TURN`.
  */
-const SHIELD_HELD_ROTATION: readonly [number, number, number, number] = [0, 0, 1, 0];
+const SHIELD_HELD_ROTATION = OFF_HAND_NODE_HALF_TURN;
 
 function buildShield(itemId: string, built: BuiltItem): ArsenalShield {
   const materialId = materialOf(itemId, built);

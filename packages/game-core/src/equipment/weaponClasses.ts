@@ -75,6 +75,27 @@ export type WeaponClassProfile = {
 };
 
 /**
+ * The half turn everything mounted on the off-hand node needs.
+ *
+ * The rig's `Shield` node does not share the `Weapon` node's basis, so anything
+ * held there inherits the weapon convention facing the wrong way. Shields hit
+ * this first — arm correctly through the straps, outer face turned in toward
+ * the body — and it was fixed there alone, as if it were a fact about shields.
+ * It is not: it is a fact about the *node*, and a bow is the other thing that
+ * hangs off it.
+ *
+ * The bow's symptom was the same rotation reported in the other vocabulary:
+ * the string edge pointing forwards, away from the archer, with the limbs
+ * curving out toward the target. Measured on the built meshes rather than tuned
+ * by eye — on `steel-longbow` the limb axis is Z (spanning +/-0.80 m), the tips
+ * where the string anchors sit at X +0.17..+0.24 and the mid-limbs bow back to
+ * X -0.066, so the string plane is +X and the belly of the bow is -X. A half
+ * turn about the long axis Z swaps them, which is exactly "rotate it 180
+ * degrees on its long axis" and exactly the same quaternion the shields need.
+ */
+export const OFF_HAND_NODE_HALF_TURN: readonly [number, number, number, number] = [0, 0, 1, 0];
+
+/**
  * A short, light class is quick and weak; a long, heavy one is slow and strong.
  * Guard values follow the same logic: you can put a greatsword between you and
  * a blow, but a dagger barely.
@@ -159,6 +180,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     powerScale: 0.35, staminaScale: 0.8, stability: 0.18, physicalAbsorption: 0.25,
     sheathSocket: "WeaponBow",
     heldSocket: "Shield",
+    heldRotation: OFF_HAND_NODE_HALF_TURN,
     ranged: {
       // ~65 lbf. A bow a hunter carries all day and can draw from a crouch.
       peakDrawForceN: 289, powerStrokeMeters: 0.52, drawCurve: "recurve",
@@ -173,6 +195,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     powerScale: 0.4, staminaScale: 0.85, stability: 0.2, physicalAbsorption: 0.3,
     sheathSocket: "WeaponBow",
     heldSocket: "Shield",
+    heldRotation: OFF_HAND_NODE_HALF_TURN,
     ranged: {
       // ~105 lbf, the middle of the surviving Mary Rose range.
       peakDrawForceN: 467, powerStrokeMeters: 0.58, drawCurve: "linear",
@@ -187,6 +210,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     powerScale: 0.45, staminaScale: 0.95, stability: 0.22, physicalAbsorption: 0.32,
     sheathSocket: "WeaponBow",
     heldSocket: "Shield",
+    heldRotation: OFF_HAND_NODE_HALF_TURN,
     ranged: {
       // 150 lbf over a 0.60 m power stroke: the anchor the whole model is
       // calibrated against. With a 96 g war shaft it throws 53 m/s.
