@@ -174,7 +174,10 @@ The world validator should reject or flag locations with:
 - an entrance disconnected from interior purpose;
 - architecture incompatible with culture or era;
 - a dangerous encounter without habitat, faction or narrative cause;
-- a road with no connected economic or political function.
+- a road with no connected economic or political function;
+- a notable hard-to-reach landform with no reward at it, or a rich reward
+  with neither effort nor cause behind it (module 20 §12.3b, reward for
+  effort).
 
 Generated density becomes meaningful density.
 

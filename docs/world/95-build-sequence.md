@@ -302,7 +302,9 @@ Deliverables:
   within ≤300 m of travel along every road and boat lane**, quests per
   settlement by magnitude class (M5 ≈ 35–60, M4 10–20, M3 3–8, M2 1–3), **all
   settlement structures enterable and all settlement NPCs named**. Each region
-  packet declares its counts against this budget at review;
+  packet declares its counts against this budget at review — **including its
+  reward coverage under module 20 §12.3b** (every notable hard-to-reach
+  landform in the packet carries a reward; owner directive 2026-09-01);
 - **D0 safe interiors** authored per settlement (quests 20 §12 mapping);
   Helstrom interior D0 with gates against the band-5 basin;
 - **player-stronghold site reservation** — one reoccupied xanmeer or abandoned

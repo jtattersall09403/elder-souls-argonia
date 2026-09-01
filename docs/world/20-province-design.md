@@ -88,6 +88,59 @@ A location's rewards derive from:
 
 A submerged Barsaebic archive can contain rare fixed artefacts from the start. A low-level player can reach it through exceptional planning, temporary water-breathing magic, stealth and risk. The reward remains the same.
 
+### 12.3b Reward for effort — what exploration pays (owner directive, 2026-09-01)
+
+If a player puts effort into reaching an interesting, hard-to-get-to place,
+the place must pay them for it. **Approximately proportionately**: harder,
+riskier, more remote, more subtly signposted → better reward. Approximate is
+the word — an easy find occasionally out-paying a hard one is fine; a hard
+climb ending in nothing is not. Every reward still needs a causal story
+(§12.3, module 40 §32): someone left it, grew it, hid it, or died with it.
+
+**Hard-to-reach place types** (non-exhaustive — placement agents extend the
+list from the terrain itself): mountaintops and high saddles; ravine and
+canyon dead ends; clearings deep in jungle, drowned forest or deep marsh;
+secret coves and sea caves; islands and lake islets; spaces behind
+waterfalls; sinkholes and collapsed ground; high ledges and roofs of xanmeer
+ruins reached by climbing; canopy platforms and great root crowns; underwater
+grottoes, air pockets and flooded cellars; mist-locked hollows;
+storm-exposed headlands; the far side of dangerous water or a D4/D5 band
+crossed early.
+
+**Reward types** (vary them — loot is only one):
+
+- fixed loot: a chest, cache, or corpse with goods (provenance per §12.3);
+- a fun POI that is itself the find — a shrine with a strong blessing, an
+  abandoned camp, a hermit, a wrecked boat, an odd machine;
+- a guardian fight: a challenging habitat-grounded creature or foe whose
+  body or hoard pays out;
+- a quest hook: a letter on a body, a journal, a map fragment, a strange
+  object — starting a side line that ends in a real prize;
+- a unique or rich resource node (rare ingredient, vakka stone, pearl bed);
+- teaching: a skill book, a trainer, an inscription;
+- a vista that reveals landmarks — diegetic map knowledge (a named place
+  seen from here becomes findable);
+- a practical refuge: safe rest spot, dry cache, fresh water in salt country;
+- a shortcut unlock back (a lowered root-bridge, an openable gate) — the
+  reward is the loop itself;
+- a lore vignette — environmental storytelling with a small prize in it.
+
+**Binding rules for placement phases (11–15):**
+
+1. Every *notable* hard-to-reach landform in a region packet carries a
+   reward. Notable = the terrain visibly invites the attempt (a summit you
+   can see, a ravine that keeps going, a cove off the lane). Finding these
+   is a terrain query (local maxima, dead ends, enclosed clearings,
+   off-route islands), not a vibe.
+2. The packet's density budget declares its reward coverage alongside its
+   POI budget (module 95, Phase 11 deliverables).
+3. The orphan validator (module 40 §32) rejects both directions: a
+   flagged hard-to-reach landform with nothing at it, and a rich reward
+   with neither effort nor cause behind it.
+4. Discovery stays diegetic — no markers; the harder the find, the more it
+   may rely on the terrain itself as the only pointer
+   ([morrowind-content-density.md](../research/morrowind-content-density.md) §5.3).
+
 ### 12.4 Natural unlocking
 
 The deep world becomes increasingly survivable through:
