@@ -229,17 +229,50 @@ export function isRollInvulnerable(elapsed: number) {
 }
 
 /**
+ * When a family's parry is catching: the whole of its follow-through clip.
+ *
+ * A parry is two authored clips on one gameplay clock — the raise, then the
+ * catch — so the boundary between them *is* the boundary of the window, and
+ * the end of the second clip is the end of it. Owner ruling, round 4, and it
+ * replaced three rounds of trying to measure the catching part of the pair,
+ * each of which got at least one family wrong.
+ *
+ * Derived rather than authored, so it cannot drift out of step with the clips
+ * and a reskin or a new family needs no tuning pass.
+ */
+export function parryCatchWindow(profile: ParryProfile) {
+  const start = clipConfig(profile.intro).sourceDuration ?? COMBAT_TUNING.parryActiveStart;
+  const duration = clipConfig(profile.followThrough).sourceDuration
+    ?? COMBAT_TUNING.parryActiveEnd - start;
+  return { start, duration };
+}
+
+/**
+ * How long the whole parry action lasts, for this family.
+ *
+ * The pair's own length. It used to be one shared constant (1.1 s), which was
+ * shorter than the two-handed pairs — so a greatsword's catch would have been
+ * cut off 0.23 s before its clip finished, and "active for the whole
+ * follow-through" would have been quietly untrue for exactly the weapons the
+ * window was already wrong on.
+ */
+export function parryActionDuration(profile: ParryProfile) {
+  const { start, duration } = parryCatchWindow(profile);
+  return Math.max(COMBAT_TUNING.parryDuration, start + duration);
+}
+
+/**
  * Whether the parry is catching, for the thing actually being parried with.
  *
- * `profile` is the parrying family's own window (`ParryProfile.active`), which
- * is aligned to where that family's clip has the shield or blade moving in
- * front of the body. Omitting it falls back to the shared constants, which is
- * only right for an actor with no resolved guard profile at all.
+ * Omitting `profile` falls back to the shared constants, which is only right
+ * for an actor with no resolved guard profile at all.
  */
 export function isParryActive(elapsed: number, profile?: ParryProfile) {
-  const start = profile?.active.start ?? COMBAT_TUNING.parryActiveStart;
-  const end = profile ? start + profile.active.duration : COMBAT_TUNING.parryActiveEnd;
-  return elapsed >= start && elapsed <= end;
+  if (!profile) {
+    return elapsed >= COMBAT_TUNING.parryActiveStart && elapsed <= COMBAT_TUNING.parryActiveEnd;
+  }
+  const { start, duration } = parryCatchWindow(profile);
+  return elapsed >= start && elapsed <= start + duration;
 }
 
 export function isBackstabPosition(

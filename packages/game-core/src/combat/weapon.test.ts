@@ -24,6 +24,8 @@ import {
   hitReactionForAttack,
   isBackstabPosition,
   isParryActive,
+  parryActionDuration,
+  parryCatchWindow,
   isRollInvulnerable,
   isWeaponHitboxActive,
   phaseAt,
@@ -79,50 +81,47 @@ describe("straight sword moveset", () => {
       .toBe(STRAIGHT_SWORD.attacks.light1.windup);
   });
 
-  it("catches with the family's own window, not one shared constant", () => {
-    // The defect: a tower shield and a greatsword caught over the same slice of
-    // two quite different animations. Each family now carries the window its
-    // own clip measured, and `isParryActive` has to honour it.
-    const sword = ONE_HANDED_ANIMATIONS.parry;
-    const twoHander = GREATSWORD_ANIMATIONS.parry;
-    expect(twoHander.active.duration).toBeLessThan(sword.active.duration);
-    // The windows do not merely differ in length, they sit at different points
-    // on the clock: a one-handed catch is over well before a greatsword's has
-    // opened, because a greatsword spends 0.23 s just raising the blade. So
-    // each has to reject the other's moment.
-    const swordCatch = sword.active.start + sword.active.duration / 2;
-    const twoHanderCatch = twoHander.active.start + twoHander.active.duration / 2;
-    expect(isParryActive(swordCatch, sword)).toBe(true);
-    expect(isParryActive(swordCatch, twoHander)).toBe(false);
-    expect(isParryActive(twoHanderCatch, twoHander)).toBe(true);
-    expect(isParryActive(twoHanderCatch, sword)).toBe(false);
-  });
-
-  it("opens every family's catch after its own raise clip has played", () => {
-    // The reported defect: shield, greatsword and battleaxe all caught during
-    // the wind-up and were inert through the actual parry. The raise is a clip
-    // of its own, so this is checkable rather than a matter of opinion — a
-    // catch window that opens before the raise ends is catching with a guard
-    // that is not up yet.
+  it("catches for exactly the follow-through clip, for every family", () => {
+    // The owner's ruling: the parry hitbox is active for the whole of the
+    // second clip — the catch — and for nothing else. So this is checkable
+    // against the animation manifest rather than a matter of opinion, and it
+    // is the same rule for a dagger and a tower shield.
     const families = [
+      { parry: ONE_HANDED_ANIMATIONS.parry, label: "one-handed" },
       { parry: GREATSWORD_ANIMATIONS.parry, label: "greatsword" },
       { parry: GREATAXE_ANIMATIONS.parry, label: "battleaxe" },
       { parry: SHIELD_ANIMATIONS.parry, label: "shield" },
     ];
     for (const { parry, label } of families) {
       const raise = clipConfig(parry.intro).sourceDuration ?? 0;
+      const catchClip = clipConfig(parry.followThrough).sourceDuration ?? 0;
       expect(raise, label).toBeGreaterThan(0);
-      expect(parry.active.start, label).toBeGreaterThanOrEqual(raise);
+      expect(catchClip, label).toBeGreaterThan(0);
+
+      const window = parryCatchWindow(parry);
+      expect(window.start, `${label} opens as the raise ends`).toBeCloseTo(raise, 6);
+      expect(window.duration, `${label} lasts the catch clip`).toBeCloseTo(catchClip, 6);
+
+      // Inert through the raise, live through the catch, inert after it.
+      expect(isParryActive(raise * 0.5, parry), `${label} mid-raise`).toBe(false);
+      expect(isParryActive(raise + catchClip * 0.5, parry), `${label} mid-catch`).toBe(true);
+      expect(isParryActive(raise + catchClip * 0.99, parry), `${label} late catch`).toBe(true);
+      expect(isParryActive(raise + catchClip + 0.01, parry), `${label} after`).toBe(false);
     }
   });
 
-  it("opens every family's parry where its clip actually starts moving", () => {
-    for (const profile of [ONE_HANDED_ANIMATIONS.parry, GREATSWORD_ANIMATIONS.parry, SHIELD_ANIMATIONS.parry]) {
-      expect(isParryActive(profile.active.start - 0.01, profile)).toBe(false);
-      expect(isParryActive(profile.active.start + 0.01, profile)).toBe(true);
-      // Inside the action it belongs to, always.
-      expect(profile.active.start + profile.active.duration)
-        .toBeLessThan(COMBAT_TUNING.parryDuration);
+  it("gives the parry action room for its own catch to finish", () => {
+    // A shared 1.1 s action was shorter than both two-handed clip pairs, so
+    // "active for the whole follow-through" would have been quietly untrue on
+    // exactly the weapons whose window was already wrong.
+    for (const parry of [
+      ONE_HANDED_ANIMATIONS.parry,
+      GREATSWORD_ANIMATIONS.parry,
+      GREATAXE_ANIMATIONS.parry,
+      SHIELD_ANIMATIONS.parry,
+    ]) {
+      const window = parryCatchWindow(parry);
+      expect(parryActionDuration(parry)).toBeGreaterThanOrEqual(window.start + window.duration);
     }
   });
 

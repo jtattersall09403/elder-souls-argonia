@@ -130,6 +130,7 @@ import {
   hitReactionForAttack,
   isBackstabPosition,
   isParryActive,
+  parryActionDuration,
   isRollInvulnerable,
   isWeaponHitboxActive,
   phaseAt,
@@ -2283,7 +2284,12 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         && playerActionTime.current >= (clipConfig(playerGuardAnimations.parry.intro).sourceDuration ?? 0.83)) {
         setAnim(playerGuardAnimations.parry.followThrough);
       }
-      const duration = ACTION_DURATIONS[playerAction.current];
+      // A parry's length is its own clip pair's, not one shared constant: the
+      // catch runs to the end of the follow-through, and the two-handed pairs
+      // are longer than the 1.1 s the constant assumed.
+      const duration = playerAction.current === "parry"
+        ? parryActionDuration(playerGuardAnimations.parry)
+        : ACTION_DURATIONS[playerAction.current];
       if (playerAction.current === "heal" && playerActionTime.current > 0.82 && !healedThisAction.current) {
         healedThisAction.current = true;
         playerHealth.current = Math.min(playerMaxHealth, playerHealth.current + COMBAT_TUNING.healAmount);
@@ -2790,7 +2796,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         if (f.actionTime >= (clipConfig(enemyParry.intro).sourceDuration ?? 0.83)) {
           setEnemyAnim(e, enemyParry.followThrough);
         }
-        if (f.actionTime > ENEMY_SHARED_DURATIONS.parry) {
+        if (f.actionTime > parryActionDuration(enemyParry)) {
           setEnemyMode(e, "recover", weapon.animations.combatIdle);
         }
       } else if (f.state === "dodge" || f.state === "backstep") {

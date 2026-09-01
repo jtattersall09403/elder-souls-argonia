@@ -163,29 +163,26 @@ export type GuardAnimationProfile = {
 };
 
 /**
- * How a family parries, and — the part that used to be missing — *when*.
+ * How a family parries.
  *
- * The catch window was one pair of constants shared by everything that could
- * parry, so a tower shield and a greatsword both caught blows over the same
- * 0.10-0.29 s of their own quite different animations. On the one-handed clips
- * that put most of the window in the dead beat *between* the raise and the
- * bash; on a two-hander it had no relationship to the motion at all.
+ * A parry is authored as two clips: `intro` raises the guard, `followThrough`
+ * is the catch. **The catch window is the whole of the follow-through, and
+ * nothing else** (owner ruling, round 4) — so it is not a number on this type
+ * at all. It is derived from the two clips by `parryCatchWindow`, which means
+ * it cannot drift out of step with them and a new family needs no tuning pass.
  *
- * `active.start` is measured, not chosen: it is where the parrying object
- * actually begins sweeping in front of the body, from
- * `scripts/measure-contact-windows.mjs`. `active.duration` is the family's
- * design allowance — a shield is the forgiving way to parry and a two-hander
- * the committal one — and is the only number here anyone should be tuning.
+ * That ruling replaced three rounds of hand-measured windows. Those were an
+ * attempt to find the catching *part* of the pair, and every attempt got at
+ * least one family wrong: first a single constant shared by shields and
+ * greatswords alike, then per-family numbers measured inside the raise clip
+ * (so shield, greatsword and battleaxe all caught while the guard was still
+ * coming up), then a sweep-based measurement that gave the battleaxe a window
+ * in time but almost none in space. The clip boundary is the honest answer:
+ * the animation itself says where the raise ends and the catch begins.
  */
 export type ParryProfile = {
   intro: AnimationState;
   followThrough: AnimationState;
-  active: {
-    /** Seconds into the parry action at which the catch volume opens. */
-    start: number;
-    /** How long it stays open, seconds. */
-    duration: number;
-  };
 };
 
 /**

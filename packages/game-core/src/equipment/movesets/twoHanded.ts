@@ -144,16 +144,6 @@ export const GREATSWORD_ANIMATIONS: WeaponAnimationProfile = {
   parry: {
     intro: "GREATSWORD_PARRY",
     followThrough: "GREATSWORD_PARRY_FOLLOW_THROUGH",
-    // Measured across the pair (`--parry --socket Weapon --reach 0.9`). The
-    // old 0.067 s was taken from inside `GREATSWORD_PARRY`, which is 0.233 s of
-    // *raise*: the catch opened and closed before the blade had begun to move
-    // across the body. The blade sweeps out from 0.31 m to 0.86 m ahead of the
-    // chest between 0.475 s and 0.700 s of the pair, and that is the catch.
-    //
-    // Held for 0.16 s rather than the one-handed 0.2 s. Parrying with something
-    // that takes two hands to swing should be the committal option, and this is
-    // the number that says so.
-    active: { start: 0.475, duration: 0.16 },
   },
   lightAttacks: ["GREATSWORD_LIGHT_1", "GREATSWORD_LIGHT_2", "GREATSWORD_LIGHT_3"],
   heavyAttacks: ["GREATSWORD_HEAVY", "GREATSWORD_HEAVY_2"],
@@ -183,24 +173,6 @@ export const GREATAXE_ANIMATIONS: WeaponAnimationProfile = {
   parry: {
     intro: "GREATAXE_PARRY",
     followThrough: "GREATAXE_PARRY_FOLLOW_THROUGH",
-    // Its own window, not the blade set's: the haft parry is a different
-    // gesture with a different clip length, and measured over the pair
-    // (`--parry --socket Weapon --reach 0.85`) it has a different shape too.
-    //
-    // The axe is *raised* from 0.075 s to 0.200 s, reaches its most-forward
-    // 0.94 m ahead of the chest at 0.20-0.24 s — exactly where `GREATAXE_PARRY`
-    // ends and the bash clip begins — and then sweeps across the front, passing
-    // behind the chest plane by 0.34 s. The old shared 0.067 s window spent
-    // itself entirely inside the raise, which is the reported "active during
-    // the wind-up, inert during the parry".
-    //
-    // Opening at 0.20 rather than at the sweep's own 0.242: a catch needs the
-    // guard *interposed*, not merely moving, and the haft sweep crosses from
-    // fully-forward to fully-past in barely a tenth of a second. Starting at
-    // full extension gives the axe a window in space as well as in time, and it
-    // is still after the raise has finished, which is the property that
-    // `weapon.test.ts` holds.
-    active: { start: 0.2, duration: 0.16 },
   },
   riposte: twoHandedRiposte("GREATAXE_RIPOSTE", 1.4),
   backstab: twoHandedBackstab("GREATAXE_RIPOSTE", 1.4),

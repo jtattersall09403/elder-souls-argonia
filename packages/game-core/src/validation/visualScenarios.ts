@@ -872,14 +872,11 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     player: { ...RIPOSTE_REVIEW_PLAYER, emptyOffHand: true, weaponId: "steel-greatsword" },
     enemy: RIPOSTE_REVIEW_ENEMY,
     cues: [
-      // Pressed early, because a greatsword parry catches late.
-      //
-      // The catch happens at 0.475-0.635 s of the raise-plus-bash pair, not at
-      // 0.067 s: `GREATSWORD_PARRY` is 0.233 s of *raise* on its own, and the
-      // window used to be measured inside it. Pressing 0.408 s earlier than
-      // before puts the catch back on exactly the same frame of the enemy's
-      // swing that this scene was built around, so what it reviews is unchanged.
-      { from: 0.292, to: 0.382, actions: ["parry"] },
+      // Pressed early, because a greatsword parry catches late: the catch is
+      // the whole of `GREATSWORD_PARRY_FOLLOW_THROUGH`, which does not begin
+      // until the 0.233 s raise has played. Pressed here, the catch is open
+      // from 0.583 s and the enemy's blade arrives at about 0.85 s.
+      { from: 0.35, to: 0.44, actions: ["parry"] },
       { from: 2.3, to: 2.39, actions: ["light"] },
     ],
     enemyCues: [{ at: 0.25, intent: "lightCombo", attack: "light1", comboRemaining: 0 }],
@@ -892,12 +889,10 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     player: { ...RIPOSTE_REVIEW_PLAYER, emptyOffHand: true, weaponId: "steel-battleaxe" },
     enemy: RIPOSTE_REVIEW_ENEMY,
     cues: [
-      // The two-handed parry window is the shortest of the three (0.16 s), and
-      // the haft's catch opens where the axe reaches full extension — 0.2 s
-      // into the pair, at the end of its raise, where the blade set's is
-      // 0.475 s. Pressed 0.133 s earlier than before so the catch lands on the
-      // same frame of the enemy's swing it always did.
-      { from: 0.567, to: 0.657, actions: ["parry"] },
+      // Same shape as the greatsword scene: the catch is the whole haft bash
+      // clip and opens once the 0.2 s raise has played, so the press comes in
+      // well before the enemy's blade does.
+      { from: 0.35, to: 0.44, actions: ["parry"] },
       { from: 2.3, to: 2.39, actions: ["light"] },
     ],
     enemyCues: [{ at: 0.25, intent: "lightCombo", attack: "light1", comboRemaining: 0 }],

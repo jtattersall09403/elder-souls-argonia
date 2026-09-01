@@ -121,14 +121,11 @@ export const ONE_HANDED_ANIMATIONS: WeaponAnimationProfile = {
     loop: "GUARD",
     hitVariants: ["GUARD_HIT_A", "GUARD_HIT_B"],
   },
+  // The catch window is the whole of PARRY_FOLLOW_THROUGH, derived from the
+  // clips by `parryCatchWindow` rather than written down per family.
   parry: {
     intro: "PARRY",
     followThrough: "PARRY_FOLLOW_THROUGH",
-    // Measured: the blade begins sweeping 0.067 s into the 0.2 s raise. The old
-    // shared window opened at 0.10 and closed at 0.29, which spent most of its
-    // length in the dead beat between the raise and the bash. Same 0.2 s of
-    // generosity, now starting where the blade actually moves.
-    active: { start: 0.067, duration: 0.2 },
   },
   lightAttacks: ["LIGHT_1", "LIGHT_2", "LIGHT_3"],
   heavyAttacks: ["HEAVY", "HEAVY_2"],
