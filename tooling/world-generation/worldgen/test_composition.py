@@ -136,7 +136,10 @@ def test_attachments_hang_on_hosts_above_the_ground(comp):
         assert vine.anchor == ANCHOR_ATTACHED
         assert vine.species == VINES
         host = min(hosts, key=lambda h: math.hypot(vine.x - h.x, vine.z - h.z))
-        assert math.hypot(vine.x - host.x, vine.z - host.z) <= 1.0
+        # On the trunk bark, not the pivot: cypress1's measured base flare is
+        # ~1.8 m radius, slightly off-pivot. Anything under ~2.5 m is on the
+        # tree; the round-5 defect was hanging in air out to arbitrary crowns.
+        assert math.hypot(vine.x - host.x, vine.z - host.z) <= 2.5
         assert 5.0 + 2.0 <= vine.y <= 5.0 + 7.0       # 2.5–6 m recommended band
     # ACCENT rate, not authored density: zero-precedent vines dress ~10 % of
     # eligible hosts (× the region-7 humidity multiplier), never most of them.
@@ -173,6 +176,34 @@ def test_cliff_face_hosts_never_resolve_to_trees(comp):
     assert "cliff-face" not in comp._hosts_for(VINES)
     for host in comp._hosts_for(VINES):
         assert "/trees/" in host
+
+
+def test_attachments_cling_to_the_measured_trunk():
+    """Round 6: with kit trunk data, a vine hangs ON the trunk surface — not
+    in a ±0.5 m square around the model pivot, which for the willow (trunk
+    axis ~7 m from its pivot) meant vines stuck to outer leaves and empty air
+    (owner round-5 feedback). Pseudo-trees with no real trunk stop hosting."""
+    from .composition import RULES_PATH, TrunkCapsule
+    import json as _json
+    trunks = {WILLOW: TrunkCapsule(x=6.4, z=-4.2, base_y=0.0,
+                                   radius=0.5, height=22.0)}
+    comp2 = Composition(_json.loads(RULES_PATH.read_text()), trunks)
+    assert WILLOW in comp2.tree_hosts
+    assert CLUSTER not in comp2.tree_hosts   # no measured trunk, no beard
+    hosts = [inst(WILLOW, x=i * 30.0, z=50.0) for i in range(80)]
+    layer = Layer(species=VINES, instances_per_hectare=40.0,
+                  scale_range=(0.9, 1.6))
+    spawned = comp2.spawn_attachments(hosts, [layer], fields(height=5.0),
+                                      seed=3, area_ha=1.0)
+    assert spawned
+    for vine in spawned:
+        host = min(hosts, key=lambda h: math.hypot(vine.x - h.x, vine.z - h.z))
+        # yaw=0 hosts: the trunk axis sits at pivot + (6.4, -4.2), and the
+        # vine sits a hair inside the bark (0.9 × radius) — exactly on the
+        # circle, never at the pivot, never past the crown.
+        axis_d = math.hypot(vine.x - (host.x + 6.4), vine.z - (host.z - 4.2))
+        assert axis_d == pytest.approx(0.45, abs=1e-6)
+        assert vine.y <= 5.0 + 0.8 * 22.0
 
 
 def test_attachments_without_hosts_spawn_nothing(comp):

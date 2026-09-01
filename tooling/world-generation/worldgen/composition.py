@@ -46,6 +46,8 @@ from .scatter import (
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 RULES_PATH = REPO_ROOT / "world" / "sources" / "placement" / "composition-rules.json"
+KIT_MANIFEST_PATH = (REPO_ROOT / "apps" / "world-studio" / "public" / "kits"
+                     / "flora-province-v1.kit.json")
 
 # Pass salts — distinct hash streams per pass.
 _SALT_SINK = 0x51D3
@@ -69,6 +71,37 @@ MAX_ATTACH_PER_HOST = 2
 def _quantised(x: float, z: float) -> tuple[int, int]:
     """A stable integer identity for a placed position (1/16 m grid)."""
     return int(round(x * 16.0)) & 0xFFFFFFFF, int(round(z * 16.0)) & 0xFFFFFFFF
+
+
+@dataclass
+class TrunkCapsule:
+    """A tree's measured trunk, from the kit manifest (collision v2: offsets
+    are pivot-relative, world axes). The attachment pass hangs things ON this
+    axis — round 5 hung them in a ±0.5 m square around the model pivot, which
+    for off-axis trunks (the willow's is 7 m from its pivot) meant vines
+    stuck to outer leaves and to empty air (owner round-5 feedback)."""
+    x: float          # pivot -> trunk axis, metres, unrotated local frame
+    z: float
+    base_y: float     # pivot -> trunk base
+    radius: float
+    height: float
+
+
+def load_trunk_capsules(path: Path = KIT_MANIFEST_PATH) -> dict[str, TrunkCapsule]:
+    """species id -> trunk, for every kit asset carrying a v2 trunk capsule.
+    Returns {} when the kit manifest is absent (unit tests, bare checkouts)."""
+    if not path.exists():
+        return {}
+    trunks: dict[str, TrunkCapsule] = {}
+    for asset in json.loads(path.read_text()).get("assets", []):
+        capsule = asset.get("collisionCapsule")
+        if not capsule or asset.get("collisionFrame") != "pivot-yup-v2":
+            continue
+        base = capsule.get("baseOffsetM", [0.0, 0.0, 0.0])
+        trunks[asset["id"]] = TrunkCapsule(
+            x=base[0], z=base[2], base_y=base[1],
+            radius=capsule["radiusM"], height=capsule["heightM"])
+    return trunks
 
 
 @dataclass
@@ -98,7 +131,13 @@ class Composition:
         "rock": (0.4, 0.05, 3.0),
     }
 
-    def __init__(self, data: dict):
+    #: A canopy host must have at least this much measured trunk — it is what
+    #: culls the shrubby "/trees/" pseudo-trees (tropicalplant, bambooplant…)
+    #: that round 5 hung 2–6 m vines on, well above the whole plant.
+    MIN_HOST_TRUNK_M = 6.0
+
+    def __init__(self, data: dict, trunks: dict[str, TrunkCapsule] | None = None):
+        self.trunks: dict[str, TrunkCapsule] = trunks or {}
         self.species: dict[str, SpeciesRule] = {}
         spawn = data.get("attachmentSpawn", {})
         #: species -> {"default": p, host-id: p} — per-host spawn probability.
@@ -129,17 +168,28 @@ class Composition:
                 attach_height_m=(p25, p50, p75),
                 companions=tuple(entry.get("companions", ())),
             )
-        # Generic hosts for "tree-canopy"/"branch"/"overhang": every real tree
-        # in the rules (standalone, trees path, not a lilypad).
-        self.tree_hosts = tuple(sorted(
-            name for name, rule in self.species.items()
-            if "/trees/" in name and rule.klass in ("standalone", "cluster-part")
-            and "lillipad" not in name
-        ))
+        # Generic hosts for "tree-canopy"/"branch"/"overhang". With kit trunk
+        # data: every asset with a real measured trunk (which both drops the
+        # shrubby pseudo-trees and admits canopy species the rules file has
+        # never heard of). Without it (tests): the old name-substring rule.
+        if self.trunks:
+            self.tree_hosts = tuple(sorted(
+                name for name, trunk in self.trunks.items()
+                if trunk.height >= self.MIN_HOST_TRUNK_M
+                and self.klass(name) in ("standalone", "cluster-part")
+                and "lillipad" not in name
+            ))
+        else:
+            self.tree_hosts = tuple(sorted(
+                name for name, rule in self.species.items()
+                if "/trees/" in name and rule.klass in ("standalone", "cluster-part")
+                and "lillipad" not in name
+            ))
 
     @classmethod
-    def load(cls, path: Path = RULES_PATH) -> "Composition":
-        return cls(json.loads(path.read_text()))
+    def load(cls, path: Path = RULES_PATH,
+             kit_path: Path = KIT_MANIFEST_PATH) -> "Composition":
+        return cls(json.loads(path.read_text()), load_trunk_capsules(kit_path))
 
     # -- classification --------------------------------------------------
 
@@ -323,6 +373,7 @@ class Composition:
                 count = int(per_host)
                 if uniform_at(key, 0) < per_host - count:
                     count += 1
+                trunk = self.trunks.get(host.species)
                 for member in range(count):
                     mkey = hash64(key, member + 1)
                     # Piecewise-linear percentile sample of the mined heights.
@@ -331,18 +382,38 @@ class Composition:
                         height = p25 + (p50 - p25) * (r / 0.5)
                     else:
                         height = p50 + (p75 - p50) * ((r - 0.5) / 0.5)
-                    jitter = 0.5
-                    px = host.x + (uniform_at(mkey, 1) * 2 - 1) * jitter
-                    pz = host.z + (uniform_at(mkey, 2) * 2 - 1) * jitter
+                    hang_m = height * max(1.0, host.scale)
                     lo, hi = layer.scale_range
+                    if trunk is not None:
+                        # On the TRUNK: a random angle around the measured
+                        # trunk axis (pivot + yaw-rotated base offset), a
+                        # hair inside the bark so the mesh bites in, facing
+                        # outward — never in the crown, never in mid-air.
+                        s = host.scale
+                        cy, sy = math.cos(host.yaw), math.sin(host.yaw)
+                        ax = host.x + (trunk.x * cy + trunk.z * sy) * s
+                        az = host.z + (-trunk.x * sy + trunk.z * cy) * s
+                        phi = uniform_at(mkey, 1) * math.tau
+                        radius = trunk.radius * 0.9 * s
+                        px = ax + math.cos(phi) * radius
+                        pz = az + math.sin(phi) * radius
+                        # Clamp to the usable trunk, so nothing hangs above
+                        # the tree it is supposed to be hanging from.
+                        hang_m = min(hang_m,
+                                     (trunk.base_y + trunk.height * 0.8) * s)
+                        yaw = math.atan2(math.cos(phi), math.sin(phi))
+                    else:
+                        jitter = 0.5
+                        px = host.x + (uniform_at(mkey, 1) * 2 - 1) * jitter
+                        pz = host.z + (uniform_at(mkey, 2) * 2 - 1) * jitter
+                        yaw = uniform_at(mkey, 3) * math.tau
                     spawned.append(Instance(
                         species=layer.species, tier=layer.tier,
                         x=px, z=pz,
                         # ABSOLUTE elevation: host ground + attach height,
                         # scaled with the host so big trees hang things higher.
-                        y=fields.height(host.x, host.z)
-                        + height * max(1.0, host.scale),
-                        yaw=uniform_at(mkey, 3) * math.tau,
+                        y=fields.height(host.x, host.z) + hang_m,
+                        yaw=yaw,
                         scale=lo + (hi - lo) * uniform_at(mkey, 4),
                         tilt_x=0.0, tilt_z=0.0,
                         anchor=ANCHOR_ATTACHED, sink=0.0,

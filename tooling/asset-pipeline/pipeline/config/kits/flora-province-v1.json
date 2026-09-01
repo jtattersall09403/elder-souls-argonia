@@ -1,157 +1,178 @@
 {
-  "id": "flora-province-v1",
-  "description": "Every species the provisional province palettes place (world/sources/flora/palettes.json). Built to turn instance counts into triangle counts \u2014 the number that decides whether the province renders in a browser. Textures are capped at 256 px: this ships to GitHub Pages, where the browser has no vault, so the GLB is committed and its size is the budget. Proper compression (KTX2/Basis) is Phase 14's job.",
-  "output": "tooling/asset-pipeline/output/kits/flora-province-v1.glb",
-  "lodRatios": [
-    0.35,
-    0.12
-  ],
-  "textureMaxSize": 256,
-  "billboardTextureMaxSize": 1024,
-  "assets": [
-    {
-      "asset": "bmv:landscape/trees/dwarfjunip05"
-    },
-    {
-      "asset": "bmv:landscape/rocks/moss_rockcliff01"
-    },
-    {
-      "asset": "bmv:landscape/trees/cedartree3"
-    },
-    {
-      "asset": "bmv:landscape/trees/gkbfallforestshrub02"
-    },
-    {
-      "asset": "bmv:vvardenfell/flora/algrass03b"
-    },
-    {
-      "asset": "bmv:landscape/trees/mangrovereachtree0gkb9"
-    },
-    {
-      "asset": "bmv:landscape/grass/vurt_reeds"
-    },
-    {
-      "asset": "bmv:landscape/trees/gkblillipad2"
-    },
-    {
-      "asset": "bmv:landscape/trees/mangrovereachtree0gkb3"
-    },
-    {
-      "asset": "bmv:landscape/trees/beachpalm2"
-    },
-    {
-      "asset": "bmv:landscape/grass/waterkelptall01"
-    },
-    {
-      "asset": "bmv:landscape/trees/cypress3"
-    },
-    {
-      "asset": "bmv:landscape/plants/kelptallstatic01aaa"
-    },
-    {
-      "asset": "bmv:landscape/trees/cypress1"
-    },
-    {
-      "asset": "bmv:architecture/phitt/ashlands/tramaroot01"
-    },
-    {
-      "asset": "bmv:architecture/phitt/ashlands/tramaroot06"
-    },
-    {
-      "asset": "bmv:landscape/plants/florahangingmoss02aaa"
-    },
-    {
-      "asset": "bmv:landscape/plants/fernlarge03"
-    },
-    {
-      "asset": "bmv:landscape/plants/braken"
-    },
-    {
-      "asset": "bmv:vurt_shroom/vurt_shroom_big1"
-    },
-    {
-      "asset": "bmv:landscape/trees/treewillow01a"
-    },
-    {
-      "asset": "bmv:landscape/trees/hangingvines1"
-    },
-    {
-      "asset": "bmv:landscape/trees/tropicalplant01"
-    },
-    {
-      "asset": "bmv:landscape/plants/bigshrub2(colorful)"
-    },
-    {
-      "asset": "bmv:landscape/grass/waterkelpshort01"
-    },
-    {
-      "asset": "bmv:landscape/trees/treewillow02a"
-    },
-    {
-      "asset": "bmv:landscape/plants/esloebush08"
-    },
-    {
-      "asset": "bmv:landscape/plants/fern01"
-    },
-    {
-      "asset": "bmv:landscape/trees/treewillow03a"
-    },
-    {
-      "asset": "bmv:landscape/plants/chickweed"
-    },
-    {
-      "asset": "bmv:landscape/trees/beachpalm3"
-    },
-    {
-      "asset": "bmv:landscape/trees/fanpalm1"
-    },
-    {
-      "asset": "bmv:landscape/trees/bambooplant"
-    },
-    {
-      "asset": "bmv:landscape/trees/gkbjungletreenew1"
-    },
-    {
-      "asset": "bmv:landscape/trees/tropicalshrub01"
-    },
-    {
-      "asset": "bmv:landscape/trees/gkbjungletreenew12v3"
-    },
-    {
-      "asset": "bmv:landscape/trees/beachpalm1"
-    },
-    {
-      "asset": "bmv:landscape/trees/hangingvines2"
-    },
-    {
-      "asset": "bmv:landscape/plants/florahangingmoss03aaa"
-    },
-    {
-      "asset": "tropical:plants/tropical/manfern"
-    },
-    {
-      "asset": "bmv:landscape/trees/gkbjungletreenew17v2tropical"
-    },
-    {
-      "asset": "bmv:landscape/trees/gkbjungletreenew19v3"
-    },
-    {
-      "asset": "bmv:landscape/trees/gkbjungletreenew21v3"
-    },
-    {
-      "asset": "vanilla:landscape/rocks/rockl04"
-    },
-    {
-      "asset": "vanilla:landscape/rocks/rockl02"
-    },
-    {
-      "asset": "vanilla:landscape/rocks/rockm03"
-    },
-    {
-      "asset": "vanilla:landscape/rocks/rockm02"
-    },
-    {
-      "asset": "vanilla:landscape/rocks/rocks03"
-    }
-  ]
+ "id": "flora-province-v1",
+ "description": "Every species the provisional province palettes place (world/sources/flora/palettes.json). Built to turn instance counts into triangle counts \u2014 the number that decides whether the province renders in a browser. Textures are capped at 256 px: this ships to GitHub Pages, where the browser has no vault, so the GLB is committed and its size is the budget. Proper compression (KTX2/Basis) is Phase 14's job.",
+ "output": "tooling/asset-pipeline/output/kits/flora-province-v1.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 256,
+ "billboardTextureMaxSize": 1024,
+ "assets": [
+  {
+   "asset": "bmv:landscape/trees/dwarfjunip05"
+  },
+  {
+   "asset": "bmv:landscape/rocks/moss_rockcliff01"
+  },
+  {
+   "asset": "bmv:landscape/trees/cedartree3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbfallforestshrub02"
+  },
+  {
+   "asset": "bmv:vvardenfell/flora/algrass03b"
+  },
+  {
+   "asset": "bmv:landscape/trees/mangrovereachtree0gkb9"
+  },
+  {
+   "asset": "bmv:landscape/grass/vurt_reeds"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkblillipad2"
+  },
+  {
+   "asset": "bmv:landscape/trees/mangrovereachtree0gkb3"
+  },
+  {
+   "asset": "bmv:landscape/trees/beachpalm2"
+  },
+  {
+   "asset": "bmv:landscape/grass/waterkelptall01"
+  },
+  {
+   "asset": "bmv:landscape/trees/cypress3"
+  },
+  {
+   "asset": "bmv:landscape/plants/kelptallstatic01aaa"
+  },
+  {
+   "asset": "bmv:landscape/trees/cypress1"
+  },
+  {
+   "asset": "bmv:architecture/phitt/ashlands/tramaroot01"
+  },
+  {
+   "asset": "bmv:architecture/phitt/ashlands/tramaroot06"
+  },
+  {
+   "asset": "bmv:landscape/plants/florahangingmoss02aaa"
+  },
+  {
+   "asset": "bmv:landscape/plants/fernlarge03"
+  },
+  {
+   "asset": "bmv:landscape/plants/braken"
+  },
+  {
+   "asset": "bmv:vurt_shroom/vurt_shroom_big1"
+  },
+  {
+   "asset": "bmv:landscape/trees/treewillow01a"
+  },
+  {
+   "asset": "bmv:landscape/trees/hangingvines1"
+  },
+  {
+   "asset": "bmv:landscape/trees/tropicalplant01"
+  },
+  {
+   "asset": "bmv:landscape/plants/bigshrub2(colorful)"
+  },
+  {
+   "asset": "bmv:landscape/grass/waterkelpshort01"
+  },
+  {
+   "asset": "bmv:landscape/trees/treewillow02a"
+  },
+  {
+   "asset": "bmv:landscape/plants/esloebush08"
+  },
+  {
+   "asset": "bmv:landscape/plants/fern01"
+  },
+  {
+   "asset": "bmv:landscape/trees/treewillow03a"
+  },
+  {
+   "asset": "bmv:landscape/plants/chickweed"
+  },
+  {
+   "asset": "bmv:landscape/trees/beachpalm3"
+  },
+  {
+   "asset": "bmv:landscape/trees/fanpalm1"
+  },
+  {
+   "asset": "bmv:landscape/trees/bambooplant"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew1"
+  },
+  {
+   "asset": "bmv:landscape/trees/tropicalshrub01"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew12v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/beachpalm1"
+  },
+  {
+   "asset": "bmv:landscape/trees/hangingvines2"
+  },
+  {
+   "asset": "bmv:landscape/plants/florahangingmoss03aaa"
+  },
+  {
+   "asset": "tropical:plants/tropical/manfern"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew17v2tropical"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew19v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew21v3"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockl04"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockl02"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockm03"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rockm02"
+  },
+  {
+   "asset": "vanilla:landscape/rocks/rocks03"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbtreeofwolene"
+  },
+  {
+   "asset": "bmv:landscape/trees/giantredwood2"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew3"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbwrtempletree03"
+  },
+  {
+   "asset": "bmv:landscape/trees/cedartree5"
+  },
+  {
+   "asset": "bmv:landscape/trees/treeofwolene2"
+  },
+  {
+   "asset": "bmv:landscape/trees/fanpalm3"
+  }
+ ]
 }
