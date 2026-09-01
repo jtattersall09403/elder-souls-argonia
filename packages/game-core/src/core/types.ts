@@ -136,7 +136,8 @@ export type AnimationState =
   | "GREATAXE_PARRY"
   | "GREATAXE_PARRY_FOLLOW_THROUGH"
   | "GREATSWORD_RIPOSTE"
-  | "GREATAXE_RIPOSTE";
+  | "GREATAXE_RIPOSTE"
+  | "BACKSTABBED_FORWARD";
 
 export type CombatPhase = "windup" | "active" | "recovery" | "none";
 

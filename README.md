@@ -76,7 +76,9 @@ asset registry.
   of `PARRY`/`PARRY_FOLLOW_THROUGH`, `RIPOSTE`, `RIPOSTED_HIT1`,
   `CRITICAL_KNOCKDOWN`, `CRITICAL_DEATH`, `DEATH` and `GUARD_HIT_A/B`, and of
   the per-family parries: `GREATSWORD_PARRY`, `SHIELD_PARRY` and
-  `GREATAXE_PARRY` (with their follow-throughs).
+  `GREATAXE_PARRY` (with their follow-throughs); the per-family executions
+  `GREATSWORD_RIPOSTE` and `GREATAXE_RIPOSTE`; and `BACKSTABBED_FORWARD`, the
+  victim half of a two-handed backstab.
 - **Backstab animation for sneak killmove SE** (Nexus SSE mod 74453, Ichaflash
   original / rhonjhonson uploader, v1) — source of `BACKSTAB`/`BACKSTABBED`.
 - **Tamriel Worldspaces — Argonia worldspace** (Nexus SSE mod 118678, author

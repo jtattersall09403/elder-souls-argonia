@@ -27,10 +27,9 @@ import { ONE_HANDED_ANIMATIONS, REFERENCE_MOVESET } from "./oneHanded";
  * own pack; the *victim* half stays shared in `criticals`, because the reaction
  * to being run through does not depend on what ran you through.
  *
- * The **backstab** is still shared, and that is a sourcing fact rather than a
- * choice: vanilla ships exactly one back-facing paired killmove and every
- * per-weapon killmove it has is a frontal finisher, which performed from behind
- * would read as nonsense. See the round-2 section of decision 0040.
+ * The **backstab** is per family too, assembled rather than paired — see
+ * `twoHandedBackstab` for why vanilla cannot supply one and what is used
+ * instead.
  *
  * ## Timing, and what is measured versus carried over
  *
@@ -148,7 +147,7 @@ export const GREATSWORD_ANIMATIONS: WeaponAnimationProfile = {
   heavyAttacks: ["GREATSWORD_HEAVY", "GREATSWORD_HEAVY_2"],
   guardBreak: ONE_HANDED_ANIMATIONS.guardBreak,
   riposte: twoHandedRiposte("GREATSWORD_RIPOSTE", 0.9),
-  backstab: ONE_HANDED_ANIMATIONS.backstab,
+  backstab: twoHandedBackstab("GREATSWORD_RIPOSTE", 0.9),
   equip: "GREATSWORD_EQUIP",
   unequip: "GREATSWORD_UNEQUIP",
 };
@@ -175,6 +174,7 @@ export const GREATAXE_ANIMATIONS: WeaponAnimationProfile = {
     active: { ...GREATSWORD_ANIMATIONS.parry.active },
   },
   riposte: twoHandedRiposte("GREATAXE_RIPOSTE", 1.4),
+  backstab: twoHandedBackstab("GREATAXE_RIPOSTE", 1.4),
 };
 
 /**
@@ -207,10 +207,52 @@ export const GREATAXE_ANIMATIONS: WeaponAnimationProfile = {
  * trimming each execution to the same shape, so gameplay does not have to.
  */
 function twoHandedRiposte(
-  attackerAction: Extract<AnimationState, "GREATSWORD_RIPOSTE" | "GREATAXE_RIPOSTE">,
+  attackerAction: TwoHandedExecution,
   startingSeparation: number,
 ): PairedCriticalProfile {
   return { ...ONE_HANDED_ANIMATIONS.riposte, attackerAction, startingSeparation };
+}
+
+type TwoHandedExecution = Extract<AnimationState, "GREATSWORD_RIPOSTE" | "GREATAXE_RIPOSTE">;
+
+/**
+ * A two-handed backstab, built from the same parts as its riposte.
+ *
+ * The one-handed backstab is a genuine paired clip — both roles authored
+ * together — and vanilla has exactly two of those facing backwards, both
+ * one-handed (`paired_1hmkillmovebackstab` and the sneak throat-slit
+ * `paired_1hmsneakkillbacka`). There is no two-handed equivalent, and the
+ * per-weapon killmoves that do exist are frontal finishers that would read as
+ * nonsense performed from behind.
+ *
+ * So this is assembled the way the executions are, which is the construction
+ * the parry mod is built around anyway: the attacker plays *its own weapon's*
+ * execution — which is the whole point, and what makes the critical
+ * weapon-specific — and the victim plays an independent reaction to being hit
+ * from behind. The victim half is deliberately shared: what being run through
+ * from behind does to you does not depend on what did it.
+ *
+ * `relativeFacing: 0` is the difference from the riposte. Both actors face the
+ * same way, because the attacker is behind.
+ */
+function twoHandedBackstab(
+  attackerAction: TwoHandedExecution,
+  startingSeparation: number,
+): PairedCriticalProfile {
+  const riposte = ONE_HANDED_ANIMATIONS.riposte;
+  return {
+    ...riposte,
+    attackerAction,
+    startingSeparation,
+    relativeFacing: 0,
+    victimAction: "BACKSTABBED_FORWARD",
+    // No held guard-break: a victim who is being stabbed in the back never saw
+    // it coming, which is the whole difference between this and a riposte.
+    victimLeadIn: undefined,
+    victimActionStartProgress: riposte.damageProgress,
+    victimActionStartAt: 0,
+    victimRecovery: { action: "BACKSTABBED_FORWARD", startAt: 0 },
+  };
 }
 
 /**
@@ -244,7 +286,8 @@ function twoHandedMoveset(
     // has to be named in both places — the animation profile drives the paired
     // choreography, and this drives what the attacker actually plays.
     riposte: { ...REFERENCE_MOVESET.riposte, animation: riposteAction },
-    backstab: REFERENCE_MOVESET.backstab,
+    // Same clip, entered from behind. See `twoHandedBackstab`.
+    backstab: { ...REFERENCE_MOVESET.backstab, animation: riposteAction },
   };
 }
 

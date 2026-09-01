@@ -25,7 +25,8 @@
     "rim_parry_intro_shd": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/SHDMBO/9900410SHDbbi/shd_blockbashintro.HKX",
     "rim_parry_follow_shd": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/SHDMBO/9900410SHDbbi/shd_blockbash.HKX",
     "rim_riposte_2hm": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/1Execution/(2130000022)greatsword/1.HKX",
-    "rim_riposte_2hw": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/1Execution/(2130000023)waraxe/1.HKX"
+    "rim_riposte_2hw": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/1Execution/(2130000023)waraxe/1.HKX",
+    "rim_hit_from_behind": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/0LtStaggerREP/(6135054)noshield hit back/modernstaggerlock/MSL_StaggerForwardLargest.hkx"
   },
   "defaults": {
     "looping": false,
@@ -809,6 +810,17 @@
       "crossFadeDuration": 0.18,
       "crossFadeOutDuration": 0.24,
       "provenance": "Rim Parry and Execution 1.1, battleaxe execution attacker (1Execution/(2130000023)waraxe/1.HKX). Contact measured at source 3.5083s with the pair 1.40 m apart, then moved 0.267s earlier: a battleaxe execution is an overhead, and the head reaches the victim on the way down rather than at its closest approach. The visual scenario measured that lead exactly (an unacknowledged contact beat), so the trim places the damage on the arrival instead.",
+      "tailSource": null
+    },
+    "BACKSTABBED_FORWARD": {
+      "pack": "criticals",
+      "source": "rim_hit_from_behind",
+      "rootMotion": "consume",
+      "playbackRate": 1.0,
+      "crossFadeDuration": 0.08,
+      "crossFadeOutDuration": 0.2,
+      "supportMode": "penetration",
+      "provenance": "Rim Parry and Execution 1.1, OAR (6135054) \"noshield hit back\" forward stagger — the victim pitching forward from a blow in the back. The victim half of a two-handed backstab: the attacker plays its own weapon execution, which is what makes the critical weapon-specific, and this is the reaction to it. Weapon-independent on purpose — what being run through from behind does to you does not depend on what did it.",
       "tailSource": null
     }
   }
