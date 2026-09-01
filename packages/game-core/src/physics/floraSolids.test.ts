@@ -10,14 +10,16 @@ const trunk: FloraCollisionAsset = {
   id: "bmv:landscape/trees/cypress1",
   sizeM: [8, 8, 32],
   collision: "trunk-capsule",
-  collisionCapsule: { radiusM: 2.4, heightM: 32, centreOffsetM: [0.02, 1.19] },
+  collisionFrame: "pivot-yup-v2",
+  collisionCapsule: { radiusM: 0.4, heightM: 32, baseOffsetM: [0.02, 0.9, -1.19] },
 };
 
 const boulder: FloraCollisionAsset = {
   id: "vanilla:landscape/rocks/rockl04",
   sizeM: [3.08, 4.06, 5.96],
   collision: "convex",
-  collisionBox: { halfExtentsM: [1.35, 1.79, 2.62], centreOffsetM: [0, 0, 2.3] },
+  collisionFrame: "pivot-yup-v2",
+  collisionBox: { halfExtentsM: [1.35, 2.62, 1.79], centreOffsetM: [0, 2.3, -0.1] },
 };
 
 const reeds: FloraCollisionAsset = {
@@ -46,30 +48,38 @@ describe("what the world makes solid", () => {
     expect(colliderFor(reeds)).toBeNull();
   });
 
-  it("stands a trunk capsule up from the base, not centred on the pivot", () => {
+  it("stands a trunk capsule up from its measured base offset", () => {
     const collider = colliderFor(trunk);
     expect(collider).toEqual({
       kind: "capsule",
-      radiusM: 2.4,
+      radiusM: 0.4,
       heightM: 32,
-      // Source-space [x, y] becomes world [x, _, z]; the capsule is lifted
-      // half its height so its foot sits at the pivot.
-      offsetM: [0.02, 16, 1.19],
+      // baseOffsetM points at the capsule BOTTOM; Rapier centres shapes, so
+      // the offset is lifted half the height.
+      offsetM: [0.02, 16.9, -1.19],
     });
   });
 
-  it("converts a boulder's z-up box into y-up world axes", () => {
+  it("passes a boulder's pivot-relative box straight through", () => {
     const collider = colliderFor(boulder);
     expect(collider).toEqual({
       kind: "box",
       halfExtentsM: [1.35, 2.62, 1.79],
-      offsetM: [0, 2.3, 0],
+      offsetM: [0, 2.3, -0.1],
     });
+  });
+
+  it("refuses a kit still on the pre-v2 collision frame — round 5 shipped its", () => {
+    // capsule offsets bbox-centre-relative in z-up while the runtime read
+    // them as pivot-relative y-up: metres of solid air beside passable
+    // trunks. Misplaced colliders are worse than none.
+    expect(colliderFor({ ...trunk, collisionFrame: undefined })).toBeNull();
+    expect(colliderFor({ ...boulder, collisionFrame: "something-else" })).toBeNull();
   });
 
   it("refuses a degenerate shape rather than spawning a zero-size body", () => {
     expect(colliderFor({ ...trunk, collisionCapsule: {
-      radiusM: 0, heightM: 32, centreOffsetM: [0, 0] } })).toBeNull();
+      radiusM: 0, heightM: 32, baseOffsetM: [0, 0, 0] } })).toBeNull();
     expect(colliderFor({ ...boulder, collisionBox: {
       halfExtentsM: [1, 0, 1], centreOffsetM: [0, 0, 0] } })).toBeNull();
   });
@@ -77,7 +87,7 @@ describe("what the world makes solid", () => {
 
 describe("the collider ring", () => {
   const at = (x: number, z: number) => ({
-    species: "s", x, y: 0, z, yaw: 0, scale: 1,
+    species: "s", x, y: 0, z, yaw: 0, tiltX: 0, tiltZ: 0, scale: 1,
   });
 
   it("takes the nearest instances inside the radius and no others", () => {

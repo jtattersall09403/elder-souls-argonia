@@ -34,13 +34,24 @@ export interface FloraCollisionAsset {
   /** Kit source space is z-up: sizeM = [x, y, height]. */
   sizeM: [number, number, number];
   collision?: string;
+  /**
+   * Contract tag for the collision offsets. `pivot-yup-v2` means every
+   * offset is PIVOT-relative in world (glTF Y-up) axes, directly addable to
+   * the instance position before yaw. Round 5 shipped capsule offsets
+   * bbox-centre-relative in Blender z-up while the runtime read them as
+   * pivot-relative — metres of solid air beside passable trunks — so an
+   * untagged kit now gets NO colliders rather than misplaced ones.
+   */
+  collisionFrame?: string;
   collisionCapsule?: {
     radiusM: number;
     heightM: number;
-    centreOffsetM: [number, number];
+    /** Pivot -> capsule BOTTOM, world axes. */
+    baseOffsetM: [number, number, number];
   };
   collisionBox?: {
     halfExtentsM: [number, number, number];
+    /** Pivot -> box centre, world axes. */
     centreOffsetM: [number, number, number];
   };
 }
@@ -60,28 +71,26 @@ export function isSolid(asset: FloraCollisionAsset | undefined): boolean {
 
 /**
  * The collider for one species, in instance-local metres (multiply by the
- * instance scale at spawn). Returns null where the species is walk-through or
- * the manifest carries no usable shape.
- *
- * Axis note, and it is the easy mistake: the kit manifest is **z-up** (Blender
- * source space) while the runtime is **y-up**. A capsule's `centreOffsetM` is
- * the [x, y] pair in source space, which is [x, z] in world space, and the
- * capsule stands along world Y.
+ * instance scale at spawn, and rotate `offsetM` by the instance rotation —
+ * offsets are pivot-relative in the asset's UNROTATED local frame).
+ * Returns null where the species is walk-through or the manifest carries no
+ * usable shape, including any kit still on the pre-v2 collision frame.
  */
 export function colliderFor(
   asset: FloraCollisionAsset | undefined,
 ): FloraCollider | null {
   if (!isSolid(asset) || !asset) return null;
+  if (asset.collisionFrame !== "pivot-yup-v2") return null;
   if (asset.collisionCapsule) {
-    const { radiusM, heightM, centreOffsetM } = asset.collisionCapsule;
+    const { radiusM, heightM, baseOffsetM } = asset.collisionCapsule;
     if (!(radiusM > 0) || !(heightM > 0)) return null;
     return {
       kind: "capsule",
       radiusM,
       heightM,
-      // Half the height up, because the capsule is measured from the base and
-      // Rapier centres its shapes.
-      offsetM: [centreOffsetM[0], heightM / 2, centreOffsetM[1]],
+      // Half the height up, because the offset points at the capsule BOTTOM
+      // and Rapier centres its shapes.
+      offsetM: [baseOffsetM[0], baseOffsetM[1] + heightM / 2, baseOffsetM[2]],
     };
   }
   if (asset.collisionBox) {
@@ -89,9 +98,8 @@ export function colliderFor(
     if (!halfExtentsM.every((h) => h > 0)) return null;
     return {
       kind: "box",
-      // z-up half extents -> y-up.
-      halfExtentsM: [halfExtentsM[0], halfExtentsM[2], halfExtentsM[1]],
-      offsetM: [centreOffsetM[0], centreOffsetM[2], centreOffsetM[1]],
+      halfExtentsM: [halfExtentsM[0], halfExtentsM[1], halfExtentsM[2]],
+      offsetM: [centreOffsetM[0], centreOffsetM[1], centreOffsetM[2]],
     };
   }
   return null;
@@ -104,6 +112,9 @@ export interface SolidInstance {
   y: number;
   z: number;
   yaw: number;
+  /** Slope-alignment tilts (rocks) — a box collider must lie as the mesh lies. */
+  tiltX: number;
+  tiltZ: number;
   scale: number;
 }
 

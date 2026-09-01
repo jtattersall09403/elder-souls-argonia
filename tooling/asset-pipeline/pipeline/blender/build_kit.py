@@ -217,32 +217,52 @@ def drop_strays(meshes):
     return kept, dropped
 
 
+def _median(values):
+    ordered = sorted(values)
+    return ordered[len(ordered) // 2]
+
+
 def trunk_capsule(objects, lo, hi):
     """The capsule a tree should collide with: its trunk, not its canopy.
 
-    Module 65 §111 gives trees a trunk capsule and nothing else. Two details
-    matter and both were wrong first time round: the capsule centres on the
-    *base's own centroid* (a leaning palm's trunk is nowhere near the bounding
-    box centre), and the radius is a 90th percentile rather than a maximum, so
-    one drooping frond card cannot inflate a 0.3 m trunk into a 4.5 m bollard.
+    Module 65 §111 gives trees a trunk capsule and nothing else. Round 5
+    shipped this crown-sized and in the wrong frame (owner: "blocked by air
+    beside the trunk, walked through the trunk itself"), so the v2 contract
+    is explicit:
+
+    * **Frame: pivot-relative, glTF Y-up** — exactly what the runtime places
+      by. (Round 5 emitted the XY relative to the BBOX CENTRE while the
+      runtime read it as pivot-relative, and assumed the pivot sat at the
+      bbox bottom — up to 7 m of error on the big willow.)
+    * **Radius: measured on a chest-height trunk slice**, not the bottom 10 %
+      of the whole tree — that band swept in root flares and ground-skirt
+      bush cards and produced 1.3–5.3 m "trunks". The slice centre is the
+      per-axis MEDIAN (robust against one-sided skirt cards; a leaning
+      palm's trunk is nowhere near the bbox centre) and the radius a low
+      percentile of the slice distances, so trunk vertices dominate and a
+      drooping frond cannot inflate the capsule.
+
+    Returns (radius, height, base_offset_gltf[x, y, z]).
     """
     height = hi.z - lo.z
-    band = lo.z + max(0.05, height * 0.10)
+    band_lo = lo.z + min(0.3, height * 0.05)
+    band_hi = lo.z + max(band_lo - lo.z + 0.2, min(2.0, height * 0.35))
     points = []
     for obj in objects:
         matrix = obj.matrix_world
         for vertex in obj.data.vertices:
             point = matrix @ vertex.co
-            if point.z <= band:
+            if band_lo <= point.z <= band_hi:
                 points.append((point.x, point.y))
     if not points:
-        return 0.25, round(height, 3), [0.0, 0.0]
-    cx = sum(p[0] for p in points) / len(points)
-    cy = sum(p[1] for p in points) / len(points)
+        return 0.25, round(height, 3), [0.0, round(lo.z, 3), 0.0]
+    cx = _median([p[0] for p in points])
+    cy = _median([p[1] for p in points])
     distances = sorted(((p[0] - cx) ** 2 + (p[1] - cy) ** 2) ** 0.5 for p in points)
-    radius = distances[min(len(distances) - 1, int(len(distances) * 0.9))]
-    centre = [round(cx - (lo.x + hi.x) / 2, 3), round(cy - (lo.y + hi.y) / 2, 3)]
-    return round(max(0.08, radius), 3), round(height, 3), centre
+    radius = distances[min(len(distances) - 1, int(len(distances) * 0.35))]
+    # Blender z-up world -> glTF Y-up: (x, y, z) -> (x, z, -y).
+    base = [round(cx, 3), round(lo.z, 3), round(-cy, 3)]
+    return round(max(0.15, radius), 3), round(height, 3), base
 
 
 exported = []
@@ -374,30 +394,35 @@ for asset in PLAN["assets"]:
     if billboard_materials:
         record["billboard"] = True
         record["billboardMaterials"] = sorted(billboard_materials)
+    # Collision frame contract (v2, round 6): every offset below is
+    # PIVOT-relative in glTF Y-up axes — Blender (x, y, z) -> (x, z, -y) —
+    # i.e. directly addable to the instance position before yaw rotation.
+    # The runtime asserts on this tag; a kit without it gets no colliders
+    # rather than misplaced ones.
     if asset["collision"] == "trunk-capsule":
-        radius, height, centre = trunk_capsule(meshes, lo, hi)
+        radius, height, base = trunk_capsule(meshes, lo, hi)
+        record["collisionFrame"] = "pivot-yup-v2"
         record["collisionCapsule"] = {
-            "radiusM": radius, "heightM": height, "centreOffsetM": centre,
+            "radiusM": radius, "heightM": height, "baseOffsetM": base,
         }
     elif asset["collision"] == "convex":
-        # Boulders and root arches: a box proxy about the mesh bounds, sized
-        # in the SAME axes the manifest reports and offset from the PIVOT (not
-        # from bbox-min), because that is what the runtime places by. Inset a
+        # Boulders and root arches: a box proxy about the mesh bounds, inset a
         # little so the collider hides inside the silhouette — a proxy that
         # sticks out reads as an invisible wall beside the rock. A convex hull
         # would be tighter, but this ships as three numbers rather than a mesh
         # and a boulder is a box to within what the player can feel.
         inset = 0.88
+        record["collisionFrame"] = "pivot-yup-v2"
         record["collisionBox"] = {
             "halfExtentsM": [
                 round((hi.x - lo.x) / 2 * inset, 3),
-                round((hi.y - lo.y) / 2 * inset, 3),
                 round((hi.z - lo.z) / 2 * inset, 3),
+                round((hi.y - lo.y) / 2 * inset, 3),
             ],
             "centreOffsetM": [
                 round((lo.x + hi.x) / 2, 3),
-                round((lo.y + hi.y) / 2, 3),
                 round((lo.z + hi.z) / 2, 3),
+                round(-(lo.y + hi.y) / 2, 3),
             ],
         }
     SUMMARY["assets"].append(record)

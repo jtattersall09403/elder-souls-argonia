@@ -52,7 +52,8 @@ export interface KitManifestAsset {
   billboard?: boolean;
   doubleSided?: boolean;
   collision?: string;
-  collisionCapsule?: { radiusM: number; heightM: number; centreOffsetM: [number, number] };
+  collisionFrame?: string;
+  collisionCapsule?: { radiusM: number; heightM: number; baseOffsetM: [number, number, number] };
 }
 
 export interface KitManifest {
