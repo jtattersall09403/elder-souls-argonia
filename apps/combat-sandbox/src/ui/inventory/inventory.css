@@ -10,22 +10,28 @@
  * black grid of item art with worn things framed and first.
  */
 
-/* Sized to the game shell, not to the viewport.
+/* Sized to the rectangle the player can actually see.
  *
- * Two previous attempts sized this against the page — first `vh`, then `dvw`
- * and `dvh` — and both were still reported as cut off at the right and bottom
- * edges. Viewport units are the wrong tool here: on a phone they answer
- * questions about the *browser*, and they disagree with what is on screen as
- * soon as the visual viewport shifts (pinch zoom, or the keyboard opening
- * under the search box). The HUD in the same app has never had this problem
- * because it fills its parent instead, and this now does the same — the shell
- * is already exactly the drawable area. The safe-area padding stays, so the
- * frame keeps clear of a notch or a rounded corner. */
+ * Three previous attempts sized this against the page — `vh`, then `dvw`/`dvh`,
+ * then 100% of the game shell — and all three were still reported as cut off.
+ * The shell attempt got closest and shows why the others could not work: the
+ * shell is 100% of `body`, which is the *layout* viewport, and on a phone that
+ * extends under the address bar (bottom cut off outside full screen) and, with
+ * `viewport-fit=cover`, under the display cutout (right cut off *in* full
+ * screen, where there is no address bar left to blame).
+ *
+ * `window.visualViewport` reports the visible rectangle directly and stays
+ * correct through pinch zoom, the keyboard, rotation and entering or leaving
+ * full screen. `useVisualViewportVariables` publishes it; this consumes it, and
+ * falls back to the old behaviour where the API is absent. The safe-area
+ * padding stays *inside* that box, because a visible rectangle can still
+ * include a rounded corner content should keep clear of. */
 .inv-root {
-  position: absolute;
-  inset: 0;
-  max-width: 100%;
-  max-height: 100%;
+  position: fixed;
+  left: var(--visual-left, 0px);
+  top: var(--visual-top, 0px);
+  width: var(--visual-width, 100%);
+  height: var(--visual-height, 100%);
   overflow: hidden;
   display: grid;
   place-items: center;

@@ -4,6 +4,7 @@ import { BASE_FIELD_OF_VIEW } from "@elder-souls/game-core/physics/characterPhys
 import { CombatScene } from "./components/CombatScene";
 import { input } from "@elder-souls/game-core/io/input";
 import { menuForKey, uiMenuInput, type UiMenu } from "@elder-souls/game-core/io/uiMenus";
+import { useVisualViewportVariables } from "@elder-souls/game-core/hud/visualViewport";
 import { InventoryScreen } from "./ui/inventory/InventoryScreen";
 import { RacePicker } from "./ui/RacePicker";
 import { enterFullscreen, FullscreenButton } from "./components/FullscreenButton";
@@ -19,6 +20,9 @@ import { VISUAL_FRAME_MARKER_HEIGHT } from "@elder-souls/game-core/validation/vi
 const RECORDER_POSE_HOLD_MS = 90;
 
 export function App() {
+  // Publishes the rectangle the player can actually see, which is what
+  // full-screen UI sizes itself against. See `hud/visualViewport`.
+  useVisualViewportVariables();
   const started = useGameStore((state) => state.started);
   const patch = useGameStore((state) => state.patch);
   const inventoryOpen = useInventoryStore((state) => state.open);
