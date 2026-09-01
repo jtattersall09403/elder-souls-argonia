@@ -35,6 +35,24 @@ cosmetic/feel work lives — do not park polish items in decision docs.
   declare that it has no melee and have the combat FSM refuse the input, the
   way it already refuses a guard with a bow raised, rather than borrowing
   clips. Touches the non-optional melee fields of `WeaponAnimationProfile`.
+- **Arrows fired steeply upward are still slightly tumbly.** The flight model
+  weathercocks and damps, and the owner judged round 4's behaviour "a bit tumbly
+  but fine for now" and explicitly asked to revisit it in polish. Done when a
+  shaft fired near-vertical arcs over point-first and settles without visible
+  wobble on the way down.
+- **Per-weapon riposte clips: which family plays which execution.** Round 4:
+  the owner wants a *stab* for the one-handed sword and the dagger and a *swing*
+  for the battleaxe (its current trim reads as a thrust, though the source is an
+  overhead). Rim ships an authored execution for every weapon type and all of
+  them are already extracted in the vault
+  (`1Execution/(2130000019)dagger`, `(2130000020)axe`, `(2130000021)mace`,
+  `(2130000024)warhammer`). Not attempted this round: `pipeline.audition` — the
+  tool for viewing candidates before committing to one — fails because it wants
+  a `dunmer-combat` character data-root that no current build target produces,
+  so choosing a clip would have been a guess. **Fix the audition target first**,
+  then pick each family's clip and trim it with
+  `measure-contact-windows.mjs --critical`. Done when sword/dagger riposte read
+  as thrusts and the battleaxe's as a swing.
 - **The remaining ten per-weapon executions.** The greatsword and battleaxe now
   have their own; Rim Parry ships thirteen (dagger, mace, spear, four shield
   variants, unarmed, dual and the one-handed one we already had). The blocker is
@@ -42,12 +60,14 @@ cosmetic/feel work lives — do not park polish items in decision docs.
   hand-audited one-handed execution and its header documents the four-step
   procedure — so each additional family is now roughly an hour, gated on that
   family having a moveset at all. Not urgent: nothing else has a moveset yet.
-- **Per-weapon backstabs are not available and should not be faked.** Vanilla
-  has exactly one back-facing paired killmove (the 1hm one we use); its
-  per-weapon killmoves are front-facing finishers. The "backstabs for all weapon
-  types" mods re-point existing killmoves through an ESP rather than shipping
-  new animation. Revisit only if a genuine per-weapon back-facing paired source
-  turns up. (Done when either sourced, or the owner accepts one shared backstab.)
+- **Per-weapon backstabs are assembled, not authored.** Vanilla has exactly one
+  back-facing paired killmove (the 1hm one we use); its per-weapon killmoves are
+  front-facing finishers, and the "backstabs for all weapon types" mods re-point
+  existing killmoves through an ESP rather than shipping new animation. Round 4
+  therefore assembles them: a thrusting class plays its own execution, a
+  swinging class plays its own opening light attack, and both use a shared
+  from-behind victim reaction (`movesets/criticals.ts`). Revisit only if a
+  genuine per-weapon back-facing paired source turns up.
 - **Contact windows for the one-handed set.** The measuring tool is fixed and
   now reproduces the calibrated LIGHT_1/LIGHT_2 windows to within a frame, and
   the two-handed set has been re-measured off it. LIGHT_3, HEAVY and HEAVY_2 on
