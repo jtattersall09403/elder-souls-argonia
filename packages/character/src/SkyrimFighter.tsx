@@ -85,6 +85,20 @@ type AimBone = { share: number; object: THREE.Object3D; authored: THREE.Quaterni
 /** Time constant for easing the lean toward where the player is looking. */
 const AIM_PITCH_SMOOTHING_SECONDS = 0.09;
 
+/**
+ * Authored clip seconds per second of the clock driving this action.
+ *
+ * The manifest's `playbackRate` is a property of the *clip* — how the pipeline
+ * retimed the source. The command's `timeScale` is a property of this
+ * *performance* — how much slower a heavy weapon does the same motion. They
+ * compose, and both have to be here rather than only on the first, because an
+ * externally timed action is paused and driven by hand: `action.timeScale`
+ * would never be read.
+ */
+function clipRate(config: { playbackRate: number }, command: { timeScale?: number }) {
+  return config.playbackRate / (command.timeScale || 1);
+}
+
 const AIM_PITCH_BONES: readonly { bone: string; share: number }[] = [
   { bone: "NPC Spine1 [Spn1]", share: 0.35 },
   { bone: "NPC Spine2 [Spn2]", share: 0.65 },
@@ -699,7 +713,7 @@ function PosedActor({
         action.setLoop(config.looping ? THREE.LoopRepeat : THREE.LoopOnce, config.looping ? Infinity : 1);
         action.time = Math.min(
           action.getClip().duration,
-          playbackStartTime + command.startAt * config.playbackRate,
+          playbackStartTime + command.startAt * clipRate(config, command),
         );
         action.paused = externallyTimed;
         if (previousAction.current && previousAction.current !== action) {
@@ -743,7 +757,7 @@ function PosedActor({
       const clip = action.getClip();
       action.time = Math.min(
         clip.duration,
-        (config.playbackStartTime ?? 0) + elapsed.current * config.playbackRate,
+        (config.playbackStartTime ?? 0) + elapsed.current * clipRate(config, command),
       );
     } else {
       elapsed.current += renderMixerDelta;

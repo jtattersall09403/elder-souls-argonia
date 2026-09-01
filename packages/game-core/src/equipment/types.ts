@@ -225,6 +225,23 @@ export type AttackSpec = {
    * player commits to a chain when they see the swing start, not when it hits.
    */
   comboQueueOpenProgress?: number;
+  /**
+   * How fast this attack's *clip* must play for the animation to still agree
+   * with the timing above. Set by `scaleAttack`; 1 on an unscaled spec.
+   *
+   * `windup`/`active`/`recovery` are the authored clip's own seconds multiplied
+   * by the weapon class's `speedScale`. The contact window inside them is a
+   * *fraction of the clip*, so unless the clip plays at the same multiplier the
+   * hitbox drifts away from the visible blade — by the whole of that
+   * multiplier's error, which is 28% early on a dagger and 12% late on a mace.
+   * That is precisely how a dagger came to cut during its wind-up and a mace's
+   * second heavy during its recovery.
+   *
+   * Playback rate is therefore `1 / timeScale`: a dagger (`speedScale` 0.72)
+   * finishes the same motion in 72% of the time, so its clip runs 1.39x. The
+   * clip is the action, at every weapon speed.
+   */
+  timeScale?: number;
 };
 
 export type AttackId =

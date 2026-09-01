@@ -42,11 +42,18 @@ import { ONE_HANDED_ANIMATIONS, REFERENCE_MOVESET } from "./oneHanded";
  * length (1.42 m greatsword, 1.35 m battleaxe). They used to be the one-handed
  * windows copied across on the argument that the two-handed clips are
  * Bethesda's re-authoring of the same swings — a principled guess, and a wrong
- * one: a greatsword's opening swing contacts at 0.61-0.76 of its clip where a
- * sword's contacts at 0.37-0.47, because the two-handed wind-up is a much
- * larger share of a much longer animation.
+ * one: the two-handed wind-up is a much larger share of a much longer
+ * animation, so the windows are genuinely different.
  *
- * The measuring tool is trustworthy again (it had a non-idempotent world-matrix
+ * They also used to be *later* than they are now — LIGHT_1 at 0.61-0.76 rather
+ * than 0.41-0.48 — because the tool selected the longest contact phase in a
+ * clip and a two-handed strike-then-settle has a longer settle than strike.
+ * Selecting the fastest phase instead fixed the owner-reported "the hitbox
+ * only appears once the swing is over" on LIGHT_1 and HEAVY in both sets, and
+ * left every window the owner had already approved untouched. See
+ * `fastestPhase` in the tool.
+ *
+ * The measuring tool is trustworthy (it once had a non-idempotent world-matrix
  * build that made it measure a sword as nine centimetres long). Its correctness
  * check is that it reproduces the owner-calibrated one-handed LIGHT_1 and
  * LIGHT_2 windows to within a frame; on that basis these are its output, and
@@ -61,18 +68,17 @@ import { ONE_HANDED_ANIMATIONS, REFERENCE_MOVESET } from "./oneHanded";
  * than imported so re-measuring one set never disturbs the other.
  */
 const CONTACT: Record<TwoHandedSwing, { start: number; end: number }> = {
-  GREATSWORD_LIGHT_1: { start: 0.611, end: 0.762 },
+  GREATSWORD_LIGHT_1: { start: 0.410, end: 0.480 },
   GREATSWORD_LIGHT_2: { start: 0.365, end: 0.418 },
   GREATSWORD_LIGHT_3: { start: 0.426, end: 0.507 },
-  GREATSWORD_HEAVY: { start: 0.716, end: 0.848 },
+  GREATSWORD_HEAVY: { start: 0.420, end: 0.466 },
   GREATSWORD_HEAVY_2: { start: 0.419, end: 0.486 },
   // The axe set shares LIGHT_1/LIGHT_2 with the greatsword clip-for-clip and
-  // measures identically; its own three differ, and the heavy notably so — a
-  // battleaxe's overhead lands very late in its swing.
-  GREATAXE_LIGHT_1: { start: 0.611, end: 0.762 },
+  // measures within a frame of it; its own three differ.
+  GREATAXE_LIGHT_1: { start: 0.414, end: 0.480 },
   GREATAXE_LIGHT_2: { start: 0.365, end: 0.418 },
   GREATAXE_LIGHT_3: { start: 0.430, end: 0.489 },
-  GREATAXE_HEAVY: { start: 0.807, end: 0.930 },
+  GREATAXE_HEAVY: { start: 0.467, end: 0.520 },
   GREATAXE_HEAVY_2: { start: 0.419, end: 0.486 },
 };
 
@@ -138,10 +144,16 @@ export const GREATSWORD_ANIMATIONS: WeaponAnimationProfile = {
   parry: {
     intro: "GREATSWORD_PARRY",
     followThrough: "GREATSWORD_PARRY_FOLLOW_THROUGH",
-    // Measured at the same 0.067 s — the raise is the same gesture — but held
-    // for less. Parrying with something that takes two hands to swing should be
-    // the committal option, and this is the number that says so.
-    active: { start: 0.067, duration: 0.16 },
+    // Measured across the pair (`--parry --socket Weapon --reach 0.9`). The
+    // old 0.067 s was taken from inside `GREATSWORD_PARRY`, which is 0.233 s of
+    // *raise*: the catch opened and closed before the blade had begun to move
+    // across the body. The blade sweeps out from 0.31 m to 0.86 m ahead of the
+    // chest between 0.475 s and 0.700 s of the pair, and that is the catch.
+    //
+    // Held for 0.16 s rather than the one-handed 0.2 s. Parrying with something
+    // that takes two hands to swing should be the committal option, and this is
+    // the number that says so.
+    active: { start: 0.475, duration: 0.16 },
   },
   lightAttacks: ["GREATSWORD_LIGHT_1", "GREATSWORD_LIGHT_2", "GREATSWORD_LIGHT_3"],
   heavyAttacks: ["GREATSWORD_HEAVY", "GREATSWORD_HEAVY_2"],
@@ -171,7 +183,14 @@ export const GREATAXE_ANIMATIONS: WeaponAnimationProfile = {
   parry: {
     intro: "GREATAXE_PARRY",
     followThrough: "GREATAXE_PARRY_FOLLOW_THROUGH",
-    active: { ...GREATSWORD_ANIMATIONS.parry.active },
+    // Its own window, not the blade set's: the haft parry is a different
+    // gesture with a different clip length. Measured over the pair, the axe is
+    // *presented* between 0.075 s and 0.200 s — reaching its most-forward
+    // 0.94 m at 0.22 s, still on the way up — and then sweeps across the front
+    // from 0.242 s to 0.317 s. The sweep is the catch; the presentation is the
+    // wind-up, which is exactly what the old shared 0.067 s window was
+    // catching with.
+    active: { start: 0.235, duration: 0.16 },
   },
   riposte: twoHandedRiposte("GREATAXE_RIPOSTE", 1.4),
   backstab: twoHandedBackstab("GREATAXE_RIPOSTE", 1.4),

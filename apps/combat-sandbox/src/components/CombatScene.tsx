@@ -988,12 +988,12 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   const shakeSeed = useRef(0);
   const damagePulse = useRef(0);
 
-  const setAnim = useCallback((animation: AnimationState, startAt = 0, restart = false, crossFadeDuration: number | null = null) => {
-    updateAnimationCommand(playerAnimationCommand.current, animation, startAt, restart, crossFadeDuration);
+  const setAnim = useCallback((animation: AnimationState, startAt = 0, restart = false, crossFadeDuration: number | null = null, timeScale = 1) => {
+    updateAnimationCommand(playerAnimationCommand.current, animation, startAt, restart, crossFadeDuration, timeScale);
   }, []);
 
-  const setEnemyAnim = useCallback((e: EnemyRuntime, animation: AnimationState, startAt = 0, restart = false, crossFadeDuration: number | null = null) => {
-    updateAnimationCommand(e.animCommand.current, animation, startAt, restart, crossFadeDuration);
+  const setEnemyAnim = useCallback((e: EnemyRuntime, animation: AnimationState, startAt = 0, restart = false, crossFadeDuration: number | null = null, timeScale = 1) => {
+    updateAnimationCommand(e.animCommand.current, animation, startAt, restart, crossFadeDuration, timeScale);
   }, []);
 
   const announce = useCallback((text: string, duration = 1.2) => {
@@ -1013,7 +1013,11 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     e.fighter.actionTime = startAt;
     e.fighter.attackHit = false;
     e.guardHitUntil = 0;
-    setEnemyAnim(e, animation, startAt, true, crossFadeDuration);
+    // Same rule as the player: an attack's clip runs at the rate its own
+    // windup/active/recovery were scaled to, so the hitbox stays on the blade
+    // whatever the enemy is carrying. `fighter.attack` is always assigned
+    // before the mode is entered.
+    setEnemyAnim(e, animation, startAt, true, crossFadeDuration, mode === "attack" ? e.fighter.attack?.timeScale ?? 1 : 1);
   }, [setEnemyAnim]);
 
   // When the locked target dies, retarget the nearest survivor or release lock.
@@ -1103,7 +1107,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     attackDashDistance.current = 0;
     healedThisAction.current = false;
     if (action === "guard") guardHitUntil.current = 0;
-    setAnim(animation, startAt, restartAnimation, crossFadeDuration);
+    // An attack's clip plays at the rate its own timing was scaled to. Anything
+    // that is not an attack has no class scaling applied to it and plays at 1.
+    setAnim(animation, startAt, restartAnimation, crossFadeDuration, playerAttack.current?.timeScale ?? 1);
   }, [playerWeapon, setAnim]);
 
   const finishPlayerAction = useCallback(() => {

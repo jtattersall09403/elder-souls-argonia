@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { clipConfig, clipPlaybackDuration } from "../anim/animationManifest";
 import { ACTION_DURATIONS } from "./tuning";
 import { ONE_HANDED_ANIMATIONS } from "../equipment/movesets/oneHanded";
-import { GREATSWORD_ANIMATIONS } from "../equipment/movesets/twoHanded";
+import { GREATAXE_ANIMATIONS, GREATSWORD_ANIMATIONS } from "../equipment/movesets/twoHanded";
 import { ARSENAL_WEAPONS } from "../equipment/arsenal";
 import { SHIELD_ANIMATIONS } from "../equipment/movesets/shield";
 import {
@@ -86,9 +86,34 @@ describe("straight sword moveset", () => {
     const sword = ONE_HANDED_ANIMATIONS.parry;
     const twoHander = GREATSWORD_ANIMATIONS.parry;
     expect(twoHander.active.duration).toBeLessThan(sword.active.duration);
-    const justPastTheTwoHander = twoHander.active.start + twoHander.active.duration + 0.01;
-    expect(isParryActive(justPastTheTwoHander, twoHander)).toBe(false);
-    expect(isParryActive(justPastTheTwoHander, sword)).toBe(true);
+    // The windows do not merely differ in length, they sit at different points
+    // on the clock: a one-handed catch is over well before a greatsword's has
+    // opened, because a greatsword spends 0.23 s just raising the blade. So
+    // each has to reject the other's moment.
+    const swordCatch = sword.active.start + sword.active.duration / 2;
+    const twoHanderCatch = twoHander.active.start + twoHander.active.duration / 2;
+    expect(isParryActive(swordCatch, sword)).toBe(true);
+    expect(isParryActive(swordCatch, twoHander)).toBe(false);
+    expect(isParryActive(twoHanderCatch, twoHander)).toBe(true);
+    expect(isParryActive(twoHanderCatch, sword)).toBe(false);
+  });
+
+  it("opens every family's catch after its own raise clip has played", () => {
+    // The reported defect: shield, greatsword and battleaxe all caught during
+    // the wind-up and were inert through the actual parry. The raise is a clip
+    // of its own, so this is checkable rather than a matter of opinion — a
+    // catch window that opens before the raise ends is catching with a guard
+    // that is not up yet.
+    const families = [
+      { parry: GREATSWORD_ANIMATIONS.parry, label: "greatsword" },
+      { parry: GREATAXE_ANIMATIONS.parry, label: "battleaxe" },
+      { parry: SHIELD_ANIMATIONS.parry, label: "shield" },
+    ];
+    for (const { parry, label } of families) {
+      const raise = clipConfig(parry.intro).sourceDuration ?? 0;
+      expect(raise, label).toBeGreaterThan(0);
+      expect(parry.active.start, label).toBeGreaterThanOrEqual(raise);
+    }
   });
 
   it("opens every family's parry where its clip actually starts moving", () => {

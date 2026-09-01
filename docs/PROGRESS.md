@@ -8,7 +8,7 @@ first, then open only the master-plan sections the active phase needs.
 
 1. **Trust the repo over this file.** Before building on a phase marked done,
    spot-check its evidence (run the gates, check `git log`). Before anything
-   else, run `git status` — a dirty tree means a previous agent stopped mid-work.
+   else, run `git status` — a dirty tree means a previous agent stopped mid-work or is currently working.
 2. **Starting work:** in one commit *before* the work itself, make the **whole
    file** consistent — set the phase row to `in progress` with a one-line
    current task **and** rewrite *Waiting on user* and *Next up* to match. Those

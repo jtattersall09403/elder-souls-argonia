@@ -223,6 +223,10 @@ export function scaleAttack(
     windup: spec.windup * speed,
     active: spec.active * speed,
     recovery: spec.recovery * speed,
+    // Carry the factor, so the clip can be played at the same rate the timing
+    // was scaled by. Without this the animation and the hitbox disagree by the
+    // whole of `speed` — see `AttackSpec.timeScale`.
+    timeScale: (spec.timeScale ?? 1) * speed,
     motionValue: spec.motionValue * profile.powerScale,
     stamina: Math.round(spec.stamina * profile.staminaScale),
     range: Math.max(0.6, spec.range + profile.reachBonus),

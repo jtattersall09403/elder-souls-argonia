@@ -309,34 +309,30 @@ function measure(gltf, nodes, order, animationName, socketRotation, scale, victi
   if (process.env.MEASURE_RAW) {
     console.log("  raw", samples.map((x) => (x.speed ?? 0).toFixed(0)).join(" "));
   }
-  // The *longest contiguous run*, not every qualifying frame.
+  // One *contiguous phase*, not every qualifying frame, and specifically the
+  // fastest one (`fastestPhase`).
   //
   // Taking the first and last qualifying sample is what the code used to do,
   // and it is not what the docstring above promises. One incidental frame early
   // in a wind-up — the blade momentarily crossing the target box as the arm
   // comes back — stretched the reported window across the whole clip, which is
-  // how LIGHT_2 came out as contacting from 6% to 41% of its swing. A short
-  // bridge is allowed, because a fast blade can flick outside the box for a
-  // frame or two in the middle of a single genuine sweep.
+  // how LIGHT_2 came out as contacting from 6% to 41% of its swing.
+  const flags = usable.map((sample) => sample.speed >= peak * SWEEP_THRESHOLD && sample.reachable);
+  const phases = contactRuns(flags, RUN_BRIDGE_SAMPLES)
+    .map((run) => ({
+      ...run,
+      peak: Math.max(...usable.slice(run.from, run.to + 1).map((sample) => sample.speed)),
+    }))
+    .filter((run) => usable[run.to].time - usable[run.from].time >= MINIMUM_PHASE_SECONDS);
   if (process.env.MEASURE_RUNS) {
-    // Every contact phase, not just the longest. A packaged execution is a
+    // Every contact phase, not just the chosen one. A packaged execution is a
     // multi-hit sequence and the game plays one hit of it, so choosing which
     // phase to trim to needs the whole list.
-    const flags = usable.map((sample) => sample.speed >= peak * SWEEP_THRESHOLD && sample.reachable);
-    const runs = [];
-    let from = -1;
-    for (let i = 0; i <= flags.length; i += 1) {
-      if (flags[i]) { if (from < 0) from = i; continue; }
-      if (from >= 0) { runs.push([usable[from].time, usable[i - 1].time]); from = -1; }
-    }
-    console.log("  phases", runs
-      .filter(([a, b]) => b - a >= 0.05)
-      .map(([a, b]) => `${a.toFixed(3)}..${b.toFixed(3)}`).join("  "));
+    console.log("  phases", phases
+      .map((run) => `${usable[run.from].time.toFixed(3)}..${usable[run.to].time.toFixed(3)}`
+        + `@${run.peak.toFixed(0)}m/s`).join("  "));
   }
-  const live = longestRun(
-    usable.map((sample) => sample.speed >= peak * SWEEP_THRESHOLD && sample.reachable),
-    RUN_BRIDGE_SAMPLES,
-  );
+  const live = fastestPhase(phases);
   if (live === null) return { animation: animationName, duration, peak, start: null, end: null };
   const first = usable[live.from];
   const last = usable[live.to];
@@ -702,27 +698,140 @@ const CRITICAL_LEAD_IN_SECONDS = 0.4;
 const CRITICAL_TAIL_SECONDS = 0.733;
 
 /**
- * Longest run of true, allowing runs to be joined across up to `bridge` false.
- * With `first`, returns the first such run instead of the longest — which is
- * what a multi-hit execution wants, since the game plays only its opening hit.
+ * Every run of true, allowing runs to be joined across up to `bridge` false.
+ *
+ * A short bridge is allowed because a fast blade can flick outside the target
+ * box for a frame or two in the middle of a single genuine sweep.
  */
-function longestRun(flags, bridge, first = false) {
-  let best = null;
+function contactRuns(flags, bridge) {
+  const runs = [];
   let from = -1;
   let last = -1;
   for (let i = 0; i < flags.length; i += 1) {
     if (!flags[i]) continue;
     if (from < 0 || i - last > bridge + 1) {
-      if (from >= 0) {
-        if (first) return { from, to: last };
-        if (best === null || last - from > best.to - best.from) best = { from, to: last };
-      }
+      if (from >= 0) runs.push({ from, to: last });
       from = i;
     }
     last = i;
   }
-  if (from >= 0 && (best === null || last - from > best.to - best.from)) best = { from, to: last };
-  return best;
+  if (from >= 0) runs.push({ from, to: last });
+  return runs;
+}
+
+/** A phase shorter than this is a blade brushing past, not a swing. */
+const MINIMUM_PHASE_SECONDS = 0.05;
+
+/**
+ * Which contact phase is *the* swing: the fastest one, not the longest.
+ *
+ * A Skyrim attack clip is strike-then-settle. The strike is brief and quick;
+ * the settle drags the weapon back across the front of the body slowly, and on
+ * a two-handed clip it is comfortably the *longer* of the two — a greatsword's
+ * opening swing strikes for 0.14 s at 38 m/s and then trails for 0.31 s at 20.
+ * Selecting by length therefore chose the recovery on exactly the clips the
+ * owner reported as "the hitbox only appears after the swing"
+ * (GREATSWORD/GREATAXE `LIGHT_1` and `HEAVY`, and the one-handed `HEAVY_2`).
+ *
+ * Peak tip speed is what separates them, and it is the right discriminator on
+ * first principles: the damaging part of a swing is the part carrying the
+ * momentum. It also agrees with the owner-calibrated one-handed windows, which
+ * is this tool's standing correctness check — `LIGHT_1` and `LIGHT_2` still
+ * reproduce to within a frame.
+ */
+function fastestPhase(phases) {
+  if (phases.length === 0) return null;
+  return phases.reduce((best, phase) => (phase.peak > best.peak ? phase : best));
+}
+
+/**
+ * Parry mode: when the thing you are parrying *with* is actually deflecting.
+ *
+ * A parry is authored as two clips — a short raise, then the catch — and the
+ * gameplay window is one interval on the clock that spans both. That is why it
+ * cannot be measured by the swing path above, which knows about one clip at a
+ * time, and it is why the window was wrong: `active.start` was measured inside
+ * the raise, and on a shield (0.13 s of raise) or a greatsword (0.23 s) the
+ * whole window then expired before the catch clip had begun.
+ *
+ * What is measured is the deflecting object's *leading point* — the shield
+ * boss, the blade tip — in the actor's own frame: it is catching while that
+ * point is out in front of the chest and travelling. Same discriminator as a
+ * swing, different geometry, because a parry brings the guard across the body
+ * rather than sweeping it through a defender's space.
+ *
+ * The **phase list is the output**; the `->` line is a suggestion. Unlike a
+ * swing, a parry has two fast phases that look alike to a speed test — raising
+ * the guard into presentation, and then sweeping it across. Only the second is
+ * a catch, and telling them apart is reading whether the leading point is still
+ * getting *further* ahead (presentation) or crossing the front (catch). On the
+ * battleaxe the automatic pick takes the presentation and the shipped window
+ * takes the sweep after it; see `GREATAXE_ANIMATIONS.parry`.
+ *
+ * Usage:
+ *   node scripts/measure-contact-windows.mjs --parry --socket Shield --reach 0.34 \
+ *        SHIELD_PARRY SHIELD_PARRY_FOLLOW_THROUGH
+ */
+/** In front of the chest by at least this, in metres, to be between you and a blow. */
+const PARRY_AHEAD_METERS = 0.15;
+/** And moving: share of the pair's peak leading-point speed. */
+const PARRY_SWEEP_THRESHOLD = 0.25;
+
+async function measureParry(clipNames) {
+  const track = [];
+  let offset = 0;
+  for (const name of clipNames) {
+    const { gltf, nodes, order } = await packFor(name);
+    const animation = gltf.json.animations.find((entry) => entry.name === name);
+    if (!animation) throw new Error(`no clip named ${name}`);
+    const socket = nodes.find((node) => node.name === PARRY_SOCKET);
+    if (!socket) throw new Error(`rig has no ${PARRY_SOCKET} socket`);
+    poseAt(gltf, nodes, order, animation, 0);
+    const { forward, pelvis } = actorFrame(nodes);
+    const socketScale = new THREE.Vector3().setFromMatrixScale(socket.world).x || 1;
+    const leadLocal = new THREE.Vector3(0, 0, PARRY_REACH / (scale * socketScale));
+    const convention = new THREE.Matrix4().makeRotationFromQuaternion(
+      new THREE.Quaternion().fromArray(socketRotation),
+    );
+    const duration = manifest.animations[name]?.sourceDuration
+      ?? Math.max(...animation.samplers.map((sampler) => {
+        const input = readAccessor(gltf, sampler.input);
+        return input[input.length - 1];
+      }));
+    for (let step = 0; step <= Math.round(duration * SAMPLE_HZ); step += 1) {
+      const time = Math.min(duration, step / SAMPLE_HZ);
+      poseAt(gltf, nodes, order, animation, time);
+      const grip = new THREE.Matrix4().multiplyMatrices(socket.world, convention);
+      const lead = leadLocal.clone().applyMatrix4(grip);
+      const origin = new THREE.Vector3().setFromMatrixPosition(pelvis.world);
+      const local = lead.clone().sub(origin).multiplyScalar(scale);
+      track.push({ clip: name, time: offset + time, ahead: local.dot(forward), point: lead.clone().multiplyScalar(scale) });
+    }
+    offset += duration;
+  }
+  for (let i = 1; i < track.length; i += 1) {
+    track[i].speed = track[i].point.distanceTo(track[i - 1].point) * SAMPLE_HZ;
+  }
+  track[0].speed = track[1]?.speed ?? 0;
+  const ordered = track.map((sample) => sample.speed).sort((a, b) => a - b);
+  const peak = ordered[Math.floor(ordered.length * 0.95)] ?? 0;
+  const flags = track.map((sample) =>
+    sample.ahead >= PARRY_AHEAD_METERS && sample.speed >= peak * PARRY_SWEEP_THRESHOLD);
+  const runs = contactRuns(flags, RUN_BRIDGE_SAMPLES)
+    .map((run) => ({ ...run, peak: Math.max(...track.slice(run.from, run.to + 1).map((s) => s.speed)) }))
+    .filter((run) => track[run.to].time - track[run.from].time >= MINIMUM_PHASE_SECONDS);
+  console.log(`${clipNames.join(" + ")}  (socket ${PARRY_SOCKET}, lead ${PARRY_REACH} m, total ${offset.toFixed(3)} s)`);
+  const stride = Math.max(1, Math.round(track.length / 28));
+  console.log("  profile", track.filter((_, i) => i % stride === 0)
+    .map((s) => `${s.time.toFixed(2)}:${s.ahead.toFixed(2)}/${(s.speed ?? 0).toFixed(0)}`).join(" "));
+  console.log("  phases", runs
+    .map((run) => `${track[run.from].time.toFixed(3)}..${track[run.to].time.toFixed(3)}@${run.peak.toFixed(0)}m/s`)
+    .join("  ") || "(none)");
+  const best = fastestPhase(runs);
+  if (best) {
+    console.log(`  -> active { start: ${track[best.from].time.toFixed(3)},`
+      + ` duration: ${(track[best.to].time - track[best.from].time).toFixed(3)} }`);
+  }
 }
 
 const manifest = JSON.parse(await readFile(MANIFEST, "utf8"));
@@ -797,13 +906,25 @@ const VICTIM_TIME = Number(flagValue("--victim-time", "0.55"));
 const VICTIM_FACING = Number(flagValue("--facing", String(Math.PI)));
 const SEPARATIONS = [0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.6, 1.8, 2.0];
 
+/** Parry mode — see `measureParry`. */
+const parryFlag = process.argv.includes("--parry");
+const PARRY_SOCKET = flagValue("--socket", "Weapon");
+const PARRY_REACH = Number(flagValue("--reach", "0.5"));
+
 /** Flags that consume the argument after them, so it is not a clip name. */
-const VALUE_FLAGS = new Set(["--blade", "--weapon", "--victim-clip", "--victim-time", "--facing"]);
+const VALUE_FLAGS = new Set(["--blade", "--weapon", "--victim-clip", "--victim-time", "--facing", "--socket", "--reach"]);
 const clips = process.argv.slice(2).filter((arg, i, all) =>
   !arg.startsWith("--") && !VALUE_FLAGS.has(all[i - 1]));
 const wanted = clips.length > 0
   ? clips
   : ["LIGHT_1", "LIGHT_2", "LIGHT_3", "HEAVY", "HEAVY_2"];
+
+if (parryFlag) {
+  // The named clips are one performance in order — raise then catch — so they
+  // are measured as a single timeline rather than one at a time.
+  await measureParry(wanted);
+  process.exit(0);
+}
 
 console.log(`blade ${BLADE_LENGTH} m`);
 console.log("clip                     dur    sweep start..end (fraction)   seconds        peak tip m/s");
