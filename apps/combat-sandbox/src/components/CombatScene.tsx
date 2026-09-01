@@ -146,7 +146,7 @@ import {
 } from "@elder-souls/game-core/validation/visualFrameMarker";
 import { createActorVisualProbe, type ActorVisualProbe } from "@elder-souls/game-core/validation/actorVisualMetrics";
 import { OverlapCounter } from "@elder-souls/game-core/combat/overlaps";
-import { HAS_SKELETAL_HURTBOX, PlayerBody, SkeletalHurtbox, SkyrimFighter, type HurtboxBone } from "@elder-souls/character";
+import { HAS_SKELETAL_HURTBOX, PlayerBody, SkeletalHurtbox, SkyrimFighter, useStanceCapsule, type HurtboxBone } from "@elder-souls/character";
 import { Arena } from "./Arena";
 
 const UP = new THREE.Vector3(0, 1, 0);
@@ -821,6 +821,11 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
    * geometry. Two different volumes, and only the second is still to do.
    */
   const playerStance = useRef<Stance>("standing");
+  // Crouching lowers the navigation capsule as well as the pose, so a crouched
+  // actor can pass under what a standing one cannot. The fitted hurtbox already
+  // ducked on its own — these are two separate volumes, and this is the one the
+  // world stops rather than the one combat hits.
+  useStanceCapsule(player, playerStance);
   /**
    * The player's poise pool (module 76 §121.3). While it holds, a hit costs
    * health and nothing else; when it empties the blow interrupts. Enemies carry

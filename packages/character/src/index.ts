@@ -17,5 +17,6 @@ export { ArmourAttachments } from "./ArmourAttachments";
 export { OffHandItem } from "./OffHandItem";
 export { NockedArrow } from "./NockedArrow";
 export { PlayerBody } from "./PlayerBody";
+export { useStanceCapsule } from "./useStanceCapsule";
 export { EcctrlAdapter } from "./EcctrlAdapter";
 export { assetUrl } from "./assetBase";
