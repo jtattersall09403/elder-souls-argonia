@@ -83,11 +83,26 @@ def check() -> list[str]:
     for config in sorted(KITS.glob("*.json")):
         kit = json.loads(config.read_text())
         for asset in kit.get("assets", []):
-            if asset["asset"] not in known_ids:
+            # A COMPOSITE asset (round 7: the Anvil jungle trees) has no
+            # registry row of its own — its id is ours. Credit follows the
+            # geometry, so it is its PARTS that must be traceable, and an
+            # empty parts list must not pass by vacuous truth.
+            compose = asset.get("compose")
+            sources = ([part["asset"] for part in compose["parts"]] if compose
+                       else [asset["asset"]])
+            if not sources:
                 problems.append(
-                    f"kit '{kit['id']}' ships {asset['asset']}, which is not in "
-                    "the asset registry — it would be uncredited"
+                    f"kit '{kit['id']}' ships {asset['asset']} with no source "
+                    "parts — nothing to credit"
                 )
+            for source in sources:
+                if source not in known_ids:
+                    problems.append(
+                        f"kit '{kit['id']}' ships {source}"
+                        + (f" (in {asset['asset']})" if compose else "")
+                        + ", which is not in the asset registry — it would be "
+                        "uncredited"
+                    )
     return problems
 
 

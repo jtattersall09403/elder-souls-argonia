@@ -66,3 +66,49 @@ def test_fails_when_a_new_pool_has_no_credit_marker(tmp_path, monkeypatch):
                             "registered": 12}},
     )
     assert any("credit marker" in p for p in check_credits.check())
+
+
+def _composite_kit(parts):
+    return {"id": "k", "assets": [
+        {"asset": "composite:jungle/tree", "compose": {"parts": parts}}]}
+
+
+def test_a_composite_is_credited_through_its_parts(tmp_path, monkeypatch):
+    # Round 7: composite assets carry ids of OUR own, so they have no registry
+    # row. Credit follows the geometry — the parts are what must be traceable.
+    _setup(
+        tmp_path, monkeypatch,
+        credits_text="- **Tropical Skyrim** — meshes.\n",
+        pools={"tropical": {"label": "Tropical Skyrim", "credit": "Tropical Skyrim",
+                            "registered": 2}},
+        rows=[("tropical", ["tropical:trunk", "tropical:crown"])],
+        kits=[_composite_kit([{"asset": "tropical:trunk"},
+                              {"asset": "tropical:crown", "offsetM": [0, 0, 29]}])],
+    )
+    assert check_credits.check() == []
+
+
+def test_a_composite_with_an_unknown_part_still_fails(tmp_path, monkeypatch):
+    _setup(
+        tmp_path, monkeypatch,
+        credits_text="- **Tropical Skyrim** — meshes.\n",
+        pools={"tropical": {"label": "Tropical Skyrim", "credit": "Tropical Skyrim",
+                            "registered": 1}},
+        rows=[("tropical", ["tropical:trunk"])],
+        kits=[_composite_kit([{"asset": "tropical:trunk"},
+                              {"asset": "tropical:mystery"}])],
+    )
+    problems = check_credits.check()
+    assert any("tropical:mystery" in p and "uncredited" in p for p in problems)
+
+
+def test_a_composite_with_no_parts_does_not_pass_by_vacuous_truth(tmp_path, monkeypatch):
+    _setup(
+        tmp_path, monkeypatch,
+        credits_text="- **Tropical Skyrim** — meshes.\n",
+        pools={"tropical": {"label": "Tropical Skyrim", "credit": "Tropical Skyrim",
+                            "registered": 1}},
+        rows=[("tropical", ["tropical:trunk"])],
+        kits=[_composite_kit([])],
+    )
+    assert any("nothing to credit" in p for p in check_credits.check())
