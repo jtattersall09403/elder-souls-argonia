@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { clipConfig } from "../anim/animationManifest";
 import { attackDuration } from "../combat/weapon";
 import { MOVESETS } from "./movesets";
-import { WEAPON_CLASSES, resolveMoveset, scaleAttack } from "./weaponClasses";
+import { WEAPON_CLASSES, resolveMoveset, resolveWeaponAnimations, scaleAttack, scaleMoveset } from "./weaponClasses";
 import type { AttackId, AttackSpec } from "./types";
 
 /**
@@ -59,6 +59,43 @@ describe("attack timing against the clip that performs it", () => {
         expect(b.open, `${profile.id} ${id} opens`).toBeCloseTo(a.open, 6);
         expect(b.close, `${profile.id} ${id} closes`).toBeCloseTo(a.close, 6);
       }
+    }
+  });
+
+  it("deals every critical's damage inside its own contact window", () => {
+    // A critical has two clocks that have to agree: the profile's
+    // `damageProgress`, a fraction of the action, and the attack spec's
+    // wind-up/active split, which is what drives the hitbox. They came apart on
+    // the two-handed backstab, which swapped in the execution clip but kept the
+    // one-handed *paired* clip's 3.17 s timing for a 1.13 s performance — so
+    // the swing was over before the contact window opened.
+    for (const profile of Object.values(WEAPON_CLASSES)) {
+      const moveset = resolveMoveset(profile);
+      const animations = resolveWeaponAnimations(profile, moveset);
+      const attacks = scaleMoveset(moveset.attacks, profile, moveset);
+      for (const [id, pair] of [["riposte", animations.riposte], ["backstab", animations.backstab]] as const) {
+        const spec = attacks[id];
+        const total = spec.windup + spec.active + spec.recovery;
+        const label = `${profile.id} ${id}`;
+        expect(pair.damageProgress, label).toBeGreaterThanOrEqual(spec.windup / total - 1e-6);
+        expect(pair.damageProgress, label).toBeLessThanOrEqual((spec.windup + spec.active) / total + 1e-6);
+        expect(pair.releaseProgress, label).toBeGreaterThan(pair.damageProgress);
+      }
+    }
+  });
+
+  it("plays a swinging class's backstab with its own light attack", () => {
+    // An axe has no point, so it cannot perform a thrust execution from behind.
+    for (const profile of Object.values(WEAPON_CLASSES)) {
+      if (profile.criticalStyle !== "swing") continue;
+      const moveset = resolveMoveset(profile);
+      const animations = resolveWeaponAnimations(profile, moveset);
+      expect(animations.backstab.attackerAction, profile.id)
+        .toBe(moveset.attacks.light1.animation);
+      // Behind, and the victim reacts to a blow in the back rather than to
+      // being turned around and run through.
+      expect(animations.backstab.relativeFacing, profile.id).toBe(0);
+      expect(animations.backstab.victimAction, profile.id).toBe("BACKSTABBED_FORWARD");
     }
   });
 

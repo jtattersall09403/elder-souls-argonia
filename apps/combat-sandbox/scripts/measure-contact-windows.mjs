@@ -418,6 +418,7 @@ function measure(gltf, nodes, order, animationName, socketRotation, scale, victi
       let best = { distance: Infinity, time: 0 };
       let leaves = null;
       for (const sample of samples) {
+        if (!inGateWindow(sample.time, duration)) continue;
         const blade = weaponSegment(sample, weapon, scale, 1);
         for (const point of points) {
           const distance = pointSegmentDistance(point, blade.a, blade.b);
@@ -906,13 +907,31 @@ const VICTIM_TIME = Number(flagValue("--victim-time", "0.55"));
 const VICTIM_FACING = Number(flagValue("--facing", String(Math.PI)));
 const SEPARATIONS = [0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.6, 1.8, 2.0];
 
+/**
+ * Restrict the critical gate's search to a fraction of the clip.
+ *
+ * Needed when the "execution" is an ordinary swing — which is what a *swing
+ * backstab* is: the attacker plays its own light attack from behind, because
+ * no back-facing clip exists for an axe and a thrust from an axe is nonsense.
+ * There the contact moment is not an unknown to be searched for, it is the
+ * swing's already-measured contact window, and searching the whole clip finds
+ * the settle instead. On a battleaxe that put the recommended separation at
+ * 1.20 m with "contact" at 0.70 of the clip, well after the blade had passed.
+ *
+ * Usage: `--window 0.414,0.480`
+ */
+const gateWindow = flagValue("--window", null);
+const GATE_WINDOW = gateWindow ? gateWindow.split(",").map(Number) : null;
+const inGateWindow = (time, duration) =>
+  !GATE_WINDOW || (time / duration >= GATE_WINDOW[0] && time / duration <= GATE_WINDOW[1]);
+
 /** Parry mode — see `measureParry`. */
 const parryFlag = process.argv.includes("--parry");
 const PARRY_SOCKET = flagValue("--socket", "Weapon");
 const PARRY_REACH = Number(flagValue("--reach", "0.5"));
 
 /** Flags that consume the argument after them, so it is not a clip name. */
-const VALUE_FLAGS = new Set(["--blade", "--weapon", "--victim-clip", "--victim-time", "--facing", "--socket", "--reach"]);
+const VALUE_FLAGS = new Set(["--blade", "--weapon", "--victim-clip", "--victim-time", "--facing", "--socket", "--reach", "--window"]);
 const clips = process.argv.slice(2).filter((arg, i, all) =>
   !arg.startsWith("--") && !VALUE_FLAGS.has(all[i - 1]));
 const wanted = clips.length > 0

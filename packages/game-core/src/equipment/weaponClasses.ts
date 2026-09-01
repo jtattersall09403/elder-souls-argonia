@@ -1,4 +1,5 @@
 import { MOVESETS, BUILT_MOVESETS, type MovesetDefinition, type MovesetId } from "./movesets";
+import { applyCriticalStyle, swingBackstabAttack, type CriticalStyle } from "./movesets/criticals";
 import { WEAPON_CLASS_POISE_DAMAGE } from "../combat/poise";
 import type { AttackId, AttackSpec, RangedStats, WeaponClass } from "./types";
 
@@ -45,6 +46,15 @@ export type WeaponClassProfile = {
   stability: number;
   /** Fraction of physical damage absorbed while guarding with it. */
   physicalAbsorption: number;
+  /**
+   * How this class kills something that never saw it coming.
+   *
+   * A property of the weapon's *shape*, not of its moveset: the one-handed set
+   * covers swords, daggers, axes and maces together, and only the first two
+   * have a point to put through anybody. See `movesets/criticals.ts`.
+   * Omitted means `thrust`, which is the authored-execution default.
+   */
+  criticalStyle?: CriticalStyle;
   /** Sheath socket on the rig; the pipeline records the same value per item. */
   sheathSocket: string;
   /**
@@ -104,24 +114,28 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     id: "axe", label: "War Axe", moveset: "oneHanded", twoHanded: false,
     lengthMeters: 0.78, weightKg: 4, speedScale: 1.06, reachBonus: -0.15,
     powerScale: 1.12, staminaScale: 1.08, stability: 0.44, physicalAbsorption: 0.8,
+    criticalStyle: "swing",
     sheathSocket: "WeaponAxe",
   },
   greataxe: {
     id: "greataxe", label: "Battleaxe", moveset: "greataxe", twoHanded: true,
     lengthMeters: 1.35, weightKg: 9, speedScale: 1.42, reachBonus: 0.45,
     powerScale: 1.78, staminaScale: 1.5, stability: 0.55, physicalAbsorption: 0.92,
+    criticalStyle: "swing",
     sheathSocket: "WeaponBack",
   },
   mace: {
     id: "mace", label: "Mace", moveset: "oneHanded", twoHanded: false,
     lengthMeters: 0.8, weightKg: 5, speedScale: 1.12, reachBonus: -0.2,
     powerScale: 1.2, staminaScale: 1.15, stability: 0.48, physicalAbsorption: 0.86,
+    criticalStyle: "swing",
     sheathSocket: "WeaponMace",
   },
   warhammer: {
     id: "warhammer", label: "Warhammer", moveset: "greataxe", twoHanded: true,
     lengthMeters: 1.3, weightKg: 11, speedScale: 1.55, reachBonus: 0.35,
     powerScale: 2.05, staminaScale: 1.62, stability: 0.5, physicalAbsorption: 0.9,
+    criticalStyle: "swing",
     sheathSocket: "WeaponBack",
   },
   spear: {
@@ -134,6 +148,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     id: "halberd", label: "Halberd", moveset: "greataxe", twoHanded: true,
     lengthMeters: 2.2, weightKg: 8, speedScale: 1.4, reachBonus: 1.2,
     powerScale: 1.6, staminaScale: 1.45, stability: 0.45, physicalAbsorption: 0.85,
+    criticalStyle: "swing",
     sheathSocket: "WeaponBack",
   },
   // Bows do not fight, they shoot: their melee numbers exist only so that a bow
@@ -185,6 +200,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
     id: "staff", label: "Staff", moveset: "greatsword", twoHanded: true,
     lengthMeters: 1.6, weightKg: 4, speedScale: 1.25, reachBonus: 0.4,
     powerScale: 0.7, staminaScale: 0.9, stability: 0.35, physicalAbsorption: 0.5,
+    criticalStyle: "swing",
     sheathSocket: "WeaponBack",
   },
 };
@@ -238,10 +254,35 @@ export function scaleMoveset(
   profile: WeaponClassProfile,
   definition: MovesetDefinition = resolveMoveset(profile),
 ): Record<AttackId, AttackSpec> {
-  return Object.fromEntries(
+  const scaled = Object.fromEntries(
     (Object.entries(moveset) as [AttackId, AttackSpec][])
       .map(([id, spec]) => [id, scaleAttack(spec, profile, definition)]),
   ) as Record<AttackId, AttackSpec>;
+  // A swinging class's backstab *is* its opening light attack, so its timing
+  // has to be that swing's — `swingBackstab`'s damage moment is a fraction of
+  // this duration and the two have to describe the same performance.
+  if (profile.criticalStyle === "swing") {
+    scaled.backstab = swingBackstabAttack(scaled.light1, scaled.backstab);
+  }
+  return scaled;
+}
+
+/**
+ * The animation profile a weapon of this class actually plays.
+ *
+ * The moveset says how the *family* fights; the class says what shape the thing
+ * in your hand is, and a backstab is the one place where that changes which
+ * clip plays. Everything else on the profile is the moveset's, unchanged.
+ */
+export function resolveWeaponAnimations(
+  profile: WeaponClassProfile,
+  definition: MovesetDefinition = resolveMoveset(profile),
+) {
+  return applyCriticalStyle(
+    definition.animations,
+    definition.attacks,
+    profile.criticalStyle ?? "thrust",
+  );
 }
 
 /**

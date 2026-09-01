@@ -305,8 +305,23 @@ function twoHandedMoveset(
     // has to be named in both places — the animation profile drives the paired
     // choreography, and this drives what the attacker actually plays.
     riposte: { ...REFERENCE_MOVESET.riposte, animation: riposteAction },
-    // Same clip, entered from behind. See `twoHandedBackstab`.
-    backstab: { ...REFERENCE_MOVESET.backstab, animation: riposteAction },
+    // Same clip, entered from behind — so the same *timing* as the riposte,
+    // not the one-handed backstab's.
+    //
+    // This was `{ ...REFERENCE_MOVESET.backstab, animation: riposteAction }`,
+    // which swapped the clip but kept the timing of the clip it replaced: the
+    // one-handed backstab is a 3.17 s paired performance and a trimmed
+    // execution is 1.13 s. The result was a swing that finished in the first
+    // third of its own action with the contact window opening at the halfway
+    // point, which is precisely the reported "the sword visibly connects but it
+    // doesn't count". Reach, power and cost are still the backstab's.
+    backstab: {
+      ...REFERENCE_MOVESET.backstab,
+      animation: riposteAction,
+      windup: REFERENCE_MOVESET.riposte.windup,
+      active: REFERENCE_MOVESET.riposte.active,
+      recovery: REFERENCE_MOVESET.riposte.recovery,
+    },
   };
 }
 

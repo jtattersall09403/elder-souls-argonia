@@ -2,7 +2,7 @@ import manifest from "./generated/arsenal.items.json";
 import { defineWeapon } from "./defineWeapon";
 import { MATERIAL_PROFILES, scaleGuardValue, type MaterialId, type MaterialProfile } from "./materials";
 import { SHIELD_STABILITY_BAND, WEAPON_STABILITY_BAND, clampToBand } from "./guard";
-import { WEAPON_CLASSES, resolveMoveset, scaleMoveset } from "./weaponClasses";
+import { WEAPON_CLASSES, resolveMoveset, resolveWeaponAnimations, scaleMoveset } from "./weaponClasses";
 import { SHIELD_ANIMATIONS } from "./movesets/shield";
 import type {
   Absorption,
@@ -178,7 +178,7 @@ function buildWeapon(itemId: string, built: BuiltItem): ArsenalWeapon {
     },
     // Clips and authored timing come from the resolved moveset; how hard and
     // how far come from the class. Neither is restated per item.
-    animations: moveset.animations,
+    animations: resolveWeaponAnimations(profile, moveset),
     moveset: scaleMoveset(moveset.attacks, profile, moveset),
   });
 
