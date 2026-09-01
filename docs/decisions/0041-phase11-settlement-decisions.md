@@ -71,6 +71,31 @@ owner directives 2026-09-01); owner decisions land here as the phase runs.
 > - **Blender, headless**: `tooling/asset-pipeline` runs Blender via Wine
 >   (`build_kit.py` shows the invocation); `pipeline/blender/render_preview.py`
 >   and siblings are the still-render precedent for review artefacts.
+> ### Standards and kickoff hooks that bind this phase (added 2026-09-01, after 0042)
+>
+> Read [engineering-standards.md](../engineering-standards.md) (decision
+> [0042](0042-buildout-steers-and-engineering-standards.md)) before writing
+> the schema — most of the eleven bite here, several as mechanical `npm test`
+> checks: quest gates/conditions/rewards only in the typed vocabulary
+> ([quests/85](../quests/85-condition-vocabulary.md) — extend it, never
+> invent prose); **stable IDs** `<domain>.<packet>.<name>` on everything
+> placed, registered; optional `owner`/`ownerFaction` + value tier fields
+> present in the placement schema from day one; player-visible strings via
+> `packages/text-catalogue`; **seeded determinism** in all compilation;
+> `schemaVersion` + a `data-registry.json` entry on every new runtime data
+> format; letters/notes/rumours as typed content units (quests/85 §C).
+>
+> Also collect the **Phase 11 kickoff hooks** in
+> [game-buildout-register.md](../game-buildout-register.md) ("At Phase 11
+> kickoff" block + the Phase-11 rows): the `STATION` socket type, per-body
+> `WaterBody` records, timetable data + urban water-taxi edges on the
+> travel-service graph, the prior→roster demographic rule (92 §84), the
+> vastei tutorial-scene flag, talk→service-menu as a small contract (not a
+> ferry hack), boat-nav clearance as an authoring rule, the ~10 hero Hist
+> placed with stable ID + power slot, and demographics expressed as an
+> authoring rule. Fold these into the schema/deliverables in Part 0/Part 4 —
+> they are owner rulings, not suggestions.
+>
 > - **Subagent fan-out is owner-approved** (as in Phase 10): low effort for
 >   all subagents; parallelise self-contained work (mining, validators,
 >   quest-brief drafting, asset sourcing); keep the blueprint
@@ -84,19 +109,46 @@ owner directives 2026-09-01); owner decisions land here as the phase runs.
 Build the spine that every round rides on. All of it is game machinery or
 tooling; place it per the packages rule and the existing worldgen layout.
 
-1. **Blueprint schema, in code.** Turn module 40 §30's `SettlementBlueprint`
+1. **Site survey tooling — know the land before proposing anything**
+   (owner directive, 2026-09-01). A settlement proposal made without
+   reading the terrain is a guess; build a one-command **site dossier**
+   generator that, for any coordinate + radius, pulls everything the repo
+   already knows into one structured artefact: elevation/slope/aspect
+   stats and profiles (refined heightfield), hydrology (channels, water
+   levels, wet-season/flood exposure, salinity), region class + climate
+   fields, danger band, existing routes/boat lanes and distances to
+   neighbours, current vegetation (density, species mix, canopy from the
+   compiled scatter), viewsheds (what landmarks are visible from here,
+   where this site is visible from), and the nearest mined-form analogue
+   (which BM&V cluster shape fits this ground). The dossier feeds THREE
+   consumers: the agent's own siting/layout reasoning, the causal model
+   ("why here" answered from the land, per module 40 §28), and the owner's
+   Round A packet (the human-readable rendering of it — maps + a short
+   plain-English read of the ground). Every siting or layout proposal put
+   to the owner cites its dossier.
+2. **Blueprint schema, in code.** Turn module 40 §30's `SettlementBlueprint`
    (+ `GenerationProvenance`, and the quest `QuestWorldProvision` interface
    from quests 20 §13) into real typed schemas. Semantic authoring
    throughout: S-ladder refs for actors, tier+provenance for loot.
-2. **Compiler, walking skeleton.** A deterministic
+3. **Compiler, walking skeleton.** A deterministic
    blueprint → compiled-settlement pass in `tooling/world-generation/`:
    siting on real terrain, district/parcel/route grading, building
    placement as kit assemblies (statistics from the mined form tables —
    counts, spacing, water/road orientation), docks/boardwalks on real
    water, exports the same bundle/manifest shapes the studio already
    streams. Don't gold-plate: it needs to compile ONE settlement well
-   before it needs options.
-3. **Review artefact renderers** — the owner's viewport, so build early
+   before it needs options. The compiler owns **vegetation clearing**
+   (owner directive, 2026-09-01): settlements may clear trees and plants
+   from their footprint to make layouts work — that is what real builders
+   do. The blueprint declares its cleared areas (building parcels, routes,
+   commons, sightlines) and its *kept/managed* vegetation (the Hist tree
+   above all, shade trees, reed beds worked as a resource); the compiler
+   emits clearance masks that the scatter compiler and the runtime
+   groundcover ring respect, and the affected chunks' vegetation is
+   recompiled. Clearing is graded, not binary — a hard-clear core, a
+   worked/thinned fringe, wild beyond — so settlements sit *in* the marsh
+   rather than on a cut-out disc.
+4. **Review artefact renderers** — the owner's viewport, so build early
    and make regeneration one command each:
    - *Blueprint map*: top-down annotated diagram (districts, routes,
      docks, landmarks, water, contours) drawn over a terrain hillshade
@@ -105,7 +157,7 @@ tooling; place it per the packages rule and the existing worldgen layout.
      GLB — one ortho, 3–4 player-eye views (extend `render_preview.py`).
    - *Deployed walk*: the compiled settlement streamed in the studio at
      real vegetation/light/water (the final-feel medium; push to Pages).
-4. **Asset kits, early** — kits gate the compiler's output being judgeable.
+5. **Asset kits, early** — kits gate the compiler's output being judgeable.
    Vault first (BM&V architecture is the house style; Tropical Skyrim;
    xanmeer tileset per module 90 §74.2), then source the module 90 §75/§80
    priority mods (Argonian mud hut, Marsh-Rest, xanmeer kit, clutter)
