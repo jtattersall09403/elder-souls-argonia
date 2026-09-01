@@ -2680,29 +2680,36 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         const transitionAt = comboTransitionTime(attack);
         e.hitboxActive.current = weaponActive && f.health > 0;
         if (phase === "windup" && f.actionTime <= delta * 1.5) combatAudio.play("swing");
-        if (enemyHandle && footDrivenMotion && hasGroundTrack(attack.animation)) {
-          // The same foot-driven attack movement the player gets, for the same
-          // reason: an enemy whose swing slides it forward while its planted
-          // sole says otherwise reads exactly as wrong on a warden as it does
-          // on the player, and it is the same clip doing it.
+        if (
+          enemyHandle
+          && footDrivenMotion
+          && hasGroundTrack(attack.animation)
+          // Only once it is already in range. An enemy's lunge is doing two
+          // jobs at once: making the swing look like it travels, and closing
+          // the last half-metre so the blade arrives. Foot-driven motion
+          // replaces the first and cannot replace the second — a clip whose
+          // sole stays planted moves the actor by almost nothing, which is
+          // exactly the point for the player, who aims their own attacks, and
+          // exactly wrong for an enemy that has to reach.
           //
-          // Two differences, both because an enemy is not aiming with a stick.
-          // It runs for the whole action rather than only the wind-up, since
-          // that is the point of taking the motion from the feet; and it is
-          // gated on the same `lungeBeyondDistance` as the authored lunge, so
-          // an enemy already standing on top of the player still does not walk
-          // further into them.
+          // So the existing threshold decides which job is being done. Beyond
+          // it the enemy is closing and keeps the authored lunge; inside it,
+          // where nothing needs closing and the look is all that is left, the
+          // feet drive. Enemies attack from close, so this is the common case.
+          && distance <= archetype.lungeBeyondDistance
+        ) {
+          // Runs for the whole action rather than only the wind-up, which is
+          // the point of taking the movement from the feet.
           const step = footAnchoredVelocity(
             attack.animation,
             f.actionTime,
             delta,
             Math.max(attack.lunge, 0),
           );
-          const closing = distance > archetype.lungeBeyondDistance ? step.forward : 0;
           enemyHandle.body.setLinvel({
-            x: dirX * closing,
+            x: dirX * step.forward,
             y: enemyHandle.body.linvel().y,
-            z: dirZ * closing,
+            z: dirZ * step.forward,
           }, true);
         } else if (phase === "windup" && distance > archetype.lungeBeyondDistance && enemyHandle) {
           enemyHandle.body.setLinvel({

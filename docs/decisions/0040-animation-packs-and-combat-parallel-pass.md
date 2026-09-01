@@ -305,3 +305,143 @@ killmoves that exist (three 2hw, three 2hm) are frontal finishers.
 Two-handed backstabs are therefore assembled the way the executions are — the
 weapon's own execution clip against a sourced from-behind victim stagger —
 rather than declared impossible.
+
+# Round 4 (2026-09-01) — hitbox timing, and things that had two owners
+
+The owner's round-3 playtest produced a long, precise list. Most of it is
+ordinary work recorded in the code and the commits; recorded here are the five
+findings that change how something should be reasoned about, plus the one item
+not delivered.
+
+## 12. A hitbox window is a fraction of a clip, so the clip must play at the
+## same rate the window was scaled by
+
+The reports read as five separate weapon bugs: a dagger cutting during its
+wind-up, a mace's second heavy cutting during its recovery, a two-handed
+opening swing that only connected after it had finished. Two causes.
+
+**The class speed factor was applied to gameplay and not to the animation.**
+`WeaponClassProfile.speedScale` scales an attack's wind-up, active and
+recovery; the contact window inside those seconds is a fraction *of the clip*;
+and the clip kept playing at its authored rate. So the hitbox drifted off the
+visible blade by the whole of that factor — 28% early on a dagger, 12% late on
+a mace, and in the same direction and proportion for every class in the
+arsenal. `AttackSpec.timeScale` now carries the factor and the animation
+command plays the clip at it.
+
+The general rule, and the reason this is worth a section: **anything measured
+as a fraction of a clip is only valid while the clip and the action share a
+clock.** `equipment/attackTiming.test.ts` holds that for every class.
+
+**The measuring tool selected the longest contact phase, not the fastest.** A
+Skyrim attack clip is strike-then-settle, and on a two-handed clip the settle
+is comfortably the longer of the two: a greatsword's opening swing strikes for
+0.14 s at 38 m/s and then trails across the front for 0.31 s at 20. Selecting
+by length measured the settle. Peak tip speed is the right discriminator — the
+damaging part of a swing is the part carrying the momentum — and it agrees with
+the owner-calibrated one-handed windows, which is the tool's standing
+correctness check. Every window the owner had already approved is unchanged;
+the four broken two-handed windows and the one-handed second heavy all moved
+earlier.
+
+## 13. A parry is two clips on one clock, and has to be measured that way
+
+The shield, greatsword and battleaxe parries all caught during the wind-up and
+were inert during the parry itself. Each family's window was measured inside
+its *intro* clip, but the intro is only the raise: `SHIELD_PARRY` is 0.133 s,
+`GREATSWORD_PARRY` 0.233 s. The window opened at 0.067 s and closed before the
+clip that does the actual parrying had begun. The one-handed sword was fine by
+luck — its raise is short enough that the window spilled into the bash.
+
+`measure-contact-windows.mjs --parry` measures the guard's leading point across
+the clip *pair*. Its phase list is the output and the `->` line is a
+suggestion: unlike a swing, a parry has two fast phases that look alike to a
+speed test — raising the guard into presentation, and sweeping it across — and
+only the second is a catch. The battleaxe needed a third reading again: its
+sweep crosses from fully-forward to behind the chest in a tenth of a second, so
+the window opens at full extension (0.2 s, exactly where its raise ends) to
+give the axe a window in *space* as well as in time.
+
+## 14. An axe has no point, so a class declares how it finishes people
+
+Vanilla has two back-facing paired criticals and both are one-handed thrusts,
+so every other weapon's backstab is assembled. It was assembled from a thrust
+regardless of what was in hand — a war axe burying a blade it does not have,
+a battleaxe performing a greatsword's lunge.
+
+`WeaponClassProfile.criticalStyle` splits this. A **thrust** class uses its
+authored execution; a **swing** class plays its own opening light attack from
+behind. The swing critical is not a bespoke killmove and does not pretend to
+be: it is the motion that weapon actually makes, and the critical reads through
+the victim's reaction and the damage. Its contact is the light attack's own
+measured window, so it needs no new hand-audited numbers — only the pair
+separation was measured (1.10 m, both families).
+
+This also exposed a related defect: the two-handed backstab swapped in the
+execution clip but kept the timing of the one-handed *paired* clip it replaced,
+running a 1.13 s performance over a 3.17 s action. `attackTiming.test.ts` now
+requires every critical's `damageProgress` to fall inside its own spec's active
+window.
+
+## 15. Three bugs were two systems writing one value
+
+Worth recording as a class, because all three read as unrelated reports.
+
+- **`Object3D.visible` had no owner.** Mounting armour sets the visibility of
+  every body mesh; a first-person camera hides the head; and the head *is* a
+  body mesh in the race roster (slots 30 and 43). Which won was decided by
+  React effect ordering. A mesh is now visible iff nobody is hiding it
+  (`actors/meshVisibility`).
+- **A body mesh spans several biped slots.** Bethesda's body is torso,
+  forearms and calves in one object (32/34/38); boots cover feet and calves
+  (37/38). "Hide any mesh sharing a slot" therefore deleted the whole body when
+  an actor put boots on — which is the archer with no body *and* the paper doll
+  that emptied when a cuirass came off, one bug reported twice. Coverage is now
+  by the mesh's primary (lowest) slot, or total coverage.
+- **The off-hand node's basis is a fact about the node, not about shields.**
+  The half turn shields need was written up as a shield correction; a bow hangs
+  off the same node and was held with its string facing the target.
+  `OFF_HAND_NODE_HALF_TURN` is now one constant both use.
+
+## 16. State the AI can choose has to exist
+
+The archer drew and held forever and never moved. `ai/enemyAi` emits `shoot`
+and `withdraw`; the sandbox FSM had a handler for neither, and since an archer
+picks one of those two almost every decision, nothing ever set its joystick —
+feet moving in the animation, body stationary. Both were also pinned at zero
+turn rate. Nothing was subtly wrong; the states were simply not implemented.
+
+The sword-and-board enemy's "parries constantly, never blocks" was the same
+shape of gap one level up: `loadoutTactics` read the main hand and discarded
+the off hand, so a shield warden scored guarding exactly as a two-handed
+fighter does. `WeaponTactics.guarding` is taken from whatever is actually
+between the fighter and the blow, and is normalised *within* the weapon and
+shield stability bands rather than across them, because the gap between those
+bands is a difference of kind.
+
+## 17. Full-screen UI is sized by the visual viewport, not by any CSS unit
+
+Fourth attempt at the phone layout. `vh`, then `dvh`/`dvw`, then 100% of the
+game shell — all reported cut off, and the third shows why: the shell is 100%
+of `body`, which is the *layout* viewport, and on a phone that extends under
+the address bar (bottom cut off outside full screen) and, with
+`viewport-fit=cover`, under the display cutout (right cut off *in* full screen).
+Every CSS unit on offer describes the browser; none describes the screen.
+`hud/visualViewport` publishes `window.visualViewport` as four custom
+properties, so any screen that must fit is four lines of CSS.
+
+## Not delivered this round
+
+**Per-weapon riposte clips.** The owner wants a thrust for the one-handed sword
+and the dagger and a swing for the battleaxe. Rim ships an authored execution
+for every weapon type and all of them are extracted in the vault, but
+`pipeline.audition` — the tool for viewing candidates before committing to one
+— fails because it wants a `dunmer-combat` character data-root that no current
+build target produces. Choosing a clip without seeing it would have been a
+guess. Recorded in the polish backlog with the fix-the-audition-target
+prerequisite.
+
+**`heavy-chain`'s ground-correction gate** fails at 2.03 against a limit of 2.
+It is pre-existing rather than introduced here — it measures 2.096 on the
+commit this round branched from — and this round's HEAVY_2 re-measure improved
+it. Left alone rather than folded into an unrelated round.

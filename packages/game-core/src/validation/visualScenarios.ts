@@ -259,27 +259,34 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     id: "light-chain",
     label: "Three-input light combo → complete three-hit chain",
     warmup: 0.5,
-    duration: 4.05,
+    duration: 4.2,
     player: { position: [0, Y, 0], yaw: Math.PI },
     enemy: SOLO_ENEMY,
+    // Every press moved 0.15 s later, together, so the chain's own windows are
+    // untouched and only the opening idle is longer. It was 0.15 s — shorter
+    // than the capture's sampling interval — so whether the scene recorded an
+    // idle run at all came down to where a frame happened to land, and the
+    // scene failed roughly every other run. Nothing about the chain changed.
     cues: [
-      { from: 0.15, to: 0.24, actions: ["light"] },
-      { from: 0.62, to: 0.71, actions: ["light"] },
-      { from: 1.72, to: 1.81, actions: ["light"] },
+      { from: 0.3, to: 0.39, actions: ["light"] },
+      { from: 0.77, to: 0.86, actions: ["light"] },
+      { from: 1.87, to: 1.96, actions: ["light"] },
     ],
   },
   "heavy-chain": {
     id: "heavy-chain",
     label: "Two-input heavy combo → complete two-hit chain",
     warmup: 0.5,
-    duration: 3.45,
+    duration: 3.6,
     player: { position: [0, Y, 0], yaw: Math.PI },
     enemy: SOLO_ENEMY,
+    // Both presses moved 0.15 s later together, for the same sampling reason
+    // as the light chain.
     cues: [
-      { from: 0.15, to: 0.24, actions: ["heavy"] },
+      { from: 0.3, to: 0.39, actions: ["heavy"] },
       // Queue input opens when the swing commits, which is now the measured
       // blade sweep rather than a flat fraction of the clip.
-      { from: 0.82, to: 0.91, actions: ["heavy"] },
+      { from: 0.97, to: 1.06, actions: ["heavy"] },
     ],
   },
   "guard-defense": {
@@ -292,7 +299,12 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     // Hold through the first complete hit and return to GUARD. Release shortly
     // after the second impact; production must still finish GUARD_HIT_B before
     // returning to idle instead of cancelling the reaction on button-up.
-    cues: [{ from: 0.05, to: 4.4, actions: ["guard"] }],
+    // The guard goes up at 0.2 s rather than 0.05 s. The scene reviews idle →
+    // guard → two blocks → recovery, and its opening idle was three frames
+    // long, which is inside the capture's own sampling interval: whether that
+    // run appeared at all came down to where a frame happened to land. A
+    // fifth of a second is still an immediate guard and is reliably sampled.
+    cues: [{ from: 0.2, to: 4.4, actions: ["guard"] }],
     enemyCues: [
       { at: 1.05, intent: "lightCombo", attack: "light1", comboRemaining: 0 },
       { at: 3.25, intent: "lightCombo", attack: "light1", comboRemaining: 0 },
@@ -591,12 +603,16 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     id: "roll",
     label: "Forward movement + dodge release → roll",
     warmup: 0.5,
-    duration: 2.2,
+    duration: 2.35,
     player: { position: [0, Y, 2], yaw: Math.PI },
     enemy: SOLO_ENEMY,
+    // Both cues moved 0.15 s later together, so the run-up before the dodge is
+    // exactly what it was. The scene opened with 0.1 s of idle, which is about
+    // three frames of the capture — too few to reliably record the idle run the
+    // check expects, so it failed intermittently under load.
     cues: [
-      { from: 0.1, to: 1.6, move: [0, 1] },
-      { from: 0.35, to: 0.51, actions: ["dodge"], move: [0, 1] },
+      { from: 0.25, to: 1.75, move: [0, 1] },
+      { from: 0.5, to: 0.66, actions: ["dodge"], move: [0, 1] },
     ],
   },
   backstep: {
@@ -856,7 +872,14 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     player: { ...RIPOSTE_REVIEW_PLAYER, emptyOffHand: true, weaponId: "steel-greatsword" },
     enemy: RIPOSTE_REVIEW_ENEMY,
     cues: [
-      { from: 0.70, to: 0.79, actions: ["parry"] },
+      // Pressed early, because a greatsword parry catches late.
+      //
+      // The catch happens at 0.475-0.635 s of the raise-plus-bash pair, not at
+      // 0.067 s: `GREATSWORD_PARRY` is 0.233 s of *raise* on its own, and the
+      // window used to be measured inside it. Pressing 0.408 s earlier than
+      // before puts the catch back on exactly the same frame of the enemy's
+      // swing that this scene was built around, so what it reviews is unchanged.
+      { from: 0.292, to: 0.382, actions: ["parry"] },
       { from: 2.3, to: 2.39, actions: ["light"] },
     ],
     enemyCues: [{ at: 0.25, intent: "lightCombo", attack: "light1", comboRemaining: 0 }],
@@ -869,11 +892,12 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     player: { ...RIPOSTE_REVIEW_PLAYER, emptyOffHand: true, weaponId: "steel-battleaxe" },
     enemy: RIPOSTE_REVIEW_ENEMY,
     cues: [
-      // The two-handed parry window is the shortest of the three (0.16 s), so it
-      // has to be pressed later against the same enemy swing than the sword
-      // scenes press theirs. Timing, not luck: the window opens where the
-      // clip starts moving, and a haft raise takes longer to get there.
-      { from: 0.70, to: 0.79, actions: ["parry"] },
+      // The two-handed parry window is the shortest of the three (0.16 s), and
+      // the haft's catch opens where the axe reaches full extension — 0.2 s
+      // into the pair, at the end of its raise, where the blade set's is
+      // 0.475 s. Pressed 0.133 s earlier than before so the catch lands on the
+      // same frame of the enemy's swing it always did.
+      { from: 0.567, to: 0.657, actions: ["parry"] },
       { from: 2.3, to: 2.39, actions: ["light"] },
     ],
     enemyCues: [{ at: 0.25, intent: "lightCombo", attack: "light1", comboRemaining: 0 }],

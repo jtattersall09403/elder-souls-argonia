@@ -184,13 +184,23 @@ export const GREATAXE_ANIMATIONS: WeaponAnimationProfile = {
     intro: "GREATAXE_PARRY",
     followThrough: "GREATAXE_PARRY_FOLLOW_THROUGH",
     // Its own window, not the blade set's: the haft parry is a different
-    // gesture with a different clip length. Measured over the pair, the axe is
-    // *presented* between 0.075 s and 0.200 s — reaching its most-forward
-    // 0.94 m at 0.22 s, still on the way up — and then sweeps across the front
-    // from 0.242 s to 0.317 s. The sweep is the catch; the presentation is the
-    // wind-up, which is exactly what the old shared 0.067 s window was
-    // catching with.
-    active: { start: 0.235, duration: 0.16 },
+    // gesture with a different clip length, and measured over the pair
+    // (`--parry --socket Weapon --reach 0.85`) it has a different shape too.
+    //
+    // The axe is *raised* from 0.075 s to 0.200 s, reaches its most-forward
+    // 0.94 m ahead of the chest at 0.20-0.24 s — exactly where `GREATAXE_PARRY`
+    // ends and the bash clip begins — and then sweeps across the front, passing
+    // behind the chest plane by 0.34 s. The old shared 0.067 s window spent
+    // itself entirely inside the raise, which is the reported "active during
+    // the wind-up, inert during the parry".
+    //
+    // Opening at 0.20 rather than at the sweep's own 0.242: a catch needs the
+    // guard *interposed*, not merely moving, and the haft sweep crosses from
+    // fully-forward to fully-past in barely a tenth of a second. Starting at
+    // full extension gives the axe a window in space as well as in time, and it
+    // is still after the raise has finished, which is the property that
+    // `weapon.test.ts` holds.
+    active: { start: 0.2, duration: 0.16 },
   },
   riposte: twoHandedRiposte("GREATAXE_RIPOSTE", 1.4),
   backstab: twoHandedBackstab("GREATAXE_RIPOSTE", 1.4),

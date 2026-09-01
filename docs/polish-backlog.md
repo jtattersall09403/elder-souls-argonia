@@ -35,6 +35,22 @@ cosmetic/feel work lives — do not park polish items in decision docs.
   declare that it has no melee and have the combat FSM refuse the input, the
   way it already refuses a guard with a bow raised, rather than borrowing
   clips. Touches the non-optional melee fields of `WeaponAnimationProfile`.
+- **Visual scenarios that open with an input pressed inside one sampling
+  interval fail intermittently.** Several scenes press their first cue 0.05-0.15 s
+  in, which is fewer than the three rendered samples the animation-path check
+  demands of a run, so their opening idle is a coin flip under machine load
+  (`light-chain`, `guard-defense`, `roll` and `greatsword-locomotion` were all
+  seen flipping in round 4; the first three were widened one at a time). The
+  proper fix is a harness-level lead-in — a fixed offset applied to every cue
+  and every scenario duration — rather than nudging scenes as they are noticed.
+  Done when a full suite run passes twice in a row on a loaded machine with no
+  per-scene timing tweaks left in the file for this reason.
+- **`heavy-chain` ground-correction overshoot.** The grounding solve moves the
+  actor at 2.03 m/s against a 2.0 limit. Pre-existing rather than introduced by
+  round 4 — it measures 2.096 on the commit that round branched from, and the
+  HEAVY_2 re-measure improved it — so it wants its own look rather than being
+  folded into an unrelated pass. Done when the gate passes without raising the
+  threshold.
 - **Arrows fired steeply upward are still slightly tumbly.** The flight model
   weathercocks and damps, and the owner judged round 4's behaviour "a bit tumbly
   but fine for now" and explicitly asked to revisit it in polish. Done when a
