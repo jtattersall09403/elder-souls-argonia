@@ -12,7 +12,7 @@
  * draw call per tile (the trap Vegetation.tsx already sprang per chunk).
  */
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import * as THREE from "three";
@@ -21,9 +21,9 @@ import type { QualitySettings } from "@elder-souls/game-core/core/quality";
 import { sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
 import {
   applyWindSway,
-  createWindUniforms,
   updateWindSway,
 } from "@elder-souls/game-core/fx/windSway";
+import { sharedWindUniforms } from "./windUniforms";
 import { lastWeatherSample } from "../weather/weatherState";
 import { sharedWaterAssets } from "../water/waterAssets";
 import { groundHeightM } from "./terrainHeight";
@@ -237,11 +237,11 @@ export function Groundcover({
 
   // The easy half of the wind work: groundcover casts no shadows, so there is
   // no depth-material twin to keep in step (see Vegetation.tsx).
-  const wind = useMemo(() => createWindUniforms(), []);
+  const wind = sharedWindUniforms;
 
-  useFrame((_, delta) => {
+  useFrame((state) => {
     const weather = lastWeatherSample();
-    if (weather) updateWindSway(wind, delta, weather);
+    if (weather) updateWindSway(wind, state.clock.elapsedTime, weather);
     const focus = focusRef.current;
     // Ensure the chunks under the ring are decoding at LOD 1 (the store
     // dedups with the terrain's own requests); a decode arrival rebuilds.

@@ -27,7 +27,7 @@ import * as THREE from "three";
 
 /** The uniform block a group of vegetation materials shares. */
 export interface WindUniforms {
-  /** Seconds, monotonic. Advanced once per frame by `updateWindSway`. */
+  /** Seconds, monotonic — the caller's elapsed clock, set by `updateWindSway`. */
   esWindTime: { value: number };
   /** Travel direction (XZ unit) × strength, plus gustiness in `z`. */
   esWindVec: { value: THREE.Vector3 };
@@ -65,10 +65,13 @@ export function createWindUniforms(): WindUniforms {
  */
 export function updateWindSway(
   uniforms: WindUniforms,
-  deltaSeconds: number,
+  elapsedSeconds: number,
   wind: { windDirXZ: readonly [number, number]; windSpeedMS: number; gustiness: number },
 ): void {
-  uniforms.esWindTime.value += deltaSeconds;
+  // Absolute, not accumulated: two systems sharing one uniform block (the
+  // instanced flora and the groundcover ring both do) may each call this per
+  // frame, and accumulation would run the clock at double speed.
+  uniforms.esWindTime.value = elapsedSeconds;
   const strength = wind.windSpeedMS * WIND_METRES_PER_MS;
   uniforms.esWindVec.value.set(
     wind.windDirXZ[0] * strength,
@@ -124,13 +127,18 @@ const VERTEX_BODY = /* glsl */ `
         sin(esT * 1.7 + esPhase)
       + 0.5 * sin(esT * 2.9 + esPhase * 1.7)
       + esWindVec.z * sin(esT * 0.31 + esPhase * 0.5);
-    // Weight by height^1.5: crowns swing, mid-trunk barely moves, base is
-    // pinned. Normalised against a nominal 10 m plant so tall trees do not
-    // bend proportionally further than short ones.
-    float esWeight = pow(min(esHeight / 10.0, 1.6), 1.5);
+    // Weight by height^0.8: crowns swing, bases are pinned. Normalised
+    // against a nominal 10 m plant. The exponent was 1.5 in round 5 and that
+    // made every sub-2 m plant move by millimetres — literally invisible
+    // (owner: "couldn't see any movement in a thunderstorm"). 0.8 keeps
+    // trunk-pinning (weight still ~0 at the base) while a 1 m fern in a
+    // 13 m/s storm oscillates ~±9 cm and a 15 m crown leans ~1.5 m.
+    float esWeight = pow(min(esHeight / 10.0, 1.6), 0.8);
     float esFade = 1.0 - smoothstep(esWindFadeM * 0.6, esWindFadeM,
                                     length(cameraPosition - esInstanceOrigin));
-    float esAmount = esWeight * esFade * (0.65 + 0.35 * esGust);
+    // Half the displacement is oscillation, not standing lean — the moving
+    // part is what the eye reads as wind.
+    float esAmount = esWeight * esFade * (0.5 + 0.5 * esGust);
     vec3 esWorldOffset = vec3(esWindVec.x, 0.0, esWindVec.y) * esAmount;
     // Length-preserving correction: without it a bent plant visibly stretches.
     float esLean = length(esWorldOffset);
@@ -147,21 +155,20 @@ const VERTEX_BODY = /* glsl */ `
 }
 `;
 
-/**
- * Patch one material to sway. Safe to call repeatedly on the same material —
- * a material shared across LOD levels must only be patched once, or the
- * injection is applied twice and the plant bends double.
- */
-export function applyWindSway(
-  material: THREE.Material,
-  uniforms: WindUniforms,
-): void {
-  const flagged = material.userData as { esWindPatched?: boolean };
-  if (flagged.esWindPatched) return;
-  flagged.esWindPatched = true;
+interface WindPatchState {
+  esWindUniforms?: WindUniforms;
+  /** The exact wrapper we installed — identity-checked by `reapplyWindSway`. */
+  esWindWrapped?: THREE.Material["onBeforeCompile"];
+  esWindCacheKeyed?: boolean;
+}
+
+function installWindHook(material: THREE.Material, uniforms: WindUniforms): void {
+  const state = material.userData as WindPatchState;
+  state.esWindUniforms = uniforms;
   const previous = material.onBeforeCompile;
-  material.onBeforeCompile = (shader, renderer) => {
+  const wrapped: THREE.Material["onBeforeCompile"] = (shader, renderer) => {
     previous?.call(material, shader, renderer);
+    if (shader.vertexShader.includes("esWindVec")) return; // never double-bend
     shader.uniforms.esWindTime = uniforms.esWindTime;
     shader.uniforms.esWindVec = uniforms.esWindVec;
     shader.uniforms.esWindFadeM = uniforms.esWindFadeM;
@@ -172,9 +179,55 @@ export function applyWindSway(
         `#include <begin_vertex>\n${VERTEX_BODY}`,
       );
   };
+  material.onBeforeCompile = wrapped;
+  state.esWindWrapped = wrapped;
+  if (!state.esWindCacheKeyed) {
+    // Without a cache key, a patched material with the same parameters as an
+    // unpatched one shares its compiled program and the injection silently
+    // never renders (the aerial patch keys every flora material to the SAME
+    // constant string, so this collision is not hypothetical).
+    state.esWindCacheKeyed = true;
+    const previousKey = material.customProgramCacheKey;
+    material.customProgramCacheKey = function (this: THREE.Material) {
+      return `${previousKey.call(this)}|es-wind`;
+    };
+  }
   // Any material already compiled by an earlier frame has to be rebuilt, or
   // the injection silently never runs.
   material.needsUpdate = true;
+}
+
+/**
+ * Patch one material to sway. Safe to call repeatedly on the same material —
+ * a material shared across LOD levels must only be patched once, or the
+ * injection is applied twice and the plant bends double.
+ */
+export function applyWindSway(
+  material: THREE.Material,
+  uniforms: WindUniforms,
+): void {
+  const state = material.userData as WindPatchState;
+  if (state.esWindUniforms) return;
+  installWindHook(material, uniforms);
+}
+
+/**
+ * Restore the sway hook after something else reassigned `onBeforeCompile`.
+ *
+ * `CSM.setupMaterial` (and anything like it) OVERWRITES `onBeforeCompile`
+ * with a plain assignment, which is how round 5 shipped with trees that never
+ * moved: the wind hook was installed at mesh build, then wiped ~1 s later by
+ * the shadow-cascade patch pass. Whoever runs such a pass must call this on
+ * each material afterwards — it is a no-op while our wrapper is still the
+ * live hook, and re-wraps (chaining the newcomer, preserving the shader-level
+ * double-patch guard) when it is not. Materials never touched by
+ * `applyWindSway` are ignored, so it is safe to call on a whole scene.
+ */
+export function reapplyWindSway(material: THREE.Material): void {
+  const state = material.userData as WindPatchState;
+  if (!state.esWindUniforms) return;
+  if (material.onBeforeCompile === state.esWindWrapped) return;
+  installWindHook(material, state.esWindUniforms);
 }
 
 /**

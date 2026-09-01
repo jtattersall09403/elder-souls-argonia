@@ -24,9 +24,9 @@ import {
 import type { QualitySettings } from "@elder-souls/game-core/core/quality";
 import {
   applyWindSwayWithShadow,
-  createWindUniforms,
   updateWindSway,
 } from "@elder-souls/game-core/fx/windSway";
+import { sharedWindUniforms } from "./windUniforms";
 import { isSolid, type SolidInstance } from "@elder-souls/game-core/physics/floraSolids";
 import { lastWeatherSample } from "../weather/weatherState";
 import { sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
@@ -148,11 +148,11 @@ export function Vegetation({
   // Wind sway (module 55 §98): one uniform block shared by every plant
   // material AND its shadow-depth twin, fed from the same weather sample the
   // sky, rain and waves read — so the world gusts together.
-  const wind = useMemo(() => createWindUniforms(), []);
+  const wind = sharedWindUniforms;
 
-  useFrame((_, delta) => {
+  useFrame((state) => {
     const weather = lastWeatherSample();
-    if (weather) updateWindSway(wind, delta, weather);
+    if (weather) updateWindSway(wind, state.clock.elapsedTime, weather);
     if (!index || !root.current) return;
     const focus = focusRef.current;
     const size = index.chunkMetres;
@@ -311,7 +311,8 @@ export function Vegetation({
           if (onSolids && solidByAsset.get(id!)) {
             solids.push({
               species: id!, x: inst.x, y, z: inst.z,
-              yaw: inst.yaw, scale: inst.scale,
+              yaw: inst.yaw, tiltX: inst.tiltX, tiltZ: inst.tiltZ,
+              scale: inst.scale,
             });
           }
         }

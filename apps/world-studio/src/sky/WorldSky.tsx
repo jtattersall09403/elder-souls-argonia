@@ -12,6 +12,7 @@ import {
   type MoonState,
 } from "@elder-souls/world-time";
 import { setWindWaveScale } from "@elder-souls/game-core/water/index";
+import { reapplyWindSway } from "@elder-souls/game-core/fx/windSway";
 import catalogue from "../../../../world/sources/sky/star-catalogue.json";
 import { AERIAL_DOME_PARS_GLSL, applyAerialPerspective, createAerialUniforms, type AerialUniforms } from "./aerial";
 import {
@@ -672,6 +673,12 @@ export function WorldSky({
           if (m.userData?.esAerial) {
             applyAerialPerspective(m, sharedAerialUniforms);
           }
+          // Same overwrite hazard, same load-bearing order: the wind-sway
+          // hook the vegetation installed at mesh build is wiped by
+          // csm.setupMaterial too. This shipped as "trees never move" in
+          // round 5. reapplyWindSway is a no-op on materials wind never
+          // touched.
+          reapplyWindSway(m);
           m.needsUpdate = true;
           anyNew = true;
         }
