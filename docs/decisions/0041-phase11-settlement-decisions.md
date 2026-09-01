@@ -8,7 +8,10 @@ owner directives 2026-09-01); owner decisions land here as the phase runs.
 > Read this doc, then [00-core](../world/00-core.md), then the Phase 11
 > section of [95-build-sequence.md](../world/95-build-sequence.md) (§86,
 > "Phase 11" — the binding deliverable list), then
-> [40-causal-authoring.md](../world/40-causal-authoring.md) §30–32 (the
+> [40-causal-authoring.md](../world/40-causal-authoring.md) **§28b–32**
+> (§28b is the placement ladder — macro roster → type-siting grammars →
+> micro layout, with the recorded-why and research rules; it is the
+> definition of "causal" this phase implements — then the
 > `SettlementBlueprint` schema, review loop and orphan validator) and
 > [quests/20-world-provisions.md](../quests/20-world-provisions.md) in full
 > (the two-way contract; §12b's named-settlement constraints are hard
@@ -212,12 +215,28 @@ a small visual packet plus 2–4 plain-English questions. Do not batch rounds.
 
 ### Part 3 — grammars, written down
 
-Concurrent with Part 2, converging as steers land: the **Hist-centred** and
-**Imperial-fringe** settlement grammars as data + rules (module 95's
-deliverables), grounded in the mined form tables, the morphology research,
-material-culture, and the taste ledger. Plus the **location-orphan
-validator** (module 40 §32 list, including the §12.3b reward clauses) run
-in the compiler pipeline, not as advice.
+Concurrent with Part 2, converging as steers land — this is the placement
+ladder (module 40 §28b) made into artefacts:
+
+- **The macro roster**: for the exemplar + contrast packets first (province-
+  wide as rollout reaches it), the typed location roster — named canon
+  places plus inferred place *types* with counts, every row carrying its
+  derivation. Derive from the settlement register, quests 20 §12b, module
+  92 demographics, region economy/culture/danger, and what canon implies
+  (raft villages, pirate anchorages, toll offices, pilgrim waystations,
+  smuggler caches, abandoned former village sites, …).
+- **Type-siting grammars**: per place type, what land it seeks and why, as
+  logic a terrain query can evaluate (§28b meso level). Each candidate
+  siting records why it won.
+- **The settlement grammars**: **Hist-centred** and **Imperial-fringe**
+  (module 95's deliverables), grounded in the mined form tables, the
+  morphology research, material-culture, and the taste ledger.
+- **The research rule, enforced on yourself**: before the first instance of
+  any place type, check `docs/research/` for its design research (how the
+  source games and other open-world RPGs build that type); if thin, fill
+  the gap (a subagent job) and record the doc *before* placing.
+- **The location-orphan validator** (module 40 §32 list, including the
+  §12.3b reward clauses) run in the compiler pipeline, not as advice.
 
 ### Part 4 — autonomous delivery (after graduation)
 

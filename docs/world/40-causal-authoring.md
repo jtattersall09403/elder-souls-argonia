@@ -43,6 +43,51 @@ interface LocationCausalModel {
 
 The compiler reads `spatialConsequences`, `encounterConsequences` and `lootConsequences`. The prose remains available to agents and narrative systems.
 
+## 28b. The placement ladder: province → region → site (owner directive, 2026-09-01)
+
+§28's causal model answers "why is this place the way it is." Two questions
+come *before* it, and each level's answer must be recorded — the *why* behind
+every decision is the system:
+
+**Macro — what must exist, and in which region.** Derived, not brainstormed,
+from: the lore (named canon places — the settlement register, quests 20
+§12b — plus everything canon *implies*: a province with the Owing implies
+hiring halls and toll offices; a coast with trade implies smugglers,
+wreckers, pirate anchorages; Hist worship implies trees, pilgrim routes,
+waystations; moving villages imply moored raft settlements and abandoned
+former sites), the quest plan (two-way, §65b), demographics (module 92), and
+each region's economy, culture and danger. Deliverable form: a **typed
+location roster per region packet** — named places plus counts of inferred
+place *types*, each row carrying its derivation ("this region needs 2–3
+smuggler camps because the Imperial tariff line crosses it and the coast is
+unwatched").
+
+**Meso — where within the region does each type sit.** Every place *type*
+carries a **siting grammar**: what land it seeks and why, stated as
+economic/cultural/defensive/ecological logic that a terrain query can
+evaluate. Waystations seek the road between cities at day-travel spacing;
+bandits seek chokepoints on traffic they can rob and escape from; pirate
+anchorages seek hidden coves with deep approach water; shrines seek the
+landform the belief names; hermits and the hunted seek the hard-to-reach
+(module 20 §12.3b makes these doubly valuable). Applying a siting grammar
+means reading the actual land (routes, water, relief, concealment,
+visibility) and recording why *this* candidate site won.
+
+**Micro — how it sits on the chosen ground.** The type's ideal layout
+(research-derived) is reconciled against the site's micro-geography — the
+site survey data decides where the dock meets deep water, which parcels
+need clearing or raising, what the approach reveals — and where ground and
+ideal conflict, the ground wins and the causal model records the
+adaptation (a real founder would have adapted too; that adaptation *is*
+character).
+
+**The research rule.** No place type is placed from imagination. Before the
+first instance of a type is authored, there is design research on how the
+source games (and other open-world RPGs, and where relevant the real world)
+build that type — layout, contents, telegraphing, loot logic — recorded in
+`docs/research/` (check filenames first; much already exists). An agent
+arriving at an unresearched type stops and fills the gap before placing.
+
 ## 29. Example causal derivations
 
 ### 29.1 Bandit camp on an isolated trade route
