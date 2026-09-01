@@ -283,36 +283,54 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
     data_root.mkdir(parents=True, exist_ok=True)
 
     entries = kit["assets"]
-    pools = {e["asset"].split(":", 1)[0] for e in entries}
+    # A COMPOSITE entry has no registry row of its own — its `compose.parts`
+    # name the real assets. Its own id is free-form (`composite:...`) and only
+    # ever appears in our own palettes.
+    pools = {
+        source["asset"].split(":", 1)[0]
+        for e in entries
+        for source in _part_specs(e)
+    }
     index = registry_index(pools)
     sources = {pool: pool_sources(pool, vault) for pool in pools}
 
     rows = []
     for entry in entries:
-        row = index.get(entry["asset"])
-        if row is None:
-            raise KeyError(f"{entry['asset']} is not in the asset registry")
-        rows.append((entry, row))
+        for spec in _part_specs(entry):
+            row = index.get(spec["asset"])
+            if row is None:
+                raise KeyError(f"{spec['asset']} is not in the asset registry")
+        rows.append((entry, index[_part_specs(entry)[0]["asset"]]))
 
     # Pass 1: every mesh, one extraction per archive. Species whose source
     # pool ships a ready-made `x_lod_flat.nif` billboard (registry field
     # `lodVariant`) bring it along as the T4 far tier — flat cutout cards the
     # renderer switches to beyond the decimated chain (module 65 §110).
     by_pool: dict[str, list[str]] = {}
-    for _entry, row in rows:
-        by_pool.setdefault(row["pool"], []).append(row["path"])
-        if _flat_lod_of(row):
-            by_pool[row["pool"]].append(_flat_lod_of(row))
+    for entry, _row in rows:
+        for spec in _part_specs(entry):
+            row = index[spec["asset"]]
+            by_pool.setdefault(row["pool"], []).append(row["path"])
+            if _flat_lod_of(row):
+                by_pool[row["pool"]].append(_flat_lod_of(row))
     for pool, paths in by_pool.items():
         sources[pool].meshes.extract_many(sorted(set(paths)), data_root)
 
     resolved: list[dict] = []
     wanted: dict[str, set[str]] = {}
     for entry, row in rows:
+        parts = []
+        for spec in _part_specs(entry):
+            part_row = index[spec["asset"]]
+            part_nif = data_root / part_row["path"]
+            if not part_nif.exists():
+                raise FileNotFoundError(
+                    f"{entry['asset']}: {part_row['path']} not extracted")
+            wanted.setdefault(part_row["pool"], set()).update(
+                _referenced_textures(part_nif))
+            parts.append({**{k: v for k, v in spec.items() if k != "asset"},
+                          "nif": to_windows(part_nif)})
         nif = data_root / row["path"]
-        if not nif.exists():
-            raise FileNotFoundError(f"{entry['asset']}: {row['path']} not extracted")
-        wanted.setdefault(row["pool"], set()).update(_referenced_textures(nif))
         record = {
             "id": entry["asset"],
             "nif": to_windows(nif),
@@ -323,6 +341,15 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
                 "doubleSided", row.get("category") in FOLIAGE_CATEGORIES
             ),
         }
+        if entry.get("collisionRadiusM"):
+            record["collisionRadiusM"] = entry["collisionRadiusM"]
+        if entry.get("compose"):
+            # Composites are built from their parts; the billboard tier is
+            # skipped (no single source card exists for an assembled tree, and
+            # inventing one would be making art).
+            record["parts"] = parts
+            resolved.append(record)
+            continue
         flat = _flat_lod_of(row)
         if flat and (data_root / flat).exists():
             wanted[row["pool"]].update(_referenced_textures(data_root / flat))
@@ -381,6 +408,21 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
         print(f"[kit]   missing texture: {texture}")
     return work, resolved, {"texturesMissing": sorted(missing),
                             "texturesSubstituted": substituted}
+
+
+def _part_specs(entry: dict) -> list[dict]:
+    """The registry-backed source assets behind one kit entry.
+
+    An ordinary entry IS its own single part; a composite entry lists several
+    (see `import_composite` in the Blender half for why composites exist).
+    """
+    compose = entry.get("compose")
+    if not compose:
+        return [{"asset": entry["asset"]}]
+    parts = compose["parts"]
+    if not parts:
+        raise ValueError(f"{entry['asset']}: compose.parts is empty")
+    return parts
 
 
 FOLIAGE_CATEGORIES = {"tree", "shrub", "plant", "grass", "aquatic-plant", "fungus"}

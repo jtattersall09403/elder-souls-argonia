@@ -98,7 +98,11 @@ asset registry.
   rocks + mountain slabs); grass and plant meshes/textures in the flora and
   groundcover kits (ferngrass, grassfern, grassplant, marsh grass, cattail,
   man fern — Phase 10); owner-preferred source for later tropical
-  flora/creature needs (module 90 §74.1a).
+  flora/creature needs (module 90 §74.1a). **Phase 10 round 7:** its Anvil
+  giant-tree pieces (`anvil_palm_trunk`, `anvilgianttrunk`, the
+  `anvil_palm foliage` crowns and `anvil_root01` buttress flare) are the
+  jungle roof — assembled into two composite trees by the kit builder. The
+  geometry and textures are Soolie's; only the arrangement is ours.
 - **Project Rainforest SE** (Nexus SSE mod 20636, sa547; credits incl.
   LorSakyamuni's TW3 Landscape Resource and Vurt's SFO) — tropical ground
   textures in the terrain material library (owner-approved 2026-08-23).

@@ -25,6 +25,8 @@ import type { QualitySettings } from "@elder-souls/game-core/core/quality";
 import {
   applyWindSwayWithShadow,
   updateWindSway,
+  windStiffness,
+  WIND_TUNE_ATTRIBUTE,
 } from "@elder-souls/game-core/fx/windSway";
 import { sharedWindUniforms } from "./windUniforms";
 import { isSolid, type SolidInstance } from "@elder-souls/game-core/physics/floraSolids";
@@ -71,6 +73,26 @@ export interface VegetationStats {
 
 function chunkKey(cx: number, cz: number): string {
   return `${cx}_${cz}`;
+}
+
+/**
+ * The `esWindTune` instanced attribute for one kit geometry, allocated once
+ * and grown as needed. Cached on the geometry itself so a rebuild reuses the
+ * same GPU buffer (see the call site for why a fresh attribute each time is
+ * not free).
+ */
+function windTuneAttribute(
+  geometry: THREE.BufferGeometry,
+  instances: number,
+): THREE.InstancedBufferAttribute {
+  const existing = geometry.getAttribute(WIND_TUNE_ATTRIBUTE) as
+    | THREE.InstancedBufferAttribute
+    | undefined;
+  if (existing && existing.count >= instances) return existing;
+  const grown = new THREE.InstancedBufferAttribute(
+    new Float32Array(Math.max(instances, 64) * 2), 2);
+  geometry.setAttribute(WIND_TUNE_ATTRIBUTE, grown);
+  return grown;
 }
 
 export function Vegetation({
@@ -214,6 +236,8 @@ export function Vegetation({
       species: string;
       level: number;
       transforms: THREE.Matrix4[];
+      /** Flat (stiffness − 1, sink) pairs, parallel to `transforms`. */
+      windTune: number[];
     }
     const buckets = new Map<string, Bucket>();
     // Solid instances collected as they are placed — the collider ring needs
@@ -281,7 +305,7 @@ export function Vegetation({
           const key = `${id}|${level}`;
           let bucket = buckets.get(key);
           if (!bucket) {
-            bucket = { species: id!, level, transforms: [] };
+            bucket = { species: id!, level, transforms: [], windTune: [] };
             buckets.set(key, bucket);
           }
           // Anchor per the mined authoring conventions (bundle v2,
@@ -307,6 +331,14 @@ export function Vegetation({
           quaternion.setFromEuler(euler);
           scale.setScalar(inst.scale);
           bucket.transforms.push(matrix.compose(position, quaternion, scale).clone());
+          // Wind tuning is per instance because both terms are: stiffness
+          // scales with the trunk's radius AT THIS SCALE, and the sink is
+          // drawn per instance from the species' range.
+          const trunkRadius = entry.trunkRadiusM;
+          bucket.windTune.push(
+            trunkRadius === null ? 0 : windStiffness(trunkRadius, inst.scale) - 1,
+            speciesGroup.anchorMode === ANCHOR_PIVOT_TERRAIN ? inst.sink : 0,
+          );
           if (asBillboard) billboardInstances++;
           if (onSolids && solidByAsset.get(id!)) {
             solids.push({
@@ -324,9 +356,23 @@ export function Vegetation({
     let triangles = 0;
     for (const bucket of buckets.values()) {
       const entry = kit.get(bucket.species)!;
-      const parts = entry.levels[bucket.level]?.parts ?? entry.levels[0].parts;
+      // `level` is clamped to a valid index where it is chosen, so this is a
+      // real lookup, not a fallback — which is what lets the wind attribute
+      // live on the shared kit geometry: one bucket per (species, level) means
+      // one writer per geometry.
+      const parts = entry.levels[bucket.level].parts;
       instances += bucket.transforms.length;
       for (const part of parts) {
+        // Per-instance wind tuning has to live on the geometry, and kit
+        // geometries persist across rebuilds — so the attribute is cached on
+        // the geometry and GROWN in place rather than reallocated. A fresh
+        // InstancedBufferAttribute every rebuild would strand its GPU buffer
+        // (nothing disposes a bare attribute), which at ~14k instances a
+        // rebuild adds up over a session. Over-allocation is harmless: the
+        // InstancedMesh draws `count` instances, not the attribute's length.
+        const windTune = windTuneAttribute(part.geometry, bucket.transforms.length);
+        windTune.array.set(bucket.windTune);
+        windTune.needsUpdate = true;
         const mesh = new THREE.InstancedMesh(
           part.geometry, part.material, bucket.transforms.length);
         mesh.frustumCulled = true;

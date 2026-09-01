@@ -49,6 +49,53 @@ export const WIND_FADE_M = 220;
  */
 export const WIND_METRES_PER_MS = 0.09;
 
+/**
+ * Per-instance wind tuning, as a `vec2` instanced attribute:
+ *
+ *   `.x` = stiffness − 1   `.y` = sink metres
+ *
+ * Both are offsets from the neutral value ON PURPOSE. An instanced draw whose
+ * geometry lacks the attribute reads WebGL's generic default of `(0, 0)`,
+ * which decodes to stiffness 1 and sink 0 — exactly the behaviour before this
+ * existed. A missing attribute therefore degrades to the old look rather than
+ * silently switching wind off altogether.
+ */
+export const WIND_TUNE_ATTRIBUTE = "esWindTune";
+
+/**
+ * Trunk radius, in metres, that gets the calibrated (×1) amount of sway.
+ * The median canopy trunk in the flora kit; species fatter than this stiffen,
+ * thinner ones loosen.
+ */
+export const WIND_REFERENCE_TRUNK_RADIUS_M = 0.36;
+
+/** Clamp on the stiffness multiplier — a giant still moves a little, and a
+ * sapling never whips. */
+export const WIND_STIFFNESS_RANGE: readonly [number, number] = [0.18, 2.2];
+
+/**
+ * How much a plant sways relative to the calibrated median, from the width of
+ * its trunk at the ground.
+ *
+ * Owner round-6 defect: "trees with big wide trunks sway just as much as ones
+ * with thin trunks, which looks odd". They were right and the physics agrees.
+ * For a cantilever the tip deflection goes as `q·H⁴/(E·I)` with the second
+ * moment `I ∝ r⁴`; the wind load `q` scales with crown area, which in tree
+ * allometry grows roughly as `r²`. The two together leave deflection `∝ r⁻²`,
+ * which is the exponent used here — a 1.2 m-radius buttressed giant lands on
+ * the floor of the clamp and barely stirs, while a 0.15 m sapling whips.
+ *
+ * `scale` is the instance's uniform scale, because a species placed at ×2 has
+ * a trunk twice as thick.
+ */
+export function windStiffness(trunkRadiusM: number, scale = 1): number {
+  const radius = trunkRadiusM * scale;
+  if (!(radius > 0)) return 1;
+  const ratio = WIND_REFERENCE_TRUNK_RADIUS_M / radius;
+  const [lo, hi] = WIND_STIFFNESS_RANGE;
+  return Math.min(hi, Math.max(lo, ratio * ratio));
+}
+
 export function createWindUniforms(): WindUniforms {
   return {
     esWindTime: { value: 0 },
@@ -85,6 +132,11 @@ uniform float esWindTime;
 uniform vec3 esWindVec;
 uniform float esWindFadeM;
 
+#ifdef USE_INSTANCING
+  // vec2(stiffness - 1, sink metres). Unbound => (0, 0) => neutral.
+  attribute vec2 esWindTune;
+#endif
+
 // Cheap hash for a per-instance phase, so neighbours are never in step.
 float esWindPhase(vec2 p) {
   return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
@@ -108,15 +160,27 @@ const VERTEX_BODY = /* glsl */ `
   #ifdef USE_INSTANCING
     mat3 esBasis = mat3(instanceMatrix);
     vec3 esInstanceOrigin = instanceMatrix[3].xyz;
-    float esHeight = max(0.0, (esBasis * transformed).y);
+    float esStiffness = 1.0 + esWindTune.x;
+    float esSink = esWindTune.y;
+    float esRawHeight = (esBasis * transformed).y;
     // Uniform instance scale, so squared length of any basis column gives s².
     float esScaleSq = max(1e-6, dot(esBasis[0], esBasis[0]));
   #else
     mat3 esBasis = mat3(1.0);
     vec3 esInstanceOrigin = vec3(0.0);
-    float esHeight = max(0.0, transformed.y);
+    float esStiffness = 1.0;
+    float esSink = 0.0;
+    float esRawHeight = transformed.y;
     float esScaleSq = 1.0;
   #endif
+  // Height above the GROUND LINE, not above the pivot. Terrain species are
+  // deliberately sunk (sink metres below the streamed ground) so a flat base
+  // never shows on a slope — but the pivot is then underground, and weighting
+  // from the pivot left the trunk already displaced where it meets the soil:
+  // the owner's round-6 "trunks look like they're swaying at their base, like
+  // they're moving in the ground". Rebasing here pins every plant at the exact
+  // point it enters the ground, whatever its sink.
+  float esHeight = max(0.0, esRawHeight - esSink);
   float esWindStrength = length(esWindVec.xy);
   if (esWindStrength > 0.0001 && esHeight > 0.01) {
     float esPhase = esWindPhase(esInstanceOrigin.xz) * 6.2831853;
@@ -133,7 +197,9 @@ const VERTEX_BODY = /* glsl */ `
     // (owner: "couldn't see any movement in a thunderstorm"). 0.8 keeps
     // trunk-pinning (weight still ~0 at the base) while a 1 m fern in a
     // 13 m/s storm oscillates ~±9 cm and a 15 m crown leans ~1.5 m.
-    float esWeight = pow(min(esHeight / 10.0, 1.6), 0.8);
+    // Stiffness is the trunk-width term (windStiffness()): a fat buttressed
+    // giant and a whippy sapling no longer sway by the same amount.
+    float esWeight = pow(min(esHeight / 10.0, 1.6), 0.8) * esStiffness;
     float esFade = 1.0 - smoothstep(esWindFadeM * 0.6, esWindFadeM,
                                     length(cameraPosition - esInstanceOrigin));
     // Half the displacement is oscillation, not standing lean — the moving

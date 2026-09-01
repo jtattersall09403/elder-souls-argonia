@@ -32,6 +32,11 @@ export interface KitSpecies {
   readonly billboardIndex: number | null;
   /** Source-space height in metres at scale 1, for LOD distance choice. */
   readonly heightM: number;
+  /** Trunk radius in metres at scale 1, from the kit's collision capsule.
+   * Drives wind stiffness (`windStiffness`): fat trunks barely stir. Null
+   * where the species has no trunk capsule (ground plants, aquatics), which
+   * the caller reads as "no stiffening". */
+  readonly trunkRadiusM: number | null;
   /** Bounds so far from the origin they are clearly stray geometry (the
    * algrass03b case: mesh ~83 m from its pivot). Renderers should skip these
    * — drawing them puts geometry underground or in the sky either way. */
@@ -99,6 +104,9 @@ export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
         Math.abs(originAboveBase) > 2 * Math.max(a.sizeM[0], a.sizeM[1], a.sizeM[2]) + 2;
       return [a.id, { anchor: suspect ? 0 : anchor, suspect }];
     }),
+  );
+  const trunkRadii = new Map(
+    manifest.assets.map((a) => [a.id, a.collisionCapsule?.radiusM ?? null]),
   );
   const alphaTested = new Set(
     manifest.assets.filter((a) => a.alphaTest).map((a) => a.id),
@@ -196,6 +204,7 @@ export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
       levels,
       billboardIndex,
       heightM: heights.get(id) ?? 4,
+      trunkRadiusM: trunkRadii.get(id) ?? null,
       // Round-4 note: bbox-bottom anchoring (`anchorYM`) is GONE — bundle v2
       // species anchor by PIVOT with a baked sink (mined convention; the bbox
       // bottom is often a hanging frond tip and lifted trunks into the air).

@@ -175,7 +175,10 @@ def test_cliff_face_hosts_never_resolve_to_trees(comp):
     sources hung on rock was silently hung on trees instead."""
     assert "cliff-face" not in comp._hosts_for(VINES)
     for host in comp._hosts_for(VINES):
-        assert "/trees/" in host
+        # Every host is a real tree — one with a measured trunk capsule. Not
+        # a path-substring check: round 7's composite canopy trees carry ids
+        # of our own (`composite:jungle/...`) and must still host vines.
+        assert host in comp.trunks or "/trees/" in host
 
 
 def test_attachments_cling_to_the_measured_trunk():

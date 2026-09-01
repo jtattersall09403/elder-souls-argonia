@@ -52,12 +52,6 @@
    "asset": "bmv:landscape/trees/cypress1"
   },
   {
-   "asset": "bmv:architecture/phitt/ashlands/tramaroot01"
-  },
-  {
-   "asset": "bmv:architecture/phitt/ashlands/tramaroot06"
-  },
-  {
    "asset": "bmv:landscape/plants/florahangingmoss02aaa"
   },
   {
@@ -154,25 +148,123 @@
    "asset": "vanilla:landscape/rocks/rocks03"
   },
   {
-   "asset": "bmv:landscape/trees/gkbtreeofwolene"
-  },
-  {
-   "asset": "bmv:landscape/trees/giantredwood2"
-  },
-  {
-   "asset": "bmv:landscape/trees/gkbjungletreenew3"
-  },
-  {
-   "asset": "bmv:landscape/trees/gkbwrtempletree03"
-  },
-  {
-   "asset": "bmv:landscape/trees/cedartree5"
-  },
-  {
-   "asset": "bmv:landscape/trees/treeofwolene2"
-  },
-  {
    "asset": "bmv:landscape/trees/fanpalm3"
+  },
+  {
+   "asset": "bmv:landscape/trees/treeofwolene4"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew30v3"
+  },
+  {
+   "asset": "bmv:landscape/trees/fanpalm4"
+  },
+  {
+   "asset": "bmv:landscape/trees/fanpalm6"
+  },
+  {
+   "asset": "composite:jungle/anvil-canopy-tree",
+   "compose": {
+    "note": "Tropical Skyrim's Anvil trunk under three of its own fern-palm crowns, splayed and yawed apart so the crown reads WIDE. ~44 m tall x ~34 m crown at scale 1; the jungle palette places it at 0.72-0.92 for a 32-40 m roof. Offsets are metres in kit source space (z-up) from the trunk's own origin; the trunk tops out at z 34.1 and each crown's pivot sits at its own centre, so a crown placed near z 28 hangs fronds from ~15 m to ~42 m.",
+    "parts": [
+     {
+      "asset": "tropical:landscape/trees/anvil_palm_trunk"
+     },
+     {
+      "asset": "tropical:landscape/trees/anvil_palm foliage",
+      "offsetM": [
+       0.0,
+       0.0,
+       29.0
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "tropical:landscape/trees/anvil_palm foliage04",
+      "offsetM": [
+       6.5,
+       -4.0,
+       26.0
+      ],
+      "yawDeg": 130,
+      "scale": 0.85
+     },
+     {
+      "asset": "tropical:landscape/trees/anvil_palm foliage",
+      "offsetM": [
+       -5.5,
+       5.0,
+       27.5
+      ],
+      "yawDeg": 250,
+      "scale": 0.9
+     }
+    ]
+   }
+  },
+  {
+   "asset": "composite:jungle/anvil-emergent-giant",
+   "compose": {
+    "note": "The rare giant: the 56 m Anvil column, a four-crown canopy and the mod's own buttress-root flare at the foot. ~68 m x ~40 m at scale 1, placed at 0.66-0.88 for 45-60 m emergents. The buttress sits low and half-buried on purpose \u2014 it is what makes the trunk read as a rainforest giant rather than a pole.",
+    "parts": [
+     {
+      "asset": "tropical:landscape/trees/anvilgianttrunk"
+     },
+     {
+      "asset": "tropical:landscape/trees/anvil_palm foliage",
+      "offsetM": [
+       0.0,
+       0.0,
+       51.0
+      ],
+      "yawDeg": 0,
+      "scale": 1.1
+     },
+     {
+      "asset": "tropical:landscape/trees/anvil_palm foliage04",
+      "offsetM": [
+       8.0,
+       -5.5,
+       47.5
+      ],
+      "yawDeg": 100,
+      "scale": 0.95
+     },
+     {
+      "asset": "tropical:landscape/trees/anvil_palm foliage",
+      "offsetM": [
+       -7.0,
+       6.5,
+       49.0
+      ],
+      "yawDeg": 215,
+      "scale": 1.0
+     },
+     {
+      "asset": "tropical:landscape/trees/anvil_palm foliage04",
+      "offsetM": [
+       2.0,
+       8.5,
+       46.0
+      ],
+      "yawDeg": 320,
+      "scale": 0.85
+     },
+     {
+      "asset": "tropical:landscape/trees/anvil_root01",
+      "offsetM": [
+       0.0,
+       0.0,
+       2.2
+      ],
+      "yawDeg": 0,
+      "scale": 0.75
+     }
+    ]
+   },
+   "collisionRadiusM": 1.9,
+   "collisionRadiusNote": "measured off the column's own cross-section a few metres up (~3.8 m thick). The automatic percentile returns 0.17 m here \u2014 a 56 m giant you walk straight through."
   }
  ]
 }

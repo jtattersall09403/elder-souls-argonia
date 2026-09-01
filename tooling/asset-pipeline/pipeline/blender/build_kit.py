@@ -16,6 +16,7 @@ summary_json.
 
 import bpy
 import json
+import math
 import os
 import numpy as np
 from mathutils import Matrix, Vector
@@ -175,6 +176,55 @@ def import_nif_meshes(filepath):
     return meshes
 
 
+def import_composite(parts):
+    """Assemble one asset out of several source NIFs.
+
+    Some of the best material in the mod pools ships as a KIT rather than a
+    tree: Tropical Skyrim's 34 m Anvil trunk and its 23 m fern crown are two
+    separate meshes, and neither is a tree on its own. Composing them here is
+    sourcing, not modelling — the geometry is the mod author's, only its
+    arrangement is ours — and it is the only way to reach a 30-40 m canopy of
+    genuinely tropical trees (owner round-6: the wide-crowned species we had
+    all read as temperate oaks).
+
+    Offsets are metres in kit source space (z-up), measured from the composite
+    origin, which is the first part's own origin. Strays are dropped per PART,
+    before composing, so one part's leftover tube cannot be mistaken for
+    another part's legitimate offset.
+    """
+    composed = []
+    trunk = []
+    for index, part in enumerate(parts):
+        meshes = import_nif_meshes(part["nif"])
+        meshes, dropped = drop_strays(meshes)
+        for stray in dropped:
+            print("[kit]   dropped stray shape %s at %s" % (stray["shape"], stray["offsetM"]))
+        offset = Vector(part.get("offsetM", [0.0, 0.0, 0.0]))
+        scale = part.get("scale", 1.0)
+        yaw = math.radians(part.get("yawDeg", 0.0))
+        transform = (Matrix.Translation(offset)
+                     @ Matrix.Rotation(yaw, 4, "Z")
+                     @ Matrix.Scale(scale, 4))
+        for obj in meshes:
+            # Single-user copy FIRST. Importing the same NIF twice (the canopy
+            # tree uses one crown mesh at two places) can hand back objects
+            # sharing a mesh datablock, and `data.transform` then moves both —
+            # which shipped one crown at the composite's feet.
+            if obj.data.users > 1:
+                obj.data = obj.data.copy()
+            obj.data.transform(transform)
+        composed.extend(meshes)
+        if index == 0:
+            trunk = list(meshes)
+    # `mesh.transform()` edits the datablock but leaves `object.bound_box`
+    # cached. Every part but the LAST one gets flushed by the next part's
+    # import; without this the final part measures at its untransformed
+    # position and the whole composite's height, pivot and trunk capsule come
+    # out wrong (it shipped one crown reading as if it sat at the tree's feet).
+    bpy.context.view_layer.update()
+    return composed, trunk
+
+
 def world_bounds(objects):
     lo = Vector((1e9, 1e9, 1e9))
     hi = Vector((-1e9, -1e9, -1e9))
@@ -243,17 +293,21 @@ def trunk_capsule(objects, lo, hi):
       drooping frond cannot inflate the capsule.
 
     Returns (radius, height, base_offset_gltf[x, y, z]).
+
+    `lo`/`hi` are recomputed from the objects' VERTICES rather than trusted
+    from the caller, because `object.bound_box` is a cache that a fresh
+    `mesh.transform()` does not invalidate — the composite path measured the
+    emergent giant's capsule base 5 m up its own trunk that way. For an
+    up-to-date object this is the same answer, just not a cached one.
     """
+    vertices = [obj.matrix_world @ v.co for obj in objects for v in obj.data.vertices]
+    if vertices:
+        lo = Vector((min(v[i] for v in vertices) for i in range(3)))
+        hi = Vector((max(v[i] for v in vertices) for i in range(3)))
     height = hi.z - lo.z
     band_lo = lo.z + min(0.3, height * 0.05)
     band_hi = lo.z + max(band_lo - lo.z + 0.2, min(2.0, height * 0.35))
-    points = []
-    for obj in objects:
-        matrix = obj.matrix_world
-        for vertex in obj.data.vertices:
-            point = matrix @ vertex.co
-            if band_lo <= point.z <= band_hi:
-                points.append((point.x, point.y))
+    points = [(v.x, v.y) for v in vertices if band_lo <= v.z <= band_hi]
     if not points:
         return 0.25, round(height, 3), [0.0, round(lo.z, 3), 0.0]
     cx = _median([p[0] for p in points])
@@ -269,7 +323,11 @@ exported = []
 for asset in PLAN["assets"]:
     # Bake transforms and convert units in one step, then detach from any
     # imported parents so each asset is a clean root.
-    meshes = import_nif_meshes(asset["nif"])
+    trunk_meshes = None
+    if asset.get("parts"):
+        meshes, trunk_meshes = import_composite(asset["parts"])
+    else:
+        meshes = import_nif_meshes(asset["nif"])
     if not meshes:
         print("[kit] WARNING no mesh in %s" % asset["id"])
         continue
@@ -290,9 +348,14 @@ for asset in PLAN["assets"]:
                 if name:
                     textures.add(name)
 
-    meshes, dropped = drop_strays(meshes)
-    for stray in dropped:
-        print("[kit]   dropped stray shape %s at %s" % (stray["shape"], stray["offsetM"]))
+    dropped = []
+    if not asset.get("parts"):
+        # Composites drop their strays per part, inside import_composite —
+        # doing it again here would read a legitimately offset crown as a stray.
+        meshes, dropped = drop_strays(meshes)
+        for stray in dropped:
+            print("[kit]   dropped stray shape %s at %s"
+                  % (stray["shape"], stray["offsetM"]))
     lo, hi = world_bounds(meshes)
     size = hi - lo
     if PLAN.get("inspect"):
@@ -400,7 +463,23 @@ for asset in PLAN["assets"]:
     # The runtime asserts on this tag; a kit without it gets no colliders
     # rather than misplaced ones.
     if asset["collision"] == "trunk-capsule":
-        radius, height, base = trunk_capsule(meshes, lo, hi)
+        # A composite measures its capsule off its FIRST part only — the
+        # trunk. Sampling the whole assembly would take the emergent giant's
+        # 12 m buttress-root flare for trunk width and wall the player out of
+        # a circle they can see straight through.
+        capsule_meshes = trunk_meshes or meshes
+        radius, height, base = trunk_capsule(
+            capsule_meshes, *(world_bounds(capsule_meshes) if trunk_meshes else (lo, hi)))
+        # Explicit override for the handful of meshes the automatic measure
+        # gets wrong. `trunk_capsule` takes a percentile of the lowest slab's
+        # vertices, which assumes the trunk is where the vertices are; the
+        # Anvil giant column is a smooth low-poly cylinder with a dense cap of
+        # small triangles at its centre, so the percentile lands inside the
+        # cap and returns a 17 cm trunk you can walk through. Overriding one
+        # asset is safer than retuning a heuristic that is right for the other
+        # fifty (the owner passed those colliders in round 6).
+        if asset.get("collisionRadiusM"):
+            radius = float(asset["collisionRadiusM"])
         record["collisionFrame"] = "pivot-yup-v2"
         record["collisionCapsule"] = {
             "radiusM": radius, "heightM": height, "baseOffsetM": base,

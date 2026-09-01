@@ -44,7 +44,7 @@ first, then open only the master-plan sections the active phase needs.
 | 8a — world time, natural light and sky | done | owner gate PASS 2026-08-26 after 8 feedback rounds (decisions 0020/**0021** = full defect→fix history; research doc §8–8d). world-time package (calendar/sun/moons/stars, verified phase cycle); physical light rig with **envelope-pinned dome** (CPU Preetham twin `preethamCpu.ts` + `skyScreenModel.ts`; whiteout/black-gap class caught by `npm test`); directional twilight (Earth shadow, Belt of Venus, magnitude-staged stars); moon-aware night floors; owner-locked defaults warmth 1.0, stars ×0.5 (~3300); CSM shadows w/ contact bias; walk+fly city markers; HUD compass. Deferred: beyond-border land apron (module 55 §98b + research doc) |
 | 8b — water renderer and interaction | done | owner CLOSED 2026-08-28 (good-enough, **not perfect** — full water-systems re-review + polish queued in [polish-backlog.md](polish-backlog.md), Phase P). 7 rounds; full defect→fix history in decision 0025. Province W-field water surface, rivers/marsh/estuary/coast/underwater, buoyancy + Rapier water query, monotone slope rivers, shore surf, waterfall shading |
 | 8c — weather and atmosphere | done | owner CLOSED 2026-08-30 (good-enough, **not perfect** — owner will record leftovers in [polish-backlog.md](polish-backlog.md) for Phase P). 5 rounds; full defect→fix history in decision [0032](decisions/0032-phase8c-weather-implementation-shape.md). Deterministic synoptic machine + regional expression, fair-weather coverage ladder on the calendar, rain (real-time clock, PRECIP_LAYER), wind→waves, wetness, lightning; mist/fog/cap-cloud regimes with fog colour DERIVED from the real sun/sky/moon and a dome fog march (banks visible against open sky); visibility = local weather (one number renders and publishes); **GAME_TIME_SCALE = 30** in world-time. 406 tests incl. the extended envelope proof |
-| 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | in progress | **Round 6 DELIVERED 2026-09-01, awaiting owner playtest** (record: round-6 section atop [decision 0036](decisions/0036-phase10-placement-decisions.md)). Round-5 items 1/2/3/5/9 PASSED; fixed: wide-crowned tropical canopy (7 new measured species), wind sway root-caused (CSM clobbered the shader hook + amplitude, now tested), collider frame contract v2 (trunk-shaped, yaw/tilt-correct), scree retextured (bare grey, brightness-separated), vines trunk-anchored. Watch: chunk 6,9 now 13.8k instances — FPS read gates. | (full record: round-5 section atop [decision 0036](decisions/0036-phase10-placement-decisions.md)). Round-4 feedback root-caused and fixed (A1 LOD/decimation floor, A2 closed boulders + slope alignment + clearance + rock sink class, A3 ground-anchored tramaroots, A4 real tall jungle canopy, A5 card brightness); plus the left-for-Phase-10 items: **wind sway** (packaged, shadow-synced), **flora solidity** (trunks/boulders solid, undergrowth not), **scree/gravel** on the sculpt's talus aprons, **settlement/interior mining** for Phases 11–12, and the **`Skyrim.esm` cross-check** (vanilla pool registered, 8,620 rows; vanilla REGN ships EMPTY — settles rule R11). GPU micro-lab CUT (owner): the M2 Air playtest is the budget measurement, so **every hand-off now asks for an FPS read**. B6's deltas are recorded, not applied — they are the next round's work if the owner wants one |
+| 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | in progress | **Round 7 DELIVERED 2026-09-01, awaiting owner playtest** (record: round-7 section atop [decision 0036](decisions/0036-phase10-placement-decisions.md)). Round-6 passed on everything but the roof, wind and hanging roots. Fixed: the roof rebuilt on genuinely TROPICAL species (a 102-mesh measured+rendered probe proved round 6's wide crowns were an English oak, a cedar of Lebanon and a conifer, and that neither mod ships a 30-40 m rainforest tree — so the kit builder now **composes** Tropical Skyrim's Anvil trunk + fern crowns + buttress flare into two trees), roof raised to 30-40 m with 45-59 m giants, sub-canopy cut 145→40/ha, hanging roots removed entirely, wind sway now scales with trunk width (`windStiffness`, deflection ∝ r⁻²) and anchors at the ground line rather than the buried pivot (per-instance `esWindTune` attribute). New reusable tool: `pipeline.render_sheet` (candidate contact sheets). Chunk 6,9 fell 13.8k → 11.9k instances — FPS read still gates. |
 | 11 — settlement/location system, exemplar-first (0034) | todo | **DELIVERY PLAN ready: [decision 0041](decisions/0041-phase11-settlement-decisions.md)** (start-gate open — S schema accepted; staged owner-involvement workflow; reward-for-effort principle = module 20 §12.3b). Packet freeze stays gated on 10b probes + 10c numbers |
 | 12 — dungeon/interior system, exemplar-first (0034) | todo | may interleave with 11 |
 | 9 — swimming, climbing, boats (re-slotted after the placement exemplars; 0034) | todo | player craft only — ferry/fast travel is Morrowind-style world content (Phase 11); thin swim slice may pull earlier; boats may slip |
@@ -60,37 +60,38 @@ first, then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- **Phase 10 round-6 playtest** (deployed 2026-09-01) — the five round-5
-  fixes. If these pass, Phase 10 closes; leftovers go to
+- **Phase 10 round-7 playtest** (deployed 2026-09-01) — the four round-6
+  items. If these pass, Phase 10 closes; leftovers go to
   [polish-backlog.md](polish-backlog.md). All on foot, DEPLOYED build,
-  walk mode:
-  1. **The jungle roof, again** (~3.3 km E / 4.2 km S). The tall trees are
-     now proper tropical shapes: most of the roof is trees whose crowns are
-     as wide as they are tall or wider — big spreading umbrellas at 18–28 m
-     — plus rare 30–40 m giants (one kapok-like with huge limbs, one thick
-     buttressed column) and tall palms poking through. Look up: you should
-     be under wide interlocking crowns, not narrow poles.
-  2. **Wind** — this genuinely works now (it was being switched off by the
-     shadow system about a second after load, so round 5 shipped with no
-     movement at all; there's a test for it now). Force a thunderstorm or
-     squall: canopies sway, understory plants and ferns visibly move,
-     trunks stay planted, and a swaying tree's shadow moves with it. Calm
-     weather = near-stillness, which is correct.
-  3. **Solidity** — colliders are now shaped and placed to the actual
-     trunk/boulder (they were built in the wrong frame before — solid air
-     beside trees, walk-through trunks). Walk into trunks and boulders all
-     round; brush past their foliage freely; no invisible walls.
-  4. **Scree** — the old texture was gravel buried under green lichen and
-     the same brightness as the rock, so it was invisible. It is now bare
-     light-grey gravel, clearly lighter than the rock faces. Best
-     viewpoints: **1.85 / 0.36** and **1.63 / 0.79** (km E / km S) — at
-     **5.01 / 0.99** the patch is mostly ~75 m out from the standing spot,
-     so look around, not down. Still no stripes, please confirm.
-  5. **Hanging vines/moss** now sit on trunks (never on outer leaves or in
-     mid-air), facing outward, never above the tree.
-  6. **How does it RUN?** The jungle got denser (the hot spot chunk 6,9 is
-     now ~13.8k things, was 12k) — please say how the thick jungle feels
-     on each quality setting again. If it stutters we trim the understory.
+  walk mode, in the jungle (~3.3 km E / 4.2 km S):
+  1. **The trees are actually tropical now.** You were right — the wide
+     ones really were oaks. I measured and rendered every candidate tree in
+     both mods (102 of them) and the ones we were using turned out to be an
+     English oak, a cedar of Lebanon, a bare winter oak and a redwood
+     conifer. All gone. The awkward part: **neither mod contains a 30–40 m
+     wide-crowned rainforest tree.** The one real tropical giant is
+     Tropical Skyrim's "Anvil" tree, which ships as separate pieces — a
+     trunk, big fern-palm crowns, and a buttress-root flare. So I taught
+     the tool to assemble them into whole trees. Every bit of the geometry
+     is still the mod author's; only the arrangement is ours.
+  2. **The roof is now 30–40 m, with giants at 45–60 m.** Look up: you
+     should be under continuous crown most of the time, with gaps. The
+     giants are rare (about one per two hectares) and should read as
+     landmarks.
+  3. **Far fewer short trees.** The 10–17 m layer is down from ~145 to
+     ~40 per hectare, and the temperate-looking ones are gone entirely.
+     Ground cover, ferns and palms are untouched — you liked those.
+  4. **Hanging roots: gone**, everywhere, as asked.
+  5. **Wind.** Two changes. Thick trunks now sway much less than thin ones
+     (a big buttressed tree barely stirs; a sapling whips) — this follows
+     the real physics, sway falls off with the square of trunk width. And
+     trunks are now pinned at the point they enter the ground, so they no
+     longer look like they are moving *in* the soil. Force a thunderstorm
+     or squall to judge it.
+  6. **How does it RUN?** The jungle actually got *cheaper* — the hot chunk
+     went from ~13,800 things to ~11,900, because a few huge crowns cover
+     what many small trees did. Please say how it feels on each quality
+     setting.
 
   Known gaps, unchanged: only six exemplar areas have plants; the rest of
   the province is bare on purpose.

@@ -682,93 +682,6 @@
    }
   },
   {
-   "id": "bmv:architecture/phitt/ashlands/tramaroot01",
-   "node": "bmv__architecture/phitt/ashlands/tramaroot01",
-   "category": "root",
-   "sizeM": [
-    3.246,
-    1.117,
-    1.602
-   ],
-   "originOffsetM": [
-    1.623,
-    0.559,
-    0.801
-   ],
-   "triangles": 1264,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
-   "doubleSided": false,
-   "alphaTest": false,
-   "collision": "convex",
-   "droppedShapes": [],
-   "textures": [
-    "tramaplant01.dds"
-   ],
-   "materials": [
-    "Root1 0.Mat",
-    "Root1 1.Mat"
-   ],
-   "collisionFrame": "pivot-yup-v2",
-   "collisionBox": {
-    "halfExtentsM": [
-     1.428,
-     0.705,
-     0.492
-    ],
-    "centreOffsetM": [
-     0.0,
-     0.0,
-     -0.0
-    ]
-   }
-  },
-  {
-   "id": "bmv:architecture/phitt/ashlands/tramaroot06",
-   "node": "bmv__architecture/phitt/ashlands/tramaroot06",
-   "category": "root",
-   "sizeM": [
-    3.449,
-    1.576,
-    2.04
-   ],
-   "originOffsetM": [
-    1.725,
-    0.788,
-    1.02
-   ],
-   "triangles": 1152,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
-   "doubleSided": false,
-   "alphaTest": false,
-   "collision": "convex",
-   "droppedShapes": [],
-   "textures": [
-    "tramaplant01.dds"
-   ],
-   "materials": [
-    "pasted  polySurface16 0.Mat"
-   ],
-   "collisionFrame": "pivot-yup-v2",
-   "collisionBox": {
-    "halfExtentsM": [
-     1.518,
-     0.897,
-     0.693
-    ],
-    "centreOffsetM": [
-     0.0,
-     -0.0,
-     -0.0
-    ]
-   }
-  },
-  {
    "id": "bmv:landscape/plants/florahangingmoss02aaa",
    "node": "bmv__landscape/plants/florahangingmoss02aaa",
    "category": "plant",
@@ -2071,332 +1984,6 @@
    }
   },
   {
-   "id": "bmv:landscape/trees/gkbtreeofwolene",
-   "node": "bmv__landscape/trees/gkbtreeofwolene",
-   "category": "tree",
-   "sizeM": [
-    27.378,
-    31.046,
-    33.73
-   ],
-   "originOffsetM": [
-    13.814,
-    15.78,
-    0.785
-   ],
-   "triangles": 6549,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
-   "doubleSided": true,
-   "alphaTest": true,
-   "collision": "trunk-capsule",
-   "droppedShapes": [],
-   "textures": [
-    "gkbbark.dds",
-    "gkbbranch1.dds",
-    "gkbbranch5dark.dds",
-    "tamrieltreelod.dds"
-   ],
-   "materials": [
-    "wolene.Mat",
-    "wolene_1.Mat",
-    "wolene_10.Mat",
-    "wolene_11.Mat",
-    "wolene_12.Mat",
-    "wolene_2.Mat",
-    "wolene_3.Mat",
-    "wolene_4.Mat",
-    "wolene_5.Mat",
-    "wolene_6.Mat",
-    "wolene_7.Mat",
-    "wolene_8.Mat",
-    "wolene_9.Mat"
-   ],
-   "billboard": true,
-   "billboardMaterials": [
-    "gkbtreeofwolene_LOD_FLAT:0.Mat"
-   ],
-   "collisionFrame": "pivot-yup-v2",
-   "collisionCapsule": {
-    "radiusM": 3.255,
-    "heightM": 33.73,
-    "baseOffsetM": [
-     1.108,
-     -0.785,
-     0.025
-    ]
-   }
-  },
-  {
-   "id": "bmv:landscape/trees/giantredwood2",
-   "node": "bmv__landscape/trees/giantredwood2",
-   "category": "tree",
-   "sizeM": [
-    36.816,
-    31.742,
-    57.87
-   ],
-   "originOffsetM": [
-    18.633,
-    16.429,
-    0.171
-   ],
-   "triangles": 2654,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
-   "doubleSided": true,
-   "alphaTest": true,
-   "collision": "trunk-capsule",
-   "droppedShapes": [],
-   "textures": [
-    "gkbbranch3dark.dds",
-    "gkbseq36light.dds",
-    "gkbseq36lighttop.dds",
-    "redwoodbark14.dds",
-    "redwoodbark15.dds",
-    "redwoodbark16.dds",
-    "tamrieltreelod.dds"
-   ],
-   "materials": [
-    "giantredwood2.Mat",
-    "giantredwood2_1.Mat",
-    "giantredwood2_2.Mat",
-    "giantredwood2_3.Mat",
-    "giantredwood2_4.Mat",
-    "giantredwood2_5.Mat",
-    "giantredwood2_6.Mat",
-    "giantredwood2_7.Mat"
-   ],
-   "billboard": true,
-   "billboardMaterials": [
-    "giantredwood2_LOD_FLAT:0.Mat"
-   ],
-   "collisionFrame": "pivot-yup-v2",
-   "collisionCapsule": {
-    "radiusM": 6.209,
-    "heightM": 57.87,
-    "baseOffsetM": [
-     -4.327,
-     -0.171,
-     1.374
-    ]
-   }
-  },
-  {
-   "id": "bmv:landscape/trees/gkbjungletreenew3",
-   "node": "bmv__landscape/trees/gkbjungletreenew3",
-   "category": "tree",
-   "sizeM": [
-    30.746,
-    34.198,
-    20.113
-   ],
-   "originOffsetM": [
-    14.84,
-    17.375,
-    1.361
-   ],
-   "triangles": 924,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
-   "doubleSided": true,
-   "alphaTest": true,
-   "collision": "trunk-capsule",
-   "droppedShapes": [
-    {
-     "shape": "jungletreenew3.003",
-     "offsetM": [
-      9.56,
-      10.97,
-      -155.52
-     ]
-    }
-   ],
-   "textures": [
-    "gkbjunglebranch3.dds",
-    "gkbsmoothdarkbark20.dds",
-    "gkbsmoothdarkbark22.dds",
-    "gkbtreeaspenbranchcompgreen1.dds",
-    "tamrieltreelod.dds"
-   ],
-   "materials": [
-    "jungletreenew3.001.Mat",
-    "jungletreenew3.003.Mat",
-    "jungletreenew3.005.Mat",
-    "jungletreenew3.007.Mat",
-    "jungletreenew3.Mat"
-   ],
-   "billboard": true,
-   "billboardMaterials": [
-    "gkbjungletreenew3_LOD_FLAT:0.Mat"
-   ],
-   "collisionFrame": "pivot-yup-v2",
-   "collisionCapsule": {
-    "radiusM": 2.403,
-    "heightM": 20.113,
-    "baseOffsetM": [
-     -0.031,
-     -1.361,
-     -2.335
-    ]
-   }
-  },
-  {
-   "id": "bmv:landscape/trees/gkbwrtempletree03",
-   "node": "bmv__landscape/trees/gkbwrtempletree03",
-   "category": "tree",
-   "sizeM": [
-    30.58,
-    31.956,
-    20.839
-   ],
-   "originOffsetM": [
-    16.518,
-    15.0,
-    0.16
-   ],
-   "triangles": 7074,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
-   "doubleSided": true,
-   "alphaTest": true,
-   "collision": "trunk-capsule",
-   "droppedShapes": [],
-   "textures": [
-    "gkbwrtree8.dds",
-    "gkbwrtreedeadbark06.dds",
-    "tamrieltreelod.dds",
-    "tundradriftwoodbranches01.dds",
-    "wrfieldgrass01.dds"
-   ],
-   "materials": [
-    "WRTempleTree02:1.Mat",
-    "WRTempleTree02:3.Mat",
-    "WRTempleTree02:5.Mat",
-    "WRTempleTree02:5_1.Mat",
-    "WRTempleTree02:5_2.Mat"
-   ],
-   "billboard": true,
-   "billboardMaterials": [
-    "gkbwrtempletree03_LOD_FLAT:0.Mat"
-   ],
-   "collisionFrame": "pivot-yup-v2",
-   "collisionCapsule": {
-    "radiusM": 1.796,
-    "heightM": 20.839,
-    "baseOffsetM": [
-     0.648,
-     -0.16,
-     -0.538
-    ]
-   }
-  },
-  {
-   "id": "bmv:landscape/trees/cedartree5",
-   "node": "bmv__landscape/trees/cedartree5",
-   "category": "tree",
-   "sizeM": [
-    29.712,
-    29.726,
-    25.643
-   ],
-   "originOffsetM": [
-    16.95,
-    14.54,
-    0.767
-   ],
-   "triangles": 2262,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
-   "doubleSided": true,
-   "alphaTest": true,
-   "collision": "trunk-capsule",
-   "droppedShapes": [],
-   "textures": [
-    "gkbcedarbark9.dds",
-    "gkbmapleconifer1.dds",
-    "tamrieltreelod.dds"
-   ],
-   "materials": [
-    "cedartree5.Mat",
-    "cedartree5_1.Mat"
-   ],
-   "billboard": true,
-   "billboardMaterials": [
-    "cedartree5_LOD_FLAT:0.Mat"
-   ],
-   "collisionFrame": "pivot-yup-v2",
-   "collisionCapsule": {
-    "radiusM": 0.25,
-    "heightM": 25.643,
-    "baseOffsetM": [
-     0.0,
-     -0.767,
-     0.0
-    ]
-   }
-  },
-  {
-   "id": "bmv:landscape/trees/treeofwolene2",
-   "node": "bmv__landscape/trees/treeofwolene2",
-   "category": "tree",
-   "sizeM": [
-    26.036,
-    27.584,
-    22.267
-   ],
-   "originOffsetM": [
-    12.866,
-    13.607,
-    1.418
-   ],
-   "triangles": 3533,
-   "lodRatios": [
-    0.35,
-    0.12
-   ],
-   "doubleSided": true,
-   "alphaTest": true,
-   "collision": "trunk-capsule",
-   "droppedShapes": [],
-   "textures": [
-    "gkbbark27.dds",
-    "gkbbranch3dark.dds",
-    "grandoak11.dds",
-    "tamrieltreelod.dds"
-   ],
-   "materials": [
-    "treeofwolene2.Mat",
-    "treeofwolene2_1.Mat",
-    "treeofwolene2_2.Mat",
-    "treeofwolene2_3.Mat"
-   ],
-   "billboard": true,
-   "billboardMaterials": [
-    "treeofwolene2_LOD_FLAT:0.Mat"
-   ],
-   "collisionFrame": "pivot-yup-v2",
-   "collisionCapsule": {
-    "radiusM": 3.701,
-    "heightM": 22.267,
-    "baseOffsetM": [
-     1.623,
-     -1.418,
-     0.076
-    ]
-   }
-  },
-  {
    "id": "bmv:landscape/trees/fanpalm3",
    "node": "bmv__landscape/trees/fanpalm3",
    "category": "tree",
@@ -2453,6 +2040,315 @@
      1.208
     ]
    }
+  },
+  {
+   "id": "bmv:landscape/trees/treeofwolene4",
+   "node": "bmv__landscape/trees/treeofwolene4",
+   "category": "tree",
+   "sizeM": [
+    19.533,
+    20.929,
+    20.629
+   ],
+   "originOffsetM": [
+    8.625,
+    9.493,
+    0.071
+   ],
+   "triangles": 2992,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbbark27.dds",
+    "gkbbranch3dark.dds",
+    "grandoak11.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "treeofwolene4.Mat",
+    "treeofwolene4_1.Mat",
+    "treeofwolene4_2.Mat",
+    "treeofwolene4_3.Mat",
+    "treeofwolene4_4.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "treeofwolene4_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v2",
+   "collisionCapsule": {
+    "radiusM": 1.403,
+    "heightM": 20.629,
+    "baseOffsetM": [
+     0.766,
+     -0.071,
+     0.053
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/gkbjungletreenew30v3",
+   "node": "bmv__landscape/trees/gkbjungletreenew30v3",
+   "category": "tree",
+   "sizeM": [
+    10.985,
+    18.562,
+    15.948
+   ],
+   "originOffsetM": [
+    4.961,
+    7.3,
+    4.749
+   ],
+   "triangles": 1990,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbbark27.dds",
+    "gkbtreeaspenbranchcompgreen1dark.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "jungletree30v3.Mat",
+    "jungletree30v3_1.Mat",
+    "jungletree30v3_2.Mat",
+    "jungletree30v3_3.Mat",
+    "jungletree30v3_4.Mat",
+    "jungletree30v3_5.Mat",
+    "jungletree30v3_6.Mat",
+    "jungletree30v3_7.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "gkbjungletreenew30v3_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v2",
+   "collisionCapsule": {
+    "radiusM": 1.289,
+    "heightM": 15.948,
+    "baseOffsetM": [
+     -0.733,
+     -4.749,
+     -6.671
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/fanpalm4",
+   "node": "bmv__landscape/trees/fanpalm4",
+   "category": "tree",
+   "sizeM": [
+    9.664,
+    9.568,
+    23.633
+   ],
+   "originOffsetM": [
+    5.106,
+    4.428,
+    0.264
+   ],
+   "triangles": 620,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "fanpalm3.dds",
+    "fanpalm4.dds",
+    "fanpalm6.dds",
+    "fanpalm7.dds",
+    "gkbpalmbark14.dds",
+    "palmbarknew14.dds",
+    "palmmiddle2.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "palmtree4.Mat",
+    "palmtree4_1.Mat",
+    "palmtree4_2.Mat",
+    "palmtree4_3.Mat",
+    "palmtree4_4.Mat",
+    "palmtree4_5.Mat",
+    "palmtree4_6.Mat",
+    "palmtree4_7.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "fanpalm4_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v2",
+   "collisionCapsule": {
+    "radiusM": 0.267,
+    "heightM": 23.633,
+    "baseOffsetM": [
+     -0.026,
+     -0.264,
+     -0.48
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/fanpalm6",
+   "node": "bmv__landscape/trees/fanpalm6",
+   "category": "tree",
+   "sizeM": [
+    9.664,
+    21.033,
+    18.922
+   ],
+   "originOffsetM": [
+    5.106,
+    13.565,
+    2.867
+   ],
+   "triangles": 588,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "fanpalm3.dds",
+    "fanpalm4.dds",
+    "fanpalm6.dds",
+    "fanpalm7.dds",
+    "gkbpalmbark14.dds",
+    "palmbarknew14.dds",
+    "palmmiddle3.dds"
+   ],
+   "materials": [
+    "palmtree6.Mat",
+    "palmtree6_1.Mat",
+    "palmtree6_2.Mat",
+    "palmtree6_3.Mat",
+    "palmtree6_4.Mat",
+    "palmtree6_5.Mat",
+    "palmtree6_6.Mat",
+    "palmtree6_7.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v2",
+   "collisionCapsule": {
+    "radiusM": 0.376,
+    "heightM": 18.922,
+    "baseOffsetM": [
+     0.185,
+     -2.867,
+     13.182
+    ]
+   }
+  },
+  {
+   "id": "composite:jungle/anvil-canopy-tree",
+   "node": "composite__jungle/anvil-canopy-tree",
+   "category": "tree",
+   "sizeM": [
+    33.849,
+    28.54,
+    42.429
+   ],
+   "originOffsetM": [
+    16.018,
+    12.665,
+    -0.383
+   ],
+   "triangles": 5252,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "anvilbarkpalm.dds",
+    "anvilleafpalm02.dds",
+    "mp_valenwood_tree01.dds"
+   ],
+   "materials": [
+    "BedrollHay01:0.001.Mat",
+    "BedrollHay01:0.002.Mat",
+    "BedrollHay01:0.003.Mat",
+    "BedrollHay01:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v2",
+   "collisionCapsule": {
+    "radiusM": 1.614,
+    "heightM": 33.744,
+    "baseOffsetM": [
+     1.19,
+     0.383,
+     0.716
+    ]
+   }
+  },
+  {
+   "id": "composite:jungle/anvil-emergent-giant",
+   "node": "composite__jungle/anvil-emergent-giant",
+   "category": "tree",
+   "sizeM": [
+    36.667,
+    36.251,
+    66.713
+   ],
+   "originOffsetM": [
+    16.701,
+    16.52,
+    0.519
+   ],
+   "triangles": 8518,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "anvilleafpalm02.dds",
+    "giant_tree.dds",
+    "mp_valenwood_tree01.dds"
+   ],
+   "materials": [
+    "BedrollHay01:0.004.Mat",
+    "BedrollHay01:0.005.Mat",
+    "BedrollHay01:0.006.Mat",
+    "BedrollHay01:0.007.Mat",
+    "CaveGEPillar06:11.Mat",
+    "CaveGEPillar06:3.Mat",
+    "CaveGEPillar06:9.Mat",
+    "WRTempleTree02Roots:5.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v2",
+   "collisionCapsule": {
+    "radiusM": 1.9,
+    "heightM": 56.386,
+    "baseOffsetM": [
+     -0.088,
+     -0.211,
+     4.848
+    ]
+   }
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\flora-province-v1.glb",
@@ -2471,7 +2367,6 @@
   "textures/landscape/grass/coastkelpgrass01.dds": "textures/texturepack/landscape/grass/coastkelpgrass01.dds",
   "textures/landscape/mountains/mountainslab01_n.dds": "textures/rocks/mountainslab01_n.dds",
   "textures/landscape/rocks01.dds": "textures/texturepack/landscape/rocks01.dds",
-  "textures/landscape/trees/treeaspenbarkcomp_n.dds": "textures/landscape/4k/treeaspenbarkcomp_n.dds",
   "textures/landscape/trees/tundradriftwoodbark01_n.dds": "textures/landscape/4k/tundradriftwoodbark01_n.dds",
   "textures/landscape/trees/tundradriftwoodbranches01.dds": "textures/texturepack/landscape/trees/tundradriftwoodbranches01.dds",
   "textures/plants/groundplants1/fern2.dds": "textures/landscape/plants/fern2.dds",
@@ -2488,7 +2383,7 @@
   "textures/vurt_shroomstem.dds": "textures/landscape/plants/vurt_shroomstem2.dds"
  },
  "alphaModes": {
-  "MASK": 185,
-  "OPAQUE": 9
+  "MASK": 187,
+  "OPAQUE": 6
  }
 }

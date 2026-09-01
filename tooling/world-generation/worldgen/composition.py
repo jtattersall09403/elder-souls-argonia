@@ -210,7 +210,11 @@ class Composition:
             return "rock"
         if "/grass/" in species:
             return "grass"
-        if "/trees/" in species:
+        # A measured trunk capsule IS the definition of a tree, and it is the
+        # only one that survives round 7's composites — `composite:jungle/
+        # anvil-canopy-tree` has no "/trees/" in its id because the id is ours,
+        # not a mod path. The substring rule stays as the no-kit fallback.
+        if species in self.trunks or "/trees/" in species:
             return "tree"
         if "shrub" in species or "bush" in species:
             return "shrub"

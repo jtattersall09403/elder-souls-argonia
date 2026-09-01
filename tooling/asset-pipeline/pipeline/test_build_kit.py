@@ -4,7 +4,8 @@ import struct
 import pytest
 
 from .build_kit import (
-    DirSource, RarSource, _default_collision, _flat_lod_of, set_alpha_modes,
+    DirSource, RarSource, _default_collision, _flat_lod_of, _part_specs,
+    set_alpha_modes,
 )
 
 
@@ -117,3 +118,34 @@ def test_find_by_basename_prefers_the_closest_folder_match(tmp_path):
         "textures/landscape/tamira/newplants/bamboo.dds"
     )
     assert source.find_by_basename("textures/plants/nothing/absent.dds") is None
+
+
+def test_an_ordinary_entry_is_its_own_single_part():
+    assert _part_specs({"asset": "bmv:landscape/trees/cypress1"}) == [
+        {"asset": "bmv:landscape/trees/cypress1"}
+    ]
+
+
+def test_a_composite_entry_resolves_to_its_source_parts():
+    # The composite's OWN id is free-form and has no registry row — the roof
+    # trees are assembled from Tropical Skyrim's Anvil pieces (round 7).
+    entry = {
+        "asset": "composite:jungle/anvil-canopy-tree",
+        "compose": {"parts": [
+            {"asset": "tropical:landscape/trees/anvil_palm_trunk"},
+            {"asset": "tropical:landscape/trees/anvil_palm foliage",
+             "offsetM": [0.0, 0.0, 29.0], "yawDeg": 0, "scale": 1.0},
+        ]},
+    }
+    parts = _part_specs(entry)
+    assert [p["asset"] for p in parts] == [
+        "tropical:landscape/trees/anvil_palm_trunk",
+        "tropical:landscape/trees/anvil_palm foliage",
+    ]
+    # Placement travels with the part, not the entry.
+    assert parts[1]["offsetM"] == [0.0, 0.0, 29.0]
+
+
+def test_an_empty_composite_is_a_config_error_not_an_empty_tree():
+    with pytest.raises(ValueError):
+        _part_specs({"asset": "composite:x", "compose": {"parts": []}})

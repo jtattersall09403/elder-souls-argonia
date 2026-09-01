@@ -101,6 +101,110 @@
 >    open Claude terminal tab; restore half-written rasters from HEAD and
 >    re-run when the box is quiet.
 >
+> ### Round 7 (2026-09-01) — the round-6 playtest fixes
+>
+> Owner: everything except the jungle roof, the wind and the hanging roots
+> "looks good". Four items, each root-caused.
+>
+> - **R1 — "these look like oak trees; do we have specifically TROPICAL
+>   tall jungle trees with wide canopies?"** They were oaks. A 102-mesh
+>   probe of both pools, measured AND rendered, settled it: round 6's
+>   wide-crowned picks are `gkbwrtempletree03` (a textbook English oak),
+>   `cedartree5` (a cedar of Lebanon), `gkbtreeofwolene` (a bare gnarled
+>   winter oak), `treeofwolene2`, and `giantredwood2` (a conifer). All
+>   retired.
+>
+>   The harder finding, and the one to carry forward: **neither BM&V nor
+>   Tropical Skyrim ships a 30-40 m broad-crowned rainforest tree.** They
+>   have wide crowns at ~20 m (all temperate-looking) and tall narrow things
+>   at 30-58 m (redwoods, palms, bare columns). The one genuinely tropical
+>   giant is Tropical Skyrim's **Anvil tree**, and it ships as PARTS — a
+>   34 m curved trunk, a 56 m column, 27 m fern-palm crowns and a buttress
+>   root flare. Vurt places the trunks as whole trees (they replace vanilla
+>   pines in `Tropical Skyrim.esp`); the crowns are unused.
+>
+>   So the kit builder learned to **compose**: a kit entry may carry
+>   `compose.parts`, each a registry asset with `offsetM` (kit source space,
+>   z-up), `yawDeg` and `scale`. Two composites now carry the roof —
+>   `composite:jungle/anvil-canopy-tree` (42.4 m x 33.8 m crown, 5,252 tris)
+>   and `composite:jungle/anvil-emergent-giant` (66.7 m x 36.7 m, 8,518
+>   tris, with the buttress flare at its foot). This is sourcing, not
+>   modelling: every triangle is Soolie's, only the arrangement is ours, and
+>   the credit line says so.
+>
+>   Four traps found building it, all silent:
+>   1. Importing the same NIF twice can hand back objects **sharing a mesh
+>      datablock** — `data.transform()` then moves both. Single-user copy
+>      first.
+>   2. `mesh.transform()` leaves `object.bound_box` **cached**. Every part
+>      but the last gets flushed by the next part's import, so the LAST part
+>      of every composite measured at its untransformed position — one crown
+>      read as if it sat at the tree's feet. `view_layer.update()` after the
+>      loop; `trunk_capsule` now derives its own bounds from vertices rather
+>      than trusting the cache.
+>   3. A composite must measure its **trunk capsule off its first part
+>      only**. Sampling the whole assembly takes the giant's 12 m buttress
+>      flare for trunk width.
+>   4. `trunk_capsule`'s vertex percentile assumes the trunk is where the
+>      vertices are. The Anvil column is a smooth low-poly cylinder with a
+>      dense cap of small triangles at its centre, so it returned a 17 cm
+>      trunk. Fixed with an explicit `collisionRadiusM` on that one asset —
+>      safer than retuning a heuristic that is right for the other fifty.
+>
+> - **R2 — the roof was at 18-28 m; the owner wants 30-40 m with 40-60 m
+>   giants.** The composites are placed at ×0.75-0.95 (32-40 m) and
+>   ×0.68-0.88 (45-59 m) — DOWNSCALES of their own meshes, which only ever
+>   sharpens texel density. The two broadleaves that do read tropical
+>   (`treeofwolene4`, `gkbjungletreenew30v3`) are upscaled ×1.5-2.4 into the
+>   same band; scaling is uniform, so proportions are exact and only texel
+>   density drops — invisible at 30 m overhead.
+>
+> - **R3 — "not enough 30 m+ trees, way too many shorter ones."** The
+>   sub-canopy went from 145/ha of 10-17 m broadleaves to ~40/ha, and only
+>   the ones that read tropical (the bushy fern-trees, the palms); the
+>   generic broadleaves `jungle_mid`, `jungle_tree_hero` and
+>   `jungle_tall_b` left region 13 entirely. The roof itself went to 18/ha
+>   of the 33.8 m-crown composite plus 22/ha of the other tall species.
+>   **Wide crowns are cheaper**: chunk 6,9 fell 13.8k -> 11.9k instances
+>   while closure rose. Region 11 (firm-lowland) got the same roof at 60%,
+>   so crossing between the two does not step out from under a 35 m canopy
+>   into a 12 m one.
+>
+> - **R4 — hanging root decorations, gone entirely.** `root_cluster` and
+>   both tramaroot species are out of the palette generator and out of the
+>   kit. The mined rules in `composition-rules.json` are kept as a record of
+>   what the sources do; nothing places them.
+>
+> - **R5 — wind: fat trunks swayed as much as thin ones.** True, and the
+>   physics agrees: cantilever tip deflection goes as `q·H^4/(E·I)` with
+>   `I ∝ r^4`, and wind load `q` grows with crown area (`∝ r^2` in tree
+>   allometry), leaving deflection `∝ r^-2`. `windStiffness()` uses exactly
+>   that exponent against a 0.36 m reference trunk, clamped to [0.18, 2.2],
+>   read from the kit's own collision capsule radius AT INSTANCE SCALE.
+>
+> - **R6 — trunks appeared to sway at their base, "moving in the ground".**
+>   The height weight was measured from the instance PIVOT, but terrain
+>   species are deliberately sunk below the streamed ground, so the pivot is
+>   underground and the trunk was already displaced where it met the soil.
+>   Height is now measured from the ground line (`esRawHeight - esSink`).
+>
+>   Both R5 and R6 needed a per-instance channel. It is one `vec2` instanced
+>   attribute, `esWindTune` = `(stiffness - 1, sink)` — **offsets from
+>   neutral on purpose**, so a draw whose geometry lacks the attribute reads
+>   WebGL's generic default `(0, 0)` and degrades to the old look rather
+>   than silently switching wind off. The attribute is cached on the kit
+>   geometry and grown in place; allocating a fresh one per rebuild strands
+>   its GPU buffer, which at ~12k instances a rebuild adds up over a
+>   session.
+>
+> - **New tool, kept:** `python3 -m pipeline.render_sheet --kit <id> --out
+>   <dir>` renders one framed still per kit asset with a 1.8 m human bar for
+>   scale, plus a `sheet.md` of the measurements. Choosing between fifty
+>   candidate meshes is the real work in a never-make-art project, and the
+>   manifest's numbers cannot tell you whether a tree reads as tropical or
+>   as an oak. (Cycles on CPU — headless Wine has no GL and EEVEE segfaults;
+>   `transparent_max_bounces` must be high or every crown renders BLACK.)
+>
 > ### Round 6 (2026-09-01) — the round-5 playtest fixes
 >
 > Round-5 items 1 (cutouts), 2 (rocks), 3 (tramaroot), 5 (card brightness)

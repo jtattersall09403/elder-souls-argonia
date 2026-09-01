@@ -62,8 +62,6 @@ S = {
     "vines_b": "bmv:landscape/trees/hangingvines2",
     "fall_shrub": "bmv:landscape/trees/gkbfallforestshrub02",
     "lilypad": "bmv:landscape/trees/gkblillipad2",
-    "root_a": "bmv:architecture/phitt/ashlands/tramaroot01",
-    "root_b": "bmv:architecture/phitt/ashlands/tramaroot06",
     "moss_a": "bmv:landscape/plants/florahangingmoss02aaa",
     "moss_b": "bmv:landscape/plants/florahangingmoss03aaa",
     "fern_big": "bmv:landscape/plants/fernlarge03",
@@ -95,17 +93,27 @@ S = {
     "jungle_tall": "bmv:landscape/trees/gkbjungletreenew17v2tropical",  # 14.4 m
     "jungle_tall_b": "bmv:landscape/trees/gkbjungletreenew19v3",        # 13.9 m
     "jungle_mid": "bmv:landscape/trees/gkbjungletreenew21v3",           # 11.4 m
-    # Round 6: the owner read round 5's roof as "short, not tropical, no wide
-    # canopies". Real jungle canopy is 20–35 m of BROAD spreading crowns with
-    # emergents above (research/tropical-vegetation-ecology-targets.md §1.1).
-    # All measured by the tall-canopy probe kit — crown width (max XZ) matters
-    # as much as height, and every pick has a near-base pivot.
-    "kapok": "bmv:landscape/trees/gkbtreeofwolene",        # 33.7 m, 31.0 m crown
-    "redwood_giant": "bmv:landscape/trees/giantredwood2",  # 57.9 m — placed ~×0.6
-    "umbrella": "bmv:landscape/trees/gkbjungletreenew3",   # 20.1 m, 34.2 m crown!
-    "temple_tree": "bmv:landscape/trees/gkbwrtempletree03",  # 20.8 m, 32.0 m crown
-    "cedar_big": "bmv:landscape/trees/cedartree5",         # 25.6 m, 29.7 m crown
-    "wolene": "bmv:landscape/trees/treeofwolene2",         # 22.3 m, 27.6 m crown
+    # ROUND 7 (owner: "these look like oak trees; do we have specifically
+    # TROPICAL tall jungle trees with wide canopies?"). A 102-mesh probe of
+    # both pools, rendered and measured (`pipeline.render_sheet`), settled it:
+    # round 6's wide-crowned picks really were temperate — gkbwrtempletree03
+    # is a textbook English oak, cedartree5 a cedar of Lebanon, gkbtreeofwolene
+    # a bare winter oak, giantredwood a conifer. They are GONE.
+    #
+    # It also showed that NEITHER mod ships a 30-40 m broad-crowned rainforest
+    # tree. The genuinely tropical giant in the pools is Tropical Skyrim's
+    # Anvil tree, and it ships as PARTS — a trunk, fern-palm crowns and a
+    # buttress-root flare. So the roof is now two COMPOSITES (kit config
+    # `compose`), assembled from the mod's own geometry:
+    "anvil_canopy": "composite:jungle/anvil-canopy-tree",   # 42.4 m, 33.8 m crown
+    "anvil_giant": "composite:jungle/anvil-emergent-giant",  # 66.7 m, 36.7 m crown
+    # ...plus the two broadleaves that DO read tropical, upscaled uniformly
+    # (proportions preserved; only texel density drops, and these are 30 m
+    # overhead) to reach the owner's 30-40 m roof band:
+    "fig_dome": "bmv:landscape/trees/treeofwolene4",        # 20.6 m, 20.9 m crown
+    "jungle_gnarled": "bmv:landscape/trees/gkbjungletreenew30v3",  # 15.9 m, 18.6 m
+    "fanpalm_tall_b": "bmv:landscape/trees/fanpalm4",       # 23.6 m clean palm
+    "fanpalm_broad": "bmv:landscape/trees/fanpalm6",        # 18.9 m, 21.0 m crown
     "fanpalm_tall": "bmv:landscape/trees/fanpalm3",        # 23.4 m clean palm
 }
 
@@ -138,8 +146,9 @@ def emergent(species: str, per_ha: float, depth=(-99.0, WADE),
              scale=(1.15, 1.5)) -> dict:
     """Ecology §1.2: the few big-crowned trees standing over the canopy —
     ordinary scale range's top end, not the owner's landmark giants. Species
-    that are ALREADY emergent-sized meshes (the round-6 kapok, 33.7 m at ×1)
-    pass their own near-unit scale instead of the upscale default."""
+    that are ALREADY emergent-sized meshes pass their own near-unit scale
+    instead of the upscale default. The tropical-jungle region does not use
+    this — its emergents are the Anvil giant composite, placed directly."""
     return layer(species, per_ha, tier="T1", role="emergent",
                  clump_size_median=1, singleton_share=0.8, clump_radius_m=10.0,
                  water_depth_m=list(depth), slope_deg_max=34.0,
@@ -313,15 +322,6 @@ def drowned_thicket_guild(species: str, per_ha: float) -> dict:
                  scale_range=[0.8, 1.4])
 
 
-def root_cluster(species: str, per_ha: float, depth=(-3.0, 1.2)) -> dict:
-    """Ecology §4.2: knees/roots cluster tightly around big swamp trunks —
-    high clump counts at small radius approximate 15–25 per tree."""
-    return layer(species, per_ha, tier="T1", role="root",
-                 clump_size_median=7, clump_radius_m=4.5, singleton_share=0.05,
-                 water_depth_m=list(depth), slope_deg_max=35.0,
-                 scale_range=[1.1, 2.4], clearance_radius_m=1.2)
-
-
 def boulders(per_ha: float, slope_max: float = 55.0) -> list[dict]:
     """Freestanding rock scatter — a size ladder of CLOSED boulders (round 5).
 
@@ -383,63 +383,70 @@ REGIONS: dict[int, dict] = {}
 
 REGIONS[13] = {
     "id": "tropical-jungle",
-    "note": "Ecology type 1 (terra firme interior). Canopy 90-95% closed from"
-            " ~205 canopy assets/ha; interior deliberately open at eye level"
-            " (§6.5) — the thickets live in gaps, on edges and along banks."
-            " Herb layer is the T3 ring (JUNGLE cover, 15,500/ha)."
-            " ROUND 6: the roof is rebuilt on WIDE-CROWNED tropical species"
-            " (owner round-5: round 5's trees were 'short, not tropical, no"
-            " big canopies'). The main canopy is now 18–28 m trees whose"
-            " crowns are as wide as they are tall or wider (umbrella/temple/"
-            " cedar/wolene, crown:height 0.9–1.7), with kapok-form emergents"
-            " at 30–40 m and rare buttressed giants — the ecology-target"
-            " structure (§1.1: canopy 20–35 m, emergents above). Far fewer"
-            " stems buy far more roof: a 30 m crown covers what fifteen of"
-            " round 5's trees did, so instance counts DROP while closure"
-            " rises.",
+    "note": "Ecology type 1 (terra firme interior). Interior deliberately open"
+            " at eye level (§6.5) — thickets live in gaps, on edges and along"
+            " banks. Herb layer is the T3 ring (JUNGLE cover, 15,500/ha)."
+            " ROUND 7 rebuilds the roof AGAIN, to the owner's three"
+            " corrections: (a) round 6's wide-crowned species were temperate"
+            " (an English oak, a cedar of Lebanon, a bare winter oak, a"
+            " conifer) and are gone; (b) the roof sits at 30–40 m with rare"
+            " 40–60 m giants, not 18–28 m; (c) there are far MORE 30 m+ trees"
+            " and far fewer short broadleaves. The roof is now the Anvil"
+            " composites (Tropical Skyrim's own trunk + fern-palm crowns +"
+            " buttress flare, assembled in the kit) at 32–40 m, giants at"
+            " 45–59 m, two genuinely tropical broadleaves upscaled into the"
+            " same band, and tall palms through the top. The 10–17 m natives"
+            " drop to a THIN sub-canopy: the owner keeps the bushy fern-trees"
+            " and palms, not the temperate-looking mid trees. Wide crowns pay"
+            " for themselves — a 30 m crown closes what fifteen of round 5's"
+            " trees did, so stem counts FALL while closure rises.",
     "layers": [
-        # Emergent tier: giants standing over the roof. The kapok-form tree
-        # is 33.7 m at ×1 — its own height IS the landmark scale, so no
-        # landmark_giant ×1.8–2.6 multiplier (that made sense on a 14 m
-        # tree; on these it would mean 60–90 m absurdities).
-        emergent("kapok", 1.2, scale=(0.95, 1.2)),
-        layer("redwood_giant", 0.6, tier="T1", role="emergent",
+        # --- Emergents: the rare 45-60 m giants that break the roof -------
+        # One composite, placed sparsely. Its own mesh is 66.7 m at scale 1,
+        # so the scale range is a DOWNSCALE — which only ever sharpens texel
+        # density — rather than the round-6 upscale of a smaller tree.
+        layer("anvil_giant", 0.9, tier="T1", role="emergent",
               clump_size_median=1, singleton_share=1.0, clump_radius_m=0.0,
               water_depth_m=[-99.0, WADE], slope_deg_max=30.0,
-              # 57.9 m source mesh placed at ×0.55–0.68 → 32–39 m buttressed
-              # columns; downscaling only ever sharpens texel density.
-              scale_range=[0.55, 0.68], clearance_radius_m=6.0),
-        # The roof itself: broad umbrella crowns. gkbjungletreenew3 carries a
-        # 34 m crown on 20 m of height at 924 triangles — the closure
-        # workhorse. Clearance stays trunk-scale (the mined rule): crowns are
-        # ALLOWED to interlock, that is what a closed canopy is.
-        canopy("umbrella", 11.0, riparian=RIPARIAN_WET,
-               scale=(0.9, 1.25), clump_size_median=3, clump_radius_m=22.0,
+              patchiness=0.4, glade_response=0.0,
+              scale_range=[0.68, 0.88], clearance_radius_m=9.0),
+
+        # --- The roof proper: 30-40 m, wide crowns, and MOST of the trees ---
+        # The owner's target is "under a tall roof most of the time, with some
+        # gaps". A 42.4 m composite with a 33.8 m crown at ×0.75-0.95 gives
+        # 32-40 m trees carrying 25-32 m crowns; at 18/ha their crowns
+        # interlock into continuous cover with treefall gaps left by the glade
+        # band. Clearance stays TRUNK-scale — crowns are meant to overlap.
+        canopy("anvil_canopy", 18.0, riparian=RIPARIAN_WET,
+               scale=(0.75, 0.95), clump_size_median=3, clump_radius_m=26.0,
+               clearance=3.0),
+        # Broadleaf contrast, so the roof is not all fern-palm. Both are
+        # UNIFORMLY upscaled: proportions are preserved exactly, and at 30 m
+        # overhead the coarser texels do not read.
+        canopy("fig_dome", 9.0, riparian=RIPARIAN_WET,
+               scale=(1.5, 1.9), clump_size_median=2, clump_radius_m=22.0,
+               clearance=2.8),
+        canopy("jungle_gnarled", 8.0, riparian=RIPARIAN_WET,
+               scale=(1.9, 2.4), clump_size_median=3, clump_radius_m=20.0,
                clearance=2.6),
-        canopy("temple_tree", 7.0, riparian=RIPARIAN_WET,
-               scale=(0.85, 1.15), clump_size_median=2, clump_radius_m=20.0,
-               clearance=2.6),
-        canopy("cedar_big", 7.0, riparian=RIPARIAN_WET,
-               scale=(0.85, 1.15), clump_size_median=3, clump_radius_m=18.0,
-               clearance=2.4),
-        canopy("wolene", 7.0, riparian=RIPARIAN_WET,
-               scale=(0.85, 1.2), clump_size_median=3, clump_radius_m=18.0,
-               clearance=2.4),
         # Tall palms punching through the roof — the tropical silhouette cue.
-        canopy("fanpalm_tall", 4.0, scale=(0.85, 1.15), clearance=1.2,
+        canopy("fanpalm_tall", 5.0, scale=(1.0, 1.35), clearance=1.2,
                clump_size_median=2, clump_radius_m=12.0),
-        # Sub-canopy: round 5's "tall" natives, now the 10–17 m middle layer
-        # they are actually the right height for.
-        canopy("jungle_tall", 30.0, riparian=RIPARIAN_WET,
-               scale=(0.8, 1.15), clump_size_median=5, clump_radius_m=16.0,
+        canopy("fanpalm_tall_b", 4.0, scale=(1.0, 1.3), clearance=1.2,
+               clump_size_median=2, clump_radius_m=12.0),
+
+        # --- Sub-canopy: a THIN scatter, not a second forest ---------------
+        # Round 6 put 145/ha of 10-17 m broadleaves here and the owner read the
+        # result as "way too many shorter ones ... more like temperate
+        # deciduous forest". Cut to ~40/ha, and only the ones that read
+        # tropical: the bushy fern-trees and the palms stay, the generic
+        # broadleaves (jungle_mid, jungle_tree_hero, jungle_tall_b) go.
+        canopy("jungle_tall", 14.0, riparian=RIPARIAN_WET,
+               scale=(0.8, 1.15), clump_size_median=4, clump_radius_m=16.0,
                clearance=2.2),
-        canopy("jungle_tall_b", 25.0, riparian=RIPARIAN_WET,
-               scale=(0.8, 1.1), clump_radius_m=15.0, clearance=2.0),
-        canopy("jungle_mid", 25.0, riparian=RIPARIAN_WET, scale=(0.7, 1.05)),
-        canopy("jungle_tree_hero", 20.0, riparian=RIPARIAN_WET,
-               scale=(0.7, 1.1), clump_size_median=5, clump_radius_m=15.0),
-        canopy("jungle_tree", 20.0, riparian=RIPARIAN_WET, scale=(0.65, 1.0)),
-        canopy("palm_a", 20.0, scale=(0.5, 0.8), clearance=1.4),
+        canopy("fanpalm_broad", 10.0, scale=(0.8, 1.15), clearance=1.4,
+               clump_size_median=3, clump_radius_m=12.0),
+        canopy("palm_a", 16.0, scale=(0.5, 0.8), clearance=1.4),
         understory("bamboo", 45.0, scale=(0.9, 1.6), clump_size_median=9,
                    clump_radius_m=5.0),
         understory("trop_plant", 50.0, scale=(0.7, 1.2)),
@@ -507,8 +514,6 @@ REGIONS[6] = {
         canopy("cypress_big", 110.0, depth=(-99.0, 1.0), riparian=RIPARIAN_WET,
                scale=(0.75, 1.15), clump_radius_m=15.0, clearance=2.2),
         canopy("cypress", 45.0, depth=(-99.0, 0.8), scale=(0.7, 1.0)),
-        root_cluster("root_a", 90.0),
-        root_cluster("root_b", 80.0, depth=(-3.0, 1.2)),
         understory("trop_plant", 30.0, depth=(-99.0, 0.6), scale=(0.6, 1.0)),
         interior_shrub("fern_big", 40.0, depth=(-99.0, 0.5)),
         layer("shroom", 35.0, role="fungal-floor", clump_size_median=4,
@@ -645,12 +650,28 @@ REGIONS[11] = {
     "note": "The drier ground BETWEEN waterways — still swamp-forest to the"
             " eye (owner 0036 Q4 reading), just with dry feet: jungle canopy"
             " at ~60% of the jungle target, bamboo brakes, gallery thickening"
-            " along whatever water crosses it.",
+            " along whatever water crosses it. Round 7: it carries the same"
+            " tall tropical roof as region 13 at 60% density, so crossing"
+            " between the two does not step out from under a 35 m canopy into"
+            " a 12 m one.",
     "layers": [
-        landmark_giant("jungle_tree_hero", 0.06, depth=(-99.0, 0.2)),
-        emergent("jungle_tree", 3.0),
-        canopy("jungle_tree", 70.0, riparian=RIPARIAN_WET, scale=(0.65, 1.0)),
-        canopy("jungle_tree_hero", 40.0, scale=(0.7, 1.05)),
+        layer("anvil_giant", 0.5, tier="T1", role="emergent",
+              clump_size_median=1, singleton_share=1.0, clump_radius_m=0.0,
+              water_depth_m=[-99.0, WADE], slope_deg_max=30.0,
+              patchiness=0.4, glade_response=0.0,
+              scale_range=[0.68, 0.88], clearance_radius_m=9.0),
+        canopy("anvil_canopy", 11.0, riparian=RIPARIAN_WET,
+               scale=(0.75, 0.95), clump_size_median=3, clump_radius_m=26.0,
+               clearance=3.0),
+        canopy("fig_dome", 5.5, riparian=RIPARIAN_WET,
+               scale=(1.5, 1.9), clump_size_median=2, clump_radius_m=22.0,
+               clearance=2.8),
+        canopy("jungle_gnarled", 5.0, riparian=RIPARIAN_WET,
+               scale=(1.9, 2.4), clump_size_median=3, clump_radius_m=20.0,
+               clearance=2.6),
+        canopy("fanpalm_tall", 3.0, scale=(1.0, 1.35), clearance=1.2,
+               clump_size_median=2, clump_radius_m=12.0),
+        canopy("jungle_tree", 30.0, riparian=RIPARIAN_WET, scale=(0.65, 1.0)),
         understory("bamboo", 55.0, scale=(0.9, 1.6), clump_size_median=8,
                    clump_radius_m=5.5),
         understory("trop_plant", 45.0),
@@ -707,8 +728,6 @@ REGIONS[14] = {
               clearance_radius_m=1.6, patchiness=1.2, glade_response=0.9,
               glade_band=[0.0, 0.88]),
         # Prop-root understory: the root clutter IS the interior.
-        root_cluster("root_a", 110.0, depth=(-1.5, 1.2)),
-        root_cluster("root_b", 80.0, depth=(-1.5, 1.2)),
         epiphyte_moss("moss_a", 50.0, depth=(-1.5, 1.0)),
         # Near-bare floor (light + salt suppress seedlings): one thin tier.
         understory("trop_shrub", 18.0, depth=(-1.0, 0.4), scale=(0.6, 1.0)),
@@ -791,7 +810,8 @@ SALT_BY_SPECIES = {
         "cypress_big", "cypress", "willow_a", "willow_b", "willow_c",
         "cedar", "shroom", "fern", "fern_big", "manfern", "bracken",
         "bamboo", "jungle_tree", "jungle_tree_hero", "moss_a", "moss_b",
-        "root_a", "root_b", "chickweed")},
+        "anvil_canopy", "anvil_giant", "fig_dome", "jungle_gnarled",
+        "chickweed")},
     # freshwater OBLIGATE: lilypads die in brack
     S["lilypad"]: dict(coast_boost_gain=-0.85, coast_half_width_m=700.0),
 }
