@@ -233,3 +233,75 @@ The payoff is the owner's point: with nothing rendered there at all, "inside the
 head" stops being a state that can exist, so the aim camera no longer has to
 defend against it and can sit on the eye. `AIM_EYE_AHEAD_METERS` is now 0.05 —
 enough only to clear the collar and shoulders, which are still there.
+
+---
+
+# Round 3 (2026-09-01) — crouch volume, foot-driven motion, weapon-aware AI
+
+Four owner goals. Two of them changed a principle rather than a number, so they
+are recorded here; the rest is in the commits.
+
+## 9. Motion comes from the feet
+
+The owner's diagnosis was exact: an attack's movement and its animation were two
+independent descriptions of the same thing, and nothing kept them agreeing. The
+rule adopted is theirs — while a foot is on the ground it does not slide, so any
+motion of that foot relative to the actor's root is motion the body made.
+
+**Measured at build time.** The pipeline already sampled both soles for every
+clip (`authoredGroundSpeed` comes from it), so the integration happens there and
+each clip carries a `groundTrack`. This is the load-bearing choice: it makes the
+expensive part deterministic and testable, and it means the runtime does no
+per-frame bone reading. It also produced the evidence — IDLE moves the body 1 mm
+in nine seconds, a battleaxe's overhead 3.6 cm, against a sword light whose
+authored lunge was closing 0.6 m.
+
+**The blind spot, and why it is a cap rather than a fix.** One anchor point
+cannot distinguish a pivot from a translation: a planted foot swinging round a
+turn traces the same arc either way, and Skyrim's one-handed heavy turns the
+body through most of a circle, reading as 1.8 m of sideways travel. Removing the
+rotation needs a reliable body-facing axis and the rig has none — a Blender
+bone's local axis runs *along* the bone, so the pelvis points up the spine, and
+the line between the feet swings through every stride. Both were tried and both
+made every clip worse.
+
+So the artefact is confined instead: only the forward component is applied (an
+attack is aimed, and the artefact is entirely lateral), and the speed is capped
+by the lunge it replaces. The change is therefore strictly one-directional — it
+can move an actor less than today, never more — which is what makes it safe to
+default on while the owner judges it. The switch is in the debug panel.
+
+Locomotion is deliberately excluded. The track under-reads a run (during a
+stride's airborne phase neither foot is planted), and locomotion is the one case
+where the player is steering the speed and the animation should follow it.
+
+## 10. Weapon-aware enemy AI
+
+Every distance the AI reasoned with was a sword's, written when a sword was all
+anyone held. The split adopted is Skyrim's: a **Combat Style** carries
+disposition per actor, and the engine reads reach and speed off the equipped
+weapon for the geometry. So `ai/weaponTactics` derives engage/crowded/disengage
+ranges, aggression and circling from the weapon; the archetype keeps the
+creature. Nothing is authored per weapon.
+
+A bow gets a *different intent set*, not the same one retuned, because an
+archer's problem is the inverse of a swordsman's — it already has its range and
+its job is keeping it. It has no guard or parry branch at all, and it aims by
+solving elevation against the same drag model the arrow will fly under, because
+a flat shot at twenty-five metres falls metres short.
+
+The one judgement worth flagging: the fallback tactics are the sword's, so an
+actor whose weapon has not been resolved scores exactly as before. That is
+asserted, not assumed.
+
+## 11. What vanilla's killmoves actually contain (correction)
+
+Round 2 said vanilla has "exactly one back-facing paired killmove". Wrong: there
+are **two** one-handed ones — `paired_1hmkillmovebackstab` and the throat-slit
+`paired_1hmsneakkillbacka` — plus a knife decapitation. The defensible statement
+is narrower: every back-facing *paired* clip is one-handed, and the per-weapon
+killmoves that exist (three 2hw, three 2hm) are frontal finishers.
+
+Two-handed backstabs are therefore assembled the way the executions are — the
+weapon's own execution clip against a sourced from-behind victim stagger —
+rather than declared impossible.
