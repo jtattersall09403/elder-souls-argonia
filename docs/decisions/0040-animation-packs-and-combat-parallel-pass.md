@@ -146,25 +146,45 @@ finishers and would read as nonsense performed from behind, and the Nexus mods
 advertising "backstabs for all weapon types" re-point existing killmoves through
 an ESP rather than shipping new animation. Recorded rather than faked.
 
-## 5. Why the two-handed executions are built but not shipped
+## 5. Per-weapon executions, and how the audit was automated
 
-Both were sourced, built and measured, and then backed out. A
-`PairedCriticalProfile` needs a contact time, a withdrawal time and a paired
-separation *per clip*; getting those for the one-handed riposte took an
-exhaustive hand audit against rendered geometry. `measure-contact-windows.mjs`
-gained a `--critical` mode to automate exactly that audit, and it does not
-reproduce the hand-audited answer — it finds a closer approach, earlier, at a
-moment that audit explicitly rejected as the entry blend. Two candidate causes
-are that it sweeps a straight line from the weapon socket rather than the built
-sword's own geometry, and that the victim capsule it assumes is not the one the
-audit used.
+The rule throughout: **a measuring tool is trusted exactly as far as it
+reproduces a known answer.** The known answer here is the one-handed riposte,
+audited by hand frame by frame against rendered geometry and shipped with the
+owner's approval.
 
-The rule applied: **the tool is trusted exactly as far as it reproduces a known
-answer.** For sweep windows it does (LIGHT_1 and LIGHT_2 to within a frame), so
-its two-handed numbers were taken. For critical contact it does not, so its
-numbers were not taken and the clips were removed from the build rather than
-shipped on a guess. Fixing it against the known answer makes the other twelve
-executions cheap; that is the polish-backlog item.
+The first `--critical` implementation did not reproduce it, so its output was
+refused and the two-handed clips were pulled from the build rather than wired on
+a guess. Three separate modelling errors were then found and fixed:
+
+1. It **approximated both bodies** — a straight line from the weapon socket
+   against a guessed torso cylinder. It now uses the volumes the game actually
+   collides: the weapon capsule the runtime builds from the item manifest's
+   measured extents, against the victim's own skeleton-fitted hurtbox posed in
+   the clip the critical holds them in.
+2. It **took the first contact**, and a packaged execution brushes its victim in
+   passing before it strikes — the hand audit had rejected one such moment by
+   name. Brush and strike are now separated by depth and duration.
+3. It **measured penetration of the whole hurtbox**, which a shoulder graze
+   satisfies. Switching to the *visual gate's own measure* (grip-to-tip against
+   the victim's spine and pelvis) is what reconciled it: the greatsword's real
+   strike is at source 2.98 s, and the graze it had been selecting is at 1.45 s.
+
+It now reproduces every audited number to within one source frame, and that is
+`critical-known-answer.test.mjs`.
+
+**The limitation that remains, and why it is fine.** The measurement is from a
+standing start; a real execution lunges, and how much of the gap that closes is
+a property of the clip (0.15 m on the one-handed, 0.04 m on the greatsword's).
+So the tool proposes and the visual scenario disposes — the scenario measures
+the real thing, including "the blade arrived 0.267 s before your damage frame",
+which is how the battleaxe's trim was placed. Both numbers in that loop are
+measured. The procedure is four steps in the tool's own header.
+
+**Why this is two numbers per family rather than a second profile.** Every
+execution is trimmed to put contact 0.400 s in — where the audited one has it —
+so `damageProgress` and the victim's entire timeline carry across untouched. The
+pipeline absorbs the per-clip difference so gameplay does not have to.
 
 ## 6. The measuring tool's actual bug
 
@@ -193,3 +213,23 @@ This lands alongside the parry *volume* changing from a fixed 1.24 m box parked
 in front of the chest to the parrying object's own measured volume plus a stated
 margin. The two changes push difficulty in opposite directions — longer, tighter
 — and the net feel is the main thing to judge on playtest.
+
+## 8. The head is hidden in first person, not shrunk (owner suggestion)
+
+Raised as a safety measure and taken as one. The head bone used to be scaled to
+a thousandth; it is now the head *meshes* that are hidden. Two reasons the
+change is worth more than it looks: scaling a bone distorts the collar, which
+shares weights with it, and it hides only what that bone happens to skin.
+
+`actors/headMeshes` identifies them by **skinning** — a mesh weighted entirely
+to the head bone and its descendants — rather than by name or by biped slot.
+Both alternatives are unusable here: names are per race, and the roster's biped
+slots are demonstrably not clean for this, with several races filing `EyesMale`
+and `MouthHuman` under slot 32, the *torso* slot. A slot-driven rule would leave
+eyes hovering in mid-air when the head went, and take them off when a cuirass
+went on.
+
+The payoff is the owner's point: with nothing rendered there at all, "inside the
+head" stops being a state that can exist, so the aim camera no longer has to
+defend against it and can sit on the eye. `AIM_EYE_AHEAD_METERS` is now 0.05 —
+enough only to clear the collar and shoulders, which are still there.
