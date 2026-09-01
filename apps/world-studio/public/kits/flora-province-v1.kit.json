@@ -32,12 +32,14 @@
     "ReachCliffTree01:0 - L1_ReachCliffTree01:0.Mat",
     "ReachCliffTree01:0 - L1_ReachCliffTree01:0_1.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionCapsule": {
-    "radiusM": 1.277,
+    "radiusM": 0.381,
     "heightM": 2.879,
-    "centreOffsetM": [
-     -0.081,
-     -0.093
+    "baseOffsetM": [
+     0.012,
+     -0.303,
+     -0.005
     ]
    }
   },
@@ -115,12 +117,14 @@
    "billboardMaterials": [
     "cedartree3_LOD_FLAT:0.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionCapsule": {
-    "radiusM": 0.907,
+    "radiusM": 0.25,
     "heightM": 18.965,
-    "centreOffsetM": [
-     0.117,
-     0.999
+    "baseOffsetM": [
+     0.0,
+     0.07,
+     0.0
     ]
    }
   },
@@ -285,12 +289,14 @@
    "billboardMaterials": [
     "mangrovereachtree0gkb9_LOD_FLAT:0.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionCapsule": {
-    "radiusM": 1.767,
+    "radiusM": 0.415,
     "heightM": 9.051,
-    "centreOffsetM": [
-     0.028,
-     -0.06
+    "baseOffsetM": [
+     0.11,
+     -0.622,
+     0.177
     ]
    }
   },
@@ -450,12 +456,14 @@
    "billboardMaterials": [
     "mangrovereachtree0gkb3_LOD_FLAT:0.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionCapsule": {
-    "radiusM": 1.359,
+    "radiusM": 0.684,
     "heightM": 9.746,
-    "centreOffsetM": [
-     -0.083,
-     -0.757
+    "baseOffsetM": [
+     0.258,
+     -0.957,
+     0.107
     ]
    }
   },
@@ -503,12 +511,14 @@
    "billboardMaterials": [
     "beachpalm2_LOD_FLAT:0.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionCapsule": {
-    "radiusM": 0.364,
+    "radiusM": 0.267,
     "heightM": 19.132,
-    "centreOffsetM": [
-     -0.104,
-     -0.29
+    "baseOffsetM": [
+     -0.026,
+     -0.055,
+     0.019
     ]
    }
   },
@@ -582,12 +592,14 @@
     "cypress3_6.Mat",
     "cypress3_7.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionCapsule": {
-    "radiusM": 2.402,
+    "radiusM": 1.799,
     "heightM": 26.548,
-    "centreOffsetM": [
-     2.376,
-     -1.672
+    "baseOffsetM": [
+     0.475,
+     -0.941,
+     0.319
     ]
    }
   },
@@ -658,12 +670,14 @@
     "cypress1_3.Mat",
     "cypress1_4.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionCapsule": {
-    "radiusM": 2.421,
+    "radiusM": 1.794,
     "heightM": 32.009,
-    "centreOffsetM": [
-     0.02,
-     1.189
+    "baseOffsetM": [
+     0.159,
+     -0.941,
+     0.618
     ]
    }
   },
@@ -697,16 +711,17 @@
     "Root1 0.Mat",
     "Root1 1.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionBox": {
     "halfExtentsM": [
      1.428,
-     0.492,
-     0.705
+     0.705,
+     0.492
     ],
     "centreOffsetM": [
      0.0,
      0.0,
-     0.0
+     -0.0
     ]
    }
   },
@@ -739,15 +754,16 @@
    "materials": [
     "pasted  polySurface16 0.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionBox": {
     "halfExtentsM": [
      1.518,
-     0.693,
-     0.897
+     0.897,
+     0.693
     ],
     "centreOffsetM": [
      0.0,
-     0.0,
+     -0.0,
      -0.0
     ]
    }
@@ -916,12 +932,14 @@
    "billboardMaterials": [
     "TreeAspen01_LOD_FLAT:0.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionCapsule": {
-    "radiusM": 5.287,
+    "radiusM": 0.988,
     "heightM": 22.06,
-    "centreOffsetM": [
-     6.441,
-     -4.252
+    "baseOffsetM": [
+     7.888,
+     -4.066,
+     2.925
     ]
    }
   },
@@ -984,12 +1002,14 @@
    "materials": [
     "TropicalPlant01:5.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionCapsule": {
-    "radiusM": 0.101,
+    "radiusM": 0.15,
     "heightM": 1.264,
-    "centreOffsetM": [
-     -0.106,
-     0.066
+    "baseOffsetM": [
+     -0.013,
+     -0.062,
+     0.008
     ]
    }
   },
@@ -1089,12 +1109,14 @@
    "billboardMaterials": [
     "TreeAspen01_LOD_FLAT:0.001.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionCapsule": {
-    "radiusM": 2.312,
+    "radiusM": 0.788,
     "heightM": 19.24,
-    "centreOffsetM": [
-     6.742,
-     -1.374
+    "baseOffsetM": [
+     9.082,
+     -2.925,
+     2.58
     ]
    }
   },
@@ -1194,12 +1216,14 @@
    "billboardMaterials": [
     "TreeAspen01_LOD_FLAT:0.002.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionCapsule": {
-    "radiusM": 5.005,
+    "radiusM": 1.739,
     "heightM": 17.206,
-    "centreOffsetM": [
-     0.552,
-     0.431
+    "baseOffsetM": [
+     2.715,
+     -0.002,
+     -1.023
     ]
    }
   },
@@ -1279,12 +1303,14 @@
    "billboardMaterials": [
     "beachpalm3_LOD_FLAT:0.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionCapsule": {
-    "radiusM": 0.384,
+    "radiusM": 0.267,
     "heightM": 19.136,
-    "centreOffsetM": [
-     -0.104,
-     -1.537
+    "baseOffsetM": [
+     -0.026,
+     -0.059,
+     1.208
     ]
    }
   },
@@ -1335,12 +1361,14 @@
    "billboardMaterials": [
     "fanpalm1_LOD_FLAT:0.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionCapsule": {
-    "radiusM": 0.878,
+    "radiusM": 0.25,
     "heightM": 23.423,
-    "centreOffsetM": [
-     0.241,
-     -3.749
+    "baseOffsetM": [
+     0.0,
+     -0.055,
+     0.0
     ]
    }
   },
@@ -1373,12 +1401,14 @@
    "materials": [
     "Bamboo:2.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionCapsule": {
-    "radiusM": 0.08,
+    "radiusM": 0.261,
     "heightM": 2.988,
-    "centreOffsetM": [
-     -0.025,
-     -0.084
+    "baseOffsetM": [
+     -0.002,
+     -0.005,
+     -0.025
     ]
    }
   },
@@ -1421,12 +1451,14 @@
    "billboardMaterials": [
     "gkbjungletreenew1_LOD_FLAT:0.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionCapsule": {
-    "radiusM": 0.08,
+    "radiusM": 0.15,
     "heightM": 6.302,
-    "centreOffsetM": [
-     0.212,
-     -0.382
+    "baseOffsetM": [
+     0.0,
+     -0.492,
+     -0.0
     ]
    }
   },
@@ -1498,12 +1530,14 @@
    "billboardMaterials": [
     "gkbjungletreenew12v3_LOD_FLAT:0.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionCapsule": {
-    "radiusM": 1.091,
+    "radiusM": 0.223,
     "heightM": 7.911,
-    "centreOffsetM": [
-     -0.361,
-     -0.731
+    "baseOffsetM": [
+     0.426,
+     -0.036,
+     -0.357
     ]
    }
   },
@@ -1551,12 +1585,14 @@
    "billboardMaterials": [
     "beachpalm1_LOD_FLAT:0.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionCapsule": {
-    "radiusM": 0.36,
+    "radiusM": 0.25,
     "heightM": 19.132,
-    "centreOffsetM": [
-     -0.103,
-     -4.166
+    "baseOffsetM": [
+     0.0,
+     -0.055,
+     0.0
     ]
    }
   },
@@ -1705,12 +1741,14 @@
    "billboardMaterials": [
     "gkbjungletreenew17v2tropical_LOD_FLAT:0.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionCapsule": {
-    "radiusM": 2.859,
+    "radiusM": 0.697,
     "heightM": 14.413,
-    "centreOffsetM": [
-     -0.274,
-     0.504
+    "baseOffsetM": [
+     -1.427,
+     0.0,
+     -0.943
     ]
    }
   },
@@ -1754,12 +1792,14 @@
    "billboardMaterials": [
     "gkbjungletreenew19v3_LOD_FLAT:0.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionCapsule": {
-    "radiusM": 1.631,
+    "radiusM": 0.574,
     "heightM": 13.884,
-    "centreOffsetM": [
-     0.277,
-     0.415
+    "baseOffsetM": [
+     -0.379,
+     -0.036,
+     -0.092
     ]
    }
   },
@@ -1802,12 +1842,14 @@
    "billboardMaterials": [
     "gkbjungletreenew21v3_LOD_FLAT:0.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionCapsule": {
-    "radiusM": 1.572,
+    "radiusM": 0.556,
     "heightM": 11.411,
-    "centreOffsetM": [
-     0.745,
-     0.936
+    "baseOffsetM": [
+     0.178,
+     -0.052,
+     -0.015
     ]
    }
   },
@@ -1840,16 +1882,17 @@
    "materials": [
     "RockL04:1.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionBox": {
     "halfExtentsM": [
      1.354,
-     1.784,
-     2.624
+     2.624,
+     1.784
     ],
     "centreOffsetM": [
      -0.298,
-     0.1,
-     2.291
+     2.291,
+     -0.1
     ]
    }
   },
@@ -1884,16 +1927,17 @@
     "RockL02:0.Mat",
     "RockL02:1.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionBox": {
     "halfExtentsM": [
      3.882,
-     3.166,
-     1.65
+     1.65,
+     3.166
     ],
     "centreOffsetM": [
      0.146,
-     0.164,
-     1.302
+     1.302,
+     -0.164
     ]
    }
   },
@@ -1926,16 +1970,17 @@
    "materials": [
     "RockM03:1.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionBox": {
     "halfExtentsM": [
      1.761,
-     1.573,
-     1.076
+     1.076,
+     1.573
     ],
     "centreOffsetM": [
      -0.054,
-     0.138,
-     0.753
+     0.753,
+     -0.138
     ]
    }
   },
@@ -1968,16 +2013,17 @@
    "materials": [
     "RockM02:1.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionBox": {
     "halfExtentsM": [
      1.41,
-     1.408,
-     0.827
+     0.827,
+     1.408
     ],
     "centreOffsetM": [
      0.04,
-     0.019,
-     0.605
+     0.605,
+     -0.019
     ]
    }
   },
@@ -2010,16 +2056,401 @@
    "materials": [
     "RockS03:1.Mat"
    ],
+   "collisionFrame": "pivot-yup-v2",
    "collisionBox": {
     "halfExtentsM": [
      0.638,
-     0.747,
-     0.645
+     0.645,
+     0.747
     ],
     "centreOffsetM": [
      -0.023,
-     0.146,
-     0.35
+     0.35,
+     -0.146
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/gkbtreeofwolene",
+   "node": "bmv__landscape/trees/gkbtreeofwolene",
+   "category": "tree",
+   "sizeM": [
+    27.378,
+    31.046,
+    33.73
+   ],
+   "originOffsetM": [
+    13.814,
+    15.78,
+    0.785
+   ],
+   "triangles": 6549,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbbark.dds",
+    "gkbbranch1.dds",
+    "gkbbranch5dark.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "wolene.Mat",
+    "wolene_1.Mat",
+    "wolene_10.Mat",
+    "wolene_11.Mat",
+    "wolene_12.Mat",
+    "wolene_2.Mat",
+    "wolene_3.Mat",
+    "wolene_4.Mat",
+    "wolene_5.Mat",
+    "wolene_6.Mat",
+    "wolene_7.Mat",
+    "wolene_8.Mat",
+    "wolene_9.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "gkbtreeofwolene_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v2",
+   "collisionCapsule": {
+    "radiusM": 3.255,
+    "heightM": 33.73,
+    "baseOffsetM": [
+     1.108,
+     -0.785,
+     0.025
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/giantredwood2",
+   "node": "bmv__landscape/trees/giantredwood2",
+   "category": "tree",
+   "sizeM": [
+    36.816,
+    31.742,
+    57.87
+   ],
+   "originOffsetM": [
+    18.633,
+    16.429,
+    0.171
+   ],
+   "triangles": 2654,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbbranch3dark.dds",
+    "gkbseq36light.dds",
+    "gkbseq36lighttop.dds",
+    "redwoodbark14.dds",
+    "redwoodbark15.dds",
+    "redwoodbark16.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "giantredwood2.Mat",
+    "giantredwood2_1.Mat",
+    "giantredwood2_2.Mat",
+    "giantredwood2_3.Mat",
+    "giantredwood2_4.Mat",
+    "giantredwood2_5.Mat",
+    "giantredwood2_6.Mat",
+    "giantredwood2_7.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "giantredwood2_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v2",
+   "collisionCapsule": {
+    "radiusM": 6.209,
+    "heightM": 57.87,
+    "baseOffsetM": [
+     -4.327,
+     -0.171,
+     1.374
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/gkbjungletreenew3",
+   "node": "bmv__landscape/trees/gkbjungletreenew3",
+   "category": "tree",
+   "sizeM": [
+    30.746,
+    34.198,
+    20.113
+   ],
+   "originOffsetM": [
+    14.84,
+    17.375,
+    1.361
+   ],
+   "triangles": 924,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [
+    {
+     "shape": "jungletreenew3.003",
+     "offsetM": [
+      9.56,
+      10.97,
+      -155.52
+     ]
+    }
+   ],
+   "textures": [
+    "gkbjunglebranch3.dds",
+    "gkbsmoothdarkbark20.dds",
+    "gkbsmoothdarkbark22.dds",
+    "gkbtreeaspenbranchcompgreen1.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "jungletreenew3.001.Mat",
+    "jungletreenew3.003.Mat",
+    "jungletreenew3.005.Mat",
+    "jungletreenew3.007.Mat",
+    "jungletreenew3.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "gkbjungletreenew3_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v2",
+   "collisionCapsule": {
+    "radiusM": 2.403,
+    "heightM": 20.113,
+    "baseOffsetM": [
+     -0.031,
+     -1.361,
+     -2.335
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/gkbwrtempletree03",
+   "node": "bmv__landscape/trees/gkbwrtempletree03",
+   "category": "tree",
+   "sizeM": [
+    30.58,
+    31.956,
+    20.839
+   ],
+   "originOffsetM": [
+    16.518,
+    15.0,
+    0.16
+   ],
+   "triangles": 7074,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbwrtree8.dds",
+    "gkbwrtreedeadbark06.dds",
+    "tamrieltreelod.dds",
+    "tundradriftwoodbranches01.dds",
+    "wrfieldgrass01.dds"
+   ],
+   "materials": [
+    "WRTempleTree02:1.Mat",
+    "WRTempleTree02:3.Mat",
+    "WRTempleTree02:5.Mat",
+    "WRTempleTree02:5_1.Mat",
+    "WRTempleTree02:5_2.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "gkbwrtempletree03_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v2",
+   "collisionCapsule": {
+    "radiusM": 1.796,
+    "heightM": 20.839,
+    "baseOffsetM": [
+     0.648,
+     -0.16,
+     -0.538
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/cedartree5",
+   "node": "bmv__landscape/trees/cedartree5",
+   "category": "tree",
+   "sizeM": [
+    29.712,
+    29.726,
+    25.643
+   ],
+   "originOffsetM": [
+    16.95,
+    14.54,
+    0.767
+   ],
+   "triangles": 2262,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbcedarbark9.dds",
+    "gkbmapleconifer1.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "cedartree5.Mat",
+    "cedartree5_1.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "cedartree5_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v2",
+   "collisionCapsule": {
+    "radiusM": 0.25,
+    "heightM": 25.643,
+    "baseOffsetM": [
+     0.0,
+     -0.767,
+     0.0
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/treeofwolene2",
+   "node": "bmv__landscape/trees/treeofwolene2",
+   "category": "tree",
+   "sizeM": [
+    26.036,
+    27.584,
+    22.267
+   ],
+   "originOffsetM": [
+    12.866,
+    13.607,
+    1.418
+   ],
+   "triangles": 3533,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbbark27.dds",
+    "gkbbranch3dark.dds",
+    "grandoak11.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "treeofwolene2.Mat",
+    "treeofwolene2_1.Mat",
+    "treeofwolene2_2.Mat",
+    "treeofwolene2_3.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "treeofwolene2_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v2",
+   "collisionCapsule": {
+    "radiusM": 3.701,
+    "heightM": 22.267,
+    "baseOffsetM": [
+     1.623,
+     -1.418,
+     0.076
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/fanpalm3",
+   "node": "bmv__landscape/trees/fanpalm3",
+   "category": "tree",
+   "sizeM": [
+    9.664,
+    9.568,
+    23.427
+   ],
+   "originOffsetM": [
+    5.106,
+    4.428,
+    0.059
+   ],
+   "triangles": 620,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "fanpalm3.dds",
+    "fanpalm4.dds",
+    "fanpalm6.dds",
+    "fanpalm7.dds",
+    "gkbpalmbark14.dds",
+    "palmbarknew14.dds",
+    "palmmiddle2.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "palmtree3.001.Mat",
+    "palmtree3_1.001.Mat",
+    "palmtree3_2.001.Mat",
+    "palmtree3_3.001.Mat",
+    "palmtree3_4.001.Mat",
+    "palmtree3_5.001.Mat",
+    "palmtree3_6.Mat",
+    "palmtree3_7.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "fanpalm3_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v2",
+   "collisionCapsule": {
+    "radiusM": 0.267,
+    "heightM": 23.427,
+    "baseOffsetM": [
+     -0.026,
+     -0.059,
+     1.208
     ]
    }
   }
@@ -2040,6 +2471,7 @@
   "textures/landscape/grass/coastkelpgrass01.dds": "textures/texturepack/landscape/grass/coastkelpgrass01.dds",
   "textures/landscape/mountains/mountainslab01_n.dds": "textures/rocks/mountainslab01_n.dds",
   "textures/landscape/rocks01.dds": "textures/texturepack/landscape/rocks01.dds",
+  "textures/landscape/trees/treeaspenbarkcomp_n.dds": "textures/landscape/4k/treeaspenbarkcomp_n.dds",
   "textures/landscape/trees/tundradriftwoodbark01_n.dds": "textures/landscape/4k/tundradriftwoodbark01_n.dds",
   "textures/landscape/trees/tundradriftwoodbranches01.dds": "textures/texturepack/landscape/trees/tundradriftwoodbranches01.dds",
   "textures/plants/groundplants1/fern2.dds": "textures/landscape/plants/fern2.dds",
@@ -2056,7 +2488,7 @@
   "textures/vurt_shroomstem.dds": "textures/landscape/plants/vurt_shroomstem2.dds"
  },
  "alphaModes": {
-  "MASK": 134,
+  "MASK": 185,
   "OPAQUE": 9
  }
 }

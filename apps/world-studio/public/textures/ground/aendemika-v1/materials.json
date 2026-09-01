@@ -448,13 +448,13 @@
    "id": 37,
    "name": "scree",
    "file": "37-scree.png",
-   "tileM": 7.0,
+   "tileM": 12.0,
    "avgColor": [
-    75,
-    53,
-    42
+    73,
+    71,
+    70
    ],
-   "source": "Tropical Skyrim (volcanictundragravel01.dds)"
+   "source": "ambientCG Gravel015 (CC0)"
   }
  ]
 }

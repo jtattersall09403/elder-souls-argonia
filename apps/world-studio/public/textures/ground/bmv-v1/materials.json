@@ -448,13 +448,13 @@
    "id": 37,
    "name": "scree",
    "file": "37-scree.png",
-   "tileM": 7.0,
+   "tileM": 12.0,
    "avgColor": [
-    68,
-    65,
-    39
+    73,
+    71,
+    70
    ],
-   "source": "Black Marsh & Valenwood (volcanictundragravel01.dds)"
+   "source": "ambientCG Gravel015 (CC0)"
   }
  ]
 }
