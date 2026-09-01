@@ -96,6 +96,33 @@ first, then open only the master-plan sections the active phase needs.
   Known gaps, unchanged: only six exemplar areas have plants; the rest of
   the province is bare on purpose.
 
+- **Combat round-5 (workstream C): the parry ruling.** The parry hitbox is now
+  active for the whole of the second parry animation — the catch — and for
+  nothing else, on every weapon and shield. It is derived from the clips rather
+  than written down per family, so it cannot drift again. **This makes parrying
+  much more forgiving than it was**: a one-handed catch goes from 0.2 s to
+  0.7 s and a greatsword's from 0.16 s to 1.1 s. That is a big feel change and
+  the main thing to judge.
+
+  **Per-weapon riposte clips: attempted, measured, and not shipped.** The
+  audition tool is fixed and the whole measurement pass is done and written up
+  in [polish-backlog.md](polish-backlog.md). Two findings and one blocker:
+  - the only reaching *stab* in the mod's one-handed executions is its dagger
+    clip, and it works at sword length too — so the sword and dagger stab you
+    asked for is available and was built;
+  - the two-handed haft execution contains **no chop that lands**, so the
+    battleaxe swing you asked for cannot come from an authored clip. Its own
+    light attack was tried and cannot satisfy the execution contract, which
+    measures the blade against the victim's spine — a swing lands on the flank.
+  - building the stab regressed `greatsword-riposte` for reasons not isolated:
+    the runtime pair measures ~0.25 m further apart than the paired anchor asks
+    for. That looks like a real bug in the critical alignment affecting every
+    paired critical, and it is the thing to understand before trying again.
+
+  Rather than ship a change that turns a passing gate red, the clip swap is
+  reverted and the evidence recorded. **Your call on the battleaxe**: keep its
+  authored (thrust-like) execution, or accept a swing-specific contact rule.
+
 - **Combat round-4 playtest (workstream C).** In the sandbox, not the world.
   Everything below is on your last list.
 
