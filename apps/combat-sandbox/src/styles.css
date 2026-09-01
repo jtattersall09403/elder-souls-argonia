@@ -142,3 +142,6 @@ button { color: inherit; font: inherit; }
   .touch-stick { bottom: 12%; }
   .touch-actions { bottom: 10%; transform: scale(.9); transform-origin: bottom right; }
 }
+
+.debug-panel .enemy-picker { display: flex; align-items: center; gap: 6px; }
+.debug-panel .enemy-picker select { flex: 1; min-width: 0; font: inherit; font-size: 11px; color: inherit; background: #14161a; border: 1px solid #3a3f47; border-radius: 3px; padding: 2px 4px; }

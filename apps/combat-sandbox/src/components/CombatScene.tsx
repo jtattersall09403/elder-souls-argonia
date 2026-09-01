@@ -61,6 +61,7 @@ import { usePlayerRace } from "@elder-souls/game-core/actors/raceStore";
 import {
   DEFAULT_ENEMY_ARCHETYPE,
   type EnemyArchetype,
+  enemyArchetypeById,
 } from "@elder-souls/game-core/actors/enemyArchetypes";
 import { activeGuardAnimations, activeGuardProfile } from "@elder-souls/game-core/equipment/guard";
 import { loadoutAnimationPacks } from "@elder-souls/game-core/equipment/animationPacks";
@@ -102,6 +103,10 @@ import {
   combatHurtboxHalfHeight,
 } from "@elder-souls/game-core/physics/characterPhysics";
 import { selectEnemyIntent, type EnemyIntent } from "@elder-souls/game-core/ai/enemyAi";
+import { loadoutTactics } from "@elder-souls/game-core/ai/weaponTactics";
+import { advanceEnemyBow, aimElevation, bowAimSpread } from "@elder-souls/game-core/ai/enemyBow";
+import { DEFAULT_ARROW } from "@elder-souls/game-core/equipment/arrows";
+import type { RangedStats } from "@elder-souls/game-core/equipment/types";
 import { analogueMoveSpeed, cameraRelativeDirection, input, PLAYER_LOCK_ON_WALK_SPEED, PLAYER_SPRINT_SPEED, PLAYER_WALK_SPEED, resolveAttackDirection } from "@elder-souls/game-core/io/input";
 import { inputToIntent } from "@elder-souls/game-core/combat/intent";
 import { lockOnLocomotionAnimation, lockOnOrientationWarp, lockOnSprintAllowed, lockOnYaws } from "@elder-souls/game-core/anim/lockOn";
@@ -500,6 +505,49 @@ function CapsuleHurtbox({
  * correctly *timed* parry is not also a positioning test. Same component as the
  * weapon hitbox, because it is the same question.
  */
+/**
+ * An archer looses at the player.
+ *
+ * The elevation is solved against the same drag model the arrow will fly
+ * under, so a shot at twenty-five metres arrives rather than falling short —
+ * and the spread is applied to the *aim* rather than to the arrow, so a miss is
+ * still a real trajectory the player can watch go past.
+ */
+function looseEnemyArrow(
+  runtime: EnemyRuntime,
+  ranged: RangedStats,
+  target: THREE.Vector3,
+  distance: number,
+) {
+  // What every archer in the sandbox shoots. A per-archetype quiver is a
+  // Phase 13 loot question, not a combat one.
+  const arrow = DEFAULT_ARROW;
+  const origin = runtime.position.clone().setY(runtime.position.y + PLAYER_EYE_OFFSET_Y);
+  const flat = Math.hypot(target.x - origin.x, target.z - origin.z);
+  const speed = launchSpeed(ranged, arrow.physics, 1);
+  const elevation = aimElevation(speed, arrow.physics, flat, (target.y + 0.9) - origin.y);
+  if (elevation === null) return;
+  const spread = bowAimSpread(runtime.fighter.personality, distance);
+  // Deterministic per-shot rather than per-frame: one wobble, applied to the
+  // whole shot, so the arrow flies straight along a slightly wrong line.
+  const yawError = (Math.random() - 0.5) * 2 * spread;
+  const pitchError = (Math.random() - 0.5) * 2 * spread;
+  const yaw = Math.atan2(target.x - origin.x, target.z - origin.z) + yawError;
+  const pitch = elevation + pitchError;
+  const horizontal = Math.cos(pitch) * speed;
+  fireArrow({
+    arrow,
+    shooter: runtime.bodyName,
+    origin: [
+      origin.x + Math.sin(yaw) * ARROW_SPAWN_AHEAD_METERS,
+      origin.y,
+      origin.z + Math.cos(yaw) * ARROW_SPAWN_AHEAD_METERS,
+    ],
+    velocity: [Math.sin(yaw) * horizontal, Math.sin(pitch) * speed, Math.cos(yaw) * horizontal],
+  });
+  combatAudio.play("swing");
+}
+
 function parryObjectRef(
   offHand: RefObject<THREE.Object3D | null>,
   weapon: RefObject<THREE.Object3D | null>,
@@ -538,6 +586,8 @@ type EnemyRuntime = {
   running: MutableRefObject<boolean>;
   /** Set when a backstep should chain into the dash-in attack on completion. */
   backstepAttackQueued: MutableRefObject<boolean>;
+  /** Action clock at the previous step, so a bow looses exactly once. */
+  previousActionTime: number;
   /** Absolute enemy action time through which a guard-hit clip must play. */
   guardHitUntil: number;
   /** Exact vulnerable pose retained when a riposte takes ownership. */
@@ -582,6 +632,7 @@ function createEnemyRuntime(
     animationSpeed: { current: 1 },
     running: { current: false },
     backstepAttackQueued: { current: false },
+    previousActionTime: 0,
     guardHitUntil: 0,
     criticalLeadInTime: 0,
     position: start.clone(),
@@ -834,6 +885,10 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
    * the same structure on their Fighter.
    */
   const playerPoise = useRef<PoiseState>(createPoise(playerArmour));
+  // Which enemy to fight. Rebuilding the runtimes when it changes is the point:
+  // an archetype decides the loadout, which decides the animation packs, the
+  // hurtbox and every tactical distance the AI works in.
+  const enemyArchetypeId = useGameStore((state) => state.enemyArchetypeId);
   /** Seconds a light press made during a parry stays live as a riposte. */
   const riposteQueued = useRef(0);
 
@@ -847,8 +902,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         visualScenario.enemy.yaw,
       )];
     }
-    return DEFAULT_ENEMY_SPAWNS.map((start, index) => createEnemyRuntime(index, start));
-  }, [visualScenario]);
+    return DEFAULT_ENEMY_SPAWNS.map((start, index) =>
+      createEnemyRuntime(index, start, 0, enemyArchetypeById(enemyArchetypeId)));
+  }, [visualScenario, enemyArchetypeId]);
   const visualDriver = useRef(visualScenario ? new VisualScenarioDriver(visualScenario) : null);
   const visualObserved = useRef({
     playerActions: new Set<string>(),
@@ -2470,6 +2526,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
             personality: f.personality,
             previousIntent: f.lastIntent as EnemyIntent | null,
             commitmentBonus: archetype.decision.commitmentBonus,
+            // Every distance the scoring uses is in units of this, so an
+            // archer keeps its range and a spearman keeps its point out.
+            tactics: loadoutTactics(archetype.loadout),
           });
           f.decisionTimer = archetype.decision.intervalSeconds
             + Math.random() * archetype.decision.intervalJitterSeconds;
@@ -2523,6 +2582,10 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           } else if (enemyIntent === "strafe") {
             f.strafeSide = scriptedCue?.side ?? (Math.random() > 0.5 ? 1 : -1);
             setEnemyMode(e, "strafe", f.strafeSide < 0 ? "STRAFE_LEFT" : "STRAFE_RIGHT");
+          } else if (enemyIntent === "shoot") {
+            setEnemyMode(e, "shoot", "BOW_DRAW");
+          } else if (enemyIntent === "withdraw") {
+            setEnemyMode(e, "withdraw", "BOW_WALK_BACK");
           } else {
             f.state = "approach";
             setEnemyAnim(e, "WALK");
@@ -2770,6 +2833,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         enemyHandle.body.setLinvel({ x: 0, y: enemyHandle.body.linvel().y, z: 0 }, true);
       }
       e.actionTimeRef.current = f.actionTime;
+      e.previousActionTime = f.actionTime;
     }
 
     const lockTargetActive = lockTarget !== null && (lockTarget.fighter.health > 0 || lockTarget.fighter.state === "critical");

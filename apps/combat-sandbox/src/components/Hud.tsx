@@ -3,6 +3,7 @@ import { input, type InputAction } from "@elder-souls/game-core/io/input";
 import { UI_MENU_BINDINGS, uiMenuInput } from "@elder-souls/game-core/io/uiMenus";
 import { useGameStore } from "@elder-souls/game-core/core/store";
 import { MAX_ENEMIES } from "@elder-souls/game-core/combat/tuning";
+import { ENEMY_ARCHETYPES } from "@elder-souls/game-core/actors/enemyArchetypes";
 import { FullscreenButton } from "./FullscreenButton";
 import type { VisualScenario } from "@elder-souls/game-core/validation/visualScenarios";
 
@@ -318,6 +319,20 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
             onChange={(event) => state.patch({ showWeaponHitboxes: event.target.checked })}
           />
           Show weapon &amp; parry volumes
+        </label>
+        <label className="enemy-picker">
+          Enemy:
+          <select
+            value={state.enemyArchetypeId}
+            onChange={(event) => state.patch({ enemyArchetypeId: event.target.value })}
+          >
+            {Object.values(ENEMY_ARCHETYPES).map((archetype) => (
+              <option key={archetype.id} value={archetype.id}>
+                {archetype.label} — {archetype.loadout.mainHand.label}
+                {archetype.loadout.offHand ? " + shield" : ""}
+              </option>
+            ))}
+          </select>
         </label>
         <label>
           <input

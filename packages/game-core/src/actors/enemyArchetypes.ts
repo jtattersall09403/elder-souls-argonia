@@ -1,7 +1,8 @@
 import type { AnimationState } from "../core/types";
 import type { Loadout } from "../equipment/types";
 import { DEFAULT_RACE, type RaceId } from "./races";
-import { STRAIGHT_SWORD } from "../equipment/arsenal";
+import { STRAIGHT_SWORD, shieldById, weaponById } from "../equipment/arsenal";
+import type { ShieldDefinition, WeaponDefinition } from "../equipment/types";
 
 /**
  * Enemy archetypes.
@@ -127,9 +128,87 @@ export const HOLLOW_WARDEN: EnemyArchetype = {
   lungeBeyondDistance: 1.05,
 };
 
-export const ENEMY_ARCHETYPES: Readonly<Record<string, EnemyArchetype>> = {
-  [HOLLOW_WARDEN.id]: HOLLOW_WARDEN,
+/**
+ * A variant of the reference warden carrying something else.
+ *
+ * Everything that makes an enemy *fight* differently with a different weapon is
+ * derived, not authored: `ai/weaponTactics` reads reach and class off whatever
+ * is in its hand and the intent scoring works in those units, so a spearman
+ * holds the range its point gives it and an archer keeps its distance without
+ * any of that being written down here. What an archetype still owns is what it
+ * *is* — pools, gait, nerve — and those are shared here on purpose, so the
+ * sandbox comparison between two weapons is a comparison between two weapons
+ * rather than between two creatures.
+ */
+function armedWarden(
+  id: string,
+  label: string,
+  mainHand: WeaponDefinition,
+  offHand: ShieldDefinition | null = null,
+): EnemyArchetype {
+  return {
+    ...HOLLOW_WARDEN,
+    id,
+    label,
+    loadout: { mainHand, offHand },
+    // Where a swing starts sliding the body toward its target. A weapon's own
+    // reach decides it: the sword's 1.05 m is most of its reach, and applying
+    // that to a halberd would have it lunging from inside its own point.
+    lungeBeyondDistance: mainHand.attacks.light1.range * 0.51,
+    comboFollowUpRange: mainHand.attacks.light1.range * 1.34,
+  };
+}
+
+export const DAGGER_WARDEN = armedWarden(
+  "dagger-warden", "Cutthroat", weaponById("steel-dagger"),
+);
+export const SWORD_AND_BOARD_WARDEN = armedWarden(
+  "shield-warden", "Shield Warden", STRAIGHT_SWORD, shieldById("steel-shield"),
+);
+export const GREATSWORD_WARDEN = armedWarden(
+  "greatsword-warden", "Greatblade Warden", weaponById("steel-greatsword"),
+);
+export const WARHAMMER_WARDEN = armedWarden(
+  "warhammer-warden", "Hammer Warden", weaponById("steel-warhammer"),
+);
+export const BATTLEAXE_WARDEN = armedWarden(
+  "battleaxe-warden", "Axe Warden", weaponById("steel-battleaxe"),
+);
+export const ARCHER_WARDEN: EnemyArchetype = {
+  ...armedWarden("archer-warden", "Warden Archer", weaponById("steel-longbow")),
+  // An archer is not a swordsman who happens to be holding a bow. It is
+  // lighter, quicker to give ground, and it has no business standing still.
+  maxHealth: 105,
+  armour: ["iron-boots"],
+  locomotion: {
+    ...HOLLOW_WARDEN.locomotion,
+    walkSpeed: 2.1,
+    runSpeed: 5.1,
+    // It runs to make distance, not to close it, so both gait thresholds sit
+    // out where a bow actually works.
+    runAboveDistance: 11,
+    walkBelowDistance: 8,
+  },
+  decision: {
+    ...HOLLOW_WARDEN.decision,
+    // Re-reads the situation more often: the thing it is managing is a
+    // distance, and a distance changes every frame the player is running.
+    intervalSeconds: 0.22,
+    closeWithoutRedecidingBeyond: 14,
+  },
 };
+
+export const ENEMY_ARCHETYPES: Readonly<Record<string, EnemyArchetype>> = Object.fromEntries(
+  [
+    HOLLOW_WARDEN,
+    DAGGER_WARDEN,
+    SWORD_AND_BOARD_WARDEN,
+    GREATSWORD_WARDEN,
+    BATTLEAXE_WARDEN,
+    WARHAMMER_WARDEN,
+    ARCHER_WARDEN,
+  ].map((archetype) => [archetype.id, archetype]),
+);
 
 export const DEFAULT_ENEMY_ARCHETYPE = HOLLOW_WARDEN;
 

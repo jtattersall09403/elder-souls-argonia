@@ -191,6 +191,8 @@ export type GameSnapshot = {
    * rebuild. Off restores the constant-velocity lunge exactly.
    */
   footDrivenMotion: boolean;
+  /** Which enemy archetype the sandbox spawns. See `actors/enemyArchetypes`. */
+  enemyArchetypeId: string;
   resetToken: number;
   /** A bow is raised: the view is first person and the crosshair is up. */
   aiming: boolean;

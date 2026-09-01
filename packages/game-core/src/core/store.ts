@@ -2,6 +2,7 @@ import { create } from "zustand";
 import type { CombatAction, GameSnapshot } from "./types";
 import { DEFAULT_ENEMY_COUNT } from "../combat/tuning";
 import { COMBAT_TUNING } from "../combat/weapon";
+import { DEFAULT_ENEMY_ARCHETYPE } from "../actors/enemyArchetypes";
 
 type GameStore = GameSnapshot & {
   patch: (patch: Partial<GameSnapshot>) => void;
@@ -28,6 +29,7 @@ export const initialSnapshot: GameSnapshot = {
   showHitboxes: false,
   showWeaponHitboxes: false,
   footDrivenMotion: true,
+  enemyArchetypeId: DEFAULT_ENEMY_ARCHETYPE.id,
   resetToken: 0,
   aiming: false,
   bowPhase: "lowered" as const,
@@ -54,6 +56,7 @@ export const useGameStore = create<GameStore>((set) => ({
     showHitboxes: state.showHitboxes,
     showWeaponHitboxes: state.showWeaponHitboxes,
     footDrivenMotion: state.footDrivenMotion,
+    enemyArchetypeId: state.enemyArchetypeId,
     poiseEnabled: state.poiseEnabled,
     // Debug overrides survive a restart, or testing a rule that needs a raised
     // pool would mean re-setting them after every death.

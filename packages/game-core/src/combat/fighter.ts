@@ -22,6 +22,10 @@ export type EnemyMode =
   | "heal"
   | "stagger"
   | "recoil"
+  /** Drawing and loosing a bow. Ranged loadouts only. */
+  | "shoot"
+  /** Giving ground to re-open the distance a bow needs to work. */
+  | "withdraw"
   | "parried"
   | "critical"
   | "criticalRecovery"
