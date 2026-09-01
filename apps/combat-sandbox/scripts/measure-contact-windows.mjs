@@ -22,8 +22,26 @@ import * as THREE from "three";
  * Usage: node scripts/measure-contact-windows.mjs [CLIP ...]
  */
 
+/**
+ * Which build to measure. Defaults to the shipped one.
+ *
+ * `--manifest` and `--glb` together point this at an *audition* build — the
+ * ignored GLB `pipeline.audition` makes from candidate HKX files — so a clip
+ * can be measured before anything decides to ship it. That is the whole point
+ * of auditioning: choosing which of thirteen authored executions a weapon
+ * family should play is a question about the clips, and it should be answered
+ * from the clips rather than from a guess.
+ */
+const argManifest = process.argv.indexOf("--manifest");
+const argGlb = process.argv.indexOf("--glb");
 const ASSETS = new URL("../../../packages/character-assets/files/", import.meta.url);
-const MANIFEST = new URL("../../../packages/game-core/src/anim/generated/rig-skyrim-humanoid.animations.json", import.meta.url);
+const MANIFEST = argManifest >= 0
+  ? new URL(process.argv[argManifest + 1], `file://${process.cwd()}/`)
+  : new URL("../../../packages/game-core/src/anim/generated/rig-skyrim-humanoid.animations.json", import.meta.url);
+/** Overrides the per-pack asset lookup: one GLB carrying every named clip. */
+const GLB_OVERRIDE = argGlb >= 0
+  ? new URL(process.argv[argGlb + 1], `file://${process.cwd()}/`)
+  : null;
 const ARSENAL_MANIFEST = new URL("../../../packages/game-core/src/equipment/generated/arsenal.items.json", import.meta.url);
 
 /**
@@ -218,6 +236,9 @@ function measure(gltf, nodes, order, animationName, socketRotation, scale, victi
 
   poseAt(gltf, nodes, order, animation, 0);
   const { forward, pelvis } = actorFrame(nodes);
+  // The actor's own horizontal axes, for the thrust/swing decomposition.
+  const forward3 = forward.clone();
+  const lateral3 = new THREE.Vector3(forward.z, 0, -forward.x).normalize();
 
   const duration = Math.max(...animation.samplers.map((sampler) => {
     const input = readAccessor(gltf, sampler.input);
@@ -331,6 +352,42 @@ function measure(gltf, nodes, order, animationName, socketRotation, scale, victi
     console.log("  phases", phases
       .map((run) => `${usable[run.from].time.toFixed(3)}..${usable[run.to].time.toFixed(3)}`
         + `@${run.peak.toFixed(0)}m/s`).join("  "));
+  }
+  if (process.env.MEASURE_SHAPE) {
+    // Thrust or swing, per contact phase.
+    //
+    // "Is this execution a stab or a chop" is answerable from the clip, and it
+    // needs all three axes. Decompose the weapon tip's travel during the phase
+    // into the actor's own forward, lateral and vertical axes:
+    //
+    //   - a **thrust** drives the point down the forward axis and does little
+    //     else;
+    //   - a **chop** is dominated by vertical travel — an overhead comes down;
+    //   - a **slash** is dominated by lateral travel, carrying across the body.
+    //
+    // Two axes were not enough and got this exactly wrong: an overhead chop has
+    // little lateral travel and moderate forward travel, so measured flat it
+    // reads as a thrust, and every two-handed execution was misreported.
+    //
+    // Path length rather than net displacement, because a swing that arcs back
+    // can finish near where it started having travelled a long way round.
+    for (const run of phases) {
+      let forward = 0;
+      let lateral = 0;
+      let vertical = 0;
+      for (let i = run.from + 1; i <= run.to; i += 1) {
+        const step = usable[i].tip.clone().sub(usable[i - 1].tip);
+        forward += Math.abs(step.dot(forward3));
+        lateral += Math.abs(step.dot(lateral3));
+        vertical += Math.abs(step.y);
+      }
+      const total = forward + lateral + vertical || 1;
+      const shares = { THRUST: forward / total, SLASH: lateral / total, CHOP: vertical / total };
+      const verdict = Object.keys(shares).reduce((a, b) => (shares[b] > shares[a] ? b : a));
+      console.log(`  shape ${usable[run.from].time.toFixed(3)}..${usable[run.to].time.toFixed(3)}`
+        + ` fwd ${forward.toFixed(2)} lat ${lateral.toFixed(2)} vert ${vertical.toFixed(2)} m`
+        + ` -> ${verdict} (${(shares[verdict] * 100).toFixed(0)}%)`);
+    }
   }
   const live = fastestPhase(phases);
   if (live === null) return { animation: animationName, duration, peak, start: null, end: null };
@@ -836,6 +893,13 @@ async function measureParry(clipNames) {
 }
 
 const manifest = JSON.parse(await readFile(MANIFEST, "utf8"));
+/** The shipped manifest, for clips an audition build does not carry. */
+const overriddenManifest = GLB_OVERRIDE
+  ? JSON.parse(await readFile(
+    new URL("../../../packages/game-core/src/anim/generated/rig-skyrim-humanoid.animations.json", import.meta.url),
+    "utf8",
+  ))
+  : null;
 const ARSENAL = JSON.parse(await readFile(ARSENAL_MANIFEST, "utf8"));
 const HURTBOX_SEGMENTS = manifest.hurtbox?.segments ?? [];
 const scale = manifest.rig.recommendedScale;
@@ -848,13 +912,23 @@ const socketRotation = manifest.rig.socketRotation ?? [0, 0, 0, 1];
  */
 const loaded = new Map();
 async function packFor(clip) {
-  const pack = manifest.animations[clip]?.pack ?? "core";
-  const asset = manifest.packs?.[pack]?.asset ?? "rig-skyrim-humanoid.glb";
-  if (!loaded.has(asset)) {
-    const gltf = parseGlb(await readFile(new URL(asset, ASSETS)));
-    loaded.set(asset, { gltf, ...buildNodes(gltf) });
+  // An override only covers the clips it actually carries. A critical needs the
+  // *victim's* clip too, and that lives in the shipped core pack — measuring an
+  // audition candidate must not mean pretending the rest of the game is not
+  // there.
+  const source = GLB_OVERRIDE && manifest.animations[clip] ? GLB_OVERRIDE : null;
+  const shipped = source ? null : (overriddenManifest ?? manifest);
+  const pack = shipped?.animations[clip]?.pack ?? "core";
+  const asset = source ?? new URL(
+    shipped?.packs?.[pack]?.asset ?? "rig-skyrim-humanoid.glb",
+    ASSETS,
+  );
+  const key = asset.href;
+  if (!loaded.has(key)) {
+    const gltf = parseGlb(await readFile(asset));
+    loaded.set(key, { gltf, ...buildNodes(gltf) });
   }
-  return loaded.get(asset);
+  return loaded.get(key);
 }
 
 /**
@@ -931,7 +1005,7 @@ const PARRY_SOCKET = flagValue("--socket", "Weapon");
 const PARRY_REACH = Number(flagValue("--reach", "0.5"));
 
 /** Flags that consume the argument after them, so it is not a clip name. */
-const VALUE_FLAGS = new Set(["--blade", "--weapon", "--victim-clip", "--victim-time", "--facing", "--socket", "--reach", "--window"]);
+const VALUE_FLAGS = new Set(["--blade", "--weapon", "--victim-clip", "--victim-time", "--facing", "--socket", "--reach", "--window", "--manifest", "--glb"]);
 const clips = process.argv.slice(2).filter((arg, i, all) =>
   !arg.startsWith("--") && !VALUE_FLAGS.has(all[i - 1]));
 const wanted = clips.length > 0

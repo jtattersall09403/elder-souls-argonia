@@ -1477,6 +1477,14 @@ export function evaluateRipostePhases(telemetry, {
   minVictimStartClipTimeSeconds = 0,
   maxVictimStartClipTimeSeconds = 0.08,
   victimReactionAnimation = "CRITICAL_KNOCKDOWN",
+  /**
+   * Which clip the attacker performs. Named by the scenario rather than assumed:
+   * the one-handed execution is no longer the only thing a riposte can play —
+   * a thrusting class has its own execution and a swinging one uses its opening
+   * light attack — and hardcoding it here meant this whole check silently
+   * failed to find its own subject the moment either changed.
+   */
+  attackerAnimation = "RIPOSTE",
   expectedAttackerContactElapsedSeconds,
   expectedAttackerContactClipTimeSeconds,
   attackerReleaseClipTimeSeconds,
@@ -1491,12 +1499,12 @@ export function evaluateRipostePhases(telemetry, {
   const failures = [];
   const frames = (telemetry.visualFrames ?? []).filter((frame) => frame.player && frame.enemy);
   const damageEvent = firstEnemyDamageEvent(telemetry);
-  const attackerStart = frames.find((frame) => frame.player.animation === "RIPOSTE");
+  const attackerStart = frames.find((frame) => frame.player.animation === attackerAnimation);
   if (!damageEvent || !attackerStart) {
     return {
       pass: false,
       failures: [
-        !attackerStart ? "riposte phase check could not locate the rendered RIPOSTE start" : null,
+        !attackerStart ? `riposte phase check could not locate the rendered ${attackerAnimation} start` : null,
         !damageEvent ? "riposte phase check could not locate the damage event" : null,
       ].filter(Boolean),
     };
@@ -1559,7 +1567,7 @@ export function evaluateRipostePhases(telemetry, {
   }
 
   const attackerContactFrame = nearestFrame(
-    frames.filter((frame) => frame.player.animation === "RIPOSTE"),
+    frames.filter((frame) => frame.player.animation === attackerAnimation),
     damageEvent.time,
   );
   const attackerContactElapsed = damageEvent.time - attackerStart.time;
@@ -1594,7 +1602,7 @@ export function evaluateRipostePhases(telemetry, {
     } else {
       releaseFrame = frames.find((frame) => (
         frame.time >= attackerStart.time
-        && frame.player.animation === "RIPOSTE"
+        && frame.player.animation === attackerAnimation
         && finite(frame.player.clipTime)
         && frame.player.clipTime >= attackerReleaseClipTimeSeconds
       )) ?? null;

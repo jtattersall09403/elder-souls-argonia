@@ -47,8 +47,16 @@ def build_audition(character_id: str, output_stem: str, candidates: list[tuple[s
     if len({name for name, _ in candidates}) != len(candidates):
         raise ValueError("candidate semantic names must be unique")
 
-    plan = resolve_character(character_id)
-    plan.character_id = f"{character_id}-audition-{output_stem}"
+    # The audition id goes *into* the resolver rather than being patched on
+    # afterwards. `resolve_character` derives the build data-root and every mesh
+    # path from `char["id"]`, so renaming the plan after the fact left the mesh
+    # paths pointing at one character's data-root while the assembler extracted
+    # into another's — and the texture scan then tried to read a NIF nobody had
+    # extracted. That is why this tool could not build anything.
+    plan = resolve_character(
+        character_id,
+        overrides={"id": f"{character_id}-audition-{output_stem}"},
+    )
     plan.animations = [
         AnimationSpec(
             semantic=name,
