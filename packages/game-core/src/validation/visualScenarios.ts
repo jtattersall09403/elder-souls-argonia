@@ -44,6 +44,8 @@ export const VISUAL_SCENARIO_IDS = [
   "greatsword-chain",
   "greatsword-guard",
   "greataxe-parry",
+  "greatsword-riposte",
+  "greataxe-riposte",
   "greataxe-chain",
   "poise-break",
 ] as const;
@@ -832,6 +834,40 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
       // greatsword pack's footwork and is reviewed there.
       { from: 14.6, to: 16.6, actions: ["dodge"], move: [0, 1] },
     ],
+  },
+  "greatsword-riposte": {
+    id: "greatsword-riposte",
+    label: "Greatsword execution \u2014 its own clip, at its own measured distance",
+    warmup: 0.5,
+    duration: 9.4,
+    // Its own scene because it is its own choreography: a greatsword drives a
+    // longer lunge from further out (1.10 m against a sword's 0.90 m), and it
+    // used to borrow the sword's execution, which is the wrong motion at the
+    // wrong distance.
+    player: { ...RIPOSTE_REVIEW_PLAYER, emptyOffHand: true, weaponId: "steel-greatsword" },
+    enemy: RIPOSTE_REVIEW_ENEMY,
+    cues: [
+      { from: 0.70, to: 0.79, actions: ["parry"] },
+      { from: 2.3, to: 2.39, actions: ["light"] },
+    ],
+    enemyCues: [{ at: 0.25, intent: "lightCombo", attack: "light1", comboRemaining: 0 }],
+  },
+  "greataxe-riposte": {
+    id: "greataxe-riposte",
+    label: "Battleaxe execution \u2014 the haft set's own, from further out again",
+    warmup: 0.5,
+    duration: 9.4,
+    player: { ...RIPOSTE_REVIEW_PLAYER, emptyOffHand: true, weaponId: "steel-battleaxe" },
+    enemy: RIPOSTE_REVIEW_ENEMY,
+    cues: [
+      // The two-handed parry window is the shortest of the three (0.16 s), so it
+      // has to be pressed later against the same enemy swing than the sword
+      // scenes press theirs. Timing, not luck: the window opens where the
+      // clip starts moving, and a haft raise takes longer to get there.
+      { from: 0.70, to: 0.79, actions: ["parry"] },
+      { from: 2.3, to: 2.39, actions: ["light"] },
+    ],
+    enemyCues: [{ at: 0.25, intent: "lightCombo", attack: "light1", comboRemaining: 0 }],
   },
   "greataxe-parry": {
     id: "greataxe-parry",

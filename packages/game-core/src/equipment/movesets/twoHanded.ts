@@ -1,6 +1,11 @@
 import { clipConfig } from "../../anim/animationManifest";
 import type { AnimationState } from "../../core/types";
-import type { AttackId, AttackSpec, WeaponAnimationProfile } from "../types";
+import type {
+  AttackId,
+  AttackSpec,
+  PairedCriticalProfile,
+  WeaponAnimationProfile,
+} from "../types";
 import { ONE_HANDED_ANIMATIONS, REFERENCE_MOVESET } from "./oneHanded";
 
 /**
@@ -14,10 +19,18 @@ import { ONE_HANDED_ANIMATIONS, REFERENCE_MOVESET } from "./oneHanded";
  * animation packs: `greataxe` declares `requires: ["greatsword"]`, so a
  * warhammer downloads seven extra clips rather than twenty more.
  *
- * Both reuse the one-handed paired criticals. A riposte and a backstab are
- * choreography between two bodies, and Skyrim ships one authored pair; giving
- * every weapon family its own would be a sourcing job with no gameplay behind
- * it. They live in their own `criticals` pack for exactly that reason.
+ * ## Criticals
+ *
+ * The **riposte** is per family. Rim Parry authors a separate execution for
+ * every weapon type, and a greatsword driving a sword's short lunge was the
+ * wrong motion at the wrong distance. Each family's attacker clip lives in its
+ * own pack; the *victim* half stays shared in `criticals`, because the reaction
+ * to being run through does not depend on what ran you through.
+ *
+ * The **backstab** is still shared, and that is a sourcing fact rather than a
+ * choice: vanilla ships exactly one back-facing paired killmove and every
+ * per-weapon killmove it has is a frontal finisher, which performed from behind
+ * would read as nonsense. See the round-2 section of decision 0040.
  *
  * ## Timing, and what is measured versus carried over
  *
@@ -134,7 +147,7 @@ export const GREATSWORD_ANIMATIONS: WeaponAnimationProfile = {
   lightAttacks: ["GREATSWORD_LIGHT_1", "GREATSWORD_LIGHT_2", "GREATSWORD_LIGHT_3"],
   heavyAttacks: ["GREATSWORD_HEAVY", "GREATSWORD_HEAVY_2"],
   guardBreak: ONE_HANDED_ANIMATIONS.guardBreak,
-  riposte: ONE_HANDED_ANIMATIONS.riposte,
+  riposte: twoHandedRiposte("GREATSWORD_RIPOSTE", 0.9),
   backstab: ONE_HANDED_ANIMATIONS.backstab,
   equip: "GREATSWORD_EQUIP",
   unequip: "GREATSWORD_UNEQUIP",
@@ -161,7 +174,44 @@ export const GREATAXE_ANIMATIONS: WeaponAnimationProfile = {
     followThrough: "GREATAXE_PARRY_FOLLOW_THROUGH",
     active: { ...GREATSWORD_ANIMATIONS.parry.active },
   },
+  riposte: twoHandedRiposte("GREATAXE_RIPOSTE", 1.4),
 };
+
+/**
+ * A two-handed execution, built on the shared victim choreography.
+ *
+ * Only three things differ from the one-handed profile, and all three are
+ * measured rather than chosen (`scripts/measure-contact-windows.mjs --critical`,
+ * which is held to reproducing the hand-audited one-handed execution by
+ * `critical-known-answer.test.mjs`):
+ *
+ *   - the attacker's clip;
+ *   - `startingSeparation` — the furthest distance at which this weapon still
+ *     drives its blade into a victim's chest on its own execution. A battleaxe
+ *     stands 1.40 m off, because its execution is a long overhead; a greatsword
+ *     stands at the same 0.90 m as a sword, because its execution is a close
+ *     thrust.
+ *
+ *     The tool proposes and the visual scenario disposes. Its measurement is
+ *     from a standing start, and how much of the remaining gap closes during
+ *     the clip depends on that clip's own lunge — 0.15 m on the one-handed
+ *     execution, 0.04 m on the greatsword's. So where its first candidate does
+ *     not satisfy `riposteWeaponContact`, step in one notch of its own table
+ *     and re-run the scenario. That is what happened here;
+ *   - nothing else. The trims were chosen to put contact 0.400 s into every
+ *     trimmed execution, exactly where the audited one-handed clip puts it, so
+ *     `damageProgress` and the victim's entire timeline carry across unchanged.
+ *
+ * That last point is the reason this is three lines rather than a second copy
+ * of the one-handed profile: the *pipeline* absorbed the per-clip difference by
+ * trimming each execution to the same shape, so gameplay does not have to.
+ */
+function twoHandedRiposte(
+  attackerAction: Extract<AnimationState, "GREATSWORD_RIPOSTE" | "GREATAXE_RIPOSTE">,
+  startingSeparation: number,
+): PairedCriticalProfile {
+  return { ...ONE_HANDED_ANIMATIONS.riposte, attackerAction, startingSeparation };
+}
 
 /**
  * Reach, arc, lunge, motion value and stamina stay the reference moveset's —
@@ -173,6 +223,7 @@ export const GREATAXE_ANIMATIONS: WeaponAnimationProfile = {
 function twoHandedMoveset(
   lights: readonly [TwoHandedSwing, TwoHandedSwing, TwoHandedSwing],
   heavies: readonly [TwoHandedSwing, TwoHandedSwing],
+  riposteAction: Extract<AnimationState, "GREATSWORD_RIPOSTE" | "GREATAXE_RIPOSTE">,
 ): Record<AttackId, AttackSpec> {
   const swing = (id: AttackId, animation: TwoHandedSwing, branch?: number) => ({
     ...REFERENCE_MOVESET[id],
@@ -188,8 +239,11 @@ function twoHandedMoveset(
     light3: swing("light3", lights[2], LIGHT_COMBO_BRANCH_PROGRESS),
     heavy: swing("heavy", heavies[0], LIGHT_COMBO_BRANCH_PROGRESS),
     heavy2: swing("heavy2", heavies[1]),
-    // Criticals are the shared paired choreography, unchanged.
-    riposte: REFERENCE_MOVESET.riposte,
+    // The attack *timing* is shared: every execution is trimmed to put contact
+    // at the same point, so only the clip and the separation differ. The clip
+    // has to be named in both places — the animation profile drives the paired
+    // choreography, and this drives what the attacker actually plays.
+    riposte: { ...REFERENCE_MOVESET.riposte, animation: riposteAction },
     backstab: REFERENCE_MOVESET.backstab,
   };
 }
@@ -197,9 +251,11 @@ function twoHandedMoveset(
 export const GREATSWORD_MOVESET = twoHandedMoveset(
   ["GREATSWORD_LIGHT_1", "GREATSWORD_LIGHT_2", "GREATSWORD_LIGHT_3"],
   ["GREATSWORD_HEAVY", "GREATSWORD_HEAVY_2"],
+  "GREATSWORD_RIPOSTE",
 );
 
 export const GREATAXE_MOVESET = twoHandedMoveset(
   ["GREATAXE_LIGHT_1", "GREATAXE_LIGHT_2", "GREATAXE_LIGHT_3"],
   ["GREATAXE_HEAVY", "GREATAXE_HEAVY_2"],
+  "GREATAXE_RIPOSTE",
 );

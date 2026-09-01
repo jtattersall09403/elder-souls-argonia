@@ -190,22 +190,23 @@ const AIM_LOOK_DISTANCE_METERS = 40;
  * How far *ahead* of the eye the aim camera sits, along the shot axis, in metres.
  *
  * This number has been wrong in both directions and the reason is worth keeping.
- * A camera exactly on the eye of a third-person rig ends up inside the skull and
- * inside whichever limb the aim lean swings up. The previous pass answered that
- * by pulling the camera 0.55 m *back* along the axis — which put the archer's own
- * shoulders and back squarely between the camera and the target. That is a
- * first-person view of your own spine, and it is what the owner reported.
+ * A camera exactly on the eye of a third-person rig used to end up inside the
+ * skull. The pass before this one answered that by pulling the camera 0.55 m
+ * *back* along the axis — which put the archer's own shoulders and back squarely
+ * between the camera and the target: a first-person view of your own spine.
  *
- * The correct offset is small and forward: clear of the collapsed head and clear
- * of the torso, but still behind the bow arm, so the bow, the string and the
- * nocked shaft stay in frame ahead of the camera while the target does too.
+ * The head is now hidden outright while aiming rather than shrunk (see
+ * `headMeshes`), so "inside the head" is no longer a state that can exist and
+ * this offset no longer has to defend against it. It is kept small and forward
+ * only to stay clear of the collar and shoulders, which are still there — and
+ * that is now the *only* job it has, which is why it can be this small.
  *
  * Deliberately on the axis and not over a shoulder: a lateral offset would put
  * the crosshair ray and the arrow's line a fixed distance apart at every range,
  * which reads as the bow shooting slightly wide of the aim the further out you
  * shoot.
  */
-const AIM_EYE_AHEAD_METERS = 0.12;
+const AIM_EYE_AHEAD_METERS = 0.05;
 /**
  * Field of view while aiming, at each end of the zoom.
  *

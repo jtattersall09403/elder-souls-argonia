@@ -2650,5 +2650,255 @@
       "maxGroundCorrectionSpeedMetersPerSecond": 4.2,
       "note": "Same allowance as greatsword-guard: the parry stance is lower than the idle it blends from and both clips are correctly grounded, so the difference the solver spreads across the blend is real geometry rather than a hover."
     }
+  },
+  "greatsword-riposte": {
+    "playerActions": [
+      "parry",
+      "riposte"
+    ],
+    "playerAnimations": [
+      "GREATSWORD_IDLE",
+      "GREATSWORD_PARRY",
+      "GREATSWORD_PARRY_FOLLOW_THROUGH",
+      "GREATSWORD_RIPOSTE"
+    ],
+    "enemyActions": [
+      "attack",
+      "parried",
+      "critical",
+      "criticalRecovery",
+      "recover"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "LIGHT_1",
+      "GUARD_BREAK",
+      "RIPOSTED_HIT1"
+    ],
+    "enemyHealthLessThan": 150,
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "parry",
+        "idle",
+        "riposte",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "attack",
+        "parried",
+        "critical",
+        "criticalRecovery",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "GREATSWORD_IDLE",
+        "GREATSWORD_PARRY",
+        "GREATSWORD_PARRY_FOLLOW_THROUGH",
+        "GREATSWORD_IDLE",
+        "GREATSWORD_RIPOSTE",
+        "GREATSWORD_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "GUARD_BREAK",
+        "RIPOSTED_HIT1",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "GREATSWORD_PARRY",
+        "GREATSWORD_PARRY_FOLLOW_THROUGH",
+        "GREATSWORD_RIPOSTE"
+      ],
+      "enemy": [
+        "LIGHT_1",
+        "GUARD_BREAK",
+        "RIPOSTED_HIT1"
+      ]
+    },
+    "ripostePhases": {
+      "minStableLeadInSeconds": 0.2,
+      "minVictimStartClipTimeSeconds": 0.12,
+      "maxVictimStartClipTimeSeconds": 0.21,
+      "victimReactionAnimation": "RIPOSTED_HIT1",
+      "expectedAttackerContactElapsedSeconds": 0.4,
+      "expectedAttackerContactClipTimeSeconds": 0.5667,
+      "attackerReleaseClipTimeSeconds": 0.7,
+      "expectedAttackerReleaseWallElapsedSeconds": 0.6667,
+      "expectedVictimReleaseClipTimeSeconds": 0.2666,
+      "maxPhaseTimingErrorSeconds": 0.06
+    },
+    "riposteWeaponContact": {
+      "attackerActor": "player",
+      "victimActor": "enemy",
+      "victimHealthField": "enemyHealth",
+      "attackerAnimation": "GREATSWORD_RIPOSTE",
+      "victimReactionAnimation": "RIPOSTED_HIT1",
+      "maxAttackerBladeDistanceMeters": 0.25,
+      "minRoleSeparationMeters": 0.15,
+      "maxEarlyContactLeadSeconds": 0.08
+    },
+    "transitionMotionChecks": [
+      {
+        "actor": "player",
+        "fromAnimation": "GREATSWORD_RIPOSTE",
+        "fromOccurrence": 1,
+        "toAnimation": "GREATSWORD_IDLE",
+        "toOccurrence": 3,
+        "transitionWindowSeconds": 0.3,
+        "bones": [
+          "spine2",
+          "head",
+          "upperArmL",
+          "forearmL",
+          "handL",
+          "upperArmR",
+          "forearmR",
+          "handR"
+        ],
+        "maxPelvisRelativeBoneStepMeters": 0.13,
+        "maxBoneAngularStepDegrees": 22,
+        "maxWeaponTipStepMeters": 0.3
+      }
+    ],
+    "criticalRecovery": {
+      "animation": "RIPOSTED_HIT1",
+      "minStartClipTimeSeconds": 0.12,
+      "maxStartClipTimeSeconds": 0.21,
+      "minEndClipTimeSeconds": 1.95,
+      "maxClipStepSeconds": 0.15
+    }
+  },
+  "greataxe-riposte": {
+    "playerActions": [
+      "parry",
+      "riposte"
+    ],
+    "playerAnimations": [
+      "GREATAXE_IDLE",
+      "GREATAXE_PARRY",
+      "GREATAXE_PARRY_FOLLOW_THROUGH",
+      "GREATAXE_RIPOSTE"
+    ],
+    "enemyActions": [
+      "attack",
+      "parried",
+      "critical",
+      "criticalRecovery",
+      "recover"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "LIGHT_1",
+      "GUARD_BREAK",
+      "RIPOSTED_HIT1"
+    ],
+    "enemyHealthLessThan": 150,
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "parry",
+        "idle",
+        "riposte",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "attack",
+        "parried",
+        "critical",
+        "criticalRecovery",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "GREATAXE_IDLE",
+        "GREATAXE_PARRY",
+        "GREATAXE_PARRY_FOLLOW_THROUGH",
+        "GREATAXE_IDLE",
+        "GREATAXE_RIPOSTE",
+        "GREATAXE_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "GUARD_BREAK",
+        "RIPOSTED_HIT1",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "GREATAXE_PARRY",
+        "GREATAXE_PARRY_FOLLOW_THROUGH",
+        "GREATAXE_RIPOSTE"
+      ],
+      "enemy": [
+        "LIGHT_1",
+        "GUARD_BREAK",
+        "RIPOSTED_HIT1"
+      ]
+    },
+    "ripostePhases": {
+      "minStableLeadInSeconds": 0.2,
+      "minVictimStartClipTimeSeconds": 0.12,
+      "maxVictimStartClipTimeSeconds": 0.21,
+      "victimReactionAnimation": "RIPOSTED_HIT1",
+      "expectedAttackerContactElapsedSeconds": 0.4,
+      "expectedAttackerContactClipTimeSeconds": 0.5667,
+      "attackerReleaseClipTimeSeconds": 0.7,
+      "expectedAttackerReleaseWallElapsedSeconds": 0.6667,
+      "expectedVictimReleaseClipTimeSeconds": 0.2666,
+      "maxPhaseTimingErrorSeconds": 0.06
+    },
+    "riposteWeaponContact": {
+      "attackerActor": "player",
+      "victimActor": "enemy",
+      "victimHealthField": "enemyHealth",
+      "attackerAnimation": "GREATAXE_RIPOSTE",
+      "victimReactionAnimation": "RIPOSTED_HIT1",
+      "maxAttackerBladeDistanceMeters": 0.25,
+      "minRoleSeparationMeters": 0.15,
+      "maxEarlyContactLeadSeconds": 0.08
+    },
+    "transitionMotionChecks": [
+      {
+        "actor": "player",
+        "fromAnimation": "GREATAXE_RIPOSTE",
+        "fromOccurrence": 1,
+        "toAnimation": "GREATAXE_IDLE",
+        "toOccurrence": 3,
+        "transitionWindowSeconds": 0.3,
+        "bones": [
+          "spine2",
+          "head",
+          "upperArmL",
+          "forearmL",
+          "handL",
+          "upperArmR",
+          "forearmR",
+          "handR"
+        ],
+        "maxPelvisRelativeBoneStepMeters": 0.13,
+        "maxBoneAngularStepDegrees": 22,
+        "maxWeaponTipStepMeters": 0.3
+      }
+    ],
+    "criticalRecovery": {
+      "animation": "RIPOSTED_HIT1",
+      "minStartClipTimeSeconds": 0.12,
+      "maxStartClipTimeSeconds": 0.21,
+      "minEndClipTimeSeconds": 1.95,
+      "maxClipStepSeconds": 0.15
+    }
   }
 }

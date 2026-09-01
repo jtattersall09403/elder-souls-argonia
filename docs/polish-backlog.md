@@ -35,16 +35,13 @@ cosmetic/feel work lives — do not park polish items in decision docs.
   declare that it has no melee and have the combat FSM refuse the input, the
   way it already refuses a guard with a bow raised, rather than borrowing
   clips. Touches the non-optional melee fields of `WeaponAnimationProfile`.
-- **Per-weapon executions (ripostes) are sourced but not wired.** Rim Parry
-  ships thirteen distinct execution clips (dagger, axe, mace, greatsword,
-  waraxe, warhammer, spear, four shield variants, unarmed, dual) and we use one.
-  The blocker is not sourcing: each one needs its own contact time, withdrawal
-  time and paired separation, which for the one-handed clip took an exhaustive
-  hand audit. `measure-contact-windows.mjs --critical` was written to automate
-  that audit and **does not yet reproduce the hand-audited one-handed numbers**
-  — until it does, wiring a clip means guessing, and a guessed execution swings
-  at air. Fix the tool against the known answer first, then the other twelve are
-  cheap. (Done when a two-hander ripostes with its own clip and connects.)
+- **The remaining ten per-weapon executions.** The greatsword and battleaxe now
+  have their own; Rim Parry ships thirteen (dagger, mace, spear, four shield
+  variants, unarmed, dual and the one-handed one we already had). The blocker is
+  gone — `measure-contact-windows.mjs --critical` is validated against the
+  hand-audited one-handed execution and its header documents the four-step
+  procedure — so each additional family is now roughly an hour, gated on that
+  family having a moveset at all. Not urgent: nothing else has a moveset yet.
 - **Per-weapon backstabs are not available and should not be faked.** Vanilla
   has exactly one back-facing paired killmove (the 1hm one we use); its
   per-weapon killmoves are front-facing finishers. The "backstabs for all weapon

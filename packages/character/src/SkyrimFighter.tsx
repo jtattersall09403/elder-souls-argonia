@@ -38,6 +38,7 @@ import type { AnimationState, WeaponSocketTransform, WeaponVisualProfile } from 
 import { VISUAL_PROBE_BONES, type ActorVisualProbe } from "@elder-souls/game-core/validation/actorVisualMetrics";
 import { VISUAL_FRAME_PHASE_PRIORITY } from "@elder-souls/game-core/validation/visualFrameMarker";
 import { applyAppearance, clearAppearance } from "@elder-souls/game-core/actors/appearance";
+import { headMeshes } from "@elder-souls/game-core/actors/headMeshes";
 import { DEFAULT_RACE, raceById, type RaceDefinition, type RaceId } from "@elder-souls/game-core/actors/races";
 import type { ArmourDefinition } from "@elder-souls/game-core/equipment/armour";
 import type { MountedArmour } from "@elder-souls/game-core/actors/armourMounting";
@@ -68,11 +69,7 @@ const CORE_PACK_URLS = packUrls(resolveAnimationPacks([]));
 
 const NO_ARMOUR: readonly ArmourDefinition[] = [];
 
-/**
- * Not zero: a zero-scaled bone produces a singular matrix, which turns every
- * vertex it skins into NaN and takes the whole mesh's bounding box with it.
- */
-const FIRST_PERSON_HEAD_SCALE = 0.001;
+
 
 /**
  * How the aim angle is spread up the spine.
@@ -294,8 +291,8 @@ function PosedActor({
    * Collapses the head bone rather than hiding meshes: eyes, mouth, hair and a
    * helmet are all weighted to it, so scaling the bone away takes every one of
    * them with it and nothing has to know which mesh is a face on which race.
-   * The camera sits behind the eye, so the head would otherwise be centre
-   * frame; everything below the neck stays visible on purpose.
+   * Everything below the neck stays visible on purpose: the arms and the bow
+   * are what the shot is made of.
    */
   firstPerson?: boolean;
   /** Which body to mount on the shared rig. */
@@ -361,12 +358,29 @@ function PosedActor({
     () => (RIG_SOCKETS.head ? model.getObjectByName(sanitizeBoneName(RIG_SOCKETS.head)) ?? null : null),
     [model],
   );
+  /**
+   * The head, hidden outright in first person.
+   *
+   * This used to shrink the head *bone* to a thousandth instead. That worked,
+   * but it is a skinning trick with two costs: the neck verts are weighted to
+   * both head and spine, so collapsing one end of that blend distorts the
+   * collar, and it only ever hides what the head bone happens to skin. Hiding
+   * the meshes is exact, reversible in one frame, and — the reason the owner
+   * asked for it — it makes the camera position safe: with nothing rendered
+   * there at all, the eye can sit where an eye actually is without any risk of
+   * ending up inside geometry.
+   *
+   * `headMeshes` identifies them by skinning rather than by name or biped slot,
+   * so it holds for every race and for races not authored yet.
+   */
+  const faceMeshes = useMemo(() => headMeshes(model, headBone), [model, headBone]);
   // Restored on the way out, so the actor is left exactly as it was found.
   useLayoutEffect(() => {
-    if (!headBone) return;
-    headBone.scale.setScalar(firstPerson ? FIRST_PERSON_HEAD_SCALE : 1);
-    return () => { headBone.scale.setScalar(1); };
-  }, [firstPerson, headBone]);
+    if (!firstPerson) return undefined;
+    const restore = faceMeshes.map((mesh) => [mesh, mesh.visible] as const);
+    for (const mesh of faceMeshes) mesh.visible = false;
+    return () => { for (const [mesh, visible] of restore) mesh.visible = visible; };
+  }, [firstPerson, faceMeshes]);
 
   useLayoutEffect(() => {
     if (!headBoneRef) return;

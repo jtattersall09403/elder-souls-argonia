@@ -23,7 +23,9 @@
     "rim_parry_intro_2hw": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/2HW BP/9900440BWbbi/2hw_blockbashintro.HKX",
     "rim_parry_follow_2hw": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/2HW BP/9900440BWbbi/2hw_blockbash.HKX",
     "rim_parry_intro_shd": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/SHDMBO/9900410SHDbbi/shd_blockbashintro.HKX",
-    "rim_parry_follow_shd": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/SHDMBO/9900410SHDbbi/shd_blockbash.HKX"
+    "rim_parry_follow_shd": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/SHDMBO/9900410SHDbbi/shd_blockbash.HKX",
+    "rim_riposte_2hm": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/1Execution/(2130000022)greatsword/1.HKX",
+    "rim_riposte_2hw": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/1Execution/(2130000023)waraxe/1.HKX"
   },
   "defaults": {
     "looping": false,
@@ -786,6 +788,28 @@
       "crossFadeDuration": 0.05,
       "crossFadeOutDuration": 0.14,
       "provenance": "Rim Parry and Execution 1.1, OAR (9900440) two-handed haft block-bash follow-through (2HW BP/9900440BWbbi/2hw_blockbash.HKX)."
+    },
+    "GREATSWORD_RIPOSTE": {
+      "pack": "greatsword",
+      "source": "rim_riposte_2hm",
+      "rootMotion": "consume",
+      "playbackStartTime": 2.575,
+      "playbackEndTime": 3.708,
+      "crossFadeDuration": 0.18,
+      "crossFadeOutDuration": 0.24,
+      "provenance": "Rim Parry and Execution 1.1, greatsword execution attacker (1Execution/(2130000022)greatsword/1.HKX). Trim and separation measured by scripts/measure-contact-windows.mjs --critical against the visual gate’s own measure: the blade passes 0.23 m from a victim’s spine at source 2.9750s with the pair 1.00 m apart. Earlier phases of the sequence only graze a shoulder.",
+      "tailSource": null
+    },
+    "GREATAXE_RIPOSTE": {
+      "pack": "greataxe",
+      "source": "rim_riposte_2hw",
+      "rootMotion": "consume",
+      "playbackStartTime": 2.8413,
+      "playbackEndTime": 3.9743,
+      "crossFadeDuration": 0.18,
+      "crossFadeOutDuration": 0.24,
+      "provenance": "Rim Parry and Execution 1.1, battleaxe execution attacker (1Execution/(2130000023)waraxe/1.HKX). Contact measured at source 3.5083s with the pair 1.40 m apart, then moved 0.267s earlier: a battleaxe execution is an overhead, and the head reaches the victim on the way down rather than at its closest approach. The visual scenario measured that lead exactly (an unacknowledged contact beat), so the trim places the damage on the arrival instead.",
+      "tailSource": null
     }
   }
 }
