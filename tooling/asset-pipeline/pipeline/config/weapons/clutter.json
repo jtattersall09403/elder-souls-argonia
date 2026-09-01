@@ -1,0 +1,39 @@
+{
+  "id": "clutter",
+  "description": "Carried consumables and tools — the things in a pack that are not weapons or armour. Built through the arsenal builder because they are the same job: a static NIF, its textures, a normalised GLB and an inventory icon. What makes them different is that nothing holds or wears them, so their class has no sheath socket that matters and their size is the object's real size rather than a class length.",
+  "outputDir": "output/clutter",
+  "iconDir": "output/clutter-icons",
+  "manifestOutput": "output/clutter.items.json",
+  "iconSizePixels": 160,
+  "dropShapesContaining": [
+    "blood",
+    "scb",
+    "glow",
+    "fx",
+    "enchant"
+  ],
+  "classes": {
+    "potion": {
+      "lengthMeters": 0.17,
+      "sheathSocket": "Weapon"
+    },
+    "tool": {
+      "lengthMeters": 0.12,
+      "sheathSocket": "Weapon"
+    }
+  },
+  "items": [
+    {
+      "id": "healing-draught",
+      "class": "potion",
+      "material": "iron",
+      "nif": "meshes/clutter/potions/potionhealthlesser.nif"
+    },
+    {
+      "id": "lockpick",
+      "class": "tool",
+      "material": "iron",
+      "nif": "meshes/clutter/common/lockpick.nif"
+    }
+  ]
+}

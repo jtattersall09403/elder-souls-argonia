@@ -1,3 +1,4 @@
+import CLUTTER from "../equipment/generated/clutter.items.json";
 import { ARMOUR } from "../equipment/armour";
 import { ARROWS } from "../equipment/arrows";
 import { ARSENAL_SHIELDS, ARSENAL_WEAPONS } from "../equipment/arsenal";
@@ -87,14 +88,20 @@ for (const shield of Object.values(ARSENAL_SHIELDS)) {
   });
 }
 
-// Items with no built mesh. They are real inventory content — they stack, they
-// weigh something, they can be spent — and they draw a lettered fallback tile
-// until their art exists.
+// Carried consumables and tools.
+//
+// Nothing holds or wears these, so they are not weapons and not apparel — but
+// they are real inventory content: they stack, they weigh something, they can
+// be spent, and they have to *look* like something in the grid. They used to
+// draw a lettered fallback tile because no mesh had been sourced; both are now
+// built through the arsenal builder from their vanilla clutter meshes
+// (`config/weapons/clutter.json`), which is the same job as a weapon — a static
+// NIF, its textures, a normalised GLB and an inventory icon.
 register({
   id: "healing-draught",
   name: "Healing Draught",
   category: "magic",
-  icon: null,
+  icon: CLUTTER.items["healing-draught"].icon,
   weightKg: 0.5,
   value: 45,
   stackable: true,
@@ -105,7 +112,7 @@ register({
   id: "lockpick",
   name: "Lockpick",
   category: "misc",
-  icon: null,
+  icon: CLUTTER.items.lockpick.icon,
   weightKg: 0.05,
   value: 6,
   stackable: true,

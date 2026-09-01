@@ -1,0 +1,31 @@
+{
+  "set": "clutter",
+  "items": {
+    "healing-draught": {
+      "class": "potion",
+      "material": "iron",
+      "sheathSocket": "Weapon",
+      "asset": "clutter/healing-draught.glb",
+      "icon": "clutter-icons/healing-draught.png",
+      "lengthMeters": 0.17,
+      "sizeMeters": [
+        0.09699,
+        0.17,
+        0.08958
+      ]
+    },
+    "lockpick": {
+      "class": "tool",
+      "material": "iron",
+      "sheathSocket": "Weapon",
+      "asset": "clutter/lockpick.glb",
+      "icon": "clutter-icons/lockpick.png",
+      "lengthMeters": 0.12,
+      "sizeMeters": [
+        0.12,
+        0.00909,
+        0.00607
+      ]
+    }
+  }
+}

@@ -1668,11 +1668,29 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
 
   useFrame((_, rawDelta) => {
     if (!started) return;
-    // Nothing advances behind the inventory: not the clock, not the input edges
-    // the FSM reads, not the enemies. A modal screen that leaves the fight
-    // running is a screen a player cannot safely open.
-    if (inventoryOpen) return;
+    // The input reader keeps tracking the device behind the inventory, and only
+    // the *game* stops.
+    //
+    // It used to stop too, which manufactured a phantom press: closing the
+    // inventory with B left B physically down, and the next frame compared a
+    // live "B is down" against an edge state frozen from before the screen
+    // opened — so the FSM read a fresh press and the player backstepped out of
+    // their own menu. `clearHeld` cannot fix this, because it can forget
+    // keyboard and mouse state (which it owns) but not a gamepad button, which
+    // the pad re-reports as held every frame regardless.
+    //
+    // Tracking continuously means a button held across the close produces no
+    // edge until it is released and pressed again, which is the behaviour the
+    // modal wanted in the first place.
+    // Nothing else advances behind the inventory: not the clock, not the
+    // enemies. A modal screen that leaves the fight running is a screen a
+    // player cannot safely open.
+    if (inventoryOpen) {
+      input.update();
+      return;
+    }
     const frameDelta = Math.min(rawDelta, 1 / 30);
+    // Scripted scenarios push virtual input, so they run before the sample.
     visualDriver.current?.apply(frameDelta, input);
     input.update();
     const intent = inputToIntent(input);
