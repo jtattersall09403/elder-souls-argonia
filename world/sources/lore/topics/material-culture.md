@@ -250,8 +250,8 @@ Compounds: *kaj-thux* (ample serpent), *deek-beeko* (friend of youth),
 - This file is the **prop and kit brief**. Anything placed in an Argonian
   interior should come from it: totems, grave-stakes, chimes, reed mats, turtle
   platters, xeech'kis, bone-workers, scale-grooming kits, frog pipes.
-- Two distinct Argonian building kits are canon and regionally assigned —
-  **Shadowfen mud/wattle** and **Murkmire reed/stilt**. Do not blend them.
+- **Three Argonian building kits, and they never blend** (see the section
+  below — the interior's kit was ruled 2026-09-02).
 - The stilted-platform form in Murkmire is the same form the Blackrose
   boardwalk-city guidance already assumes. Good.
 - "Villages move" is a licence for **non-permanent settlement instances** if we
@@ -260,3 +260,81 @@ Compounds: *kaj-thux* (ample serpent), *deek-beeko* (friend of youth),
   platform-canoes — poled, paddled or tail-driven, no keels; sails mark a hull
   as foreign (Dunmer/Imperial) or Kothringi-derived. Design mapping to our
   boat classes: docs/research/marsh-watercraft-and-argonian-boats.md.
+
+## The three building kits — the never-blend rule, made interior-aware
+
+Ruling of 2026-09-02 (Phase 11 lore critique C1: 108 of 110 hist-heartland
+catalogue records carried one boilerplate materials line that mixed *all three*
+kits, because the old two-kit rule assigned mud→Shadowfen and reed/stilt→
+Murkmire and said **nothing about the interior**, so the authoring pass hedged
+by including everything). The interior now has its own kit.
+
+| Kit id | Where | Canon status |
+|---|---|---|
+| `settlement-mud-v1` | **Shadowfen** and the northern marsh | `CANON_EXPLICIT` — wattle-and-daub over an exposed log skeleton |
+| `settlement-stilt-v1` | **Murkmire**, the deltas and the coast | `CANON_EXPLICIT` — reed weave on wooden stilts, platforms ascending over water |
+| `settlement-root-v1` | **the interior** — Middle Argonia, the Helstrom basin, the deep inner swamps | `EXTRAPOLATED`, grounded below |
+| `settlement-imperial-v1` | foreign foundations | `CANON_EXPLICIT` — ashlar, tile, timber frame |
+
+### `settlement-root-v1` — the grown-root kit (the interior)
+
+**The idiom:** the interior does not *build* a house, it *trains* one. Root and
+canopy limb are grafted, bent and tied over years into wall, floor, stair and
+threshold while still alive and still growing; the joinery is lashing, not
+carpentry; the sealant is sap; the roof is bark shingle and layered canopy leaf;
+and every threshold carries chimes, because in the interior the tree is the
+neighbour you have to be able to hear.
+
+- **Structure** — living root and trained limb, grafted and bent in place; split
+  root-wood decking and canopy timber where a member has to be cut.
+- **Joinery** — withy lashing and **flint vine** cord; pegs of hardwood; no nails
+  (post-Duskfall metal use is almost unheard of, above).
+- **Sealing** — **Hist-sap resin** as glue, caulk and waterproofing; sap-rubber
+  gaskets on anything that must stay dry.
+- **Roof** — bark shingle, layered canopy frond, sap-sealed. *Not* reed thatch.
+- **Fittings** — bone-and-tin chimes at every threshold and eave; totems of wood,
+  mud and plumage (province-wide, all kits); grave-stakes; woven grass matting.
+- **Stone** — none. Xanmeer stone in an interior settlement appears **unquarried
+  and untouched**: a warning that is kept, never a material that is used.
+- **Forbidden here** — reed weave, stilt platforms over open water, and
+  wattle-and-daub panels. Those are the two coastal kits and they do not belong
+  inland; if a record needs one, it needs a stated reason (below).
+
+**Grounding** (all from this file and `hist-and-sap.md` unless noted):
+root-training is an attested Argonian craft — Bright-Throat **xeech'kis** are
+"grown from a nurtured seed whose roots are pared into shape"
+(`Lore:Bright-Throat Village`); **flint vine** is canon cordage "strong enough to
+haul heavy objects or be made into a rope-ladder" (`Lore:Xanmeer`); **Hist-branch
+staves** are canon worked living wood (`Lore:Xit-Xaht`); **Hist-sap rubber** is a
+canon mundane product (`Lore:Murkmire`); **chimes** are canon Argonian
+Hist-listening equipment, with a **chime-maker** office (`Lore:Bright-Throat
+Village`); the **build-to-be-replaced doctrine** and "stone is a moral error"
+(`Lore:Argonian`, `Lore:Duskfall`) bite hardest in the interior, which is the
+most orthodox ground in the province; and Helstrom, the interior's capital, is
+canonically defended by the marsh and the grove rather than by works
+(`Lore:Helstrom`, `../../helstrom.md`) — a culture whose fortification is grown.
+
+### `settlement-root-v1/deeps` — the Naga-Kur variant (not a fourth kit)
+
+In the deep inner swamps root gives way to **lashed cane, black bog-oak, hide and
+worked bone**; the Naga-Kur, alone in the province, also **reuse dredged xanmeer
+block undressed**. That is heterodoxy, and the orthodox interior reads it as
+such — it is the same kit with bone substituted for root, not a new grammar.
+Grounded in the Naga-Kur's canon habit of making their gear from the bodies of
+their own dead (above) and in the **grave-singer** office who harvests it.
+**Grave-stakes are the deeps' signature marker but have no mesh** — build stake
+fields from cairns, totems and stockade pikes (asset inventory gap 3).
+
+### The rule, restated for three kits
+
+1. **A single building is one kit.** Never two. This is the original rule and it
+   is unchanged.
+2. **A settlement is one kit** unless the record states why not — a frontier, a
+   migration, a contact site, a foreign quarter. "Why not" goes in
+   `why.founding`, not in the materials line.
+3. **Foreign work layers, it does not blend**: Imperial ashlar *below*, Argonian
+   work *above* (the catalogue already writes this well — "stacked, never
+   blended").
+4. **The materials line is per place**, never a region constant: it says what
+   *this* place is grown from, what it has run short of, and what has gone wrong
+   with it.
