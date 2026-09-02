@@ -138,10 +138,10 @@ asset registry.
 - **Xalfek — An Argonian Home** (Nexus SSE mod 55595, DexMods, v1.0; itself
   bundling many credited modder resources — see its page) — Argonian interior
   props and furniture, catalogued in the asset registry (pool `xalfek`).
-- **Darkwater Den — Argonian themed home** (Nexus classic Skyrim mod 52630,
-  Elianora, v1.2; itself bundling many credited modder resources — see its
-  page) — organic Argonian interior composition and clutter, catalogued in the
-  asset registry (pool `darkwater`).
+- **Darkwater Den** (Nexus classic Skyrim mod 52630, Elianora) — downloaded,
+  then **withdrawn unused**: its licence forbids Elianora-original meshes in
+  any public work, and this project deploys publicly. No pool, no kit uses
+  it; listed here only so the provenance trail stays complete.
 - **Here There Be Monsters - Sign of Cipactli** (Nexus SSE mod 35933, Araanim,
   v2.92; itself bundling many credited modder resources — see its page) — the
   richest Black Marsh asset set we have found: the Argonian bamboo-hut forms

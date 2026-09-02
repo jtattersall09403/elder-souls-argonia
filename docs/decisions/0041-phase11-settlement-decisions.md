@@ -783,11 +783,14 @@ as load-bearing. Record the outcome here either way.
 
 **Queued for the next owner touchpoint (batched, not blocking):**
 
-1. **Permissions policy conflict.** The re-swept asset inventory flags
-   unrecorded permissions (Darkwater Den marked "do-not-ship") but module
-   90 §73's standing policy is *no* per-asset permission gate for this
-   personal project. Which wins? (Nexus API exposes no permissions field —
-   settling it needs a human read of the Permissions tabs.)
+1. **Permissions policy conflict — RESOLVED without an owner call
+   (2026-09-02):** Darkwater Den's licence forbids its meshes in any
+   *public* work and we deploy publicly to Pages; unlike the porting
+   clause (owner-approved), that isn't covered by the private-use
+   rationale. Since every asset it offered is covered by other pools, the
+   `darkwater` pool was **withdrawn unused** (registry mapping removed,
+   README credit converted to a provenance note). The module 90 §73
+   no-permission-bureaucracy policy stands for everything else.
 2. **Raft eyeball** (still open) — but the owner supplied leads
    (2026-09-02): classic Skyrim mod **89948** "and others like it" for
    rafts; for mud huts consider SSE **63329** alongside Mud Mother Grove

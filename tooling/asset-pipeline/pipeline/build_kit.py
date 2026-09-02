@@ -258,7 +258,6 @@ def pool_sources(pool: str, vault: Path) -> PoolSources:
         "rowboats": "rowboats-of-skyrim-35341",
         "ayleidcc": "cc-ayleid-ruin-resources-83999",
         "xalfek": "xalfek-55595",
-        "darkwater": "darkwater-den-52630",
         "ayleidkit": "ayleid-ruins-building-kit-90667",
         "histtree": "sleeping-hist-tree-overhaul-116792",
         "canoe": "script-free-ship-sailing-67727",
