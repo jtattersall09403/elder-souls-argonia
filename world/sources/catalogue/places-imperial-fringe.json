@@ -5159,7 +5159,7 @@
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
-        "founding": "Dunmer husbandry practised at the far western end of its range, because Gideon will buy eggs and Leyawiin will buy them dearer.",
+        "founding": "Dunmer husbandry practised at the far western end of its range, because Gideon will buy eggs and Leyawiin will buy them dearer. The workings themselves changed hands in the 3E uprisings, when the Argonian mine hands took the kwama mines from their Dunmer owners; the husbandry is Dunmer technique kept on by Argonian owners, not Dunmer ownership.",
         "siteAdvantages": "A limestone shoulder above the Onkobra with dry galleries — the only ground in the west a kwama colony will hold.",
         "occupantsMotive": "The mining family keeps the queen alive because a dead queen is a dead trade; the Owing hands work it because they were entered in a ledger.",
         "pressures": "Scribs get out; the colony has been pushed for two hundred years and the eggs are smaller than the ledgers say they should be.",
@@ -5455,7 +5455,7 @@
         "magnitude": "M1"
       },
       "status": "ruined",
-      "provenance": "canon-named",
+      "provenance": "canon-derived",
       "sources": [
         "uesp:Lore:Orma",
         "world/sources/lore/topics/lost-peoples.md §Orma (a tribe of Men born without eye sockets; masters of touch; tactile door-marks, no light wells, sound-oriented layouts)",
@@ -6130,14 +6130,15 @@
       "sources": [
         "uesp:Lore:Rockgrove",
         "uesp:Lore:Sul-Xan",
-        "world/sources/lore/extrapolation/settlement-register.md §3"
+        "world/sources/lore/extrapolation/settlement-register.md §3",
+        "uesp:Lore:Rockgrove (the Ca-Uxith, the stone-talkers, the geyser field)"
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
         "founding": "A Sul-Xan holding in the Blackwood: a staging ground for raids that take souls rather than goods.",
         "siteAdvantages": "Screened by jungle on three sides, one ravine path in, and a stream that hides the noise of a camp.",
         "occupantsMotive": "The Sul-Xan raid to feed soul-snares; the site persists because it has never been found twice by the same people.",
-        "pressures": "Stonewastes' Four Winds hunt them; the Empire's old bounty on jade masks is still quoted in Gideon.",
+        "pressures": "Stonewastes' Four Winds hunt them; the Empire's old bounty on jade masks is still quoted in Gideon. The Sul-Xan are not alone on this ground: the Ca-Uxith are charged by their Hist with watching the xanmeer, and their stone-talkers hold the ruins against the geyser field beneath it — the raid camp sits on top of somebody else's duty.",
         "wouldChangeIf": "Would move within a season of a serious defeat — the camp is the people, not the ground."
       },
       "sitingPrefs": {
@@ -6168,7 +6169,8 @@
       },
       "relations": {
         "rivals": [
-          "place.imperial-fringe.stonewastes"
+          "place.imperial-fringe.stonewastes",
+          "place.imperial-fringe.the-stone-talkers-watch"
         ],
         "patrols": [
           "route.blackwood-bog-causeway"
@@ -13236,7 +13238,7 @@
       "eraLayers": [
         "merethic"
       ],
-      "provenance": "canon-named",
+      "provenance": "canon-derived",
       "sources": [
         "uesp:Lore:Sul-Xan",
         "uesp:Lore:Xanmeer",
@@ -13633,6 +13635,176 @@
       "workflow": "derived",
       "densityLayer": "fine-tempo",
       "entrance": "none",
+      "underwaterAccess": "none"
+    },
+    {
+      "id": "place.imperial-fringe.the-stone-talkers-watch",
+      "name": "Holds-The-Stone",
+      "aliases": [
+        "the Ca-Uxith watch"
+      ],
+      "classification": {
+        "class": "settlement",
+        "family": "tribal-village",
+        "type": "hist-village",
+        "variant": null,
+        "magnitude": "M3"
+      },
+      "status": "active",
+      "season": "all-year",
+      "eraLayers": [
+        "first-era",
+        "current"
+      ],
+      "provenance": "canon-derived",
+      "sources": [
+        "uesp:Lore:Rockgrove (the Ca-Uxith, charged by their Hist to watch the xanmeer; the stone-talkers; the geyser field)",
+        "uesp:Lore:Sul-Xan",
+        "world/sources/lore/extrapolation/settlement-register.md §3"
+      ],
+      "confidence": "CANON_EXPLICIT",
+      "why": {
+        "founding": "The Ca-Uxith were charged by their Hist with watching the Rockgrove xanmeer, and a duty that specific needs a village next to it; the tribe has held this ground for as long as the charge has existed, which is longer than anyone can date.",
+        "siteAdvantages": "The last firm shelf before the geyser field, close enough to see the xanmeer's upper courses and far enough that the ground does not vent under the houses.",
+        "occupantsMotive": "The stone-talkers do the actual work — reading the ruin's stone for the cracks the geysers open and packing them before the ruin comes apart. It is preservation as a religious obligation, done with clay and patience.",
+        "pressures": "The Sul-Xan raid camp sits on the ruin the Ca-Uxith are sworn to keep, and the tribe has no means to remove them; the geyser field is getting louder, and the elders disagree about whether that is the ruin's fault or the tribe's.",
+        "wouldChangeIf": "If the xanmeer collapsed, the charge would end and the tribe would have no reason to be here at all — which is a thing several of the young ones have started saying aloud."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "fringe marsh",
+          "upland hills"
+        ],
+        "landformClasses": [
+          "cliff-bench",
+          "ridge-end",
+          "spring-head",
+          "any-firm-ground",
+          "flood-high"
+        ],
+        "waterRelation": "upslope of a geyser field, on spring water that is drinkable and hot",
+        "neighbourRelation": "within sight of place.imperial-fringe.rockgrove; no other neighbour within an hour",
+        "hardConstraints": [
+          "firm ground clear of the vents",
+          "line of sight to the xanmeer"
+        ],
+        "preferences": [
+          "a stone-talkers' shed of clay, tools and packing rods",
+          "drying racks for the packing clay",
+          "a Hist at the back of the shelf, not the front"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [
+          "place.imperial-fringe.glenbridge"
+        ],
+        "rivals": [
+          "place.imperial-fringe.rockgrove"
+        ],
+        "supplies": [
+          "place.imperial-fringe.glenbridge"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [
+          "place.imperial-fringe.rockgrove"
+        ],
+        "reachedVia": [
+          "place.imperial-fringe.glenbridge"
+        ],
+        "travelServiceEdges": [
+          "guide:ca-uxith-vent-line"
+        ]
+      },
+      "culture": "argonian",
+      "ownerFaction": "faction.ca-uxith-tribe",
+      "occupants": [
+        "D1 villagers",
+        "D2 stone-talkers",
+        "D3 Sul-Xan raiders working the same ground"
+      ],
+      "notableNpcSlots": [
+        "the eldest stone-talker, who can hear a crack before it opens",
+        "the young one who wants the charge ended"
+      ],
+      "dangerTier": "D2",
+      "approachDanger": "D3",
+      "traversalModes": [
+        "walk",
+        "climb",
+        "social"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "quests",
+          "lore",
+          "healing",
+          "reagents",
+          "faction access"
+        ],
+        "valueTier": "tier-3"
+      },
+      "vibe": {
+        "silhouette": "A low village on a shelf with drying racks of grey clay along its edge, and behind it steam standing in columns that do not move with the wind.",
+        "palette": "Steam white, packing-clay grey, hot-spring rust-orange on the rock, and a red Hist flower well back from all of it.",
+        "materials": "Reed and mud, and a great deal of worked clay — the tribe's craft is packing stone it did not cut and will not quarry.",
+        "signatureFeature": "The packing: every visible crack in the xanmeer opposite has a grey clay seam in it, and each seam is dated by a notch, so the ruin wears the tribe's whole record on its face.",
+        "condition": "Modest, worn, meticulously maintained in the one respect that matters.",
+        "mood": "Dutiful and tired; a village doing a job nobody thanks it for, next to people who are undoing it.",
+        "approach": "The steam gives it away long before the roofs do, and the guide who meets you is walking a specific line between vents.",
+        "senses": "Vent hiss on a slow rhythm; sulphur under the cooking; the tap of a talker sounding the stone."
+      },
+      "assetPlan": [
+        "hist-tree",
+        "mud-mother-grove",
+        "argonian-props",
+        "fences-wattle",
+        "xanmeer-tileset",
+        "clutter"
+      ],
+      "discovery": "sightline",
+      "questHooks": {
+        "provisions": [
+          "a canon Argonian counterparty to the Sul-Xan at Rockgrove",
+          "stone-talkers: a preservation craft the player can be taught or asked to defend",
+          "a geyser field as a live, worsening hazard next to a settlement"
+        ],
+        "tierOwnership": "tier-1 owned"
+      },
+      "rumourPoolKey": "rumour.glenbridge",
+      "deedCounterKeys": [
+        "deed.ca-uxith.charge-kept",
+        "deed.hist.imperial-fringe.stone-talkers-watch.regard"
+      ],
+      "sockets": {
+        "scene": [
+          "the-packing-face",
+          "the-elders-disagreement"
+        ],
+        "evidence": [
+          "the-notched-seams"
+        ],
+        "station": [
+          "eldest-stone-talker",
+          "clay-packer"
+        ],
+        "marks": [
+          "a-fresh-crack"
+        ]
+      },
+      "localStateVariants": [
+        "charge kept (seams fresh, Sul-Xan at a distance)",
+        "charge failing (a new crack unpacked, raiders on the terrace)"
+      ],
+      "complexityBudget": "standard",
+      "importanceTier": 1,
+      "workflow": "derived",
+      "densityLayer": "landmark",
+      "entrance": "door",
       "underwaterAccess": "none"
     },
     {
@@ -15191,7 +15363,7 @@
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
-        "founding": "The ground where a whole community was killed in 1E 2820, and where the Sul-Xan trace their grievance from.",
+        "founding": "The ground where a whole community was killed in 1E 2820, and where the Sul-Xan trace their grievance from. Lore:Xi-Tsei puts the site on the southern strip of Blackwood, which is administered as Cyrodiil; we place it inside our province deliberately, because the border there has moved more than once and the massacre is Argonian history wherever the line currently runs.",
         "siteAdvantages": "An open flat between two ridges — the only place in the Blackwood where an army could be made to stand and fight.",
         "occupantsMotive": "Nobody lives here; the Sul-Xan come annually and leave marks; the Four Winds come annually and remove them.",
         "pressures": "Two peoples curate the same field in opposite directions, and both editions are visible.",

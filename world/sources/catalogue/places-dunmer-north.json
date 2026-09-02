@@ -171,7 +171,8 @@
         "uesp:Lore:Archein",
         "uesp:Lore:House Dres",
         "uesp:Lore:Saltrice",
-        "world/sources/lore/extrapolation/settlement-register.md §4"
+        "world/sources/lore/extrapolation/settlement-register.md §4",
+        "uesp:Arena:Branchmont (Arena/novel name; no Lore article)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -676,7 +677,7 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": []
       },
@@ -952,7 +953,7 @@
         "supplies": [
           "place.dunmer-north.channel-cross-village",
           "place.dunmer-north.reedmoor-stilts",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "rivals": [
           "place.dunmer-north.stormhold"
@@ -1072,7 +1073,7 @@
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
-        "founding": "The regional hatchery: the one institution a depopulating province cannot let lapse, rebuilt after the Dominion massacre and again after Umbriel.",
+        "founding": "The regional hatchery: the one institution a depopulating province cannot let lapse, rebuilt after Umbriel, and after an older massacre the counting stones record but nobody now dates.",
         "siteAdvantages": "Warm spring-fed shallows at a constant temperature, screened on every side — the pools were found, not made.",
         "occupantsMotive": "The Keepers of the Shell stay because the alternative is that a generation is not born; canon shows them dying rather than leaving.",
         "pressures": "It has been attacked twice in living memory and is defended accordingly; outsiders are not welcome and are not always refused.",
@@ -1107,7 +1108,7 @@
       "relations": {
         "dependsOn": [
           "place.dunmer-north.stormhold",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "patrols": [
           "place.dunmer-north.the-terrace-watch",
@@ -1122,7 +1123,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": []
       },
@@ -1159,7 +1160,7 @@
         "silhouette": "A stockade of stakes around a bowl of steaming pale-green pools, with low sheds on the rim and nothing tall anywhere.",
         "palette": "Pool jade-green, steam white, stockade black, and the pale of shell.",
         "materials": "Stockade pikes and mud-and-reed sheds; the pools themselves are untouched ground.",
-        "signatureFeature": "The counting stones on the rim: one stone per clutch, going back further than the current stockade.",
+        "signatureFeature": "The counting stones on the rim: one stone per clutch, going back further than the current stockade — and one course of them cut differently, for a year with no clutches at all.",
         "condition": "Rebuilt twice within memory, and everything shows which rebuild it belongs to.",
         "mood": "Reverent, guarded, warm in the literal sense — the only warm place in the marsh.",
         "approach": "You are stopped a long way out. The reveal is a warden, not a view.",
@@ -1218,7 +1219,7 @@
       "aliases": [],
       "relations": {
         "dependsOn": [
-          "place.dunmer-north.tenmar-wall",
+          "place.dunmer-north.wolk-market",
           "place.dunmer-north.the-black-stage"
         ],
         "supplies": [
@@ -1418,7 +1419,7 @@
           "route.northern-caravan"
         ],
         "supplies": [
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": [
           "boat:northern-caravan"
@@ -1509,6 +1510,185 @@
       "underwaterAccess": "surface-swim"
     },
     {
+      "id": "place.dunmer-north.hutan-tzel",
+      "name": "Hutan-Tzel",
+      "aliases": [
+        "Rockguard"
+      ],
+      "classification": {
+        "class": "settlement",
+        "family": "tribal-village",
+        "type": "hist-village",
+        "variant": null,
+        "magnitude": "M3"
+      },
+      "status": "active",
+      "season": "all-year",
+      "eraLayers": [
+        "first-era",
+        "imperial",
+        "current"
+      ],
+      "provenance": "canon-named",
+      "sources": [
+        "uesp:Lore:Hutan-Tzel",
+        "uesp:Online:Xal Irasotl",
+        "world/sources/lore/regions/secondary-settlements.md §Hutan-Tzel / Rockguard",
+        "world/sources/lore/tribes.md (Hutan-Tzel tribe; Elder Naheesh Nurwul; rune totems)",
+        "world/sources/lore/topics/hist-placement.md (speaking tribal Hist; the totem line is its boundary)",
+        "world/sources/lore/topics/material-culture.md (the totems at Hutan-Tzel)"
+      ],
+      "confidence": "CANON_EXPLICIT",
+      "why": {
+        "founding": "An old tribal village on the Panther River where it drains into its basin, holding the western approach to the north; canon gives it its own tribe, its own elder naheesh and a xanmeer, Xal Irasotl, close enough to be the tribe's charge rather than its neighbour.",
+        "siteAdvantages": "The basin edge: still water for the village, running water for the trip downstream, and a rock shelf the flood never takes — the reason the Imperial maps call it Rockguard.",
+        "occupantsMotive": "The tribe stays because the Hist speaks here and because the totem line is theirs to keep; they are, uniquely for the interior, cautiously willing to deal with outsiders, and have been since the 2E.",
+        "pressures": "The rune-carved totems attract dangerous things if meddled with, and outsiders meddle; the old 3E rivalry with Glenbridge across the fringe has never quite ended, and Su-Zahleel survivors who fled the Xit-Xaht are still absorbed here without being made kin.",
+        "wouldChangeIf": "Would close to outsiders entirely the first time a meddled totem killed one of its own, and the western approach would close with it."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "interior swamp",
+          "fringe marsh",
+          "firm lowland"
+        ],
+        "landformClasses": [
+          "oxbow",
+          "spring-head",
+          "any-channel-bank",
+          "flood-high",
+          "cliff-bench"
+        ],
+        "waterRelation": "on the basin where the river slows, with a rock shelf above the flood",
+        "neighbourRelation": "first friendly village on the western approach; its xanmeer lies 300-600 m off and is watched, not entered",
+        "hardConstraints": [
+          "a speaking Hist",
+          "a rock shelf above the flood line",
+          "a totem perimeter with clear ground inside it"
+        ],
+        "preferences": [
+          "the naheesh's house on the shelf",
+          "a landing on the slack water",
+          "the xanmeer visible from the totem line"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [
+          "place.dunmer-north.stormhold"
+        ],
+        "supplies": [
+          "place.dunmer-north.stormhold",
+          "place.dunmer-north.wolk-market"
+        ],
+        "rivals": [
+          "place.imperial-fringe.glenbridge"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.the-pass-station",
+          "place.hist-heartland.helstrom"
+        ],
+        "travelServiceEdges": [
+          "boat:panther-basin",
+          "guide:hutan-tzel-totem-line"
+        ]
+      },
+      "culture": "argonian",
+      "ownerFaction": "faction.hutan-tzel-tribe",
+      "occupants": [
+        "D1 villagers",
+        "D2 totem-keepers",
+        "a D3 thing that comes to a meddled totem"
+      ],
+      "notableNpcSlots": [
+        "Elder Naheesh Nurwul",
+        "the totem-carver who will not teach the runes",
+        "a Su-Zahleel refugee two generations in and still not kin"
+      ],
+      "dangerTier": "D2",
+      "approachDanger": "D3",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "swim",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "quests",
+          "lore",
+          "faction access",
+          "healing",
+          "reagents"
+        ],
+        "valueTier": "tier-3"
+      },
+      "vibe": {
+        "silhouette": "A Hist over a low village on a rock shelf, and a ring of carved posts standing further out than the houses do — the boundary is the silhouette.",
+        "palette": "River brown and shelf grey, red Hist flower, and the totems' cut faces paler than the wood around them because they are recut every year.",
+        "materials": "Reed and mud on a stone shelf, with crocodile skulls on the totems and not one piece of quarried block anywhere — the xanmeer's stone is left where it stands.",
+        "signatureFeature": "The rune line: posts carved in a script only the tribe reads, spaced so that the gaps are as deliberate as the posts, and audibly avoided by everything that lives in the basin.",
+        "condition": "Continuously kept for centuries; the houses are young and the totems are not.",
+        "mood": "Watchful and courteous — the interior's one village that expects to be able to talk to you.",
+        "approach": "You reach the totem line a full two minutes before you reach a house, and the village lets you stand there.",
+        "senses": "The basin's frogs, whose chirp is the one the vossa-satl copies; recut wood; the Hist's low note carried in the water rather than the air."
+      },
+      "assetPlan": [
+        "hist-tree",
+        "mud-mother-grove",
+        "totems-ritual",
+        "argonian-props",
+        "fences-wattle",
+        "xanmeer-tileset"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "the first friendly interior village on the western approach",
+          "a speaking tribal Hist reachable without a city's permission",
+          "rune totems that punish tampering — a hazard the player can cause"
+        ],
+        "tierOwnership": "tier-1 owned"
+      },
+      "rumourPoolKey": "rumour.panther-basin",
+      "deedCounterKeys": [
+        "deed.hist.dunmer-north.hutan-tzel.regard",
+        "deed.hutan-tzel.totem-meddled"
+      ],
+      "sockets": {
+        "scene": [
+          "the-totem-line",
+          "the-naheesh-house"
+        ],
+        "evidence": [
+          "a-recut-post",
+          "the-refugee-tally"
+        ],
+        "station": [
+          "naheesh-nurwul",
+          "totem-carver"
+        ],
+        "marks": [
+          "the-meddled-post"
+        ]
+      },
+      "localStateVariants": [
+        "totem line intact",
+        "a post meddled with (the basin goes quiet and something is out there)"
+      ],
+      "complexityBudget": "standard",
+      "importanceTier": 1,
+      "workflow": "derived",
+      "densityLayer": "landmark",
+      "entrance": "root-mouth",
+      "underwaterAccess": "surface-swim"
+    },
+    {
       "aliases": [],
       "relations": {
         "dependsOn": [],
@@ -1548,7 +1728,7 @@
         "magnitude": null
       },
       "status": "active",
-      "provenance": "canon-named",
+      "provenance": "canon-derived",
       "sources": [
         "uesp:Lore:Loriasel",
         "uesp:Lore:Lamia",
@@ -1811,6 +1991,7 @@
       ],
       "provenance": "canon-named",
       "sources": [
+        "uesp:Online:Tsono-Xuhil",
         "uesp:Lore:Mazzatun",
         "uesp:Lore:Hist Sap",
         "world/sources/lore/topics/hist-and-sap.md"
@@ -1953,7 +2134,7 @@
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
-        "founding": "A Shadowfen village with a Shadowscale association, liberated by them in 2E 582 and quietly proud of it ever since.",
+        "founding": "A Shadowfen village with a Shadowscale association, liberated by them in 2E 582 and the story is still told, which is not the same as the place still mattering.",
         "siteAdvantages": "A Hist on a firm hummock in the channel network, with water approaches on every side.",
         "occupantsMotive": "It stays because the Hist is here; it keeps its Shadowscale connection because the connection has twice saved it.",
         "pressures": "The Archon sanctuary closed in 4E 187, so the surviving ku-vastei who lives here is the last of an institution.",
@@ -2149,7 +2330,7 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": []
       },
@@ -2395,7 +2576,8 @@
       "sources": [
         "uesp:Lore:Alten Corimont",
         "uesp:Lore:Thorn",
-        "world/sources/lore/extrapolation/settlement-register.md §4"
+        "world/sources/lore/extrapolation/settlement-register.md §4",
+        "uesp:Arena:Riverwalk (Arena/novel name; no Lore article)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -2436,13 +2618,13 @@
           "route.northern-trunk"
         ],
         "rivals": [
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": [
           "boat:northern-trunk"
         ],
         "dependsOn": [
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "supplies": [
           "place.dunmer-north.stormhold"
@@ -2748,7 +2930,7 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": []
       },
@@ -2857,7 +3039,7 @@
         "founding": "A village that took a Daedric bargain to survive the Knahaten Flu and has been technically dead ever since, sustained by a soul-gem array.",
         "siteAdvantages": "West of Stormhold on ground the Flu emptied around them — they are the only thing left on it.",
         "occupantsMotive": "They maintain the illusions because the alternative is to stop; three and a half centuries of infighting has settled nothing.",
-        "pressures": "The array was preserved rather than destroyed in 2E 582, so the argument that started then is still running, with the same participants.",
+        "pressures": "The array was preserved rather than destroyed in 2E 582, so the argument that started then is still running, with the same participants — who are technically dead, held in the world by Clavicus Vile's bargain, which is why the argument cannot simply outlive them.",
         "wouldChangeIf": "Would end the day someone broke the array — and half the village would thank them."
       },
       "sitingPrefs": {
@@ -3200,7 +3382,7 @@
         "imperial",
         "current"
       ],
-      "provenance": "canon-named",
+      "provenance": "canon-derived",
       "sources": [
         "uesp:Lore:Bogmother (the stone causeway from Stormhold)",
         "world/sources/lore/topics/material-culture.md"
@@ -3399,7 +3581,7 @@
         ],
         "visibleFrom": [],
         "reachedVia": [
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ]
       },
       "culture": "argonian",
@@ -3475,7 +3657,9 @@
     {
       "id": "place.dunmer-north.ten-maur-wolk",
       "name": "Ten-Maur-Wolk",
-      "aliases": [],
+      "aliases": [
+        "Tenmar Wall (the Imperial exonym; the Third Empire's maps renamed the site)"
+      ],
       "classification": {
         "class": "sacred",
         "family": "foreign-faith",
@@ -3499,10 +3683,10 @@
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
-        "founding": "A Daedric site beside the northern road hinge, and a former Dunmer slave camp — two kinds of atrocity on one piece of ground.",
+        "founding": "A temple to Boethiah and Vaermina raised by Dunmer dissidents who fled the Tribunal, and abandoned by them. The Third Empire's surveyors renamed it Tenmar Wall on their maps; the north never adopted the name, and the market town that grew at the junction beside it is a separate, later thing.",
         "siteAdvantages": "Beside the junction where the roads from Helstrom, Stormhold and Alten Corimont meet, which is why everyone knows it and nobody enters it.",
         "occupantsMotive": "Nobody occupies it. The marker posts around it are maintained, which is the loudest thing about the place.",
-        "pressures": "The town next door lives off the junction and pretends the ruin is scenery.",
+        "pressures": "The market town next door lives off the junction and pretends the ruin is scenery; the second atrocity on this ground is the Dres slave road that ran past it, not anything the dissidents built.",
         "wouldChangeIf": "Would draw a cult within a year if the markers ever stopped being renewed."
       },
       "sitingPrefs": {
@@ -3526,16 +3710,17 @@
         ],
         "preferences": [
           "a Daedric shrine core",
-          "slave-camp footings alongside"
+          "dissident-built outbuildings, Dunmer-cut and long empty",
+          "the Dres road passing within sight"
         ],
         "scourSiteIds": []
       },
       "relations": {
         "rivals": [
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "visibleFrom": [
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "dependsOn": [],
         "supplies": [],
@@ -3574,7 +3759,7 @@
       "vibe": {
         "silhouette": "A black stone shrine in a clearing, ringed at forty metres by white-painted posts that are obviously new.",
         "palette": "Black stone, white posts, and grass that is a different green inside the ring.",
-        "materials": "Daedric black basalt; the slave-camp footings beside it are ordinary Dunmer-cut stone, which is somehow worse.",
+        "materials": "Daedric black basalt; the outbuildings beside it are ordinary Dunmer-cut stone, dissidents' work, and far more legible than the shrine.",
         "signatureFeature": "The marker ring: repainted annually by a town that will not say who does it.",
         "condition": "Intact. Nothing here has fallen down, which for a two-thousand-year-old ruin is the tell.",
         "mood": "Avoided, watched, patient.",
@@ -3618,7 +3803,7 @@
       "id": "place.dunmer-north.tenmar-wall",
       "name": "Tenmar Wall",
       "aliases": [
-        "the northern hinge"
+        "see place.dunmer-north.ten-maur-wolk"
       ],
       "classification": {
         "class": "settlement",
@@ -3627,7 +3812,7 @@
         "variant": null,
         "magnitude": "M4"
       },
-      "status": "active",
+      "status": "cut",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -3774,7 +3959,8 @@
       "workflow": "derived",
       "densityLayer": "landmark",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Merged into place.dunmer-north.ten-maur-wolk (lore critique L1): Lore:Ten-Maur-Wolk states Tenmar Wall IS the Imperial exonym for the Daedric site, so a separate canon-named town at the same junction was a duplicate. The name is now an alias on the ruin; the road-hinge market town survives as place.dunmer-north.wolk-market with a non-canon name and lore-implied provenance."
     },
     {
       "id": "place.dunmer-north.the-ash-holding",
@@ -4427,7 +4613,7 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": []
       },
@@ -4567,7 +4753,7 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": []
       },
@@ -4842,7 +5028,7 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": []
       },
@@ -5133,7 +5319,7 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": []
       },
@@ -5994,7 +6180,7 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": []
       },
@@ -6294,7 +6480,7 @@
         "tolls": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": []
       },
@@ -6433,7 +6619,7 @@
         "tolls": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": []
       },
@@ -7156,7 +7342,7 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": []
       },
@@ -7298,7 +7484,7 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": []
       },
@@ -7442,7 +7628,7 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ]
       },
       "culture": "argonian",
@@ -7853,7 +8039,7 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": []
       },
@@ -8074,7 +8260,7 @@
       "eraLayers": [
         "ayleid"
       ],
-      "provenance": "canon-named",
+      "provenance": "canon-derived",
       "sources": [
         "uesp:Lore:Silyanorn",
         "uesp:Lore:Barsaebic Ayleids",
@@ -8279,7 +8465,7 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ]
       },
       "culture": "argonian",
@@ -8559,7 +8745,7 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": []
       },
@@ -8715,7 +8901,7 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ]
       },
       "culture": "argonian",
@@ -8864,7 +9050,7 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": []
       },
@@ -9248,7 +9434,7 @@
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
-        "founding": "A village that shut itself in during the Flu, survived, and never fully opened again — the practice outlived the reason by three centuries.",
+        "founding": "A village that shut itself in during the Flu, survived, and never fully opened again — the practice outlived the reason by sixteen centuries.",
         "siteAdvantages": "On an island in the channels with one causeway, which is why shutting was possible at all.",
         "occupantsMotive": "They keep the practice because it worked once; visitors are received at the causeway's outer end and not past it.",
         "pressures": "The village is inbred, dwindling and knows it; the Hatching Pools have sent word twice and been refused.",
@@ -9436,7 +9622,7 @@
         "tolls": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": []
       },
@@ -9806,9 +9992,9 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A Flu-emptied hamlet that outsiders — Dunmer refugees from the Red Year, four generations back — moved into because they did not know the taboo.",
+        "founding": "A Flu-emptied hamlet that outsiders — Dunmer refugees from the Red Year, seven or eight generations back — moved into because they did not know the taboo.",
         "siteAdvantages": "A drained sump with good soil, which is why it was worth settling twice.",
-        "occupantsMotive": "They stay because it is theirs now by four generations of occupation and nobody has ever come to say otherwise.",
+        "occupantsMotive": "They stay because it is theirs now by seven or eight generations of occupation and nobody has ever come to say otherwise.",
         "pressures": "Their neighbours have never once visited, and the children have started to notice.",
         "wouldChangeIf": "Would be accepted into the district the day one neighbouring village ate a meal here."
       },
@@ -10141,7 +10327,7 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": []
       },
@@ -10290,7 +10476,7 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ]
       },
       "culture": "argonian",
@@ -10578,7 +10764,7 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ]
       },
       "culture": "argonian",
@@ -10822,7 +11008,7 @@
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
-        "founding": "A large Kothringi-Argonian village that the Flu emptied in one season and nobody has since reoccupied.",
+        "founding": "A large Kothringi-Argonian village that the Flu emptied in one season and nobody has since reoccupied. Sixteen centuries on it is still empty, and the reason is not fear of the disease but the naming taboo: nobody living holds a name that could lawfully claim the roofs, and the north will not let ground be taken by anyone who cannot say whose it was.",
         "siteAdvantages": "Good high ground on the channel network — so good that its emptiness is the most conspicuous thing in the district.",
         "occupantsMotive": "Nothing occupies it but the taboo, which is now maintained by habit rather than fear.",
         "pressures": "Boat crews use its landing and will not sleep above the landing steps, a line they observe without discussing.",
@@ -11159,7 +11345,7 @@
         "visibleFrom": [],
         "reachedVia": [
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.tenmar-wall"
+          "place.dunmer-north.wolk-market"
         ],
         "travelServiceEdges": []
       },
@@ -12142,6 +12328,188 @@
       "workflow": "derived",
       "densityLayer": "destination",
       "entrance": "burrow",
+      "underwaterAccess": "none"
+    },
+    {
+      "id": "place.dunmer-north.wolk-market",
+      "name": "Wolk Market",
+      "aliases": [
+        "the northern hinge"
+      ],
+      "classification": {
+        "class": "settlement",
+        "family": "mixed-settlement",
+        "type": "inland-market-town",
+        "variant": null,
+        "magnitude": "M4"
+      },
+      "status": "active",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Ten-Maur-Wolk (the junction and the Imperial renaming; the town is ours)",
+        "uesp:Lore:Stormhold",
+        "uesp:Lore:Alten Corimont",
+        "world/sources/lore/extrapolation/settlement-register.md §3, §4"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "A market grew where the roads from Helstrom, Stormhold and Alten Corimont converge — the only three-way road hinge in the north. It takes its name from the ruin beside it, shortened, because nobody wanted to name a town after Boethiah and nobody could avoid the landmark either.",
+        "siteAdvantages": "Firm ground at the convergence, above the flooding that closes the roads either side of it for two months a year, with spring water enough for a market but not enough to tempt anyone to build a port here.",
+        "occupantsMotive": "It exists to take a cut of everything moving between the interior, the border city and the smugglers' port, and to be the place where three sets of weights are argued into one.",
+        "pressures": "Prosperous, indefensible, and next door to a Daedric ruin it will not discuss; Stormhold's vicecanons want its market fees and Alten Corimont's brokers want its warehousing.",
+        "wouldChangeIf": "Would be fought over the week any of the three roads mattered militarily, and would have to build the fourth wall it has never had."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "fringe marsh",
+          "interior swamp"
+        ],
+        "landformClasses": [
+          "confluence",
+          "ford",
+          "land-bridge",
+          "any-firm-ground",
+          "flood-high"
+        ],
+        "waterRelation": "a road convergence on a spring, above the flood line",
+        "neighbourRelation": "the hinge of a district; several villages depend on it; the shunned ruin lies within sight to the east",
+        "hardConstraints": [
+          "a three-way road junction on firm ground",
+          "within sight of place.dunmer-north.ten-maur-wolk"
+        ],
+        "preferences": [
+          "a market square laid out in three wedges",
+          "three gate approaches and no fourth wall",
+          "warehousing on the Stormhold side"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.isthmus-029"
+        ]
+      },
+      "relations": {
+        "dependsOn": [
+          "place.dunmer-north.stormhold",
+          "place.pirate-freeholds.alten-corimont"
+        ],
+        "rivals": [
+          "place.dunmer-north.ten-maur-wolk"
+        ],
+        "supplies": [
+          "place.dunmer-north.hatching-pools",
+          "place.dunmer-north.riverwalk",
+          "place.hist-heartland.helstrom"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [
+          "place.dunmer-north.ten-maur-wolk"
+        ],
+        "reachedVia": [
+          "place.dunmer-north.the-pass-station"
+        ],
+        "travelServiceEdges": [
+          "boat:northern-trunk",
+          "road:northern-hinge",
+          "road:tenmar-helstrom"
+        ]
+      },
+      "culture": "argonian",
+      "ownerFaction": "faction.marsh-charter",
+      "occupants": [
+        "D1 townsfolk and brokers",
+        "D2 junction wardens",
+        "traders from three directions"
+      ],
+      "notableNpcSlots": [
+        "the market-warden who allocates pitches by road of origin",
+        "the Charter factor who keeps the three sets of weights",
+        "the girl who repaints the ruin's marker posts and denies it"
+      ],
+      "dangerTier": "D2",
+      "approachDanger": "D2",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social",
+        "fastTransit"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "trade",
+          "services",
+          "rumour",
+          "contracts",
+          "faction access"
+        ],
+        "valueTier": "tier-3"
+      },
+      "vibe": {
+        "silhouette": "A square town with three gates and no fourth wall, its market square laid out in three wedges, and a black ruin standing clear of the trees past the eastern gate.",
+        "palette": "Dust ochre, awning colours from three different regions, and one hard black note beyond the eastern gate.",
+        "materials": "Mud-brick and reed, with an interior-style uxith on the west side and Stormhold terrace stone at the north gate — three building habits meeting and not blending.",
+        "signatureFeature": "The three wedges: goods from each road are sold in their own third of the square, and mixing them is a fine that the market-warden enjoys levying.",
+        "condition": "Well kept, expanding westward, entirely unfortified.",
+        "mood": "Cosmopolitan by northern standards, superstitious about one direction only, sharp about weights.",
+        "approach": "All three roads run straight at it and the market bell carries further than the roofs do; the ruin appears first, and the town second, which everyone finds funny except the town.",
+        "senses": "Three dialects; guar and porters; a market bell at each of three gates, rung out of step on purpose."
+      },
+      "assetPlan": [
+        "mud-mother-grove",
+        "bamboo-hut",
+        "vanilla-farmhouse",
+        "market-tents",
+        "landmark-civic",
+        "dunmer-telvanni",
+        "clutter"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "the northern road hinge: a three-way market where a courier line can be picked up or lost",
+          "a Marsh Charter factor with authority over weights and therefore over disputes"
+        ],
+        "tierOwnership": "tier-2 shared"
+      },
+      "rumourPoolKey": "rumour.northern-hinge",
+      "deedCounterKeys": [
+        "deed.wolk-market.traded",
+        "deed.wolk-market.dispute-settled"
+      ],
+      "sockets": {
+        "scene": [
+          "the-three-wedges",
+          "the-eastern-gate-at-dusk"
+        ],
+        "evidence": [
+          "the-pitch-allocation",
+          "the-three-sets-of-weights"
+        ],
+        "station": [
+          "market-warden",
+          "charter-factor",
+          "broker"
+        ],
+        "marks": [
+          "the-repainting-hand"
+        ]
+      },
+      "localStateVariants": [
+        "market-day",
+        "closed-road (one wedge empty, the other two doubled)"
+      ],
+      "complexityBudget": "standard",
+      "importanceTier": 1,
+      "workflow": "derived",
+      "densityLayer": "landmark",
+      "entrance": "gate",
       "underwaterAccess": "none"
     },
     {
