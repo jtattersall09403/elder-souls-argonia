@@ -247,9 +247,29 @@ def pool_sources(pool: str, vault: Path) -> PoolSources:
     if pool == "tropical":
         return PoolSources(meshes=DirSource(tropical),
                            textures=[DirSource(tropical), vanilla_tex])
-    if pool == "xanmeer":
-        root = vault / "skyrim-source/mod-sources/xanmeer-tileset-181193/extracted"
-        return PoolSources(meshes=DirSource(root), textures=[DirSource(root), vanilla_tex])
+    # Plain extracted-directory pools: one line each, because every mod sourced
+    # from Nexus lands the same way (archive -> `<slug>-<id>/extracted`, BSAs
+    # unpacked in place). Keep this table in step with `POOLS` in
+    # `worldgen/asset_registry.py` — that module is the naming authority.
+    dir_pools = {
+        "xanmeer": "xanmeer-tileset-181193",
+        "mudmother": "mud-mother-grove-146557",
+        "ferries": "skyrim-ferries-109843",
+        "rowboats": "rowboats-of-skyrim-35341",
+        "ayleidcc": "cc-ayleid-ruin-resources-83999",
+        "xalfek": "xalfek-55595",
+        "darkwater": "darkwater-den-52630",
+    }
+    if pool in dir_pools:
+        root = vault / "skyrim-source/mod-sources" / dir_pools[pool] / "extracted"
+        # Every pool's extracted root must be a Bethesda `Data` root — i.e.
+        # `meshes/` and `textures/` as SIBLINGS. Mud Mother Grove ships its
+        # own `Data/` wrapper; that wrapper is flattened at unpack time rather
+        # than special-cased here, because the Blender importer resolves a
+        # NIF's texture paths relative to the folder above `meshes/`, so a
+        # nested layout silently produced untextured slabs.
+        source = DirSource(root)
+        return PoolSources(meshes=source, textures=[source, vanilla_tex])
     raise KeyError(f"unknown asset pool: {pool}")
 
 
@@ -559,6 +579,12 @@ def build(kit_id: str, vault: Path) -> dict:
     summary["alphaModes"] = set_alpha_modes(output_glb, summary)
     manifest_path = output_glb.with_suffix(".kit.json")
     manifest_path.write_text(json.dumps(summary, indent=1) + "\n")
+    # Post-pass: mould tree collision to the real wood geometry (oriented
+    # capsule sets, collisionFrame pivot-yup-v3). Runs on the finished GLB, so
+    # it lives outside Blender; see pipeline/trunk_solids.py.
+    from . import trunk_solids
+    trunk_solids.rewrite(manifest_path)
+    summary = json.loads(manifest_path.read_text())
     total_mb = output_glb.stat().st_size / 1e6
     print(f"[kit] {kit_id}: {len(summary['assets'])} assets -> {output_glb.name} "
           f"({total_mb:.1f} MB), manifest {manifest_path.name}")

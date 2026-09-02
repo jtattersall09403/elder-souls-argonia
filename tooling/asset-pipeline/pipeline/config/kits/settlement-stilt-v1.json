@@ -1,0 +1,91 @@
+{
+ "id": "settlement-stilt-v1",
+ "description": "Murkmire reed/stilt building culture — the BM&V passerelles walkway system (curving, climbing, branching), stilt house shells, the vanilla plank/thatch shack kit with its broken variants, waterside work props and poled rafts. Only plank_ferry_swamp_01/03 and rowboat_ferry_swamp_01 carry real hull geometry in the Skyrim Ferries pool; swamp_02/04/05/06 are editor markers and are excluded.",
+ "culture": "argonian-stilt",
+ "output": "tooling/asset-pipeline/output/kits/settlement-stilt-v1.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "assets": [
+  {
+   "asset": "bmv:architecture/stilthouse/stilthouseext"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64i01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl512h64i01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passend01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passjunctd01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passjuncxd01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h256ldd01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h0ldi01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/kiosque/kiosk01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/kiosque/kioskbarrierei01"
+  },
+  {
+   "asset": "vanilla:architecture/shackkit/shackwalll01"
+  },
+  {
+   "asset": "vanilla:architecture/shackkit/shackwallr01"
+  },
+  {
+   "asset": "vanilla:architecture/shackkit/shackroofmid01"
+  },
+  {
+   "asset": "vanilla:architecture/shackkit/shackroofcorner01"
+  },
+  {
+   "asset": "vanilla:architecture/shackkit/shackframelmid01"
+  },
+  {
+   "asset": "vanilla:architecture/shackkit/shackframelend01"
+  },
+  {
+   "asset": "vanilla:architecture/shackkit/shackbrokewall01"
+  },
+  {
+   "asset": "vanilla:architecture/shackkit/shackbrokepole01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/fishracksmall"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns02"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/histtree"
+  },
+  {
+   "asset": "ferries:yamadori/ferries/plank_ferry_swamp_03"
+  },
+  {
+   "asset": "ferries:yamadori/ferries/rowboat_ferry_swamp_01"
+  }
+ ]
+}

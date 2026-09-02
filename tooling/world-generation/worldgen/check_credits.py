@@ -37,6 +37,12 @@ POOL_CREDIT_MARKERS = {
     "vanilla": "Skyrim vanilla assets",
     "tropical": "Tropical Skyrim",
     "xanmeer": "Argonian Xanmeer Tileset",
+    "mudmother": "Mud Mother Grove",
+    "ferries": "Skyrim Ferries",
+    "rowboats": "RowBoats and Oars of Skyrim",
+    "ayleidcc": "Creation Club Ayleid Ruin Resources",
+    "xalfek": "Xalfek — An Argonian Home",
+    "darkwater": "Darkwater Den",
 }
 
 

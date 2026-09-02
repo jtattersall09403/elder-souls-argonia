@@ -1,10 +1,16 @@
-"""Self-contained reader for Bethesda BSA v104 archives (Skyrim/Oldrim).
+"""Self-contained reader for Bethesda BSA v104/v105 archives (Skyrim/SSE).
 
 The community `BSAFileExtractor` mishandles archives that set the
 `embed-file-names` flag (0x100) -- notably `Skyrim - Textures.bsa` -- because it
 does not skip the per-file embedded path before the zlib stream. This reader
 implements the documented v104 layout directly so every vanilla archive
 (meshes / animations / textures) extracts with one code path.
+
+**v105 (Special Edition)** differs in exactly two places, both handled here:
+folder records are 24 bytes rather than 16 (the offset became 64-bit), and
+compressed blocks are LZ4 *frames* rather than zlib streams. Several sourced
+mods (Xalfek, Skyrim Ferries) ship SSE archives, so both versions are read by
+the same path rather than being an unpack-by-hand special case.
 
 Format reference: https://en.uesp.net/wiki/Skyrim_Mod:Archive_File_Format
 """
@@ -98,8 +104,10 @@ class BSAArchive:
          total_folder_name_len, total_file_name_len, _content) = struct.unpack(
             "<8I", raw[4:36]
         )
-        if version != 104:
+        if version not in (104, 105):
             raise ValueError(f"Unsupported BSA version {version} in {self.path}")
+        self._version = version
+        folder_record_size = 24 if version == 105 else 16
         self._default_compressed = bool(flags & _COMPRESSED)
         self._embed_names = bool(flags & _EMBED_NAMES)
         include_dir_names = bool(flags & 0x0001)
@@ -107,9 +115,12 @@ class BSAArchive:
         pos = offset
         folders: list[tuple[int, int]] = []  # (file_count, block_offset)
         for _ in range(folder_count):
-            _hash, count, block_offset = struct.unpack("<QII", raw[pos:pos + 16])
+            if folder_record_size == 24:
+                _hash, count, _pad, block_offset = struct.unpack("<QIIQ", raw[pos:pos + 24])
+            else:
+                _hash, count, block_offset = struct.unpack("<QII", raw[pos:pos + 16])
             folders.append((count, block_offset - total_file_name_len))
-            pos += 16
+            pos += folder_record_size
 
         # File-record blocks, each optionally prefixed with a folder bzstring.
         ordered: list[tuple[str, _Record]] = []
@@ -128,7 +139,7 @@ class BSAArchive:
 
         # Flat file-name block, one null-terminated basename per record in order.
         name_block = raw[self._name_block_start(raw, offset, folder_count, folders,
-                                                include_dir_names):]
+                                                include_dir_names, folder_record_size):]
         names = name_block.split(b"\x00", file_count)
         for (folder_name, record), basename in zip(ordered, names):
             full = f"{folder_name}\\{basename.decode('latin1')}" if folder_name else basename.decode("latin1")
@@ -136,9 +147,10 @@ class BSAArchive:
 
     @staticmethod
     def _name_block_start(raw: bytes, offset: int, folder_count: int,
-                          folders: list[tuple[int, int]], include_dir_names: bool) -> int:
+                          folders: list[tuple[int, int]], include_dir_names: bool,
+                          folder_record_size: int = 16) -> int:
         # The file-name block follows the last file-record block.
-        end = offset + folder_count * 16
+        end = offset + folder_count * folder_record_size
         for count, block_offset in folders:
             block_end = block_offset
             if include_dir_names:
@@ -156,7 +168,12 @@ class BSAArchive:
             block = block[1 + name_len:]
         if record.compressed(self._default_compressed):
             (original_size,) = struct.unpack("<I", block[:4])
-            data = zlib.decompress(block[4:])
+            if getattr(self, "_version", 104) == 105:
+                import lz4.frame  # optional dependency, only SSE archives need it
+
+                data = lz4.frame.decompress(block[4:])
+            else:
+                data = zlib.decompress(block[4:])
             if len(data) != original_size:
                 raise ValueError("BSA decompressed size mismatch")
             return data

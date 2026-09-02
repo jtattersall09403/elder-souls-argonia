@@ -22,7 +22,23 @@ extracted assets, audition builds, or rendered evidence.
 ```bash
 python3 -m pipeline.build    --character dunmer-combat   # -> output/character-dunmer-combat.glb
 python3 -m pipeline.validate --character dunmer-combat   # structural GLB check
+
+python3 -m pipeline.build_kit --kit settlement-mud-v1    # -> output/kits/<kit>.glb
+python3 -m pipeline.vet_kit   output/kits/settlement-mud-v1.kit.json
 ```
+
+Python deps beyond the stdlib: `lz4` (SSE BSA v105 archives — several sourced
+mods ship them). Install with `pip install lz4` if `pipeline.bsa` complains.
+
+**Adding a sourced mod as an asset pool** (the settlement kits are the worked
+example): download to the vault as `mod-sources/<slug>-<nexusId>/`, unpack the
+archive into `extracted/`, unpack any BSAs *in place* so the result is a
+Bethesda data root (`meshes/` and `textures/` as siblings — a nested `Data/`
+wrapper must be flattened, or Blender cannot resolve the NIFs' texture paths
+and every material exports untextured); add a `Pool` row to
+`worldgen/asset_registry.py`, a `dir_pools` line to `pipeline/build_kit.py`, a
+marker to `worldgen/check_credits.py`, and the credit line to the root README
+in the same change.
 
 Animation changes are not complete at GLB export. Before selecting, trimming,
 retiming, or conditioning a clip, follow the production integration playbook at

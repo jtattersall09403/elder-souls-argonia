@@ -128,6 +128,103 @@
    "withLodVariant": 0,
    "withDimensions": 77,
    "observedPlaced": 0
+  },
+  "mudmother": {
+   "label": "Mud Mother Grove \u2014 An Argonian Mud Hut",
+   "source": "https://www.nexusmods.com/skyrimspecialedition/mods/146557",
+   "credit": "Mud Mother Grove \u2014 An Argonian Mud Hut (Nexus SSE 146557, GeminiVoid)",
+   "meshesSeen": 62,
+   "registered": 62,
+   "skippedNonContent": {},
+   "categories": {
+    "misc": 57,
+    "furniture": 3,
+    "container": 2
+   },
+   "withLodVariant": 0,
+   "withDimensions": 57,
+   "observedPlaced": 0
+  },
+  "ferries": {
+   "label": "Skyrim Ferries \u2014 plank ferries, rafts and poled craft",
+   "source": "https://www.nexusmods.com/skyrimspecialedition/mods/109843",
+   "credit": "Skyrim Ferries (Nexus SSE 109843, Mharlek1; ferry meshes by yamadori)",
+   "meshesSeen": 89,
+   "registered": 89,
+   "skippedNonContent": {},
+   "categories": {
+    "misc": 89
+   },
+   "withLodVariant": 0,
+   "withDimensions": 0,
+   "observedPlaced": 0
+  },
+  "rowboats": {
+   "label": "RowBoats and Oars of Skyrim",
+   "source": "https://www.nexusmods.com/skyrimspecialedition/mods/35341",
+   "credit": "RowBoats and Oars of Skyrim (Nexus SSE 35341, PraedythXVI)",
+   "meshesSeen": 3,
+   "registered": 3,
+   "skippedNonContent": {},
+   "categories": {
+    "dungeon-kit": 3
+   },
+   "withLodVariant": 0,
+   "withDimensions": 0,
+   "observedPlaced": 1
+  },
+  "ayleidcc": {
+   "label": "Creation Club Ayleid Ruin Resources",
+   "source": "https://www.nexusmods.com/skyrimspecialedition/mods/83999",
+   "credit": "Creation Club Ayleid Ruin Resources (Nexus SSE 83999, SarthesArai)",
+   "meshesSeen": 68,
+   "registered": 68,
+   "skippedNonContent": {},
+   "categories": {
+    "ruin": 68
+   },
+   "withLodVariant": 0,
+   "withDimensions": 0,
+   "observedPlaced": 0
+  },
+  "xalfek": {
+   "label": "Xalfek \u2014 An Argonian Home",
+   "source": "https://www.nexusmods.com/skyrimspecialedition/mods/55595",
+   "credit": "Xalfek \u2014 An Argonian Home (Nexus SSE 55595, DexMods), bundling many credited modder resources",
+   "meshesSeen": 72,
+   "registered": 72,
+   "skippedNonContent": {},
+   "categories": {
+    "misc": 64,
+    "clutter": 7,
+    "fungus": 1
+   },
+   "withLodVariant": 0,
+   "withDimensions": 0,
+   "observedPlaced": 0
+  },
+  "darkwater": {
+   "label": "Darkwater Den \u2014 Argonian themed home",
+   "source": "https://www.nexusmods.com/skyrim/mods/52630",
+   "credit": "Darkwater Den (Nexus classic 52630, Elianora), bundling many credited modder resources",
+   "meshesSeen": 124,
+   "registered": 123,
+   "skippedNonContent": {
+    "water": 1
+   },
+   "categories": {
+    "misc": 75,
+    "clutter": 24,
+    "architecture": 8,
+    "furniture": 7,
+    "armour": 3,
+    "tree": 3,
+    "plant": 2,
+    "shrub": 1
+   },
+   "withLodVariant": 0,
+   "withDimensions": 0,
+   "observedPlaced": 3
   }
  }
 }

@@ -117,6 +117,31 @@ asset registry.
 - **Black Marsh & Valenwood** (https://www.moddb.com/mods/black-marsh-valenwood;
   itself bundling many credited modder resources — see its page) — ground
   textures in the `bmv-v1` terrain material set; mesh pool for later phases.
+- **Mud Mother Grove — An Argonian Mud Hut** (Nexus SSE mod 146557,
+  GeminiVoid, v1.5.1) — the Shadowfen mud/wattle building culture: round mud
+  hut shell and thatch roofing, round deck, woven furniture and fences, tents,
+  carapace oven, fish rack, painted pottery, totem, bone chime, Sithis shrine
+  and **the Hist tree** (`settlement-mud-v1` / `settlement-stilt-v1` kits,
+  registry pool `mudmother`).
+- **Skyrim Ferries — Free movement 1 button boat water travel** (Nexus SSE mod
+  109843, Mharlek1; ferry meshes by yamadori, v1.4.1) — poled plank rafts and
+  small ferry craft, the first keel-less hulls in the province
+  (`plank_ferry_swamp_*`, `rowboat_ferry_swamp_01`; pool `ferries`). Meshes
+  only — none of the mod's scripts are used.
+- **RowBoats and Oars of Skyrim** (Nexus SSE mod 35341, PraedythXVI, Final) —
+  rowboat and oar for the Imperial/foreign fringe (`settlement-imperial-v1`;
+  pool `rowboats`).
+- **Creation Club Ayleid Ruin Resources** (Nexus SSE mod 83999, SarthesArai,
+  v1.0) — 68 Ayleid ruin meshes catalogued for the Barsaebic ruin layer
+  (pool `ayleidcc`; interior modules only — see the settlement asset
+  inventory).
+- **Xalfek — An Argonian Home** (Nexus SSE mod 55595, DexMods, v1.0; itself
+  bundling many credited modder resources — see its page) — Argonian interior
+  props and furniture, catalogued in the asset registry (pool `xalfek`).
+- **Darkwater Den — Argonian themed home** (Nexus classic Skyrim mod 52630,
+  Elianora, v1.2; itself bundling many credited modder resources — see its
+  page) — organic Argonian interior composition and clutter, catalogued in the
+  asset registry (pool `darkwater`).
 - **WaterThreeJS** (https://github.com/achrefelouafi/WaterThreeJS, MIT,
   © achrefelouafi) — Gerstner wave model + CPU fixed-point surface sampler,
   shore/contact foam, underwater fog/god-ray shading and the scene-RT frame

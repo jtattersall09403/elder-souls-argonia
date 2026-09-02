@@ -123,6 +123,59 @@ POOLS: tuple[Pool, ...] = (
             "XanmeerResources.esp",
         ],
     ),
+    # --- Phase 11 item 6b settlement sourcing (decision 0041) ----------------
+    # Six pools downloaded 2026-09-02 to close the settlement-inventory gaps.
+    # Marsh-Rest (Nexus classic 50111) was downloaded and deliberately NOT
+    # registered: it is an ESP-only player home built entirely from vanilla
+    # assets, so it contributes no meshes — see the inventory's sourcing log.
+    Pool(
+        id="mudmother",
+        label="Mud Mother Grove — An Argonian Mud Hut",
+        source="https://www.nexusmods.com/skyrimspecialedition/mods/146557",
+        credit="Mud Mother Grove — An Argonian Mud Hut (Nexus SSE 146557, GeminiVoid)",
+        directory="{vault}/skyrim-source/mod-sources/mud-mother-grove-146557/extracted",
+        plugins=[
+            "{vault}/skyrim-source/mod-sources/mud-mother-grove-146557/extracted/"
+            "ArgonianLakeHouse.esl",
+        ],
+    ),
+    Pool(
+        id="ferries",
+        label="Skyrim Ferries — plank ferries, rafts and poled craft",
+        source="https://www.nexusmods.com/skyrimspecialedition/mods/109843",
+        credit="Skyrim Ferries (Nexus SSE 109843, Mharlek1; ferry meshes by yamadori)",
+        directory="{vault}/skyrim-source/mod-sources/skyrim-ferries-109843/extracted",
+    ),
+    Pool(
+        id="rowboats",
+        label="RowBoats and Oars of Skyrim",
+        source="https://www.nexusmods.com/skyrimspecialedition/mods/35341",
+        credit="RowBoats and Oars of Skyrim (Nexus SSE 35341, PraedythXVI)",
+        directory="{vault}/skyrim-source/mod-sources/rowboats-of-skyrim-35341/extracted",
+    ),
+    Pool(
+        id="ayleidcc",
+        label="Creation Club Ayleid Ruin Resources",
+        source="https://www.nexusmods.com/skyrimspecialedition/mods/83999",
+        credit="Creation Club Ayleid Ruin Resources (Nexus SSE 83999, SarthesArai)",
+        directory="{vault}/skyrim-source/mod-sources/cc-ayleid-ruin-resources-83999/extracted",
+    ),
+    Pool(
+        id="xalfek",
+        label="Xalfek — An Argonian Home",
+        source="https://www.nexusmods.com/skyrimspecialedition/mods/55595",
+        credit="Xalfek — An Argonian Home (Nexus SSE 55595, DexMods), bundling many "
+               "credited modder resources",
+        directory="{vault}/skyrim-source/mod-sources/xalfek-55595/extracted",
+    ),
+    Pool(
+        id="darkwater",
+        label="Darkwater Den — Argonian themed home",
+        source="https://www.nexusmods.com/skyrim/mods/52630",
+        credit="Darkwater Den (Nexus classic 52630, Elianora), bundling many credited "
+               "modder resources",
+        directory="{vault}/skyrim-source/mod-sources/darkwater-den-52630/extracted",
+    ),
 )
 
 

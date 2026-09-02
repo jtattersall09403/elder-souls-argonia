@@ -1,0 +1,46 @@
+{
+ "id": "settlement-imperial-v1",
+ "description": "Imperial / foreign stone-timber fringe — farmhouse shells, the Solitude dock family and keeled small craft. The foreign layer of the province: west/north-west fringe, Topal ports and road corridors only.",
+ "culture": "imperial",
+ "output": "tooling/asset-pipeline/output/kits/settlement-imperial-v1.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "assets": [
+  {
+   "asset": "vanilla:architecture/farmhouse/farmhouse01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/farmhouse02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/farmhouse01walkway"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockstrsol01"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockcorsol01"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockstr4way01"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockstepsdown01"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockcolstr01"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockropestr01"
+  },
+  {
+   "asset": "rowboats:dungeons/ship/shiprowboat01"
+  },
+  {
+   "asset": "rowboats:dungeons/clutter/shipoar01"
+  }
+ ]
+}

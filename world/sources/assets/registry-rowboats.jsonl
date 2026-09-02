@@ -1,0 +1,3 @@
+{"id":"rowboats:dungeons/clutter/shipoar01","pool":"rowboats","path":"meshes/dungeons/clutter/shipoar01.nif","category":"dungeon-kit","confidence":0.8,"biomes":["cave"]}
+{"id":"rowboats:dungeons/ship/shiprowboat01","pool":"rowboats","path":"meshes/dungeons/ship/shiprowboat01.nif","category":"dungeon-kit","confidence":0.8,"biomes":["cave"],"observedIn":["vanilla-tamriel"],"observedUses":53,"observedScaleP50":1.0}
+{"id":"rowboats:dungeons/ship/shiprowboatanim01","pool":"rowboats","path":"meshes/dungeons/ship/shiprowboatanim01.nif","category":"dungeon-kit","confidence":0.8,"biomes":["cave"]}
