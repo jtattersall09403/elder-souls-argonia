@@ -587,6 +587,115 @@ its `why.founding` says why not; foreign work layers, never blends.
 - Capped detector classes are flagged in the digest — raise the cap before
   concluding scarcity.
 
+### Critique round OUTCOME (2026-09-02, verify/wrap agent)
+
+**Verdict: the round closes.** All five critics' mechanical findings are at
+zero or explained; every gate is green (`python -m worldgen.catalogue --check`,
+191 pytest, `node tooling/repo-standards/check.mjs`, `npm test`).
+
+**Headline numbers.** Before = commit `29c502b` (pre-repair); after = this
+round. Re-runnable with `python3 -m worldgen.critique_sample [dir]`.
+
+| check | before | after |
+|---|---|---|
+| live records (province) | 729 | **527** |
+| region-constant vibe fields (≥25 % identical) | 8 | **0** |
+| empty / missing vibe fields | 1026 | **0** |
+| visual-twin pairs (same type, ≥2 identical vibe axes) | 121 | **0** |
+| duplicate names | 14 | **0** |
+| empty names | 0 | 0 |
+| records missing any of the five strict fields | 729 | **0** |
+| distinct entrance types used | 1 | **14** (of 14) |
+| socket-less tier-0/1 records | 40 | **0** |
+| `discovery: sightline` share | 27 % | **18 %** |
+| sightline claims per km², worst zone | 21.7 (penal-south) | **3.4** (dunmer-north) |
+| non-`all-year` season records | 189 | 103 |
+
+The one number that moved the "wrong" way is *records with only `["current"]`
+eraLayers*: 86 → 304. That is a back-fill artefact, not a regression — before
+the round 729 records had no `eraLayers` field at all, so the 86 was measuring
+the few that did. 43 % of records now carry a pre-current layer.
+
+**Final totals.** 800 records: **527 live, 272 deferred, 1 cut**.
+
+| region | live | deferred | cut | budget | |
+|---|---|---|---|---|---|
+| dunmer-north | 138 | 0 | 1 | 138–169 | at floor |
+| hist-heartland | 111 | 0 | 0 | 94–130 | in band |
+| imperial-fringe | 121 | 0 | 0 | 119–147 | in band |
+| mercantile-coast | 56 | 84 | 0 | 45–56 | at ceiling |
+| naga-kur-deeps | 39 | 28 | 0 | 22–32 | **+7, see below** |
+| saxhleel-coast | 24 | 75 | 0 | 18–24 | at ceiling |
+| imperial-penal-south | 21 | 49 | 0 | 17–21 | at ceiling |
+| pirate-freeholds | 17 | 36 | 0 | 14–17 | at ceiling |
+| **province** | **527** | **272** | **1** | **467–596** | in envelope |
+
+**Work done this round, beyond the executors' passes.**
+
+1. `asset-aliases.json` authored (42 slugs → inventory family ids); the
+   validator's alias hook is live, so an `assetPlan` typo is now impossible.
+   Fixed `azure-tree` → `azura-tree` in three recipes and one record.
+2. **One JSON encoding.** The four executors had written the eight region files
+   with two different `ensure_ascii` settings, so any edit re-encoded every
+   em-dash and buried the real change. `worldgen.catalogue.dump_json` is now the
+   single writer.
+3. **Region rebalance.** Four zones were still over ceiling; 31 records deferred
+   (lowest-value fine-tempo fill, tier 2+, non-canon only) under a guard that
+   never takes a type below four live instances.
+4. **countBands re-derived** for all 236 poi types from actual live counts. The
+   old `test_poi_count_bands_sum_to_the_province_total` was retired as unsound
+   (236 types × ±1 slack aggregates to a ±236 envelope) and replaced by two
+   better checks: per-type "the band contains the live count", and **per-zone
+   record budgets in `test_catalogue.py`** — the coverage critique's actual
+   finding was a *distribution* problem the province total concealed.
+5. **One new record**, to bring dunmer-north to its floor:
+   `place.dunmer-north.let-upper-floor`, a `deniable-listening-post` — a
+   previously unspent type and the only honest Fourth-Era Thalmor form, since
+   canon records no Dominion presence inside Black Marsh while still crediting
+   them with inciting the Accession War.
+6. **Sweeps.** 1001 socket ids and 26 `localStateVariant` ids normalised to
+   dotted `<kind>.<place-slug>.<name>`; standard 2 green for the first time.
+   Three `supplies` relations re-pointed from the cut `tenmar-wall` to
+   `wolk-market` (they were about the town, not the ruin). Verified: 0 broken
+   relation targets, 0 `azure-tree`, 0 `darkwater`, ashroot-village's Hist
+   flower is red.
+7. **Strict flipped.** The five fields are in `REQUIRED_AT['derived']`; the
+   `STRICT_REQUIRED` mechanism is deleted and there is no strict mode to forget.
+8. Catalogue README gained the per-region **naming register + signature asset
+   pool** table the variety critique asked for.
+
+**No coastal retype collision.** The west and south executors did *not* both
+over-fill the same under-band coastal types (`reef`, `fishing-bank`,
+`bird-colony`, `keepers-lodge`) — saxhleel took 3/2/1/1, mercantile took only 1
+bird-colony. The south executor's suggested extra coastal `keepers-lodge` was
+therefore **not authored**: keepers-lodge sits at 4 inside its 4–5 band, and
+mercantile-coast is already at its ceiling.
+
+**Still open after this round.**
+
+- **naga-kur-deeps at 39 vs a 22–32 ceiling** (1.2×, down from 1.8×). Taking it
+  to 32 would have driven six types under-band, so the residue goes to Part 3's
+  homeless-batch review. Recorded as an explicit exception in
+  `test_catalogue.py`, not hidden.
+- **Environment-side requests, still unapplied** (systems jobs, not catalogue
+  edits): (1) **naga-kur-deeps black water** — all deeps records are written on
+  canon's peat-stained black standing water with blue bioluminescence as the
+  only light, and need the zone's water params/palette set in the owning system;
+  (2) **Oliis Bay tidal amplitude** — the coastal records assume a working tide
+  the water system does not yet express.
+- **Scour-detector relaxation** (flood-high and friends were capped) — a small
+  tooling job, needed before Part 3 concludes anything about scarcity.
+- **`archon-thalmor-post` ID migration** stays a *wish*: place IDs are permanent,
+  so the misleading slug is documented rather than renamed. Same for
+  `place.naga-kur-deeps.drowning-narrows-tidal-gate`, whose record text is
+  correct on seasonal drawdown while its slug still says tide.
+- **BM&V extraction queue**: two records plan against `bmv-round-huts` and
+  `bmv-stilthouse`, both `have-unextracted`.
+- **Dressing tier**: 113 `district`/`dressing`-scope recipe types have no
+  catalogue records by design — they are Part 3 / compiler work, and their
+  countBands were deliberately left as per-settlement demand forecasts.
+- Nine `poi` types remain unspent; Part 3 may spend them (their bands are 0–1).
+
 ### Part 3 — MACRO PLOT: approximate locations for everything
 
 Match Part 1's demand against Part 0's supply of interesting ground, on the
