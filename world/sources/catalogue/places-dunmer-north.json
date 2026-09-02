@@ -274,7 +274,8 @@
         "fences-wattle",
         "landmark-civic",
         "clutter",
-        "signage-blank"
+        "signage-blank",
+        "dunmer-telvanni"
       ],
       "discovery": "road",
       "questHooks": {
@@ -579,7 +580,8 @@
         "stockade-scaffold",
         "fences-wattle",
         "landmark-civic",
-        "clutter"
+        "clutter",
+        "dunmer-telvanni"
       ],
       "discovery": "road",
       "questHooks": {
@@ -612,7 +614,7 @@
     },
     {
       "id": "place.dunmer-north.gandranen-library",
-      "name": "The Anachronistic Library",
+      "name": "Anachronistic Library",
       "aliases": [],
       "classification": {
         "class": "civic",
@@ -1051,7 +1053,7 @@
     },
     {
       "id": "place.dunmer-north.hatching-pools",
-      "name": "The Hatching Pools",
+      "name": "Hatching Pools",
       "aliases": [],
       "classification": {
         "class": "settlement",
@@ -1719,7 +1721,7 @@
       },
       "workflow": "derived",
       "id": "place.dunmer-north.loriasel-caverns",
-      "name": "The Singing Under-Water",
+      "name": "Sings-Under-Water",
       "classification": {
         "class": "ruin",
         "family": "ayleid",
@@ -2267,7 +2269,7 @@
     },
     {
       "id": "place.dunmer-north.murkwater-shadowscale-ground",
-      "name": "The Tempering Ground",
+      "name": "Murkwater Tempering Ground",
       "aliases": [],
       "classification": {
         "class": "sacred",
@@ -2825,7 +2827,8 @@
         "mud-mother-grove",
         "fences-wattle",
         "clutter",
-        "landmark-civic"
+        "landmark-civic",
+        "dunmer-telvanni"
       ],
       "discovery": "road",
       "questHooks": {
@@ -2857,7 +2860,7 @@
     },
     {
       "id": "place.dunmer-north.silyanorn-diggings",
-      "name": "The Silyanorn Diggings",
+      "name": "Silyanorn Diggings",
       "aliases": [],
       "classification": {
         "class": "works",
@@ -3313,7 +3316,8 @@
         "docks-piers",
         "fences-wattle",
         "clutter",
-        "argonian-lights"
+        "argonian-lights",
+        "dunmer-telvanni"
       ],
       "discovery": "road",
       "questHooks": {
@@ -3366,7 +3370,7 @@
     },
     {
       "id": "place.dunmer-north.stormhold-causeway",
-      "name": "The Bogmother Causeway",
+      "name": "Bogmother Causeway",
       "aliases": [],
       "classification": {
         "class": "transit",
@@ -3508,7 +3512,7 @@
     },
     {
       "id": "place.dunmer-north.tear-road-stage",
-      "name": "The Tear Road Stage",
+      "name": "Tear Road Stage",
       "aliases": [],
       "classification": {
         "class": "transit",
@@ -3624,7 +3628,8 @@
         "landmark-civic",
         "signage-blank",
         "market-tents",
-        "clutter"
+        "clutter",
+        "dunmer-telvanni"
       ],
       "discovery": "road",
       "questHooks": {
@@ -3964,7 +3969,7 @@
     },
     {
       "id": "place.dunmer-north.the-ash-holding",
-      "name": "The Ash Holding",
+      "name": "Ash Holding",
       "aliases": [],
       "classification": {
         "class": "settlement",
@@ -4120,7 +4125,7 @@
     },
     {
       "id": "place.dunmer-north.the-black-stage",
-      "name": "The Black Stage",
+      "name": "Black Stage",
       "aliases": [],
       "classification": {
         "class": "transit",
@@ -4265,7 +4270,7 @@
     },
     {
       "id": "place.dunmer-north.the-bone-stage-north",
-      "name": "The North Bone Stage",
+      "name": "Carries-Them-North",
       "aliases": [],
       "classification": {
         "class": "sacred",
@@ -4376,7 +4381,8 @@
         "mud-mother-grove",
         "market-tents",
         "totems-ritual",
-        "clutter"
+        "clutter",
+        "dunmer-telvanni"
       ],
       "discovery": "road",
       "questHooks": {
@@ -4410,7 +4416,7 @@
     },
     {
       "id": "place.dunmer-north.the-borrowed-tomb",
-      "name": "The Borrowed Tomb",
+      "name": "Borrowed Tomb",
       "aliases": [],
       "classification": {
         "class": "lone",
@@ -4518,7 +4524,8 @@
         "vanilla-farmhouse",
         "xanmeer-tileset",
         "clutter",
-        "argonian-lights"
+        "argonian-lights",
+        "dunmer-telvanni"
       ],
       "discovery": "none",
       "questHooks": {
@@ -4684,7 +4691,7 @@
     },
     {
       "id": "place.dunmer-north.the-causeway-hearth",
-      "name": "The Causeway Hearth",
+      "name": "Causeway Hearth",
       "aliases": [],
       "classification": {
         "class": "civic",
@@ -4827,7 +4834,7 @@
     },
     {
       "id": "place.dunmer-north.the-charge-pond",
-      "name": "The Charge Pond",
+      "name": "Charge Pond",
       "aliases": [],
       "classification": {
         "class": "lair",
@@ -4964,7 +4971,7 @@
     },
     {
       "id": "place.dunmer-north.the-charge-works",
-      "name": "The Charge Works",
+      "name": "Charge Works",
       "aliases": [],
       "classification": {
         "class": "works",
@@ -5105,7 +5112,7 @@
     },
     {
       "id": "place.dunmer-north.the-cold-holding",
-      "name": "The Cold Holding",
+      "name": "Cold Holding",
       "aliases": [],
       "classification": {
         "class": "settlement",
@@ -5249,7 +5256,7 @@
     },
     {
       "id": "place.dunmer-north.the-crystal-prospectors",
-      "name": "The Prospectors' Camp",
+      "name": "Prospectors' Camp",
       "aliases": [],
       "classification": {
         "class": "camp",
@@ -5509,7 +5516,8 @@
         "fences-wattle",
         "stockade-scaffold",
         "docks-piers",
-        "clutter"
+        "clutter",
+        "dunmer-telvanni"
       ],
       "discovery": "road",
       "questHooks": {
@@ -5541,7 +5549,7 @@
     },
     {
       "id": "place.dunmer-north.the-divers-landing",
-      "name": "The Divers' Landing",
+      "name": "Divers' Landing",
       "aliases": [],
       "classification": {
         "class": "works",
@@ -5827,7 +5835,7 @@
     },
     {
       "id": "place.dunmer-north.the-drover-camp",
-      "name": "The Drover Camp",
+      "name": "Drover Camp",
       "aliases": [],
       "classification": {
         "class": "camp",
@@ -5938,7 +5946,8 @@
         "stockade-scaffold",
         "totems-ritual",
         "clutter",
-        "fences-wattle"
+        "fences-wattle",
+        "dunmer-telvanni"
       ],
       "discovery": "rumour",
       "questHooks": {
@@ -6112,7 +6121,7 @@
     },
     {
       "id": "place.dunmer-north.the-field-edge-hearth",
-      "name": "The Field-Edge Hearth",
+      "name": "Field-Edge Hearth",
       "aliases": [],
       "classification": {
         "class": "civic",
@@ -6224,7 +6233,9 @@
         "vanilla-shackkit",
         "argonian-lights",
         "clutter",
-        "argonian-props"
+        "argonian-props",
+        "fences-wattle",
+        "dunmer-telvanni"
       ],
       "discovery": "road",
       "questHooks": {
@@ -6381,7 +6392,8 @@
         "mud-mother-grove",
         "market-tents",
         "landmark-civic",
-        "clutter"
+        "clutter",
+        "dunmer-telvanni"
       ],
       "discovery": "road",
       "questHooks": {
@@ -6414,7 +6426,7 @@
     },
     {
       "id": "place.dunmer-north.the-first-count",
-      "name": "The First Count",
+      "name": "First-Counted",
       "aliases": [],
       "classification": {
         "class": "sacred",
@@ -6659,7 +6671,8 @@
         "landmark-civic",
         "fences-wattle",
         "signage-blank",
-        "clutter"
+        "clutter",
+        "dunmer-telvanni"
       ],
       "discovery": "road",
       "questHooks": {
@@ -6840,7 +6853,7 @@
     },
     {
       "id": "place.dunmer-north.the-last-landing",
-      "name": "The Last Landing",
+      "name": "Last Landing",
       "aliases": [],
       "classification": {
         "class": "transit",
@@ -7241,7 +7254,8 @@
         "stockade-scaffold",
         "signage-blank",
         "market-tents",
-        "clutter"
+        "clutter",
+        "dunmer-telvanni"
       ],
       "discovery": "road",
       "questHooks": {
@@ -7273,7 +7287,7 @@
     },
     {
       "id": "place.dunmer-north.the-north-border-post",
-      "name": "The North Post",
+      "name": "North Post",
       "aliases": [],
       "classification": {
         "class": "martial",
@@ -7386,7 +7400,8 @@
         "stockade-scaffold",
         "mud-mother-grove",
         "landmark-civic",
-        "clutter"
+        "clutter",
+        "dunmer-telvanni"
       ],
       "discovery": "road",
       "questHooks": {
@@ -7557,7 +7572,7 @@
     },
     {
       "id": "place.dunmer-north.the-north-relay",
-      "name": "The North Relay",
+      "name": "North Relay",
       "aliases": [],
       "classification": {
         "class": "civic",
@@ -7842,7 +7857,7 @@
     },
     {
       "id": "place.dunmer-north.the-north-vista",
-      "name": "The North Vista",
+      "name": "North Vista",
       "aliases": [],
       "classification": {
         "class": "lone",
@@ -7946,7 +7961,8 @@
       "assetPlan": [
         "landmark-civic",
         "totems-ritual",
-        "clutter"
+        "clutter",
+        "dunmer-telvanni"
       ],
       "discovery": "none",
       "questHooks": {
@@ -7976,7 +7992,7 @@
     },
     {
       "id": "place.dunmer-north.the-northern-rest",
-      "name": "The Northern Rest",
+      "name": "Northern Rest",
       "aliases": [],
       "classification": {
         "class": "sacred",
@@ -8391,7 +8407,7 @@
     },
     {
       "id": "place.dunmer-north.the-pass-station",
-      "name": "The Pass Station",
+      "name": "Pass Station",
       "aliases": [],
       "classification": {
         "class": "transit",
@@ -8509,7 +8525,8 @@
         "vanilla-farmhouse",
         "landmark-civic",
         "signage-blank",
-        "clutter"
+        "clutter",
+        "dunmer-telvanni"
       ],
       "discovery": "road",
       "questHooks": {
@@ -8678,7 +8695,7 @@
     },
     {
       "id": "place.dunmer-north.the-permit-dig",
-      "name": "The Permit Dig",
+      "name": "Permit Dig",
       "aliases": [],
       "classification": {
         "class": "camp",
@@ -9100,7 +9117,9 @@
         "argonian-lights",
         "lights-general",
         "clutter",
-        "signage-blank"
+        "signage-blank",
+        "docks-piers",
+        "dunmer-telvanni"
       ],
       "discovery": "road",
       "questHooks": {
@@ -9272,7 +9291,7 @@
     },
     {
       "id": "place.dunmer-north.the-shoal-bank",
-      "name": "The Shoal Bank",
+      "name": "Shoal Bank",
       "aliases": [],
       "classification": {
         "class": "lair",
@@ -9380,7 +9399,8 @@
         "boats-keeled",
         "fishing-props",
         "docks-piers",
-        "clutter"
+        "clutter",
+        "dunmer-telvanni"
       ],
       "discovery": "rumour",
       "questHooks": {
@@ -10076,12 +10096,12 @@
         "senses": "A different language; ash-cakes cooking; a bell that is not an Argonian bell."
       },
       "assetPlan": [
-        "mud-mother-grove",
         "bamboo-hut",
         "vanilla-shackkit",
         "fences-wattle",
         "totems-ritual",
-        "clutter"
+        "clutter",
+        "dunmer-telvanni"
       ],
       "discovery": "rumour",
       "questHooks": {
@@ -10230,7 +10250,8 @@
         "submerged-blocks",
         "docks-piers",
         "clutter",
-        "market-tents"
+        "market-tents",
+        "dunmer-telvanni"
       ],
       "discovery": "sightline",
       "questHooks": {
@@ -10260,7 +10281,7 @@
     },
     {
       "id": "place.dunmer-north.the-terrace-watch",
-      "name": "The Terrace Watch",
+      "name": "Terrace Watch",
       "aliases": [],
       "classification": {
         "class": "martial",
@@ -10401,7 +10422,7 @@
     },
     {
       "id": "place.dunmer-north.the-thorn-bond",
-      "name": "The Thorn Bond",
+      "name": "Thorn Bond",
       "aliases": [],
       "classification": {
         "class": "works",
@@ -10520,7 +10541,8 @@
         "docks-piers",
         "bmv-fort",
         "clutter",
-        "signage-blank"
+        "signage-blank",
+        "dunmer-telvanni"
       ],
       "discovery": "road",
       "questHooks": {
@@ -10694,7 +10716,7 @@
     },
     {
       "id": "place.dunmer-north.the-tide-fair",
-      "name": "The Tide Fair",
+      "name": "Tide Fair",
       "aliases": [],
       "classification": {
         "class": "works",
@@ -10809,7 +10831,8 @@
         "landmark-civic",
         "clutter",
         "argonian-props",
-        "signage-blank"
+        "signage-blank",
+        "dunmer-telvanni"
       ],
       "discovery": "rumour",
       "questHooks": {
@@ -10841,7 +10864,7 @@
     },
     {
       "id": "place.dunmer-north.the-two-gate-bridge",
-      "name": "The Two-Gate Bridge",
+      "name": "Two-Gate Bridge",
       "aliases": [],
       "classification": {
         "class": "transit",
@@ -10954,7 +10977,8 @@
         "xanmeer-tileset",
         "landmark-civic",
         "signage-blank",
-        "clutter"
+        "clutter",
+        "dunmer-telvanni"
       ],
       "discovery": "road",
       "questHooks": {
@@ -11096,7 +11120,8 @@
         "vanilla-shackkit",
         "fences-wattle",
         "totems-ritual",
-        "clutter"
+        "clutter",
+        "submerged-blocks"
       ],
       "discovery": "sightline",
       "questHooks": {
@@ -11280,7 +11305,7 @@
     },
     {
       "id": "place.dunmer-north.the-wamasu-shrine",
-      "name": "The Shrine of Haynekhtnamet",
+      "name": "Shrine of Haynekhtnamet",
       "aliases": [],
       "classification": {
         "class": "sacred",
@@ -11416,7 +11441,7 @@
     },
     {
       "id": "place.dunmer-north.the-whispers-dig",
-      "name": "The Unpermitted Cut",
+      "name": "Unpermitted Cut",
       "aliases": [],
       "classification": {
         "class": "works",
@@ -11560,7 +11585,7 @@
     },
     {
       "id": "place.dunmer-north.the-white-pans",
-      "name": "The White Pans",
+      "name": "White Pans",
       "aliases": [],
       "classification": {
         "class": "works",
@@ -11669,7 +11694,8 @@
         "docks-piers",
         "fences-wattle",
         "stockade-scaffold",
-        "clutter"
+        "clutter",
+        "dunmer-telvanni"
       ],
       "discovery": "sightline",
       "questHooks": {
@@ -11701,7 +11727,7 @@
     },
     {
       "id": "place.dunmer-north.the-xanmeer-hold",
-      "name": "The Xanmeer Hold",
+      "name": "Xanmeer Hold",
       "aliases": [],
       "classification": {
         "class": "martial",
@@ -12039,7 +12065,7 @@
     },
     {
       "id": "place.dunmer-north.thorn-paddy-terraces",
-      "name": "The Thorn Terraces",
+      "name": "Thorn Terraces",
       "aliases": [],
       "classification": {
         "class": "works",
@@ -12154,7 +12180,8 @@
         "fences-wattle",
         "vanilla-farmhouse",
         "clutter",
-        "stockade-scaffold"
+        "stockade-scaffold",
+        "dunmer-telvanni"
       ],
       "discovery": "road",
       "questHooks": {
@@ -12186,7 +12213,7 @@
     },
     {
       "id": "place.dunmer-north.tunnel-rat-gallery",
-      "name": "The Rat Gallery",
+      "name": "Thorn Rat Gallery",
       "aliases": [],
       "classification": {
         "class": "works",

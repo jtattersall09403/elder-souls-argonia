@@ -5,7 +5,7 @@
   "places": [
     {
       "id": "place.imperial-fringe.ashen-tower",
-      "name": "The Ashen Tower",
+      "name": "Ashen Tower",
       "aliases": [],
       "classification": {
         "class": "martial",
@@ -144,7 +144,7 @@
     },
     {
       "id": "place.imperial-fringe.bog-iron-workings",
-      "name": "The Bog Iron Workings",
+      "name": "Bog Iron Workings",
       "aliases": [],
       "classification": {
         "class": "works",
@@ -275,7 +275,7 @@
     },
     {
       "id": "place.imperial-fringe.bonded-shed-of-the-onkobra",
-      "name": "The Bonded Shed",
+      "name": "Bonded Shed",
       "aliases": [],
       "classification": {
         "class": "works",
@@ -423,7 +423,7 @@
     },
     {
       "id": "place.imperial-fringe.bone-road-waystation",
-      "name": "The Bone Road Waystation",
+      "name": "Carries-Them-Home",
       "aliases": [],
       "classification": {
         "class": "sacred",
@@ -1289,7 +1289,7 @@
     },
     {
       "id": "place.imperial-fringe.collections-dig",
-      "name": "The Licensed Dig",
+      "name": "Licensed Dig",
       "aliases": [],
       "classification": {
         "class": "camp",
@@ -2266,7 +2266,7 @@
     },
     {
       "id": "place.imperial-fringe.gideon-rootworm-terminus",
-      "name": "The Wintertide Stop",
+      "name": "Wintertide Stop",
       "aliases": [],
       "classification": {
         "class": "transit",
@@ -2418,7 +2418,7 @@
     },
     {
       "id": "place.imperial-fringe.gideon-synod-outstation",
-      "name": "The Reckoning House",
+      "name": "Reckoning House",
       "aliases": [],
       "classification": {
         "class": "civic",
@@ -2726,7 +2726,7 @@
     },
     {
       "id": "place.imperial-fringe.glenbridge-sermon-xanmeer",
-      "name": "The Sermon Xanmeer",
+      "name": "Sermon Xanmeer",
       "aliases": [
         "the Turning Sermon"
       ],
@@ -2984,7 +2984,8 @@
         "vanilla-farmhouse",
         "fences-wattle",
         "landmark-civic",
-        "clutter"
+        "clutter",
+        "guar-pens"
       ],
       "discovery": "road",
       "questHooks": {
@@ -3439,7 +3440,7 @@
     },
     {
       "id": "place.imperial-fringe.keepers-lodge-of-the-lower-onkobra",
-      "name": "The Lower Lodge",
+      "name": "Keeps-The-Lower-Water",
       "aliases": [],
       "classification": {
         "class": "lone",
@@ -3582,7 +3583,7 @@
     },
     {
       "id": "place.imperial-fringe.long-causeway",
-      "name": "The Long Causeway",
+      "name": "Long Causeway",
       "aliases": [],
       "classification": {
         "class": "transit",
@@ -3861,7 +3862,7 @@
     },
     {
       "id": "place.imperial-fringe.lower-onkobra-paddies",
-      "name": "The Lower Paddies",
+      "name": "Lower Onkobra Paddies",
       "aliases": [],
       "classification": {
         "class": "works",
@@ -4146,7 +4147,7 @@
     },
     {
       "id": "place.imperial-fringe.mile-house-of-the-eagle",
-      "name": "The Mile House",
+      "name": "Mile House of the Eagle",
       "aliases": [],
       "classification": {
         "class": "transit",
@@ -4289,7 +4290,7 @@
     },
     {
       "id": "place.imperial-fringe.moonrack-calcinator",
-      "name": "The Moonrack",
+      "name": "Moonrack",
       "aliases": [],
       "classification": {
         "class": "works",
@@ -4536,7 +4537,8 @@
         "landmark-civic",
         "signage-blank",
         "market-tents",
-        "clutter"
+        "clutter",
+        "bmv-fort"
       ],
       "discovery": "road",
       "questHooks": {
@@ -4677,7 +4679,8 @@
         "landmark-civic",
         "fences-wattle",
         "clutter",
-        "market-tents"
+        "market-tents",
+        "docks-piers"
       ],
       "discovery": "road",
       "questHooks": {
@@ -4848,7 +4851,7 @@
     },
     {
       "id": "place.imperial-fringe.onkobra-clay-pits",
-      "name": "The Onkobra Clay Pits",
+      "name": "Onkobra Clay Pits",
       "aliases": [],
       "classification": {
         "class": "works",
@@ -4988,7 +4991,7 @@
     },
     {
       "id": "place.imperial-fringe.onkobra-ferry",
-      "name": "The Onkobra Ferry",
+      "name": "Onkobra Ferry",
       "aliases": [],
       "classification": {
         "class": "transit",
@@ -5278,7 +5281,7 @@
     },
     {
       "id": "place.imperial-fringe.open-door-at-the-saddle",
-      "name": "The Open Door",
+      "name": "Open-To-All",
       "aliases": [],
       "classification": {
         "class": "civic",
@@ -5446,7 +5449,7 @@
       },
       "workflow": "derived",
       "id": "place.imperial-fringe.orma-tactile-ruin",
-      "name": "The Hand-Read Halls",
+      "name": "Hand-Read Halls",
       "classification": {
         "class": "ruin",
         "family": "lost-peoples",
@@ -5943,7 +5946,8 @@
         "xanmeer-tileset",
         "landmark-civic",
         "signage-blank",
-        "clutter"
+        "clutter",
+        "passerelles-walkway"
       ],
       "discovery": "road",
       "questHooks": {
@@ -6082,7 +6086,8 @@
         "totems-ritual",
         "argonian-props",
         "signage-blank",
-        "clutter"
+        "clutter",
+        "stockade-scaffold"
       ],
       "discovery": "none",
       "questHooks": {
@@ -6260,7 +6265,7 @@
     },
     {
       "id": "place.imperial-fringe.saddle-fair",
-      "name": "The Saddle Fair",
+      "name": "Saddle Fair",
       "aliases": [],
       "classification": {
         "class": "works",
@@ -6374,7 +6379,8 @@
         "landmark-civic",
         "clutter",
         "argonian-props",
-        "signage-blank"
+        "signage-blank",
+        "guar-pens"
       ],
       "discovery": "rumour",
       "questHooks": {
@@ -6547,7 +6553,7 @@
     },
     {
       "id": "place.imperial-fringe.silverhand-cairns",
-      "name": "The Silver Cairns",
+      "name": "Silver Cairns",
       "aliases": [],
       "classification": {
         "class": "sacred",
@@ -6838,7 +6844,7 @@
     },
     {
       "id": "place.imperial-fringe.slough-point-quarantine-shed",
-      "name": "The Waiting Shed",
+      "name": "Customs Waiting Shed",
       "aliases": [],
       "classification": {
         "class": "civic",
@@ -7434,7 +7440,7 @@
     },
     {
       "id": "place.imperial-fringe.the-art-and-ash-place",
-      "name": "The Art and Ash Place",
+      "name": "Makes-And-Burns",
       "aliases": [],
       "classification": {
         "class": "sacred",
@@ -8526,7 +8532,7 @@
     },
     {
       "id": "place.imperial-fringe.the-counted-dead",
-      "name": "The Counted Dead",
+      "name": "Counts-The-Dead",
       "aliases": [],
       "classification": {
         "class": "sacred",
@@ -8670,7 +8676,7 @@
     },
     {
       "id": "place.imperial-fringe.the-drowned-furrow",
-      "name": "The Drowned Furrow",
+      "name": "Drowned Furrow",
       "aliases": [],
       "classification": {
         "class": "settlement",
@@ -8774,7 +8780,8 @@
         "vanilla-farmhouse",
         "fences-wattle",
         "landmark-civic",
-        "clutter"
+        "clutter",
+        "submerged-blocks"
       ],
       "discovery": "none",
       "questHooks": {
@@ -8913,7 +8920,8 @@
         "argonian-lights",
         "lights-general",
         "clutter",
-        "signage-blank"
+        "signage-blank",
+        "docks-piers"
       ],
       "discovery": "road",
       "questHooks": {
@@ -9220,7 +9228,7 @@
     },
     {
       "id": "place.imperial-fringe.the-embankment-that-drowned",
-      "name": "The Drowned Embankment",
+      "name": "Drowned Embankment",
       "aliases": [],
       "classification": {
         "class": "ruin",
@@ -9639,7 +9647,7 @@
     },
     {
       "id": "place.imperial-fringe.the-fig-poachers",
-      "name": "The Fig Camp",
+      "name": "Fig Camp",
       "aliases": [],
       "classification": {
         "class": "camp",
@@ -9911,7 +9919,7 @@
     },
     {
       "id": "place.imperial-fringe.the-hackwing-scarp",
-      "name": "The Hackwing Scarp",
+      "name": "Hackwing Scarp",
       "aliases": [],
       "classification": {
         "class": "lair",
@@ -10325,7 +10333,7 @@
     },
     {
       "id": "place.imperial-fringe.the-kept-terrace",
-      "name": "The Kept Terrace",
+      "name": "Keeps-The-Terrace",
       "aliases": [],
       "classification": {
         "class": "ruin",
@@ -10469,7 +10477,7 @@
     },
     {
       "id": "place.imperial-fringe.the-knapping-floor-of-the-high-scree",
-      "name": "The High Scree Floor",
+      "name": "High Scree Floor",
       "aliases": [],
       "classification": {
         "class": "works",
@@ -10605,7 +10613,7 @@
     },
     {
       "id": "place.imperial-fringe.the-lake-divers-yard",
-      "name": "The Divers' Yard",
+      "name": "Onkobra Divers' Yard",
       "aliases": [],
       "classification": {
         "class": "works",
@@ -10892,7 +10900,7 @@
     },
     {
       "id": "place.imperial-fringe.the-last-post",
-      "name": "The Last Post",
+      "name": "Last Post",
       "aliases": [],
       "classification": {
         "class": "martial",
@@ -11036,7 +11044,7 @@
     },
     {
       "id": "place.imperial-fringe.the-leaning-watch",
-      "name": "The Leaning Watch",
+      "name": "Leaning Watch",
       "aliases": [],
       "classification": {
         "class": "martial",
@@ -11170,7 +11178,7 @@
     },
     {
       "id": "place.imperial-fringe.the-ledge-of-tallies",
-      "name": "The Ledge of Tallies",
+      "name": "Ledge of Tallies",
       "aliases": [],
       "classification": {
         "class": "works",
@@ -11569,7 +11577,7 @@
     },
     {
       "id": "place.imperial-fringe.the-niben-crystal-workings",
-      "name": "The Niben Crystal Workings",
+      "name": "Niben Crystal Workings",
       "aliases": [],
       "classification": {
         "class": "works",
@@ -11708,7 +11716,7 @@
     },
     {
       "id": "place.imperial-fringe.the-old-office-house",
-      "name": "The Old Office House",
+      "name": "Old Office House",
       "aliases": [],
       "classification": {
         "class": "lone",
@@ -12397,7 +12405,7 @@
     },
     {
       "id": "place.imperial-fringe.the-road-nisswo-house",
-      "name": "The Roadside Rest",
+      "name": "Rests-The-Walkers",
       "aliases": [],
       "classification": {
         "class": "sacred",
@@ -12532,7 +12540,7 @@
     },
     {
       "id": "place.imperial-fringe.the-second-empire-locks",
-      "name": "The Old Locks",
+      "name": "Old Locks",
       "aliases": [],
       "classification": {
         "class": "ruin",
@@ -12812,7 +12820,7 @@
     },
     {
       "id": "place.imperial-fringe.the-sermon-road-camp",
-      "name": "The Sermon Road Camp",
+      "name": "Sermon Road Camp",
       "aliases": [],
       "classification": {
         "class": "camp",
@@ -13083,7 +13091,7 @@
     },
     {
       "id": "place.imperial-fringe.the-shut-door",
-      "name": "The Shut Door",
+      "name": "Door-That-Stayed-Shut",
       "aliases": [],
       "classification": {
         "class": "ruin",
@@ -14224,7 +14232,7 @@
     },
     {
       "id": "place.imperial-fringe.the-vellum-estate",
-      "name": "The Vellum Estate",
+      "name": "Vellum Estate",
       "aliases": [],
       "classification": {
         "class": "settlement",
@@ -14510,7 +14518,7 @@
     },
     {
       "id": "place.imperial-fringe.treasure-hunters-camp-of-the-white-hill",
-      "name": "The White Hill Camp",
+      "name": "White Hill Camp",
       "aliases": [],
       "classification": {
         "class": "camp",
@@ -14794,7 +14802,7 @@
     },
     {
       "id": "place.imperial-fringe.unfinished-culvert-line",
-      "name": "The Culvert Line",
+      "name": "Culvert Line",
       "aliases": [],
       "classification": {
         "class": "ruin",
@@ -14920,7 +14928,7 @@
     },
     {
       "id": "place.imperial-fringe.watch-of-the-weighed-cart",
-      "name": "The Weighed Cart",
+      "name": "Weighed Cart",
       "aliases": [],
       "classification": {
         "class": "transit",
@@ -15201,7 +15209,7 @@
     },
     {
       "id": "place.imperial-fringe.whispers-house-of-the-low-fen",
-      "name": "The Low Fen House",
+      "name": "Low Fen House",
       "aliases": [],
       "classification": {
         "class": "civic",
