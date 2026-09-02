@@ -2874,6 +2874,117 @@
       "workflow": "derived"
     },
     {
+      "aliases": [],
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [],
+        "travelServiceEdges": []
+      },
+      "occupants": [],
+      "notableNpcSlots": [],
+      "questHooks": {
+        "provisions": [],
+        "tierOwnership": null
+      },
+      "rumourPoolKey": null,
+      "deedCounterKeys": [
+        "deed.naga-kur-deeps.leviathan-bone-taken"
+      ],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "workflow": "derived",
+      "id": "place.naga-kur-deeps.leviathan-bone-field",
+      "name": "The Nine Ribs",
+      "classification": {
+        "class": "lair",
+        "family": "beast-lair",
+        "type": "leviathan-bone-field",
+        "variant": "hollowed",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "canon-named",
+      "sources": [
+        "uesp:Lore:Swamp Leviathan",
+        "world/sources/lore/topics/fauna-hazards.md (\"Their skeletons litter Deepmire\"; rats that hollow out a swamp leviathan's carcass)",
+        "world/sources/lore/regions/murkmire.md (swamp-leviathan skeletons)",
+        "uesp:Lore:Argonian (bone as a primary structural material)",
+        "world/sources/catalogue/type-recipes.json#leviathan-bone-field"
+      ],
+      "confidence": "CANON_FIXED",
+      "why": {
+        "founding": "Canon says swamp-leviathan skeletons litter Deepmire; this is the largest of them, and a bone-and-hide works grew up beside it because the material is free, enormous and already dead.",
+        "siteAdvantages": "Beached in shallow water at a channel bend, so the carcass could be worked from boats and the ribs stayed standing while the rest went.",
+        "occupantsMotive": "A handful of bone-cutters and one family living inside the rib cage, who regard the arrangement as ordinary.",
+        "pressures": "The cause of death is still legible in the skull, and it was not old age; whatever did it has not been seen since, which the neighbours find less reassuring than the cutters do.",
+        "wouldChangeIf": "The bone runs out in a generation, and the works has already started arguing about the second skeleton downstream."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "lake & standing water",
+          "mangrove forest",
+          "tidal delta"
+        ],
+        "hardConstraints": [
+          "shallow water a hull can work from",
+          "standing ribs that break the canopy line"
+        ],
+        "preferences": [
+          "landforms: any-shallow-marsh, river-mouth, islet, flood-high",
+          "water relation: beached or in shallow water",
+          "a bone-and-hide works 200-400 m off"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D3",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "climb",
+        "swim"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "materials",
+          "loot",
+          "knowledge"
+        ],
+        "valueTier": "medium"
+      },
+      "vibe": {
+        "silhouette": "ribs arching clear above the canopy \u2014 a landmark made of an animal, in a region that has almost no long sightlines",
+        "palette": "bleached bone, black water, hide brown, blue bioluminescence at the waterline",
+        "materials": "leviathan bone cut into beams and plate, lashed cane, hide, dredged block for the hearth",
+        "signatureFeature": "A house built inside the rib cage, with the ribs left uncut as its frame, so the dwelling is legibly a body.",
+        "condition": "worked, and being worked",
+        "mood": "matter-of-fact about something enormous",
+        "approach": "The ribs read from the water long before the works does.",
+        "senses": "saw-rasp on bone, hide-curing stink, water slapping the vertebrae"
+      },
+      "assetPlan": [
+        "stockade-scaffold",
+        "market-tents",
+        "fishing-props",
+        "clutter",
+        "argonian-props"
+      ],
+      "discovery": "sightline",
+      "complexityBudget": "standard",
+      "importanceTier": 2,
+      "singularClaim": "countBand [1,1]: skeletons of this size are canon-plural in Deepmire but only one is authored as a place; the rest are dressing."
+    },
+    {
       "id": "place.naga-kur-deeps.mass-grave-burn-memorial",
       "name": "The Burn Ground",
       "classification": {

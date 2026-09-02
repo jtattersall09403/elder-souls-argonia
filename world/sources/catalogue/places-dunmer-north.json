@@ -1105,6 +1105,121 @@
       "workflow": "derived"
     },
     {
+      "aliases": [],
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [],
+        "travelServiceEdges": []
+      },
+      "occupants": [],
+      "notableNpcSlots": [],
+      "questHooks": {
+        "provisions": [
+          "LOC",
+          "NPC",
+          "FAST"
+        ],
+        "tierOwnership": null
+      },
+      "rumourPoolKey": "rumour.dunmer-north.hissmir-trials",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "workflow": "derived",
+      "id": "place.dunmer-north.hissmir",
+      "name": "Hissmir",
+      "classification": {
+        "class": "settlement",
+        "family": "tribal-village",
+        "type": "pilgrim-trial-village",
+        "variant": "trials-open",
+        "magnitude": "M4"
+      },
+      "status": "active",
+      "provenance": "canon-named",
+      "sources": [
+        "uesp:Lore:Hissmir",
+        "uesp:Lore:Trials of the Burnished Scales",
+        "world/sources/lore/topics/hist-and-sap.md \u00a7(Hissmir is canon's answer for the Hist-less; Zaht stones of Hist amber)",
+        "world/sources/lore/topics/hist-placement.md \u00a73 (Hissmir: a Hist reachable through the Trials, uniquely open to the Hist-less and to non-Argonians)",
+        "world/sources/lore/extrapolation/settlement-register.md \u00a74 (M4: shops, services, Mages and Fighters Guild branches)",
+        "world/sources/catalogue/type-recipes.json#pilgrim-trial-village"
+      ],
+      "confidence": "CANON_FIXED",
+      "why": {
+        "founding": "Canon's one settlement that exists to receive comers it may not refuse: the Trials of the Burnished Scales reconnect the Hist-less, and anyone \u2014 lukiul, exile, even non-Argonian \u2014 may attempt them.",
+        "siteAdvantages": "Firm ground at the head of a pilgrim water route in Shadowfen, deliberately reachable: a place whose whole function fails if it is hard to find.",
+        "occupantsMotive": "Trial marshals and stewards who administer rather than defend; the Zaht stones of Hist amber do the defending, and the Hist no longer makes more of them.",
+        "pressures": "The lodging is built for a traffic the town no longer has \u2014 the Mages and Fighters Guild halls that housed pilgrims were dissolved in the Fourth Era and their dormitories now hold people who came for a trial and stayed.",
+        "wouldChangeIf": "If the An-Xileel ever declared the trials invalid, the province's only route back to a Hist would close, and every Hist-less settlement in the catalogue would have nowhere to send anyone."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "fringe marsh",
+          "interior swamp",
+          "firm lowland"
+        ],
+        "hardConstraints": [
+          "landing on a pilgrim water route",
+          "firm ground for a Hist and a trial ground"
+        ],
+        "preferences": [
+          "landforms: any-firm-ground, flood-high, spring-head",
+          "neighbours: terminus of a pilgrim route, deliberately reachable",
+          "a genuinely dangerous fen within 400 m to hold the trial ground"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D1",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "services",
+          "knowledge",
+          "faction",
+          "documents"
+        ],
+        "valueTier": "high"
+      },
+      "vibe": {
+        "silhouette": "a low town whose lodging blocks are three times the size of its houses, with a walled Hist behind them",
+        "palette": "amber Zaht stone, wet green-black canopy, pale mud render, faded foreign heraldry",
+        "materials": "mud-and-wattle over xanmeer footings, Hist-amber trial stones, imported guild-hall masonry gone green",
+        "signatureFeature": "Dead foreign guild insignia \u2014 Mages, Fighters \u2014 still over dormitory doors that now sleep Argonian pilgrims who failed the trial and never went home.",
+        "condition": "maintained, but visibly over-built for its population",
+        "mood": "patient, institutional, slightly exhausted",
+        "approach": "The trial ground is met first: waymarked, watched, and out in bad water.",
+        "senses": "chant counted in sets, sap-sweet air, boots drying in rows"
+      },
+      "assetPlan": [
+        "mud-mother-grove",
+        "xanmeer-tileset",
+        "vanilla-farmhouse",
+        "hist-tree",
+        "argonian-props",
+        "totems-ritual"
+      ],
+      "discovery": "rumour",
+      "complexityBudget": "standard",
+      "importanceTier": 1,
+      "singularClaim": "countBand [1,1]: canon names exactly one settlement whose institution is the Trials of the Burnished Scales."
+    },
+    {
       "id": "place.dunmer-north.hixinoag",
       "name": "Hixinoag",
       "aliases": [
@@ -1243,6 +1358,116 @@
       "complexityBudget": "standard",
       "importanceTier": 1,
       "workflow": "derived"
+    },
+    {
+      "aliases": [],
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [],
+        "travelServiceEdges": []
+      },
+      "occupants": [],
+      "notableNpcSlots": [],
+      "questHooks": {
+        "provisions": [],
+        "tierOwnership": null
+      },
+      "rumourPoolKey": null,
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "workflow": "derived",
+      "id": "place.dunmer-north.loriasel-caverns",
+      "name": "The Singing Under-Water",
+      "classification": {
+        "class": "ruin",
+        "family": "ayleid",
+        "type": "lamia-cavern",
+        "variant": null,
+        "magnitude": null
+      },
+      "status": "active",
+      "provenance": "canon-named",
+      "sources": [
+        "uesp:Lore:Loriasel",
+        "uesp:Lore:Lamia",
+        "world/sources/lore/topics/fauna-hazards.md (lamias infest the caverns beneath Loriasel)",
+        "world/sources/lore/topics/ecology-encounters-loot.md (Shadowfen: lamias in the Loriasel caverns)",
+        "world/sources/lore/topics/history-timeline.md (1E 198: Barsaebic Ayleids build Loriasel to the Ten Ancestors)",
+        "world/sources/catalogue/type-recipes.json#lamia-cavern"
+      ],
+      "confidence": "CANON_FIXED",
+      "why": {
+        "founding": "Canon puts lamias in the flooded caverns beneath Loriasel, the Barsaebic Ayleid site raised to the Ten Ancestors; the nest is older than anyone's memory of it and the ruin above is the reason the cavern was ever opened.",
+        "siteAdvantages": "A spring-fed system under Ayleid foundations, half-flooded, with one dry mouth and no other way in that a person can use.",
+        "occupantsMotive": "A nest. It sings, it is not a person, and it sorts what it takes by nothing at all.",
+        "pressures": "Antiquarians keep reaching the ruin above and keep hearing the sound come up through the floor; the count of who went down is kept at the mouth.",
+        "wouldChangeIf": "Clearing the nest would open the only Ayleid undercroft in Shadowfen that has never been robbed \u2014 which is exactly why nobody has cleared it."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "fringe marsh",
+          "upland hills",
+          "lake & standing water"
+        ],
+        "hardConstraints": [
+          "beneath or beside a Barsaebic Ayleid ruin",
+          "a flooded cavern system with a dry mouth"
+        ],
+        "preferences": [
+          "landforms: sinkhole, spring-head, ravine",
+          "water relation: flooded system, standing water throughout",
+          "the Ayleid site 200-300 m above it"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D5",
+      "traversalModes": [
+        "swim",
+        "dive",
+        "walk",
+        "combat"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 4,
+      "rewardProfile": {
+        "kinds": [
+          "loot",
+          "relics",
+          "knowledge"
+        ],
+        "valueTier": "high"
+      },
+      "vibe": {
+        "silhouette": "a black mouth under white Ayleid footings, with the water starting three steps in",
+        "palette": "Ayleid bone-white above, green-black water below, one cold blue mineral glow",
+        "materials": "Ayleid block, ship's timber and bone dragged in as nest material, standing water",
+        "signatureFeature": "The victims' effects are sorted \u2014 boots with boots, buckles with buckles \u2014 by something that does not understand what any of it was for.",
+        "condition": "undisturbed in the worst sense",
+        "mood": "a beautiful sound in a place with no reason to have one",
+        "approach": "You hear it in the ruin above before you find the stair.",
+        "senses": "singing carried up through stone, cold air off water, wet bone"
+      },
+      "assetPlan": [
+        "barsaebic-ayleid",
+        "submerged-blocks",
+        "submerged-ruins",
+        "clutter",
+        "lights-general"
+      ],
+      "discovery": "sightline",
+      "complexityBudget": "standard",
+      "importanceTier": 1,
+      "singularClaim": "countBand [1,1]: canon attaches lamia caverns to Loriasel specifically, and to nowhere else in the province."
     },
     {
       "id": "place.dunmer-north.mazzatun",

@@ -18,9 +18,9 @@
       "sources": [
         "uesp:Online:Alten Corimont",
         "uesp:Lore:All Flags Navy",
-        "world/sources/lore/extrapolation/settlement-register.md §2 (Alten Corimont M4: captain of the port; smuggling, transit, salvage, the northern trunk; Hist: NONE)",
+        "world/sources/lore/extrapolation/settlement-register.md \u00a72 (Alten Corimont M4: captain of the port; smuggling, transit, salvage, the northern trunk; Hist: NONE)",
         "world/sources/anchors/settlement-anchors.json#alten-corimont",
-        "docs/world/92-demographics.md §82 (Stormhold/northern zone: 75% Argonian, 22% Dunmer, 7% Nord)",
+        "docs/world/92-demographics.md \u00a782 (Stormhold/northern zone: 75% Argonian, 22% Dunmer, 7% Nord)",
         "world/sources/catalogue/type-recipes.json#neutral-free-port",
         "lore: Lore:Alten Corimont; Lore:All Flags Navy"
       ],
@@ -29,7 +29,7 @@
         "founding": "A river port ESE of the Hatching Pools that grew into a small town by being institutionally neutral about cargo: it sits on the northern trunk between Stormhold and Thorn, on water deep enough for a laden hull and far enough from any customs regime that both of them use it.",
         "siteAdvantages": "The last reach of navigable river below the northern rim, with an oxbow that makes a natural basin, firm banks for warehousing and a rim road behind it that crosses to Morrowind without passing a post.",
         "occupantsMotive": "A captain of the port whose only law is a nailed-up price list, freeholder crews with no tribe and no tree, Dunmer factors from the Morrowind trade and Nord hands off the northern hulls.",
-        "pressures": "There is no Hist here — the register is explicit — so nothing binds anyone to anything except the list; Stormhold's vicecanons would like the trade and cannot reach it; Rockpoint downriver still resents losing.",
+        "pressures": "There is no Hist here \u2014 the register is explicit \u2014 so nothing binds anyone to anything except the list; Stormhold's vicecanons would like the trade and cannot reach it; Rockpoint downriver still resents losing.",
         "wouldChangeIf": "If either Stormhold or Thorn made the port lawful, its whole reason to exist is gone; if the river silted below the oxbow, the town is a village in five years."
       },
       "sitingPrefs": {
@@ -42,7 +42,7 @@
           "navigable water for a laden hull",
           "sheltered basin off the legal lanes",
           "firm bank for warehousing",
-          "no Hist within the settlement — canon"
+          "no Hist within the settlement \u2014 canon"
         ],
         "preferences": [
           "an oxbow or confluence basin",
@@ -120,7 +120,7 @@
       },
       "vibe": {
         "silhouette": "a beached hull sitting upright among the houses, too big for the street it ends, and warehouse gables behind it",
-        "palette": "weathered grey timber everywhere, tar black, and cargo colours that do not belong together — Dunmer lacquer, Nord paint, Imperial red",
+        "palette": "weathered grey timber everywhere, tar black, and cargo colours that do not belong together \u2014 Dunmer lacquer, Nord paint, Imperial red",
         "materials": "the town is built out of other people's cargo: crate timber, ship planking, salvaged spars, with mud render only where nothing else was to hand",
         "signatureFeature": "a price list nailed up in public that names contraband by grade, and is therefore the most complete economic document in the province",
         "condition": "prosperous, ramshackle, entirely unplanned",
@@ -197,7 +197,7 @@
         "siteAdvantages": "Firm dry ground on the southbound road, a day's walk from the house.",
         "occupantsMotive": "Two or three carriers and their loads, resting.",
         "pressures": "Nobody else will camp within sight of them, which suits everyone.",
-        "wouldChangeIf": "If the road were rerouted, the stage moves with it — the site means nothing, the spacing means everything."
+        "wouldChangeIf": "If the road were rerouted, the stage moves with it \u2014 the site means nothing, the spacing means everything."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -276,13 +276,13 @@
       "sources": [
         "uesp:Lore:Argonian (the dead must be brought to the dirt)",
         "uesp:Lore:White Rose Prison",
-        "world/sources/lore/extrapolation/settlement-register.md §2",
+        "world/sources/lore/extrapolation/settlement-register.md \u00a72",
         "world/sources/catalogue/type-recipes.json#bone-repatriation-waystation",
         "lore: Lore:Argonian (bones brought to the dirt redeem a death away from the Hist); White Rose Prison"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Argonians who die away from a Hist can still return if their bones are brought to the dirt — and this zone has no Hist at all, so every death here starts a journey south.",
+        "founding": "Argonians who die away from a Hist can still return if their bones are brought to the dirt \u2014 and this zone has no Hist at all, so every death here starts a journey south.",
         "siteAdvantages": "On the trunk route at the point where the southbound road and the river both leave the freeholds.",
         "occupantsMotive": "Bone-carriers who take the dead of a town that cannot bury them, for a fee they are ashamed of.",
         "pressures": "The house is always full, because the freeholds produce more Hist-less dead than any comparable ground.",
@@ -488,7 +488,7 @@
       "provenance": "canon-named",
       "sources": [
         "uesp:Lore:Alten Corimont (neighbours)",
-        "world/sources/lore/extrapolation/settlement-register.md §4 (Chasecreek, NE of Alten Corimont: creek-mouth fishing hamlet and smuggler's lay-by)",
+        "world/sources/lore/extrapolation/settlement-register.md \u00a74 (Chasecreek, NE of Alten Corimont: creek-mouth fishing hamlet and smuggler's lay-by)",
         "world/sources/catalogue/type-recipes.json#flood-high-hamlet",
         "lore: region grammar: seasonal floodplain"
       ],
@@ -598,6 +598,107 @@
       "complexityBudget": "standard",
       "importanceTier": 1,
       "workflow": "derived"
+    },
+    {
+      "aliases": [],
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [],
+        "travelServiceEdges": []
+      },
+      "occupants": [],
+      "notableNpcSlots": [],
+      "questHooks": {
+        "provisions": [],
+        "tierOwnership": null
+      },
+      "rumourPoolKey": null,
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "workflow": "derived",
+      "id": "place.pirate-freeholds.collapsing-pinnacle-rim",
+      "name": "The Bad Stack",
+      "classification": {
+        "class": "lair",
+        "family": "hazard-ground",
+        "type": "collapsing-pinnacle",
+        "variant": null,
+        "magnitude": null
+      },
+      "status": "active",
+      "provenance": "geography-derived",
+      "sources": [
+        "world/sources/sites/candidate-sites.md (the rim carries the province's relief)",
+        "docs/world/00-core.md (acceptance rule: large logical surfaces climbable by default)",
+        "world/sources/catalogue/type-recipes.json#collapsing-pinnacle"
+      ],
+      "confidence": "medium",
+      "why": {
+        "founding": "A rotten limestone stack on the border rim beside the smugglers' traverse, which is the only reason anyone is ever near it.",
+        "siteAdvantages": "It shortcuts a day off the rim crossing for anyone willing to climb it, and it is visible from most of the high ground on this side.",
+        "occupantsMotive": "Nobody. A freehold courier's kit is still on the second ledge with the rope cut above it.",
+        "pressures": "The traverse below it is used weekly and the fan reaches the path; two of the four fixed lines have gone.",
+        "wouldChangeIf": "If it takes the traverse with it, the rim crossing moves twenty kilometres and the freeholds lose their quiet door into Morrowind."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "border mountains",
+          "upland hills"
+        ],
+        "hardConstraints": [
+          "standing rock above a used route",
+          "a debris fan reaching the path"
+        ],
+        "preferences": [
+          "landforms: summit, cliff-bench, ridge-end",
+          "water relation: none",
+          "a summit cache above the traverse"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D3",
+      "traversalModes": [
+        "climb",
+        "walk"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 4,
+      "rewardProfile": {
+        "kinds": [
+          "loot",
+          "vista",
+          "traversal"
+        ],
+        "valueTier": "medium"
+      },
+      "vibe": {
+        "silhouette": "a fissured stack above a switchback path, with a fan of scree fingering across the route",
+        "palette": "grey rim rock, orange lichen, weathered rope",
+        "materials": "rotten limestone, cut fixed lines, nothing built to last",
+        "signatureFeature": "Four rope anchors driven at four different dates, two of them hanging with nothing on the end.",
+        "condition": "failing on a schedule nobody has written down",
+        "mood": "a shortcut that has stopped being one",
+        "approach": "The scree on the path tells you before the stack does.",
+        "senses": "loose stone underfoot, wind through the fissures, rope slapping rock"
+      },
+      "assetPlan": [
+        "clutter",
+        "stockade-scaffold",
+        "totems-ritual"
+      ],
+      "discovery": "road",
+      "complexityBudget": "trivial",
+      "importanceTier": 3
     },
     {
       "id": "place.pirate-freeholds.corimont-bonded-store",
@@ -728,7 +829,7 @@
         "siteAdvantages": "In the free port's densest street, one door from the hull hall.",
         "occupantsMotive": "A house crew who buy debts and sell them on to the hiring yard.",
         "pressures": "Half the freeholders in town owe the slate, which is why the captain of the port is careful with it.",
-        "wouldChangeIf": "If someone burned the slate, this zone's whole informal credit system goes with it — and so does the hiring yard."
+        "wouldChangeIf": "If someone burned the slate, this zone's whole informal credit system goes with it \u2014 and so does the hiring yard."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -831,7 +932,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Above the free port the river shallows to a channel a laden hull cannot use, so cargo transfers to poled craft here — and the limit moves every season.",
+        "founding": "Above the free port the river shallows to a channel a laden hull cannot use, so cargo transfers to poled craft here \u2014 and the limit moves every season.",
         "siteAdvantages": "A confluence at -6.5 m relative depth where three channels meet and the deep water ends.",
         "occupantsMotive": "Transfer crews and a board-keeper whose season line is the district's most argued-about number.",
         "pressures": "In a dry year the limit drops two kilometres and half the district's freight costs change.",
@@ -933,13 +1034,13 @@
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/labour-and-bondage.md",
-        "docs/quests/20-world-provisions.md §12b (The Owing — owed-labour gangs, ledger offices, hiring halls)",
+        "docs/quests/20-world-provisions.md \u00a712b (The Owing \u2014 owed-labour gangs, ledger offices, hiring halls)",
         "world/sources/catalogue/type-recipes.json#owing-eviction-camp",
         "lore: labour-and-bondage dossier (owings extendable, transferable, heritable in fact)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Debts bought at the gambling house become owings, and owings become gangs — the yard is where the people who lost their ground wait to be told where they are working.",
+        "founding": "Debts bought at the gambling house become owings, and owings become gangs \u2014 the yard is where the people who lost their ground wait to be told where they are working.",
         "siteAdvantages": "A hard standing beside the porter yard, on the only road out of the free port.",
         "occupantsMotive": "Households whose owing was called in, and a broker's clerk with a ledger.",
         "pressures": "Nobody here is chained and nobody here can leave, and the difference is legally important and practically nil.",
@@ -1052,14 +1153,14 @@
       "sources": [
         "uesp:Lore:Hist",
         "uesp:Lore:Hissmir",
-        "world/sources/lore/extrapolation/settlement-register.md §2 (Alten Corimont: Hist — NONE)",
+        "world/sources/lore/extrapolation/settlement-register.md \u00a72 (Alten Corimont: Hist \u2014 NONE)",
         "world/sources/lore/topics/hist-placement.md",
         "world/sources/catalogue/type-recipes.json#hist-less-refuge",
         "lore: Lore:Lukiul; League of Open Water (quest plan); Lore:Hist"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The register is explicit that the free port has no Hist, and that is not an omission — it is the reason the freeholds exist. Everyone here is Hist-less by choice or by accident, and the camp on the town's edge is where that is admitted out loud.",
+        "founding": "The register is explicit that the free port has no Hist, and that is not an omission \u2014 it is the reason the freeholds exist. Everyone here is Hist-less by choice or by accident, and the camp on the town's edge is where that is admitted out loud.",
         "siteAdvantages": "The town's landward fringe, on ground the port does not administer.",
         "occupantsMotive": "Argonians with no tree to return to, plus outsiders who find that easier to be around.",
         "pressures": "The tribal villages upriver will not visit; Hissmir's reconnection rite is a two-week journey and a hard conversation.",
@@ -1074,7 +1175,7 @@
         ],
         "hardConstraints": [
           "outside the settlement's jurisdiction",
-          "no Hist within reach — canon"
+          "no Hist within reach \u2014 canon"
         ],
         "preferences": [
           "on the landward fringe of the free port"
@@ -1275,7 +1376,7 @@
       "sources": [
         "uesp:Lore:House Dres",
         "uesp:Lore:Stormhold",
-        "docs/world/92-demographics.md §82 (22% Dunmer)",
+        "docs/world/92-demographics.md \u00a782 (22% Dunmer)",
         "world/sources/lore/topics/labour-and-bondage.md",
         "world/sources/catalogue/type-recipes.json#slaver-apparatus",
         "lore: Lore:House Dres; Lore:Archein; labour-and-bondage dossier (slavery ended; only the apparatus remains)"
@@ -1336,7 +1437,7 @@
         "condition": "sound; deliberately not repaired and deliberately not demolished",
         "mood": "the zone's one unfunny place",
         "approach": "the trunk road passes it and nobody looks",
-        "senses": "nothing lives here — literally, not even birds"
+        "senses": "nothing lives here \u2014 literally, not even birds"
       },
       "assetPlan": [
         "bmv-fort",
@@ -1387,7 +1488,7 @@
       "sources": [
         "uesp:Lore:House Dres",
         "uesp:Lore:Morrowind",
-        "docs/world/92-demographics.md §82 (22% Dunmer in this zone)",
+        "docs/world/92-demographics.md \u00a782 (22% Dunmer in this zone)",
         "world/sources/catalogue/type-recipes.json#dunmer-frontier-holding",
         "lore: Lore:House Dres; Lore:Tear; Lore:Red Year (4E 5); foreign-powers dossier (the cold settled frontier)"
       ],
@@ -1688,7 +1789,7 @@
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/labour-and-bondage.md",
-        "docs/quests/20-world-provisions.md §12b",
+        "docs/quests/20-world-provisions.md \u00a712b",
         "world/sources/catalogue/type-recipes.json#freed-worker-shelter",
         "lore: labour-and-bondage dossier; Blackrose Chainbreakers (quest plan)"
       ],
@@ -1824,7 +1925,7 @@
           "upland hills"
         ],
         "hardConstraints": [
-          "chained — must reach its neighbours"
+          "chained \u2014 must reach its neighbours"
         ],
         "preferences": [
           "on the trunk",
@@ -1861,7 +1962,7 @@
         "silhouette": "a small post with a bench and a rail of carved tokens",
         "palette": "bleached timber, dark token wood",
         "materials": "carved tokens, a bench, a covered rest board",
-        "signatureFeature": "a token rail with a lockable cover — the only lock on a courier post in the province",
+        "signatureFeature": "a token rail with a lockable cover \u2014 the only lock on a courier post in the province",
         "condition": "worn smooth",
         "mood": "quietly mercenary",
         "approach": "you find the bench first",
@@ -2263,14 +2364,14 @@
         "valueTier": "T3"
       },
       "vibe": {
-        "silhouette": "a stone chimney — a shape that appears nowhere else in this landscape",
+        "silhouette": "a stone chimney \u2014 a shape that appears nowhere else in this landscape",
         "palette": "soot black, ember orange, grey stone",
         "materials": "stone forge, ship iron, charcoal",
         "signatureFeature": "a rack of ship fastenings sorted by the hull they came off, and the hulls are named",
         "condition": "hot, sound, incongruous",
         "mood": "foreign competence, resented and needed",
         "approach": "the chimney smoke is the only vertical smoke in the town",
-        "senses": "hammer on iron — the rarest sound in the province"
+        "senses": "hammer on iron \u2014 the rarest sound in the province"
       },
       "assetPlan": [
         "vanilla-farmhouse",
@@ -2318,7 +2419,7 @@
         "siteAdvantages": "The one bank with a gradient a hauling gang can work, immediately below the narrows.",
         "occupantsMotive": "Six haulers with a charge board and a monopoly.",
         "pressures": "Cargo waits at both ends and is occasionally taxed twice.",
-        "wouldChangeIf": "If a second slip were cut, the price halves — which is why it never is."
+        "wouldChangeIf": "If a second slip were cut, the price halves \u2014 which is why it never is."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -2516,7 +2617,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "The Kothringi held river country like this and the Knahaten Flu ended them in 2E 560; their village on the bend was never reoccupied because nobody would.",
-        "siteAdvantages": "A firm bend site with a landing — the same reasons a village would be built there today.",
+        "siteAdvantages": "A firm bend site with a landing \u2014 the same reasons a village would be built there today.",
         "occupantsMotive": "Nobody. The free port's crews will not tie up here and will not say it is superstition.",
         "pressures": "It is the best unoccupied river frontage in the zone and it has been empty for six hundred years.",
         "wouldChangeIf": "If somebody built here and did not die, the whole taboo collapses and the zone gains a settlement site."
@@ -2564,7 +2665,7 @@
       "vibe": {
         "silhouette": "house platforms and a landing on a good bend, with nothing standing on them",
         "palette": "grey stone footings, long grass, brown river",
-        "materials": "stone footings and post holes — a people who built differently from Argonians",
+        "materials": "stone footings and post holes \u2014 a people who built differently from Argonians",
         "signatureFeature": "a village-shaped clearing on the best ground for kilometres, with a two-hundred-year-old tree growing in the middle of the square",
         "condition": "reduced to footings, undisturbed",
         "mood": "the plague, still legible as an absence",
@@ -2784,9 +2885,9 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/openworld-place-distribution-and-siting.md §3.2 (the approach cost is the gate)",
+        "docs/research/openworld-place-distribution-and-siting.md \u00a73.2 (the approach cost is the gate)",
         "world/sources/catalogue/type-recipes.json#hermit-hut",
-        "lore: openworld research §3.2 (hermit: approach cost is the gate; the reward is knowledge, not loot)"
+        "lore: openworld research \u00a73.2 (hermit: approach cost is the gate; the reward is knowledge, not loot)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -2894,7 +2995,7 @@
       "sources": [
         "docs/world/00-core.md acceptance rule: underwater POIs throughout appropriate regions",
         "world/sources/catalogue/type-recipes.json#wreck",
-        "lore: openworld research §3.2 (wreck geometry IS the level; tier by depth and lock)"
+        "lore: openworld research \u00a73.2 (wreck geometry IS the level; tier by depth and lock)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -2985,15 +3086,15 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "world/sources/lore/extrapolation/settlement-register.md §6 (Fort Swampmoth model: held, but not by the Empire)",
+        "world/sources/lore/extrapolation/settlement-register.md \u00a76 (Fort Swampmoth model: held, but not by the Empire)",
         "world/sources/lore/topics/foreign-powers.md",
         "world/sources/catalogue/type-recipes.json#abandoned-fort",
-        "lore: module 20 §11 (the six-stage foreign-infrastructure life cycle)"
+        "lore: module 20 \u00a711 (the six-stage foreign-infrastructure life cycle)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "An intact Imperial fort on the trunk road, abandoned two hundred years ago, into which somebody moved and started charging.",
-        "siteAdvantages": "It commands the trunk where the road cannot go around it — which is why the Legion built there.",
+        "siteAdvantages": "It commands the trunk where the road cannot go around it \u2014 which is why the Legion built there.",
         "occupantsMotive": "A toll-taking outfit with a claim, a garrison of thirty and no legal standing whatsoever.",
         "pressures": "They are the free port's only rival for the road trade, and the port would rather they existed than the state did.",
         "wouldChangeIf": "If the state ever garrisoned it properly, the whole zone's economy is enclosed in a season."
@@ -3490,7 +3591,7 @@
         "uesp:Lore:Ayleid",
         "uesp:Lore:Barsaebic Ayleids",
         "world/sources/catalogue/type-recipes.json#keystone-chamber",
-        "lore: Lore:Ayleid Wells; quest-provision keystone pattern (§13 typed provisions)"
+        "lore: Lore:Ayleid Wells; quest-provision keystone pattern (\u00a713 typed provisions)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -4074,13 +4175,13 @@
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Morrowind (the northern frontier)",
-        "docs/world/92-demographics.md §82 (22% Dunmer in this zone)",
+        "docs/world/92-demographics.md \u00a782 (22% Dunmer in this zone)",
         "world/sources/catalogue/type-recipes.json#smugglers-ledge",
         "lore: region grammar: border mountains; Lore:Blackwood Road (the legal crossings are few, so the illegal ones are the rim)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The free port's cargo has to leave the province somehow, and the legal crossings into Morrowind are few — so the illegal ones are the rim itself.",
+        "founding": "The free port's cargo has to leave the province somehow, and the legal crossings into Morrowind are few \u2014 so the illegal ones are the rim itself.",
         "siteAdvantages": "A cliff bench two-thirds of the way up the border wall, out of sight from below and from the pass, with a traverse line rather than a path.",
         "occupantsMotive": "Two or three men who move consignments and mark which side each one is going.",
         "pressures": "It is a four-hour climb with a load and the weather on the rim turns without warning.",
@@ -4093,7 +4194,7 @@
         ],
         "hardConstraints": [
           "a rim ledge out of sight of the pass",
-          "no water — this is the dry route",
+          "no water \u2014 this is the dry route",
           "reachable only by a traverse"
         ],
         "preferences": [
@@ -4233,7 +4334,7 @@
         "valueTier": "T3"
       },
       "vibe": {
-        "silhouette": "a stone cell against a face, with snow on it — an image that exists nowhere else in this province",
+        "silhouette": "a stone cell against a face, with snow on it \u2014 an image that exists nowhere else in this province",
         "palette": "white, rock grey, one dark doorway",
         "materials": "dry stone, a turf roof, a single ritual fitting",
         "signatureFeature": "snow, in Argonia, on an inhabited roof",
@@ -4279,7 +4380,7 @@
       "sources": [
         "world/sources/sites/candidate-sites.md (a quarter of the interesting ground is on the mountain rim; a view is a reward)",
         "world/sources/catalogue/type-recipes.json#vista-ledge",
-        "lore: scour finding: median site sees 18% of its 1.2 km surroundings — a view is a reward"
+        "lore: scour finding: median site sees 18% of its 1.2 km surroundings \u2014 a view is a reward"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -4456,7 +4557,7 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "world/sources/lore/extrapolation/settlement-register.md §2 (Alten Corimont lives on smuggling, transit and salvage)",
+        "world/sources/lore/extrapolation/settlement-register.md \u00a72 (Alten Corimont lives on smuggling, transit and salvage)",
         "world/sources/catalogue/type-recipes.json#salvage-divers-yard",
         "lore: Lore:Lilmoth (the drowned quarter, salvaged for 150 years)"
       ],
@@ -4557,17 +4658,17 @@
       "provenance": "canon-named",
       "sources": [
         "uesp:Lore:Alten Corimont (neighbours)",
-        "world/sources/lore/extrapolation/settlement-register.md §4 (Rockpoint, SE of Alten Corimont: Alten Corimont's rival — a competing landing that lost)",
-        "docs/quests/20-world-provisions.md §12b (the player stronghold site: one reoccupied xanmeer or abandoned river station)",
+        "world/sources/lore/extrapolation/settlement-register.md \u00a74 (Rockpoint, SE of Alten Corimont: Alten Corimont's rival \u2014 a competing landing that lost)",
+        "docs/quests/20-world-provisions.md \u00a712b (the player stronghold site: one reoccupied xanmeer or abandoned river station)",
         "world/sources/catalogue/type-recipes.json#claimable-steading",
         "lore: build-out register: player ownership needs a place shape reserved now, or it is a refactor later (0041 forward-compatibility block)"
       ],
       "confidence": "ARENA_NAME_EXTRAPOLATED",
       "why": {
-        "founding": "A rival landing founded downriver to undercut Alten Corimont's list, which lost — because the river bar below it will not take a laden hull and the list will not be undercut.",
+        "founding": "A rival landing founded downriver to undercut Alten Corimont's list, which lost \u2014 because the river bar below it will not take a laden hull and the list will not be undercut.",
         "siteAdvantages": "A stone-footed landing, a warehouse shell and a defensible bank, all standing, on ground nobody now claims.",
         "occupantsMotive": "Nobody. The bar that killed it also keeps casual squatters away, and Alten Corimont makes sure the story of why it failed is well told.",
-        "pressures": "It is intact, empty, freehold ground with a river frontage — which in this zone is the most valuable unowned thing there is.",
+        "pressures": "It is intact, empty, freehold ground with a river frontage \u2014 which in this zone is the most valuable unowned thing there is.",
         "wouldChangeIf": "If anyone repaired the landing and dredged the bar, Alten Corimont would have a competitor again, and would act."
       },
       "sitingPrefs": {
@@ -4585,7 +4686,7 @@
         ],
         "preferences": [
           "defensible bank",
-          "reserve for the Phase 30 player-stronghold study — three phase states, four allegiance re-skins"
+          "reserve for the Phase 30 player-stronghold study \u2014 three phase states, four allegiance re-skins"
         ],
         "landformClasses": [
           "cliff-bench",
@@ -4618,7 +4719,7 @@
       "vibe": {
         "silhouette": "a stone landing and a warehouse shell with no roof, standing alone on a bend",
         "palette": "grey stone, black burnt timber ends, brown river, green taking it back",
-        "materials": "cut stone footings — expensive, foreign, and the reason it is still standing at all",
+        "materials": "cut stone footings \u2014 expensive, foreign, and the reason it is still standing at all",
         "signatureFeature": "a landing built for hulls that cannot get to it, with the mooring rings still bright from a rope nobody has tied in eighty years",
         "condition": "structurally sound, roofless, empty",
         "mood": "opportunity dressed as failure",
@@ -4782,7 +4883,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Even in a zone that prices everything, the obligation not to refuse a comer holds — and the household that keeps it is quietly the most respected thing on the trunk.",
+        "founding": "Even in a zone that prices everything, the obligation not to refuse a comer holds \u2014 and the household that keeps it is quietly the most respected thing on the trunk.",
         "siteAdvantages": "On the trunk at a day's travel from the next fire, on ground that never floods.",
         "occupantsMotive": "One household, four generations, one fire.",
         "pressures": "They give away what the tradehouse two hours on sells, and neither side mentions it.",
@@ -4889,7 +4990,7 @@
       "why": {
         "founding": "A day's travel out on the northern trunk, which is exactly where a paid bed sells to people who cannot reach the port before dark.",
         "siteAdvantages": "A ford with firm ground, a landing and space for beasts.",
-        "occupantsMotive": "A keeper who takes coin, barter and — reluctantly — obligation.",
+        "occupantsMotive": "A keeper who takes coin, barter and \u2014 reluctantly \u2014 obligation.",
         "pressures": "It is the last place before the rim where a stranger is served without questions.",
         "wouldChangeIf": "If the trunk were rerouted the house is worthless within a year."
       },
@@ -4989,7 +5090,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The northern trunk road crosses the river at its narrowest point, and the crossing has an owner — as every crossing here does.",
+        "founding": "The northern trunk road crosses the river at its narrowest point, and the crossing has an owner \u2014 as every crossing here does.",
         "siteAdvantages": "A water narrows with hard banks, on the Stormhold-to-Thorn line.",
         "occupantsMotive": "Four toll-takers working for a freehold syndicate that bought the span outright.",
         "pressures": "The Owing operates at this crossing, as it does at every tolled crossing in the route graph, and the ledger is kept in the open.",
@@ -5154,7 +5255,7 @@
       "vibe": {
         "silhouette": "a stone arch with a hut at each end, and two different tariff boards",
         "palette": "grey stone, two different paint colours applied competitively",
-        "materials": "dressed stone — the only stone crossing here",
+        "materials": "dressed stone \u2014 the only stone crossing here",
         "signatureFeature": "two tariff boards on the same bridge, each defacing the other",
         "condition": "the bridge is immaculate and the huts are not",
         "mood": "comic, then not",

@@ -220,3 +220,42 @@ serious enough to justify a third round rather than a note:
 7. **`approachDanger` is separate from `dangerTiers`** for a reason: a D0 city
    reached across D5 ground is a deliberate shape, and several majors are
    written that way.
+
+## Reconciliation log (Phase 11 Part 2, 2026-09-02)
+
+The eight region derivations were reconciled against these recipes after the
+fact. Bands widened (each row carries its own `countBandNote` in
+`type-recipes.json`): `stone-calendar` 1→2, `quarantine-village` 1→3,
+`tunnel-rat-gallery` 1→2, `heretic-stone-village` 1→2, `drifting-village` 1→2.
+One retype: **Alten Meerhleel**, `neutral-free-port` → `port-town`
+(Alten Corimont is canon's named freehold and keeps the singular type).
+
+The province's POI band sum is now **637–739** against the scour's 600–740
+envelope. **There is one place left at the top.** Any further widening must be
+paid for by narrowing another band — say so in the same commit.
+
+### Singular types filled
+
+| Type | Record | Region |
+|---|---|---|
+| `port-town` | Alten Meerhleel (retype) | mercantile-coast |
+| `pilgrim-trial-village` | Hissmir | dunmer-north |
+| `lamia-cavern` | The Singing Under-Water (Loriasel caverns) | dunmer-north |
+| `leviathan-bone-field` | The Nine Ribs (Deepmire) | naga-kur-deeps |
+| `waiting-vigil-settlement` | Still-Waiting | hist-heartland |
+| `orma-tactile-ruin` | The Hand-Read Halls | imperial-fringe |
+| `collapsing-pinnacle` ×2 | The Ripple Spire; The Bad Stack | hist-heartland; pirate-freeholds |
+
+### Consciously under-filled (not cut — no record forced)
+
+- **`port-town` sits at 1 of its band's 2.** The second was not authored: every
+  honest candidate on the coast is already a record of another type (Portdun
+  Mont is a cliff-shelf pilot village; the estuary and quay rows are districts),
+  and inventing a second two-culture port to satisfy a band is exactly the
+  force-fit the "collect the homeless" rule forbids. Leave the slot for Part 3
+  to fill *if* the plot turns up a harbour with no owner.
+- **`festival-ground` (band 4) and `dry-season-herd-ground` (band 3–4) have no
+  records at all** — both are unclaimed by every region agent. They are cheap,
+  seasonal and genuinely wanted (the calendar *is* a festival schedule; the
+  flood cycle *is* the ecological engine), so they are flagged for the critique
+  pass as a real coverage gap, not cut.

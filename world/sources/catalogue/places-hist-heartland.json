@@ -1932,6 +1932,109 @@
       "workflow": "derived"
     },
     {
+      "aliases": [],
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [],
+        "travelServiceEdges": []
+      },
+      "occupants": [],
+      "notableNpcSlots": [],
+      "questHooks": {
+        "provisions": [],
+        "tierOwnership": null
+      },
+      "rumourPoolKey": null,
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "workflow": "derived",
+      "id": "place.hist-heartland.collapsing-pinnacle-interior",
+      "name": "The Ripple Spire",
+      "classification": {
+        "class": "lair",
+        "family": "hazard-ground",
+        "type": "collapsing-pinnacle",
+        "variant": null,
+        "magnitude": null
+      },
+      "status": "active",
+      "provenance": "canon-named",
+      "sources": [
+        "world/sources/lore/topics/ecology-encounters-loot.md (Middle Argonia: \"pinnacled mountains\" that collapse at a ripple)",
+        "uesp:Lore:Argonia (the interior's pinnacled mountains)",
+        "docs/world/00-core.md (acceptance rule: large logical surfaces climbable by default)",
+        "world/sources/catalogue/type-recipes.json#collapsing-pinnacle"
+      ],
+      "confidence": "high",
+      "why": {
+        "founding": "Canon gives Middle Argonia pinnacled mountains that come apart at a ripple; this is the one close enough to a route that people have repeatedly tried to climb it.",
+        "siteAdvantages": "A root-and-mudstone spire standing clear of the canopy on a ridge end \u2014 in a region with almost no long sightlines, it is one of the only things that reads at distance.",
+        "occupantsMotive": "Nobody lives here. Two climbers' caches and a great deal of abandoned gear say who has tried.",
+        "pressures": "The debris fan at the base has both old falls and one from this season; the route was marked, then deliberately unmarked by someone.",
+        "wouldChangeIf": "It will fall. The interesting question is whether anyone is on it."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "rootland deep marsh",
+          "tropical jungle",
+          "upland hills"
+        ],
+        "hardConstraints": [
+          "stands clear of the canopy",
+          "a debris fan at the base"
+        ],
+        "preferences": [
+          "landforms: ridge-end, summit, gorge",
+          "water relation: none",
+          "a cache or vista at the summit"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D4",
+      "traversalModes": [
+        "climb",
+        "walk"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 4,
+      "rewardProfile": {
+        "kinds": [
+          "vista",
+          "loot",
+          "traversal"
+        ],
+        "valueTier": "medium"
+      },
+      "vibe": {
+        "silhouette": "a leaning spire of root-bound mudstone above a closed canopy, with a pale scar of fresh fall down one face",
+        "palette": "root-brown and grey mudstone, green canopy below, pale fresh break",
+        "materials": "consolidated mud and living root, nothing built",
+        "signatureFeature": "A climbing route marked in totem-paint and then scrubbed out by whoever came back down alive.",
+        "condition": "actively coming apart",
+        "mood": "a landmark that does not want you",
+        "approach": "Visible for a kilometre \u2014 rare here \u2014 and audible when it drops.",
+        "senses": "grit falling continuously, root creak, the canopy hushing after a fall"
+      },
+      "assetPlan": [
+        "clutter",
+        "stockade-scaffold",
+        "totems-ritual"
+      ],
+      "discovery": "sightline",
+      "complexityBudget": "trivial",
+      "importanceTier": 2
+    },
+    {
       "id": "place.hist-heartland.cult-raid-camp-unbound",
       "name": "The Quiet Camp",
       "classification": {
@@ -10247,6 +10350,112 @@
       "complexityBudget": "trivial",
       "importanceTier": 2,
       "workflow": "derived"
+    },
+    {
+      "aliases": [],
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [],
+        "travelServiceEdges": []
+      },
+      "occupants": [],
+      "notableNpcSlots": [],
+      "questHooks": {
+        "provisions": [],
+        "tierOwnership": null
+      },
+      "rumourPoolKey": "rumour.hist-heartland.still-waiting",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "workflow": "derived",
+      "id": "place.hist-heartland.waiting-vigil-village",
+      "name": "Still-Waiting",
+      "classification": {
+        "class": "settlement",
+        "family": "outcast-settlement",
+        "type": "waiting-vigil-settlement",
+        "variant": "third-generation",
+        "magnitude": "M2"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:An-Xileel",
+        "uesp:Lore:Umbriel",
+        "world/sources/lore/extrapolation/argonia-4e201-state.md (the Wild Ones; the promised clean province)",
+        "world/sources/catalogue/type-recipes.json#waiting-vigil-settlement"
+      ],
+      "confidence": "medium",
+      "why": {
+        "founding": "In 4E 48 these families did exactly what the An-Xileel told them to do and withdrew into the interior to wait for the cleansed province they were promised. Nobody has ever told them it is not coming.",
+        "siteAdvantages": "An enclosed clearing on the Umbriel corridor, above flood, chosen in a hurry by people who expected to be there for a season.",
+        "occupantsMotive": "The devout and the stuck, in the same village and no longer sure which they are; the vigil has been kept without a break for a hundred and fifty years.",
+        "pressures": "The purification ground is swept daily and the houses are not; the neighbours find them embarrassing and trade with them anyway.",
+        "wouldChangeIf": "An An-Xileel officer saying the words out loud would end it in an afternoon, which is precisely why none has ever visited."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "interior swamp",
+          "rootland deep marsh",
+          "fringe marsh"
+        ],
+        "hardConstraints": [
+          "on the Umbriel corridor",
+          "ground defensible enough to have been chosen in a panic"
+        ],
+        "preferences": [
+          "landforms: enclosed-clearing, flood-high, any-firm-ground",
+          "water relation: minor",
+          "a purification site 200-400 m off, still swept"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D3",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "knowledge",
+          "documents",
+          "faction"
+        ],
+        "valueTier": "medium"
+      },
+      "vibe": {
+        "silhouette": "an immaculate swept ground beside dwellings nobody has repaired in a decade",
+        "palette": "raked pale ash on the vigil ground, rot-green thatch behind it, one clean white marker",
+        "materials": "mud-and-wattle gone soft, a purification ground of laid stone kept better than any house",
+        "signatureFeature": "The tally: fifty-four thousand and some days, cut in sets of ten, still being added to this morning.",
+        "condition": "one part of it perfect, the rest failing",
+        "mood": "devotion that has outlived its object and cannot say so",
+        "approach": "The swept ground is visible before the village, and reads as the wrong way round.",
+        "senses": "a broom on stone, an argument in progress, no children"
+      },
+      "assetPlan": [
+        "mud-mother-grove",
+        "totems-ritual",
+        "clutter",
+        "argonian-props"
+      ],
+      "discovery": "rumour",
+      "complexityBudget": "simple",
+      "importanceTier": 2,
+      "singularClaim": "countBand [1,1]: one village is a tragedy, several would be a movement \u2014 and the An-Xileel withdrawal order was a single event."
     },
     {
       "id": "place.hist-heartland.walkway-junction-high-crossroads",
