@@ -47,7 +47,8 @@
             "flood-high",
             "ford",
             "island",
-            "summit"
+            "summit",
+            "any-firm-ground"
           ],
           "neighbourRelation": "under or beside later Imperial works",
           "densityGradient": "Rose approach, moderate"
@@ -127,8 +128,10 @@
     },
     {
       "id": "place.imperial-penal-south.basin-air-grotto",
-      "name": "The Bell",
-      "aliases": [],
+      "name": "Bell-Under-The-Cliff",
+      "aliases": [
+        "The Bell"
+      ],
       "classification": {
         "class": "lone",
         "family": "curiosity",
@@ -168,7 +171,8 @@
             "cove",
             "waterfall",
             "spring-head",
-            "islet"
+            "islet",
+            "any-firm-ground"
           ],
           "neighbourRelation": "hidden; discovered by exploring water",
           "densityGradient": "lake shore, moderate"
@@ -416,7 +420,8 @@
             "islet",
             "sinkhole",
             "cliff-bench",
-            "land-bridge"
+            "land-bridge",
+            "any-firm-ground"
           ],
           "neighbourRelation": "deliberately unrelated to its surroundings",
           "densityGradient": "north-east marsh, thin"
@@ -664,7 +669,8 @@
             "box-canyon",
             "sinkhole",
             "summit",
-            "enclosed-clearing"
+            "enclosed-clearing",
+            "any-firm-ground"
           ],
           "neighbourRelation": "deliberately far from everything; the effort-to-reach IS the design",
           "densityGradient": "western feeder, thin"
@@ -748,8 +754,10 @@
     },
     {
       "id": "place.imperial-penal-south.basin-sinkhole",
-      "name": "The Swallow",
-      "aliases": [],
+      "name": "Basin Swallow",
+      "aliases": [
+        "The Swallow"
+      ],
       "classification": {
         "class": "lone",
         "family": "curiosity",
@@ -785,7 +793,8 @@
         ],
         "preferences": {
           "landformClasses": [
-            "sinkhole"
+            "sinkhole",
+            "any-firm-ground"
           ],
           "neighbourRelation": "rare \u2014 eleven found province-wide; every instance should be individually meaningful",
           "densityGradient": "western feeder, thin"
@@ -1296,8 +1305,10 @@
     },
     {
       "id": "place.imperial-penal-south.blackrose-drowned-hist",
-      "name": "The Drowned Tree",
-      "aliases": [],
+      "name": "Speaks-Below-The-Water",
+      "aliases": [
+        "The Drowned Tree"
+      ],
       "classification": {
         "class": "sacred",
         "family": "hist",
@@ -1306,7 +1317,7 @@
         "magnitude": null
       },
       "status": "drowned",
-      "provenance": "canon-named",
+      "provenance": "canon-derived",
       "sources": [
         "world/sources/lore/extrapolation/settlement-register.md",
         "world/sources/lore/topics/hist-placement.md",
@@ -1335,7 +1346,8 @@
             "island",
             "islet",
             "oxbow",
-            "sinkhole"
+            "sinkhole",
+            "any-firm-ground"
           ],
           "neighbourRelation": "tended from a nearby settlement",
           "densityGradient": "lake core, dense"
@@ -1481,7 +1493,8 @@
             "flood-high",
             "island",
             "ridge-end",
-            "enclosed-clearing"
+            "enclosed-clearing",
+            "any-firm-ground"
           ],
           "neighbourRelation": "a day's march from a city that pretends it is not there",
           "densityGradient": "Rose approach, thin"
@@ -1772,7 +1785,8 @@
           "landformClasses": [
             "any-shallow-marsh",
             "flood-high",
-            "spring-head"
+            "spring-head",
+            "any-firm-ground"
           ],
           "neighbourRelation": "near a road or a foreign settlement",
           "densityGradient": "eastern feeder, moderate"
@@ -2080,8 +2094,8 @@
       },
       "vibe": {
         "palette": "Wet dark timber, marsh olive, painted section numbers.",
-        "signatureFeature": "A road of lashed buoyant timber rafts that lifts and falls with the season, numbered along its whole length, moving visibly as you walk it.",
-        "mood": "Unnerving and ingenious.",
+        "signatureFeature": "A road of lashed buoyant timber rafts numbered along its whole length, re-pegged at both ends each season so the deck sits about a metre higher in the wet than in the dry.",
+        "mood": "Ingenious, and audibly working.",
         "approach": "You can see the whole crossing from either end and be seen for all of it."
       },
       "assetPlan": [
@@ -2108,7 +2122,7 @@
         "station": [],
         "marks": []
       },
-      "complexityBudget": "simple",
+      "complexityBudget": "standard",
       "importanceTier": 2,
       "workflow": "derived",
       "season": "varies",
@@ -2121,7 +2135,17 @@
       "entrance": "none",
       "underwaterAccess": "surface-swim",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-2 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "localStateVariants": [
+        {
+          "id": "state.buoyant-causeway.wet",
+          "description": "Wet season: the deck rides high, the end ramps are steep and the numbered sections are re-pegged."
+        },
+        {
+          "id": "state.buoyant-causeway.dry",
+          "description": "Dry season: the deck sits low on the mud, the ramps are flat and two sections are grounded."
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.cave-pool-glow",
@@ -2168,7 +2192,8 @@
             "cove",
             "sinkhole",
             "spring-head",
-            "islet"
+            "islet",
+            "any-firm-ground"
           ],
           "neighbourRelation": "known and visited; a destination, not a secret",
           "densityGradient": "western feeder, moderate"
@@ -2245,8 +2270,10 @@
     },
     {
       "id": "place.imperial-penal-south.chainbreaker-shelter",
-      "name": "The Open House",
-      "aliases": [],
+      "name": "Open House",
+      "aliases": [
+        "The Open House"
+      ],
       "classification": {
         "class": "settlement",
         "family": "outcast-settlement",
@@ -2887,8 +2914,10 @@
     },
     {
       "id": "place.imperial-penal-south.drawdown-flat",
-      "name": "The Bare Lake",
-      "aliases": [],
+      "name": "Bare Lake",
+      "aliases": [
+        "The Bare Lake"
+      ],
       "classification": {
         "class": "lair",
         "family": "hazard-ground",
@@ -2924,7 +2953,8 @@
             "any-shallow-marsh",
             "oxbow",
             "islet",
-            "any-channel-bank"
+            "any-channel-bank",
+            "any-firm-ground"
           ],
           "neighbourRelation": "the lake region's signature seasonal event",
           "densityGradient": "lake shore, moderate"
@@ -3029,8 +3059,10 @@
     },
     {
       "id": "place.imperial-penal-south.feeder-portage",
-      "name": "The Drag",
-      "aliases": [],
+      "name": "The Windlass Reckoning",
+      "aliases": [
+        "The Drag"
+      ],
       "classification": {
         "class": "transit",
         "family": "crossing",
@@ -3390,8 +3422,10 @@
     },
     {
       "id": "place.imperial-penal-south.flu-quarantine-village",
-      "name": "The Holding Fields",
-      "aliases": [],
+      "name": "Holding Fields, Cordon Three",
+      "aliases": [
+        "The Holding Fields"
+      ],
       "classification": {
         "class": "settlement",
         "family": "outcast-settlement",
@@ -3561,7 +3595,8 @@
           "landformClasses": [
             "oxbow",
             "spring-head",
-            "any-shallow-marsh"
+            "any-shallow-marsh",
+            "any-firm-ground"
           ],
           "neighbourRelation": "supplies a named artisan village",
           "densityGradient": "western feeder, moderate"
@@ -3675,7 +3710,8 @@
           "landformClasses": [
             "oxbow",
             "water-narrows",
-            "any-shallow-marsh"
+            "any-shallow-marsh",
+            "any-firm-ground"
           ],
           "neighbourRelation": "attached to a village or a city canal system",
           "densityGradient": "lake shore, moderate"
@@ -3909,7 +3945,8 @@
             "ridge-end",
             "saddle",
             "cliff-bench",
-            "flood-high"
+            "flood-high",
+            "any-firm-ground"
           ],
           "neighbourRelation": "chained along a planned route",
           "densityGradient": "southern approach, moderate"
@@ -4029,7 +4066,8 @@
             "ford",
             "flood-high",
             "land-bridge",
-            "summit"
+            "summit",
+            "any-firm-ground"
           ],
           "neighbourRelation": "on a dead road",
           "densityGradient": "southern approach, moderate"
@@ -4117,7 +4155,7 @@
         "magnitude": "M1"
       },
       "status": "ruined",
-      "provenance": "canon-named",
+      "provenance": "canon-derived",
       "sources": [
         "uesp:Lore:Blackrose",
         "world/sources/lore/blackrose.md",
@@ -4520,7 +4558,8 @@
             "oxbow",
             "river-mouth",
             "cove",
-            "islet"
+            "islet",
+            "any-firm-ground"
           ],
           "neighbourRelation": "below a living settlement, or beside one that watched it go",
           "densityGradient": "lake shore, moderate"
@@ -4772,7 +4811,8 @@
             "oxbow",
             "cove",
             "any-shallow-marsh",
-            "water-narrows"
+            "water-narrows",
+            "any-firm-ground"
           ],
           "neighbourRelation": "has two or three fixed moorings keyed to the flood cycle",
           "densityGradient": "lake core, moderate"
@@ -4978,8 +5018,10 @@
     },
     {
       "id": "place.imperial-penal-south.lake-submerged-xanmeer",
-      "name": "The Lake Meer",
-      "aliases": [],
+      "name": "Lake Meer",
+      "aliases": [
+        "The Lake Meer"
+      ],
       "classification": {
         "class": "ruin",
         "family": "xanmeer",
@@ -5020,7 +5062,8 @@
             "islet",
             "sinkhole",
             "oxbow",
-            "cove"
+            "cove",
+            "any-firm-ground"
           ],
           "neighbourRelation": "in drowned country; often near a drowned village",
           "densityGradient": "lake core, moderate"
@@ -5247,8 +5290,10 @@
     },
     {
       "id": "place.imperial-penal-south.lilmothiit-quarry",
-      "name": "The Robbed City",
-      "aliases": [],
+      "name": "Robbed City",
+      "aliases": [
+        "The Robbed City"
+      ],
       "classification": {
         "class": "ruin",
         "family": "lost-peoples",
@@ -5257,7 +5302,7 @@
         "magnitude": null
       },
       "status": "ruined",
-      "provenance": "canon-named",
+      "provenance": "canon-derived",
       "sources": [
         "uesp:Lore:Blackrose",
         "world/sources/lore/blackrose.md",
@@ -5287,7 +5332,8 @@
             "ravine",
             "any-channel-bank",
             "sinkhole",
-            "cliff-bench"
+            "cliff-bench",
+            "any-firm-ground"
           ],
           "neighbourRelation": "beneath or beside a currently occupied place",
           "densityGradient": "lake core, dense"
@@ -5419,7 +5465,8 @@
             "enclosed-clearing",
             "ravine",
             "islet",
-            "box-canyon"
+            "box-canyon",
+            "any-firm-ground"
           ],
           "neighbourRelation": "beside a notable ruin or hard-to-reach landform",
           "densityGradient": "lake core, moderate"
@@ -5538,7 +5585,8 @@
             "any-shallow-marsh",
             "oxbow",
             "river-mouth",
-            "cove"
+            "cove",
+            "any-firm-ground"
           ],
           "neighbourRelation": "strung along a waterway, linear not radial",
           "densityGradient": "lake shore, dense"
@@ -5798,7 +5846,8 @@
             "enclosed-clearing",
             "flood-high",
             "any-shallow-marsh",
-            "box-canyon"
+            "box-canyon",
+            "any-firm-ground"
           ],
           "neighbourRelation": "a protected territory, mapped by totems",
           "densityGradient": "north-east marsh, thin"
@@ -5875,8 +5924,10 @@
     },
     {
       "id": "place.imperial-penal-south.murkwood-verge",
-      "name": "The Murkwood Verge",
-      "aliases": [],
+      "name": "Murkwood Verge",
+      "aliases": [
+        "The Murkwood Verge"
+      ],
       "classification": {
         "class": "sacred",
         "family": "wonder",
@@ -6062,7 +6113,8 @@
             "spring-head",
             "waterfall",
             "islet",
-            "cove"
+            "cove",
+            "any-firm-ground"
           ],
           "neighbourRelation": "the only entrance to a submerged place",
           "densityGradient": "lake core, moderate"
@@ -6179,7 +6231,8 @@
             "flood-high",
             "enclosed-clearing",
             "ridge-end",
-            "sinkhole"
+            "sinkhole",
+            "any-firm-ground"
           ],
           "neighbourRelation": "always beside a ruin",
           "densityGradient": "Rose approach, thin"
@@ -6305,7 +6358,8 @@
             "ravine",
             "any-channel-bank",
             "cliff-bench",
-            "flood-high"
+            "flood-high",
+            "any-firm-ground"
           ],
           "neighbourRelation": "on a navigable water for export",
           "densityGradient": "eastern feeder, moderate"
@@ -6523,7 +6577,7 @@
         "founding": "The line Blackrose held during the Flu, marked in stone every hundred paces from the hills to the water.",
         "siteAdvantages": "It follows the narrows, which is the only line a cordon could hold in this basin.",
         "occupantsMotive": "Nobody enforces it. Every stone is still standing and nobody has moved one.",
-        "pressures": "Villages on the far side of the line still describe themselves as being outside, two and a half centuries later.",
+        "pressures": "Villages on the far side of the line still describe themselves as being outside, sixteen centuries later.",
         "wouldChangeIf": "Removing the stones would be a civic decision nobody wants to propose."
       },
       "sitingPrefs": {
@@ -6891,7 +6945,7 @@
         "magnitude": null
       },
       "status": "ruined",
-      "provenance": "canon-named",
+      "provenance": "canon-derived",
       "sources": [
         "uesp:Lore:Blackrose",
         "world/sources/lore/blackrose.md",
@@ -7287,7 +7341,8 @@
           "landformClasses": [
             "flood-high",
             "oxbow",
-            "confluence"
+            "confluence",
+            "any-firm-ground"
           ],
           "neighbourRelation": "refuge for its neighbours in flood",
           "densityGradient": "western feeder, moderate"
@@ -7509,8 +7564,10 @@
     },
     {
       "id": "place.imperial-penal-south.rose-flooded-passage",
-      "name": "The Lower Levels",
-      "aliases": [],
+      "name": "Rose Lower Levels",
+      "aliases": [
+        "The Lower Levels"
+      ],
       "classification": {
         "class": "transit",
         "family": "submerged-way",
@@ -7550,7 +7607,8 @@
             "any-shallow-marsh",
             "sinkhole",
             "ravine",
-            "any-channel-bank"
+            "any-channel-bank",
+            "any-firm-ground"
           ],
           "neighbourRelation": "links two known places by a wet route",
           "densityGradient": "Rose approach, thin"
@@ -7672,7 +7730,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The Rose needed feeding for eight centuries, and the supply town the Empire built for that outlived both the Empire and the prison's official function.",
+        "founding": "The Rose needed feeding for twelve centuries, and the supply town the Empire built for that outlived both the Empire and the prison's official function.",
         "siteAdvantages": "On the causeway road at the last firm ground before the marsh, with a barge landing and a walled magazine.",
         "occupantsMotive": "It still supplies the Rose, now on commercial terms, and the arrangement is the town's entire economy.",
         "pressures": "Half the town is descended from prison staff and half from released prisoners, and the two halves marry but do not forget.",
@@ -7695,7 +7753,8 @@
             "ford",
             "land-bridge",
             "flood-high",
-            "saddle"
+            "saddle",
+            "any-firm-ground"
           ],
           "neighbourRelation": "always paired with a fort, occupied or not",
           "densityGradient": "Rose approach, moderate"
@@ -8051,8 +8110,10 @@
     },
     {
       "id": "place.imperial-penal-south.three-gate-toll",
-      "name": "The Three Gates",
-      "aliases": [],
+      "name": "Three Gates",
+      "aliases": [
+        "The Three Gates"
+      ],
       "classification": {
         "class": "settlement",
         "family": "mixed-settlement",
@@ -8203,8 +8264,10 @@
     },
     {
       "id": "place.imperial-penal-south.vampiric-cloud-ground",
-      "name": "The Given Field",
-      "aliases": [],
+      "name": "Given Field",
+      "aliases": [
+        "The Given Field"
+      ],
       "classification": {
         "class": "martial",
         "family": "imperial-military",
@@ -8213,7 +8276,7 @@
         "magnitude": null
       },
       "status": "ruined",
-      "provenance": "canon-named",
+      "provenance": "canon-derived",
       "sources": [
         "uesp:Lore:Blackrose",
         "world/sources/lore/blackrose.md",
@@ -8379,7 +8442,8 @@
             "sinkhole",
             "ravine",
             "cliff-bench",
-            "box-canyon"
+            "box-canyon",
+            "any-firm-ground"
           ],
           "neighbourRelation": "inside a xanmeer, an Ayleid ruin or a flooded cellar",
           "densityGradient": "western feeder, moderate"
@@ -8658,7 +8722,8 @@
             "any-shallow-marsh",
             "oxbow",
             "water-narrows",
-            "spring-head"
+            "spring-head",
+            "any-firm-ground"
           ],
           "neighbourRelation": "on a route people travel at night",
           "densityGradient": "Rose approach, moderate"
@@ -8870,7 +8935,7 @@
         "magnitude": null
       },
       "status": "deferred",
-      "provenance": "canon-named",
+      "provenance": "canon-derived",
       "sources": [
         "uesp:Lore:Blackrose",
         "world/sources/lore/blackrose.md",
@@ -8900,7 +8965,8 @@
             "ridge-end",
             "flood-high",
             "cliff-bench",
-            "enclosed-clearing"
+            "enclosed-clearing",
+            "any-firm-ground"
           ],
           "neighbourRelation": "near a settlement that tells the story wrong",
           "densityGradient": "western feeder, moderate"

@@ -635,10 +635,10 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "One blue-flowering crown standing alone above a field of white dead stumps, with a bright water channel ringing it.",
-        "palette": "Blue-white blossom, black ash, green channel.",
+        "silhouette": "One red-flowering crown standing alone above a field of white dead stumps, with a bright water channel ringing it.",
+        "palette": "Red blossom, black ash, green channel.",
         "materials": "Mud-mother wall-plaster and reed roofing throughout, wattle fire-breaks, argonian lamp-cages; every post is new timber cut from outside the burn.",
-        "signatureFeature": "A blue-flowering Hist standing alone in a district of dead white stumps, ringed by a low water channel dug to keep fire out.",
+        "signatureFeature": "A red-flowering Hist standing alone in a district of dead white stumps, ringed by a low water channel dug to keep fire out.",
         "condition": "Deliberately new: every structure rebuilt since the burn, kept clear of the dead stumps that the village will not remove.",
         "mood": "Defiant, courteous.",
         "approach": "The dead stumps read first as a white field; the living crown only when you are inside them.",
@@ -827,8 +827,10 @@
     },
     {
       "id": "place.mercantile-coast.bog-blight-ground-murkmire",
-      "name": "The Pulled Field",
-      "aliases": [],
+      "name": "Murkmire Pulled Field",
+      "aliases": [
+        "The Pulled Field"
+      ],
       "classification": {
         "class": "lair",
         "family": "beast-lair",
@@ -2012,7 +2014,8 @@
             "box-canyon",
             "sinkhole",
             "summit",
-            "enclosed-clearing"
+            "enclosed-clearing",
+            "any-firm-ground"
           ],
           "neighbourRelation": "deliberately far from everything; the effort-to-reach IS the design",
           "densityGradient": "burn country, thin"
@@ -2106,7 +2109,7 @@
         "magnitude": "M2"
       },
       "status": "deferred",
-      "provenance": "canon-named",
+      "provenance": "canon-derived",
       "sources": [
         "uesp:Lore:Soulrest",
         "world/sources/lore/soulrest.md",
@@ -2829,8 +2832,10 @@
     },
     {
       "id": "place.mercantile-coast.cold-light",
-      "name": "The Cold Light",
-      "aliases": [],
+      "name": "Cold Light",
+      "aliases": [
+        "The Cold Light"
+      ],
       "classification": {
         "class": "martial",
         "family": "watch",
@@ -3262,7 +3267,8 @@
           "landformClasses": [
             "oxbow",
             "water-narrows",
-            "any-shallow-marsh"
+            "any-shallow-marsh",
+            "any-firm-ground"
           ],
           "neighbourRelation": "attached to a village or a city canal system",
           "densityGradient": "Lilmoth hinterland, moderate"
@@ -3493,7 +3499,8 @@
             "ravine",
             "box-canyon",
             "flood-high",
-            "cliff-bench"
+            "cliff-bench",
+            "any-firm-ground"
           ],
           "neighbourRelation": "just outside a village's watched ground",
           "densityGradient": "Murkmire interior, moderate"
@@ -3612,7 +3619,8 @@
             "ford",
             "flood-high",
             "land-bridge",
-            "summit"
+            "summit",
+            "any-firm-ground"
           ],
           "neighbourRelation": "on a dead road",
           "densityGradient": "Soulrest hinterland, moderate"
@@ -3845,7 +3853,8 @@
             "oxbow",
             "ravine",
             "any-shallow-marsh",
-            "flood-high"
+            "flood-high",
+            "any-firm-ground"
           ],
           "neighbourRelation": "supplies mounts or protection to a district",
           "densityGradient": "Lilmoth hinterland, moderate"
@@ -3929,8 +3938,10 @@
     },
     {
       "id": "place.mercantile-coast.glowfen-murkmire",
-      "name": "The Glowfen",
-      "aliases": [],
+      "name": "Lights-From-Under",
+      "aliases": [
+        "The Glowfen"
+      ],
       "classification": {
         "class": "lone",
         "family": "curiosity",
@@ -3971,7 +3982,8 @@
             "cove",
             "sinkhole",
             "spring-head",
-            "islet"
+            "islet",
+            "any-firm-ground"
           ],
           "neighbourRelation": "known and visited; a destination, not a secret",
           "densityGradient": "pilgrim route, moderate"
@@ -4072,7 +4084,7 @@
         "magnitude": "M1"
       },
       "status": "deferred",
-      "provenance": "canon-named",
+      "provenance": "canon-derived",
       "sources": [
         "uesp:Lore:Soulrest",
         "world/sources/lore/soulrest.md",
@@ -4227,7 +4239,8 @@
             "islet",
             "flood-high",
             "cliff-bench",
-            "enclosed-clearing"
+            "enclosed-clearing",
+            "any-firm-ground"
           ],
           "neighbourRelation": "on a guided route, day-travel spacing",
           "densityGradient": "jungle belt, sparse"
@@ -4418,8 +4431,10 @@
     },
     {
       "id": "place.mercantile-coast.hammock-crown-murkmire",
-      "name": "The Crown Terrace",
-      "aliases": [],
+      "name": "Four-Hands Crown",
+      "aliases": [
+        "The Crown Terrace"
+      ],
       "classification": {
         "class": "sacred",
         "family": "the-dead",
@@ -4452,7 +4467,8 @@
           "landformClasses": [
             "island",
             "flood-high",
-            "enclosed-clearing"
+            "enclosed-clearing",
+            "any-firm-ground"
           ],
           "neighbourRelation": "one per inhabited hammock; the region's signature sacred form",
           "densityGradient": "Lilmoth hinterland, moderate"
@@ -4580,7 +4596,8 @@
           "landformClasses": [
             "island",
             "flood-high",
-            "enclosed-clearing"
+            "enclosed-clearing",
+            "any-firm-ground"
           ],
           "neighbourRelation": "a local centre; neighbours come here in flood",
           "densityGradient": "Lilmoth hinterland, moderate"
@@ -4683,7 +4700,7 @@
         "magnitude": "M2"
       },
       "status": "active",
-      "provenance": "canon-named",
+      "provenance": "canon-derived",
       "sources": [
         "uesp:Lore:Soulrest",
         "world/sources/lore/soulrest.md",
@@ -4818,7 +4835,7 @@
         "magnitude": "M1"
       },
       "status": "deferred",
-      "provenance": "canon-named",
+      "provenance": "canon-derived",
       "sources": [
         "uesp:Lore:Lilmoth",
         "world/sources/lore/lilmoth.md",
@@ -5432,8 +5449,10 @@
     },
     {
       "id": "place.mercantile-coast.hist-less-fringe",
-      "name": "The Fringe",
-      "aliases": [],
+      "name": "Waits-For-A-Cutting",
+      "aliases": [
+        "The Fringe"
+      ],
       "classification": {
         "class": "settlement",
         "family": "outcast-settlement",
@@ -5918,7 +5937,7 @@
       },
       "vibe": {
         "palette": "Silvered oak, reed gold, sand.",
-        "signatureFeature": "An upturned hull as a longhouse, with the sternpost carved into a door frame and the gunports as windows.",
+        "signatureFeature": "An upturned hull as a longhouse, with the sternpost carved into a door frame and light coming in where the gunports were.",
         "mood": "Snug, improvised, proud."
       },
       "assetPlan": [
@@ -5927,7 +5946,8 @@
         "submerged-blocks",
         "docks-piers",
         "clutter",
-        "market-tents"
+        "market-tents",
+        "vanilla-shackkit"
       ],
       "discovery": "road",
       "questHooks": {
@@ -6113,7 +6133,8 @@
             "summit",
             "ridge-end",
             "island",
-            "enclosed-clearing"
+            "enclosed-clearing",
+            "any-firm-ground"
           ],
           "neighbourRelation": "dominates its immediate district",
           "densityGradient": "Lilmoth hinterland, moderate"
@@ -6259,7 +6280,8 @@
             "flood-high",
             "enclosed-clearing",
             "isthmus",
-            "land-bridge"
+            "land-bridge",
+            "any-firm-ground"
           ],
           "neighbourRelation": "has an enemy; the enemy's ground is nearby",
           "densityGradient": "jungle belt, sparse"
@@ -6396,7 +6418,8 @@
             "islet",
             "sinkhole",
             "oxbow",
-            "cove"
+            "cove",
+            "any-firm-ground"
           ],
           "neighbourRelation": "in drowned country; often near a drowned village",
           "densityGradient": "Lilmoth hinterland, moderate"
@@ -6770,7 +6793,8 @@
             "any-shallow-marsh",
             "oxbow",
             "river-mouth",
-            "cove"
+            "cove",
+            "any-firm-ground"
           ],
           "neighbourRelation": "strung along a waterway, linear not radial",
           "densityGradient": "Lilmoth hinterland, dense"
@@ -6865,8 +6889,10 @@
     },
     {
       "id": "place.mercantile-coast.keshu-grove",
-      "name": "The Black Fin Grove",
-      "aliases": [],
+      "name": "Black Fin Grove",
+      "aliases": [
+        "The Black Fin Grove"
+      ],
       "classification": {
         "class": "sacred",
         "family": "hist",
@@ -6905,7 +6931,8 @@
             "enclosed-clearing",
             "flood-high",
             "spring-head",
-            "island"
+            "island",
+            "any-firm-ground"
           ],
           "neighbourRelation": "a regional centre; routes converge on it",
           "densityGradient": "Murkmire interior, moderate"
@@ -7043,7 +7070,8 @@
             "oxbow",
             "cove",
             "any-shallow-marsh",
-            "water-narrows"
+            "water-narrows",
+            "any-firm-ground"
           ],
           "neighbourRelation": "has two or three fixed moorings keyed to the flood cycle",
           "densityGradient": "Soulrest apron, dense"
@@ -7126,8 +7154,10 @@
     },
     {
       "id": "place.mercantile-coast.lighter-flotilla",
-      "name": "The Lighter Flotilla",
-      "aliases": [],
+      "name": "Lighter Flotilla",
+      "aliases": [
+        "The Lighter Flotilla"
+      ],
       "classification": {
         "class": "settlement",
         "family": "water-village",
@@ -7218,7 +7248,7 @@
         "palette": "Tarred hulls, bright laundry, brown estuary.",
         "materials": "Tarred working hulls with their cargo rigs still stepped, plank gangways between them, canvas roofing, argonian lamps hung in the shrouds \u2014 no fixed structure whatsoever.",
         "signatureFeature": "Forty working boats permanently moored as houses in a floating street, each with its cargo rig still stepped and its washing between the shrouds.",
-        "condition": "Every hull working and none of them seaworthy; maintained exactly to the standard that keeps them afloat and no further.",
+        "condition": "Every hull working and none of them seaworthy; maintained exactly to the standard that keeps them afloat and no further. The flotilla is authored as a fixed moored ground, not a moving surface \u2014 hulls rise and fall with the water level, they do not carry the player anywhere.",
         "mood": "Independent, unionised in all but name.",
         "approach": "From the quay it reads as a moored fleet until you see the washing and realise nothing is going anywhere.",
         "senses": "Everything knocking against everything else all night, laundry snapping, cooking on deck, tar and bilge and estuary."
@@ -7717,8 +7747,10 @@
     },
     {
       "id": "place.mercantile-coast.lilmoth-divers-yard",
-      "name": "The Under-Yard",
-      "aliases": [],
+      "name": "Under-Yard",
+      "aliases": [
+        "The Under-Yard"
+      ],
       "classification": {
         "class": "works",
         "family": "craft",
@@ -7987,8 +8019,10 @@
     },
     {
       "id": "place.mercantile-coast.long-bar-wreckers",
-      "name": "The Long Bar",
-      "aliases": [],
+      "name": "Long Bar",
+      "aliases": [
+        "The Long Bar"
+      ],
       "classification": {
         "class": "camp",
         "family": "hostile-camp",
@@ -8158,7 +8192,8 @@
             "box-canyon",
             "sinkhole",
             "summit",
-            "enclosed-clearing"
+            "enclosed-clearing",
+            "any-firm-ground"
           ],
           "neighbourRelation": "deliberately far from everything; the effort-to-reach IS the design",
           "densityGradient": "jungle belt, sparse"
@@ -8399,7 +8434,8 @@
             "any-shallow-marsh",
             "ravine",
             "box-canyon",
-            "flood-high"
+            "flood-high",
+            "any-firm-ground"
           ],
           "neighbourRelation": "between a route and something worth reaching",
           "densityGradient": "Murkmire interior, moderate"
@@ -8778,7 +8814,8 @@
             "any-shallow-marsh",
             "oxbow",
             "river-mouth",
-            "cove"
+            "cove",
+            "any-firm-ground"
           ],
           "neighbourRelation": "strung along a waterway, linear not radial",
           "densityGradient": "Soulrest apron, dense"
@@ -9163,7 +9200,8 @@
             "flood-high",
             "enclosed-clearing",
             "island",
-            "ridge-end"
+            "ridge-end",
+            "any-firm-ground"
           ],
           "neighbourRelation": "near the roads its tribeless relatives work",
           "densityGradient": "inner channels, moderate"
@@ -9301,7 +9339,8 @@
             "any-shallow-marsh",
             "flood-high",
             "island",
-            "enclosed-clearing"
+            "enclosed-clearing",
+            "any-firm-ground"
           ],
           "neighbourRelation": "serves 6-12 villages that keep it at arm's length",
           "densityGradient": "Lilmoth hinterland, moderate"
@@ -9406,8 +9445,10 @@
     },
     {
       "id": "place.mercantile-coast.oliis-air-station",
-      "name": "The Breathing Stone",
-      "aliases": [],
+      "name": "Breathing-Stone",
+      "aliases": [
+        "The Breathing Stone"
+      ],
       "classification": {
         "class": "lone",
         "family": "curiosity",
@@ -9444,7 +9485,8 @@
             "sinkhole",
             "cove",
             "islet",
-            "waterfall"
+            "waterfall",
+            "any-firm-ground"
           ],
           "neighbourRelation": "inside a drowned or flooded place",
           "densityGradient": "Oliis Bay corridor, moderate"
@@ -9526,8 +9568,10 @@
     },
     {
       "id": "place.mercantile-coast.oliis-boardwalk",
-      "name": "The Long Walk",
-      "aliases": [],
+      "name": "Walks-The-Mangrove",
+      "aliases": [
+        "The Long Walk"
+      ],
       "classification": {
         "class": "settlement",
         "family": "water-village",
@@ -9779,8 +9823,10 @@
     },
     {
       "id": "place.mercantile-coast.oliis-ferry-stage",
-      "name": "The Estuary Stage",
-      "aliases": [],
+      "name": "Estuary Stage",
+      "aliases": [
+        "The Estuary Stage"
+      ],
       "classification": {
         "class": "transit",
         "family": "landing",
@@ -9912,8 +9958,10 @@
     },
     {
       "id": "place.mercantile-coast.oliis-narrows",
-      "name": "The Pull",
-      "aliases": [],
+      "name": "Oliis Pull",
+      "aliases": [
+        "The Pull"
+      ],
       "classification": {
         "class": "lair",
         "family": "hazard-ground",
@@ -10141,8 +10189,10 @@
     },
     {
       "id": "place.mercantile-coast.oliis-tide-run",
-      "name": "The Half-Day Flat",
-      "aliases": [],
+      "name": "Half-Day Flat",
+      "aliases": [
+        "The Half-Day Flat"
+      ],
       "classification": {
         "class": "transit",
         "family": "crossing",
@@ -10160,7 +10210,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "Two miles of Oliis Bay flat that can be walked at low water and must be sailed at high, and the difference is ninety minutes.",
-        "siteAdvantages": "It cuts four hours off the coast route for anyone who reads the tide correctly.",
+        "siteAdvantages": "It cuts hours off the coast route for anyone who reads the tide correctly; how much flat it uncovers is a consequence of Oliis Bay's tidal amplitude, not a fixed distance.",
         "occupantsMotive": "Local carriers use it daily; strangers use it once.",
         "pressures": "The tide comes in across the flat faster than a person walks, from behind.",
         "wouldChangeIf": "A marked causeway would make it safe and pointless."
@@ -10219,10 +10269,10 @@
         "valueTier": "tier-1"
       },
       "vibe": {
-        "silhouette": "A horizon of nothing \u2014 two miles of flat silver mud with a line of leaning withies across it and a bell post at each end.",
+        "silhouette": "A horizon of nothing \u2014 whatever flat the ebb uncovers, with a line of leaning withies across it and a bell post at each end.",
         "palette": "Silver mud, grey sky, dark withy.",
         "materials": "Mud and withy. The only built things are the two bell posts and the marker line; the route's footprint is whatever the tide uncovers.",
-        "signatureFeature": "A two-mile mudflat with withy markers leaning in the direction the flood comes from, and a bell post at each end.",
+        "signatureFeature": "The flat the tide uncovers, marked with withies leaning the way the flood comes from, and a bell post at each end that stops ringing when the water turns.",
         "condition": "Unbuildable and therefore unbuilt; the withies are replaced after every spring tide.",
         "mood": "Timed and unforgiving.",
         "approach": "The flat opens out ahead of you with the far bell post at the edge of vision, and the near bell already ringing.",
@@ -10523,8 +10573,10 @@
     },
     {
       "id": "place.mercantile-coast.pilgrim-nisswo-house",
-      "name": "The Turning House",
-      "aliases": [],
+      "name": "Turns-The-Pilgrims",
+      "aliases": [
+        "The Turning House"
+      ],
       "classification": {
         "class": "sacred",
         "family": "sithis",
@@ -10678,7 +10730,8 @@
             "summit",
             "ridge-end",
             "enclosed-clearing",
-            "island"
+            "island",
+            "any-firm-ground"
           ],
           "neighbourRelation": "a landmark for its whole district; a village within 1 km tends it",
           "densityGradient": "pilgrim route, moderate"
@@ -11052,7 +11105,7 @@
         "founding": "Canon empties Rockpark of every business and guild through pestilence, plague and a curse; nobody returned because its Hist died.",
         "siteAdvantages": "Good firm ground on the north-east road out of Lilmoth \u2014 which is why its emptiness is so conspicuous.",
         "occupantsMotive": "Nobody. The Unearthed Equipment Store still blocks the palace gate and the palace still holds what the royal family became.",
-        "pressures": "It is a day's walk from a living city and stocked with two centuries of untouched goods, and still nobody goes in.",
+        "pressures": "It is a day's walk from a living city and stocked with five centuries of untouched goods, and still nobody goes in.",
         "wouldChangeIf": "A confirmed cure for whatever is in the palace would strip the town in a week."
       },
       "sitingPrefs": {
@@ -11285,8 +11338,10 @@
     },
     {
       "id": "place.mercantile-coast.root-gallery-murkmire",
-      "name": "The Under-Root",
-      "aliases": [],
+      "name": "Under-Root",
+      "aliases": [
+        "The Under-Root"
+      ],
       "classification": {
         "class": "lair",
         "family": "root-system",
@@ -11413,8 +11468,10 @@
     },
     {
       "id": "place.mercantile-coast.sacked-customs-suburb",
-      "name": "The Customs Suburb",
-      "aliases": [],
+      "name": "Customs Suburb",
+      "aliases": [
+        "The Customs Suburb"
+      ],
       "classification": {
         "class": "ruin",
         "family": "imperial-ruin",
@@ -11797,8 +11854,10 @@
     },
     {
       "id": "place.mercantile-coast.sealed-meer-murkmire",
-      "name": "The Kept Chamber",
-      "aliases": [],
+      "name": "Shut-From-Within",
+      "aliases": [
+        "The Kept Chamber"
+      ],
       "classification": {
         "class": "ruin",
         "family": "xanmeer",
@@ -11835,7 +11894,8 @@
             "flood-high",
             "island",
             "summit",
-            "box-canyon"
+            "box-canyon",
+            "any-firm-ground"
           ],
           "neighbourRelation": "deliberately hard to reach; no village tends it",
           "densityGradient": "Lilmoth hinterland, moderate"
@@ -11969,7 +12029,8 @@
             "flood-high",
             "island",
             "summit",
-            "box-canyon"
+            "box-canyon",
+            "any-firm-ground"
           ],
           "neighbourRelation": "deliberately hard to reach; no village tends it",
           "densityGradient": "burn country, thin"
@@ -12225,7 +12286,8 @@
           "landformClasses": [
             "any-shallow-marsh",
             "flood-high",
-            "sinkhole"
+            "sinkhole",
+            "any-firm-ground"
           ],
           "neighbourRelation": "in the burn country, or supplying a village's fires",
           "densityGradient": "burn country, thin"
@@ -12489,8 +12551,10 @@
     },
     {
       "id": "place.mercantile-coast.soulrest-breaking-yard",
-      "name": "The Breaking Hard",
-      "aliases": [],
+      "name": "Breaking Hard",
+      "aliases": [
+        "The Breaking Hard"
+      ],
       "classification": {
         "class": "works",
         "family": "craft",
@@ -12748,8 +12812,10 @@
     },
     {
       "id": "place.mercantile-coast.soulrest-courier-relay",
-      "name": "The Poling Relay",
-      "aliases": [],
+      "name": "Soulrest Poling Relay",
+      "aliases": [
+        "The Poling Relay"
+      ],
       "classification": {
         "class": "civic",
         "family": "governance",
@@ -13229,8 +13295,10 @@
     },
     {
       "id": "place.mercantile-coast.soulrest-quay-tradehouse",
-      "name": "The Long Table",
-      "aliases": [],
+      "name": "Long Table",
+      "aliases": [
+        "The Long Table"
+      ],
       "classification": {
         "class": "civic",
         "family": "festivity",
@@ -14034,7 +14102,8 @@
             "ridge-end",
             "enclosed-clearing",
             "ravine",
-            "sinkhole"
+            "sinkhole",
+            "any-firm-ground"
           ],
           "neighbourRelation": "in a district with other xanmeer, showing the range of states",
           "densityGradient": "burn country, thin"
@@ -14344,8 +14413,10 @@
     },
     {
       "id": "place.mercantile-coast.sunken-causeway",
-      "name": "The Sunken Causeway",
-      "aliases": [],
+      "name": "Sunken Causeway",
+      "aliases": [
+        "The Sunken Causeway"
+      ],
       "classification": {
         "class": "ruin",
         "family": "imperial-ruin",
@@ -14516,7 +14587,8 @@
             "oxbow",
             "river-mouth",
             "cove",
-            "islet"
+            "islet",
+            "any-firm-ground"
           ],
           "neighbourRelation": "below a living settlement, or beside one that watched it go",
           "densityGradient": "Soulrest hinterland, moderate"
@@ -14598,8 +14670,10 @@
     },
     {
       "id": "place.mercantile-coast.tapped-hist-ashroot",
-      "name": "The Bled Tree",
-      "aliases": [],
+      "name": "Tapped-To-Death",
+      "aliases": [
+        "The Bled Tree"
+      ],
       "classification": {
         "class": "sacred",
         "family": "hist",
@@ -14716,8 +14790,10 @@
     },
     {
       "id": "place.mercantile-coast.teeba-enoo-court",
-      "name": "The Placation Court",
-      "aliases": [],
+      "name": "Teeba-Enoo Court",
+      "aliases": [
+        "The Placation Court"
+      ],
       "classification": {
         "class": "civic",
         "family": "festivity",
@@ -14726,7 +14802,7 @@
         "magnitude": "M1"
       },
       "status": "active",
-      "provenance": "canon-named",
+      "provenance": "canon-derived",
       "sources": [
         "world/sources/lore/extrapolation/settlement-register.md",
         "world/sources/lore/regions/murkmire.md",
@@ -14888,7 +14964,8 @@
             "ridge-end",
             "flood-high",
             "enclosed-clearing",
-            "island"
+            "island",
+            "any-firm-ground"
           ],
           "neighbourRelation": "a regional pilgrimage terminus",
           "densityGradient": "pilgrim route, moderate"
@@ -14994,8 +15071,10 @@
     },
     {
       "id": "place.mercantile-coast.tempering-ground",
-      "name": "The Tempering Ground",
-      "aliases": [],
+      "name": "Tempers-The-Young",
+      "aliases": [
+        "The Tempering Ground"
+      ],
       "classification": {
         "class": "sacred",
         "family": "rite",
@@ -15181,7 +15260,8 @@
             "any-shallow-marsh",
             "oxbow",
             "river-mouth",
-            "cove"
+            "cove",
+            "any-firm-ground"
           ],
           "neighbourRelation": "strung along a waterway, linear not radial",
           "densityGradient": "Lilmoth apron, dense"
@@ -15276,7 +15356,7 @@
         "magnitude": "M1"
       },
       "status": "deferred",
-      "provenance": "canon-named",
+      "provenance": "canon-derived",
       "sources": [
         "uesp:Lore:Soulrest",
         "world/sources/lore/soulrest.md",
@@ -15619,8 +15699,10 @@
     },
     {
       "id": "place.mercantile-coast.topal-salt-pans",
-      "name": "The White Fields",
-      "aliases": [],
+      "name": "White Fields",
+      "aliases": [
+        "The White Fields"
+      ],
       "classification": {
         "class": "works",
         "family": "extraction",
@@ -15923,7 +16005,8 @@
             "ravine",
             "cliff-bench",
             "sinkhole",
-            "gorge"
+            "gorge",
+            "any-firm-ground"
           ],
           "neighbourRelation": "below or beside a carceral site",
           "densityGradient": "burn country, thin"
@@ -16281,7 +16364,8 @@
             "any-shallow-marsh",
             "sinkhole",
             "ravine",
-            "any-channel-bank"
+            "any-channel-bank",
+            "any-firm-ground"
           ],
           "neighbourRelation": "links two known places by a wet route",
           "densityGradient": "Lilmoth apron, dense"
@@ -16613,8 +16697,10 @@
     },
     {
       "id": "place.mercantile-coast.wamasu-nest-pond",
-      "name": "The Charged Pond",
-      "aliases": [],
+      "name": "Charge-In-The-Water",
+      "aliases": [
+        "The Charged Pond"
+      ],
       "classification": {
         "class": "lair",
         "family": "beast-lair",
@@ -16652,7 +16738,8 @@
             "oxbow",
             "any-shallow-marsh",
             "spring-head",
-            "sinkhole"
+            "sinkhole",
+            "any-firm-ground"
           ],
           "neighbourRelation": "a district hazard; villages route around it",
           "densityGradient": "Murkmire interior, moderate"
@@ -16771,7 +16858,8 @@
             "flood-high",
             "ridge-end",
             "enclosed-clearing",
-            "island"
+            "island",
+            "any-firm-ground"
           ],
           "neighbourRelation": "far from everything, by design",
           "densityGradient": "burn country, thin"
@@ -17239,8 +17327,10 @@
     },
     {
       "id": "place.mercantile-coast.wraxu-stacks",
-      "name": "The Wraxu Stacks",
-      "aliases": [],
+      "name": "Wraxu Stacks",
+      "aliases": [
+        "The Wraxu Stacks"
+      ],
       "classification": {
         "class": "lair",
         "family": "beast-lair",
@@ -17381,7 +17471,7 @@
         "magnitude": "M1"
       },
       "status": "deferred",
-      "provenance": "canon-named",
+      "provenance": "canon-derived",
       "sources": [
         "uesp:Lore:Soulrest",
         "world/sources/lore/soulrest.md",
@@ -17412,7 +17502,8 @@
             "summit",
             "ridge-end",
             "enclosed-clearing",
-            "island"
+            "island",
+            "any-firm-ground"
           ],
           "neighbourRelation": "a landmark for its whole district; a village within 1 km tends it",
           "densityGradient": "Soulrest hinterland, moderate"
@@ -17532,7 +17623,8 @@
             "spring-head",
             "waterfall",
             "islet",
-            "cove"
+            "cove",
+            "any-firm-ground"
           ],
           "neighbourRelation": "the only entrance to a submerged place",
           "densityGradient": "Lilmoth hinterland, moderate"
@@ -17618,7 +17710,7 @@
         "magnitude": null
       },
       "status": "deferred",
-      "provenance": "canon-named",
+      "provenance": "canon-derived",
       "sources": [
         "uesp:Lore:Lilmoth",
         "world/sources/lore/lilmoth.md",
@@ -17647,7 +17739,8 @@
             "oxbow",
             "any-shallow-marsh",
             "ravine",
-            "spring-head"
+            "spring-head",
+            "any-firm-ground"
           ],
           "neighbourRelation": "between a village and a lair",
           "densityGradient": "Lilmoth apron, dense"
@@ -17766,7 +17859,8 @@
             "ridge-end",
             "enclosed-clearing",
             "flood-high",
-            "saddle"
+            "saddle",
+            "any-firm-ground"
           ],
           "neighbourRelation": "above canopy; visible from a distance",
           "densityGradient": "Lilmoth hinterland, moderate"
