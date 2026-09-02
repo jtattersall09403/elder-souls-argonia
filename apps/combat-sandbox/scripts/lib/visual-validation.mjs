@@ -1161,7 +1161,8 @@ export function evaluateBackstabWeaponRole(telemetry, {
  *
  * Measured, not chosen: a battleaxe swinging its own light attack at the
  * separation its strike is measured from lands 0.55 m from the victim's spine
- * where the thrust limit is 0.25 m. That difference is the geometry of a swing
+ * where the thrust limit is 0.25 m. Carries a little headroom over that
+ * measurement so the check is not decided in the fourth decimal place. That difference is the geometry of a swing
  * — it reaches the flank and the near arm rather than the centreline — plus the
  * width of the axe head itself, which is what actually touches.
  *
@@ -1170,7 +1171,7 @@ export function evaluateBackstabWeaponRole(telemetry, {
  * closer to the attacker, so the role-separation floor moves by the same amount
  * or a swing critical could never establish who is executing whom.
  */
-const SWING_FLANK_ALLOWANCE_METERS = 0.3;
+const SWING_FLANK_ALLOWANCE_METERS = 0.35;
 
 export function evaluateWeaponContactAtDamage(telemetry, {
   attackerActor,
