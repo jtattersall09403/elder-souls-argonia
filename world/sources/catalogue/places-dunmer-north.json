@@ -1066,6 +1066,302 @@
       ]
     },
     {
+      "id": "place.dunmer-north.cut-and-stack",
+      "name": "Cut-And-Stack",
+      "aliases": [],
+      "classification": {
+        "class": "works",
+        "family": "extraction",
+        "type": "peat-cutting",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "season": "dry",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "world/sources/lore/topics/material-culture.md",
+        "docs/world/50-hydrology-climate.md"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The north's only fuel that is not carried: peat banks cut in the dry months and stacked to dry, worked by three villages that have no timber worth burning.",
+        "siteAdvantages": "A raised bog on the plain edge, deep enough to cut for three generations and dry enough to stack on.",
+        "occupantsMotive": "Fuel, and the fact that a stack of turves is the closest thing a village here has to money in a bank.",
+        "pressures": "The cut face is a wall of exposed peat that catches in a dry year and then burns underground for months, which has happened twice and is why the villages now cut in strips.",
+        "wouldChangeIf": "Would be abandoned as too dangerous if a fire ever reached a stack rather than a face."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "fringe marsh",
+          "seasonal floodplain",
+          "interior swamp",
+          "firm lowland"
+        ],
+        "landformClasses": [
+          "any-shallow-marsh",
+          "flood-high",
+          "sinkhole"
+        ],
+        "waterRelation": "drained bog",
+        "neighbourRelation": "in the burn country, or supplying a village's fires",
+        "hardConstraints": [
+          "a raised bog with a cuttable face",
+          "dry stacking ground"
+        ],
+        "preferences": [
+          "strip cutting with unworked baulks",
+          "herringbone stacks"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.dunmer-north.crystalgate"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.sits-above-the-flood"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D1 cutters from three villages",
+        "D2 the bog itself in the wet"
+      ],
+      "notableNpcSlots": [
+        "the cut-master who imposed the strip system after the second fire"
+      ],
+      "dangerTier": "D2",
+      "approachDanger": "D2",
+      "traversalModes": [
+        "walk"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "supplies",
+          "trade"
+        ],
+        "valueTier": "tier-1"
+      },
+      "vibe": {
+        "silhouette": "A stepped brown face two metres high running a hundred metres across a bog, with stacked turves in herringbone rows behind it.",
+        "palette": "Peat brown-black, stack shadow, and the pale straw of the cut-strip boundaries.",
+        "materials": "Turves and nothing else — the only structure here is made of the material being extracted.",
+        "signatureFeature": "The strips: the cut is broken into strips with unworked baulks between, and the baulks are firebreaks that exist because of two bad years.",
+        "condition": "Actively worked in the dry, standing water in the wet.",
+        "mood": "Laborious, sooty, and quietly proud of the strip system.",
+        "approach": "The stacks read as a village from a distance and resolve into fuel as you get close, which everyone finds funny once.",
+        "senses": "Spade on wet peat; the particular silence of a bog; smoke that smells of earth rather than wood."
+      },
+      "assetPlan": [
+        "stockade-scaffold",
+        "clutter",
+        "fences-wattle"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "a fuel supply three villages depend on, and a fire that can be started in it"
+        ],
+        "tierOwnership": null
+      },
+      "rumourPoolKey": "rumour.shadowfen",
+      "deedCounterKeys": [
+        "deed.dunmer-north.peat-cut"
+      ],
+      "sockets": {
+        "scene": [
+          "the-cut-face"
+        ],
+        "evidence": [
+          "the-strip-map"
+        ],
+        "station": [
+          "cut-master"
+        ],
+        "marks": [
+          "the-smoking-baulk"
+        ]
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 4,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "cutting season (stacks, spades, strips)",
+        "underground fire (smoke from a face nobody is near)"
+      ]
+    },
+    {
+      "id": "place.dunmer-north.draws-the-herds",
+      "name": "Draws-The-Herds",
+      "aliases": [],
+      "classification": {
+        "class": "lair",
+        "family": "beast-lair",
+        "type": "dry-season-herd-ground",
+        "variant": null,
+        "magnitude": null
+      },
+      "status": "active",
+      "season": "dry",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Shadowfen",
+        "world/sources/lore/topics/fauna-hazards.md",
+        "docs/world/50-hydrology-climate.md",
+        "docs/research/phase11-critique/coverage-density.md §S6"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "When the northern floodplain dries, every animal on it walks to the same three tree-islands for water, and for two months this ground holds more meat, more predators and more people than anywhere else in the region.",
+        "siteAdvantages": "The last standing water on the plain: three spring-fed pools under tree cover that do not fail in a normal dry year.",
+        "occupantsMotive": "Four villages hunt it under an allocation they renegotiate every year at Wolk Market, and the negotiation is the region's real political calendar.",
+        "pressures": "A long dry year concentrates everything harder and the allocation stops holding; the last time it failed, two villages did not speak for a decade.",
+        "wouldChangeIf": "Would end the villages' year as they organise it if the springs failed, which is the thing the north actually fears."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "raised hammock",
+          "seasonal floodplain"
+        ],
+        "landformClasses": [
+          "island",
+          "flood-high",
+          "enclosed-clearing"
+        ],
+        "waterRelation": "the last water in a drying landscape",
+        "neighbourRelation": "the region's ecological engine; villages time their year on it",
+        "hardConstraints": [
+          "spring-fed pools that survive the dry season",
+          "tree cover on the floodplain"
+        ],
+        "preferences": [
+          "three pools within a kilometre",
+          "seasonal hunting stands",
+          "a bare trodden ring"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.dunmer-north.sits-above-the-flood",
+          "place.dunmer-north.the-gravel-six"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.wolk-market"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D1 hunters from four villages, in season",
+        "D4 everything that eats them",
+        "nothing at all, ten months a year"
+      ],
+      "notableNpcSlots": [
+        "the allocation-keeper who reads out last year's shares",
+        "the hunter who takes more than his village's line"
+      ],
+      "dangerTier": "D4",
+      "approachDanger": "D4",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "combat"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "hides",
+          "food",
+          "gear",
+          "quests"
+        ],
+        "valueTier": "tier-3"
+      },
+      "vibe": {
+        "silhouette": "Out of season, three ordinary tree stands on a wet plain. In season, bare trodden ground for two hundred metres around them and a haze of dust and birds.",
+        "palette": "Green and grey out of season; in season, dust ochre, churned black mud at the pools, and a great deal of movement.",
+        "materials": "No structures at all except four villages' hunting stands, which are put up and taken down each year.",
+        "signatureFeature": "The trodden ring: the ground is bare in a perfect two-hundred-metre circle around water that is only there for two months.",
+        "condition": "Unbuilt; the only evidence between seasons is the bare ring and the stand post-holes.",
+        "mood": "In season, the most alive and most dangerous ground in the north.",
+        "approach": "You smell it before you see it, and the birds above it are visible for kilometres — one of the few honest long-range cues in the province.",
+        "senses": "Out of season: nothing. In season: an unbroken noise of animals and the intermittent silence when a predator moves."
+      },
+      "assetPlan": [
+        "stockade-scaffold",
+        "fences-wattle",
+        "totems-ritual",
+        "market-tents",
+        "clutter"
+      ],
+      "discovery": "sightline",
+      "questHooks": {
+        "provisions": [
+          "the province's ecological engine as a place: the two months the north's year turns on",
+          "an allocation dispute with a hunting ground under it"
+        ],
+        "tierOwnership": "tier-1 owned"
+      },
+      "rumourPoolKey": "rumour.northern-hinge",
+      "deedCounterKeys": [
+        "deed.dunmer-north.herd-ground-hunted"
+      ],
+      "sockets": {
+        "scene": [
+          "the-pools-at-the-height-of-the-dry",
+          "the-allocation-reading"
+        ],
+        "evidence": [
+          "the-allocation-tally",
+          "the-post-holes-of-last-years-stands"
+        ],
+        "station": [
+          "allocation-keeper"
+        ],
+        "marks": [
+          "the-broken-allocation"
+        ]
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 2,
+      "workflow": "derived",
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim",
+      "localStateVariants": [
+        "wet season (three tree stands and open water)",
+        "dry season (a herd ground, four villages, and everything that follows a herd)"
+      ]
+    },
+    {
       "id": "place.dunmer-north.dry-under-water",
       "name": "Dry-Under-Water",
       "aliases": [],
@@ -1652,6 +1948,156 @@
       "densityLayer": "destination",
       "entrance": "root-mouth",
       "underwaterAccess": "none"
+    },
+    {
+      "id": "place.dunmer-north.hackwing-wall",
+      "name": "Hackwing Wall",
+      "aliases": [],
+      "classification": {
+        "class": "lair",
+        "family": "beast-lair",
+        "type": "hackwing-roost",
+        "variant": null,
+        "magnitude": null
+      },
+      "status": "active",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "world/sources/lore/topics/fauna-hazards.md",
+        "world/sources/lore/topics/ecology-encounters-loot.md"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "A cliff on the rim road where the carrion birds roost in hundreds, kept rather than merely tolerated by the village below, which puts its dead animals out for them and gets a clean bone-yard in return.",
+        "siteAdvantages": "A south-facing wall with ledges at every height, warm in the afternoon, above ground nobody can farm anyway.",
+        "occupantsMotive": "The village feeds the roost deliberately; the birds are a disposal system, an early-warning system and, twice, a weapon.",
+        "pressures": "The rim road passes directly under the wall, and travellers who do not know the arrangement have been badly frightened and occasionally worse.",
+        "wouldChangeIf": "Would empty in a season if the village stopped putting carcasses out, and the village would then have to bury things."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "upland hills",
+          "border mountains",
+          "tropical jungle",
+          "coastal lagoon & salt marsh",
+          "mangrove forest"
+        ],
+        "landformClasses": [
+          "cliff-bench",
+          "gorge",
+          "ridge-end",
+          "headland",
+          "summit"
+        ],
+        "waterRelation": "none",
+        "neighbourRelation": "downwind of a lair, a battlefield or a midden",
+        "hardConstraints": [
+          "a ledged south-facing cliff above a road",
+          "a village within carrying distance"
+        ],
+        "preferences": [
+          "a swept feeding ledge",
+          "a bell",
+          "the road passing beneath"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [
+          "place.dunmer-north.one-house-high"
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.the-pass-station"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D3 the roost",
+        "D1 the village's ledge-keeper"
+      ],
+      "notableNpcSlots": [
+        "the ledge-keeper who rings the bell",
+        "the traveller who did not know"
+      ],
+      "dangerTier": "D3",
+      "approachDanger": "D3",
+      "traversalModes": [
+        "walk",
+        "climb",
+        "combat"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "reagents",
+          "hides",
+          "rumour"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "A hundred-metre cliff whitened by droppings, ledged from top to bottom, with a permanent slow circulation of large birds above it.",
+        "palette": "Rock grey under white streaking, the birds' dull brown-black, and the red of the feeding ledge at the base.",
+        "materials": "The only construction is the feeding ledge — a low stone shelf at the foot of the wall, kept scrupulously clean between carcasses.",
+        "signatureFeature": "The feeding ledge and its bell: the village rings, the wall answers, and everything on the road stops moving.",
+        "condition": "Actively kept; the whitening is fresh and the ledge is swept.",
+        "mood": "Practical, unpleasant, and rather magnificent.",
+        "approach": "You hear the wall from the last bend and the road runs directly beneath it whether you like it or not.",
+        "senses": "Several hundred birds shifting at once; the bell; wingbeat directly overhead."
+      },
+      "assetPlan": [
+        "stockade-scaffold",
+        "clutter",
+        "fences-wattle",
+        "totems-ritual"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "a hazard that is somebody's infrastructure — and can be rung deliberately"
+        ],
+        "tierOwnership": null
+      },
+      "rumourPoolKey": "rumour.northern-hinge",
+      "deedCounterKeys": [
+        "deed.dunmer-north.hackwing-bell"
+      ],
+      "sockets": {
+        "scene": [
+          "under-the-wall-when-the-bell-rings"
+        ],
+        "evidence": [
+          "the-feeding-record"
+        ],
+        "station": [
+          "ledge-keeper"
+        ],
+        "marks": [
+          "the-unswept-ledge"
+        ]
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 4,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "fed (the wall settled)",
+        "hungry (the wall down on the road)"
+      ]
     },
     {
       "id": "place.dunmer-north.hatching-pools",
@@ -3183,6 +3629,310 @@
       "underwaterAccess": "none"
     },
     {
+      "id": "place.dunmer-north.names-the-year",
+      "name": "Names-The-Year",
+      "aliases": [],
+      "classification": {
+        "class": "civic",
+        "family": "festivity",
+        "type": "festival-ground",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "season": "varies",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "world/sources/lore/tribes.md (naming and the office-holders)",
+        "world/sources/lore/an-xileel.md",
+        "docs/research/phase11-critique/completeness.md §A4"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The northern villages hold their naming-day together, on one flat, once a year, because a name given in front of four villages is a name none of them can later dispute.",
+        "siteAdvantages": "A dry meadow equidistant from four villages with a single old tree at one end that every naming has happened under.",
+        "occupantsMotive": "Nobody lives here; the ground belongs to the naming and to nothing else, and grazing it is considered rude rather than illegal.",
+        "pressures": "The An-Xileel's registrars have begun attending, notebooks out, and the villages have not decided whether that makes a name safer or less theirs.",
+        "wouldChangeIf": "Would lose its whole point the year the registry started issuing the names instead of recording them."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "interior swamp",
+          "fringe marsh",
+          "firm lowland",
+          "raised hammock",
+          "seasonal floodplain"
+        ],
+        "landformClasses": [
+          "enclosed-clearing",
+          "flood-high",
+          "any-firm-ground",
+          "islet"
+        ],
+        "waterRelation": "landings for visitors",
+        "neighbourRelation": "serves a settlement cluster",
+        "hardConstraints": [
+          "a dry meadow equidistant from four villages",
+          "one landmark tree"
+        ],
+        "preferences": [
+          "a worn standing ring",
+          "no permanent structure"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.greylight-village"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "nobody",
+        "in season: four villages and a registrar"
+      ],
+      "notableNpcSlots": [
+        "the eldest naheesh present, who speaks last",
+        "the An-Xileel registrar with a notebook"
+      ],
+      "dangerTier": "D1",
+      "approachDanger": "D1",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 1,
+      "rewardProfile": {
+        "kinds": [
+          "lore",
+          "quests",
+          "rumour"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "An empty meadow with one broad old tree at the north end and a ring of worn ground under it.",
+        "palette": "Meadow green, one dark crown, and the pale scuff of a ring that never quite grows back.",
+        "materials": "Nothing built at all — the tree is the venue and the ring is the architecture.",
+        "signatureFeature": "The ring under the tree: worn by one day's standing a year, for longer than anyone can date.",
+        "condition": "Untouched, and precisely worn in one place.",
+        "mood": "Warm, formal, and newly a little watched.",
+        "approach": "The tree is the only thing on the skyline for a kilometre, which is the whole reason the ground was chosen.",
+        "senses": "Out of season, wind in one tree. In season, four villages saying the same words at slightly different speeds."
+      },
+      "assetPlan": [
+        "market-tents",
+        "argonian-props",
+        "argonian-lights",
+        "totems-ritual",
+        "clutter"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "a naming the player can witness, sponsor or disrupt",
+          "the registry's quiet encroachment on a village rite"
+        ],
+        "tierOwnership": "tier-2 shared"
+      },
+      "rumourPoolKey": "rumour.shadowfen",
+      "deedCounterKeys": [
+        "deed.dunmer-north.naming-witnessed"
+      ],
+      "sockets": {
+        "scene": [
+          "under-the-tree"
+        ],
+        "evidence": [
+          "the-registrars-notebook"
+        ],
+        "station": [
+          "naheesh"
+        ],
+        "marks": [
+          "the-disputed-name"
+        ]
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 4,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "empty meadow",
+        "naming-day (four villages, one tree, a registrar nobody invited)"
+      ]
+    },
+    {
+      "id": "place.dunmer-north.nine-stone-bench",
+      "name": "Nine-Stone Bench",
+      "aliases": [],
+      "classification": {
+        "class": "works",
+        "family": "extraction",
+        "type": "gem-workings",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Jasper",
+        "uesp:Lore:Stormhold (crystals)",
+        "world/sources/lore/stormhold.md"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Small diggings and a polishing bench for the stones the province is genuinely famous for — set up outside Crystalgate by a cutter who was refused a grading-house place and has been proving a point ever since.",
+        "siteAdvantages": "A gravel terrace with garnet and jasper in the wash, and clean spring water for the polishing wheel, which Crystalgate's own water is too silty for.",
+        "occupantsMotive": "One cutter, two apprentices, and a deliberate policy of selling ungraded to anyone at all, which is heresy in Crystalgate and popular everywhere else.",
+        "pressures": "The grading houses have twice had the bench's output declared uncertified at Wolk Market; both times it sold anyway, and the second time for more.",
+        "wouldChangeIf": "Would be bought out and closed within a year if the grading houses ever offered money instead of censure."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "upland hills",
+          "border mountains",
+          "tropical jungle",
+          "firm lowland"
+        ],
+        "landformClasses": [
+          "ravine",
+          "cliff-bench",
+          "gorge",
+          "waterfall",
+          "spring-head"
+        ],
+        "waterRelation": "water for washing and polishing",
+        "neighbourRelation": "supplies an artisan village's jewellers",
+        "hardConstraints": [
+          "gem-bearing gravel",
+          "clean water for a polishing wheel"
+        ],
+        "preferences": [
+          "a water-driven wheel",
+          "an open-sided bench shed",
+          "a nine-stone lintel"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [
+          "place.dunmer-north.crystalgate"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.crystalgate"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D1 the cutter and two apprentices",
+        "D2 on the terrace path"
+      ],
+      "notableNpcSlots": [
+        "the cutter who was refused a grading-house place",
+        "the apprentice with better hands than her master"
+      ],
+      "dangerTier": "D2",
+      "approachDanger": "D2",
+      "traversalModes": [
+        "walk",
+        "climb",
+        "boat"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "crafting material",
+          "enchanting",
+          "trade",
+          "services"
+        ],
+        "valueTier": "tier-3"
+      },
+      "vibe": {
+        "silhouette": "A gravel bank with a water-driven wheel, an open-sided shed over a stone bench, and nine finished stones set in the lintel.",
+        "palette": "Grey gravel, clear spring water, and nine points of hard colour in a piece of grey timber.",
+        "materials": "Rough shed timber and a very good stone bench — the money here has gone entirely into the working surface.",
+        "signatureFeature": "The lintel: nine stones set into the shed's beam, one per year, each the best thing that came off the bench that year.",
+        "condition": "Rough, precise, and getting slowly better.",
+        "mood": "Bloody-minded.",
+        "approach": "The wheel noise carries up the terrace and the shed is under you before you see it.",
+        "senses": "A wet wheel; stone on stone at a very fine grade; two apprentices being corrected."
+      },
+      "assetPlan": [
+        "stockade-scaffold",
+        "landmark-civic",
+        "clutter",
+        "argonian-props",
+        "dunmer-telvanni"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "ungraded stones sold to anyone — a trade Crystalgate wants stopped",
+          "a cutter who will work a stone the player brings, no questions"
+        ],
+        "tierOwnership": "tier-2 shared"
+      },
+      "rumourPoolKey": "rumour.stormhold",
+      "deedCounterKeys": [
+        "deed.dunmer-north.stone-cut"
+      ],
+      "sockets": {
+        "scene": [
+          "the-bench",
+          "the-nine-stone-lintel"
+        ],
+        "evidence": [
+          "the-uncertified-notice"
+        ],
+        "station": [
+          "independent-cutter",
+          "apprentice"
+        ],
+        "marks": [
+          "this-years-stone"
+        ]
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 3,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "bench working",
+        "bench idle (the wheel stopped and a grading-house notice nailed to the shed)"
+      ]
+    },
+    {
       "id": "place.dunmer-north.one-house-high",
       "name": "One-House-High",
       "aliases": [],
@@ -3323,6 +4073,159 @@
       "localStateVariants": [
         "quiet night (a yard and a household)",
         "full yard (forty strangers, one fence, one door)"
+      ]
+    },
+    {
+      "id": "place.dunmer-north.puts-down-the-cup",
+      "name": "Puts-Down-The-Cup",
+      "aliases": [],
+      "classification": {
+        "class": "civic",
+        "family": "healing",
+        "type": "withdrawal-house",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "world/sources/lore/topics/hist-and-sap.md",
+        "world/sources/lore/stormhold.md",
+        "docs/research/phase11-critique/completeness.md §A4"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Stormhold's crystal trade pays in coin and its dockside pays it straight back out in daril; this house on the terrace road is where the city's cutters send the ones who cannot stop.",
+        "siteAdvantages": "Far enough up the terrace road that walking back down for a drink takes two hours, which is the entire therapeutic theory of the place.",
+        "occupantsMotive": "Run by a former cutter with a shaking hand, funded by a levy the cutting houses pay and pretend is charity rather than insurance.",
+        "pressures": "The cutting houses want the house to take anyone they send and the house wants to choose; the levy is renegotiated every year and is used as leverage every year.",
+        "wouldChangeIf": "Would close in a season if the levy stopped, and the cutting houses know exactly how much that would cost them."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "interior swamp",
+          "fringe marsh",
+          "rootland deep marsh",
+          "firm lowland"
+        ],
+        "landformClasses": [
+          "flood-high",
+          "island",
+          "any-firm-ground",
+          "enclosed-clearing"
+        ],
+        "waterRelation": "quiet, apart",
+        "neighbourRelation": "just outside a settlement, near sap country",
+        "hardConstraints": [
+          "two hours' walk from the nearest supply",
+          "on a road, not off it"
+        ],
+        "preferences": [
+          "barred lower windows and an unlocked door",
+          "a levy board"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [
+          "place.dunmer-north.crystalgate"
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.stormhold"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D1 the keeper",
+        "D1 residents",
+        "D2 on the road below"
+      ],
+      "notableNpcSlots": [
+        "the former cutter with the shaking hand",
+        "the cutting-house factor who delivers the levy and a name"
+      ],
+      "dangerTier": "D2",
+      "approachDanger": "D2",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "healing",
+          "services",
+          "rumour",
+          "quests"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "A terrace house on the uphill side of the road with barred lower windows and an open door.",
+        "palette": "Terrace stone grey, shutters painted the same blue as a grading hall's, and lamplight left on all night on purpose.",
+        "materials": "Stormhold terrace masonry, unmodified except for the bars, which are new and were argued about.",
+        "signatureFeature": "The door is never shut and the windows are always barred, which tells you which direction the house is worried about.",
+        "condition": "Sound, plain, cared for by people with time on their hands.",
+        "mood": "Patient, sardonic, unshockable.",
+        "approach": "It is the last lit house going up the terrace road and the first coming down, which is deliberate.",
+        "senses": "Someone playing the same four notes badly; a kettle; the road below, and the city below that."
+      },
+      "assetPlan": [
+        "mud-mother-grove",
+        "bamboo-hut",
+        "fences-wattle",
+        "clutter",
+        "totems-ritual",
+        "lights-general"
+      ],
+      "discovery": "rumour",
+      "questHooks": {
+        "provisions": [
+          "a healer's answer on the northern road",
+          "a levy that is really insurance, and the leverage in it"
+        ],
+        "tierOwnership": null
+      },
+      "rumourPoolKey": "rumour.stormhold",
+      "deedCounterKeys": [
+        "deed.dunmer-north.withdrawal-house-helped"
+      ],
+      "sockets": {
+        "scene": [
+          "the-open-door"
+        ],
+        "evidence": [
+          "the-levy-board"
+        ],
+        "station": [
+          "house-keeper"
+        ],
+        "marks": [
+          "the-name-sent-up"
+        ]
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 4,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "levy paid",
+        "levy withheld (the lamp out and the door shut for the first time)"
       ]
     },
     {
@@ -3929,6 +4832,152 @@
       "densityLayer": "destination",
       "entrance": "cave-mouth",
       "underwaterAccess": "none"
+    },
+    {
+      "id": "place.dunmer-north.sings-for-the-pipes",
+      "name": "Sings-For-The-Pipes",
+      "aliases": [],
+      "classification": {
+        "class": "works",
+        "family": "aquaculture",
+        "type": "frog-pond-farm",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "world/sources/lore/regions/waters.md (the Panther's frogs and the vossa-satl)",
+        "world/sources/lore/topics/material-culture.md"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The Panther basin's frogs have the chirp the vossa-satl copies, and somebody worked out three generations ago that the tone breeds true, so this is a farm that culls by ear.",
+        "siteAdvantages": "Six spring-fed ponds at slightly different temperatures, which is what lets the farm hold six different tones on one site.",
+        "occupantsMotive": "The pipe-makers of Thorn and Stormhold pay by tone, and a matched set of six is worth more than the ponds that made it.",
+        "pressures": "The tone drifts if the pond temperature drifts, so the farm's whole craft is water management dressed up as animal husbandry; a hot year ruins a decade of selection.",
+        "wouldChangeIf": "Would lose its stock in one season to a spring failure, and the selection could not be redone in under thirty years."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "interior swamp",
+          "fringe marsh",
+          "seasonal floodplain",
+          "lake & standing water"
+        ],
+        "landformClasses": [
+          "oxbow",
+          "spring-head",
+          "any-shallow-marsh"
+        ],
+        "waterRelation": "still, warm, separated from the channel",
+        "neighbourRelation": "supplies a named artisan village",
+        "hardConstraints": [
+          "multiple spring-fed ponds at differing temperatures"
+        ],
+        "preferences": [
+          "acoustic reed screens between ponds",
+          "sluices for temperature control",
+          "a matched-set store"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.dunmer-north.thorn",
+          "place.dunmer-north.stormhold"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.hutan-tzel"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D1 the farming household",
+        "D1 a pipe-maker's buyer, seasonally"
+      ],
+      "notableNpcSlots": [
+        "the farmer who can name a pond by ear in the dark",
+        "the Thorn pipe-maker who will only buy matched sixes"
+      ],
+      "dangerTier": "D1",
+      "approachDanger": "D1",
+      "traversalModes": [
+        "walk",
+        "boat"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "crafting material",
+          "trade",
+          "services"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "Six small ponds in stepped terraces with reed screens between them and a single low shed at the top of the fall.",
+        "palette": "Pond-green in six perceptibly different shades, screen-reed gold, and the wet black of the channels between.",
+        "materials": "Reed screens, timber sluices and clay-lined ponds — everything here exists to hold a temperature.",
+        "signatureFeature": "The screens: each pond is acoustically separated so the farmer can stand between two and hear the difference, which is the entire business.",
+        "condition": "Meticulous, quiet, and much more engineered than it first looks.",
+        "mood": "Absurd and completely serious.",
+        "approach": "You hear it long before you see it, and what you hear is six chords that do not belong together.",
+        "senses": "Six frog choruses at once, in tune with themselves and not with each other; water over sluice boards."
+      },
+      "assetPlan": [
+        "fences-wattle",
+        "market-tents",
+        "argonian-props",
+        "clutter"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "a craft supply chain with an audible product — the vossa-satl's raw material"
+        ],
+        "tierOwnership": null
+      },
+      "rumourPoolKey": "rumour.thorn",
+      "deedCounterKeys": [
+        "deed.dunmer-north.matched-set-bought"
+      ],
+      "sockets": {
+        "scene": [
+          "between-two-ponds"
+        ],
+        "evidence": [
+          "the-selection-record"
+        ],
+        "station": [
+          "frog-farmer"
+        ],
+        "marks": [
+          "the-drifted-pond"
+        ]
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 3,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "in tune (six chords)",
+        "a hot year (two ponds drifted and the farmer not sleeping)"
+      ]
     },
     {
       "id": "place.dunmer-north.sits-above-the-flood",
@@ -5019,6 +6068,159 @@
       "densityLayer": "landmark",
       "entrance": "stair-throat",
       "underwaterAccess": "none"
+    },
+    {
+      "id": "place.dunmer-north.ten-thousand-nests",
+      "name": "Ten-Thousand-Nests",
+      "aliases": [],
+      "classification": {
+        "class": "lair",
+        "family": "beast-lair",
+        "type": "bird-colony",
+        "variant": null,
+        "magnitude": null
+      },
+      "status": "active",
+      "season": "varies",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Shadowfen",
+        "world/sources/lore/topics/fauna-hazards.md",
+        "world/sources/lore/regions/waters.md"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "A stand of dead trees in shallow water where the north's wading birds nest in numbers that make the stand uninhabitable and the ground beneath it the richest fertiliser source in the region.",
+        "siteAdvantages": "Dead standing timber over water: no predator route in, no need for the birds to leave, and forty years of guano under it.",
+        "occupantsMotive": "The villages take guano for the terraces in one licensed month and stay away for eleven, an arrangement enforced by the smell as much as by anyone.",
+        "pressures": "The saltrice growers want more than one month; the villages that eat the eggs want none at all; the stand itself is rotting and falling tree by tree.",
+        "wouldChangeIf": "Would relocate entirely — birds do — if the stand came down, and nobody knows where to."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "coastal lagoon & salt marsh",
+          "ocean",
+          "lake & standing water",
+          "tidal delta",
+          "mangrove forest",
+          "raised hammock"
+        ],
+        "landformClasses": [
+          "islet",
+          "island",
+          "cliff-bench",
+          "headland",
+          "gorge"
+        ],
+        "waterRelation": "surrounded by or above water",
+        "neighbourRelation": "worked seasonally from a nearby settlement",
+        "hardConstraints": [
+          "dead standing timber over water",
+          "no land approach"
+        ],
+        "preferences": [
+          "a licensed month for guano",
+          "punt access only"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.dunmer-north.thorn-paddy-terraces"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.reedmoor-stilts"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D1 licensed collectors, one month",
+        "D3 in the water below the stand"
+      ],
+      "notableNpcSlots": [
+        "the guano licensor who is bribed annually",
+        "the egg-taker who works it out of season"
+      ],
+      "dangerTier": "D3",
+      "approachDanger": "D3",
+      "traversalModes": [
+        "boat",
+        "climb",
+        "walk",
+        "swim"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "crafting material",
+          "food",
+          "reagents"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "A stand of white dead trunks over water, every branch loaded with nests, and a permanent haze of birds above it.",
+        "palette": "Guano white on everything, black water, and the grey-brown churn of ten thousand birds.",
+        "materials": "Nothing built; the punts and scoops come in for a month and leave.",
+        "signatureFeature": "The whiteness: the trees are painted white from the top down, and the waterline is a hard edge where it stops.",
+        "condition": "Rotting steadily; two or three trunks go into the water every year, nests and all.",
+        "mood": "Overwhelming, and genuinely unpleasant at close range.",
+        "approach": "The noise reaches you before anything else — the north's loudest place, audible at a kilometre.",
+        "senses": "A continuous roar of birds; ammonia; the specific slap of a trunk going over."
+      },
+      "assetPlan": [
+        "stockade-scaffold",
+        "fences-wattle",
+        "clutter",
+        "fishing-props",
+        "boats-raft-canoe"
+      ],
+      "discovery": "sightline",
+      "questHooks": {
+        "provisions": [
+          "a resource with an enforced season — poaching it is a crime with witnesses"
+        ],
+        "tierOwnership": null
+      },
+      "rumourPoolKey": "rumour.shadowfen",
+      "deedCounterKeys": [
+        "deed.dunmer-north.nests-worked"
+      ],
+      "sockets": {
+        "scene": [
+          "under-the-white-trees"
+        ],
+        "evidence": [
+          "the-guano-licence"
+        ],
+        "station": [
+          "guano-licensor"
+        ],
+        "marks": [
+          "the-fallen-trunk"
+        ]
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 3,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim",
+      "localStateVariants": [
+        "nesting (uninhabitable, and loud)",
+        "out of nesting (the stand silent and the ground workable)"
+      ]
     },
     {
       "id": "place.dunmer-north.tenmar-wall",
@@ -8237,6 +9439,162 @@
       "underwaterAccess": "none"
     },
     {
+      "id": "place.dunmer-north.the-fish-boon-ground",
+      "name": "Fish Boon Ground",
+      "aliases": [],
+      "classification": {
+        "class": "civic",
+        "family": "festivity",
+        "type": "festival-ground",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "season": "varies",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Online:Hissmir Fish-Eye Rye",
+        "docs/quests/20-world-provisions.md (Hissmir: the Fish Boon Feast)",
+        "world/sources/lore/regions/shadowfen.md"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Hissmir's Fish Boon Feast needs somewhere to happen that is not the pilgrimage xanmeer, and this river flat below the village has been that place for as long as the feast has existed.",
+        "siteAdvantages": "A wide gravel flat where the river slows: shallow enough to net from the bank, wide enough for the whole village and its pilgrims, and scoured clean by every flood.",
+        "occupantsMotive": "Nobody lives here and nothing is built here, because the flood takes it annually and that is understood to be part of the arrangement.",
+        "pressures": "The pilgrim numbers have grown past what the flat can feed, and the Root Stewards will not turn anyone away, so the feast now runs three days instead of one.",
+        "wouldChangeIf": "Would move upstream if the river shifted its channel, which it does about once a century and is due."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "interior swamp",
+          "fringe marsh",
+          "firm lowland",
+          "raised hammock",
+          "seasonal floodplain"
+        ],
+        "landformClasses": [
+          "enclosed-clearing",
+          "flood-high",
+          "any-firm-ground",
+          "islet"
+        ],
+        "waterRelation": "landings for visitors",
+        "neighbourRelation": "serves a settlement cluster",
+        "hardConstraints": [
+          "a gravel flat on slow water below Hissmir",
+          "annually flooded"
+        ],
+        "preferences": [
+          "a stone weir footing",
+          "a renewed line of fire-scars",
+          "no permanent structure"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [
+          "place.dunmer-north.hissmir"
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.hissmir"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "nobody, most of the year",
+        "in season: the village, its pilgrims, and more of both than there should be"
+      ],
+      "notableNpcSlots": [
+        "the Root Steward who will not turn a comer away",
+        "the netter who says the run is smaller every year"
+      ],
+      "dangerTier": "D1",
+      "approachDanger": "D1",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "food",
+          "services",
+          "rumour",
+          "quests"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "A clean gravel flat by slow water, with a line of fire-scars in the shingle and a stone fish-weir footing at the head of it.",
+        "palette": "Wet grey shingle, brown river, and in season a long line of fires and a great deal of silver on the stones.",
+        "materials": "Nothing permanent but the weir footing; everything else is brought down from the village and taken back up.",
+        "signatureFeature": "The fire-scars: a line of blackened patches in the shingle, renewed every year in the same places, which the flood erases and the feast restores.",
+        "condition": "Scoured clean annually and marked afresh annually.",
+        "mood": "Generous, crowded, and slightly anxious about the numbers.",
+        "approach": "You come down off the pilgrim path and the flat opens below you with the whole feast laid out on it.",
+        "senses": "Out of season, river only. In season, fires, fish being gutted at speed, and a great deal of talking."
+      },
+      "assetPlan": [
+        "market-tents",
+        "argonian-props",
+        "argonian-lights",
+        "totems-ritual",
+        "clutter"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "the Fish Boon Feast as a place and a date — a scene the calendar delivers",
+          "a pilgrim crowd that has outgrown its ground"
+        ],
+        "tierOwnership": "tier-1 owned"
+      },
+      "rumourPoolKey": "rumour.shadowfen",
+      "deedCounterKeys": [
+        "deed.dunmer-north.fish-boon-attended"
+      ],
+      "sockets": {
+        "scene": [
+          "the-flat-at-the-feast",
+          "the-weir-at-first-light"
+        ],
+        "evidence": [
+          "the-fire-scar-line",
+          "the-run-counts"
+        ],
+        "station": [
+          "root-steward",
+          "head-netter"
+        ],
+        "marks": [
+          "the-short-run"
+        ]
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 3,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim",
+      "localStateVariants": [
+        "out of season (a clean flat and a weir footing)",
+        "the Feast (three days, fires, and too many people)"
+      ]
+    },
+    {
       "id": "place.dunmer-north.the-flu-cordon",
       "name": "The Flu Cordon",
       "aliases": [],
@@ -8672,6 +10030,154 @@
       "localStateVariants": [
         "rise dry (rope slack, no crossing)",
         "rise flooded (the hamlet decamped to its rival, the rope in use)"
+      ]
+    },
+    {
+      "id": "place.dunmer-north.the-guar-ground",
+      "name": "Guar Ground",
+      "aliases": [],
+      "classification": {
+        "class": "lair",
+        "family": "beast-lair",
+        "type": "dry-season-herd-ground",
+        "variant": null,
+        "magnitude": null
+      },
+      "status": "active",
+      "season": "dry",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Guar",
+        "uesp:Lore:House Dres",
+        "world/sources/lore/thorn.md"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "A second, smaller drying ground on the Thorn side, where the Dunmer holdings drive their guar in the dry months because the saltrice ground has nothing on it then.",
+        "siteAdvantages": "A shallow basin that holds a skin of water two months longer than the plain around it, with hard edges to hold a herd against.",
+        "occupantsMotive": "Two Dunmer holdings and one Argonian village use it in rotation, which was a Dres arrangement and is now nobody's, and works anyway.",
+        "pressures": "The guar and the wild herds want the same water in the same weeks, and the holdings deal with that by killing whatever else arrives.",
+        "wouldChangeIf": "Would break the rotation the first year a holding brought more guar than the basin can water, which one of them is visibly building towards."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "raised hammock",
+          "seasonal floodplain"
+        ],
+        "landformClasses": [
+          "island",
+          "flood-high",
+          "enclosed-clearing"
+        ],
+        "waterRelation": "the last water in a drying landscape",
+        "neighbourRelation": "the region's ecological engine; villages time their year on it",
+        "hardConstraints": [
+          "a basin holding water into the dry season",
+          "hard edges to hold a herd"
+        ],
+        "preferences": [
+          "rotation stakes with three sets of marks",
+          "a rope fence taken down in the wet"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [
+          "place.dunmer-north.saltmarch-village"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.the-delta-byre"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "dunmer",
+      "ownerFaction": null,
+      "occupants": [
+        "D1 herders",
+        "D2 holding guards",
+        "D3 what comes for the guar at night"
+      ],
+      "notableNpcSlots": [
+        "the herder who counts in Dunmeris to annoy the village",
+        "the village elder who holds the third set of marks"
+      ],
+      "dangerTier": "D3",
+      "approachDanger": "D3",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "combat"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "food",
+          "hides",
+          "trade"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "A shallow bowl of cracked mud with a skin of water in the middle, ringed by driven stakes and a great many guar.",
+        "palette": "Cracked pale mud, brown water, guar hide grey-green, and the dull red of Dunmer holding banners on the stakes.",
+        "materials": "Driven stakes and a rope line — the only construction is a fence that comes down when the rains do.",
+        "signatureFeature": "The rotation stakes: three sets of marks on the same posts, one per user, so the fence itself records whose weeks these are.",
+        "condition": "Bare, hard-used, entirely temporary.",
+        "mood": "Crowded, smelly, and quietly territorial.",
+        "approach": "The dust cloud gives it away from a long way off, and so does the noise.",
+        "senses": "Guar constantly; cracked mud underfoot; a herder counting aloud in Dunmeris."
+      },
+      "assetPlan": [
+        "stockade-scaffold",
+        "fences-wattle",
+        "totems-ritual",
+        "market-tents",
+        "clutter",
+        "dunmer-telvanni"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "a rotation nobody owns and everybody keeps — until one party grows"
+        ],
+        "tierOwnership": null
+      },
+      "rumourPoolKey": "rumour.thorn",
+      "deedCounterKeys": [
+        "deed.dunmer-north.guar-ground-worked"
+      ],
+      "sockets": {
+        "scene": [
+          "the-water-at-the-centre"
+        ],
+        "evidence": [
+          "the-rotation-stakes"
+        ],
+        "station": [
+          "herd-master"
+        ],
+        "marks": [
+          "the-extra-herd"
+        ]
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 3,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "in rotation (fence up, one user's banners)",
+        "overstocked (two users at once, and an argument at the water)"
       ]
     },
     {
@@ -10817,6 +12323,156 @@
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none"
+    },
+    {
+      "id": "place.dunmer-north.the-rim-shelter",
+      "name": "Rim Shelter",
+      "aliases": [],
+      "classification": {
+        "class": "civic",
+        "family": "refuge",
+        "type": "storm-shelter",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "season": "varies",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:House Dres",
+        "docs/world/55-light-sky-time.md",
+        "world/sources/lore/regions/shadowfen.md"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Above the treeline on the northern rim the weather changes in minutes and the pass has no cover, so the Dres built a shelter and the north has kept it, which is the only piece of Dunmer work here nobody objects to.",
+        "siteAdvantages": "A rock notch on the leeward side of the col — the one place on the crossing that is out of the wind from every direction it comes from.",
+        "occupantsMotive": "Nobody lives here. It is stocked by whoever came up last, under a rule everyone follows and nobody enforces.",
+        "pressures": "The fuel is carried up and the stove is old; twice in a decade a party has arrived to find both gone, and the second time three people did not come down.",
+        "wouldChangeIf": "Would kill people every year rather than every decade if the carrying-up habit lapsed."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "ocean",
+          "coastal lagoon & salt marsh",
+          "border mountains",
+          "upland hills",
+          "tidal delta"
+        ],
+        "landformClasses": [
+          "headland",
+          "saddle",
+          "cove",
+          "cliff-bench",
+          "summit"
+        ],
+        "waterRelation": "exposed",
+        "neighbourRelation": "on an exposed stretch with no settlement",
+        "hardConstraints": [
+          "a leeward notch on the col",
+          "above the treeline"
+        ],
+        "preferences": [
+          "a weighted roof",
+          "an inward-opening door",
+          "an iron stove and a fuel rule"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.the-pass-station"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "nobody",
+        "whoever is on the col tonight",
+        "D3 above the treeline"
+      ],
+      "notableNpcSlots": [
+        "the party who did not carry fuel up"
+      ],
+      "dangerTier": "D3",
+      "approachDanger": "D3",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "climb"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "shelter",
+          "salvage",
+          "rumour"
+        ],
+        "valueTier": "tier-1"
+      },
+      "vibe": {
+        "silhouette": "A stone hut the shape of the notch it sits in, with a roof weighted down by boulders and a door that opens inwards for a reason.",
+        "palette": "Rock grey, snow-scour white on the windward stones, and the single warm rectangle of the door when it is open.",
+        "materials": "Dres-cut stone, weighted roof slabs, and an iron stove that is older than anyone's grandmother.",
+        "signatureFeature": "The inward door: everyone who has spent a night here understands why, and everyone who has not thinks it is a mistake.",
+        "condition": "Cold, sound, and only as stocked as the last party left it.",
+        "mood": "Grim comfort.",
+        "approach": "It is invisible until the col levels out, and then it is directly in front of you.",
+        "senses": "Wind changing note as you get into the notch; iron ticking; boots on stone."
+      },
+      "assetPlan": [
+        "vanilla-farmhouse",
+        "stockade-scaffold",
+        "landmark-civic",
+        "clutter",
+        "lights-general",
+        "dunmer-telvanni"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "a survival beat on the rim crossing that the player can be responsible for, either way"
+        ],
+        "tierOwnership": null
+      },
+      "rumourPoolKey": "rumour.northern-hinge",
+      "deedCounterKeys": [
+        "deed.dunmer-north.rim-shelter-stocked"
+      ],
+      "sockets": {
+        "scene": [
+          "the-notch-in-weather"
+        ],
+        "evidence": [
+          "the-fuel-rule-cut-in-the-lintel"
+        ],
+        "station": [],
+        "marks": [
+          "the-empty-fuel-box"
+        ]
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 4,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "stocked (fuel, a stove, a night)",
+        "stripped (a stone room, and a decision about going on)"
+      ]
     },
     {
       "id": "place.dunmer-north.the-salt-and-shell",
@@ -13699,6 +15355,152 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim"
+    },
+    {
+      "id": "place.dunmer-north.the-wild-mouth",
+      "name": "Wild Mouth",
+      "aliases": [],
+      "classification": {
+        "class": "lair",
+        "family": "root-system",
+        "type": "wild-rootworm-burrow",
+        "variant": null,
+        "magnitude": null
+      },
+      "status": "active",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Bestiary R#Rootworm",
+        "world/sources/lore/topics/fauna-hazards.md"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "An untamed rootworm's tunnel mouth two kilometres off the Waykeepers' northern line — the same animal the transit network rides, with none of the harness, the handlers or the assurances.",
+        "siteAdvantages": "Soft root-bound ground the animal can work, close enough to the tamed line that the Waykeepers worry about it and far enough that they do nothing.",
+        "occupantsMotive": "Nothing occupies it but the animal, which is territorial, large, and demonstrably uninterested in the difference between a handler and anyone else.",
+        "pressures": "The Waykeepers' line runs close enough that a wild worm cutting across it is a real prospect, and has happened twice in a decade.",
+        "wouldChangeIf": "Would have to be dealt with, expensively and by somebody, the first time it took a loaded transit worm's tunnel."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "rootland deep marsh",
+          "interior swamp",
+          "tropical jungle",
+          "firm lowland"
+        ],
+        "landformClasses": [
+          "flood-high",
+          "sinkhole",
+          "enclosed-clearing",
+          "ridge-end"
+        ],
+        "waterRelation": "dry root ground",
+        "neighbourRelation": "on or beside the root-transit network, which is why it matters",
+        "hardConstraints": [
+          "root-bound soft ground",
+          "near but not on the Waykeepers' line"
+        ],
+        "preferences": [
+          "an unfaced mouth",
+          "fresh cut-root ring"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [
+          "place.imperial-fringe.gideon-rootworm-terminus"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.the-north-relay"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D4 the animal",
+        "nothing else"
+      ],
+      "notableNpcSlots": [
+        "the Waykeeper who has reported it three times"
+      ],
+      "dangerTier": "D4",
+      "approachDanger": "D4",
+      "traversalModes": [
+        "walk",
+        "climb",
+        "combat"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 4,
+      "rewardProfile": {
+        "kinds": [
+          "gear",
+          "crafting material",
+          "quests"
+        ],
+        "valueTier": "tier-3"
+      },
+      "vibe": {
+        "silhouette": "A tunnel mouth two metres across in a root bank, rimmed with cut root ends and completely without the timber facing a tamed station would have.",
+        "palette": "Wet root-brown, black tunnel, and a pale ring of freshly cut root that shows how recently it was working.",
+        "materials": "Nothing built. The comparison with a Waykeeper station — timbered, lamped, signed — is the whole point.",
+        "signatureFeature": "The cut ends: root severed cleanly at a size that tells you exactly how big the animal is, which is bigger than the ones people ride.",
+        "condition": "Active; the cut ring is fresh, always.",
+        "mood": "Genuinely frightening in a way the tame stations spend a lot of effort not being.",
+        "approach": "The ground gives differently within thirty metres of it, which is your only warning.",
+        "senses": "A subsonic working sound through the soles of the feet, intermittent, and nothing above ground at all."
+      },
+      "assetPlan": [
+        "azure-tree",
+        "hist-variants",
+        "clutter",
+        "lights-general",
+        "azura-tree"
+      ],
+      "discovery": "rumour",
+      "questHooks": {
+        "provisions": [
+          "a boss-scale animal in a tunnel, adjacent to infrastructure it threatens"
+        ],
+        "tierOwnership": "tier-2 shared"
+      },
+      "rumourPoolKey": "rumour.northern-hinge",
+      "deedCounterKeys": [
+        "deed.dunmer-north.wild-rootworm"
+      ],
+      "sockets": {
+        "scene": [
+          "the-mouth",
+          "inside-the-working-tunnel"
+        ],
+        "evidence": [
+          "the-three-reports"
+        ],
+        "station": [],
+        "marks": [
+          "the-cut-line-crossing"
+        ]
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 3,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "burrow",
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "worm at home (the ground working)",
+        "worm out (an open tunnel and a decision)"
+      ]
     },
     {
       "id": "place.dunmer-north.the-xanmeer-hold",
