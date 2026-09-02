@@ -124,7 +124,7 @@
           "quest-hooks",
           "fast-transit"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a beached hull sitting upright among the houses, too big for the street it ends, and warehouse gables behind it",
@@ -239,7 +239,7 @@
           "information",
           "rest"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a small camp with its loads racked, not stacked",
@@ -349,7 +349,7 @@
           "information",
           "services"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a long low house with racked bundles under its eaves",
@@ -475,7 +475,7 @@
           "trade",
           "information"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a keeled hull lying over on its side on a mud bank, out of the water",
@@ -619,7 +619,7 @@
           "quest-hooks",
           "trade"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a dozen roofs on a single low rise with nothing else above water for a kilometre",
@@ -740,7 +740,7 @@
           "vista",
           "traversal"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a fissured stack above a switchback path, with a fan of scree fingering across the route",
@@ -828,7 +828,7 @@
           "trade",
           "information"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a stone cargo hall among timber sheds, obviously built by someone else",
@@ -946,7 +946,7 @@
           "quest-hooks",
           "loot-cache"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a low doorway with no sign and more light than any window near it",
@@ -1069,7 +1069,7 @@
           "trade",
           "information"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "far more small craft than the shore behind them explains",
@@ -1198,7 +1198,7 @@
           "information",
           "services"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a line of shelters along a fence with a single roofed office at one end",
@@ -1339,7 +1339,7 @@
           "unique-knowledge",
           "rest"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a village with a swept empty circle where a tree should be",
@@ -1469,7 +1469,7 @@
           "quest-hooks",
           "services"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a lit doorway with a mooring outside and a stable behind",
@@ -1588,7 +1588,7 @@
           "quest-hooks",
           "loot-cache"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "stone pens and a loading ramp on an empty bank",
@@ -1722,7 +1722,7 @@
           "quest-hooks",
           "unique-knowledge"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a walled core with organic Velothi roof shapes, unmistakably foreign on this skyline",
@@ -1845,7 +1845,7 @@
           "harvest",
           "information"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "flat bunded rectangles with a levee line above them",
@@ -1949,7 +1949,7 @@
           "information",
           "exploration"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "hundreds of small stone piles across an open slope",
@@ -2065,7 +2065,7 @@
           "quest-hooks",
           "information"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a compound with one gate and a lot of new timber",
@@ -2194,7 +2194,7 @@
           "travel-knowledge",
           "quest-hooks"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a small post with a bench and a rail of carved tokens",
@@ -2305,7 +2305,7 @@
           "information",
           "services"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "permanent stall frames under one enormous nailed-up board",
@@ -2428,7 +2428,7 @@
           "loot-cache",
           "quest-hooks"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "no camp visible from the road; from the trees, a cleared circle",
@@ -2536,7 +2536,7 @@
           "information",
           "reagents"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a long shed with open sides, standing apart from everything",
@@ -2651,7 +2651,7 @@
           "crafting",
           "trade"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a stone chimney \u2014 a shape that appears nowhere else in this landscape",
@@ -2765,7 +2765,7 @@
           "services",
           "loot-cache"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a greased timber ramp out of the water beside white water",
@@ -2877,7 +2877,7 @@
           "loot-cache",
           "climb-route"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a mass of bleached dead timber wedged across a gorge, with white water under it",
@@ -2989,7 +2989,7 @@
           "loot-cache",
           "exploration"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "house platforms and a landing on a good bend, with nothing standing on them",
@@ -3095,7 +3095,7 @@
           "exploration",
           "seasonal-access"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "in the dry season, a cracked grey plain where a lake was",
@@ -3196,7 +3196,7 @@
         "kinds": [
           "information"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a line of cut marks on trees and posts, running dead straight over a ridge",
@@ -3312,7 +3312,7 @@
           "quest-hooks",
           "services"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a thin smoke line out of a slot in the ground",
@@ -3423,7 +3423,7 @@
           "exploration",
           "named-item"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "nothing above water; a shadow at the confluence",
@@ -3538,7 +3538,7 @@
           "loot-cache",
           "information"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a square Imperial curtain wall with the wrong banners on it",
@@ -3659,7 +3659,7 @@
           "information",
           "exploration"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a small square post with an empty flagstaff",
@@ -3767,7 +3767,7 @@
           "vista",
           "travel-knowledge"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a chime frame on a bare spur nose, silhouetted",
@@ -3878,7 +3878,7 @@
           "trade",
           "crafting"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a raw white scar on a green hillside, visible for kilometres",
@@ -3993,7 +3993,7 @@
           "safety",
           "information"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a fire visible from high on the pass road, and nothing else",
@@ -4104,7 +4104,7 @@
           "unique-knowledge",
           "loot-cache"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a squared opening in a natural ravine wall",
@@ -4211,7 +4211,7 @@
           "equipment",
           "information"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a floor of glittering debris on a bench",
@@ -4320,7 +4320,7 @@
           "travel",
           "information"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a stone hut at the low point of a skyline notch",
@@ -4444,7 +4444,7 @@
           "information",
           "trade"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a long open shed full of carrying frames, and a landing in front of it",
@@ -4559,7 +4559,7 @@
           "information",
           "shelter"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a cut ramp and a stone cistern mouth on a bare saddle",
@@ -4668,7 +4668,7 @@
           "vista",
           "climb-route"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a shelf on a spur nose with the ground falling away on three sides",
@@ -4780,7 +4780,7 @@
           "climb-route",
           "information"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "nothing at all from below; from above, a worn traverse line across a face",
@@ -4894,7 +4894,7 @@
           "rest",
           "named-item"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a stone cell against a face, with snow on it \u2014 an image that exists nowhere else in this province",
@@ -5002,7 +5002,7 @@
           "navigation-knowledge",
           "loot-cache"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a bare spur nose with nothing above it",
@@ -5103,7 +5103,7 @@
           "loot-cache",
           "information"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a clay stack the height of a man, standing alone",
@@ -5210,7 +5210,7 @@
           "information",
           "loot-cache"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "drying frames covered in river-blackened objects",
@@ -5329,7 +5329,7 @@
           "quest-hooks",
           "unique-knowledge"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a stone landing and a warehouse shell with no roof, standing alone on a bend",
@@ -5462,7 +5462,7 @@
           "information",
           "quest-hooks"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a bare stage, a boat and no toll box at all",
@@ -5585,7 +5585,7 @@
           "information",
           "safety"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "one lit doorway and a fire, deliberately visible from the road",
@@ -5699,7 +5699,7 @@
           "quest-hooks",
           "trade"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a long low building with lamps at a road bend",
@@ -5817,7 +5817,7 @@
           "information",
           "quest-hooks"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a plank span with a barrier and a hut at one end",
@@ -5941,7 +5941,7 @@
           "quest-hooks",
           "information"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a stone arch with a hut at each end, and two different tariff boards",
@@ -6050,7 +6050,7 @@
           "rest",
           "information"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a hall far too big for the shack lit inside it",
@@ -6169,7 +6169,7 @@
           "quest-hooks",
           "information"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a stockaded compound on a summit, facing north",

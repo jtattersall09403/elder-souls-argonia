@@ -2152,7 +2152,7 @@
           "faction access",
           "trade"
         ],
-        "valueTier": "tier-2 hub"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "Low tiled roofs and a squat courthouse tower stepping up a saddle, with one impossible green crown in the gardens behind it.",
@@ -5389,7 +5389,7 @@
           "relics",
           "documents"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a doorway in a canyon wall with no lintel carving, no window anywhere above it, and two ridges running away into black",

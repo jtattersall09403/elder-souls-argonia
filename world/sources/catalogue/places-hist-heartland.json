@@ -71,7 +71,7 @@
           "passage",
           "rest"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "none at all from outside; it is found by diving",
@@ -185,7 +185,7 @@
           "shelter",
           "documents"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a company mark on a wall of a building far too large for its occupancy",
@@ -301,7 +301,7 @@
           "unique goods",
           "knowledge"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "the craft is audible or visible before the village is \u2014 chimes, looms clacking, kiln smoke",
@@ -409,7 +409,7 @@
           "treasure",
           "knowledge"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "white stone arches and columns, a colour the province otherwise does not contain",
@@ -522,7 +522,7 @@
           "mounts/transport",
           "supplies"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "pens, skull racks or corrals read as built structure from further off than the huts do",
@@ -629,7 +629,7 @@
           "knowledge",
           "reagents"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "offerings heaped facing a body of water or a den, with nothing built behind them",
@@ -741,7 +741,7 @@
           "unique item",
           "quest hook"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a dead trunk still standing at the centre, kept, not cleared",
@@ -853,7 +853,7 @@
           "vista",
           "reagents"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "the light itself, at night, from further than any daytime cue in this province works",
@@ -966,7 +966,7 @@
           "loot",
           "bounty"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a well-built camp with a guarded approach and no smoke",
@@ -1081,7 +1081,7 @@
           "supplies",
           "tolls"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "the walkway line itself, curving away into vegetation",
@@ -1191,7 +1191,7 @@
           "loot",
           "deed"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a stake field with one stake down and a pahnjee rack that has stopped being maintained",
@@ -1311,7 +1311,7 @@
           "quest hook",
           "knowledge"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a rack of wrapped bundles under a roof, each labelled with a village name",
@@ -1418,7 +1418,7 @@
           "loot",
           "reagents"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "in the subsumed variant there is no cue at all until you are inside it \u2014 the reveal IS the beat",
@@ -1524,7 +1524,7 @@
           "shelter",
           "loot"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a spire form that is neither tree nor rock, breaking the canopy",
@@ -1629,7 +1629,7 @@
           "fast transit",
           "supplies"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a spire form that is neither tree nor rock, breaking the canopy",
@@ -1740,7 +1740,7 @@
           "loot",
           "quest hook"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a smoke seep and dead ground, then structures charred into shapes",
@@ -1846,7 +1846,7 @@
           "shortcut",
           "vista"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a line across a gap, high up, easy to miss and impossible to unsee",
@@ -1950,7 +1950,7 @@
           "shortcut",
           "documents"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a line across a gap, high up, easy to miss and impossible to unsee",
@@ -2055,7 +2055,7 @@
           "vista",
           "loot"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "the structure, with a visible route up it that is not a stair",
@@ -2178,7 +2178,7 @@
           "loot",
           "traversal"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a leaning spire of root-bound mudstone above a closed canopy, with a pale scar of fresh fall down one face",
@@ -2272,7 +2272,7 @@
           "evidence",
           "faction access"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "masks or snare-fields visible before the tents",
@@ -2388,7 +2388,7 @@
           "knowledge",
           "quest hook"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "one tree taller and differently shaped than the canopy, sometimes bioluminescent at night",
@@ -2501,7 +2501,7 @@
           "reagents",
           "bounty"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "nothing at range; up close, gas bladders hung like fruit",
@@ -2610,7 +2610,7 @@
           "dungeon entrance",
           "treasure"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a dark opening in water, often ringed by worked stone",
@@ -2714,7 +2714,7 @@
           "salvage",
           "treasure"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a cracked flat where there was water, with things standing up out of it",
@@ -2821,7 +2821,7 @@
           "knowledge",
           "rest"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a single hut beside a churned pool, with red paint marks on the posts",
@@ -2926,7 +2926,7 @@
           "reagents",
           "rumour"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a single hut beside a churned pool, with red paint marks on the posts",
@@ -3031,7 +3031,7 @@
         "kinds": [
           "salvage"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "the water's surface, which is visibly wrong at the pinch",
@@ -3140,7 +3140,7 @@
           "knowledge",
           "faction hook"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "dressed stone in stacks and a foundation with no building on it",
@@ -3249,7 +3249,7 @@
           "boss",
           "artefact"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a low, formal stone entrance framed by carving, in ground that hides it well",
@@ -3359,7 +3359,7 @@
           "shelter",
           "food"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "structures on the only high ground in a flat view",
@@ -3477,7 +3477,7 @@
           "guides",
           "rest"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "one tree taller and differently shaped than the canopy, sometimes bioluminescent at night",
@@ -3586,7 +3586,7 @@
           "shelter",
           "supplies"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a camp in a place a stranger would not have chosen, which is why it is safe",
@@ -3699,7 +3699,7 @@
           "supplies",
           "knowledge"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a camp in a place a stranger would not have chosen, which is why it is safe",
@@ -3809,7 +3809,7 @@
           "combat",
           "spectacle"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "the birds themselves, circling, visible further than anything on the ground",
@@ -3912,7 +3912,7 @@
           "knowledge",
           "grave goods (at a cost)"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "cut terraces stepping up a wooded dome, visible as a shape change in the island's profile",
@@ -4027,7 +4027,7 @@
           "storage",
           "obligation hooks"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a dome of taller trees standing above the marsh canopy",
@@ -4136,7 +4136,7 @@
           "sap",
           "grievance hook"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "industrial tap lines, or a dead trunk kept standing and tended like a grave",
@@ -4265,7 +4265,7 @@
           "knowledge",
           "fast transit"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "the grove canopy itself breaking the skyline from the last ridge of the approach \u2014 no walls read at distance",
@@ -4400,7 +4400,7 @@
           "crafting",
           "quest hook"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "fresh-cut stone courses rising where no Argonian should be cutting stone",
@@ -4512,7 +4512,7 @@
           "knowledge",
           "quest hook"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a single light or a thin smoke line, and no path at all",
@@ -4624,7 +4624,7 @@
           "knowledge",
           "reagents"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a single light or a thin smoke line, and no path at all",
@@ -4733,7 +4733,7 @@
           "knowledge",
           "faction access"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a canopy-breaking crown, bioluminescent at night \u2014 the province's premier long-range landmark strategy",
@@ -4852,7 +4852,7 @@
           "knowledge",
           "faction access"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a canopy-breaking crown, bioluminescent at night \u2014 the province's premier long-range landmark strategy",
@@ -4975,7 +4975,7 @@
           "faction access",
           "quest hook"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a village with no tree and no stake-field, which reads as wrong to anyone who knows the province",
@@ -5085,7 +5085,7 @@
           "knowledge",
           "faction access"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a canopy-breaking crown, bioluminescent at night \u2014 the province's premier long-range landmark strategy",
@@ -5203,7 +5203,7 @@
           "knowledge",
           "faction access"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a canopy-breaking crown, bioluminescent at night \u2014 the province's premier long-range landmark strategy",
@@ -5327,7 +5327,7 @@
           "knowledge",
           "quest hook"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "four watch structures, one per approach, visible before any dwelling is",
@@ -5438,7 +5438,7 @@
           "unique encounter",
           "treasure"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a landform every local can name and none will approach, with a maintained warning at its edge",
@@ -5547,7 +5547,7 @@
           "unique artefact",
           "boss"
         ],
-        "valueTier": "unique"
+        "valueTier": "tier-5"
       },
       "vibe": {
         "silhouette": "terraced massing with an intact, unbroken frontage and no path to it",
@@ -5660,7 +5660,7 @@
           "combat",
           "materials"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a cleared path through vegetation at a height that is wrong, and a totem line before it",
@@ -5767,7 +5767,7 @@
           "knowledge",
           "documents"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a marked ground with no settlement and no burial furniture of the normal kind",
@@ -5875,7 +5875,7 @@
           "knowledge",
           "quest hook"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a marked course or arena in genuinely dangerous ground, with an observation point",
@@ -5983,7 +5983,7 @@
         "kinds": [
           "knowledge"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a dressed upright with an inscription, high-contrast against vegetation",
@@ -6089,7 +6089,7 @@
           "boss",
           "relic with provenance"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "an approach where the vegetation has been rearranged rather than cleared",
@@ -6195,7 +6195,7 @@
           "reagents",
           "hidden site"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a standing mist body visible from above, in one hollow and not its neighbours",
@@ -6310,7 +6310,7 @@
           "knowledge",
           "reagents"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a stake field larger than the village, in every direction",
@@ -6425,7 +6425,7 @@
           "unique service",
           "rare goods"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "no light and no smoke where a village clearly is \u2014 an absence as the cue",
@@ -6541,7 +6541,7 @@
           "lodging",
           "knowledge"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "one tree taller and differently shaped than the canopy, sometimes bioluminescent at night",
@@ -6650,7 +6650,7 @@
           "knowledge",
           "faction access"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a swept, empty, maintained building where nothing else is maintained",
@@ -6757,7 +6757,7 @@
           "services",
           "knowledge"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a single well-kept dwelling at a deliberate distance from a village",
@@ -6866,7 +6866,7 @@
           "knowledge",
           "faction access"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a single well-kept dwelling at a deliberate distance from a village",
@@ -6973,7 +6973,7 @@
           "knowledge",
           "faction access"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a large cleared camping ground with fire scars far out of proportion to anyone present",
@@ -7079,7 +7079,7 @@
           "rest",
           "knowledge"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a large cleared camping ground with fire scars far out of proportion to anyone present",
@@ -7184,7 +7184,7 @@
           "vista",
           "knowledge"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "the tower breaking canopy; at night, lanterns at three heights",
@@ -7292,7 +7292,7 @@
           "evidence",
           "goods"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a drying line of things that should not be being dried",
@@ -7411,7 +7411,7 @@
           "rumour",
           "trade"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a yard of stacked loads with no boat and no cart anywhere",
@@ -7520,7 +7520,7 @@
           "supplies",
           "knowledge"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a maintained structure on ground that has every reason to be empty",
@@ -7633,7 +7633,7 @@
           "loot",
           "reagents"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a root mouth at the base of a rise, breathing warm air, with a worn approach",
@@ -7746,7 +7746,7 @@
           "loot",
           "reagents"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a root mouth at the base of a rise, breathing warm air, with a worn approach",
@@ -7863,7 +7863,7 @@
           "loot",
           "reagents"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a root mouth at the base of a rise, breathing warm air, with a worn approach",
@@ -7976,7 +7976,7 @@
           "loot",
           "reagents"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a root mouth at the base of a rise, breathing warm air, with a worn approach",
@@ -8089,7 +8089,7 @@
           "loot",
           "reagents"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a root mouth at the base of a rise, breathing warm air, with a worn approach",
@@ -8206,7 +8206,7 @@
           "loot",
           "reagents"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a root mouth at the base of a rise, breathing warm air, with a worn approach",
@@ -8320,7 +8320,7 @@
           "knowledge",
           "faction access"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a very large cleared ground with permanent stone or root seating and no buildings",
@@ -8431,7 +8431,7 @@
           "bone",
           "loot"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a tunnel bore too regular to be natural and too large to be comfortable",
@@ -8537,7 +8537,7 @@
           "unique encounter",
           "reagents"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a tunnel bore too regular to be natural and too large to be comfortable",
@@ -8653,7 +8653,7 @@
           "fast transit",
           "faction access"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a loading platform over a root hollow with nothing obviously beneath it",
@@ -8766,7 +8766,7 @@
           "artefact",
           "faction consequence"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "industrial apparatus on a Hist, of a manufacture that is not from Tamriel",
@@ -8882,7 +8882,7 @@
           "sap",
           "trade"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "tap lines and vessels on a great tree, and a track worn to it from one direction only",
@@ -8993,7 +8993,7 @@
           "reagents",
           "unique service"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "the tree's tap-lines and staging, dressed like a shrine",
@@ -9103,7 +9103,7 @@
           "unique discovery",
           "faction consequence"
         ],
-        "valueTier": "unique"
+        "valueTier": "tier-5"
       },
       "vibe": {
         "silhouette": "terraced massing with an intact, unbroken frontage and no path to it",
@@ -9219,7 +9219,7 @@
           "hide",
           "combat"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "shed skins at a size that stops you walking further",
@@ -9326,7 +9326,7 @@
           "dungeon entrance",
           "loot"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "the rim, and a change in vegetation around it",
@@ -9439,7 +9439,7 @@
           "knowledge",
           "quest hook"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "one tree taller and differently shaped than the canopy, sometimes bioluminescent at night",
@@ -9550,7 +9550,7 @@
           "rumour",
           "trade"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "smoke from one chimney of a large ruined structure",
@@ -9660,7 +9660,7 @@
           "curiosity",
           "reagents"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "the object itself, unmistakably made and unmistakably wrong for its surroundings",
@@ -9774,7 +9774,7 @@
           "fish",
           "rest"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "the pile line and drying racks read across open water long before the huts do",
@@ -9893,7 +9893,7 @@
           "ferry",
           "rumour"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "the pile line and drying racks read across open water long before the huts do",
@@ -10001,7 +10001,7 @@
           "knowledge",
           "quest hook"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a formal stone arrangement on open, sky-visible ground",
@@ -10111,7 +10111,7 @@
           "treasure",
           "dungeon"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a terrace corner breaking the surface, or a geometric shadow under it",
@@ -10221,7 +10221,7 @@
           "knowledge",
           "faction standing"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "terraced massing above the canopy, deliberately kept clear of vegetation \u2014 the province's premier built landmark",
@@ -10333,7 +10333,7 @@
           "knowledge",
           "rest"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "terraced massing above the canopy, deliberately kept clear of vegetation \u2014 the province's premier built landmark",
@@ -10444,7 +10444,7 @@
           "supplies",
           "equipment"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a camp with no economic reason to be where it is",
@@ -10555,7 +10555,7 @@
           "rumour",
           "rivalry"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a camp with no economic reason to be where it is",
@@ -10667,7 +10667,7 @@
           "knowledge",
           "documents"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a village with everything intact and no bodies at all \u2014 an absence where a massacre should be",
@@ -10777,7 +10777,7 @@
           "documents",
           "loot"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a compound with an intact gate and no wear on the path",
@@ -10884,7 +10884,7 @@
           "quest hook",
           "loot"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a sealed low structure with no offerings and no path",
@@ -10990,7 +10990,7 @@
           "vista",
           "knowledge"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a break in the canopy or a rim edge, visible as light from below",
@@ -11095,7 +11095,7 @@
           "combat",
           "treasure"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a doorway with a residue line at knee height and nothing beyond it",
@@ -11224,7 +11224,7 @@
           "documents",
           "faction"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "an immaculate swept ground beside dwellings nobody has repaired in a decade",
@@ -11318,7 +11318,7 @@
           "transit",
           "rumour"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "the walkway lines converging, readable across open marsh",
@@ -11429,7 +11429,7 @@
           "reagents",
           "eggs"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "dead standing trees with lightning scarring, and a pond with nothing living in it",
@@ -11536,7 +11536,7 @@
           "shelter",
           "reagents"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "the fall itself, which is a cue; the chamber is not",
@@ -11643,7 +11643,7 @@
           "salvage",
           "traversal challenge"
         ],
-        "valueTier": "low"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "the sound, from a long way upstream, then white water",
@@ -11749,7 +11749,7 @@
           "reagents",
           "unique encounter"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a great tree standing alone with no clearing, no path, no chimes",
@@ -11855,7 +11855,7 @@
           "rest",
           "knowledge"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a great tree standing alone with no clearing, no path, no chimes",
@@ -11962,7 +11962,7 @@
           "combat",
           "loot from the lost"
         ],
-        "valueTier": "medium"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "the lights themselves, at night, which is the cue and the trap",
@@ -12080,7 +12080,7 @@
           "storage",
           "salvage"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "on the road, visible from both approaches \u2014 the one type built to be seen",
@@ -12201,7 +12201,7 @@
           "shelter",
           "unique goods"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "terraced monumental massing with smoke and washing on it",

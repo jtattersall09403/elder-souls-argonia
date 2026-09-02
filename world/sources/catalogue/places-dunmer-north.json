@@ -1294,7 +1294,7 @@
           "faction",
           "documents"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a low town whose lodging blocks are three times the size of its houses, with a walled Hist behind them",
@@ -1557,7 +1557,7 @@
           "relics",
           "knowledge"
         ],
-        "valueTier": "high"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a black mouth under white Ayleid footings, with the water starting three steps in",
@@ -3030,7 +3030,7 @@
           "trade",
           "quest access"
         ],
-        "valueTier": "tier-2 hub"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "Three terraced mounds stepping above a white waterfall, linked by bridges, with black ravine slots between them.",
@@ -11530,7 +11530,7 @@
           "faction access",
           "contracts"
         ],
-        "valueTier": "tier-2 hub"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "A low walled city sitting in a sea of pale saltrice, with one grey Hist crown outside the wall and nothing inside taller than it.",

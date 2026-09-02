@@ -62,7 +62,7 @@
           "information",
           "exploration"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "two dressed uprights on a bare point, not quite parallel",
@@ -231,7 +231,7 @@
           "quest-hooks",
           "fast-transit"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a low town behind a long stone quay; masts and a line of mooring columns; no walls read at distance",
@@ -353,7 +353,7 @@
           "information",
           "named-item"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a cargo hall far larger and better built than anything around it",
@@ -484,7 +484,7 @@
           "unique-knowledge",
           "mount"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "from above, a ring of posts with no visible purpose",
@@ -609,7 +609,7 @@
           "power-slot",
           "services"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "one crown breaking a low roofline \u2014 the only tall thing landward of the masts",
@@ -766,7 +766,7 @@
           "exploration",
           "vista"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a stone drum on a bare headland \u2014 one of the few silhouettes that reads at range on this coast",
@@ -861,7 +861,7 @@
           "information",
           "loot-cache"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a low shed and a barrier with a bell on a post",
@@ -977,7 +977,7 @@
           "unique-knowledge",
           "exploration"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a burnt street grid with gables still standing, inside a living town",
@@ -1126,7 +1126,7 @@
           "quest-critical",
           "named-item"
         ],
-        "valueTier": "T4"
+        "valueTier": "tier-4"
       },
       "vibe": {
         "silhouette": "a low walled compound whose roofline is deliberately below the canopy",
@@ -1245,7 +1245,7 @@
           "loot-cache",
           "travel"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a hull on the stocks, larger than any building on the shore",
@@ -1364,7 +1364,7 @@
           "unique-knowledge",
           "loot-cache"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a loft door too high for its warehouse",
@@ -1478,7 +1478,7 @@
           "information",
           "reputation"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a worn oval of packed earth ringed by carved stakes",
@@ -1595,7 +1595,7 @@
           "named-item",
           "quest-hooks"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "no silhouette at all \u2014 one ordinary house in a row",
@@ -1713,7 +1713,7 @@
           "unique-knowledge",
           "exploration"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a vertical black pillar, the only shape in a flat sea view",
@@ -1822,7 +1822,7 @@
           "information",
           "quest-hooks"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a ship's hull sitting upright among houses, far too big for them",
@@ -1935,7 +1935,7 @@
           "climb-route",
           "rest"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "houses at three heights in the canopy, connected by ladders",
@@ -2051,7 +2051,7 @@
           "trade",
           "rest"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a plank line curving away into vegetation, houses hung off both sides",
@@ -2169,7 +2169,7 @@
           "boss-encounter",
           "exploration"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "no cue at all until you are standing on a terrace you took for ground",
@@ -2270,7 +2270,7 @@
           "shortcut",
           "climb-route"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a dark line across a gap, five metres up",
@@ -2370,7 +2370,7 @@
           "information",
           "loot-cache"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a fenced rectangle of uprights among scrub",
@@ -2486,7 +2486,7 @@
           "loot-cache",
           "exploration"
         ],
-        "valueTier": "T4"
+        "valueTier": "tier-4"
       },
       "vibe": {
         "silhouette": "bulbous organic towers on a bare headland \u2014 unmistakably not local and not Imperial",
@@ -2597,7 +2597,7 @@
           "navigation-knowledge",
           "loot-cache"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a tilted slab face rising out of the canopy",
@@ -2704,7 +2704,7 @@
           "travel-knowledge",
           "quest-hooks"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a small post with a rest bench and a row of carved tokens on a rail",
@@ -2815,7 +2815,7 @@
           "travel-knowledge",
           "information"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a cleared circle with a fire ring and three sleeping frames",
@@ -2932,7 +2932,7 @@
           "unique-knowledge",
           "rest"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a village with an empty space at its centre where a tree should be",
@@ -3062,7 +3062,7 @@
           "information",
           "safety"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "one lit doorway and a fire, deliberately visible from the road at night",
@@ -3175,7 +3175,7 @@
           "quest-hooks",
           "trade"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a long low building with a stable and a mooring, both busy",
@@ -3286,7 +3286,7 @@
           "loot-cache",
           "exploration"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a mouth in a root bank you would walk past",
@@ -3392,7 +3392,7 @@
           "loot-cache",
           "travel-knowledge"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "an abandoned track with the vegetation cut back years ago",
@@ -3493,7 +3493,7 @@
           "information",
           "quest-hooks"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "tents standing, fire cold, nothing packed",
@@ -3600,7 +3600,7 @@
           "quest-hooks",
           "information"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a cluster of small boats over water with no land in sight",
@@ -3716,7 +3716,7 @@
           "quest-hooks",
           "loot-cache"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a lit barge moored where nothing is moored, at an hour when nothing is open",
@@ -3836,7 +3836,7 @@
           "named-item",
           "exploration"
         ],
-        "valueTier": "T4"
+        "valueTier": "tier-4"
       },
       "vibe": {
         "silhouette": "a hull sitting motionless with its sails up, dead centre of a flat sea",
@@ -3939,7 +3939,7 @@
           "harvest",
           "travel"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "boats hull-down on the horizon and nothing else",
@@ -4044,7 +4044,7 @@
           "travel",
           "trade"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "hulls out of the water on stocks, visible from the channel",
@@ -4153,7 +4153,7 @@
           "travel-knowledge",
           "loot-cache"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "water whose surface is visibly wrong across the pinch",
@@ -4260,7 +4260,7 @@
           "information",
           "exploration"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "straight lines in a jungle: a hauling road, and stumps in rows",
@@ -4372,7 +4372,7 @@
           "named-item",
           "loot-cache"
         ],
-        "valueTier": "T4"
+        "valueTier": "tier-4"
       },
       "vibe": {
         "silhouette": "a warning buoy and an absence of boats",
@@ -4489,7 +4489,7 @@
           "vista",
           "exploration"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "at dusk, a rising column of birds visible for kilometres \u2014 a living landmark on a coast with no sightlines",
@@ -4607,7 +4607,7 @@
           "information",
           "quest-hooks"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a low stage over a red clay scar in the ground, with no vehicle visible",
@@ -4739,7 +4739,7 @@
           "vista",
           "toll-service"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a squat tower at a pinch in the water, the tallest thing for a kilometre",
@@ -4859,7 +4859,7 @@
           "information",
           "services"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a hut, a pole and a boat that is clearly not a private one",
@@ -4978,7 +4978,7 @@
           "information",
           "loot-cache"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a house crouched beside something much taller that it obviously serves",
@@ -5082,7 +5082,7 @@
           "information",
           "services"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "permanent stall frames, seasonally clothed",
@@ -5195,7 +5195,7 @@
           "trade",
           "harvest"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "pale geometric rectangles and white heaps on a flat shore",
@@ -5310,7 +5310,7 @@
           "harvest",
           "exploration"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "broken white water and three mast stumps standing out of it",
@@ -5412,7 +5412,7 @@
           "harvest",
           "exploration"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a whitened pillar with birds around it like smoke",
@@ -5517,7 +5517,7 @@
           "trade",
           "crafting"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "stacked shells taller than a person",
@@ -5626,7 +5626,7 @@
           "loot-cache",
           "information"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a low heavy structure with its back to the sea",
@@ -5738,7 +5738,7 @@
           "information",
           "quest-hooks"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "empty standing frames in a clearing, eleven months of the year",
@@ -5849,7 +5849,7 @@
           "information",
           "travel-knowledge"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a frame of hanging chimes under closed canopy",
@@ -5955,7 +5955,7 @@
           "travel",
           "quest-hooks"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a single stage under one enormous tree",
@@ -6074,7 +6074,7 @@
           "loot-cache",
           "named-item"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a mouth with bones outside it",
@@ -6180,7 +6180,7 @@
           "information",
           "safety"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a single lit doorway with a wall of black canopy immediately behind it",
@@ -6290,7 +6290,7 @@
           "navigation-knowledge",
           "exploration"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a lashed tower breaking the canopy \u2014 a thing you climb, not a thing you see",
@@ -6397,7 +6397,7 @@
           "navigation-knowledge",
           "reagents"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "in season, the water itself is the landmark \u2014 lit from below",
@@ -6501,7 +6501,7 @@
           "safety",
           "rest"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a hut on an islet with nothing else on it",
@@ -6617,7 +6617,7 @@
           "exploration",
           "boss-encounter"
         ],
-        "valueTier": "T4"
+        "valueTier": "tier-4"
       },
       "vibe": {
         "silhouette": "one terrace corner breaking flat water, and a geometric shadow under it",
@@ -6732,7 +6732,7 @@
           "loot-cache",
           "unique-knowledge"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "nothing from outside; it is found by diving",
@@ -6844,7 +6844,7 @@
           "quest-hooks",
           "shortcut"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "nothing \u2014 the cue is a gap in an otherwise unbroken green wall",
@@ -6958,7 +6958,7 @@
           "harvest",
           "trade"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "stakes and lot markers standing out of shallow water",
@@ -7059,7 +7059,7 @@
           "services",
           "information"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "low platforms hung off the outer roots, with a trade landing",
@@ -7172,7 +7172,7 @@
           "loot-cache",
           "exploration"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a broken hull line at a wrong angle inside a green wall",
@@ -7274,7 +7274,7 @@
           "exploration",
           "reagents"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "nothing above water but a colour change",
@@ -7380,7 +7380,7 @@
           "quest-hooks",
           "information"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a line of shelters along a boundary, facing the wrong way \u2014 inward, at the fields",
@@ -7507,7 +7507,7 @@
           "trade",
           "named-item"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "marker buoys and a tender boat above nothing visible",
@@ -7633,7 +7633,7 @@
           "information",
           "trade"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "houses stacked on a shelf against a rock face, lit from the seaward side only",
@@ -7770,7 +7770,7 @@
           "travel",
           "information"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a careened hull on a beach with no village behind it",
@@ -7897,7 +7897,7 @@
           "unique-knowledge",
           "services"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a normal village behind a line of stakes nobody is guarding",
@@ -8015,7 +8015,7 @@
           "shortcut",
           "information"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "water going into a building and not coming out",
@@ -8126,7 +8126,7 @@
           "quest-hooks",
           "services"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a lit, busy doorway with a mooring outside it, at any hour",
@@ -8237,7 +8237,7 @@
           "exploration",
           "reagents"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "no silhouette at all",
@@ -8341,7 +8341,7 @@
           "exploration",
           "named-item"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "nothing above water but a mast stump",
@@ -8465,7 +8465,7 @@
           "trade",
           "information"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "far more boats than the town behind them justifies, and above them a white drop",
@@ -8591,7 +8591,7 @@
           "information",
           "loot-cache"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "nothing \u2014 the chamber is behind the thing you are looking at",
@@ -8696,7 +8696,7 @@
           "information",
           "trade"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "racks of carrying frames and a long open shed",
@@ -8811,7 +8811,7 @@
           "loot-cache",
           "exploration"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "white water between rock walls, heard from far upstream",
@@ -8922,7 +8922,7 @@
           "loot-cache",
           "services"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a greased timber ramp climbing out of the water beside white water",
@@ -9034,7 +9034,7 @@
           "boss-encounter",
           "unique-knowledge"
         ],
-        "valueTier": "T4"
+        "valueTier": "tier-4"
       },
       "vibe": {
         "silhouette": "a stepped mass under canopy, half-swallowed, unmistakably intentional",
@@ -9139,7 +9139,7 @@
           "crafting",
           "encounter"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a churned wallow with discarded shells around its rim",
@@ -9238,7 +9238,7 @@
           "harvest",
           "trade"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a scatter of small boats over shallow water",
@@ -9341,7 +9341,7 @@
           "quest-hooks",
           "information"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a village whose street grid is aimed at nothing, because it copies the one underwater",
@@ -9462,7 +9462,7 @@
           "information",
           "rest"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a pile line and drying racks reading across open water long before the huts do",
@@ -9581,7 +9581,7 @@
           "trade",
           "quest-hooks"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a second pile line facing the first across open water",
@@ -9701,7 +9701,7 @@
           "vista",
           "quest-hooks"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a stepped stone pyramid breaking the canopy \u2014 one of the two landmark strategies that work here",
@@ -9819,7 +9819,7 @@
           "vista",
           "rest"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "stepped platforms climbing a ridge, read as horizontal lines through trees",
@@ -9929,7 +9929,7 @@
           "shortcut",
           "travel-knowledge"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a tide board on a post at the mouth of a cut",
@@ -10038,7 +10038,7 @@
           "travel-knowledge",
           "information"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a line of stakes running out into water",
@@ -10156,7 +10156,7 @@
           "information",
           "loot-cache"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "racks of drying frames covered in things that have plainly been underwater a long time",
@@ -10272,7 +10272,7 @@
           "exploration",
           "unique-knowledge"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "roof ridges and pile stumps breaking the water, changing with the tide",
@@ -10393,7 +10393,7 @@
           "information",
           "quest-hooks"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a long low mound with markers along its spine, out of scale with the village near it",
@@ -10505,7 +10505,7 @@
           "rest",
           "information"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a boat-shed with beds in it and a lamp outside",
@@ -10611,7 +10611,7 @@
           "rest",
           "trade"
         ],
-        "valueTier": "T1"
+        "valueTier": "tier-1"
       },
       "vibe": {
         "silhouette": "a wide platform where plank lines converge",
@@ -10730,7 +10730,7 @@
           "services",
           "quest-hooks"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a single thin smoke line above canopy, with no path under it",
@@ -10850,7 +10850,7 @@
           "quest-hooks",
           "unique-knowledge"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "one crown breaking the canopy, and huts under it that you do not see until you are inside",
@@ -10969,7 +10969,7 @@
           "encounter",
           "quest-hooks"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "no smoke where a camp obviously is",
@@ -11075,7 +11075,7 @@
           "navigation-knowledge",
           "loot-cache"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a break in the canopy edge, read from below as light",
@@ -11176,7 +11176,7 @@
           "encounter",
           "loot-cache"
         ],
-        "valueTier": "T2"
+        "valueTier": "tier-2"
       },
       "vibe": {
         "silhouette": "a smooth round hole three metres across in a bank",
@@ -11278,7 +11278,7 @@
           "loot-cache",
           "named-item"
         ],
-        "valueTier": "T3"
+        "valueTier": "tier-3"
       },
       "vibe": {
         "silhouette": "a black circle in green water, ringed by cut stone",

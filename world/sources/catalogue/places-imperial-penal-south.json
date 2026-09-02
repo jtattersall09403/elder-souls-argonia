@@ -83,7 +83,7 @@
           "loot",
           "exploration"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "A stone-handling yard with lifting sockets sized for something inhumanly strong, and Akaviri tool-marks on every dressed face.",
@@ -196,7 +196,7 @@
           "shelter",
           "loot"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A dry limestone room reached only by swimming down and up again, with dry goods stacked on a natural shelf.",
@@ -308,7 +308,7 @@
           "services",
           "knowledge"
         ],
-        "valueTier": 1
+        "valueTier": "tier-1"
       },
       "vibe": {
         "signatureFeature": "A post with a peg board of destinations, a bench of waiting runners, and a chalked record of the day's best times.",
@@ -424,7 +424,7 @@
           "knowledge",
           "exploration"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "Nineteen worked standing stones in a dead-straight line across marsh, with two of them subtly out of true and their empty sockets beside them.",
@@ -540,7 +540,7 @@
           "shelter",
           "services"
         ],
-        "valueTier": 1
+        "valueTier": "tier-1"
       },
       "vibe": {
         "signatureFeature": "A hearth house built physically against a plague cordon marker, using the stone as one wall.",
@@ -658,7 +658,7 @@
           "knowledge",
           "services"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A ledge hut above a roaring sinkhole, with the district's water routes scratched into the rock face beside the door.",
@@ -768,7 +768,7 @@
           "exploration",
           "conflict"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "A vertical shaft in dry limestone with a stream pouring into it and no sound of it landing.",
@@ -878,7 +878,7 @@
           "shelter",
           "knowledge"
         ],
-        "valueTier": 1
+        "valueTier": "tier-1"
       },
       "vibe": {
         "signatureFeature": "One lit window in the gatehouse of an otherwise dark fort, with a water butt and a hand-painted price beside the road.",
@@ -992,7 +992,7 @@
           "services",
           "knowledge"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A long room with two hearths at opposite ends and a slate of standing accounts kept in two columns.",
@@ -1124,7 +1124,7 @@
           "knowledge",
           "faction"
         ],
-        "valueTier": 4
+        "valueTier": "tier-4"
       },
       "vibe": {
         "signatureFeature": "A walled stone core on a lake island \u2014 Lilmothiit foundations, Imperial courses, Argonian roofs \u2014 with the rest of the city spread over the water on boardwalks between three river gates.",
@@ -1248,7 +1248,7 @@
           "knowledge",
           "faction"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "A great tree standing whole and alive underwater, its canopy a green shadow six metres down, with weighted offering lines running from a boat platform on the surface.",
@@ -1380,7 +1380,7 @@
           "faction",
           "knowledge"
         ],
-        "valueTier": 4
+        "valueTier": "tier-4"
       },
       "vibe": {
         "signatureFeature": "A single-day fortress of reused Lilmothiit stone, its blocks still carrying vulpine carving laid in at random angles, with washing lines strung across a parade yard and a sealed stair to the lower levels.",
@@ -1503,7 +1503,7 @@
           "knowledge",
           "conflict"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "A rock-cut vault of stacked urns, each with a single word on it explaining the refusal, and a growing section where the word is the same on every one.",
@@ -1610,7 +1610,7 @@
           "materials",
           "knowledge"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A furnace stack standing alone on a slag heap that has become the local high point, with the last bloom still in the hearth.",
@@ -1730,7 +1730,7 @@
           "trade",
           "knowledge"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "A stone-cut mooring bank in a blind lagoon, with iron rings a thousand years old and a fresh rope on every one of them.",
@@ -1845,7 +1845,7 @@
           "access",
           "knowledge"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A road of lashed buoyant timber rafts that lifts and falls with the season, numbered along its whole length, moving visibly as you walk it.",
@@ -1961,7 +1961,7 @@
           "exploration",
           "materials"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A cave pool that lights the whole chamber blue-green from below, with quota marks cut into the rock at the waterline.",
@@ -2081,7 +2081,7 @@
           "faction",
           "knowledge"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "A rambling water-house with more doors than rooms, a work-board of paid tasks, and a wall of returned bone-tags from the Rose.",
@@ -2199,7 +2199,7 @@
           "climb",
           "access"
         ],
-        "valueTier": 1
+        "valueTier": "tier-1"
       },
       "vibe": {
         "signatureFeature": "Three squat towers in a line across flat marsh, each visible from the next, with shuttered signal lamps and nothing else in them.",
@@ -2312,7 +2312,7 @@
           "exploration",
           "climb"
         ],
-        "valueTier": 1
+        "valueTier": "tier-1"
       },
       "vibe": {
         "signatureFeature": "A rock bench above the whole basin with a wind-shelter of piled stone and a scratched diagram of the three river mouths on the back wall.",
@@ -2425,7 +2425,7 @@
           "knowledge",
           "conflict"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A low room under a boardwalk with hammocks slung in three tiers and a water-level door that only opens at half tide.",
@@ -2544,7 +2544,7 @@
           "faction",
           "conflict"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "An estate with a sealed and shuttered great house, a fully working farm around it, and a rent chest in the arbiter's parlour eight kilometres away.",
@@ -2652,7 +2652,7 @@
           "knowledge",
           "exploration"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "A cracked lake bed walked by half the district, with drowned fence lines, lost cargo and standing grave-stakes emerging for six weeks a year.",
@@ -2764,7 +2764,7 @@
           "access",
           "services"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A greased timber slipway over a saddle with a hand-windlass at the top and a queue of hulls waiting at both ends.",
@@ -2876,7 +2876,7 @@
           "access",
           "hazard"
         ],
-        "valueTier": 1
+        "valueTier": "tier-1"
       },
       "vibe": {
         "signatureFeature": "Six clean limestone drops in a row with a worn path beside them and a name cut beside each drop.",
@@ -2986,7 +2986,7 @@
           "knowledge",
           "faction"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A single continuous grave trench four hundred metres long with one stake at each end and nothing in between.",
@@ -3097,7 +3097,7 @@
           "loot",
           "faction"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "A fenced village-sized enclosure with the gate on the outside of the fence, a ration store built into the wall, and a burial ground four times the size of the enclosure.",
@@ -3211,7 +3211,7 @@
           "trade",
           "knowledge"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "Six walled ponds in a row, each one sounding a different pitch at dusk, with a listening bench between them.",
@@ -3319,7 +3319,7 @@
           "materials",
           "conflict"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A gated inlet with feeding gantries and a hire board listing channels by name and price.",
@@ -3428,7 +3428,7 @@
           "food",
           "services"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A Nibenese farmhouse in perfect repair with an Argonian stilt granary beside it, both maintained to the same standard.",
@@ -3536,7 +3536,7 @@
           "knowledge",
           "loot"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A line of surveyor's pegs running four kilometres over a saddle, with a rotted camp at its midpoint and a levelling book in a tin box.",
@@ -3650,7 +3650,7 @@
           "conflict",
           "shelter"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "A small Imperial fort with its roof on, its gate off, and three different parties' fire-scars in the same courtyard.",
@@ -3762,7 +3762,7 @@
           "loot",
           "knowledge"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "Silver-skinned people's houses of a form found nowhere else in the province, standing to head height, with the flu-year's stores still in the pits.",
@@ -3877,7 +3877,7 @@
           "shelter",
           "food"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "One boardwalk running straight out into a lake with houses down both sides, getting visibly newer, poorer and more precarious the further out you go.",
@@ -3989,7 +3989,7 @@
           "trade",
           "services"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A drying floor of lake-blackened trade goods with a crane frame over the water and a chart of sinkings painted on the shed wall.",
@@ -4106,7 +4106,7 @@
           "knowledge",
           "exploration"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "A complete village standing upright underwater with its roofs intact, its street legible, and grave-stakes still standing in rows on its drowned burial ground.",
@@ -4226,7 +4226,7 @@
           "access",
           "services"
         ],
-        "valueTier": 1
+        "valueTier": "tier-1"
       },
       "vibe": {
         "signatureFeature": "A sail-and-pole ferry with a proper stone slip at both ends and a passenger board that lists cargo types, not names.",
@@ -4344,7 +4344,7 @@
           "food",
           "services"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "Thirty rafts lashed into an irregular floating block with gardens on the outer rafts and a common fire raft at its centre.",
@@ -4457,7 +4457,7 @@
           "trade",
           "services"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "Two hundred boats rafted into rows on open water, with a poled aisle between them and a bell that starts and ends the trading.",
@@ -4572,7 +4572,7 @@
           "exploration",
           "knowledge"
         ],
-        "valueTier": 4
+        "valueTier": "tier-4"
       },
       "vibe": {
         "signatureFeature": "A stone pyramid standing whole on a lake floor, its lower terraces buried in silt and its upper terraces clean, with fish holding station in every doorway.",
@@ -4696,7 +4696,7 @@
           "faction",
           "knowledge"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "A back-channel house whose front room is a working counting office with proper books, and whose back room is not.",
@@ -4811,7 +4811,7 @@
           "loot",
           "exploration"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "A vulpine city reduced to its footings and its robbing trenches, with the sockets of removed blocks still square, and a single unrobbed colonnade nobody could shift.",
@@ -4925,7 +4925,7 @@
           "conflict",
           "services"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "A shore camp with a drying rack of recovered stone fragments, two boats, and two buoys on the water that nobody discusses.",
@@ -5043,7 +5043,7 @@
           "food",
           "trade"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A single village street a kilometre long on stilts over a shallow flat, with a loading deck running its entire length.",
@@ -5154,7 +5154,7 @@
           "access",
           "conflict"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A tower with a chain boom lying slack across a river, its winch greased and its links free of rust.",
@@ -5265,7 +5265,7 @@
           "conflict",
           "materials"
         ],
-        "valueTier": 4
+        "valueTier": "tier-4"
       },
       "vibe": {
         "signatureFeature": "Deep firm trackways trodden through marsh in a repeating circuit, with reed flattened in beds at three points on it.",
@@ -5375,7 +5375,7 @@
           "loot",
           "knowledge"
         ],
-        "valueTier": 5
+        "valueTier": "tier-5"
       },
       "vibe": {
         "signatureFeature": "A wall of forest standing across open marsh with no transition at all, with drowned stumps of the previous tree line visible a kilometre behind it.",
@@ -5491,7 +5491,7 @@
           "exploration",
           "loot"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "A perfectly round hole in a flat lake floor with visibly colder, clearer water rising out of it and no bottom in sight.",
@@ -5604,7 +5604,7 @@
           "loot",
           "knowledge"
         ],
-        "valueTier": 4
+        "valueTier": "tier-4"
       },
       "vibe": {
         "signatureFeature": "A shored shaft under a spoil-covered awning, with an alignment string running dead straight toward a prison four hundred metres away.",
@@ -5719,7 +5719,7 @@
           "materials",
           "trade"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A red clay cliff with three beehive kilns at its foot and stacks of drying tiles laid out in an orange field.",
@@ -5832,7 +5832,7 @@
           "faction",
           "knowledge"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A camp strung along a field boundary with each household's door-post carried from its old house and re-set facing its own fields.",
@@ -5942,7 +5942,7 @@
         "kinds": [
           "knowledge"
         ],
-        "valueTier": 1
+        "valueTier": "tier-1"
       },
       "vibe": {
         "signatureFeature": "A line of hundred-pace marker stones running six kilometres across country, each cut with the same three words.",
@@ -6058,7 +6058,7 @@
           "knowledge",
           "faction"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A settlement with a carefully built empty tree-enclosure at its centre, waiting for a cutting nobody has agreed to give them.",
@@ -6173,7 +6173,7 @@
           "knowledge",
           "faction"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "Two villages' worth of boats drawn up in two separate lines above the ferry slip, with houses built on the boats rather than beside them.",
@@ -6280,7 +6280,7 @@
           "knowledge",
           "loot"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "Complete, unused siege lines with sharp unfought ditch profiles, and not one arrowhead anywhere in them.",
@@ -6393,7 +6393,7 @@
         "kinds": [
           "knowledge"
         ],
-        "valueTier": 1
+        "valueTier": "tier-1"
       },
       "vibe": {
         "signatureFeature": "A gate stone listing an army's muster by district, with a scraped blank where a name used to be.",
@@ -6508,7 +6508,7 @@
           "knowledge",
           "faction"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A modest lake house with a public bench outside it, a queue on hearing days, and a wall of case books visible through the window.",
@@ -6628,7 +6628,7 @@
           "services",
           "food"
         ],
-        "valueTier": 1
+        "valueTier": "tier-1"
       },
       "vibe": {
         "signatureFeature": "A single-file village strung along the crest of a natural levee, with the spring house at its centre and every door facing the water.",
@@ -6740,7 +6740,7 @@
           "faction",
           "knowledge"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A handover shed on a causeway with a bone-tag rack on the prison side and a wrapping bench on the village side, and a painted line on the floor between them.",
@@ -6856,7 +6856,7 @@
           "conflict",
           "knowledge"
         ],
-        "valueTier": 5
+        "valueTier": "tier-5"
       },
       "vibe": {
         "signatureFeature": "A bricked stair-head in a working prison yard, with water audible behind it and the mortar visibly newer than everything around it.",
@@ -6986,7 +6986,7 @@
           "faction",
           "conflict"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "An Imperial garrison town with its barrack rows converted to houses, its magazine still locked, and the prison's ration tally still chalked on the magazine door every week.",
@@ -7105,7 +7105,7 @@
           "trade",
           "services"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "Open flood-fed fields with a village of long grain barns raised on stone staddles, and a threshing floor bigger than any building in it.",
@@ -7216,7 +7216,7 @@
           "faction",
           "conflict"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "A dry stone pit under a working counting-house, with a hatch in the floor of the room where the tariffs are argued.",
@@ -7338,7 +7338,7 @@
           "trade",
           "faction"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "Three gated water channels converging on one stone counting-quay, with three separate tariff boards in three scripts and one set of accounts.",
@@ -7452,7 +7452,7 @@
           "loot",
           "conflict"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "An open field of unstaked dead where the grass grows in the shape of a formation, and nothing has been carried away.",
@@ -7566,7 +7566,7 @@
           "conflict",
           "knowledge"
         ],
-        "valueTier": 4
+        "valueTier": "tier-4"
       },
       "vibe": {
         "signatureFeature": "A stone door with iron straps welded across it and a nailed board whose message is legible after two hundred years.",
@@ -7693,7 +7693,7 @@
           "services",
           "knowledge"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "A grid of open-sided trading sheds along a river junction, each with its own scale, and not one wall or gate anywhere in the town.",
@@ -7807,7 +7807,7 @@
           "conflict",
           "loot"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A line of soft lights across open fen, spaced exactly like the causeway's own lamps, moving very slowly.",
@@ -7919,7 +7919,7 @@
           "access",
           "knowledge"
         ],
-        "valueTier": 2
+        "valueTier": "tier-2"
       },
       "vibe": {
         "signatureFeature": "A single low xanmeer-built span of fitted stone with a modern timber toll house grafted onto one end.",
@@ -8031,7 +8031,7 @@
           "knowledge",
           "loot"
         ],
-        "valueTier": 3
+        "valueTier": "tier-3"
       },
       "vibe": {
         "signatureFeature": "A ruin with two competing carved attribution plaques at its entrance, both wrong, and the answer visible in the masonry twenty paces inside.",
