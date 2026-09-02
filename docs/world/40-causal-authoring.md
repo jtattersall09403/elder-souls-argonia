@@ -88,6 +88,32 @@ build that type — layout, contents, telegraphing, loot logic — recorded in
 `docs/research/` (check filenames first; much already exists). An agent
 arriving at an unresearched type stops and fills the gap before placing.
 
+**The breadth rule.** Every list of examples in these docs is
+*illustrative, never exhaustive* — including the ones above. The failure
+mode to avoid is an agent reading a handful of examples and then building
+exactly those. Enumerate systematically from multiple independent axes and
+cross them (economy, faction, ecology, era layer, traversal mode, danger,
+social function — law, worship, burial, healing, learning, waste, defence,
+vice, refuge, quarantine, labour, the dead — condition state, season,
+scale); set and check variety targets; and run a completeness critic whose
+only job is naming what is absent. Full practice:
+[decision 0041](../decisions/0041-phase11-settlement-decisions.md).
+
+**The distinctiveness ladder.** Variety is designed, not discovered at
+build time, and it is hierarchical: province (one coherent house style) →
+region (two regions distinguishable from one screenshot) → named-place
+signature (no two majors share architecture family, palette, silhouette
+motif, landmark idea) → within-place districts → seeded per-instance
+variation. Small places get the same treatment at lower cost — a camp, a
+hermit's hut and a toll post each need a signature and an asset plan, or
+they converge. Detail and enforcement: 0041.
+
+**Breadth before depth.** For placement at province scale, derive and plot
+*everything* shallowly before authoring *anything* deeply — one-at-a-time
+placement dead-ends the map and hides coverage, density and variety
+problems until they are expensive. Phase 11 executes this as
+derive → catalogue → macro plot → review → author (0041).
+
 ## 29. Example causal derivations
 
 ### 29.1 Bandit camp on an isolated trade route
