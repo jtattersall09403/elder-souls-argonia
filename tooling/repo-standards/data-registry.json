@@ -6,9 +6,13 @@
       "enforced": true
     },
     {
+      "path": "world/sources/placement/settlement-asset-inventory.json",
+      "enforced": true
+    },
+    {
       "path": "world/sources/flora/palettes.json",
       "enforced": false,
-      "owner": "Phase 10 (vegetation) — version when the palette schema next changes"
+      "owner": "Phase 10 (vegetation) \u2014 version when the palette schema next changes"
     },
     {
       "path": "packages/game-core/src/anim/generated/rig-skyrim-humanoid.animations.json",

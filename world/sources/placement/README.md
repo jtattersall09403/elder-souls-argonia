@@ -24,6 +24,7 @@ which is the human-facing version and states the caveats.
 | `bmv-settlement-form.json` | BM&V Black Marsh worldspaces, via `worldgen/mine_settlements.py` (1,474 buildings, 47 settlements) | **Phase 11 input:** buildings per settlement, spacing, radius, orientation coherence, distance to water/road |
 | `bmv-valenwood-settlement-form.json` | worldspace `Valenwood` | the same — the dry, road-led contrast to Black Marsh's waterline siting |
 | `vanilla-tamriel-settlement-form.json` | vanilla `Skyrim.esm`, worldspace `Tamriel` | the same for Bethesda's own world — the cross-check |
+| `settlement-asset-inventory.json` | the semantic asset registry + the vault filesystem + module 90 §71–§80 | **Phase 11 Part 0 item 6a:** the settlement-building families we hold or can source, by culture (the two never-blended Argonian cultures, xanmeer, Imperial), with vault paths, piece counts, palettes, condition variants, gaps and the 6b sourcing order. Not mined placement statistics — a survey. Digest: [docs/research/settlement-asset-inventory.md](../../../docs/research/settlement-asset-inventory.md) |
 | `vanilla-region-object-tables.json` | `Skyrim.esm`/`Update.esm` `REGN` | the region object-generator census: 317 regions, 69 declaring an object block, **all of them empty** (`worldgen/mine_regions.py`) |
 
 ## Regenerating

@@ -275,6 +275,16 @@ touchpoint wait on compiler work it doesn't need.
      priority mods as *sourcing candidates*. Part 1 writes descriptions
      *against* this, so we design for the breadth we own rather than
      inventing what we lack. This is a survey, cheap, parallelisable.
+     **DELIVERED 2026-09-02:** `world/sources/placement/settlement-asset-inventory.json`
+     (schemaVersion 1, registered) + digest
+     [settlement-asset-inventory.md](../research/settlement-asset-inventory.md).
+     Headline for Parts 1–2: we can build stilt/boardwalk/dock/platform
+     settlements and Imperial stone-timber towns well today; we cannot yet
+     build a *varied* Shadowfen mud village (≈3 monolithic hut shells), a
+     monumental xanmeer skyline (9 exterior tileset pieces), an
+     Argonian-reading mooring (zero rafts/canoes — every hull we own is
+     keeled and foreign), a grave-stakes field (zero meshes) or a Hist tree.
+     Author around those five gaps or flag a 6b sourcing request.
    - **6b. Kit sourcing and builds** — download the priority mods
      (Argonian mud hut, Marsh-Rest, xanmeer kit, clutter) with the Nexus
      key, registry → build a `settlement-v1` kit → vet, per the flora-kit
