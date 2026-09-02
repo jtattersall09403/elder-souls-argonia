@@ -430,11 +430,33 @@ a visual is *fast and cheap* (asset-inventory stills already rendered by
 the pipeline, a palette strip per region), attach it; never build new
 machinery just to illustrate the summary.
 
-**Size the catalogue on real numbers, early in Part 1**: compute the
-authored-land area (province minus open water) and derive the target count
-from the density tiers against *that*, not the bounding box. Ballpark at
-18–22/km² over ~7.4 km of province this is on the order of 1,000 records,
-not "thousands" — set fan-out and owner expectations accordingly.
+**Size the catalogue on real numbers** (MEASURED 2026-09-02, terrain scour):
+authored land is **33.52 km²** (54.40 km² bounding square minus open sea
+16.46, lakes 3.31, deep channels 1.10; shallow marsh counts as authored).
+At 18–22/km² fine-tempo that is **~600–740 records**, pulled lower by the
+8–12/km² D4–D5 rate — set fan-out and owner expectations on that, not
+"thousands".
+
+**Scour findings that bind Parts 1/3** (2026-09-02, full digest in
+`world/sources/sites/candidate-sites.md`; 1,172 scored candidate sites in
+`candidate-sites.json`, dossiers for all nine anchors in `sites/dossiers/`):
+
+- **Almost no long sightlines below the mountain rim** (median site sees
+  18 % of its 1.2 km surroundings; nothing 12 m tall reads at 1.4 km).
+  Landmark strategy must be tall-or-close: canopy-breaking silhouettes
+  (xanmeers, great trees, smoke, lights) and short-range reveals, not
+  Skyrim-style distant-vista pulls.
+- **Enclosed clearings (6 found) and sinkholes (11) are genuinely rare** —
+  the interior is too gentle and hydrology floods depressions away. Types
+  that need them must be *authored* into terrain-adjacent form or spent
+  sparingly; they cannot be found on the ground.
+- **A quarter of the interesting ground is on the mountain rim** where the
+  fewest people live — Part 3 must *make* interior interest from water,
+  vegetation and built form, exactly as the non-uniform-density rule says.
+- **Gideon's approved anchor sits on steep ground** (p50 slope 20°, 14 %
+  buildable in a 400 m disc) — Part 6 must nudge within `toleranceUV`.
+- Capped detector classes are flagged in the digest — raise the cap before
+  concluding scarcity.
 
 ### Part 3 — MACRO PLOT: approximate locations for everything
 
