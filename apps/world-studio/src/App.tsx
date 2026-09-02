@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { SettlementAnchor, SuggestedConnection } from "@elder-souls/contracts";
 import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json";
 import { Fly3D } from "./Fly3D";
+import { CataloguePlot } from "./catalogue/CataloguePlot";
 import { CharacterMode } from "./character/CharacterMode";
 import { colour } from "./terrainColor";
 import { TimePanel } from "./sky/TimePanel";
@@ -112,6 +113,9 @@ export function App() {
   // Live tuning knobs (owner): climate-tint strength; boat-lane overlay.
   const [tintStrength, setTintStrength] = useState(Number(urlParams.get("tint") ?? 1));
   const [showLanes, setShowLanes] = useState(urlParams.get("lanes") !== "0");
+  // Phase 11 place catalogue plotted over the map (?cat=1) — the owner's
+  // Part 4 review medium (decision 0041 Part 0 item 5).
+  const [showCatalogue, setShowCatalogue] = useState(urlParams.get("cat") === "1");
   // World-time changes (scrub/date/rate/preset) bump this so the URL effect
   // reserialises; the clock itself lives in sky/timeState.
   const [timeVersion, setTimeVersion] = useState(0);
@@ -173,9 +177,10 @@ export function App() {
       const lat = getLatitudeOverrideDeg();
       if (lat !== null) q.set("lat", String(lat));
     }
+    if (showCatalogue) q.set("cat", "1");
     const qs = q.toString();
     window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
-  }, [view, camMode, spawnKm, exaggeration, flySpeed, matSet, wetSeason, tintStrength, showLanes, timeVersion]);
+  }, [view, camMode, spawnKm, exaggeration, flySpeed, matSet, wetSeason, tintStrength, showLanes, showCatalogue, timeVersion]);
   const overlaysRef = useRef<Record<string, HTMLImageElement>>({});
   const decodedPxRef = useRef<Record<string, Uint8ClampedArray>>({});
   const [layers, setLayers] = useState<Record<string, boolean>>({
@@ -598,6 +603,11 @@ export function App() {
             {name}
           </label>
         ))}
+        <label style={{ cursor: "pointer", borderLeft: "1px solid #3a4655", paddingLeft: 12 }}>
+          <input type="checkbox" checked={showCatalogue}
+            onChange={(e) => setShowCatalogue(e.target.checked)} />{" "}
+          place catalogue
+        </label>
       </div>
       <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
         <span>Interior relief:</span>
@@ -643,6 +653,7 @@ export function App() {
             {tip.text}
           </div>
         )}
+        {showCatalogue && <CataloguePlot />}
       </div>
       <p style={{ maxWidth: 720, opacity: 0.8, margin: 0 }}>
         Terrain: Tamriel Worldspaces Argonia heightfield (coarse macro prior — not final terrain).

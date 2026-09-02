@@ -74,6 +74,20 @@ Example:
 - draw-call and triangle density;
 - source confidence and provenance.
 
+### 68a. The plotted place catalogue (delivered — Phase 11 Part 0 item 5)
+
+The 2D map view carries a **place-catalogue layer**: `?cat=1` (or the "place
+catalogue" tick beside the layer list) plots every
+`world/sources/catalogue/places-<region>.json` record as a dot — size and
+colour by importance tier, dimmed while `workflow: derived`, dashed when
+`status: cut` — filterable by tier, taxonomy class, region and workflow, with
+a hover/click detail panel showing the whole record, its `why` and its
+`whySiteWon`. Places without a `position` are counted, not plotted. An
+optional underlay plots `world/sources/sites/candidate-sites.json` (the
+terrain scour) as small landform-coloured marks, so a review reads **demand
+against supply**. Zero committed region files is a legal state: a dev fixture
+stands in and the panel says so. Code: `apps/world-studio/src/catalogue/`.
+
 ## 69. Agent-readable probes
 
 Coding agents should receive JSON, CSV and compact HTML reports. Useful probes include:

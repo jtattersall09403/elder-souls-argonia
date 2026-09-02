@@ -45,6 +45,10 @@ python3 -m pytest -q   # tests over the algorithmic cores
 # 8. Phase 11: site survey (reads only committed repo rasters -- no vault)
 python3 -m worldgen.terrain_scour                        # province candidate sites
 python3 -m worldgen.site_dossier --anchor gideon --radius 500
+
+# 9. Phase 11: blueprint map (review artefact; seconds, PNG in output/)
+python3 -m worldgen.render_blueprint \
+    --blueprint world/sources/blueprints/<place-id>.json
 ```
 
 Rerun 2 (then 3) after changing conditioning, thresholds or authored region
@@ -97,5 +101,11 @@ culture rules. Outputs are deterministic (fixed noise seed).
 - `worldgen/terrain_scour.py` — the same machinery province-wide: 24 landform
   detectors over the rasters, greedy spacing harvest, five-axis scoring, into
   `world/sources/sites/candidate-sites.json` (0041 Part 0 item 2).
+- `worldgen/render_blueprint.py` — the blueprint map: top-down annotated
+  diagram (districts, ways, parcels by ground fit, docks, doors with facing,
+  landmarks, sockets, water, contours) over a real terrain hillshade crop,
+  with legend and budget title block, into `output/blueprint-maps/`
+  (gitignored — renders are derived). Fixture + tests in
+  `worldgen/testdata/` (0041 Part 0 item 5).
 - `worldgen/compile_hydrology.py`, `worldgen/compile_society.py`,
   `worldgen/refine_province.py` — the compile entry points above.
