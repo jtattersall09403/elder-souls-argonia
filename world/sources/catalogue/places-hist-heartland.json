@@ -11278,7 +11278,8 @@
       "importanceTier": 1,
       "workflow": "derived",
       "strongholdCandidate": true,
-      "reconciliation": "PLAYER-STRONGHOLD CANDIDATE \u2014 one site province-wide; reconcile against neighbouring agents' xanmeer candidates before Part 3"
+      "reconciliation": "PLAYER-STRONGHOLD CANDIDATE \u2014 one site province-wide; reconcile against neighbouring agents' xanmeer candidates before Part 3",
+      "reconciliationNote": "Player-stronghold candidate A (2026-09-02 reconciliation): the interior river station. Candidate B is place.pirate-freeholds.rockpoint. BOTH stay flagged; the A/B choice is an owner call queued for touchpoint (1) in decision 0041's Owner Q&A."
     },
     {
       "id": "place.hist-heartland.xanmeer-fort-defences-working",

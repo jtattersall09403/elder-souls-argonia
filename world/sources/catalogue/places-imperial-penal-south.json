@@ -4798,7 +4798,8 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "reconciliationNote": "Contestable CONFIRMED here (2026-09-02 reconciliation). The flag suspected a mercantile-coast double-claim; there is none. Canon last locates Murkwood north-east of Blackrose, which is this region, so the record stays where the source puts it. Its 'moves' property is expressed as the verge plus an absent state, not as a second record elsewhere."
     },
     {
       "id": "place.imperial-penal-south.natural-dive-shaft",

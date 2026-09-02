@@ -864,6 +864,21 @@ as load-bearing. Record the outcome here either way.
    a same-named Nexus mod was ripped from a commercial game. If they are
    the same asset it is unusable — flagged in both inventory artefacts.
 
+6. **Player stronghold — A/B, for touchpoint ①.** Two catalogue records are
+   flagged `strongholdCandidate: true` and both stay flagged until the owner
+   picks. **A — The Meeruth Station** (`place.hist-heartland.xal-meeruth-station`,
+   interior): an abandoned Imperial river station on the Helstrom approach —
+   stone quay, walled yard, magazine; deep in Hist country, far from every
+   service, and both the interior tribes and the Veiled Reed would rather it
+   stayed nobody's. **B — Rockpoint** (`place.pirate-freeholds.rockpoint`,
+   the northern freeholds): the canon-named landing that lost its trade war
+   with Alten Corimont — standing warehouse shell, defensible bank, a river
+   bar that will not take a laden hull, and a smugglers' town twenty minutes
+   downriver. A is remote, sacred-adjacent and hard to supply; B is
+   well-connected, commercially entangled and cheap to reach. Whichever loses
+   stays in the catalogue as an ordinary place, so the choice is reversible
+   until Part 7.
+
 **Re-review corrections worth knowing (2026-09-02, commit `d959986`):**
 the vault's Xanmeer Tileset terrace kit IS stepped-pyramid massing (stack
 decreasing terraces; round-1 "no massing" was wrong — the true gap is

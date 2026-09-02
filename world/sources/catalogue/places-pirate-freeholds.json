@@ -4762,7 +4762,9 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "reconciliationNote": "Player-stronghold candidate B (2026-09-02 reconciliation): the abandoned river station of quests 20 \u00a712b. Candidate A is place.hist-heartland.xal-meeruth-station. BOTH stay flagged; the A/B choice is an owner call queued for touchpoint (1) in decision 0041's Owner Q&A. Do not resolve it in Part 3 plotting \u2014 plot both and let the loser stay a place.",
+      "strongholdCandidate": true
     },
     {
       "id": "place.pirate-freeholds.trunk-ferry-stage",

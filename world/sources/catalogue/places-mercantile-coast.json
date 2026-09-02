@@ -6393,7 +6393,8 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "reconciliationNote": "Contestable CONFIRMED here (2026-09-02 reconciliation). wrecker-beach belongs to the Soulrest salvage coast \u2014 canon's own economy for this stretch \u2014 and mercantile-coast is the only region file whose siting profile carries the ocean and breaking-bar landforms the type requires. No competing claim was found in any other file."
     },
     {
       "id": "place.mercantile-coast.mad-hermit-jungle",
