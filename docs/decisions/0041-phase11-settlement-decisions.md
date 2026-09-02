@@ -42,6 +42,11 @@ owner directives 2026-09-01); owner decisions land here as the phase runs.
 > equally do not drag the owner into decisions the docs or one clearly-best
 > option already settle.
 >
+> **Three owner touchpoints, in order**: ① the catalogue summary (Part 2 —
+> vibe and load-bearing calls), ② the plotted province map (Part 4 — the
+> whole picture, before anything is built), ③ the steered exemplar rounds
+> (Parts 5–7). The owner is involved in **all major cities**, always.
+>
 > ### What is already in hand (verified 2026-09-01 — build on, don't redo)
 >
 > - **Mined form tables** (Phase 10 prep): `world/sources/placement/`
@@ -57,7 +62,7 @@ owner directives 2026-09-01); owner decisions land here as the phase runs.
 >   (`topics/material-culture.md`), guilds, the Owing.
 > - **Anchors**: `world/sources/anchors/settlement-anchors.json` — owner
 >   approved *broad* positions at Phase 2; exact siting is THIS phase's job
->   (nudge within `toleranceUV`, owner steers — see Stage 1).
+>   (nudge within `toleranceUV`, owner steers — Parts 3 and 6).
 > - **Routes/danger/cultures**: Phase 4 outputs via `compile_society.py`
 >   (roads, boat lanes, danger bands, territories) — Phase 11 re-authors on
 >   top (docks, tolls, ferries, root transit; the 4-station rootworm net is
@@ -107,10 +112,27 @@ owner directives 2026-09-01); owner decisions land here as the phase runs.
 
 ## Delivery plan
 
+**Shape (owner directive, 2026-09-01): breadth first, then depth.** Do NOT
+place one thing at a time and discover late that the province has dead-ended
+— derive and plot *everything* at a shallow depth first, review the whole
+picture, and only then author exemplars deeply. Parts 1–4 are province-wide
+and cheap (they are text, data and dots on a 2D map, not geometry); Parts
+6–8 are deep and per-place.
+
+**Planning agent's steer on "derive the whole province at once": yes, do
+it.** It is the right call and it is not expensive — the catalogue is data,
+and the big-picture properties the owner cares about (coverage, coherence,
+variety, density, distribution) are *only* visible in aggregate. The cap is
+**depth, not breadth**: every place province-wide gets a catalogue record
+(type, siting logic, importance, vibe, asset plan, why); nothing gets
+interiors, quest text, loot tables or blueprints until its packet is
+authored. If the catalogue turns out to be enormous, fan out Opus subagents
+by region or by place-family rather than reducing coverage.
+
 ### Part 0 — foundations (before the owner sees anything)
 
-Build the spine that every round rides on. All of it is game machinery or
-tooling; place it per the packages rule and the existing worldgen layout.
+Build the spine that every later part rides on. All of it is game machinery
+or tooling; place it per the packages rule and the existing worldgen layout.
 
 1. **Site survey tooling — know the land before proposing anything**
    (owner directive, 2026-09-01). A settlement proposal made without
@@ -126,14 +148,25 @@ tooling; place it per the packages rule and the existing worldgen layout.
    (which BM&V cluster shape fits this ground). The dossier feeds THREE
    consumers: the agent's own siting/layout reasoning, the causal model
    ("why here" answered from the land, per module 40 §28), and the owner's
-   Round A packet (the human-readable rendering of it — maps + a short
-   plain-English read of the ground). Every siting or layout proposal put
-   to the owner cites its dossier.
-2. **Blueprint schema, in code.** Turn module 40 §30's `SettlementBlueprint`
+   review packets. Every siting or layout proposal cites its dossier.
+2. **Province terrain scour** (feeds Part 1). The same machinery run
+   province-wide instead of per-site: sweep the heightfield, hydrology and
+   region rasters for **naturally interesting ground** and record it as
+   candidate-site data — summits and prominent peaks, saddles, ridge
+   ends, cliff benches, ravines and box canyons, dead-end gorges, enclosed
+   clearings, islands and islets, oxbows and confluences, river mouths,
+   coves and inlets, natural harbours, sinkholes, karst, waterfalls,
+   spring heads, isolated highs in flood plain, narrows/chokepoints,
+   fords, land bridges, and every landform §12.3b calls hard-to-reach.
+   Score each for prominence, accessibility (how much effort to reach),
+   concealment, visibility/viewshed, and water relation. This is the
+   province's supply of *interesting places*; Part 1's demand is matched
+   against it in Part 3. Deterministic and seeded (standard 6).
+3. **Blueprint schema, in code.** Turn module 40 §30's `SettlementBlueprint`
    (+ `GenerationProvenance`, and the quest `QuestWorldProvision` interface
    from quests 20 §13) into real typed schemas. Semantic authoring
    throughout: S-ladder refs for actors, tier+provenance for loot.
-3. **Compiler, walking skeleton.** A deterministic
+4. **Compiler, walking skeleton.** A deterministic
    blueprint → compiled-settlement pass in `tooling/world-generation/`:
    siting on real terrain, district/parcel/route grading, building
    placement as kit assemblies (statistics from the mined form tables —
@@ -150,139 +183,404 @@ tooling; place it per the packages rule and the existing worldgen layout.
    groundcover ring respect, and the affected chunks' vegetation is
    recompiled. Clearing is graded, not binary — a hard-clear core, a
    worked/thinned fringe, wild beyond — so settlements sit *in* the marsh
-   rather than on a cut-out disc.
-4. **Review artefact renderers** — the owner's viewport, so build early
+   rather than on a cut-out disc. **It also owns ground fitting — see the
+   "Slopes and uneven ground" gotcha below; treat that as a first-class
+   part of the skeleton, not a polish item.**
+5. **Review artefact renderers** — the owner's viewport, so build early
    and make regeneration one command each:
+   - *The plotted province map* (Part 4's medium): the 2D province map with
+     every catalogue place plotted, filterable by tier/type/region, each
+     dot hoverable/clickable for its record and its **why**. Build it in
+     World Studio's existing 2D map view (module 85 §67) — dots and a
+     detail panel, NOT the heavyweight 3D city markers.
    - *Blueprint map*: top-down annotated diagram (districts, routes,
-     docks, landmarks, water, contours) drawn over a terrain hillshade
-     crop. Seconds to regenerate; this is the layout-iteration medium.
+     docks, landmarks, water, contours) over a terrain hillshade crop.
+     Seconds to regenerate; the layout-iteration medium.
    - *Massing stills*: headless Blender renders of the compiled settlement
      GLB — one ortho, 3–4 player-eye views (extend `render_preview.py`).
    - *Deployed walk*: the compiled settlement streamed in the studio at
      real vegetation/light/water (the final-feel medium; push to Pages).
-5. **Asset kits, early** — kits gate the compiler's output being judgeable.
-   Vault first (BM&V architecture is the house style; Tropical Skyrim;
-   xanmeer tileset per module 90 §74.2), then source the module 90 §75/§80
-   priority mods (Argonian mud hut, Marsh-Rest, xanmeer kit, clutter)
-   with the Nexus key. Run the flora-kit pipeline pattern: registry →
-   build a `settlement-v1` kit → vet. Respect the two-culture kit rule in
-   `material-culture.md` — the kits must never blend.
+6. **Asset kits, early** — kits gate both the compiler's output being
+   judgeable AND Part 1's asset-aware vibe descriptions. Vault first (BM&V
+   architecture is the house style; Tropical Skyrim; xanmeer tileset per
+   module 90 §74.2), then source the module 90 §75/§80 priority mods
+   (Argonian mud hut, Marsh-Rest, xanmeer kit, clutter) with the Nexus key.
+   Registry → build a `settlement-v1` kit → vet, per the flora-kit pattern.
+   Respect the two-culture kit rule in `material-culture.md` — the kits must
+   never blend. **Produce a browsable asset inventory** (what building
+   families, materials, palettes, props and landmark pieces we actually
+   have) — Part 1 writes descriptions *against* this, so we design for the
+   breadth we own rather than inventing what we lack.
 
-### Part 1 — owner kickoff (first involvement point)
+### Part 1 — DERIVE: what places must exist, province-wide
 
-One batched decision round, presented with real material, not abstractions:
+Breadth-first derivation of the full demand list. This is the macro rung of
+the placement ladder (module 40 §28b) executed once, for the whole province,
+before anything is sited.
 
-- **Exemplar settlement**: propose 2–3 candidates from the register with
-  pros/cons. Selection logic: an M3-ish secondary with rich lore and full
-  system coverage (Hist tree, docks/water relation, one xanmeer or ruin,
-  quest provisions from §12b, both a wet and a dry edge) — big enough to
-  exercise districts and grammar, small enough to iterate fast. Justify
-  against the register; the owner picks.
-- **Contrast set** (§85.4 obligation): propose 2–3 contrasting instances —
-  different region class, culture (the Imperial-fringe grammar needs one),
-  magnitude and danger band.
-- **Review-medium confirmation**: show one *sample* of each artefact type
-  (a blueprint map, a Blender still, a studio link) for a rough mock
-  settlement, so the owner picks the media mix knowing what they look like.
-- Any genuinely multi-viable grammar question (per the steer rule in
-  CLAUDE.md). Everything else: decide, record, move.
+**Derive from every source, systematically:**
 
-Record all answers in this doc as Q&A sections (0036 pattern).
+- **named canon** — the settlement register, quests 20 §12b's named
+  settlements and their required features, lore dossiers, UESP;
+- **what canon implies** — institutions imply their buildings and their
+  abuses; trades imply their infrastructure; beliefs imply their sites;
+  history implies its ruins and its abandoned predecessors; every era layer
+  (Ayleid/Barsaebic, Imperial, post-Flu, post-Umbriel, current) leaves
+  physical residue;
+- **the quest plan** — every quest's world provisions (see the quest fold-in
+  below); quest-required places enter the catalogue as hard rows;
+- **demographics and economy** (module 92) — populations need food, water,
+  fuel, trade, defence, worship, burial, labour, law, waste, and travel;
+- **ecology and danger** (module 20 §16, workstream L's ecology feed) —
+  habitats imply lairs, hunting camps, culls, quarantines;
+- **the land itself** — Part 0's terrain scour: interesting ground is
+  *demand-generating*, not just supply. A spectacular hidden cove should
+  make you ask "what would be here?"
 
-### Part 2 — the steered exemplar loop (owner hands-on)
+**Build a hierarchical taxonomy** (class → family → type → variant), not a
+flat list: e.g. *settlement* → *marsh village* → *stilt village*, *raft
+village*, *hammock village*, *tree-platform village*; *ruin* → *xanmeer*,
+*Imperial*, *Ayleid*, *drowned village*; *camp* → *bandit*, *pirate*,
+*hunter*, *pilgrim*, *refugee*, *slaver/Owing*, *poacher*, *prospector*;
+*works* → *toll*, *dock*, *ferry stage*, *kiln*, *saltern*, *fishery*,
+*logging*, *mine*, *plantation*; *sacred* → *Hist site*, *shrine*,
+*grave-stakes field*, *ancestor site*, *cult site*; *lone* → *hermit*,
+*hunter's lodge*, *watchtower*, *lighthouse*, *wreck*, *cache*, *grave*,
+*standing curiosity*. **These are examples, not the list — see the breadth
+rule below.**
 
-Short rounds on the ONE exemplar. Each round = focused agent work ending in
-a small visual packet plus 2–4 plain-English questions. Do not batch rounds.
+**Derive counts, not just kinds.** Work backwards from the binding density
+numbers (module 95 Phase 11: 18–22 named POIs/km² D0–D3, 8–12 D4–D5,
+something named within ≤300 m of every road and boat lane; quests per
+settlement by magnitude) and from
+[morrowind-content-density.md](../research/morrowind-content-density.md).
+The catalogue must be *large*: province-scale coverage at Morrowind density
+is thousands of entries, and that is the point. Fan out Opus subagents by
+region or family to get there.
 
-- **Round A — siting + layout.** 2–3 candidate exact sitings within the
-  anchor tolerance (terrain crops with the anchor marked), then the causal
-  model and blueprint map(s). Owner steers: where exactly, district shape,
-  route logic, dock placement, landmark positions. Iterate maps until the
-  layout is approved — regeneration is cheap, so offer variants.
-- **Round B — massing.** Compile buildings, render ortho + player-eye
+**Derive variety deliberately** — within families and between them; see the
+distinctiveness ladder and the breadth rule below.
+
+### Part 2 — DATA: the place catalogue
+
+Record the derivation as one machine-readable catalogue (per-region files,
+stable IDs per standard 2, `schemaVersion` per standard 7, seeded and
+deterministic per standard 6). It is the phase's central artefact: Parts 3–8
+all read and update it, and Phases 12/13/15 inherit it.
+
+**Each place record carries (design this properly, then freeze the shape):**
+
+- **identity** — stable ID, name (or the naming rule + language register if
+  unnamed yet), aliases;
+- **classification** — taxonomy class/family/type/variant; magnitude class;
+  status (active / ruined / abandoned / seasonal / drowned / contested);
+- **provenance** — canon-named | lore-implied | quest-required |
+  geography-derived | density-fill, with sources cited and a confidence;
+- **the why** — founding cause, site advantages, current occupants and
+  their motivations, pressures, and what would make it change or die
+  (module 40 §28's model, in short form at this stage);
+- **siting** — region(s) and region classes it belongs in, its siting
+  grammar reference, hard constraints vs preferences (water relation,
+  slope, elevation, concealment, route relation, neighbour spacing), and —
+  once Part 3 runs — its plotted location, the candidate sites considered,
+  and **why this site won**;
+- **relations** — depends-on / supplies / rivals / patrols / tolls /
+  visible-from / reached-via, and the travel-service edges it implies;
+- **people and power** — culture, faction/ownership, occupant roster as
+  S-ladder semantic refs, notable NPC slots;
+- **danger and access** — danger tier, traversal modes to reach it
+  (walk/boat/swim/climb/fast-transit) and the required fallback per quests
+  20's traversal rule; effort-to-reach score;
+- **reward profile** — §12.3b: what the player gets for coming, of which
+  type, at roughly what value tier;
+- **visual and vibe** — the look, in words: silhouette language, palette,
+  materials, signature feature, condition/wear, mood, light, sound and
+  smell cues, and what the *approach* reveals. Grounded in lore/research;
+- **asset plan** — the actual kits/mods/pieces this place will be built
+  from (written against Part 0's asset inventory), so the catalogue is
+  feasible by construction and the province visibly uses the breadth we
+  own;
+- **discovery** — how the player learns it exists: sightline, road
+  proximity, rumour, document, or nothing at all (diegetic only — no
+  markers);
+- **quest hooks** — provisions requested/owned, tier ownership (tier-0
+  protection respected);
+- **complexity budget** — a feasibility flag: nothing may require
+  placement rules or scripting beyond Morrowind's level (owner rule); most
+  places are compiled semi-procedurally, so each must be *both*
+  interesting *and* simple to build;
+- **importance tier** — drives Part 3's plotting order and later authoring
+  effort;
+- **workflow status** — derived → plotted → authored → frozen.
+
+**Then have it critiqued, before any plotting** (Opus subagents, adversarial
+briefs, in parallel): (a) coverage and density against the numbers; (b)
+hierarchy and taxonomy quality; (c) variety within and between families —
+does this read as one province with distinct regions, or as a list?; (d)
+lore fidelity and era correctness; (e) **feasibility** — anything demanding
+more than Morrowind-level placement/scripting complexity, or assets we do
+not have; (f) *what is missing* (the completeness critic — its whole job is
+to name absent families, unrepresented economies/eras/ecologies, and
+monotony). Fix, then produce **a short owner-facing summary** (counts by
+family and region, the variety story, the load-bearing choices, the vibe
+spectrum with examples) and take the owner's steer on vibe and any
+load-bearing calls.
+
+### Part 3 — MACRO PLOT: approximate locations for everything
+
+Match Part 1's demand against Part 0's supply of interesting ground, on the
+2D map. Approximate positions only — no 3D markers, no geometry.
+
+- **Plot in importance order**, tier by tier: canon majors first (the
+  existing approved anchors), then quest-critical and named places, then
+  regional keystones, then the long tail of density fill. Each tier
+  reserves its ground before the next is placed, so the important things
+  get the good sites — exactly how the major cities were plotted.
+- **Record the why for every dot**, even at this resolution: which siting
+  grammar, which candidate sites were considered, why this one won. A dot
+  without a why is not plotted.
+- **Respect distribution as you go**: density per km² by danger band,
+  the ≤300 m-from-route rule, spacing/clustering so regions differ from
+  each other, and no two neighbours reading the same (the distinctiveness
+  ladder is checked here, not after).
+- **Collect the homeless.** Anything that cannot find suitable ground —
+  because its landform type is used up, or its constraints conflict — goes
+  into a **deferred batch** rather than being force-fitted. At the end of
+  the pass, reconsider that batch as a whole: swap allocations to place
+  higher-value things better, relax constraints where honest, transform a
+  place into a related type that fits the ground that IS available, or cut
+  it — and record which, and why. This is the anti-greedy step; do not skip
+  it, and report its numbers.
+- Deterministic and seeded throughout; re-running must reproduce the plot.
+
+### Part 4 — REVIEW: agent QA, then the owner sees the whole province
+
+1. **Agent QA first.** Run the validators over the plot (orphan checks,
+   density/spacing budgets, reward coverage, traversal fallbacks, region
+   distinctiveness, homeless-batch resolution) and fix what they catch.
+   Then a fresh Opus subagent reviews the plotted map cold, as a player
+   would read it: is it coherent, varied, legible, tempting? Fix again.
+2. **Then the owner review**, in the medium they asked for: the 2D province
+   map with everything plotted, filterable, hover/click for each place's
+   record and its why. Give them a short written orientation (what to look
+   at, what you are unsure about, the 3–6 decisions that would most change
+   the result). Iterate until they are content with the big picture.
+
+Only after this does anything get built.
+
+### Part 5 — exemplar selection (owner picks)
+
+Propose, with reasons drawn from the catalogue: **one city** (owner is
+involved in all major cities) plus **a few contrasting places** spanning
+scale, culture, region class and danger — deliberately including at least
+one small/simple type (camp, works or lone site), because most of the
+province is that, not cities. The owner approves the set. (§85.4 requires
+this proposal at phase start; it is now better informed because the
+catalogue exists.)
+
+### Part 6 — MESO, per exemplar: choosing the exact ground
+
+For each chosen exemplar: run the site dossier over its plotted
+neighbourhood, generate 2–3 exact candidate sitings, and choose — folding
+in the deliberation the plot could not do at map resolution (micro-geography,
+approach and reveal, buildable ground, water depth at the dock line, route
+tie-ins, neighbour sightlines). Decide the **high-level design**: what must
+be in this place, its districts and rough layout intent, its signature
+feature, and its **specific asset selection** against the catalogue's asset
+plan and vibe. Record every choice with its why; the owner steers here
+(Round A of the hands-on loop).
+
+### Part 7 — MICRO, per exemplar: blueprint, build, iterate with the owner
+
+The steered visual loop, on one exemplar at a time. Each round = focused
+work ending in a small visual packet plus 2–4 plain-English questions. Do
+not batch rounds.
+
+- **Round A — siting + layout.** Candidate sitings, then the causal model
+  and blueprint map(s). Owner steers: where exactly, district shape, route
+  logic, dock placement, landmark positions. Iterate maps until approved —
+  regeneration is cheap, so offer variants.
+- **Round B — massing.** Compile buildings; render ortho + player-eye
   stills. Owner steers: building mix, scale/silhouette, density, kit reads,
-  Hist-tree prominence, how "the village could move" reads.
-- **Round C — dressed walk.** Deploy; owner walks it with real vegetation,
-  light, water. Steers: feel, approach reveals, wayfinding, edges.
-- Repeat any round as needed. **After every steer, write the generalised
-  rule into the "Taste ledger" section of this doc** — the ledger is what
-  autonomous delivery later inherits, so a steer that only fixes the
-  exemplar is a steer wasted. Route fixes to the grammar/compiler, not to
-  hand-edits (the exemplar must remain reproducible from its blueprint —
-  it becomes the compiler's first regression fixture).
+  Hist-tree prominence, how the place sits on its ground.
+- **Round C — dressed walk.** Deploy; owner walks it at real vegetation,
+  light and water. Steers: feel, approach reveals, wayfinding, edges.
+- Repeat as needed. **After every steer, write the generalised rule into
+  the Taste ledger below** — a steer that only fixes this exemplar is a
+  steer wasted. Route fixes to the grammar/compiler, never hand-edits: the
+  exemplar must stay reproducible from its blueprint (it becomes the
+  compiler's first regression fixture).
 - Exit: the owner explicitly declares the exemplar good and the flow
-  trusted. Ask them directly; do not infer it.
+  trusted. Ask; do not infer.
 
-### Part 3 — grammars, written down
+### Part 8 — grammars, then autonomous rollout
 
-Concurrent with Part 2, converging as steers land — this is the placement
-ladder (module 40 §28b) made into artefacts:
-
-- **The macro roster**: for the exemplar + contrast packets first (province-
-  wide as rollout reaches it), the typed location roster — named canon
-  places plus inferred place *types* with counts, every row carrying its
-  derivation. Derive from the settlement register, quests 20 §12b, module
-  92 demographics, region economy/culture/danger, and what canon implies
-  (raft villages, pirate anchorages, toll offices, pilgrim waystations,
-  smuggler caches, abandoned former village sites, …).
-- **Type-siting grammars**: per place type, what land it seeks and why, as
-  logic a terrain query can evaluate (§28b meso level). Each candidate
-  siting records why it won.
-- **The settlement grammars**: **Hist-centred** and **Imperial-fringe**
-  (module 95's deliverables), grounded in the mined form tables, the
-  morphology research, material-culture, and the taste ledger.
+- **Write the grammars down** as they converge: the type-siting grammars
+  (meso), the **Hist-centred** and **Imperial-fringe** settlement grammars
+  (module 95 deliverables), and the per-type layout recipes — all grounded
+  in the mined form tables, the research docs, material-culture and the
+  taste ledger.
 - **The research rule, enforced on yourself**: before the first instance of
-  any place type, check `docs/research/` for its design research (how the
-  source games and other open-world RPGs build that type); if thin, fill
-  the gap (a subagent job) and record the doc *before* placing.
-- **The location-orphan validator** (module 40 §32 list, including the
-  §12.3b reward clauses) run in the compiler pipeline, not as advice.
+  any place type, check `docs/research/` for design research on how the
+  source games and other open-world RPGs build that type; if thin, fill the
+  gap (Opus subagent) and record the doc *before* placing. Baseline reading:
+  [openworld-place-distribution-and-siting.md](../research/openworld-place-distribution-and-siting.md),
+  [kit-level-design-and-layout-generation.md](../research/kit-level-design-and-layout-generation.md),
+  [marsh-settlement-morphology.md](../research/marsh-settlement-morphology.md),
+  [xanmeer-mesoamerican-reference.md](../research/xanmeer-mesoamerican-reference.md),
+  [morrowind-content-density.md](../research/morrowind-content-density.md).
+- **The location-orphan validator** (module 40 §32, including the §12.3b
+  reward clauses) runs in the compiler pipeline, not as advice.
+- **Then deliver autonomously**: the rest of the contrast set, the quest
+  co-design loop per packet, density + reward budgets, travel services
+  (ferry/boat-owner graph, re-authored root transit — Gideon wintertide
+  only, the Owing at every tolled crossing, Reed writ enforcement points,
+  talk→service-menu as a small contract), the quests 20 §12b named-feature
+  roster with `QuestWorldProvision` records, D0 authoring and the
+  player-stronghold reservation, and the module 85 §69 settlement probes.
 
-### Part 4 — autonomous delivery (after graduation)
-
-Everything below runs without owner rounds; one mid-check only if a
-contrast instance forces a genuinely new grammar question (blueprint maps
-by preference — cheapest medium that answers it).
-
-1. **Contrast set**: author + compile the 2–3 agreed instances through the
-   same blueprint path.
-2. **Quest co-design loop** (§65b, quests 90) for the exemplar + contrast
-   packets — the first live test of the loop. Spawn quest-side subagents
-   for the novelty check and brief drafting; reconcile; land index rows in
-   the same change; respect tier-0 protection and the tie-break rules.
-3. **Density + reward budgets** per packet: the module 95 POI numbers plus
-   §12.3b reward coverage (terrain query for notable hard-to-reach
-   landforms; every one carries a reward; validator enforces).
-4. **Travel services, world content**: ferry/boat-owner service graph,
-   re-authored root-transit network (replace the 4-station placeholder;
-   Gideon = wintertide-only), the Owing at every tolled crossing, Reed
-   writ enforcement points. Talk-pay-arrive semantics recorded as data.
-5. **The §12b roster**: work through quests 20 §12b's named-settlement
-   requirements for every settlement this phase touches;
-   `QuestWorldProvision` records for each substantial location.
-6. **D0 authoring** (settlement interiors + local halos; Helstrom D0 in
-   its band-5 field) and the **player-stronghold site reservation**.
-7. **Validators + studio support**: the module 85 §69 settlement probes
-   that pay for themselves now (orphan parcels, dock/water access,
-   inaccessible doors, overlapping foundations); settlement/POI search in
-   the studio if cheap (§67).
-
-### Part 5 — wrap
+### Part 9 — wrap
 
 - **Freeze checklist**, explicit and deferred: per packet, the 10b probe
-  list, the 10c validation list, and the §65b completeness check — so the
-  10b/10c agents can freeze packets without re-deriving this phase.
-- Batched owner review: what to walk, what to check, how to feed back —
-  including an FPS read (settlements + vegetation together is the new
-  worst case).
+  list, the 10c validation list, and the §65b completeness check — so those
+  agents can freeze packets without re-deriving this phase.
+- Batched owner review of everything delivered autonomously: what to walk,
+  what to check, how to feed back — including an FPS read (settlements plus
+  vegetation is the new worst case).
 - Round records in this doc (defect → cause → fix, 0036 style); PROGRESS
-  row and *Waiting on user* current; docs README router updated for new
-  files; credits for every sourced mod.
+  row and *Waiting on user* current; docs README router updated; credits for
+  every sourced mod.
 
-## Taste ledger (grows during Part 2 — generalised owner steers)
+---
+
+## Cross-cutting rules (they apply to every part above)
+
+### How the quest co-design loop folds in — at three points, not one
+
+1. **At derivation (Part 1)** the quest plan is a *derivation source*:
+   every quest's world provisions (quests 20, esp. §12b) generates
+   catalogue rows, flagged quest-required with tier ownership. Tier-0
+   (main-quest) rows are untouchable by lower-tier needs.
+2. **After the macro plot (Part 3/4)** — the cheap, high-value moment,
+   and the one previously missing. A quest-side Opus subagent reads the
+   plotted map and the catalogue, runs the novelty check against
+   `docs/quests/55-quest-index.md`, and answers: what does this province
+   make possible that the quest plan hasn't used; what does the quest plan
+   need that isn't plotted; where would moving a dot 2 km make a quest
+   much better? **Moving a dot costs nothing before anything is built.**
+   Reconcile, record, and update both the catalogue and the quest index in
+   the same change.
+3. **Per packet at authoring (Parts 6–8)** the full §65b loop as specified
+   (briefs drafted against the drafted network, placements reconciled,
+   density budget declared) — a completion gate: a packet without its
+   quest-brief set and declared budget is not done.
+
+World feasibility and the packet's POI/perf budget win ties; unresolved
+conflicts become named questions in that packet's owner review.
+
+### Visual distinctiveness — a hierarchy, decided in the catalogue
+
+Distinctiveness is *designed at Part 1/2 and enforced everywhere after*, not
+discovered at build time. Five rungs, each varying against the one above:
+
+1. **Province** — one coherent Argonia: the house style (BM&V), the
+   shared material logic (no stone as a moral error post-Duskfall), the
+   overall palette envelope.
+2. **Region** — each region class and culture zone gets its own flavour:
+   dominant materials, palette shift, building grammar, vegetation
+   context, characteristic place types, light/mood. Two regions must be
+   distinguishable from a single screenshot.
+3. **Named place signature** — every major settlement gets an explicit,
+   *written* signature that no other shares: Gideon must not read like
+   Helstrom, Lilmoth must not read like Stormhold. Signature =
+   architecture family + palette + silhouette motif + a unique landmark or
+   spatial idea + a civic ritual/economy that shapes the layout. Record it
+   as a catalogue field and check it pairwise against neighbours.
+4. **Within a place** — districts differ (wealth, trade, faith, labour,
+   outsiders), and the building set varies within its family.
+5. **Instance** — seeded variation in rotation, wear, clutter, additions,
+   so two stilt huts of the same family are not twins.
+
+Small places get the same treatment at lower cost: a pirate camp, a hermit's
+hut and a toll post each need a signature sentence and an asset plan, or
+they will all converge to the same three assets. **Enforce with a
+distinctiveness check**: neighbouring or same-family places whose
+descriptors and asset plans are too similar get flagged for the author.
+
+### The breadth rule — do not fixate on the examples (owner directive)
+
+Every list of examples in these docs — including the ones above — is
+**illustrative, never exhaustive**. The observed failure mode is an agent
+reading "e.g. hiring halls, toll offices, smugglers, wreckers, pirate
+anchorages, raft villages, abandoned sites" and then building exactly those
+seven things. That is a bug in the agent, not a spec.
+
+Required practice when deriving or varying anything:
+
+- **Enumerate systematically, from multiple independent axes**, then cross
+  them: by economy/trade; by faction and institution; by ecology and
+  habitat; by era layer and what it left behind; by traversal mode; by
+  danger tier; by social function (law, worship, burial, healing, learning,
+  waste, defence, festivity, vice, refuge, quarantine, labour, childhood,
+  the dead); by ruin/condition state; by season; by scale. A place type is
+  a *cell* in that grid — most cells nobody has written down yet.
+- **Set a target and check it**: how many distinct families and types does
+  this region have, and does the mix beat the previous region's?
+- **Run a completeness critic** (an Opus subagent whose only job is naming
+  what is absent) and act on it — repeatedly, until it returns little.
+- **Prefer the unfamiliar** when two options are equally good: the province
+  should surprise the player who has seen the first five regions.
+
+### Slopes and uneven ground — a first-class problem, not a polish item
+
+We place on a real heightfield, and the source games mostly do not: Bethesda
+settlements sit on ground that was *authored flat where it needed to be*,
+with foundation pieces, plinths and stilts hiding what is left. Our compiler
+must own this explicitly:
+
+- **grade the ground** where a building needs level footing (a graded pad
+  blended into the surrounding terrain, not a cliff-edged disc), and record
+  the terrain edit as data so it is reproducible and reversible;
+- **fit the building to the ground** where grading is wrong: foundation
+  courses, plinths, piles and stilts (the marsh cultures already build on
+  stilts — lean on it), stepped terraces on slopes, and boardwalks/stairs
+  that absorb the level changes between parcels;
+- **never leave** floating corners, buried doorways, gaps under walls, or
+  door thresholds the player cannot step onto — all of which are validator
+  checks, run every compile;
+- watch the **knock-ons**: navmesh over graded pads and stairs, water-edge
+  structures against the W-field, roads meeting buildings at a grade,
+  vegetation-clearance edges on slopes, shadow behaviour on flat pads,
+  and seams where the authored pad meets procedural terrain.
+- **Research is landing** in
+  [openworld-place-distribution-and-siting.md](../research/openworld-place-distribution-and-siting.md)
+  (how Skyrim and others actually solve this, plus the wider gotcha list) —
+  read it before designing the compiler's ground-fitting stage.
+
+### Subagents
+
+Fan out **Opus** subagents freely and in parallel wherever it helps —
+derivation by region or family, the critique/completeness passes, research
+gap-filling, quest-side work, asset sourcing, validators. **Never Fable**
+(owner ruling, 2026-09-01). Keep the blueprint schema/compiler in one pair
+of hands. Concurrent agents share this worktree — pathspec-only commits.
+
+### Agent-as-reviewer experiment (owner proposal, 2026-09-01)
+
+The owner will steer the first exemplar (and **is involved in all major
+cities**, always). Once that loop is working, test replacing the owner's
+seat with a **reviewer Opus subagent** on one *non-city* exemplar: give it
+the catalogue record, the research, the taste ledger and the same visual
+artefacts, and have it run the same rounds adversarially. Then the owner
+spot-checks that result against their own taste — a calibration, not a
+handover. If it holds up, agent-review becomes the default for the Phase 15
+long tail, with the owner keeping cities and any place the reviewer flags
+as load-bearing. Record the outcome here either way.
+
+## Taste ledger (grows during Part 7 — generalised owner steers)
 
 *(empty — first entries land in Round A)*
 
-## Owner Q&A (grows from Part 1)
+## Owner Q&A (grows from Parts 2, 4 and 5)
 
 *(pending kickoff)*

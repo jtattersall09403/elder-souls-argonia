@@ -627,6 +627,19 @@ Deliverables:
 - dependency-aware streaming (nav tiles stream with chunks, §114);
 - LOD and instance batching; vegetation quality tiers locked as one
   declarative table (T3 ring, T2 caps, impostor distances — §112);
+- **billboard/impostor audit for the flora kit** (owner observation,
+  2026-09-01 — a performance item, so it lands here rather than in Phase 10's
+  look-pass): ① several tree types show the **wrong silhouette** at distance
+  (palms resolving to a conifer/pine card — a card↔species mapping fault in
+  the kit builder's `_lod_flat` selection, same failure family as the
+  round-4 "wrong game's atlas" bug, so check per-species provenance not just
+  presence); ② **some trees appear never to drop to a card at all**, staying
+  at full mesh at any distance — verify per species that a billboard level
+  exists, is eligible, and is actually selected at range (instrument counts
+  per species/level, don't eyeball), because a species silently held at full
+  mesh is a straight draw-call and triangle cost across the whole province.
+  Fix in the kit builder + LOD selection, then re-measure the province
+  budget;
 - compressed textures and geometry;
 - performance budgets by device class;
 - GitHub Pages build containing approved runtime content only;
