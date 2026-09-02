@@ -2772,7 +2772,7 @@
         "variant": null,
         "magnitude": null
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "docs/world/00-core.md acceptance rule: large logical surfaces climbable by default",
@@ -2867,7 +2867,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "trapdoor",
       "underwaterAccess": "none",
-      "name": "Sees-The-Estuary"
+      "name": "Sees-The-Estuary",
+      "deferredFromStatus": "ruined",
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
     },
     {
       "id": "place.saxhleel-coast.coast-courier-relay",
@@ -6034,7 +6036,7 @@
         "variant": "coastal",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "docs/world/55-light-sky-time.md (sea squalls)",
@@ -6142,7 +6144,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
-      "name": "Year-Of-Nine Shelter"
+      "name": "Year-Of-Nine Shelter",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
     },
     {
       "id": "place.saxhleel-coast.inland-fair-ground",
@@ -6753,7 +6757,7 @@
         "variant": null,
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Murkmire",
@@ -6853,7 +6857,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "name": "Sees-The-Wall"
+      "name": "Sees-The-Wall",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
     },
     {
       "id": "place.saxhleel-coast.lagoon-bioluminescence",
@@ -8855,7 +8861,7 @@
         "variant": null,
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "docs/world/00-core.md acceptance rule: underwater POIs throughout appropriate regions",
@@ -8952,7 +8958,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
       "underwaterAccess": "argonian-only-depth",
-      "name": "Ceiling-Nobody-Built"
+      "name": "Ceiling-Nobody-Built",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
     },
     {
       "id": "place.saxhleel-coast.reef-wreck",
@@ -11419,7 +11427,7 @@
         "variant": "branching",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Murkmire",
@@ -11521,7 +11529,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
-      "name": "Three-Ways"
+      "name": "Three-Ways",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
     },
     {
       "id": "place.saxhleel-coast.wall-hermit-hut",
@@ -12030,7 +12040,7 @@
         "variant": "occupied",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Rootworm",
@@ -12125,7 +12135,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "burrow",
       "underwaterAccess": "none",
-      "name": "Two-Span Burrow"
+      "name": "Two-Span Burrow",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
     },
     {
       "id": "place.saxhleel-coast.xanmeer-dive-shaft",

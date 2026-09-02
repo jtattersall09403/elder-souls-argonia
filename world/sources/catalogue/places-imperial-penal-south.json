@@ -139,7 +139,7 @@
         "variant": null,
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -251,7 +251,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
-      "underwaterAccess": "argonian-only-depth"
+      "underwaterAccess": "argonian-only-depth",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
     },
     {
       "id": "place.imperial-penal-south.basin-courier-relay",

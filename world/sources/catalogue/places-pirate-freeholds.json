@@ -2554,7 +2554,7 @@
         "variant": "road-active",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Naga",
@@ -2667,7 +2667,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "name": "Nine Mile"
+      "name": "Nine Mile",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
     },
     {
       "id": "place.pirate-freeholds.freehold-pest-house",
@@ -3042,7 +3044,7 @@
         "variant": "logjam",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/sites/candidate-sites.json",
@@ -3149,7 +3151,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
     },
     {
       "id": "place.pirate-freeholds.kothringi-river-ruin",
@@ -4127,7 +4131,7 @@
         "variant": "crystal",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Stormhold",
@@ -4243,7 +4247,9 @@
       "entrance": "cave-mouth",
       "underwaterAccess": "none",
       "name": "Green Seam",
-      "reconciliationNote": "Retyped 2026-09-02 (Phase 11 repair, coverage critique S3): crystal-diggings sat at its band floor while prospectors-camp was under (1/3-3). The record is a spoil heap, a lookout and washing water on the rim - a prospectors' camp working a seam, not an established works."
+      "reconciliationNote": "Retyped 2026-09-02 (Phase 11 repair, coverage critique S3): crystal-diggings sat at its band floor while prospectors-camp was under (1/3-3). The record is a spoil heap, a lookout and washing water on the rim - a prospectors' camp working a seam, not an established works.",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
     },
     {
       "id": "place.pirate-freeholds.rim-hearth-house",
@@ -4866,7 +4872,7 @@
         "variant": "embankment",
         "magnitude": null
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Second Empire",
@@ -4978,7 +4984,9 @@
       "entrance": "cellar-door",
       "underwaterAccess": "none",
       "name": "Reman Cut",
-      "reconciliationNote": "Retyped 2026-09-02 (Phase 11 repair, coverage critique S3): failed-roadworks was under band (2/4-4) and its recipe is 'defeated by water'. This record IS that: a Reman road cutting that stops in mid-air above a cistern, on the wettest approach to the rim."
+      "reconciliationNote": "Retyped 2026-09-02 (Phase 11 repair, coverage critique S3): failed-roadworks was under band (2/4-4) and its recipe is 'defeated by water'. This record IS that: a Reman road cutting that stops in mid-air above a cistern, on the wettest approach to the rim.",
+      "deferredFromStatus": "ruined",
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
     },
     {
       "id": "place.pirate-freeholds.rim-smugglers-ledge-east",
