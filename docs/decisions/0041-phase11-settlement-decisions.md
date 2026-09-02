@@ -803,6 +803,13 @@ as load-bearing. Record the outcome here either way.
    SSE **35933** *The Blackest Reaches* (Argonia monster-hunt quest mod —
    check for settlement/environment pieces now; ALSO recorded in module 90
    §74's creature candidate table as a Phase 13 creature/boss lead).
+   **Round 4 leads (owner, 2026-09-02) — underwater:** SSE **70917**
+   (underwater-quest material), SSE **17267** (underwater treasure — may
+   or may not ship new assets), SSE **26913** (underwater generally).
+   Underwater POIs throughout appropriate regions are an acceptance
+   criterion (00-core) — evaluate for wreck/reef/sunken-structure/treasure
+   assets for the catalogue's drowned/underwater families, and note any
+   quest-design ideas for the quest plan even where no assets are taken.
 3. **Gideon anchor.** Its approved position sits on steep ground (14 %
    buildable in 400 m) — expect a nudge proposal within `toleranceUV` at
    Part 6.
