@@ -799,6 +799,10 @@ as load-bearing. Record the outcome here either way.
    settlement"; and the r/skyrimmods thread "Best mods for Argonians"
    (reddit.com/r/skyrimmods/comments/1fsawo1) is to be read and its links
    critically considered, not skimmed.
+   **Round 3 leads (owner, 2026-09-02):** SSE **36149** (more rowboats);
+   SSE **35933** *The Blackest Reaches* (Argonia monster-hunt quest mod —
+   check for settlement/environment pieces now; ALSO recorded in module 90
+   §74's creature candidate table as a Phase 13 creature/boss lead).
 3. **Gideon anchor.** Its approved position sits on steep ground (14 %
    buildable in 400 m) — expect a nudge proposal within `toleranceUV` at
    Part 6.

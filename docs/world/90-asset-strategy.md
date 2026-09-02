@@ -337,6 +337,7 @@ The boat gameplay code should be original project code built around Rapier and `
 | Bloedzuigers / giant-leech projects | large leech body and animation base for deep-marsh hazards |
 | Mihail frogs, giant snakes, crocodilian creatures and centipedes | amphibian, reptile and invertebrate variety |
 | Insect and dragonfly resources | ambient swarms, disease vectors and food-web detail |
+| [The Blackest Reaches](https://www.nexusmods.com/skyrimspecialedition/mods/35933) (owner lead, 2026-09-02) | quest mod that sends the player to Black Marsh to hunt monsters — evaluate for creature/predator/boss-monster assets (Phase 13) AND possible Argonia-setting environment/settlement pieces (Phase 11 sourcing pass is checking the latter) |
 | Vanilla slaughterfish, insects, fish, mudcrabs and chaurus families | baseline aquatic and invertebrate animation/material sources |
 
 Creature assets provide models and animations. Habitat, behaviour, statistics, fixed danger and population rules remain game-owned data.
