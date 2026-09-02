@@ -114,7 +114,16 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "post-umbriel",
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "underwater-entry",
+      "underwaterAccess": "shallow-dive"
     },
     {
       "id": "place.mercantile-coast.alten-meerhleel",
@@ -246,7 +255,15 @@
       "complexityBudget": "standard",
       "importanceTier": 1,
       "workflow": "derived",
-      "reconciliationNote": "Retyped from neutral-free-port (2026-09-02 reconciliation). That singular type is canon-anchored on Alten Corimont \u2014 named freehold, captain of the port, nailed price list \u2014 which keeps it; Meerhleel's canon is only 'a port built to trade with outsiders', which port-town covers honestly at the same M4 scale. ID unchanged."
+      "reconciliationNote": "Retyped from neutral-free-port (2026-09-02 reconciliation). That singular type is canon-anchored on Alten Corimont \u2014 named freehold, captain of the port, nailed price list \u2014 which keeps it; Meerhleel's canon is only 'a port built to trade with outsiders', which port-town covers honestly at the same M4 scale. ID unchanged.",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "landmark",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.ashfield",
@@ -361,7 +378,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.ashfield-hearth",
@@ -475,7 +500,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.ashroot-village",
@@ -594,7 +626,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.bereaved-village-murkmire",
@@ -710,7 +749,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "post-umbriel",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.bog-blight-ground-murkmire",
@@ -823,7 +870,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.bone-waystation",
@@ -939,7 +993,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.bramman-river-ferry",
@@ -1050,7 +1111,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.bramman-screen",
@@ -1168,7 +1236,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "varies",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.mercantile-coast.bright-throat-village",
@@ -1290,7 +1365,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.burn-memorial",
@@ -1397,7 +1479,17 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "knahaten-flu",
+        "imperial",
+        "post-umbriel",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "grave-cut",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.canopy-crossing-keel",
@@ -1503,7 +1595,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "wet",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.chasepoint",
@@ -1623,7 +1722,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.chime-relay",
@@ -1744,7 +1851,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.cinder-hermit",
@@ -1864,7 +1978,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.cinderhome",
@@ -1978,7 +2099,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial"
+      ],
+      "densityLayer": "destination",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.clandestine-dig",
@@ -2088,7 +2216,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "post-umbriel",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "burrow",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.coast-nisswo-house",
@@ -2195,7 +2331,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.coast-road-stage",
@@ -2311,7 +2454,15 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "dry",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.coast-road-tradehouse",
@@ -2427,7 +2578,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.coast-toll-bridge",
@@ -2542,7 +2701,16 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "merethic",
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.cold-light",
@@ -2654,7 +2822,16 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "second-empire",
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.collections-bond",
@@ -2784,7 +2961,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.collections-field-station",
@@ -2898,7 +3083,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.crocodile-pens",
@@ -3006,7 +3198,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.drowned-byre",
@@ -3113,7 +3312,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.egg-poacher-camp",
@@ -3223,7 +3429,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.expeditionary-fort",
@@ -3337,7 +3550,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "oblivion-crisis"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "gate",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.flood-refugee-camp",
@@ -3444,7 +3665,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "wet",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.gar-keepers-village",
@@ -3559,7 +3787,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.glowfen-murkmire",
@@ -3672,7 +3907,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "wet",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.mercantile-coast.goldworks-concession",
@@ -3792,7 +4034,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial"
+      ],
+      "densityLayer": "destination",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.guide-camp-jungle",
@@ -3901,7 +4150,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "varies",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.hajmota-shell-yard",
@@ -4007,7 +4263,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.hammock-crown-murkmire",
@@ -4111,7 +4374,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.hammock-village-murkmire",
@@ -4224,7 +4494,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "wet",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.head-of-tide",
@@ -4342,7 +4619,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.hereguard-paddies",
@@ -4449,7 +4733,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "wet",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.hereguard-plantation",
@@ -4568,7 +4860,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.hestra-stone",
@@ -4680,7 +4980,18 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "second-empire",
+        "imperial",
+        "knahaten-flu",
+        "post-umbriel",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.hestras-lane",
@@ -4787,7 +5098,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "varies",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.high-junction",
@@ -4898,7 +5216,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.hist-less-fringe",
@@ -5016,7 +5341,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "post-umbriel",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.hist-village-hammock",
@@ -5133,7 +5466,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.hist-village-keel-sakka",
@@ -5255,7 +5595,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.hull-hall",
@@ -5372,7 +5719,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.mercantile-coast.illicit-sap-camp",
@@ -5479,7 +5834,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.inhabited-meer-murkmire",
@@ -5599,7 +5961,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "merethic",
+        "current"
+      ],
+      "densityLayer": "landmark",
+      "entrance": "gate",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.insular-jungle-village",
@@ -5713,7 +6083,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.ixtaxh-xanmeer",
@@ -5829,7 +6206,16 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "duskfall",
+        "merethic",
+        "post-umbriel"
+      ],
+      "densityLayer": "landmark",
+      "entrance": "underwater-entry",
+      "underwaterAccess": "deep-dive"
     },
     {
       "id": "place.mercantile-coast.keel-sakka-falls",
@@ -5938,7 +6324,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "wet",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "cave-mouth",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.mercantile-coast.keel-sakka-head",
@@ -6057,7 +6450,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.keel-sakka-stilts",
@@ -6178,7 +6578,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.mercantile-coast.keshu-grove",
@@ -6297,7 +6704,14 @@
         "kind": "grove, reserve",
         "powerSlot": null,
         "note": "Register grove of hero rank, but NOT one of the ten power slots \u2014 reserve. Kept as a record and a swap candidate if the owner wants a Murkmire slot instead of one of the ten."
-      }
+      },
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.lagoon-rafts",
@@ -6413,7 +6827,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "varies",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.mercantile-coast.lighter-flotilla",
@@ -6534,7 +6955,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "varies",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.mercantile-coast.lilmoth",
@@ -6692,7 +7120,16 @@
         "kind": "city tree",
         "powerSlot": "power.hist.mercantile-coast.lilmoth",
         "note": "Hero Hist 3/10. CANON_EXPLICIT: Lilmoth possesses its own Hist despite having no native tribe. This is the THIRD tree, grown after 4E 48 from a root fragment of the second. Young and watched: feared and tended anyway (hist-placement.md \u00a74) \u2014 the minder's post rotates, a second tender is always present, and no faction may claim exclusive access."
-      }
+      },
+      "season": "all-year",
+      "eraLayers": [
+        "post-umbriel",
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "landmark",
+      "entrance": "gate",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.lilmoth-beast-market",
@@ -6808,7 +7245,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "dry",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.lilmoth-canoe-yard",
@@ -6921,7 +7365,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.lilmoth-divers-yard",
@@ -7040,7 +7491,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "deep-dive"
     },
     {
       "id": "place.mercantile-coast.lilmoth-quay-tradehouse",
@@ -7159,7 +7617,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.long-bar-wreckers",
@@ -7269,7 +7735,14 @@
       "complexityBudget": "simple",
       "importanceTier": 2,
       "workflow": "derived",
-      "reconciliationNote": "Contestable CONFIRMED here (2026-09-02 reconciliation). wrecker-beach belongs to the Soulrest salvage coast \u2014 canon's own economy for this stretch \u2014 and mercantile-coast is the only region file whose siting profile carries the ocean and breaking-bar landforms the type requires. No competing claim was found in any other file."
+      "reconciliationNote": "Contestable CONFIRMED here (2026-09-02 reconciliation). wrecker-beach belongs to the Soulrest salvage coast \u2014 canon's own economy for this stretch \u2014 and mercantile-coast is the only region file whose siting profile carries the ocean and breaking-bar landforms the type requires. No competing claim was found in any other file.",
+      "season": "wet",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.mercantile-coast.mad-hermit-jungle",
@@ -7388,7 +7861,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.mangrove-hide",
@@ -7498,7 +7978,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "burrow",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.miregaunt-ward-murkmire",
@@ -7612,7 +8099,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.mirtis-plantation",
@@ -7726,7 +8220,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial"
+      ],
+      "densityLayer": "destination",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.moonmarch",
@@ -7842,7 +8343,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "gate",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.mudfoot",
@@ -7961,7 +8470,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.mercantile-coast.murkmire-hearth-house",
@@ -8077,7 +8593,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.naga-camp-north-road",
@@ -8188,7 +8711,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.naga-village-oliis",
@@ -8305,7 +8835,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.necropolis-village-murkmire",
@@ -8428,7 +8965,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "grave-cut",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.oliis-air-station",
@@ -8538,7 +9082,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "underwater-entry",
+      "underwaterAccess": "argonian-only-depth"
     },
     {
       "id": "place.mercantile-coast.oliis-boardwalk",
@@ -8653,7 +9204,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.oliis-drake-deep",
@@ -8767,7 +9325,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "underwater-entry",
+      "underwaterAccess": "argonian-only-depth"
     },
     {
       "id": "place.mercantile-coast.oliis-ferry-stage",
@@ -8885,7 +9450,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.oliis-narrows",
@@ -8992,7 +9564,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "varies",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.mercantile-coast.oliis-reef-harvest",
@@ -9100,7 +9679,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "dry",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "shallow-dive"
     },
     {
       "id": "place.mercantile-coast.oliis-tide-run",
@@ -9210,7 +9796,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "varies",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.mercantile-coast.oliis-wreck",
@@ -9325,7 +9918,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "shallow-dive"
     },
     {
       "id": "place.mercantile-coast.owing-eviction-camp-west",
@@ -9440,7 +10041,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.pilgrim-nisswo-house",
@@ -9548,7 +10156,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.pilgrim-xanmeer",
@@ -9660,7 +10275,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "merethic",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "stair-throat",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.pusbottom-barge",
@@ -9773,7 +10396,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "varies",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.quinrawl-anchorage",
@@ -9895,7 +10525,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.rockpark",
@@ -10009,7 +10647,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "knahaten-flu"
+      ],
+      "densityLayer": "landmark",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.rockpark-dead-hist",
@@ -10117,7 +10762,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "post-umbriel",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.root-gallery-murkmire",
@@ -10229,7 +10882,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "hollow-trunk",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.sacked-customs-suburb",
@@ -10343,7 +11003,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "post-umbriel",
+        "imperial"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.sap-withdrawal-house",
@@ -10454,7 +11122,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.screen-watch",
@@ -10571,7 +11246,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.mercantile-coast.sealed-meer-murkmire",
@@ -10681,7 +11363,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "merethic",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "stair-throat",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.sealed-meer-west",
@@ -10791,7 +11481,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "merethic",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "stair-throat",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.slaughter-memorial",
@@ -10909,7 +11607,17 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "knahaten-flu",
+        "imperial",
+        "post-umbriel",
+        "current"
+      ],
+      "densityLayer": "landmark",
+      "entrance": "grave-cut",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.smoulder-cuts",
@@ -11013,7 +11721,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "dry",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.soulrest",
@@ -11161,7 +11877,16 @@
       "complexityBudget": "complex",
       "importanceTier": 0,
       "workflow": "derived",
-      "complexityJustification": "A major city: districts, walls, a harbour and four competing authorities. Compiled from the settlement blueprint schema, not hand-placed geometry."
+      "complexityJustification": "A major city: districts, walls, a harbour and four competing authorities. Compiled from the settlement blueprint schema, not hand-placed geometry.",
+      "season": "all-year",
+      "eraLayers": [
+        "post-umbriel",
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "landmark",
+      "entrance": "gate",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.soulrest-breaking-yard",
@@ -11279,7 +12004,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.soulrest-broken-bond",
@@ -11392,7 +12125,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.soulrest-courier-relay",
@@ -11506,7 +12247,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.soulrest-divers-yard",
@@ -11620,7 +12368,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "deep-dive"
     },
     {
       "id": "place.mercantile-coast.soulrest-fair",
@@ -11737,7 +12492,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "dry",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.soulrest-foreign-graves",
@@ -11844,7 +12606,15 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "grave-cut",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.soulrest-quay-tradehouse",
@@ -11964,7 +12734,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.soulrest-synod-outstation",
@@ -12079,7 +12857,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.soulrest-whispers-house",
@@ -12193,7 +12978,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.southern-sea-listening-post",
@@ -12309,7 +13101,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.stripped-village-north",
@@ -12424,7 +13223,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "post-umbriel"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.stripped-village-quiet",
@@ -12538,7 +13344,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "post-umbriel"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.subsumed-xanmeer",
@@ -12648,7 +13461,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "duskfall",
+        "merethic"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "sinkhole-lip",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.mercantile-coast.sugar-barge",
@@ -12760,7 +13581,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "varies",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.sugar-stack",
@@ -12865,7 +13693,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.mercantile-coast.sunken-causeway",
@@ -12975,7 +13811,16 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "varies",
+      "eraLayers": [
+        "merethic",
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.mercantile-coast.sunkfoot",
@@ -13089,7 +13934,16 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "wet",
+      "eraLayers": [
+        "imperial",
+        "post-umbriel",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "underwater-entry",
+      "underwaterAccess": "shallow-dive"
     },
     {
       "id": "place.mercantile-coast.tapped-hist-ashroot",
@@ -13199,7 +14053,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "post-umbriel",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.teeba-enoo-court",
@@ -13310,7 +14172,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.teeth-of-sithis",
@@ -13434,7 +14303,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "merethic",
+        "current"
+      ],
+      "densityLayer": "landmark",
+      "entrance": "grave-cut",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.tempering-ground",
@@ -13556,7 +14433,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.tidewrack-stilts",
@@ -13674,7 +14558,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.mercantile-coast.timber-concession",
@@ -13787,7 +14678,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.topal-careening-hard",
@@ -13897,7 +14795,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.topal-pearl-beds",
@@ -14006,7 +14911,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "dry",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "shallow-dive"
     },
     {
       "id": "place.mercantile-coast.topal-salt-pans",
@@ -14119,7 +15031,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "dry",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.tree-minder-house",
@@ -14240,7 +15159,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.tunnel-rat-gallery",
@@ -14357,7 +15283,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "cellar-door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.uprising-battlefield",
@@ -14466,7 +15400,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.varo-holding",
@@ -14575,7 +15516,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.villa-cellars",
@@ -14690,7 +15639,16 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "post-umbriel",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "underwater-entry",
+      "underwaterAccess": "shallow-dive"
     },
     {
       "id": "place.mercantile-coast.vossa-satl-village",
@@ -14805,7 +15763,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.wallside-platforms",
@@ -14917,7 +15882,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.wamasu-nest-pond",
@@ -15026,7 +15998,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.mercantile-coast.white-rose-prison",
@@ -15152,7 +16131,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "second-empire",
+        "imperial"
+      ],
+      "densityLayer": "destination",
+      "entrance": "gate",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.whitebone-reef",
@@ -15261,7 +16248,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "shallow-dive"
     },
     {
       "id": "place.mercantile-coast.witness-vigil-camp",
@@ -15368,7 +16362,15 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "post-umbriel",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.wraxu-frieze",
@@ -15478,7 +16480,15 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "lost-peoples",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.wraxu-stacks",
@@ -15583,7 +16593,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.mercantile-coast.wraxu-xanmeer",
@@ -15695,7 +16712,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "merethic",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "stair-throat",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.mercantile-coast.xanmeer-dive-shaft",
@@ -15803,7 +16828,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "merethic",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "well-shaft",
+      "underwaterAccess": "deep-dive"
     },
     {
       "id": "place.mercantile-coast.xhon-mehl-shrine",
@@ -15911,7 +16944,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "underwater-entry",
+      "underwaterAccess": "shallow-dive"
     },
     {
       "id": "place.mercantile-coast.xinchei-konu",
@@ -16032,7 +17072,16 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "merethic",
+        "duskfall",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     }
   ]
 }

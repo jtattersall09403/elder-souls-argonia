@@ -116,7 +116,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "second-empire"
+      ],
+      "densityLayer": "destination",
+      "entrance": "stair-throat",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.basin-air-grotto",
@@ -226,7 +233,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "underwater-entry",
+      "underwaterAccess": "argonian-only-depth"
     },
     {
       "id": "place.imperial-penal-south.basin-courier-relay",
@@ -341,7 +355,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.basin-curiosity",
@@ -457,7 +478,17 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "merethic",
+        "ayleid",
+        "lost-peoples",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.basin-hearth-house",
@@ -572,7 +603,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.basin-hermit",
@@ -692,7 +730,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.basin-sinkhole",
@@ -798,7 +843,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "sinkhole-lip",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.basin-squat",
@@ -909,7 +961,15 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "gate",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.basin-tradehouse",
@@ -1027,7 +1087,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.blackrose",
@@ -1171,7 +1239,18 @@
       "complexityBudget": "complex",
       "importanceTier": 0,
       "workflow": "derived",
-      "complexityJustification": "A major city: a walled island core over Lilmothiit foundations plus stilt and boardwalk districts spread across a lake, with three river gates. Compiled from the blueprint schema."
+      "complexityJustification": "A major city: a walled island core over Lilmothiit foundations plus stilt and boardwalk districts spread across a lake, with three river gates. Compiled from the blueprint schema.",
+      "season": "all-year",
+      "eraLayers": [
+        "second-empire",
+        "imperial",
+        "post-umbriel",
+        "lost-peoples",
+        "current"
+      ],
+      "densityLayer": "landmark",
+      "entrance": "gate",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.imperial-penal-south.blackrose-drowned-hist",
@@ -1284,7 +1363,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "post-umbriel",
+        "current"
+      ],
+      "densityLayer": "landmark",
+      "entrance": "none",
+      "underwaterAccess": "shallow-dive"
     },
     {
       "id": "place.imperial-penal-south.blackrose-prison",
@@ -1425,7 +1512,17 @@
       "complexityBudget": "complex",
       "importanceTier": 0,
       "workflow": "derived",
-      "complexityJustification": "A canon fortress-prison with three occupancies stacked in it (prison-born families, outlaws, and Umbriel's dead below) and a defended approach \u2014 the zone's largest single authored site."
+      "complexityJustification": "A canon fortress-prison with three occupancies stacked in it (prison-born families, outlaws, and Umbriel's dead below) and a defended approach \u2014 the zone's largest single authored site.",
+      "season": "all-year",
+      "eraLayers": [
+        "second-empire",
+        "imperial",
+        "post-umbriel",
+        "current"
+      ],
+      "densityLayer": "landmark",
+      "entrance": "gate",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.blasphemer-urn-vault",
@@ -1535,7 +1632,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current",
+        "merethic"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "grave-cut",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.bog-iron-bloomery",
@@ -1640,7 +1745,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.bramman-head",
@@ -1767,7 +1880,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.imperial-penal-south.buoyant-causeway",
@@ -1880,7 +2000,16 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "varies",
+      "eraLayers": [
+        "merethic",
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.imperial-penal-south.cave-pool-glow",
@@ -1993,7 +2122,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "wet",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "cave-mouth",
+      "underwaterAccess": "shallow-dive"
     },
     {
       "id": "place.imperial-penal-south.chainbreaker-shelter",
@@ -2118,7 +2254,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "post-umbriel",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.chainlink-watchtower",
@@ -2230,7 +2374,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.cliff-vista-basin",
@@ -2343,7 +2495,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.daril-den",
@@ -2457,7 +2616,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "varies",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "cellar-door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.disputed-estate-village",
@@ -2576,7 +2742,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.drawdown-flat",
@@ -2687,7 +2861,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "dry",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.imperial-penal-south.feeder-portage",
@@ -2797,7 +2978,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "varies",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.imperial-penal-south.feeder-whitewater",
@@ -2907,7 +3095,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "wet",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.imperial-penal-south.flu-mass-grave",
@@ -3016,7 +3211,17 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "knahaten-flu",
+        "imperial",
+        "post-umbriel",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "grave-cut",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.flu-quarantine-village",
@@ -3134,7 +3339,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "knahaten-flu",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.frog-pond-farm-basin",
@@ -3241,7 +3454,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "wet",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.gar-pens-basin",
@@ -3350,7 +3570,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.imperial-farmstead-basin",
@@ -3458,7 +3685,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.imperial-survey-camp",
@@ -3568,7 +3803,15 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "dry",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.intact-fort",
@@ -3681,7 +3924,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial"
+      ],
+      "densityLayer": "destination",
+      "entrance": "gate",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.kothringi-ruin-basin",
@@ -3793,7 +4043,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "lost-peoples",
+        "knahaten-flu"
+      ],
+      "densityLayer": "destination",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.lake-boardwalk-village",
@@ -3909,7 +4167,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.imperial-penal-south.lake-divers-yard",
@@ -4022,7 +4287,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "deep-dive"
     },
     {
       "id": "place.imperial-penal-south.lake-drowned-village",
@@ -4142,7 +4414,16 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "post-umbriel",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "underwater-entry",
+      "underwaterAccess": "shallow-dive"
     },
     {
       "id": "place.imperial-penal-south.lake-ferry-stage",
@@ -4260,7 +4541,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.imperial-penal-south.lake-raft-village",
@@ -4376,7 +4664,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "varies",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.imperial-penal-south.lake-stall-row",
@@ -4491,7 +4786,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "dry",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.lake-submerged-xanmeer",
@@ -4610,7 +4912,16 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "duskfall",
+        "merethic",
+        "post-umbriel"
+      ],
+      "densityLayer": "landmark",
+      "entrance": "underwater-entry",
+      "underwaterAccess": "deep-dive"
     },
     {
       "id": "place.imperial-penal-south.ledgered-blackguards",
@@ -4729,7 +5040,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "cellar-door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.lilmothiit-quarry",
@@ -4843,7 +5161,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "lost-peoples",
+        "second-empire"
+      ],
+      "densityLayer": "landmark",
+      "entrance": "stair-throat",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.living-treasure-camp",
@@ -4955,7 +5281,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.longmont",
@@ -5076,7 +5409,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "landmark",
+      "entrance": "none",
+      "underwaterAccess": "surface-swim"
     },
     {
       "id": "place.imperial-penal-south.manned-toll-tower",
@@ -5187,7 +5527,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.marsh-giant-ground-basin",
@@ -5295,7 +5643,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "dry",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.murkwood-verge",
@@ -5412,7 +5767,15 @@
       "complexityBudget": "standard",
       "importanceTier": 1,
       "workflow": "derived",
-      "reconciliationNote": "Contestable CONFIRMED here (2026-09-02 reconciliation). The flag suspected a mercantile-coast double-claim; there is none. Canon last locates Murkwood north-east of Blackrose, which is this region, so the record stays where the source puts it. Its 'moves' property is expressed as the verge plus an absent state, not as a second record elsewhere."
+      "reconciliationNote": "Contestable CONFIRMED here (2026-09-02 reconciliation). The flag suspected a mercantile-coast double-claim; there is none. Canon last locates Murkwood north-east of Blackrose, which is this region, so the record stays where the source puts it. Its 'moves' property is expressed as the verge plus an absent state, not as a second record elsewhere.",
+      "season": "varies",
+      "eraLayers": [
+        "merethic",
+        "current"
+      ],
+      "densityLayer": "landmark",
+      "entrance": "hollow-trunk",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.natural-dive-shaft",
@@ -5521,7 +5884,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "dry",
+      "eraLayers": [
+        "merethic",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "underwater-entry",
+      "underwaterAccess": "deep-dive"
     },
     {
       "id": "place.imperial-penal-south.necromantic-dig",
@@ -5642,7 +6013,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "burrow",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.onkobra-clay-kiln",
@@ -5749,7 +6127,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "dry",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.owing-camp-basin",
@@ -5863,7 +6248,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.plague-cordon",
@@ -5975,7 +6367,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "knahaten-flu"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.prison-born-refuge",
@@ -6091,7 +6490,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "post-umbriel",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.raid-refugee-camp",
@@ -6203,7 +6610,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "varies",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.rebellion-earthworks",
@@ -6312,7 +6726,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.rebellion-memorial",
@@ -6424,7 +6845,17 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "knahaten-flu",
+        "post-umbriel",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.retired-arbiter-house",
@@ -6541,7 +6972,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.rockspring",
@@ -6658,7 +7096,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "varies",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.rose-bone-waystation",
@@ -6774,7 +7219,14 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "door",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.rose-flooded-passage",
@@ -6893,7 +7345,16 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "post-umbriel",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "underwater-entry",
+      "underwaterAccess": "deep-dive"
     },
     {
       "id": "place.imperial-penal-south.rose-supply-town",
@@ -7022,7 +7483,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "landmark",
+      "entrance": "gate",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.saltrice-village",
@@ -7136,7 +7605,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "wet",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.scandal-holding-pit",
@@ -7248,7 +7725,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "trapdoor",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.three-gate-toll",
@@ -7374,7 +7858,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "densityLayer": "landmark",
+      "entrance": "gate",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.vampiric-cloud-ground",
@@ -7486,7 +7978,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "second-empire",
+        "imperial"
+      ],
+      "densityLayer": "destination",
+      "entrance": "grave-cut",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.voriplasm-vault",
@@ -7598,7 +8098,16 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "duskfall",
+        "merethic",
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "stair-throat",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.west-market-town",
@@ -7728,7 +8237,14 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "landmark",
+      "entrance": "gate",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.wisp-lure-basin",
@@ -7838,7 +8354,14 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "wet",
+      "eraLayers": [
+        "current"
+      ],
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.xanmeer-span-bridge",
@@ -7953,7 +8476,17 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "duskfall",
+        "imperial",
+        "merethic",
+        "current"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-penal-south.yespest-site",
@@ -8063,7 +8596,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "season": "all-year",
+      "eraLayers": [
+        "knahaten-flu",
+        "lost-peoples"
+      ],
+      "densityLayer": "destination",
+      "entrance": "none",
+      "underwaterAccess": "none"
     }
   ]
 }
