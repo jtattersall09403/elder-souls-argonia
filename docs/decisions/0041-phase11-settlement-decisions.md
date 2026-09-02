@@ -463,6 +463,15 @@ the causal density gradient, but per-record depth/quality (why, vibe
 signature, relations, asset plan) must be uniform across regions; the
 critique pass checks richness parity between zones explicitly.
 
+**Owner ruling (2026-09-02): dungeon entrances are decoupled from geology**
+— every entrance teleports to an interior cell, so "no rock for caves"
+constrains surface entrances only (recorded in full in module 70 §47).
+Catalogue/plot implication: dungeon-bearing records may sit anywhere the
+*entrance* type suits (trapdoor, hollow trunk, underwater entry, sinkhole,
+burrow, xanmeer stair-throat, well, grave-cut...); the root-hollow gallery
+layer stays the interior's signature but is no longer the ONLY underground
+answer. The critique pass should check entrance-type variety.
+
 **Scour findings that bind Parts 1/3** (2026-09-02, full digest in
 `world/sources/sites/candidate-sites.md`; 1,172 scored candidate sites in
 `candidate-sites.json`, dossiers for all nine anchors in `sites/dossiers/`):

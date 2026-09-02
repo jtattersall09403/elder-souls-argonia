@@ -36,6 +36,21 @@
 
 Each family has major and minor variants. Major sites use agent-authored graphs and reveal sequences.
 
+**Entrances are decoupled from geology (owner ruling, 2026-09-02).** Every
+entrance teleports to an interior cell (the Morrowind/Skyrim model), so the
+province's lack of rock — the Phase 11 terrain scour found almost no natural
+caves — constrains only what the *surface entrance* looks like, never the
+dungeon behind it. Underground interiors are fully canon in this ground
+(ESO Murkmire's delves are mud burrows, root caverns and xanmeer
+under-vaults; the Barsaebic Ayleid layer is subterranean). Derive entrance
+types as their own small vocabulary and vary them deliberately: trapdoors
+and cellar doors, hollow trunks and root-mouths, underwater entries in
+river banks and pools, sinkhole lips, mud burrows, xanmeer stair-throats,
+well shafts, grave-cut entries — each type carrying its own discovery cue
+and traversal demand (a dive entry gates on breath, a hollow trunk on
+finding it). The catalogue's entrance choice is siting data; the interior
+family is chosen independently of it.
+
 ## 48. Interiors should be planned with exteriors
 
 Each exterior location receives an `InteriorProgram` at placement time:
