@@ -794,3 +794,22 @@ as load-bearing. Record the outcome here either way.
 3. **Gideon anchor.** Its approved position sits on steep ground (14 %
    buildable in 400 m) — expect a nudge proposal within `toleranceUV` at
    Part 6.
+4. **"No porting to other games" clauses** (inventory re-review): several
+   otherwise-ideal Nexus sources (the biggest Ayleid exterior kit; the only
+   genuine canoe mesh) carry this clause, and our browser engine arguably
+   trips it. Owner ruling needed before those specific mods are sourced.
+5. **Provenance check**: BM&V bundles a `swamp house.nif` (47 placements);
+   a same-named Nexus mod was ripped from a commercial game. If they are
+   the same asset it is unusable — flagged in both inventory artefacts.
+
+**Re-review corrections worth knowing (2026-09-02, commit `d959986`):**
+the vault's Xanmeer Tileset terrace kit IS stepped-pyramid massing (stack
+decreasing terraces; round-1 "no massing" was wrong — the true gap is
+ornamental frontage); rafts/canoes remain fully open pending Q2's eyeball
+(both new boat mods are keeled Nord hulls per the re-sweep); the vault has
+NO Skyrim DLC (Hearthfire's modular homestead kit is the real loss);
+Nexus has no true mud-hut kit or raft/canoe pack at all — the mud culture
+will be kitbashed permanently, plan for it. Next sourcing priorities:
+Ships and Boats of Tamriel (SSE 41653, flat-bottomed hulls) and Skyfall's
+Sleeping Hist Tree Overhaul (SSE 116792, mesh variants for the ten hero
+Hist + cairns-as-grave-markers).
