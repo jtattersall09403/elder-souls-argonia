@@ -807,6 +807,95 @@ as load-bearing. Record the outcome here either way.
 - Still-open asset gaps after sourcing: xanmeer ornamental frontage,
   dugout/twin-hull canoes, grave-stakes, salterns/kilns.
 
+## Part 2 reconciliation record (2026-09-02)
+
+Aggregate pass over the eight region derivations (722 records in, **729 out**;
+no ID deleted or renamed). All eight `places-*.json` are now registered ID
+sources under standard 2, so `npm test` enforces shape and uniqueness.
+
+| Region | Records |
+|---|---|
+| mercantile-coast | 140 |
+| hist-heartland | 110 |
+| imperial-fringe | 108 |
+| saxhleel-coast | 99 |
+| dunmer-north | 84 |
+| imperial-penal-south | 70 |
+| naga-kur-deeps | 65 |
+| pirate-freeholds | 53 |
+| **Province** | **729** |
+
+**Types**: 236 POI types, **234 used**, 2 unused (`festival-ground`,
+`dry-season-herd-ground` — flagged as a coverage gap, not cut).
+
+**Bands widened**, each with a `countBandNote` in `type-recipes.json`:
+`stone-calendar` 1→2, `quarantine-village` 1→3, `tunnel-rat-gallery` 1→2,
+`heretic-stone-village` 1→2, `drifting-village` 1→2 (and
+`settlement-register.md` §5 G3.3 revised to match — its "exactly one" was a
+cost recommendation, not canon).
+
+**Retype**: Alten Meerhleel `neutral-free-port` → `port-town` (Alten Corimont
+is canon's named freehold and keeps the singular type). ID unchanged; `why`,
+`vibe` and `assetPlan` rewritten to the port-town recipe.
+
+**Filled**: Hissmir, the Loriasel lamia caverns, the Deepmire leviathan bone
+field, Still-Waiting, the Orma tactile ruin, and two collapsing pinnacles.
+**Consciously under-filled**: `port-town` at 1 of 2 (no honest homeless
+candidate). Details in `docs/research/settlement-type-recipes.md`.
+
+**Hero Hist**: register closed at exactly **ten** power slots (roster in
+`world/sources/lore/topics/hist-placement.md` §3b). Five were added — the four
+canon city/hatchery trees the dossier names (Stormhold, Hatching Pools,
+Lilmoth, Gideon) plus Archon's harbour tree. Two grove records are marked
+reserves with `powerSlot: null`. Helstrom deliberately holds none.
+
+**Contestables**: wrecker-beach confirmed on mercantile-coast, murkwood-verge
+confirmed in imperial-penal-south (no double-claim existed); both player-
+stronghold candidates stay flagged for the owner (Q&A item 6).
+
+### Findings handed to the critique pass — not fixed here
+
+1. **Band discipline has broken down at the aggregate.** 68 POI types are over
+   their band and 49 are under it, even though the total lands inside the
+   600–740 envelope. The eight agents each stayed plausible locally and
+   collectively rewrote the distribution. The band sum is now **637–739**
+   against a 740 ceiling: **any further widening must be paid for by narrowing
+   another band.** Worst over-claims: `hist-less-refuge` and
+   `bone-repatriation-waystation` (2→6 each), `mass-grave-memorial` (4→8),
+   `sealed-xanmeer` (4→7), `ferry-stage` (6→9). `hero-hist-grove` is 4→6 and
+   was deliberately left over-band rather than retype a hero tree.
+2. **`rewardProfile.valueTier` uses four incompatible vocabularies** —
+   `tier-N` (dunmer-north, imperial-fringe), bare integers (mercantile-coast,
+   imperial-penal-south), `TN` (pirate-freeholds, saxhleel-coast) and
+   `low/medium/high/unique` (hist-heartland, naga-kur-deeps). Left unnormalised
+   on purpose: a 3-band word scale does not map losslessly onto a 5-band
+   numeric one, so the collapse is a design call for the reward pass, not a
+   find-and-replace. It must be settled before anything reads this field.
+3. **Richness parity is NOT uniform across the eight slices** (owner directive,
+   2026-09-02). Medians/means per record:
+
+   | Region | `why` chars | `sources` | non-empty `relations` | `vibe` keys |
+   |---|---|---|---|---|
+   | dunmer-north | 506 | 3.1 | 2.1 | 8 |
+   | imperial-penal-south | 494 | 3.5 | 0.3 | 5 |
+   | imperial-fringe | 480 | 2.6 | 1.8 | 8 |
+   | mercantile-coast | 476 | 3.1 | 0.2 | 5 |
+   | pirate-freeholds | 456 | 3.8 | 0.2 | 8 |
+   | saxhleel-coast | 416 | 3.6 | 0.1 | 8 |
+   | hist-heartland | 309 | 1.3 | 0.1 | 8 |
+   | naga-kur-deeps | 301 | 1.3 | 0.0 | 8 |
+
+   Two specific, fixable gaps: **hist-heartland and naga-kur-deeps run ~35 %
+   thinner on `why` and cite roughly one source per record against the other
+   six regions' three-plus** — they are the two interior slices, and the
+   interior must not be the thin part of the province. And **`relations` is
+   effectively empty everywhere except dunmer-north and imperial-fringe**,
+   which is a province-wide gap, not a regional one: the catalogue currently
+   describes 729 places and almost no connections between them. Both are
+   authoring work, not reconciliation work, so they are recorded here rather
+   than papered over. Note also that mercantile-coast and imperial-penal-south
+   write a 5-key `vibe` where the other six write 8.
+
 ## Owner Q&A (grows from Parts 2, 4 and 5)
 
 **Queued for the next owner touchpoint (batched, not blocking):**
