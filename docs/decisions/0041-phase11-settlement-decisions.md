@@ -249,10 +249,26 @@ village*, *hammock village*, *tree-platform village*; *ruin* → *xanmeer*,
 *standing curiosity*. **These are examples, not the list — see the breadth
 rule below.**
 
-**Derive counts, not just kinds.** Work backwards from the binding density
-numbers (module 95 Phase 11: 18–22 named POIs/km² D0–D3, 8–12 D4–D5,
-something named within ≤300 m of every road and boat lane; quests per
-settlement by magnitude) and from
+**Give each type a recipe, not just a name.** The research doc distils
+Bethesda's unmarked POIs into a **five-slot schema** worth using literally:
+① a long-range cue (smoke plume, banner, silhouette) that says "something
+is there"; ② a small population with one elevated/ranged member; ③
+domestic props that narrate who lives here; ④ a free reward plus a gated
+one (locked, hidden, or guarded); ⑤ optionally a satellite node 200–400 m
+away that resolves the implied story. Record per-type deltas from that
+baseline in the catalogue.
+
+**Derive counts, not just kinds — in three tiers, not one number.** A single
+POI-density figure is a design error
+([openworld-place-distribution-and-siting.md](../research/openworld-place-distribution-and-siting.md)):
+every successful open world runs a **fine tempo layer** (something every
+~60–100 s of travel; Skyrim ~14/km², Vvardenfell ~18/km², BotW's Koroks
+~15/km²) over a **much coarser destination layer** (BotW shrines ~2/km²,
+~3.5 min apart), plus **landmarks** visible from far off. Derive all three
+separately, and check them separately. Work from the binding numbers in
+module 95 Phase 11 (18–22 named POIs/km² D0–D3, 8–12 D4–D5, something named
+within ≤300 m of every road and boat lane; quests per settlement by
+magnitude) and
 [morrowind-content-density.md](../research/morrowind-content-density.md).
 The catalogue must be *large*: province-scale coverage at Morrowind density
 is thousands of entries, and that is the point. Fan out Opus subagents by
@@ -339,10 +355,24 @@ Match Part 1's demand against Part 0's supply of interesting ground, on the
 - **Record the why for every dot**, even at this resolution: which siting
   grammar, which candidate sites were considered, why this one won. A dot
   without a why is not plotted.
-- **Respect distribution as you go**: density per km² by danger band,
-  the ≤300 m-from-route rule, spacing/clustering so regions differ from
-  each other, and no two neighbours reading the same (the distinctiveness
-  ladder is checked here, not after).
+- **Respect distribution as you go**: the three density tiers by danger
+  band, the ≤300 m-from-route rule, and spacing that reads hand-placed —
+  **Poisson-disc for cluster centres, clumped sampling within a cluster**
+  (even spacing alone reads procedural; our own mined data says real hand
+  placement is clustered). Apply the pull/attention rules from the research
+  doc: vary the landform between successive stops, never a straight line of
+  identical beats, and let a landmark be visible from the approach to the
+  next one.
+- **Check with a visibility raster**, not by eye: compile a cheap
+  "what can be seen from here" pass over the plotted map (Nintendo used
+  playtest heat maps for this; we can approximate it statically) and look
+  for dead zones with nothing to pull the player, and for over-dense
+  huddles.
+- **Anti-sameyness quotas, enforced mechanically**: no template used for
+  more than ~25 % of instances in a region; any two instances of the same
+  template within 2 km must differ on ≥3 axes; never two of the same
+  template in sight of each other; every taxonomy family actually used.
+  Emit a coverage report each compile.
 - **Collect the homeless.** Anything that cannot find suitable ground —
   because its landform type is used up, or its constraints conflict — goes
   into a **deferred batch** rather than being force-fitted. At the end of
@@ -538,24 +568,45 @@ settlements sit on ground that was *authored flat where it needed to be*,
 with foundation pieces, plinths and stilts hiding what is left. Our compiler
 must own this explicitly:
 
-- **grade the ground** where a building needs level footing (a graded pad
-  blended into the surrounding terrain, not a cliff-edged disc), and record
-  the terrain edit as data so it is reproducible and reversible;
-- **fit the building to the ground** where grading is wrong: foundation
-  courses, plinths, piles and stilts (the marsh cultures already build on
-  stilts — lean on it), stepped terraces on slopes, and boardwalks/stairs
-  that absorb the level changes between parcels;
-- **never leave** floating corners, buried doorways, gaps under walls, or
-  door thresholds the player cannot step onto — all of which are validator
-  checks, run every compile;
-- watch the **knock-ons**: navmesh over graded pads and stairs, water-edge
-  structures against the W-field, roads meeting buildings at a grade,
-  vegetation-clearance edges on slopes, shadow behaviour on flat pads,
-  and seams where the authored pad meets procedural terrain.
-- **Research is landing** in
-  [openworld-place-distribution-and-siting.md](../research/openworld-place-distribution-and-siting.md)
-  (how Skyrim and others actually solve this, plus the wider gotcha list) —
-  read it before designing the compiler's ground-fitting stage.
+**Read [openworld-place-distribution-and-siting.md](../research/openworld-place-distribution-and-siting.md)
+§ on slopes before designing the ground-fitting stage** — it is prescriptive
+and researched. The load-bearing rules it establishes:
+
+- **The building snaps to the grid; the ground moves to meet it** (Bethesda
+  does this by hand, we must automate it). Drive the choice off Δ, the
+  terrain height delta across the building footprint: **Δ < 0.15 m** place
+  direct · **0.15–0.6 m** plinth/foundation course · **0.6–2.0 m** grade a
+  pad, with a 2–3× falloff ring and a softened rim · **Δ ≥ 2.0 m never
+  grade** — switch to a **stilted or dug-in variant, or re-site**.
+  Conveniently, the stilt answer is also the lore-correct marsh answer.
+- Set pad height from the **maximum** terrain height under the footprint,
+  never the mean, and **bury the base ≥ 0.25 m**: if a wall doesn't clip in
+  at the bottom, it gaps at the top.
+- **Flatten *then soften the rim*** or you get visible creases; keep the rim
+  ≤ 30° or the settlement becomes a navmesh island. **Regenerate navmesh
+  after grading**, never before.
+- Heightfields cannot express verticals — plinths, stilts and retaining
+  walls are polygon geometry ray-sampled onto the terrain, not terrain edits.
+- **Water-edge structures** (docks, stilt huts, boardwalks) are placed
+  against the **highest** seasonal/tide water level and piled to the **bed**,
+  not to the surface.
+- **Never leave** floating corners, buried doorways, gaps under walls, or
+  thresholds the player cannot step onto — validator checks, every compile.
+- **Publish each settlement's footprint polygons and door transforms as
+  constraints to the road compiler**, or roads will run through walls.
+- **The authored/procedural seam**: make every settlement effect a falloff
+  field with a *different* radius per channel (roughly material 8 m,
+  vegetation 15 m, terrain 25 m) — a channel that stops on a line reads as
+  a line.
+- **Building LOD is the classic failure** (DynDOLOD documents Bethesda's
+  own): one authority per building deciding LOD-vs-full at one distance;
+  never model a settlement as an overlapping sub-worldspace; bake building
+  LOD from **post-grade** transforms and rebuild terrain LOD tiles in the
+  same compile.
+- **Compile order that avoids most of this**: suitability → siting → layout
+  → grade → roads → navmesh → vegetation → materials → LOD.
+- Flat pads are the worst case for **shadow acne** — leave pads ~0.5–1°
+  residual tilt and check against the CSM splits.
 
 ### Subagents
 
