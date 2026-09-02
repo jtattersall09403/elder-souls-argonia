@@ -788,16 +788,18 @@ as load-bearing. Record the outcome here either way.
    90 §73's standing policy is *no* per-asset permission gate for this
    personal project. Which wins? (Nexus API exposes no permissions field —
    settling it needs a human read of the Permissions tabs.)
-2. **Raft eyeball.** Are `plank_ferry_swamp_01/03` flat-bottomed enough to
-   read as Argonian rafts? If yes the watercraft gap is rafts-closed,
-   canoes-only remaining.
+2. **Raft eyeball** (still open) — but the owner supplied leads
+   (2026-09-02): classic Skyrim mod **89948** "and others like it" for
+   rafts; for mud huts consider SSE **63329** alongside Mud Mother Grove
+   (146557, already sourced). Sourcing pass dispatched.
 3. **Gideon anchor.** Its approved position sits on steep ground (14 %
    buildable in 400 m) — expect a nudge proposal within `toleranceUV` at
    Part 6.
-4. **"No porting to other games" clauses** (inventory re-review): several
-   otherwise-ideal Nexus sources (the biggest Ayleid exterior kit; the only
-   genuine canoe mesh) carry this clause, and our browser engine arguably
-   trips it. Owner ruling needed before those specific mods are sourced.
+4. **"No porting to other games" clauses — RULED, approved (owner,
+   2026-09-02):** we may use these mods. Rationale: this is a standalone
+   Skyrim overhaul/conversion mod, credited as such, for private personal
+   use — not a new game. Unblocks the Ayleid exterior kit and the canoe
+   mesh among others; credit every source as usual.
 5. **Provenance check**: BM&V bundles a `swamp house.nif` (47 placements);
    a same-named Nexus mod was ripped from a commercial game. If they are
    the same asset it is unusable — flagged in both inventory artefacts.
