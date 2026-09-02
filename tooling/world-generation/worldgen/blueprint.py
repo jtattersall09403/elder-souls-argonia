@@ -21,7 +21,10 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     the two-culture rule: ONE per district, never blended),
                     wealth, notes}
   routes[]/canals[]/boardwalks[]   {id, kind, points [[u,v],...], widthM}
-  parcels[]         {id, districtId, use, footprint, buildingFamily (asset-
+  parcels[]         {id, districtId, use, footprint (UV polygon, required —
+                    as are district boundaries, waterway points and
+                    landmark/dock positions: no geometry-free blueprints),
+                    buildingFamily (asset-
                     inventory family ref), groundFit ("direct"|"plinth"|
                     "pad"|"stilt"|"dug-in" — the slope ladder; compiler may
                     only relax DOWN this list, never grade Δ≥2 m)}
@@ -121,6 +124,8 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None) -> lis
         district_ids.add(d.get("id"))
         if d.get("cultureKit") not in CULTURE_KITS:
             fail(f"district {d.get('id')}: cultureKit must be one of {sorted(CULTURE_KITS)} (two-culture rule — never blended)")
+        if not _polygon_ok(d.get("boundary")):
+            fail(f"district {d.get('id')}: boundary must be a polygon of >=3 [u,v] points")
 
     for p in bp.get("parcels", []):
         if p.get("districtId") not in district_ids:
@@ -129,6 +134,20 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None) -> lis
             fail(f"parcel {p.get('id')}: groundFit must be one of {sorted(GROUND_FIT)}")
         if not p.get("buildingFamily"):
             fail(f"parcel {p.get('id')}: needs buildingFamily (asset-inventory ref)")
+        if not _polygon_ok(p.get("footprint")):
+            fail(f"parcel {p.get('id')}: footprint must be a UV polygon of >=3 [u,v] points")
+
+    for key in ("routes", "canals", "boardwalks"):
+        for w in bp.get(key, []):
+            pts = w.get("points")
+            if not isinstance(pts, list) or len(pts) < 2 or not all(isinstance(p, list) and len(p) == 2 for p in pts):
+                fail(f"{key} {w.get('id')}: points must be >=2 [u,v] pairs")
+
+    for key in ("landmarks", "docks"):
+        for item in bp.get(key, []):
+            pos = item.get("position")
+            if not (isinstance(pos, list) and len(pos) == 2):
+                fail(f"{key} {item.get('id')}: position must be [u,v]")
 
     for s in bp.get("questSockets", []):
         if s.get("kind") not in SOCKET_KINDS:

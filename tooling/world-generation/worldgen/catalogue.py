@@ -17,8 +17,9 @@ Record fields (0041 Part 2, field-for-field; * = required from birth, the
 rest become required as `workflow` advances):
 
   identity        *id (place.<region>.<slug>), *name or namingRule, aliases
-  classification  *taxonomy {class, family, type, variant?}, *magnitude
-                  (M1–M5 or null for non-settlements), *status
+  classification  *taxonomy {class, family, type, variant?, magnitude} —
+                  magnitude (M1–M5 or null for non-settlements) lives
+                  INSIDE classification, not at the record top level; *status
                   (active|ruined|abandoned|seasonal|drowned|contested|cut)
   provenance      *provenance (canon-named|lore-implied|quest-required|
                   geography-derived|density-fill), *sources [..], *confidence
@@ -167,7 +168,7 @@ def validate_record(rec: dict, region: str, classes: dict, errors: list[str]) ->
     if not isinstance(rec.get("importanceTier"), int) or not 0 <= rec["importanceTier"] <= 4:
         _fail(errors, rid, "importanceTier must be int 0–4")
     why = rec.get("why", {})
-    if why and set(why) < WHY_KEYS:
+    if why and not WHY_KEYS <= set(why):
         _fail(errors, rid, f"why must carry {sorted(WHY_KEYS)}")
     sockets = rec.get("sockets")
     if sockets is not None and (
