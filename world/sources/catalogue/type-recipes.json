@@ -12246,7 +12246,7 @@
         "seasonal"
       ],
       "assetPlan": [
-        "azure-tree",
+        "azura-tree",
         "hist-variants",
         "market-tents",
         "totems-ritual",
@@ -22953,7 +22953,7 @@
         "drowned"
       ],
       "assetPlan": [
-        "azure-tree",
+        "azura-tree",
         "hist-variants",
         "submerged-blocks",
         "stockade-scaffold",
@@ -23028,7 +23028,7 @@
         "ruined"
       ],
       "assetPlan": [
-        "azure-tree",
+        "azura-tree",
         "hist-variants",
         "clutter",
         "lights-general"
