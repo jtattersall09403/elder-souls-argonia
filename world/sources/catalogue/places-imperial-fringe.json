@@ -1447,6 +1447,311 @@
       "underwaterAccess": "none"
     },
     {
+      "id": "place.imperial-fringe.comes-back-slowly",
+      "name": "Comes-Back-Slowly",
+      "aliases": [],
+      "classification": {
+        "class": "civic",
+        "family": "healing",
+        "type": "withdrawal-house",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "world/sources/lore/topics/hist-and-sap.md (sap dependence)",
+        "world/sources/lore/topics/magic-practice.md",
+        "docs/research/phase11-critique/completeness.md §A4 (healing outside the cities)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Sap does to Argonians what it does, and the fringe villages have nowhere to put someone coming off it; a former user built a house at the edge of the road network deliberately far enough from a tradehouse to make relapse a walk.",
+        "siteAdvantages": "An hour's walk from the nearest place that sells anything, on good water, with a hill between it and the road so that nobody passing hears what goes on inside.",
+        "occupantsMotive": "The keeper has done it herself and takes nobody's money; the house runs on what the families of those inside can bring, which is usually food and occasionally nothing.",
+        "pressures": "Two sap traders on the Gideon road consider the house a commercial threat and have said so; it has no protection beyond the fact that hurting it would be unforgivable.",
+        "wouldChangeIf": "Would close the day the keeper died, and there is no second keeper — which is the thing the whole fringe worries about and nobody discusses with her."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "interior swamp",
+          "fringe marsh",
+          "rootland deep marsh",
+          "firm lowland"
+        ],
+        "landformClasses": [
+          "flood-high",
+          "island",
+          "any-firm-ground",
+          "enclosed-clearing"
+        ],
+        "waterRelation": "quiet, apart",
+        "neighbourRelation": "just outside a settlement, near sap country",
+        "hardConstraints": [
+          "an hour's walk from anywhere selling sap or drink",
+          "its own clean water"
+        ],
+        "preferences": [
+          "a hill or spur between the house and the road",
+          "a walled yard",
+          "a single-storey plan"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [
+          "place.imperial-fringe.the-back-kiln"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D1 the keeper",
+        "D1 residents in various states",
+        "nobody dangerous, which is unusual for the fringe"
+      ],
+      "notableNpcSlots": [
+        "the keeper, who has done it herself and will not say when",
+        "the resident on their fourth attempt"
+      ],
+      "dangerTier": "D1",
+      "approachDanger": "D1",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "healing",
+          "services",
+          "lore",
+          "quests"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "A long low house with too many small windows and a walled yard, set behind a hill so that only the chimney reads from the road.",
+        "palette": "Lime-wash kept deliberately bright, dark thatch, and a yard of pale swept sand.",
+        "materials": "Ordinary village mud-and-reed, built long instead of tall so everyone inside is on one floor and can be reached quickly.",
+        "signatureFeature": "The yard: swept sand, raked every morning, and the rake marks are the house's clock — a day nobody rakes is a bad day.",
+        "condition": "Poor materials, immaculate upkeep.",
+        "mood": "Steady, unsentimental, quietly heroic and not remotely interested in being told so.",
+        "approach": "You smell woodsmoke before you see the chimney, and the hill hides the house until you are at the gate — which is the point.",
+        "senses": "A rake on sand; someone being sick, without any fuss being made of it; strong bitter tea."
+      },
+      "assetPlan": [
+        "mud-mother-grove",
+        "bamboo-hut",
+        "fences-wattle",
+        "clutter",
+        "totems-ritual"
+      ],
+      "discovery": "rumour",
+      "questHooks": {
+        "provisions": [
+          "a healer's answer 10 km from Gideon: the player can be treated here, or bring someone",
+          "a sap-dependence thread with a physical place attached to it"
+        ],
+        "tierOwnership": "tier-2 shared"
+      },
+      "rumourPoolKey": "rumour.gideon",
+      "deedCounterKeys": [
+        "deed.withdrawal-house.helped"
+      ],
+      "sockets": {
+        "scene": [
+          "the-swept-yard",
+          "the-long-room"
+        ],
+        "evidence": [
+          "the-day-book-of-rake-marks"
+        ],
+        "station": [
+          "the-keeper"
+        ],
+        "marks": [
+          "an-unraked-morning"
+        ]
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 3,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "a good week (yard raked, house quiet)",
+        "a bad week (yard unraked, doors barred from inside)"
+      ]
+    },
+    {
+      "id": "place.imperial-fringe.dreams-in-mud",
+      "name": "Dreams-In-Mud",
+      "aliases": [],
+      "classification": {
+        "class": "sacred",
+        "family": "rite",
+        "type": "dream-wallow",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "world/sources/lore/topics/magic-practice.md (vision rites)",
+        "world/sources/lore/topics/hist-and-sap.md",
+        "world/sources/lore/topics/sithis-nisswo-shadowscales.md"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "A wallow of warm clay in a screened hollow, with a hut beside it and a keeper who supplies the herbs — one of the province's rites for people who need an answer that talking cannot produce, and the fringe's only one within reach of the Imperial road.",
+        "siteAdvantages": "A warm clay seep in a hollow ringed by fig, so the place is genuinely silent and genuinely dark for eleven hours in every twenty-four.",
+        "occupantsMotive": "The keeper takes no payment for the wallow and considerable payment for the herbs, and is candid about the distinction.",
+        "pressures": "Nibenese visitors have started coming out from Gideon for it as a novelty, which the keeper allows and the neighbouring villages resent; two of the novelty visitors have not come out of the wallow the same as they went in.",
+        "wouldChangeIf": "Would be shut by the villages themselves if a Gideon citizen died here, and the keeper knows it and takes them anyway."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "rootland deep marsh",
+          "interior swamp",
+          "tropical jungle",
+          "raised hammock"
+        ],
+        "landformClasses": [
+          "enclosed-clearing",
+          "sinkhole",
+          "oxbow",
+          "spring-head"
+        ],
+        "waterRelation": "a mud wallow",
+        "neighbourRelation": "a short walk from a village, out of its sight",
+        "hardConstraints": [
+          "a warm clay seep",
+          "a hollow that kills sound"
+        ],
+        "preferences": [
+          "a single keeper's hut",
+          "a fenced wallow",
+          "an eleven-hour dark"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [
+          "place.imperial-fringe.gideon-synod-outstation"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.the-sermon-road-camp"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D1 the keeper",
+        "D3 whatever the hollow attracts on a night with someone in the wallow"
+      ],
+      "notableNpcSlots": [
+        "the keeper who separates the free rite from the paid herbs",
+        "the Gideon visitor who came out different"
+      ],
+      "dangerTier": "D3",
+      "approachDanger": "D3",
+      "traversalModes": [
+        "walk",
+        "boat"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "lore",
+          "quests",
+          "reagents",
+          "unique item"
+        ],
+        "valueTier": "tier-3"
+      },
+      "vibe": {
+        "silhouette": "A hollow you look down into: one hut, a fenced oval of grey clay, and a ring of fig trunks so close-set they read as a wall.",
+        "palette": "Warm grey clay, fig-bark brown, and after dark, no colour at all — the hollow takes the sky away.",
+        "materials": "One reed hut and a withy fence around the wallow; the wallow itself is worked ground and nothing else.",
+        "signatureFeature": "The silence: the hollow's shape kills the marsh noise entirely, and the transition happens over about six paces on the way in.",
+        "condition": "Nothing here is built enough to decay; the hut is patched, the wallow is scraped clean each month.",
+        "mood": "Hushed, unsettling, entirely matter-of-fact about what it does.",
+        "approach": "You hear the marsh stop before you see the hollow, and the last part of the path is a scramble down.",
+        "senses": "Silence, then clay smell, then a bitter green smell from the hut; your own breathing, suddenly obvious."
+      },
+      "assetPlan": [
+        "mud-mother-grove",
+        "totems-ritual",
+        "argonian-props",
+        "clutter"
+      ],
+      "discovery": "rumour",
+      "questHooks": {
+        "provisions": [
+          "a vision scene with a physical venue — a rite the player can undergo",
+          "a fringe answer to a question no NPC will give straight"
+        ],
+        "tierOwnership": "tier-2 shared"
+      },
+      "rumourPoolKey": "rumour.gideon",
+      "deedCounterKeys": [
+        "deed.dream-wallow.entered"
+      ],
+      "sockets": {
+        "scene": [
+          "the-wallow-at-night",
+          "the-six-paces-of-silence"
+        ],
+        "evidence": [
+          "the-keepers-herb-book"
+        ],
+        "station": [
+          "wallow-keeper"
+        ],
+        "marks": [
+          "the-visitor-who-changed"
+        ]
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 3,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "empty (fence open, hut shuttered)",
+        "in use (fence closed, keeper sitting the night out)"
+      ]
+    },
+    {
       "id": "place.imperial-fringe.fenmarch-village",
       "name": "Fenmarch",
       "aliases": [],
@@ -2579,6 +2884,157 @@
       "underwaterAccess": "none"
     },
     {
+      "id": "place.imperial-fringe.giovesse-lines",
+      "name": "Giovesse Lines",
+      "aliases": [],
+      "classification": {
+        "class": "martial",
+        "family": "imperial-military",
+        "type": "siege-earthworks",
+        "variant": null,
+        "magnitude": null
+      },
+      "status": "active",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Castle Giovesse (the fortress that held Empress Tavia)",
+        "world/sources/lore/gideon.md",
+        "world/sources/lore/topics/history-timeline.md"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Somebody besieged Castle Giovesse — the fortress that held Empress Tavia — and the banks, ditches and battery positions they cut are still exactly the shape they were, because earth in this province holds its shape far better than stone does.",
+        "siteAdvantages": "The only firm ground within bowshot of the castle's landward face; whoever cut the lines had no choice about where, which is why the works are so legible.",
+        "occupantsMotive": "Nothing occupies the lines but scrub and, in the dry months, a herd that shelters in the ditches.",
+        "pressures": "The fringe's farmers have been quarrying the banks for road metal for two centuries and the profile is going; Gideon's records court has an opinion about this and no means of enforcing it.",
+        "wouldChangeIf": "Would be a field within a lifetime at the current rate of quarrying, and the only surviving evidence of the siege would be in the archive."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "lake & standing water",
+          "upland hills",
+          "seasonal floodplain"
+        ],
+        "landformClasses": [
+          "flood-high",
+          "ridge-end",
+          "any-firm-ground",
+          "isthmus"
+        ],
+        "waterRelation": "dry ground with a view of the target",
+        "neighbourRelation": "always paired with what it besieged",
+        "hardConstraints": [
+          "firm ground within bowshot of Castle Giovesse",
+          "earthworks preserved in profile"
+        ],
+        "preferences": [
+          "six battery pads at engine spacing",
+          "three banks with ditches",
+          "a quarried scar at the road end"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [
+          "place.imperial-fringe.castle-giovesse"
+        ],
+        "reachedVia": [
+          "place.imperial-fringe.castle-giovesse"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "imperial",
+      "ownerFaction": null,
+      "occupants": [
+        "nothing",
+        "D3 in the ditches after dark",
+        "a dry-season herd sheltering in the cuts"
+      ],
+      "notableNpcSlots": [
+        "the farmer taking road metal out of the bank",
+        "the records-court clerk with an opinion and no writ"
+      ],
+      "dangerTier": "D3",
+      "approachDanger": "D3",
+      "traversalModes": [
+        "walk",
+        "climb"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "lore",
+          "salvage",
+          "gear"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "Three long grass banks with ditches between them, running in shallow zigzags across a field, and the castle's broken face beyond them.",
+        "palette": "Grass over everything, one raw ochre scar where the last quarrying was, and grey ruin behind.",
+        "materials": "Earth. Nothing else — which is the point, and why it has outlasted the masonry it was dug against.",
+        "signatureFeature": "The battery positions: six flat pads at the exact spacing of Imperial siege engines, so the whole plan of an attack is readable by standing in one of them.",
+        "condition": "Sharper than anything else here, and being eaten from the road end.",
+        "mood": "Quiet, tidy, faintly obscene once you understand what the shapes are for.",
+        "approach": "They read as agricultural ridges until you are on them and the geometry resolves into something intentional.",
+        "senses": "Wind in long grass; the hollow sound the ditches make of your own footsteps; nothing else."
+      },
+      "assetPlan": [
+        "stockade-scaffold",
+        "bmv-fort",
+        "clutter",
+        "landmark-civic"
+      ],
+      "discovery": "sightline",
+      "questHooks": {
+        "provisions": [
+          "a legible battlefield the player can read without being told",
+          "evidence of a siege the archive records differently"
+        ],
+        "tierOwnership": "tier-2 shared"
+      },
+      "rumourPoolKey": "rumour.gideon",
+      "deedCounterKeys": [
+        "deed.giovesse-lines.read"
+      ],
+      "sockets": {
+        "scene": [
+          "a-battery-pad",
+          "the-quarried-end"
+        ],
+        "evidence": [
+          "the-engine-spacing",
+          "the-archive-account-that-disagrees"
+        ],
+        "station": [],
+        "marks": [
+          "the-fresh-quarry-scar"
+        ]
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 3,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "wet season (ditches full, banks green)",
+        "dry season (a herd in the cuts and the profile bare)"
+      ]
+    },
+    {
       "id": "place.imperial-fringe.glenbridge",
       "name": "Glenbridge",
       "aliases": [],
@@ -3031,6 +3487,161 @@
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none"
+    },
+    {
+      "id": "place.imperial-fringe.hangs-above-the-water",
+      "name": "Hangs-Above-The-Water",
+      "aliases": [],
+      "classification": {
+        "class": "settlement",
+        "family": "dry-village",
+        "type": "gorge-wall-dwelling",
+        "variant": null,
+        "magnitude": "M2"
+      },
+      "status": "active",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Onkobra River",
+        "world/sources/lore/regions/waters.md",
+        "docs/research/phase11-critique/coverage-density.md §S3 (the under-produced vertical types)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "When the Onkobra gorge floods it fills to within a few metres of the rim, so the people who work the gorge live in it: cut chambers and built galleries on the wall, above the worst water and below the wind.",
+        "siteAdvantages": "The wall itself — dry rock, a constant temperature, and a face that cannot be approached by anything that does not climb.",
+        "occupantsMotive": "Gorge work: netting the fish the narrows concentrate, and taking payment from boats that need a hand through the rapid.",
+        "pressures": "The galleries are reached by ladder and rope, and every year somebody falls; the village argues constantly about whether to cut a stair, which would also let others up.",
+        "wouldChangeIf": "Would become an ordinary river village the day the stair was cut, and everyone knows it, which is why the stair is never cut."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "deep river corridor",
+          "upland hills"
+        ],
+        "landformClasses": [
+          "gorge",
+          "ravine",
+          "cliff-bench",
+          "waterfall"
+        ],
+        "waterRelation": "above a deep navigable river",
+        "neighbourRelation": "commands a stretch of river; the corridor's signature settlement",
+        "hardConstraints": [
+          "a gorge wall above the flood line",
+          "no land approach without climbing"
+        ],
+        "preferences": [
+          "a rock-cut gallery band",
+          "drawn-up ladders",
+          "a netting stage at water level"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.imperial-fringe.fig-market"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.onkobra-ferry"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D1 gorge fishers",
+        "D2 pilots",
+        "D3 whatever uses the gorge floor at night"
+      ],
+      "notableNpcSlots": [
+        "the eldest, who argues every year against cutting a stair",
+        "the pilot who takes boats through the narrows"
+      ],
+      "dangerTier": "D3",
+      "approachDanger": "D3",
+      "traversalModes": [
+        "climb",
+        "boat",
+        "walk",
+        "swim"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 4,
+      "rewardProfile": {
+        "kinds": [
+          "services",
+          "supplies",
+          "traversal",
+          "rumour"
+        ],
+        "valueTier": "tier-3"
+      },
+      "vibe": {
+        "silhouette": "A band of small square openings and timber balconies fifteen metres up a sheer wall, with rope ladders hanging below them like a fringe.",
+        "palette": "Wet grey rock, black openings, and the one bright note of drying nets strung across the face.",
+        "materials": "Rock-cut chambers fronted with timber balconies and withy rails — the buildings are half quarry and half basket.",
+        "signatureFeature": "The ladders: every household's ladder is a different length and is drawn up at night, so the face's silhouette changes between dusk and dawn.",
+        "condition": "Ancient rock, annually renewed timber.",
+        "mood": "Vertiginous, self-sufficient, watchful of the water below.",
+        "approach": "From the water you are under it before you see it. From the rim you see the balconies and no way down.",
+        "senses": "Water noise filling the gorge; the knock of a ladder against rock; voices arriving from directly above."
+      },
+      "assetPlan": [
+        "passerelles-walkway",
+        "stockade-scaffold",
+        "vanilla-shackkit",
+        "bamboo-hut",
+        "argonian-lights",
+        "clutter"
+      ],
+      "discovery": "sightline",
+      "questHooks": {
+        "provisions": [
+          "a settlement whose front door is a climb — a traversal set piece that is also somebody's home",
+          "a gorge pilot who can take a boat through, or refuse"
+        ],
+        "tierOwnership": "tier-2 shared"
+      },
+      "rumourPoolKey": "rumour.gideon",
+      "deedCounterKeys": [
+        "deed.gorge-gallery.reached"
+      ],
+      "sockets": {
+        "scene": [
+          "the-ladder-face",
+          "a-balcony-over-the-narrows"
+        ],
+        "evidence": [
+          "the-stair-argument-tally"
+        ],
+        "station": [
+          "gorge-pilot",
+          "net-mistress"
+        ],
+        "marks": [
+          "the-broken-ladder"
+        ]
+      },
+      "complexityBudget": "standard",
+      "importanceTier": 2,
+      "workflow": "derived",
+      "densityLayer": "destination",
+      "entrance": "door",
+      "underwaterAccess": "surface-swim",
+      "localStateVariants": [
+        "ladders down (day)",
+        "ladders up (night, and you are staying on the water)"
+      ]
     },
     {
       "id": "place.imperial-fringe.hearth-house-of-the-burnt-field",
@@ -3599,6 +4210,158 @@
       "underwaterAccess": "none"
     },
     {
+      "id": "place.imperial-fringe.ladder-to-the-light",
+      "name": "Ladder-To-The-Light",
+      "aliases": [],
+      "classification": {
+        "class": "transit",
+        "family": "elevated",
+        "type": "platform-ladder-tower",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "world/sources/sites/candidate-sites.md (no long sightlines below the rim; landmarks must be tall-or-close)",
+        "world/sources/lore/topics/material-culture.md (lashed timber, no nails)",
+        "docs/research/phase11-critique/coverage-density.md §S3"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The fig canopy over the lower Onkobra is closed enough that a fringe village cannot see its own river; a stack of platforms and ladders was built to put a lookout above the leaves, and then people found other uses for being up there.",
+        "siteAdvantages": "A single very old fig with a straight bole, standing on firm ground within sight of the road, tall enough to break the canopy by six metres.",
+        "occupantsMotive": "A lookout is paid by three villages to sit up there in the flood season and watch which lanes are open; the rest of the year it is climbed by anyone who wants to.",
+        "pressures": "Every platform is younger than the one below it and the bottom ladder is the oldest thing here; the tree is also, slowly, growing out of the fixings.",
+        "wouldChangeIf": "Would be abandoned the moment the tree died, and there is no second tree of this height within two kilometres."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "mangrove forest",
+          "rootland deep marsh",
+          "interior swamp",
+          "tropical jungle"
+        ],
+        "landformClasses": [
+          "islet",
+          "flood-high",
+          "any-shallow-marsh",
+          "cliff-bench"
+        ],
+        "waterRelation": "rises from water or marsh",
+        "neighbourRelation": "placed where a viewshed pass shows a dead zone",
+        "hardConstraints": [
+          "a canopy-breaking tree on firm ground",
+          "within sight of a route"
+        ],
+        "preferences": [
+          "eight platforms",
+          "a lookout's crow's nest",
+          "a signal lamp and bell"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.imperial-fringe.lowmere-raft-town"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.long-causeway"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D1 lookout in flood season",
+        "D3 whatever nests in an unattended canopy platform"
+      ],
+      "notableNpcSlots": [
+        "the lookout paid by three villages",
+        "the child who climbs it faster than anyone"
+      ],
+      "dangerTier": "D3",
+      "approachDanger": "D3",
+      "traversalModes": [
+        "climb",
+        "walk",
+        "boat"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "traversal",
+          "rumour",
+          "lore",
+          "vista"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "A great fig with a spiral of eight timber platforms up it and a crow's nest above the leaf line — from a distance, a tree wearing a staircase.",
+        "palette": "Green-black canopy, pale new lashings against old grey timber, and one lamp at the top after dark.",
+        "materials": "Lashed timber and withy, no nails, every platform tied rather than fixed so the tree can move.",
+        "signatureFeature": "The top platform breaks the canopy — the one place in twenty kilometres where you can see the province as a landscape rather than a wall of leaves.",
+        "condition": "Continuously repaired from the top down; the lower ladders are the ones to worry about.",
+        "mood": "Practical below, exhilarating above.",
+        "approach": "Invisible from any distance, then suddenly directly above you; the lamp is what people navigate to at night.",
+        "senses": "Creak and sway; canopy insects loud below and wind alone above; a bell the lookout rings for open lanes."
+      },
+      "assetPlan": [
+        "passerelles-walkway",
+        "stockade-scaffold",
+        "argonian-lights",
+        "clutter",
+        "lights-general"
+      ],
+      "discovery": "rumour",
+      "questHooks": {
+        "provisions": [
+          "the fringe's one genuine viewpoint — a reveal that shows the player the region",
+          "a signal system three villages depend on, which can be silenced"
+        ],
+        "tierOwnership": "tier-3 dressing"
+      },
+      "rumourPoolKey": "rumour.gideon",
+      "deedCounterKeys": [
+        "deed.ladder-tower.topped"
+      ],
+      "sockets": {
+        "scene": [
+          "the-top-platform"
+        ],
+        "evidence": [
+          "the-lane-board"
+        ],
+        "station": [
+          "canopy-lookout"
+        ],
+        "marks": [
+          "the-rotten-rung"
+        ]
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 3,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "manned (bell, lamp, lanes called)",
+        "unmanned (the top platform occupied by something else)"
+      ]
+    },
+    {
       "id": "place.imperial-fringe.long-causeway",
       "name": "Long Causeway",
       "aliases": [],
@@ -4163,6 +4926,162 @@
       "underwaterAccess": "surface-swim"
     },
     {
+      "id": "place.imperial-fringe.marcians-terrace",
+      "name": "Marcian's Terrace",
+      "aliases": [],
+      "classification": {
+        "class": "settlement",
+        "family": "dry-village",
+        "type": "upland-terrace-village",
+        "variant": null,
+        "magnitude": "M2"
+      },
+      "status": "active",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Black Marsh (the mountain rim)",
+        "world/sources/lore/topics/material-culture.md",
+        "world/sources/sites/candidate-sites.md (the rim holds a quarter of the interesting ground)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "A Nibenese surveyor called Marcian took a grant of upland shelf nobody wanted because it was the only ground in the fringe where an Imperial crop would grow, and was right — two centuries later the village is Argonian and still called after him.",
+        "siteAdvantages": "Above the fever line and above the flood: on the rim shelf the marsh rules stop applying, the water is clean and the nights are cold enough to keep grain.",
+        "occupantsMotive": "Terrace farmers who can sell dry grain into a province that mostly cannot grow any, at a price that justifies carrying it down a mountain.",
+        "pressures": "Everything has to be carried; the shelf has no water in the dry months but what it stores; and Gideon's assessors treat upland grain as a luxury and tax it accordingly.",
+        "wouldChangeIf": "Would empty in one generation if the cisterns failed, and the cisterns are the oldest Imperial thing here."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "upland hills",
+          "border mountains",
+          "tropical jungle"
+        ],
+        "landformClasses": [
+          "cliff-bench",
+          "saddle",
+          "spring-head",
+          "ridge-end"
+        ],
+        "waterRelation": "spring-fed, above the marsh entirely",
+        "neighbourRelation": "on a pass or an upland route; isolated",
+        "hardConstraints": [
+          "upland shelf above the flood and the fever line",
+          "stored water for the dry months"
+        ],
+        "preferences": [
+          "five to seven terraces",
+          "cisterns under the top step",
+          "a single stair approach"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.imperial-fringe.gideon",
+          "place.imperial-fringe.fig-market"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "imperial",
+      "ownerFaction": null,
+      "occupants": [
+        "D1 terrace farmers",
+        "D2 upland predators on the stair"
+      ],
+      "notableNpcSlots": [
+        "the cistern-keeper, an office older than any family here",
+        "the grain-factor who argues the assessment every year"
+      ],
+      "dangerTier": "D2",
+      "approachDanger": "D2",
+      "traversalModes": [
+        "walk",
+        "climb"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "trade",
+          "supplies",
+          "services",
+          "lore"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "Six stepped terraces of pale stone walling on a green shelf, with the houses along the top step and the whole thing legible in one glance from below.",
+        "palette": "Dry-stone grey, the hard yellow-green of upland grass, terracotta pantiles that exist nowhere else in the province.",
+        "materials": "Dry-stone retaining walls, Nibenese pantile roofs, and Argonian reed everywhere the tiles ran out — three centuries of make-do stacked in one silhouette.",
+        "signatureFeature": "The cisterns: five Imperial-cut stone tanks under the top terrace, still watertight, and the reason there is a village here rather than a ruin.",
+        "condition": "Old bones, continuously patched; nothing here has been rebuilt from scratch.",
+        "mood": "Thrifty, cool-headed, a little superior about the lowland.",
+        "approach": "A stair path with the terraces opening one at a time above you; you are seen from the top step for the last twenty minutes.",
+        "senses": "Wind instead of insects; goat bells; grain being turned on a stone floor."
+      },
+      "assetPlan": [
+        "mud-mother-grove",
+        "bmv-round-huts",
+        "fences-wattle",
+        "totems-ritual",
+        "clutter",
+        "vanilla-farmhouse"
+      ],
+      "discovery": "sightline",
+      "questHooks": {
+        "provisions": [
+          "dry grain: the one supply the lowland cannot make",
+          "an upland village that reads visibly non-Argonian in silhouette"
+        ],
+        "tierOwnership": "tier-2 shared"
+      },
+      "rumourPoolKey": "rumour.gideon",
+      "deedCounterKeys": [
+        "deed.marcians-terrace.traded"
+      ],
+      "sockets": {
+        "scene": [
+          "the-top-step",
+          "inside-a-cistern"
+        ],
+        "evidence": [
+          "the-original-grant",
+          "the-assessment-roll"
+        ],
+        "station": [
+          "cistern-keeper",
+          "grain-factor"
+        ],
+        "marks": [
+          "a-cracked-tank"
+        ]
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 2,
+      "workflow": "derived",
+      "densityLayer": "destination",
+      "entrance": "door",
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "wet season (cisterns full, terraces green)",
+        "dry season (cisterns rationed, a guard on them)"
+      ]
+    },
+    {
       "id": "place.imperial-fringe.mile-house-of-the-eagle",
       "name": "Mile House of the Eagle",
       "aliases": [],
@@ -4304,6 +5223,160 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none"
+    },
+    {
+      "id": "place.imperial-fringe.moonmarch-ground",
+      "name": "Moonmarch Ground",
+      "aliases": [],
+      "classification": {
+        "class": "civic",
+        "family": "festivity",
+        "type": "festival-ground",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "season": "varies",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "world/sources/lore/topics/sky-moons-calendar.md (Moonmarch; the festival calendar)",
+        "world/sources/lore/topics/material-culture.md",
+        "docs/research/phase11-critique/completeness.md §A1, §A4"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The fringe keeps the Argonian calendar on Imperial ground: for one month of the twelve the road villages between Gideon and the Onkobra empty out onto this flat and hold Moonmarch here, and for the other eleven it is a field with post-holes in it.",
+        "siteAdvantages": "A wide dry flat the monsoon leaves alone, close enough to three villages that nobody has to sleep out, far enough from Gideon that the magistracy does not attend.",
+        "occupantsMotive": "Nobody lives here. The family that holds the ground holds it precisely so that nobody builds on it, and the arrangement is older than the Imperial title that supposedly governs it.",
+        "pressures": "Gideon's clerks have twice tried to license the gathering and twice been told there is nothing here to license; a Nibenese landowner has started grazing the flat out of season to establish use.",
+        "wouldChangeIf": "Would become a permanent fairground the day anyone put up a roof, which is exactly why nobody has."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "interior swamp",
+          "fringe marsh",
+          "firm lowland",
+          "raised hammock",
+          "seasonal floodplain"
+        ],
+        "landformClasses": [
+          "enclosed-clearing",
+          "flood-high",
+          "any-firm-ground",
+          "islet"
+        ],
+        "waterRelation": "landings for visitors",
+        "neighbourRelation": "serves a settlement cluster",
+        "hardConstraints": [
+          "a dry flat that does not flood",
+          "within a half-day of three villages"
+        ],
+        "preferences": [
+          "a single standing moon-stone",
+          "the post-hole grid preserved between years"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [
+          "place.imperial-fringe.fig-market"
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.nine-arch-stage"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "nobody, eleven months of the year",
+        "in season: everyone within a day's walk"
+      ],
+      "notableNpcSlots": [
+        "the ground-keeper who owns it in order to keep it empty",
+        "the Gideon clerk who returns every year with the same form"
+      ],
+      "dangerTier": "D1",
+      "approachDanger": "D1",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 1,
+      "rewardProfile": {
+        "kinds": [
+          "rumour",
+          "trade",
+          "services",
+          "quests"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "Nothing, for eleven months: a flat field with a grid of post-holes and one stone. In the twelfth, a town of awnings taller than the villages that came to it.",
+        "palette": "Grass yellow-green, bare trodden earth in the shape of last year's lanes, and in season an eruption of dyed cloth belonging to no single culture.",
+        "materials": "Nothing permanent but the moon-stone and the post-holes; everything else arrives on carts and leaves on them.",
+        "signatureFeature": "The post-holes: the whole layout of a town is legible in empty ground, and if you can read them you know where each village stands in the pecking order.",
+        "condition": "Immaculately empty, and worn exactly where it should be.",
+        "mood": "Off-season, eerie and expectant. In season, the loudest place in the fringe.",
+        "approach": "You come over a low rise and the flat opens out, and the emptiness is the thing that stops you.",
+        "senses": "Off-season: wind and nothing. In season: three kinds of drum, frying oil, and a bell rung at moonrise."
+      },
+      "assetPlan": [
+        "market-tents",
+        "argonian-props",
+        "argonian-lights",
+        "totems-ritual",
+        "clutter"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "a festival the player can arrive at, be late for, or ruin",
+          "a seasonal town that exists twice in the game's calendar and not otherwise"
+        ],
+        "tierOwnership": "tier-3 dressing"
+      },
+      "rumourPoolKey": "rumour.gideon",
+      "deedCounterKeys": [
+        "deed.moonmarch.attended"
+      ],
+      "sockets": {
+        "scene": [
+          "the-empty-flat",
+          "moonmarch-at-its-height"
+        ],
+        "evidence": [
+          "the-post-hole-grid",
+          "the-unsigned-licence"
+        ],
+        "station": [
+          "ground-keeper"
+        ],
+        "marks": [
+          "last-years-lanes"
+        ]
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 3,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "out of season (post-holes and a stone)",
+        "Moonmarch (an awning town, three drums, a bell)"
+      ]
     },
     {
       "id": "place.imperial-fringe.moonrack-calcinator",
@@ -5153,6 +6226,166 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim"
+    },
+    {
+      "id": "place.imperial-fringe.onkobra-field-station",
+      "name": "Onkobra Field Station",
+      "aliases": [],
+      "classification": {
+        "class": "civic",
+        "family": "learning",
+        "type": "field-station",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Cyrodilic Collections",
+        "world/sources/lore/topics/guilds-and-orders.md",
+        "docs/research/phase11-critique/completeness.md §A4 (the learning gap outside the cities)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Cyrodilic Collections needed somewhere to hold specimens between the licensed dig and the boat to Gideon, and a licence pinned to a wall is cheaper than an argument with a magistrate at the quayside.",
+        "siteAdvantages": "On the Onkobra bank where the current is slow enough to land a boat and the bank high enough that the jars survive the monsoon.",
+        "occupantsMotive": "Two scholars and a local assistant who does the actual collecting; they stay because the licence is site-specific and would take two years to move.",
+        "pressures": "Chronically underfunded, half a year behind on its returns, and quietly selling duplicate specimens to pay for lamp oil — which the assistant knows and the scholars think she does not.",
+        "wouldChangeIf": "Would close within a season if the licence lapsed, and everything in the jars would end up in a Gideon tradehouse."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "interior swamp",
+          "mangrove forest",
+          "rootland deep marsh",
+          "tropical jungle",
+          "coastal lagoon & salt marsh"
+        ],
+        "landformClasses": [
+          "flood-high",
+          "any-firm-ground",
+          "cliff-bench",
+          "islet"
+        ],
+        "waterRelation": "near the subject",
+        "neighbourRelation": "deliberately near something interesting and far from help",
+        "hardConstraints": [
+          "a landable bank on the Onkobra",
+          "a licence-bearing structure"
+        ],
+        "preferences": [
+          "a jetty",
+          "drying frames",
+          "a jar wall"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [
+          "place.imperial-fringe.collections-dig"
+        ],
+        "supplies": [
+          "place.imperial-fringe.gideon"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.onkobra-ferry"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "imperial",
+      "ownerFaction": "faction.cyrodilic-collections",
+      "occupants": [
+        "D1 scholars",
+        "D1 local collecting assistant",
+        "D2 river hazards on the approach"
+      ],
+      "notableNpcSlots": [
+        "the scholar four years behind on her returns",
+        "the assistant who is the only competent naturalist here"
+      ],
+      "dangerTier": "D2",
+      "approachDanger": "D2",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "reagents",
+          "lore",
+          "services",
+          "quests"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "One long shuttered building on stilts with a jetty, and a rack of drying frames that reads from the water as a fence made of paper.",
+        "palette": "Whitewash going green at the base, brown river, and the yellow of lamp-light through a hundred glass jars after dark.",
+        "materials": "Imperial plank-and-shutter construction on Argonian stilts — built by people who did not ask how the river behaves and then had to.",
+        "signatureFeature": "The jar wall: an entire interior wall of specimens in river-water, labelled in two hands, one of which stopped four years ago.",
+        "condition": "Sound but shabby; the repairs are all local work on an Imperial frame.",
+        "mood": "Earnest, tired, faintly fraudulent.",
+        "approach": "The lamps show on the water long before the building does, which is how everyone finds it after dark.",
+        "senses": "Preserving spirit and river mud; the tick of a drying frame; someone dictating a label aloud."
+      },
+      "assetPlan": [
+        "vanilla-farmhouse",
+        "market-tents",
+        "stockade-scaffold",
+        "clutter",
+        "lights-general",
+        "docks-piers"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "a place to identify, sell or be paid for specimens outside a city",
+          "Cyrodilic Collections' fringe desk — the licence chain that makes a dig legal or not"
+        ],
+        "tierOwnership": "tier-2 shared"
+      },
+      "rumourPoolKey": "rumour.gideon",
+      "deedCounterKeys": [
+        "deed.collections.specimen-delivered"
+      ],
+      "sockets": {
+        "scene": [
+          "the-jar-wall-at-night"
+        ],
+        "evidence": [
+          "the-duplicate-ledger",
+          "the-pinned-licence"
+        ],
+        "station": [
+          "collections-scholar",
+          "collecting-assistant"
+        ],
+        "marks": [
+          "the-unlabelled-jar"
+        ]
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 3,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "surface-swim",
+      "localStateVariants": [
+        "licence current",
+        "licence lapsed (shutters closed, jars going cloudy)"
+      ]
     },
     {
       "id": "place.imperial-fringe.onkobra-kwama-mine",
@@ -6296,6 +7529,157 @@
       "densityLayer": "landmark",
       "entrance": "none",
       "underwaterAccess": "none"
+    },
+    {
+      "id": "place.imperial-fringe.sabinus-claim",
+      "name": "Sabinus' Claim",
+      "aliases": [],
+      "classification": {
+        "class": "camp",
+        "family": "civil-camp",
+        "type": "prospectors-camp",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Black Marsh (the province's gem trade)",
+        "world/sources/lore/topics/material-culture.md",
+        "docs/research/phase11-critique/coverage-density.md §S3 (prospectors-camp under band)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The Niben crystal workings made two men rich a generation ago, and every year since, someone Nibenese has arrived on the fringe convinced the seam runs east; this is the current one, with a claim mark, a sample pile and about eleven weeks of food.",
+        "siteAdvantages": "A scree slope where the country rock is exposed without digging, close enough to the road that a mule can reach it and far enough that nobody watches what is dug.",
+        "occupantsMotive": "Sabinus believes the seam is here. His two hired locals believe he will pay them and are correct for about another month.",
+        "pressures": "The sample pile is getting bigger and the food is getting smaller, which is the whole story of the place, and both are visible from the path.",
+        "wouldChangeIf": "Will be an abandoned camp within a season either way — either because he was wrong, or because being right brings a hundred people and a licence."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "upland hills",
+          "border mountains",
+          "tropical jungle",
+          "fringe marsh"
+        ],
+        "landformClasses": [
+          "ravine",
+          "cliff-bench",
+          "gorge",
+          "ridge-end",
+          "sinkhole"
+        ],
+        "waterRelation": "washing water",
+        "neighbourRelation": "near a known extraction district",
+        "hardConstraints": [
+          "exposed country rock",
+          "an unlicensed claim mark"
+        ],
+        "preferences": [
+          "a sorted sample pile",
+          "eleven weeks of stores and falling",
+          "a mule path to the road"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [
+          "place.imperial-fringe.the-niben-crystal-workings"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "imperial",
+      "ownerFaction": null,
+      "occupants": [
+        "D1 Sabinus",
+        "D2 two hired locals losing patience"
+      ],
+      "notableNpcSlots": [
+        "Sabinus, who is not quite wrong",
+        "the local hand who has worked out the food arithmetic"
+      ],
+      "dangerTier": "D2",
+      "approachDanger": "D2",
+      "traversalModes": [
+        "walk",
+        "climb",
+        "boat"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "crafting material",
+          "salvage",
+          "rumour"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "Two tents, a spoil heap taller than either of them, and a peeled stake with a claim mark cut into it.",
+        "palette": "Scree grey-white, canvas gone brown, and the surprisingly bright fresh-cut wood of the claim stake.",
+        "materials": "Imperial canvas and imported tools among local scree — nothing here is built, everything is deposited.",
+        "signatureFeature": "The sample pile, sorted into rows by day: you can read exactly how the last eleven weeks have gone by walking along it.",
+        "condition": "Getting worse in a way that is measurable from outside.",
+        "mood": "Obstinate, thin, one bad week from over.",
+        "approach": "The spoil heap is the first thing that reads, and it reads as far more work than two men should have done.",
+        "senses": "A hammer on rock at a stubborn unvarying rhythm; cold wind; nothing cooking."
+      },
+      "assetPlan": [
+        "market-tents",
+        "stockade-scaffold",
+        "clutter",
+        "landmark-civic"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "a claim the player can buy into, denounce to the licensing clerk, or simply outlast"
+        ],
+        "tierOwnership": "tier-3 dressing"
+      },
+      "rumourPoolKey": "rumour.gideon",
+      "deedCounterKeys": [
+        "deed.claim.sabinus"
+      ],
+      "sockets": {
+        "scene": [
+          "the-sample-rows"
+        ],
+        "evidence": [
+          "the-claim-stake",
+          "the-stores-tally"
+        ],
+        "station": [
+          "prospector"
+        ],
+        "marks": [
+          "the-last-row"
+        ]
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 4,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "worked (hammer, three men)",
+        "walked away from (tents standing, pile abandoned, stake still legible)"
+      ]
     },
     {
       "id": "place.imperial-fringe.saddle-fair",
@@ -7484,6 +8868,151 @@
         "garrison at strength",
         "garrison drawn down (half the billets empty, the town's trade with it)"
       ]
+    },
+    {
+      "id": "place.imperial-fringe.the-abandoned-survey",
+      "name": "Abandoned Survey",
+      "aliases": [],
+      "classification": {
+        "class": "camp",
+        "family": "expedition-camp",
+        "type": "survey-camp",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "abandoned",
+      "season": "all-year",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "world/sources/lore/topics/foreign-powers.md (the failed Imperial freight works)",
+        "docs/research/phase11-critique/feasibility.md §F10",
+        "world/sources/lore/gideon.md"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "An Imperial survey party set out to run a level line from Gideon to the pass and stopped, mid-line, forty years ago; the camp is still where they left it because the ground it stands on is worth nothing to anyone.",
+        "siteAdvantages": "A dry knoll on the line itself, chosen for sightlines between stations rather than for any human reason, which is why nobody has taken it over.",
+        "occupantsMotive": "Nobody. The interesting question is why they stopped, and the answer is in the field book still in the tent.",
+        "pressures": "Nothing pressures it; that is its condition. The canopy has closed over two of the survey stations and the third is under water.",
+        "wouldChangeIf": "Would be the start of a road if anyone ever finished the line — which is precisely the fringe's oldest and least-believed promise."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "upland hills",
+          "border mountains",
+          "firm lowland",
+          "tropical jungle"
+        ],
+        "landformClasses": [
+          "summit",
+          "ridge-end",
+          "saddle",
+          "cliff-bench",
+          "flood-high"
+        ],
+        "waterRelation": "high ground for sightlines",
+        "neighbourRelation": "chained along a planned route",
+        "hardConstraints": [
+          "a knoll on a survey line",
+          "undisturbed for forty years"
+        ],
+        "preferences": [
+          "a standing tripod",
+          "two collapsed tent frames",
+          "the field book still in place"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [
+          "place.imperial-fringe.gideon"
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.unfinished-culvert-line"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "imperial",
+      "ownerFaction": null,
+      "occupants": [
+        "nothing",
+        "D3 along the overgrown line"
+      ],
+      "notableNpcSlots": [],
+      "dangerTier": "D3",
+      "approachDanger": "D3",
+      "traversalModes": [
+        "walk",
+        "climb"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "lore",
+          "salvage",
+          "gear",
+          "quests"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "Two collapsed tent frames and a tripod still standing, on a bare knoll where the scrub has not come back.",
+        "palette": "Bleached canvas rags, silvered wood, and the brass-green of an instrument nobody took home.",
+        "materials": "Imperial survey kit rotting in place: canvas, brass, ranging rods, and a chain in a case.",
+        "signatureFeature": "The tripod, still level. Somebody set it, and then the survey ended between one station and the next, and it has not moved since.",
+        "condition": "Forty years of untouched decay, which in this climate is thorough but not total.",
+        "mood": "Abandoned mid-sentence.",
+        "approach": "The bare knoll reads first — the ground where the scrub will not grow — and the tripod resolves as you climb it.",
+        "senses": "Canvas snapping; nothing living on the knoll itself; the survey line's cut still audible as a change in insect noise."
+      },
+      "assetPlan": [
+        "market-tents",
+        "landmark-civic",
+        "stockade-scaffold",
+        "clutter",
+        "signage-blank"
+      ],
+      "discovery": "rumour",
+      "questHooks": {
+        "provisions": [
+          "the field book: why the survey stopped, in the surveyor's own hand",
+          "three survey stations to find, one canopied, one drowned, one intact"
+        ],
+        "tierOwnership": "tier-2 shared"
+      },
+      "rumourPoolKey": "rumour.gideon",
+      "deedCounterKeys": [
+        "deed.survey.stations-found"
+      ],
+      "sockets": {
+        "scene": [
+          "the-standing-tripod"
+        ],
+        "evidence": [
+          "the-field-book",
+          "the-brass-instrument"
+        ],
+        "station": [],
+        "marks": [
+          "the-last-station-mark"
+        ]
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 4,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none"
     },
     {
       "id": "place.imperial-fringe.the-art-and-ash-place",
@@ -12037,6 +13566,157 @@
       "underwaterAccess": "none"
     },
     {
+      "id": "place.imperial-fringe.the-pass-shelter",
+      "name": "Pass Shelter",
+      "aliases": [],
+      "classification": {
+        "class": "civic",
+        "family": "refuge",
+        "type": "storm-shelter",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "season": "wet",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "world/sources/lore/topics/foreign-powers.md (Imperial road works)",
+        "docs/world/50-hydrology-climate.md",
+        "docs/research/phase11-critique/completeness.md §A1 (seasonal places)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The upland pass out of the fringe kills people in the wrong month — not with cold but with wind-driven rain and no cover for two hours in either direction — so the road authority built a hard shelter at the worst point and then stopped maintaining it.",
+        "siteAdvantages": "The one place on the pass with a rock back and no run-off channel above it; every alternative is a stream bed in a storm.",
+        "occupantsMotive": "Nobody lives here. It is occupied by whoever is caught out, which in the bad months is several parties at once who would not otherwise share a fire.",
+        "pressures": "The door is gone and the fire-store is whatever the last party left; the tradition of leaving fuel holds, but only just, and the shelter's book of names is the fringe's only record of who was on the pass and when.",
+        "wouldChangeIf": "Would become a genuine death trap the first winter the fuel tradition broke, and everyone using it knows the arithmetic."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "ocean",
+          "coastal lagoon & salt marsh",
+          "border mountains",
+          "upland hills",
+          "tidal delta"
+        ],
+        "landformClasses": [
+          "headland",
+          "saddle",
+          "cove",
+          "cliff-bench",
+          "summit"
+        ],
+        "waterRelation": "exposed",
+        "neighbourRelation": "on an exposed stretch with no settlement",
+        "hardConstraints": [
+          "a rock back with no run-off above it",
+          "on the pass itself"
+        ],
+        "preferences": [
+          "an oversized hearth",
+          "a fuel store",
+          "a name-slab"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "nobody, most days",
+        "in storm: whoever is caught out, in any combination"
+      ],
+      "notableNpcSlots": [
+        "the party you would rather not be shut in with"
+      ],
+      "dangerTier": "D3",
+      "approachDanger": "D3",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "climb"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "shelter",
+          "rumour",
+          "salvage"
+        ],
+        "valueTier": "tier-1"
+      },
+      "vibe": {
+        "silhouette": "A squat stone box against a rock face with a slate roof pitched almost flat, and a chimney that is much too large for it.",
+        "palette": "Wet slate, black stone, the orange of a fire in a doorway with no door.",
+        "materials": "Imperial road-authority masonry — the only cut-stone building for ten kilometres, and unmistakably not local work.",
+        "signatureFeature": "The name-book: a slate slab inside where every party scratches its name and hour, going back longer than the shelter has been maintained.",
+        "condition": "Structurally sound, entirely unmaintained; the roof is the only thing anyone repairs.",
+        "mood": "Grim, functional, oddly companionable when it is full.",
+        "approach": "Invisible until the last bend, which is exactly why the road authority put it there and exactly why people die on the pass anyway.",
+        "senses": "Wind changing note as you get behind the rock; wet wool; a scratched slate."
+      },
+      "assetPlan": [
+        "vanilla-farmhouse",
+        "stockade-scaffold",
+        "landmark-civic",
+        "clutter",
+        "lights-general"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "a forced-company scene: two hostile parties and one fire",
+          "a written record of who crossed the pass and when"
+        ],
+        "tierOwnership": "tier-3 dressing"
+      },
+      "rumourPoolKey": "rumour.gideon",
+      "deedCounterKeys": [
+        "deed.pass-shelter.sheltered"
+      ],
+      "sockets": {
+        "scene": [
+          "the-shelter-full-in-a-storm"
+        ],
+        "evidence": [
+          "the-name-slab"
+        ],
+        "station": [],
+        "marks": [
+          "the-empty-fuel-store"
+        ]
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 4,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "empty and cold",
+        "storm-full (three parties, one fire, no door)"
+      ]
+    },
+    {
       "id": "place.imperial-fringe.the-quiet-pit",
       "name": "The Quiet Pit",
       "aliases": [],
@@ -14710,6 +16390,156 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none"
+    },
+    {
+      "id": "place.imperial-fringe.twyllbek-crown",
+      "name": "Twyllbek Crown",
+      "aliases": [],
+      "classification": {
+        "class": "lone",
+        "family": "curiosity",
+        "type": "climbable-ruin-roof",
+        "variant": null,
+        "magnitude": null
+      },
+      "status": "active",
+      "season": "all-year",
+      "eraLayers": [
+        "ayleid",
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Online:Twyllbek Ruins",
+        "uesp:Lore:Barsaebic Ayleids",
+        "docs/research/phase11-critique/coverage-density.md §S3 (climbable-ruin-roof under band)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The Barsaebic compound at Twyllbek has one block whose upper courses are still sound and whose collapsed stair has left the outside face climbable — so the ruin's real content is not inside it at all.",
+        "siteAdvantages": "The block stands on the compound's high corner, which is enough elevation to clear the scrub and see the Blackwood road for four kilometres.",
+        "occupantsMotive": "Nobody occupies it. Treasure-hunters, couriers cutting a corner and one persistent Collections surveyor all use the top for their own reasons.",
+        "pressures": "The climbable face is climbable because it is failing; two courses have gone in the last decade and the route changes each time.",
+        "wouldChangeIf": "Would stop existing as a place at all if the face came down, and the only people who would notice are the couriers."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "rootland deep marsh",
+          "interior swamp",
+          "tropical jungle",
+          "fringe marsh"
+        ],
+        "landformClasses": [
+          "flood-high",
+          "ridge-end",
+          "enclosed-clearing",
+          "island"
+        ],
+        "waterRelation": "raised",
+        "neighbourRelation": "a canopy-breaking landmark in dense country",
+        "hardConstraints": [
+          "a standing ruin block with a failing climbable face",
+          "clear of the canopy"
+        ],
+        "preferences": [
+          "a collapsed internal stair readable from outside",
+          "a flat top with a courier's cache"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [
+          "place.imperial-fringe.twyllbek-ruins"
+        ],
+        "reachedVia": [
+          "place.imperial-fringe.twyllbek-ruins"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "nothing lives here",
+        "D3 on the ruin field below after dark"
+      ],
+      "notableNpcSlots": [
+        "the courier who uses the top as a drop",
+        "the Collections surveyor measuring the collapse rate"
+      ],
+      "dangerTier": "D3",
+      "approachDanger": "D3",
+      "traversalModes": [
+        "climb",
+        "walk"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "traversal",
+          "vista",
+          "salvage",
+          "lore"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "One square Ayleid block standing clear of a low ruin field, with a stair-scar down one face and nothing on top but sky.",
+        "palette": "Barsaebic pale stone gone lichen-orange on the weather face, black scrub, and a top surface bleached white.",
+        "materials": "Ayleid block-and-course work, with the collapsed internal stair now a set of holds on the outside — the ruin's failure is the route.",
+        "signatureFeature": "The scar: you climb the ghost of the stair that used to be inside, on the outside, which is a thing you understand halfway up and not before.",
+        "condition": "Failing at a measurable rate, and locally known to be.",
+        "mood": "Exposed, quietly thrilling, slightly illicit.",
+        "approach": "The block reads as a stump from the road and as a tower from the ruin field — the scale flips on the last two hundred metres.",
+        "senses": "Wind at the top and none at the bottom; grit under the hands; the road audible and invisible."
+      },
+      "assetPlan": [
+        "xanmeer-tileset",
+        "xanmeer-ornament",
+        "barsaebic-ayleid",
+        "clutter",
+        "totems-ritual"
+      ],
+      "discovery": "sightline",
+      "questHooks": {
+        "provisions": [
+          "a pure climbing objective with a reveal at the top",
+          "a courier dead-drop that can be watched or robbed"
+        ],
+        "tierOwnership": "tier-3 dressing"
+      },
+      "rumourPoolKey": "rumour.gideon",
+      "deedCounterKeys": [
+        "deed.twyllbek-crown.topped"
+      ],
+      "sockets": {
+        "scene": [
+          "the-top-surface"
+        ],
+        "evidence": [
+          "the-collapse-measurements",
+          "the-courier-cache"
+        ],
+        "station": [],
+        "marks": [
+          "the-new-fall"
+        ]
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 3,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "none",
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "route intact",
+        "a course gone (the old route dead-ends; find the new one)"
+      ]
     },
     {
       "id": "place.imperial-fringe.twyllbek-ruins",
