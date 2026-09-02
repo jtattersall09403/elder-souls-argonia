@@ -6,6 +6,10 @@
       "enforced": true
     },
     {
+      "path": "world/sources/catalogue/type-recipes.json",
+      "enforced": true
+    },
+    {
       "path": "world/sources/placement/settlement-asset-inventory.json",
       "enforced": true
     },
