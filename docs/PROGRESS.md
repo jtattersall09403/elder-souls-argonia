@@ -44,7 +44,7 @@ first, then open only the master-plan sections the active phase needs.
 | 8a — world time, natural light and sky | done | owner gate PASS 2026-08-26 after 8 feedback rounds (decisions 0020/**0021** = full defect→fix history; research doc §8–8d). world-time package (calendar/sun/moons/stars, verified phase cycle); physical light rig with **envelope-pinned dome** (CPU Preetham twin `preethamCpu.ts` + `skyScreenModel.ts`; whiteout/black-gap class caught by `npm test`); directional twilight (Earth shadow, Belt of Venus, magnitude-staged stars); moon-aware night floors; owner-locked defaults warmth 1.0, stars ×0.5 (~3300); CSM shadows w/ contact bias; walk+fly city markers; HUD compass. Deferred: beyond-border land apron (module 55 §98b + research doc) |
 | 8b — water renderer and interaction | done | owner CLOSED 2026-08-28 (good-enough, **not perfect** — full water-systems re-review + polish queued in [polish-backlog.md](polish-backlog.md), Phase P). 7 rounds; full defect→fix history in decision 0025. Province W-field water surface, rivers/marsh/estuary/coast/underwater, buoyancy + Rapier water query, monotone slope rivers, shore surf, waterfall shading |
 | 8c — weather and atmosphere | done | owner CLOSED 2026-08-30 (good-enough, **not perfect** — owner will record leftovers in [polish-backlog.md](polish-backlog.md) for Phase P). 5 rounds; full defect→fix history in decision [0032](decisions/0032-phase8c-weather-implementation-shape.md). Deterministic synoptic machine + regional expression, fair-weather coverage ladder on the calendar, rain (real-time clock, PRECIP_LAYER), wind→waves, wetness, lightning; mist/fog/cap-cloud regimes with fog colour DERIVED from the real sun/sky/moon and a dome fog march (banks visible against open sky); visibility = local weather (one number renders and publishes); **GAME_TIME_SCALE = 30** in world-time. 406 tests incl. the extended envelope proof |
-| 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | in progress | **Round 8 DELIVERED 2026-09-01, awaiting owner playtest** (record: round-8 section atop [decision 0036](decisions/0036-phase10-placement-decisions.md)). Round 7's canopy PASSED ("fantastic"); two defects fixed. Trunk collision can now be a CHAIN of capsules following a curved/leaning trunk (`trunk_segments` + `collidersFor`), measured band-by-band — only where the trunk is its own mesh, so all 50 signed-off capsules are byte-identical. Wind stiffness ceiling cut 2.2 → 1.0, so slender trunks keep the calibrated amplitude instead of being amplified. |
+| 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | in progress | **Round 9 DELIVERED 2026-09-01, awaiting owner playtest** (record: round-9 section atop [decision 0036](decisions/0036-phase10-placement-decisions.md)). Canopy PASSED at round 7. Round-8 walk-through root-caused: the dominant cause was the collider BUDGET, not the shape — 96 instances within 45 m against up to 1,411 solids in a thicket, so cover ran out ~12 m out while the rebuild waited for 12 m of walking. Budget now counted in colliders (2,500) over a 20 m ring, with `coveredRadiusM` reported honestly and rebuild at 55% of it. Shape: `trunk_chain` moulds a capsule chain to the real trunk volume for EVERY tree (axis-tracking, foliage-rejecting; ≤16 shapes/species), and composite parts can be marked `solid` so the giants' buttress roots collide. Base radii still match the 50 signed-off capsules. |
 | 11 — settlement/location system, exemplar-first (0034) | todo | **DELIVERY PLAN ready: [decision 0041](decisions/0041-phase11-settlement-decisions.md)** (start-gate open — S schema accepted; staged owner-involvement workflow; reward-for-effort principle = module 20 §12.3b). Packet freeze stays gated on 10b probes + 10c numbers |
 | 12 — dungeon/interior system, exemplar-first (0034) | todo | may interleave with 11 |
 | 9 — swimming, climbing, boats (re-slotted after the placement exemplars; 0034) | todo | player craft only — ferry/fast travel is Morrowind-style world content (Phase 11); thin swim slice may pull earlier; boats may slip |
@@ -60,23 +60,28 @@ first, then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- **Phase 10 round-8 playtest** (deployed 2026-09-01) — the two round-7
-  items. If these pass, Phase 10 closes; leftovers go to
+- **Phase 10 round-9 playtest** (deployed 2026-09-01) — trunk solidity.
+  If this passes, Phase 10 closes; leftovers go to
   [polish-backlog.md](polish-backlog.md). On foot, DEPLOYED build, walk
   mode, in the jungle (~3.3 km E / 4.2 km S):
-  1. **Walking into the new big trees.** Their trunks lean and curve —
-     the biggest one wanders about 14 m sideways on its way up — and the
-     collision shape was a single upright cylinder standing at the base,
-     so it covered the bottom and missed the rest. Each big trunk now has
-     a *chain* of collision shapes that follows the trunk up its actual
-     curve. Please walk into them all round, high side and low side, and
-     into the giants' buttress roots. Nothing else changed: every other
-     tree, boulder and rock has exactly the collision it had before.
-  2. **Palms and other thin trees in light wind.** They were being made to
-     sway *more* than before, which was wrong — the amount you had already
-     approved was tuned for exactly those slender trees. Thin trunks are
-     back to that amount; only fat trunks are damped now. Check in light
-     wind especially, then in a storm.
+  1. **Walk into everything.** The big new trees, the giants' buttress
+     roots, and ordinary trees, palms, willows and boulders too. The main
+     cause turned out not to be the shape at all: the game was only ever
+     making the nearest **96** things solid, and a thick patch of jungle
+     has over a thousand within range — so solid cover ran out about 12 m
+     from you, while the game only refreshed the set after you had walked
+     12 m. You were spending much of your time standing outside the solid
+     set entirely. That is fixed, and it explains why it felt arbitrary.
+  2. **The shape is now moulded to each trunk**, for every tree, not just
+     the new ones — a chain of shapes that follows the trunk up its real
+     curve and taper, instead of one upright cylinder at the base. The
+     giants' buttress roots are solid now too; they had no collision at
+     all before.
+  3. **Any thin air?** The opposite failure would be bumping into nothing.
+     Please say if you feel invisible walls anywhere, especially near
+     leaning trunks and the buttress roots.
+  4. **How does it RUN?** This is the change most likely to cost frames —
+     please give an FPS read on each quality setting in thick jungle.
 
   Known gaps, unchanged: only six exemplar areas have plants; the rest of
   the province is bare on purpose.
