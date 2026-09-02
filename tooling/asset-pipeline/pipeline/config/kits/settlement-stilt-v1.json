@@ -1,6 +1,6 @@
 {
  "id": "settlement-stilt-v1",
- "description": "Murkmire reed/stilt building culture — the BM&V passerelles walkway system (curving, climbing, branching), stilt house shells, the vanilla plank/thatch shack kit with its broken variants, waterside work props and poled rafts. Only plank_ferry_swamp_01/03 and rowboat_ferry_swamp_01 carry real hull geometry in the Skyrim Ferries pool; swamp_02/04/05/06 are editor markers and are excluded.",
+ "description": "Murkmire reed/stilt building culture — the BM&V passerelles walkway system (curving, climbing, branching), stilt house shells, the vanilla plank/thatch shack kit with its broken variants, waterside work props and poled rafts. Only plank_ferry_swamp_01/03 and rowboat_ferry_swamp_01 carry real hull geometry in the Skyrim Ferries pool; swamp_02/04/05/06 are editor markers and are excluded. Second sourcing pass adds the Skyfall Hist tree, Hist flowers, cairns/rune circle as grave-stake stand-ins, a real dugout canoe and a poled ferry raft. Round 5 adds Here There Be Monsters' Black Marsh village set: two bamboo hut forms with a door, the wicker furniture family, and the Kothringi stilt platform and Tamu wood dock/plank family (with broken variants) — the first purpose-built Black Marsh dwelling forms we own beyond a single shell.",
  "culture": "argonian-stilt",
  "output": "tooling/asset-pipeline/output/kits/settlement-stilt-v1.glb",
  "lodRatios": [
@@ -86,6 +86,84 @@
   },
   {
    "asset": "ferries:yamadori/ferries/rowboat_ferry_swamp_01"
+  },
+  {
+   "asset": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree"
+  },
+  {
+   "asset": "histtree:skyfall/sleeping tree overhaul/histflower01"
+  },
+  {
+   "asset": "histtree:skyfall/sleeping tree overhaul/histflower02"
+  },
+  {
+   "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn01"
+  },
+  {
+   "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn02"
+  },
+  {
+   "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn03"
+  },
+  {
+   "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn04"
+  },
+  {
+   "asset": "histtree:skyfall/sleeping tree overhaul/rune circle"
+  },
+  {
+   "asset": "histtree:skyfall/sleeping tree overhaul/windchimehavok"
+  },
+  {
+   "asset": "canoe:actors/sfss/canoe/canoe1"
+  },
+  {
+   "asset": "ferryraft:snt/ferry/ferryraft01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickertable01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/chestwicker01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawninghalf01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/stilthouseplatform"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01"
   }
  ]
 }

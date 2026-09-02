@@ -25,7 +25,8 @@
    "asset": "bmv:vvardenfell/flora/algrass03b"
   },
   {
-   "asset": "bmv:landscape/trees/mangrovereachtree0gkb9"
+   "asset": "bmv:landscape/trees/mangrovereachtree0gkb9",
+   "lodFlatFrom": "bmv:landscape/trees/mangrovereachtree0gkb3"
   },
   {
    "asset": "bmv:landscape/grass/vurt_reeds"
@@ -43,13 +44,17 @@
    "asset": "bmv:landscape/grass/waterkelptall01"
   },
   {
-   "asset": "bmv:landscape/trees/cypress3"
+   "asset": "bmv:landscape/trees/cypress3",
+   "lodFlatFrom": "bmv:landscape/trees/gkbcyrodilcypress2",
+   "lodFlatTexture": "textures/landscape/trees/tamrieltreelod.dds"
   },
   {
    "asset": "bmv:landscape/plants/kelptallstatic01aaa"
   },
   {
-   "asset": "bmv:landscape/trees/cypress1"
+   "asset": "bmv:landscape/trees/cypress1",
+   "lodFlatFrom": "bmv:landscape/trees/gkbcyrodilcypress1",
+   "lodFlatTexture": "textures/landscape/trees/tamrieltreelod.dds"
   },
   {
    "asset": "bmv:landscape/plants/florahangingmoss02aaa"
@@ -64,7 +69,8 @@
    "asset": "bmv:vurt_shroom/vurt_shroom_big1"
   },
   {
-   "asset": "bmv:landscape/trees/treewillow01a"
+   "asset": "bmv:landscape/trees/treewillow01a",
+   "lodFlatFrom": "bmv:landscape/trees/gkbjungletreenew23v2weeping"
   },
   {
    "asset": "bmv:landscape/trees/hangingvines1"
@@ -79,7 +85,8 @@
    "asset": "bmv:landscape/grass/waterkelpshort01"
   },
   {
-   "asset": "bmv:landscape/trees/treewillow02a"
+   "asset": "bmv:landscape/trees/treewillow02a",
+   "lodFlatFrom": "bmv:landscape/trees/gkbjungletreenew24v2weeping"
   },
   {
    "asset": "bmv:landscape/plants/esloebush08"
@@ -88,7 +95,8 @@
    "asset": "bmv:landscape/plants/fern01"
   },
   {
-   "asset": "bmv:landscape/trees/treewillow03a"
+   "asset": "bmv:landscape/trees/treewillow03a",
+   "lodFlatFrom": "bmv:landscape/trees/gkbjungletreenew11v2weeping"
   },
   {
    "asset": "bmv:landscape/plants/chickweed"
@@ -160,7 +168,8 @@
    "asset": "bmv:landscape/trees/fanpalm4"
   },
   {
-   "asset": "bmv:landscape/trees/fanpalm6"
+   "asset": "bmv:landscape/trees/fanpalm6",
+   "lodFlatFrom": "bmv:landscape/trees/fanpalm4"
   },
   {
    "asset": "composite:jungle/anvil-canopy-tree",
@@ -201,7 +210,12 @@
       "scale": 0.9
      }
     ]
-   }
+   },
+   "lodFlatFrom": "bmv:landscape/trees/datepalm2",
+   "lodRatios": [
+    0.2,
+    0.06
+   ]
   },
   {
    "asset": "composite:jungle/anvil-emergent-giant",
@@ -266,7 +280,15 @@
     ]
    },
    "collisionRadiusM": 1.9,
-   "collisionRadiusNote": "measured off the column's own cross-section a few metres up (~3.8 m thick). The automatic percentile returns 0.17 m here \u2014 a 56 m giant you walk straight through."
+   "collisionRadiusNote": "measured off the column's own cross-section a few metres up (~3.8 m thick). The automatic percentile returns 0.17 m here \u2014 a 56 m giant you walk straight through.",
+   "lodFlatFrom": "bmv:landscape/trees/datepalm1",
+   "lodRatios": [
+    0.2,
+    0.06
+   ]
   }
- ]
+ ],
+ "textureAliases": {
+  "textures/terrain/tamriel/trees/tamrieltreelod.dds": "textures/landscape/trees/tamrieltreelodtropical.dds"
+ }
 }

@@ -176,6 +176,85 @@ POOLS: tuple[Pool, ...] = (
                "modder resources",
         directory="{vault}/skyrim-source/mod-sources/darkwater-den-52630/extracted",
     ),
+    # --- item 6b second pass (owner rulings 2026-09-02: "no porting to other
+    # games" clauses approved for this private personal-use conversion) -------
+    Pool(
+        id="ayleidkit",
+        label="Ayleid Ruins Building Kit — Resources",
+        source="https://www.nexusmods.com/skyrim/mods/90667",
+        credit="Ayleid Ruins Building Kit -Resources- (Nexus classic 90667, Imperial Society)",
+        directory="{vault}/skyrim-source/mod-sources/ayleid-ruins-building-kit-90667/extracted",
+        plugins=[
+            "{vault}/skyrim-source/mod-sources/ayleid-ruins-building-kit-90667/extracted/"
+            "igs_tileset_ayleid.esp",
+        ],
+    ),
+    Pool(
+        id="histtree",
+        label="Skyfall's Sleeping Hist Tree Overhaul",
+        source="https://www.nexusmods.com/skyrimspecialedition/mods/116792",
+        credit="Skyfall's Sleeping Hist Tree Overhaul (Nexus SSE 116792, Skyfall515, "
+               "ToosTruus and Clofas)",
+        directory="{vault}/skyrim-source/mod-sources/sleeping-hist-tree-overhaul-116792/extracted",
+        plugins=[
+            "{vault}/skyrim-source/mod-sources/sleeping-hist-tree-overhaul-116792/extracted/"
+            "Skyfall Sleeping Tree Overhaul.esp",
+        ],
+    ),
+    Pool(
+        id="canoe",
+        label="Script Free Ship Sailing — canoe and oars",
+        source="https://www.nexusmods.com/skyrim/mods/67727",
+        credit="Script free ship sailing (Nexus classic 67727, ElstarTomas; canoe model "
+               "by FrankFamily)",
+        directory="{vault}/skyrim-source/mod-sources/script-free-ship-sailing-67727/extracted",
+    ),
+    Pool(
+        id="ferryraft",
+        label="Solitude (ghost) Ferry — poled ferry raft",
+        source="https://www.nexusmods.com/skyrim/mods/89948",
+        credit="Solitude (ghost) Ferry (Nexus classic 89948, Syntia)",
+        directory="{vault}/skyrim-source/mod-sources/solitude-ghost-ferry-89948/extracted",
+    ),
+    Pool(
+        id="sbot",
+        label="Ships and Boats of Tamriel",
+        source="https://www.nexusmods.com/skyrimspecialedition/mods/41653",
+        credit="Ships and boats of Tamriel (Nexus SSE 41653, ThatShipGuy/DeviantKaled)",
+        directory="{vault}/skyrim-source/mod-sources/ships-and-boats-of-tamriel-41653/extracted",
+    ),
+    # --- item 6b underwater round (owner leads 2026-09-02) -------------------
+    # Underwater POIs are an acceptance criterion and the catalogue has
+    # drowned/submerged place families to feed.
+    Pool(
+        id="depths",
+        label="Depths of Skyrim — An Underwater Overhaul",
+        source="https://www.nexusmods.com/skyrimspecialedition/mods/26913",
+        credit="Depths of Skyrim - An Underwater Overhaul (Nexus SSE 26913, TheBlackpixel), "
+               "with the corrected plant/coral meshes from Depths of Skyrim - Mesh fixes "
+               "(Nexus SSE 174995, Gobsnek) overlaid",
+        directory="{vault}/skyrim-source/mod-sources/depths-of-skyrim-26913/extracted",
+        plugins=[
+            "{vault}/skyrim-source/mod-sources/depths-of-skyrim-26913/extracted/"
+            "DepthsOfSkyrim.esp",
+        ],
+    ),
+    Pool(
+        id="sirenroot",
+        label="SIRENROOT — Deluge of Deceit (ruin-block and caustics resource)",
+        source="https://www.nexusmods.com/skyrimspecialedition/mods/70917",
+        credit="SIRENROOT - Deluge of Deceit (Nexus SSE 70917, Everglaid)",
+        directory="{vault}/skyrim-source/mod-sources/sirenroot-70917/extracted",
+    ),
+    Pool(
+        id="htbm",
+        label="Here There Be Monsters — Sign of Cipactli (Black Marsh assets)",
+        source="https://www.nexusmods.com/skyrimspecialedition/mods/35933",
+        credit="Here There Be Monsters - Sign of Cipactli (Nexus SSE 35933, Araanim), "
+               "bundling many credited modder resources",
+        directory="{vault}/skyrim-source/mod-sources/here-there-be-monsters-cipactli-35933/extracted",
+        plugins=[],
+    ),
 )
 
 

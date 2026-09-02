@@ -142,6 +142,36 @@ asset registry.
   Elianora, v1.2; itself bundling many credited modder resources — see its
   page) — organic Argonian interior composition and clutter, catalogued in the
   asset registry (pool `darkwater`).
+- **Here There Be Monsters - Sign of Cipactli** (Nexus SSE mod 35933, Araanim,
+  v2.92; itself bundling many credited modder resources — see its page) — the
+  richest Black Marsh asset set we have found: the Argonian bamboo-hut forms
+  and wicker furniture, the Kothringi stilt platform and Tamu wood dock/plank
+  family, and the xanmeer ruin ornament (mesoamerican pyramids, feathered
+  serpent and serpent-sigil statues, goddess statue, gargoyle, runic stone,
+  totems). Its creature content is **not** ingested — that is a Phase 13 job.
+- **Ayleid Ruins Building Kit -Resources-** (Nexus classic Skyrim mod 90667,
+  Imperial Society) — the 85-piece exterior monumental-stone subset (blocks,
+  quad blocks, stairs, statue walls, bridges, towers, columns) behind the
+  `ruin-monumental-v1` kit.
+- **Skyfall's Sleeping Hist Tree Overhaul** (Nexus SSE mod 116792, Skyfall515,
+  ToosTruus and Clofas, v1.4) — a second hero-Hist tree mesh, Hist flowers,
+  rock cairns and rune circle (our grave-stake stand-ins) and a wind chime.
+- **Script free ship sailing** (Nexus classic Skyrim mod 67727, ElstarTomas;
+  canoe model by FrankFamily, v2.3) — the dugout canoe and oars: the only
+  genuine canoe mesh we located anywhere.
+- **Solitude (ghost) Ferry** (Nexus classic Skyrim mod 89948, Syntia, v1.1) —
+  the poled ferry raft (`ferryraft01`) and its plank pieces.
+- **Ships and boats of Tamriel** (Nexus SSE mod 41653, ThatShipGuy/DeviantKaled,
+  v1.2) — the Cyrodiilic city ferry, river ferry and rowboat for the Imperial
+  fringe and the Topal ports, plus wreck and ship-interior dressing.
+- **Depths of Skyrim - An Underwater Overhaul** (Nexus SSE mod 26913,
+  TheBlackpixel, v1.1.7) — reef and sea-bed flora (coral at three scales,
+  seaweed, algae, kelp, driftwood) for the drowned layer, used with the
+  corrected meshes from **Depths of Skyrim - Mesh fixes** (Nexus SSE mod
+  174995, Gobsnek, v1.0.0) overlaid.
+- **SIRENROOT - Deluge of Deceit** (Nexus SSE mod 70917, Everglaid, v1.30) —
+  the free-standing broken/hollow ruin blocks and walkable rubble floors that
+  give a submerged ruin a standable interior, plus water-caustic meshes.
 - **WaterThreeJS** (https://github.com/achrefelouafi/WaterThreeJS, MIT,
   © achrefelouafi) — Gerstner wave model + CPU fixed-point surface sampler,
   shore/contact foam, underwater fog/god-ray shading and the scene-RT frame

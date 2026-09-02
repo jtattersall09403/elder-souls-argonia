@@ -223,7 +223,14 @@ export function buildFloraKit(gltf: GLTF, manifest: KitManifest): FloraKit {
  */
 export function lodDistances(heightM: number): number[] {
   const reach = Math.max(MIN_MESH_LOD_REACH_M, heightM * 6);
-  return [reach, reach * 2.6];
+  // Ring 0 (full mesh) is CAPPED: height × 6 alone held the 42 m canopy
+  // tree's 5,252-triangle mesh out to 254 m, and a jungle holds hundreds of
+  // them — the round-10 FPS drop. Past ~150 m nobody reads full geometry.
+  // Ring 1 ends the light decimation; ring 2 hands over to the deep-decimated
+  // level, and the flat card takes over beyond it. Before ring 2 existed the
+  // deep level was DEAD for every billboard species (the card replaced it at
+  // exactly the distance it would have started).
+  return [Math.min(reach, 150), reach * 1.6, reach * 2.6];
 }
 
 /**

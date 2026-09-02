@@ -43,6 +43,14 @@ POOL_CREDIT_MARKERS = {
     "ayleidcc": "Creation Club Ayleid Ruin Resources",
     "xalfek": "Xalfek — An Argonian Home",
     "darkwater": "Darkwater Den",
+    "ayleidkit": "Ayleid Ruins Building Kit",
+    "histtree": "Skyfall's Sleeping Hist Tree Overhaul",
+    "canoe": "Script free ship sailing",
+    "ferryraft": "Solitude (ghost) Ferry",
+    "sbot": "Ships and boats of Tamriel",
+    "depths": "Depths of Skyrim",
+    "sirenroot": "SIRENROOT",
+    "htbm": "Here There Be Monsters",
 }
 
 

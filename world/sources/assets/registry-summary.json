@@ -225,6 +225,145 @@
    "withLodVariant": 0,
    "withDimensions": 0,
    "observedPlaced": 3
+  },
+  "ayleidkit": {
+   "label": "Ayleid Ruins Building Kit \u2014 Resources",
+   "source": "https://www.nexusmods.com/skyrim/mods/90667",
+   "credit": "Ayleid Ruins Building Kit -Resources- (Nexus classic 90667, Imperial Society)",
+   "meshesSeen": 195,
+   "registered": 195,
+   "skippedNonContent": {},
+   "categories": {
+    "ruin": 195
+   },
+   "withLodVariant": 0,
+   "withDimensions": 191,
+   "observedPlaced": 0
+  },
+  "histtree": {
+   "label": "Skyfall's Sleeping Hist Tree Overhaul",
+   "source": "https://www.nexusmods.com/skyrimspecialedition/mods/116792",
+   "credit": "Skyfall's Sleeping Hist Tree Overhaul (Nexus SSE 116792, Skyfall515, ToosTruus and Clofas)",
+   "meshesSeen": 22,
+   "registered": 19,
+   "skippedNonContent": {
+    "effect": 3
+   },
+   "categories": {
+    "misc": 19
+   },
+   "withLodVariant": 0,
+   "withDimensions": 19,
+   "observedPlaced": 0
+  },
+  "canoe": {
+   "label": "Script Free Ship Sailing \u2014 canoe and oars",
+   "source": "https://www.nexusmods.com/skyrim/mods/67727",
+   "credit": "Script free ship sailing (Nexus classic 67727, ElstarTomas; canoe model by FrankFamily)",
+   "meshesSeen": 11,
+   "registered": 11,
+   "skippedNonContent": {},
+   "categories": {
+    "weapon": 7,
+    "creature": 4
+   },
+   "withLodVariant": 0,
+   "withDimensions": 0,
+   "observedPlaced": 0
+  },
+  "ferryraft": {
+   "label": "Solitude (ghost) Ferry \u2014 poled ferry raft",
+   "source": "https://www.nexusmods.com/skyrim/mods/89948",
+   "credit": "Solitude (ghost) Ferry (Nexus classic 89948, Syntia)",
+   "meshesSeen": 8,
+   "registered": 8,
+   "skippedNonContent": {},
+   "categories": {
+    "misc": 4,
+    "creature": 4
+   },
+   "withLodVariant": 0,
+   "withDimensions": 0,
+   "observedPlaced": 0
+  },
+  "sbot": {
+   "label": "Ships and Boats of Tamriel",
+   "source": "https://www.nexusmods.com/skyrimspecialedition/mods/41653",
+   "credit": "Ships and boats of Tamriel (Nexus SSE 41653, ThatShipGuy/DeviantKaled)",
+   "meshesSeen": 102,
+   "registered": 102,
+   "skippedNonContent": {},
+   "categories": {
+    "boat": 51,
+    "dungeon-kit": 51
+   },
+   "withLodVariant": 0,
+   "withDimensions": 0,
+   "observedPlaced": 0
+  },
+  "depths": {
+   "label": "Depths of Skyrim \u2014 An Underwater Overhaul",
+   "source": "https://www.nexusmods.com/skyrimspecialedition/mods/26913",
+   "credit": "Depths of Skyrim - An Underwater Overhaul (Nexus SSE 26913, TheBlackpixel), with the corrected plant/coral meshes from Depths of Skyrim - Mesh fixes (Nexus SSE 174995, Gobsnek) overlaid",
+   "meshesSeen": 47,
+   "registered": 47,
+   "skippedNonContent": {},
+   "categories": {
+    "misc": 31,
+    "aquatic-plant": 12,
+    "grass": 2,
+    "deadfall": 2
+   },
+   "withLodVariant": 0,
+   "withDimensions": 25,
+   "observedPlaced": 2
+  },
+  "sirenroot": {
+   "label": "SIRENROOT \u2014 Deluge of Deceit (ruin-block and caustics resource)",
+   "source": "https://www.nexusmods.com/skyrimspecialedition/mods/70917",
+   "credit": "SIRENROOT - Deluge of Deceit (Nexus SSE 70917, Everglaid)",
+   "meshesSeen": 204,
+   "registered": 200,
+   "skippedNonContent": {
+    "effect": 3,
+    "water": 1
+   },
+   "categories": {
+    "ruin": 88,
+    "clutter": 59,
+    "misc": 40,
+    "creature": 11,
+    "weapon": 2
+   },
+   "withLodVariant": 0,
+   "withDimensions": 0,
+   "observedPlaced": 0
+  },
+  "htbm": {
+   "label": "Here There Be Monsters \u2014 Sign of Cipactli (Black Marsh assets)",
+   "source": "https://www.nexusmods.com/skyrimspecialedition/mods/35933",
+   "credit": "Here There Be Monsters - Sign of Cipactli (Nexus SSE 35933, Araanim), bundling many credited modder resources",
+   "meshesSeen": 1612,
+   "registered": 1579,
+   "skippedNonContent": {
+    "lod": 33
+   },
+   "categories": {
+    "armour": 768,
+    "creature": 256,
+    "architecture": 148,
+    "ruin": 100,
+    "clutter": 96,
+    "misc": 85,
+    "weapon": 79,
+    "tree": 21,
+    "plant": 13,
+    "grass": 10,
+    "shrub": 3
+   },
+   "withLodVariant": 33,
+   "withDimensions": 0,
+   "observedPlaced": 0
   }
  }
 }

@@ -295,10 +295,14 @@ export function Vegetation({
           // LOD per INSTANCE, not per chunk: chunk-centre distance put whole
           // 468 m squares — including the plants beside the camera — on their
           // far `_lod_flat` cards (owner round-2 "cardboard cutout" defect).
-          // Beyond ring 1 a billboard species runs entirely on its flat cards
+          // Beyond ring 2 a billboard species runs entirely on its flat cards
           // (T4 far tier); species without one keep the decimated chain.
-          const near = instDistance < rings[0] ? 0 : instDistance < rings[1] ? 1 : 2;
-          const asBillboard = entry.billboardIndex !== null && near === 2;
+          const near =
+            instDistance < rings[0] ? 0
+            : instDistance < rings[1] ? 1
+            : instDistance < rings[2] ? 2
+            : 3;
+          const asBillboard = entry.billboardIndex !== null && near === 3;
           const level = asBillboard
             ? entry.billboardIndex!
             : Math.min(entry.levels.length - 1, near);

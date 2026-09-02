@@ -499,12 +499,27 @@ for asset in PLAN["assets"]:
     billboard_materials = set()
     if asset.get("lodFlatNif"):
         flat_meshes = import_nif_meshes(asset["lodFlatNif"])
+        # Optional per-asset atlas override (`lodFlatTexture`, data-root
+        # relative). The shared card atlas path resolves to BM&V's TROPICAL
+        # atlas kit-wide (see the manifest's textureAliases note), but the
+        # cyrodiil-cypress card rects are only drawn in the PLAIN atlas — one
+        # binding cannot serve both, so those species name their file here.
+        override = None
+        if asset.get("lodFlatTexture"):
+            nif_path = asset["lodFlatNif"].replace("\\", "/")
+            root_dir = nif_path[: nif_path.lower().rindex("/meshes/")]
+            override = bpy.data.images.load(
+                "%s/%s" % (root_dir, asset["lodFlatTexture"]), check_existing=True)
         flat_textures = set()
         for obj in flat_meshes:
             for slot in obj.material_slots:
                 if slot.material:
                     if slot.material.users > 1:
                         slot.material = slot.material.copy()
+                    if override is not None:
+                        for node in slot.material.node_tree.nodes:
+                            if node.type == "TEX_IMAGE" and node.image:
+                                node.image = override
                     name = rebuild_material(slot.material, True)
                     billboard_materials.add(slot.material.name)
                     if name:
@@ -518,6 +533,19 @@ for asset in PLAN["assets"]:
             for n in flat_textures if n in bpy.data.images
         )
         if flat_meshes and has_alpha:
+            # Normalise the card to this asset's height. Its own card is
+            # already ~1:1; a BORROWED card (`lodFlatFrom` — willows whose own
+            # cards UV a crown chunk, composites with none) carries the donor
+            # tree's size and must be scaled to stand in at distance.
+            card_top = max(
+                (obj.matrix_world @ v.co).z
+                for obj in flat_meshes for v in obj.data.vertices
+            )
+            if card_top > 0.1 and size.z > 0.1:
+                factor = size.z / card_top
+                if abs(factor - 1.0) > 0.02:
+                    for obj in flat_meshes:
+                        obj.data.transform(Matrix.Scale(factor, 4))
             for obj in flat_meshes:
                 obj.parent = root
                 obj["lod"] = len(asset["lodRatios"]) + 1

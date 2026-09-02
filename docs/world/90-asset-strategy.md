@@ -282,6 +282,21 @@ All candidates in Sections 75–79 are available for use in this personal projec
 | Wares of Tamriel and Argonian cultural-prop projects | baskets, ceramics, tools, fishing goods, ritual props and trade clutter |
 | Argonian bone/wood weapon resources | spears, fishing weapons, shields, bone tools and hunting equipment |
 
+### 75.1 Argonian equipment candidates — recorded, NOT sourced (Phase 11 item 6b sweep, 2026-09-02)
+
+Found while sweeping for settlement assets; equipment is out of scope for
+Phase 11, so these are recorded here for the equipment passes (10b/13/15)
+rather than downloaded. Do not re-derive this list.
+
+| Candidate | Offers | Serves |
+| --- | --- | --- |
+| [Argonian (Saxhleel) Weapon pack](https://www.nexusmods.com/skyrimspecialedition/mods/67137) | a full Argonian-idiom weapon family — the single best equipment lead found | Argonian weapon set (10b/13) |
+| [Saxhleel War Club — Argonian Warhammer](https://www.nexusmods.com/skyrimspecialedition/mods/35555) | one heavy Argonian two-hander | greathammer family (10b) |
+| [Shadowscale Set Reborn](https://www.nexusmods.com/skyrimspecialedition/mods/79717) | Shadowscale armour — canon Argonian assassin order, ties to the Owing/faction work | faction armour (13/15) |
+| [Marsh Armor — Custom Ebony Argonian Heavy Armor](https://www.nexusmods.com/skyrim/mods/23920) | Argonian heavy armour (classic; needs SSE conversion) | armour variety (13/15) |
+| [Black Marsh Import — Models and Textures](https://www.nexusmods.com/skyrim/mods/48551) | 5 bespoke Black Marsh weapons (obsidian warhammer, bone talon dagger, silver jagged katana, steel great cleaver); despite the name it contains **no** architecture | weapon variety (10b/13) |
+| [Here There Be Monsters — Sign of Cipactli](https://www.nexusmods.com/skyrimspecialedition/mods/35933) | **already sourced for architecture (see README credits)**; its vault copy also holds Kothringi, Xanmeer, Legion and Naga-elite armour/weapon sets and a large creature roster — mine the vault copy, do not re-download | equipment + creatures (13) |
+
 ## 76. Flora, terrain and underwater candidates
 
 ### 76.0 Ground/landscape textures (terrain splat palette)

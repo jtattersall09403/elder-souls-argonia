@@ -1,9 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { CapsuleCollider, CuboidCollider, RigidBody } from "@react-three/rapier";
+import { useRapier } from "@react-three/rapier";
+import type { World, RigidBody } from "@dimforge/rapier3d-compat";
+import * as THREE from "three";
 import {
   collidersFor,
   selectNearestSolids,
+  type FloraCollider,
   type FloraCollisionAsset,
   type SolidInstance,
 } from "@elder-souls/game-core/physics/floraSolids";
@@ -11,13 +14,19 @@ import {
 /**
  * Makes the nearby trees, boulders and root arches solid.
  *
- * The kit has shipped collision proxies since round 1 and nothing consumed
- * them, so the player walked through trunks. This is the consumer: a small
- * ring of fixed Rapier bodies around the player, rebuilt as they move — the
- * same shape as `ChunkColliders`, and for the same reason. Colliders for a
- * whole chunk would be thousands of bodies for a forest crossed in a minute;
- * colliders for the few dozen things within reach cost nothing and are
- * indistinguishable to the player.
+ * A small ring of fixed Rapier bodies around the player, rebuilt as they move
+ * — the same shape as `ChunkColliders`, and for the same reason: colliders
+ * for a whole chunk would be thousands of bodies for a forest crossed in a
+ * minute; colliders for the few dozen things within reach cost nothing and
+ * are indistinguishable to the player.
+ *
+ * Bodies are managed IMPERATIVELY and diffed between rebuilds. The previous
+ * version rendered a `<RigidBody>` element per instance, so every rebuild
+ * re-created up to 1,400 React components (and their colliders) even though
+ * most of the ring is unchanged by a few steps — a recurring hitch felt
+ * exactly in dense forest, where rebuilds are most frequent (owner, Phase 10
+ * round 10 performance report). Diffing keeps the per-rebuild work
+ * proportional to what actually changed at the ring's edge.
  *
  * What is solid is decided in `@elder-souls/game-core/physics/floraSolids`
  * from the kit manifest, not here — reeds, ferns and lily pads stay
@@ -32,10 +41,10 @@ import {
 const RING_M = 20;
 
 /**
- * Ceiling on simultaneous flora COLLIDERS (not bodies): a curved trunk is a
- * chain of up to sixteen capsules, a pebble is one, so counting instances
- * budgets the wrong thing. These are fixed bodies with no simulation, so the
- * cost is broad-phase only and a few thousand is cheap.
+ * Ceiling on simultaneous flora COLLIDERS (not bodies): a moulded willow is
+ * dozens of capsules, a pebble is one, so counting instances budgets the
+ * wrong thing. These are fixed bodies with no simulation, so the cost is
+ * broad-phase only and a few thousand is cheap.
  */
 const COLLIDER_BUDGET = 2500;
 
@@ -59,6 +68,52 @@ const MAX_BODIES = 1400;
  */
 const REBUILD_AT_COVER_FRACTION = 0.55;
 
+function instanceKey(instance: SolidInstance): string {
+  return `${instance.species}|${instance.x.toFixed(2)}|${instance.z.toFixed(2)}|${instance.y.toFixed(2)}`;
+}
+
+function buildBody(
+  world: World,
+  rapier: ReturnType<typeof useRapier>["rapier"],
+  instance: SolidInstance,
+  shapes: FloraCollider[],
+): RigidBody {
+  // ONE fixed body per instance, rotated exactly as the renderer rotates the
+  // mesh (same YXZ euler), so each shape's own offset is a plain local
+  // position — which is also what keeps a moulded trunk's capsules following
+  // the trunk once the instance is yawed.
+  const q = new THREE.Quaternion().setFromEuler(
+    new THREE.Euler(instance.tiltX, instance.yaw, instance.tiltZ, "YXZ"),
+  );
+  const body = world.createRigidBody(
+    rapier.RigidBodyDesc.fixed()
+      .setTranslation(instance.x, instance.y, instance.z)
+      .setRotation({ x: q.x, y: q.y, z: q.z, w: q.w }),
+  );
+  const s = instance.scale;
+  for (const shape of shapes) {
+    const desc =
+      shape.kind === "capsule"
+        ? rapier.ColliderDesc.capsule(shape.halfHeightM * s, shape.radiusM * s)
+        : rapier.ColliderDesc.cuboid(
+            shape.halfExtentsM[0] * s,
+            shape.halfExtentsM[1] * s,
+            shape.halfExtentsM[2] * s,
+          );
+    desc.setTranslation(
+      shape.offsetM[0] * s, shape.offsetM[1] * s, shape.offsetM[2] * s,
+    );
+    if (shape.kind === "capsule") {
+      desc.setRotation({
+        x: shape.rotation[0], y: shape.rotation[1],
+        z: shape.rotation[2], w: shape.rotation[3],
+      });
+    }
+    world.createCollider(desc, body);
+  }
+  return body;
+}
+
 export function VegetationColliders({
   solidsRef,
   focusRef,
@@ -72,10 +127,10 @@ export function VegetationColliders({
   /** Reports how many bodies are live, for the debug HUD. */
   onCount?: (count: number) => void;
 }) {
-  const [active, setActive] = useState<SolidInstance[]>([]);
-  const [builtAt, setBuiltAt] =
-    useState<{ x: number; z: number; covered: number } | null>(null);
-  const [assets, setAssets] = useState<FloraCollisionAsset[] | null>(null);
+  const { world, rapier } = useRapier();
+  const bodies = useRef(new Map<string, RigidBody>());
+  const builtAt = useRef<{ x: number; z: number; covered: number } | null>(null);
+  const assetsRef = useRef<Map<string, FloraCollisionAsset> | null>(null);
 
   // The same manifest `Vegetation` reads, fetched independently so the two
   // components stay uncoupled; it is a small JSON and the browser serves the
@@ -85,101 +140,77 @@ export function VegetationColliders({
     fetch(`${baseUrl}kits/flora-province-v1.kit.json`)
       .then((r) => r.json())
       .then((m: { assets: FloraCollisionAsset[] }) => {
-        if (!cancelled) setAssets(m.assets);
+        if (!cancelled) {
+          assetsRef.current = new Map(m.assets.map((a) => [a.id, a]));
+          builtAt.current = null; // force a rebuild now shapes exist
+        }
       })
       .catch(() => undefined);
     return () => { cancelled = true; };
   }, [baseUrl]);
 
-  const byId = useMemo(
-    () => new Map((assets ?? []).map((a) => [a.id, a])),
-    [assets],
-  );
-
-  // How many colliders one instance of a species costs, so the budget is
-  // spent on shapes rather than on instance count.
-  const costOf = useMemo(() => {
-    const cache = new Map<string, number>();
-    return (instance: SolidInstance) => {
-      let cost = cache.get(instance.species);
-      if (cost === undefined) {
-        cost = Math.max(1, collidersFor(byId.get(instance.species)).length);
-        cache.set(instance.species, cost);
+  // Shapes and per-species collider cost, cached: the manifest never changes
+  // within a session and `collidersFor` allocates.
+  const caches = useMemo(() => {
+    const shapes = new Map<string, FloraCollider[]>();
+    const shapesFor = (species: string): FloraCollider[] => {
+      let cached = shapes.get(species);
+      if (cached === undefined) {
+        cached = collidersFor(assetsRef.current?.get(species));
+        shapes.set(species, cached);
       }
-      return cost;
+      return cached;
     };
-  }, [byId]);
+    return {
+      shapesFor,
+      costOf: (instance: SolidInstance) =>
+        Math.max(1, shapesFor(instance.species).length),
+    };
+  }, []);
+
+  // Drop every body on unmount (mode switches), not per rebuild.
+  useEffect(() => {
+    const live = bodies.current;
+    return () => {
+      for (const body of live.values()) world.removeRigidBody(body);
+      live.clear();
+    };
+  }, [world]);
 
   useFrame(() => {
+    if (!assetsRef.current) return;
     const focus = focusRef.current;
+    const built = builtAt.current;
     if (
-      builtAt &&
-      Math.hypot(focus.x - builtAt.x, focus.z - builtAt.z)
-        < Math.max(1.5, builtAt.covered * REBUILD_AT_COVER_FRACTION)
+      built &&
+      Math.hypot(focus.x - built.x, focus.z - built.z)
+        < Math.max(1.5, built.covered * REBUILD_AT_COVER_FRACTION)
     ) {
       return;
     }
     const { chosen, coveredRadiusM } = selectNearestSolids(
-      solidsRef.current, focus, RING_M, COLLIDER_BUDGET, costOf, MAX_BODIES,
+      solidsRef.current, focus, RING_M, COLLIDER_BUDGET, caches.costOf, MAX_BODIES,
     );
-    setBuiltAt({ x: focus.x, z: focus.z, covered: coveredRadiusM });
-    setActive(chosen);
+    builtAt.current = { x: focus.x, z: focus.z, covered: coveredRadiusM };
+
+    // Diff against the live set: only the ring's leading and trailing edges
+    // actually change on a rebuild.
+    const wanted = new Map<string, SolidInstance>();
+    for (const instance of chosen) wanted.set(instanceKey(instance), instance);
+    for (const [key, body] of bodies.current) {
+      if (!wanted.has(key)) {
+        world.removeRigidBody(body);
+        bodies.current.delete(key);
+      }
+    }
+    for (const [key, instance] of wanted) {
+      if (bodies.current.has(key)) continue;
+      const shapes = caches.shapesFor(instance.species);
+      if (!shapes.length) continue;
+      bodies.current.set(key, buildBody(world, rapier, instance, shapes));
+    }
+    onCount?.(bodies.current.size);
   });
 
-  useEffect(() => { onCount?.(active.length); }, [active, onCount]);
-
-  return (
-    <>
-      {active.map((instance, i) => {
-        const shapes = collidersFor(byId.get(instance.species));
-        if (!shapes.length) return null;
-        const s = instance.scale;
-        // ONE rigid body per instance, carrying every shape. The body sits at
-        // the instance and is rotated exactly as the renderer rotates the mesh
-        // (same YXZ euler), so each shape's own offset is a plain local
-        // position — which is also what keeps a curved trunk's chain of
-        // capsules following the trunk once the instance is yawed. (Round 5
-        // added the offset in world axes and yawed the body about its
-        // displaced centre; off-axis trunks landed metres from their trees.)
-        return (
-          <RigidBody
-            key={`${instance.species}|${instance.x.toFixed(2)}|${instance.z.toFixed(2)}|${i}`}
-            type="fixed"
-            colliders={false}
-            position={[instance.x, instance.y, instance.z]}
-            rotation={[instance.tiltX, instance.yaw, instance.tiltZ, "YXZ"]}
-          >
-            {shapes.map((shape, j) => {
-              const local: [number, number, number] = [
-                shape.offsetM[0] * s, shape.offsetM[1] * s, shape.offsetM[2] * s,
-              ];
-              return shape.kind === "capsule" ? (
-                // Rapier's capsule half-height excludes the caps, so subtract
-                // the radius — otherwise a trunk's collider stands taller than
-                // the trunk and the player bumps into thin air above it.
-                <CapsuleCollider
-                  key={j}
-                  position={local}
-                  args={[
-                    Math.max(0.05, (shape.heightM / 2 - shape.radiusM) * s),
-                    shape.radiusM * s,
-                  ]}
-                />
-              ) : (
-                <CuboidCollider
-                  key={j}
-                  position={local}
-                  args={[
-                    shape.halfExtentsM[0] * s,
-                    shape.halfExtentsM[1] * s,
-                    shape.halfExtentsM[2] * s,
-                  ]}
-                />
-              );
-            })}
-          </RigidBody>
-        );
-      })}
-    </>
-  );
+  return null;
 }

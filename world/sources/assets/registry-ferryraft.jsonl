@@ -1,0 +1,8 @@
+{"id":"ferryraft:snt/ferry/ferryraft01","pool":"ferryraft","path":"meshes/snt/ferry/ferryraft01.nif","category":"misc","confidence":0.2}
+{"id":"ferryraft:snt/ferry/ferryraft01_no_col","pool":"ferryraft","path":"meshes/snt/ferry/ferryraft01_no_col.nif","category":"misc","confidence":0.2}
+{"id":"ferryraft:snt/ferry/norbridgewoodplanks01","pool":"ferryraft","path":"meshes/snt/ferry/norbridgewoodplanks01.nif","category":"misc","confidence":0.2}
+{"id":"ferryraft:snt/ferry/norbridgewoodplanks02","pool":"ferryraft","path":"meshes/snt/ferry/norbridgewoodplanks02.nif","category":"misc","confidence":0.2}
+{"id":"ferryraft:actors/character/facegendata/facegeom/snt ferry.esp/00001dcc","pool":"ferryraft","path":"meshes/actors/character/facegendata/facegeom/snt ferry.esp/00001dcc.nif","category":"creature","confidence":0.8}
+{"id":"ferryraft:actors/character/facegendata/facegeom/snt ferry.esp/000033bf","pool":"ferryraft","path":"meshes/actors/character/facegendata/facegeom/snt ferry.esp/000033bf.nif","category":"creature","confidence":0.8}
+{"id":"ferryraft:actors/character/facegendata/facegeom/snt ferry.esp/000033c2","pool":"ferryraft","path":"meshes/actors/character/facegendata/facegeom/snt ferry.esp/000033c2.nif","category":"creature","confidence":0.8}
+{"id":"ferryraft:actors/character/facegendata/facegeom/snt ferry.esp/000033c6","pool":"ferryraft","path":"meshes/actors/character/facegendata/facegeom/snt ferry.esp/000033c6.nif","category":"creature","confidence":0.8}

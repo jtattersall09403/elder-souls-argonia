@@ -1,0 +1,145 @@
+{
+ "id": "ruin-monumental-v1",
+ "description": "The dead monumental stone layer — xanmeer massing and Barsaebic ruin frontage, built from the Ayleid Ruins Building Kit's 85-piece EXTERIOR subset: blocks and quad blocks for stacked terraces, stairs (side/centre/spiral) for sculpted stairways, statue walls and bases for carved frontage, bridges for stone causeways, towers and columns. Stone is a moral error for modern Argonians post-Duskfall, so this kit is for RUINS only and must never mix with a settlement kit. Keep the Barsaebic Ayleid and xanmeer historical layers distinguishable when placing from it. Round 5 adds Here There Be Monsters' xanmeer ruin set — three mesoamerican pyramid statics, the feathered-serpent and serpent-sigil statues, a goddess statue, gargoyle, runic stone, free walls/corners, totems and a skull stack. These are the ORNAMENTAL frontage the Ayleid kit's plain geometry lacked, and the submerged ruin static doubles into the drowned layer.",
+ "culture": "ruin-monumental",
+ "output": "tooling/asset-pipeline/output/kits/ruin-monumental-v1.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "assets": [
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock02"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock03"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock05"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock01"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock02"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbrick01"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbrick03"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbrick05"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairs01"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairs02"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairscenter01"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairsside01"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arspiralstairs01"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuebase01"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuewall01"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuewall02"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbridge01"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbridge03"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/artower01"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arcolumn02"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararchcolumn02"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arringouterwall03"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arringinnerwall02"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/aroutercircle01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding1"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding3redone"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding7"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentsigilstatue"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentstatue_feathered"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/statuegoddess"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/gargoyle01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/runicstone"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/pillar02"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/pillar05"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallfree01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallcorner01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallstraight"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem02"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/skeletontotem01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/skullstack01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/3mjyunderwaterruins8"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/blockslargepile"
+  }
+ ]
+}

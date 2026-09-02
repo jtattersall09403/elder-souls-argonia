@@ -1,6 +1,6 @@
 {
  "id": "settlement-mud-v1",
- "description": "Shadowfen mud/wattle building culture — round mud shells, thatch, woven furniture, bone-and-reed ritual props, poled rafts and the Hist tree. Sourced at Phase 11 item 6b to close the inventory's critical mud-culture gap. Contains NO Imperial or reed/stilt pieces: material-culture.md forbids blending the two Argonian cultures in one settlement, so the kits are separated rather than the placement rules. (wovenfence01 and argonianbonechime02 are excluded: both NIFs ship without renderable geometry.) Only plank_ferry_swamp_01/03 and rowboat_ferry_swamp_01 carry real hull geometry in the Skyrim Ferries pool; swamp_02/04/05/06 are editor markers and are excluded.",
+ "description": "Shadowfen mud/wattle building culture — round mud shells, thatch, woven furniture, bone-and-reed ritual props, poled rafts and the Hist tree. Sourced at Phase 11 item 6b to close the inventory's critical mud-culture gap. Contains NO Imperial or reed/stilt pieces: material-culture.md forbids blending the two Argonian cultures in one settlement, so the kits are separated rather than the placement rules. (wovenfence01 and argonianbonechime02 are excluded: both NIFs ship without renderable geometry.) Only plank_ferry_swamp_01/03 and rowboat_ferry_swamp_01 carry real hull geometry in the Skyrim Ferries pool; swamp_02/04/05/06 are editor markers and are excluded. Second sourcing pass adds the Skyfall Hist tree (a second hero-Hist mesh), Hist flowers, the rock cairns and rune circle that stand in for canon grave-stakes, a real dugout canoe and a poled ferry raft.",
  "culture": "argonian-mud",
  "output": "tooling/asset-pipeline/output/kits/settlement-mud-v1.glb",
  "lodRatios": [
@@ -107,6 +107,39 @@
   },
   {
    "asset": "ferries:yamadori/ferries/rowboat_ferry_swamp_01"
+  },
+  {
+   "asset": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree"
+  },
+  {
+   "asset": "histtree:skyfall/sleeping tree overhaul/histflower01"
+  },
+  {
+   "asset": "histtree:skyfall/sleeping tree overhaul/histflower02"
+  },
+  {
+   "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn01"
+  },
+  {
+   "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn02"
+  },
+  {
+   "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn03"
+  },
+  {
+   "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn04"
+  },
+  {
+   "asset": "histtree:skyfall/sleeping tree overhaul/rune circle"
+  },
+  {
+   "asset": "histtree:skyfall/sleeping tree overhaul/windchimehavok"
+  },
+  {
+   "asset": "canoe:actors/sfss/canoe/canoe1"
+  },
+  {
+   "asset": "ferryraft:snt/ferry/ferryraft01"
   }
  ]
 }

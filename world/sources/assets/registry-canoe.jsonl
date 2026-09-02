@@ -1,0 +1,11 @@
+{"id":"canoe:actors/sfss/canoe/canoe1","pool":"canoe","path":"meshes/actors/sfss/canoe/canoe1.nif","category":"creature","confidence":0.8}
+{"id":"canoe:actors/sfss/canoe/character assets/highlandcow","pool":"canoe","path":"meshes/actors/sfss/canoe/character assets/highlandcow.nif","category":"creature","confidence":0.8}
+{"id":"canoe:actors/sfss/canoe/character assets/skeleton","pool":"canoe","path":"meshes/actors/sfss/canoe/character assets/skeleton.nif","category":"creature","confidence":0.8}
+{"id":"canoe:actors/sfss/canoe/skeletontest","pool":"canoe","path":"meshes/actors/sfss/canoe/skeletontest.nif","category":"creature","confidence":0.8}
+{"id":"canoe:weapons/sfss/anchor","pool":"canoe","path":"meshes/weapons/sfss/anchor.nif","category":"weapon","confidence":0.8}
+{"id":"canoe:weapons/sfss/anchormodel","pool":"canoe","path":"meshes/weapons/sfss/anchormodel.nif","category":"weapon","confidence":0.8}
+{"id":"canoe:weapons/sfss/blacksmithnovicehammer01","pool":"canoe","path":"meshes/weapons/sfss/blacksmithnovicehammer01.nif","category":"weapon","confidence":0.8,"biomes":["alpine","cold"]}
+{"id":"canoe:weapons/sfss/blacksmithnovicehammer01model","pool":"canoe","path":"meshes/weapons/sfss/blacksmithnovicehammer01model.nif","category":"weapon","confidence":0.8,"biomes":["alpine","cold"]}
+{"id":"canoe:weapons/sfss/shipoar01","pool":"canoe","path":"meshes/weapons/sfss/shipoar01.nif","category":"weapon","confidence":0.8}
+{"id":"canoe:weapons/sfss/shipoar01ground","pool":"canoe","path":"meshes/weapons/sfss/shipoar01ground.nif","category":"weapon","confidence":0.8}
+{"id":"canoe:weapons/sfss/shipoar01towhanded","pool":"canoe","path":"meshes/weapons/sfss/shipoar01towhanded.nif","category":"weapon","confidence":0.8}

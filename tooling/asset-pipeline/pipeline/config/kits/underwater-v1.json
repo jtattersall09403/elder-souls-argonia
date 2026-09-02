@@ -1,0 +1,70 @@
+{
+ "id": "underwater-v1",
+ "description": "The drowned layer — underwater POIs are a province acceptance criterion and the catalogue has drowned/submerged place families to feed. Reef and bed flora (coral at three scales, seaweed, algae, kelp, driftwood, water rock-grass) from Depths of Skyrim with the 174995 corrected meshes, its wreck family (Atmoran longship/rowboat/warship, Bretic carrack half-wrecks) for sunken structures, and SIRENROOT's free-standing broken/hollow ruin blocks and WALKABLE rubble floors, which give a submerged ruin a swimmable, standable interior. Culture-neutral: wrecks and reefs belong to no building culture, so this kit may be combined with any settlement kit at a shoreline. Depths of Skyrim's WRECK family is excluded wholesale: Depths of Skyrim references ship-wood and carving textures it does not ship and no pool we hold supplies, so every hull exports as a grey slab. Sunken-hull dressing therefore comes from the boat pools (SBOT wrecks, BM&V drowned shells) instead; what this kit takes from Depths is its reef and bed flora, which is the part that is genuinely unique and correctly textured.",
+ "culture": "neutral-underwater",
+ "output": "tooling/asset-pipeline/output/kits/underwater-v1.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "assets": [
+  {
+   "asset": "depths:dos/misc/tbp_coralbig"
+  },
+  {
+   "asset": "depths:dos/misc/tbp_coralmedium"
+  },
+  {
+   "asset": "depths:landscape/grass/tbp_coralsmall01"
+  },
+  {
+   "asset": "depths:landscape/grass/tbp_seaweed01"
+  },
+  {
+   "asset": "depths:landscape/grass/tbp_seaweed02"
+  },
+  {
+   "asset": "depths:landscape/grass/tbp_seaweed06"
+  },
+  {
+   "asset": "depths:landscape/grass/tbpalgae01"
+  },
+  {
+   "asset": "depths:landscape/grass/waterkelptall02"
+  },
+  {
+   "asset": "depths:landscape/grass/waterkelptall03"
+  },
+  {
+   "asset": "depths:landscape/grass/tbpcoastdriftwood01"
+  },
+  {
+   "asset": "depths:landscape/grass/tbpcoastdriftwood02"
+  },
+  {
+   "asset": "depths:landscape/grass/tbprockgrasswater03"
+  },
+  {
+   "asset": "depths:dos/misc/dugupground"
+  },
+  {
+   "asset": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl01"
+  },
+  {
+   "asset": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl03"
+  },
+  {
+   "asset": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl05"
+  },
+  {
+   "asset": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreebrokena"
+  },
+  {
+   "asset": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreebrokenb"
+  },
+  {
+   "asset": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow"
+  }
+ ]
+}

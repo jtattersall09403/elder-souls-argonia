@@ -1,6 +1,6 @@
 {
  "id": "settlement-imperial-v1",
- "description": "Imperial / foreign stone-timber fringe — farmhouse shells, the Solitude dock family and keeled small craft. The foreign layer of the province: west/north-west fringe, Topal ports and road corridors only.",
+ "description": "Imperial / foreign stone-timber fringe — farmhouse shells, the Solitude dock family and keeled small craft. The foreign layer of the province: west/north-west fringe, Topal ports and road corridors only. Second sourcing pass adds the two Cyrodiilic flat-bottomed ferries and rowboat from Ships and Boats of Tamriel — the foreign river traffic of the Topal ports.",
  "culture": "imperial",
  "output": "tooling/asset-pipeline/output/kits/settlement-imperial-v1.glb",
  "lodRatios": [
@@ -41,6 +41,15 @@
   },
   {
    "asset": "rowboats:dungeons/clutter/shipoar01"
+  },
+  {
+   "asset": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiiliccityferry01"
+  },
+  {
+   "asset": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicriverferry01"
+  },
+  {
+   "asset": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicrowboat01"
   }
  ]
 }

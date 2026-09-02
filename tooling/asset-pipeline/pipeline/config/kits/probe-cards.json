@@ -1,0 +1,22 @@
+{
+ "id": "probe-cards",
+ "description": "Audition authored _lod_flat cards as far-tier donors for species whose own cards are wrong (willows: crown-chunk UVs) or missing (cypresses, fanpalm6, the anvil composites). Crops are judged against BM&V's tamrieltreelodtropical atlas.",
+ "output": "probe-cards.glb",
+ "lodRatios": [0.35, 0.12],
+ "textureMaxSize": 512,
+ "billboardTextureMaxSize": 1024,
+ "assets": [
+  {"asset": "bmv:landscape/trees/hodsalixgkb09"},
+  {"asset": "bmv:landscape/trees/treewillow01v2a"},
+  {"asset": "bmv:landscape/trees/gkbcyrodilcypress1"},
+  {"asset": "bmv:landscape/trees/gkbcyrodilcypress2"},
+  {"asset": "bmv:landscape/trees/mangrovereachtree0gkb8"},
+  {"asset": "bmv:landscape/trees/mangrovereachtree0gkb2"},
+  {"asset": "bmv:landscape/trees/datepalm1"},
+  {"asset": "bmv:landscape/trees/datepalm2"},
+  {"asset": "bmv:landscape/trees/flatpalm1"},
+  {"asset": "bmv:landscape/trees/flatpalm2"},
+  {"asset": "bmv:landscape/trees/giantredwood1"},
+  {"asset": "bmv:landscape/trees/dwarfjunip04"}
+ ]
+}

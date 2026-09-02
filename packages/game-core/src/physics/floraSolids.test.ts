@@ -7,17 +7,18 @@ import {
   type FloraCollisionAsset,
 } from "./floraSolids";
 
-/** A composite whose trunk leans: measured band by band, bottom to top. */
+/** A composite whose trunk leans: capsules moulded to the wood geometry. */
 const leaningTrunk: FloraCollisionAsset = {
   id: "composite:jungle/anvil-canopy-tree",
   sizeM: [33.8, 28.5, 42.4],
   collision: "trunk-capsule",
-  collisionFrame: "pivot-yup-v2",
+  collisionFrame: "pivot-yup-v3",
   collisionCapsule: { radiusM: 1.6, heightM: 33.7, baseOffsetM: [1.19, 0.38, 0.72] },
   collisionSegments: [
-    { radiusM: 2.81, heightM: 2.0, centreOffsetM: [0.27, 1.38, 1.35] },
-    { radiusM: 1.76, heightM: 2.0, centreOffsetM: [-0.58, 9.31, 0.54] },
-    { radiusM: 1.85, heightM: 2.0, centreOffsetM: [10.27, 33.13, -10.71] },
+    { radiusM: 2.81, aM: [0.27, 0.38, 1.35], bM: [0.27, 2.38, 1.35] },
+    { radiusM: 1.76, aM: [-0.58, 8.31, 0.54], bM: [-0.58, 10.31, 0.54] },
+    // The leaning stretch: a capsule at any angle, following the wood.
+    { radiusM: 1.85, aM: [6.27, 28.13, -6.71], bM: [10.27, 33.13, -10.71] },
   ],
 };
 
@@ -25,7 +26,7 @@ const trunk: FloraCollisionAsset = {
   id: "bmv:landscape/trees/cypress1",
   sizeM: [8, 8, 32],
   collision: "trunk-capsule",
-  collisionFrame: "pivot-yup-v2",
+  collisionFrame: "pivot-yup-v3",
   collisionCapsule: { radiusM: 0.4, heightM: 32, baseOffsetM: [0.02, 0.9, -1.19] },
 };
 
@@ -33,7 +34,7 @@ const boulder: FloraCollisionAsset = {
   id: "vanilla:landscape/rocks/rockl04",
   sizeM: [3.08, 4.06, 5.96],
   collision: "convex",
-  collisionFrame: "pivot-yup-v2",
+  collisionFrame: "pivot-yup-v3",
   collisionBox: { halfExtentsM: [1.35, 2.62, 1.79], centreOffsetM: [0, 2.3, -0.1] },
 };
 
@@ -68,10 +69,12 @@ describe("what the world makes solid", () => {
     expect(collider).toEqual({
       kind: "capsule",
       radiusM: 0.4,
-      heightM: 32,
+      // Rapier half-height excludes the caps: 32 / 2 − 0.4.
+      halfHeightM: 15.6,
       // baseOffsetM points at the capsule BOTTOM; Rapier centres shapes, so
       // the offset is lifted half the height.
       offsetM: [0.02, 16.9, -1.19],
+      rotation: [0, 0, 0, 1],
     });
   });
 
@@ -84,11 +87,12 @@ describe("what the world makes solid", () => {
     });
   });
 
-  it("refuses a kit still on the pre-v2 collision frame — round 5 shipped its", () => {
-    // capsule offsets bbox-centre-relative in z-up while the runtime read
-    // them as pivot-relative y-up: metres of solid air beside passable
-    // trunks. Misplaced colliders are worse than none.
+  it("refuses a kit on any older collision frame", () => {
+    // v1 shipped bbox-centre offsets read as pivot-relative (solid air beside
+    // passable trunks); v2's tracked chain missed multi-stemmed and strongly
+    // leaning trunks. Misplaced colliders are worse than none.
     expect(colliderFor({ ...trunk, collisionFrame: undefined })).toBeNull();
+    expect(colliderFor({ ...trunk, collisionFrame: "pivot-yup-v2" })).toBeNull();
     expect(colliderFor({ ...boulder, collisionFrame: "something-else" })).toBeNull();
   });
 
@@ -155,23 +159,38 @@ describe("the collider ring", () => {
   });
 });
 
-describe("a trunk that leans", () => {
-  it("returns a chain that follows the trunk, not one upright cylinder", () => {
+describe("capsules moulded to the wood", () => {
+  it("returns one capsule per segment, centred between its endpoints", () => {
     const chain = collidersFor(leaningTrunk);
     expect(chain).toHaveLength(3);
     expect(chain.every((c) => c.kind === "capsule")).toBe(true);
-    // The whole point: the top of the trunk is ~14 m from the base in plan,
-    // which a single capsule at the base cannot cover — the owner walked
-    // through it (round 7).
-    expect(chain[0].offsetM[0]).toBeCloseTo(0.27);
-    expect(chain[2].offsetM[0]).toBeCloseTo(10.27);
-    expect(chain[2].offsetM[2]).toBeCloseTo(-10.71);
+    const first = chain[0] as Extract<(typeof chain)[0], { kind: "capsule" }>;
+    expect(first.offsetM).toEqual([0.27, 1.38, 1.35]);
+    expect(first.halfHeightM).toBeCloseTo(1.0);
+    // A vertical segment keeps the identity rotation.
+    expect(first.rotation).toEqual([0, 0, 0, 1]);
   });
 
-  it("takes segment offsets as CENTRES, unlike the single capsule's base", () => {
-    const [first] = collidersFor(leaningTrunk);
-    // Not lifted by half the height — the builder already emits centres.
-    expect(first.offsetM[1]).toBeCloseTo(1.38);
+  it("orients a leaning segment along its own axis", () => {
+    const chain = collidersFor(leaningTrunk);
+    const leaning = chain[2] as Extract<(typeof chain)[0], { kind: "capsule" }>;
+    // Rotate local +Y by the quaternion; it must land on the segment axis.
+    const [qx, qy, qz, qw] = leaning.rotation;
+    const axis = { x: 4, y: 5, z: -4 };
+    const len = Math.hypot(axis.x, axis.y, axis.z);
+    // q * (0,1,0) * q⁻¹, expanded:
+    const ux = 2 * (qx * qy - qw * qz);
+    const uy = 1 - 2 * (qx * qx + qz * qz);
+    const uz = 2 * (qy * qz + qw * qx);
+    expect(ux).toBeCloseTo(axis.x / len, 5);
+    expect(uy).toBeCloseTo(axis.y / len, 5);
+    expect(uz).toBeCloseTo(axis.z / len, 5);
+    expect(leaning.halfHeightM).toBeCloseTo(len / 2, 5);
+    // The whole point: the leaning stretch is ~14 m from the base in plan,
+    // which a single upright capsule at the base cannot cover — the owner
+    // walked through it (rounds 7 and 10).
+    expect(leaning.offsetM[0]).toBeCloseTo(8.27);
+    expect(leaning.offsetM[2]).toBeCloseTo(-8.71);
   });
 
   it("still exposes one usable shape for callers that want a single proxy", () => {
@@ -185,15 +204,20 @@ describe("collidersFor on ordinary species", () => {
     expect(collidersFor(boulder)).toEqual([colliderFor(boulder)]);
   });
 
-  it("gives walk-through species and pre-v2 kits nothing at all", () => {
+  it("gives walk-through species and old-frame kits nothing at all", () => {
     expect(collidersFor(reeds)).toEqual([]);
     expect(collidersFor({ ...leaningTrunk, collisionFrame: undefined })).toEqual([]);
+    expect(collidersFor({ ...leaningTrunk, collisionFrame: "pivot-yup-v2" })).toEqual([]);
   });
 
   it("falls back to the capsule when every segment is degenerate", () => {
     const broken = {
       ...leaningTrunk,
-      collisionSegments: [{ radiusM: 0, heightM: 2, centreOffsetM: [0, 1, 0] as [number, number, number] }],
+      collisionSegments: [{
+        radiusM: 0,
+        aM: [0, 0, 0] as [number, number, number],
+        bM: [0, 2, 0] as [number, number, number],
+      }],
     };
     expect(collidersFor(broken)).toEqual([colliderFor(leaningTrunk)]);
   });

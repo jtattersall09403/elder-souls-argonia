@@ -18,10 +18,12 @@ export type FloraCollider =
       kind: "capsule";
       /** Metres, at instance scale 1. */
       radiusM: number;
-      /** Total height of the capsule, metres, at instance scale 1. */
-      heightM: number;
-      /** Offset from the instance PIVOT, world axes (x, y, z), metres. */
+      /** Half-length of the CORE segment (caps excluded), Rapier convention. */
+      halfHeightM: number;
+      /** Capsule centre, offset from the instance PIVOT, local axes, metres. */
       offsetM: [number, number, number];
+      /** Local rotation taking +Y onto the capsule axis, as [x, y, z, w]. */
+      rotation: [number, number, number, number];
     }
   | {
       kind: "box";
@@ -35,38 +37,35 @@ export interface FloraCollisionAsset {
   sizeM: [number, number, number];
   collision?: string;
   /**
-   * Contract tag for the collision offsets. `pivot-yup-v2` means every
-   * offset is PIVOT-relative in world (glTF Y-up) axes, directly addable to
-   * the instance position before yaw. Round 5 shipped capsule offsets
-   * bbox-centre-relative in Blender z-up while the runtime read them as
-   * pivot-relative — metres of solid air beside passable trunks — so an
-   * untagged kit now gets NO colliders rather than misplaced ones.
+   * Contract tag for the collision shapes. `pivot-yup-v3` means offsets are
+   * PIVOT-relative in local glTF Y-up axes, and `collisionSegments` are
+   * ORIENTED capsules (`{radiusM, aM, bM}`, core-segment endpoints) fitted to
+   * the real wood geometry by `pipeline/trunk_solids.py`. The v2 tracked
+   * chain could not describe a multi-stemmed willow or a strongly leaning
+   * palm (owner walked through both, Phase 10 round 10), so an old-frame kit
+   * gets NO colliders rather than wrong ones — same policy as v1 → v2.
    */
   collisionFrame?: string;
   collisionCapsule?: {
     radiusM: number;
     heightM: number;
-    /** Pivot -> capsule BOTTOM, world axes. */
+    /** Pivot -> capsule BOTTOM, local axes. */
     baseOffsetM: [number, number, number];
   };
   /**
-   * A CHAIN of capsules following a trunk that leans or curves, bottom to top.
-   * One upright capsule cannot describe the Anvil canopy tree, whose trunk
-   * wanders ~14 m sideways over its 34 m: the owner walked through the parts
-   * the cylinder missed (round 7). Emitted only where the trunk is its own
-   * mesh and can be measured band by band — for an ordinary straight tree the
-   * single capsule is right and stays. Preferred over `collisionCapsule` when
-   * present; the capsule remains as the fallback.
+   * Capsules moulded to the trunk and every major limb: `aM`/`bM` are the
+   * core-segment endpoints (pivot-relative, Y-up), so a capsule may lean at
+   * any angle. Preferred over `collisionCapsule` when present; the single
+   * capsule remains as the fallback for species without separable wood parts.
    */
   collisionSegments?: {
     radiusM: number;
-    heightM: number;
-    /** Pivot -> segment CENTRE, world axes. */
-    centreOffsetM: [number, number, number];
+    aM: [number, number, number];
+    bM: [number, number, number];
   }[];
   collisionBox?: {
     halfExtentsM: [number, number, number];
-    /** Pivot -> box centre, world axes. */
+    /** Pivot -> box centre, local axes. */
     centreOffsetM: [number, number, number];
   };
 }
@@ -80,36 +79,66 @@ export interface FloraCollisionAsset {
  */
 const SOLID_COLLISION_KINDS = new Set(["trunk-capsule", "convex"]);
 
+const COLLISION_FRAME = "pivot-yup-v3";
+
 export function isSolid(asset: FloraCollisionAsset | undefined): boolean {
   return !!asset && SOLID_COLLISION_KINDS.has(asset.collision ?? "none");
 }
 
+/** Quaternion [x, y, z, w] rotating +Y onto the (normalised) direction. */
+function yTo(direction: [number, number, number]): [number, number, number, number] {
+  const [dx, dy, dz] = direction;
+  // cross(Y, d) with half-angle construction: q = (cross, 1 + dot), normalised.
+  const x = dz;
+  const z = -dx;
+  const w = 1 + dy;
+  if (w < 1e-8) return [1, 0, 0, 0]; // straight down: half-turn about X
+  const n = Math.hypot(x, z, w);
+  // `|| 0` normalises the -0 a negative component divides down to.
+  return [x / n || 0, 0, z / n || 0, w / n];
+}
+
 /**
- * Every collider for one species, in instance-local metres (multiply by the
- * instance scale at spawn, and rotate each `offsetM` by the instance rotation
- * — offsets are pivot-relative in the asset's UNROTATED local frame).
+ * Every collider for one species, in instance-local metres (multiply lengths
+ * and offsets by the instance scale at spawn; the whole set then rotates with
+ * the instance's own rotation — offsets are pivot-relative in the asset's
+ * UNROTATED local frame).
  *
- * Usually one shape; a leaning or curved trunk returns a chain of capsules
- * following its axis. Empty where the species is walk-through or the manifest
- * carries no usable shape, including any kit still on the pre-v2 frame.
+ * A tree returns the capsule set moulded to its wood; a rock its box. Empty
+ * where the species is walk-through or the manifest carries no usable shape,
+ * including any kit still on a pre-v3 frame.
  */
 export function collidersFor(
   asset: FloraCollisionAsset | undefined,
 ): FloraCollider[] {
   if (!isSolid(asset) || !asset) return [];
-  if (asset.collisionFrame !== "pivot-yup-v2") return [];
+  if (asset.collisionFrame !== COLLISION_FRAME) return [];
   const segments = asset.collisionSegments;
   if (segments?.length) {
-    const chain = segments
-      .filter((s) => s.radiusM > 0 && s.heightM > 0)
-      .map((s): FloraCollider => ({
+    const shapes: FloraCollider[] = [];
+    for (const s of segments) {
+      if (!(s.radiusM > 0)) continue;
+      const d: [number, number, number] = [
+        s.bM[0] - s.aM[0], s.bM[1] - s.aM[1], s.bM[2] - s.aM[2],
+      ];
+      const length = Math.hypot(d[0], d[1], d[2]);
+      shapes.push({
         kind: "capsule",
         radiusM: s.radiusM,
-        heightM: s.heightM,
-        // Already a centre, unlike the single capsule's base offset.
-        offsetM: [s.centreOffsetM[0], s.centreOffsetM[1], s.centreOffsetM[2]],
-      }));
-    if (chain.length) return chain;
+        // Endpoints are the core segment; Rapier's half-height excludes caps.
+        halfHeightM: Math.max(0.02, length / 2),
+        offsetM: [
+          (s.aM[0] + s.bM[0]) / 2,
+          (s.aM[1] + s.bM[1]) / 2,
+          (s.aM[2] + s.bM[2]) / 2,
+        ],
+        rotation:
+          length < 1e-6
+            ? [0, 0, 0, 1]
+            : yTo([d[0] / length, d[1] / length, d[2] / length]),
+      });
+    }
+    if (shapes.length) return shapes;
   }
   const single = colliderFor(asset);
   return single ? [single] : [];
@@ -117,24 +146,27 @@ export function collidersFor(
 
 /**
  * The single fallback shape for one species — the trunk capsule or the box.
- * Prefer `collidersFor`, which also handles curved trunks; this is exported
- * for the cases that genuinely want one shape (and for its own tests).
+ * Prefer `collidersFor`, which also handles the moulded capsule sets; this is
+ * exported for the cases that genuinely want one shape (and for its tests).
  */
 export function colliderFor(
   asset: FloraCollisionAsset | undefined,
 ): FloraCollider | null {
   if (!isSolid(asset) || !asset) return null;
-  if (asset.collisionFrame !== "pivot-yup-v2") return null;
+  if (asset.collisionFrame !== COLLISION_FRAME) return null;
   if (asset.collisionCapsule) {
     const { radiusM, heightM, baseOffsetM } = asset.collisionCapsule;
     if (!(radiusM > 0) || !(heightM > 0)) return null;
     return {
       kind: "capsule",
       radiusM,
-      heightM,
+      // Subtract the caps: a full-height core would stand taller than the
+      // trunk and the player bumps into thin air above it.
+      halfHeightM: Math.max(0.05, heightM / 2 - radiusM),
       // Half the height up, because the offset points at the capsule BOTTOM
       // and Rapier centres its shapes.
       offsetM: [baseOffsetM[0], baseOffsetM[1] + heightM / 2, baseOffsetM[2]],
+      rotation: [0, 0, 0, 1],
     };
   }
   if (asset.collisionBox) {
@@ -173,8 +205,8 @@ export interface SolidInstance {
  * property of the bundle.
  *
  * `costOf` lets the budget be counted in COLLIDERS rather than instances,
- * which is what actually costs: a curved trunk is a chain of up to sixteen
- * capsules, a pebble is one.
+ * which is what actually costs: a moulded willow is dozens of capsules, a
+ * pebble is one.
  *
  * The returned `coveredRadiusM` is the guarantee the caller needs — every
  * solid nearer than it has a collider. Round 8: the ring was 45 m wide with a

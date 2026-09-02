@@ -101,6 +101,61 @@
 >    open Claude terminal tab; restore half-written rasters from HEAD and
 >    re-run when the box is quiet.
 >
+> ### Round 10 (2026-09-02) — colliders moulded to the wood geometry; card audit; the FPS drop
+>
+> Owner, after round 9 (with screenshots at 4.12 km E · 4.51 km S): still
+> inside large trunks and buttress roots; palms not solid at all; FPS down in
+> tree-heavy areas even on Low; palms showing a conifer silhouette at
+> distance; some big trees never switching to a far tier at all.
+>
+> **Colliders — the v2 tracked chain is GONE, replaced by geometry fitting.**
+> Ground truth (sampling every tree's bark/wood mesh surfaces in the shipped
+> GLB against its chain) showed the round-9 `trunk_chain` was wrong wherever
+> a tree wasn't a single near-vertical stem: fanpalm6's whole sweeping trunk
+> sat 8–16 m outside its one surviving capsule, the willows are multi-stemmed
+> (one chain cannot cover them), and the anvil composites' wandering columns
+> were missed above ~10 m. Fix: `pipeline/trunk_solids.py`, a kit POST-PASS
+> (pure Python + numpy over the built GLB — no Blender) that samples the WOOD
+> primitives (texture-name classifier; the big cutout cards — `palmmiddle`,
+> `grandoak`, `gkbbranch3dark` — are vetoed or they solidify air), slices
+> into height bands, grid-clusters each band in plan, ring-tests each cluster
+> (wall samples bunch near the radius; sprays don't), 2-means-splits forks,
+> and emits ORIENTED capsules (`{radiusM, aM, bM}` endpoints) under
+> **`collisionFrame: pivot-yup-v3`**. Runs automatically at the end of
+> `pipeline.build_kit`. Verified: worst species low-trunk p95 residual fell
+> from +7…+16 m to ≤ +0.4 m (willow whip-curtains stay walk-through on
+> purpose — matches the source games). Runtime: `floraSolids.ts` reads v3
+> (quaternion per capsule, older frames get NOTHING), and
+> `VegetationColliders` is now IMPERATIVE — it diffs fixed Rapier bodies
+> between rebuilds instead of re-rendering up to 1,400 `<RigidBody>` React
+> components per rebuild, which was the second half of the FPS drop.
+>
+> **Far tiers — every tree now has a correct card.** Root causes: (1) all
+> BM&V tree cards UV one shared atlas path, but BM&V ships TWO atlases —
+> palms/mangroves are only drawn in `tamrieltreelodtropical.dds`, and the
+> build was binding the plain one (palms therefore sampled vanilla's pines:
+> the owner's "conifer silhouette"). Kit config now has `textureAliases`
+> binding the tropical atlas kit-wide (temperate rects are identical in
+> both). (2) The three treewillows' own cards UV a crown chunk in every
+> atlas (BM&V bug) — kit config `lodFlatFrom` lets a species borrow another's
+> authored card, rescaled to its height in Blender: willows borrow the
+> `gkbjungletreenew2xv2weeping` weeping-willow cards, cypress1/3 borrow
+> `gkbcyrodilcypress1/2` (with per-species `lodFlatTexture` back to the plain
+> atlas — their rects are empty in the tropical one), fanpalm6 borrows
+> fanpalm4, mangrove gkb9 borrows gkb3's gnarled card, and the two anvil
+> composites (5.2k/8.5k tris, NO far tier — 2.7 M of the 4.4 M triangles at
+> the owner's coordinates, the main FPS regression) borrow the datepalm
+> cards. Audit method: crop every card's UV rect out of the candidate
+> atlases (`tmp/probe/*.png` collages, reproducible scripts). (3)
+> `lodDistances` now returns THREE rings — full mesh capped at 150 m, then
+> light decimation, then the previously-DEAD deep-decimation level, then the
+> card; composites also decimate harder (`lodRatios [0.2, 0.06]`). Simulated
+> triangle load at the owner's spot: 4.42 M → ~1.5 M.
+>
+> Probe scripts: `tmp/probe/trunk_coverage.py` (coverage numbers) and the
+> collage generators in this session's history; `probe-cards*.json` kit
+> configs audition donor cards.
+>
 > ### Round 9 (2026-09-01) — trunk volumes, and the collider budget bug
 >
 > Owner, after round 8: still walking through the new trunks and the

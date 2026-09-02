@@ -104,7 +104,10 @@ class BSAArchive:
          total_folder_name_len, total_file_name_len, _content) = struct.unpack(
             "<8I", raw[4:36]
         )
-        if version not in (104, 105):
+        # v103 is the Oblivion-era layout, still used by some classic-Skyrim
+        # mod archives (Script Free Ship Sailing). It shares v104's records and
+        # zlib compression, so it needs no special case beyond being allowed.
+        if version not in (103, 104, 105):
             raise ValueError(f"Unsupported BSA version {version} in {self.path}")
         self._version = version
         folder_record_size = 24 if version == 105 else 16

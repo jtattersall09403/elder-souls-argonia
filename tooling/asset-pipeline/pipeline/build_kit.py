@@ -259,6 +259,14 @@ def pool_sources(pool: str, vault: Path) -> PoolSources:
         "ayleidcc": "cc-ayleid-ruin-resources-83999",
         "xalfek": "xalfek-55595",
         "darkwater": "darkwater-den-52630",
+        "ayleidkit": "ayleid-ruins-building-kit-90667",
+        "histtree": "sleeping-hist-tree-overhaul-116792",
+        "canoe": "script-free-ship-sailing-67727",
+        "ferryraft": "solitude-ghost-ferry-89948",
+        "sbot": "ships-and-boats-of-tamriel-41653",
+        "depths": "depths-of-skyrim-26913",
+        "sirenroot": "sirenroot-70917",
+        "htbm": "here-there-be-monsters-cipactli-35933",
     }
     if pool in dir_pools:
         root = vault / "skyrim-source/mod-sources" / dir_pools[pool] / "extracted"
@@ -269,7 +277,19 @@ def pool_sources(pool: str, vault: Path) -> PoolSources:
         # NIF's texture paths relative to the folder above `meshes/`, so a
         # nested layout silently produced untextured slabs.
         source = DirSource(root)
-        return PoolSources(meshes=source, textures=[source, vanilla_tex])
+        # Some pools' meshes reference another pool's texture paths — SIRENROOT
+        # is a Creation Club *Ayleid* resource, so its ruin blocks ask for
+        # `textures/creationclub/.../arwall01.dds`, which the two Ayleid pools
+        # ship and it does not. Declaring the sibling pool here is the same
+        # trick BM&V uses with Tropical Skyrim above, and it is the difference
+        # between a textured ruin block and a grey slab. Both pools are credited.
+        siblings = {"sirenroot": ("ayleidkit", "ayleidcc"), "ayleidcc": ("ayleidkit",),
+                    "depths": ("sbot",)}
+        extra = [
+            DirSource(vault / "skyrim-source/mod-sources" / dir_pools[s] / "extracted")
+            for s in siblings.get(pool, ())
+        ]
+        return PoolSources(meshes=source, textures=[source, *extra, vanilla_tex])
     raise KeyError(f"unknown asset pool: {pool}")
 
 
@@ -333,6 +353,9 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
             by_pool.setdefault(row["pool"], []).append(row["path"])
             if _flat_lod_of(row):
                 by_pool[row["pool"]].append(_flat_lod_of(row))
+        donor = _flat_donor_row(entry, index)
+        if donor is not None and _flat_lod_of(donor):
+            by_pool.setdefault(donor["pool"], []).append(_flat_lod_of(donor))
     for pool, paths in by_pool.items():
         sources[pool].meshes.extract_many(sorted(set(paths)), data_root)
 
@@ -364,16 +387,26 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
         if entry.get("collisionRadiusM"):
             record["collisionRadiusM"] = entry["collisionRadiusM"]
         if entry.get("compose"):
-            # Composites are built from their parts; the billboard tier is
-            # skipped (no single source card exists for an assembled tree, and
-            # inventing one would be making art).
             record["parts"] = parts
+        # A species may BORROW another species' authored card (`lodFlatFrom`):
+        # willows whose own cards UV a crown chunk, composites that have none.
+        # Sourcing an existing card is a sourcing decision, not new art; the
+        # Blender half rescales it to this asset's height.
+        donor = _flat_donor_row(entry, index)
+        if donor is not None:
+            row = donor
+        elif entry.get("compose"):
             resolved.append(record)
             continue
         flat = _flat_lod_of(row)
         if flat and (data_root / flat).exists():
-            wanted[row["pool"]].update(_referenced_textures(data_root / flat))
+            wanted.setdefault(row["pool"], set()).update(
+                _referenced_textures(data_root / flat))
             record["lodFlatNif"] = to_windows(data_root / flat)
+            if entry.get("lodFlatTexture"):
+                # Per-species card atlas override; make sure the file lands.
+                record["lodFlatTexture"] = entry["lodFlatTexture"]
+                wanted.setdefault(row["pool"], set()).add(entry["lodFlatTexture"])
         elif flat:
             print(f"[kit]   billboard NIF missing from archive: {flat}")
         resolved.append(record)
@@ -384,6 +417,29 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
     filled: set[str] = set()
     missing: set[str] = set()
     substituted: dict[str, str] = {}
+    # Explicit aliases first (kit config `textureAliases`: wanted path ->
+    # path to extract instead). The flora kit's reason to exist: every tree
+    # card UVs the vanilla `tamrieltreelod.dds` PATH, but BM&V ships TWO
+    # replacement atlases — its palm/mangrove card rects only hold palms in
+    # `tamrieltreelodtropical.dds` (the plain one holds vanilla's pines there,
+    # which is why every palm billboard rendered as a conifer). The temperate
+    # rects are identical in both, so the tropical atlas serves the whole kit.
+    for target, source_path in (kit.get("textureAliases") or {}).items():
+        for pool in wanted:
+            if (data_root / target).exists():
+                break
+            for source in sources[pool].textures:
+                if not source.contains(source_path):
+                    continue
+                source.extract_many([source_path], data_root)
+                origin = data_root / source_path
+                if origin.exists():
+                    destination = data_root / target
+                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copyfile(origin, destination)
+                    substituted[target] = source_path
+                    filled.add(target)
+                    break
     for pool, textures in wanted.items():
         outstanding = {t for t in textures if not (data_root / t).exists()}
         # Each source is tried FULLY (exact path, then trailing-component
@@ -446,6 +502,19 @@ def _part_specs(entry: dict) -> list[dict]:
 
 
 FOLIAGE_CATEGORIES = {"tree", "shrub", "plant", "grass", "aquatic-plant", "fungus"}
+
+
+def _flat_donor_row(entry: dict, index: dict[str, dict]) -> dict | None:
+    """The registry row whose authored card this entry borrows, if any."""
+    donor_id = entry.get("lodFlatFrom")
+    if not donor_id:
+        return None
+    row = index.get(donor_id)
+    if row is None:
+        raise KeyError(f"{entry['asset']}: lodFlatFrom {donor_id} not in registry")
+    if not _flat_lod_of(row):
+        raise ValueError(f"{entry['asset']}: {donor_id} has no _lod_flat card")
+    return row
 
 
 def _flat_lod_of(row: dict) -> str | None:

@@ -71,6 +71,101 @@ Excluded after vetting, with reasons recorded in each config's description:
 `chitinchair01` (needs Dragonborn DLC textures the vault does not hold),
 `plank_ferry_swamp_02/04/05/06` (editor markers).
 
+## Rounds 2–5 (owner-driven, 2026-09-02)
+
+Owner rulings that unblocked this: **"no porting to other games" clauses are
+APPROVED** — we are a standalone Skyrim conversion for private personal use,
+credited as such. Owner **selectivity directive**: take only what closes a
+recorded gap or beats what we hold; every mod taken is a permanent
+credit/provenance/pipeline liability. "Nice but redundant" is a skip.
+
+### Sourced (registered as pools, credited in root README)
+
+| Mod | Nexus | Ver | sha256 (16) | Pool | Why it earned its place |
+|---|---|---|---|---|---|
+| **Here There Be Monsters — Sign of Cipactli** (Araanim) | SSE 35933 | 2.92 | `c44da49e52ae68d4` | `htbm` | **The find of the whole pass.** 1,579 registered meshes incl. purpose-built *Black Marsh* content: Argonian bamboo huts + interiors + door, wicker furniture family, Kothringi stilt platform and Tamu wood dock/plank family, and a 57-piece xanmeer ruin set with the ORNAMENT the Ayleid kit lacks (feathered-serpent and serpent-sigil statues, goddess statue, gargoyle, runic stone, totems, skull stack) |
+| **Ayleid Ruins Building Kit -Resources-** (Imperial Society) | classic 90667 | 001 | `5f465b70c2f04cca` | `ayleidkit` | 85 **exterior** monumental pieces — blocks, quad blocks, stairs, statue walls, bridges, towers. Unblocked by the clause ruling |
+| **Skyfall's Sleeping Hist Tree Overhaul** (Skyfall515 et al.) | SSE 116792 | 1.4 | `1b7f3e3149f2db87` | `histtree` | A second hero-Hist mesh (18×24×16 m) + Hist flowers, **rock cairns and a rune circle** — the closest thing to grave-stakes anyone has |
+| **Script free ship sailing** (ElstarTomas; canoe by FrankFamily) | classic 67727 | 2.3 | `f13d0875fcc258bf` | `canoe` | `canoe1.nif` — the only genuine canoe mesh located anywhere. Unblocked by the clause ruling |
+| **Solitude (ghost) Ferry** (Syntia) | classic 89948 | 1.1.00 | `5345ab860dbd0d3a` | `ferryraft` | `ferryraft01.nif` — an actual poled raft. The owner's lead paid off, though the mod is not what its name suggests |
+| **Ships and boats of Tamriel** (ThatShipGuy) | SSE 41653 | 1.2 | `1bd5c3fac0d5c032` | `sbot` | The two **flat-bottomed Cyrodiilic ferries** + rowboat for the Imperial fringe; wrecks and ship interiors as a bonus. Also supplies Bretic textures other pools reference |
+| **Depths of Skyrim** (TheBlackpixel) + **Mesh fixes** (Gobsnek) | SSE 26913 + 174995 | 1.1.7 / 1.0.0 | `45256b8e537d48e1` / `81b0e11d6b49e9d1` | `depths` | Reef/bed flora for the drowned layer. **The 174995 fixed meshes are overlaid over the base at unpack time**, so the pool only ever exposes the corrected versions |
+| **SIRENROOT — Deluge of Deceit** (Everglaid) | SSE 70917 | 1.30 | `c1ba1454928262e3` | `sirenroot` | Free-standing broken/hollow ruin blocks and **walkable rubble floors** — a submerged ruin the player can stand in — plus water-caustic meshes |
+
+### Evaluated and skipped (all downloaded and opened — verdicts are from mesh lists, not descriptions)
+
+| Mod | Nexus | Verdict |
+|---|---|---|
+| **Hovelmud** (owner lead) | SSE 63329 | **Not a mud hut.** It is Stroti's *Mushroom House* kit — fungal/Telvanni idiom, which material-culture puts off-limits inland, and BM&V already bundles the same Stroti mushroom material |
+| Sailboats — Script Free Sailing EXPANDED | SSE 40057 | 8 hulls, all keeled and sailed. The canoe the research promised is **not** in v2.0 — it is in 67727, which we took |
+| Boats — Operational Animated Travel (owner lead) | SSE 110882 | 3 unique meshes, all vicn "boat carrier" rigs around the vanilla rowboat. It is a travel-script mod |
+| Cyrodiil Ship and boat resource | classic 59426 | Rowboat + 2 broken variants + an Imperial ship — all superseded by SBOT |
+| L.V.X Magick's — Boats (owner lead) | SSE 36149 | 31 meshes, but every one is a variant/retexture of the vanilla keeled rowboat plus sailboats. A rowboat "construction kit" is the only novel item; noted as a fallback if a custom hull is ever needed |
+| Various Immersive Rowboats | SSE 98215 | 3 vanilla-path replacers |
+| Of Ships and Boats | SSE 57673 | 578 MB for 4 meshes, all large ships |
+| DK's Lore-Friendly Ships and Boats Vol. 1 | classic 75965 | 4 Nord ships; SBOT is the same author's superset |
+| Underwater Treasure (owner lead) | SSE 17267 | **ESP only, zero meshes.** Design note worth routing to the quest side: it scatters underwater chests across sea, rivers and lakes as pure diegetic discovery with no markers — exactly the §12.3b "reward for effort" pattern for our drowned layer |
+| Wreck of the Crown Petone (owner lead "northern Argonian settlement") | classic 86156 | Mislabelled: a Jokerine NPC/quest mod on a vanilla shipwreck. No reusable statics |
+| Marsh-Rest (round 1) | classic 50111 | ESP-only, vanilla assets |
+
+### The systematic boat sweep
+
+Swept Nexus v2 GraphQL over both game domains for raft, canoe, punt, skiff,
+barge, coracle, dugout, boat, ship, rowboat and fishing boat, ranked by
+endorsements, then **downloaded and opened the six credible shortlist entries**
+rather than judging from descriptions. Conclusion, stated plainly:
+
+- **The Nexus boat scene is almost entirely retextures and replacers of one
+  vanilla keeled rowboat.** `canoe`, `dugout`, `punt`, `skiff`, `coracle` and
+  `barge` return *zero* mod names in either domain.
+- The only genuinely keel-less or flat-bottomed hulls in existence, all now in
+  the vault: `canoe1` (67727), `ferryraft01` (89948), the two Cyrodiilic
+  ferries (41653), and `plank_ferry_swamp_01/03` (109843).
+- **Twin-hulled platform canoes and reed boats do not exist.** That sub-gap has
+  no Nexus answer and needs an owner steer if it must be closed.
+
+**Tropical Skyrim tropicalised-boat check (owner idea, free):** it ships **no
+boat or ship meshes and no boat textures at all** — the only "ship" file in the
+whole mod is `textures/architecture/whiterun/wrshippanel01.dds`, a building
+panel. The free-win does not exist; background moorings must use the sourced
+hulls. (Consistent with the inventory's note that Tropical Skyrim contains no
+architecture meshes, only textures.)
+
+### Blocked, recorded rather than skipped silently
+
+- **Both r/skyrimmods threads are unreachable from this VM.** `reddit.com`,
+  `old.reddit.com`, `api.reddit.com` and the `.json` endpoint all return 403,
+  from the fetch tool and from curl, for both the "Best mods for Argonians" and
+  "Looking for Argonian based mods" threads. Covered the *intent* instead with a
+  ~60-term Nexus API sweep plus a web search of the thread's contents. If the
+  owner wants them covered literally, they will need to paste the text.
+- **"Argonian Exports" (Steam Workshop 189297755, ServoBilly)** — removed from
+  the Workshop for guideline violations; renders only for its uploader. No Nexus
+  mirror exists under the mod name, the vessel name ("Saxheel") or the author.
+  Payload was ~2 props (an Argonian urn, an "earthen door") we already better.
+
+### What the Argonian mod scene actually contains
+
+Worth recording so nobody sweeps it again: **essentially all of it is race,
+body, texture, hair, tail, follower and armour content.** Architecture and props
+exist in exactly three places — the Xanmeer Tileset (held), Mud Mother Grove
+(held) and Here There Be Monsters (now held). Equipment finds were recorded to
+[90-asset-strategy §75.1](../world/90-asset-strategy.md) rather than sourced,
+per the owner's Phase-11 scope rule.
+
+### Gap status after rounds 2–5
+
+| # | Gap | Status |
+|---|---|---|
+| 1 | Mud-hut / dwelling variety | **closed** — Mud Mother Grove's mud shell + HTBM's two bamboo huts + BM&V's shells now clear the 25 %-per-template quota |
+| 2 | Xanmeer exteriors and ornament | **closed** — Ayleid kit for massing (blocks/stairs/statue walls), HTBM for ornament (serpent statues, goddess, gargoyle, runic stone, pyramids) |
+| 3 | Grave-stakes / burial markers | **substitute found, exact asset still absent** — Skyfall's rock cairns and rune circle. No staked-dead mesh exists on Nexus |
+| 4 | Argonian cultural props | **closed** — Mud Mother Grove + HTBM wicker family + xanmeer urns/pots |
+| 5 | Hist tree | **closed with variants** — two distinct hero-Hist meshes (Mud Mother Grove, Skyfall) + flowers + LOD |
+| 6 | Working/industrial props | **still open** — a fish rack and carapace oven only. No saltern, kiln or reed-cutting gear exists |
+| 7 | Rafts / canoes | **closed for rafts and canoes** (canoe1, ferryraft01, 2 ferries, 2 plank rafts); **twin-hulled platform canoes and reed boats remain impossible to source** |
+| — | Drowned / underwater layer | **newly served** — reef flora, walkable submerged rubble, water caustics |
+
 ## Pipeline changes this required
 
 - `pipeline/bsa.py` now reads **BSA v105** (SSE): 24-byte folder records and
@@ -79,6 +174,13 @@ Excluded after vetting, with reasons recorded in each config's description:
   dependency, imported only on the v105 path.
 - `pipeline/build_kit.py` resolves extracted-directory pools from one table
   instead of an `if` per mod.
+- `pipeline/bsa.py` also reads **v103** (Oblivion-era) archives, which some
+  classic-Skyrim mods still ship.
+- `pipeline/build_kit.py` gained a **sibling-texture-pool** table: SIRENROOT is
+  a Creation Club *Ayleid* resource whose ruin blocks reference CC texture paths
+  it does not ship but our two Ayleid pools do, and Depths of Skyrim references
+  Bretic ship textures that SBOT ships. Without it those pieces export as grey
+  slabs. Both pools are credited in every case.
 - Mud Mother Grove's `Data/` wrapper is **flattened at unpack time**. Nested
   layouts silently export every material untextured, because Blender resolves a
   NIF's texture paths relative to the folder above `meshes/` — this cost a full

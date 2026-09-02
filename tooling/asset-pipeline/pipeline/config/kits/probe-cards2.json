@@ -1,0 +1,37 @@
+{
+ "id": "probe-cards2",
+ "description": "Willow card audition",
+ "output": "probe-cards2.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 256,
+ "billboardTextureMaxSize": 512,
+ "assets": [
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew11v2weeping"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew23v2weeping"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew24v2weeping"
+  },
+  {
+   "asset": "bmv:landscape/trees/treewillow01e"
+  },
+  {
+   "asset": "bmv:landscape/trees/treewillow02b"
+  },
+  {
+   "asset": "bmv:landscape/trees/treewillow02v2a"
+  },
+  {
+   "asset": "bmv:landscape/trees/treewillow03v2a"
+  },
+  {
+   "asset": "bmv:landscape/trees/treewillow03b"
+  }
+ ]
+}
