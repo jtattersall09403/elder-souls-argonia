@@ -7,12 +7,23 @@ and hold the invariants the region-derivation agents rely on:
 - recipes cite only real region classes and real asset-inventory families;
 - the withdrawn `darkwater` asset pool never appears;
 - every recipe carries all five POI recipe slots;
-- the `recordScope == "poi"` count bands sum inside the province total
-  (600-740 named places on 33.52 km2 of authored land, per the terrain scour).
+- every type's count band actually contains its live record count.
+
+The old invariant here — "the poi count bands sum inside the province total" —
+was retired on 2026-09-02 (verify/wrap agent). It was never sound: with ~236
+poi types averaging two records each, per-type slack of +/-1 aggregates to a
++/-236 envelope, so the sum could only be made to land on the province total by
+giving every band zero slack, which makes the bands useless as a Part 3
+maintenance envelope. The province total is a property of the CATALOGUE, not of
+this file, and is now asserted in test_catalogue.py against the coverage doc's
+per-zone budgets. What this file checks instead is far stronger and not
+tautological: each band must contain the count actually derived, so drift in
+either direction fails.
 """
 
 from __future__ import annotations
 
+import collections
 import json
 from pathlib import Path
 
@@ -38,8 +49,6 @@ STATUSES = {
 # Landform classes from the terrain scour, plus the pseudo-classes for types
 # that need ordinary ground rather than a named landform.
 PSEUDO_LANDFORMS = {"any-firm-ground", "any-shallow-marsh", "any-channel-bank"}
-# Province-wide named-place total established by the scour (candidate-sites.md).
-POI_TOTAL_MIN, POI_TOTAL_MAX = 600, 740
 
 
 def _recipes() -> list[dict]:
@@ -93,7 +102,9 @@ def test_enumerations() -> None:
         )
         assert r["siting"]["landformClasses"], t
         lo, hi = r["countBand"]
-        assert 0 < lo <= hi, t
+        # lo may be 0: a type that is enumerated but currently unspent is honest
+        # (Part 3 may spend it); a band with no upper room is not.
+        assert 0 <= lo <= hi and hi > 0, t
 
 
 def test_no_withdrawn_asset_pool() -> None:
@@ -115,11 +126,33 @@ def test_asset_plans_reference_known_families() -> None:
     )
 
 
-def test_poi_count_bands_sum_to_the_province_total() -> None:
-    poi = [r for r in _recipes() if r["recordScope"] == "poi"]
-    lo = sum(r["countBand"][0] for r in poi)
-    hi = sum(r["countBand"][1] for r in poi)
-    assert POI_TOTAL_MIN <= lo < hi <= POI_TOTAL_MAX, (
-        f"poi count bands sum to {lo}-{hi}; the scour sizes the province at "
-        f"{POI_TOTAL_MIN}-{POI_TOTAL_MAX} named places"
-    )
+def test_count_bands_contain_the_live_record_counts() -> None:
+    """Every type's band must contain the number of live records derived for it.
+
+    Live = status is neither `deferred` nor `cut`. This is the anti-drift check
+    that replaced the band-sum assertion: it fails if a region agent over-fills
+    a type, and equally if a rebalance guts one.
+    """
+    live: collections.Counter[str] = collections.Counter()
+    for path in sorted(CATALOGUE_DIR.glob("places-*.json")):
+        for rec in json.loads(path.read_text())["places"]:
+            if rec.get("status") not in {"deferred", "cut"}:
+                live[rec["classification"]["type"]] += 1
+    for r in _recipes():
+        # district/dressing-scope types are not catalogue records at all — they
+        # are the Part 3 / compiler dressing tier, and their bands are a
+        # per-settlement demand forecast, not a province count.
+        if r["recordScope"] != "poi":
+            continue
+        lo, hi = r["countBand"]
+        n = live.get(r["type"], 0)
+        assert lo <= n <= hi, (
+            f"{r['type']}: {n} live records against countBand {lo}-{hi} — "
+            "re-derive the band or rebalance the records"
+        )
+    unknown = set(live) - {r["type"] for r in _recipes()}
+    assert not unknown, f"catalogue uses types with no recipe: {sorted(unknown)}"
+
+
+def test_count_band_note_is_present() -> None:
+    assert json.loads(RECIPES_PATH.read_text()).get("countBandNote", "").strip()

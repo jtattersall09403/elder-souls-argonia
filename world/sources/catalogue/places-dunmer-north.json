@@ -3646,6 +3646,158 @@
       ]
     },
     {
+      "id": "place.dunmer-north.let-upper-floor",
+      "name": "The Let Upper Floor",
+      "aliases": [
+        "the Velothi room"
+      ],
+      "classification": {
+        "class": "martial",
+        "family": "watch",
+        "type": "deniable-listening-post",
+        "variant": null,
+        "magnitude": null
+      },
+      "status": "active",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Thalmor",
+        "uesp:Lore:Kingdom of Black Marsh",
+        "uesp:Lore:An-Xileel",
+        "world/sources/lore/topics/foreign-powers.md",
+        "world/sources/lore/an-xileel.md"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Canon records no Dominion presence inside Black Marsh in the Fourth Era, and the Thalmor are nonetheless one of the standing explanations for the Accession War — a post that does not exist is the only form that reconciles the two, so this one is a rented upper floor above a Velothi factor's counting room on the Tear road, taken on a three-year lease by a party the landlord has never met.",
+        "siteAdvantages": "It overlooks the weighbridge where every cart off the Morrowind road is broken open and counted, so a tenant who never leaves the room can audit the whole northern traffic in ore, saltrice and people from a shuttered window.",
+        "occupantsMotive": "To know what the An-Xileel are moving north before Morrowind does, and to be able to stop knowing it within an hour if anyone comes up the stair.",
+        "pressures": "The landlord's grandson has begun to resent a tenant who pays a year in advance and burns a lamp all night, and has twice tried the door.",
+        "wouldChangeIf": "An hour's warning empties it completely: the lease is in a dead Dunmer's name, the ledgers are in wax, and there would be nothing in the room but a cold lamp and a good chair."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "fringe marsh",
+          "firm lowland",
+          "upland hills"
+        ],
+        "landformClasses": [
+          "ridge-end",
+          "any-firm-ground",
+          "flood-high"
+        ],
+        "waterRelation": "dry, above the road",
+        "neighbourRelation": "inside somebody else's working building, on a trunk road",
+        "hardConstraints": [
+          "an existing occupied building with a separate outside stair",
+          "a sightline onto a weighbridge or toll"
+        ],
+        "preferences": [
+          "shutters, not glass",
+          "two ways down"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [
+          "place.dunmer-north.tear-road-stage"
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "dunmer",
+      "ownerFaction": null,
+      "occupants": [
+        "one long-term tenant",
+        "the factor's household below, who are not part of it"
+      ],
+      "notableNpcSlots": [
+        "the tenant, whose accent nobody in the north can place",
+        "the landlord's grandson, who has started trying the door"
+      ],
+      "dangerTier": "D1",
+      "approachDanger": "D1",
+      "traversalModes": [
+        "walk"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 1,
+      "rewardProfile": {
+        "kinds": [
+          "lore",
+          "quests",
+          "coin"
+        ],
+        "valueTier": "tier-3"
+      },
+      "vibe": {
+        "silhouette": "An ordinary two-storey Velothi counting house on the road, with one shuttered upper window that is never opened and an outside stair nobody uses in daylight.",
+        "palette": "Ash-grey render and bitumen-black timber below; above, one warm slot of lamplight behind shutters, visible only from the weighbridge side.",
+        "materials": "Rendered chitin-and-ash brick, bitumen-sealed shutters, a bare boarded floor, a wax tablet stack, one very good chair that does not match anything else in the building.",
+        "signatureFeature": "The chair — the only object in the room that cost money, positioned exactly where a person can watch the weighbridge all day without being seen.",
+        "condition": "Immaculate and impersonal; the room is cleaner than the house it sits in.",
+        "mood": "Bland to the point of unease.",
+        "approach": "You walk past it. That is the whole design: it is on the busiest road in the north and nothing about it asks to be looked at.",
+        "senses": "Lamp oil where there should be cooking; no smell of a person living, on a floor somebody plainly lives on."
+      },
+      "assetPlan": [
+        "vanilla-farmhouse",
+        "dunmer-telvanni",
+        "signage-blank",
+        "lights-general",
+        "clutter"
+      ],
+      "discovery": "rumour",
+      "questHooks": {
+        "provisions": [
+          "a foreign intelligence on northern traffic that nobody will admit exists",
+          "a lease in a dead Dunmer's name, and whoever is paying it"
+        ],
+        "tierOwnership": "tier-2 owned"
+      },
+      "rumourPoolKey": "rumour.northern-hinge",
+      "deedCounterKeys": [
+        "deed.dunmer-north.upper-floor-entered"
+      ],
+      "sockets": {
+        "scene": [
+          "the-shuttered-room"
+        ],
+        "evidence": [
+          "the-three-year-lease",
+          "the-wax-tablets",
+          "the-good-chair"
+        ],
+        "station": [
+          "the-window-watch"
+        ],
+        "marks": [
+          "the-tried-door"
+        ]
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 3,
+      "workflow": "derived",
+      "densityLayer": "fine-tempo",
+      "entrance": "door",
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "let (the tenant is in residence)",
+        "given up (an hour after the door was tried: cold lamp, good chair, nothing else)"
+      ]
+    },
+    {
       "aliases": [],
       "relations": {
         "dependsOn": [],
