@@ -1283,7 +1283,6 @@
       "assetPlan": [
         "signage-blank",
         "docks-piers",
-        "market-tents",
         "stockade-scaffold",
         "clutter"
       ],
@@ -5819,7 +5818,8 @@
         "argonian-props",
         "totems-ritual",
         "fences-wattle",
-        "argonian-lights"
+        "argonian-lights",
+        "stockade-scaffold"
       ],
       "discovery": "road",
       "questHooks": {
@@ -8877,7 +8877,8 @@
         "docks-piers",
         "fishing-props",
         "argonian-lights",
-        "clutter"
+        "clutter",
+        "fences-wattle"
       ],
       "discovery": "road",
       "questHooks": {
@@ -8899,7 +8900,7 @@
       "complexityBudget": "standard",
       "importanceTier": 3,
       "workflow": "derived",
-      "season": "all-year",
+      "season": "varies",
       "eraLayers": [
         "current"
       ],
@@ -14529,7 +14530,7 @@
       "complexityBudget": "simple",
       "importanceTier": 4,
       "workflow": "derived",
-      "season": "all-year",
+      "season": "varies",
       "eraLayers": [
         "imperial"
       ],
