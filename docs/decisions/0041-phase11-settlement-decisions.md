@@ -535,6 +535,37 @@ params, palettes, scatter recompile — never a local hack). Known candidate
 already: the naga-kur-deeps records are written on canon's black water.
 Record each use of this permission here.
 
+**Environment tweaks REQUESTED by the interior repair executor (2026-09-02),
+not yet applied — they are systems-side jobs, not catalogue edits:**
+
+1. **naga-kur-deeps water colour.** All 67 deeps records are now written on
+   canon's black standing water (peat-stained, low visibility, blue
+   bioluminescence as the only light). Needs the zone's water params/palette
+   set accordingly in the owning system, not a local hack.
+2. **Freshwater tide.** `tideResponse` is derived from salinity, so the deep
+   interior cannot tide by construction (feasibility F7). The six deeps
+   records that made tide load-bearing were rewritten onto **seasonal
+   drawdown/refill**, which the season mechanism already delivers — no
+   systems change needed, but the plot pass must confirm salinity < 0.05 at
+   those sites, and `place.naga-kur-deeps.drowning-narrows-tidal-gate` keeps
+   a now-misleading slug (IDs are permanent; the record's text is correct).
+3. **No asset pool expresses `settlement-root-v1`.** The interior's records
+   now specify a grown-root kit whose nearest available families are
+   `bamboo-hut` + `hist-variants` + `azura-tree` + `argonian-props`;
+   `mud-mother-grove` (the Shadowfen mud kit) is still carried by interior
+   records because nothing better exists. A root-kit pool (or an alias set)
+   is an asset-registry job — flagged for the verify/wrap agent.
+
+**Interior building-kit ruling (2026-09-02, lore critique C1).**
+`world/sources/lore/topics/material-culture.md` now carries three Argonian
+kits — `settlement-mud-v1` (Shadowfen), `settlement-stilt-v1` (Murkmire) and
+**`settlement-root-v1`** (the interior: root trained while living, withy and
+flint-vine lashing, sap-resin sealing, bark/frond roofing, chimes at every
+threshold, no stone and no reed) — plus a `/deeps` Naga-Kur variant (cane,
+bog-oak, hide, worked bone, undressed dredged block). The never-blend rule is
+unchanged in spirit: one building is one kit; a settlement is one kit unless
+its `why.founding` says why not; foreign work layers, never blends.
+
 **Scour findings that bind Parts 1/3** (2026-09-02, full digest in
 `world/sources/sites/candidate-sites.md`; 1,172 scored candidate sites in
 `candidate-sites.json`, dossiers for all nine anchors in `sites/dossiers/`):
