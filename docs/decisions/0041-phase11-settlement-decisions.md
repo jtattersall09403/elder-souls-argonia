@@ -245,6 +245,17 @@ touchpoint wait on compiler work it doesn't need.
    rather than on a cut-out disc. **It also owns ground fitting — see the
    "Slopes and uneven ground" gotcha below; treat that as a first-class
    part of the skeleton, not a polish item.**
+   **Clearing gotchas (owner question, 2026-09-02) — binding on the
+   clearing integration:** (a) colliders are safe by construction ONLY
+   because they derive at runtime from the same compiled instance list
+   that renders — so clearing MUST work by recompiling affected chunks,
+   never by hiding meshes; (b) the **runtime groundcover ring** generates
+   grass from rasters at runtime and must read the clearance mask itself,
+   or grass grows through floors; (c) **all vegetation tiers rebuild in
+   the same compile** for affected chunks — near scatter recompiled while
+   the distant billboard layer isn't gives ghost trees that vanish on
+   approach (same rule as building LOD). The skeleton emits masks +
+   affectedChunks; the scatter-compiler consumption of them is open work.
    **Phase 10 caution (2026-09-02): tree-collider work is still in flight**
    — a parallel agent is finalising trunk solidity (round 9+ did not pass).
    Design the clearing-mask interface against the scatter compiler's
