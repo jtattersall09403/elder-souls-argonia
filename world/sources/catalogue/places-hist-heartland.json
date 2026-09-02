@@ -4303,7 +4303,7 @@
       },
       "rumourPoolKey": null,
       "deedCounterKeys": [
-        "deed.hist.hist-agaceph-needle.regard"
+        "deed.hist.hist-heartland.hist-agaceph-needle.regard"
       ],
       "sockets": {
         "scene": [],
@@ -4315,8 +4315,8 @@
       "importanceTier": 1,
       "workflow": "derived",
       "heroHist": {
-        "id": "hist.hist-agaceph-needle",
-        "powerSlot": "power.hist.hist-agaceph-needle",
+        "id": "hist.hist-heartland.hist-agaceph-needle",
+        "powerSlot": "power.hist.hist-heartland.hist-agaceph-needle",
         "note": "hero Hist register (buildout: ~10 province-wide, stable ID + one power slot each)"
       }
     },
@@ -4415,7 +4415,7 @@
       },
       "rumourPoolKey": null,
       "deedCounterKeys": [
-        "deed.hist.hist-first-rain-trunk.regard"
+        "deed.hist.hist-heartland.hist-first-rain-trunk.regard"
       ],
       "sockets": {
         "scene": [],
@@ -4427,8 +4427,8 @@
       "importanceTier": 1,
       "workflow": "derived",
       "heroHist": {
-        "id": "hist.hist-first-rain-trunk",
-        "powerSlot": "power.hist.hist-first-rain-trunk",
+        "id": "hist.hist-heartland.hist-first-rain-trunk",
+        "powerSlot": "power.hist.hist-heartland.hist-first-rain-trunk",
         "note": "hero Hist register (buildout: ~10 province-wide, stable ID + one power slot each)"
       }
     },
@@ -4630,7 +4630,7 @@
       },
       "rumourPoolKey": null,
       "deedCounterKeys": [
-        "deed.hist.hist-paatru-lowcrown.regard"
+        "deed.hist.hist-heartland.hist-paatru-lowcrown.regard"
       ],
       "sockets": {
         "scene": [],
@@ -4642,8 +4642,8 @@
       "importanceTier": 1,
       "workflow": "derived",
       "heroHist": {
-        "id": "hist.hist-paatru-lowcrown",
-        "powerSlot": "power.hist.hist-paatru-lowcrown",
+        "id": "hist.hist-heartland.hist-paatru-lowcrown",
+        "powerSlot": "power.hist.hist-heartland.hist-paatru-lowcrown",
         "note": "hero Hist register (buildout: ~10 province-wide, stable ID + one power slot each)"
       }
     },
@@ -4741,7 +4741,7 @@
       },
       "rumourPoolKey": null,
       "deedCounterKeys": [
-        "deed.hist.hist-sarpa-highflower.regard"
+        "deed.hist.hist-heartland.hist-sarpa-highflower.regard"
       ],
       "sockets": {
         "scene": [],
@@ -4753,8 +4753,8 @@
       "importanceTier": 1,
       "workflow": "derived",
       "heroHist": {
-        "id": "hist.hist-sarpa-highflower",
-        "powerSlot": "power.hist.hist-sarpa-highflower",
+        "id": "hist.hist-heartland.hist-sarpa-highflower",
+        "powerSlot": "power.hist.hist-heartland.hist-sarpa-highflower",
         "note": "hero Hist register (buildout: ~10 province-wide, stable ID + one power slot each)"
       }
     },
@@ -8388,8 +8388,8 @@
       "importanceTier": 1,
       "workflow": "derived",
       "heroHist": {
-        "id": "hist.xal-ussep-sealed",
-        "powerSlot": "power.hist.xal_ussep",
+        "id": "hist.hist-heartland.sealed-xanmeer-living",
+        "powerSlot": "power.hist.hist-heartland.sealed-xanmeer-living",
         "note": "hero Hist register \u2014 the sealed one; power slot granted only on release"
       },
       "reconciliation": "one of the 2\u20133 living sealed Hist allowed province-wide; confirm neighbours claim at most two more"

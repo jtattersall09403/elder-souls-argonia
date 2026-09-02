@@ -1226,8 +1226,8 @@
       "importanceTier": 1,
       "workflow": "derived",
       "heroHist": {
-        "id": "hist.dead-water",
-        "powerSlot": "power.hist.dead_water",
+        "id": "hist.naga-kur-deeps.dead-water-village",
+        "powerSlot": "power.hist.naga-kur-deeps.dead-water-village",
         "note": "hero Hist register \u2014 the Naga-Kur's tree; power slot themed on the bog-blight discipline"
       }
     },
