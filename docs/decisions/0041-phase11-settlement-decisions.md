@@ -819,6 +819,8 @@ as load-bearing. Record the outcome here either way.
    genuinely useful**. Weapons/equipment finds there are NOT Phase 11 —
    record them in module 90's candidate tables for the later equipment
    passes (10b/13/15) instead of sourcing now.
+   Also (owner): if Tropical Skyrim overhauls most vanilla assets, check
+   the vault for **tropicalised vanilla static boats** — may be usable.
 3. **Gideon anchor.** Its approved position sits on steep ground (14 %
    buildable in 400 m) — expect a nudge proposal within `toleranceUV` at
    Part 6.
