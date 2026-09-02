@@ -15,15 +15,17 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "module 20 \u00a712.3b hard-to-reach types (underwater grottoes, air pockets, flooded cellars)"
+        "module 20 \u00a712.3b hard-to-reach types (underwater grottoes, air pockets, flooded cellars)",
+        "docs/world/50-hydrology-climate.md",
+        "uesp:Lore:Argonian (amphibious physiology; the crossing is priced around held breath)"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A maintained air pocket on a flooded root route, kept so the crossing is survivable.",
         "siteAdvantages": "The midpoint of the longest flooded branch in the region.",
-        "occupantsMotive": "Nobody lives here; it is maintained by whoever passes.",
-        "pressures": "The seal leaks and the pocket is smaller each decade.",
-        "wouldChangeIf": "Losing it makes the flooded route impassable."
+        "occupantsMotive": "Nobody lives here; it is maintained by whoever passes. Nobody lives here; it is maintained by whoever passes, on an interior custom that a shelter you use unrepaired is a shelter you have stolen.",
+        "pressures": "The seal leaks and the pocket is smaller each decade. The seal leaks and the pocket is smaller each decade, and the Waykeepers who could reseal it will not work outside a paid line.",
+        "wouldChangeIf": "Losing it makes the flooded route impassable. Losing it makes the flooded route impassable and pushes every crossing onto the long root gallery, which is a day and a band of danger worse."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -116,15 +118,18 @@
       "sources": [
         "Lore:Alten Markmont (Arena neighbour name)",
         "world/sources/lore/extrapolation/settlement-register.md \u00a74",
-        "Lore:Alten Markmont (Arena gazetteer); Lore:East Empire Company"
+        "Lore:Alten Markmont (Arena gazetteer); Lore:East Empire Company",
+        "world/sources/lore/topics/foreign-powers.md",
+        "world/sources/lore/helstrom.md",
+        "world/sources/catalogue/type-recipes.json#foreign-trading-station"
       ],
       "confidence": "medium",
       "why": {
         "founding": "An outsider-facing trading station built where the southern water route met the Helstrom approach; the alten- prefix marks it as never Argonian.",
         "siteAdvantages": "A landing on deep-enough water at the last point outsiders were tolerated.",
-        "occupantsMotive": "A skeleton staff of two factors and whoever is sheltering in the warehouses.",
-        "pressures": "The interior tolerates it and does not need it; the trade it was built for stopped.",
-        "wouldChangeIf": "A single busy season would refill it \u2014 that is the point of keeping it standing."
+        "occupantsMotive": "A skeleton staff of two factors and whoever is sheltering in the warehouses. The two factors are paid a retainer by a company that no longer trades here, on the theory that a lapsed post is cheaper to hold than to re-license.",
+        "pressures": "The interior tolerates it and does not need it; the trade it was built for stopped. The interior tolerates it and does not need it; the trade it was built for stopped, and the warehouses now shelter people the factors are not allowed to register.",
+        "wouldChangeIf": "A single busy season would refill it \u2014 that is the point of keeping it standing. A single busy season would refill it \u2014 that is the point of keeping it standing, and the Helstrom assembly has quietly decided it never will be."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -218,15 +223,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Bright-Throat Village; Lore:Argonian (jewellery, guarded weaving secrets)"
+        "Lore:Bright-Throat Village; Lore:Argonian (jewellery, guarded weaving secrets)",
+        "world/sources/lore/topics/material-culture.md",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/catalogue/type-recipes.json#artisan-village"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A craft village that makes the bone and tin chimes through which half the province listens to its Hist.",
         "siteAdvantages": "Beside a hero Hist whose wind is reliable \u2014 the chimes are tuned against the tree that will hang them.",
-        "occupantsMotive": "Chime-makers whose tuning is a religious qualification, not a trade skill.",
-        "pressures": "Cheap cast chimes from the cities are undercutting them and, they say, mistranslating the trees.",
-        "wouldChangeIf": "A ruling that cast chimes are valid would end the village's authority."
+        "occupantsMotive": "Chime-makers whose tuning is a religious qualification, not a trade skill. Tuning is examined and licensed by the tree-minders, so a maker who loses the qualification loses the craft and the village at once.",
+        "pressures": "Cheap cast chimes from the cities are undercutting them and, they say, mistranslating the trees. Cheap cast chimes from the cities are undercutting them and, they say, mistranslating the trees \u2014 an accusation the tree-minders have declined to rule on for six years.",
+        "wouldChangeIf": "A ruling that cast chimes are valid would end the village's authority. A ruling that cast chimes are valid would end the village's authority, and the coastal foundries that cast them would take the whole province's trade within a decade."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -321,15 +329,18 @@
       "status": "ruined",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Barsaebic Ayleids; Lore:Silyanorn; Lore:Twyllbek Ruins"
+        "Lore:Barsaebic Ayleids; Lore:Silyanorn; Lore:Twyllbek Ruins",
+        "uesp:Lore:Barsaebic Ayleids",
+        "world/sources/lore/topics/lost-peoples.md",
+        "world/sources/lore/duskfall.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "Barsaebic Ayleid works that predate everything around them and go down rather than up.",
         "siteAdvantages": "Whatever the Ayleids wanted here is below the water table now.",
-        "occupantsMotive": "Nothing that talks.",
-        "pressures": "Antiquarians want in and the interior tribes have no stake either way.",
-        "wouldChangeIf": "A dig licence from anywhere would open it."
+        "occupantsMotive": "Nothing that talks. Nothing that talks \u2014 but the lower rings are dry, which in this region is enough to explain everything else that lives there.",
+        "pressures": "Antiquarians want in and the interior tribes have no stake either way. Antiquarians want in and the interior tribes have no stake either way, so the only obstacle is that nobody with a licence has survived the descent.",
+        "wouldChangeIf": "A dig licence from anywhere would open it. A dig licence from anywhere would open it, and the Helstrom assembly would then have to decide, for the first time, whether Ayleid stone falls under the Duskfall taboo."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -422,15 +433,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "Lore:Dead-Water (crocodiles); Lore:Lizard-Steed; Lore:Riverbacks (osheeja gar)"
+        "Lore:Dead-Water (crocodiles); Lore:Lizard-Steed; Lore:Riverbacks (osheeja gar)",
+        "uesp:Lore:Lizard-Steed",
+        "world/sources/lore/topics/fauna-hazards.md",
+        "world/sources/catalogue/type-recipes.json#beast-keeper-village"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A village that breeds the only animals that can carry a load across the interior's soft ground.",
         "siteAdvantages": "Wide firm grazing on a flood-high rise with a soft-ground schooling paddock beside it.",
-        "occupantsMotive": "Breeders who supply every interior porter route and price accordingly.",
-        "pressures": "Their stock is worth stealing and the roads they supply are raided.",
-        "wouldChangeIf": "A road built into the interior would end their monopoly overnight."
+        "occupantsMotive": "Breeders who supply every interior porter route and price accordingly. Breeders who supply every interior porter route and price accordingly, and who will sell a gelded steed to anyone and a breeding pair to nobody.",
+        "pressures": "Their stock is worth stealing and the roads they supply are raided. Their stock is worth stealing and the roads they supply are raided, so a third of their yearly yield now goes to escorts rather than to buyers.",
+        "wouldChangeIf": "A road built into the interior would end their monopoly overnight. A road built into the interior would end their monopoly overnight \u2014 which is one reason the village has never supported a road survey."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -523,15 +537,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Wamasu (Haynekhtnamet of Shadowfen received offerings to stop seasonal flooding)"
+        "Lore:Wamasu (Haynekhtnamet of Shadowfen received offerings to stop seasonal flooding)",
+        "world/sources/lore/topics/fauna-hazards.md",
+        "docs/world/50-hydrology-climate.md",
+        "world/sources/catalogue/type-recipes.json#beast-offering-shrine"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A shrine where offerings are made to hold back the flood, maintained by four villages jointly.",
         "siteAdvantages": "The pinch point where the flood enters this basin.",
-        "occupantsMotive": "Nobody lives here; four villages take turns.",
-        "pressures": "The floods have not obeyed for three years and the villages are blaming each other.",
-        "wouldChangeIf": "One more bad year and the shrine will be abandoned or rebuilt bigger."
+        "occupantsMotive": "Nobody lives here; four villages take turns. Nobody lives here; four villages take turns, and the turn order is older than any of their current naheesh.",
+        "pressures": "The floods have not obeyed for three years and the villages are blaming each other. The floods have not obeyed for three years and the villages are blaming each other, chiefly the one whose turn fell in the worst year.",
+        "wouldChangeIf": "One more bad year and the shrine will be abandoned or rebuilt bigger. One more bad year and the shrine will be abandoned or rebuilt bigger, and either decision breaks the four-village compact that is the district's only joint institution."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -622,15 +639,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Hist (a settlement without a Hist is always political)"
+        "Lore:Hist (a settlement without a Hist is always political)",
+        "world/sources/lore/topics/hist-and-sap.md",
+        "world/sources/lore/topics/hist-placement.md",
+        "uesp:Lore:Hist"
       ],
       "confidence": "medium",
       "why": {
         "founding": "Their Hist was killed in the Imperial century; the tribe recovered the Mnemic Egg and organised itself around keeping it.",
-        "siteAdvantages": "They did not move \u2014 the dead trunk is still the centre of the village.",
+        "siteAdvantages": "They did not move \u2014 the dead trunk is still the centre of the village. They did not move \u2014 the dead trunk is still the centre of the village, and the Egg is kept inside it, which is both reliquary and argument.",
         "occupantsMotive": "Custodians of a memory nobody can currently read.",
-        "pressures": "Three other tribes claim a share of the Egg; one has offered to buy it.",
-        "wouldChangeIf": "Reading the Egg \u2014 which the main quest's archivists could \u2014 would resolve or destroy them."
+        "pressures": "Three other tribes claim a share of the Egg; one has offered to buy it. Three other tribes claim a share of the Egg; one has offered to buy it, and the offer was made publicly so that refusing it would look like hoarding.",
+        "wouldChangeIf": "Reading the Egg \u2014 which the main quest's archivists could \u2014 would resolve or destroy them. Reading the Egg \u2014 which the main quest's archivists could \u2014 would resolve or destroy them, and every claimant tribe knows which outcome it is betting on."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -725,15 +745,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "Lore:Wamasu (luminescent organs); Lore:Guar (Glowgill); module 55 (night is authored world state, so night-only places are legitimate)"
+        "Lore:Wamasu (luminescent organs); Lore:Guar (Glowgill); module 55 (night is authored world state, so night-only places are legitimate)",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/lore/topics/ecology-encounters-loot.md",
+        "world/sources/catalogue/type-recipes.json#bioluminescent-water"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A fen where the water itself lights at night from Hist-flower fall.",
         "siteAdvantages": "Still water directly downstream of a hero Hist's grove.",
-        "occupantsMotive": "Nobody; the villages come to look, once a year.",
-        "pressures": "It only lights while the tree above flowers, which is a diagnostic nobody wants to need.",
-        "wouldChangeIf": "The tree failing would put the fen out."
+        "occupantsMotive": "Nobody; the villages come to look, once a year. Nobody; the villages come to look, once a year, on a night fixed by the Tsoko stones rather than by the fen.",
+        "pressures": "It only lights while the tree above flowers, which is a diagnostic nobody wants to need. It only lights while the tree above flowers, which is a diagnostic nobody wants to need \u2014 and this year the light came late and stopped early.",
+        "wouldChangeIf": "The tree failing would put the fen out. The tree failing would put the fen out, and the fen going out is how the district would learn of it, weeks before the grove admitted anything."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -830,15 +853,18 @@
       "status": "active",
       "provenance": "density-fill",
       "sources": [
-        "Lore:Blackrose Prison (the Blackguards' heirs, prison-descended three generations)"
+        "Lore:Blackrose Prison (the Blackguards' heirs, prison-descended three generations)",
+        "uesp:Lore:Blackrose",
+        "world/sources/lore/topics/prisons.md",
+        "world/sources/lore/topics/labour-and-bondage.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A Blackguard crew hiding in the interior because nowhere else will have them.",
         "siteAdvantages": "Deep, off every route, with one boat exit.",
-        "occupantsMotive": "Criminals with no ledger and no discipline.",
-        "pressures": "They cannot resupply and are starting to raid villages they need.",
-        "wouldChangeIf": "A village retaliation would finish them within a year."
+        "occupantsMotive": "Criminals with no ledger and no discipline. Criminals with no ledger and no discipline, most of them three generations out of Blackrose and unable to work anywhere their descent is known.",
+        "pressures": "They cannot resupply and are starting to raid villages they need. They cannot resupply and are starting to raid villages they need, which is the pattern that has finished every raw hold before this one.",
+        "wouldChangeIf": "A village retaliation would finish them within a year. A village retaliation would finish them within a year, and the interior tribes have already agreed among themselves which village would lead it."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -932,15 +958,18 @@
       "status": "active",
       "provenance": "density-fill",
       "sources": [
-        "Lore:Murkmire (platforms ascending from ground to hover above water)"
+        "Lore:Murkmire (platforms ascending from ground to hover above water)",
+        "world/sources/lore/regions/murkmire.md",
+        "world/sources/lore/topics/material-culture.md",
+        "world/sources/catalogue/type-recipes.json#boardwalk-village"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A village that grew as a junction of walkways rather than around a centre.",
-        "siteAdvantages": "Where four routes over soft ground have to meet, because there is nowhere else to put them.",
+        "siteAdvantages": "Where four routes over soft ground have to meet, because there is nowhere else to put them. Where four routes over soft ground have to meet, because there is nowhere else to put them \u2014 the junction is the village's whole capital.",
         "occupantsMotive": "Walkway-keepers who charge for maintenance and argue about who owes what.",
-        "pressures": "The walkways cost more to keep than the village earns.",
-        "wouldChangeIf": "Losing one arm of the junction would strand a whole tribe's route."
+        "pressures": "The walkways cost more to keep than the village earns. The walkways cost more to keep than the village earns, and the keepers have begun charging tolls that the tribes using the arms consider extortion.",
+        "wouldChangeIf": "Losing one arm of the junction would strand a whole tribe's route. Losing one arm of the junction would strand a whole tribe's route, and the tribe in question has started surveying its own alternative rather than keep paying."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1036,15 +1065,18 @@
       "provenance": "lore-implied",
       "sources": [
         "docs/quests/20-world-provisions.md \u00a712b (grave-stakes; pulling one raises a bog blight)",
-        "Lore:Argonian (pulling a grave-stake raises a bog blight); fauna-hazards dossier (pahnjees)"
+        "Lore:Argonian (pulling a grave-stake raises a bog blight); fauna-hazards dossier (pahnjees)",
+        "world/sources/lore/tribes.md",
+        "uesp:Lore:Argonian",
+        "world/sources/catalogue/type-recipes.json#bog-blight-ground"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A grave-stake field where stakes were pulled by looters, raising what the stakes were holding.",
         "siteAdvantages": "An old village's burial ground, now cut off from any living village.",
-        "occupantsMotive": "Bog blights, and nothing else.",
-        "pressures": "The stakes are still being pulled because the grave goods are real.",
-        "wouldChangeIf": "Restaking the field would settle it \u2014 a deed, not a battle."
+        "occupantsMotive": "Bog blights, and nothing else. Bog blights, and nothing else \u2014 which is why the field has become a training ground the grave-singers send apprentices to, quietly.",
+        "pressures": "The stakes are still being pulled because the grave goods are real. The stakes are still being pulled because the grave goods are real, and the looters are not outsiders but the heirs of the village that abandoned it.",
+        "wouldChangeIf": "Restaking the field would settle it \u2014 a deed, not a battle. Restaking the field would settle it \u2014 a deed, not a battle \u2014 and would settle who the grave goods belong to, which is why nobody local has done it."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1142,15 +1174,18 @@
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/hist-placement.md R4 (bones brought to the dirt)",
-        "Lore:Argonian (bones brought to the dirt redeem a death away from the Hist); White Rose Prison"
+        "Lore:Argonian (bones brought to the dirt redeem a death away from the Hist); White Rose Prison",
+        "uesp:Lore:Argonian",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/lore/extrapolation/argonia-4e201-state.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A staging post on the route by which the bones of Argonians who died away from the Hist are brought back to the dirt.",
-        "siteAdvantages": "Where the river route meets the interior walking route.",
-        "occupantsMotive": "Carriers, who are a recognised profession and a slightly feared one.",
+        "siteAdvantages": "Where the river route meets the interior walking route. Where the river route meets the interior walking route, at the last point a bundle can be re-wrapped and re-labelled before the walk.",
+        "occupantsMotive": "Carriers, who are a recognised profession and a slightly feared one. Carriers, who are a recognised profession and a slightly feared one, paid by the family and never by the village, so their loyalty is always to the dead.",
         "pressures": "The 4E produced more distant dead than the route can carry.",
-        "wouldChangeIf": "A backlog is already visible in the racks."
+        "wouldChangeIf": "A backlog is already visible in the racks. A backlog is already visible in the racks, and a second season's backlog would force the carriers to choose which families' dead go first \u2014 a power no one wants them to have."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1242,15 +1277,18 @@
       "status": "ruined",
       "provenance": "geography-derived",
       "sources": [
-        "Lore:Xanmeer (~15% broken); xanmeer-mesoamerican-reference (ruins subsumed by vegetation)"
+        "Lore:Xanmeer (~15% broken); xanmeer-mesoamerican-reference (ruins subsumed by vegetation)",
+        "uesp:Lore:Xanmeer",
+        "world/sources/lore/duskfall.md",
+        "world/sources/lore/topics/lost-peoples.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A xanmeer the forest took: root has replaced stone in about half the structure.",
         "siteAdvantages": "Nobody defended it and the ground is soft, so the roots won.",
-        "occupantsMotive": "Whatever lives in a warm dry hollow.",
-        "pressures": "It is still settling and floors give way.",
-        "wouldChangeIf": "Nothing will change it \u2014 it is becoming root, and that is the interior's answer to stone."
+        "occupantsMotive": "Whatever lives in a warm dry hollow. Whatever lives in a warm dry hollow \u2014 and, twice a year, the tenders from the clan-tended meer, who come to see what stone becoming root looks like.",
+        "pressures": "It is still settling and floors give way. It is still settling and floors give way, so the treasure-hunting outfits price it as unworkable and the tribes have stopped arguing about it.",
+        "wouldChangeIf": "Nothing will change it \u2014 it is becoming root, and that is the interior's answer to stone. Nothing will change it \u2014 it is becoming root, and that is the interior's answer to stone, which the restarted-work heretics cite as the counter-argument to their own project."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1344,15 +1382,18 @@
       "status": "ruined",
       "provenance": "geography-derived",
       "sources": [
-        "Lore:Rootworm; hist-placement dossier"
+        "Lore:Rootworm; hist-placement dossier",
+        "uesp:Lore:Rootworm",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/catalogue/type-recipes.json#bubble-spire-exit"
       ],
       "confidence": "medium",
       "why": {
         "founding": "An older spire that fell in and took its line with it.",
         "siteAdvantages": "It stands on the route it used to serve, which is why it is still a landmark.",
-        "occupantsMotive": "Nobody; a shrine at the base gets offerings anyway.",
-        "pressures": "The line beyond it has been unreachable for a century.",
-        "wouldChangeIf": "Reopening it would restore a route to the deep basin."
+        "occupantsMotive": "Nobody; a shrine at the base gets offerings anyway. Nobody; a shrine at the base gets offerings anyway, left mostly by Waykeepers who will not admit to believing a line can be prayed open.",
+        "pressures": "The line beyond it has been unreachable for a century. The line beyond it has been unreachable for a century, and the villages it served have reorganised their trade around Helstrom instead.",
+        "wouldChangeIf": "Reopening it would restore a route to the deep basin. Reopening it would restore a route to the deep basin, halve the porter relay's traffic, and give the Waykeepers a second terminus they have not asked for."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1443,15 +1484,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Rootworm; hist-placement dossier"
+        "Lore:Rootworm; hist-placement dossier",
+        "uesp:Lore:Rootworm",
+        "world/sources/lore/helstrom.md",
+        "world/sources/catalogue/type-recipes.json#bubble-spire-exit"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A working rootworm-line exit where the root layer vents to the surface.",
         "siteAdvantages": "A firm rise the spire could break through without flooding.",
-        "occupantsMotive": "Waykeepers and the porters who meet the line here.",
-        "pressures": "It is the only exit on this side of the basin and everyone knows it.",
-        "wouldChangeIf": "A collapse would strand the whole eastern line."
+        "occupantsMotive": "Waykeepers and the porters who meet the line here. Waykeepers and the porters who meet the line here, in an arrangement where neither party can price the other out because neither can work without them.",
+        "pressures": "It is the only exit on this side of the basin and everyone knows it. It is the only exit on this side of the basin and everyone knows it, so the Waykeepers' restricted service is the most valuable faction reward in the interior.",
+        "wouldChangeIf": "A collapse would strand the whole eastern line. A collapse would strand the whole eastern line, and the collapsed spire two days north is what that looks like a century later."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1545,15 +1589,18 @@
       "status": "ruined",
       "provenance": "geography-derived",
       "sources": [
-        "Lore:Black Marsh (Legate Elissia Mallicius set the marsh alight, 1E 2828; parts still burn)"
+        "Lore:Black Marsh (Legate Elissia Mallicius set the marsh alight, 1E 2828; parts still burn)",
+        "uesp:Lore:Black Marsh",
+        "world/sources/lore/topics/history-timeline.md",
+        "world/sources/lore/black-marsh-province.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A village burned in the century of uprisings and never rebuilt.",
-        "siteAdvantages": "It stood on the only firm ground on this reach, which is why the burners came.",
+        "siteAdvantages": "It stood on the only firm ground on this reach, which is why the burners came. It stood on the only firm ground on this reach, which is why the burners came \u2014 and why nobody has been able to leave the ground unused since.",
         "occupantsMotive": "Nobody; a bone-carriers' camp visits.",
-        "pressures": "The neighbouring tribes disagree about who burned it.",
-        "wouldChangeIf": "A settled account would let someone rebuild."
+        "pressures": "The neighbouring tribes disagree about who burned it. The neighbouring tribes disagree about who burned it: one says the Legion under Mallicius, one says a rival tribe used the burning as cover.",
+        "wouldChangeIf": "A settled account would let someone rebuild. A settled account would let someone rebuild, and there is firm ground here for a village of two hundred in a district that has none to spare."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1645,15 +1692,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "traversal: no canon tree-way network; treat arboreal routes as local, not a system"
+        "traversal: no canon tree-way network; treat arboreal routes as local, not a system",
+        "world/sources/lore/regions/murkmire.md",
+        "world/sources/lore/topics/material-culture.md",
+        "world/sources/catalogue/type-recipes.json#canopy-crossing"
       ],
       "confidence": "medium",
       "why": {
         "founding": "An aerial root that bridged two hammocks and was made walkable rather than cut down.",
         "siteAdvantages": "Twenty metres up, over ground that floods completely.",
-        "occupantsMotive": "Nobody; the nearest village maintains the rope line.",
-        "pressures": "The root is alive and is slowly moving.",
-        "wouldChangeIf": "It will eventually be too steep to walk, and everyone knows the year."
+        "occupantsMotive": "Nobody; the nearest village maintains the rope line. Nobody; the nearest village maintains the rope line, because the alternative is a half-day round the flooded ground and their fish spoils in that time.",
+        "pressures": "The root is alive and is slowly moving. The root is alive and is slowly moving, and the rope line has been re-rigged three times to follow it.",
+        "wouldChangeIf": "It will eventually be too steep to walk, and everyone knows the year. It will eventually be too steep to walk, and everyone knows the year \u2014 the village has already started arguing about whether to build a walkway instead."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1744,15 +1794,17 @@
       "status": "abandoned",
       "provenance": "geography-derived",
       "sources": [
-        "traversal: no canon tree-way network; treat arboreal routes as local, not a system"
+        "traversal: no canon tree-way network; treat arboreal routes as local, not a system",
+        "world/sources/lore/regions/murkmire.md",
+        "world/sources/catalogue/type-recipes.json#canopy-crossing"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A rope crossing rigged by an expedition that did not come back for it.",
         "siteAdvantages": "It spans a whitewater reach nothing else crosses.",
-        "occupantsMotive": "Nobody.",
-        "pressures": "The rope is old and there is no way to test it but to use it.",
-        "wouldChangeIf": "Someone re-rigging it would open the route again."
+        "occupantsMotive": "Nobody. Nobody \u2014 the expedition's gear is still cached at the far anchor, which is the strongest evidence anyone has about where they went.",
+        "pressures": "The rope is old and there is no way to test it but to use it. The rope is old and there is no way to test it but to use it, and the guides price a client's insistence on crossing it accordingly.",
+        "wouldChangeIf": "Someone re-rigging it would open the route again. Someone re-rigging it would open the route again and would put the dead treasure-hunters' camp within a day of the basin guides' shelter."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1842,15 +1894,17 @@
       "status": "ruined",
       "provenance": "geography-derived",
       "sources": [
-        "acceptance rule: large logical surfaces climbable by default; xanmeer-mesoamerican-reference"
+        "acceptance rule: large logical surfaces climbable by default; xanmeer-mesoamerican-reference",
+        "uesp:Lore:Xanmeer",
+        "docs/world/00-core.md (acceptance rule: large logical surfaces climbable by default)"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A xanmeer whose terraces are the region's only climbing wall.",
         "siteAdvantages": "Standing stone above the flood, with the interior intact and sealed.",
-        "occupantsMotive": "None on the roof; plenty below it.",
-        "pressures": "The route up is easier than the route down.",
-        "wouldChangeIf": "Nothing."
+        "occupantsMotive": "None on the roof; plenty below it. None on the roof; plenty below it, which is the whole design of the reward: the climb is safe and the temptation at the top is not.",
+        "pressures": "The route up is easier than the route down. The route up is easier than the route down, and the terrace collects what climbers abandoned rather than carry.",
+        "wouldChangeIf": "Nothing. Nothing \u2014 unless the tending tribe decides that climbing counts as entering, which is a ruling the heretic-stone dispute could force."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1973,7 +2027,9 @@
         "world/sources/lore/topics/ecology-encounters-loot.md (Middle Argonia: \"pinnacled mountains\" that collapse at a ripple)",
         "uesp:Lore:Argonia (the interior's pinnacled mountains)",
         "docs/world/00-core.md (acceptance rule: large logical surfaces climbable by default)",
-        "world/sources/catalogue/type-recipes.json#collapsing-pinnacle"
+        "world/sources/catalogue/type-recipes.json#collapsing-pinnacle",
+        "world/sources/lore/topics/ecology-encounters-loot.md",
+        "docs/world/50-hydrology-climate.md"
       ],
       "confidence": "high",
       "why": {
@@ -2048,15 +2104,18 @@
       "provenance": "quest-required",
       "sources": [
         "docs/quests/30-main-quest.md (the Unbound Root)",
-        "Lore:Sul-Xan (jade death masks, green raider tattoos, soul-snares; Xi-Tsei, Rockgrove, the Silent Halls)"
+        "Lore:Sul-Xan (jade death masks, green raider tattoos, soul-snares; Xi-Tsei, Rockgrove, the Silent Halls)",
+        "world/sources/lore/topics/sithis-nisswo-shadowscales.md",
+        "world/sources/lore/topics/hist-placement.md",
+        "uesp:Lore:Sul-Xan"
       ],
       "confidence": "medium",
       "why": {
         "founding": "An Unbound Root staging camp for work on a nearby tree.",
         "siteAdvantages": "Close enough to the target root line and far enough from any village.",
-        "occupantsMotive": "Cultists staging, not raiding \u2014 this is a work camp with a doctrine.",
-        "pressures": "The nearest village has noticed the traffic.",
-        "wouldChangeIf": "Exposure moves them deeper."
+        "occupantsMotive": "Cultists staging, not raiding \u2014 this is a work camp with a doctrine. Cultists staging, not raiding \u2014 this is a work camp with a doctrine, and the doctrine is that a tree severed from the collective can be spoken to alone.",
+        "pressures": "The nearest village has noticed the traffic. The nearest village has noticed the traffic and has said nothing, because the two households who noticed first are being paid.",
+        "wouldChangeIf": "Exposure moves them deeper. Exposure moves them deeper, and the gallery cell they are supplying would lose its method-testing site with a season's work still to do."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -2152,15 +2211,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Hist; Lore:Argonian; settlement-register M3 band"
+        "Lore:Hist; Lore:Argonian; settlement-register M3 band",
+        "world/sources/lore/topics/hist-placement.md",
+        "uesp:Lore:Lilmoth",
+        "world/sources/lore/extrapolation/settlement-register.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A tribe whose tree died carried a root fragment two days' walk and replanted it \u2014 the Lilmoth precedent, done by villagers.",
         "siteAdvantages": "New ground chosen for the cutting's sake: spring water, shelter, no old roots to compete.",
-        "occupantsMotive": "A tribe raising a tree the way others raise a clutch.",
-        "pressures": "The cutting speaks faintly and only to two of them, which is beginning to be a political fact.",
-        "wouldChangeIf": "If the cutting failed they would have nothing left to be."
+        "occupantsMotive": "A tribe raising a tree the way others raise a clutch. A tribe raising a tree the way others raise a clutch, with a tending rota that has replaced every office the old tree supported.",
+        "pressures": "The cutting speaks faintly and only to two of them, which is beginning to be a political fact. The cutting speaks faintly and only to two of them, which is beginning to be a political fact: those two are young and neither wanted the standing.",
+        "wouldChangeIf": "If the cutting failed they would have nothing left to be. If the cutting failed they would have nothing left to be, and the Hist-less refuge two days away has already offered to take them, which they find unbearable."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -2259,15 +2321,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "material-culture (daril); Lore:Argonian"
+        "material-culture (daril); Lore:Argonian",
+        "world/sources/lore/topics/material-culture.md",
+        "world/sources/lore/topics/ecology-encounters-loot.md",
+        "world/sources/catalogue/type-recipes.json#daril-fermentary"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A daril operation that needs live venomous stock, constant heat and no neighbours.",
-        "siteAdvantages": "Deep interior warmth and total isolation \u2014 the three requirements met at once.",
+        "siteAdvantages": "Deep interior warmth and total isolation \u2014 the three requirements met at once. Deep interior warmth and total isolation \u2014 the three requirements met at once, on ground too poor to interest any tribe.",
         "occupantsMotive": "Fermenters who are half chemists and half snake-keepers.",
-        "pressures": "Their product ruins people in four cities and they know their buyers by name.",
-        "wouldChangeIf": "A raid would move the trade, not end it."
+        "pressures": "Their product ruins people in four cities and they know their buyers by name. Their product ruins people in four cities and they know their buyers by name, and one of those buyers is now buying more than the cities can consume.",
+        "wouldChangeIf": "A raid would move the trade, not end it. A raid would move the trade, not end it \u2014 the stock is the asset, and it walks."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -2362,15 +2427,18 @@
       "status": "drowned",
       "provenance": "geography-derived",
       "sources": [
-        "acceptance rule: underwater POIs throughout appropriate regions; Lore:Lakemire Xanmeer"
+        "acceptance rule: underwater POIs throughout appropriate regions; Lore:Lakemire Xanmeer",
+        "uesp:Lore:Xanmeer",
+        "docs/world/50-hydrology-climate.md",
+        "world/sources/catalogue/type-recipes.json#dive-shaft"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A xanmeer's ceremonial well shaft, now the only way into its flooded lower halls.",
         "siteAdvantages": "A vertical shaft in stone that has not moved in an age.",
-        "occupantsMotive": "Nothing living; the shaft is the entrance to something that is.",
-        "pressures": "The water is rising and the entrance ledge is nearly submerged.",
-        "wouldChangeIf": "A dry season opens two more chambers."
+        "occupantsMotive": "Nothing living; the shaft is the entrance to something that is. Nothing living; the shaft is the entrance to something that is, and the divers who work it go in pairs and come out alone often enough to be notable.",
+        "pressures": "The water is rising and the entrance ledge is nearly submerged. The water is rising and the entrance ledge is nearly submerged, which will shortly turn a difficult dive into an impossible one.",
+        "wouldChangeIf": "A dry season opens two more chambers. A dry season opens two more chambers and would bring every treasure outfit in the interior to a ruin the tenders consider consecrated."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -2463,15 +2531,18 @@
       "status": "seasonal",
       "provenance": "geography-derived",
       "sources": [
-        "region grammar: lake & standing water; module 50 (seasonal water levels are authored world state)"
+        "region grammar: lake & standing water; module 50 (seasonal water levels are authored world state)",
+        "docs/world/50-hydrology-climate.md",
+        "world/sources/lore/topics/ecology-encounters-loot.md",
+        "world/sources/catalogue/type-recipes.json#drawdown-flat"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A shallow bed that empties in the dry season and exposes everything ever lost in it.",
         "siteAdvantages": "A wide shallow basin with a seasonal outlet.",
-        "occupantsMotive": "Scavengers, in season; nothing, out of it.",
-        "pressures": "The exposure window is short and competitive.",
-        "wouldChangeIf": "A wetter cycle would close the window entirely."
+        "occupantsMotive": "Scavengers, in season; nothing, out of it. Scavengers, in season; nothing, out of it \u2014 and the same four families each year, who treat the window as inherited property.",
+        "pressures": "The exposure window is short and competitive. The exposure window is short and competitive, and last year two of the families arrived early and drained a channel to widen it.",
+        "wouldChangeIf": "A wetter cycle would close the window entirely. A wetter cycle would close the window entirely and would end an income four households have built their year around."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -2562,15 +2633,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Bright-Throat; Lore:Naga-Kur (starblossom, red paint, the kaju kill)"
+        "Lore:Bright-Throat; Lore:Naga-Kur (starblossom, red paint, the kaju kill)",
+        "world/sources/lore/topics/hist-and-sap.md",
+        "uesp:Lore:Hist Sap",
+        "world/sources/catalogue/type-recipes.json#dream-wallow"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A natural sap pool used for sanctioned communion, licensed by the nearest tree-minder.",
         "siteAdvantages": "Where a hero Hist's roots surface in a hollow and fill it.",
-        "occupantsMotive": "A tender who controls dose and turn.",
-        "pressures": "Unlicensed users come at night; the tender knows and mostly allows it.",
-        "wouldChangeIf": "Overuse would produce another Miredance."
+        "occupantsMotive": "A tender who controls dose and turn. A tender who controls dose and turn, appointed by the tree-minder and answerable to the grove rather than to the users.",
+        "pressures": "Unlicensed users come at night; the tender knows and mostly allows it. Unlicensed users come at night; the tender knows and mostly allows it, on the calculation that a policed wallow becomes a starblossom hollow.",
+        "wouldChangeIf": "Overuse would produce another Miredance. Overuse would produce another Miredance, which is two days away and is the argument the tender uses on anyone who wants the dose raised."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -2662,15 +2736,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "Lore:Bright-Throat; Lore:Naga-Kur (starblossom, red paint, the kaju kill)"
+        "Lore:Bright-Throat; Lore:Naga-Kur (starblossom, red paint, the kaju kill)",
+        "world/sources/lore/topics/material-culture.md",
+        "world/sources/lore/tribes.md",
+        "world/sources/catalogue/type-recipes.json#dream-wallow"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A wallow used for the other kind of dreaming, without a tree's permission.",
         "siteAdvantages": "A cold hollow where starblossom grows thickly.",
-        "occupantsMotive": "Nobody official; users, and someone who sells to them.",
-        "pressures": "The tree-minders regard it as theft of a rite.",
-        "wouldChangeIf": "A crackdown would move it, not end it."
+        "occupantsMotive": "Nobody official; users, and someone who sells to them. Nobody official; users, and someone who sells to them, who is from the licensed stage and is not supposed to be here at all.",
+        "pressures": "The tree-minders regard it as theft of a rite. The tree-minders regard it as theft of a rite, and have twice asked the assembly to name it, which would make it prosecutable and popular.",
+        "wouldChangeIf": "A crackdown would move it, not end it. A crackdown would move it, not end it \u2014 the plant grows in every cold hollow in the district and the hollows are not countable."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -2761,15 +2838,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "module 50 (tides and water levels as world state); Lore:Sea Transportation"
+        "module 50 (tides and water levels as world state); Lore:Sea Transportation",
+        "docs/world/50-hydrology-climate.md",
+        "uesp:Lore:Sea Transportation",
+        "world/sources/catalogue/type-recipes.json#drowning-narrows"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A narrows where the wet-season flow becomes lethal for a fortnight.",
         "siteAdvantages": "The only crossing on this reach, and the pinch is why.",
-        "occupantsMotive": "None; the nearest village posts a watch in season.",
-        "pressures": "The watch is not always posted.",
-        "wouldChangeIf": "A bridge would solve it and no one will pay."
+        "occupantsMotive": "None; the nearest village posts a watch in season. None; the nearest village posts a watch in season, unpaid, on a rota that the two poorest households do most of.",
+        "pressures": "The watch is not always posted. The watch is not always posted, and the years it lapses are the years the village has men working the porter relay instead.",
+        "wouldChangeIf": "A bridge would solve it and no one will pay. A bridge would solve it and no one will pay \u2014 the four villages that would use it each hold that the crossing benefits the others more."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -2860,15 +2940,18 @@
       "status": "ruined",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Duskfall; material-culture (stone as a moral error post-Duskfall) \u2014 this type is where that rule is visibly made"
+        "Lore:Duskfall; material-culture (stone as a moral error post-Duskfall) \u2014 this type is where that rule is visibly made",
+        "uesp:Lore:Duskfall",
+        "world/sources/lore/duskfall.md",
+        "world/sources/lore/topics/material-culture.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A xanmeer taken apart by its own builders at the Duskfall rather than abandoned.",
         "siteAdvantages": "The stone was carried away, so what remains is the plan, not the building.",
-        "occupantsMotive": "Nobody. The heretic-stone village quarries it and is condemned for that.",
-        "pressures": "It is the clearest physical evidence of the renunciation, and the restarted work is using it.",
-        "wouldChangeIf": "Rebuilding on it would be the loudest possible statement."
+        "occupantsMotive": "Nobody. The heretic-stone village quarries it and is condemned for that. Nobody. The heretic-stone village quarries it and is condemned for that, and the condemnation has not stopped a single cart.",
+        "pressures": "It is the clearest physical evidence of the renunciation, and the restarted work is using it. It is the clearest physical evidence of the renunciation, and the restarted work is using it \u2014 so the monument to the taboo is being eaten by the taboo's breach.",
+        "wouldChangeIf": "Rebuilding on it would be the loudest possible statement. Rebuilding on it would be the loudest possible statement, and the Helstrom assembly has avoided visiting for eleven years rather than have to respond to one."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -2964,14 +3047,17 @@
       "status": "ruined",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Ayleids; Lore:Barsaebic Ayleids"
+        "Lore:Ayleids; Lore:Barsaebic Ayleids",
+        "uesp:Lore:Barsaebic Ayleids",
+        "world/sources/lore/topics/lost-peoples.md",
+        "world/sources/catalogue/type-recipes.json#fenlord-tomb"
       ],
       "confidence": "medium",
       "why": {
         "founding": "An Ayleid fenlord's tomb in ground the marsh has kept sealed.",
-        "siteAdvantages": "Deep basin; no route, no neighbours, no witnesses.",
-        "occupantsMotive": "The tomb's own occupants.",
-        "pressures": "It is intact, which is why nothing that has entered has come out.",
+        "siteAdvantages": "Deep basin; no route, no neighbours, no witnesses. Deep basin; no route, no neighbours, no witnesses \u2014 and the marsh has kept the seal wet, which is why the stone has not moved.",
+        "occupantsMotive": "The tomb's own occupants. The tomb's own occupants, undisturbed since before the Duskfall and unrelated to anything the interior tribes recognise as dead.",
+        "pressures": "It is intact, which is why nothing that has entered has come out. It is intact, which is why nothing that has entered has come out; two antiquarian parties are known to have gone in and the second went looking for the first.",
         "wouldChangeIf": "Nothing."
       },
       "sitingPrefs": {
@@ -3066,15 +3152,18 @@
       "status": "active",
       "provenance": "density-fill",
       "sources": [
-        "region grammar: seasonal floodplain"
+        "region grammar: seasonal floodplain",
+        "docs/world/50-hydrology-climate.md",
+        "uesp:Lore:Saltrice",
+        "world/sources/catalogue/type-recipes.json#flood-high-hamlet"
       ],
       "confidence": "medium",
       "why": {
         "founding": "Six households on the only ground for two kilometres that stays dry in the wet season.",
         "siteAdvantages": "A single flood-high rise, entirely occupied.",
-        "occupantsMotive": "Farmers who cannot expand and will not leave.",
-        "pressures": "Every neighbour wants shelter on their rise in the wet season and they cannot house them.",
-        "wouldChangeIf": "A wetter decade would make them a refuge camp instead of a hamlet."
+        "occupantsMotive": "Farmers who cannot expand and will not leave. Farmers who cannot expand and will not leave, working back-swamp rice that only exists because the rise splits the flood.",
+        "pressures": "Every neighbour wants shelter on their rise in the wet season and they cannot house them. Every neighbour wants shelter on their rise in the wet season and they cannot house them, and the refusals are remembered longer than the floods.",
+        "wouldChangeIf": "A wetter decade would make them a refuge camp instead of a hamlet. A wetter decade would make them a refuge camp instead of a hamlet, and the households already know which of them would have to go."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -3167,15 +3256,18 @@
       "sources": [
         "Lore:Greenspring (Arena neighbour name)",
         "world/sources/lore/extrapolation/settlement-register.md \u00a74",
-        "Lore:Hist; Lore:Argonian; settlement-register M3 band"
+        "Lore:Hist; Lore:Argonian; settlement-register M3 band",
+        "world/sources/lore/helstrom.md",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/lore/extrapolation/settlement-register.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "Founded at the Panther fork on springs that are genuinely drinkable \u2014 a rare enough thing here to found a village on.",
         "siteAdvantages": "Fork of two channels, clean water, and the last firm ground before the Helstrom approach.",
-        "occupantsMotive": "A tribe that has made itself indispensable as the interior's last friendly stop.",
-        "pressures": "Everyone who goes to Helstrom passes through, including people the tribe would rather not host.",
-        "wouldChangeIf": "If the springs soured the village would move within a season."
+        "occupantsMotive": "A tribe that has made itself indispensable as the interior's last friendly stop. A tribe that has made itself indispensable as the interior's last friendly stop, and charges nothing for water and a great deal for everything else.",
+        "pressures": "Everyone who goes to Helstrom passes through, including people the tribe would rather not host. Everyone who goes to Helstrom passes through, including people the tribe would rather not host \u2014 cult couriers, tappers, and the Veiled Reed's factors.",
+        "wouldChangeIf": "If the springs soured the village would move within a season. If the springs soured the village would move within a season, and the Helstrom approach would lose its only guaranteed clean water in a day's radius."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -3273,15 +3365,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "Lore:Black Marsh (guides choose when to move and refuse to stop where you want)"
+        "Lore:Black Marsh (guides choose when to move and refuse to stop where you want)",
+        "uesp:Lore:Black Marsh",
+        "world/sources/lore/helstrom.md",
+        "world/sources/catalogue/type-recipes.json#guide-camp"
       ],
       "confidence": "medium",
       "why": {
         "founding": "The second night's shelter on the basin crossing, kept stocked by the guides themselves.",
         "siteAdvantages": "The one piece of defensible dry ground at the right distance.",
-        "occupantsMotive": "Whoever is crossing; a caretaker in season.",
-        "pressures": "Stocks get taken by people who do not replace them.",
-        "wouldChangeIf": "An unstocked shelter costs lives and everyone knows it."
+        "occupantsMotive": "Whoever is crossing; a caretaker in season. Whoever is crossing; a caretaker in season, paid jointly by the guides in a levy that has never once been collected in full.",
+        "pressures": "Stocks get taken by people who do not replace them. Stocks get taken by people who do not replace them, and the guides have started marking the crates so that they know whose clients did it.",
+        "wouldChangeIf": "An unstocked shelter costs lives and everyone knows it. An unstocked shelter costs lives and everyone knows it, which is why the guides at the gate camp price the second night higher than the first."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -3373,15 +3468,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Black Marsh (guides choose when to move and refuse to stop where you want)"
+        "Lore:Black Marsh (guides choose when to move and refuse to stop where you want)",
+        "world/sources/lore/helstrom.md",
+        "uesp:Lore:Black Marsh",
+        "world/sources/catalogue/type-recipes.json#guide-camp"
       ],
       "confidence": "medium",
       "why": {
         "founding": "The camp where basin guides wait for hire outside the Helstrom gate.",
         "siteAdvantages": "Just outside the gate \u2014 inside is D0 and the guides are not welcome to loiter there.",
-        "occupantsMotive": "Guides who price by the day and by the route.",
-        "pressures": "Guides die, and the camp's roster is visibly shorter than it was.",
-        "wouldChangeIf": "The main quest's expedition hires from here."
+        "occupantsMotive": "Guides who price by the day and by the route. Guides who price by the day and by the route, and who will refuse a route outright rather than negotiate it \u2014 the refusal is the profession.",
+        "pressures": "Guides die, and the camp's roster is visibly shorter than it was. Guides die, and the camp's roster is visibly shorter than it was; the basin has not got worse, but the traffic has got heavier and less experienced.",
+        "wouldChangeIf": "The main quest's expedition hires from here. The main quest's expedition hires from here, and a hiring on that scale would empty the camp of everyone competent for a season."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -3476,15 +3574,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "fauna-hazards dossier (hackwing); ecology-encounters-loot feed"
+        "fauna-hazards dossier (hackwing); ecology-encounters-loot feed",
+        "world/sources/lore/topics/fauna-hazards.md",
+        "world/sources/lore/topics/ecology-encounters-loot.md",
+        "world/sources/catalogue/type-recipes.json#hackwing-roost"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A dead standing grove that hackwings have used for generations.",
         "siteAdvantages": "Dead timber with clear flight lines \u2014 everything a roost needs.",
-        "occupantsMotive": "The flock.",
-        "pressures": "They take from the beast-keepers' young stock and the keepers want them gone.",
-        "wouldChangeIf": "Culling the roost would end a real nuisance and a real spectacle."
+        "occupantsMotive": "The flock. The flock, which has used this grove long enough that the beast-keepers' grandparents complained about the same birds.",
+        "pressures": "They take from the beast-keepers' young stock and the keepers want them gone. They take from the beast-keepers' young stock and the keepers want them gone; the tribe that owns the grove takes hackwing feathers for its own rites and does not.",
+        "wouldChangeIf": "Culling the roost would end a real nuisance and a real spectacle. Culling the roost would end a real nuisance and a real spectacle, and would cost that tribe the only feather source it recognises as legitimate."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -3578,15 +3679,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "region grammar: raised hammock; Lore:Argonian (staking needs soft ground the hammock crown does not have)"
+        "region grammar: raised hammock; Lore:Argonian (staking needs soft ground the hammock crown does not have)",
+        "uesp:Lore:Argonian",
+        "world/sources/lore/tribes.md",
+        "world/sources/catalogue/type-recipes.json#hammock-crown-terrace"
       ],
       "confidence": "medium",
       "why": {
         "founding": "The ancestor terrace of a tribe that buries high because the ground drowns.",
         "siteAdvantages": "The highest hammock crown in the district.",
-        "occupantsMotive": "Grave-singers who visit; nobody lives here.",
-        "pressures": "Bone-thieves and antiquarians; the tribe patrols in response.",
-        "wouldChangeIf": "A flood reaching the crown would be read as a judgement."
+        "occupantsMotive": "Grave-singers who visit; nobody lives here. Grave-singers who visit; nobody lives here, and the tribe considers residence on the crown a form of trespass on its own ancestors.",
+        "pressures": "Bone-thieves and antiquarians; the tribe patrols in response. Bone-thieves and antiquarians; the tribe patrols in response, and the patrol is now a standing duty that takes four adults out of the fields.",
+        "wouldChangeIf": "A flood reaching the crown would be read as a judgement. A flood reaching the crown would be read as a judgement, and the tribe has already been told twice by a Nisswo that it is coming."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -3678,15 +3782,18 @@
       "status": "active",
       "provenance": "density-fill",
       "sources": [
-        "region grammar: raised hammock; Lore:Black Marsh"
+        "region grammar: raised hammock; Lore:Black Marsh",
+        "world/sources/lore/tribes.md",
+        "world/sources/lore/topics/material-culture.md",
+        "world/sources/catalogue/type-recipes.json#hammock-village"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A village on a tree-island that has never flooded in memory.",
         "siteAdvantages": "A raised hammock with big timber, dry storage and its own spring.",
-        "occupantsMotive": "A tribe rich in dry storage in a region that has almost none.",
-        "pressures": "They store other villages' seed grain and the obligations that come with it.",
-        "wouldChangeIf": "A theft or a rot in the store would ruin four villages at once."
+        "occupantsMotive": "A tribe rich in dry storage in a region that has almost none. A tribe rich in dry storage in a region that has almost none, and richer still in the obligations that storing other people's grain creates.",
+        "pressures": "They store other villages' seed grain and the obligations that come with it. They store other villages' seed grain and the obligations that come with it, and have begun charging in labour rather than in kind, which is how a store becomes a lordship.",
+        "wouldChangeIf": "A theft or a rot in the store would ruin four villages at once. A theft or a rot in the store would ruin four villages at once, and the tribe has no way to insure against it except by holding more."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -3780,15 +3887,18 @@
       "status": "contested",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Hist Sap; Lore:Mazzatun (an enslaved Hist); hist-and-sap dossier (mnemic egg)"
+        "Lore:Hist Sap; Lore:Mazzatun (an enslaved Hist); hist-and-sap dossier (mnemic egg)",
+        "world/sources/lore/topics/hist-and-sap.md",
+        "uesp:Lore:Hist Sap",
+        "world/sources/lore/topics/labour-and-bondage.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A tribal Hist industrially tapped by an outside operation during the Imperial century and never allowed to close.",
         "siteAdvantages": "Close to a navigable channel \u2014 which is why it was chosen and why it is still worked.",
-        "occupantsMotive": "A tapping crew who are not local and a village that has to watch.",
-        "pressures": "The village feels every cut; the crew is armed and licensed by a lapsed authority.",
-        "wouldChangeIf": "Ending the tapping is a quest-shaped act with a village that would owe the player."
+        "occupantsMotive": "A tapping crew who are not local and a village that has to watch. A tapping crew who are not local and a village that has to watch, under a concession issued by an authority that has not existed for a century.",
+        "pressures": "The village feels every cut; the crew is armed and licensed by a lapsed authority. The village feels every cut; the crew is armed and licensed by a lapsed authority, and sells to the same city fence the sap poachers use.",
+        "wouldChangeIf": "Ending the tapping is a quest-shaped act with a village that would owe the player. Ending the tapping is a quest-shaped act with a village that would owe the player, and would put the fence's whole interior supply on the poachers alone."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -3886,15 +3996,18 @@
         "Lore:Helstrom",
         "docs/quests/10-political-frame.md (Helstrom D0 / basin D5)",
         "world/sources/lore/topics/hist-placement.md",
-        "Lore:Helstrom; Lore:Middle Argonia; PGE3/Argonia (survivors of the Battle of Argonia retreat to Helstrom)"
+        "Lore:Helstrom; Lore:Middle Argonia; PGE3/Argonia (survivors of the Battle of Argonia retreat to Helstrom)",
+        "world/sources/lore/helstrom.md",
+        "world/sources/lore/tribes.md",
+        "world/sources/lore/extrapolation/settlement-register.md"
       ],
       "confidence": "high",
       "why": {
         "founding": "Survivors of the Battle of Argonia withdrew to the one place outsiders could not follow, and the grove kept them.",
         "siteAdvantages": "Spring-fed firm ground inside the Hist forest; every interior route ends here and none passes through.",
-        "occupantsMotive": "An assembly of interior naheesh and tree-minders who receive and redistribute rather than rule.",
+        "occupantsMotive": "An assembly of interior naheesh and tree-minders who receive and redistribute rather than rule. An assembly of interior naheesh and tree-minders who receive and redistribute rather than rule, and whose authority ends at the point where a tribe stops sending a delegate.",
         "pressures": "The basin outside the gates is lethal and the city depends on escorted traffic through it; the throne has been empty for centuries.",
-        "wouldChangeIf": "If the interior tribes stopped sending delegates, Helstrom would be a grove with a market in it."
+        "wouldChangeIf": "If the interior tribes stopped sending delegates, Helstrom would be a grove with a market in it. If the interior tribes stopped sending delegates, Helstrom would be a grove with a market in it \u2014 and the convocation's attendance is already falling, publicly and countably."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -4011,15 +4124,18 @@
       "status": "contested",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Mazzatun; Lore:Xit-Xaht; Lore:Duskfall"
+        "Lore:Mazzatun; Lore:Xit-Xaht; Lore:Duskfall",
+        "uesp:Lore:Duskfall",
+        "world/sources/lore/duskfall.md",
+        "world/sources/lore/topics/material-culture.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A tribe that decided the Duskfall renunciation of stone was a mistake and began building again.",
         "siteAdvantages": "An unfinished xanmeer terrace they did not have to quarry \u2014 the stone was already cut and abandoned mid-build.",
-        "occupantsMotive": "Builders who believe permanence is owed to their descendants; a naheesh who says so publicly.",
-        "pressures": "Every neighbouring tribe treats them as heretics, and the Nisswo have opinions.",
-        "wouldChangeIf": "Completion would force the interior to decide whether the taboo is law."
+        "occupantsMotive": "Builders who believe permanence is owed to their descendants; a naheesh who says so publicly. Builders who believe permanence is owed to their descendants; a naheesh who says so publicly, and who has been refused a place at the convocation twice for saying it.",
+        "pressures": "Every neighbouring tribe treats them as heretics, and the Nisswo have opinions. Every neighbouring tribe treats them as heretics, and the Nisswo have opinions \u2014 but the village trades normally, because nobody will refuse cut stone.",
+        "wouldChangeIf": "Completion would force the interior to decide whether the taboo is law. Completion would force the interior to decide whether the taboo is law, and the assembly at Helstrom has no procedure for deciding anything of the kind."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -4113,15 +4229,18 @@
       "status": "active",
       "provenance": "density-fill",
       "sources": [
-        "openworld research \u00a73.2 (hermit: approach cost is the gate; the reward is knowledge, not loot)"
+        "openworld research \u00a73.2 (hermit: approach cost is the gate; the reward is knowledge, not loot)",
+        "world/sources/lore/tribes.md",
+        "uesp:Lore:Argonian",
+        "world/sources/catalogue/type-recipes.json#hermit-hut"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A tribal exile living precisely at the distance their sentence specifies.",
         "siteAdvantages": "The measured edge of their tribe's territory, marked by a totem they may not pass.",
-        "occupantsMotive": "One exile serving a term that has an end date they intend to reach.",
-        "pressures": "Their family leaves food at the totem and does not cross it.",
-        "wouldChangeIf": "The sentence ends in four years and they are counting."
+        "occupantsMotive": "One exile serving a term that has an end date they intend to reach. One exile serving a term that has an end date they intend to reach, and who has kept a tally on the totem that is now the most reliable calendar in the district.",
+        "pressures": "Their family leaves food at the totem and does not cross it. Their family leaves food at the totem and does not cross it, and the youngest of them has started crossing it, which nobody has yet reported.",
+        "wouldChangeIf": "The sentence ends in four years and they are counting. The sentence ends in four years and they are counting \u2014 and the village that sentenced them has changed naheesh twice since and may not honour it."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -4219,15 +4338,18 @@
       "status": "active",
       "provenance": "density-fill",
       "sources": [
-        "openworld research \u00a73.2 (hermit: approach cost is the gate; the reward is knowledge, not loot)"
+        "openworld research \u00a73.2 (hermit: approach cost is the gate; the reward is knowledge, not loot)",
+        "world/sources/lore/topics/hist-and-sap.md",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/catalogue/type-recipes.json#hermit-hut"
       ],
       "confidence": "medium",
       "why": {
         "founding": "Someone who went into the basin and stayed.",
-        "siteAdvantages": "A dry root hollow with water and no neighbours.",
+        "siteAdvantages": "A dry root hollow with water and no neighbours. A dry root hollow with water and no neighbours, which in the basin is a survivable site and explains why they have lasted this long.",
         "occupantsMotive": "One person, in communion with something, possibly a tree, possibly not.",
-        "pressures": "They are becoming harder to talk to each year.",
-        "wouldChangeIf": "Nothing; they will die here."
+        "pressures": "They are becoming harder to talk to each year. They are becoming harder to talk to each year, and what they say now is in the cadence the sap-touched village uses, which they have never visited.",
+        "wouldChangeIf": "Nothing; they will die here. Nothing; they will die here \u2014 but what they know about the basin's routes is worth more than anything in the region's caches."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -4325,15 +4447,18 @@
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/hist-placement.md \u00a73 (the interior tribes)",
-        "Lore:Hist; hist-placement dossier (the ten hero Hist)"
+        "Lore:Hist; hist-placement dossier (the ten hero Hist)",
+        "world/sources/lore/topics/hist-placement.md",
+        "uesp:Lore:Hist",
+        "world/sources/lore/tribes.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "One of the very old trees of the deep basin; the Agaceph are its people and its shape.",
         "siteAdvantages": "Spring-head firm ground with landings on three channels.",
-        "occupantsMotive": "Tree-minder, sap-speaker and root-herald, all hereditary.",
-        "pressures": "Pilgrim traffic it did not ask for and cannot refuse.",
-        "wouldChangeIf": "Withdrawal \u2014 the main quest's premise \u2014 would end its tribe as a culture."
+        "occupantsMotive": "Tree-minder, sap-speaker and root-herald, all hereditary. Tree-minder, sap-speaker and root-herald, all hereditary, and all three offices currently held by one family, which the neighbouring tribes have noticed.",
+        "pressures": "Pilgrim traffic it did not ask for and cannot refuse. Pilgrim traffic it did not ask for and cannot refuse, camped at the sap road a half-day out and arriving faster than the grove can feed them.",
+        "wouldChangeIf": "Withdrawal \u2014 the main quest's premise \u2014 would end its tribe as a culture. Withdrawal \u2014 the main quest's premise \u2014 would end its tribe as a culture, and the Agaceph's three landings would close the district's fastest route with it."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -4438,15 +4563,18 @@
       "sources": [
         "world/sources/lore/topics/hist-placement.md R3 (dead Hist leave a Mnemic Egg)",
         "world/sources/lore/topics/hist-placement.md \u00a73 (the interior tribes)",
-        "Lore:Hist; hist-placement dossier (the ten hero Hist)"
+        "Lore:Hist; hist-placement dossier (the ten hero Hist)",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/lore/topics/hist-and-sap.md",
+        "world/sources/lore/duskfall.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "Named in interior recitation as the tree that stood at the first rain after the Duskfall.",
         "siteAdvantages": "An island in still water, so the fire that took its northern half never crossed to the grove.",
-        "occupantsMotive": "A very small vigil of tenders who expect to see it die.",
-        "pressures": "It is dying, slowly, and no cutting from it has ever taken.",
-        "wouldChangeIf": "Its death would produce the largest Mnemic Egg in the province \u2014 which several factions already want."
+        "occupantsMotive": "A very small vigil of tenders who expect to see it die. A very small vigil of tenders who expect to see it die, and who have refused every offer of help that came with a condition attached.",
+        "pressures": "It is dying, slowly, and no cutting from it has ever taken. It is dying, slowly, and no cutting from it has ever taken, including the one the cut-and-carried tribe was given and could not raise.",
+        "wouldChangeIf": "Its death would produce the largest Mnemic Egg in the province \u2014 which several factions already want. Its death would produce the largest Mnemic Egg in the province \u2014 which several factions already want, and one of which has a camp within a day of the grove."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -4550,15 +4678,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Lukiul; League of Open Water (quest plan); Lore:Hist"
+        "Lore:Lukiul; League of Open Water (quest plan); Lore:Hist",
+        "uesp:Lore:Lukiul",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/lore/extrapolation/argonia-4e201-state.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A settlement of the Hist-less who could not stay in the cities and would not be taken in by tribes.",
         "siteAdvantages": "Ground nobody claims because no tree's roots reach it \u2014 which is exactly the point.",
-        "occupantsMotive": "People with no communion, no naming rite and no soul-return, organising all three for themselves.",
-        "pressures": "The interior tribes regard them as a category error; the League of Open Water regards them as a cause.",
-        "wouldChangeIf": "A tree taking them in would dissolve the settlement, and some of them do not want that."
+        "occupantsMotive": "People with no communion, no naming rite and no soul-return, organising all three for themselves. People with no communion, no naming rite and no soul-return, organising all three for themselves \u2014 badly, publicly, and with a growing body of precedent.",
+        "pressures": "The interior tribes regard them as a category error; the League of Open Water regards them as a cause. The interior tribes regard them as a category error; the League of Open Water regards them as a cause, and its coastal money is beginning to arrive.",
+        "wouldChangeIf": "A tree taking them in would dissolve the settlement, and some of them do not want that. A tree taking them in would dissolve the settlement, and some of them do not want that \u2014 which is the argument that splits the camp every winter."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -4654,15 +4785,18 @@
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/hist-placement.md \u00a73 (the interior tribes)",
-        "Lore:Hist; hist-placement dossier (the ten hero Hist)"
+        "Lore:Hist; hist-placement dossier (the ten hero Hist)",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/lore/tribes.md",
+        "uesp:Lore:Argonian"
       ],
       "confidence": "medium",
       "why": {
         "founding": "An old tree that grew wide instead of tall in ground too soft to hold a crown.",
         "siteAdvantages": "A flood-high rise ringed by soft mire that keeps carts, horses and outsiders out.",
-        "occupantsMotive": "The Paatru, who regard height as a discourtesy.",
-        "pressures": "Its people are physically unlike their neighbours and are treated accordingly.",
-        "wouldChangeIf": "If the mire dried, the village would be walkable and would not survive it."
+        "occupantsMotive": "The Paatru, who regard height as a discourtesy. The Paatru, who regard height as a discourtesy, and who build nothing above the tree's lowest branch \u2014 a rule they apply to visitors' tents as well.",
+        "pressures": "Its people are physically unlike their neighbours and are treated accordingly. Its people are physically unlike their neighbours and are treated accordingly, which is why the Paatru trade through the walkway junction and never in person.",
+        "wouldChangeIf": "If the mire dried, the village would be walkable and would not survive it. If the mire dried, the village would be walkable and would not survive it \u2014 the mire is the whole defence and the whole reason the tribe is left alone."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -4766,15 +4900,18 @@
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/hist-placement.md \u00a73 (the interior tribes)",
-        "Lore:Hist; hist-placement dossier (the ten hero Hist)"
+        "Lore:Hist; hist-placement dossier (the ten hero Hist)",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/lore/tribes.md",
+        "uesp:Lore:Argonian"
       ],
       "confidence": "medium",
       "why": {
         "founding": "The Sarpa's tree, tended from the canopy for as long as anyone has counted.",
         "siteAdvantages": "A ridge-end above the flood with clear air for launching.",
-        "occupantsMotive": "Winged Sarpa who consider the ground a burial place.",
-        "pressures": "The climb is the only approach and the tribe likes it that way.",
-        "wouldChangeIf": "Losing the crown platforms in a storm would strand the rite for a generation."
+        "occupantsMotive": "Winged Sarpa who consider the ground a burial place. Winged Sarpa who consider the ground a burial place, and who therefore hold their trade, their courts and their hatching entirely above it.",
+        "pressures": "The climb is the only approach and the tribe likes it that way. The climb is the only approach and the tribe likes it that way, so every dealing with the Sarpa happens at somebody else's landing.",
+        "wouldChangeIf": "Losing the crown platforms in a storm would strand the rite for a generation. Losing the crown platforms in a storm would strand the rite for a generation, and the timber to rebuild them has to come from the hammock village two days away."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -4878,15 +5015,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "Lore:Stonewastes (Four Winds); Lore:Lut-Eileel"
+        "Lore:Stonewastes (Four Winds); Lore:Lut-Eileel",
+        "uesp:Lore:Xanmeer",
+        "world/sources/lore/tribes.md",
+        "world/sources/catalogue/type-recipes.json#insular-village"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A tribe that has watched one thing for so long that watching it is now their whole identity.",
         "siteAdvantages": "A ridge-end overlooking a sealed xanmeer they will not let anyone approach.",
-        "occupantsMotive": "Hereditary wardens who inherit a post, not a trade.",
-        "pressures": "Nobody alive knows what is inside the thing they are guarding.",
-        "wouldChangeIf": "Opening it would end the tribe's reason to exist."
+        "occupantsMotive": "Hereditary wardens who inherit a post, not a trade. Hereditary wardens who inherit a post, not a trade, and who are therefore fed by a tribe that gets nothing back but the watching.",
+        "pressures": "Nobody alive knows what is inside the thing they are guarding. Nobody alive knows what is inside the thing they are guarding, and the last three generations of wardens have each privately concluded something different.",
+        "wouldChangeIf": "Opening it would end the tribe's reason to exist. Opening it would end the tribe's reason to exist, which is why the wardens will fight an antiquarian harder than they would fight a looter."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -4983,15 +5123,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "fauna-hazards dossier; module 20 \u00a716 (fixed regional danger; D5 stays D5)"
+        "fauna-hazards dossier; module 20 \u00a716 (fixed regional danger; D5 stays D5)",
+        "world/sources/lore/topics/fauna-hazards.md",
+        "world/sources/lore/topics/material-culture.md",
+        "world/sources/catalogue/type-recipes.json#legendary-deep"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A stand of drowned forest in the deepest basin water that the tribes name and do not enter.",
         "siteAdvantages": "The deepest standing water in the interior, over a drowned forest that never rotted.",
-        "occupantsMotive": "Whatever is down there, which nobody has described twice the same way.",
-        "pressures": "The name is old and the stories are older than the name.",
-        "wouldChangeIf": "Nothing."
+        "occupantsMotive": "Whatever is down there, which nobody has described twice the same way. Whatever is down there, which nobody has described twice the same way, and which the tribes name in recitation without ever naming a witness.",
+        "pressures": "The name is old and the stories are older than the name. The name is old and the stories are older than the name, and the drowned timber is the finest in the province, which keeps the argument alive.",
+        "wouldChangeIf": "Nothing. Nothing \u2014 though the dredging outfits on the coast have begun asking what a stand of never-rotted forest would be worth lifted."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -5089,13 +5232,16 @@
       "sources": [
         "docs/quests/30-main-quest.md MQ29/MQ31",
         "Lore:Eye of Argonia",
-        "Lore:Xanmeer (~25% sealed; vakka stones); Lore:Vakka Stone"
+        "Lore:Xanmeer (~25% sealed; vakka stones); Lore:Vakka Stone",
+        "uesp:Lore:Xanmeer",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/lore/duskfall.md"
       ],
       "confidence": "high",
       "why": {
         "founding": "Built before the Duskfall around the graft the quest plan calls the Root of Accord; unmade from the map rather than destroyed.",
-        "siteAdvantages": "The deepest ground of the basin, where no route goes and the root layer is densest.",
-        "occupantsMotive": "No inhabitants \u2014 cult expedition, guardians, and whatever the Accord left tending itself.",
+        "siteAdvantages": "The deepest ground of the basin, where no route goes and the root layer is densest. The deepest ground of the basin, where no route goes and the root layer is densest \u2014 the density is not incidental, it is what was grown here.",
+        "occupantsMotive": "No inhabitants \u2014 cult expedition, guardians, and whatever the Accord left tending itself. No inhabitants \u2014 cult expedition, guardians, and whatever the Accord left tending itself, which has had an age with nothing to do but tend.",
         "pressures": "The Unbound Root is trying to reach it; the Eye is the only key.",
         "wouldChangeIf": "Nothing changes it; it is the endgame and it is static by design."
       },
@@ -5195,15 +5341,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Marsh Giant (killing one is an ecological and religious offence)"
+        "Lore:Marsh Giant (killing one is an ecological and religious offence)",
+        "uesp:Lore:Marsh Giant",
+        "world/sources/lore/topics/fauna-hazards.md",
+        "world/sources/catalogue/type-recipes.json#marsh-giant-ground"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A marsh giant's range, which the tribes route around without discussion.",
         "siteAdvantages": "Deep water it can stand in and shallow it can feed in.",
-        "occupantsMotive": "One giant, and the birds that follow it.",
-        "pressures": "Its range is expanding toward a walkway route.",
-        "wouldChangeIf": "Moving the walkway costs a season's labour; the alternative is worse."
+        "occupantsMotive": "One giant, and the birds that follow it. One giant, and the birds that follow it, and a hunting pattern the tribes have mapped precisely enough to route around without a guide.",
+        "pressures": "Its range is expanding toward a walkway route. Its range is expanding toward a walkway route, and the walkway village has begun asking whether killing one is really the offence everyone says it is.",
+        "wouldChangeIf": "Moving the walkway costs a season's labour; the alternative is worse. Moving the walkway costs a season's labour; the alternative is worse, and the tribe that would have to fund the move is the one that uses the arm least."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -5297,15 +5446,18 @@
       "provenance": "lore-implied",
       "sources": [
         "Lore:Knahaten Flu",
-        "Lore:Umbriel; Lore:Knahaten Flu; Lore:Black Marsh (the Great Burn); Lore:Deepmire (the province's Umbriel memorial)"
+        "Lore:Umbriel; Lore:Knahaten Flu; Lore:Black Marsh (the Great Burn); Lore:Deepmire (the province's Umbriel memorial)",
+        "uesp:Lore:Knahaten Flu",
+        "uesp:Lore:Kothringi",
+        "world/sources/lore/topics/history-timeline.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A Knahaten Flu mass grave for the villages that emptied along this reach.",
         "siteAdvantages": "Flat ground nobody wanted afterwards.",
-        "occupantsMotive": "A memorial keeper from the nearest village.",
-        "pressures": "The count on the stone is disputed and has been recut twice.",
-        "wouldChangeIf": "A recount would restart the argument."
+        "occupantsMotive": "A memorial keeper from the nearest village. A memorial keeper from the nearest village, a post that carries no pay and an exemption from every other village duty.",
+        "pressures": "The count on the stone is disputed and has been recut twice. The count on the stone is disputed and has been recut twice, each time upward, and each recut has been paid for by a different tribe with a different interest.",
+        "wouldChangeIf": "A recount would restart the argument. A recount would restart the argument, and the Kothringi names that a recount would have to include are the part nobody will raise."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -5397,15 +5549,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Argonian (Chukka-Sei, raj-nassa); Lore:Hissmir (Trials of the Burnished Scales); Lore:Naga-Kur"
+        "Lore:Argonian (Chukka-Sei, raj-nassa); Lore:Hissmir (Trials of the Burnished Scales); Lore:Naga-Kur",
+        "uesp:Lore:Argonian",
+        "world/sources/lore/tribes.md",
+        "world/sources/catalogue/type-recipes.json#maturity-trial-ground"
       ],
       "confidence": "medium",
       "why": {
         "founding": "The trial ground where the interior's young are given their adult name.",
         "siteAdvantages": "A stretch of genuinely dangerous water and root that can be survived by a prepared adolescent.",
-        "occupantsMotive": "Trial-keepers who set the route each year and will not explain it.",
-        "pressures": "The trial kills someone every few years and the tribes have decided that is correct.",
-        "wouldChangeIf": "A death in the wrong family would force a change."
+        "occupantsMotive": "Trial-keepers who set the route each year and will not explain it. Trial-keepers who set the route each year and will not explain it, on the principle that a route that can be described has already been failed.",
+        "pressures": "The trial kills someone every few years and the tribes have decided that is correct. The trial kills someone every few years and the tribes have decided that is correct, which is easier to hold when it is not your clutch's year.",
+        "wouldChangeIf": "A death in the wrong family would force a change. A death in the wrong family would force a change, and the family in question \u2014 the Agaceph tree-minders' \u2014 has a candidate in the coming season."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -5500,15 +5655,18 @@
       "status": "active",
       "provenance": "density-fill",
       "sources": [
-        "Lore:All Flags Navy; Lore:Battle of Argonia; Lore:Umbriel"
+        "Lore:All Flags Navy; Lore:Battle of Argonia; Lore:Umbriel",
+        "world/sources/lore/helstrom.md",
+        "world/sources/lore/tribes.md",
+        "world/sources/catalogue/type-recipes.json#memorial-stone"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A guide who died bringing a party out of the basin; her clients paid for the stone.",
         "siteAdvantages": "Where she stopped, on the route she was walking.",
-        "occupantsMotive": "None; passing guides touch it.",
-        "pressures": "The route has moved and the stone is now off it.",
-        "wouldChangeIf": "Nothing; it will be swallowed."
+        "occupantsMotive": "None; passing guides touch it. None; passing guides touch it, and the gate camp's roster is read against her name each season as a way of counting the year's losses.",
+        "pressures": "The route has moved and the stone is now off it. The route has moved and the stone is now off it, so the touching has become a detour that fewer guides make each year.",
+        "wouldChangeIf": "Nothing; it will be swallowed. Nothing; it will be swallowed \u2014 unless someone moves it, which the guides have discussed and rejected as the second death."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -5601,15 +5759,18 @@
       "provenance": "lore-implied",
       "sources": [
         "docs/quests/20-world-provisions.md \u00a712b (miregaunts return when killed; cavity relics)",
-        "Lore:Miregaunt; Lore:Miregaunts of the Marsh (Kratius Gray, Black Marsh Exploration Society)"
+        "Lore:Miregaunt; Lore:Miregaunts of the Marsh (Kratius Gray, Black Marsh Exploration Society)",
+        "world/sources/lore/topics/lost-peoples.md",
+        "world/sources/lore/topics/ecology-encounters-loot.md",
+        "world/sources/catalogue/type-recipes.json#miregaunt-ward"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A miregaunt has stood on this approach for as long as anyone has known the ruin behind it.",
         "siteAdvantages": "The one dry approach to a sealed xanmeer.",
-        "occupantsMotive": "One miregaunt, which is part of the land and returns when killed.",
-        "pressures": "It is a permanent toll on the route in a currency of lives.",
-        "wouldChangeIf": "Nothing. It comes back."
+        "occupantsMotive": "One miregaunt, which is part of the land and returns when killed. One miregaunt, which is part of the land and returns when killed, and which does not follow beyond the approach it holds.",
+        "pressures": "It is a permanent toll on the route in a currency of lives. It is a permanent toll on the route in a currency of lives, and the hereditary wardens above regard it as an ally they did not have to feed.",
+        "wouldChangeIf": "Nothing. It comes back. Nothing. It comes back \u2014 but the cavity relic it carries is taken by whoever kills it, and that is the only renewable prize in the district."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -5700,15 +5861,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "module 55 (time/light/weather as first-class world state; mist is a climate field per region class)"
+        "module 55 (time/light/weather as first-class world state; mist is a climate field per region class)",
+        "docs/world/55-light-sky-time.md",
+        "world/sources/lore/topics/fauna-hazards.md",
+        "world/sources/catalogue/type-recipes.json#mist-locked-hollow"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A hollow that holds its own mist year-round because nothing moves the air in it.",
         "siteAdvantages": "A deep bowl under closed canopy with a cold spring at the bottom.",
-        "occupantsMotive": "Nothing you can see, which is the problem.",
-        "pressures": "People go in and come out somewhere else, having lost hours.",
-        "wouldChangeIf": "Nothing; it is weather."
+        "occupantsMotive": "Nothing you can see, which is the problem. Nothing you can see, which is the problem, and which the guides handle by refusing the hollow rather than by explaining it.",
+        "pressures": "People go in and come out somewhere else, having lost hours. People go in and come out somewhere else, having lost hours, and two of the wisp-lure stories in the district are probably this place misattributed.",
+        "wouldChangeIf": "Nothing; it is weather. Nothing; it is weather \u2014 which is the only reassurance the guides offer and the one their clients least believe."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -5801,15 +5965,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Veeskhleel (the tribe associated with the dead); Lore:Argonian (grave-singers, xul-vaat)"
+        "Lore:Veeskhleel (the tribe associated with the dead); Lore:Argonian (grave-singers, xul-vaat)",
+        "uesp:Lore:Argonian",
+        "uesp:Lore:Umbriel",
+        "world/sources/lore/extrapolation/argonia-4e201-state.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A village that exists to service the grave-stake fields of six neighbouring tribes.",
         "siteAdvantages": "Firm ground with landings, central to the fields it serves and downwind of all of them.",
-        "occupantsMotive": "Grave-singers and stake-carvers who are paid in food and are never invited to anything.",
-        "pressures": "Bog blights rise when a stake is pulled, and stakes are pulled more often since Umbriel.",
-        "wouldChangeIf": "If a neighbouring tribe learned to carve its own stakes, this village would starve."
+        "occupantsMotive": "Grave-singers and stake-carvers who are paid in food and are never invited to anything. Grave-singers and stake-carvers who are paid in food and are never invited to anything, and whose children are not accepted as marriage partners in any of the six tribes they serve.",
+        "pressures": "Bog blights rise when a stake is pulled, and stakes are pulled more often since Umbriel. Bog blights rise when a stake is pulled, and stakes are pulled more often since Umbriel; the village is now turning work away and being blamed for the risings it could not reach.",
+        "wouldChangeIf": "If a neighbouring tribe learned to carve its own stakes, this village would starve. If a neighbouring tribe learned to carve its own stakes, this village would starve \u2014 which is why the carving is taught by demonstration and never described."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -5906,15 +6073,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "Lore:Veeskhleel; Lore:Blight Bog"
+        "Lore:Veeskhleel; Lore:Blight Bog",
+        "world/sources/lore/tribes.md",
+        "world/sources/lore/topics/fauna-hazards.md",
+        "world/sources/catalogue/type-recipes.json#nightbound-village"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A village that stopped using fire and lamps generations ago and reorganised itself around not being seen.",
         "siteAdvantages": "Under the densest closed canopy in the province, where the difference between noon and midnight is small.",
-        "occupantsMotive": "People whose eyes have adapted and whose etiquette is entirely acoustic.",
-        "pressures": "Something in the surrounding dark taught them this and is still out there.",
-        "wouldChangeIf": "A single lamp carried in would be an act of violence."
+        "occupantsMotive": "People whose eyes have adapted and whose etiquette is entirely acoustic. People whose eyes have adapted and whose etiquette is entirely acoustic, and who conduct trade by leaving goods and counted taps rather than by meeting.",
+        "pressures": "Something in the surrounding dark taught them this and is still out there. Something in the surrounding dark taught them this and is still out there, and the youngest generation has begun to doubt it, which the elders regard as the first stage of the lesson.",
+        "wouldChangeIf": "A single lamp carried in would be an act of violence. A single lamp carried in would be an act of violence, and the guides charge extra to explain that to clients before they arrive rather than after."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -6008,15 +6178,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "Lore:Hist; Lore:Argonian; settlement-register M3 band"
+        "Lore:Hist; Lore:Argonian; settlement-register M3 band",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/lore/tribes.md",
+        "world/sources/lore/extrapolation/settlement-register.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A village grown where nine root-joined trunks stand in one ring \u2014 one tree by the Hist's reckoning, nine by anyone else's.",
         "siteAdvantages": "The ring encloses firm ground and makes its own stockade.",
-        "occupantsMotive": "A tribe that hosts the convocation's overflow and has grown rich on it.",
-        "pressures": "Hosting a province's delegations one month a year has made them arrogant the other eleven.",
-        "wouldChangeIf": "A convocation held elsewhere would halve the village."
+        "occupantsMotive": "A tribe that hosts the convocation's overflow and has grown rich on it. A tribe that hosts the convocation's overflow and has grown rich on it, holding pitch-rights it rents to delegations that cannot fit at the Tsoko camp.",
+        "pressures": "Hosting a province's delegations one month a year has made them arrogant the other eleven. Hosting a province's delegations one month a year has made them arrogant the other eleven, and two neighbouring tribes now camp at Greenspring instead on principle.",
+        "wouldChangeIf": "A convocation held elsewhere would halve the village. A convocation held elsewhere would halve the village, and the falling attendance the Root Talk ground counts publicly is already showing in their rents."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -6113,15 +6286,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Nisswo (welcome in almost every village)"
+        "Lore:Nisswo (welcome in almost every village)",
+        "world/sources/lore/topics/sithis-nisswo-shadowscales.md",
+        "world/sources/lore/helstrom.md",
+        "world/sources/catalogue/type-recipes.json#nisswo-rest-house"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A rest house kept by the Nisswo on the Helstrom pilgrim road.",
         "siteAdvantages": "One day's walk from the gate \u2014 deliberately the last stop.",
-        "occupantsMotive": "Nisswo who preach at whoever stops, and feed them either way.",
-        "pressures": "The Hist establishment and the Sithis preachers disagree about the interior's soul, politely.",
-        "wouldChangeIf": "A closure would leave the last day of the road unsheltered."
+        "occupantsMotive": "Nisswo who preach at whoever stops, and feed them either way. Nisswo who preach at whoever stops, and feed them either way \u2014 the feeding is the doctrine's proof and the preaching is the price.",
+        "pressures": "The Hist establishment and the Sithis preachers disagree about the interior's soul, politely. The Hist establishment and the Sithis preachers disagree about the interior's soul, politely, and the politeness is maintained because Helstrom's assembly would have to act if it broke.",
+        "wouldChangeIf": "A closure would leave the last day of the road unsheltered. A closure would leave the last day of the road unsheltered, and the pilgrims would arrive at the gate camp instead, which the guides would charge them for."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -6213,15 +6389,18 @@
       "status": "active",
       "provenance": "density-fill",
       "sources": [
-        "Lore:Argonian (tree-minder, grave-singer, sap-speaker, naheesh, root-herald as offices)"
+        "Lore:Argonian (tree-minder, grave-singer, sap-speaker, naheesh, root-herald as offices)",
+        "uesp:Lore:Argonian",
+        "uesp:Lore:Umbriel",
+        "world/sources/lore/tribes.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A grave-singer lives apart from the villages they serve, by custom and by preference.",
-        "siteAdvantages": "Between five villages, on ground none of them claims.",
+        "siteAdvantages": "Between five villages, on ground none of them claims. Between five villages, on ground none of them claims, which is also why none of them will repair the house.",
         "occupantsMotive": "A grave-singer and an apprentice who does not want the job.",
-        "pressures": "More staking work since Umbriel than one singer can do.",
-        "wouldChangeIf": "The apprentice leaving would strand five villages' dead."
+        "pressures": "More staking work since Umbriel than one singer can do. More staking work since Umbriel than one singer can do, and the necropolis village a day away has offered to take the circuit, which the five villages cannot afford.",
+        "wouldChangeIf": "The apprentice leaving would strand five villages' dead. The apprentice leaving would strand five villages' dead, and the apprentice has family at the Hist-less refuge and has been asking about it."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -6316,15 +6495,18 @@
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/hist-placement.md \u00a74 (rotating post, second tender always present)",
-        "Lore:Argonian (tree-minder, grave-singer, sap-speaker, naheesh, root-herald as offices)"
+        "Lore:Argonian (tree-minder, grave-singer, sap-speaker, naheesh, root-herald as offices)",
+        "world/sources/lore/topics/hist-placement.md",
+        "uesp:Lore:Lilmoth",
+        "world/sources/lore/topics/hist-and-sap.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A tree-minder's house, sited by the tree rather than by the village.",
         "siteAdvantages": "Within sight and earshot of the tree at all times \u2014 the post requires it.",
-        "occupantsMotive": "A tree-minder and a second tender who is always present when the first listens.",
-        "pressures": "The two-tender rule is a direct reaction to what exclusive communion did at Lilmoth.",
-        "wouldChangeIf": "A minder who listened alone would be removed."
+        "occupantsMotive": "A tree-minder and a second tender who is always present when the first listens. A tree-minder and a second tender who is always present when the first listens, an arrangement that costs the grove two adults' labour and is never waived.",
+        "pressures": "The two-tender rule is a direct reaction to what exclusive communion did at Lilmoth. The two-tender rule is a direct reaction to what exclusive communion did at Lilmoth, and the minder here trained under someone who was there.",
+        "wouldChangeIf": "A minder who listened alone would be removed. A minder who listened alone would be removed, and the removal would be the district's business within a day \u2014 which is the rule's real enforcement."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -6418,15 +6600,18 @@
       "status": "seasonal",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Hissmir; sky-moons-calendar dossier"
+        "Lore:Hissmir; sky-moons-calendar dossier",
+        "world/sources/lore/topics/hist-placement.md",
+        "docs/world/55-light-sky-time.md",
+        "world/sources/catalogue/type-recipes.json#pilgrim-camp"
       ],
       "confidence": "medium",
       "why": {
         "founding": "The delegation camp used during the convocation month and empty the rest of the year.",
         "siteAdvantages": "Four hundred metres from the convocation ground, on its landings.",
-        "occupantsMotive": "Delegations, in season.",
-        "pressures": "Precedence disputes about pitch positions are an annual institution.",
-        "wouldChangeIf": "A tribe losing its pitch is a real political event."
+        "occupantsMotive": "Delegations, in season. Delegations, in season, each of whom brings its own cook, its own water and its own account of why its pitch is where it is.",
+        "pressures": "Precedence disputes about pitch positions are an annual institution. Precedence disputes about pitch positions are an annual institution, and the overflow the nine-trunks village rents has begun to outrank the camp's own back rows.",
+        "wouldChangeIf": "A tribe losing its pitch is a real political event. A tribe losing its pitch is a real political event, and two pitches have gone unclaimed for three years without anyone agreeing to reallocate them."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -6518,15 +6703,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "Lore:Hissmir; sky-moons-calendar dossier"
+        "Lore:Hissmir; sky-moons-calendar dossier",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/lore/topics/fauna-hazards.md",
+        "world/sources/catalogue/type-recipes.json#pilgrim-camp"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A camp for those walking to a hero Hist to grieve.",
         "siteAdvantages": "The last water before the grove.",
-        "occupantsMotive": "Mourners, in rotation, who mostly do not talk to each other.",
-        "pressures": "Predators have learned that this camp is quiet and slow.",
-        "wouldChangeIf": "A killing here would close the road for a season."
+        "occupantsMotive": "Mourners, in rotation, who mostly do not talk to each other. Mourners, in rotation, who mostly do not talk to each other, and who leave the camp stocked for the next arrivals as the only sociable act of the walk.",
+        "pressures": "Predators have learned that this camp is quiet and slow. Predators have learned that this camp is quiet and slow, and the grove will not post a watch because a watched mourning is not a mourning.",
+        "wouldChangeIf": "A killing here would close the road for a season. A killing here would close the road for a season, and the Agaceph grove would then have to receive its mourners by water, through landings it does not want used."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -6617,15 +6805,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "Lore:Murkmire (platforms ascending high into the air); scour finding: no long sightlines below the rim"
+        "Lore:Murkmire (platforms ascending high into the air); scour finding: no long sightlines below the rim",
+        "world/sources/lore/regions/murkmire.md",
+        "world/sources/lore/topics/material-culture.md",
+        "world/sources/catalogue/type-recipes.json#platform-ladder-tower"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A ladder tower built to see over the canopy, because nothing else in the interior can.",
         "siteAdvantages": "The tallest hammock timber for kilometres.",
-        "occupantsMotive": "A watcher on rotation from the nearest village.",
-        "pressures": "The scour's finding made flesh \u2014 from the ground you can see nothing at all.",
-        "wouldChangeIf": "If the tree died the region would lose its only sightline."
+        "occupantsMotive": "A watcher on rotation from the nearest village. A watcher on rotation from the nearest village, whose real job is to count smoke and boats and report both to the naheesh, not to admire the view.",
+        "pressures": "The scour's finding made flesh \u2014 from the ground you can see nothing at all. The scour's finding made flesh \u2014 from the ground you can see nothing at all, so the tower's word is the district's only distant information and is trusted further than it should be.",
+        "wouldChangeIf": "If the tree died the region would lose its only sightline. If the tree died the region would lose its only sightline, and the vista ledge that would replace it is a day away and closing over."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -6717,15 +6908,18 @@
       "status": "active",
       "provenance": "density-fill",
       "sources": [
-        "Lore:Hist Sap; Lore:Marsh Giant (killing one is an ecological and religious offence)"
+        "Lore:Hist Sap; Lore:Marsh Giant (killing one is an ecological and religious offence)",
+        "world/sources/lore/topics/hist-and-sap.md",
+        "uesp:Lore:Hist Sap",
+        "world/sources/lore/topics/hist-placement.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "Illicit sap-tappers working trees nobody watches.",
         "siteAdvantages": "Between three unattended wild Hist, on a creek that gets a boat out.",
-        "occupantsMotive": "Tappers who sell to a city fence and know exactly what they are doing.",
-        "pressures": "The tree-minders have put a bounty on them.",
-        "wouldChangeIf": "One arrest would name the fence and unroll the trade."
+        "occupantsMotive": "Tappers who sell to a city fence and know exactly what they are doing. Tappers who sell to a city fence and know exactly what they are doing, working only wild Hist so that no tribe has standing to complain.",
+        "pressures": "The tree-minders have put a bounty on them. The tree-minders have put a bounty on them, and the bounty is paid in licence-renewal favour, which means the licensed stage's tappers are the ones hunting them.",
+        "wouldChangeIf": "One arrest would name the fence and unroll the trade. One arrest would name the fence and unroll the trade, including the tapped-tree crew, who use the same buyer under a lapsed concession."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -6822,15 +7016,18 @@
       "status": "active",
       "provenance": "density-fill",
       "sources": [
-        "Lore:Black Marsh (Imperial roads made freight slower); Lore:Sea Transportation"
+        "Lore:Black Marsh (Imperial roads made freight slower); Lore:Sea Transportation",
+        "uesp:Lore:Black Marsh",
+        "world/sources/lore/topics/material-culture.md",
+        "world/sources/catalogue/type-recipes.json#porter-relay-yard"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A relay yard where interior porters hand off loads between poling stages.",
         "siteAdvantages": "Where the polable water ends and the walking route begins.",
-        "occupantsMotive": "Porters, and a yard-keeper who takes a cut of everything.",
-        "pressures": "The yard-keeper's cut is the region's standing grievance.",
-        "wouldChangeIf": "A second yard would break the monopoly."
+        "occupantsMotive": "Porters, and a yard-keeper who takes a cut of everything. Porters, and a yard-keeper who takes a cut of everything, holding the only covered store between the water and the walking route.",
+        "pressures": "The yard-keeper's cut is the region's standing grievance. The yard-keeper's cut is the region's standing grievance, and the lizard-steed breeders have begun quoting prices that assume it, which makes them complicit.",
+        "wouldChangeIf": "A second yard would break the monopoly. A second yard would break the monopoly, and the only firm ground for one belongs to the village that takes the keeper's rent."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -6927,15 +7124,18 @@
       "provenance": "lore-implied",
       "sources": [
         "docs/quests/20-world-provisions.md \u00a712b (Deepmire, the Refuge)",
-        "\u00a712b Deepmire, the Refuge (a D4 destination with an approach route)"
+        "\u00a712b Deepmire, the Refuge (a D4 destination with an approach route)",
+        "uesp:Lore:Umbriel",
+        "world/sources/lore/extrapolation/argonia-4e201-state.md",
+        "world/sources/lore/helstrom.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A shelter maintained on ground everyone avoids, against the day the tribes have to run again \u2014 as they did in 4E 48.",
         "siteAdvantages": "High, dry, and deliberately remote, with one maintained approach.",
-        "occupantsMotive": "Two caretakers on a rotation nobody envies.",
-        "pressures": "Stores are rotated and the register of the one time it was full is read aloud annually.",
-        "wouldChangeIf": "Its use would mean something terrible had happened again."
+        "occupantsMotive": "Two caretakers on a rotation nobody envies. Two caretakers on a rotation nobody envies, drawn by lot from the tribes that fund it, for a year each, with no exemption accepted.",
+        "pressures": "Stores are rotated and the register of the one time it was full is read aloud annually. Stores are rotated and the register of the one time it was full is read aloud annually, and the reading is now attended by fewer tribes each year.",
+        "wouldChangeIf": "Its use would mean something terrible had happened again. Its use would mean something terrible had happened again \u2014 and the funding tribes have quietly let two shares lapse, which nobody has announced."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7031,15 +7231,18 @@
       "status": "abandoned",
       "provenance": "geography-derived",
       "sources": [
-        "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role"
+        "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role",
+        "uesp:Lore:Rootworm",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/catalogue/type-recipes.json#root-hollow-gallery"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A trunk root that died and gave way.",
         "siteAdvantages": "It is on a route people still use, which is why they still dig at it.",
-        "occupantsMotive": "Nobody; the bone-carriers come once a year.",
-        "pressures": "The route now goes the long way and costs a day.",
-        "wouldChangeIf": "Clearing it would restore the route and settle four families' claims."
+        "occupantsMotive": "Nobody; the bone-carriers come once a year. Nobody; the bone-carriers come once a year, because four families' dead are under the fall and cannot be recovered to be returned.",
+        "pressures": "The route now goes the long way and costs a day. The route now goes the long way and costs a day, which the porter relay charges for and therefore has no interest in seeing fixed.",
+        "wouldChangeIf": "Clearing it would restore the route and settle four families' claims. Clearing it would restore the route and settle four families' claims, and would cost the relay yard a quarter of its traffic."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7138,15 +7341,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role"
+        "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role",
+        "world/sources/lore/topics/hist-placement.md",
+        "uesp:Lore:Rootworm",
+        "world/sources/lore/topics/hist-and-sap.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A gallery taken by a cult cell because the roots here reach a tree they intend to sever.",
         "siteAdvantages": "Isolated, deep, and directly connected to their target.",
-        "occupantsMotive": "Cultists testing a method.",
-        "pressures": "The tree above is beginning to withdraw and the village does not know why.",
-        "wouldChangeIf": "Discovery would move them and cost the player the evidence."
+        "occupantsMotive": "Cultists testing a method. Cultists testing a method, working from notes that came out of the staging camp and going back to it with results.",
+        "pressures": "The tree above is beginning to withdraw and the village does not know why. The tree above is beginning to withdraw and the village does not know why, and has begun consulting a tree-minder who will recognise the pattern.",
+        "wouldChangeIf": "Discovery would move them and cost the player the evidence. Discovery would move them and cost the player the evidence \u2014 the notes are the only written account of how a severing is actually attempted."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7249,15 +7455,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role"
+        "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role",
+        "uesp:Lore:Rootworm",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/catalogue/type-recipes.json#root-hollow-gallery"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A single enormous trunk root running toward the basin.",
         "siteAdvantages": "It is the only dry route toward the deep basin.",
-        "occupantsMotive": "Nobody; a guide camp sits at each end.",
-        "pressures": "Anything that enters behind you cannot be passed.",
-        "wouldChangeIf": "A branch collapse would make it a trap rather than a route."
+        "occupantsMotive": "Nobody; a guide camp sits at each end. Nobody; a guide camp sits at each end, and the two camps keep a tally of who went in so that the far end knows who to expect.",
+        "pressures": "Anything that enters behind you cannot be passed. Anything that enters behind you cannot be passed, so the guides move parties through in one direction only and wait out the day if the tally is wrong.",
+        "wouldChangeIf": "A branch collapse would make it a trap rather than a route. A branch collapse would make it a trap rather than a route, and would cut the only dry approach to the basin's deep ground."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7356,15 +7565,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role"
+        "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role",
+        "uesp:Lore:Rootworm",
+        "docs/world/50-hydrology-climate.md",
+        "world/sources/catalogue/type-recipes.json#root-hollow-gallery"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A root branch that grew downhill into the water table.",
         "siteAdvantages": "It short-cuts a full day of surface travel for anyone who can hold their breath.",
-        "occupantsMotive": "Nobody lives here; divers pass through.",
-        "pressures": "The water level rises in the wet season and drowns the last two landings.",
-        "wouldChangeIf": "A dry decade would make it an ordinary road."
+        "occupantsMotive": "Nobody lives here; divers pass through. Nobody lives here; divers pass through, mostly couriers, because a message that takes a day by surface takes an afternoon by holding your breath four times.",
+        "pressures": "The water level rises in the wet season and drowns the last two landings. The water level rises in the wet season and drowns the last two landings, so half the year the shortcut is a full dive and the couriers charge double.",
+        "wouldChangeIf": "A dry decade would make it an ordinary road. A dry decade would make it an ordinary road and would end a courier trade three villages depend on for news."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7463,15 +7675,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role"
+        "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role",
+        "uesp:Lore:Rootworm",
+        "world/sources/lore/helstrom.md",
+        "world/sources/lore/topics/guilds-and-orders.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "The trunk root under Helstrom, opened and kept as a road because the surface route is band 5.",
         "siteAdvantages": "It goes where no boat can and no road will be built.",
-        "occupantsMotive": "Waykeepers who maintain exactly as far as they are paid to.",
-        "pressures": "Beyond the second junction it is not maintained and people still go.",
-        "wouldChangeIf": "Losing the Waykeepers would close the interior's only overland link."
+        "occupantsMotive": "Waykeepers who maintain exactly as far as they are paid to. Waykeepers who maintain exactly as far as they are paid to, and who post the paid limit in cut marks so that nobody can claim not to have known.",
+        "pressures": "Beyond the second junction it is not maintained and people still go. Beyond the second junction it is not maintained and people still go, and the Waykeepers have stopped recovering bodies past it, which the assembly has not been told.",
+        "wouldChangeIf": "Losing the Waykeepers would close the interior's only overland link. Losing the Waykeepers would close the interior's only overland link, and Helstrom's escorted water traffic could not absorb the difference."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7574,15 +7789,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role"
+        "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role",
+        "uesp:Lore:Rootworm",
+        "world/sources/lore/topics/ecology-encounters-loot.md",
+        "world/sources/lore/topics/material-culture.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "Root gallery taken over by growers who needed dark, damp and constant temperature.",
         "siteAdvantages": "The root layer provides all three for free.",
-        "occupantsMotive": "Growers who are underground by preference and rarely surface.",
-        "pressures": "Something else uses the deeper branches and they have stopped going there.",
-        "wouldChangeIf": "A collapse would end the interior's light supply."
+        "occupantsMotive": "Growers who are underground by preference and rarely surface. Growers who are underground by preference and rarely surface, selling glowing fungus to every village in the district through a single agent.",
+        "pressures": "Something else uses the deeper branches and they have stopped going there. Something else uses the deeper branches and they have stopped going there, which has cut their best beds out of production and put the price up.",
+        "wouldChangeIf": "A collapse would end the interior's light supply. A collapse would end the interior's light supply, in a region where the nightbound village is the only settlement that would not notice."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7682,15 +7900,18 @@
       "provenance": "canon-named",
       "sources": [
         "docs/quests/20-world-provisions.md \u00a712b (the great Root Talk at Helstrom)",
-        "\u00a712b owner decision Q2 (the great Root Talk is an occasion, not a council); Lore:Hist-Tsoko"
+        "\u00a712b owner decision Q2 (the great Root Talk is an occasion, not a council); Lore:Hist-Tsoko",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/lore/helstrom.md",
+        "world/sources/lore/tribes.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "Owner decision Q2: the canon Root Talk extended into an occasional convocation, held at Helstrom in Hist-Tsoko.",
         "siteAdvantages": "A rare enclosed clearing at the grove's edge, large enough for every interior delegation and their landings.",
-        "occupantsMotive": "Nobody, eleven months in twelve; the naheesh and tree-minders of the interior in the twelfth.",
-        "pressures": "Attendance is falling and the empty places are counted publicly.",
-        "wouldChangeIf": "A convocation that failed to reach alignment would end the institution."
+        "occupantsMotive": "Nobody, eleven months in twelve; the naheesh and tree-minders of the interior in the twelfth. Nobody, eleven months in twelve; the naheesh and tree-minders of the interior in the twelfth, seated by a precedence order kept at Helstrom.",
+        "pressures": "Attendance is falling and the empty places are counted publicly. Attendance is falling and the empty places are counted publicly, and the two tribes that stopped coming have not been asked why in six years.",
+        "wouldChangeIf": "A convocation that failed to reach alignment would end the institution. A convocation that failed to reach alignment would end the institution, and both the Hist-less refuge and the heretic builders are waiting for exactly that."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7784,15 +8005,18 @@
       "status": "abandoned",
       "provenance": "geography-derived",
       "sources": [
-        "Lore:Rootworm (eight feet, translucent, digests very slowly)"
+        "Lore:Rootworm (eight feet, translucent, digests very slowly)",
+        "uesp:Lore:Rootworm",
+        "world/sources/lore/topics/fauna-hazards.md",
+        "world/sources/catalogue/type-recipes.json#wild-rootworm-burrow"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A rootworm bore abandoned when the worm died in it.",
         "siteAdvantages": "A dry, wide, straight tunnel \u2014 extremely rare shelter.",
-        "occupantsMotive": "Whatever is currently living in a free tunnel.",
-        "pressures": "Everyone who passes wants to use it and something is always already in it.",
-        "wouldChangeIf": "Clearing it would give the region its only dry way-shelter."
+        "occupantsMotive": "Whatever is currently living in a free tunnel. Whatever is currently living in a free tunnel, which changes every season and is the reason no village has claimed it.",
+        "pressures": "Everyone who passes wants to use it and something is always already in it. Everyone who passes wants to use it and something is always already in it, so the bore has killed more travellers than the weather it shelters from.",
+        "wouldChangeIf": "Clearing it would give the region its only dry way-shelter. Clearing it would give the region its only dry way-shelter, and the guides have costed the work twice and cannot agree who would own it afterwards."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7885,15 +8109,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Rootworm (eight feet, translucent, digests very slowly)"
+        "Lore:Rootworm (eight feet, translucent, digests very slowly)",
+        "uesp:Lore:Rootworm",
+        "world/sources/lore/topics/guilds-and-orders.md",
+        "world/sources/lore/tribes.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A wild rootworm's burrow off a trunk root, which the Waykeepers watch because a wild worm can open or close a line.",
         "siteAdvantages": "Where soft ground meets the root layer and the worm can turn.",
-        "occupantsMotive": "A rootworm and the small scavenger population that lives off its spoil.",
-        "pressures": "The Waykeepers want it moved; the local tribe considers it sacred.",
-        "wouldChangeIf": "Driving it off would open a shorter root line and start an argument."
+        "occupantsMotive": "A rootworm and the small scavenger population that lives off its spoil. A rootworm and the small scavenger population that lives off its spoil \u2014 an ecology the Waykeepers can read well enough to predict where the worm will turn.",
+        "pressures": "The Waykeepers want it moved; the local tribe considers it sacred. The Waykeepers want it moved; the local tribe considers it sacred, and the dispute has been at the convocation twice without a ruling.",
+        "wouldChangeIf": "Driving it off would open a shorter root line and start an argument. Driving it off would open a shorter root line and start an argument that would reach Helstrom within a month."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7986,15 +8213,18 @@
       "provenance": "quest-required",
       "sources": [
         "docs/quests/20-world-provisions.md (four-station rootworm net is a Pass-1 placeholder, re-authored at Phase 11)",
-        "Lore:Rootworm (the Underground Express); \u00a712b rule: the southern terminus is wintertide-only"
+        "Lore:Rootworm (the Underground Express); \u00a712b rule: the southern terminus is wintertide-only",
+        "uesp:Lore:Rootworm",
+        "world/sources/lore/topics/guilds-and-orders.md",
+        "world/sources/lore/helstrom.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "The interior terminus of the rootworm network, re-authored from the Pass-1 placeholder.",
         "siteAdvantages": "At the Helstrom gate, where the trunk roots converge.",
-        "occupantsMotive": "Waykeepers who run a semi-public service and a restricted one.",
-        "pressures": "The restricted network is a faction reward and is guarded as one.",
-        "wouldChangeIf": "Losing the Waykeepers' cooperation closes the interior."
+        "occupantsMotive": "Waykeepers who run a semi-public service and a restricted one. Waykeepers who run a semi-public service and a restricted one, and who will not confirm to a paying passenger that the restricted network exists.",
+        "pressures": "The restricted network is a faction reward and is guarded as one. The restricted network is a faction reward and is guarded as one, and the interior's tribes have begun resenting a transit system they cannot audit.",
+        "wouldChangeIf": "Losing the Waykeepers' cooperation closes the interior. Losing the Waykeepers' cooperation closes the interior, which is the single largest piece of leverage any faction holds in this region."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -8092,15 +8322,18 @@
       "provenance": "lore-implied",
       "sources": [
         "Lore:Haj Uxith (Molag Bal's enslaved Hist)",
-        "Lore:Haj Uxith (Molag Bal's sap harvest); Lore:Hist Sap"
+        "Lore:Haj Uxith (Molag Bal's sap harvest); Lore:Hist Sap",
+        "world/sources/lore/topics/hist-and-sap.md",
+        "uesp:Lore:Hist Sap",
+        "world/sources/lore/topics/hist-placement.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A Daedric-worked facility built to harvest a Hist industrially \u2014 the Haj Uxith pattern, in the interior.",
         "siteAdvantages": "Sited on a tree, not on ground: the building is a machine wrapped around a trunk.",
-        "occupantsMotive": "Whatever the bargain left behind.",
-        "pressures": "The tree is still alive and still connected, and its anguish is felt down the root line.",
-        "wouldChangeIf": "Ending it is one of the interior's great deeds."
+        "occupantsMotive": "Whatever the bargain left behind. Whatever the bargain left behind, still working the machine on a schedule, in a building nobody has authorised anyone to enter for six hundred years.",
+        "pressures": "The tree is still alive and still connected, and its anguish is felt down the root line. The tree is still alive and still connected, and its anguish is felt down the root line \u2014 the Agaceph sap-speaker can name the direction and will not.",
+        "wouldChangeIf": "Ending it is one of the interior's great deeds. Ending it is one of the interior's great deeds, and would be the first thing in a century that the convocation could agree to reward."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -8199,15 +8432,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Hist Sap (bloodlust hallucinogen to non-Argonians)"
+        "Lore:Hist Sap (bloodlust hallucinogen to non-Argonians)",
+        "world/sources/lore/topics/hist-and-sap.md",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/catalogue/type-recipes.json#sap-tapping-camp"
       ],
       "confidence": "medium",
       "why": {
         "founding": "Licensed tapping done to the tree-minders' rule: one stage, one season, one tree.",
         "siteAdvantages": "On a tree the assembly designated for it.",
-        "occupantsMotive": "Tappers whose licence is their livelihood and who police poachers themselves.",
-        "pressures": "The licence is renewed annually and someone always objects.",
-        "wouldChangeIf": "A licence lost would be worth violence."
+        "occupantsMotive": "Tappers whose licence is their livelihood and who police poachers themselves. Tappers whose licence is their livelihood and who police poachers themselves, because an unpoliced district loses its licences entirely.",
+        "pressures": "The licence is renewed annually and someone always objects. The licence is renewed annually and someone always objects, most reliably the tribe whose tree carried the stage the previous year.",
+        "wouldChangeIf": "A licence lost would be worth violence. A licence lost would be worth violence, and the last holder to lose one is now selling to the same city fence the poachers use."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -8304,15 +8540,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Hist Sap; Miredancers (settlement-register)"
+        "Lore:Hist Sap; Miredancers (settlement-register)",
+        "world/sources/lore/topics/hist-and-sap.md",
+        "uesp:Lore:Hist Sap",
+        "world/sources/lore/extrapolation/settlement-register.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A village that took the sap sacrament far past the customary dose and never came back.",
         "siteAdvantages": "Beside a hero Hist's overflow pool, where sap is free and continuous.",
-        "occupantsMotive": "People in permanent low communion who work, trade and speak a beat behind everyone else.",
-        "pressures": "Their neighbours consider them ruined; their tree does not.",
-        "wouldChangeIf": "Cutting the overflow would sober the village and probably kill several of them."
+        "occupantsMotive": "People in permanent low communion who work, trade and speak a beat behind everyone else. People in permanent low communion who work, trade and speak a beat behind everyone else, and who are unusually good at hearing a tree that is unwell.",
+        "pressures": "Their neighbours consider them ruined; their tree does not. Their neighbours consider them ruined; their tree does not, and the tree-minders quietly consult them about the first-rain trunk's decline.",
+        "wouldChangeIf": "Cutting the overflow would sober the village and probably kill several of them. Cutting the overflow would sober the village and probably kill several of them, and would remove the province's only standing example of what overdose looks like."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -8405,15 +8644,18 @@
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/hist-placement.md (only 2\u20133 living sealed Hist province-wide, hand-placed)",
-        "Lore:Xanmeer (~25% sealed; vakka stones); Lore:Vakka Stone"
+        "Lore:Xanmeer (~25% sealed; vakka stones); Lore:Vakka Stone",
+        "world/sources/lore/topics/hist-placement.md",
+        "uesp:Lore:Xanmeer",
+        "world/sources/lore/duskfall.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A xanmeer sealed with its tribe's Hist inside it, alone since the Duskfall.",
         "siteAdvantages": "A summit site defensible enough that it was never opened.",
-        "occupantsMotive": "Nothing living but the tree, which is the point.",
-        "pressures": "A whole tribe watches it and has never been inside.",
-        "wouldChangeIf": "Opening it releases \u2014 or kills \u2014 a Hist that has been isolated for an age."
+        "occupantsMotive": "Nothing living but the tree, which is the point. Nothing living but the tree, which is the point: a Hist that has not touched the collective since the Duskfall, and may not know it has ended.",
+        "pressures": "A whole tribe watches it and has never been inside. A whole tribe watches it and has never been inside, and the wardens' post is now the only thing holding that tribe together.",
+        "wouldChangeIf": "Opening it releases \u2014 or kills \u2014 a Hist that has been isolated for an age. Opening it releases \u2014 or kills \u2014 a Hist that has been isolated for an age, which is the closest thing the province has to a controlled test of the main quest's premise."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -8515,15 +8757,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "fauna-hazards dossier (moon-adder); material-culture (snake hide, daril)"
+        "fauna-hazards dossier (moon-adder); material-culture (snake hide, daril)",
+        "world/sources/lore/topics/fauna-hazards.md",
+        "world/sources/lore/topics/material-culture.md",
+        "world/sources/catalogue/type-recipes.json#serpent-ground"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A reach where the big snakes den in the root banks.",
         "siteAdvantages": "Warm root banks above the flood line \u2014 ideal denning.",
-        "occupantsMotive": "Snakes, and the hunters who take them for hide.",
-        "pressures": "The hide is worth enough that hunters keep coming and keep dying.",
-        "wouldChangeIf": "Overhunting would clear it in a decade."
+        "occupantsMotive": "Snakes, and the hunters who take them for hide. Snakes, and the hunters who take them for hide, working to a season set by the daril fermentary rather than by the snakes.",
+        "pressures": "The hide is worth enough that hunters keep coming and keep dying. The hide is worth enough that hunters keep coming and keep dying, and the fermentary buys venom from the same reach, so a bad year hits both trades at once.",
+        "wouldChangeIf": "Overhunting would clear it in a decade. Overhunting would clear it in a decade, and the fermentary has already begun keeping its own stock against that day."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -8614,15 +8859,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "scour finding: only 11 sinkholes province-wide \u2014 do not design types that assume this landform is common"
+        "scour finding: only 11 sinkholes province-wide \u2014 do not design types that assume this landform is common",
+        "docs/world/50-hydrology-climate.md",
+        "uesp:Lore:Rootworm",
+        "world/sources/catalogue/type-recipes.json#sinkhole-mouth"
       ],
       "confidence": "medium",
       "why": {
         "founding": "One of the province's very few true sinkholes, in the only ground firm enough to hold a rim.",
         "siteAdvantages": "A rare karst pocket the hydrology has not flooded away.",
-        "occupantsMotive": "Something that hunts by dropping.",
-        "pressures": "The tribes fence the rim and the fence is broken every year.",
-        "wouldChangeIf": "A collapse would open it into the root layer below."
+        "occupantsMotive": "Something that hunts by dropping. Something that hunts by dropping, which is why the rim is fenced and why the fence is on the outside rather than the inside.",
+        "pressures": "The tribes fence the rim and the fence is broken every year. The tribes fence the rim and the fence is broken every year, always from within, which is the detail the tribes do not include when they explain the fence.",
+        "wouldChangeIf": "A collapse would open it into the root layer below. A collapse would open it into the root layer below, and the Waykeepers' second junction is directly beneath it."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -8717,15 +8965,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "Lore:Hist; Lore:Argonian; settlement-register M3 band"
+        "Lore:Hist; Lore:Argonian; settlement-register M3 band",
+        "world/sources/lore/topics/hist-placement.md",
+        "uesp:Lore:Hist",
+        "world/sources/lore/extrapolation/settlement-register.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "The tribe stayed after their tree went to sleep, because leaving would have been abandoning it.",
         "siteAdvantages": "A pond-ringed rise the tree chose, which is also defensible.",
-        "occupantsMotive": "A tribe in a generations-long interregnum, running its own affairs without communion.",
-        "pressures": "No hatching, no naming, no soul-return; their young leave for Hissmir and mostly do not come back.",
-        "wouldChangeIf": "If the tree woke, the village would double in a decade."
+        "occupantsMotive": "A tribe in a generations-long interregnum, running its own affairs without communion. A tribe in a generations-long interregnum, running its own affairs without communion, and doing it well enough that the neighbours have stopped offering help.",
+        "pressures": "No hatching, no naming, no soul-return; their young leave for Hissmir and mostly do not come back. No hatching, no naming, no soul-return; their young leave for Hissmir and mostly do not come back, and the village's median age is the highest in the district.",
+        "wouldChangeIf": "If the tree woke, the village would double in a decade. If the tree woke, the village would double in a decade \u2014 and the bereaved village that lost its tree entirely watches them for exactly that reason."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -8822,15 +9073,18 @@
       "status": "active",
       "provenance": "density-fill",
       "sources": [
-        "module 20 \u00a711 (stage five of the foreign-infrastructure life cycle: reuse)"
+        "module 20 \u00a711 (stage five of the foreign-infrastructure life cycle: reuse)",
+        "uesp:Lore:Xanmeer",
+        "world/sources/lore/tribes.md",
+        "world/sources/lore/topics/material-culture.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "One household living in a xanmeer antechamber because it was empty and dry.",
         "siteAdvantages": "Dry stone floor above the flood in a region where dry floors are the scarce good.",
-        "occupantsMotive": "A family with no tribe and no intention of explaining themselves.",
-        "pressures": "The tribe that tends the xanmeer knows and has not decided what to do.",
-        "wouldChangeIf": "A decision either way ends the arrangement."
+        "occupantsMotive": "A family with no tribe and no intention of explaining themselves. A family with no tribe and no intention of explaining themselves, who trade at the walkway junction and have never been to the village that tends the ruin.",
+        "pressures": "The tribe that tends the xanmeer knows and has not decided what to do. The tribe that tends the xanmeer knows and has not decided what to do, chiefly because evicting them would require admitting the antechamber was habitable.",
+        "wouldChangeIf": "A decision either way ends the arrangement. A decision either way ends the arrangement, and a ruling that squatting is trespass would apply equally to the fort-dwelling tribe two days east."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -8925,15 +9179,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "module 20 \u00a712.3b (the reward of a notable hard-to-reach landform must not be nothing); Morrowind's Landmarks category"
+        "module 20 \u00a712.3b (the reward of a notable hard-to-reach landform must not be nothing); Morrowind's Landmarks category",
+        "world/sources/lore/topics/lost-peoples.md",
+        "world/sources/lore/duskfall.md",
+        "world/sources/catalogue/type-recipes.json#standing-curiosity"
       ],
       "confidence": "medium",
       "why": {
         "founding": "Nobody knows what it is or who made it, and the local tribes have four incompatible stories.",
         "siteAdvantages": "It is where it is; the forest has grown around it without touching it.",
-        "occupantsMotive": "None.",
-        "pressures": "Two of the four stories are politically useful and are being pushed.",
-        "wouldChangeIf": "An authoritative answer would disappoint everyone."
+        "occupantsMotive": "None. None \u2014 the four stories each name a different custodian, and none of the four tribes has ever posted one.",
+        "pressures": "Two of the four stories are politically useful and are being pushed. Two of the four stories are politically useful and are being pushed: one makes it Ayleid, which would open a dig, and one makes it pre-Duskfall Argonian, which would close one forever.",
+        "wouldChangeIf": "An authoritative answer would disappoint everyone. An authoritative answer would disappoint everyone, and the Helstrom assembly has declined to hear the question three times."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -9029,15 +9286,18 @@
       "status": "active",
       "provenance": "density-fill",
       "sources": [
-        "Lore:Murkmire; material-culture (Murkmire reed-and-stilt kit)"
+        "Lore:Murkmire; material-culture (Murkmire reed-and-stilt kit)",
+        "world/sources/lore/regions/murkmire.md",
+        "docs/world/50-hydrology-climate.md",
+        "world/sources/catalogue/type-recipes.json#stilt-village"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A hamlet-turned-village on a shallow flat that floods to the floor twice a year and is rebuilt each time.",
         "siteAdvantages": "Shallow flat with good fishing and no competition.",
-        "occupantsMotive": "Families who have decided the rebuild is cheaper than moving.",
-        "pressures": "The floods are getting deeper and the piles are getting longer.",
-        "wouldChangeIf": "Two bad years running would end it."
+        "occupantsMotive": "Families who have decided the rebuild is cheaper than moving. Families who have decided the rebuild is cheaper than moving, and who have made the rebuild a rite, done in three days with the whole village present.",
+        "pressures": "The floods are getting deeper and the piles are getting longer. The floods are getting deeper and the piles are getting longer, and the timber now comes from the hammock village, which charges for it.",
+        "wouldChangeIf": "Two bad years running would end it. Two bad years running would end it, and the households have not agreed where they would go, because the only firm ground nearby is a rise already fully occupied."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -9134,15 +9394,18 @@
       "status": "active",
       "provenance": "density-fill",
       "sources": [
-        "Lore:Murkmire; material-culture (Murkmire reed-and-stilt kit)"
+        "Lore:Murkmire; material-culture (Murkmire reed-and-stilt kit)",
+        "world/sources/lore/helstrom.md",
+        "world/sources/lore/regions/murkmire.md",
+        "world/sources/lore/extrapolation/settlement-register.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A working village on the channel that carries Helstrom's traffic.",
         "siteAdvantages": "Channel edge with a bed firm enough to pile and a bank high enough to land on.",
-        "occupantsMotive": "Polers and provisioners who live off passing convoys.",
-        "pressures": "The convoys are escorted and do not always stop.",
-        "wouldChangeIf": "A change in the escorted route would empty it in two years."
+        "occupantsMotive": "Polers and provisioners who live off passing convoys. Polers and provisioners who live off passing convoys, on margins set by Helstrom's escort schedule rather than by anything they control.",
+        "pressures": "The convoys are escorted and do not always stop. The convoys are escorted and do not always stop, and the escorts prefer Greenspring, which has cleaner water and a tribe that flatters them.",
+        "wouldChangeIf": "A change in the escorted route would empty it in two years. A change in the escorted route would empty it in two years, and the village has begun courting the pilgrim traffic as a hedge."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -9238,15 +9501,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Xinchei-Konu; sky-moons-calendar dossier"
+        "Lore:Xinchei-Konu; sky-moons-calendar dossier",
+        "uesp:Lore:Xinchei-Konu",
+        "docs/world/55-light-sky-time.md",
+        "world/sources/lore/helstrom.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "The reckoning by which the interior knows when Hist-Tsoko has come and the convocation is called.",
         "siteAdvantages": "A clearing with a sightline to the one gap in the canopy that admits the relevant light.",
-        "occupantsMotive": "Readers appointed by the assembly at Helstrom.",
-        "pressures": "The canopy has grown and the sightline is closing; the reading is being disputed.",
-        "wouldChangeIf": "A failed reading would postpone the convocation, which has political consequences."
+        "occupantsMotive": "Readers appointed by the assembly at Helstrom. Readers appointed by the assembly at Helstrom, two of them, who must agree \u2014 a rule added after a single reader's error moved a convocation by a month.",
+        "pressures": "The canopy has grown and the sightline is closing; the reading is being disputed. The canopy has grown and the sightline is closing; the reading is being disputed, and the tribes that dispute it are the ones that would rather not attend.",
+        "wouldChangeIf": "A failed reading would postpone the convocation, which has political consequences. A failed reading would postpone the convocation, which has political consequences \u2014 and cutting the canopy to save the sightline is itself a contested act."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -9340,15 +9606,18 @@
       "status": "drowned",
       "provenance": "geography-derived",
       "sources": [
-        "Lore:Lakemire Xanmeer; Lore:Ixtaxh Xanmeer (re-drowned but for the topmost chamber)"
+        "Lore:Lakemire Xanmeer; Lore:Ixtaxh Xanmeer (re-drowned but for the topmost chamber)",
+        "uesp:Lore:Xanmeer",
+        "docs/world/50-hydrology-climate.md",
+        "world/sources/lore/topics/lost-peoples.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A xanmeer that subsided into a lake, leaving one chamber above water.",
         "siteAdvantages": "It sank straight down; the top terrace is a dry island.",
-        "occupantsMotive": "Divers who work it and a lake that does not want them to.",
-        "pressures": "Everything below the first chamber needs breath and light.",
-        "wouldChangeIf": "A drawdown year would open two more chambers and a rush to loot them."
+        "occupantsMotive": "Divers who work it and a lake that does not want them to. Divers who work it and a lake that does not want them to, financed on shares by the living treasure-hunters' outfit a day away.",
+        "pressures": "Everything below the first chamber needs breath and light. Everything below the first chamber needs breath and light, and the outfit has lost two divers rather than admit the second chamber is beyond them.",
+        "wouldChangeIf": "A drawdown year would open two more chambers and a rush to loot them. A drawdown year would open two more chambers and a rush to loot them, which the pilgrim-tended terrace's rota would have no standing to stop."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -9445,15 +9714,18 @@
       "provenance": "canon-named",
       "sources": [
         "Lore:Xal Irasotl (named near Hutan-Tzel)",
-        "Lore:Xanmeer (~40% tended by a nearby clan; entering to loot is a serious offence)"
+        "Lore:Xanmeer (~40% tended by a nearby clan; entering to loot is a serious offence)",
+        "uesp:Lore:Xanmeer",
+        "world/sources/lore/tribes.md",
+        "world/sources/lore/duskfall.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "The xanmeer of the tribe that still lives beside it, maintained as a monument since the Duskfall.",
         "siteAdvantages": "On the tribe's own ground, which is why it survived.",
-        "occupantsMotive": "Tenders who sweep it, repair it, and will not let anyone loot it.",
-        "pressures": "Treasure hunters do not accept that maintenance means ownership.",
-        "wouldChangeIf": "A generation that stopped tending would turn it into a dungeon."
+        "occupantsMotive": "Tenders who sweep it, repair it, and will not let anyone loot it. Tenders who sweep it, repair it, and will not let anyone loot it, on a duty roster that is the tribe's oldest continuous institution.",
+        "pressures": "Treasure hunters do not accept that maintenance means ownership. Treasure hunters do not accept that maintenance means ownership, and the living outfit nearby has twice offered the tribe a share to look away.",
+        "wouldChangeIf": "A generation that stopped tending would turn it into a dungeon. A generation that stopped tending would turn it into a dungeon, which is what happened to the subsumed meer and is why the roster is enforced."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -9551,15 +9823,18 @@
       "status": "ruined",
       "provenance": "geography-derived",
       "sources": [
-        "Lore:Xanmeer (~40% tended by a nearby clan; entering to loot is a serious offence)"
+        "Lore:Xanmeer (~40% tended by a nearby clan; entering to loot is a serious offence)",
+        "uesp:Lore:Xanmeer",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/catalogue/type-recipes.json#tended-xanmeer"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A xanmeer with no surviving tribe, kept by the pilgrims who pass it on the way to Helstrom.",
         "siteAdvantages": "Directly on the pilgrim route \u2014 the reason it is tended at all.",
-        "occupantsMotive": "No owner; a rota kept by strangers who will never meet each other.",
-        "pressures": "The rota is slipping and the lower terraces are going back to the marsh.",
-        "wouldChangeIf": "A tribe claiming it would end the arrangement and probably improve the building."
+        "occupantsMotive": "No owner; a rota kept by strangers who will never meet each other. No owner; a rota kept by strangers who will never meet each other, each doing a half-day's work because the last one did.",
+        "pressures": "The rota is slipping and the lower terraces are going back to the marsh. The rota is slipping and the lower terraces are going back to the marsh, in step with the falling pilgrim traffic the sap road camp also reports.",
+        "wouldChangeIf": "A tribe claiming it would end the arrangement and probably improve the building. A tribe claiming it would end the arrangement and probably improve the building, and no tribe will claim it because the claim implies the dead here are theirs."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -9654,15 +9929,18 @@
       "status": "abandoned",
       "provenance": "geography-derived",
       "sources": [
-        "openworld research \u00a73.1 (the satellite node that resolves the implied story)"
+        "openworld research \u00a73.1 (the satellite node that resolves the implied story)",
+        "uesp:Lore:Xanmeer",
+        "world/sources/lore/topics/lost-peoples.md",
+        "world/sources/catalogue/type-recipes.json#treasure-hunters-camp"
       ],
       "confidence": "medium",
       "why": {
         "founding": "An expedition camp whose expedition did not return from the xanmeer it was working.",
-        "siteAdvantages": "Three hundred metres from a sealed xanmeer, on the only dry ground.",
+        "siteAdvantages": "Three hundred metres from a sealed xanmeer, on the only dry ground. Three hundred metres from a sealed xanmeer, on the only dry ground \u2014 which is why the second expedition will camp here too.",
         "occupantsMotive": "The dead, and their notes.",
-        "pressures": "Their notes are accurate up to the point where they stop.",
-        "wouldChangeIf": "A second expedition using the notes would get further."
+        "pressures": "Their notes are accurate up to the point where they stop. Their notes are accurate up to the point where they stop, and the living outfit has been trying to buy them from whoever brings them out.",
+        "wouldChangeIf": "A second expedition using the notes would get further. A second expedition using the notes would get further, which is exactly what the notes' last page warns against in the writer's own hand."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -9759,15 +10037,18 @@
       "status": "active",
       "provenance": "density-fill",
       "sources": [
-        "openworld research \u00a73.1 (the satellite node that resolves the implied story)"
+        "openworld research \u00a73.1 (the satellite node that resolves the implied story)",
+        "world/sources/lore/topics/lost-peoples.md",
+        "uesp:Lore:Xanmeer",
+        "world/sources/catalogue/type-recipes.json#treasure-hunters-camp"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A working treasure-hunting outfit with a licence from nobody.",
         "siteAdvantages": "Central to three unopened sites, on a channel they can get a boat out on.",
-        "occupantsMotive": "Hunters who will hire, trade, cheat, or race the player depending on the day.",
-        "pressures": "The tended-xanmeer tribes consider them criminals and are correct.",
-        "wouldChangeIf": "A big find would break the outfit up in an argument."
+        "occupantsMotive": "Hunters who will hire, trade, cheat, or race the player depending on the day. Hunters who will hire, trade, cheat, or race the player depending on the day, financed from the coast and answerable to nobody in the interior.",
+        "pressures": "The tended-xanmeer tribes consider them criminals and are correct. The tended-xanmeer tribes consider them criminals and are correct, and the outfit's response has been to work drowned sites, where no tribe has a tender.",
+        "wouldChangeIf": "A big find would break the outfit up in an argument. A big find would break the outfit up in an argument, and two of the six already have a buyer of their own on the coast."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -9863,15 +10144,18 @@
       "provenance": "lore-implied",
       "sources": [
         "Lore:Umbriel",
-        "Lore:Umbriel (4E 48; the dead rose and walked); argonia-4e201-state"
+        "Lore:Umbriel (4E 48; the dead rose and walked); argonia-4e201-state",
+        "uesp:Lore:Umbriel",
+        "world/sources/lore/extrapolation/argonia-4e201-state.md",
+        "world/sources/lore/tribes.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A village under Umbriel's track in 4E 48; everything organic was taken and the buildings were not.",
         "siteAdvantages": "It stood where it stood; the shadow decided the rest.",
-        "occupantsMotive": "Nobody. The dead did not stay.",
-        "pressures": "The neighbouring villages will not use the ground or the timber.",
-        "wouldChangeIf": "Nothing will be built here again."
+        "occupantsMotive": "Nobody. The dead did not stay. Nobody. The dead did not stay \u2014 which distinguishes it from the walking village in the deep swamp and is the whole of the local theology about why.",
+        "pressures": "The neighbouring villages will not use the ground or the timber. The neighbouring villages will not use the ground or the timber, and the timber is good, seasoned and standing, which makes the refusal expensive and deliberate.",
+        "wouldChangeIf": "Nothing will be built here again. Nothing will be built here again \u2014 though the heretic builders have asked about the stone footings, and were refused by four tribes at once."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -9970,15 +10254,18 @@
       "sources": [
         "Lore:Umpholo",
         "world/sources/lore/extrapolation/settlement-register.md \u00a73",
-        "Lore:Umpholo (the mission died of swamp rot within a month)"
+        "Lore:Umpholo (the mission died of swamp rot within a month)",
+        "world/sources/lore/topics/foreign-powers.md",
+        "world/sources/lore/topics/history-timeline.md",
+        "world/sources/catalogue/type-recipes.json#empty-mission"
       ],
       "confidence": "high",
       "why": {
         "founding": "A Maran mission whose priests died of swamp rot within a month of arriving; the last book was gone by 3E 399.",
         "siteAdvantages": "Built on the only stone outcrop the missionaries could find, which is why the shell survives.",
-        "occupantsMotive": "Nobody, for two centuries.",
-        "pressures": "The marsh is eating it at a measurable rate.",
-        "wouldChangeIf": "Nothing; it is a monument to a category of mistake."
+        "occupantsMotive": "Nobody, for two centuries. Nobody, for two centuries \u2014 the interior tribes will not use the outcrop, on the grounds that stone that killed foreigners will kill anyone.",
+        "pressures": "The marsh is eating it at a measurable rate. The marsh is eating it at a measurable rate, and antiquarians from Gideon have begun asking for the last book, which left in 3E 399 and has not been traced.",
+        "wouldChangeIf": "Nothing; it is a monument to a category of mistake. Nothing; it is a monument to a category of mistake \u2014 and it is also the only stone building in the district nobody claims, which the squatters have noticed."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -10070,15 +10357,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Argonian (blasphemers bound to an urn and denied return)"
+        "Lore:Argonian (blasphemers bound to an urn and denied return)",
+        "uesp:Lore:Argonian",
+        "world/sources/lore/tribes.md",
+        "world/sources/lore/topics/hist-placement.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A vault for the dead who may not be staked: heretics, the Hist-less, and one whole tribe.",
         "siteAdvantages": "Dry stone, sealed, well away from any village.",
-        "occupantsMotive": "A keeper who holds the register and not the key.",
-        "pressures": "Families want their dead moved out; the register says no.",
-        "wouldChangeIf": "A ruling on the register would empty half of it."
+        "occupantsMotive": "A keeper who holds the register and not the key. A keeper who holds the register and not the key, an arrangement designed so that no single person can be pressured into opening it.",
+        "pressures": "Families want their dead moved out; the register says no. Families want their dead moved out; the register says no, and the register's authority rests on an assembly ruling nobody can now produce.",
+        "wouldChangeIf": "A ruling on the register would empty half of it. A ruling on the register would empty half of it, and the Hist-less refuge has offered to receive everyone the register denies \u2014 which would make the refuge a burial authority."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -10169,15 +10459,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "scour finding: median site sees 18% of its 1.2 km surroundings \u2014 a view is a reward"
+        "scour finding: median site sees 18% of its 1.2 km surroundings \u2014 a view is a reward",
+        "world/sources/lore/regions/murkmire.md",
+        "world/sources/lore/helstrom.md",
+        "world/sources/catalogue/type-recipes.json#vista-ledge"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A blowdown from an old storm left one ledge with a view over the canopy.",
         "siteAdvantages": "The single highest exposed point in the district.",
-        "occupantsMotive": "None; guides bring clients here to orient.",
-        "pressures": "The forest is closing the gap and the view has ten years left.",
-        "wouldChangeIf": "When it closes, the district loses its only orientation point."
+        "occupantsMotive": "None; guides bring clients here to orient. None; guides bring clients here to orient, and charge for it, because in this region a bearing is a purchasable good.",
+        "pressures": "The forest is closing the gap and the view has ten years left. The forest is closing the gap and the view has ten years left, and the guides have started arguing about whether cutting to keep it open is theirs to do.",
+        "wouldChangeIf": "When it closes, the district loses its only orientation point. When it closes, the district loses its only orientation point apart from the counting tower, which belongs to a village and is not for hire."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -10269,15 +10562,18 @@
       "status": "ruined",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Voriplasm; ecology-encounters-loot feed (loot has provenance)"
+        "Lore:Voriplasm; ecology-encounters-loot feed (loot has provenance)",
+        "world/sources/lore/topics/ecology-encounters-loot.md",
+        "world/sources/lore/topics/lost-peoples.md",
+        "world/sources/lore/duskfall.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A xanmeer cistern sealed on purpose with what was in it still inside.",
         "siteAdvantages": "Below the water table, in stone that has held.",
-        "occupantsMotive": "A voriplasm, and the seal.",
-        "pressures": "The seal is stone and stone lasts; the warnings on it have outlasted the language.",
-        "wouldChangeIf": "Breaking the seal is a choice the world does not force."
+        "occupantsMotive": "A voriplasm, and the seal. A voriplasm, and the seal, which was cut by people who expected to be understood and were not.",
+        "pressures": "The seal is stone and stone lasts; the warnings on it have outlasted the language. The seal is stone and stone lasts; the warnings on it have outlasted the language, so the only people who can read them are the antiquarians most likely to break it.",
+        "wouldChangeIf": "Breaking the seal is a choice the world does not force. Breaking the seal is a choice the world does not force \u2014 and the breached cistern in the deep swamp is what the other choice looks like twelve years on."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -10398,7 +10694,9 @@
         "uesp:Lore:An-Xileel",
         "uesp:Lore:Umbriel",
         "world/sources/lore/extrapolation/argonia-4e201-state.md (the Wild Ones; the promised clean province)",
-        "world/sources/catalogue/type-recipes.json#waiting-vigil-settlement"
+        "world/sources/catalogue/type-recipes.json#waiting-vigil-settlement",
+        "world/sources/lore/tribes.md",
+        "uesp:Lore:Black Marsh"
       ],
       "confidence": "medium",
       "why": {
@@ -10475,15 +10773,18 @@
       "status": "active",
       "provenance": "density-fill",
       "sources": [
-        "asset inventory (the passerelles walkway kit: curving, climbing, branching); Lore:Murkmire"
+        "asset inventory (the passerelles walkway kit: curving, climbing, branching); Lore:Murkmire",
+        "world/sources/lore/regions/murkmire.md",
+        "world/sources/lore/topics/material-culture.md",
+        "world/sources/catalogue/type-recipes.json#walkway-junction"
       ],
       "confidence": "medium",
       "why": {
         "founding": "Four walkway routes forced to meet above ground that floods to chest height.",
         "siteAdvantages": "The only place the four alignments can share a footing.",
-        "occupantsMotive": "A keeper who collects for maintenance and sells rope.",
-        "pressures": "Everyone uses it and nobody wants to pay for it.",
-        "wouldChangeIf": "One arm failing reroutes an entire tribe's traffic."
+        "occupantsMotive": "A keeper who collects for maintenance and sells rope. A keeper who collects for maintenance and sells rope, and who is the only person in the district who knows the true condition of all four arms.",
+        "pressures": "Everyone uses it and nobody wants to pay for it. Everyone uses it and nobody wants to pay for it, and the branching village a day away has the same problem and has started coordinating rates.",
+        "wouldChangeIf": "One arm failing reroutes an entire tribe's traffic. One arm failing reroutes an entire tribe's traffic, most likely the Paatru's, who have no alternative that does not cross their own mire."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -10578,15 +10879,18 @@
       "provenance": "lore-implied",
       "sources": [
         "docs/quests/20-world-provisions.md \u00a712b (wamasu electrify the water around them)",
-        "Lore:Wamasu; Lore:Haynekhtnamet (received offerings to stay the flooding)"
+        "Lore:Wamasu; Lore:Haynekhtnamet (received offerings to stay the flooding)",
+        "world/sources/lore/topics/fauna-hazards.md",
+        "uesp:Lore:Wamasu",
+        "world/sources/catalogue/type-recipes.json#wamasu-pond"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A wamasu nesting pond, avoided by everything including the tribes.",
         "siteAdvantages": "Still, deep, isolated water \u2014 nesting conditions.",
-        "occupantsMotive": "A breeding pair and a season's eggs.",
-        "pressures": "The water is lethal to swim while they are in it, and the route past has to go round.",
-        "wouldChangeIf": "Clearing it opens a two-hour shortcut and ends a species' nest site."
+        "occupantsMotive": "A breeding pair and a season's eggs. A breeding pair and a season's eggs, which the coastal egg trade would pay a fortune for and which no interior guide will lead anyone to.",
+        "pressures": "The water is lethal to swim while they are in it, and the route past has to go round. The water is lethal to swim while they are in it, and the route past has to go round, through the marsh giant's expanding range.",
+        "wouldChangeIf": "Clearing it opens a two-hour shortcut and ends a species' nest site. Clearing it opens a two-hour shortcut and ends a species' nest site, and the offering-shrine keepers hold that the flood-staying rite depends on the pair being there."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -10680,15 +10984,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "scour: 60 waterfall candidates (capped), concentrated on the rim; openworld research (concealment as a gate)"
+        "scour: 60 waterfall candidates (capped), concentrated on the rim; openworld research (concealment as a gate)",
+        "docs/world/50-hydrology-climate.md",
+        "world/sources/lore/topics/ecology-encounters-loot.md",
+        "world/sources/catalogue/type-recipes.json#waterfall-chamber"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A spring bursting out of the root layer and falling into a chamber behind the curtain.",
         "siteAdvantages": "The one place in the region with real vertical relief.",
-        "occupantsMotive": "Whatever wants a dry room behind water.",
-        "pressures": "Everyone local knows there is a chamber; not everyone comes back from it.",
-        "wouldChangeIf": "A dry season halves the curtain and exposes the entrance."
+        "occupantsMotive": "Whatever wants a dry room behind water. Whatever wants a dry room behind water, which in this district has meant, at various times, a cult cell, a smuggler and something nobody has named.",
+        "pressures": "Everyone local knows there is a chamber; not everyone comes back from it. Everyone local knows there is a chamber; not everyone comes back from it, and the village downstream has stopped counting the ones who do not.",
+        "wouldChangeIf": "A dry season halves the curtain and exposes the entrance. A dry season halves the curtain and exposes the entrance, which would make the chamber worthless to anyone who wanted it hidden."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -10782,15 +11089,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "region grammar: deep river corridor; Lore:Seafalls; the arterial class needs its own hazards"
+        "region grammar: deep river corridor; Lore:Seafalls; the arterial class needs its own hazards",
+        "docs/world/50-hydrology-climate.md",
+        "uesp:Lore:Sea Transportation",
+        "world/sources/catalogue/type-recipes.json#whitewater-reach"
       ],
       "confidence": "medium",
       "why": {
         "founding": "Where the Panther fork drops through a root-choked reach.",
         "siteAdvantages": "The only fast water in a province of still water.",
-        "occupantsMotive": "Nothing lives in it; a portage crew works beside it.",
-        "pressures": "Boats are lost here regularly and the crew profits from it.",
-        "wouldChangeIf": "A cleared channel would end the portage trade."
+        "occupantsMotive": "Nothing lives in it; a portage crew works beside it. Nothing lives in it; a portage crew works beside it, charging by the hull and running the only registered salvage claim on the reach.",
+        "pressures": "Boats are lost here regularly and the crew profits from it. Boats are lost here regularly and the crew profits from it, and Greenspring downstream receives the wreckage and the survivors and resents both.",
+        "wouldChangeIf": "A cleared channel would end the portage trade. A cleared channel would end the portage trade and would put laden craft within a day of Helstrom's approach, which the escort service has costed and likes."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -10884,15 +11194,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Hist (the eight Hist states); Lore:Lilmoth (the rogue Hist of 4E 48)"
+        "Lore:Hist (the eight Hist states); Lore:Lilmoth (the rogue Hist of 4E 48)",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/lore/topics/hist-and-sap.md",
+        "uesp:Lore:Hist"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A wild Hist with no tribe that went wrong on its own, in ground nobody kept.",
         "siteAdvantages": "Deep basin, no route, no neighbours to notice for decades.",
-        "occupantsMotive": "Nobody speaks for it; the nearest villages maintain a totem line and stay outside it.",
-        "pressures": "It is spreading \u2014 the flowering ring is wider each year.",
-        "wouldChangeIf": "A tribe adopting it would either be destroyed or would be the strangest tribe in Argonia."
+        "occupantsMotive": "Nobody speaks for it; the nearest villages maintain a totem line and stay outside it. Nobody speaks for it; the nearest villages maintain a totem line and stay outside it, re-cutting the line outward each year as the ring widens.",
+        "pressures": "It is spreading \u2014 the flowering ring is wider each year. It is spreading \u2014 the flowering ring is wider each year, and the rate has been recorded by the counting tower's watchers for three generations.",
+        "wouldChangeIf": "A tribe adopting it would either be destroyed or would be the strangest tribe in Argonia. A tribe adopting it would either be destroyed or would be the strangest tribe in Argonia, and the Hist-less refuge has debated exactly that twice."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -10983,15 +11296,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Hist (the eight Hist states); Lore:Lilmoth (the rogue Hist of 4E 48)"
+        "Lore:Hist (the eight Hist states); Lore:Lilmoth (the rogue Hist of 4E 48)",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/lore/topics/hist-and-sap.md",
+        "uesp:Lore:Hist"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A Hist that isolated itself and slept rather than join the collective after the Duskfall.",
         "siteAdvantages": "A burn scar that never regrew, so the tree stands alone in open ground \u2014 rare in the interior.",
-        "occupantsMotive": "None. Pilgrims come to sit, not to speak.",
-        "pressures": "Sap-tappers know it cannot object.",
-        "wouldChangeIf": "If it woke, three villages would have to renegotiate who they belong to."
+        "occupantsMotive": "None. Pilgrims come to sit, not to speak. None. Pilgrims come to sit, not to speak, and the sitting has become a recognised alternative for anyone refused audience at a hero grove.",
+        "pressures": "Sap-tappers know it cannot object. Sap-tappers know it cannot object, and the poacher camp works it in preference to any tree with a tribe, which the tree-minders know and cannot prove.",
+        "wouldChangeIf": "If it woke, three villages would have to renegotiate who they belong to. If it woke, three villages would have to renegotiate who they belong to, and two of them are currently paying the Agaceph grove for standing they would no longer need."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -11082,15 +11398,18 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "fauna-hazards dossier; module 55 (night light as a first-class world state)"
+        "fauna-hazards dossier; module 55 (night light as a first-class world state)",
+        "world/sources/lore/topics/fauna-hazards.md",
+        "docs/world/55-light-sky-time.md",
+        "world/sources/catalogue/type-recipes.json#wisp-lure"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A stretch of basin where the lights lead travellers off the route.",
         "siteAdvantages": "Between two safe rises, on the only line anyone would walk.",
-        "occupantsMotive": "Whatever the lights are.",
-        "pressures": "Guides tell clients the lights are real and to ignore them, and clients follow them anyway.",
-        "wouldChangeIf": "Nothing."
+        "occupantsMotive": "Whatever the lights are. Whatever the lights are, they keep to a line between two safe rises, which is either the cleverest thing in the basin or a coincidence nobody can test.",
+        "pressures": "Guides tell clients the lights are real and to ignore them, and clients follow them anyway. Guides tell clients the lights are real and to ignore them, and clients follow them anyway; the far shelter's stock is what the survivors reach.",
+        "wouldChangeIf": "Nothing. Nothing \u2014 and the guides price the crossing on the assumption that one client in twenty will walk off the line regardless of what they were told."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -11186,15 +11505,18 @@
       "provenance": "lore-implied",
       "sources": [
         "docs/quests/30-main-quest.md \u00a724b.5 (player stronghold: reoccupied xanmeer OR abandoned river station)",
-        "Lore:Blackwood Road; openworld research (waystation recipe)"
+        "Lore:Blackwood Road; openworld research (waystation recipe)",
+        "world/sources/lore/helstrom.md",
+        "world/sources/lore/topics/foreign-powers.md",
+        "world/sources/lore/extrapolation/settlement-register.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "An Imperial-era river station on the last navigable reach of the Helstrom approach, abandoned when the concession lapsed.",
         "siteAdvantages": "A stone quay, a walled yard and a magazine on firm ground \u2014 everything a base needs and nothing the marsh can rot.",
-        "occupantsMotive": "Squatters who leave when anyone with a claim arrives.",
-        "pressures": "Both the interior tribes and the Veiled Reed would rather it stayed nobody's.",
-        "wouldChangeIf": "A claimant with standing could hold it \u2014 which is exactly what quests 30 \u00a724b.5 reserves it for."
+        "occupantsMotive": "Squatters who leave when anyone with a claim arrives. Squatters who leave when anyone with a claim arrives, and who have kept the magazine dry for twenty years without ever being thanked for it.",
+        "pressures": "Both the interior tribes and the Veiled Reed would rather it stayed nobody's. Both the interior tribes and the Veiled Reed would rather it stayed nobody's, because a held station on this reach controls the Helstrom approach outright.",
+        "wouldChangeIf": "A claimant with standing could hold it \u2014 which is exactly what quests 30 \u00a724b.5 reserves it for. A claimant with standing could hold it \u2014 which is exactly what quests 30 \u00a724b.5 reserves it for, and which would put a fortified quay between Helstrom and the coast."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -11294,15 +11616,18 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "Lore:Xanmeer (~20% inhabited; inhabited for their walls and still-working ancient defences)"
+        "Lore:Xanmeer (~20% inhabited; inhabited for their walls and still-working ancient defences)",
+        "uesp:Lore:Xanmeer",
+        "uesp:Lore:Vakka Stone",
+        "world/sources/lore/duskfall.md"
       ],
       "confidence": "medium",
       "why": {
         "founding": "A tribe that moved into its ancestors' xanmeer during the Imperial century and never moved out.",
         "siteAdvantages": "Stone walls and working vakka mechanisms \u2014 the strongest fortification in the interior.",
-        "occupantsMotive": "A tribe living in a monument they are technically supposed only to maintain.",
-        "pressures": "Their neighbours consider inhabiting it close to the stone heresy; the mechanisms still kill people.",
-        "wouldChangeIf": "A mechanism failure would open the strongest position in the region to anyone."
+        "occupantsMotive": "A tribe living in a monument they are technically supposed only to maintain. A tribe living in a monument they are technically supposed only to maintain, and who describe the residence as continuous tending to anyone who asks.",
+        "pressures": "Their neighbours consider inhabiting it close to the stone heresy; the mechanisms still kill people. Their neighbours consider inhabiting it close to the stone heresy; the mechanisms still kill people, mostly their own young, which they do not report.",
+        "wouldChangeIf": "A mechanism failure would open the strongest position in the region to anyone. A mechanism failure would open the strongest position in the region to anyone, and the vakka stones that drive it are the largest cache in the interior."
       },
       "sitingPrefs": {
         "regionClasses": [
