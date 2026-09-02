@@ -792,6 +792,13 @@ as load-bearing. Record the outcome here either way.
    (2026-09-02): classic Skyrim mod **89948** "and others like it" for
    rafts; for mud huts consider SSE **63329** alongside Mud Mother Grove
    (146557, already sourced). Sourcing pass dispatched.
+   **Round 2 leads (owner, 2026-09-02, with a steer that the research so
+   far was not thorough enough):** many boat mods exist (e.g. SSE
+   **110882**; classic videos/4100); **Argonian Exports** (Steam Workshop
+   189297755) may cover various gaps; classic **86156** "northern Argonian
+   settlement"; and the r/skyrimmods thread "Best mods for Argonians"
+   (reddit.com/r/skyrimmods/comments/1fsawo1) is to be read and its links
+   critically considered, not skimmed.
 3. **Gideon anchor.** Its approved position sits on steep ground (14 %
    buildable in 400 m) — expect a nudge proposal within `toleranceUV` at
    Part 6.
