@@ -151,11 +151,19 @@ engineering**:
 2. **Floating villages** (rafted platforms moored in slow water). Static in play;
    the mooring is the settlement. Alten Meerhleel and the Lilmoth stilt-quarters
    are this.
-3. **Genuinely drifting villages** (Hixinoag). Recommend **exactly one** in the
-   whole province, hand-authored, with **two or three fixed mooring sites** it
+3. **Genuinely drifting villages** (Hixinoag). Recommend **two** in the whole
+   province, hand-authored, each with **two or three fixed mooring sites** it
    occupies at different points in the flood cycle. That gives us the canon
-   phenomenon at a fixed engineering cost and makes finding it a real event.
+   phenomenon at a fixed engineering cost and makes finding one a real event.
    `DEFER` the implementation choice to Phase 11/14; the lore answer is settled.
+
+   *(Revised from "exactly one" during the Phase 11 Part 2 catalogue
+   reconciliation, 2026-09-02. The old number was an engineering-cost
+   recommendation, not a canon limit — canon says most villages do not stay put.
+   The catalogue holds canon-named **Hixinoag** on the northern caravan route and
+   one inner-swamp raft village whose abandoned moorings form a trail of ghost
+   villages; two is still a fixed, small cost, and the second is what makes the
+   phenomenon read as a practice rather than a curiosity.)*
 
 ### G5.8 — the state of the xanmeer network
 

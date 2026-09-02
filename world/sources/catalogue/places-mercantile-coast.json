@@ -110,9 +110,9 @@
       "aliases": [],
       "classification": {
         "class": "settlement",
-        "family": "free-port",
-        "type": "neutral-free-port",
-        "variant": "half-legal",
+        "family": "mixed-settlement",
+        "type": "port-town",
+        "variant": "lighterage",
         "magnitude": "M4"
       },
       "status": "active",
@@ -121,14 +121,15 @@
         "world/sources/lore/extrapolation/settlement-register.md",
         "world/sources/lore/regions/murkmire.md",
         "docs/quests/20-world-provisions.md#12b",
-        "type-recipes:neutral-free-port"
+        "type-recipes:port-town",
+        "world/sources/lore/extrapolation/settlement-register.md (Alten Meerhleel: a port built to trade with outsiders; Hist: NONE)"
       ],
       "confidence": "CANON_FIXED",
       "why": {
-        "founding": "Canon's outsider-facing port and floating village north-west of Lilmoth; with Lilmoth destroyed for a century and a half, the bay's outside trade came here and stayed.",
-        "siteAdvantages": "A moored village on slow deep water with no walls, no gate and no jurisdiction \u2014 an *alten-* name, meaning outsiders were always the point.",
-        "occupantsMotive": "Everyone trades and nobody rules; the price list is public and the enforcement is entirely social.",
-        "pressures": "Now that Lilmoth is rebuilt the two ports are direct rivals, and Meerhleel's whole advantage is that it asks nothing.",
+        "founding": "Canon's outsider-facing port north-west of Lilmoth: a working two-culture port below city scale, where an Argonian raft-quarter and an outsiders' warehouse row front the same water. With Lilmoth destroyed for a century and a half the bay's outside trade came here, and enough of it stayed that the quay outgrew the village.",
+        "siteAdvantages": "Slow deep water inside the bar, deep enough for a laden hull to lie off and be worked by lighters, with firm enough margin behind it for a warehouse row \u2014 an *alten-* name, meaning outsiders were always the point.",
+        "occupantsMotive": "Lightermen, Argonian raft-quarter families and factors from four ports; the customs presence is one clerk and a tariff shed nobody staffs, which is the entire commercial proposition.",
+        "pressures": "Now that Lilmoth is rebuilt the two ports are direct rivals, and Meerhleel's whole advantage is that it asks nothing \u2014 an advantage that Corimont, the province's actual free port, holds far more securely.",
         "wouldChangeIf": "If Lilmoth's council ever dropped its tariffs, Meerhleel would lose the only reason anyone sails past a real harbour."
       },
       "sitingPrefs": {
@@ -179,16 +180,17 @@
         "valueTier": 3
       },
       "vibe": {
-        "signatureFeature": "A town of moored platforms with a published price board at its landing stage and no gate anywhere in it.",
+        "signatureFeature": "Two building grammars on one waterfront: a lashed Argonian raft-quarter and a straight-gabled outsiders' warehouse row, sharing a landing stage and no carpentry whatsoever.",
         "palette": "Sun-bleached deck timber, painted price boards, brown estuary water.",
         "mood": "Open, mercenary, oddly polite.",
-        "approach": "",
+        "approach": "From the water, masts and a warehouse gable read together before any of the rafts do.",
         "condition": ""
       },
       "assetPlan": [
         "vanilla-farmhouse",
         "docks-piers",
         "boats-keeled",
+        "vanilla-shackkit",
         "market-tents",
         "clutter",
         "signage-blank"
@@ -215,7 +217,8 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "reconciliationNote": "Retyped from neutral-free-port (2026-09-02 reconciliation). That singular type is canon-anchored on Alten Corimont \u2014 named freehold, captain of the port, nailed price list \u2014 which keeps it; Meerhleel's canon is only 'a port built to trade with outsiders', which port-town covers honestly at the same M4 scale. ID unchanged."
     },
     {
       "id": "place.mercantile-coast.ashfield",
