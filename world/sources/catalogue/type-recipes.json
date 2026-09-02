@@ -1,21 +1,77 @@
 {
  "schemaVersion": 1,
  "seed": "phase11-part1-recipes-1",
- "note": "Per-TYPE recipes for the province place taxonomy (Phase 11 Part 1, decision 0041). One row per taxonomy type; taxonomy.json is derived from this file and must stay in sync (test_type_recipes.py). Digest: docs/research/settlement-type-recipes.md.",
+ "note": "Per-TYPE recipes for the province place taxonomy (Phase 11 Part 1, decision 0041). One row per taxonomy type; taxonomy.json is derived from this file. Digest: docs/research/settlement-type-recipes.md.",
+ "vocabularies": {
+  "recordScope": [
+   "poi",
+   "district",
+   "dressing"
+  ],
+  "cultures": [
+   "argonian",
+   "imperial",
+   "dunmer",
+   "khajiit"
+  ],
+  "dangerTiers": [
+   "D0",
+   "D1",
+   "D2",
+   "D3",
+   "D4",
+   "D5"
+  ],
+  "eraLayers": [
+   "merethic",
+   "duskfall",
+   "ayleid",
+   "lost-peoples",
+   "knahaten-flu",
+   "second-empire",
+   "imperial",
+   "morrowind-invasion",
+   "post-umbriel",
+   "current"
+  ],
+  "statuses": [
+   "active",
+   "ruined",
+   "abandoned",
+   "seasonal",
+   "drowned",
+   "contested",
+   "under-construction"
+  ],
+  "complexityBudget": [
+   "trivial",
+   "simple",
+   "standard",
+   "complex"
+  ],
+  "traversal": [
+   "walk",
+   "boat",
+   "swim",
+   "dive",
+   "climb",
+   "stealth",
+   "combat",
+   "social",
+   "fastTransit"
+  ]
+ },
  "schema": {
-  "type": "taxonomy type id; unique province-wide",
+  "type": "taxonomy type id, unique province-wide",
   "class/family": "its taxonomy parents",
-  "recordScope": "poi = gets its own catalogue record and counts toward the province total; district = authored inside a parent settlement's blueprint, no separate record; dressing = placed in quantity by the compiler from a density rule, no individual record. ONLY recordScope=poi countBands sum to the 600-740 province total.",
-  "variants": "taxonomy variants; a variant is a dressing/state delta, never a different siting grammar",
-  "slots": "the five-slot POI recipe from docs/research/openworld-place-distribution-and-siting.md 3.1, stated as this type's deltas: cue (long-range signal - respect the no-long-sightlines finding: tall, close, lit or audible), population (small, one elevated/ranged member), props (domestic detail that narrates), rewardFree + rewardGated (free find plus capability-gated find), satellite (optional second node 200-400 m that resolves the implied story)",
-  "siting": "the meso-rung siting grammar (module 40 28b): landformClasses are terrain-scour classes plus the pseudo-classes any-firm-ground / any-shallow-marsh / any-channel-bank for types that need ordinary ground; regionClasses are worldgen regions.REGION_CLASSES names",
-  "magnitude": "M1-M5 settlement magnitude, or null for non-settlement places",
-  "cultures": "argonian | imperial (two-culture rule, material-culture dossier: kits never blend)",
-  "dangerTiers": "D0-D5 bands this type can occupy; approachDanger is the band you cross to reach it",
-  "eraLayers": "merethic | ayleid | lost-peoples | knahaten-flu | imperial | post-umbriel | current",
-  "assetPlan": "inventory family ids (settlement-asset-inventory.json). The darkwater pool is withdrawn and must never appear.",
-  "assetGaps": "permanent no-Nexus-answer gaps this type touches. grave-stakes = build staked-dead fields from cairns/totems/stockade pikes; working-props = distinguish works sites by LAYOUT and dressing, never bespoke machinery.",
-  "complexityBudget": "trivial|simple|standard|complex; complex needs complexityJustification (Morrowind-level placement ceiling)",
+  "recordScope": "poi = its own catalogue record, counts toward the province total; district = authored inside a parent settlement's blueprint; dressing = placed in quantity by the compiler from a density rule. ONLY recordScope=poi countBands sum to the 600-740 province total.",
+  "variants": "dressing/state deltas, never a different siting grammar",
+  "slots": "the five-slot POI recipe (docs/research/openworld-place-distribution-and-siting.md 3.1) as this type's deltas: cue, population, props, rewardFree + rewardGated, satellite (200-400 m). Cues must be tall, close, lit or AUDIBLE - the scour found no long sightlines below the mountain rim.",
+  "siting": "meso-rung siting grammar (module 40 28b). landformClasses are terrain-scour classes plus the pseudo-classes any-firm-ground / any-shallow-marsh / any-channel-bank, and are RANKED PREFERENCES, not requirements - enclosed-clearing (6 province-wide) and sinkhole (11) are genuinely scarce and must be budgeted. regionClasses are worldgen regions.REGION_CLASSES names.",
+  "cultures": "which people's place this is. The two-culture KIT rule still binds (material-culture dossier): argonian and imperial kits never blend; dunmer places build from the dunmer-telvanni family, khajiit from the imperial/market families.",
+  "assetPlan": "inventory family ids. The withdrawn darkwater pool must never appear.",
+  "assetGaps": "permanent no-Nexus-answer gaps. grave-stakes = build staked-dead fields from cairns, totems and stockade pikes; working-props = distinguish works sites by LAYOUT and dressing, never bespoke machinery.",
+  "complexityBudget": "complex needs complexityJustification (Morrowind-level placement ceiling)",
   "countBand": "[min,max] expected instances province-wide, non-uniform by causal gradient"
  },
  "types": [
@@ -83,7 +139,7 @@
    "complexityBudget": "standard",
    "countBand": [
     2,
-    4
+    3
    ],
    "lore": "Lore:Bright-Throat Village (cliffs over Oliis Bay)"
   },
@@ -149,8 +205,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    9,
-    11
+    7,
+    8
    ],
    "lore": "region grammar: seasonal floodplain"
   },
@@ -217,8 +273,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    3,
-    4
+    2,
+    3
    ],
    "lore": "Lore:Thorn; Lore:Saltrice; Lore:House Dres"
   },
@@ -285,8 +341,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    5,
-    6
+    4,
+    4
    ],
    "lore": "region grammar: raised hammock; Lore:Black Marsh"
   },
@@ -353,8 +409,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    5,
-    6
+    4,
+    4
    ],
    "lore": "region grammar: upland hills / border mountains; scour finding: a quarter of interesting ground is on the rim"
   },
@@ -430,6 +486,160 @@
     1
    ],
    "lore": "Lore:Alten Corimont; Lore:All Flags Navy"
+  },
+  {
+   "type": "claimable-steading",
+   "class": "settlement",
+   "family": "homestead",
+   "recordScope": "poi",
+   "variants": [
+    "derelict",
+    "disputed",
+    "gifted"
+   ],
+   "summary": "A holding that is standing, empty and legally unclaimed \u2014 reserved as the shape the build-out phases will hang player ownership on, and readable as an ordinary abandoned steading until then.",
+   "slots": {
+    "cue": "a sound roof with no smoke and no vegetation clearance for one season only",
+    "population": "0; elevated member absent",
+    "props": "a claim notice or an unresolved inheritance, a hearth cold but not ruined, tools left in usable condition",
+    "rewardFree": "the tools and the claim notice",
+    "rewardGated": "the claim itself, which is a social and legal process, not a lock",
+    "satellite": "the arbitration ground or hiring office 200-400 m off where the claim would be settled"
+   },
+   "siting": {
+    "landformClasses": [
+     "flood-high",
+     "any-firm-ground",
+     "islet",
+     "oxbow",
+     "cliff-bench"
+    ],
+    "waterRelation": "a landing",
+    "regionClasses": [
+     "fringe marsh",
+     "interior swamp",
+     "firm lowland",
+     "seasonal floodplain",
+     "raised hammock",
+     "upland hills"
+    ],
+    "neighbourRelation": "one per region packet, near but not in a settlement"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D1",
+    "D2"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "abandoned",
+    "contested"
+   ],
+   "assetPlan": [
+    "mud-mother-grove",
+    "bamboo-hut",
+    "vanilla-shackkit",
+    "vanilla-farmhouse",
+    "fences-wattle",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    2,
+    4
+   ],
+   "lore": "build-out register: player ownership needs a place shape reserved now, or it is a refactor later (0041 forward-compatibility block)"
+  },
+  {
+   "type": "domestic-compound",
+   "class": "settlement",
+   "family": "homestead",
+   "recordScope": "dressing",
+   "variants": [
+    "extended-family",
+    "two-household",
+    "new-build"
+   ],
+   "summary": "An ordinary household outside any village boundary \u2014 a hearth, a washing place, a rain cistern and a kitchen plot. Nothing has happened here. That is the point.",
+   "slots": {
+    "cue": "cooking smoke and washing on a line, with no defensive feature at all",
+    "population": "3-8; elevated member absent",
+    "props": "a communal hearth, a rain cistern, a kitchen plot, children's things, a repair half done",
+    "rewardFree": "hospitality, and a completely ordinary account of the district",
+    "rewardGated": "nothing locked; the household's trust is the only gate",
+    "satellite": "the village they belong to, or the second compound they are related to, 200-400 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "flood-high",
+     "any-firm-ground",
+     "oxbow",
+     "islet",
+     "any-shallow-marsh"
+    ],
+    "waterRelation": "a landing and clean water",
+    "regionClasses": [
+     "interior swamp",
+     "fringe marsh",
+     "seasonal floodplain",
+     "raised hammock",
+     "firm lowland",
+     "rootland deep marsh",
+     "tropical jungle",
+     "mangrove forest"
+    ],
+    "neighbourRelation": "scattered between villages; the connective tissue of the settled map"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D1",
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active",
+    "abandoned",
+    "under-construction"
+   ],
+   "assetPlan": [
+    "mud-mother-grove",
+    "bamboo-hut",
+    "vanilla-shackkit",
+    "fences-wattle",
+    "clutter",
+    "argonian-props",
+    "argonian-lights"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
+    30,
+    40
+   ],
+   "lore": "tone axis: the mundane and domestic register; module 92 (most people do not live in named settlements)"
   },
   {
    "type": "colonial-quarter",
@@ -635,8 +845,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    6,
-    8
+    4,
+    6
    ],
    "lore": "Lore:Black Marsh (Imperial houses on the same soil sank)"
   },
@@ -706,8 +916,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    5,
-    6
+    4,
+    4
    ],
    "lore": "Lore:Blackwood Road; openworld research (waystation recipe)"
   },
@@ -1366,9 +1576,83 @@
    "complexityBudget": "standard",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "Lore:Slough Point; Lore:Blackwood Road"
+  },
+  {
+   "type": "dunmer-frontier-holding",
+   "class": "settlement",
+   "family": "mixed-settlement",
+   "recordScope": "poi",
+   "variants": [
+    "house-remnant",
+    "refugee-founded"
+   ],
+   "summary": "A Dunmer holding on the cold settled frontier \u2014 either a House remnant that never left, or founded by refugees who came the other way after the Red Year.",
+   "slots": {
+    "cue": "organic tower or plantation forms in the northern uplands",
+    "population": "5-15; elevated member absent",
+    "props": "ancestor niches maintained, a House mark that is politically awkward, Argonian neighbours who trade and do not visit",
+    "rewardFree": "House goods and a frank account of the frontier",
+    "rewardGated": "the ancestor chamber",
+    "satellite": "an Argonian village 300-400 m off with a long memory"
+   },
+   "siting": {
+    "landformClasses": [
+     "ridge-end",
+     "cliff-bench",
+     "flood-high",
+     "saddle",
+     "any-firm-ground"
+    ],
+    "waterRelation": "upland water",
+    "regionClasses": [
+     "upland hills",
+     "border mountains",
+     "firm lowland",
+     "seasonal floodplain"
+    ],
+    "neighbourRelation": "on the Tear road and the Morrowind frontier"
+   },
+   "magnitude": "M3",
+   "cultures": [
+    "dunmer",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D1",
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "imperial",
+    "morrowind-invasion",
+    "current"
+   ],
+   "statuses": [
+    "active",
+    "contested"
+   ],
+   "assetPlan": [
+    "dunmer-telvanni",
+    "vanilla-farmhouse",
+    "fences-wattle",
+    "landmark-civic",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social"
+   ],
+   "complexityBudget": "standard",
+   "countBand": [
+    2,
+    3
+   ],
+   "lore": "Lore:House Dres; Lore:Tear; Lore:Red Year (4E 5); foreign-powers dossier (the cold settled frontier)"
   },
   {
    "type": "estate-village",
@@ -1439,8 +1723,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    4,
-    5
+    3,
+    4
    ],
    "lore": "Lore:Archein; labour-and-bondage dossier (the Owing)"
   },
@@ -1505,8 +1789,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    3,
-    4
+    2,
+    3
    ],
    "lore": "Lore:Black Marsh (no cash-crop economy is possible); Lore:Archein; Lore:Hereguard Plantation"
   },
@@ -1647,8 +1931,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "Lore:Black Marsh (toll-towns); the Owing (labour-and-bondage dossier)"
   },
@@ -1856,9 +2140,80 @@
    "complexityBudget": "standard",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "Lore:Lukiul; League of Open Water (quest plan); Lore:Hist"
+  },
+  {
+   "type": "morrowind-veterans-holding",
+   "class": "settlement",
+   "family": "outcast-settlement",
+   "recordScope": "poi",
+   "variants": [
+    "celebrated",
+    "unquiet"
+   ],
+   "summary": "A settlement founded by veterans of the 4E 5 invasion of Morrowind, full of looted Dunmer goods, disagreeing loudly with itself about what they did.",
+   "slots": {
+    "cue": "Dunmer household goods and armour visible in Argonian dwellings, in quantity",
+    "population": "6-15 ageing veterans and their families; elevated member on a watch built from habit",
+    "props": "looted ancestor-goods that nobody will use and nobody will give back, a muster roll of a campaign, two memorials disagreeing",
+    "rewardFree": "the muster roll and the loot",
+    "rewardGated": "the ancestor-goods, which somebody in Morrowind wants back",
+    "satellite": "a shrine or a fence 200-400 m off handling the returned goods"
+   },
+   "siting": {
+    "landformClasses": [
+     "flood-high",
+     "ridge-end",
+     "any-firm-ground",
+     "ford"
+    ],
+    "waterRelation": "on the old campaign route",
+    "regionClasses": [
+     "upland hills",
+     "firm lowland",
+     "fringe marsh",
+     "border mountains",
+     "seasonal floodplain"
+    ],
+    "neighbourRelation": "toward the Morrowind border and the Tear road"
+   },
+   "magnitude": "M3",
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "morrowind-invasion",
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "mud-mother-grove",
+    "bamboo-hut",
+    "dunmer-telvanni",
+    "totems-ritual",
+    "stockade-scaffold",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social"
+   ],
+   "complexityBudget": "standard",
+   "countBand": [
+    2,
+    2
+   ],
+   "lore": "Lore:Accession War; Lore:Argonian Invasion of Morrowind (4E 5-6); Lore:Tear"
   },
   {
    "type": "quarantine-village",
@@ -1924,7 +2279,7 @@
    "complexityBudget": "simple",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "Lore:Knahaten Flu; fauna-hazards dossier (swamp rot, blood rot, greenspore)"
   },
@@ -1990,7 +2345,7 @@
    "complexityBudget": "simple",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "Lore:An-Xileel; Lore:Umbriel; argonia-4e201-state (the Wild Ones)"
   },
@@ -2059,8 +2414,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    3,
-    4
+    2,
+    3
    ],
    "lore": "Lore:Bright-Throat Village; Lore:Argonian (jewellery, guarded weaving secrets)"
   },
@@ -2131,7 +2486,7 @@
    "complexityBudget": "standard",
    "countBand": [
     2,
-    4
+    3
    ],
    "lore": "Lore:Dead-Water (crocodiles); Lore:Lizard-Steed; Lore:Riverbacks (osheeja gar)"
   },
@@ -2268,7 +2623,7 @@
    "complexityBudget": "standard",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "Lore:Hatching Pools; Lore:Argonian (egg-tenders, Keepers of the Shell)"
   },
@@ -2413,8 +2768,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    20,
-    22
+    15,
+    16
    ],
    "lore": "Lore:Hist; Lore:Argonian; settlement-register M3 band"
   },
@@ -2489,6 +2844,147 @@
     2
    ],
    "lore": "Lore:Stonewastes (Four Winds); Lore:Lut-Eileel"
+  },
+  {
+   "type": "naga-village",
+   "class": "settlement",
+   "family": "tribal-village",
+   "recordScope": "poi",
+   "variants": [
+    "settled",
+    "raiding"
+   ],
+   "summary": "A Naga settlement \u2014 because the Naga are a people with villages, not a spawn table, and the province reads wrong if the only Naga the player meets are on a road with a weapon.",
+   "slots": {
+    "cue": "a village of markedly larger dwellings, built for markedly larger people",
+    "population": "5-12; elevated member on a watch platform",
+    "props": "everything scaled up, a Hist tended normally, trophies from a raiding branch the settled branch disapproves of",
+    "rewardFree": "trade goods, and the fact of the place",
+    "rewardGated": "the tribe's regard, which changes how their kin on the roads treat you",
+    "satellite": "a highway camp 300-400 m off run by their own tribeless relatives"
+   },
+   "siting": {
+    "landformClasses": [
+     "flood-high",
+     "enclosed-clearing",
+     "island",
+     "ridge-end"
+    ],
+    "waterRelation": "as a tribal village",
+    "regionClasses": [
+     "interior swamp",
+     "rootland deep marsh",
+     "tropical jungle",
+     "fringe marsh"
+    ],
+    "neighbourRelation": "near the roads its tribeless relatives work"
+   },
+   "magnitude": "M3",
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "mud-mother-grove",
+    "bamboo-hut",
+    "hist-variants",
+    "totems-ritual",
+    "stockade-scaffold",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social",
+    "combat"
+   ],
+   "complexityBudget": "standard",
+   "countBand": [
+    2,
+    4
+   ],
+   "lore": "Lore:Naga (a people of Black Marsh; the tribeless are the brigands, not the whole nation)"
+  },
+  {
+   "type": "necropolis-village",
+   "class": "settlement",
+   "family": "tribal-village",
+   "recordScope": "poi",
+   "variants": [
+    "dead-tenders",
+    "nightbound"
+   ],
+   "summary": "A village whose whole economy is the dead: it stakes, sings, tends and repatriates for a whole region, and its neighbours will not eat with it.",
+   "slots": {
+    "cue": "a stake field larger than the village, in every direction",
+    "population": "5-12; elevated member absent",
+    "props": "stake blanks in industrial quantity, a register of the region's dead, pahnjee racks on every approach, goods paid in kind by grateful villages",
+    "rewardFree": "the register, which is a regional census of the dead",
+    "rewardGated": "the tenders' own record of what the dead asked for",
+    "satellite": "a bone-repatriation waystation 200-400 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-shallow-marsh",
+     "flood-high",
+     "island",
+     "enclosed-clearing"
+    ],
+    "waterRelation": "soft ground that holds a stake, downwind of everyone",
+    "regionClasses": [
+     "interior swamp",
+     "fringe marsh",
+     "rootland deep marsh",
+     "seasonal floodplain"
+    ],
+    "neighbourRelation": "serves 6-12 villages that keep it at arm's length"
+   },
+   "magnitude": "M3",
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "mud-mother-grove",
+    "bamboo-hut",
+    "totems-ritual",
+    "fences-wattle",
+    "clutter",
+    "stockade-scaffold"
+   ],
+   "assetGaps": [
+    "grave-stakes"
+   ],
+   "traversal": [
+    "walk",
+    "boat",
+    "social"
+   ],
+   "complexityBudget": "standard",
+   "countBand": [
+    2,
+    2
+   ],
+   "lore": "Lore:Veeskhleel (the tribe associated with the dead); Lore:Argonian (grave-singers, xul-vaat)"
   },
   {
    "type": "nightbound-village",
@@ -2687,7 +3183,7 @@
    "complexityBudget": "simple",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "Lore:Hist Sap; Miredancers (settlement-register)"
   },
@@ -2758,8 +3254,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    7,
-    9
+    5,
+    7
    ],
    "lore": "Lore:Murkmire (platforms ascending from ground to hover above water)"
   },
@@ -2966,7 +3462,7 @@
    "complexityBudget": "standard",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "Lore:Salt-Cured; Online:Tide-Born Boat; Online:Kothringi Tidal Canoe"
   },
@@ -3032,7 +3528,7 @@
    "complexityBudget": "standard",
    "countBand": [
     2,
-    4
+    3
    ],
    "lore": "Lore:Murkmire (the ten-mile mangrove wall); Lore:Red Bramman"
   },
@@ -3102,8 +3598,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    3,
-    4
+    2,
+    3
    ],
    "lore": "Lore:Argonian Houseboat; Lore:Alten Meerhleel"
   },
@@ -3177,8 +3673,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    15,
-    17
+    11,
+    13
    ],
    "lore": "Lore:Murkmire; material-culture (Murkmire reed-and-stilt kit)"
   },
@@ -3386,9 +3882,80 @@
    "complexityBudget": "simple",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "Lore:Guar (Glowgill breathes underwater); Lore:Archon"
+  },
+  {
+   "type": "pearl-and-shell-bed",
+   "class": "works",
+   "family": "aquaculture",
+   "recordScope": "poi",
+   "variants": [
+    "pearl",
+    "shell",
+    "reef-harvest"
+   ],
+   "summary": "A worked bed on the sea floor: the province's living underwater economy, and a place whose entire working surface is below the water.",
+   "slots": {
+    "cue": "marker buoys and a tender boat above nothing visible",
+    "population": "2-6 divers; elevated member is a surface tender, unusually \u2014 the danger is below, not above",
+    "props": "buoyed lot markers on the bed, grading baskets, a diver's tally of lots worked, an unopened shell somebody is saving",
+    "rewardFree": "the surface catch and the lot markers",
+    "rewardGated": "the deep lots, breath-gated",
+    "satellite": "a divers' yard or a shell yard 200-400 m on shore"
+   },
+   "siting": {
+    "landformClasses": [
+     "cove",
+     "islet",
+     "natural-harbour",
+     "headland",
+     "river-mouth"
+    ],
+    "waterRelation": "clear water over a worked bed",
+    "regionClasses": [
+     "ocean",
+     "coastal lagoon & salt marsh",
+     "tidal delta",
+     "mangrove forest"
+    ],
+    "neighbourRelation": "worked from a coastal settlement or a flotilla"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active",
+    "seasonal"
+   ],
+   "assetPlan": [
+    "docks-piers",
+    "boats-raft-canoe",
+    "fishing-props",
+    "submerged-blocks",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "dive",
+    "swim",
+    "boat"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    4,
+    6
+   ],
+   "lore": "acceptance rule: Argonian physiology materially changes underwater play \u2014 the economy must reflect it"
   },
   {
    "type": "predator-pen",
@@ -3454,8 +4021,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    3,
-    4
+    2,
+    3
    ],
    "lore": "Lore:Ripper Eel; Lore:Dead-Water; Lore:Riverbacks"
   },
@@ -3732,8 +4299,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "Lore:Sea Transportation; material-culture (Argonians crew foreign hulls, build small craft)"
   },
@@ -3808,6 +4375,141 @@
    "lore": "material-culture (bone-workers with bronze tools; crocodile and snake hide)"
   },
   {
+   "type": "dye-and-lacquer-house",
+   "class": "works",
+   "family": "craft",
+   "recordScope": "district",
+   "variants": [
+    "scale-lacquer",
+    "cloth-dye"
+   ],
+   "summary": "Where the province gets its colour: scale lacquer, tail bands of dyed leather, and the pigments that make an Argonian visibly from one place and not another.",
+   "slots": {
+    "cue": "dyed cloth and lacquered pieces hung out, the brightest thing for a kilometre",
+    "population": "1-3; elevated member absent",
+    "props": "pigment sources by region, a colour book that is effectively a map of who lives where, lacquered wasp thoraxes",
+    "rewardFree": "pigments and a finished piece",
+    "rewardGated": "the colour book, which is a regional identity key",
+    "satellite": "the pigment source 200-400 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-firm-ground",
+     "flood-high",
+     "any-channel-bank"
+    ],
+    "waterRelation": "water for dyeing",
+    "regionClasses": [
+     "firm lowland",
+     "raised hammock",
+     "fringe marsh",
+     "interior swamp",
+     "tropical jungle"
+    ],
+    "neighbourRelation": "in an artisan village"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D0",
+    "D1",
+    "D2"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "argonian-props",
+    "mud-mother-grove",
+    "fences-wattle",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
+    3,
+    5
+   ],
+   "lore": "material-culture (scale lacquer, coloured leather tail bands, lacquered wasp thoraxes)"
+  },
+  {
+   "type": "glass-and-bead-house",
+   "class": "works",
+   "family": "craft",
+   "recordScope": "district",
+   "variants": [
+    "bead",
+    "volcanic-glass"
+   ],
+   "summary": "A bead and glass workshop \u2014 the craft the Kothringi adorned their cairns with, kept alive by the people who buried them.",
+   "slots": {
+    "cue": "a small furnace and a bench of glittering waste",
+    "population": "1-2; elevated member absent",
+    "props": "beads graded by colour, cullet from broken Kothringi work being reused, a design nobody can explain the origin of",
+    "rewardFree": "beads and cullet",
+    "rewardGated": "the master's stock of the old colours",
+    "satellite": "a cairn field 200-400 m off that supplies the cullet, which is a moral problem"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-firm-ground",
+     "flood-high",
+     "cliff-bench"
+    ],
+    "waterRelation": "fuel and water",
+    "regionClasses": [
+     "firm lowland",
+     "upland hills",
+     "fringe marsh",
+     "tropical jungle"
+    ],
+    "neighbourRelation": "in Kothringi country"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D1",
+    "D2"
+   ],
+   "eraLayers": [
+    "lost-peoples",
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "argonian-props",
+    "stockade-scaffold",
+    "clutter",
+    "lights-general"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
+    2,
+    4
+   ],
+   "lore": "Lore:Kothringi (cairns adorned with glass beads); Lore:Argonian (obverdian)"
+  },
+  {
    "type": "instrument-and-toy-works",
    "class": "works",
    "family": "craft",
@@ -3871,6 +4573,77 @@
     4
    ],
    "lore": "Lore:Argonian (vossa-satl, fox-kites, spring-snake boxes)"
+  },
+  {
+   "type": "salvage-divers-yard",
+   "class": "works",
+   "family": "craft",
+   "recordScope": "poi",
+   "variants": [
+    "wreck",
+    "drowned-village"
+   ],
+   "summary": "Premises for the trade that a province full of drowned settlements obviously supports: bringing things up, drying them out and selling them on.",
+   "slots": {
+    "cue": "drying frames covered in things that have plainly been underwater for a long time",
+    "population": "2-5; elevated member on the drying frame",
+    "props": "a lot book naming which drowned street each item came from, desalting tubs, weighted belts and floats",
+    "rewardFree": "the lot book, which maps a drowned village street by street",
+    "rewardGated": "the reserve \u2014 the pieces they have not sold because they know what they are",
+    "satellite": "the drowned village or wreck 200-400 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-channel-bank",
+     "cove",
+     "islet",
+     "river-mouth"
+    ],
+    "waterRelation": "beside drowned ground",
+    "regionClasses": [
+     "tidal delta",
+     "lake & standing water",
+     "coastal lagoon & salt marsh",
+     "mangrove forest",
+     "deep river corridor"
+    ],
+    "neighbourRelation": "always paired with drowned ground it works"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D1",
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "docks-piers",
+    "stockade-scaffold",
+    "submerged-ruins",
+    "fishing-props",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "dive",
+    "swim",
+    "boat",
+    "walk"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
+    4,
+    6
+   ],
+   "lore": "Lore:Lilmoth (the drowned quarter, salvaged for 150 years)"
   },
   {
    "type": "slug-shaping-house",
@@ -4334,8 +5107,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    4,
-    5
+    3,
+    4
    ],
    "lore": "Lore:Saltrice; Lore:House Dres; Lore:Hereguard Plantation"
   },
@@ -4601,7 +5374,7 @@
    "complexityBudget": "simple",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "Lore:Gideon (Onkobra red clay pottery); Lore:Onkobra River"
   },
@@ -4743,7 +5516,7 @@
    "complexityBudget": "simple",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "Lore:Soulrest (gold and timber exports halted 3E 427 by tribal uprisings)"
   },
@@ -4813,9 +5586,80 @@
    "complexityBudget": "simple",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "Lore:Jasper; Lore:Murkmire (neesak of scrying); Lore:Blackwood (niben-crystal)"
+  },
+  {
+   "type": "hardwood-and-charcoal-camp",
+   "class": "works",
+   "family": "extraction",
+   "recordScope": "dressing",
+   "variants": [
+    "felling",
+    "charcoal-clamp"
+   ],
+   "summary": "The jungle's extraction industry, which the marsh cannot support: felling hardwood and burning it down to charcoal, the only fuel that works in a wet country.",
+   "slots": {
+    "cue": "a smoking earth clamp and a felling scar in closed canopy",
+    "population": "2-5; elevated member on the felling scaffold",
+    "props": "an earth-covered charcoal clamp burning slowly, a felling scaffold, cut ends of a timber that will not float",
+    "rewardFree": "charcoal, which is genuinely valuable in a province that cannot keep a fire",
+    "rewardGated": "the clamp's finished burn",
+    "satellite": "a haul route or a kiln 200-400 m off that this feeds"
+   },
+   "siting": {
+    "landformClasses": [
+     "ridge-end",
+     "cliff-bench",
+     "enclosed-clearing",
+     "any-firm-ground"
+    ],
+    "waterRelation": "dry ground and a haul route",
+    "regionClasses": [
+     "tropical jungle",
+     "upland hills",
+     "firm lowland",
+     "border mountains"
+    ],
+    "neighbourRelation": "upslope of the kilns and smithies it supplies"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active",
+    "abandoned"
+   ],
+   "assetPlan": [
+    "stockade-scaffold",
+    "market-tents",
+    "fences-wattle",
+    "clutter"
+   ],
+   "assetGaps": [
+    "working-props"
+   ],
+   "traversal": [
+    "walk",
+    "climb",
+    "boat"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
+    6,
+    9
+   ],
+   "lore": "region grammar: tropical jungle; material-culture (fuel scarcity in a saturated landscape)"
   },
   {
    "type": "knapping-floor",
@@ -4879,8 +5723,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    3,
-    4
+    2,
+    3
    ],
    "lore": "Lore:Argonian (jadeflint, obverdian, volcanic glass skinning shards)"
   },
@@ -4948,7 +5792,7 @@
    "complexityBudget": "simple",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "Lore:Onkobra Kwama Mine; Lore:Kwama"
   },
@@ -5016,8 +5860,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    3,
-    4
+    2,
+    3
    ],
    "lore": "Lore:Black Marsh (the Great Burn, 1E 2828, Legate Elissia Mallicius)"
   },
@@ -5086,7 +5930,7 @@
    "complexityBudget": "simple",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "material-culture (salt as barter commodity); region grammar: coastal lagoon & salt marsh"
   },
@@ -5366,7 +6210,7 @@
    "complexityBudget": "simple",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "material-culture (daril); Lore:Argonian"
   },
@@ -5434,7 +6278,7 @@
    "complexityBudget": "simple",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "Lore:Hist Sap (bloodlust hallucinogen to non-Argonians)"
   },
@@ -5779,7 +6623,7 @@
    "complexityBudget": "simple",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "prisons dossier (Warden Varus's Tunnel Rats digging for crystals)"
   },
@@ -5854,6 +6698,222 @@
     14
    ],
    "lore": "labour-and-bondage dossier (owings worked off cutting boardwalk, dredging channel, staking graves)"
+  },
+  {
+   "type": "counting-bench",
+   "class": "works",
+   "family": "market",
+   "recordScope": "district",
+   "variants": [
+    "moneychanger",
+    "obligation-broker"
+   ],
+   "summary": "A bench where the province's three incompatible currencies are converted into each other \u2014 septims, barter goods, and owed labour.",
+   "slots": {
+    "cue": "a bench, a scale and a queue of people holding very different kinds of wealth",
+    "population": "1-3; elevated member absent",
+    "props": "a rate board with three columns, a scale, an obligation ledger, coin that clearly does not circulate freely here",
+    "rewardFree": "the rate board, which prices the whole regional economy",
+    "rewardGated": "the coin chest and the obligation ledger",
+    "satellite": "a market or a hiring office 200-300 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-firm-ground",
+     "ford",
+     "river-mouth"
+    ],
+    "waterRelation": "at a market or a quay",
+    "regionClasses": [
+     "firm lowland",
+     "tidal delta",
+     "coastal lagoon & salt marsh",
+     "fringe marsh",
+     "upland hills"
+    ],
+    "neighbourRelation": "inside a market or a port"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D0",
+    "D1"
+   ],
+   "eraLayers": [
+    "imperial",
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "market-tents",
+    "vanilla-farmhouse",
+    "clutter",
+    "signage-blank"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
+    4,
+    6
+   ],
+   "lore": "module 92 demographics (three currency tiers)"
+  },
+  {
+   "type": "market-fair-ground",
+   "class": "works",
+   "family": "market",
+   "recordScope": "poi",
+   "variants": [
+    "periodic-fair",
+    "stall-row",
+    "beast-market"
+   ],
+   "summary": "Where things are actually bought and sold \u2014 a stall row in a town, or a periodic fair on neutral ground that appears for one month and vanishes.",
+   "slots": {
+    "cue": "stall frames, permanently standing and seasonally clothed; on a fair month, the noise",
+    "population": "0-20 depending on the month; elevated member on a tally platform",
+    "props": "three currencies changing hands at once, a weights post, pens for lizard-steeds and guar, red ware stacked by grade",
+    "rewardFree": "the price board, which is an economic survey of the whole district",
+    "rewardGated": "the fair's strongbox, or a trader who deals only in obligation",
+    "satellite": "a beast market or a counting bench 200-400 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-firm-ground",
+     "ford",
+     "confluence",
+     "flood-high",
+     "river-mouth"
+    ],
+    "waterRelation": "a landing, because most goods come by water",
+    "regionClasses": [
+     "firm lowland",
+     "fringe marsh",
+     "interior swamp",
+     "tidal delta",
+     "seasonal floodplain",
+     "upland hills"
+    ],
+    "neighbourRelation": "on neutral ground between settlements, or in an M3+ settlement"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D0",
+    "D1",
+    "D2"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active",
+    "seasonal"
+   ],
+   "assetPlan": [
+    "market-tents",
+    "fences-wattle",
+    "landmark-civic",
+    "clutter",
+    "argonian-props",
+    "signage-blank"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    9,
+    12
+   ],
+   "lore": "module 92 (three currency tiers: septims, barter, obligation); Lore:Argonian (barter economy); Lore:Lizard-Steed"
+  },
+  {
+   "type": "steed-hire-post",
+   "class": "works",
+   "family": "market",
+   "recordScope": "district",
+   "variants": [
+    "lizard-steed",
+    "guar"
+   ],
+   "summary": "Where you hire the animal rather than buy it, with a board of what each beast can and cannot cross.",
+   "slots": {
+    "cue": "a corral and a tack rail beside a route head",
+    "population": "1-3; elevated member absent",
+    "props": "a hire board rating each beast by terrain, tack sized for two different species, a beast that is clearly nobody's favourite",
+    "rewardFree": "the hire board, which is a terrain guide",
+    "rewardGated": "the good beast, which is spoken for",
+    "satellite": "a guar byre or a beast-keeper village 200-400 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-firm-ground",
+     "ford",
+     "saddle",
+     "flood-high"
+    ],
+    "waterRelation": "at a route head",
+    "regionClasses": [
+     "firm lowland",
+     "upland hills",
+     "seasonal floodplain",
+     "fringe marsh",
+     "tropical jungle"
+    ],
+    "neighbourRelation": "where a land route begins or a water route ends"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D0",
+    "D1",
+    "D2"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "fences-wattle",
+    "stockade-scaffold",
+    "market-tents",
+    "clutter",
+    "signage-blank"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "fastTransit",
+    "social"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
+    4,
+    6
+   ],
+   "lore": "Lore:Lizard-Steed; Lore:Guar"
   },
   {
    "type": "brewhouse",
@@ -6193,6 +7253,154 @@
    "lore": "Lore:Argonian Cuisine"
   },
   {
+   "type": "bonded-warehouse",
+   "class": "works",
+   "family": "storage-and-freight",
+   "recordScope": "poi",
+   "variants": [
+    "company-sealed",
+    "reused",
+    "broken-open"
+   ],
+   "summary": "The East Empire Company's wharves are gone but its bonded stores are not \u2014 heavy, sealed cargo halls that outlived the charter that filled them.",
+   "slots": {
+    "cue": "a cargo hall far larger and better built than anything around it",
+    "population": "0-6; elevated member on a loft door",
+    "props": "a company seal on a door nobody has the authority to open, cargo bonded against a duty that no longer exists, later occupants using one corner",
+    "rewardFree": "the manifest, which names cargo, origin and a dead consignee",
+    "rewardGated": "the bonded section, still sealed",
+    "satellite": "a wharf or a porter relay 200-300 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "natural-harbour",
+     "river-mouth",
+     "cove",
+     "any-firm-ground"
+    ],
+    "waterRelation": "on a quay",
+    "regionClasses": [
+     "coastal lagoon & salt marsh",
+     "tidal delta",
+     "firm lowland",
+     "deep river corridor",
+     "ocean"
+    ],
+    "neighbourRelation": "attached to a port or a wharf"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "imperial",
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D0",
+    "D1",
+    "D2"
+   ],
+   "eraLayers": [
+    "imperial",
+    "current"
+   ],
+   "statuses": [
+    "active",
+    "abandoned",
+    "ruined"
+   ],
+   "assetPlan": [
+    "vanilla-farmhouse",
+    "docks-piers",
+    "bmv-fort",
+    "clutter",
+    "signage-blank"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "stealth",
+    "social"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    4,
+    7
+   ],
+   "lore": "guilds-and-orders dossier (the EEC is gone; its wharves and bonded stores are not)"
+  },
+  {
+   "type": "porter-relay-yard",
+   "class": "works",
+   "family": "storage-and-freight",
+   "recordScope": "poi",
+   "variants": [
+    "walking",
+    "poling"
+   ],
+   "summary": "Where cargo changes carriers because the water stops or the road does \u2014 a yard of people whose job is walking, and the reason inland freight costs what it does.",
+   "slots": {
+    "cue": "a yard of stacked loads with no boat and no cart anywhere",
+    "population": "4-10 porters; elevated member on the load stack",
+    "props": "head-straps and carrying frames, a load tally by weight and distance, a rate that explains why nobody trades inland",
+    "rewardFree": "the rate board and the tally",
+    "rewardGated": "a consignment held against payment",
+    "satellite": "the portage or the road head 200-400 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "waterfall",
+     "water-narrows",
+     "ford",
+     "land-bridge",
+     "ridge-end"
+    ],
+    "waterRelation": "where water transport ends",
+    "regionClasses": [
+     "deep river corridor",
+     "upland hills",
+     "tropical jungle",
+     "firm lowland",
+     "border mountains"
+    ],
+    "neighbourRelation": "a mandatory node between a boat lane and a land route"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D1",
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "market-tents",
+    "stockade-scaffold",
+    "docks-piers",
+    "clutter",
+    "fences-wattle"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "fastTransit",
+    "social"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
+    4,
+    7
+   ],
+   "lore": "Lore:Black Marsh (Imperial roads made freight slower); Lore:Sea Transportation"
+  },
+  {
    "type": "causeway",
    "class": "transit",
    "family": "crossing",
@@ -6264,8 +7472,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    5,
-    6
+    4,
+    4
    ],
    "lore": "Lore:Bogmother (the stone causeway from Stormhold); material-culture (buoyant timber causeways)"
   },
@@ -6403,10 +7611,80 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    3,
-    4
+    2,
+    3
    ],
    "lore": "Lore:Seafalls (Arena gazetteer); Lore:Sea Transportation"
+  },
+  {
+   "type": "tide-timed-run",
+   "class": "transit",
+   "family": "crossing",
+   "recordScope": "poi",
+   "variants": [
+    "channel",
+    "flat"
+   ],
+   "summary": "A route that exists for two hours in every twelve: a channel or a flat you can cross on the tide and cannot at any other time.",
+   "slots": {
+    "cue": "a marked line of stakes running into water, and a tide board at the head",
+    "population": "0-6 waiting; elevated member absent",
+    "props": "a tide board, a waiting shelter with a fire, stakes marking the line, a body count carved by somebody unsentimental",
+    "rewardFree": "the tide board \u2014 this type is a traversal capability once you can read it",
+    "rewardGated": "the far side, gated purely on the world clock",
+    "satellite": "a waiting shelter and the long way round, 300-400 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "water-narrows",
+     "isthmus",
+     "land-bridge",
+     "any-shallow-marsh",
+     "ford"
+    ],
+    "waterRelation": "tidal; passable only at low water",
+    "regionClasses": [
+     "tidal delta",
+     "coastal lagoon & salt marsh",
+     "mangrove forest",
+     "ocean"
+    ],
+    "neighbourRelation": "a shortcut that halves a journey, on a schedule"
+   },
+   "magnitude": null,
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "signage-blank",
+    "docks-piers",
+    "market-tents",
+    "stockade-scaffold",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "swim",
+    "fastTransit"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    4,
+    6
+   ],
+   "lore": "module 50 (tides are calendared world state); the thinnest traversal gate in the taxonomy was fast transit"
   },
   {
    "type": "toll-bridge",
@@ -6482,8 +7760,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    9,
-    11
+    7,
+    8
    ],
    "lore": "labour-and-bondage dossier (every crossing has an owner); Lore:Keel-Sakka (the Tum-Taleel's bridge)"
   },
@@ -6555,8 +7833,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "Lore:Black Marsh (toll-towns); openworld research (watchtower recipe: the reward is the view)"
   },
@@ -6623,8 +7901,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    4,
-    5
+    3,
+    4
    ],
    "lore": "traversal: no canon tree-way network; treat arboreal routes as local, not a system"
   },
@@ -6688,8 +7966,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    5,
-    6
+    4,
+    4
    ],
    "lore": "Lore:Murkmire (platforms ascending high into the air); scour finding: no long sightlines below the rim"
   },
@@ -6760,8 +8038,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    6,
-    7
+    4,
+    5
    ],
    "lore": "asset inventory (the passerelles walkway kit: curving, climbing, branching); Lore:Murkmire"
   },
@@ -6835,8 +8113,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    8,
-    10
+    6,
+    7
    ],
    "lore": "Lore:Black Marsh (outsiders arrive by ferry behind an Argonian guide)"
   },
@@ -7185,6 +8463,77 @@
    "lore": "Lore:Blackwood Road (closes in monsoon)"
   },
   {
+   "type": "mountain-pass-station",
+   "class": "transit",
+   "family": "road",
+   "recordScope": "poi",
+   "variants": [
+    "snowline",
+    "scree"
+   ],
+   "summary": "The rim's own infrastructure: a pass shelter above the treeline, where the province's rules stop applying and the weather kills instead of the water.",
+   "slots": {
+    "cue": "the pass notch itself, and a shelter in it \u2014 and from here, genuinely long sightlines, the only ones in the province",
+    "population": "0-4; elevated member on the pass head",
+    "props": "a rockfall-damaged shelter, a snowline marker, a route book listing the days the pass was closed, a view naming distant places",
+    "rewardFree": "the route book and the view, which reveals several destinations at once",
+    "rewardGated": "the far side, weather-gated",
+    "satellite": "a scree hazard or a border post 200-400 m along the pass"
+   },
+   "siting": {
+    "landformClasses": [
+     "saddle",
+     "summit",
+     "cliff-bench",
+     "ridge-end"
+    ],
+    "waterRelation": "above the water entirely",
+    "regionClasses": [
+     "border mountains",
+     "upland hills"
+    ],
+    "neighbourRelation": "the only crossings of the rim; each one is strategically singular"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3",
+    "D4"
+   ],
+   "eraLayers": [
+    "imperial",
+    "current"
+   ],
+   "statuses": [
+    "active",
+    "seasonal",
+    "abandoned"
+   ],
+   "assetPlan": [
+    "stockade-scaffold",
+    "vanilla-farmhouse",
+    "landmark-civic",
+    "signage-blank",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "climb",
+    "fastTransit"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    3,
+    4
+   ],
+   "lore": "scour: a quarter of the interesting ground is on the rim, and it is the only ground with range; region grammar: border mountains"
+  },
+  {
    "type": "road-stage",
    "class": "transit",
    "family": "road",
@@ -7250,8 +8599,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    6,
-    7
+    4,
+    5
    ],
    "lore": "Lore:Blackwood Road; openworld research (waystation is deliberately safe)"
   },
@@ -7465,8 +8814,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    3,
-    4
+    2,
+    3
    ],
    "lore": "Lore:Rootworm; hist-placement dossier"
   },
@@ -7535,7 +8884,7 @@
    "complexityBudget": "simple",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "Lore:Rootworm (the Underground Express); \u00a712b rule: the southern terminus is wintertide-only"
   },
@@ -7597,8 +8946,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "module 20 \u00a712.3b hard-to-reach types (underwater grottoes, air pockets, flooded cellars)"
   },
@@ -7737,8 +9086,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    5,
-    6
+    4,
+    4
    ],
    "lore": "acceptance rule: underwater POIs throughout appropriate regions; Lore:Lakemire Xanmeer"
   },
@@ -7809,8 +9158,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    5,
-    6
+    4,
+    4
    ],
    "lore": "Lore:Lilmoth (drowned quarter); acceptance rule: swimming creates access progression"
   },
@@ -8011,7 +9360,7 @@
    "complexityBudget": "simple",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "Lore:Umpholo (the Maran mission died of swamp rot in a month)"
   },
@@ -8287,7 +9636,7 @@
    "complexityBudget": "simple",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "Lore:Blackrose (the drowned tree in the lake)"
   },
@@ -8358,7 +9707,7 @@
    "complexityBudget": "simple",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "Lore:Hist Sap; Lore:Mazzatun (an enslaved Hist); hist-and-sap dossier (mnemic egg)"
   },
@@ -8425,8 +9774,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    5,
-    5
+    4,
+    4
    ],
    "lore": "Lore:Hist; hist-placement dossier (the ten hero Hist)"
   },
@@ -8564,8 +9913,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "Lore:Hist (the eight Hist states); Lore:Lilmoth (the rogue Hist of 4E 48)"
   },
@@ -8631,8 +9980,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "Lore:Wamasu (Haynekhtnamet of Shadowfen received offerings to stop seasonal flooding)"
   },
@@ -8765,7 +10114,7 @@
    "complexityBudget": "standard",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "\u00a712b owner decision Q2 (the great Root Talk is an occasion, not a council); Lore:Hist-Tsoko"
   },
@@ -8830,8 +10179,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "Lore:Bright-Throat; Lore:Naga-Kur (starblossom, red paint, the kaju kill)"
   },
@@ -8901,8 +10250,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    3,
-    4
+    2,
+    3
    ],
    "lore": "Lore:Argonian (Chukka-Sei, raj-nassa); Lore:Hissmir (Trials of the Burnished Scales); Lore:Naga-Kur"
   },
@@ -9038,6 +10387,82 @@
    "lore": "Lore:Argonian (Naming Day sap-taking sets gloor); hist-and-sap dossier"
   },
   {
+   "type": "shadowscale-ground",
+   "class": "sacred",
+   "family": "rite",
+   "recordScope": "poi",
+   "variants": [
+    "tempering-ground",
+    "closed-sanctuary",
+    "black-tongue-site"
+   ],
+   "summary": "Where children born under the Shadow were given up and made into something else \u2014 a tempering ground, or a sanctuary closed by order in 4E 187 and watched ever since.",
+   "slots": {
+    "cue": "a compound whose approach has been deliberately made unattractive, and a watcher who is not hiding well",
+    "population": "0-4; elevated member is the watcher, outside",
+    "props": "a roll of names by birth sign going back centuries, training ground worn in a specific pattern, an order of closure with a date, a Black-Tongue's mark",
+    "rewardFree": "the birth-sign roll, which names living people who do not know",
+    "rewardGated": "the sanctuary interior, sealed since the closure",
+    "satellite": "the hatchery 300-400 m off that supplied it, and still has the logs"
+   },
+   "siting": {
+    "landformClasses": [
+     "enclosed-clearing",
+     "ravine",
+     "island",
+     "cliff-bench",
+     "any-firm-ground"
+    ],
+    "waterRelation": "concealed approach",
+    "regionClasses": [
+     "interior swamp",
+     "fringe marsh",
+     "coastal lagoon & salt marsh",
+     "rootland deep marsh",
+     "upland hills"
+    ],
+    "neighbourRelation": "near a hatchery and a major city, deliberately unremarkable"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3",
+    "D4"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "abandoned",
+    "active"
+   ],
+   "assetPlan": [
+    "mud-mother-grove",
+    "xanmeer-tileset",
+    "totems-ritual",
+    "stockade-scaffold",
+    "clutter",
+    "lights-general"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "stealth",
+    "social",
+    "combat"
+   ],
+   "complexityBudget": "standard",
+   "countBand": [
+    2,
+    2
+   ],
+   "lore": "sithis-nisswo-shadowscales dossier; Lore:Shadowscales (children born under the Shadow); Lore:Kota-Vimleel (the Black-Tongues); the Archon sanctuary closed 4E 187"
+  },
+  {
    "type": "art-and-destroy-site",
    "class": "sacred",
    "family": "sithis",
@@ -9097,7 +10522,7 @@
    "complexityBudget": "trivial",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "Lore:Nisswo (art made then destroyed); Lore:Sithis (Raj-Sithis the Changer)"
   },
@@ -9228,8 +10653,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "Lore:Nisswo (welcome in almost every village)"
   },
@@ -9436,7 +10861,7 @@
    "complexityBudget": "trivial",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "Lore:Argonian (bones brought to the dirt redeem a death away from the Hist); White Rose Prison"
   },
@@ -9499,8 +10924,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "Lore:Kothringi (cairn burial, glass beads); Lore:Knahaten Flu"
   },
@@ -9566,7 +10991,7 @@
    "complexityBudget": "trivial",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "Lore:Argonian (no Arkay's Blessing); Lore:Black Marsh (corpses rot too fast for necromancy)"
   },
@@ -9782,8 +11207,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    5,
-    6
+    4,
+    4
    ],
    "lore": "Lore:Umbriel; Lore:Knahaten Flu; Lore:Black Marsh (the Great Burn); Lore:Deepmire (the province's Umbriel memorial)"
   },
@@ -9919,6 +11344,145 @@
     2
    ],
    "lore": "Lore:Argonian (blasphemers bound to an urn and denied return)"
+  },
+  {
+   "type": "murkwood-verge",
+   "class": "sacred",
+   "family": "wonder",
+   "recordScope": "poi",
+   "variants": [
+    "present",
+    "absent"
+   ],
+   "summary": "The edge of a forest that moves. Sometimes it is here; sometimes the ground where it was is bare, stripped and unmistakably recently occupied by a forest.",
+   "slots": {
+    "cue": "either a treeline that is not on any account of this district, or bare scoured ground where a treeline should be",
+    "population": "0-6 scholars and pilgrims camped at the verge; elevated member absent",
+    "props": "survey stakes measuring a treeline that has moved since they were driven, a Conclave party's instruments, offerings at the verge",
+    "rewardFree": "the survey stakes, which date the movement",
+    "rewardGated": "going in",
+    "satellite": "a scholar's field camp 200-400 m off, with the only key to finding it"
+   },
+   "siting": {
+    "landformClasses": [
+     "enclosed-clearing",
+     "flood-high",
+     "any-firm-ground",
+     "ridge-end"
+    ],
+    "waterRelation": "minor",
+    "regionClasses": [
+     "rootland deep marsh",
+     "interior swamp",
+     "tropical jungle"
+    ],
+    "neighbourRelation": "has two or more authored verge locations and an absent state, exactly as the drifting village does"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D4",
+    "D5"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active",
+    "seasonal"
+   ],
+   "assetPlan": [
+    "azure-tree",
+    "hist-variants",
+    "market-tents",
+    "totems-ritual",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "climb"
+   ],
+   "complexityBudget": "standard",
+   "complexityJustification": "two authored verge sites plus a stripped-ground state, as the drifting village does \u2014 no moving geometry",
+   "countBand": [
+    1,
+    1
+   ],
+   "lore": "Lore:Murkwood (the forest that moves); Conclave of Baal and the Vaults of Gemin (quests 20 \u00a712b)"
+  },
+  {
+   "type": "umbriel-shadow-track",
+   "class": "sacred",
+   "family": "wonder",
+   "recordScope": "dressing",
+   "variants": [
+    "scoured",
+    "overgrown"
+   ],
+   "summary": "The line the flying city took across the province in 4E 48, still legible in the vegetation 150 years later \u2014 a landscape feature made of an event.",
+   "slots": {
+    "cue": "a band of different vegetation running dead straight for kilometres, visible from any rise",
+    "population": "0-4; elevated member absent",
+    "props": "a vegetation boundary too straight to be natural, stripped ground that has regrown wrong, memorial stones placed along it by successive generations",
+    "rewardFree": "the memorials, which triangulate the track's direction and therefore where it went next",
+    "rewardGated": "a site on the track that has not been visited",
+    "satellite": "the next stone on the track, 300-400 m along the line"
+   },
+   "siting": {
+    "landformClasses": [
+     "flood-high",
+     "any-firm-ground",
+     "ridge-end",
+     "enclosed-clearing",
+     "any-shallow-marsh"
+    ],
+    "waterRelation": "crosses everything",
+    "regionClasses": [
+     "interior swamp",
+     "fringe marsh",
+     "firm lowland",
+     "seasonal floodplain",
+     "tidal delta",
+     "rootland deep marsh"
+    ],
+    "neighbourRelation": "a single straight line across the province; every stripped village and memorial on it should be ON it"
+   },
+   "magnitude": null,
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3",
+    "D4"
+   ],
+   "eraLayers": [
+    "post-umbriel"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "landmark-civic",
+    "totems-ritual",
+    "clutter",
+    "fences-wattle"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    5,
+    8
+   ],
+   "lore": "Lore:Umbriel (4E 48, its path across Black Marsh); this type is the province's one genuinely long, legible linear feature"
   },
   {
    "type": "egg-log-house",
@@ -10119,6 +11683,83 @@
    "lore": "Lore:Argonian (uxith, egg-tenders, egg logs); Lore:Hatching Pools"
   },
   {
+   "type": "ball-court",
+   "class": "civic",
+   "family": "festivity",
+   "recordScope": "district",
+   "variants": [
+    "teeba-hatsei",
+    "teeba-enoo",
+    "race-water"
+   ],
+   "summary": "An ordinary Argonian sports ground \u2014 a ball court or a marked race water \u2014 played in normal villages, which is what makes the diplomatic version legible as a gesture.",
+   "slots": {
+    "cue": "a marked court or a lane of buoyed water, worn by use",
+    "population": "0-14; elevated member on the court wall",
+    "props": "a score post, equipment stored under cover, a rivalry with the next village recorded in tallies",
+    "rewardFree": "the tally, which names every neighbouring village and who beats whom",
+    "rewardGated": "the stake put up for the season's match",
+    "satellite": "the rival village's court 300-400 m off, or further"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-firm-ground",
+     "flood-high",
+     "enclosed-clearing",
+     "any-shallow-marsh",
+     "oxbow"
+    ],
+    "waterRelation": "level ground, or a marked stretch of water",
+    "regionClasses": [
+     "interior swamp",
+     "fringe marsh",
+     "firm lowland",
+     "raised hammock",
+     "seasonal floodplain",
+     "lake & standing water",
+     "tidal delta"
+    ],
+    "neighbourRelation": "in or beside a village; rivalries link them"
+   },
+   "magnitude": null,
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D0",
+    "D1",
+    "D2"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active",
+    "seasonal"
+   ],
+   "assetPlan": [
+    "fences-wattle",
+    "landmark-civic",
+    "market-tents",
+    "argonian-props",
+    "clutter",
+    "docks-piers"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "swim",
+    "social"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
+    10,
+    14
+   ],
+   "lore": "Lore:Teeba-Hatsei; Lore:Teeba-Enoo (Argonian ball games); sky-moons-calendar dossier"
+  },
+  {
    "type": "debate-circle",
    "class": "civic",
    "family": "festivity",
@@ -10246,8 +11887,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    5,
-    6
+    4,
+    4
    ],
    "lore": "sky-moons-calendar dossier (the calendar as a festival schedule)"
   },
@@ -10456,9 +12097,83 @@
    "complexityBudget": "standard",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "\u00a712b Alten Meerhleel (tribes placated with a Teeba-Enoo court)"
+  },
+  {
+   "type": "vice-den",
+   "class": "civic",
+   "family": "festivity",
+   "recordScope": "poi",
+   "variants": [
+    "gambling",
+    "daril",
+    "dance-barge"
+   ],
+   "summary": "Somewhere to misbehave \u2014 a gambling room running Shells and Stones, a daril den, or a barge that ties up, opens, and is gone by morning.",
+   "slots": {
+    "cue": "a lit doorway with no sign, or a barge moored where no barge should be, at an hour when nothing else is open",
+    "population": "4-15; elevated member on a door watch",
+    "props": "Shells and Stones boards, a debt slate that becomes an owing, daril quills in a case, lamps hung low",
+    "rewardFree": "the debt slate, which names people with a problem",
+    "rewardGated": "the back room and the house's bank",
+    "satellite": "a hiring office 200-400 m off that buys the debts"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-firm-ground",
+     "any-channel-bank",
+     "river-mouth",
+     "cove"
+    ],
+    "waterRelation": "a mooring is half the type",
+    "regionClasses": [
+     "firm lowland",
+     "tidal delta",
+     "coastal lagoon & salt marsh",
+     "fringe marsh",
+     "deep river corridor"
+    ],
+    "neighbourRelation": "in a port, a market town or a slum quarter"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D1",
+    "D2"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active",
+    "seasonal"
+   ],
+   "assetPlan": [
+    "market-tents",
+    "vanilla-farmhouse",
+    "boats-keeled",
+    "argonian-lights",
+    "lights-general",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social",
+    "stealth"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    4,
+    6
+   ],
+   "lore": "Lore:Shells and Stones; material-culture (daril); labour-and-bondage dossier (debt becomes owing)"
   },
   {
    "type": "council-house",
@@ -10526,6 +12241,80 @@
     8
    ],
    "lore": "Lore:Lilmoth (merchant council); Lore:Helstrom (assembly of naheesh and tree-minders)"
+  },
+  {
+   "type": "courier-relay",
+   "class": "civic",
+   "family": "governance",
+   "recordScope": "poi",
+   "variants": [
+    "runner",
+    "poler",
+    "chime-relay"
+   ],
+   "summary": "How word travels in a province with no writing, no roads and no state: a relay post where a runner hands a memorised message to the next runner.",
+   "slots": {
+    "cue": "a small post with a rest bench and a departure board that is a row of carved tokens",
+    "population": "1-4 runners; elevated member absent",
+    "props": "message tokens as mnemonic objects, a runner's route carved into the bench, a schedule keyed to the tide and the moons",
+    "rewardFree": "the route carving names every settlement on the line",
+    "rewardGated": "a message in transit, which is worth knowing and a crime to take",
+    "satellite": "the next relay, a runner's stage away"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-firm-ground",
+     "ford",
+     "saddle",
+     "islet",
+     "flood-high"
+    ],
+    "waterRelation": "on a route",
+    "regionClasses": [
+     "interior swamp",
+     "fringe marsh",
+     "firm lowland",
+     "seasonal floodplain",
+     "upland hills",
+     "rootland deep marsh"
+    ],
+    "neighbourRelation": "chained; a relay that does not reach its neighbour is not a relay"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D1",
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "mud-mother-grove",
+    "totems-ritual",
+    "argonian-props",
+    "signage-blank",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "fastTransit",
+    "social"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
+    8,
+    10
+   ],
+   "lore": "Lore:Jel (an oral language with no past or future tense); build-out: this is the letter/rumour delivery spine"
   },
   {
    "type": "harbour-office",
@@ -10800,6 +12589,77 @@
    "lore": "magic-practice dossier; Lore:Argonian (field medicine)"
   },
   {
+   "type": "elders-house",
+   "class": "civic",
+   "family": "healing",
+   "recordScope": "district",
+   "variants": [
+    "elders",
+    "infirm",
+    "blind"
+   ],
+   "summary": "Where the very old and the long-term infirm are kept and cared for \u2014 a building type that every settlement needs and that almost no game world contains.",
+   "slots": {
+    "cue": "a shaded veranda with people sitting on it who are not working",
+    "population": "2-8; elevated member absent",
+    "props": "a smoking porch, guide-ropes strung for the blind, hand-holds at the right heights, a life's possessions reduced to one shelf each",
+    "rewardFree": "conversation, which in an oral culture is the deepest lore source in the province",
+    "rewardGated": "a memory one of them will only give for a specific reason",
+    "satellite": "the settlement 100-300 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-firm-ground",
+     "flood-high",
+     "cliff-bench"
+    ],
+    "waterRelation": "in a settlement, on level ground",
+    "regionClasses": [
+     "interior swamp",
+     "fringe marsh",
+     "firm lowland",
+     "raised hammock",
+     "seasonal floodplain",
+     "tropical jungle"
+    ],
+    "neighbourRelation": "inside an M3+ settlement"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D0",
+    "D1"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "mud-mother-grove",
+    "bamboo-hut",
+    "argonian-props",
+    "fences-wattle",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
+    8,
+    12
+   ],
+   "lore": "Lore:Argonian (oral culture: the old ARE the archive); social-function axis, old age and disability"
+  },
+  {
    "type": "pest-house",
    "class": "civic",
    "family": "healing",
@@ -10863,8 +12723,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    3,
-    4
+    2,
+    3
    ],
    "lore": "fauna-hazards dossier (swamp rot, blood rot, greenspore); Lore:Knahaten Flu"
   },
@@ -10939,6 +12799,74 @@
     2
    ],
    "lore": "Lore:Knahaten Flu; Lore:Slough Point (census and excise)"
+  },
+  {
+   "type": "withdrawal-house",
+   "class": "civic",
+   "family": "healing",
+   "recordScope": "poi",
+   "variants": [
+    "sap",
+    "daril"
+   ],
+   "summary": "A house for people coming off sap or daril, run by someone who has done it themselves, and quietly resented by the village that pays for it.",
+   "slots": {
+    "cue": "a screened building with a bar on the outside of the door and a keeper sitting against it",
+    "population": "1-6; elevated member absent",
+    "props": "restraint straps used gently, a tally of days clean, a village contribution ledger that is grudging",
+    "rewardFree": "the day tallies, which name people",
+    "rewardGated": "the keeper's account of who supplies the district",
+    "satellite": "a sap-tapping camp or a daril fermentary 300-400 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "flood-high",
+     "island",
+     "any-firm-ground",
+     "enclosed-clearing"
+    ],
+    "waterRelation": "quiet, apart",
+    "regionClasses": [
+     "interior swamp",
+     "fringe marsh",
+     "rootland deep marsh",
+     "firm lowland"
+    ],
+    "neighbourRelation": "just outside a settlement, near sap country"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D1",
+    "D2"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "mud-mother-grove",
+    "bamboo-hut",
+    "fences-wattle",
+    "clutter",
+    "totems-ritual"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
+    2,
+    4
+   ],
+   "lore": "Lore:Hist Sap; material-culture (daril); sap-touched-village is the failure case this type exists to prevent"
   },
   {
    "type": "arbitration-ground",
@@ -11273,6 +13201,74 @@
    "lore": "Lore:Stormhold (the Vicecanons, a 2E invention)"
   },
   {
+   "type": "apprentice-house",
+   "class": "civic",
+   "family": "learning",
+   "recordScope": "district",
+   "variants": [
+    "craft",
+    "office"
+   ],
+   "summary": "Where a hereditary, secret craft is actually handed on \u2014 and therefore where an outsider might, with enormous difficulty, be let in.",
+   "slots": {
+    "cue": "a workshop annexe with two benches, one of them producing visibly worse work",
+    "population": "1-4; elevated member absent",
+    "props": "an apprentice's failures kept deliberately, a progression of pieces on a shelf, a sponsorship token",
+    "rewardFree": "the failure shelf, which teaches the craft's method by accident",
+    "rewardGated": "sponsorship \u2014 a social gate, not a lock",
+    "satellite": "the master's own workshop 100-300 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-firm-ground",
+     "flood-high",
+     "cliff-bench"
+    ],
+    "waterRelation": "beside its craft",
+    "regionClasses": [
+     "firm lowland",
+     "raised hammock",
+     "fringe marsh",
+     "interior swamp",
+     "tropical jungle"
+    ],
+    "neighbourRelation": "attached to an artisan village"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D0",
+    "D1",
+    "D2"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "mud-mother-grove",
+    "argonian-props",
+    "fences-wattle",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
+    4,
+    6
+   ],
+   "lore": "Lore:Argonian (weaving and craft secrets closely guarded, hereditary)"
+  },
+  {
    "type": "curators-chapterhouse",
    "class": "civic",
    "family": "learning",
@@ -11402,7 +13398,7 @@
    "complexityBudget": "simple",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "Lore:Miregaunts of the Marsh (Black Marsh Exploration Society, Kratius Gray)"
   },
@@ -11475,9 +13471,81 @@
    "complexityBudget": "standard",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "Lore:Gandranen (anachronistic library); Conclave of Baal and the Vaults of Gemin (\u00a712b, Murkwood)"
+  },
+  {
+   "type": "storytelling-ground",
+   "class": "civic",
+   "family": "learning",
+   "recordScope": "dressing",
+   "variants": [
+    "song-line",
+    "grievance-stone"
+   ],
+   "summary": "Ground where an oral province keeps its history: a fire circle where the stories are told, or a marked stone on a song-line that fixes one episode to one place.",
+   "slots": {
+    "cue": "a fire circle with seating worn on all sides, or a single marked stone on a route",
+    "population": "0-12; elevated member absent",
+    "props": "a story marker keyed to a song-line, offerings from listeners, the same ground worn by centuries of the same evening",
+    "rewardFree": "the story, which is lore the player can act on",
+    "rewardGated": "the version of the story the tellers will not give a stranger",
+    "satellite": "the next stone on the song-line 200-400 m along"
+   },
+   "siting": {
+    "landformClasses": [
+     "enclosed-clearing",
+     "flood-high",
+     "ridge-end",
+     "islet",
+     "any-firm-ground"
+    ],
+    "waterRelation": "minor",
+    "regionClasses": [
+     "interior swamp",
+     "fringe marsh",
+     "rootland deep marsh",
+     "raised hammock",
+     "tropical jungle",
+     "upland hills",
+     "seasonal floodplain"
+    ],
+    "neighbourRelation": "chained along song-lines that follow real routes"
+   },
+   "magnitude": null,
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D1",
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "totems-ritual",
+    "argonian-props",
+    "argonian-lights",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
+    14,
+    20
+   ],
+   "lore": "Lore:Jel; Lore:Argonian (oral transmission); build-out: song-line markers are a natural rumour-pool key"
   },
   {
    "type": "teaching-ground",
@@ -11610,6 +13678,154 @@
    "lore": "Lore:Cyrodilic Collections (hoped to build a museum in Black Marsh; \u00a712b notes it was never built)"
   },
   {
+   "type": "foreign-quarter",
+   "class": "civic",
+   "family": "quarter",
+   "recordScope": "district",
+   "variants": [
+    "dunmer",
+    "khajiit",
+    "mixed"
+   ],
+   "summary": "A living foreign district \u2014 Dunmer in the north and east, a Khajiit landing in the south \u2014 as opposed to the sacked and drowned ones the province is otherwise full of.",
+   "slots": {
+    "cue": "a building grammar and a shop-mark script that stop at a street line",
+    "population": "8-25; elevated member absent",
+    "props": "ancestor niches or caravan gear in Argonian-built houses, four scripts on one street, food nobody local eats",
+    "rewardFree": "the shop marks, which name where these people came from and when",
+    "rewardGated": "the community's own hall",
+    "satellite": "a caravan landing or a bonded warehouse 200-400 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-firm-ground",
+     "river-mouth",
+     "natural-harbour",
+     "flood-high"
+    ],
+    "waterRelation": "on the trade water",
+    "regionClasses": [
+     "firm lowland",
+     "tidal delta",
+     "coastal lagoon & salt marsh",
+     "upland hills",
+     "seasonal floodplain"
+    ],
+    "neighbourRelation": "inside an M4+ settlement on a foreign trade route"
+   },
+   "magnitude": "M2",
+   "cultures": [
+    "dunmer",
+    "khajiit",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D0",
+    "D1"
+   ],
+   "eraLayers": [
+    "imperial",
+    "current"
+   ],
+   "statuses": [
+    "active",
+    "contested"
+   ],
+   "assetPlan": [
+    "dunmer-telvanni",
+    "vanilla-farmhouse",
+    "market-tents",
+    "clutter",
+    "signage-blank",
+    "lights-general"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social"
+   ],
+   "complexityBudget": "standard",
+   "countBand": [
+    4,
+    6
+   ],
+   "lore": "Lore:Thorn (large Dunmer minority); Lore:Soulrest (the most racially mixed city); Lore:Khajiit"
+  },
+  {
+   "type": "slum-quarter",
+   "class": "civic",
+   "family": "quarter",
+   "recordScope": "district",
+   "variants": [
+    "squat",
+    "tidal-flood",
+    "hist-less"
+   ],
+   "summary": "The part of a city built on the ground nobody else wanted, flooding twice a day, where the province's urban underclass and its native thieves' networks actually live.",
+   "slots": {
+    "cue": "roof height dropping and walkway quality collapsing at a definite line",
+    "population": "10-30; elevated member on a walkway crown",
+    "props": "walkways repaired with anything, tide marks inside dwellings, a network's marks on doorframes, no Hist and no stake field",
+    "rewardFree": "a network's door marks, which are a readable code",
+    "rewardGated": "the network's own rooms",
+    "satellite": "the respectable quarter 200-400 m uphill, and a fence between them"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-shallow-marsh",
+     "any-channel-bank",
+     "flood-high"
+    ],
+    "waterRelation": "the worst water relation in the settlement",
+    "regionClasses": [
+     "tidal delta",
+     "coastal lagoon & salt marsh",
+     "mangrove forest",
+     "firm lowland"
+    ],
+    "neighbourRelation": "inside an M4 or M5 settlement, on its bad side"
+   },
+   "magnitude": "M2",
+   "cultures": [
+    "argonian",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D1",
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "vanilla-shackkit",
+    "bmv-stilthouse",
+    "passerelles-walkway",
+    "stockade-scaffold",
+    "clutter",
+    "argonian-lights"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "swim",
+    "stealth",
+    "social"
+   ],
+   "complexityBudget": "standard",
+   "countBand": [
+    4,
+    6
+   ],
+   "lore": "Lore:Pusbottom; guilds-and-orders dossier (Pusbottom and Alten Corimont as the native thieves-guild equivalents)"
+  },
+  {
    "type": "dry-cache",
    "class": "civic",
    "family": "refuge",
@@ -11681,6 +13897,80 @@
     32
    ],
    "lore": "module 20 \u00a712.3b (refuge and fixedLoot reward types)"
+  },
+  {
+   "type": "hearth-house",
+   "class": "civic",
+   "family": "refuge",
+   "recordScope": "poi",
+   "variants": [
+    "village-kept",
+    "road-kept"
+   ],
+   "summary": "A house kept warm and open because the obligation not to refuse a comer is real, and because in this province a stranger turned away at dusk dies. The rural safe place.",
+   "slots": {
+    "cue": "a lit doorway and a fire visible from the route, deliberately, at night",
+    "population": "1-6; elevated member absent \u2014 this type has no threat",
+    "props": "a fire that is never let out, bedding for more people than live here, a guest tally going back generations, food ready for arrivals",
+    "rewardFree": "rest, food, warmth and honest direction-giving",
+    "rewardGated": "the household's own store, which they will open for a real need",
+    "satellite": "the next hearth house a day's travel on"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-firm-ground",
+     "flood-high",
+     "ford",
+     "islet",
+     "saddle"
+    ],
+    "waterRelation": "on a route, with a landing",
+    "regionClasses": [
+     "interior swamp",
+     "fringe marsh",
+     "firm lowland",
+     "seasonal floodplain",
+     "rootland deep marsh",
+     "upland hills",
+     "tropical jungle",
+     "raised hammock"
+    ],
+    "neighbourRelation": "chained along routes at a day's travel; the province's D0 floor outside cities"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D0",
+    "D1"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "mud-mother-grove",
+    "bamboo-hut",
+    "vanilla-shackkit",
+    "argonian-lights",
+    "clutter",
+    "argonian-props"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
+    12,
+    16
+   ],
+   "lore": "Lore:Argonian (a comer cannot be refused); pacing: a hostile province needs a safety floor outside its cities"
   },
   {
    "type": "refuge-station",
@@ -11816,8 +14106,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "climate fields (sea squalls, orographic rain); module 20 \u00a712.3b refuge reward type"
   },
@@ -12430,8 +14720,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    3,
-    4
+    2,
+    3
    ],
    "lore": "module 20 \u00a711 (the six-stage foreign-infrastructure life cycle)"
   },
@@ -12561,7 +14851,7 @@
    "complexityBudget": "trivial",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "Lore:Blackwater War (1E 2836: Argonians stop fighting and bury their weapons)"
   },
@@ -12635,7 +14925,7 @@
    "complexityBudget": "standard",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "Lore:Fort Swampmoth (held, but not by the Empire); Lore:Oblivion Crisis (legions rumoured recalled)"
   },
@@ -12904,8 +15194,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "Lore:Xanmeer (~20% inhabited; inhabited for their walls and still-working ancient defences)"
   },
@@ -13172,10 +15462,85 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "argonia-4e201-state (occasional patrols; every 4E 201 data point is about withdrawal)"
+  },
+  {
+   "type": "deniable-listening-post",
+   "class": "martial",
+   "family": "watch",
+   "recordScope": "poi",
+   "variants": [
+    "thalmor",
+    "veiled-reed",
+    "foreign"
+   ],
+   "summary": "A post nobody admits to owning, in somebody else's building, watching a road or a harbour \u2014 the Thalmor's and the successor state's shared method.",
+   "slots": {
+    "cue": "a building with a better sightline than its apparent function needs, and no visible reason for anyone to be in it",
+    "population": "1-4; elevated member at the sightline",
+    "props": "a watch log in a cipher, cover-trade goods that are not being traded, a drop point, an escape route prepared",
+    "rewardFree": "the cover goods and the drop point",
+    "rewardGated": "the cipher log, and who it is going to",
+    "satellite": "the drop or the safehouse 200-400 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "ridge-end",
+     "cliff-bench",
+     "headland",
+     "flood-high",
+     "any-firm-ground"
+    ],
+    "waterRelation": "overlooks a road, a harbour or a border",
+    "regionClasses": [
+     "coastal lagoon & salt marsh",
+     "firm lowland",
+     "upland hills",
+     "tidal delta",
+     "border mountains",
+     "fringe marsh"
+    ],
+    "neighbourRelation": "watching something that matters; never adjacent to its own side"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "imperial",
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D1",
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "vanilla-farmhouse",
+    "mud-mother-grove",
+    "stockade-scaffold",
+    "clutter",
+    "signage-blank"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "stealth",
+    "social"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    2,
+    4
+   ],
+   "lore": "foreign-powers dossier (Thalmor); argonia-4e201-state (the Veiled Reed); guilds-and-orders dossier"
   },
   {
    "type": "lighthouse",
@@ -13384,8 +15749,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    6,
-    7
+    4,
+    5
    ],
    "lore": "openworld research \u00a73.2 (watchtower: the reward is the view); scour: only the rim has range"
   },
@@ -13595,8 +15960,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    5,
-    6
+    4,
+    4
    ],
    "lore": "Lore:Black Marsh (guides choose when to move and refuse to stop where you want)"
   },
@@ -13736,8 +16101,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    6,
-    7
+    4,
+    5
    ],
    "lore": "Lore:Hissmir; sky-moons-calendar dossier"
   },
@@ -13808,8 +16173,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "Lore:Stormhold (crystals); Lore:Jasper"
   },
@@ -13874,7 +16239,7 @@
    "complexityBudget": "trivial",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "Lore:Argonian (bones brought to the dirt); Blackrose Chainbreakers (quest plan)"
   },
@@ -13936,7 +16301,7 @@
    "complexityBudget": "trivial",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "labour-and-bondage dossier (owings extendable, transferable, heritable in fact)"
   },
@@ -14004,8 +16369,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "module 92 demographics; fauna-hazards dossier (seasonal flooding)"
   },
@@ -14141,8 +16506,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "Lore:Cyrodilic Collections; Lore:College of Whispers"
   },
@@ -14212,8 +16577,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    3,
-    4
+    2,
+    3
    ],
    "lore": "module 20 \u00a711 (foreign infrastructure surveyed and imposed); Lore:Black Marsh (failed Imperial works)"
   },
@@ -14285,8 +16650,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    6,
-    7
+    4,
+    5
    ],
    "lore": "openworld research \u00a73.1 (the satellite node that resolves the implied story)"
   },
@@ -14357,7 +16722,7 @@
    "complexityBudget": "simple",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "Lore:Blackrose Prison (the Blackguards' heirs, prison-descended three generations)"
   },
@@ -14498,8 +16863,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    9,
-    11
+    7,
+    8
    ],
    "lore": "Lore:Naga (the majority of native brigands and highwaymen; they leave when merchants stop coming)"
   },
@@ -14571,8 +16936,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    3,
-    4
+    2,
+    3
    ],
    "lore": "Lore:Pirates of Topal Bay; Lore:Lucinia Falco (letters of marque, 1E 2833)"
   },
@@ -14645,10 +17010,83 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    5,
-    6
+    4,
+    4
    ],
    "lore": "Lore:Hist Sap; Lore:Marsh Giant (killing one is an ecological and religious offence)"
+  },
+  {
+   "type": "safehouse-drop",
+   "class": "camp",
+   "family": "hostile-camp",
+   "recordScope": "dressing",
+   "variants": [
+    "reed-drop",
+    "criminal",
+    "abolitionist"
+   ],
+   "summary": "A place whose only function is that a thing can be left in it and collected by somebody who never meets the person who left it.",
+   "slots": {
+    "cue": "nothing; the type is defined by being unremarkable, and is found by knowing the mark",
+    "population": "0-2, never at the same time; elevated member absent",
+    "props": "a mark system on a doorframe or a tree, a void behind a stone, a schedule that is a set of tide and moon conditions",
+    "rewardFree": "whatever is currently in the drop",
+    "rewardGated": "the mark system itself, which unlocks a chain of these",
+    "satellite": "the next drop in the chain 200-400 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-firm-ground",
+     "ford",
+     "any-channel-bank",
+     "cliff-bench",
+     "water-narrows"
+    ],
+    "waterRelation": "reachable without being observed",
+    "regionClasses": [
+     "firm lowland",
+     "fringe marsh",
+     "interior swamp",
+     "mangrove forest",
+     "tidal delta",
+     "upland hills"
+    ],
+    "neighbourRelation": "in a chain along a covert route"
+   },
+   "magnitude": null,
+   "cultures": [
+    "argonian",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D1",
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "clutter",
+    "signage-blank",
+    "totems-ritual",
+    "stockade-scaffold"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "stealth"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
+    10,
+    14
+   ],
+   "lore": "argonia-4e201-state (the Veiled Reed); labour-and-bondage dossier (the Chainbreakers' routes)"
   },
   {
    "type": "wrecker-beach",
@@ -14712,7 +17150,7 @@
    "complexityBudget": "simple",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "foreign-powers dossier (a coast with trade implies wreckers); Lore:Sea Transportation"
   },
@@ -14780,8 +17218,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "Lore:Barsaebic Ayleids; Lore:Silyanorn; Lore:Twyllbek Ruins"
   },
@@ -14976,7 +17414,7 @@
    "complexityBudget": "standard",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "Lore:Lamia; Lore:Loriasel"
   },
@@ -15040,7 +17478,7 @@
    "complexityBudget": "simple",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "Lore:Ayleids; module 20 \u00a711 (historical layers must stay distinguishable)"
   },
@@ -15178,7 +17616,7 @@
    "complexityBudget": "simple",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "Lore:Oblivion Crisis (the Argonians invaded Oblivion through the gates); Lore:Black Marsh"
   },
@@ -15384,8 +17822,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "Lore:Lilmoth (the drowned quarter); acceptance rule: underwater POIs throughout appropriate regions"
   },
@@ -15456,10 +17894,80 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
+    2,
+    3
+   ],
+   "lore": "Lore:Knahaten Flu (2E 560-603; the Argonians alone were immune)"
+  },
+  {
+   "type": "plague-cordon-line",
+   "class": "ruin",
+   "family": "depopulated",
+   "recordScope": "poi",
+   "variants": [
+    "burnt",
+    "marked"
+   ],
+   "summary": "The line the neighbours drew and enforced during the Knahaten Flu, still legible as a burnt strip or a run of markers, with everything inside it dead.",
+   "slots": {
+    "cue": "a linear burnt or cleared strip running across country with no road on it",
+    "population": "0-3; elevated member absent",
+    "props": "cordon markers at regular intervals, a burnt firebreak that has not fully regrown, a tally post recording who was inside",
+    "rewardFree": "the tally post",
+    "rewardGated": "the ground inside the cordon",
+    "satellite": "the plague-abandoned village 300-400 m inside the line"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-firm-ground",
+     "ridge-end",
+     "ford",
+     "flood-high",
+     "land-bridge"
+    ],
+    "waterRelation": "uses water as part of the line where it can",
+    "regionClasses": [
+     "firm lowland",
+     "fringe marsh",
+     "upland hills",
+     "seasonal floodplain",
+     "interior swamp"
+    ],
+    "neighbourRelation": "encircles a plague-abandoned village or a cairn field"
+   },
+   "magnitude": null,
+   "cultures": [
+    "argonian",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "knahaten-flu"
+   ],
+   "statuses": [
+    "abandoned"
+   ],
+   "assetPlan": [
+    "totems-ritual",
+    "landmark-civic",
+    "fences-wattle",
+    "signage-blank",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
     3,
     4
    ],
-   "lore": "Lore:Knahaten Flu (2E 560-603; the Argonians alone were immune)"
+   "lore": "Lore:Knahaten Flu (2E 560-603, wiped out the Kothringi, Lilmothiit and Horwalli)"
   },
   {
    "type": "rebuilt-elsewhere-footprint",
@@ -15661,8 +18169,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "Lore:Umbriel (4E 48; the dead rose and walked); argonia-4e201-state"
   },
@@ -15730,7 +18238,7 @@
    "complexityBudget": "standard",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "Lore:Hereguard Plantation; Lore:Archein; Lore:Black Marsh (no cash-crop economy is possible)"
   },
@@ -15797,7 +18305,7 @@
    "complexityBudget": "standard",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "Lore:Giovesse (Arena gazetteer); module 20 \u00a711 (imposed foreign infrastructure)"
   },
@@ -15859,7 +18367,7 @@
    "complexityBudget": "simple",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "Lore:Umpholo (the mission died of swamp rot within a month)"
   },
@@ -15928,8 +18436,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    5,
-    6
+    4,
+    4
    ],
    "lore": "Lore:Black Marsh (Imperial roads, bridges and drainage made freight slower)"
   },
@@ -15996,6 +18504,76 @@
     2
    ],
    "lore": "Lore:Accession War; foreign-powers dossier"
+  },
+  {
+   "type": "second-empire-works",
+   "class": "ruin",
+   "family": "imperial-ruin",
+   "recordScope": "poi",
+   "variants": [
+    "akaviri",
+    "reman"
+   ],
+   "summary": "Reman and Akaviri-influenced construction from a far older occupation than the one everyone talks about \u2014 the layer beneath the Imperial layer.",
+   "slots": {
+    "cue": "masonry and roof forms that are wrong for the third era and obviously older",
+    "population": "0-6; elevated member on a wall",
+    "props": "Akaviri motifs on Reman work, later Imperial building butted crudely against it, a foundation inscription two eras old",
+    "rewardFree": "the inscription, which dates the site correctly against local belief",
+    "rewardGated": "the original sealed level",
+    "satellite": "a later Imperial fort or prison 200-400 m off, built on top of the idea"
+   },
+   "siting": {
+    "landformClasses": [
+     "ridge-end",
+     "flood-high",
+     "ford",
+     "island",
+     "summit"
+    ],
+    "waterRelation": "commands an old strategic line",
+    "regionClasses": [
+     "firm lowland",
+     "upland hills",
+     "lake & standing water",
+     "fringe marsh",
+     "tropical jungle"
+    ],
+    "neighbourRelation": "under or beside later Imperial works"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D3",
+    "D4"
+   ],
+   "eraLayers": [
+    "second-empire"
+   ],
+   "statuses": [
+    "ruined"
+   ],
+   "assetPlan": [
+    "bmv-fort",
+    "landmark-civic",
+    "vanilla-farmhouse",
+    "clutter",
+    "lights-general"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "climb",
+    "combat"
+   ],
+   "complexityBudget": "standard",
+   "countBand": [
+    2,
+    3
+   ],
+   "lore": "Lore:Blackrose Prison (Second Empire, raised in a day by Pelladil Direnni); Lore:Reman Empire; Lore:Akaviri"
   },
   {
    "type": "sunken-house",
@@ -16124,7 +18702,7 @@
    "complexityBudget": "standard",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "Lore:Cantemiric Velothi (lost people of the Black Marsh seaboard)"
   },
@@ -16194,7 +18772,7 @@
    "complexityBudget": "standard",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "Lore:Horwalli (a lost people of Black Marsh); module 50 (hydrology first)"
   },
@@ -16266,8 +18844,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    3,
-    4
+    2,
+    3
    ],
    "lore": "Lore:Kothringi (silver-skinned, wiped out by the Knahaten Flu 2E 560); Lore:Knahaten Flu"
   },
@@ -16331,7 +18909,7 @@
    "complexityBudget": "simple",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "Lore:Lilmothiit (vulpine, vanished after the Knahaten Flu; Lilmoth named for them)"
   },
@@ -16461,7 +19039,7 @@
    "complexityBudget": "simple",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "Lore:Yespest (a lost people of Black Marsh); lore golden rule: the province argues with itself about its own history"
   },
@@ -16530,10 +19108,84 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    6,
-    7
+    4,
+    5
    ],
    "lore": "Lore:Xanmeer (~15% broken); xanmeer-mesoamerican-reference (ruins subsumed by vegetation)"
+  },
+  {
+   "type": "duskfall-horizon-site",
+   "class": "ruin",
+   "family": "xanmeer",
+   "recordScope": "poi",
+   "variants": [
+    "abandoned-mid-build",
+    "deliberately-unmade"
+   ],
+   "summary": "A building site from the moment the province stopped: courses laid, tools set down, and in some cases the work carefully taken apart afterwards by the people who built it.",
+   "slots": {
+    "cue": "dressed stone in stacks and a foundation with no building on it",
+    "population": "0-3; elevated member absent",
+    "props": "cut blocks stacked ready and never used, tool marks that stop, and where it was unmade, blocks removed in reverse order and laid down flat",
+    "rewardFree": "the tools and the stacked stone, which is a whole argument about the Duskfall",
+    "rewardGated": "a foundation vault that was sealed rather than finished",
+    "satellite": "a heretic stone village 300-400 m off, doing the opposite"
+   },
+   "siting": {
+    "landformClasses": [
+     "flood-high",
+     "ridge-end",
+     "enclosed-clearing",
+     "summit",
+     "island"
+    ],
+    "waterRelation": "raised",
+    "regionClasses": [
+     "interior swamp",
+     "rootland deep marsh",
+     "tropical jungle",
+     "raised hammock",
+     "fringe marsh"
+    ],
+    "neighbourRelation": "in xanmeer country; contrasts directly with the tended and sealed ones"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3",
+    "D4"
+   ],
+   "eraLayers": [
+    "duskfall",
+    "merethic"
+   ],
+   "statuses": [
+    "ruined",
+    "abandoned"
+   ],
+   "assetPlan": [
+    "xanmeer-tileset",
+    "xanmeer-ornament",
+    "pyramid-statics",
+    "stockade-scaffold",
+    "totems-ritual",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "climb"
+   ],
+   "complexityBudget": "standard",
+   "countBand": [
+    2,
+    4
+   ],
+   "lore": "Lore:Duskfall; material-culture (stone as a moral error post-Duskfall) \u2014 this type is where that rule is visibly made"
   },
   {
    "type": "sealed-xanmeer",
@@ -16600,8 +19252,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    6,
-    7
+    4,
+    5
    ],
    "lore": "Lore:Xanmeer (~25% sealed; vakka stones); Lore:Vakka Stone"
   },
@@ -16674,8 +19326,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    3,
-    4
+    2,
+    3
    ],
    "lore": "Lore:Lakemire Xanmeer; Lore:Ixtaxh Xanmeer (re-drowned but for the topmost chamber)"
   },
@@ -16747,10 +19399,83 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    9,
-    11
+    7,
+    8
    ],
    "lore": "Lore:Xanmeer (~40% tended by a nearby clan; entering to loot is a serious offence)"
+  },
+  {
+   "type": "bird-colony",
+   "class": "lair",
+   "family": "beast-lair",
+   "recordScope": "poi",
+   "variants": [
+    "nesting-island",
+    "dusk-roost"
+   ],
+   "summary": "An island or a stand where an enormous number of birds nest \u2014 noise, smell, guano, egg-harvesters, and at dusk one of the few genuinely beautiful sights in the province.",
+   "slots": {
+    "cue": "the birds themselves at dusk, a column visible for kilometres \u2014 a living landmark in a province with no sightlines",
+    "population": "0-4 egg-harvesters; elevated member on the harvesting frame",
+    "props": "harvest frames and ropes, a rota limiting the take, whitened rock, a season marker",
+    "rewardFree": "eggs, feathers and down",
+    "rewardGated": "the high nests, which need a climb",
+    "satellite": "a gatherers' camp or a village 300-400 m off that works it"
+   },
+   "siting": {
+    "landformClasses": [
+     "islet",
+     "island",
+     "cliff-bench",
+     "headland",
+     "gorge"
+    ],
+    "waterRelation": "surrounded by or above water",
+    "regionClasses": [
+     "coastal lagoon & salt marsh",
+     "ocean",
+     "lake & standing water",
+     "tidal delta",
+     "mangrove forest",
+     "raised hammock"
+    ],
+    "neighbourRelation": "worked seasonally from a nearby settlement"
+   },
+   "magnitude": null,
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D1",
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active",
+    "seasonal"
+   ],
+   "assetPlan": [
+    "stockade-scaffold",
+    "fences-wattle",
+    "clutter",
+    "fishing-props"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "boat",
+    "climb",
+    "walk",
+    "swim"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
+    4,
+    6
+   ],
+   "lore": "tone axis: beauty that is alive rather than geological; ecology-encounters-loot feed"
   },
   {
    "type": "bog-blight-ground",
@@ -16815,8 +19540,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    5,
-    6
+    4,
+    4
    ],
    "lore": "Lore:Argonian (pulling a grave-stake raises a bog blight); fauna-hazards dossier (pahnjees)"
   },
@@ -17020,8 +19745,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "fauna-hazards dossier (hackwing); ecology-encounters-loot feed"
   },
@@ -17165,7 +19890,7 @@
    "complexityBudget": "standard",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "Lore:Argonian (bone as a primary structural material); fauna-hazards dossier"
   },
@@ -17230,7 +19955,7 @@
    "complexityBudget": "trivial",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "Lore:Marsh Giant (killing one is an ecological and religious offence)"
   },
@@ -17297,8 +20022,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    3,
-    4
+    2,
+    3
    ],
    "lore": "Lore:Miregaunt; Lore:Miregaunts of the Marsh (Kratius Gray, Black Marsh Exploration Society)"
   },
@@ -17433,8 +20158,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "fauna-hazards dossier (moon-adder); material-culture (snake hide, daril)"
   },
@@ -17502,8 +20227,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    3,
-    4
+    2,
+    3
    ],
    "lore": "Lore:Haj Mota; material-culture (shell shields)"
   },
@@ -17571,8 +20296,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "Lore:Voriplasm; ecology-encounters-loot feed (loot has provenance)"
   },
@@ -17641,8 +20366,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "Lore:Wamasu; Lore:Haynekhtnamet (received offerings to stay the flooding)"
   },
@@ -17708,8 +20433,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    3,
-    4
+    2,
+    3
    ],
    "lore": "fauna-hazards dossier; module 55 (night light as a first-class world state)"
   },
@@ -18048,7 +20773,7 @@
    "complexityBudget": "trivial",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "acceptance rule: large logical surfaces climbable by default; scour: the rim carries the relief"
   },
@@ -18115,8 +20840,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "module 50 (tides and water levels as world state); Lore:Sea Transportation"
   },
@@ -18317,6 +21042,436 @@
    "lore": "fauna-hazards dossier (fleshflies, emollient); Lore:Slough Point (the garrison losing their ears)"
   },
   {
+   "type": "whitewater-reach",
+   "class": "lair",
+   "family": "hazard-ground",
+   "recordScope": "poi",
+   "variants": [
+    "rapids",
+    "logjam"
+   ],
+   "summary": "A stretch of river that cannot be run, which is why the portage exists \u2014 and where a logjam has built a temporary, unstable, entirely crossable structure out of dead trees.",
+   "slots": {
+    "cue": "the sound, from a long way upstream, then white water",
+    "population": "0-4 waiting or working the jam; elevated member on the jam",
+    "props": "a logjam that is a walkable and climbable structure, wreckage caught in it, a portage marker upstream",
+    "rewardFree": "the wreckage caught in the jam",
+    "rewardGated": "the far bank, or the bottom of the reach",
+    "satellite": "the portage slipway 200-400 m upstream"
+   },
+   "siting": {
+    "landformClasses": [
+     "waterfall",
+     "gorge",
+     "ravine",
+     "water-narrows",
+     "confluence"
+    ],
+    "waterRelation": "the water IS the hazard",
+    "regionClasses": [
+     "deep river corridor",
+     "upland hills",
+     "tropical jungle",
+     "border mountains"
+    ],
+    "neighbourRelation": "forces every boat route to stop; a portage or a ferry always answers it"
+   },
+   "magnitude": null,
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3",
+    "D4"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active",
+    "seasonal"
+   ],
+   "assetPlan": [
+    "bridges",
+    "stockade-scaffold",
+    "boats-keeled",
+    "docks-piers",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "boat",
+    "swim",
+    "climb",
+    "walk"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    4,
+    7
+   ],
+   "lore": "region grammar: deep river corridor; Lore:Seafalls; the arterial class needs its own hazards"
+  },
+  {
+   "type": "becalmed-lane",
+   "class": "lair",
+   "family": "open-water",
+   "recordScope": "poi",
+   "variants": [
+    "pirate-worked",
+    "haunted"
+   ],
+   "summary": "A stretch of the shipping lane where the wind reliably dies, which is exactly why something waits there.",
+   "slots": {
+    "cue": "flat water and a hull sitting motionless with its sails up",
+    "population": "0-10; elevated member on a masthead",
+    "props": "a becalmed hull with its crew gone, sweeps run out and abandoned, a pirate's marker on the chart",
+    "rewardFree": "the becalmed hull's cargo",
+    "rewardGated": "what takes ships here",
+    "satellite": "a pirate anchorage 300-400 m off the lane"
+   },
+   "siting": {
+    "landformClasses": [
+     "cove",
+     "headland",
+     "islet",
+     "natural-harbour"
+    ],
+    "waterRelation": "on the shipping lane, sheltered from wind",
+    "regionClasses": [
+     "ocean",
+     "coastal lagoon & salt marsh",
+     "tidal delta"
+    ],
+    "neighbourRelation": "on the Archon-Lilmoth-Soulrest-Tear line"
+   },
+   "magnitude": null,
+   "cultures": [
+    "argonian",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D3",
+    "D4",
+    "D5"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "boats-keeled",
+    "submerged-ruins",
+    "submerged-blocks",
+    "clutter",
+    "lights-general"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "boat",
+    "dive",
+    "swim",
+    "combat"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    2,
+    3
+   ],
+   "lore": "Lore:Pirates of Topal Bay; Lore:Sea Transportation; the ocean class needs D5 destinations"
+  },
+  {
+   "type": "fishing-bank",
+   "class": "lair",
+   "family": "open-water",
+   "recordScope": "poi",
+   "variants": [
+    "worked",
+    "fought-over"
+   ],
+   "summary": "Open water that produces, marked by the fleets that work it and argued over by the settlements that claim it.",
+   "slots": {
+    "cue": "a cluster of boats over open water with no land in sight, or the marker buoys they left",
+    "population": "0-10 boat crews; elevated member on a masthead",
+    "props": "claim buoys with two settlements' marks on the same bank, a catch tally, gear cut adrift in an argument",
+    "rewardFree": "the catch and the claim buoys, which name the dispute",
+    "rewardGated": "the bank's deep edge",
+    "satellite": "a flotilla or a fishing village 300-400 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "islet",
+     "cove",
+     "natural-harbour",
+     "river-mouth"
+    ],
+    "waterRelation": "open productive water",
+    "regionClasses": [
+     "ocean",
+     "coastal lagoon & salt marsh",
+     "tidal delta",
+     "lake & standing water"
+    ],
+    "neighbourRelation": "contested between two coastal settlements"
+   },
+   "magnitude": null,
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active",
+    "contested",
+    "seasonal"
+   ],
+   "assetPlan": [
+    "boats-raft-canoe",
+    "boats-keeled",
+    "fishing-props",
+    "docks-piers",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "boat",
+    "swim",
+    "dive"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
+    4,
+    7
+   ],
+   "lore": "Lore:Oliis Bay; Lore:Topal Bay; Lore:Tide-Born"
+  },
+  {
+   "type": "reef",
+   "class": "lair",
+   "family": "open-water",
+   "recordScope": "poi",
+   "variants": [
+    "living",
+    "wrecking",
+    "harvest"
+   ],
+   "summary": "A reef: the sea's own POI, a hazard to hulls, a harvest ground for divers and the reason a wrecker beach is where it is.",
+   "slots": {
+    "cue": "broken water over a bar, and mast stumps standing out of it",
+    "population": "0-4 divers or nothing; elevated member on a moored tender",
+    "props": "hulls impaled at three different dates, buoyed lanes marking the safe gap, harvest lots marked on the reef itself",
+    "rewardFree": "the marked safe gap, which is real navigation knowledge",
+    "rewardGated": "the reef's own wrecks and harvest, all of it below water",
+    "satellite": "a wrecker beach or a lighthouse 300-400 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "islet",
+     "cove",
+     "headland",
+     "water-narrows",
+     "river-mouth"
+    ],
+    "waterRelation": "submerged bar in navigable water",
+    "regionClasses": [
+     "ocean",
+     "coastal lagoon & salt marsh",
+     "tidal delta",
+     "mangrove forest"
+    ],
+    "neighbourRelation": "on a shipping approach; explains the wrecks and the lights around it"
+   },
+   "magnitude": null,
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3",
+    "D4"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "submerged-blocks",
+    "submerged-ruins",
+    "boats-keeled",
+    "docks-piers",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "dive",
+    "swim",
+    "boat"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    6,
+    9
+   ],
+   "lore": "acceptance rule: player-sailable boats and deep underwater play need destinations ON the water"
+  },
+  {
+   "type": "root-hollow-gallery",
+   "class": "lair",
+   "family": "root-system",
+   "recordScope": "poi",
+   "variants": [
+    "walkable",
+    "flooded",
+    "collapsed",
+    "inhabited"
+   ],
+   "summary": "The province's signature dungeon: a hollow gallery inside the continuous Hist root layer, walkable, swimmable and climbable \u2014 the answer to a landscape with almost no rock and therefore almost no caves.",
+   "slots": {
+    "cue": "a root mouth at the base of a rise, breathing warm air, with a worn approach",
+    "population": "0-8 whatever has moved in; elevated member on a root shelf above the gallery floor",
+    "props": "root walls polished by passage, side chambers that are grown rather than cut, water at the low points, previous travellers' marks",
+    "rewardFree": "the marks, which are a navigation system left by the last people through",
+    "rewardGated": "a flooded or collapsed branch that needs a swim or a climb",
+    "satellite": "a second mouth 200-400 m off that the gallery connects to"
+   },
+   "siting": {
+    "landformClasses": [
+     "flood-high",
+     "sinkhole",
+     "ravine",
+     "enclosed-clearing",
+     "any-firm-ground"
+    ],
+    "waterRelation": "water at the gallery's low points; some branches fully flooded",
+    "regionClasses": [
+     "rootland deep marsh",
+     "interior swamp",
+     "tropical jungle",
+     "raised hammock"
+    ],
+    "neighbourRelation": "the root layer is continuous \u2014 galleries connect, and that connection is the map"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D3",
+    "D4",
+    "D5"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active",
+    "abandoned",
+    "drowned"
+   ],
+   "assetPlan": [
+    "azure-tree",
+    "hist-variants",
+    "submerged-blocks",
+    "stockade-scaffold",
+    "clutter",
+    "lights-general",
+    "argonian-lights"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "swim",
+    "dive",
+    "climb",
+    "combat",
+    "stealth"
+   ],
+   "complexityBudget": "standard",
+   "countBand": [
+    10,
+    15
+   ],
+   "lore": "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role"
+  },
+  {
+   "type": "wild-rootworm-burrow",
+   "class": "lair",
+   "family": "root-system",
+   "recordScope": "poi",
+   "variants": [
+    "occupied",
+    "collapsed"
+   ],
+   "summary": "An untamed rootworm's tunnel mouth \u2014 the same animal the transit network rides, without the handlers, which changes it from infrastructure into a hazard.",
+   "slots": {
+    "cue": "a tunnel bore too regular to be natural and too large to be comfortable",
+    "population": "one, and it is the tunnel; elevated member absent",
+    "props": "a bore of consistent diameter, undigested leavings containing other people's equipment, a handler's failed attempt to tame it",
+    "rewardFree": "the leavings, which are a loot table with provenance",
+    "rewardGated": "the burrow's end",
+    "satellite": "a rootworm station 300-400 m off that will not use this line"
+   },
+   "siting": {
+    "landformClasses": [
+     "flood-high",
+     "sinkhole",
+     "enclosed-clearing",
+     "ridge-end"
+    ],
+    "waterRelation": "dry root ground",
+    "regionClasses": [
+     "rootland deep marsh",
+     "interior swamp",
+     "tropical jungle",
+     "firm lowland"
+    ],
+    "neighbourRelation": "on or beside the root-transit network, which is why it matters"
+   },
+   "magnitude": null,
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D3",
+    "D4"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active",
+    "ruined"
+   ],
+   "assetPlan": [
+    "azure-tree",
+    "hist-variants",
+    "clutter",
+    "lights-general"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "climb",
+    "combat"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    4,
+    6
+   ],
+   "lore": "Lore:Rootworm (eight feet, translucent, digests very slowly)"
+  },
+  {
    "type": "air-pocket-grotto",
    "class": "lone",
    "family": "curiosity",
@@ -18376,10 +21531,86 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    5,
-    6
+    4,
+    4
    ],
    "lore": "module 20 \u00a712.3b (underwater grottoes and air pockets as hard-to-reach types); acceptance: Argonian physiology changes underwater play"
+  },
+  {
+   "type": "bioluminescent-water",
+   "class": "lone",
+   "family": "curiosity",
+   "recordScope": "poi",
+   "variants": [
+    "glowfen",
+    "tidal-bloom",
+    "cave-pool"
+   ],
+   "summary": "Water that glows: the single most beautiful thing in the province, worth travelling to see, and a place that only exists at night.",
+   "slots": {
+    "cue": "the light itself, at night, from further than any daytime cue in this province works",
+    "population": "0-6 people who came to look; elevated member absent",
+    "props": "a viewing stage built by people who come every year, glow harvested in jars, a courting couple's tokens, a season marker",
+    "rewardFree": "the sight, and harvestable glow for lanterns",
+    "rewardGated": "the deep pool at the centre, which is where it comes from",
+    "satellite": "a viewing camp or a courting ground 200-400 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "oxbow",
+     "any-shallow-marsh",
+     "cove",
+     "sinkhole",
+     "spring-head",
+     "islet"
+    ],
+    "waterRelation": "still or tidal water, undisturbed",
+    "regionClasses": [
+     "rootland deep marsh",
+     "interior swamp",
+     "coastal lagoon & salt marsh",
+     "lake & standing water",
+     "mangrove forest",
+     "tidal delta"
+    ],
+    "neighbourRelation": "known and visited; a destination, not a secret"
+   },
+   "magnitude": null,
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "statuses": [
+    "active",
+    "seasonal"
+   ],
+   "assetPlan": [
+    "argonian-lights",
+    "lights-general",
+    "passerelles-walkway",
+    "docks-piers",
+    "clutter",
+    "totems-ritual"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "swim",
+    "dive"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    4,
+    6
+   ],
+   "lore": "Lore:Wamasu (luminescent organs); Lore:Guar (Glowgill); module 55 (night is authored world state, so night-only places are legitimate)"
   },
   {
    "type": "climbable-ruin-roof",
@@ -18443,8 +21674,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    5,
-    6
+    4,
+    4
    ],
    "lore": "acceptance rule: large logical surfaces climbable by default; xanmeer-mesoamerican-reference"
   },
@@ -18510,7 +21741,7 @@
    "complexityBudget": "simple",
    "countBand": [
     2,
-    3
+    2
    ],
    "lore": "module 55 (time/light/weather as first-class world state; mist is a climate field per region class)"
   },
@@ -18639,8 +21870,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "scour finding: only 11 sinkholes province-wide \u2014 do not design types that assume this landform is common"
   },
@@ -18703,8 +21934,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    6,
-    7
+    4,
+    5
    ],
    "lore": "scour finding: median site sees 18% of its 1.2 km surroundings \u2014 a view is a reward"
   },
@@ -18769,8 +22000,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    4,
-    4
+    3,
+    3
    ],
    "lore": "scour: 60 waterfall candidates (capped), concentrated on the rim; openworld research (concealment as a gate)"
   },
@@ -18847,8 +22078,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    8,
-    10
+    6,
+    7
    ],
    "lore": "openworld research \u00a73.2 (hermit: approach cost is the gate; the reward is knowledge, not loot)"
   },
@@ -18922,8 +22153,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    7,
-    8
+    5,
+    6
    ],
    "lore": "labour-and-bondage dossier (crossings have owners and therefore keepers)"
   },
@@ -18996,8 +22227,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    8,
-    10
+    6,
+    7
    ],
    "lore": "Lore:Argonian (tree-minder, grave-singer, sap-speaker, naheesh, root-herald as offices)"
   },
@@ -19065,8 +22296,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    6,
-    7
+    4,
+    5
    ],
    "lore": "module 20 \u00a711 (stage five of the foreign-infrastructure life cycle: reuse)"
   },
@@ -19281,8 +22512,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    8,
-    10
+    6,
+    7
    ],
    "lore": "Lore:All Flags Navy; Lore:Battle of Argonia; Lore:Umbriel"
   },
@@ -19360,8 +22591,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    6,
-    7
+    4,
+    5
    ],
    "lore": "module 20 \u00a712.3b (the reward of a notable hard-to-reach landform must not be nothing); Morrowind's Landmarks category"
   },
@@ -19429,7 +22660,7 @@
    "complexityBudget": "simple",
    "countBand": [
     1,
-    2
+    1
    ],
    "lore": "Lore:Xinchei-Konu; sky-moons-calendar dossier"
   },
@@ -19806,8 +23037,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    8,
-    10
+    6,
+    7
    ],
    "lore": "openworld research \u00a73.2 (wreck geometry IS the level; tier by depth and lock)"
   }

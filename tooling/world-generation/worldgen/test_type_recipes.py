@@ -24,9 +24,12 @@ RECIPES_PATH = CATALOGUE_DIR / "type-recipes.json"
 SLOT_KEYS = {"cue", "population", "props", "rewardFree", "rewardGated", "satellite"}
 SCOPES = {"poi", "district", "dressing"}
 COMPLEXITY = {"trivial", "simple", "standard", "complex"}
-CULTURES = {"argonian", "imperial"}
+CULTURES = {"argonian", "imperial", "dunmer", "khajiit"}
 DANGER = {f"D{i}" for i in range(6)}
-ERAS = {"merethic", "ayleid", "lost-peoples", "knahaten-flu", "imperial", "post-umbriel", "current"}
+ERAS = {
+    "merethic", "duskfall", "ayleid", "lost-peoples", "knahaten-flu", "second-empire",
+    "imperial", "morrowind-invasion", "post-umbriel", "current",
+}
 # Landform classes from the terrain scour, plus the pseudo-classes for types
 # that need ordinary ground rather than a named landform.
 PSEUDO_LANDFORMS = {"any-firm-ground", "any-shallow-marsh", "any-channel-bank"}
