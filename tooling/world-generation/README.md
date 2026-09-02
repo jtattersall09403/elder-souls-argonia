@@ -41,6 +41,10 @@ python3 -m worldgen.compile_chunks
 python3 -m worldgen.export_web_chunks
 
 python3 -m pytest -q   # tests over the algorithmic cores
+
+# 8. Phase 11: site survey (reads only committed repo rasters -- no vault)
+python3 -m worldgen.terrain_scour                        # province candidate sites
+python3 -m worldgen.site_dossier --anchor gideon --radius 500
 ```
 
 Rerun 2 (then 3) after changing conditioning, thresholds or authored region
@@ -81,5 +85,17 @@ culture rules. Outputs are deterministic (fixed noise seed).
 - `worldgen/build_ground_materials.py` — ground-texture library builder
   (CC0 ambientCG/Poly Haven + vanilla BSA; luminance-normalised 512px PNGs
   + materials.json).
+- `worldgen/site_fields.py` — Phase 11 site-survey loader: decodes every
+  published province raster (hydrology, society, climate, water, refined
+  height) back into arrays on one aligned 1345 grid, and adds the survey
+  primitives (aspect, viewshed, line of sight, effort-to-reach, mined-form
+  analogue, authored-land area). Reads **committed repo data only**, so it
+  works without the asset vault. Composes `compile_scatter.ProvinceFields`.
+- `worldgen/site_dossier.py` — one-command dossier for a coordinate + radius
+  (JSON + digest) into `world/sources/sites/dossiers/`. Every Phase 11 siting
+  proposal cites one (decision 0041 Part 0 item 1).
+- `worldgen/terrain_scour.py` — the same machinery province-wide: 24 landform
+  detectors over the rasters, greedy spacing harvest, five-axis scoring, into
+  `world/sources/sites/candidate-sites.json` (0041 Part 0 item 2).
 - `worldgen/compile_hydrology.py`, `worldgen/compile_society.py`,
   `worldgen/refine_province.py` — the compile entry points above.
