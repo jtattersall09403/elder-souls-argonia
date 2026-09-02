@@ -97,7 +97,7 @@
         "clutter",
         "lights-general"
       ],
-      "discovery": "sightline",
+      "discovery": "document",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -226,12 +226,16 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.the-bell",
       "deedCounterKeys": [],
       "sockets": {
         "scene": [],
-        "evidence": [],
-        "station": [],
+        "evidence": [
+          "evidence.the-bell.owner-unknown"
+        ],
+        "station": [
+          "station.the-bell.dry-store"
+        ],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -462,7 +466,7 @@
         "totems-ritual",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "document",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -829,7 +833,7 @@
         "clutter",
         "lights-general"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -1178,8 +1182,15 @@
         ]
       },
       "culture": "mixed",
-      "occupants": [],
-      "notableNpcSlots": [],
+      "occupants": [
+        "a resident An-Xileel delegation nobody will house"
+      ],
+      "notableNpcSlots": [
+        "island-core castellan",
+        "toll compact's outside voice",
+        "An-Xileel resident (unwelcome, tolerated)",
+        "Rose liaison"
+      ],
       "dangerTier": "D1",
       "traversalModes": [
         "boat",
@@ -1234,13 +1245,27 @@
         "deed.blackrose.core-holders"
       ],
       "sockets": {
-        "scene": [],
-        "evidence": [],
+        "scene": [
+          "scene.blackrose.gate-reckoning",
+          "scene.blackrose.core-handover",
+          "scene.blackrose.magic-refusal"
+        ],
+        "evidence": [
+          "evidence.blackrose.three-gate-accounts",
+          "evidence.blackrose.lilmothiit-course",
+          "evidence.blackrose.rebellion-roll"
+        ],
         "station": [
           "station.blackrose.core-quay",
-          "station.blackrose.west-gate"
+          "station.blackrose.west-gate",
+          "station.blackrose.core-hall",
+          "station.blackrose.north-gate",
+          "station.blackrose.south-gate"
         ],
-        "marks": []
+        "marks": [
+          "marks.blackrose.core-standing",
+          "marks.blackrose.toll-exemption"
+        ]
       },
       "complexityBudget": "complex",
       "importanceTier": 0,
@@ -1256,7 +1281,18 @@
       ],
       "densityLayer": "landmark",
       "entrance": "gate",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "ownerFaction": "faction.blackrose-island-council",
+      "localStateVariants": [
+        {
+          "id": "state.blackrose.core-contested",
+          "description": "The island core has changed hands; the gates are shut and the boardwalk city is trading around them."
+        },
+        {
+          "id": "state.blackrose.high-lake",
+          "description": "Wet-season high water: the boardwalk city floats a metre higher and the lower gate is unusable."
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.blackrose-drowned-hist",
@@ -1320,7 +1356,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "speaker who dives to listen"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "swim",
@@ -1352,7 +1390,7 @@
         "totems-ritual",
         "argonian-lights"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [
           "WATER",
@@ -1365,10 +1403,18 @@
       "rumourPoolKey": "rumour.drowned-tree",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
-        "station": [],
-        "marks": []
+        "scene": [
+          "scene.drowned-tree.offering-descent"
+        ],
+        "evidence": [
+          "evidence.drowned-tree.pre-flood-shore-line"
+        ],
+        "station": [
+          "station.drowned-tree.platform"
+        ],
+        "marks": [
+          "marks.drowned-tree.heard-below"
+        ]
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
@@ -1380,7 +1426,14 @@
       ],
       "densityLayer": "landmark",
       "entrance": "none",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "ownerFaction": "faction.blackrose-tree-speakers",
+      "localStateVariants": [
+        {
+          "id": "state.drowned-tree.lake-drawn-down",
+          "description": "Drawdown has put the crown within a metre of the surface and the whole district has come to see it."
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.blackrose-prison",
@@ -1459,7 +1512,11 @@
       },
       "culture": "mixed",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "third-generation Rose family head",
+        "the one person who remembers what was bricked up",
+        "Chainbreaker envoy camped on the causeway"
+      ],
       "dangerTier": "D4",
       "traversalModes": [
         "walk",
@@ -1514,12 +1571,22 @@
         "deed.rose.prison-born"
       ],
       "sockets": {
-        "scene": [],
-        "evidence": [],
-        "station": [
-          "station.rose.causeway-gate"
+        "scene": [
+          "scene.rose.yard-parley",
+          "scene.rose.stair-opening"
         ],
-        "marks": []
+        "evidence": [
+          "evidence.rose.direnni-foundation-stone",
+          "evidence.rose.prison-born-genealogy"
+        ],
+        "station": [
+          "station.rose.causeway-gate",
+          "station.rose.yard"
+        ],
+        "marks": [
+          "marks.rose.lower-levels-cleared",
+          "marks.rose.family-standing"
+        ]
       },
       "complexityBudget": "complex",
       "importanceTier": 0,
@@ -1534,7 +1601,18 @@
       ],
       "densityLayer": "landmark",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.rose-born-families",
+      "localStateVariants": [
+        {
+          "id": "state.rose.stair-open",
+          "description": "The bricked stair is open; the yard has emptied and the families are camped on the causeway."
+        },
+        {
+          "id": "state.rose.blockaded",
+          "description": "Blackrose is holding the causeway; nothing enters and the yard is rationing."
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.blasphemer-urn-vault",
@@ -1740,7 +1818,7 @@
         "clutter",
         "landmark-civic"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -1840,7 +1918,10 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "lagoon pilot who decides who is brought in",
+        "Night-Reed fence working out of a tent"
+      ],
       "dangerTier": "D3",
       "traversalModes": [
         "boat",
@@ -1888,10 +1969,18 @@
       "rumourPoolKey": "rumour.brammans-river",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
-        "station": [],
-        "marks": []
+        "scene": [
+          "scene.brammans-head.transhipment"
+        ],
+        "evidence": [
+          "evidence.brammans-head.thousand-year-rings"
+        ],
+        "station": [
+          "station.brammans-head.hidden-mooring"
+        ],
+        "marks": [
+          "marks.brammans-head.pilot-trust"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
@@ -1902,7 +1991,14 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "ownerFaction": "faction.night-reed-chapter",
+      "localStateVariants": [
+        {
+          "id": "state.brammans-head.screen-known",
+          "description": "The screen route is compromised; the lagoon is empty and the rings have no rope on them."
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.buoyant-causeway",
@@ -2217,7 +2313,10 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "house-keeper who asks no names",
+        "third-generation Rose-born organiser"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "walk",
@@ -2266,10 +2365,18 @@
         "deed.chainbreakers.sheltered"
       ],
       "sockets": {
-        "scene": [],
-        "evidence": [],
-        "station": [],
-        "marks": []
+        "scene": [
+          "scene.open-house.tag-return"
+        ],
+        "evidence": [
+          "evidence.open-house.bone-tag-wall"
+        ],
+        "station": [
+          "station.open-house.work-board"
+        ],
+        "marks": [
+          "marks.open-house.standing-with-chainbreakers"
+        ]
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
@@ -2281,7 +2388,14 @@
       ],
       "densityLayer": "destination",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.chainbreakers",
+      "localStateVariants": [
+        {
+          "id": "state.open-house.raided",
+          "description": "The Owing brokers have found it; the doors are shut and the tag wall is stripped."
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.chainlink-watchtower",
@@ -2376,7 +2490,7 @@
         "clutter",
         "lights-general"
       ],
-      "discovery": "sightline",
+      "discovery": "document",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -2495,7 +2609,7 @@
         "totems-ritual",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -2831,7 +2945,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "stall-holder who only exists six weeks a year"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "walk",
@@ -2864,7 +2980,7 @@
         "market-tents",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [
           "STATE",
@@ -2876,10 +2992,18 @@
       "rumourPoolKey": "rumour.drawdown",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
-        "station": [],
-        "marks": []
+        "scene": [
+          "scene.bare-lake.stake-ground"
+        ],
+        "evidence": [
+          "evidence.bare-lake.drowned-fence-line"
+        ],
+        "station": [
+          "station.bare-lake.dry-season-market"
+        ],
+        "marks": [
+          "marks.bare-lake.walked-it"
+        ]
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
@@ -2890,7 +3014,18 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "ownerFaction": "faction.unclaimed",
+      "localStateVariants": [
+        {
+          "id": "state.bare-lake.drawn-down",
+          "description": "Six weeks a year the bed is dry, walked and traded on."
+        },
+        {
+          "id": "state.bare-lake.refilled",
+          "description": "Open water, nothing above the surface, and the market is a dive site."
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.feeder-portage",
@@ -2954,7 +3089,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "windlass master who sets the queue order"
+      ],
       "dangerTier": "D3",
       "traversalModes": [
         "boat",
@@ -2991,10 +3128,12 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.the-drag",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.the-drag.queue-dispute"
+        ],
         "evidence": [],
         "station": [
           "station.the-drag.portage"
@@ -3010,7 +3149,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "ownerFaction": "faction.drag-windlass-crew"
     },
     {
       "id": "place.imperial-penal-south.feeder-whitewater",
@@ -3103,7 +3243,7 @@
         "docks-piers",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -3358,9 +3498,12 @@
       "rumourPoolKey": "rumour.holding-fields",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.holding-fields.gate-outside-the-fence"
+        ],
         "evidence": [
-          "evidence.holding-fields.ration-ledger"
+          "evidence.holding-fields.ration-ledger",
+          "evidence.holding-fields.uncarved-burial-field"
         ],
         "station": [],
         "marks": []
@@ -3375,7 +3518,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.unclaimed"
     },
     {
       "id": "place.imperial-penal-south.frog-pond-farm-basin",
@@ -3581,7 +3725,7 @@
         "argonian-props",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -3812,7 +3956,7 @@
         "stockade-scaffold",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "document",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -3935,7 +4079,7 @@
         "clutter",
         "lights-general"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -4059,7 +4203,7 @@
         "clutter",
         "lights-general"
       ],
-      "discovery": "sightline",
+      "discovery": "document",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -4067,8 +4211,12 @@
       "rumourPoolKey": "rumour.knahaten",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
+        "scene": [
+          "scene.ash-hand.storage-pit"
+        ],
+        "evidence": [
+          "evidence.ash-hand.kothringi-house-plan"
+        ],
         "station": [],
         "marks": []
       },
@@ -4082,7 +4230,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.unclaimed"
     },
     {
       "id": "place.imperial-penal-south.lake-boardwalk-village",
@@ -4181,7 +4330,7 @@
         "argonian-lights",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -4425,7 +4574,7 @@
         "docks-piers",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "rumour",
       "questHooks": {
         "provisions": [
           "WATER",
@@ -4679,7 +4828,7 @@
         "fishing-props",
         "argonian-lights"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -4799,7 +4948,7 @@
         "argonian-props",
         "signage-blank"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -4940,10 +5089,16 @@
       "rumourPoolKey": "rumour.lake-meer",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
+        "scene": [
+          "scene.lake-meer.top-terrace"
+        ],
+        "evidence": [
+          "evidence.lake-meer.unlooted-cache"
+        ],
         "station": [],
-        "marks": []
+        "marks": [
+          "marks.lake-meer.depth-reached"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
@@ -4956,7 +5111,13 @@
       ],
       "densityLayer": "landmark",
       "entrance": "underwater-entry",
-      "underwaterAccess": "deep-dive"
+      "underwaterAccess": "deep-dive",
+      "localStateVariants": [
+        {
+          "id": "state.lake-meer.drawn-down",
+          "description": "Drawdown puts the top terrace at two metres; every treasure-hunter in the basin is on it."
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.ledgered-blackguards",
@@ -5149,7 +5310,9 @@
       },
       "culture": "lost-peoples",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "antiquarian who has matched the blocks to the Rose"
+      ],
       "dangerTier": "D3",
       "traversalModes": [
         "walk",
@@ -5190,9 +5353,12 @@
       "rumourPoolKey": "rumour.lilmothiit",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.robbed-city.unrobbed-colonnade"
+        ],
         "evidence": [
-          "evidence.robbed-city.block-sockets"
+          "evidence.robbed-city.block-sockets",
+          "evidence.robbed-city.matching-course-at-the-rose"
         ],
         "station": [],
         "marks": []
@@ -5207,7 +5373,8 @@
       ],
       "densityLayer": "landmark",
       "entrance": "stair-throat",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.unclaimed"
     },
     {
       "id": "place.imperial-penal-south.living-treasure-camp",
@@ -5399,7 +5566,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "deck-master at the village's south end"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "boat",
@@ -5440,12 +5609,16 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.longmont",
       "deedCounterKeys": [],
       "sockets": {
         "scene": [],
-        "evidence": [],
-        "station": [],
+        "evidence": [
+          "evidence.longmont.freight-refusal-book"
+        ],
+        "station": [
+          "station.longmont.loading-deck"
+        ],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -5457,7 +5630,14 @@
       ],
       "densityLayer": "landmark",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "ownerFaction": "faction.longmont-freight-households",
+      "localStateVariants": [
+        {
+          "id": "state.longmont.freight-stop",
+          "description": "The village has stopped handling freight; a kilometre of loading deck stands empty and Blackrose is hurting."
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.manned-toll-tower",
@@ -5549,7 +5729,7 @@
         "clutter",
         "lights-general"
       ],
-      "discovery": "sightline",
+      "discovery": "document",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -5667,7 +5847,7 @@
         "clutter",
         "fences-wattle"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -5756,7 +5936,10 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "An-Xileel watcher who records where the forest is",
+        "survey-taker whose maps never agree"
+      ],
       "dangerTier": "D5",
       "traversalModes": [
         "walk",
@@ -5803,10 +5986,18 @@
       "rumourPoolKey": "rumour.murkwood",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
-        "station": [],
-        "marks": []
+        "scene": [
+          "scene.murkwood-verge.the-line"
+        ],
+        "evidence": [
+          "evidence.murkwood-verge.drowned-stump-survey"
+        ],
+        "station": [
+          "station.murkwood-verge.watch-camp"
+        ],
+        "marks": [
+          "marks.murkwood-verge.entered-and-returned"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
@@ -5819,7 +6010,14 @@
       ],
       "densityLayer": "landmark",
       "entrance": "hollow-trunk",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.an-xileel",
+      "localStateVariants": [
+        {
+          "id": "state.murkwood.moved",
+          "description": "Murkwood has moved: the verge is a kilometre away and the watch camp is standing in open marsh."
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.natural-dive-shaft",
@@ -6392,7 +6590,7 @@
         "signage-blank",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "document",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -6486,7 +6684,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "founder who built the enclosure before he had a tree"
+      ],
       "dangerTier": "D3",
       "traversalModes": [
         "walk",
@@ -6525,15 +6725,21 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.third-generation",
       "deedCounterKeys": [
         "deed.blackrose.hist-less"
       ],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.third-generation.cutting-request"
+        ],
         "evidence": [],
-        "station": [],
-        "marks": []
+        "station": [
+          "station.third-generation.landing"
+        ],
+        "marks": [
+          "marks.third-generation.cutting-given"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
@@ -6545,7 +6751,14 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.rose-born-families",
+      "localStateVariants": [
+        {
+          "id": "state.third-generation.tree-given",
+          "description": "A cutting has been granted; the enclosure has something in it and the settlement's whole posture changes."
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.raid-refugee-camp",
@@ -6759,17 +6972,18 @@
         "clutter",
         "landmark-civic"
       ],
-      "discovery": "sightline",
+      "discovery": "document",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.wellocs-lines",
       "deedCounterKeys": [],
       "sockets": {
         "scene": [],
         "evidence": [
-          "evidence.wellocs-lines.unfought-ditch"
+          "evidence.wellocs-lines.unfought-ditch",
+          "evidence.wellocs-lines.siege-plan"
         ],
         "station": [],
         "marks": []
@@ -6783,7 +6997,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.unclaimed"
     },
     {
       "id": "place.imperial-penal-south.rebellion-memorial",
@@ -7102,7 +7317,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "spring-keeper"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "walk",
@@ -7139,12 +7356,14 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.rockspring",
       "deedCounterKeys": [],
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "station": [
+          "station.rockspring.spring-house"
+        ],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -7156,7 +7375,14 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.rockspring-levee-households",
+      "localStateVariants": [
+        {
+          "id": "state.rockspring.flood-over-levee",
+          "description": "A flood has topped the levee for the first time in memory and the single street is a channel."
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.rose-bone-waystation",
@@ -7391,13 +7617,19 @@
         ],
         "tierOwnership": "faction:blackrose-chainbreakers"
       },
-      "rumourPoolKey": "rumour.the-rose",
+      "rumourPoolKey": "rumour.rose-lower-levels",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
+        "scene": [
+          "scene.rose-lower.first-chamber"
+        ],
+        "evidence": [
+          "evidence.rose-lower.umbriel-residue"
+        ],
         "station": [],
-        "marks": []
+        "marks": [
+          "marks.rose-lower.depth-reached"
+        ]
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
@@ -7410,7 +7642,14 @@
       ],
       "densityLayer": "destination",
       "entrance": "underwater-entry",
-      "underwaterAccess": "deep-dive"
+      "underwaterAccess": "deep-dive",
+      "ownerFaction": "faction.unclaimed",
+      "localStateVariants": [
+        {
+          "id": "state.rose-lower.breached",
+          "description": "The seal is broken and the passage is draining into the prison's own water supply."
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.rose-supply-town",
@@ -7486,7 +7725,11 @@
       },
       "culture": "mixed",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "quartermaster's descendant who still keeps the tally",
+        "released-prisoner side elder",
+        "staff-descended side elder"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "walk",
@@ -7531,14 +7774,20 @@
       "rumourPoolKey": "rumour.vaunting",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.vaunting.magazine-door-tally"
+        ],
         "evidence": [
           "evidence.vaunting.ration-tally"
         ],
         "station": [
-          "station.vaunting.barge-landing"
+          "station.vaunting.barge-landing",
+          "station.vaunting.magazine",
+          "station.vaunting.market-row"
         ],
-        "marks": []
+        "marks": [
+          "marks.vaunting.rose-supply-contract"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
@@ -7550,7 +7799,14 @@
       ],
       "densityLayer": "landmark",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.imperial-legion-remnant",
+      "localStateVariants": [
+        {
+          "id": "state.vaunting.rose-emptied",
+          "description": "The Rose has been emptied; the town's whole economy is visibly ending."
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.saltrice-village",
@@ -7866,7 +8122,10 @@
       },
       "culture": "mixed",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "compact's counting-mother",
+        "gate-keeper of the disputed third channel"
+      ],
       "dangerTier": "D1",
       "traversalModes": [
         "walk",
@@ -7906,17 +8165,22 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.imperial-penal-south.three-gate-toll",
       "deedCounterKeys": [
         "deed.blackrose.tolls"
       ],
       "sockets": {
         "scene": [],
-        "evidence": [],
-        "station": [
-          "station.three-gates.toll"
+        "evidence": [
+          "evidence.three-gates.single-account-book"
         ],
-        "marks": []
+        "station": [
+          "station.three-gates.toll",
+          "station.three-gates.counting-quay"
+        ],
+        "marks": [
+          "marks.three-gates.compact-favour"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
@@ -7928,7 +8192,14 @@
       ],
       "densityLayer": "landmark",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.three-gate-compact",
+      "localStateVariants": [
+        {
+          "id": "state.three-gates.compact-broken",
+          "description": "The compact has lost the gates to the city; the boards read differently and the queue is longer."
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.vampiric-cloud-ground",
@@ -8036,10 +8307,16 @@
       "rumourPoolKey": "rumour.given-field",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
+        "scene": [
+          "scene.given-field.formation-in-the-grass"
+        ],
+        "evidence": [
+          "evidence.given-field.unrobbed-dead"
+        ],
         "station": [],
-        "marks": []
+        "marks": [
+          "marks.given-field.dead-honoured"
+        ]
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
@@ -8051,7 +8328,14 @@
       ],
       "densityLayer": "destination",
       "entrance": "grave-cut",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.unclaimed",
+      "localStateVariants": [
+        {
+          "id": "state.given-field.staked",
+          "description": "Somebody has finally staked the dead; the grass pattern is broken by ranks of new stakes."
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.voriplasm-vault",
@@ -8251,7 +8535,10 @@
       },
       "culture": "mixed",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "market speaker (no title, total authority)",
+        "Blackrose 'inspector' on retainer"
+      ],
       "dangerTier": "D1",
       "traversalModes": [
         "walk",
@@ -8296,12 +8583,20 @@
       "rumourPoolKey": "rumour.threewater",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
-        "station": [
-          "station.threewater.market"
+        "scene": [
+          "scene.threewater.inspector-visit"
         ],
-        "marks": []
+        "evidence": [
+          "evidence.threewater.unofficial-scale-book"
+        ],
+        "station": [
+          "station.threewater.market",
+          "station.threewater.scale-row",
+          "station.threewater.river-landing"
+        ],
+        "marks": [
+          "marks.threewater.market-standing"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
@@ -8312,7 +8607,14 @@
       ],
       "densityLayer": "landmark",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.marsh-charter",
+      "localStateVariants": [
+        {
+          "id": "state.threewater.toll-enforced",
+          "description": "Blackrose has enforced a toll here; half the sheds are shut and the trade has gone back to the city."
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.wisp-lure-basin",
@@ -8405,7 +8707,7 @@
         "clutter",
         "signage-blank"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null

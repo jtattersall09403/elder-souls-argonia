@@ -198,7 +198,11 @@
       },
       "culture": "mixed",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "Marsh Charter factor",
+        "raft-quarter speaker",
+        "the one customs clerk"
+      ],
       "dangerTier": "D1",
       "traversalModes": [
         "boat",
@@ -248,12 +252,20 @@
       "rumourPoolKey": "rumour.meerhleel",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
-        "station": [
-          "station.meerhleel.free-quay"
+        "scene": [
+          "scene.meerhleel.two-carpentries-dispute"
         ],
-        "marks": []
+        "evidence": [
+          "evidence.meerhleel.unstaffed-tariff-shed"
+        ],
+        "station": [
+          "station.meerhleel.free-quay",
+          "station.meerhleel.lighterage-hire",
+          "station.meerhleel.warehouse-row"
+        ],
+        "marks": [
+          "marks.meerhleel.charter-standing"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
@@ -266,7 +278,14 @@
       ],
       "densityLayer": "landmark",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.marsh-charter",
+      "localStateVariants": [
+        {
+          "id": "state.meerhleel.lilmoth-undercut",
+          "description": "Lilmoth has dropped its tariffs and Meerhleel's quay is empty."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.ashfield",
@@ -337,7 +356,9 @@
       },
       "culture": "mixed",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "field-holder"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "walk",
@@ -374,12 +395,16 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.burn-country",
       "deedCounterKeys": [],
       "sockets": {
         "scene": [],
-        "evidence": [],
-        "station": [],
+        "evidence": [
+          "evidence.ashfield.charcoal-horizon"
+        ],
+        "station": [
+          "station.ashfield.market-stone"
+        ],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -392,7 +417,14 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.ashfield-holders",
+      "localStateVariants": [
+        {
+          "id": "state.ashfield.second-burn",
+          "description": "Fire has come back into the burn country and the fields are being cut as breaks."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.ashfield-hearth",
@@ -583,7 +615,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "tree-minder of the surviving Hist"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "walk",
@@ -625,12 +659,16 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.ashroot",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.ashroot.fire-channel"
+        ],
         "evidence": [],
-        "station": [],
+        "station": [
+          "station.ashroot.village-tree"
+        ],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -642,7 +680,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.ashroot-village"
     },
     {
       "id": "place.mercantile-coast.bereaved-village-murkmire",
@@ -710,7 +749,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "reciter"
+      ],
       "dangerTier": "D3",
       "traversalModes": [
         "walk",
@@ -751,13 +792,19 @@
         ],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.mercantile-coast.bereaved-village-murkmire",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
+        "scene": [
+          "scene.sees-no-root.evening-recitation"
+        ],
+        "evidence": [
+          "evidence.sees-no-root.stump-socket"
+        ],
         "station": [],
-        "marks": []
+        "marks": [
+          "marks.sees-no-root.cutting-accepted"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
@@ -769,7 +816,14 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.sees-no-root",
+      "localStateVariants": [
+        {
+          "id": "state.sees-no-root.cutting-planted",
+          "description": "A cutting has been planted in the enclosure and the recitation has stopped."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.bog-blight-ground-murkmire",
@@ -861,7 +915,7 @@
         "clutter",
         "fences-wattle"
       ],
-      "discovery": "sightline",
+      "discovery": "rumour",
       "questHooks": {
         "provisions": [
           "COMBAT",
@@ -1197,7 +1251,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "screen pilot (sells the ninety minutes)"
+      ],
       "dangerTier": "D3",
       "traversalModes": [
         "boat",
@@ -1239,15 +1295,19 @@
         ],
         "tierOwnership": "faction:reed-sail-compact"
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.brammans-river",
       "deedCounterKeys": [],
       "sockets": {
         "scene": [],
         "evidence": [
           "evidence.bramman.pilot-mark"
         ],
-        "station": [],
-        "marks": []
+        "station": [
+          "station.brammans-screen.pilot-wait"
+        ],
+        "marks": [
+          "marks.brammans-screen.tide-read"
+        ]
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
@@ -1258,7 +1318,14 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "ownerFaction": "faction.brammans-pilots",
+      "localStateVariants": [
+        {
+          "id": "state.brammans-screen.wrong-mouth",
+          "description": "The sill has shifted and the marked mouth is now the false one."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.bright-throat-village",
@@ -1333,7 +1400,10 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "chime-tuner",
+        "tribe speaker"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "walk",
@@ -1368,7 +1438,7 @@
         "argonian-props",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -1376,10 +1446,18 @@
       "rumourPoolKey": "rumour.bright-throat",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
-        "station": [],
-        "marks": []
+        "scene": [
+          "scene.bright-throat.chime-greeting"
+        ],
+        "evidence": [
+          "evidence.bright-throat.chime-tuning-record"
+        ],
+        "station": [
+          "station.bright-throat.beach-landing"
+        ],
+        "marks": [
+          "marks.bright-throat.tribe-standing"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
@@ -1390,7 +1468,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.bright-throat-tribe"
     },
     {
       "id": "place.mercantile-coast.burn-memorial",
@@ -1596,7 +1675,7 @@
         "stockade-scaffold",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -1694,7 +1773,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "station-keeper who inherited an Imperial office"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "walk",
@@ -1733,12 +1814,16 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.coast-road",
       "deedCounterKeys": [],
       "sockets": {
         "scene": [],
-        "evidence": [],
-        "station": [],
+        "evidence": [
+          "evidence.chasepoint.foreign-timber-tally"
+        ],
+        "station": [
+          "station.chasepoint.way-station"
+        ],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -1751,7 +1836,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.chasepoint-wreck-households"
     },
     {
       "id": "place.mercantile-coast.chime-relay",
@@ -1848,7 +1934,7 @@
         "signage-blank",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [
           "LOC",
@@ -2103,7 +2189,7 @@
         "totems-ritual",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -2673,7 +2759,9 @@
       },
       "culture": "mixed",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "toll-keeper"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "walk",
@@ -2713,11 +2801,13 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.coast-road",
       "deedCounterKeys": [],
       "sockets": {
         "scene": [],
-        "evidence": [],
+        "evidence": [
+          "evidence.paid-arch.toll-book"
+        ],
         "station": [
           "station.paid-arch.toll"
         ],
@@ -2734,7 +2824,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.paid-arch-keepers"
     },
     {
       "id": "place.mercantile-coast.cold-light",
@@ -2839,13 +2930,19 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.cold-light",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
+        "scene": [
+          "scene.cold-light.dead-lantern-room"
+        ],
+        "evidence": [
+          "evidence.cold-light.keepers-last-log"
+        ],
         "station": [],
-        "marks": []
+        "marks": [
+          "marks.cold-light.relit"
+        ]
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
@@ -2858,7 +2955,14 @@
       ],
       "densityLayer": "destination",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.unclaimed",
+      "localStateVariants": [
+        {
+          "id": "state.cold-light.relit",
+          "description": "The lantern is burning again and every hull on the bay approach is behaving differently."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.collections-bond",
@@ -3208,7 +3312,7 @@
         "argonian-props",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -3322,7 +3426,7 @@
         "docks-piers",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -3558,7 +3662,7 @@
         "clutter",
         "lights-general"
       ],
-      "discovery": "sightline",
+      "discovery": "document",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -3922,17 +4026,21 @@
         "clutter",
         "totems-ritual"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.glowfen",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.glowfen.upward-shadows"
+        ],
         "evidence": [],
-        "station": [],
+        "station": [
+          "station.glowfen.safe-lane-stakes"
+        ],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -3944,7 +4052,13 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "localStateVariants": [
+        {
+          "id": "state.glowfen.dark",
+          "description": "The glow has failed for a season and the safe lanes cannot be read."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.goldworks-concession",
@@ -4359,7 +4473,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "stake-carver on rotation from one of the four villages"
+      ],
       "dangerTier": "D3",
       "traversalModes": [
         "walk",
@@ -4392,18 +4508,26 @@
         "argonian-props",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.crown-terrace",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
-        "station": [],
-        "marks": []
+        "scene": [
+          "scene.crown-terrace.quarter-boundary"
+        ],
+        "evidence": [
+          "evidence.crown-terrace.four-hands"
+        ],
+        "station": [
+          "station.crown-terrace.carving-shelter"
+        ],
+        "marks": [
+          "marks.crown-terrace.buried-here"
+        ]
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
@@ -4414,7 +4538,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.four-village-crown-compact"
     },
     {
       "id": "place.mercantile-coast.hammock-village-murkmire",
@@ -4480,7 +4605,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "field-speaker"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "boat",
@@ -4515,17 +4642,21 @@
         "argonian-props",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.tzelvei",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.tzelvei.field-crossing"
+        ],
         "evidence": [],
-        "station": [],
+        "station": [
+          "station.tzelvei.canoe-notch"
+        ],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -4537,7 +4668,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.tzelvei-village"
     },
     {
       "id": "place.mercantile-coast.head-of-tide",
@@ -4607,7 +4739,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "League porter-master"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "boat",
@@ -4646,11 +4780,15 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.head-of-tide",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
+        "scene": [
+          "scene.head-of-tide.bar-argument"
+        ],
+        "evidence": [
+          "evidence.head-of-tide.portage-tariff"
+        ],
         "station": [
           "station.head-of-tide.transship"
         ],
@@ -4665,7 +4803,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.league-of-open-water"
     },
     {
       "id": "place.mercantile-coast.hereguard-paddies",
@@ -4753,7 +4892,7 @@
         "clutter",
         "stockade-scaffold"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -4852,7 +4991,10 @@
       },
       "culture": "mixed",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "Breton estate-holder",
+        "terrace speaker for the workers"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "walk",
@@ -4892,12 +5034,18 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.hereguard",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
-        "station": [],
+        "scene": [
+          "scene.hereguard.house-bell"
+        ],
+        "evidence": [
+          "evidence.hereguard.terrace-tenancy-roll"
+        ],
+        "station": [
+          "station.hereguard.terrace-head"
+        ],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -4910,7 +5058,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.hereguard-estate"
     },
     {
       "id": "place.mercantile-coast.hestra-stone",
@@ -5211,7 +5360,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "tea-seller who is also the toll"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "walk",
@@ -5244,15 +5395,17 @@
         "argonian-lights",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.canopy-walks",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.high-junction.closed-deck"
+        ],
         "evidence": [],
         "station": [
           "station.high-junction.relay"
@@ -5268,7 +5421,14 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.high-junction-deck-crew",
+      "localStateVariants": [
+        {
+          "id": "state.high-junction.collapsed",
+          "description": "A deck has gone; the district's upper network is four dead ends."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.hist-less-fringe",
@@ -5338,7 +5498,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "organiser of the swept circle"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "walk",
@@ -5377,15 +5539,21 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.the-fringe",
       "deedCounterKeys": [
         "deed.lilmoth.hist-less"
       ],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.the-fringe.swept-circle"
+        ],
         "evidence": [],
-        "station": [],
-        "marks": []
+        "station": [
+          "station.the-fringe.day-work"
+        ],
+        "marks": [
+          "marks.the-fringe.standing"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
@@ -5397,7 +5565,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.the-fringe"
     },
     {
       "id": "place.mercantile-coast.hist-village-hammock",
@@ -5497,7 +5666,7 @@
         "fences-wattle",
         "argonian-lights"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -5594,7 +5763,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "speaker of the floor"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "walk",
@@ -5639,9 +5810,13 @@
       "rumourPoolKey": "rumour.root-sakka",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.root-sakka.speaking-floor"
+        ],
         "evidence": [],
-        "station": [],
+        "station": [
+          "station.root-sakka.village-tree"
+        ],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -5653,7 +5828,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.root-sakka-village"
     },
     {
       "id": "place.mercantile-coast.hull-hall",
@@ -5753,7 +5929,7 @@
         "clutter",
         "market-tents"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -5964,7 +6140,10 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "clan speaker on the third terrace",
+        "keeper of the working defences"
+      ],
       "dangerTier": "D3",
       "traversalModes": [
         "walk",
@@ -6008,10 +6187,18 @@
       "rumourPoolKey": "rumour.chuxeth",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
-        "station": [],
-        "marks": []
+        "scene": [
+          "scene.chuxeth.terrace-audience"
+        ],
+        "evidence": [
+          "evidence.chuxeth.discharge-scarring"
+        ],
+        "station": [
+          "station.chuxeth.causeway-gate"
+        ],
+        "marks": [
+          "marks.chuxeth.clan-standing"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
@@ -6023,7 +6210,14 @@
       ],
       "densityLayer": "landmark",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.chuxeth-clan",
+      "localStateVariants": [
+        {
+          "id": "state.chuxeth.defences-fired",
+          "description": "The approach defences have been used; the causeway is scorched and the clan is not receiving."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.insular-jungle-village",
@@ -6089,7 +6283,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "boundary speaker"
+      ],
       "dangerTier": "D4",
       "traversalModes": [
         "walk",
@@ -6130,13 +6326,19 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.xel-nahkta",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
+        "scene": [
+          "scene.xel-nahkta.totem-line"
+        ],
+        "evidence": [
+          "evidence.xel-nahkta.fresh-spear-marks"
+        ],
         "station": [],
-        "marks": []
+        "marks": [
+          "marks.xel-nahkta.admitted"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
@@ -6147,7 +6349,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.xel-nahkta-tribe"
     },
     {
       "id": "place.mercantile-coast.ixtaxh-xanmeer",
@@ -6249,7 +6452,7 @@
         "cc-ayleid-interior",
         "lights-general"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -6257,12 +6460,16 @@
       "rumourPoolKey": "rumour.ixtaxh",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.ixtaxh.pump-gantry"
+        ],
         "evidence": [
           "evidence.ixtaxh.pumping-order"
         ],
         "station": [],
-        "marks": []
+        "marks": [
+          "marks.ixtaxh.chamber-entered"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
@@ -6275,7 +6482,8 @@
       ],
       "densityLayer": "landmark",
       "entrance": "underwater-entry",
-      "underwaterAccess": "deep-dive"
+      "underwaterAccess": "deep-dive",
+      "ownerFaction": "faction.unclaimed"
     },
     {
       "id": "place.mercantile-coast.keel-sakka-falls",
@@ -6365,7 +6573,7 @@
         "market-tents",
         "stockade-scaffold"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -6590,7 +6798,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "landing-master"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "walk",
@@ -6631,12 +6841,14 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.keel-sakka",
       "deedCounterKeys": [],
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "station": [
+          "station.keel-sakka.loading-deck"
+        ],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -6648,7 +6860,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "ownerFaction": "faction.keel-sakka-landing"
     },
     {
       "id": "place.mercantile-coast.keshu-grove",
@@ -6713,7 +6926,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "keeper of one of the four racks"
+      ],
       "dangerTier": "D3",
       "traversalModes": [
         "walk",
@@ -6757,10 +6972,16 @@
       "rumourPoolKey": "rumour.keshu",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
+        "scene": [
+          "scene.black-fin-grove.muster-stone"
+        ],
+        "evidence": [
+          "evidence.black-fin-grove.four-claims"
+        ],
         "station": [],
-        "marks": []
+        "marks": [
+          "marks.black-fin-grove.claim-backed"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
@@ -6777,7 +6998,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.unclaimed"
     },
     {
       "id": "place.mercantile-coast.lagoon-rafts",
@@ -6876,7 +7098,7 @@
         "fishing-props",
         "argonian-lights"
       ],
-      "discovery": "sightline",
+      "discovery": "rumour",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -6973,7 +7195,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "flotilla speaker"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "boat",
@@ -7007,20 +7231,24 @@
         "fishing-props",
         "argonian-lights"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.lighter-flotilla",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.lighter-flotilla.crew-vote"
+        ],
         "evidence": [],
         "station": [
           "station.lighter-flotilla.hire"
         ],
-        "marks": []
+        "marks": [
+          "marks.lighter-flotilla.crew-standing"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
@@ -7031,7 +7259,14 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "ownerFaction": "faction.lighter-crews",
+      "localStateVariants": [
+        {
+          "id": "state.lighter-flotilla.strike",
+          "description": "The crews have stopped lightering; laden hulls are lying off Lilmoth doing nothing."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.lilmoth",
@@ -7116,7 +7351,12 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "council factor (quest-giver, tariff line)",
+        "third-Hist tree-minder (neutral broker)",
+        "under-quarter dive-master",
+        "An-Xileel resident agent (deniable)"
+      ],
       "dangerTier": "D1",
       "traversalModes": [
         "walk",
@@ -7175,13 +7415,27 @@
         "deed.lilmoth.tree-minders"
       ],
       "sockets": {
-        "scene": [],
-        "evidence": [],
+        "scene": [
+          "scene.lilmoth.council-floor",
+          "scene.lilmoth.third-hist-court",
+          "scene.lilmoth.drowned-quarter-dive"
+        ],
+        "evidence": [
+          "evidence.lilmoth.tariff-roll",
+          "evidence.lilmoth.slaughter-list",
+          "evidence.lilmoth.pre-rebuild-plan"
+        ],
         "station": [
           "station.lilmoth.lighter-quay",
-          "station.lilmoth.north-gate"
+          "station.lilmoth.north-gate",
+          "station.lilmoth.diving-stair",
+          "station.lilmoth.council-hall",
+          "station.lilmoth.upper-walkway-market"
         ],
-        "marks": []
+        "marks": [
+          "marks.lilmoth.council-standing",
+          "marks.lilmoth.drowned-quarter-cleared"
+        ]
       },
       "complexityBudget": "complex",
       "importanceTier": 0,
@@ -7201,7 +7455,22 @@
       ],
       "densityLayer": "landmark",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.lilmoth-merchant-council",
+      "localStateVariants": [
+        {
+          "id": "state.lilmoth.tariff-war",
+          "description": "Council tariffs raised: Meerhleel and Moonmarch busy, Lilmoth quay half idle."
+        },
+        {
+          "id": "state.lilmoth.hist-silence",
+          "description": "The third Hist has not spoken for a season; the council rules are suspended and the city is tense."
+        },
+        {
+          "id": "state.lilmoth.flood-peak",
+          "description": "Wet-season peak: the lower walkways are closed and everything moves one tier up."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.lilmoth-beast-market",
@@ -7509,7 +7778,10 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "valuer who does not ask where things came from",
+        "Night-Reed fence"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "swim",
@@ -7552,17 +7824,21 @@
         ],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.under-yard",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.under-yard.valuation-floor"
+        ],
         "evidence": [
           "evidence.under-yard.valuation-book"
         ],
         "station": [
           "station.under-yard.dive-hire"
         ],
-        "marks": []
+        "marks": [
+          "marks.under-yard.fence-standing"
+        ]
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
@@ -7573,7 +7849,14 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "deep-dive"
+      "underwaterAccess": "deep-dive",
+      "ownerFaction": "faction.night-reed-chapter",
+      "localStateVariants": [
+        {
+          "id": "state.under-yard.council-raid",
+          "description": "The council has taken the valuation book; the floor is empty and the stair is chained."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.lilmoth-quay-tradehouse",
@@ -7763,7 +8046,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "light-keeper who is not a light-keeper"
+      ],
       "dangerTier": "D3",
       "traversalModes": [
         "walk",
@@ -7797,18 +8082,24 @@
         "lights-general",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.long-bar",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
+        "scene": [
+          "scene.long-bar.false-light"
+        ],
+        "evidence": [
+          "evidence.long-bar.sorted-cargo-lots"
+        ],
         "station": [],
-        "marks": []
+        "marks": [
+          "marks.long-bar.complicit"
+        ]
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
@@ -7820,7 +8111,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "ownerFaction": "faction.long-bar-wreckers"
     },
     {
       "id": "place.mercantile-coast.mad-hermit-jungle",
@@ -8156,7 +8448,7 @@
         "clutter",
         "market-tents"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [
           "BOSS",
@@ -8376,7 +8668,9 @@
       },
       "culture": "khajiit",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "Khajiit factor holding the last lease"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "boat",
@@ -8409,17 +8703,23 @@
         "clutter",
         "signage-blank"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.moonmarch",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
-        "station": [],
+        "scene": [
+          "scene.moonmarch.emptying-arcade"
+        ],
+        "evidence": [
+          "evidence.moonmarch.caravan-charter"
+        ],
+        "station": [
+          "station.moonmarch.sugar-store"
+        ],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -8432,7 +8732,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.moonmarch-caravan-house"
     },
     {
       "id": "place.mercantile-coast.mudfoot",
@@ -8503,7 +8804,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "rake-caller who sets the tide's working order"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "walk",
@@ -8539,17 +8842,21 @@
         "argonian-lights",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.mudfoot",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.mudfoot.low-water-rake"
+        ],
         "evidence": [],
-        "station": [],
+        "station": [
+          "station.mudfoot.flat-market"
+        ],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -8561,7 +8868,18 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "ownerFaction": "faction.mudfoot-cockle-households",
+      "localStateVariants": [
+        {
+          "id": "state.mudfoot.low-water",
+          "description": "The flat is walkable and the whole village is out on it."
+        },
+        {
+          "id": "state.mudfoot.high-water",
+          "description": "Two metres over the flat; the village is reached only by boat and nobody is working."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.murkmire-hearth-house",
@@ -8872,7 +9190,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "court-holder who negotiates openly"
+      ],
       "dangerTier": "D3",
       "traversalModes": [
         "boat",
@@ -8912,13 +9232,21 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.xul-hakka",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
-        "station": [],
-        "marks": []
+        "scene": [
+          "scene.xul-hakka.water-court"
+        ],
+        "evidence": [
+          "evidence.xul-hakka.season-take"
+        ],
+        "station": [
+          "station.xul-hakka.court-landing"
+        ],
+        "marks": [
+          "marks.xul-hakka.naga-standing"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
@@ -8929,7 +9257,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.tribeless-naga"
     },
     {
       "id": "place.mercantile-coast.necropolis-village-murkmire",
@@ -9001,7 +9330,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "master stake-carver"
+      ],
       "dangerTier": "D3",
       "traversalModes": [
         "walk",
@@ -9048,10 +9379,18 @@
       "rumourPoolKey": "rumour.xul-vaat",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
-        "station": [],
-        "marks": []
+        "scene": [
+          "scene.xul-vaat.stake-reading"
+        ],
+        "evidence": [
+          "evidence.xul-vaat.a-particular-stake"
+        ],
+        "station": [
+          "station.xul-vaat.carving-shed"
+        ],
+        "marks": [
+          "marks.xul-vaat.stake-cut-for-you"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
@@ -9062,7 +9401,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "grave-cut",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.xul-vaat-stake-carvers"
     },
     {
       "id": "place.mercantile-coast.oliis-air-station",
@@ -9161,7 +9501,7 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.breathing-stone",
       "deedCounterKeys": [],
       "sockets": {
         "scene": [],
@@ -9250,7 +9590,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "deck-warden"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "walk",
@@ -9285,17 +9627,21 @@
         "argonian-lights",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.oliis-boardwalk",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.long-walk.rotten-spur"
+        ],
         "evidence": [],
-        "station": [],
+        "station": [
+          "station.long-walk.junction"
+        ],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -9307,7 +9653,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.long-walk-households"
     },
     {
       "id": "place.mercantile-coast.oliis-drake-deep",
@@ -9499,7 +9846,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "ferry-holder"
+      ],
       "dangerTier": "D1",
       "traversalModes": [
         "boat",
@@ -9537,11 +9886,13 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.oliis-ferry",
       "deedCounterKeys": [],
       "sockets": {
         "scene": [],
-        "evidence": [],
+        "evidence": [
+          "evidence.estuary-stage.five-times-repainted-board"
+        ],
         "station": [
           "station.estuary-stage.ferry"
         ],
@@ -9556,7 +9907,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.estuary-ferry-holders"
     },
     {
       "id": "place.mercantile-coast.oliis-narrows",
@@ -9646,7 +9998,7 @@
         "boats-keeled",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -9888,13 +10240,19 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.half-day-flat",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.half-day-flat.flood-coming"
+        ],
         "evidence": [],
-        "station": [],
-        "marks": []
+        "station": [
+          "station.half-day-flat.bell-post"
+        ],
+        "marks": [
+          "marks.half-day-flat.crossed"
+        ]
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
@@ -9905,7 +10263,17 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "localStateVariants": [
+        {
+          "id": "state.half-day-flat.uncovered",
+          "description": "The flat is walkable and the bells are ringing."
+        },
+        {
+          "id": "state.half-day-flat.covered",
+          "description": "Sailable water; the withies lean and the bells are silent."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.oliis-wreck",
@@ -10004,7 +10372,7 @@
         "clutter",
         "market-tents"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -10331,7 +10699,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "sweeper who decides what the path can see"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "walk",
@@ -10371,12 +10741,16 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.pilgrim-line",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.xal-meht.swept-line"
+        ],
         "evidence": [],
-        "station": [],
+        "station": [
+          "station.xal-meht.spring"
+        ],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -10389,7 +10763,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "stair-throat",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.nisswo"
     },
     {
       "id": "place.mercantile-coast.pusbottom-barge",
@@ -10586,7 +10961,10 @@
       },
       "culture": "khajiit",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "Salt-Teeth shore captain",
+        "the chartered master everyone pretends not to know"
+      ],
       "dangerTier": "D3",
       "traversalModes": [
         "boat",
@@ -10624,13 +11002,19 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.quinrawl",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.quinrawl.respectable-ship"
+        ],
         "evidence": [],
-        "station": [],
-        "marks": []
+        "station": [
+          "station.quinrawl.beach-camp"
+        ],
+        "marks": [
+          "marks.quinrawl.salt-teeth-standing"
+        ]
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
@@ -10642,7 +11026,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.salt-teeth"
     },
     {
       "id": "place.mercantile-coast.rockpark",
@@ -10752,10 +11137,17 @@
       "rumourPoolKey": "rumour.rockpark",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
+        "scene": [
+          "scene.rockpark.jammed-palace-gate"
+        ],
+        "evidence": [
+          "evidence.rockpark.shop-stock-intact",
+          "evidence.rockpark.last-day-ledger"
+        ],
         "station": [],
-        "marks": []
+        "marks": [
+          "marks.rockpark.taboo-broken"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
@@ -10766,7 +11158,14 @@
       ],
       "densityLayer": "landmark",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.unclaimed",
+      "localStateVariants": [
+        {
+          "id": "state.rockpark.looted",
+          "description": "Somebody has broken the taboo; the shelves are stripped and the district knows who."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.rockpark-dead-hist",
@@ -10857,7 +11256,7 @@
         "argonian-props",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "rumour",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -10987,12 +11386,18 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.under-root",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
-        "station": [],
+        "scene": [
+          "scene.under-root.three-tenancies"
+        ],
+        "evidence": [
+          "evidence.under-root.hearth-scars"
+        ],
+        "station": [
+          "station.under-root.shelter"
+        ],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -11104,20 +11509,24 @@
         "clutter",
         "lights-general"
       ],
-      "discovery": "sightline",
+      "discovery": "document",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.customs-suburb",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.customs-suburb.record-room"
+        ],
         "evidence": [
           "evidence.customs-suburb.pre-slaughter-register"
         ],
         "station": [],
-        "marks": []
+        "marks": [
+          "marks.customs-suburb.register-published"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
@@ -11129,7 +11538,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.unclaimed"
     },
     {
       "id": "place.mercantile-coast.sap-withdrawal-house",
@@ -11318,7 +11728,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "senior pilot household head"
+      ],
       "dangerTier": "D3",
       "traversalModes": [
         "boat",
@@ -11357,13 +11769,19 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.screen-watch",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.screen-watch.pilot-hire"
+        ],
         "evidence": [],
-        "station": [],
-        "marks": []
+        "station": [
+          "station.screen-watch.pilot-house"
+        ],
+        "marks": [
+          "marks.screen-watch.pilot-trust"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
@@ -11374,7 +11792,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "ownerFaction": "faction.brammans-pilots"
     },
     {
       "id": "place.mercantile-coast.sealed-meer-murkmire",
@@ -11477,13 +11896,19 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.kept-chamber",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
+        "scene": [
+          "scene.kept-chamber.sealed-door"
+        ],
+        "evidence": [
+          "evidence.kept-chamber.inside-hand-marks"
+        ],
         "station": [],
-        "marks": []
+        "marks": [
+          "marks.kept-chamber.opened"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
@@ -11495,7 +11920,13 @@
       ],
       "densityLayer": "destination",
       "entrance": "stair-throat",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        {
+          "id": "state.kept-chamber.opened",
+          "description": "The seal is broken; whatever was closed in is a district-wide problem."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.sealed-meer-west",
@@ -11680,7 +12111,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "wall-cutter who refuses to fill the blank section"
+      ],
       "dangerTier": "D1",
       "traversalModes": [
         "walk",
@@ -11720,17 +12153,22 @@
         ],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.mercantile-coast.slaughter-memorial",
       "deedCounterKeys": [
         "deed.lilmoth.vigil"
       ],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.slaughter-ground.recitation"
+        ],
         "evidence": [
-          "evidence.slaughter-ground.name-wall"
+          "evidence.slaughter-ground.name-wall",
+          "evidence.slaughter-ground.blank-section"
         ],
         "station": [],
-        "marks": []
+        "marks": [
+          "marks.slaughter-ground.name-added"
+        ]
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
@@ -11744,7 +12182,8 @@
       ],
       "densityLayer": "landmark",
       "entrance": "grave-cut",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.lilmoth-merchant-council"
     },
     {
       "id": "place.mercantile-coast.smoulder-cuts",
@@ -11831,7 +12270,7 @@
         "clutter",
         "fences-wattle"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -11942,7 +12381,12 @@
       },
       "culture": "mixed",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "orphaned Imperial magistrate (no jurisdiction, full procedure)",
+        "Khajiit caravan factor",
+        "river-interest broker for Bramman's water",
+        "tribal delegate lodging in the palace"
+      ],
       "dangerTier": "D1",
       "traversalModes": [
         "walk",
@@ -11996,13 +12440,27 @@
         "deed.soulrest.imperial-remnant"
       ],
       "sockets": {
-        "scene": [],
-        "evidence": [],
+        "scene": [
+          "scene.soulrest.four-claimants-parley",
+          "scene.soulrest.empty-courtroom",
+          "scene.soulrest.mole-handover"
+        ],
+        "evidence": [
+          "evidence.soulrest.provincial-registry",
+          "evidence.soulrest.mine-closure-order",
+          "evidence.soulrest.khajiit-charter"
+        ],
         "station": [
           "station.soulrest.quay",
-          "station.soulrest.coast-road"
+          "station.soulrest.coast-road",
+          "station.soulrest.records-office",
+          "station.soulrest.khajiit-caravanserai",
+          "station.soulrest.harbour-office"
         ],
-        "marks": []
+        "marks": [
+          "marks.soulrest.claimant-favour",
+          "marks.soulrest.mines-reopened"
+        ]
       },
       "complexityBudget": "complex",
       "importanceTier": 0,
@@ -12016,7 +12474,18 @@
       ],
       "densityLayer": "landmark",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.unclaimed",
+      "localStateVariants": [
+        {
+          "id": "state.soulrest.claimant-ascendant",
+          "description": "One of the four claimants is briefly on top; the gates and the harbour office change hands with it."
+        },
+        {
+          "id": "state.soulrest.mines-question",
+          "description": "A survey party is in town and the whole city is behaving as if the mines might reopen."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.soulrest-breaking-yard",
@@ -12089,7 +12558,9 @@
       },
       "culture": "mixed",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "yard master"
+      ],
       "dangerTier": "D1",
       "traversalModes": [
         "walk",
@@ -12127,12 +12598,18 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.breaking-hard",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
-        "station": [],
+        "scene": [
+          "scene.breaking-hard.hull-laid-over"
+        ],
+        "evidence": [
+          "evidence.breaking-hard.ships-papers"
+        ],
+        "station": [
+          "station.breaking-hard.timber-lots"
+        ],
         "marks": []
       },
       "complexityBudget": "standard",
@@ -12145,7 +12622,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.soulrest-breaking-hard"
     },
     {
       "id": "place.mercantile-coast.soulrest-broken-bond",
@@ -12816,7 +13294,9 @@
       },
       "culture": "mixed",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "rate-caller"
+      ],
       "dangerTier": "D1",
       "traversalModes": [
         "walk",
@@ -12858,11 +13338,15 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.soulrest.quay",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
+        "scene": [
+          "scene.long-table.rate-setting"
+        ],
+        "evidence": [
+          "evidence.long-table.chalk-rates"
+        ],
         "station": [
           "station.long-table.hire"
         ],
@@ -12878,7 +13362,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.league-of-open-water"
     },
     {
       "id": "place.mercantile-coast.soulrest-synod-outstation",
@@ -13312,7 +13797,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "Witness Society recorder camped outside the ditch"
+      ],
       "dangerTier": "D4",
       "traversalModes": [
         "walk",
@@ -13355,10 +13842,16 @@
       "rumourPoolKey": "rumour.umbriel-track",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
+        "scene": [
+          "scene.ganthils-rest.boundary-ditch"
+        ],
+        "evidence": [
+          "evidence.ganthils-rest.pulled-stakes"
+        ],
         "station": [],
-        "marks": []
+        "marks": [
+          "marks.ganthils-rest.village-laid-to-rest"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
@@ -13369,7 +13862,14 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.umbriel-witness-society",
+      "localStateVariants": [
+        {
+          "id": "state.ganthils-rest.stakes-raised",
+          "description": "The stakes have been raised again and the figures no longer keep the paths."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.stripped-village-quiet",
@@ -13466,7 +13966,7 @@
         "totems-ritual",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -13583,7 +14083,7 @@
         "clutter",
         "totems-ritual"
       ],
-      "discovery": "sightline",
+      "discovery": "rumour",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -13943,13 +14443,17 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.sunken-causeway",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.sunken-causeway.third-gap"
+        ],
         "evidence": [],
         "station": [],
-        "marks": []
+        "marks": [
+          "marks.sunken-causeway.crossed-dry"
+        ]
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
@@ -13960,7 +14464,14 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "ownerFaction": "faction.unclaimed",
+      "localStateVariants": [
+        {
+          "id": "state.sunken-causeway.bridged",
+          "description": "Somebody has bridged the gaps; the fastest route in the region exists again, for a season."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.sunkfoot",
@@ -14057,7 +14568,7 @@
         "docks-piers",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "rumour",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -14264,7 +14775,10 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "court-holder",
+        "match caller"
+      ],
       "dangerTier": "D1",
       "traversalModes": [
         "walk",
@@ -14303,15 +14817,21 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.placation",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
+        "scene": [
+          "scene.placation-court.settlement-match"
+        ],
+        "evidence": [
+          "evidence.placation-court.match-record"
+        ],
         "station": [
           "station.placation-court.game"
         ],
-        "marks": []
+        "marks": [
+          "marks.placation-court.debt-placated"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
@@ -14322,7 +14842,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.placation-court-holders"
     },
     {
       "id": "place.mercantile-coast.teeth-of-sithis",
@@ -14394,7 +14915,10 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "nisswo of the Teeth",
+        "the one who scrubs to the waterline"
+      ],
       "dangerTier": "D3",
       "traversalModes": [
         "walk",
@@ -14442,10 +14966,18 @@
       "rumourPoolKey": "rumour.teeth-of-sithis",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
-        "station": [],
-        "marks": []
+        "scene": [
+          "scene.teeth.colonnade-rite"
+        ],
+        "evidence": [
+          "evidence.teeth.scrub-line-rule"
+        ],
+        "station": [
+          "station.teeth.pilgrim-landing"
+        ],
+        "marks": [
+          "marks.teeth.rite-witnessed"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
@@ -14457,7 +14989,8 @@
       ],
       "densityLayer": "landmark",
       "entrance": "grave-cut",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.nisswo"
     },
     {
       "id": "place.mercantile-coast.tempering-ground",
@@ -14575,10 +15108,18 @@
       "rumourPoolKey": "rumour.shadowscales",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
-        "station": [],
-        "marks": []
+        "scene": [
+          "scene.tempering-ground.blinded-approach"
+        ],
+        "evidence": [
+          "evidence.tempering-ground.raked-ground"
+        ],
+        "station": [
+          "station.tempering-ground.blade-rack"
+        ],
+        "marks": [
+          "marks.tempering-ground.tempered"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
@@ -14589,7 +15130,14 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.shadowscales",
+      "localStateVariants": [
+        {
+          "id": "state.tempering-ground.struck",
+          "description": "The ground has been struck and raked; there is nothing here at all."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.tidewrack-stilts",
@@ -14690,7 +15238,7 @@
         "argonian-lights",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "rumour",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -14810,7 +15358,7 @@
         "clutter",
         "bridges"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -15137,7 +15685,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "salt-master"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "walk",
@@ -15173,12 +15723,16 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.topal-salt",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.white-fields.crust-lifting"
+        ],
         "evidence": [],
-        "station": [],
+        "station": [
+          "station.white-fields.salt-store"
+        ],
         "marks": []
       },
       "complexityBudget": "simple",
@@ -15190,7 +15744,14 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.white-fields-salters",
+      "localStateVariants": [
+        {
+          "id": "state.white-fields.flooded",
+          "description": "The wet season has taken the pans; the bunds are gone and the works is under a metre of water."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.tree-minder-house",
@@ -15782,15 +16343,19 @@
         ],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.villa-cellars",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.villa-cellars.mosaic-floor"
+        ],
         "evidence": [
           "evidence.villa-cellars.abandoned-rope"
         ],
         "station": [],
-        "marks": []
+        "marks": [
+          "marks.villa-cellars.rope-followed"
+        ]
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
@@ -16020,7 +16585,7 @@
         "fishing-props",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -16136,7 +16701,7 @@
         "argonian-lights",
         "stockade-scaffold"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -16229,7 +16794,9 @@
       },
       "culture": "imperial",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "bone-carrier working the repatriation chain"
+      ],
       "dangerTier": "D4",
       "traversalModes": [
         "walk",
@@ -16280,12 +16847,17 @@
         "deed.chainbreakers.bones-returned"
       ],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.white-rose.open-gate"
+        ],
         "evidence": [
-          "evidence.white-rose.commitment-roll"
+          "evidence.white-rose.commitment-roll",
+          "evidence.white-rose.repatriation-tally"
         ],
         "station": [],
-        "marks": []
+        "marks": [
+          "marks.white-rose.bones-returned"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
@@ -16297,7 +16869,14 @@
       ],
       "densityLayer": "destination",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.unclaimed",
+      "localStateVariants": [
+        {
+          "id": "state.white-rose.cleared",
+          "description": "The repatriation chain has finished here; the block is empty in a different way."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.whitebone-reef",
@@ -16389,7 +16968,7 @@
         "docks-piers",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -16593,7 +17172,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "copyist who has broken every copy but one"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "walk",
@@ -16629,15 +17210,19 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.wraxu",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
+        "scene": [
+          "scene.wraxu-frieze.copy-and-break"
+        ],
         "evidence": [
           "evidence.wraxu-frieze.unbroken-copy"
         ],
         "station": [],
-        "marks": []
+        "marks": [
+          "marks.wraxu-frieze.copy-kept"
+        ]
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
@@ -16649,7 +17234,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.unclaimed"
     },
     {
       "id": "place.mercantile-coast.wraxu-stacks",
@@ -16710,7 +17296,9 @@
       },
       "culture": "argonian",
       "occupants": [],
-      "notableNpcSlots": [],
+      "notableNpcSlots": [
+        "rope-master who fixes the ledge order"
+      ],
       "dangerTier": "D2",
       "traversalModes": [
         "boat",
@@ -16747,13 +17335,21 @@
         "provisions": [],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.wraxu",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
-        "station": [],
-        "marks": []
+        "scene": [
+          "scene.wraxu-stacks.ledge-order"
+        ],
+        "evidence": [
+          "evidence.wraxu-stacks.taking-rules"
+        ],
+        "station": [
+          "station.wraxu-stacks.rope-anchors"
+        ],
+        "marks": [
+          "marks.wraxu-stacks.rules-kept"
+        ]
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
@@ -16764,7 +17360,14 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "ownerFaction": "faction.wraxu-egg-takers",
+      "localStateVariants": [
+        {
+          "id": "state.wraxu-stacks.taking-season",
+          "description": "The rope ladder is up and the ledges are being worked in order."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.wraxu-xanmeer",
@@ -16860,7 +17463,7 @@
         "totems-ritual",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [],
         "tierOwnership": null
@@ -17185,7 +17788,8 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
-        "npc.xinchei-konu.jekka-wass"
+        "npc.xinchei-konu.jekka-wass",
+        "the single keeper who cuts back the sightlines"
       ],
       "dangerTier": "D2",
       "traversalModes": [
@@ -17231,12 +17835,19 @@
       "rumourPoolKey": "rumour.xinchei-konu",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [
-          "evidence.xinchei-konu.reckoning-face"
+        "scene": [
+          "scene.xinchei-konu.reckoning"
         ],
-        "station": [],
-        "marks": []
+        "evidence": [
+          "evidence.xinchei-konu.reckoning-face",
+          "evidence.xinchei-konu.disagreeing-count"
+        ],
+        "station": [
+          "station.xinchei-konu.keepers-shelter"
+        ],
+        "marks": [
+          "marks.xinchei-konu.date-read"
+        ]
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
@@ -17249,7 +17860,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.xinchei-keeper"
     }
   ]
 }
