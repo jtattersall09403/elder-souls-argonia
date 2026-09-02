@@ -55,6 +55,10 @@ previously committed id is missing (cut places must remain with
 status "cut").
 
 Run: python -m worldgen.catalogue --check   (from tooling/world-generation/)
+
+There is no longer a strict mode: the five fields that were strict-only
+(season, eraLayers, densityLayer, entrance, underwaterAccess) are required at
+`derived` as of 2026-09-02, so plain --check enforces the whole schema.
 """
 
 from __future__ import annotations
@@ -93,16 +97,17 @@ REQUIRED_AT = {
         "id", "classification", "provenance", "sources", "confidence", "why",
         "sitingPrefs", "dangerTier", "discovery", "complexityBudget",
         "importanceTier", "workflow", "status", "sockets", "deedCounterKeys",
+        # Added 2026-09-02 once the critique back-fill landed on all eight
+        # region files. These carried the schema's honesty about time, depth
+        # and how you get in; they were strict-mode-only while the back-fill
+        # was in flight and are now simply required.
+        "season", "eraLayers", "densityLayer", "entrance", "underwaterAccess",
     ],
     "plotted": ["position", "whySiteWon", "candidatesConsidered"],
     "authored": ["vibe", "assetPlan", "occupants", "rewardProfile", "relations"],
     "frozen": [],  # freeze is gated by 10b/10c checklists, not extra fields
 }
 WHY_KEYS = {"founding", "siteAdvantages", "occupantsMotive", "pressures", "wouldChangeIf"}
-# Required at 'derived' ONLY under strict mode — flipped into REQUIRED_AT once
-# the 2026-09-02 critique back-fill lands (the back-fill agent's last commit
-# moves these into REQUIRED_AT['derived'] and deletes this list).
-STRICT_REQUIRED = ["season", "eraLayers", "densityLayer", "entrance", "underwaterAccess"]
 
 
 def dump_json(path: Path, data: dict) -> None:
@@ -159,7 +164,7 @@ def load_region_files(catalogue_dir: Path = CATALOGUE_DIR) -> list[RegionFile]:
     return out
 
 
-def validate_record(rec: dict, region: str, classes: dict, errors: list[str], strict: bool = False) -> None:
+def validate_record(rec: dict, region: str, classes: dict, errors: list[str]) -> None:
     rid = rec.get("id", "<missing id>")
     wf = rec.get("workflow")
     if wf not in WORKFLOW:
@@ -168,8 +173,6 @@ def validate_record(rec: dict, region: str, classes: dict, errors: list[str], st
     required: list[str] = []
     for rung in WORKFLOW[: WORKFLOW.index(wf) + 1]:
         required += REQUIRED_AT[rung]
-    if strict:
-        required += STRICT_REQUIRED
     for key in required:
         if key not in rec or rec[key] is None:
             _fail(errors, rid, f"missing required field '{key}' at workflow '{wf}'")

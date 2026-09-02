@@ -35,6 +35,12 @@ def _record(**over):
         "workflow": "derived",
         "sockets": {"scene": [], "evidence": [], "station": [], "marks": []},
         "deedCounterKeys": [],
+        # Required at 'derived' since 2026-09-02 (the ex-STRICT_REQUIRED five).
+        "season": "all-year",
+        "eraLayers": ["current"],
+        "densityLayer": "fine-tempo",
+        "entrance": "none",
+        "underwaterAccess": "none",
     }
     rec.update(over)
     return rec
