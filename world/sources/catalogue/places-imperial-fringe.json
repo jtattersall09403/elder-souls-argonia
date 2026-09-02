@@ -1,0 +1,1973 @@
+{
+  "schemaVersion": 1,
+  "region": "imperial-fringe",
+  "seed": "phase11-part1-imperial-fringe-1109",
+  "places": [
+    {
+      "id": "place.imperial-fringe.castle-giovesse",
+      "name": "Castle Giovesse",
+      "aliases": [],
+      "classification": {
+        "class": "ruin",
+        "family": "imperial-ruin",
+        "type": "ducal-ruin",
+        "variant": null,
+        "magnitude": "M2"
+      },
+      "status": "ruined",
+      "season": "all",
+      "eraLayers": [
+        "imperial"
+      ],
+      "provenance": "canon-named",
+      "sources": [
+        "uesp:Lore:Giovesse",
+        "uesp:Lore:Tavia",
+        "world/sources/lore/extrapolation/settlement-register.md §3"
+      ],
+      "confidence": "CANON_EXPLICIT",
+      "why": {
+        "founding": "A Cyrodiilic ducal seat raised in arm's reach of Gideon's north gate, later used to hold an Empress.",
+        "siteAdvantages": "A dry knoll above the flood line with a clear line to the city gate — the site was chosen to be looked at.",
+        "occupantsMotive": "Nobody occupies it; the caretaker families who once did left when the well went bad, and the city tells its children not to go.",
+        "pressures": "Roots in the vaulting; the north range has already gone; treasure-hunters chip at the cell doors.",
+        "wouldChangeIf": "Would be reoccupied the moment anyone in Gideon wanted a stone house badly enough — which, post-Duskfall, nobody does."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "upland hills",
+          "firm lowland"
+        ],
+        "landformClasses": [
+          "summit",
+          "ridge-end",
+          "island",
+          "flood-high",
+          "headland"
+        ],
+        "waterRelation": "commands something",
+        "neighbourRelation": "dominating ground nobody else wanted",
+        "hardConstraints": [
+          "within sight of Gideon's north gate",
+          "dry knoll"
+        ],
+        "preferences": [
+          "a ruined curtain with one standing tower",
+          "identifiable cell block"
+        ],
+        "scourSiteIds": [
+          "site.scour.upland-hills.summit-025"
+        ]
+      },
+      "relations": {
+        "visibleFrom": [
+          "place.imperial-fringe.gideon"
+        ],
+        "reachedVia": [
+          "route.gideon-north-track"
+        ]
+      },
+      "culture": "imperial",
+      "ownerFaction": null,
+      "occupants": [
+        "nothing living by day",
+        "D3 restless dead in the cell range",
+        "occasional treasure-hunters"
+      ],
+      "notableNpcSlots": [
+        "the ghost the city calls Tavia, whether or not she is"
+      ],
+      "dangerTier": "D3",
+      "approachDanger": "D3",
+      "traversalModes": [
+        "walk",
+        "climb",
+        "combat"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "lore",
+          "unique item",
+          "gear"
+        ],
+        "valueTier": "tier-3"
+      },
+      "vibe": {
+        "silhouette": "A broken square keep with one intact stair turret, black against the evening from the city wall.",
+        "palette": "Bone-grey stone, black damp streaks, the violent green of fig roots.",
+        "materials": "Imperial ashlar and vault ribs, no timber left at all.",
+        "signatureFeature": "Empress Tavia's cell, still identifiable, its door hinges still in the jamb.",
+        "condition": "Roofless, root-split, structurally treacherous above the first floor.",
+        "mood": "Aggrieved and domestic — a house that was made into a prison and never forgave it.",
+        "approach": "A track through fig scrub, then the ditch, then the gate arch with the ducal arms hacked flat.",
+        "senses": "Wind in an empty stair; bats; the smell of wet stone dust."
+      },
+      "assetPlan": [
+        "bmv-fort",
+        "vanilla-farmhouse",
+        "landmark-civic",
+        "clutter",
+        "lights-general"
+      ],
+      "discovery": "sightline",
+      "questHooks": {
+        "provisions": [
+          "haunted ruin in arm's reach of a city",
+          "Tavia's cell"
+        ],
+        "tierOwnership": "shared"
+      },
+      "rumourPoolKey": "rumour.gideon",
+      "deedCounterKeys": [
+        "deed.giovesse.cell_opened"
+      ],
+      "sockets": {
+        "scene": [
+          "the-cell"
+        ],
+        "evidence": [
+          "ducal-arms-defaced"
+        ],
+        "station": [],
+        "marks": [
+          "giovesse-key"
+        ]
+      },
+      "complexityBudget": "standard",
+      "importanceTier": 1,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.imperial-fringe.fort-swampmoth",
+      "name": "Fort Swampmoth",
+      "aliases": [],
+      "classification": {
+        "class": "martial",
+        "family": "imperial-military",
+        "type": "occupied-fort",
+        "variant": null,
+        "magnitude": "M2"
+      },
+      "status": "contested",
+      "season": "all",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "provenance": "quest-required",
+      "sources": [
+        "uesp:Lore:Fort Swampmoth",
+        "uesp:Lore:Oblivion Crisis",
+        "uesp:Lore:Blackwood",
+        "world/sources/lore/extrapolation/settlement-register.md §6",
+        "docs/quests/20-world-provisions.md §12b"
+      ],
+      "confidence": "CANON_EXPLICIT",
+      "why": {
+        "founding": "Built by the Third Empire to hold the only land approach into the province; rumoured emptied when the Legions were recalled at the Oblivion Crisis.",
+        "siteAdvantages": "Commands the Blackwood Road where it leaves the ridge for the flood plain — nothing wheeled passes without being seen.",
+        "occupantsMotive": "The outfit that moved in two centuries ago charges for passage and calls it upkeep; it has a written claim and will show it to you.",
+        "pressures": "Gideon's council would rather the tolls were theirs; the Marsh Charter's people regard a foreign fort held by toll-takers as an insult with a gate.",
+        "wouldChangeIf": "Would change hands entirely if the road moved, or if the council ever paid to garrison it properly."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "upland hills"
+        ],
+        "landformClasses": [
+          "ridge-end",
+          "flood-high",
+          "ford",
+          "land-bridge",
+          "summit"
+        ],
+        "waterRelation": "commands a road or a crossing",
+        "neighbourRelation": "on a road between the border and a city",
+        "hardConstraints": [
+          "astride the Blackwood Road",
+          "standing Imperial curtain wall"
+        ],
+        "preferences": [
+          "a ridge nose with a long view down the road",
+          "a spring inside the wall"
+        ],
+        "scourSiteIds": [
+          "site.scour.border-mountains.ridge-end-012"
+        ]
+      },
+      "relations": {
+        "dependsOn": [
+          "route.blackwood-road"
+        ],
+        "tolls": [
+          "route.blackwood-road"
+        ],
+        "rivals": [
+          "place.imperial-fringe.gideon",
+          "place.imperial-fringe.slough-point"
+        ],
+        "visibleFrom": [
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ]
+      },
+      "culture": "imperial",
+      "ownerFaction": "faction.swampmoth-toll-company",
+      "occupants": [
+        "D2 toll-company hands",
+        "one strong D3 captain",
+        "a clerk who is not a soldier"
+      ],
+      "notableNpcSlots": [
+        "the captain with the claim",
+        "the clerk who forges the receipts"
+      ],
+      "dangerTier": "D2",
+      "approachDanger": "D2",
+      "traversalModes": [
+        "walk",
+        "climb",
+        "combat",
+        "stealth"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "passage",
+          "faction access",
+          "gear"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "A square Imperial keep and curtain wall on a ridge nose, moss to the string course, banners that are not Imperial banners.",
+        "palette": "Grey basalt-grey stone, rust, red road clay, the green rising up the north face.",
+        "materials": "Imperial fort masonry, timber hoardings added since, a wattle stock pen where the parade ground was.",
+        "signatureFeature": "The Imperial eagle still over the gate because nobody bothered to chisel it off.",
+        "condition": "Structurally sound, socially illegitimate; repaired in wood by people with no masons.",
+        "mood": "Officious, mercenary, faintly embarrassed — men playing at being a garrison.",
+        "approach": "The road bends and the wall is simply there, higher than anything you have seen since Leyawiin.",
+        "senses": "Chain and windlass; the toll bell; goats in the ditch."
+      },
+      "assetPlan": [
+        "bmv-fort",
+        "vanilla-farmhouse",
+        "stockade-scaffold",
+        "landmark-civic",
+        "clutter"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "Fort Swampmoth, held but not by the Empire",
+          "border content",
+          "Marsh Charter hook"
+        ],
+        "tierOwnership": "tier-0 protected"
+      },
+      "rumourPoolKey": "rumour.blackwood-road",
+      "deedCounterKeys": [
+        "deed.swampmoth.tolls_paid",
+        "deed.swampmoth.gate_taken"
+      ],
+      "sockets": {
+        "scene": [
+          "gate-parley"
+        ],
+        "evidence": [
+          "the-claim-document"
+        ],
+        "station": [
+          "toll-captain"
+        ],
+        "marks": [
+          "eagle-over-the-gate"
+        ]
+      },
+      "complexityBudget": "standard",
+      "importanceTier": 1,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.imperial-fringe.gideon",
+      "name": "Gideon",
+      "aliases": [
+        "the paper city"
+      ],
+      "classification": {
+        "class": "settlement",
+        "family": "major-city",
+        "type": "frontier-records-city",
+        "variant": null,
+        "magnitude": "M5"
+      },
+      "status": "active",
+      "season": "all",
+      "eraLayers": [
+        "ayleid",
+        "imperial",
+        "current"
+      ],
+      "provenance": "canon-named",
+      "sources": [
+        "uesp:Lore:Gideon",
+        "uesp:Lore:Blackwood",
+        "uesp:Lore:Cyrodilic Collections",
+        "uesp:Lore:Rootworm",
+        "world/sources/lore/extrapolation/settlement-register.md §2",
+        "docs/quests/20-world-provisions.md §12b"
+      ],
+      "confidence": "CANON_EXPLICIT",
+      "why": {
+        "founding": "Founded where the Blackwood Road out of Leyawiin crosses the one low saddle in the western border belt — the province's only land door.",
+        "siteAdvantages": "A measured 46 m barrier gap flanked by 60–87 m ridges; firm lowland and drinkable spring water on the marsh side; the Onkobra's red clay downstream.",
+        "occupantsMotive": "A civic council in the old Governor's Mansion keeps the courthouse and archive working because paper is the only authority anyone here still recognises, and because Leyawiin trade pays for it.",
+        "pressures": "Monsoon closes the road for months; the archive's writs are honoured nowhere east of the Onkobra; Cyrodilic Collections and the antiquities fences fight over the same crates.",
+        "wouldChangeIf": "Would fail if the Blackwood Road silted permanently, or if the disputed Hist cutting in the city gardens took root and made Gideon an Argonian city rather than a filing cabinet."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "seasonal floodplain",
+          "upland hills"
+        ],
+        "landformClasses": [
+          "flood-high",
+          "river-mouth",
+          "any-firm-ground"
+        ],
+        "waterRelation": "river port on a road river",
+        "neighbourRelation": "the western terminus of every road in the province; Leyawiin two days out",
+        "hardConstraints": [
+          "on the Blackwood Road",
+          "buildable saddle floor",
+          "river landing for the Onkobra trade"
+        ],
+        "preferences": [
+          "defensible gate ground",
+          "ground for a walled records quarter",
+          "gardens for the disputed Hist cutting"
+        ],
+        "scourSiteIds": [
+          "site.scour.border-mountains.saddle-042",
+          "site.scour.firm-lowland.confluence-011"
+        ]
+      },
+      "relations": {
+        "dependsOn": [
+          "place.imperial-fringe.slough-point",
+          "place.imperial-fringe.fort-swampmoth"
+        ],
+        "supplies": [
+          "place.imperial-fringe.onkobra-clay-pits",
+          "place.imperial-fringe.onkobra-kwama-mine"
+        ],
+        "rivals": [
+          "place.dunmer-north.stormhold"
+        ],
+        "tolls": [
+          "place.imperial-fringe.hollow-arch-toll"
+        ],
+        "reachedVia": [
+          "route.blackwood-road"
+        ],
+        "travelServiceEdges": [
+          "boat:onkobra",
+          "road:blackwood",
+          "rootworm:wintertide-only"
+        ]
+      },
+      "culture": "imperial",
+      "ownerFaction": "faction.gideon-civic-council",
+      "occupants": [
+        "ordinary D1 townsfolk (Argonian majority, large Imperial minority)",
+        "competent D2 council guard",
+        "one strong D3 magistrate's champion"
+      ],
+      "notableNpcSlots": [
+        "the sitting magistrate",
+        "the Collections chapter-agent",
+        "the gardens' Hist-minder",
+        "the wintertide rootworm waykeeper"
+      ],
+      "dangerTier": "D0",
+      "approachDanger": "D2",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "fastTransit"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 1,
+      "rewardProfile": {
+        "kinds": [
+          "services",
+          "knowledge",
+          "faction access",
+          "trade"
+        ],
+        "valueTier": "tier-2 hub"
+      },
+      "vibe": {
+        "silhouette": "Low tiled roofs and a squat courthouse tower stepping up a saddle, with one impossible green crown in the gardens behind it.",
+        "palette": "Fired red clay, wet slate, Nibenese ochre, and the marsh's grey-green pressing in at the gate.",
+        "materials": "Cyrodiilic dressed stone and timber below the eaves, red pantile, Argonian reed and mud in every quarter the council does not photograph.",
+        "signatureFeature": "The Records Court: a stone archive whose ground floor floods every monsoon, so the province's history is stored on the first floor and up a ladder.",
+        "condition": "Maintained but patched with local materials — imperial masonry with wattle repairs, which nobody finds funny any more.",
+        "mood": "Bureaucratic, dry-witted, quietly humiliated; the last office in Argonia that still stamps things.",
+        "approach": "From the west the road climbs out of the Blackwood trees and the town simply appears in the notch, roofs first; from the east it is a wall of pale stone at the end of the marsh.",
+        "senses": "Wet paper and clay dust; the courthouse bell; guar carts; frogs from the gardens pond at dusk."
+      },
+      "assetPlan": [
+        "vanilla-farmhouse",
+        "bmv-fort",
+        "landmark-civic",
+        "signage-blank",
+        "clutter",
+        "market-tents",
+        "bridges",
+        "barsaebic-ayleid"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "Cyrodilic Collections refounded at Gideon (unbuilt-museum-site district)",
+          "wintertide rootworm migration stop",
+          "frontier courthouse and archive"
+        ],
+        "tierOwnership": "tier-0 protected"
+      },
+      "rumourPoolKey": "rumour.gideon",
+      "deedCounterKeys": [
+        "deed.gideon.writs_served",
+        "deed.gideon.antiquities_returned"
+      ],
+      "sockets": {
+        "scene": [
+          "courthouse-steps",
+          "garden-cutting",
+          "wintertide-terminus"
+        ],
+        "evidence": [
+          "archive-ledger",
+          "collections-manifest"
+        ],
+        "station": [
+          "magistrate",
+          "chapter-agent",
+          "waykeeper"
+        ],
+        "marks": [
+          "gideon-seal"
+        ]
+      },
+      "complexityBudget": "complex",
+      "importanceTier": 0,
+      "workflow": "derived",
+      "complexityJustification": "A major city: districts, a walled records core, a foreign quarter and a seasonal root terminus. Placement complexity stays Morrowind-level — kit assemblies on a graded saddle — but the district count justifies the budget."
+    },
+    {
+      "id": "place.imperial-fringe.gideon-rootworm-terminus",
+      "name": "The Wintertide Stop",
+      "aliases": [],
+      "classification": {
+        "class": "transit",
+        "family": "root-transit",
+        "type": "rootworm-station",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "seasonal",
+      "season": "wet",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "quest-required",
+      "sources": [
+        "uesp:Lore:Rootworm",
+        "uesp:Lore:Gideon",
+        "docs/quests/20-world-provisions.md §12b",
+        "world/sources/lore/topics/hist-placement.md"
+      ],
+      "confidence": "CANON_EXPLICIT",
+      "why": {
+        "founding": "The rootworms migrate south to Gideon in wintertide and not otherwise; the stop exists only while they are here.",
+        "siteAdvantages": "A root-layer breach in the clay bank outside the city where the worms surface — marked by red clay because red clay is what is to hand.",
+        "occupantsMotive": "The waykeepers keep the marks and the etiquette; Gideon's carters keep the freight rates.",
+        "pressures": "It is a season, not a service: the quest plan forbids any year-round Gideon root transit, and Gideon's council keeps trying to make it one.",
+        "wouldChangeIf": "Would end for good if the potters cut the bank back past the breach."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "fringe marsh"
+        ],
+        "landformClasses": [
+          "flood-high",
+          "enclosed-clearing",
+          "sinkhole",
+          "any-firm-ground"
+        ],
+        "waterRelation": "dry root ground",
+        "neighbourRelation": "nodes on the root network; not on any map",
+        "hardConstraints": [
+          "root-layer breach",
+          "off the city's clay bank"
+        ],
+        "preferences": [
+          "a marked waiting ground",
+          "no permanent structure"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [
+          "place.imperial-fringe.onkobra-clay-pits",
+          "place.imperial-fringe.gideon"
+        ],
+        "travelServiceEdges": [
+          "rootworm:wintertide-only"
+        ]
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D1 Rootworm Waykeepers in season",
+        "nothing at all out of season"
+      ],
+      "notableNpcSlots": [
+        "the wintertide waykeeper"
+      ],
+      "dangerTier": "D2",
+      "approachDanger": "D2",
+      "traversalModes": [
+        "walk",
+        "fastTransit",
+        "boat"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "fast transit",
+          "lore",
+          "services"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "Out of season: a red-daubed post in a clay bank and a flattened waiting circle. In season: a mound of moving earth.",
+        "palette": "Wet red clay, worm-translucent pink, wintertide grey sky.",
+        "materials": "Daubed marks, mats, a rope rail — nothing that could not be abandoned in an hour.",
+        "signatureFeature": "The tally post, red-daubed once per arrival for as long as anyone has counted.",
+        "condition": "Unbuilt on purpose.",
+        "mood": "Expectant in wintertide; a bare field the rest of the year, and the bareness is the point.",
+        "approach": "You follow red daub marks on trees away from the road until they stop at a bank.",
+        "senses": "In season: the ground itself moving, and a smell like turned compost."
+      },
+      "assetPlan": [
+        "passerelles-walkway",
+        "stockade-scaffold",
+        "totems-ritual",
+        "argonian-lights",
+        "clutter"
+      ],
+      "discovery": "rumour",
+      "questHooks": {
+        "provisions": [
+          "wintertide rootworm migration stop, seasonal only"
+        ],
+        "tierOwnership": "tier-0 protected"
+      },
+      "rumourPoolKey": "rumour.gideon",
+      "deedCounterKeys": [
+        "deed.rootworm.rides_taken"
+      ],
+      "sockets": {
+        "scene": [
+          "tally-post"
+        ],
+        "evidence": [
+          "daub-marks"
+        ],
+        "station": [
+          "waykeeper"
+        ],
+        "marks": [
+          "waykeeper-token"
+        ]
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 1,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.imperial-fringe.glenbridge",
+      "name": "Glenbridge",
+      "aliases": [],
+      "classification": {
+        "class": "settlement",
+        "family": "mixed-settlement",
+        "type": "shrine-town",
+        "variant": null,
+        "magnitude": "M4"
+      },
+      "status": "active",
+      "season": "all",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "quest-required",
+      "sources": [
+        "uesp:Lore:Glenbridge",
+        "uesp:Lore:Nisswo",
+        "uesp:Lore:Sithis",
+        "docs/quests/20-world-provisions.md §12b"
+      ],
+      "confidence": "CANON_EXPLICIT",
+      "why": {
+        "founding": "Pilgrims from all over Tamriel come to hear the Nisswo read a ruined Sithis xanmeer's decay as the god's sermon; a town grew to feed them.",
+        "siteAdvantages": "A bridged glen on the last easy ground before the bog — the only place the pilgrim road can cross and the only place it can stop.",
+        "occupantsMotive": "The Nisswo stay because the sermon is not finished until the stone is gone; the innkeepers stay because pilgrims eat.",
+        "pressures": "Foreign pilgrims want the ruin preserved; the Nisswo find that blasphemous. Rectavius is still sealed below and the seal is two centuries older than anyone tending it.",
+        "wouldChangeIf": "Would empty in a season if the xanmeer finally collapsed — which is, theologically, the point."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "fringe marsh",
+          "upland hills"
+        ],
+        "landformClasses": [
+          "flood-high",
+          "enclosed-clearing",
+          "any-firm-ground",
+          "island",
+          "ford"
+        ],
+        "waterRelation": "a landing for pilgrims",
+        "neighbourRelation": "always paired with a hero Hist, a Sithis temple or a trial ground",
+        "hardConstraints": [
+          "a bridged crossing",
+          "within sight of the sermon xanmeer"
+        ],
+        "preferences": [
+          "pilgrim lodging ground",
+          "a market square that can hold a crowd"
+        ],
+        "scourSiteIds": [
+          "site.scour.upland-hills.ford-018"
+        ]
+      },
+      "relations": {
+        "supplies": [
+          "place.imperial-fringe.glenbridge-sermon-xanmeer"
+        ],
+        "dependsOn": [
+          "place.imperial-fringe.glenbridge-sermon-xanmeer"
+        ],
+        "reachedVia": [
+          "route.pilgrim-way-blackwood"
+        ],
+        "travelServiceEdges": [
+          "road:pilgrim-way"
+        ]
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D1 townsfolk and innkeepers",
+        "Nisswo of the Turning Path",
+        "D2 pilgrim-road guards"
+      ],
+      "notableNpcSlots": [
+        "the reading Nisswo",
+        "the innkeeper who keeps the wager book on which stone falls next"
+      ],
+      "dangerTier": "D1",
+      "approachDanger": "D1",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "services",
+          "lore",
+          "faction access"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "A single stone-arched bridge, a market square, and a half-eaten pyramid on the skyline above the roofs.",
+        "palette": "Warm ochre thatch, pale ruin stone, black Nisswo cloth.",
+        "materials": "Local mud-and-wattle houses, one honest Imperial-built bridge, and stone only where the dead built it.",
+        "signatureFeature": "The wager board in the square: which block falls next, and by when.",
+        "condition": "Prosperous, well-swept, entirely dependent on a building falling down.",
+        "mood": "Devout, cheerful, morbid in a way visitors take a day to notice.",
+        "approach": "The road drops into the glen; you hear the market before you see the ruin above it.",
+        "senses": "Chanting on the hour; hammers on nothing; hot oil and river weed."
+      },
+      "assetPlan": [
+        "mud-mother-grove",
+        "bamboo-hut",
+        "market-tents",
+        "totems-ritual",
+        "argonian-props",
+        "landmark-civic",
+        "clutter"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "village around the ruined Sithis xanmeer",
+          "Nisswo of the Turning Path"
+        ],
+        "tierOwnership": "tier-0 protected"
+      },
+      "rumourPoolKey": "rumour.pilgrim-way",
+      "deedCounterKeys": [
+        "deed.glenbridge.sermons_heard"
+      ],
+      "sockets": {
+        "scene": [
+          "the-wager-board"
+        ],
+        "evidence": [
+          "pilgrim-register"
+        ],
+        "station": [
+          "reading-nisswo",
+          "pilgrim-innkeeper"
+        ],
+        "marks": [
+          "turning-path-token"
+        ]
+      },
+      "complexityBudget": "standard",
+      "importanceTier": 1,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.imperial-fringe.glenbridge-sermon-xanmeer",
+      "name": "The Sermon Xanmeer",
+      "aliases": [
+        "the Turning Sermon"
+      ],
+      "classification": {
+        "class": "sacred",
+        "family": "sithis",
+        "type": "sithis-temple",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "ruined",
+      "season": "all",
+      "eraLayers": [
+        "merethic",
+        "current"
+      ],
+      "provenance": "quest-required",
+      "sources": [
+        "uesp:Lore:Glenbridge",
+        "uesp:Lore:Sithis",
+        "uesp:Lore:Xul-Thuxis",
+        "docs/quests/20-world-provisions.md §12b"
+      ],
+      "confidence": "CANON_EXPLICIT",
+      "why": {
+        "founding": "A Merethic Sithis temple deliberately left to decay so that its decay could be read aloud as scripture.",
+        "siteAdvantages": "It stands above Glenbridge on the glen's shoulder, so the whole town can watch the sermon progress.",
+        "occupantsMotive": "The Nisswo read it; the Clutch below them sweeps nothing away, because sweeping would be a lie.",
+        "pressures": "The voriplasm-sorcerer Rectavius is sealed in the lowest chamber, and the seal is part of the structure that is being allowed to fail.",
+        "wouldChangeIf": "Would become the province's worst problem the day the sermon reaches the bottom course."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "fringe marsh"
+        ],
+        "landformClasses": [
+          "summit",
+          "ridge-end",
+          "flood-high",
+          "enclosed-clearing",
+          "island"
+        ],
+        "waterRelation": "raised above water",
+        "neighbourRelation": "a regional pilgrimage terminus",
+        "hardConstraints": [
+          "above Glenbridge, visible from its square"
+        ],
+        "preferences": [
+          "a collapsing but enterable stair",
+          "a sealed lowest chamber"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [
+          "place.imperial-fringe.glenbridge"
+        ],
+        "visibleFrom": [
+          "place.imperial-fringe.glenbridge"
+        ]
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "Nisswo readers by day",
+        "D3 voriplasm seepage below the third course"
+      ],
+      "notableNpcSlots": [
+        "the sealer's heir, who has never opened the door"
+      ],
+      "dangerTier": "D3",
+      "approachDanger": "D3",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "climb"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "lore",
+          "unique item",
+          "quest access"
+        ],
+        "valueTier": "tier-4"
+      },
+      "vibe": {
+        "silhouette": "A stepped pyramid missing its top three courses, a black doorway at the base like a bite.",
+        "palette": "Grey-white stone stained with green runnels; black cloth on the reading stand.",
+        "materials": "Xanmeer tileset ashlar; nothing has been added and nothing repaired.",
+        "signatureFeature": "The reading stand on the second terrace, worn by three centuries of elbows.",
+        "condition": "Failing on purpose; every fallen block left exactly where it landed and numbered.",
+        "mood": "Reverent, patient, faintly appalling.",
+        "approach": "You climb from the market past numbered rubble; the numbers get lower as you get higher.",
+        "senses": "Grit falling; the reader's voice; a wet chemical smell from the doorway."
+      },
+      "assetPlan": [
+        "xanmeer-tileset",
+        "pyramid-statics",
+        "cc-ayleid-interior",
+        "totems-ritual",
+        "argonian-props",
+        "lights-general"
+      ],
+      "discovery": "sightline",
+      "questHooks": {
+        "provisions": [
+          "Rectavius sealed beneath in voriplasm",
+          "the decay sermon"
+        ],
+        "tierOwnership": "tier-0 protected"
+      },
+      "rumourPoolKey": "rumour.pilgrim-way",
+      "deedCounterKeys": [
+        "deed.rectavius.seal_state"
+      ],
+      "sockets": {
+        "scene": [
+          "reading-stand",
+          "the-seal"
+        ],
+        "evidence": [
+          "numbered-blocks"
+        ],
+        "station": [],
+        "marks": [
+          "rectavius-seal"
+        ]
+      },
+      "complexityBudget": "standard",
+      "importanceTier": 1,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.imperial-fringe.onkobra-clay-pits",
+      "name": "The Onkobra Clay Pits",
+      "aliases": [],
+      "classification": {
+        "class": "works",
+        "family": "extraction",
+        "type": "clay-pit-and-kiln",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "season": "all",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Gideon",
+        "uesp:Lore:Onkobra River",
+        "world/sources/lore/topics/material-culture.md"
+      ],
+      "confidence": "CANON_EXPLICIT",
+      "why": {
+        "founding": "Gideon's red pottery is canon; red pottery means a red clay bank, a water source and a kiln within a cart of the city.",
+        "siteAdvantages": "A cut meander bank exposes the clay in a two-metre seam; the river takes the waste and brings the fuel.",
+        "occupantsMotive": "Four potting families work it in rotation and quarrel about the rotation.",
+        "pressures": "The seam is being undercut by the river it depends on; the wintertide rootworm migration marks its stop with this very clay, and the waykeepers want the bank left alone.",
+        "wouldChangeIf": "Would move fifty metres upstream, as it has three times before, which is the most Argonian thing about it."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "seasonal floodplain"
+        ],
+        "landformClasses": [
+          "ravine",
+          "any-channel-bank",
+          "cliff-bench",
+          "flood-high"
+        ],
+        "waterRelation": "river clay; needs water and fuel",
+        "neighbourRelation": "on a navigable water for export",
+        "hardConstraints": [
+          "exposed clay seam at a river bank",
+          "flat drying ground"
+        ],
+        "preferences": [
+          "a kiln downwind of the drying floor",
+          "cart access to Gideon"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.oxbow-003"
+        ]
+      },
+      "relations": {
+        "supplies": [
+          "place.imperial-fringe.gideon",
+          "place.imperial-fringe.gideon-rootworm-terminus"
+        ]
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D1 potting families",
+        "children on the drying floor"
+      ],
+      "notableNpcSlots": [
+        "the eldest potter, who sets the rotation"
+      ],
+      "dangerTier": "D1",
+      "approachDanger": "D1",
+      "traversalModes": [
+        "walk",
+        "boat"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 1,
+      "rewardProfile": {
+        "kinds": [
+          "crafting material",
+          "trade",
+          "services"
+        ],
+        "valueTier": "tier-1"
+      },
+      "vibe": {
+        "silhouette": "A red gash in a green bank, a field of pots drying in ranks, one bottle kiln with a crooked chimney.",
+        "palette": "Signal red, dust pink, kiln-soot black, river brown.",
+        "materials": "Raw clay, fired clay, reed drying racks and one Imperial-built brick kiln.",
+        "signatureFeature": "The seconds wall: two centuries of failed pots pressed into the flood bank as revetment.",
+        "condition": "Busy, muddy, permanently rebuilt.",
+        "mood": "Domestic, gossipy, competitive.",
+        "approach": "The path turns and the whole bank is red — the strongest colour for a kilometre in any direction.",
+        "senses": "Wet clay; woodsmoke; the ring of pots being tapped for cracks."
+      },
+      "assetPlan": [
+        "stockade-scaffold",
+        "argonian-props",
+        "clutter",
+        "market-tents"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [],
+        "tierOwnership": null
+      },
+      "rumourPoolKey": "rumour.gideon",
+      "deedCounterKeys": [
+        "deed.onkobra.pots_fired"
+      ],
+      "sockets": {
+        "scene": [
+          "seconds-wall"
+        ],
+        "evidence": [
+          "potters-rota"
+        ],
+        "station": [
+          "potter"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.imperial-fringe.onkobra-kwama-mine",
+      "name": "Onkobra Kwama Mine",
+      "aliases": [],
+      "classification": {
+        "class": "works",
+        "family": "extraction",
+        "type": "kwama-mine",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "season": "all",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "provenance": "canon-named",
+      "sources": [
+        "uesp:Lore:Onkobra Kwama Mine",
+        "uesp:Lore:Kwama",
+        "uesp:Lore:Onkobra River"
+      ],
+      "confidence": "CANON_EXPLICIT",
+      "why": {
+        "founding": "Dunmer husbandry practised at the far western end of its range, because Gideon will buy eggs and Leyawiin will buy them dearer.",
+        "siteAdvantages": "A limestone shoulder above the Onkobra with dry galleries — the only ground in the west a kwama colony will hold.",
+        "occupantsMotive": "The mining family keeps the queen alive because a dead queen is a dead trade; the Owing hands work it because they were entered in a ledger.",
+        "pressures": "Scribs get out; the colony has been pushed for two hundred years and the eggs are smaller than the ledgers say they should be.",
+        "wouldChangeIf": "Would collapse the year the queen dies, and everyone here knows the date is close."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "upland hills",
+          "firm lowland"
+        ],
+        "landformClasses": [
+          "ravine",
+          "cliff-bench",
+          "sinkhole",
+          "gorge"
+        ],
+        "waterRelation": "dry tunnels, drained",
+        "neighbourRelation": "near a road for shipping",
+        "hardConstraints": [
+          "dry gallery ground above the river"
+        ],
+        "preferences": [
+          "a cart road to Gideon",
+          "a rendering shed downwind"
+        ],
+        "scourSiteIds": [
+          "site.scour.upland-hills.summit-016"
+        ]
+      },
+      "relations": {
+        "supplies": [
+          "place.imperial-fringe.gideon"
+        ],
+        "dependsOn": [
+          "route.blackwood-road"
+        ]
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D1 mine hands (Owing-held)",
+        "D2 egg-miners",
+        "D3 scrib swarms below the second gallery"
+      ],
+      "notableNpcSlots": [
+        "the mine family's heir who wants out",
+        "the tally-clerk from Gideon"
+      ],
+      "dangerTier": "D2",
+      "approachDanger": "D2",
+      "traversalModes": [
+        "walk"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "crafting material",
+          "food",
+          "trade"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "A shed, a spoil heap and a black adit in a pale bluff above brown water.",
+        "palette": "Chalk-pale rock, ochre spoil, the wet grey-green of kwama chitin.",
+        "materials": "Timber head-gear and Imperial cart track; everything underground is unlined rock.",
+        "signatureFeature": "The queen's gallery: a domed dig you can stand up in, warm as a byre.",
+        "condition": "Overworked, propped, patched with green timber.",
+        "mood": "Sour, tired, faintly proprietorial.",
+        "approach": "The road smells of the rendering shed a full minute before the adit shows.",
+        "senses": "Chitin clicking underfoot; dripping; a low continuous hum from the queen."
+      },
+      "assetPlan": [
+        "landmark-civic",
+        "stockade-scaffold",
+        "clutter",
+        "lights-general"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [],
+        "tierOwnership": null
+      },
+      "rumourPoolKey": "rumour.gideon",
+      "deedCounterKeys": [
+        "deed.onkobra.eggs_taken"
+      ],
+      "sockets": {
+        "scene": [
+          "queens-gallery"
+        ],
+        "evidence": [
+          "owing-ledger-page"
+        ],
+        "station": [
+          "egg-miner"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.imperial-fringe.rockgrove",
+      "name": "Rockgrove",
+      "aliases": [],
+      "classification": {
+        "class": "camp",
+        "family": "hostile-camp",
+        "type": "cult-raid-camp",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "contested",
+      "season": "all",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "canon-named",
+      "sources": [
+        "uesp:Lore:Rockgrove",
+        "uesp:Lore:Sul-Xan",
+        "world/sources/lore/extrapolation/settlement-register.md §3"
+      ],
+      "confidence": "CANON_EXPLICIT",
+      "why": {
+        "founding": "A Sul-Xan holding in the Blackwood: a staging ground for raids that take souls rather than goods.",
+        "siteAdvantages": "Screened by jungle on three sides, one ravine path in, and a stream that hides the noise of a camp.",
+        "occupantsMotive": "The Sul-Xan raid to feed soul-snares; the site persists because it has never been found twice by the same people.",
+        "pressures": "Stonewastes' Four Winds hunt them; the Empire's old bounty on jade masks is still quoted in Gideon.",
+        "wouldChangeIf": "Would move within a season of a serious defeat — the camp is the people, not the ground."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "tropical jungle",
+          "firm lowland",
+          "upland hills"
+        ],
+        "landformClasses": [
+          "enclosed-clearing",
+          "ridge-end",
+          "box-canyon",
+          "flood-high"
+        ],
+        "waterRelation": "concealed staging",
+        "neighbourRelation": "within raiding distance of villages",
+        "hardConstraints": [
+          "concealed approach",
+          "water for a war camp"
+        ],
+        "preferences": [
+          "a ravine mouth",
+          "trophy ground"
+        ],
+        "scourSiteIds": [
+          "site.scour.border-mountains.ravine-019"
+        ]
+      },
+      "relations": {
+        "rivals": [
+          "place.imperial-fringe.stonewastes"
+        ],
+        "patrols": [
+          "route.blackwood-bog-causeway"
+        ]
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D3 Sul-Xan raiders",
+        "one D4 mask-bearer",
+        "soul-snared captives"
+      ],
+      "notableNpcSlots": [
+        "the mask-bearer"
+      ],
+      "dangerTier": "D4",
+      "approachDanger": "D4",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "combat",
+        "stealth"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 4,
+      "rewardProfile": {
+        "kinds": [
+          "gear",
+          "unique item",
+          "bounty"
+        ],
+        "valueTier": "tier-3"
+      },
+      "vibe": {
+        "silhouette": "Nothing at all until the tree line, then hide tents under a jade-green canopy and poles hung with masks.",
+        "palette": "Jade, blood-brown, deep shadow-green.",
+        "materials": "Hide, lashed poles, jade death masks, no permanent structure whatsoever.",
+        "signatureFeature": "The snare rack: soul-gems strung on cord at head height so raiders walk under them.",
+        "condition": "Temporary by design, filthy, meticulously ordered where the trophies are.",
+        "mood": "Predatory and ceremonious.",
+        "approach": "A raiders' path along a stream bed, then green tattoos in the leaves at ten metres.",
+        "senses": "Low chanting; flies; the hum of charged gems."
+      },
+      "assetPlan": [
+        "market-tents",
+        "totems-ritual",
+        "xanmeer-tileset",
+        "clutter",
+        "lights-general"
+      ],
+      "discovery": "rumour",
+      "questHooks": {
+        "provisions": [],
+        "tierOwnership": null
+      },
+      "rumourPoolKey": "rumour.blackwood-bog",
+      "deedCounterKeys": [
+        "deed.sul-xan.camps_broken"
+      ],
+      "sockets": {
+        "scene": [
+          "snare-rack"
+        ],
+        "evidence": [
+          "jade-mask"
+        ],
+        "station": [],
+        "marks": [
+          "sul-xan-bounty"
+        ]
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 1,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.imperial-fringe.slough-point",
+      "name": "Slough Point",
+      "aliases": [],
+      "classification": {
+        "class": "settlement",
+        "family": "mixed-settlement",
+        "type": "customs-town",
+        "variant": null,
+        "magnitude": "M2"
+      },
+      "status": "active",
+      "season": "all",
+      "eraLayers": [
+        "imperial",
+        "current"
+      ],
+      "provenance": "canon-named",
+      "sources": [
+        "uesp:Lore:Slough Point",
+        "uesp:Lore:Blackwood Road",
+        "world/sources/lore/extrapolation/settlement-register.md §6"
+      ],
+      "confidence": "CANON_EXPLICIT",
+      "why": {
+        "founding": "The Empire put its census and excise station where the Blackwood Road first touches navigable water, so goods could be counted twice.",
+        "siteAdvantages": "A firm bank at the head of a slow reach: carts arrive, boats leave, and the two must be weighed against each other somewhere.",
+        "occupantsMotive": "The excise remains because whoever collects it eats; the census remains because the ledgers are the only proof anyone here exists.",
+        "pressures": "Everything worth taxing now goes by the rim paths instead; the town's takings fall every year.",
+        "wouldChangeIf": "Would die if the road were abandoned, or become rich again if a state ever taxed the marsh in earnest."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "seasonal floodplain"
+        ],
+        "landformClasses": [
+          "ford",
+          "land-bridge",
+          "river-mouth",
+          "water-narrows"
+        ],
+        "waterRelation": "at the only crossing",
+        "neighbourRelation": "on the province's border; one of only three or four",
+        "hardConstraints": [
+          "road meets navigable water",
+          "a place to hold carts overnight"
+        ],
+        "preferences": [
+          "a weighbridge slab",
+          "sheds that can be locked"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.water-narrows-020"
+        ]
+      },
+      "relations": {
+        "dependsOn": [
+          "place.imperial-fringe.gideon"
+        ],
+        "rivals": [
+          "place.imperial-fringe.fort-swampmoth"
+        ],
+        "supplies": [
+          "place.imperial-fringe.gideon"
+        ],
+        "tolls": [
+          "route.blackwood-road"
+        ],
+        "travelServiceEdges": [
+          "boat:onkobra",
+          "road:blackwood"
+        ]
+      },
+      "culture": "imperial",
+      "ownerFaction": null,
+      "occupants": [
+        "D1 excise clerks and porters",
+        "a bored D2 guard file"
+      ],
+      "notableNpcSlots": [
+        "the tallyman who remembers every cart",
+        "the ferryman who is also a smuggler"
+      ],
+      "dangerTier": "D1",
+      "approachDanger": "D1",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social",
+        "stealth"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 1,
+      "rewardProfile": {
+        "kinds": [
+          "services",
+          "documents",
+          "trade"
+        ],
+        "valueTier": "tier-1"
+      },
+      "vibe": {
+        "silhouette": "A weighbridge, a long bonded shed and a jetty, strung out along one street with no middle.",
+        "palette": "Whitewashed lime going green, tar-black sheds, brown water.",
+        "materials": "Imperial farmhouse timber-and-plaster; Argonian reed roofs on everything built since.",
+        "signatureFeature": "The census board outside the excise house, names still being added in three scripts.",
+        "condition": "Working, shabby, over-built for its traffic.",
+        "mood": "Patient, procedural, mildly corrupt.",
+        "approach": "You smell the tar sheds before you see the roofs; the road simply widens into the town.",
+        "senses": "Tally sticks, dripping tar, a bell for the ferry."
+      },
+      "assetPlan": [
+        "vanilla-farmhouse",
+        "bmv-fort",
+        "signage-blank",
+        "landmark-civic",
+        "clutter",
+        "stockade-scaffold"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "census and excise",
+          "documented-identity hook"
+        ],
+        "tierOwnership": "shared"
+      },
+      "rumourPoolKey": "rumour.blackwood-road",
+      "deedCounterKeys": [
+        "deed.slough-point.goods_declared"
+      ],
+      "sockets": {
+        "scene": [
+          "weighbridge"
+        ],
+        "evidence": [
+          "census-board"
+        ],
+        "station": [
+          "excise-clerk",
+          "ferryman"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "standard",
+      "importanceTier": 1,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.imperial-fringe.stonewastes",
+      "name": "Stonewastes",
+      "aliases": [],
+      "classification": {
+        "class": "settlement",
+        "family": "tribal-village",
+        "type": "insular-village",
+        "variant": null,
+        "magnitude": "M4"
+      },
+      "status": "active",
+      "season": "all",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "quest-required",
+      "sources": [
+        "uesp:Lore:Stonewastes",
+        "uesp:Lore:Sul-Xan",
+        "docs/quests/20-world-provisions.md §12b",
+        "world/sources/lore/extrapolation/settlement-register.md §3"
+      ],
+      "confidence": "CANON_EXPLICIT",
+      "why": {
+        "founding": "A bogland town that grew around a xanmeer keep its people never stopped using, defended since their ancestors raised their first hut by the hereditary Four Winds.",
+        "siteAdvantages": "Stone walls that already existed, on the only firm ground in a bog nobody else can cross quickly.",
+        "occupantsMotive": "The Four Winds hold the keep because holding it is who they are; the Sul-Xan raiding out of the Blackwood is why the office never lapsed.",
+        "pressures": "Four hereditary captains and one gate is three captains too many; the Sul-Xan press harder each dry season.",
+        "wouldChangeIf": "Would change utterly if the Four Winds ever accepted an outside charter — which is exactly what the Marsh Charter will ask of them."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "fringe marsh",
+          "upland hills"
+        ],
+        "landformClasses": [
+          "flood-high",
+          "enclosed-clearing",
+          "isthmus",
+          "land-bridge"
+        ],
+        "waterRelation": "defensible approach, often a single crossing",
+        "neighbourRelation": "the Blackwood bogland's only defended town; Glenbridge a day south",
+        "hardConstraints": [
+          "firm ground in bog",
+          "a standing xanmeer core"
+        ],
+        "preferences": [
+          "one approach causeway",
+          "sightlines from the keep"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.isthmus-027"
+        ]
+      },
+      "relations": {
+        "rivals": [
+          "place.imperial-fringe.rockgrove"
+        ],
+        "patrols": [
+          "route.blackwood-bog-causeway"
+        ],
+        "supplies": [
+          "place.imperial-fringe.glenbridge"
+        ],
+        "dependsOn": []
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D2 villagers",
+        "disciplined D3 Four Winds spearhands",
+        "one very strong D4 senior captain"
+      ],
+      "notableNpcSlots": [
+        "the four captains",
+        "the keep's Hist-minder"
+      ],
+      "dangerTier": "D2",
+      "approachDanger": "D3",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "combat",
+        "social"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "training",
+          "faction access",
+          "gear",
+          "quests"
+        ],
+        "valueTier": "tier-3"
+      },
+      "vibe": {
+        "silhouette": "A stepped stone keep rising out of low mud-and-thatch roofs, with four banner poles on the terrace, one per wind.",
+        "palette": "Bog-brown, grey-green stone, four dyed banners in ochre, indigo, white and black.",
+        "materials": "Ancient xanmeer masonry the villagers maintain but do not imitate; everything they build themselves is mud, wattle and thatch.",
+        "signatureFeature": "The Four Winds' drill ground on the keep terrace, worn into the stone in four wheel-shaped paths.",
+        "condition": "Impeccably kept where it is stone, deliberately impermanent where it is not.",
+        "mood": "Martial, proud, closed to strangers and formally courteous to them.",
+        "approach": "The causeway runs straight at the keep for four hundred metres with bog on both sides — you are watched the whole way.",
+        "senses": "Drill counting; wet thatch; a hollow drum used as a gate signal."
+      },
+      "assetPlan": [
+        "mud-mother-grove",
+        "xanmeer-tileset",
+        "stockade-scaffold",
+        "totems-ritual",
+        "fences-wattle",
+        "hist-tree"
+      ],
+      "discovery": "rumour",
+      "questHooks": {
+        "provisions": [
+          "Hist in the town centre",
+          "a xanmeer keep",
+          "the Four Winds hereditary defenders"
+        ],
+        "tierOwnership": "tier-0 protected"
+      },
+      "rumourPoolKey": "rumour.blackwood-bog",
+      "deedCounterKeys": [
+        "deed.stonewastes.charter_signed",
+        "deed.four-winds.trained"
+      ],
+      "sockets": {
+        "scene": [
+          "drill-terrace"
+        ],
+        "evidence": [
+          "the-captains-tally"
+        ],
+        "station": [
+          "four-winds-captain"
+        ],
+        "marks": [
+          "four-winds-token"
+        ]
+      },
+      "complexityBudget": "standard",
+      "importanceTier": 1,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.imperial-fringe.the-silent-halls",
+      "name": "The Silent Halls",
+      "aliases": [],
+      "classification": {
+        "class": "ruin",
+        "family": "xanmeer",
+        "type": "broken-xanmeer",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "ruined",
+      "season": "all",
+      "eraLayers": [
+        "merethic"
+      ],
+      "provenance": "canon-named",
+      "sources": [
+        "uesp:Lore:Sul-Xan",
+        "uesp:Lore:Xanmeer",
+        "world/sources/lore/extrapolation/settlement-register.md §3"
+      ],
+      "confidence": "CANON_EXPLICIT",
+      "why": {
+        "founding": "A Merethic xanmeer opened long ago and taken over by the Sul-Xan, who use its chambers to keep what their snares catch.",
+        "siteAdvantages": "Deep stone below the water table: cool, dark, and quiet enough that the name is literal.",
+        "occupantsMotive": "They keep it because a soul-store needs walls; nobody contests it because the tribes will not enter a xanmeer that has been broken.",
+        "pressures": "The mechanism floor still works, and the Sul-Xan do not understand it; the Four Winds want the place burned.",
+        "wouldChangeIf": "Would become a tended xanmeer again if a tribe with a claim ever took it back and closed it."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "tropical jungle",
+          "firm lowland",
+          "fringe marsh"
+        ],
+        "landformClasses": [
+          "flood-high",
+          "ridge-end",
+          "enclosed-clearing",
+          "ravine",
+          "sinkhole"
+        ],
+        "waterRelation": "often part-flooded at the base",
+        "neighbourRelation": "in a district with other xanmeer, showing the range of states",
+        "hardConstraints": [
+          "broken entrance",
+          "a lower chamber below water table"
+        ],
+        "preferences": [
+          "a working trap floor",
+          "no natural light beyond the first chamber"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [
+          "place.imperial-fringe.rockgrove"
+        ],
+        "rivals": [
+          "place.imperial-fringe.stonewastes"
+        ]
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D4 Sul-Xan wardens",
+        "D3 trapped mechanisms",
+        "the soul-snared"
+      ],
+      "notableNpcSlots": [
+        "the warden who counts the gems"
+      ],
+      "dangerTier": "D4",
+      "approachDanger": "D4",
+      "traversalModes": [
+        "walk",
+        "climb",
+        "boat"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 4,
+      "rewardProfile": {
+        "kinds": [
+          "unique item",
+          "lore",
+          "gear"
+        ],
+        "valueTier": "tier-4"
+      },
+      "vibe": {
+        "silhouette": "A low, mostly buried terrace in the trees with one forced doorway, its lintel cracked and propped.",
+        "palette": "Black doorway, pale stone, jade points of light inside.",
+        "materials": "Xanmeer ashlar, vakka-stone fittings, Sul-Xan hide and cord strung through it like a nest in a machine.",
+        "signatureFeature": "The gem shelf: hundreds of soul-gems in dead men's niches, faintly lit.",
+        "condition": "Broken open, occupied, half its mechanisms still armed.",
+        "mood": "Airless, unnaturally quiet, wrong.",
+        "approach": "The forest noise stops about thirty metres out, which is the actual cue.",
+        "senses": "No insects; your own footsteps too loud; a faint singing from the gem shelf."
+      },
+      "assetPlan": [
+        "xanmeer-tileset",
+        "pyramid-statics",
+        "cc-ayleid-interior",
+        "clutter",
+        "totems-ritual"
+      ],
+      "discovery": "rumour",
+      "questHooks": {
+        "provisions": [],
+        "tierOwnership": null
+      },
+      "rumourPoolKey": "rumour.blackwood-bog",
+      "deedCounterKeys": [
+        "deed.silent-halls.gems_freed"
+      ],
+      "sockets": {
+        "scene": [
+          "gem-shelf"
+        ],
+        "evidence": [
+          "mechanism-floor"
+        ],
+        "station": [],
+        "marks": [
+          "silent-halls-key"
+        ]
+      },
+      "complexityBudget": "standard",
+      "importanceTier": 1,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.imperial-fringe.twyllbek-ruins",
+      "name": "Twyllbek Ruins",
+      "aliases": [],
+      "classification": {
+        "class": "ruin",
+        "family": "ayleid",
+        "type": "barsaebic-compound",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "ruined",
+      "season": "all",
+      "eraLayers": [
+        "ayleid"
+      ],
+      "provenance": "canon-named",
+      "sources": [
+        "uesp:Lore:Twyllbek Ruins",
+        "uesp:Lore:Barsaebic Ayleids",
+        "uesp:Lore:Gideon"
+      ],
+      "confidence": "CANON_EXPLICIT",
+      "why": {
+        "founding": "A Barsaebic Ayleid compound from the exile centuries, close enough to Gideon that the city's antiquities trade starts here.",
+        "siteAdvantages": "A dry terrace over a spring — Ayleid siting logic, and the reason Gideon's diggers keep coming back.",
+        "occupantsMotive": "The diggers want stones with light in them; the Collections chapter wants the same stones back; both are here most months.",
+        "pressures": "Every season of digging takes more of the wall; the Barsaebic layer is being consumed to prove it existed.",
+        "wouldChangeIf": "Would be protected properly if Gideon's council ever thought a ruin was worth a guard."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "fringe marsh",
+          "upland hills",
+          "firm lowland"
+        ],
+        "landformClasses": [
+          "ridge-end",
+          "cliff-bench",
+          "flood-high",
+          "enclosed-clearing",
+          "ravine"
+        ],
+        "waterRelation": "dry, elevated",
+        "neighbourRelation": "in the north and west, where the Barsaebic Ayleids went",
+        "hardConstraints": [
+          "dry terrace above a spring"
+        ],
+        "preferences": [
+          "standing arcade fragment",
+          "a well shaft"
+        ],
+        "scourSiteIds": [
+          "site.scour.border-mountains.spring-head-014"
+        ]
+      },
+      "relations": {
+        "supplies": [
+          "place.imperial-fringe.gideon"
+        ],
+        "rivals": [
+          "place.imperial-fringe.collections-dig"
+        ]
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D2 licensed diggers by day",
+        "D3 wildlife in the undercroft"
+      ],
+      "notableNpcSlots": [],
+      "dangerTier": "D3",
+      "approachDanger": "D3",
+      "traversalModes": [
+        "walk",
+        "climb",
+        "stealth"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "lore",
+          "unique item",
+          "crafting material"
+        ],
+        "valueTier": "tier-3"
+      },
+      "vibe": {
+        "silhouette": "A white arcade fragment on a green terrace, too geometric to be anything but Ayleid.",
+        "palette": "Bone white, moss, and the cold blue of a live well stone.",
+        "materials": "Barsaebic Ayleid masonry and welkynd fittings; canvas and rope where the diggers work.",
+        "signatureFeature": "The grid: string lines and numbered pegs laid over a floor that already had a grid.",
+        "condition": "Half-excavated, weather-damaged where excavation exposed it.",
+        "mood": "Academic, acquisitive, quietly vandalistic.",
+        "approach": "The white shows through the trees from the Gideon track a good way off — one of the few real sightlines in the province.",
+        "senses": "Trowels; a well's cold air; canvas snapping."
+      },
+      "assetPlan": [
+        "barsaebic-ayleid",
+        "cc-ayleid-interior",
+        "clutter",
+        "lights-general",
+        "landmark-civic"
+      ],
+      "discovery": "sightline",
+      "questHooks": {
+        "provisions": [],
+        "tierOwnership": null
+      },
+      "rumourPoolKey": "rumour.gideon",
+      "deedCounterKeys": [
+        "deed.twyllbek.finds_declared"
+      ],
+      "sockets": {
+        "scene": [
+          "the-grid"
+        ],
+        "evidence": [
+          "dig-notebook"
+        ],
+        "station": [
+          "dig-overseer"
+        ],
+        "marks": [
+          "welkynd-shard"
+        ]
+      },
+      "complexityBudget": "standard",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.imperial-fringe.xi-tsei-massacre-ground",
+      "name": "Xi-Tsei",
+      "aliases": [],
+      "classification": {
+        "class": "martial",
+        "family": "imperial-military",
+        "type": "battlefield-ground",
+        "variant": null,
+        "magnitude": null
+      },
+      "status": "ruined",
+      "season": "all",
+      "eraLayers": [
+        "imperial"
+      ],
+      "provenance": "canon-named",
+      "sources": [
+        "uesp:Lore:Xi-Tsei",
+        "uesp:Lore:Blackwater War",
+        "uesp:Lore:Sul-Xan"
+      ],
+      "confidence": "CANON_EXPLICIT",
+      "why": {
+        "founding": "The ground where a whole community was killed in 1E 2820, and where the Sul-Xan trace their grievance from.",
+        "siteAdvantages": "An open flat between two ridges — the only place in the Blackwood where an army could be made to stand and fight.",
+        "occupantsMotive": "Nobody lives here; the Sul-Xan come annually and leave marks; the Four Winds come annually and remove them.",
+        "pressures": "Two peoples curate the same field in opposite directions, and both editions are visible.",
+        "wouldChangeIf": "Would be settled again only if both traditions lapsed, which neither will."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "seasonal floodplain",
+          "upland hills"
+        ],
+        "landformClasses": [
+          "flood-high",
+          "any-firm-ground",
+          "ford",
+          "enclosed-clearing"
+        ],
+        "waterRelation": "where an army could deploy — rare here",
+        "neighbourRelation": "at a xanmeer, a crossing or a road",
+        "hardConstraints": [
+          "an open flat with two ridge flanks"
+        ],
+        "preferences": [
+          "disturbed ground",
+          "no standing structure"
+        ],
+        "scourSiteIds": [
+          "site.scour.upland-hills.oxbow-000"
+        ]
+      },
+      "relations": {
+        "rivals": [
+          "place.imperial-fringe.stonewastes",
+          "place.imperial-fringe.rockgrove"
+        ]
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "nothing permanent",
+        "D3 scavengers",
+        "seasonal Sul-Xan mourners"
+      ],
+      "notableNpcSlots": [],
+      "dangerTier": "D3",
+      "approachDanger": "D3",
+      "traversalModes": [
+        "walk",
+        "boat"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "lore",
+          "gear",
+          "salvage"
+        ],
+        "valueTier": "tier-2"
+      },
+      "vibe": {
+        "silhouette": "A wide empty flat with grass growing in rows nobody planted, and a single pole at the centre.",
+        "palette": "Straw-gold grass, rust in the soil, grey ridges either side.",
+        "materials": "No architecture at all: bone, corroded iron, jade chips, and a pole that is replaced yearly.",
+        "signatureFeature": "The counter-marks: painted jade tallies, and beside each one a scrubbed patch where it was removed.",
+        "condition": "Undisturbed except by two rituals.",
+        "mood": "Still, exposed, disputed.",
+        "approach": "The ridges close in and the ground goes level and treeless — you know before you are told.",
+        "senses": "Wind only; the pole's cords; no birds on the flat itself."
+      },
+      "assetPlan": [
+        "landmark-civic",
+        "totems-ritual",
+        "xanmeer-tileset",
+        "clutter"
+      ],
+      "discovery": "rumour",
+      "questHooks": {
+        "provisions": [],
+        "tierOwnership": null
+      },
+      "rumourPoolKey": "rumour.blackwood-bog",
+      "deedCounterKeys": [
+        "deed.xi-tsei.marks_read"
+      ],
+      "sockets": {
+        "scene": [
+          "the-pole"
+        ],
+        "evidence": [
+          "counter-marks"
+        ],
+        "station": [],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 2,
+      "workflow": "derived"
+    }
+  ]
+}
