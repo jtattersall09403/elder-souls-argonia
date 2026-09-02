@@ -74,3 +74,29 @@ reward-pass call, not a rename. `"tier-2 hub"` collapsed to `tier-2`.
   landmark and, ideally, plotted positions.
 - Cross-region links are the point — the derivation agents could not see each
   other. Only reference IDs that exist; the validator and `npm test` check.
+
+## Per-region naming register and signature asset pool
+
+The variety critique's finding was that a reader could not tell one region's
+records from another's by name or by kit — every region reached for the same
+few families, and "The …" did the work of a register. Each region now has a
+**naming register** (the grammar its names obey) and a **signature pool** (the
+two or three asset families that are *disproportionately* its own, on top of
+the province-common base). Both are descriptive of what the eight files now
+contain — check against this table before adding a record, and if a new record
+needs a name or a kit outside its region's row, say why in `why.founding`.
+
+**Province-common base**, used everywhere and therefore signifying nothing:
+`clutter`, `stockade-scaffold`, `lights-general`, `market-tents`,
+`mud-mother-grove`, `fences-wattle`.
+
+| region | naming register | signature pool (beyond the base) | avoid |
+|---|---|---|---|
+| `hist-heartland` | the settlement-root idiom: the definite-article abstract noun, naming a *condition* rather than a thing — "The Held Breath", "The Staying Stone", "The Lit Fen"; hyphenated verb-names for people-places ("Keeps-the-Egg") | `totems-ritual`, `argonian-lights`, `argonian-props`, `xanmeer-tileset`, `hist-tree` | Imperial anything; stone; reed |
+| `naga-kur-deeps` | the same definite-article idiom pulled harsh and physical — "The Unmaking Yard", "Teeth-Pens", "Nine-Stakes Field"; counts and stakes instead of virtues | `xanmeer-tileset`, `submerged-blocks`, `submerged-ruins`, `argonian-props` | anything dressed, painted or bright; Imperial signage |
+| `saxhleel-coast` | the hyphenated-verb register at its purest — over half the names are a clause: "Reaches-The-Low-Branch", "Two-Marks-One-Rope", "Speaks-Below-The-Water" | `docks-piers`, `submerged-ruins`, `fishing-props`, `passerelles-walkway` | Dunmer; farmhouse; fort |
+| `mercantile-coast` | trade-register: exonyms and compass compounds a foreign clerk could write down — "Alten Meerhleel", "Chasepoint", "Ashfield" — with the hyphenated-verb names surviving in the Argonian quarter | `docks-piers`, `boats-keeled`, `signage-blank`, `vanilla-shackkit` | "The …" (5 uses; keep it that way) |
+| `pirate-freeholds` | sailor's shorthand: the shortest thing that can be shouted across water — "Bundle Racks", "No-Tree", "Five-Sixty Field", "The Quay Room" | `bmv-fort`, `signage-blank`, `boats-keeled`, `vanilla-farmhouse` | ceremony; long names; hyphenated verb-clauses |
+| `imperial-penal-south` | administrative register — the name a cordon or a ledger gives a place: "Holding Fields, Cordon Three", "The Windlass Reckoning", "Open House" | `bmv-fort`, `docks-piers`, `submerged-ruins`, `vanilla-farmhouse` | Argonian verb-names outside the Argonian records (2 of 21, correctly) |
+| `imperial-fringe` | two registers side by side, and the seam is the point: Colovian possessives and plain descriptors ("Cartwright's Cross", "Cassian's Holding", "Burnt Field") against Argonian verb-names ("Carries-Them-Home") | `vanilla-farmhouse`, `landmark-civic`, `signage-blank`, `bridges` | mixing the two registers *within* one name |
+| `dunmer-north` | Velothi/House names on the Morrowind side ("Andalen Plantation", "Gandranen Ruins", "Greylight"), Argonian verb-names on the marsh side, and English-compound road names on the road itself ("Channel Cross", "Nine Fords") | `dunmer-telvanni`, `vanilla-farmhouse`, `landmark-civic`, `guar-pens` | Imperial civic kit; anything coastal |
