@@ -177,6 +177,35 @@ canon forest than a repeated asset.
 
 ---
 
+## 3b. The ten hero Hist — the register, as built (2026-09-02)
+
+The catalogue closes this list. Each row is a `heroHist` block on the place
+record named, carrying a stable `hist.<region>.<slug>` ID and one
+`power.hist.<region>.<slug>` slot (engineering standard 2). Six of the ten are
+`CANON_EXPLICIT`; four are `EXTRAPOLATED` under §3 and flagged as such in the
+record.
+
+| # | Tree | Kind | Place record |
+|---|---|---|---|
+| 1 | Stormhold's town-square Hist | city tree | `place.dunmer-north.stormhold` |
+| 2 | The great Hist of Shadowfen | hatchery Hist | `place.dunmer-north.hatching-pools` |
+| 3 | Lilmoth's third tree | city tree | `place.mercantile-coast.lilmoth` |
+| 4 | Gideon's cutting | city tree | `place.imperial-fringe.gideon` |
+| 5 | The Archon harbour tree | city tree | `place.saxhleel-coast.archon-harbour-hist` |
+| 6 | Needle-Crown, the Agaceph Hist | tribal Hist | `place.hist-heartland.hist-agaceph-needle` |
+| 7 | Low-Crown, the Paatru Hist | tribal Hist | `place.hist-heartland.hist-paatru-lowcrown` |
+| 8 | High-Flower, the Sarpa Hist | tribal Hist | `place.hist-heartland.hist-sarpa-highflower` |
+| 9 | Xal-Ussep's sealed tree | sealed / xanmeer Hist | `place.hist-heartland.sealed-xanmeer-living` |
+| 10 | The Naga-Kur's blue-flowered Hist | tribal Hist | `place.naga-kur-deeps.dead-water-village` |
+
+**Reserves** — grove records of hero rank that hold no power slot, kept as swap
+candidates: `place.hist-heartland.hist-first-rain-trunk` and
+`place.mercantile-coast.keshu-grove` (the Black Fin Grove).
+
+**Helstrom holds no slot on purpose.** §3 makes it a *grove*, not a specimen;
+its convocation record is `place.hist-heartland.root-talk-ground`, and giving
+the interior forest a single power slot would contradict the entry above.
+
 ## 4. Lilmoth's tree — the open sub-question
 
 Owner decision Q4 left one point open: is Lilmoth's third Hist **trusted, feared,

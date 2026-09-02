@@ -5530,7 +5530,13 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "heroHist": {
+        "id": "hist.mercantile-coast.keshu-grove",
+        "kind": "grove, reserve",
+        "powerSlot": null,
+        "note": "Register grove of hero rank, but NOT one of the ten power slots \u2014 reserve. Kept as a record and a swap candidate if the owner wants a Murkmire slot instead of one of the ten."
+      }
     },
     {
       "id": "place.mercantile-coast.lagoon-rafts",
@@ -5849,6 +5855,7 @@
       },
       "rumourPoolKey": "rumour.lilmoth.city",
       "deedCounterKeys": [
+        "deed.hist.mercantile-coast.lilmoth.regard",
         "deed.lilmoth.council",
         "deed.lilmoth.tree-minders"
       ],
@@ -5864,7 +5871,13 @@
       "complexityBudget": "complex",
       "importanceTier": 0,
       "workflow": "derived",
-      "complexityJustification": "A major city on stilts over a drowned predecessor: two vertical layers, a walled circuit, a tended Hist and a repopulated slum. Compiled from the blueprint schema."
+      "complexityJustification": "A major city on stilts over a drowned predecessor: two vertical layers, a walled circuit, a tended Hist and a repopulated slum. Compiled from the blueprint schema.",
+      "heroHist": {
+        "id": "hist.mercantile-coast.lilmoth",
+        "kind": "city tree",
+        "powerSlot": "power.hist.mercantile-coast.lilmoth",
+        "note": "Hero Hist 3/10. CANON_EXPLICIT: Lilmoth possesses its own Hist despite having no native tribe. This is the THIRD tree, grown after 4E 48 from a root fragment of the second. Young and watched: feared and tended anyway (hist-placement.md \u00a74) \u2014 the minder's post rotates, a second tender is always present, and no faction may claim exclusive access."
+      }
     },
     {
       "id": "place.mercantile-coast.lilmoth-beast-market",

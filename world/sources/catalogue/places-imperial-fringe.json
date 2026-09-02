@@ -2017,8 +2017,9 @@
       },
       "rumourPoolKey": "rumour.gideon",
       "deedCounterKeys": [
+        "deed.gideon.antiquities_returned",
         "deed.gideon.writs_served",
-        "deed.gideon.antiquities_returned"
+        "deed.hist.imperial-fringe.gideon.regard"
       ],
       "sockets": {
         "scene": [
@@ -2042,7 +2043,13 @@
       "complexityBudget": "complex",
       "importanceTier": 0,
       "workflow": "derived",
-      "complexityJustification": "A major city: districts, a walled records core, a foreign quarter and a seasonal root terminus. Placement complexity stays Morrowind-level \u2014 kit assemblies on a graded saddle \u2014 but the district count justifies the budget."
+      "complexityJustification": "A major city: districts, a walled records core, a foreign quarter and a seasonal root terminus. Placement complexity stays Morrowind-level \u2014 kit assemblies on a graded saddle \u2014 but the district count justifies the budget.",
+      "heroHist": {
+        "id": "hist.imperial-fringe.gideon",
+        "kind": "city tree",
+        "powerSlot": "power.hist.imperial-fringe.gideon",
+        "note": "Hero Hist 4/10. EXTRAPOLATED (hist-placement.md \u00a73): a cutting planted in the city gardens among the Ayleid ruins \u2014 speaking, but young by Hist standards and of disputed provenance, with a Gloommire tribe claiming it was taken. Canon permits transplanting (the Blackwood Company's smuggled tree) and the quest plan's MR03 assumes exactly this. Gideon is also the western terminus of the rootworm line."
+      }
     },
     {
       "id": "place.imperial-fringe.gideon-rootworm-terminus",

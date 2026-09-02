@@ -110,10 +110,10 @@
         "uesp:Lore:Archon",
         "uesp:Lore:East Empire Company",
         "uesp:Lore:Shadowscales",
-        "world/sources/lore/extrapolation/settlement-register.md §2",
+        "world/sources/lore/extrapolation/settlement-register.md \u00a72",
         "world/sources/catalogue/type-recipes.json#legal-harbour-city",
         "world/sources/anchors/settlement-anchors.json#archon",
-        "docs/world/92-demographics.md §82 (Archon zone: 79% Argonian / 15% Dunmer / 5% Imperial)"
+        "docs/world/92-demographics.md \u00a782 (Archon zone: 79% Argonian / 15% Dunmer / 5% Imperial)"
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
@@ -183,7 +183,7 @@
         "strong D2 dock labour",
         "D3 customs enforcers",
         "Dunmer merchant households (15% zone share)",
-        "amphibious child population — canon civic colour"
+        "amphibious child population \u2014 canon civic colour"
       ],
       "notableNpcSlots": [
         "npc.archon.harbour-master",
@@ -212,7 +212,7 @@
       "vibe": {
         "silhouette": "a low town behind a long stone quay; masts and a line of mooring columns; no walls read at distance",
         "palette": "wet grey-green stone, bleached reed thatch, tarred timber, dull Company red on doors nobody opens",
-        "materials": "Imperial ashlar quay below, Saxhleel reed-and-stilt above — the two building cultures stacked, never blended",
+        "materials": "Imperial ashlar quay below, Saxhleel reed-and-stilt above \u2014 the two building cultures stacked, never blended",
         "signatureFeature": "a stone quay visibly older than everything standing on it, with a mooring-column line marching out into water too deep for the boats now tied to it",
         "condition": "working, patched, and quietly poorer than its architecture implies",
         "mood": "orderly and watched; the only place in the province where a ledger means something",
@@ -262,7 +262,7 @@
         ]
       },
       "complexityBudget": "complex",
-      "complexityJustification": "A major city is the phase's most complex packet by definition; districts, quay, a foreign quarter and an amphibious lower town. Still Morrowind-level placement — no bespoke scripting.",
+      "complexityJustification": "A major city is the phase's most complex packet by definition; districts, quay, a foreign quarter and an amphibious lower town. Still Morrowind-level placement \u2014 no bespoke scripting.",
       "importanceTier": 0,
       "workflow": "derived"
     },
@@ -289,7 +289,7 @@
         "siteAdvantages": "On the stone quay, the only ground in the province with cargo-bearing foundations.",
         "occupantsMotive": "The harbour authority uses one corner and cannot lawfully open the rest.",
         "pressures": "Cargo is bonded against a duty no state now collects; the seals are two centuries old and worth more intact.",
-        "wouldChangeIf": "Someone with an Imperial writ — or a good forgery — could open it and change what Archon is worth."
+        "wouldChangeIf": "Someone with an Imperial writ \u2014 or a good forgery \u2014 could open it and change what Archon is worth."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -334,7 +334,7 @@
       "vibe": {
         "silhouette": "a cargo hall far larger and better built than anything around it",
         "palette": "Company red gone pink, grey ashlar, black tar",
-        "materials": "Imperial stone and iron — the most metal in one place on this coast",
+        "materials": "Imperial stone and iron \u2014 the most metal in one place on this coast",
         "signatureFeature": "a wax seal the size of a plate on a door nobody has the authority to open",
         "condition": "sound, swept, half-used",
         "mood": "officious and slightly absurd",
@@ -447,7 +447,7 @@
         "silhouette": "from above, a ring of posts with no visible purpose",
         "palette": "green-gold underwater light, silt haze, pale post timber",
         "materials": "driven posts, woven kelp fencing, a floating feed store",
-        "signatureFeature": "a whole working farmyard that only exists below the waterline — feed store, tack, dung heap, all submerged",
+        "signatureFeature": "a whole working farmyard that only exists below the waterline \u2014 feed store, tack, dung heap, all submerged",
         "condition": "well kept, invisible",
         "mood": "matter-of-fact wonder",
         "approach": "you swim into it before you understand it",
@@ -497,14 +497,14 @@
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Hist",
-        "world/sources/lore/extrapolation/settlement-register.md §2 (Archon: small landward harbour tree)",
+        "world/sources/lore/extrapolation/settlement-register.md \u00a72 (Archon: small landward harbour tree)",
         "world/sources/lore/topics/hist-placement.md",
         "world/sources/catalogue/type-recipes.json#hero-hist-grove",
         "docs/game-buildout-register.md (ten hero Hist: stable ID + power slot)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The register fixes a small Hist landward of the harbour — the city's own tree rather than a grove capital's, planted or tended where the salt does not reach.",
+        "founding": "The register fixes a small Hist landward of the harbour \u2014 the city's own tree rather than a grove capital's, planted or tended where the salt does not reach.",
         "siteAdvantages": "The first freshwater ground behind the estuary: a low rise the tide never covers, inside the city's cleared apron.",
         "occupantsMotive": "Tree-minders keep it; dockworkers touch it going out and coming in; the Dunmer quarter does not.",
         "pressures": "Salt intrusion is rising with the quay works, and the tree is smaller than it was a century ago.",
@@ -556,7 +556,7 @@
         "valueTier": "T3"
       },
       "vibe": {
-        "silhouette": "one crown breaking a low roofline — the only tall thing landward of the masts",
+        "silhouette": "one crown breaking a low roofline \u2014 the only tall thing landward of the masts",
         "palette": "pale bark, dark wet leaf, amber where sap runs",
         "materials": "living Hist, a ring of laid stone the city insists is not stone",
         "signatureFeature": "a Hist small enough that adults can reach its lowest branch, in a city big enough to have forgotten why that matters",
@@ -581,7 +581,8 @@
       },
       "rumourPoolKey": "rumour.saxhleel-coast.harbour-tree",
       "deedCounterKeys": [
-        "deed.hist.hero-tree-visited"
+        "deed.hist.hero-tree-visited",
+        "deed.hist.saxhleel-coast.archon-harbour-hist.regard"
       ],
       "sockets": {
         "scene": [
@@ -597,7 +598,13 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "heroHist": {
+        "id": "hist.saxhleel-coast.archon-harbour-hist",
+        "kind": "city tree",
+        "powerSlot": "power.hist.saxhleel-coast.archon-harbour-hist",
+        "note": "Hero Hist 5/10. EXTRAPOLATED (hist-placement.md \u00a73): a small harbour Hist on the landward side of the city, speaking but the least consulted tree in the province \u2014 the speaker's post is a harbour-authority sinecure. Archon needs a tree for its Argonian residents' eggs and dead; the city's life does not revolve around it."
+      }
     },
     {
       "id": "place.saxhleel-coast.archon-lighthouse",
@@ -684,7 +691,7 @@
         "valueTier": "T2"
       },
       "vibe": {
-        "silhouette": "a stone drum on a bare headland — one of the few silhouettes that reads at range on this coast",
+        "silhouette": "a stone drum on a bare headland \u2014 one of the few silhouettes that reads at range on this coast",
         "palette": "wet black rock, lime-white tower, one warm light",
         "materials": "Imperial ashlar and a salvaged lamp",
         "signatureFeature": "a wreck register kept by the keepers, naming every hull lost on the reef and where it lies",
@@ -780,7 +787,7 @@
       },
       "vibe": {
         "silhouette": "a low shed and a barrier with a bell on a post",
-        "palette": "bleached timber, lime-washed white — deliberately clean",
+        "palette": "bleached timber, lime-washed white \u2014 deliberately clean",
         "materials": "lime-wash, reed thatch, iron bell",
         "signatureFeature": "a bell rope worn to a taper by three hundred years of hands",
         "condition": "scrubbed, repaired, humourless",
@@ -834,7 +841,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "The foreign district burnt in the secession and was never rebuilt, because nobody wanted the ground and nobody wanted the memory.",
-        "siteAdvantages": "Firm raised ground immediately inland of the quay — the best building land in Archon, and the emptiest.",
+        "siteAdvantages": "Firm raised ground immediately inland of the quay \u2014 the best building land in Archon, and the emptiest.",
         "occupantsMotive": "Nobody lives here officially; three households do, quietly, and deny it.",
         "pressures": "The harbour authority would like to build on it and cannot say so out loud.",
         "wouldChangeIf": "One decision by the city council turns the province's most eloquent ruin into a warehouse district."
@@ -935,7 +942,7 @@
         "uesp:Lore:Shadowscales",
         "uesp:Lore:Archon",
         "uesp:Lore:Kota-Vimleel",
-        "docs/quests/20-world-provisions.md §12b (The Archon Shadowscale facility)",
+        "docs/quests/20-world-provisions.md \u00a712b (The Archon Shadowscale facility)",
         "world/sources/lore/topics/sithis-nisswo-shadowscales.md",
         "world/sources/catalogue/type-recipes.json#shadowscale-ground"
       ],
@@ -954,7 +961,7 @@
           "tropical jungle"
         ],
         "hardConstraints": [
-          "concealed approach — no sightline from any route",
+          "concealed approach \u2014 no sightline from any route",
           "within 2 km of Archon",
           "one door, sealed"
         ],
@@ -991,7 +998,7 @@
       "ownerFaction": "faction.dark-brotherhood-lapsed",
       "occupants": [
         "one D3 watcher, outside",
-        "nothing inside — that is the point"
+        "nothing inside \u2014 that is the point"
       ],
       "notableNpcSlots": [
         "npc.archon.sanctuary-watcher",
@@ -1019,9 +1026,9 @@
         "palette": "black-green shade, wet grey render, one door of unweathered dark wood",
         "materials": "xanmeer stone footings reused, mud-and-render walls, a training ground of packed earth",
         "signatureFeature": "a sealed door with a 4E 187 order of closure still nailed to it, and a watcher outside who is not hiding well",
-        "condition": "structurally perfect and completely disused — the maintenance never stopped",
+        "condition": "structurally perfect and completely disused \u2014 the maintenance never stopped",
         "mood": "held breath; the province's quietest hostile place",
-        "approach": "the path is made unpleasant on purpose — thorn, mud, a wrong-looking gap",
+        "approach": "the path is made unpleasant on purpose \u2014 thorn, mud, a wrong-looking gap",
         "senses": "no birds; the sound of your own approach; wet stone and cold ash"
       },
       "assetPlan": [
@@ -1283,7 +1290,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A city that gives up children to two institutions — the harbour and, once, the Shadow — keeps the ordinary rite of coming-of-age loudly visible as the honest alternative.",
+        "founding": "A city that gives up children to two institutions \u2014 the harbour and, once, the Shadow \u2014 keeps the ordinary rite of coming-of-age loudly visible as the honest alternative.",
         "siteAdvantages": "Firm cleared ground behind the city apron, close enough to walk to at dawn and far enough that the port cannot watch.",
         "occupantsMotive": "Tree-minders and elders run the trial; families camp for the week; the Shadowscale watcher a kilometre away also attends, which nobody comments on.",
         "pressures": "The trial's ground is the same ground the sanctuary's intake used, and the older families know it.",
@@ -1390,7 +1397,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The College of Whispers works where the material is, and the material is what Umbriel left on this coast — collected quietly, at the only port with regular shipping out.",
+        "founding": "The College of Whispers works where the material is, and the material is what Umbriel left on this coast \u2014 collected quietly, at the only port with regular shipping out.",
         "siteAdvantages": "An ordinary house inside the town, with a private landing behind it.",
         "occupantsMotive": "Two scholars running a cover trade that makes no money and a catalogue that would end them.",
         "pressures": "The harbour authority suspects; the Synod outstation inland actively resents them.",
@@ -1437,7 +1444,7 @@
         "valueTier": "T3"
       },
       "vibe": {
-        "silhouette": "no silhouette at all — one ordinary house in a row",
+        "silhouette": "no silhouette at all \u2014 one ordinary house in a row",
         "palette": "the row's palette exactly, which is the tell",
         "materials": "reed thatch and render like its neighbours",
         "signatureFeature": "shutters permanently closed on the one side that faces water",
@@ -1589,7 +1596,7 @@
       "sources": [
         "uesp:Lore:Sea Transportation",
         "world/sources/catalogue/type-recipes.json#wreck",
-        "lore: openworld research §3.2 (wreck geometry IS the level; tier by depth and lock)"
+        "lore: openworld research \u00a73.2 (wreck geometry IS the level; tier by depth and lock)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -1839,7 +1846,7 @@
         "silhouette": "a plank line curving away into vegetation, houses hung off both sides",
         "palette": "wet plank grey, green under, lamp amber at dusk",
         "materials": "split planks, lashed rails, ladder stages",
-        "signatureFeature": "the whole village's history is legible in its planking — every repair a different timber and a different year",
+        "signatureFeature": "the whole village's history is legible in its planking \u2014 every repair a different timber and a different year",
         "condition": "endlessly patched, one section always closed",
         "mood": "busy, narrow, conversational",
         "approach": "the line appears through the trees before any building",
@@ -1884,17 +1891,17 @@
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Xanmeer",
-        "world/sources/lore/extrapolation/settlement-register.md §6 (broken ~15%)",
+        "world/sources/lore/extrapolation/settlement-register.md \u00a76 (broken ~15%)",
         "world/sources/catalogue/type-recipes.json#broken-xanmeer",
         "lore: Lore:Xanmeer (~15% broken); xanmeer-mesoamerican-reference (ruins subsumed by vegetation)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "Opened long ago, looted, and occupied by something that is not Argonian.",
-        "siteAdvantages": "So overgrown that the structure is invisible until you are inside it — the reveal is the beat.",
+        "siteAdvantages": "So overgrown that the structure is invisible until you are inside it \u2014 the reveal is the beat.",
         "occupantsMotive": "Whatever moved in, and the remains of the people who opened it.",
         "pressures": "The tending clans regard it as a wound and will pay to have it cleared.",
-        "wouldChangeIf": "If it were cleared and swept, it becomes a tended xanmeer again — which is a real possible ending."
+        "wouldChangeIf": "If it were cleared and swept, it becomes a tended xanmeer again \u2014 which is a real possible ending."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -2154,13 +2161,13 @@
       "sources": [
         "uesp:Lore:Cantemiric Velothi",
         "tooling/world-generation/worldgen/society.py#CULTURES (saxhleel-coast: Argonian-majority east coast over a Cantemiric Velothi layer)",
-        "docs/world/92-demographics.md §82 (Archon zone carries a 15% Dunmer share)",
+        "docs/world/92-demographics.md \u00a782 (Archon zone carries a 15% Dunmer share)",
         "world/sources/catalogue/type-recipes.json#cantemiric-velothi-site",
         "lore: Lore:Cantemiric Velothi (lost people of the Black Marsh seaboard)"
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
-        "founding": "A Velothi offshoot came down this seaboard toward Morrowind, built in shapes nobody here has built before or since, and did not last — the culture zone's whole name rests on the layer they left.",
+        "founding": "A Velothi offshoot came down this seaboard toward Morrowind, built in shapes nobody here has built before or since, and did not last \u2014 the culture zone's whole name rests on the layer they left.",
         "siteAdvantages": "A high headland with fresh water and a defensible neck, chosen for the same reasons Velothi always chose: it looks out toward home.",
         "occupantsMotive": "Nobody. The Dunmer families in Archon know the house mark and will not discuss it.",
         "pressures": "Salt has eaten the render for two thousand years; the ancestor niches are empty and the reason is not recorded.",
@@ -2214,14 +2221,14 @@
         "valueTier": "T4"
       },
       "vibe": {
-        "silhouette": "bulbous organic towers on a bare headland — unmistakably not local and not Imperial",
+        "silhouette": "bulbous organic towers on a bare headland \u2014 unmistakably not local and not Imperial",
         "palette": "ash-grey, salt-white bloom, black interior shadow",
         "materials": "Velothi organic render over stone, all of it salt-rotted",
         "signatureFeature": "ancestor niches with nobody in them, and a house mark from a House that no longer exists",
         "condition": "eroded to the armature; one tower has fallen into the sea and can be dived",
         "mood": "wrong-footed; a foreign grief on an Argonian coast",
         "approach": "the shapes read as growths until you are close enough to see doors",
-        "senses": "wind through hollow towers — the site hums at certain tides"
+        "senses": "wind through hollow towers \u2014 the site hums at certain tides"
       },
       "assetPlan": [
         "dunmer-telvanni",
@@ -2372,7 +2379,7 @@
           "coastal lagoon & salt marsh"
         ],
         "hardConstraints": [
-          "chained — must reach its neighbours"
+          "chained \u2014 must reach its neighbours"
         ],
         "preferences": [
           "a landing",
@@ -2556,7 +2563,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A port produces Hist-less Argonians — sailors' children, Umbriel orphans, people born too far from any tree — and they have made a place of their own outside the city.",
+        "founding": "A port produces Hist-less Argonians \u2014 sailors' children, Umbriel orphans, people born too far from any tree \u2014 and they have made a place of their own outside the city.",
         "siteAdvantages": "Firm ground on the city's landward fringe, deliberately outside its jurisdiction.",
         "occupantsMotive": "Households with no tree to return to, organised around that fact rather than despite it.",
         "pressures": "The city tolerates them and the tribal villages inland do not visit.",
@@ -2671,7 +2678,7 @@
         "siteAdvantages": "On the coast road at a day's travel from the next fire, on ground that never floods.",
         "occupantsMotive": "One household keeping a fire that has not gone out in four generations.",
         "pressures": "Feeding strangers in a subsistence economy is expensive and nobody says so.",
-        "wouldChangeIf": "If the road moved, the household would move with it — the obligation is to the route, not the site."
+        "wouldChangeIf": "If the road moved, the household would move with it \u2014 the obligation is to the route, not the site."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -2873,7 +2880,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The province has almost no rock, so its caves are hollows inside the root layer — and this one runs under the coast road for two kilometres.",
+        "founding": "The province has almost no rock, so its caves are hollows inside the root layer \u2014 and this one runs under the coast road for two kilometres.",
         "siteAdvantages": "A dry gallery inside a root mass above the water table, with two mouths.",
         "occupantsMotive": "Things that prefer the dark; occasionally people who prefer not to be seen on the road.",
         "pressures": "It is a shortcut and a hazard at the same time and the road above does not admit it exists.",
@@ -3053,7 +3060,7 @@
       "sources": [
         "uesp:Lore:Xanmeer",
         "world/sources/catalogue/type-recipes.json#treasure-hunters-camp",
-        "lore: openworld research §3.1 (the satellite node that resolves the implied story)"
+        "lore: openworld research \u00a73.1 (the satellite node that resolves the implied story)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -3150,7 +3157,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "Productive open water lying exactly between two villages that both claim it.",
-        "siteAdvantages": "A shelf where cold water rises — reliably full of fish and reliably indefensible.",
+        "siteAdvantages": "A shelf where cold water rises \u2014 reliably full of fish and reliably indefensible.",
         "occupantsMotive": "Both fleets work it, on alternate days when relations are good.",
         "pressures": "Claim buoys carry two marks on the same rope; gear has been cut adrift twice this year.",
         "wouldChangeIf": "If Archon's harbour authority licensed it, both villages would unite against the licence."
@@ -3246,7 +3253,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A barge that ties up where no barge should be, opens for a night, and is gone by morning — because the harbour authority cannot fine what is not there.",
+        "founding": "A barge that ties up where no barge should be, opens for a night, and is gone by morning \u2014 because the harbour authority cannot fine what is not there.",
         "siteAdvantages": "Any bank deep enough to lie alongside, changing weekly.",
         "occupantsMotive": "A house crew running Shells and Stones and a debt slate.",
         "pressures": "The slate becomes an owing, and the hiring office that buys those debts is a short walk from the quay.",
@@ -3410,7 +3417,7 @@
         "condition": "recent",
         "mood": "the coast's most frightening quiet",
         "approach": "you drift into it and then cannot leave quickly",
-        "senses": "no wind noise at all — the absence is the sound cue"
+        "senses": "no wind noise at all \u2014 the absence is the sound cue"
       },
       "assetPlan": [
         "boats-keeled",
@@ -3827,7 +3834,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "Something in the deep off the reef has been taking fishing boats for eleven years, and the chart symbol for it is older than that.",
-        "siteAdvantages": "Deep water immediately off a worked bank — the animal eats where the food is, which is where the people are.",
+        "siteAdvantages": "Deep water immediately off a worked bank \u2014 the animal eats where the food is, which is where the people are.",
         "occupantsMotive": "One animal. An offering platform on the nearest shore says what the villages think of it.",
         "pressures": "It sits on a boat lane, so avoiding it costs everybody an hour a day.",
         "wouldChangeIf": "If it were killed, three villages' economies improve and one shrine loses its purpose."
@@ -3974,7 +3981,7 @@
         "valueTier": "T2"
       },
       "vibe": {
-        "silhouette": "at dusk, a rising column of birds visible for kilometres — a living landmark on a coast with no sightlines",
+        "silhouette": "at dusk, a rising column of birds visible for kilometres \u2014 a living landmark on a coast with no sightlines",
         "palette": "whitened rock, black birds, orange sky",
         "materials": "guano-cemented ground, harvest frames, rope",
         "signatureFeature": "the column at dusk, which is the single most beautiful thing on this coast and smells appalling",
@@ -4021,11 +4028,11 @@
         "apps/world-studio/public/province/society-meta.json (rootStations: root-east-estuary)",
         "docs/quests/20-world-provisions.md (the four-station rootworm net is a Pass-1 placeholder re-authored at Phase 11)",
         "world/sources/catalogue/type-recipes.json#rootworm-station",
-        "lore: Lore:Rootworm (the Underground Express); §12b rule: the southern terminus is wintertide-only"
+        "lore: Lore:Rootworm (the Underground Express); \u00a712b rule: the southern terminus is wintertide-only"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The Pass-1 transport compile already puts a rootworm terminus on the east estuary; this record fixes it as a real place with a reason — the coast's only fast link inland, at the one point where the root layer reaches tidewater.",
+        "founding": "The Pass-1 transport compile already puts a rootworm terminus on the east estuary; this record fixes it as a real place with a reason \u2014 the coast's only fast link inland, at the one point where the root layer reaches tidewater.",
         "siteAdvantages": "Where a rootland arm runs out under firm ground within reach of the estuary landing.",
         "occupantsMotive": "Waykeepers who read the worms' movement and sell passage they cannot guarantee.",
         "pressures": "The worms are alive and seasonal; a standing station is a claim, not a timetable.",
@@ -4247,11 +4254,11 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The estuary is too wide and too fast to ford, so the crossing is hired — and what you are really hiring is the Argonian who decides when it is safe.",
+        "founding": "The estuary is too wide and too fast to ford, so the crossing is hired \u2014 and what you are really hiring is the Argonian who decides when it is safe.",
         "siteAdvantages": "The narrowest crossing with landable banks on both sides, upstream of the boom.",
         "occupantsMotive": "Three ferrymen, one of whom will not cross at night for reasons he will explain at length.",
         "pressures": "The toll box and the hire board are separate, and the difference is the ferryman's.",
-        "wouldChangeIf": "If the boom tower took over the crossing, the guide-hire trade — and its route knowledge — disappears."
+        "wouldChangeIf": "If the boom tower took over the crossing, the guide-hire trade \u2014 and its route knowledge \u2014 disappears."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -4449,7 +4456,7 @@
       "why": {
         "founding": "Everything landed at the quay has to be sold somewhere, and the stall frames stand all year even when the cloth does not.",
         "siteAdvantages": "Level ground one street back from the quay, with a landing of its own.",
-        "occupantsMotive": "Traders in three currencies — septims, barter and obligation — at adjacent stalls.",
+        "occupantsMotive": "Traders in three currencies \u2014 septims, barter and obligation \u2014 at adjacent stalls.",
         "pressures": "The price board is a survey of the whole district and everyone reads it before speaking.",
         "wouldChangeIf": "If the port lost its monopoly, the row empties and the fair inland grows."
       },
@@ -4913,7 +4920,7 @@
       "sources": [
         "docs/world/55-time-and-sky.md (sea squalls)",
         "world/sources/catalogue/type-recipes.json#storm-shelter",
-        "lore: climate fields (sea squalls, orographic rain); module 20 §12.3b refuge reward type"
+        "lore: climate fields (sea squalls, orographic rain); module 20 \u00a712.3b refuge reward type"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -5402,7 +5409,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The last fire before the jungle wall — the D0 floor at the edge of D4 ground.",
+        "founding": "The last fire before the jungle wall \u2014 the D0 floor at the edge of D4 ground.",
         "siteAdvantages": "A rise at the point where the cleared track ends and the canopy closes.",
         "occupantsMotive": "A household who have counted, over three generations, how many people went in and how many came out.",
         "pressures": "They cannot refuse a comer and they cannot make anyone turn back.",
@@ -5545,7 +5552,7 @@
         "valueTier": "T2"
       },
       "vibe": {
-        "silhouette": "a lashed tower breaking the canopy — a thing you climb, not a thing you see",
+        "silhouette": "a lashed tower breaking the canopy \u2014 a thing you climb, not a thing you see",
         "palette": "green below, grey sky above, pale ladder timber",
         "materials": "lashed poles, ladder rungs, a plank crow's nest",
         "signatureFeature": "the highest reachable point for kilometres, and it is made of rope and poles",
@@ -5639,7 +5646,7 @@
         "valueTier": "T2"
       },
       "vibe": {
-        "silhouette": "in season, the water itself is the landmark — lit from below",
+        "silhouette": "in season, the water itself is the landmark \u2014 lit from below",
         "palette": "cold blue-green on black",
         "materials": "water, disturbed by anything that moves through it",
         "signatureFeature": "your own wake glowing behind you, and something else's wake that is not yours",
@@ -5683,7 +5690,7 @@
       "sources": [
         "docs/world/55-time-and-sky.md",
         "world/sources/catalogue/type-recipes.json#storm-shelter",
-        "lore: climate fields (sea squalls, orographic rain); module 20 §12.3b refuge reward type"
+        "lore: climate fields (sea squalls, orographic rain); module 20 \u00a712.3b refuge reward type"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -5890,7 +5897,7 @@
       "sources": [
         "docs/world/00-core.md acceptance rule: underwater POIs throughout appropriate regions",
         "world/sources/catalogue/type-recipes.json#air-pocket-station",
-        "lore: module 20 §12.3b hard-to-reach types (underwater grottoes, air pockets, flooded cellars)"
+        "lore: module 20 \u00a712.3b hard-to-reach types (underwater grottoes, air pockets, flooded cellars)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -6034,7 +6041,7 @@
         "valueTier": "T3"
       },
       "vibe": {
-        "silhouette": "nothing — the cue is a gap in an otherwise unbroken green wall",
+        "silhouette": "nothing \u2014 the cue is a gap in an otherwise unbroken green wall",
         "palette": "black water, every green there is, no built colour at all",
         "materials": "cut-root landings, low platforms, woven screens",
         "signatureFeature": "channel markers cut into living roots that only this village can read",
@@ -6263,12 +6270,12 @@
       "sources": [
         "docs/world/00-core.md acceptance rule: underwater POIs throughout appropriate regions",
         "world/sources/catalogue/type-recipes.json#wreck",
-        "lore: openworld research §3.2 (wreck geometry IS the level; tier by depth and lock)"
+        "lore: openworld research \u00a73.2 (wreck geometry IS the level; tier by depth and lock)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A hull driven into the mangrove wall in a squall and left where the roots caught it.",
-        "siteAdvantages": "The roots hold it two metres above the mud at low water — a structure the swamp built.",
+        "siteAdvantages": "The roots hold it two metres above the mud at low water \u2014 a structure the swamp built.",
         "occupantsMotive": "Something dens in the forward hold.",
         "pressures": "It is a kilometre inside the mangrove and nobody can drag it out.",
         "wouldChangeIf": "If the channel shifted, the wreck would be underwater and a different POI entirely."
@@ -6443,7 +6450,7 @@
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/labour-and-bondage.md",
-        "docs/quests/20-world-provisions.md §12b (The Owing)",
+        "docs/quests/20-world-provisions.md \u00a712b (The Owing)",
         "world/sources/catalogue/type-recipes.json#owing-eviction-camp",
         "lore: labour-and-bondage dossier (owings extendable, transferable, heritable in fact)"
       ],
@@ -6495,7 +6502,7 @@
         "valueTier": "T1"
       },
       "vibe": {
-        "silhouette": "a line of shelters along a boundary, facing the wrong way — inward, at the fields",
+        "silhouette": "a line of shelters along a boundary, facing the wrong way \u2014 inward, at the fields",
         "palette": "grey canvas, mud, one good cooking pot per family",
         "materials": "salvaged canvas, hurdles, household goods stacked outside",
         "signatureFeature": "every shelter faces the ground its household used to work, and none of them face each other",
@@ -6550,12 +6557,12 @@
         "docs/world/00-core.md acceptance rule: underwater POIs throughout appropriate regions",
         "docs/world/00-core.md (Argonian physiology materially changes underwater play)",
         "world/sources/catalogue/type-recipes.json#pearl-and-shell-bed",
-        "lore: acceptance rule: Argonian physiology materially changes underwater play — the economy must reflect it"
+        "lore: acceptance rule: Argonian physiology materially changes underwater play \u2014 the economy must reflect it"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "An amphibious people with a port to sell into will work a pearl bed, and the bed becomes property the moment it is worth money.",
-        "siteAdvantages": "Clear water over a firm bed inside the reef, six to twelve metres — deeper than an outsider can casually work.",
+        "siteAdvantages": "Clear water over a firm bed inside the reef, six to twelve metres \u2014 deeper than an outsider can casually work.",
         "occupantsMotive": "Diver families holding numbered lots by inheritance, with a surface tender each.",
         "pressures": "The deep lots pay best and kill divers; the tally book records both facts on the same page.",
         "wouldChangeIf": "If foreigners learned to dive here the lot system collapses, which is why nobody teaches them."
@@ -6655,7 +6662,7 @@
       "provenance": "canon-named",
       "sources": [
         "uesp:Lore:Archon (neighbours)",
-        "world/sources/lore/extrapolation/settlement-register.md §4 (Portdun Mont: headland station guarding the estuary mouth; old privateer anchorage)",
+        "world/sources/lore/extrapolation/settlement-register.md \u00a74 (Portdun Mont: headland station guarding the estuary mouth; old privateer anchorage)",
         "world/sources/catalogue/type-recipes.json#cliff-shelf-village",
         "lore: Lore:Bright-Throat Village (cliffs over Oliis Bay)"
       ],
@@ -6765,7 +6772,7 @@
       "sources": [
         "uesp:Lore:Pirates of Topal Bay",
         "uesp:Lore:Lucinia Falco",
-        "world/sources/lore/extrapolation/settlement-register.md §4 (Portdun Mont: old privateer anchorage)",
+        "world/sources/lore/extrapolation/settlement-register.md \u00a74 (Portdun Mont: old privateer anchorage)",
         "world/sources/catalogue/type-recipes.json#pirate-anchorage",
         "lore: Lore:Pirates of Topal Bay; Lore:Lucinia Falco (letters of marque, 1E 2833)"
       ],
@@ -6886,7 +6893,7 @@
         "siteAdvantages": "An island in the lagoon with one landing, which made it the obvious place to put people.",
         "occupantsMotive": "Descendants of the quarantined, who have been free to leave for a century and have not.",
         "pressures": "They are healthy, they are not confined, and they behave as if they are.",
-        "wouldChangeIf": "If somebody produced a release order — real or forged — the whole arrangement would have to end."
+        "wouldChangeIf": "If somebody produced a release order \u2014 real or forged \u2014 the whole arrangement would have to end."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7185,7 +7192,7 @@
       "sources": [
         "docs/world/00-core.md acceptance rule: underwater POIs throughout appropriate regions",
         "world/sources/catalogue/type-recipes.json#air-pocket-grotto",
-        "lore: module 20 §12.3b (underwater grottoes and air pockets as hard-to-reach types); acceptance: Argonian physiology changes underwater play"
+        "lore: module 20 \u00a712.3b (underwater grottoes and air pockets as hard-to-reach types); acceptance: Argonian physiology changes underwater play"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -7273,7 +7280,7 @@
       "sources": [
         "docs/world/00-core.md acceptance rule: underwater POIs throughout appropriate regions",
         "world/sources/catalogue/type-recipes.json#wreck",
-        "lore: openworld research §3.2 (wreck geometry IS the level; tier by depth and lock)"
+        "lore: openworld research \u00a73.2 (wreck geometry IS the level; tier by depth and lock)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -7368,13 +7375,13 @@
       "sources": [
         "uesp:Lore:Seafalls",
         "uesp:Lore:Archon (neighbours)",
-        "world/sources/lore/extrapolation/settlement-register.md §4 (Seafalls, NNE of Archon: where a river drops to the Padomaic; a falls-and-portage settlement)",
+        "world/sources/lore/extrapolation/settlement-register.md \u00a74 (Seafalls, NNE of Archon: where a river drops to the Padomaic; a falls-and-portage settlement)",
         "world/sources/catalogue/type-recipes.json#head-of-navigation",
         "lore: region grammar: deep river corridor; Lore:Sea Transportation (small-draft craft are the province's freight)"
       ],
       "confidence": "ARENA_NAME_EXTRAPOLATED",
       "why": {
-        "founding": "A river drops to the sea in a set of falls a loaded boat cannot pass, so every cargo moving between the coast and the interior is unloaded here — and a town grew on the transfer.",
+        "founding": "A river drops to the sea in a set of falls a loaded boat cannot pass, so every cargo moving between the coast and the interior is unloaded here \u2014 and a town grew on the transfer.",
         "siteAdvantages": "The furthest point upriver a laden boat can reach, with landings above and below the drop and firm ground between.",
         "occupantsMotive": "Porters, transfer clerks and hauliers whose entire livelihood is that the falls exist.",
         "pressures": "The navigable limit moves with the season and this year's board does not match last year's; the porters price accordingly.",
@@ -7534,14 +7541,14 @@
         "valueTier": "T2"
       },
       "vibe": {
-        "silhouette": "nothing — the chamber is behind the thing you are looking at",
+        "silhouette": "nothing \u2014 the chamber is behind the thing you are looking at",
         "palette": "green-white light through falling water, black wet rock",
         "materials": "scoured rock, carved names, one old offering",
         "signatureFeature": "four hundred years of Seafalls names carved on a wall only reachable by a traverse behind a waterfall",
         "condition": "scoured clean",
         "mood": "initiation",
         "approach": "you have to decide to go behind the water",
-        "senses": "the falls from the wrong side — muffled, enormous"
+        "senses": "the falls from the wrong side \u2014 muffled, enormous"
       },
       "assetPlan": [
         "landmark-civic",
@@ -7866,7 +7873,7 @@
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Xanmeer",
-        "world/sources/lore/extrapolation/settlement-register.md §6 (sealed ~25%: the dungeon default)",
+        "world/sources/lore/extrapolation/settlement-register.md \u00a76 (sealed ~25%: the dungeon default)",
         "world/sources/catalogue/type-recipes.json#sealed-xanmeer",
         "lore: Lore:Xanmeer (~25% sealed; vakka stones); Lore:Vakka Stone"
       ],
@@ -8054,7 +8061,7 @@
       "sources": [
         "docs/world/00-core.md acceptance rule: underwater POIs throughout appropriate regions",
         "world/sources/catalogue/type-recipes.json#pearl-and-shell-bed",
-        "lore: acceptance rule: Argonian physiology materially changes underwater play — the economy must reflect it"
+        "lore: acceptance rule: Argonian physiology materially changes underwater play \u2014 the economy must reflect it"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -8062,7 +8069,7 @@
         "siteAdvantages": "Shallow firm bottom in a sheltered bight, workable by children.",
         "occupantsMotive": "A village that works it as its whole economy.",
         "pressures": "The bed is nearly exhausted and the village will not say so.",
-        "wouldChangeIf": "If it failed, the village moves — and this coast's villages move easily."
+        "wouldChangeIf": "If it failed, the village moves \u2014 and this coast's villages move easily."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -8139,7 +8146,7 @@
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Murkmire",
-        "world/sources/lore/extrapolation/settlement-register.md §5 (rebuilt-elsewhere villages)",
+        "world/sources/lore/extrapolation/settlement-register.md \u00a75 (rebuilt-elsewhere villages)",
         "world/sources/catalogue/type-recipes.json#stilt-village",
         "lore: Lore:Murkmire; material-culture (Murkmire reed-and-stilt kit)"
       ],
@@ -8435,7 +8442,7 @@
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Xanmeer",
-        "world/sources/lore/extrapolation/settlement-register.md §6 (four-state xanmeer model: tended ~40%)",
+        "world/sources/lore/extrapolation/settlement-register.md \u00a76 (four-state xanmeer model: tended ~40%)",
         "world/sources/catalogue/type-recipes.json#tended-xanmeer",
         "lore: Lore:Xanmeer (~40% tended by a nearby clan; entering to loot is a serious offence)"
       ],
@@ -8492,7 +8499,7 @@
         "valueTier": "T3"
       },
       "vibe": {
-        "silhouette": "a stepped stone pyramid breaking the canopy — one of the two landmark strategies that work here",
+        "silhouette": "a stepped stone pyramid breaking the canopy \u2014 one of the two landmark strategies that work here",
         "palette": "grey-green stone, swept ochre steps, black doorways",
         "materials": "xanmeer ashlar, cleared terraces, offering ledges",
         "signatureFeature": "every terrace swept clean and every doorway sealed with a woven screen that is replaced annually",
@@ -9333,14 +9340,14 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/openworld-place-distribution-and-siting.md §3.2 (hermit: the approach cost is the gate)",
+        "docs/research/openworld-place-distribution-and-siting.md \u00a73.2 (hermit: the approach cost is the gate)",
         "world/sources/catalogue/type-recipes.json#hermit-hut",
-        "lore: openworld research §3.2 (hermit: approach cost is the gate; the reward is knowledge, not loot)"
+        "lore: openworld research \u00a73.2 (hermit: approach cost is the gate; the reward is knowledge, not loot)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "One dwelling with no path to it, occupied by somebody who left Archon and did not explain.",
-        "siteAdvantages": "Deliberately awkward ground inside the D4 wall — an island in flooded root country with no landing.",
+        "siteAdvantages": "Deliberately awkward ground inside the D4 wall \u2014 an island in flooded root country with no landing.",
         "occupantsMotive": "One person, and a life's worth of one obsession arranged in order.",
         "pressures": "Reaching them costs a day; they will trade what they know only for a specific favour.",
         "wouldChangeIf": "If the favour were done, the coast gains a piece of knowledge nobody else holds."
@@ -9398,7 +9405,7 @@
         "silhouette": "a single thin smoke line above canopy, with no path under it",
         "palette": "one warm point in a lot of dark green",
         "materials": "a hut built entirely from what was to hand",
-        "signatureFeature": "a life's work — hundreds of catalogued somethings — arranged with total precision in a hut",
+        "signatureFeature": "a life's work \u2014 hundreds of catalogued somethings \u2014 arranged with total precision in a hut",
         "condition": "small, perfect, obsessive",
         "mood": "the reward is a conversation, not loot",
         "approach": "there is no route; you make one",
@@ -9643,9 +9650,9 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "world/sources/sites/candidate-sites.md (median site sees 18% of its surroundings — a view is a reward)",
+        "world/sources/sites/candidate-sites.md (median site sees 18% of its surroundings \u2014 a view is a reward)",
         "world/sources/catalogue/type-recipes.json#vista-ledge",
-        "lore: scour finding: median site sees 18% of its 1.2 km surroundings — a view is a reward"
+        "lore: scour finding: median site sees 18% of its 1.2 km surroundings \u2014 a view is a reward"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {

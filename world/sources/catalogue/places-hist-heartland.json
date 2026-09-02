@@ -4420,7 +4420,8 @@
       "heroHist": {
         "id": "hist.hist-heartland.hist-agaceph-needle",
         "powerSlot": "power.hist.hist-heartland.hist-agaceph-needle",
-        "note": "hero Hist register (buildout: ~10 province-wide, stable ID + one power slot each)"
+        "note": "Hero Hist 6/10. EXTRAPOLATED under hist-placement R1/R6: the Agaceph's own tree, its gloor producing the needle-faced, rainbow-scaled morphology canon gives them.",
+        "kind": "tribal Hist"
       }
     },
     {
@@ -4531,8 +4532,9 @@
       "workflow": "derived",
       "heroHist": {
         "id": "hist.hist-heartland.hist-first-rain-trunk",
-        "powerSlot": "power.hist.hist-heartland.hist-first-rain-trunk",
-        "note": "hero Hist register (buildout: ~10 province-wide, stable ID + one power slot each)"
+        "kind": "grove, reserve",
+        "powerSlot": null,
+        "note": "Register grove of hero rank, but NOT one of the ten power slots \u2014 reserve. The three canon interior peoples (Agaceph, Paatru, Sarpa) hold the interior's three slots; this fourth grove stands as a swap candidate."
       }
     },
     {
@@ -4747,7 +4749,8 @@
       "heroHist": {
         "id": "hist.hist-heartland.hist-paatru-lowcrown",
         "powerSlot": "power.hist.hist-heartland.hist-paatru-lowcrown",
-        "note": "hero Hist register (buildout: ~10 province-wide, stable ID + one power slot each)"
+        "note": "Hero Hist 7/10. EXTRAPOLATED under hist-placement R1/R6: the Paatru's tree, its gloor producing the toad-like morphology canon gives them.",
+        "kind": "tribal Hist"
       }
     },
     {
@@ -4858,7 +4861,8 @@
       "heroHist": {
         "id": "hist.hist-heartland.hist-sarpa-highflower",
         "powerSlot": "power.hist.hist-heartland.hist-sarpa-highflower",
-        "note": "hero Hist register (buildout: ~10 province-wide, stable ID + one power slot each)"
+        "note": "Hero Hist 8/10. EXTRAPOLATED under hist-placement R1/R6: the Sarpa's tree, its gloor producing the winged morphology canon gives them.",
+        "kind": "tribal Hist"
       }
     },
     {
@@ -8493,7 +8497,8 @@
       "heroHist": {
         "id": "hist.hist-heartland.sealed-xanmeer-living",
         "powerSlot": "power.hist.hist-heartland.sealed-xanmeer-living",
-        "note": "hero Hist register \u2014 the sealed one; power slot granted only on release"
+        "note": "Hero Hist 9/10. Sealed xanmeer Hist \u2014 alive, walled into its own Hist chamber and alone for millennia. Power slot granted only on release. hist-placement \u00a73 caps living sealed trees at two or three province-wide.",
+        "kind": "sealed / xanmeer Hist"
       },
       "reconciliation": "one of the 2\u20133 living sealed Hist allowed province-wide; confirm neighbours claim at most two more"
     },

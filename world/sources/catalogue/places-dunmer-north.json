@@ -1083,7 +1083,8 @@
       },
       "rumourPoolKey": "rumour.shadowfen",
       "deedCounterKeys": [
-        "deed.hatchery.defended"
+        "deed.hatchery.defended",
+        "deed.hist.dunmer-north.hatching-pools.regard"
       ],
       "sockets": {
         "scene": [
@@ -1102,7 +1103,13 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "heroHist": {
+        "id": "hist.dunmer-north.hatching-pools",
+        "kind": "hatchery Hist",
+        "powerSlot": "power.hist.dunmer-north.hatching-pools",
+        "note": "Hero Hist 2/10. CANON_EXPLICIT: the great Hist of Shadowfen, over pools of its own sap. Speaks for a whole region rather than one tribe; Keepers of the Shell, not a tree-minder. Strategically the most important site in its region and the first thing any enemy attacks."
+      }
     },
     {
       "aliases": [],
@@ -2852,8 +2859,9 @@
       },
       "rumourPoolKey": "rumour.stormhold",
       "deedCounterKeys": [
-        "deed.stormhold.writs_served",
-        "deed.conclave.consulted"
+        "deed.conclave.consulted",
+        "deed.hist.dunmer-north.stormhold.regard",
+        "deed.stormhold.writs_served"
       ],
       "sockets": {
         "scene": [
@@ -2877,7 +2885,13 @@
       "complexityBudget": "complex",
       "importanceTier": 0,
       "workflow": "derived",
-      "complexityJustification": "A major city on ravine-severed mounds with an undercity: three district clusters, bridges and a vertical layer. Placement stays Morrowind-level, but the mound/bridge/undercity structure justifies the budget."
+      "complexityJustification": "A major city on ravine-severed mounds with an undercity: three district clusters, bridges and a vertical layer. Placement stays Morrowind-level, but the mound/bridge/undercity structure justifies the budget.",
+      "heroHist": {
+        "id": "hist.dunmer-north.stormhold",
+        "kind": "city tree",
+        "powerSlot": "power.hist.dunmer-north.stormhold",
+        "note": "Hero Hist 1/10. CANON_EXPLICIT (hist-placement.md \u00a73): the town-square Hist standing in a pond ringed by ancient pillars, broken arches and a low stone wall. Speaking; survived the Dunmer occupation, the Flu and Umbriel. Tended by a Keeper appointed by the Vicecanons and resented by the surrounding tribes \u2014 the city-tree flashpoint in its plainest form."
+      }
     },
     {
       "id": "place.dunmer-north.stormhold-causeway",

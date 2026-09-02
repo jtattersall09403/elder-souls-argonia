@@ -1228,7 +1228,8 @@
       "heroHist": {
         "id": "hist.naga-kur-deeps.dead-water-village",
         "powerSlot": "power.hist.naga-kur-deeps.dead-water-village",
-        "note": "hero Hist register \u2014 the Naga-Kur's tree; power slot themed on the bog-blight discipline"
+        "note": "Hero Hist 10/10. CANON_EXPLICIT: the Naga-Kur's tree, with BLUE bioluminescent flowers where every other Hist in the province flowers red. Power slot themed on the bog-blight discipline.",
+        "kind": "tribal Hist"
       }
     },
     {
