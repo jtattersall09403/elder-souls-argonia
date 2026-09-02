@@ -1,0 +1,5396 @@
+{
+  "schemaVersion": 1,
+  "region": "pirate-freeholds",
+  "seed": "phase11-pirate-freeholds-1109",
+  "places": [
+    {
+      "id": "place.pirate-freeholds.alten-corimont",
+      "name": "Alten Corimont",
+      "classification": {
+        "class": "settlement",
+        "family": "free-port",
+        "type": "neutral-free-port",
+        "variant": "price-listed",
+        "magnitude": "M4"
+      },
+      "status": "active",
+      "provenance": "canon-named",
+      "sources": [
+        "uesp:Online:Alten Corimont",
+        "uesp:Lore:All Flags Navy",
+        "world/sources/lore/extrapolation/settlement-register.md §2 (Alten Corimont M4: captain of the port; smuggling, transit, salvage, the northern trunk; Hist: NONE)",
+        "world/sources/anchors/settlement-anchors.json#alten-corimont",
+        "docs/world/92-demographics.md §82 (Stormhold/northern zone: 75% Argonian, 22% Dunmer, 7% Nord)",
+        "world/sources/catalogue/type-recipes.json#neutral-free-port",
+        "lore: Lore:Alten Corimont; Lore:All Flags Navy"
+      ],
+      "confidence": "CANON_EXPLICIT",
+      "why": {
+        "founding": "A river port ESE of the Hatching Pools that grew into a small town by being institutionally neutral about cargo: it sits on the northern trunk between Stormhold and Thorn, on water deep enough for a laden hull and far enough from any customs regime that both of them use it.",
+        "siteAdvantages": "The last reach of navigable river below the northern rim, with an oxbow that makes a natural basin, firm banks for warehousing and a rim road behind it that crosses to Morrowind without passing a post.",
+        "occupantsMotive": "A captain of the port whose only law is a nailed-up price list, freeholder crews with no tribe and no tree, Dunmer factors from the Morrowind trade and Nord hands off the northern hulls.",
+        "pressures": "There is no Hist here — the register is explicit — so nothing binds anyone to anything except the list; Stormhold's vicecanons would like the trade and cannot reach it; Rockpoint downriver still resents losing.",
+        "wouldChangeIf": "If either Stormhold or Thorn made the port lawful, its whole reason to exist is gone; if the river silted below the oxbow, the town is a village in five years."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "fringe marsh",
+          "firm lowland",
+          "seasonal floodplain"
+        ],
+        "hardConstraints": [
+          "navigable water for a laden hull",
+          "sheltered basin off the legal lanes",
+          "firm bank for warehousing",
+          "no Hist within the settlement — canon"
+        ],
+        "preferences": [
+          "an oxbow or confluence basin",
+          "deliberately equidistant from two customs regimes",
+          "a rim road behind it that avoids every post"
+        ],
+        "landformClasses": [
+          "oxbow",
+          "confluence",
+          "water-narrows",
+          "any-channel-bank"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.oxbow-016",
+          "site.scour.deep-river-corridor.confluence-005",
+          "site.scour.firm-lowland.isthmus-052"
+        ]
+      },
+      "relations": {
+        "dependsOn": [
+          "place.pirate-freeholds.rim-porter-yard"
+        ],
+        "supplies": [
+          "place.pirate-freeholds.chasecreek"
+        ],
+        "rivals": [
+          "place.pirate-freeholds.rockpoint"
+        ],
+        "patrols": [],
+        "tolls": [
+          "place.pirate-freeholds.trunk-toll-bridge"
+        ],
+        "visibleFrom": [],
+        "reachedVia": [
+          "route.boat.stormhold-alten-corimont",
+          "route.road.alten-corimont-stormhold"
+        ],
+        "travelServiceEdges": [
+          "boat.alten-corimont-stormhold",
+          "boat.alten-corimont-helstrom"
+        ]
+      },
+      "culture": "argonian",
+      "ownerFaction": "faction.captain-of-the-port",
+      "occupants": [
+        "D2 freeholder crews",
+        "D1 warehouse hands",
+        "Dunmer factors (22% zone share)",
+        "Nord ship hands",
+        "one D3 captain of the port who counts rather than fights"
+      ],
+      "notableNpcSlots": [
+        "npc.alten-corimont.port-captain",
+        "npc.alten-corimont.dunmer-factor",
+        "npc.alten-corimont.list-keeper"
+      ],
+      "dangerTier": "D1",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "stealth",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "trade",
+          "services",
+          "information",
+          "quest-hooks",
+          "fast-transit"
+        ],
+        "valueTier": "T3"
+      },
+      "vibe": {
+        "silhouette": "a beached hull sitting upright among the houses, too big for the street it ends, and warehouse gables behind it",
+        "palette": "weathered grey timber everywhere, tar black, and cargo colours that do not belong together — Dunmer lacquer, Nord paint, Imperial red",
+        "materials": "the town is built out of other people's cargo: crate timber, ship planking, salvaged spars, with mud render only where nothing else was to hand",
+        "signatureFeature": "a price list nailed up in public that names contraband by grade, and is therefore the most complete economic document in the province",
+        "condition": "prosperous, ramshackle, entirely unplanned",
+        "mood": "transactional, unbothered, dangerous only if you are slow",
+        "approach": "the hull's shape resolves out of the roofline from upriver, long before you can read the town",
+        "senses": "hulls working against the bank, four languages, tar, wet rope, cooking from three cuisines at once"
+      },
+      "assetPlan": [
+        "vanilla-farmhouse",
+        "docks-piers",
+        "boats-keeled",
+        "market-tents",
+        "clutter",
+        "signage-blank",
+        "stockade-scaffold",
+        "vanilla-shackkit"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "quest.provision.free-port-of-entry",
+          "quest.provision.contraband-price-list"
+        ],
+        "tierOwnership": "tier-0"
+      },
+      "rumourPoolKey": "rumour.pirate-freeholds.the-list",
+      "deedCounterKeys": [
+        "deed.freehold.list-standing",
+        "deed.owing.tolled-crossings"
+      ],
+      "sockets": {
+        "scene": [
+          "scene.corimont.reading-the-list",
+          "scene.corimont.hull-hall"
+        ],
+        "evidence": [
+          "evidence.corimont.price-list",
+          "evidence.corimont.bonded-ledger"
+        ],
+        "station": [
+          "station.boat.corimont-basin",
+          "station.trade.corimont-list",
+          "station.rest.corimont-hull-hall"
+        ],
+        "marks": [
+          "mark.corimont.port-captains-mark"
+        ]
+      },
+      "complexityBudget": "complex",
+      "complexityJustification": "The zone's only M4 and its whole organising institution: a price list, a port captain, a beached hull hall and a two-culture waterfront. Districts and a service economy, but no scripting beyond Morrowind level.",
+      "importanceTier": 0,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.bone-carriers-camp",
+      "namingRule": "named for the road it stages",
+      "classification": {
+        "class": "camp",
+        "family": "displaced-camp",
+        "type": "bone-carriers-camp",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Argonian",
+        "world/sources/catalogue/type-recipes.json#bone-carriers-camp",
+        "lore: Lore:Argonian (bones brought to the dirt); Blackrose Chainbreakers (quest plan)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Carriers walking south with the dead need a stage a day out from the carrying house.",
+        "siteAdvantages": "Firm dry ground on the southbound road, a day's walk from the house.",
+        "occupantsMotive": "Two or three carriers and their loads, resting.",
+        "pressures": "Nobody else will camp within sight of them, which suits everyone.",
+        "wouldChangeIf": "If the road were rerouted, the stage moves with it — the site means nothing, the spacing means everything."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "fringe marsh",
+          "seasonal floodplain"
+        ],
+        "hardConstraints": [
+          "a day's walk from the waystation",
+          "dry firm ground"
+        ],
+        "preferences": [
+          "off the road, out of sight of other camps"
+        ],
+        "landformClasses": [
+          "any-firm-ground",
+          "flood-high"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D2",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "information",
+          "rest"
+        ],
+        "valueTier": "T1"
+      },
+      "vibe": {
+        "silhouette": "a small camp with its loads racked, not stacked",
+        "palette": "grey cloth, small fire",
+        "materials": "carrying frames, wrapping cloth, one fire",
+        "signatureFeature": "the bundles are racked off the ground on frames before anybody sits down",
+        "condition": "temporary and exact",
+        "mood": "professional care",
+        "approach": "you see the frames first and understand",
+        "senses": "one low conversation; a fire"
+      },
+      "assetPlan": [
+        "market-tents",
+        "totems-ritual",
+        "clutter"
+      ],
+      "discovery": "road",
+      "rumourPoolKey": "rumour.pirate-freeholds.no-tree",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 4,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.bone-repatriation-waystation",
+      "name": "The Carrying House",
+      "classification": {
+        "class": "sacred",
+        "family": "the-dead",
+        "type": "bone-repatriation-waystation",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Argonian (the dead must be brought to the dirt)",
+        "uesp:Lore:White Rose Prison",
+        "world/sources/lore/extrapolation/settlement-register.md §2",
+        "world/sources/catalogue/type-recipes.json#bone-repatriation-waystation",
+        "lore: Lore:Argonian (bones brought to the dirt redeem a death away from the Hist); White Rose Prison"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Argonians who die away from a Hist can still return if their bones are brought to the dirt — and this zone has no Hist at all, so every death here starts a journey south.",
+        "siteAdvantages": "On the trunk route at the point where the southbound road and the river both leave the freeholds.",
+        "occupantsMotive": "Bone-carriers who take the dead of a town that cannot bury them, for a fee they are ashamed of.",
+        "pressures": "The house is always full, because the freeholds produce more Hist-less dead than any comparable ground.",
+        "wouldChangeIf": "If a Hist were ever planted at the free port, this house closes and the carriers lose a trade."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "fringe marsh",
+          "seasonal floodplain",
+          "interior swamp"
+        ],
+        "hardConstraints": [
+          "on the southbound route",
+          "a landing and a road"
+        ],
+        "preferences": [
+          "at the zone's southern threshold"
+        ],
+        "landformClasses": [
+          "any-firm-ground",
+          "ford"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.saddle-008"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "D1 bone-carriers"
+      ],
+      "dangerTier": "D2",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "quest-hooks",
+          "information",
+          "services"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "a long low house with racked bundles under its eaves",
+        "palette": "bleached bone, wrapped grey cloth, dark timber",
+        "materials": "timber racks, wrapping cloth, carrying frames",
+        "signatureFeature": "racks of wrapped bundles labelled with destinations two weeks' travel south",
+        "condition": "orderly, full, quiet",
+        "mood": "the zone's one act of tenderness",
+        "approach": "you smell the resin used for wrapping before you reach it",
+        "senses": "cloth; and a great deal of silence"
+      },
+      "assetPlan": [
+        "mud-mother-grove",
+        "totems-ritual",
+        "vanilla-farmhouse",
+        "argonian-props",
+        "clutter"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "quest.provision.bone-repatriation"
+        ],
+        "tierOwnership": "tier-2"
+      },
+      "rumourPoolKey": "rumour.pirate-freeholds.no-tree",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [
+          "scene.carrying.consignment-south"
+        ],
+        "evidence": [
+          "evidence.carrying.destination-labels"
+        ],
+        "station": [
+          "station.courier.carrying-house"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.careening-hard",
+      "name": "The Hard",
+      "classification": {
+        "class": "works",
+        "family": "craft",
+        "type": "boatwright-yard",
+        "variant": "careening-hard",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Sea Transportation",
+        "world/sources/lore/topics/material-culture.md (Argonians crew foreign hulls, build small craft)",
+        "world/sources/catalogue/type-recipes.json#boatwright-yard",
+        "lore: Lore:Sea Transportation; material-culture (Argonians crew foreign hulls, build small craft)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Foreign keeled hulls come this far up the river and have to be laid over and scraped somewhere the owner is not watching.",
+        "siteAdvantages": "A firm shelving bank inside the basin, with a hard bottom that will take a hull's weight at low water.",
+        "occupantsMotive": "Boatwrights who build canoes beautifully and repair Nord hulls badly, on purpose, for money.",
+        "pressures": "Hull identities change here: a name is planed off and another painted on, and everybody knows the going rate.",
+        "wouldChangeIf": "If the free port were ever inspected, the hard is the first thing that would have to disappear."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "deep river corridor",
+          "firm lowland",
+          "fringe marsh"
+        ],
+        "hardConstraints": [
+          "a shelving hard bottom",
+          "laid-over hull clearance"
+        ],
+        "preferences": [
+          "inside the basin, out of the main channel"
+        ],
+        "landformClasses": [
+          "any-channel-bank",
+          "cove"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.oxbow-016"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "2-5 D2 boatwrights"
+      ],
+      "dangerTier": "D2",
+      "traversalModes": [
+        "walk",
+        "boat"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "services",
+          "travel",
+          "trade",
+          "information"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "a keeled hull lying over on its side on a mud bank, out of the water",
+        "palette": "tar black, raw plank gold, river brown",
+        "materials": "hull timber, steaming pit, paint pots",
+        "signatureFeature": "a stack of planed-off nameboards under a bench, kept because someone thinks they might be needed again",
+        "condition": "working, filthy",
+        "mood": "cheerfully criminal craft",
+        "approach": "the laid-over hull reads as a building until it moves",
+        "senses": "scraping; hot pitch; hammering that stops when strangers arrive"
+      },
+      "assetPlan": [
+        "docks-piers",
+        "boats-keeled",
+        "plank-ferry-swamp",
+        "rowboats",
+        "stockade-scaffold",
+        "clutter"
+      ],
+      "discovery": "sightline",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-list",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [
+          "evidence.hard.planed-nameboards"
+        ],
+        "station": [
+          "station.boat.the-hard"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.chasecreek",
+      "name": "Chasecreek",
+      "classification": {
+        "class": "settlement",
+        "family": "dry-village",
+        "type": "flood-high-hamlet",
+        "variant": "single-rise",
+        "magnitude": "M2"
+      },
+      "status": "active",
+      "provenance": "canon-named",
+      "sources": [
+        "uesp:Lore:Alten Corimont (neighbours)",
+        "world/sources/lore/extrapolation/settlement-register.md §4 (Chasecreek, NE of Alten Corimont: creek-mouth fishing hamlet and smuggler's lay-by)",
+        "world/sources/catalogue/type-recipes.json#flood-high-hamlet",
+        "lore: region grammar: seasonal floodplain"
+      ],
+      "confidence": "ARENA_NAME_EXTRAPOLATED",
+      "why": {
+        "founding": "A fishing hamlet on the one dry rise at a creek mouth, which discovered that a boat can wait here unseen while the free port is being watched, and has lived off that ever since.",
+        "siteAdvantages": "A single flood-high rise with a creek deep enough to hide a hull and shallow enough that nobody follows.",
+        "occupantsMotive": "Fisher households who are also, on about four nights a month, a lay-by with a fee.",
+        "pressures": "The lay-by trade is worth more than the fish and everyone under sixteen already knows it.",
+        "wouldChangeIf": "If the free port's list ever covered waiting time, Chasecreek loses its niche and becomes a fishing hamlet again."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "seasonal floodplain",
+          "fringe marsh",
+          "firm lowland"
+        ],
+        "hardConstraints": [
+          "a dry rise that never floods",
+          "a creek mouth deep enough to lie in",
+          "screened from the main channel"
+        ],
+        "preferences": [
+          "a night's row from the free port",
+          "no line of sight from the trunk route"
+        ],
+        "landformClasses": [
+          "flood-high",
+          "any-channel-bank"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.cliff-bench-046",
+          "site.scour.firm-lowland.isthmus-042"
+        ]
+      },
+      "relations": {
+        "dependsOn": [
+          "place.pirate-freeholds.alten-corimont"
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [],
+        "travelServiceEdges": [
+          "boat.chasecreek-corimont"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "D1 fisher households",
+        "D2 lay-by keeper"
+      ],
+      "notableNpcSlots": [
+        "npc.chasecreek.lay-by-keeper"
+      ],
+      "dangerTier": "D2",
+      "traversalModes": [
+        "walk",
+        "boat"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "rest",
+          "services",
+          "information",
+          "quest-hooks",
+          "trade"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "a dozen roofs on a single low rise with nothing else above water for a kilometre",
+        "palette": "reed gold, mud grey, and one very good bought lamp per household",
+        "materials": "mud render and reed on a rise, plus a great deal of unexplained plank",
+        "signatureFeature": "every household has one expensive object that does not match anything else it owns",
+        "condition": "modest outside, well found inside",
+        "mood": "friendly, curious, and counting",
+        "approach": "the rise is the only thing above the reed for a long way",
+        "senses": "reed, frogs, and a boat arriving at the wrong hour"
+      },
+      "assetPlan": [
+        "mud-mother-grove",
+        "vanilla-shackkit",
+        "bamboo-hut",
+        "docks-piers",
+        "fishing-props",
+        "argonian-lights",
+        "clutter"
+      ],
+      "discovery": "road",
+      "rumourPoolKey": "rumour.pirate-freeholds.lay-by",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [
+          "scene.chasecreek.night-arrival"
+        ],
+        "evidence": [],
+        "station": [
+          "station.boat.chasecreek-creek"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "standard",
+      "importanceTier": 1,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.corimont-bonded-store",
+      "name": "The Broken Bond",
+      "classification": {
+        "class": "works",
+        "family": "storage-and-freight",
+        "type": "bonded-warehouse",
+        "variant": "broken-open",
+        "magnitude": "M1"
+      },
+      "status": "abandoned",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:East Empire Company",
+        "world/sources/lore/topics/guilds-and-orders.md",
+        "world/sources/catalogue/type-recipes.json#bonded-warehouse",
+        "lore: guilds-and-orders dossier (the EEC is gone; its wharves and bonded stores are not)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The Company built a bonded store on the northern river when the trade was lawful; the free port opened it the year the charter died and has used it ever since.",
+        "siteAdvantages": "The only cargo-bearing stone building in the zone, on the basin's firm bank.",
+        "occupantsMotive": "The port captain's men, who store bonded goods in a store that is no longer bonded and find that funny.",
+        "pressures": "The seals were cut, not forged, and the Company's manifest is still nailed inside naming a dead consignee.",
+        "wouldChangeIf": "If an Imperial claim were ever pressed, the free port's entire warehousing is legally stolen."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "deep river corridor",
+          "fringe marsh"
+        ],
+        "hardConstraints": [
+          "on a quay",
+          "cargo-bearing ground"
+        ],
+        "preferences": [
+          "attached to the free port",
+          "a wharf within 300 m"
+        ],
+        "landformClasses": [
+          "any-firm-ground",
+          "any-channel-bank"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.oxbow-016"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "D2 port captain's men"
+      ],
+      "dangerTier": "D2",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "stealth",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "loot-cache",
+          "trade",
+          "information"
+        ],
+        "valueTier": "T3"
+      },
+      "vibe": {
+        "silhouette": "a stone cargo hall among timber sheds, obviously built by someone else",
+        "palette": "Company red gone pink, grey stone, cargo colours",
+        "materials": "Imperial ashlar with freehold timber lean-tos bolted to it",
+        "signatureFeature": "a Company seal cut clean through with a saw, and the sawn halves kept nailed either side of the door as a joke",
+        "condition": "sound, over-used, extended in every direction",
+        "mood": "looted with ceremony",
+        "approach": "the one stone gable in a timber town",
+        "senses": "cargo being moved at hours cargo should not be moved"
+      },
+      "assetPlan": [
+        "vanilla-farmhouse",
+        "docks-piers",
+        "bmv-fort",
+        "clutter",
+        "signage-blank"
+      ],
+      "discovery": "road",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-list",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [
+          "evidence.bond.dead-consignee-manifest"
+        ],
+        "station": [
+          "station.trade.broken-bond"
+        ],
+        "marks": [
+          "mark.eec.sawn-seal"
+        ]
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.corimont-gambling-house",
+      "name": "The Standing Slate",
+      "classification": {
+        "class": "civic",
+        "family": "festivity",
+        "type": "vice-den",
+        "variant": "gambling",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Shells and Stones",
+        "world/sources/lore/topics/labour-and-bondage.md (debt becomes owing)",
+        "world/sources/catalogue/type-recipes.json#vice-den",
+        "lore: Lore:Shells and Stones; material-culture (daril); labour-and-bondage dossier (debt becomes owing)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "In a town whose only law is a price list, the house that runs Shells and Stones is effectively the bank, and the debt slate is effectively the law.",
+        "siteAdvantages": "In the free port's densest street, one door from the hull hall.",
+        "occupantsMotive": "A house crew who buy debts and sell them on to the hiring yard.",
+        "pressures": "Half the freeholders in town owe the slate, which is why the captain of the port is careful with it.",
+        "wouldChangeIf": "If someone burned the slate, this zone's whole informal credit system goes with it — and so does the hiring yard."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "deep river corridor",
+          "fringe marsh"
+        ],
+        "hardConstraints": [
+          "inside the free port",
+          "a mooring at the back"
+        ],
+        "preferences": [
+          "one door from the town's social hall"
+        ],
+        "landformClasses": [
+          "any-firm-ground",
+          "any-channel-bank"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "4-15 D2 house crew and players"
+      ],
+      "notableNpcSlots": [
+        "npc.corimont.slate-keeper"
+      ],
+      "dangerTier": "D2",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social",
+        "stealth"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "services",
+          "information",
+          "quest-hooks",
+          "loot-cache"
+        ],
+        "valueTier": "T3"
+      },
+      "vibe": {
+        "silhouette": "a low doorway with no sign and more light than any window near it",
+        "palette": "lamp red, chalk white, dark timber",
+        "materials": "crate-timber walls, one very good table, hung lamps",
+        "signatureFeature": "a debt slate the height of a wall, chalked and re-chalked, that is the nearest thing this zone has to a legal record",
+        "condition": "worn, expensive in the places that matter",
+        "mood": "the town's real seat of power",
+        "approach": "you hear the dice from the street",
+        "senses": "dice on wood; chalk; someone being told a number"
+      },
+      "assetPlan": [
+        "market-tents",
+        "vanilla-farmhouse",
+        "argonian-lights",
+        "lights-general",
+        "clutter"
+      ],
+      "discovery": "road",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-slate",
+      "deedCounterKeys": [
+        "deed.owing.debts-observed"
+      ],
+      "sockets": {
+        "scene": [
+          "scene.slate.shells-and-stones"
+        ],
+        "evidence": [
+          "evidence.slate.debt-wall"
+        ],
+        "station": [
+          "station.vice.standing-slate"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.corimont-head-of-navigation",
+      "name": "The Last Deep",
+      "classification": {
+        "class": "transit",
+        "family": "landing",
+        "type": "head-of-navigation",
+        "variant": "seasonal",
+        "magnitude": "M2"
+      },
+      "status": "active",
+      "provenance": "geography-derived",
+      "sources": [
+        "uesp:Lore:Sea Transportation",
+        "world/sources/sites/candidate-sites.json",
+        "world/sources/catalogue/type-recipes.json#head-of-navigation",
+        "lore: region grammar: deep river corridor; Lore:Sea Transportation (small-draft craft are the province's freight)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Above the free port the river shallows to a channel a laden hull cannot use, so cargo transfers to poled craft here — and the limit moves every season.",
+        "siteAdvantages": "A confluence at -6.5 m relative depth where three channels meet and the deep water ends.",
+        "occupantsMotive": "Transfer crews and a board-keeper whose season line is the district's most argued-about number.",
+        "pressures": "In a dry year the limit drops two kilometres and half the district's freight costs change.",
+        "wouldChangeIf": "If a dredge were ever run, the free port could take hulls upriver and Alten Corimont's monopoly on transfer ends."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "deep river corridor",
+          "firm lowland",
+          "upland hills"
+        ],
+        "hardConstraints": [
+          "navigable water ends",
+          "landings both sides of the limit"
+        ],
+        "preferences": [
+          "at a confluence",
+          "a porter relay on the land route"
+        ],
+        "landformClasses": [
+          "confluence",
+          "water-narrows",
+          "any-channel-bank"
+        ],
+        "scourSiteIds": [
+          "site.scour.deep-river-corridor.confluence-005",
+          "site.scour.firm-lowland.water-narrows-048"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "D1 transfer crews"
+      ],
+      "dangerTier": "D2",
+      "traversalModes": [
+        "boat",
+        "walk",
+        "fastTransit",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "travel",
+          "services",
+          "trade",
+          "information"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "far more small craft than the shore behind them explains",
+        "palette": "river brown, pole-timber pale, cargo canvas grey",
+        "materials": "transfer stages, poled craft, stacked cargo",
+        "signatureFeature": "a navigable-limit board with this season's line and last season's still legible below it",
+        "condition": "muddy, busy, provisional",
+        "mood": "commercial argument as a way of life",
+        "approach": "the boats thin out to nothing above it",
+        "senses": "poles in gravel; disputes about draught"
+      },
+      "assetPlan": [
+        "docks-piers",
+        "market-tents",
+        "stockade-scaffold",
+        "boats-raft-canoe",
+        "clutter",
+        "signage-blank"
+      ],
+      "discovery": "road",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-list",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [
+          "evidence.navigation.limit-board"
+        ],
+        "station": [
+          "station.portage.last-deep",
+          "station.boat.last-deep"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "standard",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.corimont-hiring-yard",
+      "name": "The Hiring Yard",
+      "classification": {
+        "class": "camp",
+        "family": "displaced-camp",
+        "type": "owing-eviction-camp",
+        "variant": null,
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "world/sources/lore/topics/labour-and-bondage.md",
+        "docs/quests/20-world-provisions.md §12b (The Owing — owed-labour gangs, ledger offices, hiring halls)",
+        "world/sources/catalogue/type-recipes.json#owing-eviction-camp",
+        "lore: labour-and-bondage dossier (owings extendable, transferable, heritable in fact)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Debts bought at the gambling house become owings, and owings become gangs — the yard is where the people who lost their ground wait to be told where they are working.",
+        "siteAdvantages": "A hard standing beside the porter yard, on the only road out of the free port.",
+        "occupantsMotive": "Households whose owing was called in, and a broker's clerk with a ledger.",
+        "pressures": "Nobody here is chained and nobody here can leave, and the difference is legally important and practically nil.",
+        "wouldChangeIf": "If a Chainbreaker cell reached the yard, the free port's labour supply stops on the same day."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "fringe marsh",
+          "seasonal floodplain",
+          "upland hills"
+        ],
+        "hardConstraints": [
+          "on the road out of a settlement",
+          "a hard standing and a ledger office"
+        ],
+        "preferences": [
+          "beside the freight yard it supplies"
+        ],
+        "landformClasses": [
+          "any-firm-ground",
+          "flood-high"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.cliff-bench-046"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "D1 owed households",
+        "D2 broker's clerk",
+        "D3 gang overseer"
+      ],
+      "notableNpcSlots": [
+        "npc.corimont.owing-broker"
+      ],
+      "dangerTier": "D2",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "quest-hooks",
+          "information",
+          "services"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "a line of shelters along a fence with a single roofed office at one end",
+        "palette": "grey canvas, mud, one painted door on the office",
+        "materials": "salvaged canvas and crate timber; one proper building",
+        "signatureFeature": "an office with a ledger in it that is the only writing anybody in this zone treats as binding",
+        "condition": "permanent, in a form that pretends to be temporary",
+        "mood": "suppressed fury",
+        "approach": "the road out of town runs straight through it",
+        "senses": "a ledger being read aloud; no reply"
+      },
+      "assetPlan": [
+        "market-tents",
+        "fences-wattle",
+        "vanilla-farmhouse",
+        "clutter",
+        "signage-blank"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "quest.provision.owing-hiring-hall"
+        ],
+        "tierOwnership": "tier-2"
+      },
+      "rumourPoolKey": "rumour.pirate-freeholds.the-owing",
+      "deedCounterKeys": [
+        "deed.chainbreakers.owings-found",
+        "deed.owing.evictions-witnessed"
+      ],
+      "sockets": {
+        "scene": [
+          "scene.owing.hiring-call"
+        ],
+        "evidence": [
+          "evidence.owing.ledger"
+        ],
+        "station": [
+          "station.labour.hiring-yard"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.corimont-hist-less-camp",
+      "name": "No-Tree",
+      "classification": {
+        "class": "settlement",
+        "family": "outcast-settlement",
+        "type": "hist-less-refuge",
+        "variant": "urban-fringe",
+        "magnitude": "M2"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Hist",
+        "uesp:Lore:Hissmir",
+        "world/sources/lore/extrapolation/settlement-register.md §2 (Alten Corimont: Hist — NONE)",
+        "world/sources/lore/topics/hist-placement.md",
+        "world/sources/catalogue/type-recipes.json#hist-less-refuge",
+        "lore: Lore:Lukiul; League of Open Water (quest plan); Lore:Hist"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The register is explicit that the free port has no Hist, and that is not an omission — it is the reason the freeholds exist. Everyone here is Hist-less by choice or by accident, and the camp on the town's edge is where that is admitted out loud.",
+        "siteAdvantages": "The town's landward fringe, on ground the port does not administer.",
+        "occupantsMotive": "Argonians with no tree to return to, plus outsiders who find that easier to be around.",
+        "pressures": "The tribal villages upriver will not visit; Hissmir's reconnection rite is a two-week journey and a hard conversation.",
+        "wouldChangeIf": "If a Hist cutting were successfully planted here, the free port stops being a freehold and starts being a town."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "fringe marsh",
+          "firm lowland",
+          "coastal lagoon & salt marsh",
+          "seasonal floodplain"
+        ],
+        "hardConstraints": [
+          "outside the settlement's jurisdiction",
+          "no Hist within reach — canon"
+        ],
+        "preferences": [
+          "on the landward fringe of the free port"
+        ],
+        "landformClasses": [
+          "any-firm-ground",
+          "flood-high"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.cliff-bench-078"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "D1 Hist-less households"
+      ],
+      "notableNpcSlots": [
+        "npc.no-tree.speaker"
+      ],
+      "dangerTier": "D2",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "services",
+          "quest-hooks",
+          "unique-knowledge",
+          "rest"
+        ],
+        "valueTier": "T3"
+      },
+      "vibe": {
+        "silhouette": "a village with a swept empty circle where a tree should be",
+        "palette": "mud grey, undyed cloth, no amber anywhere",
+        "materials": "mud render, crate timber, no ritual totems at all",
+        "signatureFeature": "a planting circle dug, edged and kept swept for sixty years, with nothing in it",
+        "condition": "solid, plain, permanent",
+        "mood": "defiant and unresolved",
+        "approach": "the gap in the middle is visible before anything else",
+        "senses": "no chimes; the province's characteristic sound simply missing"
+      },
+      "assetPlan": [
+        "mud-mother-grove",
+        "bamboo-hut",
+        "vanilla-shackkit",
+        "argonian-props",
+        "clutter"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "quest.provision.hist-less-community.north"
+        ],
+        "tierOwnership": "tier-1"
+      },
+      "rumourPoolKey": "rumour.pirate-freeholds.no-tree",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [
+          "scene.no-tree.empty-circle"
+        ],
+        "evidence": [],
+        "station": [],
+        "marks": [
+          "mark.refuge.unplanted-ring"
+        ]
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 1,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.corimont-tradehouse",
+      "name": "The Quay Room",
+      "classification": {
+        "class": "civic",
+        "family": "festivity",
+        "type": "tradehouse",
+        "variant": "quay",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "docs/research/morrowind-content-density.md (the corner-club / tradehouse pattern)",
+        "uesp:Lore:Hissmir Fish-Eye Rye",
+        "world/sources/catalogue/type-recipes.json#tradehouse",
+        "lore: Morrowind's corner club / tradehouse pattern (morrowind-content-density.md); Lore:Hissmir Fish-Eye Rye"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "A port whose social hall is a beached hull still needs somewhere you can pay for a bed and a locked door.",
+        "siteAdvantages": "On the basin front, one door from the hull hall and two from the gambling house.",
+        "occupantsMotive": "A keeper who sells beds and rents silence.",
+        "pressures": "Four languages in one room, and the guest book is worth more than the takings.",
+        "wouldChangeIf": "If the free port were made lawful, the guest book becomes evidence and the keeper burns it."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "fringe marsh",
+          "upland hills",
+          "seasonal floodplain"
+        ],
+        "hardConstraints": [
+          "on a route, with a mooring"
+        ],
+        "preferences": [
+          "inside the free port",
+          "a private room with its own stair"
+        ],
+        "landformClasses": [
+          "any-firm-ground",
+          "confluence",
+          "ford"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "6-20 mixed D1-D3"
+      ],
+      "notableNpcSlots": [
+        "npc.corimont.tradehouse-keeper"
+      ],
+      "dangerTier": "D1",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social",
+        "fastTransit"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "rest",
+          "information",
+          "quest-hooks",
+          "services"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "a lit doorway with a mooring outside and a stable behind",
+        "palette": "lamp yellow, tar black, cargo-crate walls",
+        "materials": "crate timber and ship plank, one bought Imperial door",
+        "signatureFeature": "a guest book kept in four scripts, none of them Jel, and a private stair that avoids the main room",
+        "condition": "prosperous, scuffed",
+        "mood": "warm, loud, entirely for sale",
+        "approach": "the noise reaches the basin",
+        "senses": "four languages; cooking; a lock being turned upstairs"
+      },
+      "assetPlan": [
+        "vanilla-farmhouse",
+        "market-tents",
+        "argonian-lights",
+        "lights-general",
+        "clutter",
+        "signage-blank"
+      ],
+      "discovery": "road",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-list",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [
+          "scene.tradehouse.contract-board"
+        ],
+        "evidence": [
+          "evidence.tradehouse.four-script-guest-book"
+        ],
+        "station": [
+          "station.rest.quay-room",
+          "station.contract.quay-room-board"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.dres-holding-pens",
+      "name": "The Old Pens",
+      "classification": {
+        "class": "martial",
+        "family": "carceral",
+        "type": "slaver-apparatus",
+        "variant": "dres-derelict",
+        "magnitude": null
+      },
+      "status": "ruined",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:House Dres",
+        "uesp:Lore:Stormhold",
+        "docs/world/92-demographics.md §82 (22% Dunmer)",
+        "world/sources/lore/topics/labour-and-bondage.md",
+        "world/sources/catalogue/type-recipes.json#slaver-apparatus",
+        "lore: Lore:House Dres; Lore:Archein; labour-and-bondage dossier (slavery ended; only the apparatus remains)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "House Dres took Argonians out of this river country for centuries, and the pens they used to hold and count them are still standing on the bank they loaded from.",
+        "siteAdvantages": "A river landing with hard standing, sited for loading rather than living.",
+        "occupantsMotive": "Nobody. The free port will not use the ground and will not explain why to outsiders.",
+        "pressures": "It is the one thing in this zone nobody makes a joke about.",
+        "wouldChangeIf": "If the Dunmer factors in town were ever formally associated with it, the freehold's trade with Morrowind ends overnight."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "fringe marsh",
+          "upland hills",
+          "seasonal floodplain"
+        ],
+        "hardConstraints": [
+          "a river landing built for loading",
+          "hard standing",
+          "unused ground"
+        ],
+        "preferences": [
+          "upstream of the free port",
+          "within sight of the trunk route"
+        ],
+        "landformClasses": [
+          "any-channel-bank",
+          "any-firm-ground"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.cliff-bench-069"
+        ]
+      },
+      "culture": "dunmer",
+      "dangerTier": "D3",
+      "traversalModes": [
+        "walk",
+        "boat"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "unique-knowledge",
+          "quest-hooks",
+          "loot-cache"
+        ],
+        "valueTier": "T3"
+      },
+      "vibe": {
+        "silhouette": "stone pens and a loading ramp on an empty bank",
+        "palette": "grey stone, rust, and nothing growing on the standing",
+        "materials": "Dunmer-cut stone, iron rings, a ramp graded for people",
+        "signatureFeature": "a loading ramp graded and railed for people rather than cargo, with the count-marks still cut into the gatepost",
+        "condition": "sound; deliberately not repaired and deliberately not demolished",
+        "mood": "the zone's one unfunny place",
+        "approach": "the trunk road passes it and nobody looks",
+        "senses": "nothing lives here — literally, not even birds"
+      },
+      "assetPlan": [
+        "bmv-fort",
+        "fences-wattle",
+        "stockade-scaffold",
+        "clutter",
+        "signage-blank"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "quest.provision.dres-pens"
+        ],
+        "tierOwnership": "tier-2"
+      },
+      "rumourPoolKey": "rumour.pirate-freeholds.old-pens",
+      "deedCounterKeys": [
+        "deed.chainbreakers.pens-witnessed"
+      ],
+      "sockets": {
+        "scene": [
+          "scene.pens.count-marks"
+        ],
+        "evidence": [
+          "evidence.pens.gatepost-tally"
+        ],
+        "station": [],
+        "marks": [
+          "mark.dres.house-mark"
+        ]
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.dunmer-frontier-holding",
+      "namingRule": "named for the House remnant that founded it",
+      "classification": {
+        "class": "settlement",
+        "family": "mixed-settlement",
+        "type": "dunmer-frontier-holding",
+        "variant": "house-remnant",
+        "magnitude": "M3"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:House Dres",
+        "uesp:Lore:Morrowind",
+        "docs/world/92-demographics.md §82 (22% Dunmer in this zone)",
+        "world/sources/catalogue/type-recipes.json#dunmer-frontier-holding",
+        "lore: Lore:House Dres; Lore:Tear; Lore:Red Year (4E 5); foreign-powers dossier (the cold settled frontier)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "A House holding left over from the Dres trade, now a Dunmer village on the wrong side of the border that stayed because going home was worse.",
+        "siteAdvantages": "A defensible upland shelf on the pass road, with its own water and a walled core.",
+        "occupantsMotive": "Dunmer families three centuries settled, who factor for the free port and are not liked for it.",
+        "pressures": "They are the largest concentration of the zone's 22% Dunmer minority and they live beside the pens their ancestors filled.",
+        "wouldChangeIf": "If Morrowind reasserted a claim here, the free port's northern trade becomes a diplomatic asset instead of a crime."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "upland hills",
+          "border mountains",
+          "firm lowland",
+          "seasonal floodplain"
+        ],
+        "hardConstraints": [
+          "defensible shelf",
+          "own water supply",
+          "on the pass road"
+        ],
+        "preferences": [
+          "distinct Velothi building grammar, never blended with the Argonian kit"
+        ],
+        "landformClasses": [
+          "cliff-bench",
+          "ridge-end",
+          "saddle"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.cliff-bench-069",
+          "site.scour.upland-hills.ravine-060"
+        ]
+      },
+      "culture": "dunmer",
+      "occupants": [
+        "D2 Dunmer households",
+        "D3 house guard"
+      ],
+      "notableNpcSlots": [
+        "npc.holding.house-steward"
+      ],
+      "dangerTier": "D2",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "trade",
+          "services",
+          "quest-hooks",
+          "unique-knowledge"
+        ],
+        "valueTier": "T3"
+      },
+      "vibe": {
+        "silhouette": "a walled core with organic Velothi roof shapes, unmistakably foreign on this skyline",
+        "palette": "ash grey, lacquer red, black",
+        "materials": "Velothi render and stone, imported roof tile, a wall",
+        "signatureFeature": "an ancestor hall maintained for three hundred years by people who have never seen Morrowind",
+        "condition": "solid, wealthy, closed",
+        "mood": "proud, defensive, well aware of what is on the riverbank",
+        "approach": "the roof shapes read wrong from a long way off",
+        "senses": "a different language; a bell rather than a chime"
+      },
+      "assetPlan": [
+        "dunmer-telvanni",
+        "bmv-fort",
+        "vanilla-farmhouse",
+        "fences-wattle",
+        "clutter",
+        "lights-general"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [],
+        "tierOwnership": "tier-2"
+      },
+      "rumourPoolKey": "rumour.pirate-freeholds.old-pens",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [
+          "scene.holding.ancestor-hall"
+        ],
+        "evidence": [],
+        "station": [
+          "station.trade.dunmer-holding"
+        ],
+        "marks": [
+          "mark.dres.house-mark"
+        ]
+      },
+      "complexityBudget": "standard",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.floodplain-paddy-works",
+      "namingRule": "named for the levee it depends on",
+      "classification": {
+        "class": "works",
+        "family": "cultivation",
+        "type": "paddy-works",
+        "variant": "rice",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Saltrice",
+        "world/sources/lore/extrapolation/settlement-register.md",
+        "world/sources/catalogue/type-recipes.json#paddy-works",
+        "lore: Lore:Saltrice; Lore:House Dres; Lore:Hereguard Plantation"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The seasonal floodplain below the freeholds is the only ground in the zone that grows a surplus, and the free port eats it.",
+        "siteAdvantages": "Bunded flats on the floodplain where the river's annual rise can be let in and held.",
+        "occupantsMotive": "Households who grow for the port's price list and are always slightly in its debt.",
+        "pressures": "The levee is maintained collectively and one household always does less.",
+        "wouldChangeIf": "If the levee failed in a bad year, the free port would be buying grain from Morrowind through its own smugglers."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "seasonal floodplain",
+          "firm lowland",
+          "upland hills"
+        ],
+        "hardConstraints": [
+          "annually flooded bunded ground",
+          "a levee"
+        ],
+        "preferences": [
+          "within a day's haul of the free port"
+        ],
+        "landformClasses": [
+          "any-shallow-marsh",
+          "flood-high"
+        ],
+        "scourSiteIds": [
+          "site.scour.seasonal-floodplain.cliff-bench-002"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D1",
+      "traversalModes": [
+        "walk",
+        "boat"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "trade",
+          "harvest",
+          "information"
+        ],
+        "valueTier": "T1"
+      },
+      "vibe": {
+        "silhouette": "flat bunded rectangles with a levee line above them",
+        "palette": "water-sky silver, young green, levee ochre",
+        "materials": "earth bunds, sluice boards, a levee walk",
+        "signatureFeature": "a levee walk with each household's section marked, and one section visibly thinner",
+        "condition": "worked, and just adequate",
+        "mood": "collective obligation",
+        "approach": "the geometry is visible from the road above",
+        "senses": "water moving through sluices; frogs; wind over flat crop"
+      },
+      "assetPlan": [
+        "fences-wattle",
+        "stockade-scaffold",
+        "docks-piers",
+        "clutter"
+      ],
+      "discovery": "road",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-list",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 4,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.flu-cairn-field",
+      "namingRule": "named for the year cut into the largest cairn",
+      "classification": {
+        "class": "sacred",
+        "family": "the-dead",
+        "type": "cairn-field",
+        "variant": "plague",
+        "magnitude": null
+      },
+      "status": "abandoned",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Knahaten Flu",
+        "uesp:Lore:Kothringi",
+        "world/sources/catalogue/type-recipes.json#cairn-field",
+        "lore: Lore:Kothringi (cairn burial, glass beads); Lore:Knahaten Flu"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The people who died in the Flu here were not Argonian and had no Hist to go to, so they were cairned where they fell, by whoever was left.",
+        "siteAdvantages": "Firm dry ground above the village, with loose stone to hand.",
+        "occupantsMotive": "Nobody; the cairns are re-stacked by passing travellers, which is a custom nobody can explain.",
+        "pressures": "It is the largest visible evidence in the zone that a whole people used to live here.",
+        "wouldChangeIf": "If a scholar counted them properly, the district's population history changes."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "upland hills",
+          "fringe marsh",
+          "seasonal floodplain"
+        ],
+        "hardConstraints": [
+          "loose stone available",
+          "above the settlement"
+        ],
+        "preferences": [
+          "overlooking the ruin it belongs to"
+        ],
+        "landformClasses": [
+          "any-firm-ground",
+          "ridge-end"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.cliff-bench-049"
+        ]
+      },
+      "culture": "lost-peoples",
+      "dangerTier": "D2",
+      "traversalModes": [
+        "walk"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "information",
+          "exploration"
+        ],
+        "valueTier": "T1"
+      },
+      "vibe": {
+        "silhouette": "hundreds of small stone piles across an open slope",
+        "palette": "grey stone, brown grass, wide sky",
+        "materials": "field stone, nothing worked, no markers",
+        "signatureFeature": "hundreds of cairns and exactly one with a date cut into it",
+        "condition": "re-stacked by strangers for six hundred years",
+        "mood": "enormous, quiet scale",
+        "approach": "the slope reads as scree until the pattern resolves",
+        "senses": "wind; stones being replaced by someone ahead of you"
+      },
+      "assetPlan": [
+        "landmark-civic",
+        "totems-ritual",
+        "clutter"
+      ],
+      "discovery": "road",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-flu",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [],
+        "marks": [
+          "mark.cairn.dated-stone"
+        ]
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 3,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.freed-worker-shelter",
+      "namingRule": "named by its founders for the day they left",
+      "classification": {
+        "class": "settlement",
+        "family": "outcast-settlement",
+        "type": "freed-worker-shelter",
+        "variant": "self-organised",
+        "magnitude": "M2"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "world/sources/lore/topics/labour-and-bondage.md",
+        "docs/quests/20-world-provisions.md §12b",
+        "world/sources/catalogue/type-recipes.json#freed-worker-shelter",
+        "lore: labour-and-bondage dossier; Blackrose Chainbreakers (quest plan)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "People whose owing was discharged, escaped or simply abandoned have nowhere to go back to, so they built somewhere.",
+        "siteAdvantages": "Ground upstream that no syndicate has claimed, defensible enough to discourage a broker's men.",
+        "occupantsMotive": "Ex-owed households running the place by open meeting, with a rule against ledgers.",
+        "pressures": "The hiring yard's brokers want them back and the free port will not intervene either way.",
+        "wouldChangeIf": "If the yard's ledger were destroyed, this shelter doubles in a season and becomes a settlement."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "fringe marsh",
+          "firm lowland",
+          "interior swamp"
+        ],
+        "hardConstraints": [
+          "unclaimed ground",
+          "defensible approach"
+        ],
+        "preferences": [
+          "upstream of the hiring yard",
+          "no written records kept"
+        ],
+        "landformClasses": [
+          "any-firm-ground",
+          "flood-high"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.ravine-011"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "D2 ex-owed households"
+      ],
+      "notableNpcSlots": [
+        "npc.shelter.speaker"
+      ],
+      "dangerTier": "D2",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "stealth",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "rest",
+          "services",
+          "quest-hooks",
+          "information"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "a compound with one gate and a lot of new timber",
+        "palette": "raw timber, undyed cloth, cooking smoke",
+        "materials": "green timber, salvaged crate wood, a thorn stockade",
+        "signatureFeature": "a fire pit with a meeting circle around it, and no ledger, board or tally anywhere in the compound",
+        "condition": "new, built fast, improving",
+        "mood": "wary hope",
+        "approach": "you are challenged before you arrive",
+        "senses": "a lot of people talking at once, by design"
+      },
+      "assetPlan": [
+        "vanilla-shackkit",
+        "mud-mother-grove",
+        "fences-wattle",
+        "stockade-scaffold",
+        "argonian-props",
+        "clutter"
+      ],
+      "discovery": "rumour",
+      "questHooks": {
+        "provisions": [
+          "quest.provision.chainbreaker-shelter"
+        ],
+        "tierOwnership": "tier-2"
+      },
+      "rumourPoolKey": "rumour.pirate-freeholds.the-owing",
+      "deedCounterKeys": [
+        "deed.chainbreakers.shelter-supported"
+      ],
+      "sockets": {
+        "scene": [
+          "scene.shelter.open-meeting"
+        ],
+        "evidence": [],
+        "station": [
+          "station.rest.freed-worker-shelter"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.freehold-courier-relay",
+      "namingRule": "named for the stage it terminates",
+      "classification": {
+        "class": "civic",
+        "family": "governance",
+        "type": "courier-relay",
+        "variant": "runner",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Jel",
+        "docs/game-buildout-register.md (courier/letter delivery spine)",
+        "world/sources/catalogue/type-recipes.json#courier-relay",
+        "lore: Lore:Jel (an oral language with no past or future tense); build-out: this is the letter/rumour delivery spine"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Word moves this zone by memorised message, and in a port that trades in information the relay is the most valuable post on the trunk.",
+        "siteAdvantages": "On the trunk at a runner's stage from its neighbours, with a bench and a landing.",
+        "occupantsMotive": "Runners who are paid twice for some messages and know which ones.",
+        "pressures": "A message in transit is worth knowing and taking one is the zone's only crime that is punished.",
+        "wouldChangeIf": "If the relay were bought outright by the port, the freeholds lose their only independent channel."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "fringe marsh",
+          "seasonal floodplain",
+          "upland hills"
+        ],
+        "hardConstraints": [
+          "chained — must reach its neighbours"
+        ],
+        "preferences": [
+          "on the trunk",
+          "a departure board of carved tokens"
+        ],
+        "landformClasses": [
+          "any-firm-ground",
+          "ford",
+          "saddle"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "1-4 D2 runners"
+      ],
+      "dangerTier": "D2",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "fastTransit",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "information",
+          "travel-knowledge",
+          "quest-hooks"
+        ],
+        "valueTier": "T1"
+      },
+      "vibe": {
+        "silhouette": "a small post with a bench and a rail of carved tokens",
+        "palette": "bleached timber, dark token wood",
+        "materials": "carved tokens, a bench, a covered rest board",
+        "signatureFeature": "a token rail with a lockable cover — the only lock on a courier post in the province",
+        "condition": "worn smooth",
+        "mood": "quietly mercenary",
+        "approach": "you find the bench first",
+        "senses": "one runner arriving out of breath, then leaving"
+      },
+      "assetPlan": [
+        "mud-mother-grove",
+        "totems-ritual",
+        "argonian-props",
+        "signage-blank",
+        "clutter"
+      ],
+      "discovery": "road",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-list",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [
+          "evidence.courier.locked-token-rail"
+        ],
+        "station": [
+          "station.courier.freehold-relay"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 3,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.freehold-market",
+      "name": "The Open Ground",
+      "classification": {
+        "class": "works",
+        "family": "market",
+        "type": "market-fair-ground",
+        "variant": "stall-row",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "docs/world/92-demographics.md (three currency tiers)",
+        "uesp:Lore:Argonian (barter economy)",
+        "world/sources/catalogue/type-recipes.json#market-fair-ground",
+        "lore: module 92 (three currency tiers: septims, barter, obligation); Lore:Argonian (barter economy); Lore:Lizard-Steed"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The price list has to be applied somewhere, and the stall row under the list board is where the zone's economy actually happens.",
+        "siteAdvantages": "Level ground below the list board, one street from the basin.",
+        "occupantsMotive": "Traders working in septims, Dunmer coin, barter and obligation at adjacent stalls.",
+        "pressures": "The board is a public document that names contraband, which makes it the province's best commercial intelligence.",
+        "wouldChangeIf": "If the list were withdrawn, the row would still meet and nobody would know what anything was worth."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "fringe marsh",
+          "seasonal floodplain",
+          "upland hills"
+        ],
+        "hardConstraints": [
+          "level ground",
+          "a landing"
+        ],
+        "preferences": [
+          "under the price list board",
+          "inside the free port"
+        ],
+        "landformClasses": [
+          "any-firm-ground",
+          "river-mouth",
+          "confluence"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D1",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "trade",
+          "information",
+          "services"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "permanent stall frames under one enormous nailed-up board",
+        "palette": "frame grey, board white, awnings from four provinces",
+        "materials": "timber frames, bought canvas, four provinces' goods",
+        "signatureFeature": "a weights post carrying four sets of weights, three of which disagree",
+        "condition": "structure permanent, contents wildly variable",
+        "mood": "loud, cosmopolitan, sharp",
+        "approach": "the board is the first thing you can read from the water",
+        "senses": "four languages haggling in three currencies"
+      },
+      "assetPlan": [
+        "market-tents",
+        "fences-wattle",
+        "landmark-civic",
+        "clutter",
+        "argonian-props",
+        "signage-blank"
+      ],
+      "discovery": "road",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-list",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [
+          "scene.market.four-currencies"
+        ],
+        "evidence": [
+          "evidence.market.the-price-list"
+        ],
+        "station": [
+          "station.trade.open-ground"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.freehold-naga-camp",
+      "namingRule": "named for the stretch of road they hold",
+      "classification": {
+        "class": "camp",
+        "family": "hostile-camp",
+        "type": "naga-highway-camp",
+        "variant": "road-active",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Naga",
+        "uesp:Lore:Naga-Kur",
+        "world/sources/catalogue/type-recipes.json#naga-highway-camp",
+        "lore: Lore:Naga (the majority of native brigands and highwaymen; they leave when merchants stop coming)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "A Naga band works the trunk road where it runs closest to the marsh, because the freeholds' cargo is worth taking and nobody polices the road.",
+        "siteAdvantages": "Cover within a spear's throw of the road at a point where it cannot be left.",
+        "occupantsMotive": "Eight or so, mobile, who move camp after every taking.",
+        "pressures": "The free port pays escorts rather than fight them, which is cheaper and everyone knows it.",
+        "wouldChangeIf": "If the reoccupied fort extended its patrols, the band moves to the river and takes boats instead."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "fringe marsh",
+          "upland hills",
+          "seasonal floodplain"
+        ],
+        "hardConstraints": [
+          "cover beside a route",
+          "a road that cannot be bypassed"
+        ],
+        "preferences": [
+          "moves after every taking",
+          "near a chokepoint"
+        ],
+        "landformClasses": [
+          "any-firm-ground",
+          "ravine",
+          "water-narrows"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.saddle-008",
+          "site.scour.firm-lowland.ravine-011"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "6-10 D3 Naga raiders",
+        "one D4 leader"
+      ],
+      "dangerTier": "D4",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "combat",
+        "stealth"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "encounter",
+          "loot-cache",
+          "quest-hooks"
+        ],
+        "valueTier": "T3"
+      },
+      "vibe": {
+        "silhouette": "no camp visible from the road; from the trees, a cleared circle",
+        "palette": "dull hide, bone, dark green",
+        "materials": "hide shelters, bone-and-flint gear, taken cargo",
+        "signatureFeature": "taken cargo sorted by where on the road it was taken from, in labelled heaps",
+        "condition": "recently made, ready to move",
+        "mood": "predatory and organised",
+        "approach": "you are watched from cover for some minutes before anything happens",
+        "senses": "nothing; and then everything"
+      },
+      "assetPlan": [
+        "market-tents",
+        "stockade-scaffold",
+        "totems-ritual",
+        "fences-wattle",
+        "clutter"
+      ],
+      "discovery": "rumour",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-road",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [
+          "scene.naga.the-taking"
+        ],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 3,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.freehold-pest-house",
+      "namingRule": "named for the household that keeps it",
+      "classification": {
+        "class": "civic",
+        "family": "healing",
+        "type": "pest-house",
+        "variant": "active",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Knahaten Flu",
+        "world/sources/lore/topics/argonia-4e201-state.md",
+        "world/sources/catalogue/type-recipes.json#pest-house",
+        "lore: fauna-hazards dossier (swamp rot, blood rot, greenspore); Lore:Knahaten Flu"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "A port that takes anyone's cargo takes everyone's sickness, and a town with no temple needs somewhere to put the sick.",
+        "siteAdvantages": "Downwind and downstream of the free port, on its own ground.",
+        "occupantsMotive": "Two keepers with no formal training and four hundred years of accumulated local practice.",
+        "pressures": "It is funded out of the price list, which is the only public spending in the zone.",
+        "wouldChangeIf": "If the list stopped funding it, the port would find out very quickly why it did."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "fringe marsh",
+          "firm lowland",
+          "seasonal floodplain"
+        ],
+        "hardConstraints": [
+          "downwind and downstream of the settlement",
+          "its own water"
+        ],
+        "preferences": [
+          "outside the town, within reach of it"
+        ],
+        "landformClasses": [
+          "any-firm-ground",
+          "flood-high"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "1-3 D1 keepers"
+      ],
+      "dangerTier": "D1",
+      "traversalModes": [
+        "walk",
+        "boat"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "services",
+          "information",
+          "reagents"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "a long shed with open sides, standing apart from everything",
+        "palette": "lime white, grey timber, green",
+        "materials": "lime-washed timber, reed screens, a boiling hearth",
+        "signatureFeature": "a lime-washed board recording what worked, kept for four hundred years and never once organised",
+        "condition": "clean, plain, hard-used",
+        "mood": "competence without ceremony",
+        "approach": "it stands alone downwind and you can smell the lime",
+        "senses": "boiling water; low voices; wind through open sides"
+      },
+      "assetPlan": [
+        "vanilla-farmhouse",
+        "stockade-scaffold",
+        "fences-wattle",
+        "clutter",
+        "lights-general"
+      ],
+      "discovery": "road",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-flu",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [
+          "evidence.pest-house.what-worked-board"
+        ],
+        "station": [
+          "station.healing.pest-house"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 3,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.freehold-smithy",
+      "name": "The Anomaly",
+      "classification": {
+        "class": "works",
+        "family": "craft",
+        "type": "anomalous-smithy",
+        "variant": "foreign",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "world/sources/lore/topics/material-culture.md (metal is scarce and foreign)",
+        "world/sources/catalogue/type-recipes.json#anomalous-smithy",
+        "lore: material-culture (metal use almost unheard of post-Duskfall)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "A province with almost no metalworking has one here, because a free port that steals fastenings needs somewhere to reuse them.",
+        "siteAdvantages": "Beside the careening hard, on the only ground in the zone with a permanent forge.",
+        "occupantsMotive": "A Nord smith who came off a hull twenty years ago and never re-embarked.",
+        "pressures": "His stock is entirely other people's ship iron and everyone pretends not to know.",
+        "wouldChangeIf": "If the fastening supply were cut, the forge goes cold and the boatwrights lose their hulls."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "upland hills",
+          "fringe marsh"
+        ],
+        "hardConstraints": [
+          "a permanent forge",
+          "fuel supply"
+        ],
+        "preferences": [
+          "beside a boat yard",
+          "stock of reused ship iron"
+        ],
+        "landformClasses": [
+          "any-firm-ground",
+          "any-channel-bank"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "1-2 D2 smiths"
+      ],
+      "notableNpcSlots": [
+        "npc.corimont.nord-smith"
+      ],
+      "dangerTier": "D2",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "equipment",
+          "services",
+          "crafting",
+          "trade"
+        ],
+        "valueTier": "T3"
+      },
+      "vibe": {
+        "silhouette": "a stone chimney — a shape that appears nowhere else in this landscape",
+        "palette": "soot black, ember orange, grey stone",
+        "materials": "stone forge, ship iron, charcoal",
+        "signatureFeature": "a rack of ship fastenings sorted by the hull they came off, and the hulls are named",
+        "condition": "hot, sound, incongruous",
+        "mood": "foreign competence, resented and needed",
+        "approach": "the chimney smoke is the only vertical smoke in the town",
+        "senses": "hammer on iron — the rarest sound in the province"
+      },
+      "assetPlan": [
+        "vanilla-farmhouse",
+        "stockade-scaffold",
+        "clutter",
+        "lights-general"
+      ],
+      "discovery": "sightline",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-list",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [
+          "evidence.smithy.hull-sorted-iron"
+        ],
+        "station": [
+          "station.craft.freehold-forge"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.gorge-portage-slipway",
+      "name": "The Dragway",
+      "classification": {
+        "class": "transit",
+        "family": "crossing",
+        "type": "portage-slipway",
+        "variant": "narrows",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Sea Transportation",
+        "world/sources/catalogue/type-recipes.json#portage-slipway",
+        "lore: Lore:Seafalls (Arena gazetteer); Lore:Sea Transportation"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Everything that goes above the gorge has to come out of the water and go back in, and the men who drag it charge.",
+        "siteAdvantages": "The one bank with a gradient a hauling gang can work, immediately below the narrows.",
+        "occupantsMotive": "Six haulers with a charge board and a monopoly.",
+        "pressures": "Cargo waits at both ends and is occasionally taxed twice.",
+        "wouldChangeIf": "If a second slip were cut, the price halves — which is why it never is."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "deep river corridor",
+          "upland hills",
+          "firm lowland"
+        ],
+        "hardConstraints": [
+          "bypasses unnavigable water",
+          "haulable gradient"
+        ],
+        "preferences": [
+          "a mandatory node on the river route",
+          "the narrows 200-300 m off"
+        ],
+        "landformClasses": [
+          "water-narrows",
+          "ravine",
+          "gorge"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.gorge-058"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "2-6 D2 haulers"
+      ],
+      "dangerTier": "D3",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "climb"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "travel",
+          "services",
+          "loot-cache"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "a greased timber ramp out of the water beside white water",
+        "palette": "grease black, gold timber, spray",
+        "materials": "rollers, hauling lines, a charge board",
+        "signatureFeature": "a charge board with two prices on it: one for members of the port list, one for everyone else",
+        "condition": "worn to the grain",
+        "mood": "brute monopoly",
+        "approach": "the slip is the first built thing you see",
+        "senses": "rollers; straining rope; the narrows underneath"
+      },
+      "assetPlan": [
+        "docks-piers",
+        "stockade-scaffold",
+        "bridges",
+        "clutter",
+        "boats-keeled"
+      ],
+      "discovery": "road",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-reach",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [
+          "station.portage.dragway"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 3,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.gorge-whitewater-reach",
+      "name": "The Grinder",
+      "classification": {
+        "class": "lair",
+        "family": "hazard-ground",
+        "type": "whitewater-reach",
+        "variant": "logjam",
+        "magnitude": null
+      },
+      "status": "active",
+      "provenance": "geography-derived",
+      "sources": [
+        "world/sources/sites/candidate-sites.json",
+        "world/sources/catalogue/type-recipes.json#whitewater-reach",
+        "lore: region grammar: deep river corridor; Lore:Seafalls; the arterial class needs its own hazards"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "A gorge reach that cannot be run, and a logjam in it that has built itself into a crossable structure out of dead trees.",
+        "siteAdvantages": "A gorge pinch in firm lowland where every flood's timber collects against the same rock.",
+        "occupantsMotive": "Nobody lives on it; four people are usually working the jam for salvage.",
+        "pressures": "The jam is unstable, walkable, and the only dry crossing for two kilometres.",
+        "wouldChangeIf": "If a flood cleared it, both the crossing and the salvage go in one night."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "deep river corridor",
+          "firm lowland",
+          "upland hills"
+        ],
+        "hardConstraints": [
+          "the water is the hazard",
+          "forces boats to stop"
+        ],
+        "preferences": [
+          "a logjam that is a walkable, climbable structure",
+          "a portage upstream"
+        ],
+        "landformClasses": [
+          "gorge",
+          "ravine",
+          "water-narrows"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.gorge-058",
+          "site.scour.upland-hills.ravine-060"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D3",
+      "traversalModes": [
+        "boat",
+        "swim",
+        "climb",
+        "walk"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "shortcut",
+          "loot-cache",
+          "climb-route"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "a mass of bleached dead timber wedged across a gorge, with white water under it",
+        "palette": "bone-white timber, black wet rock, brown-white water",
+        "materials": "dead trees, wedged cargo, no built thing at all",
+        "signatureFeature": "a bridge made entirely of drowned trees, that nobody built and everybody uses",
+        "condition": "unstable and load-bearing at once",
+        "mood": "exhilarating stupidity",
+        "approach": "the sound reaches you from upstream first",
+        "senses": "continuous roar; timber shifting under weight"
+      },
+      "assetPlan": [
+        "bridges",
+        "stockade-scaffold",
+        "boats-keeled",
+        "docks-piers",
+        "clutter"
+      ],
+      "discovery": "sightline",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-reach",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [
+          "scene.jam.crossing-the-timber"
+        ],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.kothringi-river-ruin",
+      "namingRule": "named for the river bend it stands on",
+      "classification": {
+        "class": "ruin",
+        "family": "lost-peoples",
+        "type": "kothringi-ruin",
+        "variant": "village",
+        "magnitude": "M1"
+      },
+      "status": "ruined",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Kothringi",
+        "uesp:Lore:Knahaten Flu",
+        "uesp:Lore:Zuuk",
+        "world/sources/catalogue/type-recipes.json#kothringi-ruin",
+        "lore: Lore:Kothringi (silver-skinned, wiped out by the Knahaten Flu 2E 560); Lore:Knahaten Flu"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The Kothringi held river country like this and the Knahaten Flu ended them in 2E 560; their village on the bend was never reoccupied because nobody would.",
+        "siteAdvantages": "A firm bend site with a landing — the same reasons a village would be built there today.",
+        "occupantsMotive": "Nobody. The free port's crews will not tie up here and will not say it is superstition.",
+        "pressures": "It is the best unoccupied river frontage in the zone and it has been empty for six hundred years.",
+        "wouldChangeIf": "If somebody built here and did not die, the whole taboo collapses and the zone gains a settlement site."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "upland hills",
+          "seasonal floodplain"
+        ],
+        "hardConstraints": [
+          "a river bend with a landing",
+          "unoccupied"
+        ],
+        "preferences": [
+          "visibly good ground that nobody uses"
+        ],
+        "landformClasses": [
+          "oxbow",
+          "any-channel-bank",
+          "cliff-bench"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.oxbow-016",
+          "site.scour.firm-lowland.cliff-bench-049"
+        ]
+      },
+      "culture": "lost-peoples",
+      "dangerTier": "D3",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "climb"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "information",
+          "loot-cache",
+          "exploration"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "house platforms and a landing on a good bend, with nothing standing on them",
+        "palette": "grey stone footings, long grass, brown river",
+        "materials": "stone footings and post holes — a people who built differently from Argonians",
+        "signatureFeature": "a village-shaped clearing on the best ground for kilometres, with a two-hundred-year-old tree growing in the middle of the square",
+        "condition": "reduced to footings, undisturbed",
+        "mood": "the plague, still legible as an absence",
+        "approach": "you notice the good ground before you notice why it is empty",
+        "senses": "river; nothing else; the crews go quiet passing it"
+      },
+      "assetPlan": [
+        "landmark-civic",
+        "fences-wattle",
+        "clutter",
+        "totems-ritual"
+      ],
+      "discovery": "sightline",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-flu",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [
+          "evidence.kothringi.house-footings"
+        ],
+        "station": [],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.lake-drawdown-flat",
+      "name": "The Drawdown",
+      "classification": {
+        "class": "lair",
+        "family": "hazard-ground",
+        "type": "drawdown-flat",
+        "variant": "exposed",
+        "magnitude": null
+      },
+      "status": "seasonal",
+      "provenance": "geography-derived",
+      "sources": [
+        "docs/world/50-hydrology.md (seasonal water levels as world state)",
+        "world/sources/catalogue/type-recipes.json#drawdown-flat",
+        "lore: region grammar: lake & standing water; module 50 (seasonal water levels are authored world state)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The lake behind the freeholds drops four metres in the dry season and exposes a flat of deep soft mud that has swallowed people and things.",
+        "siteAdvantages": "A shallow lake shelf with a very large seasonal range.",
+        "occupantsMotive": "Nothing; scavengers work its edges when it is exposed.",
+        "pressures": "What the drawdown reveals is worth having and the mud that reveals it will not let you stand.",
+        "wouldChangeIf": "If the lake level were stabilised, everything down there stays down there."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "lake & standing water",
+          "seasonal floodplain"
+        ],
+        "hardConstraints": [
+          "large seasonal water range",
+          "soft exposed bed"
+        ],
+        "preferences": [
+          "a season-gated reward"
+        ],
+        "landformClasses": [
+          "any-shallow-marsh",
+          "oxbow"
+        ],
+        "scourSiteIds": [
+          "site.scour.lake-standing-water.cliff-bench-074"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D3",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "swim"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "loot-cache",
+          "exploration",
+          "seasonal-access"
+        ],
+        "valueTier": "T3"
+      },
+      "vibe": {
+        "silhouette": "in the dry season, a cracked grey plain where a lake was",
+        "palette": "grey mud, salt crust, bleached wood",
+        "materials": "mud, exposed wreckage, stranded posts",
+        "signatureFeature": "boats, posts and at least one cart standing upright in mud, exactly where they went down",
+        "condition": "seasonal; six months of the year it does not exist",
+        "mood": "uncanny and slow",
+        "approach": "you arrive in the wrong season and find water",
+        "senses": "cracking mud; nothing living"
+      },
+      "assetPlan": [
+        "submerged-blocks",
+        "boats-keeled",
+        "stockade-scaffold",
+        "clutter"
+      ],
+      "discovery": "road",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-drawdown",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [
+          "scene.drawdown.the-dry-season"
+        ],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 3,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.plague-cordon-line",
+      "namingRule": "named for the village it was drawn around",
+      "classification": {
+        "class": "ruin",
+        "family": "depopulated",
+        "type": "plague-cordon-line",
+        "variant": "marked",
+        "magnitude": null
+      },
+      "status": "abandoned",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Knahaten Flu",
+        "world/sources/catalogue/type-recipes.json#plague-cordon-line",
+        "lore: Lore:Knahaten Flu (2E 560-603, wiped out the Kothringi, Lilmothiit and Horwalli)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Somebody drew a line around the infected ground and marked it, and the marks were maintained long after the reason ended.",
+        "siteAdvantages": "Along the natural boundary of a ridge and a stream, the easiest line to hold.",
+        "occupantsMotive": "Nobody. The marks are re-cut by the villages either side, out of habit.",
+        "pressures": "The line is on nobody's map and is respected absolutely by everybody local.",
+        "wouldChangeIf": "If it were formally lifted, two villages would have to agree where the boundary now is."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "upland hills",
+          "fringe marsh",
+          "seasonal floodplain"
+        ],
+        "hardConstraints": [
+          "follows a natural boundary"
+        ],
+        "preferences": [
+          "between a ruin and a living village"
+        ],
+        "landformClasses": [
+          "any-firm-ground",
+          "ridge-end"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D2",
+      "traversalModes": [
+        "walk",
+        "boat"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "information"
+        ],
+        "valueTier": "T1"
+      },
+      "vibe": {
+        "silhouette": "a line of cut marks on trees and posts, running dead straight over a ridge",
+        "palette": "raw cut wood, weathered grey, green",
+        "materials": "blazed trees, cut posts, one painted stone at each end",
+        "signatureFeature": "blaze marks re-cut annually on trees that were saplings when the line was drawn",
+        "condition": "maintained by habit",
+        "mood": "obedience without memory",
+        "approach": "you cross it without noticing, then find the next mark",
+        "senses": "nothing; but locals stop talking at it"
+      },
+      "assetPlan": [
+        "fences-wattle",
+        "signage-blank",
+        "totems-ritual",
+        "clutter"
+      ],
+      "discovery": "road",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-flu",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 4,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.ravine-hermit-hut",
+      "namingRule": "named for the hermit's trade before they stopped",
+      "classification": {
+        "class": "lone",
+        "family": "lone-dwelling",
+        "type": "hermit-hut",
+        "variant": "ascetic",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "geography-derived",
+      "sources": [
+        "docs/research/openworld-place-distribution-and-siting.md §3.2 (the approach cost is the gate)",
+        "world/sources/catalogue/type-recipes.json#hermit-hut",
+        "lore: openworld research §3.2 (hermit: approach cost is the gate; the reward is knowledge, not loot)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "A ravine with no path, and one person at the bottom of it who used to keep the port's ledger and cannot any more.",
+        "siteAdvantages": "Deliberately awkward: a box canyon with a spring and one climb in.",
+        "occupantsMotive": "One person, and forty years of the free port's transactions written from memory on the walls.",
+        "pressures": "They will trade what they remember for a specific favour and not for money, which in this zone is a statement.",
+        "wouldChangeIf": "If the wall were read by the port, half the freeholds would be exposed."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "upland hills",
+          "border mountains",
+          "firm lowland"
+        ],
+        "hardConstraints": [
+          "no path",
+          "a spring",
+          "one climbing approach"
+        ],
+        "preferences": [
+          "deliberately far from the free port"
+        ],
+        "landformClasses": [
+          "box-canyon",
+          "ravine",
+          "cliff-bench"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.box-canyon-056",
+          "site.scour.firm-lowland.ravine-011"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "1 D2 hermit"
+      ],
+      "notableNpcSlots": [
+        "npc.ravine.former-ledger-keeper"
+      ],
+      "dangerTier": "D3",
+      "traversalModes": [
+        "walk",
+        "climb",
+        "boat",
+        "swim",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 5,
+      "rewardProfile": {
+        "kinds": [
+          "unique-knowledge",
+          "quest-hooks",
+          "services"
+        ],
+        "valueTier": "T3"
+      },
+      "vibe": {
+        "silhouette": "a thin smoke line out of a slot in the ground",
+        "palette": "rock grey, one fire, green at the bottom",
+        "materials": "a hut of ravine timber and stacked stone",
+        "signatureFeature": "forty years of the port's ledger written on the ravine wall in charcoal, from memory",
+        "condition": "small, precise, obsessive",
+        "mood": "the reward is a conversation and it is worth more than loot",
+        "approach": "there is no route down; you find one",
+        "senses": "water; one voice that has not been used in weeks"
+      },
+      "assetPlan": [
+        "mud-mother-grove",
+        "bamboo-hut",
+        "vanilla-shackkit",
+        "clutter",
+        "argonian-lights"
+      ],
+      "discovery": "none",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-slate",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [
+          "scene.hermit.the-wall-ledger"
+        ],
+        "evidence": [
+          "evidence.hermit.charcoal-ledger"
+        ],
+        "station": [],
+        "marks": []
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 3,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.reach-wreck",
+      "namingRule": "named for its cargo, from the lot book",
+      "classification": {
+        "class": "lone",
+        "family": "remnant",
+        "type": "wreck",
+        "variant": "submerged",
+        "magnitude": "M1"
+      },
+      "status": "ruined",
+      "provenance": "geography-derived",
+      "sources": [
+        "docs/world/00-core.md acceptance rule: underwater POIs throughout appropriate regions",
+        "world/sources/catalogue/type-recipes.json#wreck",
+        "lore: openworld research §3.2 (wreck geometry IS the level; tier by depth and lock)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "A laden river hull that failed to hold the line above the bar and went down in the deep of the confluence.",
+        "siteAdvantages": "It lies in the confluence hole at -6.5 m, out of the current but under a lot of water.",
+        "occupantsMotive": "Nothing; the salvage yard has stripped everything above the silt line.",
+        "pressures": "The hold is under silt and the yard has decided it is not worth the drowning.",
+        "wouldChangeIf": "If the river dropped in a hard dry season, the hold would be reachable and the yard would work it in a week."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "deep river corridor",
+          "lake & standing water",
+          "firm lowland"
+        ],
+        "hardConstraints": [
+          "submerged in still deep water"
+        ],
+        "preferences": [
+          "in a confluence hole below a whitewater reach"
+        ],
+        "landformClasses": [
+          "water-narrows",
+          "any-channel-bank"
+        ],
+        "scourSiteIds": [
+          "site.scour.deep-river-corridor.confluence-005"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D3",
+      "traversalModes": [
+        "swim",
+        "dive",
+        "boat",
+        "walk",
+        "climb"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 4,
+      "rewardProfile": {
+        "kinds": [
+          "loot-cache",
+          "exploration",
+          "named-item"
+        ],
+        "valueTier": "T3"
+      },
+      "vibe": {
+        "silhouette": "nothing above water; a shadow at the confluence",
+        "palette": "tea-brown water, black timber, silver silt",
+        "materials": "hull timber, silt, trapped cargo",
+        "signatureFeature": "cargo still lashed in the hold under a metre of silt, in water too dark to work",
+        "condition": "silted, intact",
+        "mood": "the reward for breath",
+        "approach": "found by diving where the salvagers will not",
+        "senses": "current noise above; nothing below"
+      },
+      "assetPlan": [
+        "boats-keeled",
+        "submerged-ruins",
+        "submerged-blocks",
+        "clutter"
+      ],
+      "discovery": "rumour",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-reach",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 3,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.reoccupied-fort",
+      "namingRule": "named for the outfit holding it, not the legion that built it",
+      "classification": {
+        "class": "martial",
+        "family": "imperial-military",
+        "type": "abandoned-fort",
+        "variant": "intact",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "world/sources/lore/extrapolation/settlement-register.md §6 (Fort Swampmoth model: held, but not by the Empire)",
+        "world/sources/lore/topics/foreign-powers.md",
+        "world/sources/catalogue/type-recipes.json#abandoned-fort",
+        "lore: module 20 §11 (the six-stage foreign-infrastructure life cycle)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "An intact Imperial fort on the trunk road, abandoned two hundred years ago, into which somebody moved and started charging.",
+        "siteAdvantages": "It commands the trunk where the road cannot go around it — which is why the Legion built there.",
+        "occupantsMotive": "A toll-taking outfit with a claim, a garrison of thirty and no legal standing whatsoever.",
+        "pressures": "They are the free port's only rival for the road trade, and the port would rather they existed than the state did.",
+        "wouldChangeIf": "If the state ever garrisoned it properly, the whole zone's economy is enclosed in a season."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "upland hills",
+          "fringe marsh"
+        ],
+        "hardConstraints": [
+          "commands the trunk road",
+          "structurally intact"
+        ],
+        "preferences": [
+          "the road cannot bypass it"
+        ],
+        "landformClasses": [
+          "ridge-end",
+          "any-firm-ground",
+          "land-bridge"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.summit-015",
+          "site.scour.firm-lowland.cliff-bench-062"
+        ]
+      },
+      "culture": "imperial",
+      "occupants": [
+        "D3 toll-takers and a hired garrison"
+      ],
+      "notableNpcSlots": [
+        "npc.fort.claim-holder"
+      ],
+      "dangerTier": "D3",
+      "traversalModes": [
+        "walk",
+        "climb",
+        "combat"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "services",
+          "quest-hooks",
+          "loot-cache",
+          "information"
+        ],
+        "valueTier": "T3"
+      },
+      "vibe": {
+        "silhouette": "a square Imperial curtain wall with the wrong banners on it",
+        "palette": "grey ashlar, faded eagle red, new banner colours",
+        "materials": "Imperial ashlar with freehold timber additions bolted through the parapets",
+        "signatureFeature": "an Imperial eagle still over the gate because nobody bothered to chisel it off, under a banner nobody can identify",
+        "condition": "sound, crudely extended",
+        "mood": "borrowed authority, entirely effective",
+        "approach": "the walls are the only such shape in the zone and read from far off",
+        "senses": "a gate being worked; drilling that is not quite drill"
+      },
+      "assetPlan": [
+        "bmv-fort",
+        "stockade-scaffold",
+        "vanilla-farmhouse",
+        "landmark-civic",
+        "clutter",
+        "lights-general"
+      ],
+      "discovery": "sightline",
+      "questHooks": {
+        "provisions": [],
+        "tierOwnership": "tier-2"
+      },
+      "rumourPoolKey": "rumour.pirate-freeholds.the-fort",
+      "deedCounterKeys": [
+        "deed.owing.tolled-crossings"
+      ],
+      "sockets": {
+        "scene": [
+          "scene.fort.the-claim"
+        ],
+        "evidence": [
+          "evidence.fort.the-deed"
+        ],
+        "station": [
+          "station.toll.the-fort"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "standard",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.rim-border-post",
+      "namingRule": "named for the legion cohort that built it",
+      "classification": {
+        "class": "martial",
+        "family": "watch",
+        "type": "border-post",
+        "variant": "thinned",
+        "magnitude": "M1"
+      },
+      "status": "abandoned",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Black Marsh",
+        "world/sources/lore/topics/foreign-powers.md",
+        "world/sources/catalogue/type-recipes.json#border-post",
+        "lore: argonia-4e201-state (occasional patrols; every 4E 201 data point is about withdrawal)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The Empire posted a watch on the northern crossing; it was thinned at the Oblivion Crisis and never restored.",
+        "siteAdvantages": "On the pass road below the saddle, sited to see the approach it no longer watches.",
+        "occupantsMotive": "Nobody. The pass keeper stores fuel in it.",
+        "pressures": "It is the state's claim to the border, standing empty, four hundred metres from the smuggling route.",
+        "wouldChangeIf": "If it were re-manned, the ledges move a valley east within a month."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "border mountains",
+          "upland hills",
+          "firm lowland"
+        ],
+        "hardConstraints": [
+          "on the pass road",
+          "commands the approach"
+        ],
+        "preferences": [
+          "within sight of a route it does not control"
+        ],
+        "landformClasses": [
+          "ridge-end",
+          "saddle",
+          "any-firm-ground"
+        ],
+        "scourSiteIds": [
+          "site.scour.upland-hills.summit-011"
+        ]
+      },
+      "culture": "imperial",
+      "dangerTier": "D3",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 4,
+      "rewardProfile": {
+        "kinds": [
+          "loot-cache",
+          "information",
+          "exploration"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "a small square post with an empty flagstaff",
+        "palette": "grey stone, rust, faded eagle red",
+        "materials": "Imperial dressed stone, a rotted timber gate",
+        "signatureFeature": "an Imperial eagle over the door that nobody bothered to chisel off",
+        "condition": "roofless in one bay, otherwise sound",
+        "mood": "abandoned authority",
+        "approach": "it is the first built thing on the pass and it is empty",
+        "senses": "wind through empty embrasures"
+      },
+      "assetPlan": [
+        "bmv-fort",
+        "stockade-scaffold",
+        "landmark-civic",
+        "clutter",
+        "signage-blank"
+      ],
+      "discovery": "road",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-rim",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 3,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.rim-courier-relay",
+      "namingRule": "named for the ridge it signals from",
+      "classification": {
+        "class": "civic",
+        "family": "governance",
+        "type": "courier-relay",
+        "variant": "chime-relay",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "geography-derived",
+      "sources": [
+        "uesp:Lore:Jel",
+        "world/sources/catalogue/type-recipes.json#courier-relay",
+        "lore: Lore:Jel (an oral language with no past or future tense); build-out: this is the letter/rumour delivery spine"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The rim route is too long and too exposed for a runner to hold the line, so the last stage signals by chime from a ridge end.",
+        "siteAdvantages": "A ridge end at 215 m with a clear line down to the porter yard.",
+        "occupantsMotive": "One keeper who lives up there for a week at a time.",
+        "pressures": "The chimes are audible to the pass station, which is the point of the argument about them.",
+        "wouldChangeIf": "If the pass were manned, the chime line would be the first thing suppressed."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "upland hills",
+          "border mountains",
+          "firm lowland"
+        ],
+        "hardConstraints": [
+          "a clear acoustic line to its neighbour"
+        ],
+        "preferences": [
+          "above the porter yard",
+          "audible from the pass"
+        ],
+        "landformClasses": [
+          "ridge-end",
+          "summit",
+          "saddle"
+        ],
+        "scourSiteIds": [
+          "site.scour.border-mountains.ridge-end-026"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D3",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "fastTransit",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "information",
+          "vista",
+          "travel-knowledge"
+        ],
+        "valueTier": "T1"
+      },
+      "vibe": {
+        "silhouette": "a chime frame on a bare spur nose, silhouetted",
+        "palette": "rock grey, bone chimes, sky",
+        "materials": "a frame, hung bone and metal chimes, a one-man shelter",
+        "signatureFeature": "a chime frame on a ridge that can be heard by the customs post it is warning people about",
+        "condition": "exposed, well lashed",
+        "mood": "brazen",
+        "approach": "the frame is one of the few skyline shapes in the zone",
+        "senses": "chimes carrying a long way; wind"
+      },
+      "assetPlan": [
+        "totems-ritual",
+        "stockade-scaffold",
+        "clutter"
+      ],
+      "discovery": "rumour",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-rim",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 4,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.rim-crystal-diggings",
+      "namingRule": "named for the seam",
+      "classification": {
+        "class": "works",
+        "family": "extraction",
+        "type": "crystal-diggings",
+        "variant": "open-cut",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Stormhold",
+        "uesp:Lore:Silyanorn (the crystal trade)",
+        "world/sources/catalogue/type-recipes.json#crystal-diggings",
+        "lore: Lore:Stormhold (crystals); Lore:Silyanorn; prisons dossier (Warden Varus's Tunnel Rats)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Stormhold's crystal trade runs on seams in this rim country, and the ones outside the vicecanons' reach are cut by whoever gets there first.",
+        "siteAdvantages": "An open cut on an upland spur where the seam breaks the surface.",
+        "occupantsMotive": "Prospector gangs working without a licence, in shifts, watching the pass road.",
+        "pressures": "The crystal moves through the free port because it cannot move through Stormhold.",
+        "wouldChangeIf": "If the vicecanons enforced the licence here, the free port's most valuable cargo disappears."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "upland hills",
+          "border mountains",
+          "firm lowland",
+          "fringe marsh"
+        ],
+        "hardConstraints": [
+          "a surface seam",
+          "spoil ground"
+        ],
+        "preferences": [
+          "off the licensed ground",
+          "within a day of the free port"
+        ],
+        "landformClasses": [
+          "ridge-end",
+          "ravine",
+          "cliff-bench"
+        ],
+        "scourSiteIds": [
+          "site.scour.upland-hills.summit-011",
+          "site.scour.upland-hills.ravine-066"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "D2 unlicensed gangs"
+      ],
+      "dangerTier": "D3",
+      "traversalModes": [
+        "walk",
+        "climb"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 4,
+      "rewardProfile": {
+        "kinds": [
+          "harvest",
+          "trade",
+          "crafting"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "a raw white scar on a green hillside, visible for kilometres",
+        "palette": "spoil white, hill green, tool rust",
+        "materials": "cut rock, timber props, spoil heaps",
+        "signatureFeature": "the spoil heap is visible from the pass road, and nobody up there has ever reported it",
+        "condition": "actively worked, badly propped",
+        "mood": "furtive industry",
+        "approach": "the scar is one of the few things in the zone that reads at range",
+        "senses": "picks; falling spoil; a lookout whistling"
+      },
+      "assetPlan": [
+        "stockade-scaffold",
+        "market-tents",
+        "fences-wattle",
+        "clutter"
+      ],
+      "discovery": "rumour",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-rim",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 3,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.rim-hearth-house",
+      "namingRule": "named for the pass it sits below",
+      "classification": {
+        "class": "civic",
+        "family": "refuge",
+        "type": "hearth-house",
+        "variant": "road-kept",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Argonian",
+        "world/sources/catalogue/type-recipes.json#hearth-house",
+        "lore: Lore:Argonian (a comer cannot be refused); pacing: a hostile province needs a safety floor outside its cities"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The last fire below the pass, kept because people come down off the rim in a state.",
+        "siteAdvantages": "The highest ground on the pass road that still has fuel within reach.",
+        "occupantsMotive": "A household who have pulled more people off that mountain than the pass station has.",
+        "pressures": "They know exactly what everyone who comes down is carrying and have never once said.",
+        "wouldChangeIf": "If the pass closed permanently, this house would have no reason to be here."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "upland hills",
+          "border mountains",
+          "firm lowland"
+        ],
+        "hardConstraints": [
+          "on the pass road",
+          "fuel within reach",
+          "never floods"
+        ],
+        "preferences": [
+          "below the snowline",
+          "the last fire before the climb"
+        ],
+        "landformClasses": [
+          "saddle",
+          "any-firm-ground"
+        ],
+        "scourSiteIds": [
+          "site.scour.upland-hills.summit-011"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D0",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "rest",
+          "food",
+          "safety",
+          "information"
+        ],
+        "valueTier": "T1"
+      },
+      "vibe": {
+        "silhouette": "a fire visible from high on the pass road, and nothing else",
+        "palette": "fire orange, grey rock, black slope",
+        "materials": "dry stone, thatch weighted with rocks, one hearth",
+        "signatureFeature": "a rack of dry clothes always hanging, for people who have not arrived yet",
+        "condition": "small, hard, permanently warm",
+        "mood": "practical mercy",
+        "approach": "you see it from above, which is unusual here",
+        "senses": "fire; wind at the door; someone coughing"
+      },
+      "assetPlan": [
+        "mud-mother-grove",
+        "bamboo-hut",
+        "vanilla-farmhouse",
+        "argonian-lights",
+        "clutter"
+      ],
+      "discovery": "sightline",
+      "rumourPoolKey": "rumour.pirate-freeholds.road-fires",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [
+          "station.rest.rim-hearth"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 4,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.rim-keystone-chamber",
+      "namingRule": "named for the number of keystone sockets in it",
+      "classification": {
+        "class": "ruin",
+        "family": "ayleid",
+        "type": "keystone-chamber",
+        "variant": null,
+        "magnitude": null
+      },
+      "status": "ruined",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Loriasel",
+        "uesp:Lore:Ayleid",
+        "uesp:Lore:Barsaebic Ayleids",
+        "world/sources/catalogue/type-recipes.json#keystone-chamber",
+        "lore: Lore:Ayleid Wells; quest-provision keystone pattern (§13 typed provisions)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The Barsaebic Ayleids left keystone mechanisms across the fringe of this country, and one of them is cut into the rim rock above the river.",
+        "siteAdvantages": "A dry chamber in the ravine wall, above the flood and below the snow.",
+        "occupantsMotive": "Nothing living; the mechanism is the occupant.",
+        "pressures": "The sockets are empty and the keystones are elsewhere, which is exactly the problem the type poses.",
+        "wouldChangeIf": "If the keystones were returned, whatever the chamber does would start doing it again."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "fringe marsh",
+          "upland hills",
+          "firm lowland"
+        ],
+        "hardConstraints": [
+          "a dry rock chamber",
+          "above flood level"
+        ],
+        "preferences": [
+          "in a ravine wall, reached by a scramble"
+        ],
+        "landformClasses": [
+          "ravine",
+          "cliff-bench",
+          "gorge"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.ravine-043",
+          "site.scour.upland-hills.ravine-060"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D4",
+      "traversalModes": [
+        "walk",
+        "climb"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 4,
+      "rewardProfile": {
+        "kinds": [
+          "named-item",
+          "unique-knowledge",
+          "loot-cache"
+        ],
+        "valueTier": "T3"
+      },
+      "vibe": {
+        "silhouette": "a squared opening in a natural ravine wall",
+        "palette": "white Ayleid stone, black interior, wet rock",
+        "materials": "Ayleid ashlar, crystal sockets, cut channels",
+        "signatureFeature": "empty keystone sockets cut so precisely that dust does not settle in them",
+        "condition": "intact, inert",
+        "mood": "cold intelligence, switched off",
+        "approach": "found by scrambling where there is no reason to",
+        "senses": "a low resonance you feel rather than hear"
+      },
+      "assetPlan": [
+        "xanmeer-tileset",
+        "cc-ayleid-interior",
+        "clutter",
+        "lights-general"
+      ],
+      "discovery": "none",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-white-stone",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [
+          "scene.keystone.empty-sockets"
+        ],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 3,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.rim-knapping-floor",
+      "namingRule": "named for the stone worked on it",
+      "classification": {
+        "class": "works",
+        "family": "extraction",
+        "type": "knapping-floor",
+        "variant": "jadeflint",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "world/sources/lore/topics/material-culture.md (stone tools where metal is absent)",
+        "world/sources/catalogue/type-recipes.json#knapping-floor",
+        "lore: Lore:Argonian (jadeflint, obverdian, volcanic glass skinning shards)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Where there is no metal there is worked stone, and the flint on this rim has been knapped on the same floor for a very long time.",
+        "siteAdvantages": "A dry bench beside the seam, with wind to clear the dust.",
+        "occupantsMotive": "Two or three knappers who supply four villages and the porter gangs.",
+        "pressures": "The smithy in town has been taking their trade for twenty years.",
+        "wouldChangeIf": "If the fastening supply held, the floor is abandoned within a generation."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "upland hills",
+          "border mountains",
+          "firm lowland",
+          "deep river corridor"
+        ],
+        "hardConstraints": [
+          "a dry working bench",
+          "stone source"
+        ],
+        "preferences": [
+          "upwind of the settlement it supplies"
+        ],
+        "landformClasses": [
+          "cliff-bench",
+          "ridge-end"
+        ],
+        "scourSiteIds": [
+          "site.scour.upland-hills.ravine-066"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D2",
+      "traversalModes": [
+        "walk",
+        "climb"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "crafting",
+          "equipment",
+          "information"
+        ],
+        "valueTier": "T1"
+      },
+      "vibe": {
+        "silhouette": "a floor of glittering debris on a bench",
+        "palette": "green-grey flint, white dust, brown rock",
+        "materials": "flint, hammerstones, hide pads",
+        "signatureFeature": "a debris floor half a metre deep, which is to say centuries of the same afternoon",
+        "condition": "in use, and shrinking",
+        "mood": "quiet craft, quietly dying",
+        "approach": "the floor glitters in low sun before you see anyone",
+        "senses": "chipping; wind"
+      },
+      "assetPlan": [
+        "stockade-scaffold",
+        "fences-wattle",
+        "clutter",
+        "argonian-props"
+      ],
+      "discovery": "rumour",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-rim",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 4,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.rim-pass-station",
+      "name": "The Snowline Stage",
+      "classification": {
+        "class": "transit",
+        "family": "road",
+        "type": "mountain-pass-station",
+        "variant": "snowline",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Black Marsh",
+        "docs/world/55-time-and-sky.md (orographic conditions on the rim)",
+        "world/sources/catalogue/type-recipes.json#mountain-pass-station",
+        "lore: scour: a quarter of the interesting ground is on the rim, and it is the only ground with range; region grammar: border mountains"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The one legal crossing of the northern rim needs a staged shelter, because the pass is above the snowline for part of the year and people die on it.",
+        "siteAdvantages": "The saddle at 226 m: the lowest crossing of the wall for many kilometres.",
+        "occupantsMotive": "A keeper who is nominally the state's and is paid by the free port, which he does not advertise.",
+        "pressures": "The pass closes seasonally, and when it closes the ledge trade doubles.",
+        "wouldChangeIf": "If the state funded it properly the rim would be policed and this zone's economy would change entirely."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "border mountains",
+          "upland hills"
+        ],
+        "hardConstraints": [
+          "at the lowest crossing of the rim",
+          "shelter against the weather"
+        ],
+        "preferences": [
+          "the ledge routes within 400 m, out of its sightline"
+        ],
+        "landformClasses": [
+          "saddle",
+          "summit"
+        ],
+        "scourSiteIds": [
+          "site.scour.border-mountains.saddle-041"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "1-3 D2 keepers"
+      ],
+      "dangerTier": "D3",
+      "traversalModes": [
+        "walk",
+        "climb",
+        "fastTransit"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 4,
+      "rewardProfile": {
+        "kinds": [
+          "rest",
+          "safety",
+          "travel",
+          "information"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "a stone hut at the low point of a skyline notch",
+        "palette": "grey stone, white above it half the year, brown below",
+        "materials": "dry stone, a heavy timber roof weighted with rocks",
+        "signatureFeature": "a season board that closes the pass, and a keeper who is paid by the people who profit when it does",
+        "condition": "sound, cold, permanently smoky",
+        "mood": "dutiful corruption",
+        "approach": "the notch is the only legible feature on the rim skyline",
+        "senses": "wind; a fire that never quite warms the room"
+      },
+      "assetPlan": [
+        "bmv-fort",
+        "vanilla-farmhouse",
+        "stockade-scaffold",
+        "clutter",
+        "lights-general"
+      ],
+      "discovery": "road",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-rim",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [
+          "evidence.pass.season-board"
+        ],
+        "station": [
+          "station.rest.rim-pass",
+          "station.road.rim-pass"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.rim-porter-yard",
+      "namingRule": "named for the load rating over the pass",
+      "classification": {
+        "class": "works",
+        "family": "storage-and-freight",
+        "type": "porter-relay-yard",
+        "variant": "walking",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Sea Transportation",
+        "world/sources/lore/topics/labour-and-bondage.md",
+        "world/sources/catalogue/type-recipes.json#porter-relay-yard",
+        "lore: Lore:Black Marsh (Imperial roads made freight slower); Lore:Sea Transportation"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Nothing goes over the rim on a boat, so the free port's cargo is broken down here into loads a person can carry up a pass.",
+        "siteAdvantages": "The last firm ground on the river before the climb begins, with a landing and a long shed.",
+        "occupantsMotive": "Porter gangs who hold their rate collectively and are the free port's real leverage over Morrowind.",
+        "pressures": "Every consignment is repacked here, which means everything that goes north is known here first.",
+        "wouldChangeIf": "If the pass road were made passable to carts, the gangs lose the trade and the town loses its intelligence."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "upland hills",
+          "deep river corridor"
+        ],
+        "hardConstraints": [
+          "last landing before the climb",
+          "firm standing"
+        ],
+        "preferences": [
+          "one stage from the free port",
+          "the pass within a day"
+        ],
+        "landformClasses": [
+          "any-firm-ground",
+          "any-channel-bank"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.cliff-bench-078"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "D1 porter gangs",
+        "D2 gang speaker"
+      ],
+      "dangerTier": "D2",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "fastTransit",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "services",
+          "information",
+          "trade"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "a long open shed full of carrying frames, and a landing in front of it",
+        "palette": "frame timber, dust, cargo colours from four provinces",
+        "materials": "frames, a rate board, weighing beams",
+        "signatureFeature": "everything that crosses the rim is opened here and repacked, so the yard knows the province's cargo better than the port does",
+        "condition": "hard-used, well organised",
+        "mood": "collective, shrewd, faintly militant",
+        "approach": "the frames stacked outside read from the water",
+        "senses": "counting aloud; frames knocking; a rope brake"
+      },
+      "assetPlan": [
+        "stockade-scaffold",
+        "market-tents",
+        "fences-wattle",
+        "docks-piers",
+        "clutter",
+        "signage-blank"
+      ],
+      "discovery": "road",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-list",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [
+          "evidence.porter.repack-book"
+        ],
+        "station": [
+          "station.freight.rim-porter-yard"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.rim-second-empire-works",
+      "namingRule": "named for the emperor whose mark is on it",
+      "classification": {
+        "class": "ruin",
+        "family": "imperial-ruin",
+        "type": "second-empire-works",
+        "variant": "reman",
+        "magnitude": "M1"
+      },
+      "status": "ruined",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Second Empire",
+        "world/sources/lore/topics/foreign-powers.md",
+        "world/sources/catalogue/type-recipes.json#second-empire-works",
+        "lore: Lore:Blackrose Prison (Second Empire, raised in a day by Pelladil Direnni); Lore:Reman Empire; Lore:Akaviri"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The Second Empire cut a road-and-cistern works over this rim to move soldiers into Morrowind, and abandoned it unfinished.",
+        "siteAdvantages": "The saddle route the modern pass road still roughly follows, one contour higher.",
+        "occupantsMotive": "Nobody. The smugglers use its cistern for water and its cutting as shelter.",
+        "pressures": "It is a thousand years older than anything else standing here and better built than all of it.",
+        "wouldChangeIf": "If the cistern were ever cleaned out, the rim route becomes usable in the dry season."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "upland hills",
+          "border mountains",
+          "firm lowland"
+        ],
+        "hardConstraints": [
+          "on the rim crossing",
+          "cut stone works"
+        ],
+        "preferences": [
+          "one contour above the modern road"
+        ],
+        "landformClasses": [
+          "saddle",
+          "ridge-end",
+          "cliff-bench"
+        ],
+        "scourSiteIds": [
+          "site.scour.border-mountains.saddle-041",
+          "site.scour.border-mountains.ridge-end-042"
+        ]
+      },
+      "culture": "imperial",
+      "dangerTier": "D3",
+      "traversalModes": [
+        "walk",
+        "climb",
+        "combat"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 4,
+      "rewardProfile": {
+        "kinds": [
+          "loot-cache",
+          "exploration",
+          "information",
+          "shelter"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "a cut ramp and a stone cistern mouth on a bare saddle",
+        "palette": "grey ashlar, lichen gold, rock",
+        "materials": "Akaviri-era dressed stone, a vaulted cistern, an unfinished cutting",
+        "signatureFeature": "a road cutting that stops in mid-air, with the tool marks still sharp",
+        "condition": "unfinished and outlasting everything finished",
+        "mood": "imperial ambition, filed and forgotten",
+        "approach": "the cut line is visible against the skyline",
+        "senses": "wind; water dripping into a vault"
+      },
+      "assetPlan": [
+        "bmv-fort",
+        "landmark-civic",
+        "stockade-scaffold",
+        "clutter",
+        "lights-general"
+      ],
+      "discovery": "sightline",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-rim",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [
+          "scene.works.the-cistern"
+        ],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 3,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.rim-smugglers-ledge-east",
+      "namingRule": "named for the consignment that was lost off it",
+      "classification": {
+        "class": "works",
+        "family": "illicit",
+        "type": "smugglers-ledge",
+        "variant": "cached",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "geography-derived",
+      "sources": [
+        "uesp:Lore:Black Marsh (the border wall)",
+        "world/sources/catalogue/type-recipes.json#smugglers-ledge",
+        "lore: region grammar: border mountains; Lore:Blackwood Road (the legal crossings are few, so the illegal ones are the rim)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "A second ledge, higher and harder, used only when the north traverse is being watched.",
+        "siteAdvantages": "A ridge-end shelf at 268 m with ground falling away on three sides.",
+        "occupantsMotive": "Nobody staffs it; goods are left and collected.",
+        "pressures": "The approach is a genuine climb and at least one consignment is still up there because the man who cached it did not come back.",
+        "wouldChangeIf": "If the free port's trade were legalised, this ledge is never visited again."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "border mountains",
+          "upland hills"
+        ],
+        "hardConstraints": [
+          "a genuine climb approach",
+          "no path"
+        ],
+        "preferences": [
+          "higher and harder than its neighbour",
+          "goods cached, not staffed"
+        ],
+        "landformClasses": [
+          "ridge-end",
+          "cliff-bench",
+          "gorge"
+        ],
+        "scourSiteIds": [
+          "site.scour.border-mountains.ridge-end-042"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D4",
+      "traversalModes": [
+        "climb",
+        "walk",
+        "stealth"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 5,
+      "rewardProfile": {
+        "kinds": [
+          "loot-cache",
+          "vista",
+          "climb-route"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "a shelf on a spur nose with the ground falling away on three sides",
+        "palette": "bare rock, lichen, sky",
+        "materials": "rock, one rotted cover, one rope",
+        "signatureFeature": "a consignment nobody ever came back for, still covered, still marked",
+        "condition": "abandoned rather than disused",
+        "mood": "high, cold, unforgiving",
+        "approach": "a climb with no reassurance on it",
+        "senses": "wind only; you are above the birds"
+      },
+      "assetPlan": [
+        "stockade-scaffold",
+        "clutter",
+        "signage-blank"
+      ],
+      "discovery": "none",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-rim",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 3,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.rim-smugglers-ledge-north",
+      "name": "The North Traverse",
+      "classification": {
+        "class": "works",
+        "family": "illicit",
+        "type": "smugglers-ledge",
+        "variant": "staffed",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Morrowind (the northern frontier)",
+        "docs/world/92-demographics.md §82 (22% Dunmer in this zone)",
+        "world/sources/catalogue/type-recipes.json#smugglers-ledge",
+        "lore: region grammar: border mountains; Lore:Blackwood Road (the legal crossings are few, so the illegal ones are the rim)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The free port's cargo has to leave the province somehow, and the legal crossings into Morrowind are few — so the illegal ones are the rim itself.",
+        "siteAdvantages": "A cliff bench two-thirds of the way up the border wall, out of sight from below and from the pass, with a traverse line rather than a path.",
+        "occupantsMotive": "Two or three men who move consignments and mark which side each one is going.",
+        "pressures": "It is a four-hour climb with a load and the weather on the rim turns without warning.",
+        "wouldChangeIf": "If the pass station below were properly manned, the ledge becomes the only route and the price triples."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "border mountains",
+          "upland hills"
+        ],
+        "hardConstraints": [
+          "a rim ledge out of sight of the pass",
+          "no water — this is the dry route",
+          "reachable only by a traverse"
+        ],
+        "preferences": [
+          "beside a pass, out of sight of its post",
+          "a rope left rigged"
+        ],
+        "landformClasses": [
+          "cliff-bench",
+          "saddle",
+          "ridge-end"
+        ],
+        "scourSiteIds": [
+          "site.scour.border-mountains.ridge-end-026",
+          "site.scour.border-mountains.saddle-041"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "0-4 D3 carriers"
+      ],
+      "dangerTier": "D3",
+      "traversalModes": [
+        "climb",
+        "walk",
+        "stealth"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 4,
+      "rewardProfile": {
+        "kinds": [
+          "loot-cache",
+          "trade",
+          "climb-route",
+          "information"
+        ],
+        "valueTier": "T3"
+      },
+      "vibe": {
+        "silhouette": "nothing at all from below; from above, a worn traverse line across a face",
+        "palette": "rock grey, and covers dyed to match it exactly",
+        "materials": "rock, rope, rock-coloured canvas",
+        "signatureFeature": "consignments stacked under covers dyed to the exact colour of the rock, with chalk marks saying which way each is going",
+        "condition": "in constant use, invisible",
+        "mood": "professional and unromantic",
+        "approach": "you are on the traverse before you know there is one",
+        "senses": "wind; rope on rock; nothing human"
+      },
+      "assetPlan": [
+        "stockade-scaffold",
+        "market-tents",
+        "clutter",
+        "signage-blank"
+      ],
+      "discovery": "none",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-rim",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [
+          "evidence.ledge.consignment-marks"
+        ],
+        "station": [
+          "station.smuggle.north-traverse"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.rim-snowline-hermitage",
+      "namingRule": "named for the order that exiled its founder",
+      "classification": {
+        "class": "lone",
+        "family": "lone-dwelling",
+        "type": "snowline-hermitage",
+        "variant": "exiled-order",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "geography-derived",
+      "sources": [
+        "docs/research/settlement-type-recipes.md (snowline-hermitage: a border-mountains-distinctive anchor)",
+        "world/sources/catalogue/type-recipes.json#snowline-hermitage",
+        "lore: region grammar: border mountains; scour: the rim is the only ground with genuine sightlines"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Somebody was put out of an order and went as high as there is to go in this province, which is the northern rim.",
+        "siteAdvantages": "Above the snowline on the border wall, with a spring that does not freeze.",
+        "occupantsMotive": "One or two, keeping an observance nobody else keeps.",
+        "pressures": "It is the coldest inhabited place in Argonia and reaching it is a genuine expedition.",
+        "wouldChangeIf": "If the order that exiled them collapsed, the observance here becomes the only surviving version of it."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "border mountains"
+        ],
+        "hardConstraints": [
+          "above the snowline",
+          "a spring that does not freeze",
+          "a climb approach"
+        ],
+        "preferences": [
+          "the highest inhabited ground in the province"
+        ],
+        "landformClasses": [
+          "summit",
+          "saddle",
+          "cliff-bench"
+        ],
+        "scourSiteIds": [
+          "site.scour.border-mountains.ridge-end-042",
+          "site.scour.border-mountains.saddle-041"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "1-2 D2 ascetics"
+      ],
+      "dangerTier": "D4",
+      "traversalModes": [
+        "walk",
+        "climb",
+        "social"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 5,
+      "rewardProfile": {
+        "kinds": [
+          "unique-knowledge",
+          "vista",
+          "rest",
+          "named-item"
+        ],
+        "valueTier": "T3"
+      },
+      "vibe": {
+        "silhouette": "a stone cell against a face, with snow on it — an image that exists nowhere else in this province",
+        "palette": "white, rock grey, one dark doorway",
+        "materials": "dry stone, a turf roof, a single ritual fitting",
+        "signatureFeature": "snow, in Argonia, on an inhabited roof",
+        "condition": "spare and perfectly maintained",
+        "mood": "austerity as an argument",
+        "approach": "a full day's climb with no encouragement",
+        "senses": "wind; and, extraordinarily, silence"
+      },
+      "assetPlan": [
+        "bmv-fort",
+        "vanilla-farmhouse",
+        "totems-ritual",
+        "clutter",
+        "lights-general"
+      ],
+      "discovery": "rumour",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-rim",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [
+          "scene.hermitage.the-observance"
+        ],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 3,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.rim-vista-ledge",
+      "namingRule": "named for the province it lets you see out of",
+      "classification": {
+        "class": "lone",
+        "family": "curiosity",
+        "type": "vista-ledge",
+        "variant": null,
+        "magnitude": null
+      },
+      "status": "active",
+      "provenance": "geography-derived",
+      "sources": [
+        "world/sources/sites/candidate-sites.md (a quarter of the interesting ground is on the mountain rim; a view is a reward)",
+        "world/sources/catalogue/type-recipes.json#vista-ledge",
+        "lore: scour finding: median site sees 18% of its 1.2 km surroundings — a view is a reward"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The rim is the one place in Argonia with a genuine long sightline, and this ledge looks back down over the whole freehold reach.",
+        "siteAdvantages": "A ridge end at 268 m with the ground falling away and no canopy.",
+        "occupantsMotive": "Nobody; the ground is worn where generations have stood.",
+        "pressures": "It is the only place a traveller can actually see the shape of this zone, which makes it a navigation tool.",
+        "wouldChangeIf": "Nothing changes it; that is why the smugglers use it as a lookout as well."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "border mountains",
+          "upland hills"
+        ],
+        "hardConstraints": [
+          "a genuine long sightline",
+          "above the canopy"
+        ],
+        "preferences": [
+          "reveals the river reach and at least three plotted places"
+        ],
+        "landformClasses": [
+          "ridge-end",
+          "summit",
+          "cliff-bench"
+        ],
+        "scourSiteIds": [
+          "site.scour.border-mountains.ridge-end-042",
+          "site.scour.firm-lowland.summit-015"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D3",
+      "traversalModes": [
+        "walk",
+        "climb"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 4,
+      "rewardProfile": {
+        "kinds": [
+          "vista",
+          "navigation-knowledge",
+          "loot-cache"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "a bare spur nose with nothing above it",
+        "palette": "rock, lichen, and a great deal of sky",
+        "materials": "worn rock, a cairn, a sighting stone",
+        "signatureFeature": "the only view in the province that shows you a river system rather than a wall of trees",
+        "condition": "worn smooth by four hundred years of standing",
+        "mood": "relief, and a little vertigo",
+        "approach": "you climb for an hour and the province opens",
+        "senses": "wind; and the river, faintly, from very far below"
+      },
+      "assetPlan": [
+        "landmark-civic",
+        "totems-ritual",
+        "clutter"
+      ],
+      "discovery": "sightline",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-rim",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [],
+        "marks": [
+          "mark.vista.sighting-stone"
+        ]
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.river-bog-iron-bloomery",
+      "namingRule": "named for the bog it draws from",
+      "classification": {
+        "class": "works",
+        "family": "extraction",
+        "type": "bog-iron-bloomery",
+        "variant": "cold",
+        "magnitude": "M1"
+      },
+      "status": "abandoned",
+      "provenance": "lore-implied",
+      "sources": [
+        "world/sources/lore/topics/material-culture.md",
+        "world/sources/catalogue/type-recipes.json#bog-iron-bloomery",
+        "lore: Lore:Black Marsh (bog iron); material-culture (metal use almost unheard of post-Duskfall)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Somebody tried to make the freeholds self-sufficient in iron out of the bog ore, and it did not pay against stolen ship fastenings.",
+        "siteAdvantages": "Beside the ore bog with a charcoal supply and water for the bellows.",
+        "occupantsMotive": "Nobody. The furnace stack is intact and cold.",
+        "pressures": "It failed commercially rather than technically, which is the more interesting failure.",
+        "wouldChangeIf": "If the smithy's supply were cut, this is the first place anyone would come back to."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "fringe marsh",
+          "seasonal floodplain",
+          "firm lowland",
+          "upland hills"
+        ],
+        "hardConstraints": [
+          "ore bog and charcoal within reach"
+        ],
+        "preferences": [
+          "beside water for the bellows"
+        ],
+        "landformClasses": [
+          "any-firm-ground",
+          "any-channel-bank"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D2",
+      "traversalModes": [
+        "walk"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "crafting",
+          "loot-cache",
+          "information"
+        ],
+        "valueTier": "T1"
+      },
+      "vibe": {
+        "silhouette": "a clay stack the height of a man, standing alone",
+        "palette": "clay ochre, slag black-green, grass",
+        "materials": "clay furnace, slag heaps, charcoal pits",
+        "signatureFeature": "slag heaps arranged in dated rows, which read as an argument that was slowly lost",
+        "condition": "cold, intact",
+        "mood": "commercial defeat rendered in clay",
+        "approach": "the stack looks like a termite mound until you are close",
+        "senses": "nothing; wind in the slag"
+      },
+      "assetPlan": [
+        "stockade-scaffold",
+        "fences-wattle",
+        "clutter"
+      ],
+      "discovery": "rumour",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-list",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 4,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.river-salvage-yard",
+      "namingRule": "named for the reach it works",
+      "classification": {
+        "class": "works",
+        "family": "craft",
+        "type": "salvage-divers-yard",
+        "variant": "wreck",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "world/sources/lore/extrapolation/settlement-register.md §2 (Alten Corimont lives on smuggling, transit and salvage)",
+        "world/sources/catalogue/type-recipes.json#salvage-divers-yard",
+        "lore: Lore:Lilmoth (the drowned quarter, salvaged for 150 years)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The register gives the free port salvage as a named livelihood, and a river with a bar and a whitewater reach above it supplies the material.",
+        "siteAdvantages": "On the bank below the bar, where anything lost upstream eventually grounds.",
+        "occupantsMotive": "Divers who work the reach and dry what they bring up on frames facing the wind.",
+        "pressures": "Their lot book records which wreck each piece came from, which is a list of every consignment lost on this river.",
+        "wouldChangeIf": "If the reach were cleared, the yard would have to buy its stock like everyone else."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "deep river corridor",
+          "firm lowland",
+          "lake & standing water"
+        ],
+        "hardConstraints": [
+          "beside drowned or wrecked ground"
+        ],
+        "preferences": [
+          "below a bar or a whitewater reach"
+        ],
+        "landformClasses": [
+          "any-channel-bank",
+          "oxbow"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.water-narrows-048"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "2-5 D1 divers"
+      ],
+      "dangerTier": "D2",
+      "traversalModes": [
+        "dive",
+        "swim",
+        "boat",
+        "walk"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "trade",
+          "information",
+          "loot-cache"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "drying frames covered in river-blackened objects",
+        "palette": "black waterlogged timber, rust, salt-white bloom",
+        "materials": "frames, desalting tubs, weighted belts",
+        "signatureFeature": "a lot book naming the wreck, the reach and the year for every piece on the frames",
+        "condition": "working, cluttered",
+        "mood": "obsessive and slightly ghoulish",
+        "approach": "the frames read from the water",
+        "senses": "dripping; the river; a tub being stirred"
+      },
+      "assetPlan": [
+        "docks-piers",
+        "stockade-scaffold",
+        "submerged-ruins",
+        "fishing-props",
+        "clutter"
+      ],
+      "discovery": "sightline",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-reach",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [
+          "evidence.salvage.river-lot-book"
+        ],
+        "station": [
+          "station.trade.river-salvage"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 3,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.rockpoint",
+      "name": "Rockpoint",
+      "classification": {
+        "class": "settlement",
+        "family": "homestead",
+        "type": "claimable-steading",
+        "variant": "derelict",
+        "magnitude": "M2"
+      },
+      "status": "abandoned",
+      "provenance": "canon-named",
+      "sources": [
+        "uesp:Lore:Alten Corimont (neighbours)",
+        "world/sources/lore/extrapolation/settlement-register.md §4 (Rockpoint, SE of Alten Corimont: Alten Corimont's rival — a competing landing that lost)",
+        "docs/quests/20-world-provisions.md §12b (the player stronghold site: one reoccupied xanmeer or abandoned river station)",
+        "world/sources/catalogue/type-recipes.json#claimable-steading",
+        "lore: build-out register: player ownership needs a place shape reserved now, or it is a refactor later (0041 forward-compatibility block)"
+      ],
+      "confidence": "ARENA_NAME_EXTRAPOLATED",
+      "why": {
+        "founding": "A rival landing founded downriver to undercut Alten Corimont's list, which lost — because the river bar below it will not take a laden hull and the list will not be undercut.",
+        "siteAdvantages": "A stone-footed landing, a warehouse shell and a defensible bank, all standing, on ground nobody now claims.",
+        "occupantsMotive": "Nobody. The bar that killed it also keeps casual squatters away, and Alten Corimont makes sure the story of why it failed is well told.",
+        "pressures": "It is intact, empty, freehold ground with a river frontage — which in this zone is the most valuable unowned thing there is.",
+        "wouldChangeIf": "If anyone repaired the landing and dredged the bar, Alten Corimont would have a competitor again, and would act."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "fringe marsh",
+          "seasonal floodplain",
+          "upland hills"
+        ],
+        "hardConstraints": [
+          "a standing landing and at least one roofed shell",
+          "unclaimed ground",
+          "river frontage",
+          "downstream of the free port, below a bar"
+        ],
+        "preferences": [
+          "defensible bank",
+          "reserve for the Phase 30 player-stronghold study — three phase states, four allegiance re-skins"
+        ],
+        "landformClasses": [
+          "cliff-bench",
+          "any-channel-bank",
+          "oxbow"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.cliff-bench-062",
+          "site.scour.firm-lowland.box-canyon-056"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D3",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "claimable-ground",
+          "loot-cache",
+          "quest-hooks",
+          "unique-knowledge"
+        ],
+        "valueTier": "T3"
+      },
+      "vibe": {
+        "silhouette": "a stone landing and a warehouse shell with no roof, standing alone on a bend",
+        "palette": "grey stone, black burnt timber ends, brown river, green taking it back",
+        "materials": "cut stone footings — expensive, foreign, and the reason it is still standing at all",
+        "signatureFeature": "a landing built for hulls that cannot get to it, with the mooring rings still bright from a rope nobody has tied in eighty years",
+        "condition": "structurally sound, roofless, empty",
+        "mood": "opportunity dressed as failure",
+        "approach": "you see the landing from the water and assume the town is behind it, and it is not",
+        "senses": "river; wind through an unroofed shell; no voices at all"
+      },
+      "assetPlan": [
+        "vanilla-farmhouse",
+        "bmv-fort",
+        "docks-piers",
+        "stockade-scaffold",
+        "clutter",
+        "signage-blank"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "quest.provision.player-stronghold-candidate",
+          "quest.provision.rival-landing"
+        ],
+        "tierOwnership": "tier-1 (offered to the stronghold reservation; not claimed by any tier-2 line)"
+      },
+      "rumourPoolKey": "rumour.pirate-freeholds.rockpoint",
+      "deedCounterKeys": [
+        "deed.stronghold.claim-established"
+      ],
+      "sockets": {
+        "scene": [
+          "scene.rockpoint.first-claim"
+        ],
+        "evidence": [
+          "evidence.rockpoint.dredging-survey"
+        ],
+        "station": [
+          "station.boat.rockpoint-landing"
+        ],
+        "marks": [
+          "mark.rockpoint.mooring-rings"
+        ]
+      },
+      "complexityBudget": "standard",
+      "importanceTier": 1,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.trunk-ferry-stage",
+      "namingRule": "the two banks' names, hyphenated",
+      "classification": {
+        "class": "transit",
+        "family": "landing",
+        "type": "ferry-stage",
+        "variant": "free",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Black Marsh (outsiders travel behind an Argonian guide)",
+        "world/sources/catalogue/type-recipes.json#ferry-stage",
+        "lore: Lore:Black Marsh (outsiders arrive by ferry behind an Argonian guide)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "A free crossing kept by a village that refuses to charge, four hundred metres from a bridge that does.",
+        "siteAdvantages": "A channel too wide to bridge cheaply and too calm to be dangerous.",
+        "occupantsMotive": "Villagers who row anyone across for nothing, entirely to spite the span downstream.",
+        "pressures": "The syndicate has tried three times to close it and cannot find a legal basis.",
+        "wouldChangeIf": "If the village were bought off, the trunk road's toll becomes unavoidable."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "fringe marsh",
+          "deep river corridor",
+          "lake & standing water"
+        ],
+        "hardConstraints": [
+          "too wide or deep to ford",
+          "paired stage on the far bank"
+        ],
+        "preferences": [
+          "within sight of a toll crossing"
+        ],
+        "landformClasses": [
+          "water-narrows",
+          "any-channel-bank",
+          "confluence"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.isthmus-042"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D2",
+      "traversalModes": [
+        "boat",
+        "walk",
+        "social",
+        "fastTransit"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "travel",
+          "information",
+          "quest-hooks"
+        ],
+        "valueTier": "T1"
+      },
+      "vibe": {
+        "silhouette": "a bare stage, a boat and no toll box at all",
+        "palette": "plain timber, brown water, no paint",
+        "materials": "a plank stage, a pole boat, a bench",
+        "signatureFeature": "a conspicuously absent toll box, with the empty bracket left up on purpose",
+        "condition": "plain and sound",
+        "mood": "stubborn generosity",
+        "approach": "the bridge is visible from it, which is the point",
+        "senses": "pole in mud; laughter aimed downstream"
+      },
+      "assetPlan": [
+        "docks-piers",
+        "plank-ferry-swamp",
+        "rowboats",
+        "signage-blank",
+        "clutter"
+      ],
+      "discovery": "road",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-owing",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [
+          "station.ferry.trunk-free-stage"
+        ],
+        "marks": [
+          "mark.ferry.empty-toll-bracket"
+        ]
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 3,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.trunk-hearth-house",
+      "namingRule": "the household's name plus 'fire'",
+      "classification": {
+        "class": "civic",
+        "family": "refuge",
+        "type": "hearth-house",
+        "variant": "road-kept",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Argonian (a comer cannot be refused)",
+        "world/sources/catalogue/type-recipes.json#hearth-house",
+        "lore: Lore:Argonian (a comer cannot be refused); pacing: a hostile province needs a safety floor outside its cities"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Even in a zone that prices everything, the obligation not to refuse a comer holds — and the household that keeps it is quietly the most respected thing on the trunk.",
+        "siteAdvantages": "On the trunk at a day's travel from the next fire, on ground that never floods.",
+        "occupantsMotive": "One household, four generations, one fire.",
+        "pressures": "They give away what the tradehouse two hours on sells, and neither side mentions it.",
+        "wouldChangeIf": "If they ever charged, the zone would lose the one thing it has that is not for sale."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "fringe marsh",
+          "seasonal floodplain",
+          "upland hills"
+        ],
+        "hardConstraints": [
+          "on a route",
+          "never floods",
+          "fire visible from the road at night"
+        ],
+        "preferences": [
+          "a day's travel from the next hearth house"
+        ],
+        "landformClasses": [
+          "flood-high",
+          "any-firm-ground",
+          "ford"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.cliff-bench-046"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "1-6 D0 household"
+      ],
+      "dangerTier": "D0",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "rest",
+          "food",
+          "information",
+          "safety"
+        ],
+        "valueTier": "T1"
+      },
+      "vibe": {
+        "silhouette": "one lit doorway and a fire, deliberately visible from the road",
+        "palette": "fire orange in a grey landscape, thatch, smoke",
+        "materials": "mud render, thatch, one enormous hearth",
+        "signatureFeature": "a guest tally on the doorframe that includes names the port list would like to have",
+        "condition": "worn by use, immaculately kept",
+        "mood": "the safest place in a zone with no law",
+        "approach": "the fire is the cue, at the hour you need it",
+        "senses": "fire; cooking; somebody already awake"
+      },
+      "assetPlan": [
+        "mud-mother-grove",
+        "bamboo-hut",
+        "vanilla-shackkit",
+        "argonian-lights",
+        "clutter",
+        "argonian-props"
+      ],
+      "discovery": "sightline",
+      "rumourPoolKey": "rumour.pirate-freeholds.road-fires",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [
+          "evidence.hearth.guest-tally"
+        ],
+        "station": [
+          "station.rest.trunk-hearth"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 3,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.trunk-road-tradehouse",
+      "namingRule": "named for the mile-mark it stands at",
+      "classification": {
+        "class": "civic",
+        "family": "festivity",
+        "type": "tradehouse",
+        "variant": "road",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "geography-derived",
+      "sources": [
+        "docs/research/morrowind-content-density.md",
+        "world/sources/catalogue/type-recipes.json#tradehouse",
+        "lore: Morrowind's corner club / tradehouse pattern (morrowind-content-density.md); Lore:Hissmir Fish-Eye Rye"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "A day's travel out on the northern trunk, which is exactly where a paid bed sells to people who cannot reach the port before dark.",
+        "siteAdvantages": "A ford with firm ground, a landing and space for beasts.",
+        "occupantsMotive": "A keeper who takes coin, barter and — reluctantly — obligation.",
+        "pressures": "It is the last place before the rim where a stranger is served without questions.",
+        "wouldChangeIf": "If the trunk were rerouted the house is worthless within a year."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "upland hills",
+          "fringe marsh"
+        ],
+        "hardConstraints": [
+          "on the trunk at day-travel spacing",
+          "a landing"
+        ],
+        "preferences": [
+          "last service before the rim"
+        ],
+        "landformClasses": [
+          "ford",
+          "any-firm-ground",
+          "saddle"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.isthmus-042"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D2",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social",
+        "fastTransit"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "rest",
+          "information",
+          "quest-hooks",
+          "trade"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "a long low building with lamps at a road bend",
+        "palette": "whitewash, thatch, lamp yellow",
+        "materials": "timber frame, thatch, a stone-flagged main room",
+        "signatureFeature": "three price columns chalked at the door: coin, goods, and owed",
+        "condition": "commercially maintained",
+        "mood": "brisk, incurious",
+        "approach": "lamps at the bend, in a landscape with none",
+        "senses": "beasts; kitchen; travellers comparing routes"
+      },
+      "assetPlan": [
+        "vanilla-farmhouse",
+        "market-tents",
+        "argonian-lights",
+        "lights-general",
+        "clutter",
+        "signage-blank"
+      ],
+      "discovery": "road",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-list",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [
+          "evidence.tradehouse.guest-book"
+        ],
+        "station": [
+          "station.rest.trunk-tradehouse"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 3,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.trunk-toll-bridge",
+      "name": "The Trunk Span",
+      "classification": {
+        "class": "transit",
+        "family": "crossing",
+        "type": "toll-bridge",
+        "variant": "plank",
+        "magnitude": "M1"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "world/sources/lore/topics/labour-and-bondage.md (every crossing in the province has an owner)",
+        "uesp:Lore:Keel-Sakka",
+        "world/sources/catalogue/type-recipes.json#toll-bridge",
+        "lore: labour-and-bondage dossier (every crossing has an owner); Lore:Keel-Sakka (the Tum-Taleel's bridge)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The northern trunk road crosses the river at its narrowest point, and the crossing has an owner — as every crossing here does.",
+        "siteAdvantages": "A water narrows with hard banks, on the Stormhold-to-Thorn line.",
+        "occupantsMotive": "Four toll-takers working for a freehold syndicate that bought the span outright.",
+        "pressures": "The Owing operates at this crossing, as it does at every tolled crossing in the route graph, and the ledger is kept in the open.",
+        "wouldChangeIf": "If the free port bought the span, Stormhold's road trade would be paying Alten Corimont directly, which is why it has not happened."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "deep river corridor",
+          "fringe marsh"
+        ],
+        "hardConstraints": [
+          "spans the channel at its narrowest",
+          "on the trunk route"
+        ],
+        "preferences": [
+          "a free ford 200-400 m off that the locals use",
+          "the owner lives within sight"
+        ],
+        "landformClasses": [
+          "water-narrows",
+          "ford",
+          "land-bridge"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.water-narrows-048",
+          "site.scour.firm-lowland.isthmus-052"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "1-4 D1 toll-takers"
+      ],
+      "dangerTier": "D2",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "swim",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "travel",
+          "information",
+          "quest-hooks"
+        ],
+        "valueTier": "T1"
+      },
+      "vibe": {
+        "silhouette": "a plank span with a barrier and a hut at one end",
+        "palette": "plank grey, tariff board white, brown water",
+        "materials": "planked timber on driven piles, a rope barrier",
+        "signatureFeature": "a tariff board that prices people, goods and obligation in three separate columns",
+        "condition": "repaired continuously, never rebuilt",
+        "mood": "routine extraction",
+        "approach": "the barrier is visible from a long way along a straight road",
+        "senses": "planks under feet; a bored voice quoting a rate"
+      },
+      "assetPlan": [
+        "bridges",
+        "stockade-scaffold",
+        "landmark-civic",
+        "signage-blank",
+        "clutter"
+      ],
+      "discovery": "road",
+      "questHooks": {
+        "provisions": [
+          "quest.provision.reed-writ-enforcement-point"
+        ],
+        "tierOwnership": "tier-3"
+      },
+      "rumourPoolKey": "rumour.pirate-freeholds.the-owing",
+      "deedCounterKeys": [
+        "deed.owing.tolled-crossings",
+        "deed.veiled-reed.writ-points"
+      ],
+      "sockets": {
+        "scene": [
+          "scene.toll.owing-called-in"
+        ],
+        "evidence": [
+          "evidence.toll.tariff-board"
+        ],
+        "station": [
+          "station.toll.trunk-span"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 2,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.upper-toll-bridge",
+      "namingRule": "named for the syndicate that owns it",
+      "classification": {
+        "class": "transit",
+        "family": "crossing",
+        "type": "toll-bridge",
+        "variant": "stone-arch",
+        "magnitude": "M1"
+      },
+      "status": "contested",
+      "provenance": "lore-implied",
+      "sources": [
+        "world/sources/lore/topics/labour-and-bondage.md",
+        "world/sources/catalogue/type-recipes.json#toll-bridge",
+        "lore: labour-and-bondage dossier (every crossing has an owner); Lore:Keel-Sakka (the Tum-Taleel's bridge)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "An old stone arch upriver that two freehold syndicates both claim, because the deed was written before either existed.",
+        "siteAdvantages": "The only stone crossing in the zone, at a ravine pinch.",
+        "occupantsMotive": "Two sets of toll-takers, on alternate weeks, by an arrangement that is not holding.",
+        "pressures": "Travellers are charged twice as often as they are charged once.",
+        "wouldChangeIf": "If either syndicate forced the issue there would be blood on a bridge that nobody wants damaged."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "firm lowland",
+          "upland hills",
+          "deep river corridor"
+        ],
+        "hardConstraints": [
+          "a stone span at a ravine pinch",
+          "on a real route"
+        ],
+        "preferences": [
+          "two rival toll huts, one at each end"
+        ],
+        "landformClasses": [
+          "ravine",
+          "water-narrows",
+          "gorge"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.ravine-043",
+          "site.scour.upland-hills.ravine-060"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D3",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "swim",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "travel",
+          "quest-hooks",
+          "information"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "a stone arch with a hut at each end, and two different tariff boards",
+        "palette": "grey stone, two different paint colours applied competitively",
+        "materials": "dressed stone — the only stone crossing here",
+        "signatureFeature": "two tariff boards on the same bridge, each defacing the other",
+        "condition": "the bridge is immaculate and the huts are not",
+        "mood": "comic, then not",
+        "approach": "you can see both huts before you commit to the span",
+        "senses": "two arguments, one either side"
+      },
+      "assetPlan": [
+        "bridges",
+        "stockade-scaffold",
+        "xanmeer-tileset",
+        "signage-blank",
+        "clutter"
+      ],
+      "discovery": "road",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-owing",
+      "deedCounterKeys": [
+        "deed.owing.tolled-crossings"
+      ],
+      "sockets": {
+        "scene": [
+          "scene.toll.charged-twice"
+        ],
+        "evidence": [],
+        "station": [
+          "station.toll.upper-span"
+        ],
+        "marks": []
+      },
+      "complexityBudget": "trivial",
+      "importanceTier": 3,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.upriver-bonded-store",
+      "namingRule": "named for its last legitimate consignment",
+      "classification": {
+        "class": "works",
+        "family": "storage-and-freight",
+        "type": "bonded-warehouse",
+        "variant": "reused",
+        "magnitude": "M1"
+      },
+      "status": "abandoned",
+      "provenance": "geography-derived",
+      "sources": [
+        "uesp:Lore:East Empire Company",
+        "world/sources/catalogue/type-recipes.json#bonded-warehouse",
+        "lore: guilds-and-orders dossier (the EEC is gone; its wharves and bonded stores are not)"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "A second Company store upriver at the head of navigation, too far from anywhere to be worth defending.",
+        "siteAdvantages": "On the old wharf above the transfer stages.",
+        "occupantsMotive": "A family living in one corner of a hall built for two hundred tons.",
+        "pressures": "The sealed section at the back has never been opened and the family keeps it that way, superstitiously.",
+        "wouldChangeIf": "If the sealed section were opened, the family loses the only reason anyone respects them."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "deep river corridor",
+          "firm lowland"
+        ],
+        "hardConstraints": [
+          "on a wharf",
+          "one sealed section intact"
+        ],
+        "preferences": [
+          "at the head of navigation"
+        ],
+        "landformClasses": [
+          "any-channel-bank",
+          "any-firm-ground"
+        ]
+      },
+      "culture": "argonian",
+      "dangerTier": "D3",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "stealth",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "loot-cache",
+          "rest",
+          "information"
+        ],
+        "valueTier": "T2"
+      },
+      "vibe": {
+        "silhouette": "a hall far too big for the shack lit inside it",
+        "palette": "grey stone, one small warm window",
+        "materials": "Imperial stone, later partitions of crate timber",
+        "signatureFeature": "a household living in one lit corner of an enormous dark hall",
+        "condition": "structurally fine, mostly empty",
+        "mood": "cavernous domesticity",
+        "approach": "the single window in a huge blank wall",
+        "senses": "echo; a family's small noises made large"
+      },
+      "assetPlan": [
+        "vanilla-farmhouse",
+        "docks-piers",
+        "bmv-fort",
+        "clutter",
+        "lights-general"
+      ],
+      "discovery": "rumour",
+      "rumourPoolKey": "rumour.pirate-freeholds.the-list",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [],
+        "evidence": [],
+        "station": [],
+        "marks": []
+      },
+      "complexityBudget": "simple",
+      "importanceTier": 4,
+      "workflow": "derived"
+    },
+    {
+      "id": "place.pirate-freeholds.veterans-holding",
+      "namingRule": "named for the campaign its founders fought",
+      "classification": {
+        "class": "settlement",
+        "family": "outcast-settlement",
+        "type": "morrowind-veterans-holding",
+        "variant": "unquiet",
+        "magnitude": "M3"
+      },
+      "status": "active",
+      "provenance": "lore-implied",
+      "sources": [
+        "uesp:Lore:Argonian (the 4E invasion of Morrowind)",
+        "world/sources/lore/extrapolation/argonia-4e201-state.md",
+        "world/sources/catalogue/type-recipes.json#morrowind-veterans-holding",
+        "lore: Lore:Accession War; Lore:Argonian Invasion of Morrowind (4E 5-6); Lore:Tear"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "Argonians who went north into Morrowind in the 4E came back and would not settle in ordinary villages, so they made their own holding on the border they had crossed.",
+        "siteAdvantages": "High firm ground with a view of the pass, chosen for the sightline rather than the soil.",
+        "occupantsMotive": "Veterans and their children, armed, organised, and not answerable to the free port.",
+        "pressures": "They are the only armed force in the zone and everyone is careful about what they are asked to do.",
+        "wouldChangeIf": "If they were ever hired by the port, the freeholds become a power rather than a market."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "upland hills",
+          "firm lowland",
+          "border mountains",
+          "fringe marsh",
+          "seasonal floodplain"
+        ],
+        "hardConstraints": [
+          "a view of the border crossing",
+          "defensible",
+          "own water"
+        ],
+        "preferences": [
+          "deliberately apart from the free port"
+        ],
+        "landformClasses": [
+          "summit",
+          "ridge-end",
+          "cliff-bench"
+        ],
+        "scourSiteIds": [
+          "site.scour.firm-lowland.summit-015"
+        ]
+      },
+      "culture": "argonian",
+      "occupants": [
+        "D3 veterans",
+        "D2 second generation"
+      ],
+      "notableNpcSlots": [
+        "npc.holding.veteran-captain"
+      ],
+      "dangerTier": "D3",
+      "traversalModes": [
+        "walk",
+        "boat",
+        "social"
+      ],
+      "traversalFallback": "boat",
+      "effortToReach": 3,
+      "rewardProfile": {
+        "kinds": [
+          "services",
+          "equipment",
+          "quest-hooks",
+          "information"
+        ],
+        "valueTier": "T3"
+      },
+      "vibe": {
+        "silhouette": "a stockaded compound on a summit, facing north",
+        "palette": "stockade timber, trophy colours, grey sky",
+        "materials": "heavy timber stockade, mud render, taken Dunmer gear used as fittings",
+        "signatureFeature": "Dunmer armour pieces reused as door furniture, throughout, without comment",
+        "condition": "hard, well maintained",
+        "mood": "unresolved and dangerous",
+        "approach": "the stockade is one of the few skyline shapes here",
+        "senses": "drill in the mornings; long silences otherwise"
+      },
+      "assetPlan": [
+        "stockade-scaffold",
+        "bmv-fort",
+        "mud-mother-grove",
+        "fences-wattle",
+        "totems-ritual",
+        "clutter"
+      ],
+      "discovery": "rumour",
+      "questHooks": {
+        "provisions": [],
+        "tierOwnership": "tier-2"
+      },
+      "rumourPoolKey": "rumour.pirate-freeholds.veterans",
+      "deedCounterKeys": [],
+      "sockets": {
+        "scene": [
+          "scene.veterans.hiring-refused"
+        ],
+        "evidence": [],
+        "station": [],
+        "marks": [
+          "mark.veterans.campaign-post"
+        ]
+      },
+      "complexityBudget": "standard",
+      "importanceTier": 2,
+      "workflow": "derived"
+    }
+  ]
+}
