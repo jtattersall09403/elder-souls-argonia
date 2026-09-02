@@ -455,6 +455,14 @@ At 18–22/km² fine-tempo that is **~600–740 records**, pulled lower by the
 8–12/km² D4–D5 rate — set fan-out and owner expectations on that, not
 "thousands".
 
+**Owner rulings on derivation richness (2026-09-02):** (a) the Blackrose
+"reference watershed" special status is STALE — superseded in 00-core and
+module 95 §85.2; no zone gets extra depth on that authority; (b) **all
+province slices are derived equally richly** — record counts still follow
+the causal density gradient, but per-record depth/quality (why, vibe
+signature, relations, asset plan) must be uniform across regions; the
+critique pass checks richness parity between zones explicitly.
+
 **Scour findings that bind Parts 1/3** (2026-09-02, full digest in
 `world/sources/sites/candidate-sites.md`; 1,172 scored candidate sites in
 `candidate-sites.json`, dossiers for all nine anchors in `sites/dossiers/`):

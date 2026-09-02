@@ -18,8 +18,12 @@ fixed regional danger. Production model:
 > and performance validation → streamed runtime world bundles
 
 Three simultaneous scales: (1) whole-province production data from day one,
-(2) one retained reference watershed at full detail (the Blackrose basin,
-decision 0008), (3) small disposable laboratories. **Placement systems
+(2) retained exemplar areas (owner correction 2026-09-02: the Blackrose
+basin "reference watershed" of decision 0008 is STALE as a special status —
+terrain/textures/water are built good-enough province-wide, and the Phase 10
+vegetation exemplars span several areas of which Blackrose is only one;
+exemplars are chosen per system on contrast, not tied to one basin),
+(3) small disposable laboratories. **Placement systems
 (vegetation, settlements, dungeons, ecology) are built exemplar-first**
 (module 95 §85.4, decision 0029/0034): one retained exemplar authored
 *through* the data format, validated on 2–3 contrasting instances, then

@@ -22,9 +22,15 @@ The full Argonia extent receives production data immediately:
 - primary transport graph;
 - low-resolution world-studio preview.
 
-### 85.2 Retained reference watershed
+### 85.2 Retained reference watershed — SUPERSEDED (owner, 2026-09-02)
 
-One watershed or connected corridor receives full detail. It remains part of the shipped world. Selection criteria:
+**Stale.** The province is now built in detail everywhere for terrain,
+textures and water (good-enough pending Phase P polish), and placement
+exemplars (§85.4) are chosen per system for contrast — the Phase 10
+vegetation exemplars include the Blackrose basin but are not confined to
+it. Nothing is special about Blackrose any more; do not weight work toward
+it on this section's authority. The original selection criteria are kept
+below only as a checklist of what a *good exemplar area* offers:
 
 - meaningful river system;
 - transition between fringe and deeper marsh;
@@ -73,8 +79,8 @@ out as data:
 
 Whole-province-at-once remains right for global fields and systems (terrain,
 hydrology, light, water, weather, streaming) — exactly as Phases 2–8 were
-run. Exemplars live in retained content (the Blackrose reference watershed
-where possible, 0008). Wherever the shipped games' data can teach the rules,
+run. Exemplars live in retained content, chosen per system for contrast
+(the Blackrose-first preference of 0008 is superseded — §85.2). Wherever the shipped games' data can teach the rules,
 mine it first (§86.0b).
 
 ## 86. Phase plan

@@ -387,7 +387,8 @@ displacement/wake VFX and audio (quests 70 §54).
 9. Add specialised cave and bioluminescent assets.
 10. Extract the Skyrim Sounds BSA and assemble the tropical ambience set
     (§74.4, Phase 12b).
-11. Fill gaps only after the reference watershed exposes them.
+11. Fill gaps only after the exemplar areas expose them (the reference
+    watershed's special status is superseded — module 95 §85.2).
 
 ---
 
