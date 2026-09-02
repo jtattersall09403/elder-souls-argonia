@@ -163,21 +163,34 @@ export interface SolidInstance {
 }
 
 /**
- * Choose the instances to give colliders this frame: the nearest `limit`
- * solid ones within `radiusM` of the focus.
+ * Choose the instances to give colliders this frame: the nearest solid ones
+ * within `radiusM` of the focus, until `budget` is spent.
  *
  * Colliders exist for the handful of things the player might actually walk
  * into. Building them for whole chunks would be thousands of fixed bodies for
  * a forest the player crosses in a minute — the cost that makes solidity
  * unaffordable, and the reason this is a small moving ring rather than a
  * property of the bundle.
+ *
+ * `costOf` lets the budget be counted in COLLIDERS rather than instances,
+ * which is what actually costs: a curved trunk is a chain of up to sixteen
+ * capsules, a pebble is one.
+ *
+ * The returned `coveredRadiusM` is the guarantee the caller needs — every
+ * solid nearer than it has a collider. Round 8: the ring was 45 m wide with a
+ * flat budget of 96 instances, but jungle thickets hold up to 1,411 solids
+ * inside 45 m, so the budget ran out ~12 m from the player while the rebuild
+ * only triggered after they had walked 12 m. They spent much of their time
+ * outside the collided set entirely, walking through trunks.
  */
 export function selectNearestSolids(
   instances: readonly SolidInstance[],
   focus: { x: number; z: number },
   radiusM: number,
-  limit: number,
-): SolidInstance[] {
+  budget: number,
+  costOf: (instance: SolidInstance) => number = () => 1,
+  maxCount = Number.POSITIVE_INFINITY,
+): { chosen: SolidInstance[]; coveredRadiusM: number } {
   const withinRange: { instance: SolidInstance; distanceSq: number }[] = [];
   const maxSq = radiusM * radiusM;
   for (const instance of instances) {
@@ -187,5 +200,19 @@ export function selectNearestSolids(
     if (distanceSq <= maxSq) withinRange.push({ instance, distanceSq });
   }
   withinRange.sort((a, b) => a.distanceSq - b.distanceSq);
-  return withinRange.slice(0, limit).map((entry) => entry.instance);
+  const chosen: SolidInstance[] = [];
+  let spent = 0;
+  let coveredRadiusM = radiusM;
+  for (const entry of withinRange) {
+    const cost = Math.max(1, costOf(entry.instance));
+    if (spent + cost > budget || chosen.length >= maxCount) {
+      // Everything past here is unaffordable, so cover is honestly only as
+      // far as the last one taken.
+      coveredRadiusM = Math.sqrt(entry.distanceSq);
+      break;
+    }
+    spent += cost;
+    chosen.push(entry.instance);
+  }
+  return { chosen, coveredRadiusM };
 }

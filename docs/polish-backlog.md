@@ -74,21 +74,40 @@ cosmetic/feel work lives — do not park polish items in decision docs.
     travel along the attacker's facing); its one genuine overhead never comes
     closer than 0.72 m at any separation, because it is the wind-up.
 
-  Why it was reverted: the one-handed thrust reached green on its own three
-  scenarios, but a battleaxe swinging its own light attack cannot satisfy
-  `riposteWeaponContact` — that check measures the blade against the victim's
-  **spine**, a swing lands on the flank, and it measures 0.44 m against a 0.25 m
-  limit at every separation the navigation capsules allow. And `greatsword-riposte`
-  regressed to 0.48 m for reasons that were not isolated: the greatsword's
-  profile and spec numbers were verified identical to the passing state, and the
-  runtime pair measured ~0.25 m further apart than the anchor asks for.
-  **That last one is the thing to understand first** — it is a discrepancy
-  between `executionAnchor` and where the actors actually end up, and it
-  probably affects every paired critical rather than just this one.
+  **The battleaxe half is now shipped.** The owner accepted a swing-specific
+  contact rule, so `riposteWeaponContact` takes a `contactStyle` and a battleaxe
+  ripostes with its own opening swing. The victim of a paired critical is also
+  pinned in place now, which was a real bug: the arriving attacker's capsule
+  shoved it, so every paired critical landed further out than its measured
+  separation.
 
-  Owner call needed on the battleaxe: either accept its authored (thrust-like)
-  execution, or accept a swing-specific contact contract for swings (the swing
-  *backstabs* already carry no such check).
+  **The sword and dagger stab is not shipped, and one thing blocks it.** It was
+  built twice and reached green on all three of its own scenarios both times
+  (`riposte`, `riposte-lethal`, `riposte-queued`). Every number it needs is in
+  the commit history: Rim's dagger execution, trim source 2.165–3.298, strike at
+  2.432, separation 0.8 m, entry blend 0.24 s (the blade sweeps while the pair
+  is still closing), exit cross-fade 0.36 s. What stops it is that swapping the
+  one-handed execution regresses **`greatsword-riposte`** to 0.48 m against a
+  0.25 m limit, and the cause is genuinely not understood:
+  - the greatsword's profile and attack-spec numbers were verified numerically
+    identical to the passing state, after decoupling the two-handed timing so it
+    inherits nothing from the one-handed execution;
+  - its own animation pack is **byte-identical**, and so are the victim clips,
+    the hurtbox fit and the rig data in the manifest. Only the `criticals` pack
+    file differs, and only because one clip was swapped inside it;
+  - the runtime pair measures ~0.25 m further apart than `executionAnchor` asks
+    for, and stepping the separation in moves the result by roughly half the
+    step — as if something still pushes the actors apart even with the victim
+    pinned;
+  - it is not the victim's pose: measuring the execution against `GUARD_BREAK`
+    and against `RIPOSTED_HIT1` both give 0.234 m at 0.9 m.
+
+  **Next step**: record the actual centre-to-centre distance at the damage frame
+  in the scenario telemetry and compare it to `startingSeparation`. That one
+  number says whether the anchor is being reached, and it is the only thing
+  still missing. Done when the sword and dagger riposte read as thrusts with
+  every criticals scenario green.
+
 - **The remaining ten per-weapon executions.** The greatsword and battleaxe now
   have their own; Rim Parry ships thirteen (dagger, mace, spear, four shield
   variants, unarmed, dual and the one-handed one we already had). The blocker is

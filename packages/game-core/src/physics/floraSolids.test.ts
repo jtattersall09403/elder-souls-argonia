@@ -106,7 +106,7 @@ describe("the collider ring", () => {
   });
 
   it("takes the nearest instances inside the radius and no others", () => {
-    const chosen = selectNearestSolids(
+    const { chosen } = selectNearestSolids(
       [at(30, 0), at(5, 0), at(200, 0), at(12, 0)],
       { x: 0, z: 0 }, 50, 10,
     );
@@ -115,7 +115,43 @@ describe("the collider ring", () => {
 
   it("caps the count so a dense stand cannot flood the physics world", () => {
     const dense = Array.from({ length: 500 }, (_, i) => at(i * 0.1, 0));
-    expect(selectNearestSolids(dense, { x: 0, z: 0 }, 100, 64)).toHaveLength(64);
+    expect(selectNearestSolids(dense, { x: 0, z: 0 }, 100, 64).chosen)
+      .toHaveLength(64);
+  });
+
+  it("spends the budget in COLLIDERS, because that is what costs", () => {
+    // Four trees of four capsules each fits a budget of 16, not 64.
+    const trees = Array.from({ length: 20 }, (_, i) => at(i + 1, 0));
+    const { chosen } = selectNearestSolids(trees, { x: 0, z: 0 }, 100, 16, () => 4);
+    expect(chosen).toHaveLength(4);
+  });
+
+  it("reports how far the cover actually reaches when the budget runs out", () => {
+    // This is the guarantee the caller rebuilds against. Round 8: a flat
+    // instance cap in a thicket left cover reaching ~12 m while the rebuild
+    // waited for 12 m of walking, so the player spent much of the time
+    // outside the collided set — walking through trunks.
+    const dense = Array.from({ length: 500 }, (_, i) => at(i * 0.5, 0));
+    const { chosen, coveredRadiusM } =
+      selectNearestSolids(dense, { x: 0, z: 0 }, 200, 10);
+    expect(chosen).toHaveLength(10);
+    expect(coveredRadiusM).toBeCloseTo(5.0);
+  });
+
+  it("shrinks the reported cover when the body backstop binds, not just the budget", () => {
+    // A cap that lies about its reach is worse than no cap: the caller
+    // rebuilds against `coveredRadiusM`, so it has to be the truth.
+    const dense = Array.from({ length: 100 }, (_, i) => at(i * 0.5, 0));
+    const { chosen, coveredRadiusM } =
+      selectNearestSolids(dense, { x: 0, z: 0 }, 200, 10_000, () => 1, 6);
+    expect(chosen).toHaveLength(6);
+    expect(coveredRadiusM).toBeCloseTo(3.0);
+  });
+
+  it("reports the full ring when everything inside it was affordable", () => {
+    const { coveredRadiusM } =
+      selectNearestSolids([at(3, 0)], { x: 0, z: 0 }, 40, 100);
+    expect(coveredRadiusM).toBe(40);
   });
 });
 

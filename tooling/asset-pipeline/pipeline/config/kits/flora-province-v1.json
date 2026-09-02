@@ -259,7 +259,9 @@
        2.2
       ],
       "yawDeg": 0,
-      "scale": 0.75
+      "scale": 0.75,
+      "solid": true,
+      "solidNote": "the buttress flare is something you walk INTO, not canopy \u2014 owner round 8 walked through it"
      }
     ]
    },

@@ -101,6 +101,66 @@
 >    open Claude terminal tab; restore half-written rasters from HEAD and
 >    re-run when the box is quiet.
 >
+> ### Round 9 (2026-09-01) — trunk volumes, and the collider budget bug
+>
+> Owner, after round 8: still walking through the new trunks and the
+> buttress roots. "Mould the collision capsule to the actual volume of the
+> whole of their trunks (same for all trees). This will be very important
+> for climbing later."
+>
+> **The dominant cause was not the shape at all — it was the budget.** The
+> collider ring built the nearest **96 instances** within **45 m**. Measured
+> against the densest jungle chunk, a point in the jungle has ~116 solids
+> within 45 m and up to **1,411** in a thicket, so the budget ran out
+> roughly 12 m from the player — while the rebuild only triggered after
+> they had walked 12 m. The player therefore spent much of their time
+> standing outside the set that had colliders at all, walking through
+> everything. Three changes:
+>
+> - The budget is now counted in **colliders, not instances** (a chain of
+>   sixteen capsules and a pebble are not the same cost): `RING_M` 45 -> 20,
+>   `COLLIDER_BUDGET` 2,500, with a 1,400-body backstop that essentially
+>   never binds.
+> - `selectNearestSolids` returns `coveredRadiusM` — how far the cover
+>   HONESTLY reaches, shrunk whenever either the budget or the backstop
+>   binds — and the ring rebuilds once the player has crossed 55% of it
+>   rather than a fixed 12 m. Cover is proportional to density, so the
+>   trigger has to be too. Measured worst case: 8.3 m of cover, rebuilt
+>   after 4.6 m, leaving ~3.7 m of margin — metres beyond arm's reach.
+>   Typical case is the full 20 m ring for ~35 bodies.
+> - A lower body cap was tried and REJECTED: a smaller set shrinks the
+>   covered radius, which buys *more* frequent rebuilds, not fewer.
+>
+> **The shape, for every tree.** `trunk_chain` replaces the single
+> chest-height capsule everywhere (round 8 only did composites). A tree mesh
+> is mostly leaves, so slicing it in bands measures the crown; this TRACKS
+> instead — seeded on `trunk_capsule`'s already-signed-off chest-height fit,
+> then climbing in bands, each time keeping only vertices near the axis so
+> far and letting that axis drift slowly. Foliage sits off-axis and is
+> rejected; a leaning trunk drifts and is followed. Tuning that mattered:
+>
+> - Radius is a **high percentile of radial distance** (p90), which survives
+>   both the Anvil column's dense centre cap (a low percentile called a 56 m
+>   tree 17 cm thick) and stray leaf vertices inside the gate.
+> - Radius may **shrink freely but barely grow** (x1.05/band, hard-capped at
+>   1.3x the seed). Without it the gate widened with the radius and the two
+>   ran away into the crown together — cedartree3's top capsule reached
+>   7.7 m on a 0.34 m trunk.
+> - Band height scales with the tree (`height/14`, 1-3 m), because the
+>   runtime budget is in colliders: no species costs more than 16.
+> - Result: base radii within a few cm of the fifty capsules the owner
+>   already signed off, and 79-100% of trunk height covered on most species
+>   (palms with very sparse trunk geometry reach 50-86%).
+>
+> **The buttress roots had no collider at all.** A composite measured
+> collision from part 0 only. Parts may now be marked `"solid": true`; the
+> giant's root flare is, so it is something you walk into rather than
+> through. Crowns never are.
+>
+> Runtime: `collidersFor` returns the chain; one rigid body per instance
+> carries every shape, each shape's offset a plain LOCAL position so a
+> curved chain still follows the trunk once the instance is yawed.
+>
 > ### Round 8 (2026-09-01) — the round-7 playtest fixes
 >
 > Owner: "new canopy is fantastic". Two defects, both in what round 7 added.

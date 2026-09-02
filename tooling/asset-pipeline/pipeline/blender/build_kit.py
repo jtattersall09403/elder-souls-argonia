@@ -191,9 +191,12 @@ def import_composite(parts):
     origin, which is the first part's own origin. Strays are dropped per PART,
     before composing, so one part's leftover tube cannot be mistaken for
     another part's legitimate offset.
+
+    Returns (all meshes, the STRUCTURAL meshes) — the second list is what
+    collision is measured from: the trunk, plus any part flagged `"solid"`.
     """
     composed = []
-    trunk = []
+    solid = []
     for index, part in enumerate(parts):
         meshes = import_nif_meshes(part["nif"])
         meshes, dropped = drop_strays(meshes)
@@ -214,15 +217,18 @@ def import_composite(parts):
                 obj.data = obj.data.copy()
             obj.data.transform(transform)
         composed.extend(meshes)
-        if index == 0:
-            trunk = list(meshes)
+        # The first part is the trunk by convention; any other part may opt in
+        # with `"solid": true` (the giant's buttress-root flare). Crowns never
+        # do — they are canopy, not something to walk into.
+        if index == 0 or part.get("solid"):
+            solid.extend(meshes)
     # `mesh.transform()` edits the datablock but leaves `object.bound_box`
     # cached. Every part but the LAST one gets flushed by the next part's
     # import; without this the final part measures at its untransformed
     # position and the whole composite's height, pivot and trunk capsule come
     # out wrong (it shipped one crown reading as if it sat at the tree's feet).
     bpy.context.view_layer.update()
-    return composed, trunk
+    return composed, solid
 
 
 def world_bounds(objects):
@@ -272,73 +278,92 @@ def _median(values):
     return ordered[len(ordered) // 2]
 
 
-def trunk_segments(objects, bands=None):
-    """A CHAIN of capsules following the trunk, for trunks that are not poles.
+def trunk_chain(objects, seed, step=None):
+    """Follow the trunk up the tree and describe it as a chain of capsules.
 
-    `trunk_capsule` fits one vertical capsule at a chest-height slice, which is
-    right for a tree that grows straight up and wrong for one that leans or
-    curves: the Anvil canopy tree's trunk wanders ~9 m sideways over its 34 m,
-    so a single upright cylinder at its base missed most of it and the owner
-    walked through the trunk (round 7 feedback).
+    Owner round 8: "mould the collision capsule to the actual volume of the
+    whole of their trunks (same for all trees) — this will be very important
+    for climbing later." So this replaces the single chest-height capsule for
+    EVERY tree, not just the composites.
 
-    Only ever called where the trunk is its OWN mesh — i.e. composites. For an
-    ordinary tree the upper bands are full of canopy, so a band's median centre
-    and radius would describe the crown, not the trunk; that is exactly why the
-    single-slice fit exists, and it is left alone (fifty capsules the owner has
-    already signed off depend on it).
+    The hard part is that a tree mesh is mostly leaves, so slicing it in bands
+    and measuring each band describes the crown. This TRACKS instead. `seed`
+    is `trunk_capsule`'s chest-height fit — an axis and a girth already known
+    to be the trunk, and already signed off — and the chain climbs from there
+    in `step` bands, each time keeping only vertices close to the axis so far.
+    Foliage sits far off the axis, so the gate rejects it; a leaning or curved
+    trunk drifts slowly, so the gate follows it. Radius is clamped to a smooth
+    taper band-to-band, because a trunk tapers and does not double: that is
+    what stops one lopsided branch cluster inflating the gate and running the
+    chain away into the canopy.
 
-    Returns a list of (radius, height, centre_gltf[x, y, z]).
+    Returns a list of (radius, height, centre_gltf[x, y, z]), bottom to top.
     """
     vertices = [obj.matrix_world @ v.co for obj in objects for v in obj.data.vertices]
-    if not vertices:
+    if len(vertices) < 8:
         return []
     lo_z = min(v.z for v in vertices)
     hi_z = max(v.z for v in vertices)
-    height = hi_z - lo_z
-    if height <= 0:
+    if hi_z - lo_z <= 0:
         return []
-    if bands is None:
-        # ~2 m bands. Thin bands matter: a leaning trunk drifts sideways WITHIN
-        # a band, and any radius estimator reads that drift as girth. Four-metre
-        # bands gave the canopy tree a 3.2 m base radius against a true ~1.5 m.
-        bands = max(3, min(24, int(round(height / 2.0))))
-    step = height / bands
-    raw = []
-    for index in range(bands):
-        centre_z = lo_z + (index + 0.5) * step
-        # OVERLAPPING window, one band either side. `anvilgianttrunk` is 784
-        # triangles over 56 m, so its vertex rings are metres apart and a band
-        # narrower than the spacing catches half a ring — which produced radii
-        # alternating 5.3, 1.5, 4.0, 0.6 up a smooth column.
-        inside = [v for v in vertices if abs(v.z - centre_z) <= step]
-        if len(inside) < 8:
+    if step is None:
+        # Scale the band with the tree, so a 32 m cypress does not cost twice
+        # the colliders of a 16 m one. The runtime budget is in COLLIDERS, and
+        # a chain of ~14 describes any trunk well enough to walk into.
+        step = max(1.0, min(3.0, (hi_z - lo_z) / 14.0))
+    cx, cy, radius = seed
+    seed_radius = radius
+    chain = []
+    misses = 0
+    z = lo_z
+    while z < hi_z - 1e-6:
+        band_hi = min(hi_z, z + step)
+        # The gate: how far off the current axis a vertex may be and still
+        # count as trunk. Generous enough for taper, root flare and a metre of
+        # lean per band, far tighter than the reach of a branch.
+        gate = max(0.6, radius * 1.6 + 0.6)
+        near = [v for v in vertices
+                if z <= v.z <= band_hi
+                and ((v.x - cx) ** 2 + (v.y - cy) ** 2) ** 0.5 <= gate]
+        if len(near) < 3:
+            # Low-poly trunks have vertex rings metres apart, so an empty band
+            # is usually a gap rather than the top of the bole. Only give up
+            # after several in a row.
+            misses += 1
+            if misses > 8 and chain:
+                break
+            z = band_hi
             continue
-        # Half the SMALLER horizontal extent of the window. Purely geometric,
-        # so unlike a vertex percentile it cannot be fooled by where the
-        # modeller put their triangles — a low percentile landed inside the
-        # giant column's dense centre cap and called a 56 m tree 17 cm thick.
-        # The smaller axis rather than the larger keeps residual lean (which is
-        # directional) out of the girth.
-        x_extent = max(v.x for v in inside) - min(v.x for v in inside)
-        y_extent = max(v.y for v in inside) - min(v.y for v in inside)
-        raw.append((max(0.15, 0.5 * min(x_extent, y_extent)),
-                    _median([v.x for v in inside]),
-                    _median([v.y for v in inside]),
-                    centre_z))
-
-    # Median-of-three along the chain: a trunk tapers, it does not jump. This
-    # removes the last of the low-poly sampling noise in both radius and axis.
-    segments = []
-    for i, (radius, cx, cy, cz) in enumerate(raw):
-        window = raw[max(0, i - 1):i + 2]
-        radius = _median([w[0] for w in window])
-        cx = _median([w[1] for w in window])
-        cy = _median([w[2] for w in window])
+        misses = 0
+        ncx = _median([v.x for v in near])
+        ncy = _median([v.y for v in near])
+        # Cap the axis move per band, so a lopsided cluster cannot yank the
+        # chain sideways off the trunk.
+        drift = ((ncx - cx) ** 2 + (ncy - cy) ** 2) ** 0.5
+        limit = step * 1.1
+        if drift > limit:
+            scale = limit / drift
+            ncx, ncy = cx + (ncx - cx) * scale, cy + (ncy - cy) * scale
+        cx, cy = ncx, ncy
+        # A high percentile of radial distance, not the band's extent: the
+        # outer wall dominates it, so it survives both a dense centre cap (a
+        # LOW percentile called the 56 m Anvil column 17 cm thick) and the few
+        # stray leaf vertices that slip inside the gate.
+        distances = sorted(((v.x - cx) ** 2 + (v.y - cy) ** 2) ** 0.5 for v in near)
+        measured = distances[min(len(distances) - 1, int(len(distances) * 0.9))]
+        # A trunk TAPERS. Allowing even 35% growth per band compounded over
+        # ten bands (1.35^10 is twentyfold), the gate widened with it, and the
+        # chain climbed into the crown fattening as it went — cedartree3's top
+        # capsule reached 7.7 m on a 0.34 m trunk. So the radius may shrink
+        # freely, barely grow band to band, and never exceed the base by much.
+        radius = max(0.08, min(max(measured, radius * 0.65),
+                               radius * 1.05, seed_radius * 1.3))
         # Blender z-up -> glTF Y-up: (x, y, z) -> (x, z, -y). Height is one
         # band, so consecutive capsules meet without a gap.
-        segments.append((round(radius, 3), round(step, 3),
-                         [round(cx, 3), round(cz, 3), round(-cy, 3)]))
-    return segments
+        chain.append((round(radius, 3), round(band_hi - z, 3),
+                      [round(cx, 3), round((z + band_hi) * 0.5, 3), round(-cy, 3)]))
+        z = band_hi
+    return chain
 
 
 def trunk_capsule(objects, lo, hi):
@@ -392,9 +417,9 @@ exported = []
 for asset in PLAN["assets"]:
     # Bake transforms and convert units in one step, then detach from any
     # imported parents so each asset is a clean root.
-    trunk_meshes = None
+    solid_meshes = None
     if asset.get("parts"):
-        meshes, trunk_meshes = import_composite(asset["parts"])
+        meshes, solid_meshes = import_composite(asset["parts"])
     else:
         meshes = import_nif_meshes(asset["nif"])
     if not meshes:
@@ -532,37 +557,32 @@ for asset in PLAN["assets"]:
     # The runtime asserts on this tag; a kit without it gets no colliders
     # rather than misplaced ones.
     if asset["collision"] == "trunk-capsule":
-        # A composite measures its capsule off its FIRST part only — the
-        # trunk. Sampling the whole assembly would take the emergent giant's
-        # 12 m buttress-root flare for trunk width and wall the player out of
-        # a circle they can see straight through.
-        capsule_meshes = trunk_meshes or meshes
+        # A composite collides on its STRUCTURAL parts — the trunk, plus
+        # anything marked solid in the kit config (the emergent giant's
+        # buttress-root flare). Never the crowns: sampling the whole assembly
+        # would take a 34 m canopy for trunk width.
+        capsule_meshes = solid_meshes or meshes
         radius, height, base = trunk_capsule(
-            capsule_meshes, *(world_bounds(capsule_meshes) if trunk_meshes else (lo, hi)))
-        # Explicit override for the handful of meshes the automatic measure
-        # gets wrong. `trunk_capsule` takes a percentile of the lowest slab's
-        # vertices, which assumes the trunk is where the vertices are; the
-        # Anvil giant column is a smooth low-poly cylinder with a dense cap of
-        # small triangles at its centre, so the percentile lands inside the
-        # cap and returns a 17 cm trunk you can walk through. Overriding one
-        # asset is safer than retuning a heuristic that is right for the other
-        # fifty (the owner passed those colliders in round 6).
+            capsule_meshes,
+            *(world_bounds(capsule_meshes) if solid_meshes else (lo, hi)))
         if asset.get("collisionRadiusM"):
             radius = float(asset["collisionRadiusM"])
         record["collisionFrame"] = "pivot-yup-v2"
+        # Kept as the fallback for any runtime that does not read the chain.
         record["collisionCapsule"] = {
             "radiusM": radius, "heightM": height, "baseOffsetM": base,
         }
-        # A composite's trunk is its own mesh, so it can be followed band by
-        # band. The single capsule stays in the manifest as the fallback for
-        # any runtime that does not read segments.
-        if trunk_meshes:
-            segments = trunk_segments(trunk_meshes)
-            if segments:
-                record["collisionSegments"] = [
-                    {"radiusM": r, "heightM": h, "centreOffsetM": c}
-                    for r, h, c in segments
-                ]
+        # The real shape: a chain moulded to the trunk's own volume, for
+        # EVERY tree (owner round 8 — one upright cylinder missed the leaning
+        # trunks, and climbing will need the true volume).
+        # Seeded from the chest-height fit above: a trunk axis and girth
+        # already known good (base is glTF Y-up, so cy is -base[2]).
+        segments = trunk_chain(capsule_meshes, (base[0], -base[2], radius))
+        if segments:
+            record["collisionSegments"] = [
+                {"radiusM": r, "heightM": h, "centreOffsetM": c}
+                for r, h, c in segments
+            ]
     elif asset["collision"] == "convex":
         # Boulders and root arches: a box proxy about the mesh bounds, inset a
         # little so the collider hides inside the silhouette — a proxy that

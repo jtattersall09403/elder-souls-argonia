@@ -24,14 +24,40 @@ import {
  * walk-through, as they are in Skyrim and Morrowind.
  */
 
-/** Metres. Comfortably past anything the player can reach this frame. */
-const RING_M = 45;
+/**
+ * Metres. The furthest anything is considered for a collider. Small on
+ * purpose: cover only has to outlast the walk between rebuilds, and every
+ * metre of radius is quadratically more bodies to reconcile.
+ */
+const RING_M = 20;
 
-/** Ceiling on simultaneous flora bodies, so a dense stand cannot flood Rapier. */
-const MAX_BODIES = 96;
+/**
+ * Ceiling on simultaneous flora COLLIDERS (not bodies): a curved trunk is a
+ * chain of up to sixteen capsules, a pebble is one, so counting instances
+ * budgets the wrong thing. These are fixed bodies with no simulation, so the
+ * cost is broad-phase only and a few thousand is cheap.
+ */
+const COLLIDER_BUDGET = 2500;
 
-/** Rebuild when the player has walked this far since the last one. */
-const REBUILD_MOVE_M = 12;
+/**
+ * Backstop on bodies, for the pathological case where every solid in the ring
+ * is a single-capsule pebble. Measured against the densest jungle chunk this
+ * essentially never binds (95th percentile is ~1,250) — and capping it lower
+ * would be counter-productive, since a smaller set shrinks the covered radius
+ * and buys MORE frequent rebuilds, not fewer.
+ */
+const MAX_BODIES = 1400;
+
+/**
+ * Fraction of the covered radius the player may cross before the set is
+ * rebuilt. Proportional, not a fixed distance: a thicket can only afford
+ * ~8 m of cover, so a fixed margin would either thrash the rebuild there or
+ * (as in round 8, where a flat 12 m trigger met ~12 m of cover) let the
+ * player walk clean out of the collided set and through every trunk in it.
+ * At 0.55 the remaining cover is always at least ~45% of the radius, which
+ * is metres more than arm's reach.
+ */
+const REBUILD_AT_COVER_FRACTION = 0.55;
 
 export function VegetationColliders({
   solidsRef,
@@ -47,7 +73,8 @@ export function VegetationColliders({
   onCount?: (count: number) => void;
 }) {
   const [active, setActive] = useState<SolidInstance[]>([]);
-  const [builtAt, setBuiltAt] = useState<{ x: number; z: number } | null>(null);
+  const [builtAt, setBuiltAt] =
+    useState<{ x: number; z: number; covered: number } | null>(null);
   const [assets, setAssets] = useState<FloraCollisionAsset[] | null>(null);
 
   // The same manifest `Vegetation` reads, fetched independently so the two
@@ -69,18 +96,34 @@ export function VegetationColliders({
     [assets],
   );
 
+  // How many colliders one instance of a species costs, so the budget is
+  // spent on shapes rather than on instance count.
+  const costOf = useMemo(() => {
+    const cache = new Map<string, number>();
+    return (instance: SolidInstance) => {
+      let cost = cache.get(instance.species);
+      if (cost === undefined) {
+        cost = Math.max(1, collidersFor(byId.get(instance.species)).length);
+        cache.set(instance.species, cost);
+      }
+      return cost;
+    };
+  }, [byId]);
+
   useFrame(() => {
     const focus = focusRef.current;
     if (
       builtAt &&
-      Math.hypot(focus.x - builtAt.x, focus.z - builtAt.z) < REBUILD_MOVE_M
+      Math.hypot(focus.x - builtAt.x, focus.z - builtAt.z)
+        < Math.max(1.5, builtAt.covered * REBUILD_AT_COVER_FRACTION)
     ) {
       return;
     }
-    setBuiltAt({ x: focus.x, z: focus.z });
-    setActive(
-      selectNearestSolids(solidsRef.current, focus, RING_M, MAX_BODIES),
+    const { chosen, coveredRadiusM } = selectNearestSolids(
+      solidsRef.current, focus, RING_M, COLLIDER_BUDGET, costOf, MAX_BODIES,
     );
+    setBuiltAt({ x: focus.x, z: focus.z, covered: coveredRadiusM });
+    setActive(chosen);
   });
 
   useEffect(() => { onCount?.(active.length); }, [active, onCount]);

@@ -86,6 +86,38 @@ first, then open only the master-plan sections the active phase needs.
   Known gaps, unchanged: only six exemplar areas have plants; the rest of
   the province is bare on purpose.
 
+- **Combat round-5/6 (workstream C): the parry ruling, and the battleaxe.**
+  In the sandbox, not the world.
+
+  **The parry hitbox is now active for the whole of the second parry
+  animation — the catch — and for nothing else**, on every weapon and shield,
+  as you ruled. It is derived from the clips rather than written down per
+  family, so it cannot drift again. **This makes parrying much more forgiving
+  than it was**: a one-handed catch goes from 0.2 s to 0.7 s and a greatsword's
+  from 0.16 s to 1.1 s. That is a big change to the feel and the main thing to
+  judge — too easy, too hard, or right, for weapon, shield and greatsword.
+
+  **The battleaxe ripostes with its own swing**, on your ruling to accept a
+  swing-specific contact rule. Its family's authored execution contains no chop
+  that actually lands — every phase of it that reaches a torso is a forward
+  drive — so its own swing is the honest stand-in, exactly as it already is for
+  its backstab. Warhammers, halberds and one-handed axes and maces get the same.
+  Worth a look at whether the axe visibly connects.
+
+  Also fixed underneath: **the victim of a paired critical now stays put.** It
+  was a physics body, so the attacker arriving at its authored distance shoved
+  it away — every riposte and backstab in the game was landing further out than
+  the distance it was measured to.
+
+  **The sword and dagger stab is still not shipped.** It was built twice and
+  passed all three of its own scenarios both times; what stops it is that
+  swapping the one-handed execution knocks the *greatsword* riposte out, for a
+  cause that is not understood yet — the greatsword's numbers and its whole
+  animation pack are byte-identical to the passing state. Rather than ship
+  something that turns a passing check red, it is reverted with every measured
+  number recorded and the one remaining diagnostic written down in
+  [polish-backlog.md](polish-backlog.md).
+
 - **Combat round-4 playtest (workstream C).** In the sandbox, not the world.
   Everything below is on your last list.
 
