@@ -70,8 +70,17 @@ SCHEMA_VERSION = 1
 REPO_ROOT = Path(__file__).resolve().parents[3]
 CATALOGUE_DIR = REPO_ROOT / "world" / "sources" / "catalogue"
 
-STATUSES = {"active", "ruined", "abandoned", "seasonal", "drowned", "contested", "cut"}
-PROVENANCES = {"canon-named", "lore-implied", "quest-required", "geography-derived", "density-fill"}
+STATUSES = {"active", "ruined", "abandoned", "seasonal", "drowned", "contested", "cut", "under-construction", "deferred"}
+# canon-named = the NAME appears verbatim in a cited source; canon-derived =
+# the subject is canon but the name is ours (lore critique 2026-09-02 —
+# the two are different guarantees and downstream agents must tell them apart)
+PROVENANCES = {"canon-named", "canon-derived", "lore-implied", "quest-required", "geography-derived", "density-fill"}
+SEASONS = {"all-year", "wet", "dry", "wet-peak", "dry-peak", "varies"}
+DENSITY_LAYERS = {"fine-tempo", "destination", "landmark"}
+ENTRANCES = {"none", "door", "trapdoor", "cellar-door", "hollow-trunk", "root-mouth",
+             "underwater-entry", "sinkhole-lip", "burrow", "stair-throat", "well-shaft",
+             "grave-cut", "cave-mouth", "gate"}
+UNDERWATER_ACCESS = {"none", "surface-swim", "shallow-dive", "deep-dive", "argonian-only-depth"}
 DISCOVERY = {"sightline", "road", "rumour", "document", "none"}
 COMPLEXITY = {"trivial", "simple", "standard", "complex"}
 WORKFLOW = ("derived", "plotted", "authored", "frozen")
@@ -90,6 +99,10 @@ REQUIRED_AT = {
     "frozen": [],  # freeze is gated by 10b/10c checklists, not extra fields
 }
 WHY_KEYS = {"founding", "siteAdvantages", "occupantsMotive", "pressures", "wouldChangeIf"}
+# Required at 'derived' ONLY under strict mode — flipped into REQUIRED_AT once
+# the 2026-09-02 critique back-fill lands (the back-fill agent's last commit
+# moves these into REQUIRED_AT['derived'] and deletes this list).
+STRICT_REQUIRED = ["season", "eraLayers", "densityLayer", "entrance", "underwaterAccess"]
 
 
 @dataclass
@@ -134,7 +147,7 @@ def load_region_files(catalogue_dir: Path = CATALOGUE_DIR) -> list[RegionFile]:
     return out
 
 
-def validate_record(rec: dict, region: str, classes: dict, errors: list[str]) -> None:
+def validate_record(rec: dict, region: str, classes: dict, errors: list[str], strict: bool = False) -> None:
     rid = rec.get("id", "<missing id>")
     wf = rec.get("workflow")
     if wf not in WORKFLOW:
@@ -143,6 +156,8 @@ def validate_record(rec: dict, region: str, classes: dict, errors: list[str]) ->
     required: list[str] = []
     for rung in WORKFLOW[: WORKFLOW.index(wf) + 1]:
         required += REQUIRED_AT[rung]
+    if strict:
+        required += STRICT_REQUIRED
     for key in required:
         if key not in rec or rec[key] is None:
             _fail(errors, rid, f"missing required field '{key}' at workflow '{wf}'")
@@ -177,6 +192,23 @@ def validate_record(rec: dict, region: str, classes: dict, errors: list[str]) ->
         _fail(errors, rid, f"sockets must carry exactly the {SOCKET_KINDS} lists (empty is fine)")
     if not isinstance(rec.get("deedCounterKeys", []), list):
         _fail(errors, rid, "deedCounterKeys must be a list")
+    if not (rec.get("name") or "").strip() and not rec.get("namingRule"):
+        _fail(errors, rid, "name must be non-empty (or provide namingRule) — standard 3 text extraction")
+    if "season" in rec and rec["season"] not in SEASONS:
+        _fail(errors, rid, f"season must be one of {sorted(SEASONS)}")
+    if "densityLayer" in rec and rec["densityLayer"] not in DENSITY_LAYERS:
+        _fail(errors, rid, f"densityLayer must be one of {sorted(DENSITY_LAYERS)}")
+    if "entrance" in rec and rec["entrance"] not in ENTRANCES:
+        _fail(errors, rid, f"entrance must be one of {sorted(ENTRANCES)} (module 70 §47)")
+    if "underwaterAccess" in rec and rec["underwaterAccess"] not in UNDERWATER_ACCESS:
+        _fail(errors, rid, f"underwaterAccess must be one of {sorted(UNDERWATER_ACCESS)}")
+    if "eraLayers" in rec and not (isinstance(rec["eraLayers"], list) and rec["eraLayers"]):
+        _fail(errors, rid, "eraLayers must be a non-empty list (use ['current'] when nothing older shows)")
+    for src in rec.get("sources", []):
+        if isinstance(src, str) and src.startswith(("docs/", "world/")):
+            path = src.split()[0].split("#")[0].rstrip(":,;")
+            if not (REPO_ROOT / path).exists():
+                _fail(errors, rid, f"broken citation path: {path}")
 
 
 def committed_ids(catalogue_dir: Path = CATALOGUE_DIR) -> set[str]:
@@ -198,9 +230,23 @@ def committed_ids(catalogue_dir: Path = CATALOGUE_DIR) -> set[str]:
     return ids
 
 
+def load_asset_aliases(catalogue_dir: Path = CATALOGUE_DIR) -> dict | None:
+    """asset-aliases.json maps every assetPlan slug to an inventory family id
+    (feasibility critique F4/F5 — free-text assetPlan let a typo survive).
+    Returns None until the file exists; once it does, every slug must resolve."""
+    path = catalogue_dir / "asset-aliases.json"
+    if not path.exists():
+        return None
+    data = json.loads(path.read_text())
+    if data.get("schemaVersion") != SCHEMA_VERSION:
+        raise ValueError(f"{path}: schemaVersion must be {SCHEMA_VERSION}")
+    return data["aliases"]
+
+
 def validate_catalogue(catalogue_dir: Path = CATALOGUE_DIR, check_permanence: bool = True) -> list[str]:
     errors: list[str] = []
     classes = load_taxonomy(catalogue_dir)
+    aliases = load_asset_aliases(catalogue_dir)
     seen: set[str] = set()
     for rf in load_region_files(catalogue_dir):
         ids = [p.get("id", "") for p in rf.places]
@@ -214,6 +260,10 @@ def validate_catalogue(catalogue_dir: Path = CATALOGUE_DIR, check_permanence: bo
                 errors.append(f"{rid}: duplicate id (province-wide uniqueness)")
             seen.add(rid)
             validate_record(rec, rf.region, classes, errors)
+            if aliases is not None:
+                for slug in rec.get("assetPlan", []) or []:
+                    if isinstance(slug, str) and slug not in aliases:
+                        errors.append(f"{rid}: assetPlan slug '{slug}' not in asset-aliases.json")
     if check_permanence:
         missing = committed_ids(catalogue_dir) - seen
         for rid in sorted(missing):
