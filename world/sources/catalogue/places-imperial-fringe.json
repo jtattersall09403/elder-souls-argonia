@@ -2997,7 +2997,7 @@
         "clutter",
         "landmark-civic"
       ],
-      "discovery": "sightline",
+      "discovery": "road",
       "questHooks": {
         "provisions": [
           "a legible battlefield the player can read without being told",
