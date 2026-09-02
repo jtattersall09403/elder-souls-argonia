@@ -1,9 +1,20 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "id": "settlement-asset-inventory",
   "generated": "2026-09-02",
+  "revised": "2026-09-02 (round 2: full-vault sweep after owner feedback that round 1 under-searched; adds the seven mods the concurrent 6b agent landed, corrects the xanmeer-exterior read, and records permissions)",
   "phase": "Phase 11, Part 0 item 6a (decision 0041)",
-  "purpose": "Browsable survey of the settlement-building assets we actually hold or can source. Part 1 writes catalogue vibe/asset plans AGAINST this file so the province is designed for the breadth we own. Survey only: nothing here has been downloaded, extracted or kitted (that is item 6b).",
+  "purpose": "Browsable survey of the settlement-building assets we actually hold or can source. Part 1 writes catalogue vibe/asset plans AGAINST this file so the province is designed for the breadth we own. Survey only: this agent downloaded nothing (item 6b owns downloads and ran concurrently).",
+  "round2Corrections": [
+    "Mud Mother Grove (SSE 146557) landed in the vault and contains an explicit HistTree.nif plus a full Argonian ritual/woven/pottery prop set - this single mod closes the Hist-tree gap and the Argonian-props gap that round 1 called critical.",
+    "The Xanmeer Tileset's 9 exterior pieces are a TERRACE kit (floor slabs + perimeter walls + corners + a 9.3 m monumental stair), not a dead end: stacking terraces of decreasing footprint IS a stepped pyramid. Round 1 misread this as 'no massing'. Gap downgraded from critical to medium.",
+    "CC Ayleid Ruin Resources (83999) is in the vault but is exclusively an INTERIOR tileset (every mesh sits under /interior/). It does not supply exterior massing; it is however a strong xanmeer-interior extension.",
+    "Marsh-Rest (50111) ships a plugin and ZERO meshes - round 1 ranked it #2 for sourcing, which was wrong.",
+    "Xalfek (55595) is re-bundled third-party clutter with a generic Nord shack; nothing Argonian in form despite the name.",
+    "Darkwater Den (52630) is PERMISSION-BLOCKED for our use - its README forbids use of Elianora-original meshes in any public work, and we ship publicly on GitHub Pages.",
+    "Both boat mods are keeled, planked, oar-rowed Nord hulls. The raft/canoe gap is NOT closed.",
+    "The vault has NO DLC - no Dawnguard, Hearthfire or Dragonborn BSAs, and no Sounds.bsa. Module 90 S74.1 lists Solstheim/Dragonborn and Hearthfire content as high-value source families; they are not actually available."
+  ],
   "sources": {
     "registry": "world/sources/assets/registry-{bmv,vanilla,tropical,xanmeer}.jsonl - query, never read whole (world/sources/assets/README.md)",
     "moduleRef": "docs/world/90-asset-strategy.md S71/S74/S75/S79/S80",
@@ -38,9 +49,112 @@
         "location": "skyrim-source/mod-sources/tropical-skyrim-33017/extracted (1.4 GB)",
         "extracted": "fully",
         "status": "have",
-        "note": "textures/architecture/{farmhouse,markarth,riften,solitude,whiterun,windhelm} are tropicalised repaints under VANILLA FILENAMES - they retexture the whole vanilla Imperial/Nord architecture set for free. No tropical architecture MESHES."
+        "note": "VERIFIED round 2 by walking the mesh tree: Meshes/ holds only actors, Plants, Landscape, Terrain, effects and interface. textures/architecture/{farmhouse,markarth,riften,solitude,whiterun,windhelm} are tropicalised repaints under VANILLA FILENAMES - they retexture the whole vanilla Imperial/Nord architecture set for free. Confirmed: no tropical architecture MESHES."
+      },
+      {
+        "pool": "mud-mother-grove",
+        "modId": 146557,
+        "domain": "skyrimspecialedition",
+        "title": "Mud Mother Grove - An Argonian Mud Hut",
+        "author": "geminivoid (uploader GeminiVoid)",
+        "version": "1.5",
+        "location": "skyrim-source/mod-sources/mud-mother-grove-146557/extracted/Meshes/GV_Meshes/ArgonianNest/",
+        "extracted": "fully - 62 nif, plus Textures/GV_Textures, Music/00GV_Music, ArgonianLakeHouse.esl",
+        "status": "have",
+        "landedBy": "the concurrent item-6b agent, 2026-09-02",
+        "note": "THE most important settlement source in the vault. Purpose-built Argonian material culture. Permissions NOT recorded in the archive or the API metadata - must be read off the Nexus Permissions tab before anything ships."
+      },
+      {
+        "pool": "cc-ayleid-ruin-resources",
+        "modId": 83999,
+        "domain": "skyrimspecialedition",
+        "title": "Creation Club Ayleid Ruin Resources",
+        "author": "Sarthes Arai (uploader SarthesArai)",
+        "version": "1.0",
+        "location": "skyrim-source/mod-sources/cc-ayleid-ruin-resources-83999/extracted/meshes/SarthesArai/dungeons/AyleidRuins/interior/",
+        "extracted": "fully - 68 nif, all under /interior/",
+        "status": "have",
+        "landedBy": "the concurrent item-6b agent, 2026-09-02",
+        "permissions": "clean and quotable: use in mods allowed provided it is not sold and Sarthes Arai is credited. Derivative of Bethesda's CC 1.6 Ayleid tileset, so the base assets remain Bethesda's.",
+        "note": "INTERIOR ONLY - does not supply the exterior massing round 1 hoped for."
+      },
+      {
+        "pool": "skyrim-ferries",
+        "modId": 109843,
+        "domain": "skyrimspecialedition",
+        "title": "Skyrim Ferries",
+        "author": "Mharlek1",
+        "version": "1.4",
+        "location": "skyrim-source/mod-sources/skyrim-ferries-109843/extracted/meshes/yamadori/ferries/",
+        "extracted": "fully - 89 nif, but only about FIVE distinct hulls; the rest are per-location placed instances with position/route baked in",
+        "status": "have",
+        "landedBy": "the concurrent item-6b agent, 2026-09-02",
+        "note": "Permissions not in the API metadata - check the Nexus page. plank_ferry_swamp_01-06 is the one family worth an owner eyeball as a possible flat-bottomed punt."
+      },
+      {
+        "pool": "rowboats-of-skyrim",
+        "modId": 35341,
+        "domain": "skyrim",
+        "title": "Rowboats of Skyrim",
+        "author": "PraedythXVI",
+        "version": "Final",
+        "location": "skyrim-source/mod-sources/rowboats-of-skyrim-35341/extracted/meshes/dungeons/",
+        "extracted": "fully - 3 nif: ship/shiprowboat01, ship/shiprowboatanim01 (bobbing), clutter/ShipOar01",
+        "status": "have",
+        "landedBy": "the concurrent item-6b agent, 2026-09-02",
+        "note": "Keeled Nord clinker rowboat - a quality replacer, not a native craft. The standalone ShipOar01 is separately valuable as a paddle/punt-pole prop."
+      },
+      {
+        "pool": "xalfek",
+        "modId": 55595,
+        "domain": "skyrim",
+        "title": "Xalfek - An Argonian Home",
+        "author": "DexMods (uploader DexModsOfficial)",
+        "version": "1.0",
+        "location": "skyrim-source/mod-sources/xalfek-55595/extracted/meshes/dmargonian/",
+        "extracted": "fully - 72 nif",
+        "status": "have-low-value",
+        "landedBy": "the concurrent item-6b agent, 2026-09-02",
+        "note": "Nothing Argonian in FORM despite the name. Filenames are author-prefixed re-bundled modder's resources (blary, stroti, oaristys, jokerine, eli, jets, flintone, robobirdie...), each needing its own upstream credit. Only building shells are robobirdie_shackext/int - a generic Nord fishing shack. Prefer sourcing the underlying resource packs directly."
+      },
+      {
+        "pool": "marsh-rest",
+        "modId": 50111,
+        "domain": "skyrim",
+        "title": "Marsh-Rest - Argonian Themed Player Home",
+        "author": "Konrann",
+        "version": "1.01",
+        "location": "skyrim-source/mod-sources/marsh-rest-50111/extracted/",
+        "extracted": "fully - contains exactly ONE file, ArgonianHome.esp",
+        "status": "no-assets",
+        "landedBy": "the concurrent item-6b agent, 2026-09-02",
+        "note": "ZERO meshes and zero textures - it is a vanilla-asset cave home defined entirely in its plugin. Round 1 ranked this #2 for sourcing; that was wrong. Closes nothing."
+      },
+      {
+        "pool": "darkwater-den",
+        "modId": 52630,
+        "domain": "skyrim",
+        "title": "Darkwater Den - Argonian themed home",
+        "author": "Elianora",
+        "version": "1.2",
+        "location": "skyrim-source/mod-sources/darkwater-den-52630/extracted/",
+        "extracted": "fully - 124 nif",
+        "status": "DO-NOT-SHIP",
+        "landedBy": "the concurrent item-6b agent, 2026-09-02",
+        "permissions": "BLOCKING. README.txt: the Elianora-original models 'are not allowed to be used or reverse-engineered for any PUBLIC WORK under ANY CIRCUMSTANCES'. Our game ships publicly on GitHub Pages, so every eli*.nif is off-limits. Bundled third-party resources are separately licensed and must be sourced from their own upstream mods, never lifted from here.",
+        "note": "Catalogue as REFERENCE ONLY. Interesting pieces (landscape/trees/treeofwolene4, furniture/forestthrone by Angilla, tf_morrowclutter Morrowind urn) should be re-sourced upstream if wanted."
       }
     ],
+    "dlcAbsent": {
+      "finding": "The vault's Data/ holds only Skyrim - Meshes.bsa, Skyrim - Textures.bsa, Skyrim - Animations.bsa, Skyrim.esm and Update.esm.",
+      "missing": [
+        "Dawnguard.bsa/esm",
+        "HearthFires.bsa/esm",
+        "Dragonborn.bsa/esm",
+        "Skyrim - Sounds.bsa"
+      ],
+      "consequence": "Module 90 S74.1 lists Solstheim/Dragonborn (Telvanni organic forms, fungi, giant roots), Hearthfire (the modular buildable-homestead timber kit - directly relevant to settlement kits) and Dawnguard/Falmer material as high-value source families. None of it is actually available. BM&V duplicates much of the Telvanni/Morrowind material, so the real loss is the Hearthfire homestead kit. Blackreach IS in the base Meshes.bsa and is unaffected. Sounds.bsa absence is already recorded as Phase 12b's first sourcing job (module 90 S74.4)."
+    },
     "existingKits": [
       "tooling/asset-pipeline/output/kits/flora-province-v1",
       "tooling/asset-pipeline/output/kits/groundcover-province-v1",
@@ -91,22 +205,283 @@
   },
   "families": [
     {
+      "id": "arch.argonian-mud.mud-mother-grove",
+      "label": "Argonian mud-hut, shelter and platform set (Mud Mother Grove)",
+      "class": "building",
+      "culture": "argonian-mud",
+      "status": "have",
+      "pool": "mud-mother-grove",
+      "vaultPaths": [
+        "mod-sources/mud-mother-grove-146557/extracted/Meshes/GV_Meshes/ArgonianNest/"
+      ],
+      "pieceCount": 20,
+      "pieces": [
+        "MudHut01.nif + MudHut01IntNew.nif (matched exterior/interior pair)",
+        "RoundFloor01.nif (round hut floor)",
+        "ThatchRoofing.nif",
+        "ArgonianTent01/02.nif (two secondary shelters)",
+        "ArgonianPlatform.nif + ArgonianPlatformSmall.nif",
+        "ArgonianBridge.nif (459 KB - the largest asset in the mod, a substantial span) + ArgonianBridgeStart.nif",
+        "ArchwaySticks.nif (+ ArchwaySticksCol collision)",
+        "ArgonianFence01/02 + ArgonianFenceEnd, SnakeFence01/02/03, WovenFence01 (7 fence pieces)",
+        "cavegbalconyshelf01.nif"
+      ],
+      "moduleM": null,
+      "palette": [
+        "wet ochre mud",
+        "sun-baked tan daub",
+        "grey thatch",
+        "lashed stick brown",
+        "woven reed straw"
+      ],
+      "materials": [
+        "mud/daub",
+        "thatch",
+        "stick lashing",
+        "woven reed"
+      ],
+      "conditionVariants": [
+        "intact"
+      ],
+      "gapFlag": "The only purpose-built Shadowfen-culture aesthetic in the vault. Still WHOLE SHELLS, not a modular wall kit - one hut form plus a round-floor variant and two tents. The fences, archway sticks, platforms, bridge and thatch roof are excellent kitbash stock for generating variety on top of the one shell.",
+      "sourceCandidate": null,
+      "permissionsUnrecorded": true,
+      "useFor": [
+        "Shadowfen villages",
+        "inland hamlets",
+        "the mud culture's whole visual language",
+        "hut-and-platform hybrid hamlets"
+      ]
+    },
+    {
+      "id": "prop.argonian.mud-mother-grove-culture",
+      "label": "Argonian cultural props - ritual, woven, pottery, shell (Mud Mother Grove)",
+      "class": "prop",
+      "culture": "argonian-mud",
+      "status": "have",
+      "pool": "mud-mother-grove",
+      "vaultPaths": [
+        "mod-sources/mud-mother-grove-146557/extracted/Meshes/GV_Meshes/ArgonianNest/"
+      ],
+      "pieceCount": 30,
+      "pieces": [
+        "RITUAL: ArgonianTotem01.nif, SithisShrine.nif, ArgonianSkull01.nif, ArgonianBone01.nif, ArgonianBoneChime01/02.nif (137 KB and 109 KB - substantial hanging chime assemblies), Drum01.nif",
+        "WOVEN/REED: WovenChair01, WovenTable01, WovenFence01, BasketFull, BasketSmall01, ArgonianPillow01",
+        "POTTERY: PaintedUrn01, PotteryCup, PotteryPlate01/02/03",
+        "SHELL/CHITIN: ShellHalf, ChitinChair01, CarapaceOven (+CarapaceOvenTemp, OvenNew)",
+        "FISHING/FOOD: FishRackSmall, Clam01",
+        "SOFT FURNISHING: WallHanging01/02/03, Banner01",
+        "STORAGE: Bookshelf, HangingShelf, ShelfSingle",
+        "FLORA: Cattail, TallGrass01/02"
+      ],
+      "moduleM": null,
+      "palette": [
+        "bone white",
+        "painted terracotta",
+        "woven straw",
+        "iridescent shell",
+        "dark chitin"
+      ],
+      "materials": [
+        "bone",
+        "clay",
+        "woven reed",
+        "shell",
+        "chitin",
+        "hide"
+      ],
+      "conditionVariants": [
+        "intact"
+      ],
+      "gapFlag": "CLOSES the round-1 'no Argonian cultural props' gap almost entirely. The bone-chimes directly serve the canon chime-maker office; the carapace oven and shell vessels serve the shell/chitin material culture. STILL MISSING: grave-stakes / burial markers specifically - the totem and bone-chimes are the nearest re-purposable substitutes.",
+      "sourceCandidate": null,
+      "permissionsUnrecorded": true,
+      "useFor": [
+        "POI recipe slot 3 (props that narrate who lives here) in every Argonian place",
+        "village totems",
+        "chime-maker and tree-minder dressing",
+        "grave-stakes fields (via re-purposing)"
+      ]
+    },
+    {
+      "id": "landmark.argonian.hist-tree",
+      "label": "Hist tree (Mud Mother Grove)",
+      "class": "landmark",
+      "culture": "argonian-mud",
+      "status": "have",
+      "pool": "mud-mother-grove",
+      "vaultPaths": [
+        "mod-sources/mud-mother-grove-146557/extracted/Meshes/GV_Meshes/ArgonianNest/HistTree.nif",
+        ".../fxHistMist01.nif"
+      ],
+      "pieceCount": 2,
+      "pieces": [
+        "HistTree.nif (167 KB) - an explicit, purpose-built Hist tree",
+        "fxHistMist01.nif - a matching atmosphere/mist effect"
+      ],
+      "moduleM": null,
+      "palette": [
+        "pale sap-white bark",
+        "deep amber sap",
+        "drifting mist",
+        "sacred green glow"
+      ],
+      "materials": [
+        "living wood",
+        "sap"
+      ],
+      "conditionVariants": [
+        "intact"
+      ],
+      "gapFlag": "CLOSES the round-1 'no Hist tree asset' gap. One mesh only, so the ~10 hero Hist must be varied by scale, lean, rotation, mist density and surrounding composition rather than by different meshes - and the biggest, most sacred Hist may still want a composite build with the Phase 10 flora kit and azura_tree02 for extra silhouette mass. Verify its scale on import: a hero Hist should dominate its settlement's skyline.",
+      "sourceCandidate": null,
+      "permissionsUnrecorded": true,
+      "useFor": [
+        "the ~10 hero Hist (register kickoff hook)",
+        "every Hist-centred settlement grammar",
+        "the spiritual centre of Argonian villages",
+        "long-range approach cues"
+      ]
+    },
+    {
+      "id": "light.argonian.mud-mother-grove",
+      "label": "Argonian lanterns and candles (Mud Mother Grove)",
+      "class": "light",
+      "culture": "argonian-mud",
+      "status": "have",
+      "pool": "mud-mother-grove",
+      "vaultPaths": [
+        "mod-sources/mud-mother-grove-146557/extracted/Meshes/GV_Meshes/ArgonianNest/"
+      ],
+      "pieceCount": 6,
+      "pieces": [
+        "ArgonianLanterns01.nif (220 KB - likely a hung cluster), 02, 03, 04",
+        "ArgonianCandle01.nif",
+        "Candle01.nif"
+      ],
+      "moduleM": null,
+      "palette": [
+        "warm amber",
+        "shell-diffused glow",
+        "bone white"
+      ],
+      "materials": [
+        "shell",
+        "bone",
+        "woven fibre",
+        "wax"
+      ],
+      "conditionVariants": [
+        "lit (unlit variants not present - a night/day swap must be authored)"
+      ],
+      "gapFlag": "Closes the round-1 'no Argonian-reading light fixture' note. Preferred over the tiki torches and the Dagon Fel paper lanterns for Argonian settlements. Note there are no OFF variants, unlike the xanmeer sconce/brazier pairs.",
+      "sourceCandidate": null,
+      "permissionsUnrecorded": true,
+      "useFor": [
+        "night legibility in Argonian settlements",
+        "approach cues",
+        "festival and ritual lighting"
+      ]
+    },
+    {
+      "id": "arch.xanmeer.ayleid-interior-extension",
+      "label": "CC Ayleid Ruin Resources - interior extension (usable as xanmeer interior)",
+      "class": "building",
+      "culture": "xanmeer-ancient",
+      "status": "have",
+      "pool": "cc-ayleid-ruin-resources",
+      "vaultPaths": [
+        "mod-sources/cc-ayleid-ruin-resources-83999/extracted/meshes/SarthesArai/dungeons/AyleidRuins/interior/"
+      ],
+      "pieceCount": 68,
+      "pieces": [
+        "corridor/hall kit (~15): 3-way, 4-way, fancy corners, dead ends, narrow transitions, mine hall",
+        "raised floors and platforms: ARFloorRaised01a/02a/03a, ARplatmid01, ARplatcorin01/02, ARplatcorout01, ARplatwall01",
+        "stairs (3): ARplatwallstair01/02, ARPitRetractableStairs02 (+base) - wall-hugging platform stairs, NOT monumental flights",
+        "bridges (6-7): ARfacadebridge01, ARfacadebridgecurve01, ARfacadebridgerampccw01/cw01, ARbridge1way02x256, ARbridge1wayendcap02, ARRetractableBridge01 - narrow interior spans",
+        "ARsteppeddias01.nif - a stepped DAIS, room-scale, not a pyramid terrace",
+        "furniture: beds x2, chairs x2, benches x4, tables x4, pedestal, trough, hitchpost",
+        "puzzle set: ARPuzzlePillar + six magicstone school stones - excellent ruin-mechanism dressing for tutan-wei and bijum-style mechanisms",
+        "traps: ARTrapSwingingBlade01, ARWelkyndClusterEvil01",
+        "decor: ARConstellationStele, ARwindow01, ARLedgeScreen01/02/02Left/02Right",
+        "rubble: ARRubblePile02/03, ARRubblePileCeiling01"
+      ],
+      "moduleM": 3.64,
+      "palette": [
+        "white-grey stone",
+        "welkynd blue-green glow",
+        "black moss in the joints"
+      ],
+      "materials": [
+        "cut stone",
+        "meteoric glass"
+      ],
+      "conditionVariants": [
+        "intact",
+        "rubble"
+      ],
+      "gapFlag": "Does NOT close the exterior-massing gap - every mesh is under /interior/. It IS a strong xanmeer-INTERIOR extension: the curved bridges, raised platforms and puzzle pillars read close to the ESO Xanmeer look and directly serve the canon trap/mechanism brief (bijum door release, tutan-wei pulley puzzle).",
+      "sourceCandidate": null,
+      "permissions": "use allowed if not sold and Sarthes Arai is credited; base assets remain Bethesda's (derivative of CC 1.6)",
+      "useFor": [
+        "xanmeer interiors",
+        "Hist chambers",
+        "trap and mechanism rooms",
+        "flooded complexes"
+      ]
+    },
+    {
       "id": "arch.argonian-mud.hut-shell",
       "label": "Round mud-hut shells (BM&V hut kit)",
       "class": "building",
       "culture": "argonian-mud",
       "status": "have-unextracted",
       "pool": "bmv",
-      "vaultPaths": ["meshes/architecture/huts/exterior/*", "meshes/architecture/huts/interior/*", "meshes/architecture/argonianhouse.nif", "meshes/architecture/swamp house.nif", "meshes/architecture/orchuts/orchut01{ext,int,lod}.nif"],
+      "vaultPaths": [
+        "meshes/architecture/huts/exterior/*",
+        "meshes/architecture/huts/interior/*",
+        "meshes/architecture/argonianhouse.nif",
+        "meshes/architecture/swamp house.nif",
+        "meshes/architecture/orchuts/orchut01{ext,int,lod}.nif"
+      ],
       "pieceCount": 19,
-      "pieces": ["hutexterior.nif (11.6 x 11.6 x 7.2 m round shell)", "hutdecking.nif (14.7 x 14.7 x 8.6 m, hut on a raised deck)", "doorframe01 (obs. 44 placements)", "window01-03", "windowbox01", "steps01-03", "bridge01 (2.3 x 5.0 x 3.1 m short span)", "interior: hutinterior, door01, woodburner", "argonianhouse.nif (the ONE mesh in the pool tagged argonian architecture)", "swamp house.nif (obs. 47 placements in BM&V's own Black Marsh)"],
+      "pieces": [
+        "hutexterior.nif (11.6 x 11.6 x 7.2 m round shell)",
+        "hutdecking.nif (14.7 x 14.7 x 8.6 m, hut on a raised deck)",
+        "doorframe01 (obs. 44 placements)",
+        "window01-03",
+        "windowbox01",
+        "steps01-03",
+        "bridge01 (2.3 x 5.0 x 3.1 m short span)",
+        "interior: hutinterior, door01, woodburner",
+        "argonianhouse.nif (the ONE mesh in the pool tagged argonian architecture)",
+        "swamp house.nif (obs. 47 placements in BM&V's own Black Marsh)"
+      ],
       "moduleM": null,
-      "palette": ["wet ochre mud", "sun-baked tan", "grey-brown daub", "dark log skeleton", "moss-green streaks"],
-      "materials": ["daub", "log frame", "thatch", "plank decking"],
-      "conditionVariants": ["intact"],
-      "gapFlag": "THIN - these are monolithic shells, not a modular wall/roof kit. Two settlements built from them will be twins.",
-      "sourceCandidate": "Mud Mother Grove - Argonian Mud Hut (SSE 146557), module 90 S75 - priority 1",
-      "useFor": ["Shadowfen villages", "inland hamlets", "hunting camps", "outlying homesteads"]
+      "palette": [
+        "wet ochre mud",
+        "sun-baked tan",
+        "grey-brown daub",
+        "dark log skeleton",
+        "moss-green streaks"
+      ],
+      "materials": [
+        "daub",
+        "log frame",
+        "thatch",
+        "plank decking"
+      ],
+      "conditionVariants": [
+        "intact"
+      ],
+      "gapFlag": "THIN on its own - monolithic shells, not a modular wall/roof kit. ROUND-2: now supplements arch.argonian-mud.mud-mother-grove rather than carrying the mud culture alone; between the two we have ~4 distinct mud/organic hut forms plus kitbash stock, which is workable but still short of comfortable variety.",
+      "sourceCandidate": "Mud Mother Grove (SSE 146557) is NOW IN THE VAULT. Further mud/tribal hut forms still wanted - see gap.mud-kit.",
+      "useFor": [
+        "Shadowfen villages",
+        "inland hamlets",
+        "hunting camps",
+        "outlying homesteads"
+      ]
     },
     {
       "id": "arch.argonian-reed-stilt.shack-kit",
@@ -115,16 +490,43 @@
       "culture": "argonian-reed-stilt",
       "status": "have",
       "pool": "vanilla",
-      "vaultPaths": ["meshes/architecture/shackkit/*"],
+      "vaultPaths": [
+        "meshes/architecture/shackkit/*"
+      ],
       "pieceCount": 58,
-      "pieces": ["walls 01-05 + door + window variants (3.64 m module, 2.73 m tall)", "frames: l/m/r end + mid + bend + turn-corner (6 forms)", "roof: mid 01-05, side 01-04, corner 01-02", "broken set: brokewall 01-06, brokewood 01-11, brokepole 01-03"],
+      "pieces": [
+        "walls 01-05 + door + window variants (3.64 m module, 2.73 m tall)",
+        "frames: l/m/r end + mid + bend + turn-corner (6 forms)",
+        "roof: mid 01-05, side 01-04, corner 01-02",
+        "broken set: brokewall 01-06, brokewood 01-11, brokepole 01-03"
+      ],
       "moduleM": 3.64,
-      "palette": ["weathered grey driftwood", "tarred plank", "straw thatch", "salt-bleached"],
-      "materials": ["sawn plank", "pole frame", "thatch", "canvas"],
-      "conditionVariants": ["intact", "ruined", "half-collapsed"],
+      "palette": [
+        "weathered grey driftwood",
+        "tarred plank",
+        "straw thatch",
+        "salt-bleached"
+      ],
+      "materials": [
+        "sawn plank",
+        "pole frame",
+        "thatch",
+        "canvas"
+      ],
+      "conditionVariants": [
+        "intact",
+        "ruined",
+        "half-collapsed"
+      ],
       "gapFlag": "reads as Nord fishing shack out of the box; needs Tropical Skyrim / BM&V retexture to read Argonian. The 20 broken pieces are the best ruin-variant supply we own.",
       "sourceCandidate": null,
-      "useFor": ["stilt villages", "raft villages", "poor docksides", "squatter fringes", "abandoned/drowned villages"]
+      "useFor": [
+        "stilt villages",
+        "raft villages",
+        "poor docksides",
+        "squatter fringes",
+        "abandoned/drowned villages"
+      ]
     },
     {
       "id": "arch.argonian-reed-stilt.stilt-shells",
@@ -133,16 +535,45 @@
       "culture": "argonian-reed-stilt",
       "status": "have-unextracted",
       "pool": "bmv",
-      "vaultPaths": ["meshes/architecture/stilthouse/stilthouse{ext,dooranim}.nif", "meshes/sheogorad/dagon fel/shack01-05(+interior).nif", "meshes/sheogorad/dagon fel/shackawning{large,small}.nif", "meshes/sheogorad/dagon fel/housetall01-02.nif", "meshes/stroti/tree house/*"],
+      "vaultPaths": [
+        "meshes/architecture/stilthouse/stilthouse{ext,dooranim}.nif",
+        "meshes/sheogorad/dagon fel/shack01-05(+interior).nif",
+        "meshes/sheogorad/dagon fel/shackawning{large,small}.nif",
+        "meshes/sheogorad/dagon fel/housetall01-02.nif",
+        "meshes/stroti/tree house/*"
+      ],
       "pieceCount": 30,
-      "pieces": ["stilthouseext + animated door", "5 shack shells each with a matching interior", "2 awning sizes", "housetall01 (8.5 x 8.5 x 16.8 m - a three-storey waterside tower)", "treehouse.nif (13.2 x 11.7 x 5.1 m) + treehouseroof + ropeladdernine/six (3.7 m rope ladders)"],
+      "pieces": [
+        "stilthouseext + animated door",
+        "5 shack shells each with a matching interior",
+        "2 awning sizes",
+        "housetall01 (8.5 x 8.5 x 16.8 m - a three-storey waterside tower)",
+        "treehouse.nif (13.2 x 11.7 x 5.1 m) + treehouseroof + ropeladdernine/six (3.7 m rope ladders)"
+      ],
       "moduleM": null,
-      "palette": ["dark wet timber", "silvered plank", "rust-red tar", "paper-lantern amber at night"],
-      "materials": ["timber", "plank", "shingle", "rope"],
-      "conditionVariants": ["intact"],
+      "palette": [
+        "dark wet timber",
+        "silvered plank",
+        "rust-red tar",
+        "paper-lantern amber at night"
+      ],
+      "materials": [
+        "timber",
+        "plank",
+        "shingle",
+        "rope"
+      ],
+      "conditionVariants": [
+        "intact"
+      ],
       "gapFlag": "Dagon Fel shells carry a Nord/Solstheim read; the rope ladders and awnings are the reusable parts.",
       "sourceCandidate": "Marsh-Rest (Skyrim 50111), Xalfek (Skyrim 55595) - module 90 S75",
-      "useFor": ["stilt/hammock villages", "tree-platform villages", "fisher hamlets", "houseboat moorings"]
+      "useFor": [
+        "stilt/hammock villages",
+        "tree-platform villages",
+        "fisher hamlets",
+        "houseboat moorings"
+      ]
     },
     {
       "id": "arch.argonian-reed-stilt.elevated-walkway",
@@ -151,16 +582,40 @@
       "culture": "argonian-reed-stilt",
       "status": "have-unextracted",
       "pool": "bmv",
-      "vaultPaths": ["meshes/architecture/citebosmer/passerelles/troncons/*", "meshes/architecture/citebosmer/passerelles/kiosque/*"],
+      "vaultPaths": [
+        "meshes/architecture/citebosmer/passerelles/troncons/*",
+        "meshes/architecture/citebosmer/passerelles/kiosque/*"
+      ],
       "pieceCount": 59,
-      "pieces": ["straights at 64/128/256/512 units, flat and at h32/h64/h128 rises", "45-degree and 90-degree circular arcs at r448/r576/r1280", "T, X and Y junctions", "end caps, stair links", "kiosk platform (8.6 x 8.6 x 20.7 m) with barriers and wall panels - a ready-made market/landing node"],
+      "pieces": [
+        "straights at 64/128/256/512 units, flat and at h32/h64/h128 rises",
+        "45-degree and 90-degree circular arcs at r448/r576/r1280",
+        "T, X and Y junctions",
+        "end caps, stair links",
+        "kiosk platform (8.6 x 8.6 x 20.7 m) with barriers and wall panels - a ready-made market/landing node"
+      ],
       "moduleM": 1.82,
-      "palette": ["dark rope-lashed timber", "living-wood brown", "green-black damp"],
-      "materials": ["timber", "rope lashing", "living wood"],
-      "conditionVariants": ["intact"],
+      "palette": [
+        "dark rope-lashed timber",
+        "living-wood brown",
+        "green-black damp"
+      ],
+      "materials": [
+        "timber",
+        "rope lashing",
+        "living wood"
+      ],
+      "conditionVariants": [
+        "intact"
+      ],
       "gapFlag": "THE most valuable single family we own for Murkmire: a real curving, climbing, branching walkway kit. Bosmer-flavoured but the read is organic-lashed timber, which is exactly the canon platform description.",
       "sourceCandidate": null,
-      "useFor": ["platform villages that ascend from ground to hover over water", "canopy transit", "city upper levels", "causeway spurs"]
+      "useFor": [
+        "platform villages that ascend from ground to hover over water",
+        "canopy transit",
+        "city upper levels",
+        "causeway spurs"
+      ]
     },
     {
       "id": "arch.neutral.scaffold-platform",
@@ -169,16 +624,39 @@
       "culture": "neutral",
       "status": "have",
       "pool": "vanilla",
-      "vaultPaths": ["meshes/clutter/stockade/*"],
+      "vaultPaths": [
+        "meshes/clutter/stockade/*"
+      ],
       "pieceCount": 72,
-      "pieces": ["scaffold bases 0/1/2/3/4-sided (3.7 x 3.8 x 2.73 m) + supports", "scaffold bridges 6.6 / 9.3 / 12.0 / 17.5 m + a narrow variant", "plank bridges short/long/extralong/extraextralong (4.8-15.7 m)", "free walls 01-04, wall beams, building corner/straight/end", "gate01, barricade, barrier, lean-to, pikes"],
+      "pieces": [
+        "scaffold bases 0/1/2/3/4-sided (3.7 x 3.8 x 2.73 m) + supports",
+        "scaffold bridges 6.6 / 9.3 / 12.0 / 17.5 m + a narrow variant",
+        "plank bridges short/long/extralong/extraextralong (4.8-15.7 m)",
+        "free walls 01-04, wall beams, building corner/straight/end",
+        "gate01, barricade, barrier, lean-to, pikes"
+      ],
       "moduleM": 3.64,
-      "palette": ["rough sawn pine", "grey weathered", "rope-bound"],
-      "materials": ["rough timber", "pole"],
-      "conditionVariants": ["intact"],
+      "palette": [
+        "rough sawn pine",
+        "grey weathered",
+        "rope-bound"
+      ],
+      "materials": [
+        "rough timber",
+        "pole"
+      ],
+      "conditionVariants": [
+        "intact"
+      ],
       "gapFlag": "Culturally neutral and infinitely reusable - the workhorse for stilts, piers, mine heads, siege works and rough causeways. Highest-value vanilla family for this phase.",
       "sourceCandidate": null,
-      "useFor": ["stilt substructure", "boardwalk over water", "toll gates", "camp palisades", "flood-repair scaffolding"]
+      "useFor": [
+        "stilt substructure",
+        "boardwalk over water",
+        "toll gates",
+        "camp palisades",
+        "flood-repair scaffolding"
+      ]
     },
     {
       "id": "arch.neutral.dock",
@@ -187,16 +665,39 @@
       "culture": "neutral",
       "status": "have",
       "pool": "vanilla+bmv",
-      "vaultPaths": ["meshes/architecture/docks/* (vanilla, 17)", "meshes/sheogorad/dagon fel/docks*.nif + cleat.nif (bmv, 12)", "meshes/architecture/jets/miscstuff/dock*.nif (bmv, 5)"],
+      "vaultPaths": [
+        "meshes/architecture/docks/* (vanilla, 17)",
+        "meshes/sheogorad/dagon fel/docks*.nif + cleat.nif (bmv, 12)",
+        "meshes/architecture/jets/miscstuff/dock*.nif (bmv, 5)"
+      ],
       "pieceCount": 34,
-      "pieces": ["vanilla: dockstrsol01/02, dockstr4way01, dockcorsol01, dockstrent01-04, dockstepsdown01/02 + end, dockcolstr01/02 (11.5 m mooring columns), dockcolstrsign01 (signed column), dockropestr01/02", "bmv Dagon Fel: dockscentre/centrealt/centrenopost/centresmall, docks3way, docks4way, dockscorner, docksend, docksendnopost, dockspilings, dockspilingsdamage, dockssteps, cleat", "bmv jets: dockextension, dockpostextension, dockramp, dockstepsfree, dockwsteps"],
+      "pieces": [
+        "vanilla: dockstrsol01/02, dockstr4way01, dockcorsol01, dockstrent01-04, dockstepsdown01/02 + end, dockcolstr01/02 (11.5 m mooring columns), dockcolstrsign01 (signed column), dockropestr01/02",
+        "bmv Dagon Fel: dockscentre/centrealt/centrenopost/centresmall, docks3way, docks4way, dockscorner, docksend, docksendnopost, dockspilings, dockspilingsdamage, dockssteps, cleat",
+        "bmv jets: dockextension, dockpostextension, dockramp, dockstepsfree, dockwsteps"
+      ],
       "moduleM": 3.64,
-      "palette": ["tarred black piling", "wet plank", "barnacle grey", "green algae at the waterline"],
-      "materials": ["piling", "plank", "rope", "iron cleat"],
-      "conditionVariants": ["intact", "damaged (dockspilingsdamage)"],
+      "palette": [
+        "tarred black piling",
+        "wet plank",
+        "barnacle grey",
+        "green algae at the waterline"
+      ],
+      "materials": [
+        "piling",
+        "plank",
+        "rope",
+        "iron cleat"
+      ],
+      "conditionVariants": [
+        "intact",
+        "damaged (dockspilingsdamage)"
+      ],
       "gapFlag": "Good coverage. Only ONE damaged piece - ruined/abandoned docks will need the shackkit broken set mixed in.",
       "sourceCandidate": null,
-      "useFor": ["every port, ferry stage, fishery, toll crossing and waterside settlement"]
+      "useFor": [
+        "every port, ferry stage, fishery, toll crossing and waterside settlement"
+      ]
     },
     {
       "id": "arch.xanmeer.tileset",
@@ -205,16 +706,45 @@
       "culture": "xanmeer-ancient",
       "status": "have",
       "pool": "xanmeer",
-      "vaultPaths": ["Meshes/Architecture/xanmeer/{exterior,interior,furniture,props}"],
+      "vaultPaths": [
+        "Meshes/Architecture/xanmeer/{exterior,interior,furniture,props}"
+      ],
       "pieceCount": 85,
-      "pieces": ["EXTERIOR (9 only): wall, wall_halfl/r, wallcorner, floor, floor_halfl/r, stairs (9.3 m run), gazebo (4.2 m)", "INTERIOR (27): hallway 1/2/3/4-way, deadend, ramp, stairs; room floor/floorbroken/floorlowered/floorbalcony, wall, wallcorner, wallupper, wallpartition(+end), wallcornercolumn, roof/roofcorner/roofcornerinner/roofflat, doorway, corridortransition, balcony column/railing(+end)", "FURNITURE (24): covered bed (single/double), bench 2/3-sit, bookshelf 1/2, brazier (+red, +off), chair, doors 1/2 (+load, +short), planter, table, sconce (+off), rubble walls 1_1/1_2/2_1/2_2", "PROPS (25): chests basic/boss, urns 1-4 (+broken each), pots 1/2/claw (+broken each), deco 1-3, bannister, column, chompy trap (animated, 3.0 x 3.5 x 5.2 m)"],
+      "pieces": [
+        "EXTERIOR (9 only): wall, wall_halfl/r, wallcorner, floor, floor_halfl/r, stairs (9.3 m run), gazebo (4.2 m)",
+        "INTERIOR (27): hallway 1/2/3/4-way, deadend, ramp, stairs; room floor/floorbroken/floorlowered/floorbalcony, wall, wallcorner, wallupper, wallpartition(+end), wallcornercolumn, roof/roofcorner/roofcornerinner/roofflat, doorway, corridortransition, balcony column/railing(+end)",
+        "FURNITURE (24): covered bed (single/double), bench 2/3-sit, bookshelf 1/2, brazier (+red, +off), chair, doors 1/2 (+load, +short), planter, table, sconce (+off), rubble walls 1_1/1_2/2_1/2_2",
+        "PROPS (25): chests basic/boss, urns 1-4 (+broken each), pots 1/2/claw (+broken each), deco 1-3, bannister, column, chompy trap (animated, 3.0 x 3.5 x 5.2 m)"
+      ],
       "moduleM": 3.64,
-      "palette": ["pale limestone", "green-black algae staining", "verdigris", "jade inlay", "torch-amber inside"],
-      "materials": ["cut stone", "carved relief", "bronze", "fired clay"],
-      "conditionVariants": ["intact", "broken floor", "rubble walls", "broken pots/urns"],
-      "gapFlag": "CRITICAL GAP: only 9 exterior pieces and no stepped-pyramid massing, terraces, monumental stairs, stone bridges or hydraulic pieces. This kit builds xanmeer INTERIORS, not xanmeer SILHOUETTES.",
-      "sourceCandidate": "CC Ayleid Ruin Resources (SSE 83999), Fort Castellum SE (23438), Beyond Skyrim Bruma Ayleid material - module 90 S79",
-      "useFor": ["xanmeer ruins", "Hist chambers", "flooded complexes", "dungeon families", "ruin fragments as exterior dressing"]
+      "palette": [
+        "pale limestone",
+        "green-black algae staining",
+        "verdigris",
+        "jade inlay",
+        "torch-amber inside"
+      ],
+      "materials": [
+        "cut stone",
+        "carved relief",
+        "bronze",
+        "fired clay"
+      ],
+      "conditionVariants": [
+        "intact",
+        "broken floor",
+        "rubble walls",
+        "broken pots/urns"
+      ],
+      "gapFlag": "ROUND-2 RE-READ: the 9 exterior pieces are a TERRACE KIT, not a dead end. floor (3.63 x 3.61 m slab) + half-floors + wall (3.63 x 3.64 m) + half-walls + wallcorner (4.10 m) + stairs (9.30 m run, 4.75 m rise) is exactly the vocabulary for building one terrace; stack terraces of decreasing footprint and the result IS a stepped pyramid, with the stair rise matching one terrace height. What is genuinely absent is decorative monumental frontage - carved facades, roof combs, sculpted stairways, stone causeway bridges between pyramids - so ours will read as clean geometric terracing rather than ornate Mesoamerican relief. That is a look to design to, not a blocker.",
+      "sourceCandidate": "For ornamental frontage only: Beyond Skyrim Bruma Ayleid material, Fort Castellum SE (23438) - module 90 S79. NOTE: CC Ayleid Ruin Resources (83999) is now in the vault and is INTERIOR-ONLY; it does not serve this need.",
+      "useFor": [
+        "xanmeer ruins",
+        "Hist chambers",
+        "flooded complexes",
+        "dungeon families",
+        "ruin fragments as exterior dressing"
+      ]
     },
     {
       "id": "arch.xanmeer.monumental-silhouettes",
@@ -223,16 +753,37 @@
       "culture": "xanmeer-ancient",
       "status": "have-unextracted",
       "pool": "bmv",
-      "vaultPaths": ["meshes/22mjymeshes/1mjyaztecbuilding1-9.nif", "meshes/manny_gf/pyramid/manny_gf_pyramid_{front,back}.nif"],
+      "vaultPaths": [
+        "meshes/22mjymeshes/1mjyaztecbuilding1-9.nif",
+        "meshes/manny_gf/pyramid/manny_gf_pyramid_{front,back}.nif"
+      ],
       "pieceCount": 11,
-      "pieces": ["9 whole aztec temple/building statics, editorId 01Aztectemple; building1 measures 67.7 x 65.1 x 36.4 m", "2 pyramid halves (composable)"],
+      "pieces": [
+        "9 whole aztec temple/building statics, editorId 01Aztectemple; building1 measures 67.7 x 65.1 x 36.4 m",
+        "2 pyramid halves (composable)"
+      ],
       "moduleM": null,
-      "palette": ["bleached limestone", "ochre plaster", "jungle-green overgrowth", "deep shadowed doorways"],
-      "materials": ["cut stone", "plaster", "vine"],
-      "conditionVariants": ["intact (as authored)"],
+      "palette": [
+        "bleached limestone",
+        "ochre plaster",
+        "jungle-green overgrowth",
+        "deep shadowed doorways"
+      ],
+      "materials": [
+        "cut stone",
+        "plaster",
+        "vine"
+      ],
+      "conditionVariants": [
+        "intact (as authored)"
+      ],
       "gapFlag": "These are the ONLY monumental stepped-pyramid silhouettes we own. Whole statics, so no variation and no interiors - use as far-visible landmarks with the xanmeer tileset providing the enterable parts.",
       "sourceCandidate": null,
-      "useFor": ["the province's long-range landmark layer", "great xanmeer of the deep interior", "approach reveals"]
+      "useFor": [
+        "the province's long-range landmark layer",
+        "great xanmeer of the deep interior",
+        "approach reveals"
+      ]
     },
     {
       "id": "arch.xanmeer.drowned",
@@ -241,16 +792,40 @@
       "culture": "xanmeer-ancient",
       "status": "have-unextracted",
       "pool": "bmv",
-      "vaultPaths": ["meshes/1mjytropicalstuff/1mjyunderwaterbuilding*.nif", "meshes/1mjytropicalstuff/3mjyunderwaterruins1-8.nif", "meshes/1mjytropicalstuff/3mjynautilus.nif"],
+      "vaultPaths": [
+        "meshes/1mjytropicalstuff/1mjyunderwaterbuilding*.nif",
+        "meshes/1mjytropicalstuff/3mjyunderwaterruins1-8.nif",
+        "meshes/1mjytropicalstuff/3mjynautilus.nif"
+      ],
       "pieceCount": 17,
-      "pieces": ["8 underwater building shells (one with an inside variant)", "8 underwater ruin fragments", "1 nautilus"],
+      "pieces": [
+        "8 underwater building shells (one with an inside variant)",
+        "8 underwater ruin fragments",
+        "1 nautilus"
+      ],
       "moduleM": null,
-      "palette": ["silt-grey", "coral pink", "kelp green", "shafted blue light"],
-      "materials": ["stone", "coral encrustation"],
-      "conditionVariants": ["ruined", "submerged"],
+      "palette": [
+        "silt-grey",
+        "coral pink",
+        "kelp green",
+        "shafted blue light"
+      ],
+      "materials": [
+        "stone",
+        "coral encrustation"
+      ],
+      "conditionVariants": [
+        "ruined",
+        "submerged"
+      ],
       "gapFlag": "Directly serves the acceptance rule 'underwater POIs throughout appropriate regions'. Small set - reuse must be varied by depth, silt and encrustation.",
       "sourceCandidate": "Depths of Skyrim (98331) for dressing - module 90 S76",
-      "useFor": ["drowned villages", "sunken xanmeer", "flooded quarters", "dive-reward sites"]
+      "useFor": [
+        "drowned villages",
+        "sunken xanmeer",
+        "flooded quarters",
+        "dive-reward sites"
+      ]
     },
     {
       "id": "arch.xanmeer.barsaebic-ayleid",
@@ -259,16 +834,41 @@
       "culture": "xanmeer-ancient",
       "status": "have-unextracted",
       "pool": "bmv",
-      "vaultPaths": ["meshes/dungeons/ayleidruins/exterior/* (85)", "meshes/dungeons/ayleidruins/interior/* (110)", "meshes/architecture/abx_*.nif (ring/arch/bridge/stairs, ~30)", "meshes/manny_gf/ayleid/* (6)"],
+      "vaultPaths": [
+        "meshes/dungeons/ayleidruins/exterior/* (85)",
+        "meshes/dungeons/ayleidruins/interior/* (110)",
+        "meshes/architecture/abx_*.nif (ring/arch/bridge/stairs, ~30)",
+        "meshes/manny_gf/ayleid/* (6)"
+      ],
       "pieceCount": 231,
-      "pieces": ["exterior blocks (arblock01 observed 512 times in BM&V), arches, bridges, stair kits", "full interior corridor/room set", "abx ring complex: outer/inner circle, ring outer walls (gated and normal, with snap variants), circle walk, spiral stairs, long bridge, well, fence, screens", "manny_gf: arch, bridge (+end), circle walk, outer circle, well"],
+      "pieces": [
+        "exterior blocks (arblock01 observed 512 times in BM&V), arches, bridges, stair kits",
+        "full interior corridor/room set",
+        "abx ring complex: outer/inner circle, ring outer walls (gated and normal, with snap variants), circle walk, spiral stairs, long bridge, well, fence, screens",
+        "manny_gf: arch, bridge (+end), circle walk, outer circle, well"
+      ],
       "moduleM": 3.64,
-      "palette": ["white-grey stone", "welkynd blue-green glow", "black moss in the joints"],
-      "materials": ["cut stone", "meteoric glass", "magelight"],
-      "conditionVariants": ["intact", "ruined"],
+      "palette": [
+        "white-grey stone",
+        "welkynd blue-green glow",
+        "black moss in the joints"
+      ],
+      "materials": [
+        "cut stone",
+        "meteoric glass",
+        "magelight"
+      ],
+      "conditionVariants": [
+        "intact",
+        "ruined"
+      ],
       "gapFlag": "Large and well-covered. Era discipline required: Barsaebic Ayleid is a distinct historical layer from xanmeer - do not use the two interchangeably (00-core: historical layers stay distinguishable).",
       "sourceCandidate": null,
-      "useFor": ["Barsaebic-era ruins", "pre-Duskfall stone layer", "non-xanmeer dungeon shells"]
+      "useFor": [
+        "Barsaebic-era ruins",
+        "pre-Duskfall stone layer",
+        "non-xanmeer dungeon shells"
+      ]
     },
     {
       "id": "arch.imperial.farmhouse-civic",
@@ -277,16 +877,48 @@
       "culture": "imperial-stone-timber",
       "status": "have",
       "pool": "vanilla",
-      "vaultPaths": ["meshes/architecture/farmhouse/* (158)", "meshes/architecture/{whiterun,solitude,riften,markarth,windhelm,winterhold,orclonghouse}/* (2337)"],
+      "vaultPaths": [
+        "meshes/architecture/farmhouse/* (158)",
+        "meshes/architecture/{whiterun,solitude,riften,markarth,windhelm,winterhold,orclonghouse}/* (2337)"
+      ],
       "pieceCount": 2495,
-      "pieces": ["farmhouse01-06 whole shells (12.8-23.8 m footprints) with walkways", "farmhouse05/06 destroyed01/02 variants", "farmlonghouse01 (31.3 x 25.5 x 26.5 m)", "inn01 + inndestroyed01/02", "farmwell01, farmbannerpost01, fencewoven01/02 (observed 506 + 251 placements - Bethesda's most-placed fence)", "windmill + fan", "full farmhouse basement interior kit (31 pieces)", "the five city kits: walls, towers, gates, stairs, roofs, market stalls, banners"],
+      "pieces": [
+        "farmhouse01-06 whole shells (12.8-23.8 m footprints) with walkways",
+        "farmhouse05/06 destroyed01/02 variants",
+        "farmlonghouse01 (31.3 x 25.5 x 26.5 m)",
+        "inn01 + inndestroyed01/02",
+        "farmwell01, farmbannerpost01, fencewoven01/02 (observed 506 + 251 placements - Bethesda's most-placed fence)",
+        "windmill + fan",
+        "full farmhouse basement interior kit (31 pieces)",
+        "the five city kits: walls, towers, gates, stairs, roofs, market stalls, banners"
+      ],
       "moduleM": 3.64,
-      "palette": ["grey slate", "lime plaster", "dark stained timber", "moss on the north face"],
-      "materials": ["cut stone", "sawn timber", "plaster", "slate", "thatch"],
-      "conditionVariants": ["intact", "destroyed (farmhouse05/06, inn)"],
+      "palette": [
+        "grey slate",
+        "lime plaster",
+        "dark stained timber",
+        "moss on the north face"
+      ],
+      "materials": [
+        "cut stone",
+        "sawn timber",
+        "plaster",
+        "slate",
+        "thatch"
+      ],
+      "conditionVariants": [
+        "intact",
+        "destroyed (farmhouse05/06, inn)"
+      ],
       "gapFlag": "Reads Nordic-cold out of the box. Tropical Skyrim's textures/architecture/{farmhouse,whiterun,riften,solitude,markarth,windhelm} are drop-in tropicalised repaints under vanilla filenames - that conversion is free and is what makes this family usable for a hot colonial Argonia.",
       "sourceCandidate": null,
-      "useFor": ["Gideon and the Blackwood fringe", "plantations", "Imperial garrison towns", "colonial civic buildings", "the buildings whose foundations sank"]
+      "useFor": [
+        "Gideon and the Blackwood fringe",
+        "plantations",
+        "Imperial garrison towns",
+        "colonial civic buildings",
+        "the buildings whose foundations sank"
+      ]
     },
     {
       "id": "arch.imperial.fort-wall",
@@ -295,16 +927,46 @@
       "culture": "imperial-stone-timber",
       "status": "have-unextracted",
       "pool": "bmv",
-      "vaultPaths": ["meshes/griffon fortress/* (~80)", "meshes/architecture/newcastle/{wall,buildings,door,misc} (57)", "meshes/architecture/rochester/{house,ruin} (63)", "meshes/architecture/largecastle (9)", "meshes/architecture/seaview/mr_siika + meshes/bshighrock/architecture/seaview (272)"],
+      "vaultPaths": [
+        "meshes/griffon fortress/* (~80)",
+        "meshes/architecture/newcastle/{wall,buildings,door,misc} (57)",
+        "meshes/architecture/rochester/{house,ruin} (63)",
+        "meshes/architecture/largecastle (9)",
+        "meshes/architecture/seaview/mr_siika + meshes/bshighrock/architecture/seaview (272)"
+      ],
       "pieceCount": 481,
-      "pieces": ["griffon: outer wall (observed 88x), bastions, curve sections, gates, towers 01-03 with stone/wood tops, timbered walls 01-06, inner gate/wall, thronehall, chapel, crypt, entrance hall", "newcastle: 1024-unit wall sections (35), 4 buildings, 5 doors, 2 activators", "rochester: 43 house pieces + 5 ruin pieces, stable, tower, arch, balcony", "seaview: 136-piece coastal castle set, mirrored in bshighrock"],
+      "pieces": [
+        "griffon: outer wall (observed 88x), bastions, curve sections, gates, towers 01-03 with stone/wood tops, timbered walls 01-06, inner gate/wall, thronehall, chapel, crypt, entrance hall",
+        "newcastle: 1024-unit wall sections (35), 4 buildings, 5 doors, 2 activators",
+        "rochester: 43 house pieces + 5 ruin pieces, stable, tower, arch, balcony",
+        "seaview: 136-piece coastal castle set, mirrored in bshighrock"
+      ],
       "moduleM": 3.64,
-      "palette": ["dressed grey ashlar", "damp green base course", "half-timber ochre"],
-      "materials": ["ashlar", "rubble core", "timber framing", "iron"],
-      "conditionVariants": ["intact", "ruined (rochester/ruin)"],
+      "palette": [
+        "dressed grey ashlar",
+        "damp green base course",
+        "half-timber ochre"
+      ],
+      "materials": [
+        "ashlar",
+        "rubble core",
+        "timber framing",
+        "iron"
+      ],
+      "conditionVariants": [
+        "intact",
+        "ruined (rochester/ruin)"
+      ],
       "gapFlag": "Plenty of stone. Nothing here reads tropical or flooded - all of it wants weathering, waterline algae and vine dressing to sit in Argonia.",
       "sourceCandidate": "Fort Castellum SE (23438) for an ancient-Imperial variant - module 90 S79",
-      "useFor": ["frontier forts", "toll castles", "prisons", "checkpoints", "ruined colonial infrastructure", "a walled port"]
+      "useFor": [
+        "frontier forts",
+        "toll castles",
+        "prisons",
+        "checkpoints",
+        "ruined colonial infrastructure",
+        "a walled port"
+      ]
     },
     {
       "id": "arch.foreign.dunmer-velothi",
@@ -313,16 +975,42 @@
       "culture": "foreign-other",
       "status": "have-unextracted",
       "pool": "bmv",
-      "vaultPaths": ["meshes/architecture/phitt/{dagonfel,velothi,stronghold,daedric,ashlands,ruins,caves} (~200)", "meshes/telvanni/* and meshes/architecture/mushroomtower/* (62, duplicated sets)", "meshes/vvardenfell/{ashlanderhut,stronghold,caves} (26)", "meshes/architecture/phitt/strider{full,singleshell}.nif"],
+      "vaultPaths": [
+        "meshes/architecture/phitt/{dagonfel,velothi,stronghold,daedric,ashlands,ruins,caves} (~200)",
+        "meshes/telvanni/* and meshes/architecture/mushroomtower/* (62, duplicated sets)",
+        "meshes/vvardenfell/{ashlanderhut,stronghold,caves} (26)",
+        "meshes/architecture/phitt/strider{full,singleshell}.nif"
+      ],
       "pieceCount": 288,
-      "pieces": ["telvanni: tower_01/02, pods, gourdhouse, gazebos, ramps, roots, platforms, caps, gateways, stairs (31 pieces, mirrored under mushroomtower)", "phitt stronghold entrance (observed 36x), velothi, daedric ruin set", "ashlander hut (17), yurt-like forms", "silt strider shell"],
+      "pieces": [
+        "telvanni: tower_01/02, pods, gourdhouse, gazebos, ramps, roots, platforms, caps, gateways, stairs (31 pieces, mirrored under mushroomtower)",
+        "phitt stronghold entrance (observed 36x), velothi, daedric ruin set",
+        "ashlander hut (17), yurt-like forms",
+        "silt strider shell"
+      ],
       "moduleM": null,
-      "palette": ["chitin brown", "fungal ochre", "ash grey", "bone white"],
-      "materials": ["grown fungus", "chitin", "volcanic stone"],
-      "conditionVariants": ["intact", "ruined"],
+      "palette": [
+        "chitin brown",
+        "fungal ochre",
+        "ash grey",
+        "bone white"
+      ],
+      "materials": [
+        "grown fungus",
+        "chitin",
+        "volcanic stone"
+      ],
+      "conditionVariants": [
+        "intact",
+        "ruined"
+      ],
       "gapFlag": "Use ONLY at the Morrowind border and Thorn (saltrice), never as a generic Argonian organic substitute. The gourdhouse/pod forms are tempting and would break the two-culture rule if used inland.",
       "sourceCandidate": null,
-      "useFor": ["Thorn and the Dunmer border", "Dunmer trade enclaves", "slaver/Owing outposts with Morrowind ties"]
+      "useFor": [
+        "Thorn and the Dunmer border",
+        "Dunmer trade enclaves",
+        "slaver/Owing outposts with Morrowind ties"
+      ]
     },
     {
       "id": "arch.neutral.market-and-camp",
@@ -331,16 +1019,43 @@
       "culture": "neutral",
       "status": "have",
       "pool": "vanilla+bmv",
-      "vaultPaths": ["meshes/architecture/market stand/marketstand01-04.nif (bmv)", "meshes/{markarth,riften,whiterun}/*marketstall* (vanilla, 18)", "meshes/architecture/tents/* (bmv 10, vanilla 4)", "meshes/architecture/orclonghouse/orcawning*.nif (vanilla, 6)", "meshes/sheogorad/dagon fel/shackawning{large,small}.nif"],
+      "vaultPaths": [
+        "meshes/architecture/market stand/marketstand01-04.nif (bmv)",
+        "meshes/{markarth,riften,whiterun}/*marketstall* (vanilla, 18)",
+        "meshes/architecture/tents/* (bmv 10, vanilla 4)",
+        "meshes/architecture/orclonghouse/orcawning*.nif (vanilla, 6)",
+        "meshes/sheogorad/dagon fel/shackawning{large,small}.nif"
+      ],
       "pieceCount": 42,
-      "pieces": ["4 free-standing market stands", "city market stalls with roofs and doors", "small/large imperial tents (smallimperialtent observed 84x in BM&V), 8 nordic tent variants", "orc awnings full/half/partition"],
+      "pieces": [
+        "4 free-standing market stands",
+        "city market stalls with roofs and doors",
+        "small/large imperial tents (smallimperialtent observed 84x in BM&V), 8 nordic tent variants",
+        "orc awnings full/half/partition"
+      ],
       "moduleM": null,
-      "palette": ["sun-faded canvas", "dyed cloth", "rope and pole"],
-      "materials": ["canvas", "hide", "pole", "rope"],
-      "conditionVariants": ["intact"],
+      "palette": [
+        "sun-faded canvas",
+        "dyed cloth",
+        "rope and pole"
+      ],
+      "materials": [
+        "canvas",
+        "hide",
+        "pole",
+        "rope"
+      ],
+      "conditionVariants": [
+        "intact"
+      ],
       "gapFlag": "Adequate for camps and markets; nothing woven-reed. A reed-mat awning is the single missing piece that would make markets read Argonian.",
       "sourceCandidate": "Wares of Tamriel / Argonian cultural-prop projects - module 90 S75",
-      "useFor": ["market districts", "bandit/pilgrim/refugee/hunter camps", "ferry waiting stages", "festival grounds"]
+      "useFor": [
+        "market districts",
+        "bandit/pilgrim/refugee/hunter camps",
+        "ferry waiting stages",
+        "festival grounds"
+      ]
     },
     {
       "id": "prop.neutral.clutter-general",
@@ -349,16 +1064,48 @@
       "culture": "neutral",
       "status": "have",
       "pool": "vanilla+bmv",
-      "vaultPaths": ["meshes/clutter/* (vanilla, 1599 + 91 containers)", "meshes/clutter/oaristys/* (bmv, 635)", "meshes/clutter/clutterresource + clutterresource/clutter (bmv, 226)", "meshes/clutter/generalstores (70)", "meshes/clutter/jars (45)", "meshes/clutter/mortars (28)", "meshes/clutter/rugs (17)", "meshes/stroti/resource pack I+II (47)", "meshes/food/* , meshes/toys/*"],
+      "vaultPaths": [
+        "meshes/clutter/* (vanilla, 1599 + 91 containers)",
+        "meshes/clutter/oaristys/* (bmv, 635)",
+        "meshes/clutter/clutterresource + clutterresource/clutter (bmv, 226)",
+        "meshes/clutter/generalstores (70)",
+        "meshes/clutter/jars (45)",
+        "meshes/clutter/mortars (28)",
+        "meshes/clutter/rugs (17)",
+        "meshes/stroti/resource pack I+II (47)",
+        "meshes/food/* , meshes/toys/*"
+      ],
       "pieceCount": 3300,
-      "pieces": ["barrels, crates (59 across pools), sacks, baskets (106), pottery (31 oaristys pieces), jars, bottles, bowls, plates", "firewood piles, hay, bones, dead animals, skulls (137)", "books, papers, alchemy sets, mortars", "rugs, tapestries, wall hangings, cloth racks", "toys (13), treasure (15)"],
+      "pieces": [
+        "barrels, crates (59 across pools), sacks, baskets (106), pottery (31 oaristys pieces), jars, bottles, bowls, plates",
+        "firewood piles, hay, bones, dead animals, skulls (137)",
+        "books, papers, alchemy sets, mortars",
+        "rugs, tapestries, wall hangings, cloth racks",
+        "toys (13), treasure (15)"
+      ],
       "moduleM": null,
-      "palette": ["oiled wood", "fired terracotta", "hemp", "tarnished bronze"],
-      "materials": ["wood", "clay", "cloth", "rope", "bone"],
-      "conditionVariants": ["intact", "broken (assorted)"],
+      "palette": [
+        "oiled wood",
+        "fired terracotta",
+        "hemp",
+        "tarnished bronze"
+      ],
+      "materials": [
+        "wood",
+        "clay",
+        "cloth",
+        "rope",
+        "bone"
+      ],
+      "conditionVariants": [
+        "intact",
+        "broken (assorted)"
+      ],
       "gapFlag": "Very deep and genuinely neutral - this is the family that carries 'who lives here' narration (POI recipe slot 3). Existing pipeline output: tooling/asset-pipeline/output/clutter.items.json.",
       "sourceCandidate": null,
-      "useFor": ["every interior and every dressed exterior"]
+      "useFor": [
+        "every interior and every dressed exterior"
+      ]
     },
     {
       "id": "prop.argonian.ritual-totem",
@@ -367,16 +1114,48 @@
       "culture": "argonian-mud",
       "status": "have-unextracted",
       "pool": "bmv",
-      "vaultPaths": ["meshes/clutterresource/clutter/totems/lcr_totem1-6.nif + lcr_skulltotem1.nif", "meshes/clutterresource/clutter/candles/lcr_skulltotemtorch1.nif", "meshes/clutter/oaristys/the witcher/statues/totem01-03.nif", "meshes/clutter/oaristys/skeletons/skeletontotem01-04 + skeletontotemtroll.nif", "meshes/architecture/houses/werewolftotems/{bonewand,drum,werewolfskull}.nif", "meshes/architecture/animal bones/* (56)"],
+      "vaultPaths": [
+        "meshes/clutterresource/clutter/totems/lcr_totem1-6.nif + lcr_skulltotem1.nif",
+        "meshes/clutterresource/clutter/candles/lcr_skulltotemtorch1.nif",
+        "meshes/clutter/oaristys/the witcher/statues/totem01-03.nif",
+        "meshes/clutter/oaristys/skeletons/skeletontotem01-04 + skeletontotemtroll.nif",
+        "meshes/architecture/houses/werewolftotems/{bonewand,drum,werewolfskull}.nif",
+        "meshes/architecture/animal bones/* (56)"
+      ],
       "pieceCount": 23,
-      "pieces": ["6 generic wood/mud totems", "skull totem + skull totem torch", "3 stone statue totems", "5 skeleton totems", "bone wand, drum, mounted skull", "56 animal bone props (the crocodile-skull substitute pool)"],
+      "pieces": [
+        "6 generic wood/mud totems",
+        "skull totem + skull totem torch",
+        "3 stone statue totems",
+        "5 skeleton totems",
+        "bone wand, drum, mounted skull",
+        "56 animal bone props (the crocodile-skull substitute pool)"
+      ],
       "moduleM": null,
-      "palette": ["dark wood", "bleached bone", "mud grey", "feather ochre and red"],
-      "materials": ["wood", "mud", "bone", "plumage"],
-      "conditionVariants": ["intact"],
+      "palette": [
+        "dark wood",
+        "bleached bone",
+        "mud grey",
+        "feather ochre and red"
+      ],
+      "materials": [
+        "wood",
+        "mud",
+        "bone",
+        "plumage"
+      ],
+      "conditionVariants": [
+        "intact"
+      ],
       "gapFlag": "GAP: canon totems are 'wood, mud and plumage, rearing up like a malformed golem' with CROCODILE skulls, and every village needs grave-stakes. Zero grave-stake meshes exist in any pool (searched: 0 hits). Nearest substitutes are stockade pikes + animal bones + generic totems.",
       "sourceCandidate": "Argonian cultural-prop projects / Wares of Tamriel; Darkwater Den (52630) organic clutter - module 90 S75",
-      "useFor": ["village totems", "grave-stakes fields", "tribal boundary marks", "Hist-site dressing", "Naga-Kur sites"]
+      "useFor": [
+        "village totems",
+        "grave-stakes fields",
+        "tribal boundary marks",
+        "Hist-site dressing",
+        "Naga-Kur sites"
+      ]
     },
     {
       "id": "prop.neutral.fishing-and-water-trade",
@@ -385,16 +1164,45 @@
       "culture": "neutral",
       "status": "have",
       "pool": "vanilla+bmv",
-      "vaultPaths": ["meshes/sheogorad/dagon fel/{fishingnet,fishingpole,herring,cleat}.nif", "meshes/architecture/jets/miscstuff/{hangingfoodrack01,02,boatracked01-05,dockracked02}.nif", "meshes/clutter/shipwreck/* (vanilla)", "vanilla fishing content per module 90 S74.1"],
+      "vaultPaths": [
+        "meshes/sheogorad/dagon fel/{fishingnet,fishingpole,herring,cleat}.nif",
+        "meshes/architecture/jets/miscstuff/{hangingfoodrack01,02,boatracked01-05,dockracked02}.nif",
+        "meshes/clutter/shipwreck/* (vanilla)",
+        "vanilla fishing content per module 90 S74.1"
+      ],
       "pieceCount": 60,
-      "pieces": ["fishing net, pole, herring", "2 hanging food racks", "5 racked-boat statics (boatracked01 = 3.4 x 9.6 x 4.7 m, observed 34x)", "shipwreck boards (observed 121x), cargo, barrels"],
+      "pieces": [
+        "fishing net, pole, herring",
+        "2 hanging food racks",
+        "5 racked-boat statics (boatracked01 = 3.4 x 9.6 x 4.7 m, observed 34x)",
+        "shipwreck boards (observed 121x), cargo, barrels"
+      ],
       "moduleM": null,
-      "palette": ["wet hemp", "silver fish scale", "tar black", "salt white"],
-      "materials": ["net", "rope", "plank", "fish"],
-      "conditionVariants": ["intact", "wrecked"],
+      "palette": [
+        "wet hemp",
+        "silver fish scale",
+        "tar black",
+        "salt white"
+      ],
+      "materials": [
+        "net",
+        "rope",
+        "plank",
+        "fish"
+      ],
+      "conditionVariants": [
+        "intact",
+        "wrecked"
+      ],
       "gapFlag": "Thin for a province whose economy is fish, salt and reeds: no fish-drying rack (only 1 vanilla herb rack), no saltern, no kiln, no reed-cutting gear.",
       "sourceCandidate": "Wares of Tamriel; vanilla fishing Creation content - module 90 S74.1/S75",
-      "useFor": ["fisheries", "salterns", "wreck sites", "dockside dressing", "hunting camps"]
+      "useFor": [
+        "fisheries",
+        "salterns",
+        "wreck sites",
+        "dockside dressing",
+        "hunting camps"
+      ]
     },
     {
       "id": "light.neutral.fixtures",
@@ -403,16 +1211,48 @@
       "culture": "neutral",
       "status": "have",
       "pool": "vanilla+bmv+xanmeer",
-      "vaultPaths": ["meshes/clutter/tikitorch/{tikitorch01,02,skulltorch01,02,deerskulltorch01,02,swordtorch01,02}.nif (bmv)", "meshes/sheogorad/dagon fel/{paperlantern*,metallantern*}.nif (9)", "meshes/architecture/phitt/aldredanyia/paperlanternsquare(+off).nif", "meshes/clutterresource/clutter/candles/lcr_bonelantern*.nif (4)", "meshes/clutter/oaristys/the witcher/lamps/* (7, lamp_elven observed 131x)", "Meshes/Architecture/xanmeer/furniture/xanmeer_murkmire_{brazier,brazier_red,brazieroff,sconce,sconce_off}.nif", "meshes/clutter/common/candlelantern* + woodfires (vanilla)"],
+      "vaultPaths": [
+        "meshes/clutter/tikitorch/{tikitorch01,02,skulltorch01,02,deerskulltorch01,02,swordtorch01,02}.nif (bmv)",
+        "meshes/sheogorad/dagon fel/{paperlantern*,metallantern*}.nif (9)",
+        "meshes/architecture/phitt/aldredanyia/paperlanternsquare(+off).nif",
+        "meshes/clutterresource/clutter/candles/lcr_bonelantern*.nif (4)",
+        "meshes/clutter/oaristys/the witcher/lamps/* (7, lamp_elven observed 131x)",
+        "Meshes/Architecture/xanmeer/furniture/xanmeer_murkmire_{brazier,brazier_red,brazieroff,sconce,sconce_off}.nif",
+        "meshes/clutter/common/candlelantern* + woodfires (vanilla)"
+      ],
       "pieceCount": 45,
-      "pieces": ["8 tiki torches incl. skull and deer-skull variants - the closest thing we own to tropical/tribal lighting", "9 paper and metal lanterns, on/off pairs", "4 bone lanterns", "xanmeer brazier + sconce, each with a lit and unlit variant", "campfires, candle lanterns, hanging Markarth braziers"],
+      "pieces": [
+        "8 tiki torches incl. skull and deer-skull variants - the closest thing we own to tropical/tribal lighting",
+        "9 paper and metal lanterns, on/off pairs",
+        "4 bone lanterns",
+        "xanmeer brazier + sconce, each with a lit and unlit variant",
+        "campfires, candle lanterns, hanging Markarth braziers"
+      ],
       "moduleM": null,
-      "palette": ["amber flame", "green bioluminescence (from the flora kit)", "bone white", "verdigris bronze"],
-      "materials": ["reed torch", "paper", "bone", "bronze"],
-      "conditionVariants": ["lit", "unlit"],
+      "palette": [
+        "amber flame",
+        "green bioluminescence (from the flora kit)",
+        "bone white",
+        "verdigris bronze"
+      ],
+      "materials": [
+        "reed torch",
+        "paper",
+        "bone",
+        "bronze"
+      ],
+      "conditionVariants": [
+        "lit",
+        "unlit"
+      ],
       "gapFlag": "Note: the vanilla pool contains exactly ONE 'light' category mesh (the torch) - all illumination in the source game is engine light records plus a fixture mesh, so OUR renderer must supply every emitter. Also no Argonian-reading fixture; tiki torches are the best fit and bioluminescent flora (Phase 10 kit) is the distinctive alternative.",
       "sourceCandidate": "Glimmergrove / bioluminescent cave homes; Psychedelic Caves (150288) - module 90 S75/S79",
-      "useFor": ["night legibility", "approach cues (POI recipe slot 1)", "ritual sites", "dock and causeway wayfinding"]
+      "useFor": [
+        "night legibility",
+        "approach cues (POI recipe slot 1)",
+        "ritual sites",
+        "dock and causeway wayfinding"
+      ]
     },
     {
       "id": "sign.neutral.signage",
@@ -421,16 +1261,42 @@
       "culture": "neutral",
       "status": "have-unextracted",
       "pool": "bmv+vanilla",
-      "vaultPaths": ["meshes/jokerinesresources/blankinnsign/* (bmv, 256)", "meshes/clutter/signage/{riften,solitude} (bmv, 169)", "meshes/clutter/signage/* (vanilla, 74)", "meshes/architecture/docks/dockcolstrsign01.nif", "meshes/sheogorad/signpost.nif", "meshes/architecture/phitt/aldredanyia/signpost.nif (observed 117x)"],
+      "vaultPaths": [
+        "meshes/jokerinesresources/blankinnsign/* (bmv, 256)",
+        "meshes/clutter/signage/{riften,solitude} (bmv, 169)",
+        "meshes/clutter/signage/* (vanilla, 74)",
+        "meshes/architecture/docks/dockcolstrsign01.nif",
+        "meshes/sheogorad/signpost.nif",
+        "meshes/architecture/phitt/aldredanyia/signpost.nif (observed 117x)"
+      ],
       "pieceCount": 500,
-      "pieces": ["256 named/blank hanging inn-sign variants (signgraveyard1, signshrine1, roadsignlarge/medium*, citysign* families)", "Riften and Solitude shop signage sets", "signposts, sign columns, sign ropes, hanging brackets"],
+      "pieces": [
+        "256 named/blank hanging inn-sign variants (signgraveyard1, signshrine1, roadsignlarge/medium*, citysign* families)",
+        "Riften and Solitude shop signage sets",
+        "signposts, sign columns, sign ropes, hanging brackets"
+      ],
       "moduleM": null,
-      "palette": ["painted board", "wrought-iron bracket", "faded gilt"],
-      "materials": ["board", "iron", "rope"],
-      "conditionVariants": ["intact"],
+      "palette": [
+        "painted board",
+        "wrought-iron bracket",
+        "faded gilt"
+      ],
+      "materials": [
+        "board",
+        "iron",
+        "rope"
+      ],
+      "conditionVariants": [
+        "intact"
+      ],
       "gapFlag": "All lettering is Imperial/Nord. Argonia's diegetic signage should lean pictographic (totems, painted glyph boards, hung objects) rather than text - so treat the BLANK inn-sign resource as the primary family and the lettered sets as Imperial-fringe only.",
       "sourceCandidate": null,
-      "useFor": ["Imperial-fringe towns", "inns and services", "toll posts", "route wayfinding"]
+      "useFor": [
+        "Imperial-fringe towns",
+        "inns and services",
+        "toll posts",
+        "route wayfinding"
+      ]
     },
     {
       "id": "boat.mixed.watercraft",
@@ -439,16 +1305,95 @@
       "culture": "foreign-other",
       "status": "have-unextracted",
       "pool": "bmv+vanilla",
-      "vaultPaths": ["meshes/randomresourceships-beds/* (bmv, 269 - hulls plus a large shipboard furniture/clutter/food set)", "meshes/nordships/shipnord{greatship,rowboat,tradeship,tradeshipbeached}.nif", "meshes/breticships/shipbretic{caravel,carrack,jollyboat}.nif", "meshes/transport/ships/{ghostship,merchant_ship}.nif", "meshes/architecture/boats/rowboat01 + rowboatbrokenback/front.nif", "meshes/architecture/ships/imperialship01{base,masts}.nif", "vanilla ships, rowboats, shipwrecks"],
+      "vaultPaths": [
+        "meshes/randomresourceships-beds/* (bmv, 269 - hulls plus a large shipboard furniture/clutter/food set)",
+        "meshes/nordships/shipnord{greatship,rowboat,tradeship,tradeshipbeached}.nif",
+        "meshes/breticships/shipbretic{caravel,carrack,jollyboat}.nif",
+        "meshes/transport/ships/{ghostship,merchant_ship}.nif",
+        "meshes/architecture/boats/rowboat01 + rowboatbrokenback/front.nif",
+        "meshes/architecture/ships/imperialship01{base,masts}.nif",
+        "vanilla ships, rowboats, shipwrecks"
+      ],
       "pieceCount": 290,
-      "pieces": ["Nord great ship, trade ship (+beached variant), rowboat", "Breton caravel, carrack, jolly boat", "merchant ship, ghost ship", "rowboat + 2 broken variants", "Imperial ship hull + masts", "shipboard interior dressing: beds, cabinets, food, toys, garden, jewelry"],
+      "pieces": [
+        "Nord great ship, trade ship (+beached variant), rowboat",
+        "Breton caravel, carrack, jolly boat",
+        "merchant ship, ghost ship",
+        "rowboat + 2 broken variants",
+        "Imperial ship hull + masts",
+        "shipboard interior dressing: beds, cabinets, food, toys, garden, jewelry"
+      ],
       "moduleM": null,
-      "palette": ["tarred hull", "canvas sail", "sun-bleached deck"],
-      "materials": ["planked hull", "canvas", "rope"],
-      "conditionVariants": ["intact", "broken", "beached", "wrecked"],
-      "gapFlag": "MAJOR CULTURE GAP: every hull we own is keeled and sailed, i.e. FOREIGN by canon. Canon Argonian craft are rafts, canoes and twin-hulled platform canoes - poled, paddled or tail-driven, no keels. We own ZERO rafts and ZERO canoes (searched: 0 hits).",
-      "sourceCandidate": "Skyrim Ferries (109843 - rowboats, RAFTS, city ferries), Rowboats of Skyrim (35341), Sailboats Script Free Sailing (40057), L.V.X. Magick's Boats (36149) - module 90 S77",
-      "useFor": ["ports and moorings", "ferry stages", "pirate anchorages", "wrecks", "houseboat villages"]
+      "palette": [
+        "tarred hull",
+        "canvas sail",
+        "sun-bleached deck"
+      ],
+      "materials": [
+        "planked hull",
+        "canvas",
+        "rope"
+      ],
+      "conditionVariants": [
+        "intact",
+        "broken",
+        "beached",
+        "wrecked"
+      ],
+      "gapFlag": "MAJOR CULTURE GAP, CONFIRMED IN ROUND 2 AND STILL OPEN: every hull we own is keeled, planked and oar-rowed, i.e. FOREIGN by canon. Canon Argonian craft are rafts, canoes and twin-hulled platform canoes - poled, paddled or tail-driven, no keels. Zero rafts, zero dugout canoes, zero coracles, zero poled punts across all pools INCLUDING the two boat mods that landed in round 2.",
+      "sourceCandidate": "Skyrim Ferries (109843) and Rowboats of Skyrim (35341) ARE NOW IN THE VAULT and do NOT close this - both are Nord clinker hulls. See family boat.mixed.vault-boat-mods and gap.native-watercraft.",
+      "useFor": [
+        "ports and moorings",
+        "ferry stages",
+        "pirate anchorages",
+        "wrecks",
+        "houseboat villages"
+      ]
+    },
+    {
+      "id": "boat.mixed.vault-boat-mods",
+      "label": "Ferry and rowboat mods now in the vault",
+      "class": "watercraft",
+      "culture": "foreign-other",
+      "status": "have",
+      "pool": "skyrim-ferries+rowboats-of-skyrim",
+      "vaultPaths": [
+        "mod-sources/skyrim-ferries-109843/extracted/meshes/yamadori/ferries/ (89 files, ~5 distinct hulls)",
+        "mod-sources/rowboats-of-skyrim-35341/extracted/meshes/dungeons/ (3 files)"
+      ],
+      "pieceCount": 8,
+      "pieces": [
+        "common_rowboat_inialta_01-06 (one rowboat hull)",
+        "plank_ferry_* (31 instances: eastmarch, haafingar, sea, solstheim and SWAMP_01-06) - a flat plank-built craft, the most promising family here",
+        "rowboat_ferry_* (48 instances)",
+        "river_ferry_haafingar_01, river_ferry_rift_01",
+        "volkihar_ferry_01/02 (gondola-style)",
+        "shiprowboat01 + shiprowboatanim01 (bobbing) + ShipOar01 standalone oar"
+      ],
+      "moduleM": null,
+      "palette": [
+        "tarred clinker plank",
+        "wet grey timber",
+        "oiled oar"
+      ],
+      "materials": [
+        "planked hull",
+        "oar",
+        "rope"
+      ],
+      "conditionVariants": [
+        "static",
+        "animated/bobbing"
+      ],
+      "gapFlag": "IMPORTANT CAVEAT: the 89 ferry files are per-location PLACED INSTANCES with position and route baked in, not 89 boats - budget for about five distinct hulls. All are keel-and-oar Nord craft, so they do not close the native-watercraft gap. Two things are genuinely valuable: ShipOar01 as a re-purposable paddle/punt-pole prop, and the shiprowboatanim01 bobbing variant as the pattern for moored-boat motion.",
+      "sourceCandidate": null,
+      "ownerCheckRequested": "plank_ferry_swamp_01-06 - worth one visual look to judge whether the plank ferry reads as a flat-bottomed poled punt (usable for Argonia) or as an obvious Nord rowboat (not usable).",
+      "useFor": [
+        "ports and moorings",
+        "ferry stages on the travel-service graph",
+        "foreign/Imperial craft",
+        "wrecks"
+      ]
     },
     {
       "id": "arch.neutral.bridge-and-crossing",
@@ -457,16 +1402,43 @@
       "culture": "neutral",
       "status": "have",
       "pool": "vanilla+bmv",
-      "vaultPaths": ["meshes/landscape/bridges/bridge{01,long01,narrow01,short01}.nif (vanilla)", "meshes/clutter/stockade/stockadebridge*.nif (vanilla, 9)", "meshes/architecture/huts/exterior/bridge01.nif (bmv)", "meshes/architecture/abx_{bridge,longbridge}.nif", "meshes/dungeons/nordic/bridges (5)", "meshes/manny_gf/ayleid/manny_gf_ayleid_bridge(+_end).nif"],
+      "vaultPaths": [
+        "meshes/landscape/bridges/bridge{01,long01,narrow01,short01}.nif (vanilla)",
+        "meshes/clutter/stockade/stockadebridge*.nif (vanilla, 9)",
+        "meshes/architecture/huts/exterior/bridge01.nif (bmv)",
+        "meshes/architecture/abx_{bridge,longbridge}.nif",
+        "meshes/dungeons/nordic/bridges (5)",
+        "meshes/manny_gf/ayleid/manny_gf_ayleid_bridge(+_end).nif"
+      ],
       "pieceCount": 24,
-      "pieces": ["4 vanilla stone arch bridges: narrow 23.4 m, short 23.4 m, standard 42.1 m, long 52.2 m", "9 stockade plank/scaffold bridges 4.8-17.5 m", "hut bridge 5.0 m", "ayleid stone bridges"],
+      "pieces": [
+        "4 vanilla stone arch bridges: narrow 23.4 m, short 23.4 m, standard 42.1 m, long 52.2 m",
+        "9 stockade plank/scaffold bridges 4.8-17.5 m",
+        "hut bridge 5.0 m",
+        "ayleid stone bridges"
+      ],
       "moduleM": null,
-      "palette": ["mossy stone", "wet plank", "rope handline"],
-      "materials": ["stone arch", "timber", "rope"],
-      "conditionVariants": ["intact"],
+      "palette": [
+        "mossy stone",
+        "wet plank",
+        "rope handline"
+      ],
+      "materials": [
+        "stone arch",
+        "timber",
+        "rope"
+      ],
+      "conditionVariants": [
+        "intact"
+      ],
       "gapFlag": "GAP against canon: the province's characteristic crossing is the 'flexible, partially buoyant timber causeway' and the older 'stone-flagged causeway'. We own arch bridges and plank bridges but no causeway family - the passerelles walkway kit plus stockade scaffolding is the best composite substitute.",
       "sourceCandidate": null,
-      "useFor": ["road legs", "toll crossings", "settlement links", "flood-damaged/bridged/ferried legs of the eight-city road network"]
+      "useFor": [
+        "road legs",
+        "toll crossings",
+        "settlement links",
+        "flood-damaged/bridged/ferried legs of the eight-city road network"
+      ]
     },
     {
       "id": "arch.neutral.fence-and-enclosure",
@@ -475,16 +1447,46 @@
       "culture": "neutral",
       "status": "have",
       "pool": "vanilla+bmv",
-      "vaultPaths": ["meshes/architecture/farmhouse/fencewoven01/02.nif (vanilla)", "meshes/architecture/farmhouse/stonewall/* (vanilla)", "meshes/clutter/stockade/{stockadefreewall01-04,stockadepike01,stockadegate01,stockadebarricade01} (vanilla)", "meshes/architecture/phitt/{fence01,fenceplank,fencepole,fencetop}.nif (bmv)", "meshes/architecture/abx_fence.nif", "meshes/architecture/mushroom house/mushroomfence*.nif (9, incl. slope and broken variants)"],
+      "vaultPaths": [
+        "meshes/architecture/farmhouse/fencewoven01/02.nif (vanilla)",
+        "meshes/architecture/farmhouse/stonewall/* (vanilla)",
+        "meshes/clutter/stockade/{stockadefreewall01-04,stockadepike01,stockadegate01,stockadebarricade01} (vanilla)",
+        "meshes/architecture/phitt/{fence01,fenceplank,fencepole,fencetop}.nif (bmv)",
+        "meshes/architecture/abx_fence.nif",
+        "meshes/architecture/mushroom house/mushroomfence*.nif (9, incl. slope and broken variants)"
+      ],
       "pieceCount": 40,
-      "pieces": ["woven wattle fence 01/02 - Bethesda's most-placed fence (506 + 251 uses) and the closest read to Argonian reed weaving", "stone wall runs with end pieces (288/287 uses)", "stockade free walls, pikes, gate, barricade", "phitt fence with plank/pole/top parts (fence01 observed 49x)", "mushroom fences with slope-following and broken variants"],
+      "pieces": [
+        "woven wattle fence 01/02 - Bethesda's most-placed fence (506 + 251 uses) and the closest read to Argonian reed weaving",
+        "stone wall runs with end pieces (288/287 uses)",
+        "stockade free walls, pikes, gate, barricade",
+        "phitt fence with plank/pole/top parts (fence01 observed 49x)",
+        "mushroom fences with slope-following and broken variants"
+      ],
       "moduleM": 3.64,
-      "palette": ["woven hazel grey", "dry stone", "sharpened pole"],
-      "materials": ["wattle", "dry stone", "pole"],
-      "conditionVariants": ["intact", "broken (mushroomfence02slopebroken)"],
+      "palette": [
+        "woven hazel grey",
+        "dry stone",
+        "sharpened pole"
+      ],
+      "materials": [
+        "wattle",
+        "dry stone",
+        "pole"
+      ],
+      "conditionVariants": [
+        "intact",
+        "broken (mushroomfence02slopebroken)"
+      ],
       "gapFlag": "The woven fence is the single most Argonian-reading vanilla mesh we own; the mushroom fences are the only slope-following fence pieces, which matters on graded settlement rims.",
       "sourceCandidate": null,
-      "useFor": ["egg-yards and pens", "field boundaries", "camp palisades", "district edges", "settlement approach framing"]
+      "useFor": [
+        "egg-yards and pens",
+        "field boundaries",
+        "camp palisades",
+        "district edges",
+        "settlement approach framing"
+      ]
     },
     {
       "id": "landmark.mixed.standing-features",
@@ -493,16 +1495,47 @@
       "culture": "neutral",
       "status": "have-unextracted",
       "pool": "bmv+vanilla",
-      "vaultPaths": ["meshes/architecture/gallows/* (6)", "meshes/trdata/wayshrine/* (19)", "meshes/architecture/abx_well.nif + farmwell01 + manny_gf_ayleid_well (17 'well' hits)", "meshes/architecture/phitt/trees/azura_tree02.nif (observed 523x - BM&V's most-placed 'architecture' asset)", "meshes/manny_gf/arena (4), meshes/manny_gf/panorama (2), meshes/manny_gf/stairskit (6)", "meshes/architecture/houses/logpile (2)", "meshes/architecture/philscaves/* (54, cave mouths and mine rails)"],
+      "vaultPaths": [
+        "meshes/architecture/gallows/* (6)",
+        "meshes/trdata/wayshrine/* (19)",
+        "meshes/architecture/abx_well.nif + farmwell01 + manny_gf_ayleid_well (17 'well' hits)",
+        "meshes/architecture/phitt/trees/azura_tree02.nif (observed 523x - BM&V's most-placed 'architecture' asset)",
+        "meshes/manny_gf/arena (4), meshes/manny_gf/panorama (2), meshes/manny_gf/stairskit (6)",
+        "meshes/architecture/houses/logpile (2)",
+        "meshes/architecture/philscaves/* (54, cave mouths and mine rails)"
+      ],
       "pieceCount": 110,
-      "pieces": ["gallows 01/02 with stairs and trapdoors - the Owing's enforcement furniture", "19 wayshrine pieces", "wells (3 kinds)", "azura_tree02, a monumental sacred tree static - the closest available Hist stand-in silhouette", "arena and panorama pieces, modular stair kit", "cave entrances, mine rails and supports"],
+      "pieces": [
+        "gallows 01/02 with stairs and trapdoors - the Owing's enforcement furniture",
+        "19 wayshrine pieces",
+        "wells (3 kinds)",
+        "azura_tree02, a monumental sacred tree static - the closest available Hist stand-in silhouette",
+        "arena and panorama pieces, modular stair kit",
+        "cave entrances, mine rails and supports"
+      ],
       "moduleM": null,
-      "palette": ["weathered timber", "worn stone", "vast dark canopy"],
-      "materials": ["timber", "stone", "living wood"],
-      "conditionVariants": ["intact"],
-      "gapFlag": "The Hist is the province's single most important landmark and we have NO purpose-made Hist mesh. azura_tree02 plus the Phase 10 flora kit's largest trees is the current answer - the ~10 hero Hist need a decided composite recipe early (register kickoff hook).",
-      "sourceCandidate": "Roots of the Sleeping Tree and similar organic homes; Hoddminir (38651) large trees - module 90 S75/S76",
-      "useFor": ["long-range approach cues", "Hist sites", "execution/toll posts", "shrines", "mine and cave heads"]
+      "palette": [
+        "weathered timber",
+        "worn stone",
+        "vast dark canopy"
+      ],
+      "materials": [
+        "timber",
+        "stone",
+        "living wood"
+      ],
+      "conditionVariants": [
+        "intact"
+      ],
+      "gapFlag": "ROUND-2: a purpose-made Hist mesh now EXISTS in the vault (see landmark.argonian.hist-tree). azura_tree02 is demoted from 'Hist stand-in' to 'extra silhouette mass for the very largest hero Hist' and remains a fine monumental sacred tree for non-Hist sacred sites. The gallows, wayshrines and wells in this family are unaffected.",
+      "sourceCandidate": null,
+      "useFor": [
+        "long-range approach cues",
+        "Hist sites",
+        "execution/toll posts",
+        "shrines",
+        "mine and cave heads"
+      ]
     },
     {
       "id": "ground.tropical.setting",
@@ -511,54 +1544,97 @@
       "culture": "neutral",
       "status": "have",
       "pool": "tropical+bmv+vanilla",
-      "vaultPaths": ["Tropical Skyrim extracted: 707 tree/palm meshes, 25 grasses, 42 deadfall, 29 shrubs, 10 aquatic plants", "bmv: 932 trees, 416 plants, 250 grasses, 198 shrubs, 131 fungus, 43 deadfall, 329 rocks, 15 roots", "the built kits: flora-province-v1, groundcover-province-v1", "bmv-v1 and aendemika-v1 ground-material sets"],
+      "vaultPaths": [
+        "Tropical Skyrim extracted: 707 tree/palm meshes, 25 grasses, 42 deadfall, 29 shrubs, 10 aquatic plants",
+        "bmv: 932 trees, 416 plants, 250 grasses, 198 shrubs, 131 fungus, 43 deadfall, 329 rocks, 15 roots",
+        "the built kits: flora-province-v1, groundcover-province-v1",
+        "bmv-v1 and aendemika-v1 ground-material sets"
+      ],
       "pieceCount": 3100,
-      "pieces": ["see the Phase 10 flora work - listed here only so settlement authors know the surrounding material is solved"],
+      "pieces": [
+        "see the Phase 10 flora work - listed here only so settlement authors know the surrounding material is solved"
+      ],
       "moduleM": null,
-      "palette": ["dark mossy cobble road", "roots-in-mudbank", "dark river mud", "rooty forest floor", "dark tidal sand", "limestone terrace", "mossy grass"],
-      "materials": ["mud", "moss", "root", "limestone", "sand"],
-      "conditionVariants": ["n/a"],
+      "palette": [
+        "dark mossy cobble road",
+        "roots-in-mudbank",
+        "dark river mud",
+        "rooty forest floor",
+        "dark tidal sand",
+        "limestone terrace",
+        "mossy grass"
+      ],
+      "materials": [
+        "mud",
+        "moss",
+        "root",
+        "limestone",
+        "sand"
+      ],
+      "conditionVariants": [
+        "n/a"
+      ],
       "gapFlag": "Solved. Settlements clear and manage this material (compiler owns clearance masks) rather than sourcing more of it.",
       "sourceCandidate": null,
-      "useFor": ["the graded/thinned/wild fringe rings around every settlement"]
+      "useFor": [
+        "the graded/thinned/wild fringe rings around every settlement"
+      ]
     }
   ],
   "gaps": [
     {
       "id": "gap.mud-kit",
-      "severity": "critical",
-      "title": "No modular wattle-and-daub mud-hut kit",
-      "detail": "One of the two canon Argonian building cultures rests on ~3 monolithic shells (hutexterior, argonianhouse, swamp house). Every Shadowfen village would be built from the same three meshes, which fails the anti-sameyness quota (no template over ~25% of a region's instances).",
-      "constrains": "Shadowfen and all inland/northern settlement design",
-      "sourcePriority": 1,
-      "candidates": ["Mud Mother Grove - Argonian Mud Hut (SSE 146557)", "Marsh-Rest (Skyrim 50111)", "Xalfek (Skyrim 55595)", "Darkwater Den (Skyrim 52630)"]
+      "severity": "medium",
+      "title": "Mud-hut forms are few, and none is a modular wall kit",
+      "detail": "Mud Mother Grove (SSE 146557) landed in the vault and supplies MudHut01 (+matched interior), RoundFloor01, ThatchRoofing and two Argonian tents - the only purpose-built Shadowfen aesthetic we have. But they are whole shells, so counting the older BM&V shells we have roughly four distinct mud/organic hut forms. That is workable with aggressive kitbashing (the mod's 7 fence pieces, archway sticks, platforms and bridge are good stock) but still short of comfortable variety against the 25%-per-template quota.",
+      "constrains": "variety within Shadowfen villages, not their existence",
+      "sourcePriority": 3,
+      "candidates": [
+        "Mud Mother Grove - Argonian Mud Hut (SSE 146557)",
+        "Marsh-Rest (Skyrim 50111)",
+        "Xalfek (Skyrim 55595)",
+        "Darkwater Den (Skyrim 52630)"
+      ],
+      "round2Status": "PARTIALLY CLOSED by vault contents"
     },
     {
       "id": "gap.xanmeer-exterior",
-      "severity": "critical",
-      "title": "No stepped-pyramid xanmeer exterior massing",
-      "detail": "The Xanmeer Tileset's exterior is 9 pieces (wall, floor, corner, stairs, gazebo). Canon xanmeers are stepped pyramids linked by stone bridges. Only 11 whole mesoamerican statics (BM&V 22mjy + manny_gf pyramid) give the silhouette, and they have no interiors and no variation.",
-      "constrains": "every xanmeer ruin, the deep-interior landmark layer, Hist chambers, the province's most distinctive skyline",
-      "sourcePriority": 2,
-      "candidates": ["CC Ayleid Ruin Resources (SSE 83999)", "Fort Castellum SE (23438)", "Beyond Skyrim Bruma Ayleid material", "Balamath (84000) as an assembly reference"]
+      "severity": "medium",
+      "title": "Xanmeer exteriors can be massed but have no ornamental frontage",
+      "detail": "Round 1 misread the Xanmeer Tileset's 9 exterior pieces as 'no massing'. They are a terrace kit - floor slabs, half-floors, walls, half-walls, corners and a 9.30 m / 4.75 m monumental stair - and stacking terraces of decreasing footprint IS a stepped pyramid. What is missing is decorative monumental frontage: carved facades, roof combs, sculpted stairways and the stone causeway bridges between pyramids that canon describes. CC Ayleid Ruin Resources (83999) landed in the vault but is INTERIOR-ONLY and does not help here; it is valuable as a xanmeer-interior extension instead.",
+      "constrains": "how ornate the xanmeer skyline reads, not whether it exists. Ours will read as clean geometric terracing.",
+      "sourcePriority": 5,
+      "candidates": [
+        "Beyond Skyrim Bruma Ayleid material",
+        "Fort Castellum SE (23438)",
+        "Mesoamerican/ziggurat modder's resources - see nexusResearch"
+      ],
+      "round2Status": "REASSESSED - smaller than round 1 claimed, still open"
     },
     {
       "id": "gap.argonian-props",
-      "severity": "high",
-      "title": "No Argonian cultural props",
-      "detail": "Zero grave-stake meshes in any pool. No crocodile-skull totems, plumage totems, reed mats, turtle-shell dishes, xeech'kis seed dolls, vossa-satl frog pipes, chime sets, egg-tender gear or Hist-sap items - the whole prop brief in material-culture.md.",
-      "constrains": "POI recipe slot 3 (domestic props that narrate who lives here) for every Argonian place; grave-stakes fields as a place type",
-      "sourcePriority": 3,
-      "candidates": ["Wares of Tamriel and Argonian cultural-prop projects", "Argonian bone/wood weapon resources", "Darkwater Den (52630)"]
+      "severity": "low",
+      "title": "Argonian cultural props - closed except burial markers",
+      "detail": "Mud Mother Grove supplies totem, Sithis shrine, skull, bone, two substantial bone-chime assemblies and a drum (ritual); woven chair/table/fence, baskets and pillow (reed/woven); painted urn, cup and three plates (pottery); shell half, chitin chair and a carapace oven (shell/chitin); a fish rack and clam (fishing); three wall hangings and a banner. The bone-chimes directly serve the canon chime-maker office. REMAINING SUB-GAP: no grave-stakes or burial markers anywhere in any pool - the grave-singer's staked dead are a named canon practice and a place type. The totem and bone-chimes are the nearest re-purposable substitutes.",
+      "constrains": "grave-stakes fields as a distinct place type",
+      "sourcePriority": 4,
+      "candidates": [
+        "re-purpose ArgonianTotem01 + bone-chimes + stockade pikes (no download)",
+        "tribal/burial marker modder's resources - see nexusResearch"
+      ],
+      "round2Status": "CLOSED by vault contents, except grave-stakes"
     },
     {
       "id": "gap.native-watercraft",
       "severity": "high",
       "title": "No rafts, canoes or twin-hulled platform canoes",
-      "detail": "Canon: personal rafts are the default vehicle; the small-draft doctrine; Riverback territory is navigable by small rafts and canoes and little else. Every hull we own is keeled and sailed - i.e. reads foreign. Moored boats are the commonest single prop in a marsh settlement, so this shows everywhere.",
-      "constrains": "every waterside settlement, ferry stage, mooring and raft village; the travel-service graph's look",
-      "sourcePriority": 4,
-      "candidates": ["Skyrim Ferries (109843 - rafts and city ferries)", "Rowboats of Skyrim (35341)", "Sailboats Script Free Sailing Expanded (40057)", "L.V.X. Magick's Boats (36149)"]
+      "detail": "Skyrim Ferries (109843) and Rowboats of Skyrim (35341) both landed in the vault in round 2 and neither closes this. Ferries' 89 files are per-location placed instances of about five hulls, all rowboat-derived Nord clinker craft; Rowboats is three meshes, keeled. Zero rafts, zero dugout canoes, zero coracles, zero poled punts confirmed across every pool. Since moored boats are among the commonest props in a marsh settlement, this shows everywhere. Two salvage points: ShipOar01 is a re-purposable paddle/punt-pole prop, and plank_ferry_swamp_01-06 deserves one owner eyeball as a possible flat-bottom.",
+      "constrains": "every waterside settlement, mooring, ferry stage and raft village; the travel-service graph's look",
+      "sourcePriority": 1,
+      "candidates": [
+        "see nexusResearch - this is now the top outstanding sourcing job"
+      ],
+      "round2Status": "CONFIRMED STILL OPEN - the two boat mods do not close it"
     },
     {
       "id": "gap.causeway",
@@ -567,7 +1643,9 @@
       "detail": "Canon gives flexible partially-buoyant timber causeways and older stone-flagged causeways (Stormhold-Bogmother). We have arch bridges and plank bridges. The passerelles walkway kit + stockade scaffolding is a workable composite, but the buoyant/floating read has no asset.",
       "constrains": "inter-settlement links, the eight-city road network's marsh legs, floating villages",
       "sourcePriority": 6,
-      "candidates": ["compose from citebosmer passerelles + stockade (no download needed)"]
+      "candidates": [
+        "compose from citebosmer passerelles + stockade (no download needed)"
+      ]
     },
     {
       "id": "gap.working-infrastructure",
@@ -576,16 +1654,21 @@
       "detail": "No fish-drying racks, salterns, kilns, reed-cutting gear, tanning frames for the marsh trades, moulting/grooming stations. The economy families in Part 1's taxonomy (saltern, fishery, kiln, logging, plantation) will otherwise all dress from the same generic barrel-and-crate pool.",
       "constrains": "the works taxonomy branch, economic legibility, distinctiveness between trade POIs",
       "sourcePriority": 5,
-      "candidates": ["Wares of Tamriel", "vanilla fishing Creation content", "General Stores / clutter resources already in BM&V"]
+      "candidates": [
+        "Wares of Tamriel",
+        "vanilla fishing Creation content",
+        "General Stores / clutter resources already in BM&V"
+      ]
     },
     {
       "id": "gap.hist-mesh",
-      "severity": "high",
-      "title": "No Hist tree asset",
-      "detail": "The ~10 hero Hist (register kickoff hook) have no purpose-made mesh. Current best answer is BM&V's azura_tree02 monumental tree static plus the Phase 10 flora kit's largest composites. This decision is load-bearing for the look of every major settlement and should be settled at Part 6 for the first exemplar.",
-      "constrains": "every Hist-centred settlement grammar, the province's spiritual centre",
-      "sourcePriority": 3,
-      "candidates": ["compose from azura_tree02 + flora-province-v1 (no download)", "Roots of the Sleeping Tree", "Hoddminir Plants and Trees (38651)"]
+      "severity": "resolved",
+      "title": "Hist tree - closed",
+      "detail": "Mud Mother Grove ships HistTree.nif (167 KB), an explicit purpose-built Hist tree, with a matching fxHistMist01.nif atmosphere effect and its own textures. Residual work is not sourcing but authoring: there is ONE mesh, so the ~10 hero Hist must be differentiated by scale, lean, rotation, mist density and surrounding composition, and the greatest of them may want composite mass from azura_tree02 and the Phase 10 flora kit. Verify its authored scale on import - a hero Hist must dominate its settlement's skyline.",
+      "constrains": "nothing blocking; an authoring decision for the first exemplar",
+      "sourcePriority": 9,
+      "candidates": [],
+      "round2Status": "CLOSED by vault contents"
     },
     {
       "id": "gap.tropical-architecture-meshes",
@@ -600,10 +1683,11 @@
       "id": "gap.extraction",
       "severity": "blocking-for-6b",
       "title": "The entire BM&V pool is still archived",
-      "detail": "12.8k meshes in Data1.rar and 24.6k textures in Data2.rar; only extracted-ground/ has been unpacked. Most families flagged have-unextracted above depend on a selective extraction pass against extract-list.txt.",
+      "detail": "BM&V remains archived: 12.8k meshes in Data1.rar, 24.6k textures in Data2.rar, only extracted-ground/ unpacked. Selective extraction is still outstanding and still gates most of the house style. The seven mods that landed on 2026-09-02 (mud-mother-grove, marsh-rest, xalfek, darkwater-den, cc-ayleid, rowboats, skyrim-ferries) are all fully extracted.",
       "constrains": "item 6b kit builds; nothing in Parts 1-4",
       "sourcePriority": 0,
-      "candidates": []
+      "candidates": [],
+      "round2Status": "UNCHANGED for BM&V; the seven new mods ARE extracted"
     },
     {
       "id": "gap.light-emitters",
@@ -613,26 +1697,480 @@
       "constrains": "night legibility and the settlement static-budget report",
       "sourcePriority": 7,
       "candidates": []
+    },
+    {
+      "id": "gap.permissions-unrecorded",
+      "severity": "high",
+      "round2Status": "NEW in round 2",
+      "title": "Permissions unrecorded for the three mods that matter most, and one mod is outright blocked",
+      "detail": "Mud Mother Grove, Xalfek and Skyrim Ferries ship no readme and the Nexus API metadata carries no permissions block - those live on each page's Permissions tab and must be read before anything ships. Mud Mother Grove is the urgent one: it single-handedly closes the Hist-tree and Argonian-props gaps, so the whole province's visual plan leans on a mod whose terms we have not read. SEPARATELY AND BLOCKING: Darkwater Den (52630) forbids use of Elianora-original meshes in 'any PUBLIC WORK under ANY CIRCUMSTANCES' and we ship publicly on GitHub Pages - catalogue it as reference-only, do not ship. CC Ayleid Ruin Resources is the only clean grant (not sold + credit Sarthes Arai).",
+      "constrains": "whether the round-2 gap closures are real; this is a legal/verification task, not an art task",
+      "sourcePriority": 0,
+      "candidates": []
+    },
+    {
+      "id": "gap.no-dlc",
+      "severity": "medium",
+      "round2Status": "NEW in round 2",
+      "title": "No Skyrim DLC in the vault",
+      "detail": "Data/ holds only the base game's Meshes/Textures/Animations BSAs plus Skyrim.esm and Update.esm. Dawnguard, HearthFires and Dragonborn are absent, as is Skyrim - Sounds.bsa. Module 90 S74.1 lists Solstheim/Dragonborn, Hearthfire and Dawnguard/Falmer material as high-value source families. BM&V duplicates most of the Telvanni/Morrowind material, so the real loss is the HEARTHFIRE buildable-homestead kit - a modular timber house kit that would have been directly useful for settlement building. Blackreach is in the base BSA and is unaffected.",
+      "constrains": "one more modular timber building kit we thought we had",
+      "sourcePriority": 6,
+      "candidates": [
+        "owner-owned DLC extraction, if the owner has the DLC"
+      ]
+    },
+    {
+      "id": "gap.reference-only-mods",
+      "severity": "informational",
+      "round2Status": "NEW in round 2",
+      "title": "Two vault mods contribute little or nothing",
+      "detail": "Marsh-Rest (50111) contains exactly one file, ArgonianHome.esp - zero meshes, zero textures; it is a vanilla-asset cave home defined entirely in its plugin, and round 1's recommendation to source it at priority 2 was wrong. Xalfek (55595) has 72 meshes but they are author-prefixed re-bundled third-party resources (blary, stroti, oaristys, jokerine, eli, jets, flintone, robobirdie and others) with a generic Nord fishing shack as its only building; each piece would need its own upstream credit, so prefer sourcing those resource packs directly.",
+      "constrains": "nothing - recorded so no future agent re-investigates",
+      "sourcePriority": 10,
+      "candidates": []
     }
   ],
   "sourcingPriorityForItem6b": [
-    {"rank": 1, "target": "Mud Mother Grove - Argonian Mud Hut (SSE 146557)", "why": "closes the critical mud-culture gap; module 90 S75 top row and S80 priority 3 (one Argonian current-settlement kit)"},
-    {"rank": 2, "target": "Marsh-Rest (Skyrim 50111) + Xalfek (Skyrim 55595)", "why": "second and third Argonian dwelling forms so villages are not built from one template; plus Argonian interior props"},
-    {"rank": 3, "target": "Selective BM&V extraction (Data1.rar architecture, clutter, signage, boats; Data2.rar matching textures)", "why": "unlocks the house style - the hut kit, passerelles walkway kit, Dagon Fel docks, totems, tiki torches, monumental pyramids, drowned ruins"},
-    {"rank": 4, "target": "Skyrim Ferries (109843) and/or Rowboats of Skyrim (35341)", "why": "rafts and small craft - the canon default vehicle, currently absent"},
-    {"rank": 5, "target": "CC Ayleid Ruin Resources (SSE 83999)", "why": "monumental stone massing to extend the 9-piece xanmeer exterior; module 90 S80 priority 7"},
-    {"rank": 6, "target": "Wares of Tamriel / Argonian cultural-prop projects", "why": "the prop brief in material-culture.md - totems, ceramics, fishing goods, ritual props; module 90 S80 priority 8"},
-    {"rank": 7, "target": "Darkwater Den (52630), Glimmergrove / bioluminescent homes", "why": "organic interiors and a distinctive Argonian light language"}
+    {
+      "rank": 0,
+      "target": "Read and record the Nexus Permissions tab for Mud Mother Grove (146557), Skyrim Ferries (109843) and Xalfek (55595); mark Darkwater Den (52630) do-not-ship",
+      "why": "not an art job. Mud Mother Grove now carries the Hist tree and the whole Argonian prop language, so the province's visual plan depends on terms we have not read. Credits for whatever ships go in root README in the same change (module 90 S73)."
+    },
+    {
+      "rank": 1,
+      "target": "A raft / dugout canoe / poled punt source",
+      "why": "the ONLY one of round 1's five gaps that vault contents did not move at all. Both boat mods that landed are keeled Nord clinker hulls. Moored native craft appear in nearly every marsh settlement, so this is the most visible remaining hole. See nexusResearch.",
+      "candidates": [
+        "Ships and boats of Tamriel (SSE 41653) - BEST PERMISSIONS-CLEAN LEAD; two barge variants + river ferries, the only flat-bottomed shallow hulls found",
+        "Object Resource - Moving Boat Date (SSE 109321, Vicn) - an explicit raft platform",
+        "Script Free Ship Sailing (LE 67727) / Sailboats EXPANDED (SSE 40057) - the ONLY genuine canoe mesh on Nexus, but restrictive permissions requiring the owner to ask the author"
+      ]
+    },
+    {
+      "rank": 1.5,
+      "target": "Skyfall's Sleeping Hist Tree Overhaul (SSE 116792)",
+      "why": "NEW in round 2 and high value despite the Hist gap being 'closed': 3.6M downloads, LOD included, dead-leafless and purple-glow mesh VARIANTS (which solve the one-mesh-for-ten-hero-Hist problem Mud Mother Grove leaves), hanging tribal lanterns, and carved cairns and a rune circle that double as our best grave-marker substitute. Lore-correct - the vanilla Sleeping Tree is canonically a Hist sapling.",
+      "candidates": []
+    },
+    {
+      "rank": 2,
+      "target": "Selective BM&V extraction (Data1.rar architecture, clutter, signage, boats; Data2.rar matching textures)",
+      "why": "unchanged from round 1 and still the biggest single unlock: the hut kit, the passerelles walkway kit, Dagon Fel docks, totems, tiki torches, monumental pyramids and drowned ruins are all still inside a .rar"
+    },
+    {
+      "rank": 3,
+      "target": "More mud/tribal hut forms to supplement Mud Mother Grove",
+      "why": "downgraded from round 1's #1 - the culture now exists, but on ~4 whole shells. Variety, not existence, is the problem.",
+      "candidates": [
+        "Stroti's Stilt House Resource (LE 61824) - clean modder's resource, splittable hut/platform",
+        "Orcish Hut Kit (LE 52289) - primitive hut kit with interior, exterior and LOD",
+        "Bosmer City Kit (LE 66036) - organic massing plus footbridges",
+        "tamu75 Wood Dock Resources (LE 63982)"
+      ]
+    },
+    {
+      "rank": 4,
+      "target": "Grave-stakes / burial markers",
+      "why": "the one Argonian prop sub-family Mud Mother Grove did not cover; the grave-singer's staked dead are canon and a place type",
+      "candidates": [
+        "Hovels of Hagravens (SSE 166188) - 'pointy sticks', the only grave-stake lead found anywhere (it is a replacer; check permissions)",
+        "Skyfall's Sleeping Hist Tree Overhaul (SSE 116792) - its carved cairns and rune circle are the best grave-marker substitutes",
+        "RoboBirdie Bones (LE 94817) for the crocodile-skull component"
+      ]
+    },
+    {
+      "rank": 5,
+      "target": "Ornamental monumental frontage (carved facades, roof combs, sculpted stairways, stone causeway bridges)",
+      "why": "downgraded from round 1's #5-as-critical - the Xanmeer terrace kit can already mass a stepped pyramid; this buys ornateness. CC Ayleid (83999) is in the vault and does NOT serve this.",
+      "candidates": [
+        "Ayleid Ruins Building Kit (LE 90667) - 250+ pieces with an explicit EXTERIORS subset, the biggest such kit on Nexus, BUT LE-only and carries a Skyrim/Morrowind-only clause needing an owner ruling",
+        "Desert Ruins Tileset (SSE 185420) - same author as our Xanmeer Tileset, weathered-stone filler",
+        "Incaendo pillars (LE 91288) and Hawaiian Deity Statue (SSE 20247)"
+      ]
+    },
+    {
+      "rank": 6,
+      "target": "Skyrim DLC extraction if the owner owns it (Hearthfire above all)",
+      "why": "the Hearthfire buildable-homestead kit is a modular timber house kit we assumed we had"
+    },
+    {
+      "rank": 7,
+      "target": "Working-infrastructure props (fish-drying racks beyond Mud Mother Grove's one, salterns, kilns, reed-cutting gear)",
+      "why": "unchanged; the works taxonomy branch will otherwise dress from generic barrels"
+    }
   ],
   "breadthWeOwn": {
-    "buildingShellsOrKits": 8,
-    "walkwayAndDockPieces": 165,
-    "modularWallOrRoofPieces": 3000,
-    "propAndClutterPieces": 3300,
-    "signagePieces": 500,
-    "watercraftHulls": 15,
-    "landmarkStatics": 130,
-    "conditionVariantCoverage": "good for plank/shack (20 broken pieces), farmhouse (5 destroyed shells), xanmeer pottery (8 broken), rochester ruins, drowned ruins; POOR for mud huts (none) and docks (one)",
-    "verdict": "We can build stilt/boardwalk/dock/platform settlements and Imperial stone-timber towns to a high standard today. We cannot yet build a varied Shadowfen mud village, a monumental xanmeer skyline, or a mooring that reads Argonian."
+    "buildingShellsOrKits": 13,
+    "walkwayAndDockPieces": 172,
+    "modularWallOrRoofPieces": 3068,
+    "propAndClutterPieces": 3330,
+    "signagePieces": 504,
+    "watercraftHulls": 20,
+    "landmarkStatics": 132,
+    "histTreeMeshes": 1,
+    "conditionVariantCoverage": "good for plank/shack (20 broken pieces), farmhouse (5 destroyed shells), xanmeer pottery (8 broken twins), rochester ruins, drowned ruins, Ayleid rubble; POOR for mud huts (none) and docks (one damaged piling)",
+    "verdict": "ROUND 2: we can now build the Argonian province's core look. Stilt/boardwalk/dock/platform settlements and Imperial stone-timber towns were already strong; Mud Mother Grove adds a real Shadowfen mud culture, the Argonian prop language and a Hist tree, and the Xanmeer terrace kit can mass a stepped pyramid after all. The remaining honest holes are: no native watercraft (rafts/canoes), no grave-stakes, thin mud-hut variety, and no ornamental monumental frontage.",
+    "roundOverRound": "Round 1 named five critical/high gaps. Round 2 vault contents CLOSED two (Hist tree, Argonian props), PARTIALLY closed one (mud kit), DOWNGRADED one on re-reading the geometry (xanmeer exteriors), and confirmed one fully open (rafts/canoes). Two new gaps were found: unrecorded permissions on the mods we now depend on, and no Skyrim DLC in the vault."
+  },
+  "nexusResearch": {
+    "conducted": "2026-09-02, round 2. RESEARCH ONLY - nothing downloaded. All mod IDs confirmed live against the Nexus API unless flagged unverified.",
+    "method": "Nexus v2 GraphQL API (api.nexusmods.com/v2/graphql, same apikey: header) exposes a `mods` query filtering on nameStemmed, description, uploader, author and categoryName. It works from this VM where plain page fetches 403, and is far faster than web search. Filters must be a FLAT dict, one domain at a time (a two-element gameDomainName list ANDs, not ORs). `modFileContents` mesh-filename search exists but returns nothing for Skyrim - not indexed. Recorded so future asset hunts do not re-derive this.",
+    "headlineFindings": [
+      "No true Argonian mud-hut modular kit exists on Nexus. ESO/Murkmire ports do not exist (ZeniMax assets not permitted) and Beyond Skyrim: Argonia has released no public assets. The mud culture will be kitbashed, permanently.",
+      "No dugout, outrigger, twin-hulled, reed or raft-village asset exists on Nexus either. Exactly ONE genuine canoe mesh was found. This gap is bound by permissions, not availability.",
+      "No banyan or mangrove asset pack exists on Nexus - matching the repo's existing Phase 10 finding.",
+      "Skyfall's Sleeping Hist Tree Overhaul is the best purpose-built Hist asset in existence and is canonically correct (the vanilla Sleeping Tree IS a Hist sapling)."
+    ],
+    "byGap": {
+      "G1-mud-hut": [
+        {
+          "name": "Stroti's Stilt House Resource",
+          "domain": "skyrim",
+          "modId": 61824,
+          "author": "Stroti, converted by Tamira",
+          "contains": "stilthouse, animated door with folding shutters, barbecue grill; an optional file splits the hut and platform apart, which is what makes it kitbashable",
+          "permissions": "explicit modder's resource - free use with credit, no paid mods, no reupload; author states it works in SSE",
+          "confidence": "high",
+          "evidence": "permissions text read verbatim"
+        },
+        {
+          "name": "Stroti family (same author/permissions model, LE->SSE convertible)",
+          "domain": "mixed",
+          "modId": null,
+          "ids": {
+            "Treehouse": "sse 2378 / le 62787",
+            "Mushroom House": "le 64655",
+            "Hobbit Home": "le 61656",
+            "Resource Pack II": "sse 4679 / le 64590"
+          },
+          "contains": "organic, primitive dwelling forms",
+          "permissions": "as Stroti above",
+          "confidence": "medium-high"
+        },
+        {
+          "name": "Orcish Hut Kit",
+          "domain": "skyrim",
+          "modId": 52289,
+          "author": "Markus Liberty",
+          "contains": "primitive hut kit with interior, exterior AND LOD materials; explicitly 'only the resources needed to build one'",
+          "permissions": "modder's resource",
+          "confidence": "high"
+        },
+        {
+          "name": "Bosmer City Kit Resource",
+          "domain": "skyrim",
+          "modId": 66036,
+          "author": "baronf",
+          "contains": "houses, FOOTBRIDGES, trees, with LODs, plus a master file for city assembly - organic non-Nordic massing; footbridges directly reusable for stilt-village walkways",
+          "permissions": "resource",
+          "confidence": "high"
+        },
+        {
+          "name": "Daedric and Velothi Tilesets",
+          "domain": "skyrim",
+          "modId": 81079,
+          "author": "Phitt + Minerman",
+          "contains": "includes Tamira's Ashlander tileset (tribal yurts/tents), Dagon Fel and Dunmer Farm sets - the best tribal-dwelling tileset that exists",
+          "permissions": "modder's resource",
+          "confidence": "medium",
+          "note": "BM&V already bundles much of the phitt/Sheogorad material we catalogued"
+        },
+        {
+          "name": "tamu75 Wood Dock Resources",
+          "domain": "skyrim",
+          "modId": 63982,
+          "contains": "boardwalks/walkways - connective tissue for a stilt village",
+          "confidence": "medium"
+        }
+      ],
+      "G2-monumental": [
+        {
+          "name": "Ayleid Ruins Building Kit -Resources-",
+          "domain": "skyrim",
+          "modId": 90667,
+          "author": "Imperial Society (Beyond Skyrim: Cyrodiil / Province Cyrodiil / Skyblivion lineage)",
+          "contains": "'over 250 unique building pieces', explicitly split into an EXTERIORS subset (arches to gates) plus 10 interior subsets, pre-placed on igs_tileset_Ayleid.esp. By far the biggest exterior monumental-stone kit on Nexus.",
+          "permissions": "modder's resource; credit required, non-commercial, AND the page restricts use to Skyrim/Morrowind - see permissionsConcern",
+          "confidence": "high",
+          "caveat": "LE ONLY - 'Available for SE soon' was never fulfilled; no SSE version exists"
+        },
+        {
+          "name": "Desert Ruins Tileset",
+          "domain": "skyrimspecialedition",
+          "modId": 185420,
+          "author": "NorthWindBlue / Jonathan Morris (same author as our Xanmeer Tileset)",
+          "contains": "dro-m'Athra ruin meshes + desert texture sets - usable weathered-stone filler",
+          "confidence": "high"
+        },
+        {
+          "name": "Ayleid Ruins Retexture",
+          "domain": "skyrimspecialedition",
+          "modId": 83802,
+          "contains": "pairs with CC Ayleid Ruin Resources",
+          "confidence": "high"
+        },
+        {
+          "name": "Modder's Resource - Pillars / Hawaiian Deity Statue",
+          "domain": "mixed",
+          "modId": 91288,
+          "altIds": "statue: sse 20247 / le 93880",
+          "author": "Incaendo",
+          "contains": "4 pillars + 1 obelisk; a tribal deity statue - small but on-idiom for monumental dressing",
+          "confidence": "high on contents, low on how much they would carry"
+        },
+        {
+          "name": "Minor Architectural Mesh Expansion",
+          "domain": "skyrim",
+          "modId": 38550,
+          "contains": "'almost a hundred new meshes created with NifSkope from vanilla meshes for greater flexibility' - generic, useful for terrace/stair kitbashing",
+          "confidence": "medium"
+        }
+      ],
+      "G3-argonian-props": [
+        {
+          "name": "Wicker Set",
+          "domain": "skyrim",
+          "modId": 66282,
+          "author": "Garnet/flintone",
+          "contains": "wicker chair, sofa, table, animated chest, and a Morrowind-style wicker basket - directly on-idiom for woven goods",
+          "permissions": "modder's resource",
+          "confidence": "high"
+        },
+        {
+          "name": "FuzzBeed's Asset Library",
+          "domain": "skyrimspecialedition",
+          "modId": 134092,
+          "contains": "'a collection of resources for the use of the Public'; reported to include original TOTEMIC designs and bone models expanded into furniture - best totem lead",
+          "confidence": "medium-high",
+          "note": "~496k downloads"
+        },
+        {
+          "name": "Modder's Resource Pack",
+          "domain": "skyrim",
+          "modId": 16525,
+          "author": "Oaristys and Tony67",
+          "contains": "~500 meshes made from vanilla ones with proper collision; decoration clutter, skeletons, and a food set with plates, platters and baskets",
+          "permissions": "long-standing open resource",
+          "confidence": "high",
+          "note": "BM&V already bundles 635 oaristys meshes which we catalogued - check overlap before downloading"
+        },
+        {
+          "name": "Ghosu - Helmets, Bone Shield and Tribal Staff",
+          "domain": "skyrim",
+          "modId": 43293,
+          "contains": "skull helmets, bone shield, tribal staff - the shaman/ritual-prop source",
+          "confidence": "high"
+        },
+        {
+          "name": "RoboBirdie packs: Bones / Landscaping / Architecture",
+          "domain": "skyrim",
+          "modId": 94817,
+          "altIds": "landscaping 94819, architecture 94814",
+          "contains": "'various bones and skulls for decorating landscapes or animal dens'; plants, rocks and statues - crocodile-skull totems get built from something like this",
+          "confidence": "high"
+        },
+        {
+          "name": "Hovels of Hagravens",
+          "domain": "skyrimspecialedition",
+          "modId": 166188,
+          "contains": "forsworn tents, fences, POINTY STICKS (the nearest thing to grave-stakes found anywhere) and blood bowls",
+          "permissions": "it is a REPLACER, so permissions need checking",
+          "confidence": "medium",
+          "relevance": "the only lead on the grave-stakes sub-gap"
+        },
+        {
+          "name": "Ashlander Camp New Zainab",
+          "domain": "skyrimspecialedition",
+          "modId": 14229,
+          "altIds": "le 73479",
+          "author": "Antiscamp",
+          "contains": "a reconstruction of Morrowind Ashlander camps - the best existing tribal-camp dressing in Skyrim",
+          "confidence": "high on the mod, medium on reusability"
+        },
+        {
+          "name": "Argonian Funerary Masks",
+          "domain": "skyrimspecialedition",
+          "modId": 143402,
+          "author": "Kadraeus",
+          "contains": "based on ESO Bog Blight masks - genuinely Argonian ritual props",
+          "permissions": "credit required, NO PORTING TO OTHER GAMES - see permissionsConcern",
+          "confidence": "high"
+        },
+        {
+          "name": "CS' Fishing Nets",
+          "domain": "skyrimspecialedition",
+          "modId": 96720,
+          "contains": "nets",
+          "permissions": "open asset-use per its page",
+          "confidence": "high"
+        }
+      ],
+      "G4-rafts-canoes": [
+        {
+          "name": "Script Free Ship Sailing",
+          "domain": "skyrim",
+          "modId": 67727,
+          "author": "ElstarTomas (canoe model by FrankFamily)",
+          "contains": "a rideable TILTING CANOE plus one- and two-handed oars. THE ONLY GENUINE CANOE MESH FOUND ANYWHERE.",
+          "permissions": "RESTRICTIVE - no reupload, no conversion to other games, no asset use without permission. Would need the owner to ask FrankFamily/ElstarTomas directly.",
+          "confidence": "high"
+        },
+        {
+          "name": "Sailboats - Script Free Sailing EXPANDED",
+          "domain": "skyrimspecialedition",
+          "modId": 40057,
+          "altIds": "le 101178",
+          "author": "ElstarTomas + DeviantKhaled + Araanim",
+          "contains": "bundles the original canoe plus several small hulls from DeviantKaled's pack ('the elven sloop and canoe') - best single download to INSPECT for small keel-less hulls",
+          "permissions": "same restrictive chain as above",
+          "confidence": "high"
+        },
+        {
+          "name": "Ships and boats of Tamriel",
+          "domain": "skyrimspecialedition",
+          "modId": 41653,
+          "author": "ThatShipGuy/DeviantKaled",
+          "contains": "Skyrim/Iliac Bay/EEC/Cyrodiilic ships, Imperial & Ruby Navy, galleon, rowboat replacer, and TWO BARGE VARIANTS AND RIVER FERRIES - the only flat-bottomed shallow-water hulls on offer, a plausible poled-punt or raft-platform base, but Cyrodiilic in style",
+          "permissions": "tagged Modder's Resource, developed with Beyond Skyrim",
+          "confidence": "high on contents, medium on fitness",
+          "recommendation": "BEST PERMISSIONS-CLEAN LEAD for this gap"
+        },
+        {
+          "name": "Object Resource - Moving Boat Date",
+          "domain": "skyrimspecialedition",
+          "modId": 109321,
+          "author": "Vicn",
+          "contains": "explicitly for scenes 'boating across a lake, river, or ocean, OR RAFTING DOWN A RIVER' - a raft platform + mover rig",
+          "permissions": "modder's resource",
+          "confidence": "medium that the raft mesh is standalone-useful"
+        }
+      ],
+      "G5-hist-tree": [
+        {
+          "name": "Skyfall's Sleeping Hist Tree Overhaul",
+          "domain": "skyrimspecialedition",
+          "modId": 116792,
+          "altIds": "le 118586",
+          "author": "Skyfall515, ToosTruus, Clofas",
+          "contains": "'a truly unique sleeping Hist tree model', hanging vines, HANGING TRIBAL LANTERNS, hanging Hist flowers, glowing underwater roots, CARVED CAIRNS AND RUNE CIRCLE, custom creaking sound, LOD INCLUDED, plus dead-leafless and purple-glow mesh variants",
+          "permissions": "not yet read",
+          "confidence": "high",
+          "note": "3.6M downloads. THE BEST purpose-built Hist asset in existence and it doubles as G3 tribal dressing. Lore-correct: the vanilla Sleeping Tree IS a Hist sapling. Its variants directly solve the 'one Hist mesh for ten hero Hist' problem; its cairns and rune circle are also the best grave-stake substitutes found."
+        },
+        {
+          "name": "Blubbos Deity Water Trees of Dibella",
+          "domain": "skyrimspecialedition",
+          "modId": 98193,
+          "author": "BlubboDE",
+          "contains": "a bespoke hero-tree model with a LOD-baked variant AND a low-poly DynDOLOD 3D-LOD variant - exactly the provision a province-scale landmark tree needs",
+          "confidence": "high"
+        },
+        {
+          "name": "Yggdrasil - World Tree Redux",
+          "domain": "skyrimspecialedition",
+          "modId": 112376,
+          "author": "Alaxouche + FrostyDudess17",
+          "contains": "the cleaned-up SE successor to le 108454; best permissive giant-tree base mesh",
+          "permissions": "original terms reported as 'use the assets without permission or crediting the author', non-commercial - read the file's own terms",
+          "confidence": "high on existence, medium on permissions"
+        },
+        {
+          "name": "The Archwood",
+          "domain": "skyrimspecialedition",
+          "modId": 104698,
+          "author": "Wigfrid09",
+          "contains": "giant fantasy trees, Valenwood-concept-art inspired",
+          "confidence": "high",
+          "note": "go to this SOURCE, not the 'Maerchenwald - The Archwood Lite' repackage (sse 150187)"
+        },
+        {
+          "name": "Roots of the Sleeping Tree",
+          "domain": "skyrimspecialedition",
+          "modId": 62422,
+          "author": "nateguy",
+          "contains": "reported to enlarge the Sleeping Tree to ESO Hist proportions with a vast root-system interior - worth inspecting for a scaled Hist NIF and root geometry",
+          "confidence": "medium"
+        }
+      ],
+      "supporting-tropical-flora": [
+        {
+          "name": "Tamira's New Plants",
+          "domain": "skyrimspecialedition",
+          "modId": 2750,
+          "contains": "three palms + Monstera/Bromelia; base models by Yughues/Nobiax, unrestricted origin",
+          "confidence": "high"
+        },
+        {
+          "name": "Quercus Nordica",
+          "domain": "skyrim",
+          "modId": 105310,
+          "contains": "oaks, reported free use without permission or credit - a broadleaf base to rescale into banyan/mangrove",
+          "confidence": "medium"
+        }
+      ]
+    },
+    "indexNotSource": {
+      "name": "Here There Be Monsters - Sign of Cipactli",
+      "domain": "skyrimspecialedition",
+      "modId": 35933,
+      "altIds": "le 88643",
+      "author": "Araanim",
+      "why": "a full Black Marsh worldspace with Argonian and Kothringi villages, swamps, jungles, ancient Imperial and Xanmeer ruins, jungle flora and Naga tribes - but it is a COMPILATION OF ~80 OTHER PEOPLE'S RESOURCES. Its credits list is a verified bibliography of exactly the assets a Black Marsh builder needs. DO NOT treat it as a source; treat it as an INDEX and go to the originals.",
+      "confidence": "high"
+    },
+    "doNotChase": [
+      {
+        "name": "Swamp House",
+        "domain": "skyrim",
+        "modId": 89966,
+        "reason": "LICENSING LANDMINE - rickard_5000 imported it from the commercial game Sniper: Ghost Warrior 2.",
+        "crossCheckWarning": "BM&V bundles meshes/architecture/swamp house.nif, which this inventory catalogues under arch.argonian-mud.hut-shell as observed 47 times. If it is the same asset it is unusable. VERIFY BEFORE RELYING ON IT."
+      },
+      {
+        "name": "Black Marsh",
+        "domain": "skyrimspecialedition",
+        "modId": 19027,
+        "reason": "under moderation, unavailable"
+      },
+      {
+        "name": "Naga Bandits",
+        "domain": "skyrim",
+        "modId": 96041,
+        "reason": "hidden"
+      },
+      {
+        "name": "Lazz Ayleid Resource",
+        "domain": "skyrim",
+        "modId": 64988,
+        "reason": "REMOVED from Nexus"
+      },
+      {
+        "name": "Aghemmor Nakh / The Pyramid of Skyrim 2024",
+        "domain": "skyrimspecialedition",
+        "modId": 6524,
+        "altIds": "112889",
+        "reason": "both permission-locked - reference only"
+      },
+      {
+        "name": "The Mayan Pyramid by 514Y32",
+        "domain": "unverified",
+        "modId": null,
+        "reason": "COULD NOT BE FOUND on either Nexus domain under that uploader or author - likely Steam Workshop. ID unknown; do not invent one."
+      }
+    ],
+    "permissionsConcern": {
+      "severity": "NEEDS AN OWNER RULING - not an agent judgement call",
+      "issue": "Several otherwise-ideal sources carry a 'no porting to other games' clause: the Ayleid Ruins Building Kit (Skyrim/Morrowind only), Argonian Funerary Masks, Script Free Ship Sailing and Elden Root. Our project runs in a BROWSER ENGINE rather than in Skyrim, so that clause is arguably tripped. This affects the single biggest monumental-stone kit on Nexus and the only genuine canoe mesh - i.e. two of our remaining gaps.",
+      "cleanestTermsFound": [
+        "Argonian Xanmeer Tileset",
+        "Creation Club Ayleid Ruin Resources",
+        "Stroti's resources",
+        "Tamira's New Plants",
+        "RoboBirdie's packs",
+        "Oaristys/Tony67 Modder's Resource Pack",
+        "Ships and boats of Tamriel"
+      ]
+    }
   }
 }

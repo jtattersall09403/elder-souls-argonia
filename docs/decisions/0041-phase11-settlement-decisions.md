@@ -278,13 +278,20 @@ touchpoint wait on compiler work it doesn't need.
      **DELIVERED 2026-09-02:** `world/sources/placement/settlement-asset-inventory.json`
      (schemaVersion 1, registered) + digest
      [settlement-asset-inventory.md](../research/settlement-asset-inventory.md).
-     Headline for Parts 1–2: we can build stilt/boardwalk/dock/platform
-     settlements and Imperial stone-timber towns well today; we cannot yet
-     build a *varied* Shadowfen mud village (≈3 monolithic hut shells), a
-     monumental xanmeer skyline (9 exterior tileset pieces), an
-     Argonian-reading mooring (zero rafts/canoes — every hull we own is
-     keeled and foreign), a grave-stakes field (zero meshes) or a Hist tree.
-     Author around those five gaps or flag a 6b sourcing request.
+     **Revised same day (round 2)** after owner feedback that round 1
+     under-searched: a full-vault sweep plus Nexus research. Headline for
+     Parts 1–2 — we can build stilt/boardwalk/dock/platform settlements and
+     Imperial stone-timber towns well, **and now also a Shadowfen mud
+     culture, the Argonian prop language and a Hist tree** (Mud Mother Grove
+     landed in the vault). The xanmeer "exterior" set turned out to be a
+     *terrace kit* — stacking terraces IS a stepped pyramid — so that gap is
+     ornamental, not structural. **Still genuinely missing: rafts and canoes
+     (every hull we own is keeled and foreign — now the top sourcing job),
+     grave-stakes, mud-hut variety, and ornate monumental frontage.**
+     Two new blockers for the owner: **Darkwater Den is permission-blocked
+     for public work**, and several ideal sources carry a "no porting to
+     other games" clause that our browser engine arguably trips — that needs
+     an owner ruling, not an agent's judgement.
    - **6b. Kit sourcing and builds** — download the priority mods
      (Argonian mud hut, Marsh-Rest, xanmeer kit, clutter) with the Nexus
      key, registry → build a `settlement-v1` kit → vet, per the flora-kit
