@@ -472,6 +472,16 @@ burrow, xanmeer stair-throat, well, grave-cut...); the root-hollow gallery
 layer stays the interior's signature but is no longer the ONLY underground
 answer. The critique pass should check entrance-type variety.
 
+**Owner permission (2026-09-02): terrain/water/vegetation MAY be tweaked
+during Phase 11** where canon genuinely requires it and the change is done
+well — e.g. canon-black water in a swamp region ours renders blue/green, or
+a canon-required vegetation type in an area that has a different one. Two
+conditions: the change must be *necessary* (canon- or catalogue-grounded,
+not taste), and done properly through the owning system (region water
+params, palettes, scatter recompile — never a local hack). Known candidate
+already: the naga-kur-deeps records are written on canon's black water.
+Record each use of this permission here.
+
 **Scour findings that bind Parts 1/3** (2026-09-02, full digest in
 `world/sources/sites/candidate-sites.md`; 1,172 scored candidate sites in
 `candidate-sites.json`, dossiers for all nine anchors in `sites/dossiers/`):
