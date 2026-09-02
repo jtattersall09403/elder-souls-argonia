@@ -301,7 +301,11 @@ Deliverables:
   regions (8–12 in D4–D5, landmark-heavy and quest-light), **something named
   within ≤300 m of travel along every road and boat lane**, quests per
   settlement by magnitude class (M5 ≈ 35–60, M4 10–20, M3 3–8, M2 1–3), **all
-  settlement structures enterable and all settlement NPCs named**. Each region
+  settlement structures enterable and all settlement NPCs named** ("enterable"
+  = Phase 11 ships the door + interior-claim record and proves the door
+  *reachable* — approachable, steppable threshold, on the post-grade navmesh,
+  not facing a cliff — every compile; the interior itself is Phase 12 work,
+  verified at packet freeze after 12). Each region
   packet declares its counts against this budget at review — **including its
   reward coverage under module 20 §12.3b** (every notable hard-to-reach
   landform in the packet carries a reward; owner directive 2026-09-01);

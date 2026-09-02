@@ -104,6 +104,59 @@ owner directives 2026-09-01); owner decisions land here as the phase runs.
 > authoring rule. Fold these into the schema/deliverables in Part 0/Part 4 —
 > they are owner rulings, not suggestions.
 >
+> ### Forward-compatibility contracts (added 2026-09-02, from the build-out
+> ### register review — these prevent the big refactors later)
+>
+> Phase 11 creates the data the whole future game will reference. Get these
+> shapes right now; retrofitting any of them at build-out is the expensive
+> version:
+>
+> - **The place catalogue is the province's PERMANENT registry.** Its stable
+>   IDs are what the quest engine, journal, map/markers, save games, courier
+>   letters, deed counters and rumour pools will reference forever. IDs are
+>   never deleted or renamed once committed — a cut place flips `status`,
+>   it does not vanish. Design the schema knowing Phases 12/13/15 and the
+>   build-out extend it in place.
+> - **Build-out keys on the catalogue record, from day one** (cheap now,
+>   a migration later): a diegetic-discovery pointer slot (map/markers
+>   row), a letter/rumour pool key (courier row), deed-counter keys where a
+>   faction watches the place (deed-counters row), and the socket lists
+>   (SCENE / EVIDENCE / STATION / marks) as typed fields even where empty.
+> - **The compiled settlement bundle format carries a variant/overlay
+>   mechanism from v1** — quests 20 §14 requires 2–3 `LocalStateVariant`s
+>   per quest location (enable/disable refs, service overrides, ambience,
+>   `washed-out` flag). If the v1 bundle can't express an overlay, every
+>   bundle gets rebuilt at Phase 14. Exemplars ship at least one authored
+>   variant to prove the mechanism.
+> - **Door + interior-claim records on every enterable structure**: stable
+>   door ID, facing, threshold transform, and an interior claim (size class,
+>   culture, owner) for Phase 12 to fill. "Enterable" in the density budget
+>   means the claim exists in 11 and is verified at freeze after 12 — plus
+>   **reachability**: a validator must prove every door is approachable
+>   (not facing a cliff/water it shouldn't, threshold steppable, on the
+>   post-grade navmesh) every compile, not at freeze.
+> - **Performance-enabling structure, TES-style, from the first compile**
+>   (owner ruling 2026-09-02: agents cannot measure FPS — no GPU — so build
+>   the *enablers* and report *static* budgets instead). What the source
+>   games do, automated: one LOD authority per building baked from
+>   post-grade transforms (already a gotcha below); kit meshes instanced /
+>   merged per material like the vegetation tiers; settlement chunks stream
+>   through the same manifest machinery as terrain; interiors are separate
+>   bundles behind doors (the cell pattern — Phase 12 inherits it, so the
+>   door records above are also the streaming boundary). The compiler emits
+>   a **per-settlement static budget report** (instances, draw calls after
+>   merge, unique materials, texture MB, collider count) checked against
+>   declared packet budgets in `npm test`; the owner gives the real FPS
+>   read at each exemplar's dressed walk (Round C), not at wrap.
+> - **The kickoff hooks from the register are deliverables, restated**:
+>   `owner`/`ownerFaction` + value tier optional on every placed
+>   interactable (unowned = wilderness norm); `STATION` sockets; per-body
+>   `WaterBody` records; timetable data + urban water-taxi edges on the
+>   travel-service graph; the prior→roster demographic rule (92 §84); the
+>   vastei tutorial-scene flag on the packet owning the opening; ~10 hero
+>   Hist with stable ID + power slot; boat-nav clearance as an authoring
+>   rule; talk→service-menu as a small contract.
+>
 > - **Subagent fan-out is owner-approved** (as in Phase 10): low effort for
 >   all subagents; parallelise self-contained work (mining, validators,
 >   quest-brief drafting, asset sourcing); keep the blueprint
@@ -133,6 +186,12 @@ by region or by place-family rather than reducing coverage.
 
 Build the spine that every later part rides on. All of it is game machinery
 or tooling; place it per the packages rule and the existing worldgen layout.
+
+**Sequencing (2026-09-02): only items 1, 2 and 6a gate the catalogue.**
+Items 3–5 (schema, compiler skeleton, renderers) gate nothing before Part 6
+— run them concurrently with Parts 1–4, kept in the one schema/compiler pair
+of hands while catalogue derivation fans out. Do not make the owner's first
+touchpoint wait on compiler work it doesn't need.
 
 1. **Site survey tooling — know the land before proposing anything**
    (owner directive, 2026-09-01). A settlement proposal made without
@@ -186,6 +245,13 @@ or tooling; place it per the packages rule and the existing worldgen layout.
    rather than on a cut-out disc. **It also owns ground fitting — see the
    "Slopes and uneven ground" gotcha below; treat that as a first-class
    part of the skeleton, not a polish item.**
+   **Phase 10 caution (2026-09-02): tree-collider work is still in flight**
+   — a parallel agent is finalising trunk solidity (round 9+ did not pass).
+   Design the clearing-mask interface against the scatter compiler's
+   *data* contract (compiled scatter + collider budget inputs), don't
+   couple to collider internals mid-change, and expect to recompile
+   affected chunks once that lands. Pathspec-only commits; keep clear of
+   the vegetation-collider files that agent owns.
 5. **Review artefact renderers** — the owner's viewport, so build early
    and make regeneration one command each:
    - *The plotted province map* (Part 4's medium): the 2D province map with
@@ -200,17 +266,22 @@ or tooling; place it per the packages rule and the existing worldgen layout.
      GLB — one ortho, 3–4 player-eye views (extend `render_preview.py`).
    - *Deployed walk*: the compiled settlement streamed in the studio at
      real vegetation/light/water (the final-feel medium; push to Pages).
-6. **Asset kits, early** — kits gate both the compiler's output being
-   judgeable AND Part 1's asset-aware vibe descriptions. Vault first (BM&V
-   architecture is the house style; Tropical Skyrim; xanmeer tileset per
-   module 90 §74.2), then source the module 90 §75/§80 priority mods
-   (Argonian mud hut, Marsh-Rest, xanmeer kit, clutter) with the Nexus key.
-   Registry → build a `settlement-v1` kit → vet, per the flora-kit pattern.
-   Respect the two-culture kit rule in `material-culture.md` — the kits must
-   never blend. **Produce a browsable asset inventory** (what building
-   families, materials, palettes, props and landmark pieces we actually
-   have) — Part 1 writes descriptions *against* this, so we design for the
-   breadth we own rather than inventing what we lack.
+6. **Assets — inventory first, kits later (split 2026-09-02** so kit builds
+   stop gating touchpoint ①):
+   - **6a. Browsable asset inventory** — what building families, materials,
+     palettes, props and landmark pieces we actually have or can source:
+     vault first (BM&V architecture is the house style; Tropical Skyrim;
+     xanmeer tileset per module 90 §74.2), plus the module 90 §75/§80
+     priority mods as *sourcing candidates*. Part 1 writes descriptions
+     *against* this, so we design for the breadth we own rather than
+     inventing what we lack. This is a survey, cheap, parallelisable.
+   - **6b. Kit sourcing and builds** — download the priority mods
+     (Argonian mud hut, Marsh-Rest, xanmeer kit, clutter) with the Nexus
+     key, registry → build a `settlement-v1` kit → vet, per the flora-kit
+     pattern. Needed by Part 6, not Part 1 — run it in parallel (subagent)
+     while the catalogue is derived. Respect the two-culture kit rule in
+     `material-culture.md` — the kits must never blend. Credits in root
+     README in the same change.
 
 ### Part 1 — DERIVE: what places must exist, province-wide
 
@@ -321,6 +392,10 @@ all read and update it, and Phases 12/13/15 inherit it.
   markers);
 - **quest hooks** — provisions requested/owned, tier ownership (tier-0
   protection respected);
+- **build-out keys** — the forward-compat slots from the run-book block:
+  discovery pointer, letter/rumour pool key, deed-counter keys, socket
+  lists (typed, may be empty). IDs in this catalogue are permanent — cut
+  places change `status`, never disappear;
 - **complexity budget** — a feasibility flag: nothing may require
   placement rules or scripting beyond Morrowind's level (owner rule); most
   places are compiled semi-procedurally, so each must be *both*
@@ -340,7 +415,16 @@ to name absent families, unrepresented economies/eras/ecologies, and
 monotony). Fix, then produce **a short owner-facing summary** (counts by
 family and region, the variety story, the load-bearing choices, the vibe
 spectrum with examples) and take the owner's steer on vibe and any
-load-bearing calls.
+load-bearing calls. Text is fine here (owner ruling 2026-09-02) — but where
+a visual is *fast and cheap* (asset-inventory stills already rendered by
+the pipeline, a palette strip per region), attach it; never build new
+machinery just to illustrate the summary.
+
+**Size the catalogue on real numbers, early in Part 1**: compute the
+authored-land area (province minus open water) and derive the target count
+from the density tiers against *that*, not the bounding box. Ballpark at
+18–22/km² over ~7.4 km of province this is on the order of 1,000 records,
+not "thousands" — set fan-out and owner expectations accordingly.
 
 ### Part 3 — MACRO PLOT: approximate locations for everything
 
@@ -355,6 +439,13 @@ Match Part 1's demand against Part 0's supply of interesting ground, on the
 - **Record the why for every dot**, even at this resolution: which siting
   grammar, which candidate sites were considered, why this one won. A dot
   without a why is not plotted.
+- **Density is non-uniform on purpose** (owner emphasis 2026-09-02; the
+  research doc's finding): the per-km² numbers are *region averages*, never
+  a spread. Real TES density follows causal gradients — thick in settlement
+  hinterlands, along roads, rivers and coasts, around resources; thin in
+  deep wilds, and the emptiness is itself meaningful (a D5 interior that
+  suddenly has no camps is telling you something). Derive each region's
+  density *shape* from its civilisation gradient, not just its total.
 - **Respect distribution as you go**: the three density tiers by danger
   band, the ≤300 m-from-route rule, and spacing that reads hand-placed —
   **Poisson-disc for cluster centres, clumped sampling within a cluster**
@@ -434,7 +525,11 @@ not batch rounds.
   stills. Owner steers: building mix, scale/silhouette, density, kit reads,
   Hist-tree prominence, how the place sits on its ground.
 - **Round C — dressed walk.** Deploy; owner walks it at real vegetation,
-  light and water. Steers: feel, approach reveals, wayfinding, edges.
+  light and water. Steers: feel, approach reveals, wayfinding, edges —
+  **and an FPS read on each quality setting** (the first exemplar is the
+  first settlement-plus-vegetation performance data point; alongside it,
+  present the compiler's static budget report so the owner's FPS number
+  can be tied to counted causes).
 - Repeat as needed. **After every steer, write the generalised rule into
   the Taste ledger below** — a steer that only fixes this exemplar is a
   steer wasted. Route fixes to the grammar/compiler, never hand-edits: the

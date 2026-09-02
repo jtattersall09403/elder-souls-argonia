@@ -77,7 +77,17 @@ will also use.
   timetable *data* on the travel-service graph + **urban water-taxi edges**
   · a prior→roster demographic generation rule (92 §84) · the **vastei
   tutorial scene** flagged into the packet owning the opening (template:
-  Morrowind's diegetic chargen, cross-check §1).
+  Morrowind's diegetic chargen, cross-check §1) · **the Phase 11 place
+  catalogue is the province's permanent stable-ID registry** (quest engine,
+  map/markers, saves, courier, deed counters all key on it; IDs never
+  deleted, cut places flip `status`) with the build-out key slots present
+  from v1 (discovery pointer, letter/rumour pool key, deed-counter keys,
+  typed socket lists) · **the compiled settlement bundle format carries a
+  `LocalStateVariant` overlay mechanism from v1** (quests 20 §14; else every
+  bundle is rebuilt at 14) · **door + interior-claim records** on every
+  enterable structure (stable door ID = Phase 12's fill point *and* the
+  interior streaming boundary), with door *reachability* validated every
+  compile. Full statements: decision 0041's forward-compatibility block.
 - **At the Phase 10 gate:** schedule or consciously re-defer the
   beyond-border land apron (55 §98b says "alongside Phase 10").
 - **At Phase 12:** dungeon **anchor sockets** (Boss/Boss-Chest/Captive) in
