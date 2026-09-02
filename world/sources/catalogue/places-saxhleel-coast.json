@@ -13,7 +13,7 @@
         "variant": "naval",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:All Flags Navy",
@@ -114,7 +114,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'memorial-stone' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.archon",
@@ -279,18 +281,26 @@
       ],
       "sockets": {
         "scene": [
+          "scene.archon.bonded-row-seizure",
+          "scene.archon.customs-refusal",
           "scene.archon.quay-arrival",
-          "scene.archon.customs-refusal"
+          "scene.archon.shadowscale-summons",
+          "scene.archon.tide-street-eviction"
         ],
         "evidence": [
-          "evidence.archon.company-manifest"
+          "evidence.archon.chandlery-that-ships-nothing",
+          "evidence.archon.company-manifest",
+          "evidence.archon.harbour-authority-register"
         ],
         "station": [
+          "station.boat.archon-outer-mooring",
           "station.ferry.archon-quay",
-          "station.watertaxi.archon-lower-town",
-          "station.boat.archon-outer-mooring"
+          "station.repair.archon-long-stocks",
+          "station.rest.archon-quay-room",
+          "station.watertaxi.archon-lower-town"
         ],
         "marks": [
+          "mark.archon.an-xileel-writ",
           "mark.archon.harbour-authority-seal"
         ]
       },
@@ -306,7 +316,11 @@
       ],
       "densityLayer": "landmark",
       "entrance": "gate",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "localStateVariants": [
+        "harbour open (customs staffed, the boom down, three currencies on the board)",
+        "harbour shut (the boom up, the bonded row sealed, and the tide streets doing the trade instead)"
+      ]
     },
     {
       "id": "place.saxhleel-coast.archon-bonded-row",
@@ -318,7 +332,7 @@
         "variant": "company-sealed",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:East Empire Company",
@@ -438,7 +452,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'bonded-warehouse' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.archon-glowgill-byre",
@@ -450,7 +466,7 @@
         "variant": "underwater",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Guar (Glowgill breathes underwater)",
@@ -570,7 +586,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "underwater-entry",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'guar-byre' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.archon-harbour-hist",
@@ -717,9 +735,13 @@
       "eraLayers": [
         "current"
       ],
-      "densityLayer": "landmark",
+      "densityLayer": "destination",
       "entrance": "hollow-trunk",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "reachable (the low branch within an adult's arm, the harbour treating it as furniture)",
+        "raised (the branch cut or grown out of reach, and the harbour suddenly arguing about whose tree it is)"
+      ]
     },
     {
       "id": "place.saxhleel-coast.archon-lighthouse",
@@ -731,7 +753,7 @@
         "variant": "lit",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Sea Transportation",
@@ -846,7 +868,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'lighthouse' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.archon-quarantine-shed",
@@ -858,7 +882,7 @@
         "variant": "inspection",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Knahaten Flu",
@@ -967,7 +991,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'quarantine-shed' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.archon-sacked-quarter",
@@ -979,7 +1005,7 @@
         "variant": null,
         "magnitude": "M2"
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Accession War",
@@ -1096,7 +1122,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "cellar-door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredFromStatus": "ruined",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'sacked-colonial-quarter' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.archon-shadowscale-sanctuary",
@@ -1167,7 +1195,7 @@
         "travelServiceEdges": []
       },
       "culture": "argonian",
-      "ownerFaction": "faction.dark-brotherhood-lapsed",
+      "ownerFaction": "faction.shadowscales",
       "occupants": [
         "one D3 watcher, outside",
         "nothing inside — that is the point"
@@ -1242,9 +1270,13 @@
       "eraLayers": [
         "current"
       ],
-      "densityLayer": "landmark",
+      "densityLayer": "destination",
       "entrance": "grave-cut",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "localStateVariants": [
+        "closed (the 4E 187 order still nailed up, nobody inside)",
+        "answering (the order gone, one lamp lit, and a name expected)"
+      ]
     },
     {
       "id": "place.saxhleel-coast.archon-shipyard",
@@ -1256,7 +1288,7 @@
         "variant": "building",
         "magnitude": "M2"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Sea Transportation",
@@ -1379,7 +1411,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "gate",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'shipyard' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.archon-thalmor-post",
@@ -1390,7 +1424,7 @@
         "variant": "thalmor",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/foreign-powers.md",
@@ -1498,7 +1532,9 @@
       "name": "Vell & Sons, Chandlers",
       "aliases": [
         "The Listening Loft"
-      ]
+      ],
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'deniable-listening-post' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.archon-trial-ground",
@@ -1510,7 +1546,7 @@
         "variant": "chukka-sei",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Argonian",
@@ -1625,7 +1661,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'maturity-trial-ground' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.archon-whispers-house",
@@ -1636,7 +1674,7 @@
         "variant": "deniable",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:College of Whispers",
@@ -1750,7 +1788,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "cellar-door",
       "underwaterAccess": "none",
-      "name": "Net Loft"
+      "name": "Net Loft",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'whispers-house' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.banner-stack",
@@ -1762,7 +1802,7 @@
         "variant": "occupied",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "docs/world/00-core.md acceptance rule: underwater POIs throughout appropriate regions",
@@ -1870,7 +1910,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'sea-stack' is over its province count band (5 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.beached-hull-hall",
@@ -1881,7 +1923,7 @@
         "variant": "beached-as-hall",
         "magnitude": "M1"
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Sea Transportation",
@@ -1988,7 +2030,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
-      "name": "Marsh-Gate Perseverance"
+      "name": "Marsh-Gate Perseverance",
+      "deferredFromStatus": "ruined",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'wreck' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.boardwalk-high-stage",
@@ -1999,7 +2043,7 @@
         "variant": "high-walkway",
         "magnitude": "M3"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Murkmire",
@@ -2011,7 +2055,7 @@
         "founding": "Where the flood comes six metres, the walkway climbs and the village goes up with it.",
         "siteAdvantages": "A stretch of root ground with a huge seasonal range and tall enough trees to tie to.",
         "occupantsMotive": "Households who live above the wet-season water and climb ladders daily.",
-        "pressures": "Everything must be hauled; the elderly effectively live on one level for life.",
+        "pressures": "Everything must be hauled by hand since the hoist stopped; the elderly effectively live on one level for life.",
         "wouldChangeIf": "If the flood range narrowed, the village would come down and the ladders would rot."
       },
       "sitingPrefs": {
@@ -2058,12 +2102,12 @@
       "vibe": {
         "silhouette": "houses at three heights in the canopy, connected by ladders",
         "palette": "green shade, dark timber, dyed cloth flashes",
-        "materials": "lashed stages, ladders, counterweighted hoists",
-        "signatureFeature": "a counterweighted hoist that is the only way the old and the heavy move between levels",
+        "materials": "lashed stages, ladders, a hoist frame rigged and left standing",
+        "signatureFeature": "a hoist frame at the top stage with its rope still rove and its counterweight on the deck, because the household that could work it has died out and the heavy things now go up a ladder or do not go up",
         "condition": "sound but alarming",
         "mood": "vertical domesticity",
         "approach": "you look up and realise how much of it you missed",
-        "senses": "hoist rope, voices from above, water far below"
+        "senses": "ladder rungs, voices from above, water far below"
       },
       "assetPlan": [
         "passerelles-walkway",
@@ -2109,7 +2153,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "surface-swim",
-      "name": "Ninth-Stage"
+      "name": "Ninth-Stage",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'boardwalk-village' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.boardwalk-spine-north",
@@ -2120,7 +2166,7 @@
         "variant": "single-spine",
         "magnitude": "M3"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Murkmire (platforms ascending to hover above water)",
@@ -2237,7 +2283,9 @@
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
-      "name": "Four-Hundred-Paces"
+      "name": "Four-Hundred-Paces",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'boardwalk-village' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.broken-xanmeer-coast",
@@ -2248,7 +2296,7 @@
         "variant": "subsumed",
         "magnitude": "M1"
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Xanmeer",
@@ -2354,7 +2402,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "sinkhole-lip",
       "underwaterAccess": "none",
-      "name": "Holds-It-Up"
+      "name": "Holds-It-Up",
+      "deferredFromStatus": "ruined",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'broken-xanmeer' is over its province count band (4 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.canopy-crossing-wall",
@@ -2365,7 +2415,7 @@
         "variant": "root",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Murkmire",
@@ -2459,7 +2509,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "name": "Sixty-Pace Graft"
+      "name": "Sixty-Pace Graft",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'canopy-crossing' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.cantemir-foreign-graveyard",
@@ -2470,7 +2522,7 @@
         "variant": "mixed",
         "magnitude": null
       },
-      "status": "abandoned",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Cantemiric Velothi",
@@ -2567,7 +2619,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "grave-cut",
       "underwaterAccess": "none",
-      "name": "Sea Rose Ground"
+      "name": "Sea Rose Ground",
+      "deferredFromStatus": "abandoned",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'foreign-graveyard' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.cantemir-headland",
@@ -2703,7 +2757,11 @@
       ],
       "densityLayer": "landmark",
       "entrance": "stair-throat",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "quiet (empty niches, a house mark nobody claims)",
+        "claimed (somebody has begun filling the niches, and it is not Velothi work)"
+      ]
     },
     {
       "id": "place.saxhleel-coast.climbable-terrace-roof",
@@ -2820,7 +2878,7 @@
         "variant": "poler",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Jel",
@@ -2929,7 +2987,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "name": "Ends-The-Long-Stage"
+      "name": "Ends-The-Long-Stage",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'courier-relay' is over its province count band (9 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.coast-guide-camp",
@@ -2940,7 +3000,7 @@
         "variant": "night-shelter",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Black Marsh (outsiders travel behind an Argonian guide)",
@@ -3044,7 +3104,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "name": "Walks-Them-Through"
+      "name": "Walks-Them-Through",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'guide-camp' is over its province count band (4 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.coast-hist-less-refuge",
@@ -3055,7 +3117,7 @@
         "variant": "urban-fringe",
         "magnitude": "M2"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Hist",
@@ -3185,7 +3247,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "name": "Nothing-Planted"
+      "name": "Nothing-Planted",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'hist-less-refuge' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.coast-road-hearth-house",
@@ -3196,7 +3260,7 @@
         "variant": "road-kept",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Argonian (a comer cannot be refused)",
@@ -3310,7 +3374,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
-      "name": "Deep-Wading-Fire"
+      "name": "Deep-Wading-Fire",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'hearth-house' is over its province count band (14 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.coast-road-tradehouse",
@@ -3321,7 +3387,7 @@
         "variant": "road",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "docs/research/morrowind-content-density.md",
@@ -3430,7 +3496,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "gate",
       "underwaterAccess": "none",
-      "name": "Blank Sign"
+      "name": "Blank Sign",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'tradehouse' is over its province count band (17 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.coast-root-hollow",
@@ -3441,7 +3509,7 @@
         "variant": "walkable",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Hist",
@@ -3544,7 +3612,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "root-mouth",
       "underwaterAccess": "none",
-      "name": "Smells-Of-Rain"
+      "name": "Smells-Of-Rain",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'root-hollow-gallery' is over its province count band (13 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.coast-serpent-ground",
@@ -3555,7 +3625,7 @@
         "variant": "giant-snake",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/fauna-hazards.md",
@@ -3655,7 +3725,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "burrow",
       "underwaterAccess": "none",
-      "name": "Longer-Than-The-Track"
+      "name": "Longer-Than-The-Track",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'serpent-ground' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.coast-treasure-hunters-camp",
@@ -3666,7 +3738,7 @@
         "variant": "dead",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Xanmeer",
@@ -3766,7 +3838,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "shallow-dive",
-      "name": "Standing-Corner Camp"
+      "name": "Standing-Corner Camp",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'treasure-hunters-camp' is over its province count band (4 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.contested-bank",
@@ -3895,7 +3969,7 @@
         "variant": "dance-barge",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Shells and Stones",
@@ -4010,7 +4084,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'vice-den' is over its province count band (5 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.dead-air-lane",
@@ -4022,7 +4098,7 @@
         "variant": "pirate-worked",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Pirates of Topal Bay",
@@ -4131,7 +4207,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "deep-dive"
+      "underwaterAccess": "deep-dive",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'becalmed-lane' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.deep-bank",
@@ -4249,7 +4327,7 @@
         "variant": "canoe",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Sea Transportation",
@@ -4354,7 +4432,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "gate",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'boatwright-yard' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.delta-drowning-narrows",
@@ -4366,7 +4446,7 @@
         "variant": "tidal",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "docs/world/50-hydrology-climate.md",
@@ -4468,7 +4548,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "deep-dive"
+      "underwaterAccess": "deep-dive",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'drowning-narrows' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.derelict-timber-concession",
@@ -4479,7 +4561,7 @@
         "variant": "timber",
         "magnitude": "M1"
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:East Empire Company",
@@ -4589,7 +4671,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "name": "Vantus & Sons Cut"
+      "name": "Vantus & Sons Cut",
+      "deferredFromStatus": "ruined",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'derelict-concession' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.drake-deep",
@@ -4601,7 +4685,7 @@
         "variant": null,
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/fauna-hazards.md",
@@ -4710,7 +4794,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "argonian-only-depth"
+      "underwaterAccess": "argonian-only-depth",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'sea-drake-deep' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.dusk-bird-colony",
@@ -4970,9 +5056,14 @@
       "eraLayers": [
         "current"
       ],
-      "densityLayer": "landmark",
+      "densityLayer": "destination",
       "entrance": "burrow",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.rootworm-waykeepers",
+      "localStateVariants": [
+        "running (a departure carved on the board, the hole warm)",
+        "stopped (the boarding stage barred and the hole cold)"
+      ]
     },
     {
       "id": "place.saxhleel-coast.estuary-boom-tower",
@@ -4984,7 +5075,7 @@
         "variant": "manned",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Black Marsh (toll-towns)",
@@ -5098,7 +5189,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "door",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'toll-tower' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.estuary-ferry-stage",
@@ -5109,7 +5202,7 @@
         "variant": "guide-hire",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Black Marsh (outsiders arrive by ferry behind an Argonian guide)",
@@ -5231,7 +5324,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
-      "name": "Reed-Foot-To-Broken-Quay"
+      "name": "Reed-Foot-To-Broken-Quay",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'ferry-stage' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.estuary-keepers-lodge",
@@ -5355,7 +5450,7 @@
         "variant": "stall-row",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "docs/world/92-demographics.md (three currency tiers)",
@@ -5461,7 +5556,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'market-fair-ground' is over its province count band (10 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.estuary-salt-pans",
@@ -5473,7 +5570,7 @@
         "variant": "estuary",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/material-culture.md (salt as the reliable barter commodity)",
@@ -5582,7 +5679,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'salt-pans' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.gap-reef",
@@ -5711,7 +5810,7 @@
         "variant": "seabird",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "docs/world/00-core.md acceptance rule: underwater POIs throughout appropriate regions",
@@ -5805,7 +5904,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "shallow-dive",
-      "name": "Gull Stack"
+      "name": "Gull Stack",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'sea-stack' is over its province count band (5 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.haj-mota-shell-yard",
@@ -5817,7 +5918,7 @@
         "variant": "haj-mota",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Haj Mota",
@@ -5920,7 +6021,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'shell-yard' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.headland-storm-shelter",
@@ -6050,7 +6153,7 @@
         "variant": "periodic-fair",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "docs/world/92-demographics.md (three currency tiers)",
@@ -6158,7 +6261,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "name": "Second-Seed Ground"
+      "name": "Second-Seed Ground",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'market-fair-ground' is over its province count band (10 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.jungle-courier-relay",
@@ -6169,7 +6274,7 @@
         "variant": "chime-relay",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Jel",
@@ -6271,7 +6376,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "hollow-trunk",
       "underwaterAccess": "none",
-      "name": "Chime-Trunk"
+      "name": "Chime-Trunk",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'courier-relay' is over its province count band (9 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.jungle-ferry-stage",
@@ -6282,7 +6389,7 @@
         "variant": "toll",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/lore/topics/labour-and-bondage.md (every crossing has an owner)",
@@ -6395,7 +6502,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
-      "name": "Leaning-Fig Landing"
+      "name": "Leaning-Fig Landing",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'ferry-stage' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.jungle-root-hollow",
@@ -6406,7 +6515,7 @@
         "variant": "inhabited",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Hist",
@@ -6510,7 +6619,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "sinkhole-lip",
       "underwaterAccess": "none",
-      "name": "Takes-The-Tools"
+      "name": "Takes-The-Tools",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'root-hollow-gallery' is over its province count band (13 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.jungle-track-hearth-house",
@@ -6521,7 +6632,7 @@
         "variant": "road-kept",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Argonian",
@@ -6629,7 +6740,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "trapdoor",
       "underwaterAccess": "none",
-      "name": "Last-Fire"
+      "name": "Last-Fire",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'hearth-house' is over its province count band (14 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.ladder-tower-canopy",
@@ -6752,7 +6865,7 @@
         "variant": "tidal-bloom",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "docs/research/settlement-type-recipes.md (lit cues are a first-class wayfinding channel here)",
@@ -6855,7 +6968,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'bioluminescent-water' is over its province count band (5 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.lagoon-storm-shelter",
@@ -7104,14 +7219,18 @@
       ],
       "densityLayer": "landmark",
       "entrance": "underwater-entry",
-      "underwaterAccess": "argonian-only-depth"
+      "underwaterAccess": "argonian-only-depth",
+      "localStateVariants": [
+        "air held (the ceiling pockets breathable, the corner standing)",
+        "air lost (a settle has vented the chambers; the dive is one breath now)"
+      ]
     },
     {
       "id": "place.saxhleel-coast.mangrove-air-pocket",
       "classification": {
-        "class": "transit",
-        "family": "submerged-way",
-        "type": "air-pocket-station",
+        "class": "lone",
+        "family": "curiosity",
+        "type": "air-pocket-grotto",
         "variant": null,
         "magnitude": null
       },
@@ -7212,7 +7331,8 @@
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
-      "name": "One-Chest"
+      "name": "One-Chest",
+      "reconciliationNote": "Retyped 2026-09-02 (Phase 11 repair, coverage critique S3): air-pocket-station was over band (4/3-3) and air-pocket-grotto under (2/4-4); this record's own content - a submerged entrance, a hoard too heavy to swim out with, no surface expression - is the grotto recipe, not the staffed way-station one."
     },
     {
       "id": "place.saxhleel-coast.mangrove-cut-village",
@@ -7223,7 +7343,7 @@
         "variant": "channel-cut",
         "magnitude": "M2"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Murkmire (the mangrove wall)",
@@ -7340,7 +7460,9 @@
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
-      "name": "Three-Notch-One-Slash"
+      "name": "Three-Notch-One-Slash",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'mangrove-platform-village' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.mangrove-reef",
@@ -7462,7 +7584,7 @@
         "variant": "wall-edge",
         "magnitude": "M2"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Murkmire",
@@ -7567,7 +7689,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "surface-swim",
-      "name": "Low-Water-Only"
+      "name": "Low-Water-Only",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'mangrove-platform-village' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.mangrove-wreck",
@@ -7578,7 +7702,7 @@
         "variant": "above-water",
         "magnitude": "M1"
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "docs/world/00-core.md acceptance rule: underwater POIs throughout appropriate regions",
@@ -7680,7 +7804,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "hollow-trunk",
       "underwaterAccess": "surface-swim",
-      "name": "Salt-And-Nails"
+      "name": "Salt-And-Nails",
+      "deferredFromStatus": "ruined",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'wreck' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.outer-reef",
@@ -7799,7 +7925,7 @@
         "variant": null,
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/labour-and-bondage.md",
@@ -7920,7 +8046,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "name": "Sells-Their-Hours"
+      "name": "Sells-Their-Hours",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'owing-eviction-camp' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.pearl-lots",
@@ -7932,7 +8060,7 @@
         "variant": "pearl",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "docs/world/00-core.md acceptance rule: underwater POIs throughout appropriate regions",
@@ -8047,7 +8175,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "deep-dive"
+      "underwaterAccess": "deep-dive",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'pearl-and-shell-bed' is over its province count band (5 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.portdun-mont",
@@ -8188,7 +8318,11 @@
       ],
       "densityLayer": "landmark",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "stair kept (the hauling gear rigged, the bench lit)",
+        "stair cut (the village provisioned from the water only)"
+      ]
     },
     {
       "id": "place.saxhleel-coast.portdun-privateer-anchorage",
@@ -8200,7 +8334,7 @@
         "variant": "half-chartered",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Pirates of Topal Bay",
@@ -8330,7 +8464,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "cave-mouth",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'pirate-anchorage' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.quarantine-village-lagoon",
@@ -8342,7 +8478,7 @@
         "variant": "lapsed",
         "magnitude": "M2"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Knahaten Flu",
@@ -8464,7 +8600,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "gate",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'quarantine-village' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.quay-flooded-cellar",
@@ -8475,7 +8613,7 @@
         "variant": "cellar",
         "magnitude": null
       },
-      "status": "drowned",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Lilmoth (drowned quarter)",
@@ -8574,7 +8712,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "cellar-door",
       "underwaterAccess": "shallow-dive",
-      "name": "Under Three Tongues"
+      "name": "Under Three Tongues",
+      "deferredFromStatus": "drowned",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'flooded-passage' is over its province count band (4 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.quay-tradehouse",
@@ -8703,7 +8843,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.league-of-open-water"
     },
     {
       "id": "place.saxhleel-coast.reef-air-pocket",
@@ -8822,7 +8963,7 @@
         "variant": "submerged",
         "magnitude": "M1"
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "docs/world/00-core.md acceptance rule: underwater POIs throughout appropriate regions",
@@ -8926,7 +9067,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
-      "name": "Cassia Provident"
+      "name": "Cassia Provident",
+      "deferredFromStatus": "ruined",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'wreck' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.seafalls",
@@ -9073,7 +9216,11 @@
       ],
       "densityLayer": "landmark",
       "entrance": "gate",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "localStateVariants": [
+        "navigable (this season's limit board painted high)",
+        "unrunnable (the board painted low, the porters' rates doubled, the reach jammed)"
+      ]
     },
     {
       "id": "place.saxhleel-coast.seafalls-chamber",
@@ -9085,7 +9232,7 @@
         "variant": null,
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Arena:Seafalls",
@@ -9189,7 +9336,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "cave-mouth",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'waterfall-chamber' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.seafalls-porter-relay",
@@ -9200,7 +9349,7 @@
         "variant": "walking",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Sea Transportation",
@@ -9307,7 +9456,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "gate",
       "underwaterAccess": "none",
-      "name": "Fourteen-Stone Yard"
+      "name": "Fourteen-Stone Yard",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'porter-relay-yard' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.seafalls-reach",
@@ -9319,7 +9470,7 @@
         "variant": "rapids",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Arena:Seafalls",
@@ -9422,7 +9573,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'whitewater-reach' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.seafalls-slipway",
@@ -9434,7 +9587,7 @@
         "variant": "falls",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Arena:Seafalls",
@@ -9542,16 +9695,18 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'portage-slipway' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.sealed-xanmeer-wall",
       "classification": {
-        "class": "ruin",
-        "family": "xanmeer",
-        "type": "sealed-xanmeer",
-        "variant": "vakka-defended",
-        "magnitude": "M1"
+        "class": "lone",
+        "family": "curiosity",
+        "type": "climbable-ruin-roof",
+        "variant": null,
+        "magnitude": null
       },
       "status": "ruined",
       "provenance": "lore-implied",
@@ -9611,13 +9766,13 @@
         "valueTier": "tier-4"
       },
       "vibe": {
-        "silhouette": "a stepped mass under canopy, half-swallowed, unmistakably intentional",
+        "silhouette": "a stepped mass under canopy with one terrace edge worn smooth by hands, and nothing else touched",
         "palette": "black-green moss over grey stone, root white",
         "materials": "xanmeer ashlar, vakka-stone fittings, sealed screens",
-        "signatureFeature": "a doorway sealed from the inside, with the sealing work visible through a hand-width gap",
+        "signatureFeature": "a doorway sealed from the inside, and a roof hatch seven terraces up that the sealers evidently did not know about",
         "condition": "structurally perfect under the moss",
         "mood": "the province's default dungeon, with a reason",
-        "approach": "you find it by tripping over its lowest terrace",
+        "approach": "a terrace climb; there is no door on this building that opens",
         "senses": "insects; and a faint, regular clicking"
       },
       "assetPlan": [
@@ -9662,7 +9817,8 @@
       "densityLayer": "destination",
       "entrance": "trapdoor",
       "underwaterAccess": "none",
-      "name": "Seven-Terrace"
+      "name": "Seven-Terrace",
+      "reconciliationNote": "Retyped 2026-09-02 (Phase 11 repair, coverage critique S3): sealed-xanmeer was over band (7/4-4) and climbable-ruin-roof under (2/4-4). The record was already about a meer sealed from the INSIDE, i.e. a ruin with no door: under the entrance-decoupling ruling its way in is the terrace climb and a roof hatch, which is the climbable-ruin-roof recipe exactly."
     },
     {
       "id": "place.saxhleel-coast.shell-beast-shallows",
@@ -9781,7 +9937,7 @@
         "variant": "shell",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "docs/world/00-core.md acceptance rule: underwater POIs throughout appropriate regions",
@@ -9876,7 +10032,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "deep-dive",
-      "name": "Counts-The-Lots Bed"
+      "name": "Counts-The-Lots Bed",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'pearl-and-shell-bed' is over its province count band (5 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.stilt-village-drowned-rise",
@@ -9887,7 +10045,7 @@
         "variant": "shallow-flat",
         "magnitude": "M3"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Murkmire",
@@ -9995,7 +10153,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "trapdoor",
       "underwaterAccess": "shallow-dive",
-      "name": "Black-Piles-Again"
+      "name": "Black-Piles-Again",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'stilt-village' is over its province count band (11 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.stilt-village-east",
@@ -10006,7 +10166,7 @@
         "variant": "tidal",
         "magnitude": "M3"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Murkmire",
@@ -10128,7 +10288,9 @@
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
-      "name": "Long-Reach Piles"
+      "name": "Long-Reach Piles",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'stilt-village' is over its province count band (11 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.stilt-village-lagoon",
@@ -10139,7 +10301,7 @@
         "variant": "channel-edge",
         "magnitude": "M3"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Murkmire",
@@ -10249,7 +10411,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "surface-swim",
-      "name": "Wide-Water Crossing"
+      "name": "Wide-Water Crossing",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'stilt-village' is over its province count band (11 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.tended-xanmeer-coast",
@@ -10260,7 +10424,7 @@
         "variant": "clan-tended",
         "magnitude": "M1"
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Xanmeer",
@@ -10379,7 +10543,9 @@
       "densityLayer": "destination",
       "entrance": "stair-throat",
       "underwaterAccess": "none",
-      "name": "Sweeps-The-Terraces Meer"
+      "name": "Sweeps-The-Terraces Meer",
+      "deferredFromStatus": "ruined",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'tended-xanmeer' is over its province count band (7 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.terrace-village-ridge",
@@ -10513,7 +10679,7 @@
         "variant": "channel",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "docs/world/50-hydrology-climate.md",
@@ -10611,7 +10777,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
-      "name": "Four-Hour Channel"
+      "name": "Four-Hour Channel",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'tide-timed-run' is over its province count band (5 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.tide-run-delta",
@@ -10633,10 +10801,10 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A delta flat that halves the coast journey and is crossable for two hours in every twelve.",
+        "founding": "A delta flat that shortens the coast journey and is crossable only while the basin's tidal amplitude leaves it dry - in practice a short morning, and not the same morning twice.",
         "siteAdvantages": "Firm sand under shallow water at low tide, marked by a stake line laid generations ago.",
         "occupantsMotive": "Nobody lives on it; six people are usually waiting at the head.",
-        "pressures": "The tide does not negotiate and the body count is carved on the waiting shelter's post.",
+        "pressures": "The tide does not negotiate, the window is never the same length twice, and the body count is carved on the waiting shelter's post.",
         "wouldChangeIf": "If a causeway were ever built here, the whole district's travel times change and the shelter dies."
       },
       "sitingPrefs": {
@@ -10740,7 +10908,11 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "localStateVariants": [
+        "open (the board chalked before dawn, two hours of walkable flat)",
+        "shut (the board not chalked, and whoever went out on yesterday's timing still out there)"
+      ]
     },
     {
       "id": "place.saxhleel-coast.tide-street-salvage-yard",
@@ -10751,7 +10923,7 @@
         "variant": "drowned-village",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Lilmoth (drowned quarter salvaged for 150 years)",
@@ -10857,7 +11029,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "gate",
       "underwaterAccess": "deep-dive",
-      "name": "Keeps-The-Book Lots"
+      "name": "Keeps-The-Book Lots",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'salvage-divers-yard' is over its province count band (5 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.tide-street-village",
@@ -10869,7 +11043,7 @@
         "variant": "tidal",
         "magnitude": "M2"
       },
-      "status": "drowned",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Lilmoth (the drowned quarter)",
@@ -10990,7 +11164,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "underwater-entry",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "deferredFromStatus": "drowned",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'drowned-village' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.umbriel-shore-memorial",
@@ -11114,7 +11290,11 @@
       "densityLayer": "fine-tempo",
       "entrance": "grave-cut",
       "underwaterAccess": "none",
-      "name": "Four-Eight"
+      "name": "Four-Eight",
+      "localStateVariants": [
+        "kept (the mound edged, the offerings fresh)",
+        "argued (a second mound started beside it by people who count the year differently)"
+      ]
     },
     {
       "id": "place.saxhleel-coast.village-tradehouse-south",
@@ -11125,7 +11305,7 @@
         "variant": "village",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "docs/research/morrowind-content-density.md",
@@ -11226,7 +11406,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "name": "Reed-Stand Paid-Bed"
+      "name": "Reed-Stand Paid-Bed",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'tradehouse' is over its province count band (17 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.walkway-junction-east",
@@ -11350,7 +11532,7 @@
         "variant": "exile",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "docs/research/openworld-place-distribution-and-siting.md §3.2 (hermit: the approach cost is the gate)",
@@ -11466,7 +11648,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "hollow-trunk",
       "underwaterAccess": "none",
-      "name": "Counts-The-Shells"
+      "name": "Counts-The-Shells",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'hermit-hut' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.wall-hist-village",
@@ -11602,7 +11786,8 @@
       "densityLayer": "destination",
       "entrance": "hollow-trunk",
       "underwaterAccess": "none",
-      "name": "Still-Water Sleeping-Tree"
+      "name": "Still-Water Sleeping-Tree",
+      "ownerFaction": "faction.an-xileel"
     },
     {
       "id": "place.saxhleel-coast.wall-poacher-camp",
@@ -11613,7 +11798,7 @@
         "variant": "egg",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/lore/topics/ecology-encounters-loot.md",
@@ -11715,7 +11900,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
-      "name": "Takes-The-Eggs"
+      "name": "Takes-The-Eggs",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'poacher-camp' is over its province count band (4 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.wall-vista-ledge",
@@ -11726,7 +11913,7 @@
         "variant": null,
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/sites/candidate-sites.md (median site sees 18% of its surroundings — a view is a reward)",
@@ -11830,7 +12017,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "name": "Sees-Two-Meers"
+      "name": "Sees-Two-Meers",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'vista-ledge' is over its province count band (4 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.saxhleel-coast.wild-rootworm-burrow",
@@ -11947,7 +12136,7 @@
         "variant": "xanmeer",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "docs/world/00-core.md acceptance rule: underwater POIs throughout appropriate regions",
@@ -12046,7 +12235,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "well-shaft",
       "underwaterAccess": "argonian-only-depth",
-      "name": "Swallows-Divers"
+      "name": "Swallows-Divers",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'dive-shaft' is over its province count band (4 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     }
   ]
 }

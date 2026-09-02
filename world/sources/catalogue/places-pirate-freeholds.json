@@ -94,7 +94,7 @@
         ]
       },
       "culture": "argonian",
-      "ownerFaction": "faction.captain-of-the-port",
+      "ownerFaction": "faction.corimont-free-port-halls",
       "occupants": [
         "D2 freeholder crews",
         "D1 warehouse hands",
@@ -161,20 +161,24 @@
       ],
       "sockets": {
         "scene": [
-          "scene.corimont.reading-the-list",
-          "scene.corimont.hull-hall"
+          "scene.corimont.hall-arbitration",
+          "scene.corimont.hull-hall",
+          "scene.corimont.reading-the-list"
         ],
         "evidence": [
-          "evidence.corimont.price-list",
-          "evidence.corimont.bonded-ledger"
+          "evidence.corimont.bonded-ledger",
+          "evidence.corimont.fighters-hall-roll",
+          "evidence.corimont.mages-hall-roll",
+          "evidence.corimont.price-list"
         ],
         "station": [
           "station.boat.corimont-basin",
-          "station.trade.corimont-list",
-          "station.rest.corimont-hull-hall"
+          "station.rest.corimont-hull-hall",
+          "station.trade.corimont-list"
         ],
         "marks": [
-          "mark.corimont.port-captains-mark"
+          "mark.corimont.port-captains-mark",
+          "mark.corimont.salt-teeth-tally"
         ]
       },
       "complexityBudget": "complex",
@@ -188,7 +192,11 @@
       ],
       "densityLayer": "landmark",
       "entrance": "gate",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "localStateVariants": [
+        "neutral (the price list up, both halls open, nobody's flag flying)",
+        "leaned-on (one flag flying, the price list painted out, and the halls shut)"
+      ]
     },
     {
       "id": "place.pirate-freeholds.bone-carriers-camp",
@@ -199,7 +207,7 @@
         "variant": null,
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Argonian",
@@ -295,7 +303,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "name": "Rim Road Racks"
+      "name": "Rim Road Racks",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'bone-carriers-camp' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.bone-repatriation-waystation",
@@ -430,7 +440,12 @@
       ],
       "densityLayer": "destination",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.bone-carriers",
+      "localStateVariants": [
+        "staged (racks full, destinations two weeks out, carriers waiting)",
+        "stalled (racks full and nobody carrying; the next leg has refused the bundles)"
+      ]
     },
     {
       "id": "place.pirate-freeholds.careening-hard",
@@ -442,7 +457,7 @@
         "variant": "careening-hard",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Sea Transportation",
@@ -552,7 +567,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "gate",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'boatwright-yard' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.chasecreek",
@@ -689,9 +706,13 @@
       "eraLayers": [
         "current"
       ],
-      "densityLayer": "landmark",
+      "densityLayer": "destination",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "dry season (the flood gate open, the hamlet trading downstream)",
+        "flood (the gate shut, one expensive object per household carried upstairs)"
+      ]
     },
     {
       "aliases": [],
@@ -732,7 +753,7 @@
         "variant": null,
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/sites/candidate-sites.md (the rim carries the province's relief)",
@@ -802,7 +823,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'collapsing-pinnacle' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.corimont-bonded-store",
@@ -814,7 +837,7 @@
         "variant": "broken-open",
         "magnitude": "M1"
       },
-      "status": "abandoned",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:East Empire Company",
@@ -928,7 +951,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredFromStatus": "abandoned",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'bonded-warehouse' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.corimont-gambling-house",
@@ -940,7 +965,7 @@
         "variant": "gambling",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Shells and Stones",
@@ -1055,7 +1080,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'vice-den' is over its province count band (5 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.corimont-head-of-navigation",
@@ -1067,7 +1094,7 @@
         "variant": "seasonal",
         "magnitude": "M2"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Sea Transportation",
@@ -1190,7 +1217,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "gate",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'head-of-navigation' is over its province count band (4 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.corimont-hiring-yard",
@@ -1202,7 +1231,7 @@
         "variant": null,
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/labour-and-bondage.md",
@@ -1337,7 +1366,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'owing-eviction-camp' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.corimont-hist-less-camp",
@@ -1475,9 +1506,13 @@
       "eraLayers": [
         "current"
       ],
-      "densityLayer": "landmark",
+      "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "waiting (the planting circle swept, the argument unresolved)",
+        "planted (something is in the circle, and half the camp will not look at it)"
+      ]
     },
     {
       "id": "place.pirate-freeholds.corimont-tradehouse",
@@ -1740,7 +1775,12 @@
       ],
       "densityLayer": "destination",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.dres-remnant",
+      "localStateVariants": [
+        "derelict (the ramp rotting, the rails robbed for timber)",
+        "in use again (the ramp regraded, the rails sound, and nobody in Corimont saying so)"
+      ]
     },
     {
       "id": "place.pirate-freeholds.dunmer-frontier-holding",
@@ -1896,7 +1936,7 @@
         "variant": "rice",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Saltrice",
@@ -1997,7 +2037,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
-      "name": "Thin Levee"
+      "name": "Thin Levee",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'paddy-works' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.flu-cairn-field",
@@ -2122,7 +2164,7 @@
         "variant": "self-organised",
         "magnitude": "M2"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/labour-and-bondage.md",
@@ -2253,7 +2295,9 @@
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "none",
-      "name": "Walk-Out"
+      "name": "Walk-Out",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'freed-worker-shelter' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.freehold-courier-relay",
@@ -2264,7 +2308,7 @@
         "variant": "runner",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Jel",
@@ -2374,7 +2418,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
-      "name": "Last Stage"
+      "name": "Last Stage",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'courier-relay' is over its province count band (9 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.freehold-market",
@@ -2496,7 +2542,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.marsh-charter"
     },
     {
       "id": "place.pirate-freeholds.freehold-naga-camp",
@@ -2571,20 +2618,19 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "no camp visible from the road; from the trees, a cleared circle",
-        "palette": "dull hide, bone, dark green",
-        "materials": "hide shelters, bone-and-flint gear, taken cargo",
+        "silhouette": "nothing at all from the road; from the trees uphill, a cleared circle with no fire in it",
+        "palette": "dull hide, wet bone, dark green - no smoke, no colour, nothing that carries",
+        "materials": "hide shelters struck and re-pitched daily, bone-and-flint gear, taken cargo still in other people's crates",
         "signatureFeature": "taken cargo sorted by where on the road it was taken from, in labelled heaps",
         "condition": "recently made, ready to move",
         "mood": "predatory and organised",
         "approach": "you are watched from cover for some minutes before anything happens",
-        "senses": "nothing; and then everything"
+        "senses": "no chimes, no dogs, no smoke: silence held on purpose, and then everything at once"
       },
       "assetPlan": [
-        "market-tents",
-        "stockade-scaffold",
-        "totems-ritual",
+        "tents-hide",
         "fences-wattle",
+        "bones-scatter",
         "clutter"
       ],
       "discovery": "rumour",
@@ -2632,7 +2678,7 @@
         "variant": "active",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Knahaten Flu",
@@ -2739,7 +2785,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
-      "name": "Bellet's"
+      "name": "Bellet's",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'pest-house' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.freehold-smithy",
@@ -2872,7 +2920,7 @@
         "variant": "narrows",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Sea Transportation",
@@ -2980,7 +3028,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'portage-slipway' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.gorge-whitewater-reach",
@@ -3110,7 +3160,7 @@
         "variant": "village",
         "magnitude": "M1"
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Kothringi",
@@ -3220,7 +3270,9 @@
       "densityLayer": "destination",
       "entrance": "well-shaft",
       "underwaterAccess": "none",
-      "name": "Slack Bend"
+      "name": "Slack Bend",
+      "deferredFromStatus": "ruined",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'kothringi-ruin' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.lake-drawdown-flat",
@@ -3232,7 +3284,7 @@
         "variant": "exposed",
         "magnitude": null
       },
-      "status": "seasonal",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "docs/world/50-hydrology-climate.md (seasonal water levels as world state)",
@@ -3333,7 +3385,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredFromStatus": "seasonal",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'drawdown-flat' is over its province count band (4 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.plague-cordon-line",
@@ -3344,7 +3398,7 @@
         "variant": "marked",
         "magnitude": null
       },
-      "status": "abandoned",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Knahaten Flu",
@@ -3439,7 +3493,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "name": "Ossic Line"
+      "name": "Ossic Line",
+      "deferredFromStatus": "abandoned",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'plague-cordon-line' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.ravine-hermit-hut",
@@ -3450,7 +3506,7 @@
         "variant": "ascetic",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "docs/research/openworld-place-distribution-and-siting.md §3.2 (the approach cost is the gate)",
@@ -3567,7 +3623,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "cave-mouth",
       "underwaterAccess": "none",
-      "name": "Tallyman's"
+      "name": "Tallyman's",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'hermit-hut' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.reach-wreck",
@@ -3578,7 +3636,7 @@
         "variant": "submerged",
         "magnitude": "M1"
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "docs/world/00-core.md acceptance rule: underwater POIs throughout appropriate regions",
@@ -3680,7 +3738,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
-      "name": "Sixty Tun Salt"
+      "name": "Sixty Tun Salt",
+      "deferredFromStatus": "ruined",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'wreck' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.reoccupied-fort",
@@ -3691,7 +3751,7 @@
         "variant": "intact",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/extrapolation/settlement-register.md §6 (Fort Swampmoth model: held, but not by the Empire)",
@@ -3819,7 +3879,9 @@
       "densityLayer": "destination",
       "entrance": "gate",
       "underwaterAccess": "none",
-      "name": "Gorrey's Fort"
+      "name": "Gorrey's Fort",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'abandoned-fort' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.rim-border-post",
@@ -3830,7 +3892,7 @@
         "variant": "thinned",
         "magnitude": "M1"
       },
-      "status": "abandoned",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Black Marsh",
@@ -3937,7 +3999,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "gate",
       "underwaterAccess": "none",
-      "name": "Fourth Cohort Post"
+      "name": "Fourth Cohort Post",
+      "deferredFromStatus": "abandoned",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'border-post' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.rim-courier-relay",
@@ -3948,7 +4012,7 @@
         "variant": "chime-relay",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Jel",
@@ -4050,15 +4114,17 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "name": "Chime Ridge"
+      "name": "Chime Ridge",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'courier-relay' is over its province count band (9 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.rim-crystal-diggings",
       "classification": {
-        "class": "works",
-        "family": "extraction",
-        "type": "crystal-diggings",
-        "variant": "open-cut",
+        "class": "camp",
+        "family": "civil-camp",
+        "type": "prospectors-camp",
+        "variant": "crystal",
         "magnitude": "M1"
       },
       "status": "active",
@@ -4176,7 +4242,8 @@
       "densityLayer": "fine-tempo",
       "entrance": "cave-mouth",
       "underwaterAccess": "none",
-      "name": "Green Seam"
+      "name": "Green Seam",
+      "reconciliationNote": "Retyped 2026-09-02 (Phase 11 repair, coverage critique S3): crystal-diggings sat at its band floor while prospectors-camp was under (1/3-3). The record is a spoil heap, a lookout and washing water on the rim - a prospectors' camp working a seam, not an established works."
     },
     {
       "id": "place.pirate-freeholds.rim-hearth-house",
@@ -4187,7 +4254,7 @@
         "variant": "road-kept",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Argonian",
@@ -4294,7 +4361,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
-      "name": "Under Snowline"
+      "name": "Under Snowline",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'hearth-house' is over its province count band (14 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.rim-keystone-chamber",
@@ -4424,7 +4493,7 @@
         "variant": "jadeflint",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/material-culture.md (stone tools where metal is absent)",
@@ -4525,7 +4594,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "name": "Grey Chert Floor"
+      "name": "Grey Chert Floor",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'knapping-floor' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.rim-pass-station",
@@ -4653,7 +4724,11 @@
       ],
       "densityLayer": "destination",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "pass open (the season board green, the keeper bored)",
+        "pass shut (the board closed, and a queue of people who will pay to be wrong about that)"
+      ]
     },
     {
       "id": "place.pirate-freeholds.rim-porter-yard",
@@ -4664,7 +4739,7 @@
         "variant": "walking",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Sea Transportation",
@@ -4778,16 +4853,18 @@
       "densityLayer": "destination",
       "entrance": "gate",
       "underwaterAccess": "none",
-      "name": "Half-Load Yard"
+      "name": "Half-Load Yard",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'porter-relay-yard' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.rim-second-empire-works",
       "classification": {
         "class": "ruin",
         "family": "imperial-ruin",
-        "type": "second-empire-works",
-        "variant": "reman",
-        "magnitude": "M1"
+        "type": "failed-roadworks",
+        "variant": "embankment",
+        "magnitude": null
       },
       "status": "ruined",
       "provenance": "lore-implied",
@@ -4847,10 +4924,10 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "a cut ramp and a stone cistern mouth on a bare saddle",
+        "silhouette": "a cut ramp ending in nothing, and a stone cistern mouth swallowing the ramp's own fill",
         "palette": "grey ashlar, lichen gold, rock",
         "materials": "Akaviri-era dressed stone, a vaulted cistern, an unfinished cutting",
-        "signatureFeature": "a road cutting that stops in mid-air, with the tool marks still sharp",
+        "signatureFeature": "a road cutting that stops in mid-air where the embankment slumped into the cistern it was built over, with the tool marks still sharp above the slump",
         "condition": "unfinished and outlasting everything finished",
         "mood": "imperial ambition, filed and forgotten",
         "approach": "the cut line is visible against the skyline",
@@ -4900,7 +4977,8 @@
       "densityLayer": "fine-tempo",
       "entrance": "cellar-door",
       "underwaterAccess": "none",
-      "name": "Reman Cut"
+      "name": "Reman Cut",
+      "reconciliationNote": "Retyped 2026-09-02 (Phase 11 repair, coverage critique S3): failed-roadworks was under band (2/4-4) and its recipe is 'defeated by water'. This record IS that: a Reman road cutting that stops in mid-air above a cistern, on the wettest approach to the rim."
     },
     {
       "id": "place.pirate-freeholds.rim-smugglers-ledge-east",
@@ -4911,7 +4989,7 @@
         "variant": "cached",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Black Marsh (the border wall)",
@@ -5012,7 +5090,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "cave-mouth",
       "underwaterAccess": "none",
-      "name": "Dead Consignment"
+      "name": "Dead Consignment",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'smugglers-ledge' is over its province count band (4 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.rim-smugglers-ledge-north",
@@ -5136,7 +5216,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "cave-mouth",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.salt-teeth"
     },
     {
       "id": "place.pirate-freeholds.rim-snowline-hermitage",
@@ -5267,7 +5348,7 @@
         "variant": null,
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/sites/candidate-sites.md (a quarter of the interesting ground is on the mountain rim; a view is a reward)",
@@ -5370,7 +5451,9 @@
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "none",
-      "name": "Cyrod Ledge"
+      "name": "Cyrod Ledge",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'vista-ledge' is over its province count band (4 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.river-bog-iron-bloomery",
@@ -5381,7 +5464,7 @@
         "variant": "cold",
         "magnitude": "M1"
       },
-      "status": "abandoned",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/material-culture.md",
@@ -5476,7 +5559,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "name": "Rust Bog"
+      "name": "Rust Bog",
+      "deferredFromStatus": "abandoned",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'bog-iron-bloomery' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.river-salvage-yard",
@@ -5487,7 +5572,7 @@
         "variant": "wreck",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/extrapolation/settlement-register.md §2 (Alten Corimont lives on smuggling, transit and salvage)",
@@ -5596,7 +5681,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "gate",
       "underwaterAccess": "deep-dive",
-      "name": "Grinder Yard"
+      "name": "Grinder Yard",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'salvage-divers-yard' is over its province count band (5 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.rockpoint",
@@ -5743,7 +5830,12 @@
       ],
       "densityLayer": "landmark",
       "entrance": "door",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "ownerFaction": "faction.unclaimed",
+      "localStateVariants": [
+        "unclaimed (the landing silting, the mooring rings green)",
+        "claimed (the landing dredged and somebody's mark on the gate)"
+      ]
     },
     {
       "id": "place.pirate-freeholds.trunk-ferry-stage",
@@ -5754,7 +5846,7 @@
         "variant": "free",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Black Marsh (outsiders travel behind an Argonian guide)",
@@ -5869,7 +5961,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
-      "name": "Chasecreek-To-Slack-Bend"
+      "name": "Chasecreek-To-Slack-Bend",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'ferry-stage' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.trunk-hearth-house",
@@ -5880,7 +5974,7 @@
         "variant": "road-kept",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Argonian (a comer cannot be refused)",
@@ -5994,7 +6088,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
-      "name": "Ottus Fire"
+      "name": "Ottus Fire",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'hearth-house' is over its province count band (14 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.trunk-road-tradehouse",
@@ -6005,7 +6101,7 @@
         "variant": "road",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "docs/research/morrowind-content-density.md",
@@ -6063,18 +6159,18 @@
       },
       "vibe": {
         "silhouette": "a long low building with lamps at a road bend",
-        "palette": "whitewash, thatch, lamp yellow",
+        "palette": "whitewash gone grey, thatch, lamp yellow, road mud to the height of a cart axle",
         "materials": "timber frame, thatch, a stone-flagged main room",
         "signatureFeature": "three price columns chalked at the door: coin, goods, and owed",
         "condition": "commercially maintained",
         "mood": "brisk, incurious",
         "approach": "lamps at the bend, in a landscape with none",
-        "senses": "beasts; kitchen; travellers comparing routes"
+        "senses": "beasts in the yard; a kitchen; travellers comparing routes and prices out loud"
       },
       "assetPlan": [
         "vanilla-farmhouse",
-        "market-tents",
-        "argonian-lights",
+        "stables-yard",
+        "fences-wattle",
         "lights-general",
         "clutter",
         "signage-blank"
@@ -6114,7 +6210,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
-      "name": "Mile Twelve"
+      "name": "Mile Twelve",
+      "deferredFromStatus": "active",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'tradehouse' is over its province count band (17 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.trunk-toll-bridge",
@@ -6250,7 +6348,11 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "tariffed (the board priced in coin, goods and obligation, the span kept)",
+        "free (the board painted out and the span deliberately unrepaired, which is its own toll)"
+      ]
     },
     {
       "id": "place.pirate-freeholds.upper-toll-bridge",
@@ -6261,7 +6363,7 @@
         "variant": "stone-arch",
         "magnitude": "M1"
       },
-      "status": "contested",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/labour-and-bondage.md",
@@ -6373,7 +6475,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "name": "Vellick Span"
+      "name": "Vellick Span",
+      "deferredFromStatus": "contested",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'toll-bridge' is over its province count band (7 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.upriver-bonded-store",
@@ -6384,7 +6488,7 @@
         "variant": "reused",
         "magnitude": "M1"
       },
-      "status": "abandoned",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:East Empire Company",
@@ -6484,7 +6588,9 @@
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
-      "name": "Last Lawful Load"
+      "name": "Last Lawful Load",
+      "deferredFromStatus": "abandoned",
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'bonded-warehouse' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
     },
     {
       "id": "place.pirate-freeholds.veterans-holding",
