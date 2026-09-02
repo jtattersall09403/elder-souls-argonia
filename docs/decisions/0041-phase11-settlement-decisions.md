@@ -448,12 +448,65 @@ a visual is *fast and cheap* (asset-inventory stills already rendered by
 the pipeline, a palette strip per region), attach it; never build new
 machinery just to illustrate the summary.
 
-**Size the catalogue on real numbers** (MEASURED 2026-09-02, terrain scour):
-authored land is **33.52 km²** (54.40 km² bounding square minus open sea
-16.46, lakes 3.31, deep channels 1.10; shallow marsh counts as authored).
-At 18–22/km² fine-tempo that is **~600–740 records**, pulled lower by the
-8–12/km² D4–D5 rate — set fan-out and owner expectations on that, not
-"thousands".
+**Size the catalogue on real numbers** (CORRECTED 2026-09-02 by the
+coverage critique — the earlier 600–740 applied the fine-tempo rate to ALL
+land and was wrong): authored land is 33.52 km², splitting **D0–D3
+20.59 km² / D4–D5 11.93 km²**, so the binding budget is
+**18–22 × 20.59 + 8–12 × 11.93 ≈ 466–596 poi records**, allocated by each
+zone's land share and danger mix — never by agent effort. The critique
+found 729 records with half of them on 18 % of the land; the repair
+directive below rebalances via `status: deferred` (IDs permanent, records
+parked for later packets), retypes and targeted top-ups.
+
+### Critique round + repair directive (2026-09-02)
+
+Five adversarial critics, five PASS-WITH-FIXES verdicts; full findings in
+`docs/research/phase11-critique/` (coverage-density, variety-
+distinctiveness, lore-fidelity, feasibility, completeness). Schema
+hardening already landed (commit `d8669d7`): canon-named/canon-derived
+provenance split, season/eraLayers/densityLayer/entrance/underwaterAccess
+vocabularies (strict-mode until the back-fill completes), name-required,
+citation lint, asset-alias hook, `deferred` status. **Repair is executed
+per region-pair by four agents (same ownership split as derivation), then
+one verify/wrap agent.** Each executor fixes, for its own files, ALL of:
+
+1. **Rebalance to the corrected budget** (numbers per region in the
+   coverage doc): defer lowest-value over-density records
+   (`status: deferred`, one-line `deferredWhy`); retype surplus
+   cheap-furniture types into the under-band vertical/underwater/seasonal
+   types where the record honestly supports it; author top-ups ONLY in
+   dunmer-north and imperial-fringe (which sit at ~0.5–0.7× budget).
+2. **Back-fill the strict fields** on every record: season, eraLayers,
+   densityLayer, entrance (module 70 §47 — vary it), underwaterAccess.
+3. **Vibe visual layer**: replace region-constant palette/materials/senses
+   (interior) and empty condition/approach/missing silhouette (south) with
+   per-record content; break the 109 visual-twin pairs on ≥3 axes; fix
+   the naming issues (14 duplicates, "The " monotony, regional registers).
+4. **Discovery honesty**: sightline claims only where a canopy-breaking
+   cue exists; else road/rumour/document.
+5. **Sockets, ownerFaction, notableNpcSlots, rumourPoolKey, variant
+   slots**: quest-capacity per the coverage doc (M4/M3 sockets), tier-0/1
+   records never socket-less; ≥1 LocalStateVariant slot on quest
+   locations; faction seats per the completeness doc.
+6. **Lore fixes** (lore doc's ranked list): Tenmar/Ten-Maur-Wolk merge
+   (west), Flu arithmetic (six records), canon-named→canon-derived
+   reclassification (~14), blue-flower exclusivity, missing canon places
+   (Root-Whisper Village + Deepmire → naga-kur-deeps; Hutan-Tzel →
+   dunmer-north; **Xal-Krona's lair** → hist-heartland, tier 0);
+   interior building-kit ruling (interior executor): extend
+   material-culture.md with the grown-root interior kit and fix the
+   108-record kit-blend.
+7. **Feasibility fixes** (its doc): the buoyant-causeway class (4
+   records), landform demand into the typed field, wildcard tokens
+   replaced, azure→azura, grave-stake boilerplate, tide→seasonal-drawdown
+   (8 records; the owner's environment-tweak permission covers
+   canon-black water instead where appropriate).
+
+The **verify/wrap agent** then: authors `asset-aliases.json` (slug→family
+map) and fixes what it exposes; flips STRICT_REQUIRED into REQUIRED_AT;
+re-runs all validators + a fast re-critique sample; records the round
+result here. The scour-detector relaxation (flood-high etc.) is a
+separate small tooling job before Part 3.
 
 **Owner rulings on derivation richness (2026-09-02):** (a) the Blackrose
 "reference watershed" special status is STALE — superseded in 00-core and
