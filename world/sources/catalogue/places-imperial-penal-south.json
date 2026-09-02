@@ -14,7 +14,7 @@
         "variant": "akaviri",
         "magnitude": "M1"
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -123,7 +123,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "stair-throat",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-2 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "ruined"
     },
     {
       "id": "place.imperial-penal-south.basin-air-grotto",
@@ -253,7 +255,7 @@
         "variant": "runner",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -362,7 +364,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'courier-relay' runs 10 province-wide against a countBand of 7-9, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.basin-curiosity",
@@ -375,7 +379,7 @@
         "variant": "unexplained",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -488,7 +492,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.basin-hearth-house",
@@ -501,7 +507,7 @@
         "variant": "village-kept",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -610,7 +616,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-4 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.basin-hermit",
@@ -623,7 +631,7 @@
         "variant": "ascetic",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -737,7 +745,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'hermit-hut' runs 9 province-wide against a countBand of 5-6, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.basin-sinkhole",
@@ -750,7 +760,7 @@
         "variant": null,
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -850,7 +860,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "sinkhole-lip",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'sinkhole-mouth' runs 4 province-wide against a countBand of 3-3, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.basin-squat",
@@ -863,7 +875,7 @@
         "variant": null,
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -969,7 +981,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'squatted-ruin-home' runs 5 province-wide against a countBand of 4-4, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.basin-tradehouse",
@@ -982,7 +996,7 @@
         "variant": "road",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -1095,7 +1109,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.blackrose",
@@ -1535,7 +1551,7 @@
         "variant": "blasphemers",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -1640,7 +1656,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "grave-cut",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'urn-vault' runs 4 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.bog-iron-bloomery",
@@ -1653,7 +1671,7 @@
         "variant": "cold",
         "magnitude": "M1"
       },
-      "status": "abandoned",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -1753,7 +1771,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'bog-iron-bloomery' runs 3 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "abandoned"
     },
     {
       "id": "place.imperial-penal-south.bramman-head",
@@ -1900,7 +1920,7 @@
         "variant": "buoyant-timber",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -2009,7 +2029,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-2 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.cave-pool-glow",
@@ -2022,7 +2044,7 @@
         "variant": "cave-pool",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -2129,7 +2151,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "cave-mouth",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'bioluminescent-water' runs 6 province-wide against a countBand of 4-5, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.chainbreaker-shelter",
@@ -2275,7 +2299,7 @@
         "variant": "chain-link",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -2382,7 +2406,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.cliff-vista-basin",
@@ -2395,7 +2421,7 @@
         "variant": null,
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -2502,7 +2528,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'vista-ledge' runs 5 province-wide against a countBand of 4-4, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.daril-den",
@@ -2515,7 +2543,7 @@
         "variant": "daril",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -2623,7 +2651,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "cellar-door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'vice-den' runs 6 province-wide against a countBand of 4-5, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.disputed-estate-village",
@@ -2636,7 +2666,7 @@
         "variant": "disputed",
         "magnitude": "M3"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -2750,7 +2780,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'estate-village' runs 4 province-wide against a countBand of 3-3, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.drawdown-flat",
@@ -2998,7 +3030,7 @@
         "variant": "rapids",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -3102,7 +3134,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-4 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.flu-mass-grave",
@@ -3115,7 +3149,7 @@
         "variant": "flu",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/lost-peoples.md",
@@ -3221,7 +3255,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "grave-cut",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'mass-grave-memorial' runs 8 province-wide against a countBand of 4-4, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.flu-quarantine-village",
@@ -3360,7 +3396,7 @@
         "variant": "tone-selected",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -3461,7 +3497,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.gar-pens-basin",
@@ -3474,7 +3512,7 @@
         "variant": "gar",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -3577,7 +3615,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-4 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.imperial-farmstead-basin",
@@ -3590,7 +3630,7 @@
         "variant": "working",
         "magnitude": "M2"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -3693,7 +3733,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-4 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.imperial-survey-camp",
@@ -3706,7 +3748,7 @@
         "variant": "imperial-era",
         "magnitude": "M1"
       },
-      "status": "abandoned",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -3811,7 +3853,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-4 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "abandoned"
     },
     {
       "id": "place.imperial-penal-south.intact-fort",
@@ -3824,7 +3868,7 @@
         "variant": "intact",
         "magnitude": "M1"
       },
-      "status": "abandoned",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -3931,7 +3975,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'abandoned-fort' runs 4 province-wide against a countBand of 2-3, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "abandoned"
     },
     {
       "id": "place.imperial-penal-south.kothringi-ruin-basin",
@@ -4064,7 +4110,7 @@
         "variant": "single-spine",
         "magnitude": "M3"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -4174,7 +4220,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'boardwalk-village' runs 7 province-wide against a countBand of 4-6, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.lake-divers-yard",
@@ -4187,7 +4235,7 @@
         "variant": "wreck",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -4294,7 +4342,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "deep-dive"
+      "underwaterAccess": "deep-dive",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'salvage-divers-yard' runs 7 province-wide against a countBand of 4-5, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.lake-drowned-village",
@@ -4307,7 +4357,7 @@
         "variant": "lake",
         "magnitude": "M2"
       },
-      "status": "drowned",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -4423,7 +4473,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "underwater-entry",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'drowned-village' runs 4 province-wide against a countBand of 3-3, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "drowned"
     },
     {
       "id": "place.imperial-penal-south.lake-ferry-stage",
@@ -4436,7 +4488,7 @@
         "variant": "toll",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -4548,7 +4600,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'ferry-stage' runs 9 province-wide against a countBand of 5-6, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.lake-raft-village",
@@ -4561,7 +4615,7 @@
         "variant": "lashed-cluster",
         "magnitude": "M2"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -4671,7 +4725,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'raft-village' runs 4 province-wide against a countBand of 2-3, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.lake-stall-row",
@@ -4684,7 +4740,7 @@
         "variant": "stall-row",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -4793,7 +4849,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.lake-submerged-xanmeer",
@@ -4934,7 +4992,7 @@
         "variant": "ledgered",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/extrapolation/settlement-register.md",
@@ -5047,7 +5105,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "cellar-door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'blackguard-hideout' runs 3 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.lilmothiit-quarry",
@@ -5182,7 +5242,7 @@
         "variant": "living",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -5288,7 +5348,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'treasure-hunters-camp' runs 6 province-wide against a countBand of 4-4, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.longmont",
@@ -5429,7 +5491,7 @@
         "variant": "manned",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -5535,7 +5597,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.marsh-giant-ground-basin",
@@ -5548,7 +5612,7 @@
         "variant": null,
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/lore/topics/fauna-hazards.md",
@@ -5650,7 +5714,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.murkwood-verge",
@@ -5788,7 +5854,7 @@
         "variant": "natural",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -5892,7 +5958,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
-      "underwaterAccess": "deep-dive"
+      "underwaterAccess": "deep-dive",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'dive-shaft' runs 5 province-wide against a countBand of 4-4, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.necromantic-dig",
@@ -5905,7 +5973,7 @@
         "variant": "necromantic",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/prisons.md",
@@ -6020,7 +6088,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "burrow",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-2 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.onkobra-clay-kiln",
@@ -6033,7 +6103,7 @@
         "variant": "red-onkobra",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -6134,7 +6204,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.owing-camp-basin",
@@ -6147,7 +6219,7 @@
         "variant": null,
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/labour-and-bondage.md",
@@ -6255,7 +6327,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'owing-eviction-camp' runs 5 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.plague-cordon",
@@ -6268,7 +6342,7 @@
         "variant": "marked",
         "magnitude": null
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/lost-peoples.md",
@@ -6374,7 +6448,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'plague-cordon-line' runs 4 province-wide against a countBand of 3-3, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "ruined"
     },
     {
       "id": "place.imperial-penal-south.prison-born-refuge",
@@ -6511,7 +6587,7 @@
         "variant": "raid",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -6617,7 +6693,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.rebellion-earthworks",
@@ -6746,7 +6824,7 @@
         "variant": "war",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -6855,7 +6933,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.retired-arbiter-house",
@@ -6868,7 +6948,7 @@
         "variant": "retired-arbiter",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -6979,7 +7059,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.rockspring",
@@ -7116,7 +7198,7 @@
         "variant": null,
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/prisons.md",
@@ -7226,7 +7308,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'bone-repatriation-waystation' runs 6 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.rose-flooded-passage",
@@ -7504,7 +7588,7 @@
         "variant": "saltrice",
         "magnitude": "M3"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -7613,7 +7697,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'grassland-field-village' runs 4 province-wide against a countBand of 2-3, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.scandal-holding-pit",
@@ -7626,7 +7712,7 @@
         "variant": "scandal",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/labour-and-bondage.md",
@@ -7732,7 +7818,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "trapdoor",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'holding-pit' runs 3 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.three-gate-toll",
@@ -7999,7 +8087,7 @@
         "variant": "sealed",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -8107,7 +8195,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "stair-throat",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.west-market-town",
@@ -8257,7 +8347,7 @@
         "variant": null,
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -8361,7 +8451,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-4 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.xanmeer-span-bridge",
@@ -8374,7 +8466,7 @@
         "variant": "xanmeer-span",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -8486,7 +8578,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-2 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.imperial-penal-south.yespest-site",
@@ -8499,7 +8593,7 @@
         "variant": null,
         "magnitude": null
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "canon-named",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -8604,7 +8698,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-2 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "ruined"
     }
   ]
 }

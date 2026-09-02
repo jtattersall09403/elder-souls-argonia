@@ -14,7 +14,7 @@
         "variant": "submerged",
         "magnitude": "M1"
       },
-      "status": "drowned",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -123,7 +123,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'wreck' runs 9 province-wide against a countBand of 5-6, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "drowned"
     },
     {
       "id": "place.mercantile-coast.alten-meerhleel",
@@ -399,7 +401,7 @@
         "variant": "road-kept",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/lore/extrapolation/settlement-register.md",
@@ -507,7 +509,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-4 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.ashroot-village",
@@ -770,7 +774,7 @@
         "variant": null,
         "magnitude": null
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/extrapolation/settlement-register.md",
@@ -877,7 +881,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "ruined"
     },
     {
       "id": "place.mercantile-coast.bone-waystation",
@@ -890,7 +896,7 @@
         "variant": null,
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/extrapolation/settlement-register.md",
@@ -1000,7 +1006,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'bone-repatriation-waystation' runs 6 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.bramman-river-ferry",
@@ -1013,7 +1021,7 @@
         "variant": "guide-hire",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -1118,7 +1126,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): a stronger in-region 'ferry-stage' stays active at 'oliis-ferry-stage'.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.bramman-screen",
@@ -1385,7 +1395,7 @@
         "variant": "burn",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -1489,7 +1499,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "grave-cut",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): a stronger in-region 'mass-grave-memorial' stays active at 'slaughter-memorial'.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.canopy-crossing-keel",
@@ -1502,7 +1514,7 @@
         "variant": "root",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/lore/regions/murkmire.md",
@@ -1602,7 +1614,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'canopy-crossing' runs 4 province-wide against a countBand of 3-3, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.chasepoint",
@@ -1743,7 +1757,7 @@
         "variant": "chime-relay",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/extrapolation/settlement-register.md",
@@ -1858,7 +1872,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'courier-relay' runs 10 province-wide against a countBand of 7-9, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.cinder-hermit",
@@ -1871,7 +1887,7 @@
         "variant": "exile",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -1985,7 +2001,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'hermit-hut' runs 9 province-wide against a countBand of 5-6, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.cinderhome",
@@ -1998,7 +2016,7 @@
         "variant": null,
         "magnitude": "M2"
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "canon-named",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -2106,7 +2124,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'burn-scar-village' runs 3 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "ruined"
     },
     {
       "id": "place.mercantile-coast.clandestine-dig",
@@ -2119,7 +2139,7 @@
         "variant": "xanmeer",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/regions/murkmire.md",
@@ -2224,7 +2244,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "burrow",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.coast-nisswo-house",
@@ -2237,7 +2259,7 @@
         "variant": null,
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/sithis-nisswo-shadowscales.md",
@@ -2338,7 +2360,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'nisswo-rest-house' runs 5 province-wide against a countBand of 3-3, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.coast-road-stage",
@@ -2351,7 +2375,7 @@
         "variant": "imperial",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -2462,7 +2486,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-4 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.coast-road-tradehouse",
@@ -2475,7 +2501,7 @@
         "variant": "road",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -2586,7 +2612,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): a stronger in-region 'tradehouse' stays active at 'soulrest-quay-tradehouse'.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.coast-toll-bridge",
@@ -2844,7 +2872,7 @@
         "variant": "company-sealed",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Lilmoth",
@@ -2969,7 +2997,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'bonded-warehouse' runs 7 province-wide against a countBand of 4-6, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.collections-field-station",
@@ -2982,7 +3012,7 @@
         "variant": "antiquarian",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Lilmoth",
@@ -3090,7 +3120,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.crocodile-pens",
@@ -3103,7 +3135,7 @@
         "variant": "crocodile",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/lore/topics/fauna-hazards.md",
@@ -3205,7 +3237,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.drowned-byre",
@@ -3218,7 +3252,7 @@
         "variant": "underwater",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/lore/regions/murkmire.md",
@@ -3319,7 +3353,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'guar-byre' runs 3 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.egg-poacher-camp",
@@ -3332,7 +3368,7 @@
         "variant": "egg",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/regions/murkmire.md",
@@ -3436,7 +3472,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'poacher-camp' runs 5 province-wide against a countBand of 4-4, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.expeditionary-fort",
@@ -3449,7 +3487,7 @@
         "variant": "collapsed",
         "magnitude": "M1"
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -3558,7 +3596,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'abandoned-fort' runs 4 province-wide against a countBand of 2-3, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "ruined"
     },
     {
       "id": "place.mercantile-coast.flood-refugee-camp",
@@ -3571,7 +3611,7 @@
         "variant": "flood",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/lore/extrapolation/settlement-register.md",
@@ -3672,7 +3712,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-4 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.gar-keepers-village",
@@ -3685,7 +3727,7 @@
         "variant": "gar",
         "magnitude": "M3"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/lore/regions/murkmire.md",
@@ -3794,7 +3836,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.glowfen-murkmire",
@@ -3927,7 +3971,7 @@
         "variant": "goldworks",
         "magnitude": "M1"
       },
-      "status": "abandoned",
+      "status": "deferred",
       "provenance": "canon-named",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -4041,7 +4085,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'derelict-concession' runs 3 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "abandoned"
     },
     {
       "id": "place.mercantile-coast.guide-camp-jungle",
@@ -4054,7 +4100,7 @@
         "variant": "predator-watch",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/lore/regions/murkmire.md",
@@ -4157,7 +4203,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'guide-camp' runs 5 province-wide against a countBand of 4-4, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.hajmota-shell-yard",
@@ -4170,7 +4218,7 @@
         "variant": "haj-mota",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/lore/topics/fauna-hazards.md",
@@ -4270,7 +4318,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-4 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.hammock-crown-murkmire",
@@ -4639,7 +4689,7 @@
         "variant": "rice",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "canon-named",
       "sources": [
         "uesp:Lore:Lilmoth",
@@ -4741,7 +4791,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'paddy-works' runs 4 province-wide against a countBand of 3-3, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.hereguard-plantation",
@@ -4881,7 +4933,7 @@
         "variant": "naval",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -4991,7 +5043,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-4 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.hestras-lane",
@@ -5004,7 +5058,7 @@
         "variant": "pirate-worked",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -5105,7 +5159,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.high-junction",
@@ -5114,8 +5170,8 @@
       "classification": {
         "class": "transit",
         "family": "elevated",
-        "type": "walkway-junction",
-        "variant": "high",
+        "type": "platform-ladder-tower",
+        "variant": null,
         "magnitude": "M1"
       },
       "status": "active",
@@ -5362,7 +5418,7 @@
         "variant": "young-cutting",
         "magnitude": "M3"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/lore/topics/hist-placement.md",
@@ -5473,7 +5529,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): a stronger in-region 'hist-village' stays active at 'ashroot-village'.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.hist-village-keel-sakka",
@@ -5615,7 +5673,7 @@
         "variant": "beached-as-hall",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -5727,7 +5785,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'wreck' runs 9 province-wide against a countBand of 5-6, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.illicit-sap-camp",
@@ -5740,7 +5800,7 @@
         "variant": "illicit",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/hist-and-sap.md",
@@ -5841,7 +5901,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.inhabited-meer-murkmire",
@@ -6228,7 +6290,7 @@
         "variant": null,
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/lore/regions/murkmire.md",
@@ -6331,7 +6393,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "cave-mouth",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'waterfall-chamber' runs 5 province-wide against a countBand of 3-3, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.keel-sakka-head",
@@ -6344,7 +6408,7 @@
         "variant": "seasonal",
         "magnitude": "M2"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/lore/regions/murkmire.md",
@@ -6457,7 +6521,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): a stronger in-region 'head-of-navigation' stays active at 'head-of-tide'.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.keel-sakka-stilts",
@@ -6724,7 +6790,7 @@
         "variant": "moored-platform",
         "magnitude": "M2"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -6834,7 +6900,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'raft-village' runs 4 province-wide against a countBand of 2-3, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.lighter-flotilla",
@@ -7142,7 +7210,7 @@
         "variant": "beast-market",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Lilmoth",
@@ -7252,7 +7320,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.lilmoth-canoe-yard",
@@ -7265,7 +7335,7 @@
         "variant": "canoe",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Lilmoth",
@@ -7372,7 +7442,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'boatwright-yard' runs 4 province-wide against a countBand of 3-3, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.lilmoth-divers-yard",
@@ -7511,7 +7583,7 @@
         "variant": "quay",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Lilmoth",
@@ -7625,7 +7697,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): a stronger in-region 'tradehouse' stays active at 'soulrest-quay-tradehouse'.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.long-bar-wreckers",
@@ -7755,7 +7829,7 @@
         "variant": "mad",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/lore/regions/murkmire.md",
@@ -7868,7 +7942,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'hermit-hut' runs 9 province-wide against a countBand of 5-6, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.mangrove-hide",
@@ -7881,7 +7957,7 @@
         "variant": "raw",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -7985,7 +8061,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "burrow",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'blackguard-hideout' runs 3 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.miregaunt-ward-murkmire",
@@ -7998,7 +8076,7 @@
         "variant": "ruin-approach",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/fauna-hazards.md",
@@ -8106,7 +8184,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.mirtis-plantation",
@@ -8119,7 +8199,7 @@
         "variant": "great-house",
         "magnitude": "M2"
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -8227,7 +8307,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-2 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "ruined"
     },
     {
       "id": "place.mercantile-coast.moonmarch",
@@ -8490,7 +8572,7 @@
         "variant": "village-kept",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/lore/extrapolation/settlement-register.md",
@@ -8600,7 +8682,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-4 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.naga-camp-north-road",
@@ -8613,7 +8697,7 @@
         "variant": "road-active",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/regions/murkmire.md",
@@ -8718,7 +8802,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.naga-village-oliis",
@@ -8979,9 +9065,9 @@
       "name": "The Breathing Stone",
       "aliases": [],
       "classification": {
-        "class": "transit",
-        "family": "submerged-way",
-        "type": "air-pocket-station",
+        "class": "lone",
+        "family": "curiosity",
+        "type": "air-pocket-grotto",
         "variant": null,
         "magnitude": null
       },
@@ -9224,7 +9310,7 @@
         "variant": null,
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/fauna-hazards.md",
@@ -9332,7 +9418,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
-      "underwaterAccess": "argonian-only-depth"
+      "underwaterAccess": "argonian-only-depth",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.oliis-ferry-stage",
@@ -9470,7 +9558,7 @@
         "variant": "current",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Lilmoth",
@@ -9571,7 +9659,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'drowning-narrows' runs 4 province-wide against a countBand of 3-3, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.oliis-reef-harvest",
@@ -9584,7 +9674,7 @@
         "variant": "reef-harvest",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/lore/regions/murkmire.md",
@@ -9686,7 +9776,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-4 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.oliis-tide-run",
@@ -9816,7 +9908,7 @@
         "variant": "above-water",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Lilmoth",
@@ -9926,7 +10018,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'wreck' runs 9 province-wide against a countBand of 5-6, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.owing-eviction-camp-west",
@@ -9939,7 +10033,7 @@
         "variant": null,
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/labour-and-bondage.md",
@@ -10048,7 +10142,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'owing-eviction-camp' runs 5 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.pilgrim-nisswo-house",
@@ -10061,7 +10157,7 @@
         "variant": null,
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/sithis-nisswo-shadowscales.md",
@@ -10163,7 +10259,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'nisswo-rest-house' runs 5 province-wide against a countBand of 3-3, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.pilgrim-xanmeer",
@@ -10296,7 +10394,7 @@
         "variant": "gambling",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Lilmoth",
@@ -10403,7 +10501,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'vice-den' runs 6 province-wide against a countBand of 4-5, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.quinrawl-anchorage",
@@ -10667,7 +10767,7 @@
         "variant": "dead-mnemic-egg",
         "magnitude": null
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/extrapolation/settlement-register.md",
@@ -10770,7 +10870,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'harmed-hist' runs 5 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "ruined"
     },
     {
       "id": "place.mercantile-coast.root-gallery-murkmire",
@@ -11024,7 +11126,7 @@
         "variant": "sap",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/hist-and-sap.md",
@@ -11129,7 +11231,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.screen-watch",
@@ -11384,7 +11488,7 @@
         "variant": "vakka-defended",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -11489,7 +11593,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "stair-throat",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): a stronger in-region 'sealed-xanmeer' stays active at 'sealed-meer-murkmire'.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.slaughter-memorial",
@@ -11630,7 +11736,7 @@
         "variant": "burning",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -11729,7 +11835,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.soulrest",
@@ -12025,7 +12133,7 @@
         "variant": "broken-open",
         "magnitude": "M1"
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -12133,7 +12241,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'bonded-warehouse' runs 7 province-wide against a countBand of 4-6, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "ruined"
     },
     {
       "id": "place.mercantile-coast.soulrest-courier-relay",
@@ -12146,7 +12256,7 @@
         "variant": "poler",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/extrapolation/settlement-register.md",
@@ -12254,7 +12364,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'courier-relay' runs 10 province-wide against a countBand of 7-9, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.soulrest-divers-yard",
@@ -12267,7 +12379,7 @@
         "variant": "wreck",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -12375,7 +12487,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "deep-dive"
+      "underwaterAccess": "deep-dive",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): a stronger in-region 'salvage-divers-yard' stays active at 'lilmoth-divers-yard'.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.soulrest-fair",
@@ -12388,7 +12502,7 @@
         "variant": "periodic-fair",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -12499,7 +12613,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.soulrest-foreign-graves",
@@ -12512,7 +12628,7 @@
         "variant": "imperial",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -12614,7 +12730,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "grave-cut",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'foreign-graveyard' runs 3 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.soulrest-quay-tradehouse",
@@ -12755,7 +12873,7 @@
         "variant": "overstaying",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -12864,7 +12982,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.soulrest-whispers-house",
@@ -12877,7 +12997,7 @@
         "variant": "deniable",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -12985,7 +13105,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.southern-sea-listening-post",
@@ -12998,7 +13120,7 @@
         "variant": "thalmor",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -13108,7 +13230,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.stripped-village-north",
@@ -13243,7 +13367,7 @@
         "variant": "quiet",
         "magnitude": "M2"
       },
-      "status": "abandoned",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/umbriel.md",
@@ -13351,7 +13475,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): a stronger in-region 'umbriel-stripped-village' stays active at 'stripped-village-north'.",
+      "deferredFromStatus": "abandoned"
     },
     {
       "id": "place.mercantile-coast.subsumed-xanmeer",
@@ -13364,7 +13490,7 @@
         "variant": "subsumed",
         "magnitude": "M1"
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -13469,7 +13595,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "sinkhole-lip",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'broken-xanmeer' runs 6 province-wide against a countBand of 4-4, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "ruined"
     },
     {
       "id": "place.mercantile-coast.sugar-barge",
@@ -13482,7 +13610,7 @@
         "variant": "dance-barge",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -13588,7 +13716,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'vice-den' runs 6 province-wide against a countBand of 4-5, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.sugar-stack",
@@ -13601,7 +13731,7 @@
         "variant": "occupied",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -13701,18 +13831,20 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): a stronger in-region 'sea-stack' stays active at 'wraxu-stacks'.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.sunken-causeway",
       "name": "The Sunken Causeway",
       "aliases": [],
       "classification": {
-        "class": "transit",
-        "family": "crossing",
-        "type": "causeway",
-        "variant": "broken",
-        "magnitude": "M1"
+        "class": "ruin",
+        "family": "imperial-ruin",
+        "type": "failed-roadworks",
+        "variant": null,
+        "magnitude": null
       },
       "status": "ruined",
       "provenance": "lore-implied",
@@ -13812,11 +13944,9 @@
       "complexityBudget": "simple",
       "importanceTier": 4,
       "workflow": "derived",
-      "season": "varies",
+      "season": "all-year",
       "eraLayers": [
-        "merethic",
-        "imperial",
-        "current"
+        "imperial"
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
@@ -13833,7 +13963,7 @@
         "variant": "tidal",
         "magnitude": "M2"
       },
-      "status": "drowned",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -13943,7 +14073,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'drowned-village' runs 4 province-wide against a countBand of 3-3, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "drowned"
     },
     {
       "id": "place.mercantile-coast.tapped-hist-ashroot",
@@ -13956,7 +14088,7 @@
         "variant": "tapped",
         "magnitude": null
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/hist-and-sap.md",
@@ -14061,7 +14193,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'harmed-hist' runs 5 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "ruined"
     },
     {
       "id": "place.mercantile-coast.teeba-enoo-court",
@@ -14453,7 +14587,7 @@
         "variant": "tidal",
         "magnitude": "M3"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Lilmoth",
@@ -14565,7 +14699,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): a stronger in-region 'stilt-village' stays active at 'keel-sakka-stilts'.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.timber-concession",
@@ -14578,7 +14714,7 @@
         "variant": "timber",
         "magnitude": "M1"
       },
-      "status": "abandoned",
+      "status": "deferred",
       "provenance": "canon-named",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -14685,7 +14821,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'derelict-concession' runs 3 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "abandoned"
     },
     {
       "id": "place.mercantile-coast.topal-careening-hard",
@@ -14698,7 +14836,7 @@
         "variant": "careening-hard",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -14802,7 +14940,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'boatwright-yard' runs 4 province-wide against a countBand of 3-3, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.topal-pearl-beds",
@@ -14815,7 +14955,7 @@
         "variant": "pearl",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -14918,7 +15058,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.topal-salt-pans",
@@ -15051,7 +15193,7 @@
         "variant": "tree-minder",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Lilmoth",
@@ -15166,7 +15308,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.tunnel-rat-gallery",
@@ -15179,7 +15323,7 @@
         "variant": "collapsed",
         "magnitude": "M1"
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -15291,7 +15435,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "cellar-door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-2 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "ruined"
     },
     {
       "id": "place.mercantile-coast.uprising-battlefield",
@@ -15304,7 +15450,7 @@
         "variant": "pitched",
         "magnitude": null
       },
-      "status": "ruined",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -15407,7 +15553,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'battlefield-ground' runs 3 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "ruined"
     },
     {
       "id": "place.mercantile-coast.varo-holding",
@@ -15420,7 +15568,7 @@
         "variant": "sinking",
         "magnitude": "M2"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -15524,7 +15672,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.villa-cellars",
@@ -15661,7 +15811,7 @@
         "variant": "instrument-makers",
         "magnitude": "M3"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/regions/murkmire.md",
@@ -15770,7 +15920,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.wallside-platforms",
@@ -15783,7 +15935,7 @@
         "variant": "wall-edge",
         "magnitude": "M2"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Lilmoth",
@@ -15889,7 +16041,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): a stronger in-region 'mangrove-platform-village' stays active at 'screen-watch'.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.wamasu-nest-pond",
@@ -15902,7 +16056,7 @@
         "variant": "egg-nest",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/fauna-hazards.md",
@@ -16005,7 +16159,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'wamasu-pond' runs 4 province-wide against a countBand of 3-3, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.white-rose-prison",
@@ -16152,7 +16308,7 @@
         "variant": "wrecking",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -16255,7 +16411,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.witness-vigil-camp",
@@ -16268,7 +16426,7 @@
         "variant": "waiting-for-the-clean-province",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/umbriel.md",
@@ -16370,7 +16528,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.wraxu-frieze",
@@ -16496,9 +16656,9 @@
       "aliases": [],
       "classification": {
         "class": "lair",
-        "family": "open-water",
-        "type": "sea-stack",
-        "variant": "seabird",
+        "family": "beast-lair",
+        "type": "bird-colony",
+        "variant": null,
         "magnitude": null
       },
       "status": "active",
@@ -16594,7 +16754,7 @@
       "complexityBudget": "simple",
       "importanceTier": 3,
       "workflow": "derived",
-      "season": "all-year",
+      "season": "varies",
       "eraLayers": [
         "current"
       ],
@@ -16613,7 +16773,7 @@
         "variant": "clan-tended",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "canon-named",
       "sources": [
         "uesp:Lore:Soulrest",
@@ -16720,7 +16880,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "stair-throat",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): a stronger in-region 'tended-xanmeer' stays active at 'pilgrim-xanmeer'.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.xanmeer-dive-shaft",
@@ -16733,7 +16895,7 @@
         "variant": "xanmeer",
         "magnitude": null
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "world/sources/lore/regions/murkmire.md",
@@ -16836,7 +16998,9 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "well-shaft",
-      "underwaterAccess": "deep-dive"
+      "underwaterAccess": "deep-dive",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'dive-shaft' runs 5 province-wide against a countBand of 4-4, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "active"
     },
     {
       "id": "place.mercantile-coast.xhon-mehl-shrine",
@@ -16849,7 +17013,7 @@
         "variant": "flood-staying",
         "magnitude": null
       },
-      "status": "drowned",
+      "status": "deferred",
       "provenance": "canon-named",
       "sources": [
         "uesp:Lore:Lilmoth",
@@ -16951,7 +17115,9 @@
       ],
       "densityLayer": "destination",
       "entrance": "underwater-entry",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "deferredWhy": "Parked in the mercantile-coast over-density rebalance: type 'beast-offering-shrine' runs 4 province-wide against a countBand of 3-3, so the surplus is paid out of the over-band types first.",
+      "deferredFromStatus": "drowned"
     },
     {
       "id": "place.mercantile-coast.xinchei-konu",
