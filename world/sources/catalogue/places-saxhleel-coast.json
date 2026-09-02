@@ -574,7 +574,7 @@
     },
     {
       "id": "place.saxhleel-coast.archon-harbour-hist",
-      "name": "The Harbour Tree",
+      "name": "Reaches-The-Low-Branch",
       "classification": {
         "class": "sacred",
         "family": "hist",
@@ -1383,7 +1383,6 @@
     },
     {
       "id": "place.saxhleel-coast.archon-thalmor-post",
-      "namingRule": "named for its cover business on the quay",
       "classification": {
         "class": "martial",
         "family": "watch",
@@ -1400,7 +1399,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The Dominion wants to know what moves through the only lawful port on the Padomaic coast, and will not open an embassy to find out.",
+        "founding": "A Dominion interest in Archon's manifests, conducted at arm's length: the loft is leased by an Imperial chandlery that ships nothing, and the two people who read the manifests are paid through three hands. Nothing on the premises is Altmer and nothing is meant to be.",
         "siteAdvantages": "A loft with a better view of the mooring line than a cargo agent needs.",
         "occupantsMotive": "Two agents, one local hire who does not know who pays her.",
         "pressures": "The Veiled Reed knows and is deciding whether knowing is more useful than acting.",
@@ -1425,7 +1424,7 @@
           "flood-high"
         ]
       },
-      "culture": "altmer",
+      "culture": "imperial",
       "occupants": [
         "1-4 D3 agents"
       ],
@@ -1495,11 +1494,15 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Vell & Sons, Chandlers",
+      "aliases": [
+        "The Listening Loft"
+      ]
     },
     {
       "id": "place.saxhleel-coast.archon-trial-ground",
-      "name": "The Burnished Ground",
+      "name": "Wears-The-Same-Steps",
       "classification": {
         "class": "sacred",
         "family": "rite",
@@ -1626,7 +1629,6 @@
     },
     {
       "id": "place.saxhleel-coast.archon-whispers-house",
-      "namingRule": "unnamed by design; referred to by its cover trade",
       "classification": {
         "class": "civic",
         "family": "magic",
@@ -1747,7 +1749,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "cellar-door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Net Loft"
     },
     {
       "id": "place.saxhleel-coast.banner-stack",
@@ -1871,7 +1874,6 @@
     },
     {
       "id": "place.saxhleel-coast.beached-hull-hall",
-      "namingRule": "the village's name plus the hull's name",
       "classification": {
         "class": "lone",
         "family": "remnant",
@@ -1985,11 +1987,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Marsh-Gate Perseverance"
     },
     {
       "id": "place.saxhleel-coast.boardwalk-high-stage",
-      "namingRule": "named for its highest stage",
       "classification": {
         "class": "settlement",
         "family": "water-village",
@@ -2106,11 +2108,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "name": "Ninth-Stage"
     },
     {
       "id": "place.saxhleel-coast.boardwalk-spine-north",
-      "namingRule": "named for the length of its longest unbroken run",
       "classification": {
         "class": "settlement",
         "family": "water-village",
@@ -2234,11 +2236,11 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "name": "Four-Hundred-Paces"
     },
     {
       "id": "place.saxhleel-coast.broken-xanmeer-coast",
-      "namingRule": "named for whoever holds it now",
       "classification": {
         "class": "ruin",
         "family": "xanmeer",
@@ -2351,11 +2353,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "sinkhole-lip",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Holds-It-Up"
     },
     {
       "id": "place.saxhleel-coast.canopy-crossing-wall",
-      "namingRule": "named for its span in paces",
       "classification": {
         "class": "transit",
         "family": "elevated",
@@ -2456,11 +2458,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Sixty-Pace Graft"
     },
     {
       "id": "place.saxhleel-coast.cantemir-foreign-graveyard",
-      "namingRule": "named for the ship or the year, by whoever dug it",
       "classification": {
         "class": "sacred",
         "family": "the-dead",
@@ -2564,7 +2566,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "grave-cut",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Sea Rose Ground"
     },
     {
       "id": "place.saxhleel-coast.cantemir-headland",
@@ -2704,7 +2707,6 @@
     },
     {
       "id": "place.saxhleel-coast.climbable-terrace-roof",
-      "namingRule": "named for what you can see from the top",
       "classification": {
         "class": "lone",
         "family": "curiosity",
@@ -2806,11 +2808,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "trapdoor",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Sees-The-Estuary"
     },
     {
       "id": "place.saxhleel-coast.coast-courier-relay",
-      "namingRule": "named for the runner's stage it terminates",
       "classification": {
         "class": "civic",
         "family": "governance",
@@ -2926,11 +2928,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Ends-The-Long-Stage"
     },
     {
       "id": "place.saxhleel-coast.coast-guide-camp",
-      "namingRule": "named for the guide family that keeps it",
       "classification": {
         "class": "camp",
         "family": "civil-camp",
@@ -3041,11 +3043,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Walks-Them-Through"
     },
     {
       "id": "place.saxhleel-coast.coast-hist-less-refuge",
-      "namingRule": "named by its founders for what they lack",
       "classification": {
         "class": "settlement",
         "family": "outcast-settlement",
@@ -3182,11 +3184,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Nothing-Planted"
     },
     {
       "id": "place.saxhleel-coast.coast-road-hearth-house",
-      "namingRule": "the household's name plus 'fire'",
       "classification": {
         "class": "civic",
         "family": "refuge",
@@ -3307,11 +3309,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Deep-Wading-Fire"
     },
     {
       "id": "place.saxhleel-coast.coast-road-tradehouse",
-      "namingRule": "named for its sign, which is blank",
       "classification": {
         "class": "civic",
         "family": "festivity",
@@ -3427,11 +3429,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Blank Sign"
     },
     {
       "id": "place.saxhleel-coast.coast-root-hollow",
-      "namingRule": "named for what the gallery smells of",
       "classification": {
         "class": "lair",
         "family": "root-system",
@@ -3541,11 +3543,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "root-mouth",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Smells-Of-Rain"
     },
     {
       "id": "place.saxhleel-coast.coast-serpent-ground",
-      "namingRule": "named for the size of the last one seen",
       "classification": {
         "class": "lair",
         "family": "beast-lair",
@@ -3652,11 +3654,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "burrow",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Longer-Than-The-Track"
     },
     {
       "id": "place.saxhleel-coast.coast-treasure-hunters-camp",
-      "namingRule": "named for the ruin they are working",
       "classification": {
         "class": "camp",
         "family": "expedition-camp",
@@ -3763,11 +3765,12 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "name": "Standing-Corner Camp"
     },
     {
       "id": "place.saxhleel-coast.contested-bank",
-      "name": "The Argued Bank",
+      "name": "Two-Marks-One-Rope",
       "classification": {
         "class": "lair",
         "family": "open-water",
@@ -4132,7 +4135,6 @@
     },
     {
       "id": "place.saxhleel-coast.deep-bank",
-      "namingRule": "named for its depth in fathoms",
       "classification": {
         "class": "lair",
         "family": "open-water",
@@ -4234,7 +4236,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "argonian-only-depth"
+      "underwaterAccess": "argonian-only-depth",
+      "name": "Nine Fathom"
     },
     {
       "id": "place.saxhleel-coast.delta-boatwright",
@@ -4469,7 +4472,6 @@
     },
     {
       "id": "place.saxhleel-coast.derelict-timber-concession",
-      "namingRule": "named for the company that held the concession",
       "classification": {
         "class": "works",
         "family": "extraction",
@@ -4586,7 +4588,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Vantus & Sons Cut"
     },
     {
       "id": "place.saxhleel-coast.drake-deep",
@@ -5099,7 +5102,6 @@
     },
     {
       "id": "place.saxhleel-coast.estuary-ferry-stage",
-      "namingRule": "the two banks' names, hyphenated",
       "classification": {
         "class": "transit",
         "family": "landing",
@@ -5228,11 +5230,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "name": "Reed-Foot-To-Broken-Quay"
     },
     {
       "id": "place.saxhleel-coast.estuary-keepers-lodge",
-      "namingRule": "the keeper family's name plus the structure they keep",
       "classification": {
         "class": "lone",
         "family": "lone-dwelling",
@@ -5340,7 +5342,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Carves-All-Winter"
     },
     {
       "id": "place.saxhleel-coast.estuary-market-row",
@@ -5701,7 +5704,6 @@
     },
     {
       "id": "place.saxhleel-coast.gull-stack",
-      "namingRule": "named for the bird that owns it",
       "classification": {
         "class": "lair",
         "family": "open-water",
@@ -5802,7 +5804,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "name": "Gull Stack"
     },
     {
       "id": "place.saxhleel-coast.haj-mota-shell-yard",
@@ -5921,7 +5924,6 @@
     },
     {
       "id": "place.saxhleel-coast.headland-storm-shelter",
-      "namingRule": "named for the storm that justified it",
       "classification": {
         "class": "civic",
         "family": "refuge",
@@ -6036,11 +6038,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Year-Of-Nine Shelter"
     },
     {
       "id": "place.saxhleel-coast.inland-fair-ground",
-      "namingRule": "named for the month it happens in",
       "classification": {
         "class": "works",
         "family": "market",
@@ -6155,11 +6157,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Second-Seed Ground"
     },
     {
       "id": "place.saxhleel-coast.jungle-courier-relay",
-      "namingRule": "named for the tree it is carved into",
       "classification": {
         "class": "civic",
         "family": "governance",
@@ -6268,11 +6270,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "hollow-trunk",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Chime-Trunk"
     },
     {
       "id": "place.saxhleel-coast.jungle-ferry-stage",
-      "namingRule": "named for the tree at the landing",
       "classification": {
         "class": "transit",
         "family": "landing",
@@ -6392,11 +6394,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "name": "Leaning-Fig Landing"
     },
     {
       "id": "place.saxhleel-coast.jungle-root-hollow",
-      "namingRule": "named for the thing that lives in it",
       "classification": {
         "class": "lair",
         "family": "root-system",
@@ -6507,11 +6509,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "sinkhole-lip",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Takes-The-Tools"
     },
     {
       "id": "place.saxhleel-coast.jungle-track-hearth-house",
-      "namingRule": "named for the last thing before the D4 ground",
       "classification": {
         "class": "civic",
         "family": "refuge",
@@ -6626,11 +6628,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "trapdoor",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Last-Fire"
     },
     {
       "id": "place.saxhleel-coast.ladder-tower-canopy",
-      "namingRule": "named for what it lets you see",
       "classification": {
         "class": "transit",
         "family": "elevated",
@@ -6737,7 +6739,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Sees-The-Wall"
     },
     {
       "id": "place.saxhleel-coast.lagoon-bioluminescence",
@@ -6856,7 +6859,6 @@
     },
     {
       "id": "place.saxhleel-coast.lagoon-storm-shelter",
-      "namingRule": "named for the number of berths in it",
       "classification": {
         "class": "civic",
         "family": "refuge",
@@ -6965,7 +6967,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Eleven-Berth"
     },
     {
       "id": "place.saxhleel-coast.lagoon-submerged-xanmeer",
@@ -7105,7 +7108,6 @@
     },
     {
       "id": "place.saxhleel-coast.mangrove-air-pocket",
-      "namingRule": "named for its one furnishing",
       "classification": {
         "class": "transit",
         "family": "submerged-way",
@@ -7209,11 +7211,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
-      "underwaterAccess": "deep-dive"
+      "underwaterAccess": "deep-dive",
+      "name": "One-Chest"
     },
     {
       "id": "place.saxhleel-coast.mangrove-cut-village",
-      "namingRule": "known only by its channel marker pattern",
       "classification": {
         "class": "settlement",
         "family": "water-village",
@@ -7337,11 +7339,11 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "name": "Three-Notch-One-Slash"
     },
     {
       "id": "place.saxhleel-coast.mangrove-reef",
-      "namingRule": "the local channel name plus the word for teeth",
       "classification": {
         "class": "lair",
         "family": "open-water",
@@ -7448,11 +7450,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "deep-dive"
+      "underwaterAccess": "deep-dive",
+      "name": "Black-Cut Teeth"
     },
     {
       "id": "place.saxhleel-coast.mangrove-wall-village",
-      "namingRule": "named for the tide it is reachable on",
       "classification": {
         "class": "settlement",
         "family": "water-village",
@@ -7564,11 +7566,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "name": "Low-Water-Only"
     },
     {
       "id": "place.saxhleel-coast.mangrove-wreck",
-      "namingRule": "named for what it was carrying",
       "classification": {
         "class": "lone",
         "family": "remnant",
@@ -7677,11 +7679,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "hollow-trunk",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "name": "Salt-And-Nails"
     },
     {
       "id": "place.saxhleel-coast.outer-reef",
-      "namingRule": "named for what was lost on it",
       "classification": {
         "class": "lair",
         "family": "open-water",
@@ -7785,11 +7787,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "argonian-only-depth"
+      "underwaterAccess": "argonian-only-depth",
+      "name": "Lost-The-Ospreye"
     },
     {
       "id": "place.saxhleel-coast.owing-hiring-camp",
-      "namingRule": "named for the broker who runs it",
       "classification": {
         "class": "camp",
         "family": "displaced-camp",
@@ -7917,7 +7919,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Sells-Their-Hours"
     },
     {
       "id": "place.saxhleel-coast.pearl-lots",
@@ -8331,7 +8334,7 @@
     },
     {
       "id": "place.saxhleel-coast.quarantine-village-lagoon",
-      "name": "The Kept Village",
+      "name": "Keeps-Its-Own-Cordon",
       "classification": {
         "class": "settlement",
         "family": "outcast-settlement",
@@ -8465,7 +8468,6 @@
     },
     {
       "id": "place.saxhleel-coast.quay-flooded-cellar",
-      "namingRule": "named for the building above it",
       "classification": {
         "class": "transit",
         "family": "submerged-way",
@@ -8571,7 +8573,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "cellar-door",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "name": "Under Three Tongues"
     },
     {
       "id": "place.saxhleel-coast.quay-tradehouse",
@@ -8704,7 +8707,6 @@
     },
     {
       "id": "place.saxhleel-coast.reef-air-pocket",
-      "namingRule": "unnamed; described by whoever found it",
       "classification": {
         "class": "lone",
         "family": "curiosity",
@@ -8808,11 +8810,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
-      "underwaterAccess": "argonian-only-depth"
+      "underwaterAccess": "argonian-only-depth",
+      "name": "Ceiling-Nobody-Built"
     },
     {
       "id": "place.saxhleel-coast.reef-wreck",
-      "namingRule": "named for the hull, from its papers",
       "classification": {
         "class": "lone",
         "family": "remnant",
@@ -8923,7 +8925,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
-      "underwaterAccess": "deep-dive"
+      "underwaterAccess": "deep-dive",
+      "name": "Cassia Provident"
     },
     {
       "id": "place.saxhleel-coast.seafalls",
@@ -8938,7 +8941,7 @@
       "status": "active",
       "provenance": "canon-named",
       "sources": [
-        "uesp:Lore:Seafalls",
+        "uesp:Arena:Seafalls",
         "uesp:Lore:Archon (neighbours)",
         "world/sources/lore/extrapolation/settlement-register.md §4 (Seafalls, NNE of Archon: where a river drops to the Padomaic; a falls-and-portage settlement)",
         "world/sources/catalogue/type-recipes.json#head-of-navigation",
@@ -9085,7 +9088,7 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "uesp:Lore:Seafalls",
+        "uesp:Arena:Seafalls",
         "world/sources/catalogue/type-recipes.json#waterfall-chamber",
         "lore: scour: 60 waterfall candidates (capped), concentrated on the rim; openworld research (concealment as a gate)"
       ],
@@ -9190,7 +9193,6 @@
     },
     {
       "id": "place.saxhleel-coast.seafalls-porter-relay",
-      "namingRule": "named for the load-weight it is rated to",
       "classification": {
         "class": "works",
         "family": "storage-and-freight",
@@ -9304,7 +9306,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Fourteen-Stone Yard"
     },
     {
       "id": "place.saxhleel-coast.seafalls-reach",
@@ -9319,9 +9322,9 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "uesp:Lore:Seafalls",
+        "uesp:Arena:Seafalls",
         "world/sources/catalogue/type-recipes.json#whitewater-reach",
-        "lore: region grammar: deep river corridor; Lore:Seafalls; the arterial class needs its own hazards"
+        "lore: region grammar: deep river corridor; Arena:Seafalls; the arterial class needs its own hazards"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -9434,10 +9437,10 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "uesp:Lore:Seafalls",
+        "uesp:Arena:Seafalls",
         "uesp:Lore:Sea Transportation",
         "world/sources/catalogue/type-recipes.json#portage-slipway",
-        "lore: Lore:Seafalls (Arena gazetteer); Lore:Sea Transportation"
+        "lore: Arena:Seafalls; Lore:Sea Transportation"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -9543,7 +9546,6 @@
     },
     {
       "id": "place.saxhleel-coast.sealed-xanmeer-wall",
-      "namingRule": "named only by its terrace count",
       "classification": {
         "class": "ruin",
         "family": "xanmeer",
@@ -9659,11 +9661,11 @@
       ],
       "densityLayer": "destination",
       "entrance": "trapdoor",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Seven-Terrace"
     },
     {
       "id": "place.saxhleel-coast.shell-beast-shallows",
-      "namingRule": "the local word for the animal plus 'wallow'",
       "classification": {
         "class": "lair",
         "family": "beast-lair",
@@ -9767,11 +9769,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "burrow",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "name": "Haj-Mota Wallow"
     },
     {
       "id": "place.saxhleel-coast.shell-bed-north",
-      "namingRule": "the working village's name plus 'bed'",
       "classification": {
         "class": "works",
         "family": "aquaculture",
@@ -9873,11 +9875,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "deep-dive"
+      "underwaterAccess": "deep-dive",
+      "name": "Counts-The-Lots Bed"
     },
     {
       "id": "place.saxhleel-coast.stilt-village-drowned-rise",
-      "namingRule": "the old village name with the word for 'again'",
       "classification": {
         "class": "settlement",
         "family": "water-village",
@@ -9992,11 +9994,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "trapdoor",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "name": "Black-Piles-Again"
     },
     {
       "id": "place.saxhleel-coast.stilt-village-east",
-      "namingRule": "channel name plus the tribe's word for 'piles'",
       "classification": {
         "class": "settlement",
         "family": "water-village",
@@ -10125,11 +10127,11 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "name": "Long-Reach Piles"
     },
     {
       "id": "place.saxhleel-coast.stilt-village-lagoon",
-      "namingRule": "lagoon name plus 'crossing'",
       "classification": {
         "class": "settlement",
         "family": "water-village",
@@ -10246,11 +10248,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "name": "Wide-Water Crossing"
     },
     {
       "id": "place.saxhleel-coast.tended-xanmeer-coast",
-      "namingRule": "the tending clan's name plus 'meer'",
       "classification": {
         "class": "ruin",
         "family": "xanmeer",
@@ -10376,11 +10378,11 @@
       ],
       "densityLayer": "destination",
       "entrance": "stair-throat",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Sweeps-The-Terraces Meer"
     },
     {
       "id": "place.saxhleel-coast.terrace-village-ridge",
-      "namingRule": "named for the ridge it climbs",
       "classification": {
         "class": "settlement",
         "family": "dry-village",
@@ -10499,11 +10501,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "stair-throat",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Climbs-The-Long-Back"
     },
     {
       "id": "place.saxhleel-coast.tide-run-channel",
-      "namingRule": "named for the hours it opens",
       "classification": {
         "class": "transit",
         "family": "crossing",
@@ -10608,7 +10610,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "name": "Four-Hour Channel"
     },
     {
       "id": "place.saxhleel-coast.tide-run-delta",
@@ -10741,7 +10744,6 @@
     },
     {
       "id": "place.saxhleel-coast.tide-street-salvage-yard",
-      "namingRule": "the yard-master's name plus 'lots'",
       "classification": {
         "class": "works",
         "family": "craft",
@@ -10854,7 +10856,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "gate",
-      "underwaterAccess": "deep-dive"
+      "underwaterAccess": "deep-dive",
+      "name": "Keeps-The-Book Lots"
     },
     {
       "id": "place.saxhleel-coast.tide-street-village",
@@ -10991,7 +10994,6 @@
     },
     {
       "id": "place.saxhleel-coast.umbriel-shore-memorial",
-      "namingRule": "named for the year, never for the thing",
       "classification": {
         "class": "sacred",
         "family": "the-dead",
@@ -11111,11 +11113,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "grave-cut",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Four-Eight"
     },
     {
       "id": "place.saxhleel-coast.village-tradehouse-south",
-      "namingRule": "the village name plus the word for 'paid bed'",
       "classification": {
         "class": "civic",
         "family": "festivity",
@@ -11223,11 +11225,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Reed-Stand Paid-Bed"
     },
     {
       "id": "place.saxhleel-coast.walkway-junction-east",
-      "namingRule": "named for the number of ways that meet",
       "classification": {
         "class": "transit",
         "family": "elevated",
@@ -11336,11 +11338,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "name": "Three-Ways"
     },
     {
       "id": "place.saxhleel-coast.wall-hermit-hut",
-      "namingRule": "named for the hermit's obsession",
       "classification": {
         "class": "lone",
         "family": "lone-dwelling",
@@ -11463,11 +11465,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "hollow-trunk",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Counts-The-Shells"
     },
     {
       "id": "place.saxhleel-coast.wall-hist-village",
-      "namingRule": "the tribe's name plus the Hist's condition",
       "classification": {
         "class": "settlement",
         "family": "tribal-village",
@@ -11599,11 +11601,11 @@
       ],
       "densityLayer": "destination",
       "entrance": "hollow-trunk",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Still-Water Sleeping-Tree"
     },
     {
       "id": "place.saxhleel-coast.wall-poacher-camp",
-      "namingRule": "named for what they take",
       "classification": {
         "class": "camp",
         "family": "hostile-camp",
@@ -11712,11 +11714,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "name": "Takes-The-Eggs"
     },
     {
       "id": "place.saxhleel-coast.wall-vista-ledge",
-      "namingRule": "named for the two places it reveals",
       "classification": {
         "class": "lone",
         "family": "curiosity",
@@ -11827,11 +11829,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Sees-Two-Meers"
     },
     {
       "id": "place.saxhleel-coast.wild-rootworm-burrow",
-      "namingRule": "named for its diameter",
       "classification": {
         "class": "lair",
         "family": "root-system",
@@ -11933,11 +11935,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "burrow",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Two-Span Burrow"
     },
     {
       "id": "place.saxhleel-coast.xanmeer-dive-shaft",
-      "namingRule": "the local word for 'throat'",
       "classification": {
         "class": "transit",
         "family": "submerged-way",
@@ -12043,7 +12045,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "well-shaft",
-      "underwaterAccess": "argonian-only-depth"
+      "underwaterAccess": "argonian-only-depth",
+      "name": "Swallows-Divers"
     }
   ]
 }

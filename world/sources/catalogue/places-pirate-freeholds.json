@@ -192,7 +192,6 @@
     },
     {
       "id": "place.pirate-freeholds.bone-carriers-camp",
-      "namingRule": "named for the road it stages",
       "classification": {
         "class": "camp",
         "family": "displaced-camp",
@@ -295,11 +294,12 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Rim Road Racks"
     },
     {
       "id": "place.pirate-freeholds.bone-repatriation-waystation",
-      "name": "The Carrying House",
+      "name": "Bundle Racks",
       "classification": {
         "class": "sacred",
         "family": "the-dead",
@@ -311,7 +311,7 @@
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Argonian (the dead must be brought to the dirt)",
-        "uesp:Lore:White Rose Prison",
+        "uesp:Online:White Rose Prison",
         "world/sources/lore/extrapolation/settlement-register.md §2",
         "world/sources/catalogue/type-recipes.json#bone-repatriation-waystation",
         "lore: Lore:Argonian (bones brought to the dirt redeem a death away from the Hist); White Rose Prison"
@@ -806,7 +806,7 @@
     },
     {
       "id": "place.pirate-freeholds.corimont-bonded-store",
-      "name": "The Broken Bond",
+      "name": "Sawn Seal",
       "classification": {
         "class": "works",
         "family": "storage-and-freight",
@@ -1744,7 +1744,6 @@
     },
     {
       "id": "place.pirate-freeholds.dunmer-frontier-holding",
-      "namingRule": "named for the House remnant that founded it",
       "classification": {
         "class": "settlement",
         "family": "mixed-settlement",
@@ -1885,11 +1884,11 @@
       ],
       "densityLayer": "destination",
       "entrance": "stair-throat",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Andrano Hold"
     },
     {
       "id": "place.pirate-freeholds.floodplain-paddy-works",
-      "namingRule": "named for the levee it depends on",
       "classification": {
         "class": "works",
         "family": "cultivation",
@@ -1997,11 +1996,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "name": "Thin Levee"
     },
     {
       "id": "place.pirate-freeholds.flu-cairn-field",
-      "namingRule": "named for the year cut into the largest cairn",
       "classification": {
         "class": "sacred",
         "family": "the-dead",
@@ -2111,11 +2110,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "grave-cut",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Five-Sixty Field"
     },
     {
       "id": "place.pirate-freeholds.freed-worker-shelter",
-      "namingRule": "named by its founders for the day they left",
       "classification": {
         "class": "settlement",
         "family": "outcast-settlement",
@@ -2253,11 +2252,11 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Walk-Out"
     },
     {
       "id": "place.pirate-freeholds.freehold-courier-relay",
-      "namingRule": "named for the stage it terminates",
       "classification": {
         "class": "civic",
         "family": "governance",
@@ -2374,7 +2373,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Last Stage"
     },
     {
       "id": "place.pirate-freeholds.freehold-market",
@@ -2500,7 +2500,6 @@
     },
     {
       "id": "place.pirate-freeholds.freehold-naga-camp",
-      "namingRule": "named for the stretch of road they hold",
       "classification": {
         "class": "camp",
         "family": "hostile-camp",
@@ -2621,11 +2620,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Nine Mile"
     },
     {
       "id": "place.pirate-freeholds.freehold-pest-house",
-      "namingRule": "named for the household that keeps it",
       "classification": {
         "class": "civic",
         "family": "healing",
@@ -2739,7 +2738,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Bellet's"
     },
     {
       "id": "place.pirate-freeholds.freehold-smithy",
@@ -2877,7 +2877,7 @@
       "sources": [
         "uesp:Lore:Sea Transportation",
         "world/sources/catalogue/type-recipes.json#portage-slipway",
-        "lore: Lore:Seafalls (Arena gazetteer); Lore:Sea Transportation"
+        "lore: Arena:Seafalls; Lore:Sea Transportation"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -2997,7 +2997,7 @@
       "sources": [
         "world/sources/sites/candidate-sites.json",
         "world/sources/catalogue/type-recipes.json#whitewater-reach",
-        "lore: region grammar: deep river corridor; Lore:Seafalls; the arterial class needs its own hazards"
+        "lore: region grammar: deep river corridor; Arena:Seafalls; the arterial class needs its own hazards"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -3103,7 +3103,6 @@
     },
     {
       "id": "place.pirate-freeholds.kothringi-river-ruin",
-      "namingRule": "named for the river bend it stands on",
       "classification": {
         "class": "ruin",
         "family": "lost-peoples",
@@ -3220,7 +3219,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "well-shaft",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Slack Bend"
     },
     {
       "id": "place.pirate-freeholds.lake-drawdown-flat",
@@ -3337,7 +3337,6 @@
     },
     {
       "id": "place.pirate-freeholds.plague-cordon-line",
-      "namingRule": "named for the village it was drawn around",
       "classification": {
         "class": "ruin",
         "family": "depopulated",
@@ -3439,11 +3438,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Ossic Line"
     },
     {
       "id": "place.pirate-freeholds.ravine-hermit-hut",
-      "namingRule": "named for the hermit's trade before they stopped",
       "classification": {
         "class": "lone",
         "family": "lone-dwelling",
@@ -3567,11 +3566,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "cave-mouth",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Tallyman's"
     },
     {
       "id": "place.pirate-freeholds.reach-wreck",
-      "namingRule": "named for its cargo, from the lot book",
       "classification": {
         "class": "lone",
         "family": "remnant",
@@ -3680,11 +3679,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
-      "underwaterAccess": "deep-dive"
+      "underwaterAccess": "deep-dive",
+      "name": "Sixty Tun Salt"
     },
     {
       "id": "place.pirate-freeholds.reoccupied-fort",
-      "namingRule": "named for the outfit holding it, not the legion that built it",
       "classification": {
         "class": "martial",
         "family": "imperial-military",
@@ -3819,11 +3818,11 @@
       ],
       "densityLayer": "destination",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Gorrey's Fort"
     },
     {
       "id": "place.pirate-freeholds.rim-border-post",
-      "namingRule": "named for the legion cohort that built it",
       "classification": {
         "class": "martial",
         "family": "watch",
@@ -3937,11 +3936,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Fourth Cohort Post"
     },
     {
       "id": "place.pirate-freeholds.rim-courier-relay",
-      "namingRule": "named for the ridge it signals from",
       "classification": {
         "class": "civic",
         "family": "governance",
@@ -4050,11 +4049,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Chime Ridge"
     },
     {
       "id": "place.pirate-freeholds.rim-crystal-diggings",
-      "namingRule": "named for the seam",
       "classification": {
         "class": "works",
         "family": "extraction",
@@ -4176,11 +4175,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "cave-mouth",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Green Seam"
     },
     {
       "id": "place.pirate-freeholds.rim-hearth-house",
-      "namingRule": "named for the pass it sits below",
       "classification": {
         "class": "civic",
         "family": "refuge",
@@ -4294,11 +4293,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Under Snowline"
     },
     {
       "id": "place.pirate-freeholds.rim-keystone-chamber",
-      "namingRule": "named for the number of keystone sockets in it",
       "classification": {
         "class": "ruin",
         "family": "ayleid",
@@ -4413,11 +4412,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "stair-throat",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Nine Sockets"
     },
     {
       "id": "place.pirate-freeholds.rim-knapping-floor",
-      "namingRule": "named for the stone worked on it",
       "classification": {
         "class": "works",
         "family": "extraction",
@@ -4525,7 +4524,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Grey Chert Floor"
     },
     {
       "id": "place.pirate-freeholds.rim-pass-station",
@@ -4657,7 +4657,6 @@
     },
     {
       "id": "place.pirate-freeholds.rim-porter-yard",
-      "namingRule": "named for the load rating over the pass",
       "classification": {
         "class": "works",
         "family": "storage-and-freight",
@@ -4778,11 +4777,11 @@
       ],
       "densityLayer": "destination",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Half-Load Yard"
     },
     {
       "id": "place.pirate-freeholds.rim-second-empire-works",
-      "namingRule": "named for the emperor whose mark is on it",
       "classification": {
         "class": "ruin",
         "family": "imperial-ruin",
@@ -4900,11 +4899,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "cellar-door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Reman Cut"
     },
     {
       "id": "place.pirate-freeholds.rim-smugglers-ledge-east",
-      "namingRule": "named for the consignment that was lost off it",
       "classification": {
         "class": "works",
         "family": "illicit",
@@ -5012,7 +5011,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "cave-mouth",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Dead Consignment"
     },
     {
       "id": "place.pirate-freeholds.rim-smugglers-ledge-north",
@@ -5140,7 +5140,6 @@
     },
     {
       "id": "place.pirate-freeholds.rim-snowline-hermitage",
-      "namingRule": "named for the order that exiled its founder",
       "classification": {
         "class": "lone",
         "family": "lone-dwelling",
@@ -5256,11 +5255,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "cave-mouth",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Exile's Roof"
     },
     {
       "id": "place.pirate-freeholds.rim-vista-ledge",
-      "namingRule": "named for the province it lets you see out of",
       "classification": {
         "class": "lone",
         "family": "curiosity",
@@ -5370,11 +5369,11 @@
       ],
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Cyrod Ledge"
     },
     {
       "id": "place.pirate-freeholds.river-bog-iron-bloomery",
-      "namingRule": "named for the bog it draws from",
       "classification": {
         "class": "works",
         "family": "extraction",
@@ -5476,11 +5475,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Rust Bog"
     },
     {
       "id": "place.pirate-freeholds.river-salvage-yard",
-      "namingRule": "named for the reach it works",
       "classification": {
         "class": "works",
         "family": "craft",
@@ -5596,7 +5595,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "gate",
-      "underwaterAccess": "deep-dive"
+      "underwaterAccess": "deep-dive",
+      "name": "Grinder Yard"
     },
     {
       "id": "place.pirate-freeholds.rockpoint",
@@ -5747,7 +5747,6 @@
     },
     {
       "id": "place.pirate-freeholds.trunk-ferry-stage",
-      "namingRule": "the two banks' names, hyphenated",
       "classification": {
         "class": "transit",
         "family": "landing",
@@ -5869,11 +5868,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "name": "Chasecreek-To-Slack-Bend"
     },
     {
       "id": "place.pirate-freeholds.trunk-hearth-house",
-      "namingRule": "the household's name plus 'fire'",
       "classification": {
         "class": "civic",
         "family": "refuge",
@@ -5994,11 +5993,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Ottus Fire"
     },
     {
       "id": "place.pirate-freeholds.trunk-road-tradehouse",
-      "namingRule": "named for the mile-mark it stands at",
       "classification": {
         "class": "civic",
         "family": "festivity",
@@ -6114,7 +6113,8 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Mile Twelve"
     },
     {
       "id": "place.pirate-freeholds.trunk-toll-bridge",
@@ -6254,7 +6254,6 @@
     },
     {
       "id": "place.pirate-freeholds.upper-toll-bridge",
-      "namingRule": "named for the syndicate that owns it",
       "classification": {
         "class": "transit",
         "family": "crossing",
@@ -6373,11 +6372,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Vellick Span"
     },
     {
       "id": "place.pirate-freeholds.upriver-bonded-store",
-      "namingRule": "named for its last legitimate consignment",
       "classification": {
         "class": "works",
         "family": "storage-and-freight",
@@ -6484,11 +6483,11 @@
       ],
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Last Lawful Load"
     },
     {
       "id": "place.pirate-freeholds.veterans-holding",
-      "namingRule": "named for the campaign its founders fought",
       "classification": {
         "class": "settlement",
         "family": "outcast-settlement",
@@ -6624,7 +6623,8 @@
       ],
       "densityLayer": "destination",
       "entrance": "stair-throat",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "name": "Blacklight Holding"
     }
   ]
 }
