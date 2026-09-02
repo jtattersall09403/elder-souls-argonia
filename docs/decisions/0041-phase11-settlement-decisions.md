@@ -896,6 +896,81 @@ stronghold candidates stay flagged for the owner (Q&A item 6).
    than papered over. Note also that mercantile-coast and imperial-penal-south
    write a 5-key `vibe` where the other six write 8.
 
+## Enrichment pass (2026-09-02) — findings 2 and 3 closed
+
+A single agent fixed the three defects the reconciliation quantified. No IDs,
+types or statuses changed; the zones' authored sparseness and voice are intact.
+
+**1. Interior richness parity** (owner directive: all slices equally rich).
+The two interior files were thickened record by record — longer causal chains
+(who pays, who inherits the duty, the second-order consequence, which *named*
+neighbour it lands on), not padding — and cited against dossiers, UESP pages
+and `type-recipes.json`.
+
+| Region | `why` chars (before → after) | `sources`/record (before → after) |
+|---|---|---|
+| hist-heartland | 309 → **729** | 1.3 → **4.3** |
+| naga-kur-deeps | 301 → **729** | 1.3 → **4.2** |
+| dunmer-north | 506 (unchanged) | 3.1 |
+| imperial-penal-south | 494 | 3.5 |
+| imperial-fringe | 480 | 2.6 |
+| mercantile-coast | 475 | 3.1 |
+| pirate-freeholds | 456 | 3.8 |
+| saxhleel-coast | 416 | 3.6 |
+
+The interior now sits *above* the old norm rather than at it. That is
+deliberate: parity means no slice is the thin one, and the added material is
+consequence, not adjectives. The other six were left alone — they were never
+the defect.
+
+**2. The relations layer** — was ~500 links concentrated in two regions, now
+**2,368 directional place-ID links + 162 travelServiceEdges**, every record
+carrying a `reachedVia` and every M2+ settlement ≥3 relations (was 32 of 172).
+
+| Region | links | per record | cross-region |
+|---|---|---|---|
+| dunmer-north | 435 | 5.2 | 20 |
+| imperial-fringe | 486 | 4.5 | 15 |
+| mercantile-coast | 466 | 3.3 | 20 |
+| hist-heartland | 338 | 3.1 | 15 |
+| saxhleel-coast | 298 | 3.0 | 10 |
+| imperial-penal-south | 229 | 3.3 | 12 |
+| naga-kur-deeps | 201 | 3.1 | 8 |
+| pirate-freeholds | 160 | 3.0 | 10 |
+| **total** | **2,368** | 3.5 | **110** |
+
+Cross-region chains woven by hand: **the Owing chain** (Vellum Estate → the
+Turned-Out → the four regional hiring/eviction camps → the plantations,
+paddies and diggings that buy the labour, with the freed-worker shelters as
+its rivals); **the Soulrest gold chain** (tunnel-rat gallery → goldworks
+concession → Collections bond → Soulrest → Archon's bonded row);
+**bone repatriation** (six regional waystations → the Carriers' Rest →
+Helstrom and the hero groves); **Hissmir** as the province-wide destination of
+every Hist-less refuge; **the rootworm net** (Helstrom line-head → Gideon,
+the east estuary, north Shadowfen); salt, timber and shipyard rivalries across
+the two coasts; ferry, portage, lighter and pilot service edges at every
+crossing. Conventions are in `world/sources/catalogue/README.md`.
+`visibleFrom` stays empty except Archon's lighthouse/Portdun Mont pair — the
+no-long-sightlines finding makes any other claim a Part 3 decision.
+
+**3. `valueTier`** — settled on **`tier-1`…`tier-5`**, defined in the
+catalogue README, after confirming neither quests/85 nor world/76 already
+carries a value scale (76's D0–D5 is danger). 543 of 729 records converted.
+The 3-band word scale maps rank-preservingly (`low/medium/high/unique` →
+`tier-1/2/3/5`); it cannot express `tier-4`, so the interior has none and
+promoting individual interior sites is a reward-pass call, not a rename.
+Distribution: t1 161, t2 338, t3 191, t4 32, t5 7.
+
+**Left for the critique pass:** the band-discipline finding (1) is untouched.
+Several `sources` entries elsewhere in the catalogue cite files that do not
+exist (`docs/world/20-region-grammar.md`, `docs/world/30-systems.md`,
+`docs/world/55-time-and-sky.md`, `docs/world/55-time-light-weather.md`,
+`world/sources/lore/topics/argonia-4e201-state.md`) — a citation-path lint
+would catch these cheaply. `reachedVia` for POIs is currently a per-region
+land/water/guided anchor chosen by taxonomy type; Part 3 should re-point it at
+the actual nearest node once positions exist. And the two 5-key `vibe` files
+(mercantile-coast, imperial-penal-south) still write 5 where the rest write 8.
+
 ## Owner Q&A (grows from Parts 2, 4 and 5)
 
 **Queued for the next owner touchpoint (batched, not blocking):**
