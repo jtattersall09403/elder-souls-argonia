@@ -759,6 +759,31 @@ as load-bearing. Record the outcome here either way.
 
 *(empty — first entries land in Round A)*
 
+## Part 0 delivery notes (2026-09-02)
+
+- Items 1–3 + 6a/6b delivered (commits `e8a10c1`, `f3637cc`, `cc15ae4`,
+  schema commits). Kits: `settlement-mud-v1` / `settlement-stilt-v1` /
+  `settlement-imperial-v1` — three configs so the cultures cannot blend by
+  construction. Sourcing log: `docs/research/settlement-kit-sourcing-log.md`.
+- **Compiler rule (from kit vetting):** architecture pieces snap to the
+  3.64 m grid around a **centred pivot** — the settlement compiler places
+  kit pieces by grid transform, NEVER the flora bottom-anchor path
+  (`vet_kit`'s "pivot above base" findings on architecture are expected).
+- Still-open asset gaps after sourcing: xanmeer ornamental frontage,
+  dugout/twin-hull canoes, grave-stakes, salterns/kilns.
+
 ## Owner Q&A (grows from Parts 2, 4 and 5)
 
-*(pending kickoff)*
+**Queued for the next owner touchpoint (batched, not blocking):**
+
+1. **Permissions policy conflict.** The re-swept asset inventory flags
+   unrecorded permissions (Darkwater Den marked "do-not-ship") but module
+   90 §73's standing policy is *no* per-asset permission gate for this
+   personal project. Which wins? (Nexus API exposes no permissions field —
+   settling it needs a human read of the Permissions tabs.)
+2. **Raft eyeball.** Are `plank_ferry_swamp_01/03` flat-bottomed enough to
+   read as Argonian rafts? If yes the watercraft gap is rafts-closed,
+   canoes-only remaining.
+3. **Gideon anchor.** Its approved position sits on steep ground (14 %
+   buildable in 400 m) — expect a nudge proposal within `toleranceUV` at
+   Part 6.
