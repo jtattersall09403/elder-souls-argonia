@@ -84,7 +84,7 @@ function woodVertices(glb: Buffer): Map<string, [number, number, number][]> {
     const parts = { SCALAR: 1, VEC2: 2, VEC3: 3, VEC4: 4 }[a.type as string]!;
     const Ctor = { 5126: Float32Array, 5123: Uint16Array, 5125: Uint32Array }[
       a.componentType as number]!;
-    return new Ctor(glb.buffer, glb.byteOffset + start, a.count * parts);
+    return new Ctor(glb.buffer as ArrayBuffer, glb.byteOffset + start, a.count * parts);
   };
   const textureName = (mi: number | undefined): string => {
     if (mi === undefined) return "?";

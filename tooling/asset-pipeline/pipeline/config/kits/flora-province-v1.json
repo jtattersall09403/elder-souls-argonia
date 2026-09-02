@@ -129,7 +129,8 @@
    "asset": "bmv:landscape/plants/florahangingmoss03aaa"
   },
   {
-   "asset": "tropical:plants/tropical/manfern"
+   "asset": "tropical:plants/tropical/manfern",
+   "collision": "trunk-capsule"
   },
   {
    "asset": "bmv:landscape/trees/gkbjungletreenew17v2tropical"

@@ -156,6 +156,27 @@
 > collage generators in this session's history; `probe-cards*.json` kit
 > configs audition donor cards.
 >
+> ### Round 10b (2026-09-02) — the hovering man-fern, and the shapes the importer was silently mangling
+>
+> Owner (after the round-10 playtest passed): "hovering bushes, or short
+> palms that should have a trunk and don't" — e.g. 4.10 km E · 4.21 km S.
+> That species is `tropical:plants/tropical/manfern` (tree fern) and it was
+> shipping as a crown of fronds with NO trunk. Root cause, found by
+> bisection + instrumentation: in `import_nif_meshes`, the bake loop set
+> `matrix_world = Identity` while the object was STILL PARENTED, then
+> cleared the parent — Blender re-derives the world matrix as the parent's
+> inverse, so any shape nested under a transformed NiNode kept correct
+> mesh data but a corrupt object matrix (~116 m away), and `drop_strays`
+> culled it. Fix: unparent BEFORE forcing identity (one-line order swap),
+> plus `world_bounds` now measures VERTICES (never the cached `bound_box`)
+> and every import namespaces the scene first (`es|` prefix — PyNifly
+> de-duplicates by name, so a later asset could partially reuse an earlier
+> one's already-baked objects; probe-verified both failure modes).
+> Recovered geometry: the man-fern's trunk (now `trunk-capsule`, solid),
+> and BOTH mangroves' stilt-root bark and driftwood limbs — they had been
+> shipping HALF their triangles (1,960→4,039 and 1,439→3,518). Groundcover
+> kit rebuilt and verified byte-identical. All other species unchanged.
+>
 > ### Round 9 (2026-09-01) — trunk volumes, and the collider budget bug
 >
 > Owner, after round 8: still walking through the new trunks and the

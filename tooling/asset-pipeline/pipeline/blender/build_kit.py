@@ -152,6 +152,21 @@ def dilate_edge_rgb(image, iterations=12):
 
 def import_nif_meshes(filepath):
     """Import a NIF, bake unit scale into the meshes, drop everything else."""
+    # Namespace everything already in the scene FIRST. PyNifly de-duplicates
+    # by NAME: a shape whose name matches an existing object is not imported
+    # fresh — the importer reuses (or partially reuses) the existing,
+    # already-baked object. Blender-authored mod meshes all carry default
+    # names ("Plane.003", "Tri Tube.001"), so a later asset could inherit an
+    # earlier one's shapes with the wrong transform: the man-fern's trunk
+    # measured 118 m below the plant and was culled as a stray, shipping the
+    # species as a hovering crown (owner, Phase 10 round 10). After the
+    # rename no name can ever collide. Node names in the GLB change with it,
+    # which is harmless — the runtime looks assets up by the assetId extra.
+    for existing in bpy.data.objects:
+        if not existing.name.startswith("es|"):
+            existing.name = "es|" + existing.name
+        if existing.type == "MESH" and not existing.data.name.startswith("es|"):
+            existing.data.name = "es|" + existing.data.name
     before = set(bpy.data.objects)
     bpy.ops.import_scene.pynifly(
         filepath=filepath,
@@ -164,11 +179,25 @@ def import_nif_meshes(filepath):
     )
     imported = [o for o in bpy.data.objects if o not in before]
     meshes = [o for o in imported if o.type == "MESH"]
+    if os.environ.get("KIT_DEBUG_IMPORT"):
+        for o in imported:
+            print("[kit] DBG", o.type, o.name,
+                  "parent=", o.parent.name if o.parent else None,
+                  "t=", [round(v, 1) for v in o.matrix_world.translation],
+                  "s=", round(o.matrix_world.median_scale, 3))
     scale_matrix = Matrix.Scale(UNIT_SCALE, 4)
     for obj in meshes:
         obj.data.transform(scale_matrix @ obj.matrix_world)
-        obj.matrix_world = Matrix.Identity(4)
+        # Unparent BEFORE forcing identity. The old order assigned the
+        # identity while the object was still parented, and clearing the
+        # parent then re-derived the world matrix as the PARENT'S INVERSE —
+        # so any shape nested under a transformed NiNode (the man-fern's
+        # trunk under `Tube.001`, the mangroves' driftwood limbs) kept
+        # correct mesh DATA but a corrupt object matrix, measured ~116 m
+        # away, and was culled as a stray (owner, Phase 10 round 10:
+        # "hovering bushes / palms with no trunk").
         obj.parent = None
+        obj.matrix_world = Matrix.Identity(4)
     for obj in imported:
         if obj.type != "MESH":
             bpy.data.objects.remove(obj, do_unlink=True)
@@ -232,11 +261,20 @@ def import_composite(parts):
 
 
 def world_bounds(objects):
+    """Bounds from the VERTICES, never from `object.bound_box`.
+
+    `bound_box` is a cache that a fresh `mesh.transform()` does not
+    invalidate. Reading it here measured shapes at their PRE-bake coordinates:
+    the man-fern's trunk (nested under a translated NiNode in the source NIF)
+    was judged "116 m below the plant" and culled, and the species shipped as
+    a hovering crown of fronds (owner, Phase 10 round 10). Vertices cannot go
+    stale.
+    """
     lo = Vector((1e9, 1e9, 1e9))
     hi = Vector((-1e9, -1e9, -1e9))
     for obj in objects:
-        for corner in obj.bound_box:
-            point = obj.matrix_world @ Vector(corner)
+        for vertex in obj.data.vertices:
+            point = obj.matrix_world @ vertex.co
             for i in range(3):
                 lo[i] = min(lo[i], point[i])
                 hi[i] = max(hi[i], point[i])
