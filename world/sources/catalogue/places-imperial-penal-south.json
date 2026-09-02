@@ -86,11 +86,9 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "A stone-handling yard with lifting sockets sized for something inhumanly strong, and Akaviri tool-marks on every dressed face.",
         "palette": "Grey dressed stone, unusual tooling, green invasion.",
-        "mood": "Alien competence.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A stone-handling yard with lifting sockets sized for something inhumanly strong, and Akaviri tool-marks on every dressed face.",
+        "mood": "Alien competence."
       },
       "assetPlan": [
         "bmv-fort",
@@ -208,11 +206,14 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A dry limestone room reached only by swimming down and up again, with dry goods stacked on a natural shelf.",
+        "silhouette": "No exterior at all \u2014 a cliff-foot shore with nothing to see, and a dry room hidden three metres under it.",
         "palette": "Wet limestone cream, black water, lamp gold.",
+        "materials": "Natural limestone dome, one natural stone shelf used as a store, oiled hide wrappings on the goods, a single lamp; nothing built, nothing fixed.",
+        "signatureFeature": "A dry limestone room reached only by swimming down and up again, with dry goods stacked on a natural shelf.",
+        "condition": "Undisturbed and in constant use \u2014 the goods change, the room never does.",
         "mood": "Secret and still.",
-        "approach": "",
-        "condition": ""
+        "approach": "Swim down along the cliff foot and up again; the first thing you know of it is your head breaking into air.",
+        "senses": "A ringing dead air like the inside of a bell; drips on a long slow beat; lamp-oil; dry sacking after cold water."
       },
       "assetPlan": [
         "submerged-blocks",
@@ -327,11 +328,9 @@
         "valueTier": "tier-1"
       },
       "vibe": {
-        "signatureFeature": "A post with a peg board of destinations, a bench of waiting runners, and a chalked record of the day's best times.",
         "palette": "Chalk white, dust, running-leather brown.",
-        "mood": "Competitive.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A post with a peg board of destinations, a bench of waiting runners, and a chalked record of the day's best times.",
+        "mood": "Competitive."
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -452,11 +451,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "Nineteen worked standing stones in a dead-straight line across marsh, with two of them subtly out of true and their empty sockets beside them.",
         "palette": "Grey stone, reed gold, flat water.",
-        "mood": "Insoluble.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "Nineteen worked standing stones in a dead-straight line across marsh, with two of them subtly out of true and their empty sockets beside them.",
+        "mood": "Insoluble."
       },
       "assetPlan": [
         "xanmeer-ornament",
@@ -580,11 +577,9 @@
         "valueTier": "tier-1"
       },
       "vibe": {
-        "signatureFeature": "A hearth house built physically against a plague cordon marker, using the stone as one wall.",
         "palette": "Fire orange, cordon-stone grey, dark road.",
-        "mood": "Practical and tactless.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A hearth house built physically against a plague cordon marker, using the stone as one wall.",
+        "mood": "Practical and tactless."
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -707,11 +702,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A ledge hut above a roaring sinkhole, with the district's water routes scratched into the rock face beside the door.",
         "palette": "Grey limestone, white water, thin smoke.",
-        "mood": "Austere and generous.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A ledge hut above a roaring sinkhole, with the district's water routes scratched into the rock face beside the door.",
+        "mood": "Austere and generous."
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -826,11 +819,9 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "A vertical shaft in dry limestone with a stream pouring into it and no sound of it landing.",
         "palette": "Grey limestone, white falling water, black throat.",
-        "mood": "Vertigo and silence.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A vertical shaft in dry limestone with a stream pouring into it and no sound of it landing.",
+        "mood": "Vertigo and silence."
       },
       "assetPlan": [
         "stockade-scaffold",
@@ -945,11 +936,9 @@
         "valueTier": "tier-1"
       },
       "vibe": {
-        "signatureFeature": "One lit window in the gatehouse of an otherwise dark fort, with a water butt and a hand-painted price beside the road.",
         "palette": "Lamp yellow in grey stone, painted board, road dust.",
-        "mood": "Small life in a large shell.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "One lit window in the gatehouse of an otherwise dark fort, with a water butt and a hand-painted price beside the road.",
+        "mood": "Small life in a large shell."
       },
       "assetPlan": [
         "bmv-fort",
@@ -1069,11 +1058,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A long room with two hearths at opposite ends and a slate of standing accounts kept in two columns.",
         "palette": "Hearth glow, slate grey, worn plank.",
-        "mood": "Neutral ground, deliberately.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A long room with two hearths at opposite ends and a slate of standing accounts kept in two columns.",
+        "mood": "Neutral ground, deliberately."
       },
       "assetPlan": [
         "vanilla-farmhouse",
@@ -1211,11 +1198,14 @@
         "valueTier": "tier-4"
       },
       "vibe": {
-        "signatureFeature": "A walled stone core on a lake island \u2014 Lilmothiit foundations, Imperial courses, Argonian roofs \u2014 with the rest of the city spread over the water on boardwalks between three river gates.",
+        "silhouette": "A dark walled island core with a single spire of Lilmothiit footing carried up in Imperial courses, standing clear above a flat spread of boardwalk roofs that reaches to three gates on three rivers.",
         "palette": "Grey lake water, dark wet stone, red-brown Argonian roofs, lamp reflections.",
+        "materials": "Three courses of history in one wall: Lilmothiit foundation blocks, Imperial dressed courses on top, and Argonian roof and boardwalk carpentry over both \u2014 the stone is inherited, never quarried, and the timber is all new.",
+        "signatureFeature": "A walled stone core on a lake island \u2014 Lilmothiit foundations, Imperial courses, Argonian roofs \u2014 with the rest of the city spread over the water on boardwalks between three river gates.",
+        "condition": "Continuously repaired for two thousand years and never once finished: fresh mortar in ancient joints, new decking on old piles, four different centuries of gate ironwork.",
         "mood": "Guarded, layered, transactional.",
-        "approach": "The core reads across open water from every river gate \u2014 the province's one genuine approach vista.",
-        "condition": ""
+        "approach": "The core reads across open water from every river gate, lit, with its reflection under it \u2014 the province's one genuine approach vista.",
+        "senses": "Gate bells answering across open water, oars and toll-chains, wet stone and lamp oil, and the flat sound a big lake makes when a city is built on it."
       },
       "assetPlan": [
         "vanilla-shackkit",
@@ -1346,11 +1336,14 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "A great tree standing whole and alive underwater, its canopy a green shadow six metres down, with weighted offering lines running from a boat platform on the surface.",
+        "silhouette": "A green shadow the size of a village six metres down, with weighted offering lines running from a small surface platform straight into it.",
         "palette": "Green underwater light, dark bark, silver surface.",
+        "materials": "Living drowned hardwood and its intact canopy; a surface platform of lashed timber; weighted offering lines of cord, shell and tin \u2014 nothing built on the tree itself.",
+        "signatureFeature": "A great tree standing whole and alive underwater, its canopy a green shadow six metres down, with weighted offering lines running from a boat platform on the surface.",
+        "condition": "Alive and wholly submerged; the tree is undamaged, the platform above it is rebuilt every few years.",
         "mood": "Reverent and impossible.",
-        "approach": "",
-        "condition": ""
+        "approach": "Poled out to a small platform in open water with nothing to see, and then you look down.",
+        "senses": "Above, only the creak of the platform and the lines running; below, green light through leaves that should be in air, and the root-hum coming up through the water into your chest."
       },
       "assetPlan": [
         "hist-tree",
@@ -1486,11 +1479,14 @@
         "valueTier": "tier-4"
       },
       "vibe": {
-        "signatureFeature": "A single-day fortress of reused Lilmothiit stone, its blocks still carrying vulpine carving laid in at random angles, with washing lines strung across a parade yard and a sealed stair to the lower levels.",
+        "silhouette": "A blunt single-day fortress with no architectural intent at all \u2014 flat curtain, flat towers, blocks laid at whatever angle they came out of the rubble \u2014 softened by washing lines strung across the yard.",
         "palette": "Grey re-cut stone, ochre carving fragments, black stairwell, domestic colour in the yard.",
+        "materials": "Reused Lilmothiit stone throughout, vulpine carving surviving at random angles in the courses; Imperial iron gate furniture; and inside the yard, three generations of purely domestic Argonian carpentry that never touches the walls.",
+        "signatureFeature": "A single-day fortress of reused Lilmothiit stone, its blocks still carrying vulpine carving laid in at random angles, with washing lines strung across a parade yard and a sealed stair to the lower levels.",
+        "condition": "Fortification unbreached and unrepaired because it needs none; the interior wholly domesticated; one stairwell bricked and mortared two generations ago.",
         "mood": "Domestic on the surface, wrong beneath.",
         "approach": "One causeway across open marsh, watched from the moment you step onto it.",
-        "condition": ""
+        "senses": "Children in a parade yard; a wall that swallows sound; cold coming off the sealed stairwell in the corner of a warm yard; cooking, washing, goats."
       },
       "assetPlan": [
         "bmv-fort",
@@ -1619,11 +1615,9 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "A rock-cut vault of stacked urns, each with a single word on it explaining the refusal, and a growing section where the word is the same on every one.",
         "palette": "Grey rock, terracotta urn, lamp shadow.",
-        "mood": "Judgemental.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A rock-cut vault of stacked urns, each with a single word on it explaining the refusal, and a growing section where the word is the same on every one.",
+        "mood": "Judgemental."
       },
       "assetPlan": [
         "xanmeer-tileset",
@@ -1736,11 +1730,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A furnace stack standing alone on a slag heap that has become the local high point, with the last bloom still in the hearth.",
         "palette": "Slag black-purple, rust, reed gold.",
-        "mood": "Cold and complete.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A furnace stack standing alone on a slag heap that has become the local high point, with the last bloom still in the hearth.",
+        "mood": "Cold and complete."
       },
       "assetPlan": [
         "stockade-scaffold",
@@ -1866,11 +1858,14 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "A stone-cut mooring bank in a blind lagoon, with iron rings a thousand years old and a fresh rope on every one of them.",
+        "silhouette": "No silhouette \u2014 a blind lagoon head screened by mangrove, with a cut stone bank at the back of it that you cannot see until you are in the lagoon.",
         "palette": "Black water, green screen, old iron.",
+        "materials": "Ancient cut mooring bank with thousand-year-old iron rings, fresh rope on every ring, market tents and scaffold shears struck between uses; nothing permanent above the bank.",
+        "signatureFeature": "A stone-cut mooring bank in a blind lagoon, with iron rings a thousand years old and a fresh rope on every one of them.",
+        "condition": "The stonework is ancient and perfect; everything above it is deliberately temporary.",
         "mood": "Ancient smuggling, still working.",
-        "approach": "",
-        "condition": ""
+        "approach": "Through a screen of mangrove that closes behind you, into a lagoon with a working quay in it that nobody outside knows exists.",
+        "senses": "The bay noise cutting off as the screen closes behind you; rope on old iron; whispered tallying; still black water."
       },
       "assetPlan": [
         "docks-piers",
@@ -1988,11 +1983,10 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A road of lashed buoyant timber rafts that lifts and falls with the season, numbered along its whole length, moving visibly as you walk it.",
         "palette": "Wet dark timber, marsh olive, painted section numbers.",
+        "signatureFeature": "A road of lashed buoyant timber rafts that lifts and falls with the season, numbered along its whole length, moving visibly as you walk it.",
         "mood": "Unnerving and ingenious.",
-        "approach": "You can see the whole crossing from either end and be seen for all of it.",
-        "condition": ""
+        "approach": "You can see the whole crossing from either end and be seen for all of it."
       },
       "assetPlan": [
         "bridges",
@@ -2115,11 +2109,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A cave pool that lights the whole chamber blue-green from below, with quota marks cut into the rock at the waterline.",
         "palette": "Blue-green glow, wet limestone, black cave.",
-        "mood": "Quietly wondrous.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A cave pool that lights the whole chamber blue-green from below, with quota marks cut into the rock at the waterline.",
+        "mood": "Quietly wondrous."
       },
       "assetPlan": [
         "argonian-lights",
@@ -2244,11 +2236,14 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "A rambling water-house with more doors than rooms, a work-board of paid tasks, and a wall of returned bone-tags from the Rose.",
+        "silhouette": "A rambling low water-house that has grown sideways rather than up, with more doors than windows and no sign of any kind.",
         "palette": "Patched timber, lamp gold, tag-bone white.",
+        "materials": "Mud-mother plaster and patched shack-kit over a stilt frame, market canvas over the yard, a wall of hung bone-tags; every material second-hand.",
+        "signatureFeature": "A rambling water-house with more doors than rooms, a work-board of paid tasks, and a wall of returned bone-tags from the Rose.",
+        "condition": "Perpetually extended and never finished \u2014 a new room whenever a new group arrives.",
         "mood": "Busy, defensive, decent.",
-        "approach": "",
-        "condition": ""
+        "approach": "Reached by water from two directions, with no sign and no landing stage \u2014 you are told which door, or you do not find it.",
+        "senses": "Constant arrivals; the tag wall clicking in the draught; cooking for more people than expected; lamp oil; nobody asking anybody's name."
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -2370,11 +2365,9 @@
         "valueTier": "tier-1"
       },
       "vibe": {
-        "signatureFeature": "Three squat towers in a line across flat marsh, each visible from the next, with shuttered signal lamps and nothing else in them.",
         "palette": "Grey stone, marsh olive, lamp shutter black.",
-        "mood": "Functional paranoia.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "Three squat towers in a line across flat marsh, each visible from the next, with shuttered signal lamps and nothing else in them.",
+        "mood": "Functional paranoia."
       },
       "assetPlan": [
         "bmv-fort",
@@ -2493,11 +2486,9 @@
         "valueTier": "tier-1"
       },
       "vibe": {
-        "signatureFeature": "A rock bench above the whole basin with a wind-shelter of piled stone and a scratched diagram of the three river mouths on the back wall.",
         "palette": "Grey rock, silver lake, green marsh.",
-        "mood": "Commanding.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A rock bench above the whole basin with a wind-shelter of piled stone and a scratched diagram of the three river mouths on the back wall.",
+        "mood": "Commanding."
       },
       "assetPlan": [
         "landmark-civic",
@@ -2615,11 +2606,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A low room under a boardwalk with hammocks slung in three tiers and a water-level door that only opens at half tide.",
         "palette": "Green underlight, hammock canvas, smoke.",
-        "mood": "Soft, dim, extinguished.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A low room under a boardwalk with hammocks slung in three tiers and a water-level door that only opens at half tide.",
+        "mood": "Soft, dim, extinguished."
       },
       "assetPlan": [
         "market-tents",
@@ -2743,11 +2732,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "An estate with a sealed and shuttered great house, a fully working farm around it, and a rent chest in the arbiter's parlour eight kilometres away.",
         "palette": "Shuttered grey house, working green fields, mill white.",
-        "mood": "Prosperous limbo.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "An estate with a sealed and shuttered great house, a fully working farm around it, and a rent chest in the arbiter's parlour eight kilometres away.",
+        "mood": "Prosperous limbo."
       },
       "assetPlan": [
         "vanilla-farmhouse",
@@ -2861,11 +2848,14 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "A cracked lake bed walked by half the district, with drowned fence lines, lost cargo and standing grave-stakes emerging for six weeks a year.",
+        "silhouette": "For six weeks a year, a cracked grey plain with drowned fence lines and bleached stakes standing out of it; the rest of the year, open water with nothing above the surface.",
         "palette": "Cracked grey mud, bleached stake, bright sky.",
+        "materials": "Cracked lake-bed clay, drowned fence timber, bleached grave-stakes, lost cargo; the only structures are the temporary market stalls that appear on the bed itself.",
+        "signatureFeature": "A cracked lake bed walked by half the district, with drowned fence lines, lost cargo and standing grave-stakes emerging for six weeks a year.",
+        "condition": "Exists and ceases to exist annually; nothing on it is maintained because nothing on it survives the refill.",
         "mood": "Festival with a taboo in it.",
         "approach": "Only exists for six weeks; the rest of the year it is open water.",
-        "condition": ""
+        "senses": "A whole district's feet on dry lake bed; stalls; the smell of a lake bottom in the sun; and a hush wherever the stakes stand."
       },
       "assetPlan": [
         "submerged-ruins",
@@ -2980,11 +2970,14 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A greased timber slipway over a saddle with a hand-windlass at the top and a queue of hulls waiting at both ends.",
+        "silhouette": "A greased timber ramp cut over a low saddle with a windlass frame at the crest, and hull-shapes queued out of sight at both ends.",
         "palette": "Grease black, pale timber, white water below.",
+        "materials": "Greased hardwood skids on a laid stone bed, a hand-windlass of oak and iron, scaffold shear-legs, roller stock; the whole works is one machine and it is made of two materials.",
+        "signatureFeature": "A greased timber slipway over a saddle with a hand-windlass at the top and a queue of hulls waiting at both ends.",
+        "condition": "Heavily worked and constantly re-greased; the skids are replaced twice a year, the stone bed is Imperial and untouched.",
         "mood": "Slow bottleneck.",
-        "approach": "",
-        "condition": ""
+        "approach": "You hear the whitewater and the windlass together, and the queue tells you how long your day is going to be.",
+        "senses": "Hulls dragging on grease, the windlass pawl, whitewater below and out of sight, tallow and hot timber, crews waiting badly."
       },
       "assetPlan": [
         "docks-piers",
@@ -3099,11 +3092,9 @@
         "valueTier": "tier-1"
       },
       "vibe": {
-        "signatureFeature": "Six clean limestone drops in a row with a worn path beside them and a name cut beside each drop.",
         "palette": "White water, grey limestone, green over.",
-        "mood": "Loud and physical.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "Six clean limestone drops in a row with a worn path beside them and a name cut beside each drop.",
+        "mood": "Loud and physical."
       },
       "assetPlan": [
         "bridges",
@@ -3218,11 +3209,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A single continuous grave trench four hundred metres long with one stake at each end and nothing in between.",
         "palette": "Gravel grey, two pale stakes, wide sky.",
-        "mood": "Vast and undifferentiated.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A single continuous grave trench four hundred metres long with one stake at each end and nothing in between.",
+        "mood": "Vast and undifferentiated."
       },
       "assetPlan": [
         "totems-ritual",
@@ -3341,11 +3330,14 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "A fenced village-sized enclosure with the gate on the outside of the fence, a ration store built into the wall, and a burial ground four times the size of the enclosure.",
+        "silhouette": "A rectangular fence enclosure with a burial ground four times its size beyond it \u2014 the built thing is small and the consequence is enormous.",
         "palette": "Grey weathered fence, sour green ground, white bone.",
+        "materials": "Weathered grey fence timber with the gate furniture on the outside, a ration store built into the wall, mud-mother houses inside, no stakes over any of the graves.",
+        "signatureFeature": "A fenced village-sized enclosure with the gate on the outside of the fence, a ration store built into the wall, and a burial ground four times the size of the enclosure.",
+        "condition": "Sixteen centuries weathered and never dismantled \u2014 the fence is falling and no one will pull it down.",
         "mood": "Administrative atrocity.",
         "approach": "The fence line is visible from the road, and the fence faces inward.",
-        "condition": ""
+        "senses": "Nothing living inside the fence; wind through palings; sour ground; and a burial field with no carving on it anywhere, which is the loudest thing about it."
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -3463,11 +3455,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "Six walled ponds in a row, each one sounding a different pitch at dusk, with a listening bench between them.",
         "palette": "Green pond, pale wall, dusk violet.",
-        "mood": "Absurd, exact, delightful.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "Six walled ponds in a row, each one sounding a different pitch at dusk, with a listening bench between them.",
+        "mood": "Absurd, exact, delightful."
       },
       "assetPlan": [
         "fences-wattle",
@@ -3580,11 +3570,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A gated inlet with feeding gantries and a hire board listing channels by name and price.",
         "palette": "Dark water, gantry timber, silver flank.",
-        "mood": "Casual danger.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A gated inlet with feeding gantries and a hire board listing channels by name and price.",
+        "mood": "Casual danger."
       },
       "assetPlan": [
         "stockade-scaffold",
@@ -3698,11 +3686,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A Nibenese farmhouse in perfect repair with an Argonian stilt granary beside it, both maintained to the same standard.",
         "palette": "Lime render, red tile, green field.",
-        "mood": "Studiously neutral.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A Nibenese farmhouse in perfect repair with an Argonian stilt granary beside it, both maintained to the same standard.",
+        "mood": "Studiously neutral."
       },
       "assetPlan": [
         "vanilla-farmhouse",
@@ -3816,11 +3802,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A line of surveyor's pegs running four kilometres over a saddle, with a rotted camp at its midpoint and a levelling book in a tin box.",
         "palette": "Weathered peg white, grass, rust tin.",
-        "mood": "Interrupted.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A line of surveyor's pegs running four kilometres over a saddle, with a rotted camp at its midpoint and a levelling book in a tin box.",
+        "mood": "Interrupted."
       },
       "assetPlan": [
         "market-tents",
@@ -3940,11 +3924,9 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "A small Imperial fort with its roof on, its gate off, and three different parties' fire-scars in the same courtyard.",
         "palette": "Lime render, rust, cold hearth black.",
-        "mood": "Available.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A small Imperial fort with its roof on, its gate off, and three different parties' fire-scars in the same courtyard.",
+        "mood": "Available."
       },
       "assetPlan": [
         "bmv-fort",
@@ -4061,11 +4043,14 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "Silver-skinned people's houses of a form found nowhere else in the province, standing to head height, with the flu-year's stores still in the pits.",
+        "silhouette": "A terrace of pale house-forms standing to head height in a shape found nowhere else in the province \u2014 square, flat-roofed and windowless to the river.",
         "palette": "Pale plaster, black doorway, bright river.",
+        "materials": "Pale lime plaster over rubble on a Kothringi plan; storage pits still lidded; no Argonian or Imperial rebuild anywhere on the site.",
+        "signatureFeature": "Silver-skinned people's houses of a form found nowhere else in the province, standing to head height, with the flu-year's stores still in the pits.",
+        "condition": "Preserved by fear rather than care \u2014 walls to head height, roofs gone, the flu-year's stores untouched in the pits.",
         "mood": "Preserved by fear.",
-        "approach": "",
-        "condition": ""
+        "approach": "The best landing on this stretch of river, with a ruin above it that nobody uses \u2014 the anomaly is the cue.",
+        "senses": "River bright and loud below, the ruins silent; plaster dust; the storage pits still smell of grain."
       },
       "assetPlan": [
         "vanilla-farmhouse",
@@ -4184,11 +4169,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "One boardwalk running straight out into a lake with houses down both sides, getting visibly newer, poorer and more precarious the further out you go.",
         "palette": "Grey deck, bright new timber at the end, dark water beneath.",
-        "mood": "Legible hierarchy.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "One boardwalk running straight out into a lake with houses down both sides, getting visibly newer, poorer and more precarious the further out you go.",
+        "mood": "Legible hierarchy."
       },
       "assetPlan": [
         "passerelles-walkway",
@@ -4305,11 +4288,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A drying floor of lake-blackened trade goods with a crane frame over the water and a chart of sinkings painted on the shed wall.",
         "palette": "Black waterlogged timber, lake grey, chart ochre.",
-        "mood": "Methodical scavenging.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A drying floor of lake-blackened trade goods with a crane frame over the water and a chart of sinkings painted on the shed wall.",
+        "mood": "Methodical scavenging."
       },
       "assetPlan": [
         "docks-piers",
@@ -4431,11 +4412,10 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "A complete village standing upright underwater with its roofs intact, its street legible, and grave-stakes still standing in rows on its drowned burial ground.",
         "palette": "Clear green water, silt-grey timber, pale stakes.",
+        "signatureFeature": "A complete village standing upright underwater with its roofs intact, its street legible, and grave-stakes still standing in rows on its drowned burial ground.",
         "mood": "Preserved and possessive.",
-        "approach": "Visible from a boat on a still day: roof-ridges as dark lines under the surface.",
-        "condition": ""
+        "approach": "Visible from a boat on a still day: roof-ridges as dark lines under the surface."
       },
       "assetPlan": [
         "submerged-ruins",
@@ -4562,11 +4542,9 @@
         "valueTier": "tier-1"
       },
       "vibe": {
-        "signatureFeature": "A sail-and-pole ferry with a proper stone slip at both ends and a passenger board that lists cargo types, not names.",
         "palette": "Stone slip grey, sail brown, open lake.",
-        "mood": "Efficient and observant.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A sail-and-pole ferry with a proper stone slip at both ends and a passenger board that lists cargo types, not names.",
+        "mood": "Efficient and observant."
       },
       "assetPlan": [
         "docks-piers",
@@ -4689,11 +4667,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "Thirty rafts lashed into an irregular floating block with gardens on the outer rafts and a common fire raft at its centre.",
         "palette": "Weathered raft timber, garden green, open water.",
-        "mood": "Free and provisional.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "Thirty rafts lashed into an irregular floating block with gardens on the outer rafts and a common fire raft at its centre.",
+        "mood": "Free and provisional."
       },
       "assetPlan": [
         "passerelles-walkway",
@@ -4811,11 +4787,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "Two hundred boats rafted into rows on open water, with a poled aisle between them and a bell that starts and ends the trading.",
         "palette": "Hull colour, produce green, grey lake.",
-        "mood": "Fluid and loud.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "Two hundred boats rafted into rows on open water, with a poled aisle between them and a bell that starts and ends the trading.",
+        "mood": "Fluid and loud."
       },
       "assetPlan": [
         "market-tents",
@@ -4935,11 +4909,14 @@
         "valueTier": "tier-4"
       },
       "vibe": {
-        "signatureFeature": "A stone pyramid standing whole on a lake floor, its lower terraces buried in silt and its upper terraces clean, with fish holding station in every doorway.",
+        "silhouette": "A dark mass under the boat resolving into a stepped pyramid, its top terrace six metres down and its base lost in silt.",
         "palette": "Deep green-blue, pale stone, silver fish.",
+        "materials": "Xanmeer stone throughout, upper terraces scoured clean by current, lower terraces silted; no addition of any kind \u2014 the only untouched xanmeer in the region.",
+        "signatureFeature": "A stone pyramid standing whole on a lake floor, its lower terraces buried in silt and its upper terraces clean, with fish holding station in every doorway.",
+        "condition": "Whole. Undisturbed and unlooted, purely because eighteen metres of cold water is a better lock than any door.",
         "mood": "Cathedral cold.",
         "approach": "A dark mass under the boat that resolves into steps as you descend.",
-        "condition": ""
+        "senses": "Cold clear water, the pressure change on the descent, fish holding station in the doorways, and no silt at all until the lower terraces."
       },
       "assetPlan": [
         "xanmeer-tileset",
@@ -5068,11 +5045,9 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "A back-channel house whose front room is a working counting office with proper books, and whose back room is not.",
         "palette": "Ledger cream, lamp brown, black channel.",
-        "mood": "Professional criminality.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A back-channel house whose front room is a working counting office with proper books, and whose back room is not.",
+        "mood": "Professional criminality."
       },
       "assetPlan": [
         "stockade-scaffold",
@@ -5192,11 +5167,14 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "A vulpine city reduced to its footings and its robbing trenches, with the sockets of removed blocks still square, and a single unrobbed colonnade nobody could shift.",
+        "silhouette": "A city reduced to a floor plan \u2014 footings, robbing trenches and square sockets to the horizon, with one colonnade left standing because nobody could shift it.",
         "palette": "Pale foundation stone, black robbing trench, green lake edge.",
+        "materials": "Pale foundation stone in situ, black robbing trenches where everything above it went, one unrobbed colonnade of blocks too large to move; not one building material added since.",
+        "signatureFeature": "A vulpine city reduced to its footings and its robbing trenches, with the sockets of removed blocks still square, and a single unrobbed colonnade nobody could shift.",
+        "condition": "Systematically dismantled in a single campaign and never touched again \u2014 the robbing trenches are as sharp as the day they were dug.",
         "mood": "Erased on purpose.",
-        "approach": "",
-        "condition": ""
+        "approach": "You are walking on the city for several minutes before you understand that the pattern in the grass is streets.",
+        "senses": "Ground that rings differently underfoot where the footings run; lake wind with nothing to break it; the total absence of stone above knee height."
       },
       "assetPlan": [
         "stockade-scaffold",
@@ -5314,11 +5292,9 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "A shore camp with a drying rack of recovered stone fragments, two boats, and two buoys on the water that nobody discusses.",
         "palette": "Canvas, wet stone grey, lake blue.",
-        "mood": "Obsessive and broke.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A shore camp with a drying rack of recovered stone fragments, two boats, and two buoys on the water that nobody discusses.",
+        "mood": "Obsessive and broke."
       },
       "assetPlan": [
         "market-tents",
@@ -5441,11 +5417,14 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A single village street a kilometre long on stilts over a shallow flat, with a loading deck running its entire length.",
+        "silhouette": "One horizontal line a kilometre long, the same height from end to end, with a continuous loading deck under it and no vertical accent anywhere.",
         "palette": "Pale stilt timber, silver flat, red-brown thatch.",
+        "materials": "Pale stilt timber and cane decking, reed thatch, argonian lamps at fixed intervals down the whole length; one kit, repeated a thousand times.",
+        "signatureFeature": "A single village street a kilometre long on stilts over a shallow flat, with a loading deck running its entire length.",
+        "condition": "Uniformly maintained \u2014 the village replaces the deck in sections on a rota and you can read the rota in the timber colour.",
         "mood": "Long, busy, self-possessed.",
-        "approach": "",
-        "condition": ""
+        "approach": "From the lake it reads as a single unbroken line on the water that takes ten minutes to pole past.",
+        "senses": "Sound travelling the length of the street and arriving late; poling, freight, a bell relayed door to door; wet timber and lake weed."
       },
       "assetPlan": [
         "vanilla-shackkit",
@@ -5559,11 +5538,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A tower with a chain boom lying slack across a river, its winch greased and its links free of rust.",
         "palette": "Grey tower, black chain, green river.",
-        "mood": "Latent force.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A tower with a chain boom lying slack across a river, its winch greased and its links free of rust.",
+        "mood": "Latent force."
       },
       "assetPlan": [
         "bmv-fort",
@@ -5680,11 +5657,9 @@
         "valueTier": "tier-4"
       },
       "vibe": {
-        "signatureFeature": "Deep firm trackways trodden through marsh in a repeating circuit, with reed flattened in beds at three points on it.",
         "palette": "Reed gold, black trodden mud, wide sky.",
-        "mood": "Enormous and routine.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "Deep firm trackways trodden through marsh in a repeating circuit, with reed flattened in beds at three points on it.",
+        "mood": "Enormous and routine."
       },
       "assetPlan": [
         "totems-ritual",
@@ -5799,14 +5774,17 @@
         "valueTier": "tier-5"
       },
       "vibe": {
-        "signatureFeature": "A wall of forest standing across open marsh with no transition at all, with drowned stumps of the previous tree line visible a kilometre behind it.",
+        "silhouette": "A vertical wall of black-green forest standing straight up out of flat marsh with no transition, and a kilometre behind it a field of grey drowned stumps marking where it used to be.",
         "palette": "Black-green canopy wall, grey drowned stumps, white mist.",
+        "materials": "Living forest, and refusal: market tents and totem posts on the marsh side only, nothing built within a hundred metres of the tree line, no cut timber taken from it.",
+        "signatureFeature": "A wall of forest standing across open marsh with no transition at all, with drowned stumps of the previous tree line visible a kilometre behind it.",
+        "condition": "The verge itself is unaltered; the drowned stump-field behind is the record of it having stood somewhere else.",
         "mood": "Categorically wrong.",
         "approach": "Approached across open marsh; the forest edge is a line, not a gradient.",
-        "condition": ""
+        "senses": "Marsh noise on one side, dead silence on the other, and the line between them is a step wide; leaf-mould and cold air rolling out of the trees."
       },
       "assetPlan": [
-        "azure-tree",
+        "azura-tree",
         "hist-variants",
         "market-tents",
         "totems-ritual",
@@ -5923,11 +5901,9 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "A perfectly round hole in a flat lake floor with visibly colder, clearer water rising out of it and no bottom in sight.",
         "palette": "Lake green above, blue-black below, silt curtain.",
-        "mood": "Committing.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A perfectly round hole in a flat lake floor with visibly colder, clearer water rising out of it and no bottom in sight.",
+        "mood": "Committing."
       },
       "assetPlan": [
         "submerged-ruins",
@@ -6046,11 +6022,9 @@
         "valueTier": "tier-4"
       },
       "vibe": {
-        "signatureFeature": "A shored shaft under a spoil-covered awning, with an alignment string running dead straight toward a prison four hundred metres away.",
         "palette": "Wet spoil black, lamp green, marsh grey.",
-        "mood": "Deliberate and very bad.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A shored shaft under a spoil-covered awning, with an alignment string running dead straight toward a prison four hundred metres away.",
+        "mood": "Deliberate and very bad."
       },
       "assetPlan": [
         "market-tents",
@@ -6170,11 +6144,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A red clay cliff with three beehive kilns at its foot and stacks of drying tiles laid out in an orange field.",
         "palette": "Red clay, kiln-smoke grey, orange tile.",
-        "mood": "Hot, ordered, ancient.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A red clay cliff with three beehive kilns at its foot and stacks of drying tiles laid out in an orange field.",
+        "mood": "Hot, ordered, ancient."
       },
       "assetPlan": [
         "stockade-scaffold",
@@ -6292,11 +6264,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A camp strung along a field boundary with each household's door-post carried from its old house and re-set facing its own fields.",
         "palette": "Mud, salvage timber, crop green beyond.",
-        "mood": "Attritional.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A camp strung along a field boundary with each household's door-post carried from its old house and re-set facing its own fields.",
+        "mood": "Attritional."
       },
       "assetPlan": [
         "market-tents",
@@ -6411,11 +6381,9 @@
         "valueTier": "tier-1"
       },
       "vibe": {
-        "signatureFeature": "A line of hundred-pace marker stones running six kilometres across country, each cut with the same three words.",
         "palette": "Weathered stone, grass, distant water.",
-        "mood": "A border nobody polices and everybody observes.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A line of hundred-pace marker stones running six kilometres across country, each cut with the same three words.",
+        "mood": "A border nobody polices and everybody observes."
       },
       "assetPlan": [
         "totems-ritual",
@@ -6536,11 +6504,14 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A settlement with a carefully built empty tree-enclosure at its centre, waiting for a cutting nobody has agreed to give them.",
+        "silhouette": "A new settlement built around a carefully finished empty enclosure \u2014 the shape of a hist-village with nothing in the middle of it.",
         "palette": "Raw new timber, bare earth, marsh grey.",
+        "materials": "Raw new timber throughout, unweathered plaster, a properly built tree-enclosure of dressed stakes with nothing planted in it; everything correct and nothing old.",
+        "signatureFeature": "A settlement with a carefully built empty tree-enclosure at its centre, waiting for a cutting nobody has agreed to give them.",
+        "condition": "Newly built to an old standard: the enclosure is finished to a quality the houses are not.",
         "mood": "Determined and unmoored.",
-        "approach": "",
-        "condition": ""
+        "approach": "Two hours off the causeway by water, and the enclosure is the first thing you see from the landing.",
+        "senses": "New wood; the enclosure swept daily; three generations' worth of accents in one place; no root-hum and everybody listening for one."
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -6659,11 +6630,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "Two villages' worth of boats drawn up in two separate lines above the ferry slip, with houses built on the boats rather than beside them.",
         "palette": "Hull colour, tarpaulin, grey slip stone.",
-        "mood": "Suspended.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "Two villages' worth of boats drawn up in two separate lines above the ferry slip, with houses built on the boats rather than beside them.",
+        "mood": "Suspended."
       },
       "assetPlan": [
         "market-tents",
@@ -6775,11 +6744,14 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "Complete, unused siege lines with sharp unfought ditch profiles, and not one arrowhead anywhere in them.",
+        "silhouette": "Sharp geometric ditch-and-bank profiles laid across open grass in a textbook figure, unblunted, with no breach anywhere in them.",
         "palette": "Grass green, ditch shadow, grey sky.",
+        "materials": "Cut turf and rammed earth only; a few stockade stumps at the gate positions; not one piece of iron in the whole system.",
+        "signatureFeature": "Complete, unused siege lines with sharp unfought ditch profiles, and not one arrowhead anywhere in them.",
+        "condition": "Complete, unfought and unweathered by battle \u2014 softened only by grass, with sharp profiles surviving where a siege would have flattened them.",
         "mood": "An anticlimax preserved in earth.",
-        "approach": "",
-        "condition": ""
+        "approach": "You cross the ditch system before you realise you are in it; from the ground it reads as terracing.",
+        "senses": "Wind across grass; hollow footfall on the counterscarp; nothing else \u2014 no bone, no burnt ground, no smell of anything having happened."
       },
       "assetPlan": [
         "stockade-scaffold",
@@ -6895,11 +6867,9 @@
         "valueTier": "tier-1"
       },
       "vibe": {
-        "signatureFeature": "A gate stone listing an army's muster by district, with a scraped blank where a name used to be.",
         "palette": "Grey stone, cut shadow, one erasure.",
-        "mood": "Careful silence.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A gate stone listing an army's muster by district, with a scraped blank where a name used to be.",
+        "mood": "Careful silence."
       },
       "assetPlan": [
         "landmark-civic",
@@ -7022,11 +6992,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A modest lake house with a public bench outside it, a queue on hearing days, and a wall of case books visible through the window.",
         "palette": "Pale plaster, book brown, lake light.",
-        "mood": "Informal authority.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A modest lake house with a public bench outside it, a queue on hearing days, and a wall of case books visible through the window.",
+        "mood": "Informal authority."
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -7151,11 +7119,14 @@
         "valueTier": "tier-1"
       },
       "vibe": {
-        "signatureFeature": "A single-file village strung along the crest of a natural levee, with the spring house at its centre and every door facing the water.",
+        "silhouette": "A single-file line of thatch along a levee crest, one house deep, with every door facing water and one squat spring house at the middle.",
         "palette": "Levee green, thatch, clear spring silver against brown flood.",
+        "materials": "Mud-mother plaster over withy on the levee, reed thatch, wattle stock-fencing; the spring house is the only stone in the hamlet and it is undressed.",
+        "signatureFeature": "A single-file village strung along the crest of a natural levee, with the spring house at its centre and every door facing the water.",
+        "condition": "Thrifty and sound \u2014 the levee is maintained by everyone, the houses individually and unevenly.",
         "mood": "Linear and thrifty.",
-        "approach": "",
-        "condition": ""
+        "approach": "In flood the levee is the only path and the hamlet is on it, so you walk the length of the village whether you meant to or not.",
+        "senses": "Clean water running loudly in a landscape where all other water is silent and brown; hens; wet clay; woodsmoke going straight along the levee."
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -7270,11 +7241,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A handover shed on a causeway with a bone-tag rack on the prison side and a wrapping bench on the village side, and a painted line on the floor between them.",
         "palette": "Tag-bone white, cloth grey, causeway mud.",
-        "mood": "Transactional grief.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A handover shed on a causeway with a bone-tag rack on the prison side and a wrapping bench on the village side, and a painted line on the floor between them.",
+        "mood": "Transactional grief."
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -7395,11 +7364,14 @@
         "valueTier": "tier-5"
       },
       "vibe": {
-        "signatureFeature": "A bricked stair-head in a working prison yard, with water audible behind it and the mortar visibly newer than everything around it.",
+        "silhouette": "A bricked stair-head in the corner of a working prison yard: newer mortar, no door, and the only cold surface in the yard.",
         "palette": "Black water, wet Imperial stone, lamp yellow at the head.",
+        "materials": "Imperial stair and vaulting below; above, two generations of newer brick and mortar laid by prison-born families with what they had.",
+        "signatureFeature": "A bricked stair-head in a working prison yard, with water audible behind it and the mortar visibly newer than everything around it.",
+        "condition": "Deliberately sealed, structurally sound, and demonstrably not empty.",
         "mood": "Sealed and audible.",
-        "approach": "",
-        "condition": ""
+        "approach": "Reached by walking into an inhabited prison yard and being told not to go near the corner.",
+        "senses": "Water audible behind brick in a dry yard; cold air at the seam; the yard's ordinary domestic noise going on around it and away from it."
       },
       "assetPlan": [
         "submerged-ruins",
@@ -7534,11 +7506,14 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "An Imperial garrison town with its barrack rows converted to houses, its magazine still locked, and the prison's ration tally still chalked on the magazine door every week.",
+        "silhouette": "Straight Imperial barrack ranges and a walled magazine on a low rise, their military regularity broken by domestic extensions on every range but the magazine.",
         "palette": "Lime render, red pantile, marsh olive.",
+        "materials": "Imperial lime render and red pantile on the ranges and magazine; Argonian reed lean-tos and mud-mother garden walls added behind them, never through them.",
+        "signatureFeature": "An Imperial garrison town with its barrack rows converted to houses, its magazine still locked, and the prison's ration tally still chalked on the magazine door every week.",
+        "condition": "Institutional fabric maintained beyond any civilian need, domestic fabric patched \u2014 the magazine is still locked and still sound.",
         "mood": "Institutional afterlife.",
-        "approach": "",
-        "condition": ""
+        "approach": "From the causeway road the barrack ranges read as a fort until you see the washing between them.",
+        "senses": "The weekly chalk tally being written on the magazine door; barge traffic; drill-yard flagstones under civilian feet; render dust and marsh olive air."
       },
       "assetPlan": [
         "bmv-fort",
@@ -7661,11 +7636,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "Open flood-fed fields with a village of long grain barns raised on stone staddles, and a threshing floor bigger than any building in it.",
         "palette": "Saltrice pale gold, flood silver, grey staddle stone.",
-        "mood": "Solid and unromantic.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "Open flood-fed fields with a village of long grain barns raised on stone staddles, and a threshing floor bigger than any building in it.",
+        "mood": "Solid and unromantic."
       },
       "assetPlan": [
         "vanilla-farmhouse",
@@ -7782,11 +7755,9 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "A dry stone pit under a working counting-house, with a hatch in the floor of the room where the tariffs are argued.",
         "palette": "Lamp yellow above, black below, wet stone.",
-        "mood": "Ordinary and hidden.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A dry stone pit under a working counting-house, with a hatch in the floor of the room where the tariffs are argued.",
+        "mood": "Ordinary and hidden."
       },
       "assetPlan": [
         "stockade-scaffold",
@@ -7913,11 +7884,14 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "Three gated water channels converging on one stone counting-quay, with three separate tariff boards in three scripts and one set of accounts.",
+        "silhouette": "Three gated water channels converging on one stone counting-quay, with three tariff boards standing above the roofline like sails.",
         "palette": "Wet stone, painted tariff boards, dark converging water.",
+        "materials": "Dressed stone quay and gate piers (Imperial work, Argonian-held), bridge timber, painted board; the counting house is stone and everything else is not.",
+        "signatureFeature": "Three gated water channels converging on one stone counting-quay, with three separate tariff boards in three scripts and one set of accounts.",
+        "condition": "Maintained ruthlessly \u2014 the gates work, the boards are repainted, the compact's counting house is the best-kept building in the region.",
         "mood": "Immovable extraction.",
-        "approach": "",
-        "condition": ""
+        "approach": "Whichever river you come down, you see the other two arriving at the same quay and understand the arrangement immediately.",
+        "senses": "Three streams of traffic arriving and one queue leaving; chain and windlass; the scratch of three sets of accounts being kept as one."
       },
       "assetPlan": [
         "vanilla-farmhouse",
@@ -8035,11 +8009,14 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "An open field of unstaked dead where the grass grows in the shape of a formation, and nothing has been carried away.",
+        "silhouette": "A flat open field whose grass grows in the shape of an army \u2014 visible as a pattern, not as an object, and only from slightly above.",
         "palette": "Pale grass, rusted mass, flat light.",
+        "materials": "Grass, and rusted mass beneath it; no stakes, no cairn, no marker of any kind, and nothing carried away in sixteen centuries.",
+        "signatureFeature": "An open field of unstaked dead where the grass grows in the shape of a formation, and nothing has been carried away.",
+        "condition": "Undisturbed and unhonoured \u2014 no burial, no salvage, no memorial; the formation is still legible in the sward.",
         "mood": "Drained.",
-        "approach": "",
-        "condition": ""
+        "approach": "From the ridge track the pattern in the grass reads for about ten seconds before you work out what shape it is.",
+        "senses": "Wind, flat light, insects; grass that changes underfoot from soft to something that is not soil; total absence of scavenger birds."
       },
       "assetPlan": [
         "landmark-civic",
@@ -8157,11 +8134,9 @@
         "valueTier": "tier-4"
       },
       "vibe": {
-        "signatureFeature": "A stone door with iron straps welded across it and a nailed board whose message is legible after two hundred years.",
         "palette": "Rust red, grey stone, faded board.",
-        "mood": "Emphatically closed.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A stone door with iron straps welded across it and a nailed board whose message is legible after two hundred years.",
+        "mood": "Emphatically closed."
       },
       "assetPlan": [
         "xanmeer-tileset",
@@ -8295,11 +8270,14 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "A grid of open-sided trading sheds along a river junction, each with its own scale, and not one wall or gate anywhere in the town.",
+        "silhouette": "A flat grid of open-sided shed roofs along a river junction, with not one wall, gate or tower in the whole outline.",
         "palette": "Shed timber, grain sack, brown river.",
+        "materials": "Bamboo and mud-mother frames with shed roofing over open sides, market canvas, plank scales at every stall, one landmark scale-house; deliberately nothing defensible.",
+        "signatureFeature": "A grid of open-sided trading sheds along a river junction, each with its own scale, and not one wall or gate anywhere in the town.",
+        "condition": "Cheap, new and constantly rebuilt; nothing here is meant to last longer than the arrangement that made it profitable.",
         "mood": "Cheerfully evasive.",
-        "approach": "",
-        "condition": ""
+        "approach": "You arrive along the river and there is no edge to the town \u2014 the sheds simply start.",
+        "senses": "Weighing all day \u2014 a hundred scales, a hundred arguments; grain dust; river; the total absence of any gate-bell."
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -8416,11 +8394,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A line of soft lights across open fen, spaced exactly like the causeway's own lamps, moving very slowly.",
         "palette": "Pale blue-green lights, black fen, distant real lamps.",
-        "mood": "Patient malice.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A line of soft lights across open fen, spaced exactly like the causeway's own lamps, moving very slowly.",
+        "mood": "Patient malice."
       },
       "assetPlan": [
         "totems-ritual",
@@ -8537,11 +8513,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "signatureFeature": "A single low xanmeer-built span of fitted stone with a modern timber toll house grafted onto one end.",
         "palette": "Ancient grey fitted stone, new timber, brown water.",
-        "mood": "Old authority, new furniture.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A single low xanmeer-built span of fitted stone with a modern timber toll house grafted onto one end.",
+        "mood": "Old authority, new furniture."
       },
       "assetPlan": [
         "bridges",
@@ -8661,11 +8635,9 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "signatureFeature": "A ruin with two competing carved attribution plaques at its entrance, both wrong, and the answer visible in the masonry twenty paces inside.",
         "palette": "Grey stone, moss, brass plaque green.",
-        "mood": "Comically contested.",
-        "approach": "",
-        "condition": ""
+        "signatureFeature": "A ruin with two competing carved attribution plaques at its entrance, both wrong, and the answer visible in the masonry twenty paces inside.",
+        "mood": "Comically contested."
       },
       "assetPlan": [
         "landmark-civic",
