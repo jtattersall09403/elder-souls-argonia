@@ -60,12 +60,18 @@
       },
       "relations": {
         "dependsOn": [
-          "place.dunmer-north.stormhold-causeway",
-          "place.dunmer-north.stormhold"
+          "place.dunmer-north.stormhold",
+          "place.dunmer-north.stormhold-causeway"
         ],
         "reachedVia": [
           "route.bogmother-causeway"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -201,14 +207,24 @@
       },
       "relations": {
         "dependsOn": [
-          "place.dunmer-north.thorn"
+          "place.dunmer-north.thorn",
+          "place.dunmer-north.thorn-paddy-terraces"
         ],
         "rivals": [
+          "place.dunmer-north.saltmarch-village",
           "place.dunmer-north.thorn"
         ],
         "supplies": [
+          "place.dunmer-north.the-thorn-bond",
           "place.dunmer-north.thorn"
-        ]
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.the-two-gate-bridge"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -339,10 +355,23 @@
           "place.dunmer-north.riverwalk"
         ],
         "supplies": [
+          "place.dunmer-north.riverwalk",
           "place.dunmer-north.stormhold"
         ],
         "travelServiceEdges": [
+          "boat:channel-cross-stormhold",
           "boat:shadowfen-channels"
+        ],
+        "dependsOn": [
+          "place.dunmer-north.the-black-stage"
+        ],
+        "patrols": [],
+        "tolls": [
+          "place.dunmer-north.the-two-gate-bridge"
+        ],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.the-black-stage"
         ]
       },
       "culture": "argonian",
@@ -483,9 +512,17 @@
           "place.dunmer-north.stormhold"
         ],
         "supplies": [
+          "place.dunmer-north.tear-road-stage",
           "place.dunmer-north.thorn",
+          "place.pirate-freeholds.alten-corimont"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
           "place.dunmer-north.tear-road-stage"
-        ]
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -620,7 +657,16 @@
         ],
         "supplies": [
           "place.dunmer-north.stormhold"
-        ]
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -754,7 +800,16 @@
         ],
         "rivals": [
           "place.dunmer-north.stormhold"
-        ]
+        ],
+        "dependsOn": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.riverwalk",
+          "place.dunmer-north.the-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -877,12 +932,23 @@
       },
       "relations": {
         "supplies": [
+          "place.dunmer-north.channel-cross-village",
           "place.dunmer-north.reedmoor-stilts",
-          "place.dunmer-north.channel-cross-village"
+          "place.dunmer-north.tenmar-wall"
         ],
         "rivals": [
           "place.dunmer-north.stormhold"
-        ]
+        ],
+        "dependsOn": [
+          "place.dunmer-north.the-shoal-bank"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.riverwalk"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -1019,12 +1085,25 @@
       },
       "relations": {
         "dependsOn": [
-          "place.dunmer-north.stormhold"
+          "place.dunmer-north.stormhold",
+          "place.dunmer-north.tenmar-wall"
         ],
         "patrols": [
+          "place.dunmer-north.the-terrace-watch",
           "route.shadowfen-paths"
         ],
-        "rivals": []
+        "rivals": [],
+        "supplies": [
+          "place.dunmer-north.greylight-village",
+          "place.dunmer-north.murkwater",
+          "place.dunmer-north.stormhold"
+        ],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tenmar-wall"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": "faction.keepers-of-the-shell",
@@ -1114,14 +1193,28 @@
     {
       "aliases": [],
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
+        "dependsOn": [
+          "place.dunmer-north.tenmar-wall",
+          "place.dunmer-north.the-black-stage"
+        ],
+        "supplies": [
+          "place.hist-heartland.hist-less-refuge-wild",
+          "place.imperial-fringe.the-second-hearth",
+          "place.imperial-penal-south.prison-born-refuge",
+          "place.mercantile-coast.hist-less-fringe",
+          "place.pirate-freeholds.corimont-hist-less-camp",
+          "place.saxhleel-coast.coast-hist-less-refuge"
+        ],
         "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
-        "travelServiceEdges": []
+        "reachedVia": [
+          "place.dunmer-north.the-black-stage"
+        ],
+        "travelServiceEdges": [
+          "boat:hissmir-pilgrim-water"
+        ]
       },
       "occupants": [],
       "notableNpcSlots": [],
@@ -1292,6 +1385,15 @@
         ],
         "travelServiceEdges": [
           "boat:northern-caravan"
+        ],
+        "rivals": [
+          "place.dunmer-north.reedmoor-stilts"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.riverwalk"
         ]
       },
       "culture": "argonian",
@@ -1375,7 +1477,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.dunmer-north.riverwalk",
+          "place.dunmer-north.the-pass-station"
+        ],
         "travelServiceEdges": []
       },
       "occupants": [],
@@ -1540,9 +1645,20 @@
           "place.dunmer-north.mazzatun-hist"
         ],
         "rivals": [
+          "place.dunmer-north.hatching-pools",
           "place.dunmer-north.murkwater",
-          "place.dunmer-north.hatching-pools"
-        ]
+          "place.hist-heartland.heretic-stone-restarted"
+        ],
+        "supplies": [
+          "place.dunmer-north.stormhold"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.riverwalk"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": "faction.xit-xaht",
@@ -1675,7 +1791,17 @@
       "relations": {
         "dependsOn": [
           "place.dunmer-north.mazzatun"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.riverwalk",
+          "place.dunmer-north.the-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -1800,13 +1926,23 @@
       },
       "relations": {
         "supplies": [
-          "place.dunmer-north.murkwater-shadowscale-ground"
+          "place.dunmer-north.murkwater-shadowscale-ground",
+          "place.dunmer-north.stormhold"
         ],
         "rivals": [
           "place.dunmer-north.mazzatun"
         ],
         "travelServiceEdges": [
           "boat:shadowfen-channels"
+        ],
+        "dependsOn": [
+          "place.dunmer-north.murkwater-shadowscale-ground"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.channel-cross-village"
         ]
       },
       "culture": "argonian",
@@ -1943,7 +2079,17 @@
       "relations": {
         "dependsOn": [
           "place.dunmer-north.murkwater"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -2072,10 +2218,22 @@
       },
       "relations": {
         "supplies": [
-          "place.dunmer-north.riverwalk"
+          "place.dunmer-north.riverwalk",
+          "place.dunmer-north.stormhold",
+          "place.dunmer-north.the-shoal-bank"
         ],
         "travelServiceEdges": [
           "boat:shadowfen-channels"
+        ],
+        "dependsOn": [],
+        "rivals": [
+          "place.dunmer-north.hixinoag"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.riverwalk"
         ]
       },
       "culture": "argonian",
@@ -2214,6 +2372,17 @@
         ],
         "travelServiceEdges": [
           "boat:northern-trunk"
+        ],
+        "dependsOn": [
+          "place.dunmer-north.tenmar-wall"
+        ],
+        "supplies": [
+          "place.dunmer-north.stormhold"
+        ],
+        "patrols": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.the-black-stage"
         ]
       },
       "culture": "argonian",
@@ -2347,8 +2516,19 @@
           "place.dunmer-north.thorn-paddy-terraces"
         ],
         "supplies": [
+          "place.dunmer-north.the-field-gate-garrison",
           "place.dunmer-north.thorn"
-        ]
+        ],
+        "rivals": [
+          "place.dunmer-north.branchmont"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.the-two-gate-bridge"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -2488,7 +2668,15 @@
         ],
         "rivals": [
           "place.dunmer-north.tunnel-rat-gallery"
-        ]
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": "faction.stormhold-vicecanons",
@@ -2623,11 +2811,21 @@
       },
       "relations": {
         "rivals": [
-          "place.dunmer-north.the-flu-cordon"
+          "place.dunmer-north.the-flu-cordon",
+          "place.dunmer-north.the-shut-village"
         ],
         "reachedVia": [
+          "place.dunmer-north.stormhold-causeway",
           "route.shadowfen-paths"
-        ]
+        ],
+        "dependsOn": [
+          "place.dunmer-north.stormhold"
+        ],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": "faction.stillrise",
@@ -2772,27 +2970,35 @@
       },
       "relations": {
         "dependsOn": [
-          "place.dunmer-north.silyanorn-diggings"
+          "place.dunmer-north.silyanorn-diggings",
+          "place.dunmer-north.the-last-landing",
+          "place.dunmer-north.the-thorn-bond"
         ],
         "supplies": [
+          "place.dunmer-north.crystalgate",
+          "place.dunmer-north.hatching-pools",
           "place.dunmer-north.stormhold-causeway"
         ],
         "rivals": [
+          "place.dunmer-north.thorn",
           "place.imperial-fringe.gideon",
-          "place.dunmer-north.thorn"
+          "place.pirate-freeholds.alten-corimont"
         ],
         "tolls": [
           "route.northern-river"
         ],
         "reachedVia": [
-          "route.tear-road",
-          "route.northern-river"
+          "route.northern-river",
+          "route.tear-road"
         ],
         "travelServiceEdges": [
           "boat:northern-river",
           "road:tear",
-          "rootworm:north-shadowfen"
-        ]
+          "rootworm:north-shadowfen",
+          "rootworm:stormhold-gideon"
+        ],
+        "patrols": [],
+        "visibleFrom": []
       },
       "culture": "argonian",
       "ownerFaction": "faction.stormhold-vicecanons",
@@ -2956,6 +3162,14 @@
         ],
         "travelServiceEdges": [
           "walk:bogmother-causeway"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.channel-cross-village",
+          "place.dunmer-north.the-black-stage"
         ]
       },
       "culture": "argonian",
@@ -3084,10 +3298,22 @@
           "route.tear-road"
         ],
         "supplies": [
-          "place.dunmer-north.stormhold"
+          "place.dunmer-north.crystalgate",
+          "place.dunmer-north.stormhold",
+          "place.dunmer-north.thorn"
         ],
         "travelServiceEdges": [
-          "road:tear"
+          "road:tear",
+          "road:tear-morrowind"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [
+          "place.dunmer-north.the-two-gate-bridge"
+        ],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tenmar-wall"
         ]
       },
       "culture": "argonian",
@@ -3221,7 +3447,16 @@
         ],
         "visibleFrom": [
           "place.dunmer-north.tenmar-wall"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "reachedVia": [
+          "place.dunmer-north.riverwalk",
+          "place.dunmer-north.the-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -3349,17 +3584,27 @@
       },
       "relations": {
         "dependsOn": [
-          "place.dunmer-north.stormhold"
+          "place.dunmer-north.stormhold",
+          "place.pirate-freeholds.alten-corimont"
         ],
         "rivals": [
           "place.dunmer-north.ten-maur-wolk"
         ],
         "supplies": [
-          "place.dunmer-north.riverwalk"
+          "place.dunmer-north.hatching-pools",
+          "place.dunmer-north.riverwalk",
+          "place.hist-heartland.helstrom"
         ],
         "travelServiceEdges": [
+          "boat:northern-trunk",
           "road:northern-hinge",
-          "boat:northern-trunk"
+          "road:tenmar-helstrom"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.the-pass-station"
         ]
       },
       "culture": "argonian",
@@ -3499,14 +3744,25 @@
       },
       "relations": {
         "rivals": [
-          "place.dunmer-north.the-freed-rows"
+          "place.dunmer-north.the-freed-rows",
+          "place.dunmer-north.the-veterans-ridge"
         ],
         "supplies": [
+          "place.dunmer-north.the-field-gate-garrison",
           "place.dunmer-north.thorn"
         ],
         "reachedVia": [
+          "place.dunmer-north.the-pass-station",
           "route.tear-road"
-        ]
+        ],
+        "dependsOn": [
+          "place.dunmer-north.the-pass-station",
+          "place.dunmer-north.thorn"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": []
       },
       "culture": "dunmer",
       "ownerFaction": "faction.dres-remnant",
@@ -3637,10 +3893,21 @@
           "place.dunmer-north.stormhold-causeway"
         ],
         "supplies": [
-          "place.dunmer-north.bogmother"
+          "place.dunmer-north.bogmother",
+          "place.dunmer-north.channel-cross-village",
+          "place.dunmer-north.hissmir"
         ],
         "travelServiceEdges": [
-          "boat:bogmother-crossing"
+          "boat:bogmother-crossing",
+          "boat:northern-trunk",
+          "ferry:black-stage-hissmir"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.channel-cross-village"
         ]
       },
       "culture": "argonian",
@@ -3764,10 +4031,21 @@
       },
       "relations": {
         "dependsOn": [
+          "place.dunmer-north.riverwalk",
           "place.dunmer-north.the-north-border-post"
         ],
         "travelServiceEdges": [
           "walk:bone-road"
+        ],
+        "supplies": [
+          "place.hist-heartland.bone-waystation-interior"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.riverwalk"
         ]
       },
       "culture": "argonian",
@@ -3902,7 +4180,13 @@
         ],
         "rivals": [
           "place.dunmer-north.the-ash-holding"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -4028,7 +4312,17 @@
       "relations": {
         "dependsOn": [
           "place.dunmer-north.greylight-village"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -4155,7 +4449,17 @@
       "relations": {
         "dependsOn": [
           "place.dunmer-north.stormhold-causeway"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -4282,7 +4586,16 @@
         "dependsOn": [],
         "supplies": [
           "place.dunmer-north.the-wamasu-shrine"
-        ]
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.channel-cross-village",
+          "place.dunmer-north.the-black-stage"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -4406,7 +4719,16 @@
         ],
         "supplies": [
           "place.dunmer-north.stormhold"
-        ]
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -4535,11 +4857,23 @@
       },
       "relations": {
         "rivals": [
-          "place.dunmer-north.the-ash-holding"
+          "place.dunmer-north.the-ash-holding",
+          "place.dunmer-north.the-veterans-ridge"
         ],
         "reachedVia": [
+          "place.dunmer-north.the-pass-station",
           "route.tear-road"
-        ]
+        ],
+        "dependsOn": [
+          "place.dunmer-north.the-ash-holding"
+        ],
+        "supplies": [
+          "place.dunmer-north.thorn"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": []
       },
       "culture": "dunmer",
       "ownerFaction": null,
@@ -4670,7 +5004,16 @@
         ],
         "dependsOn": [
           "place.dunmer-north.the-north-root-gallery"
-        ]
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -4797,12 +5140,21 @@
       },
       "relations": {
         "supplies": [
-          "route.tear-road",
-          "place.dunmer-north.thorn"
+          "place.dunmer-north.thorn",
+          "route.tear-road"
         ],
         "rivals": [
           "place.dunmer-north.the-ash-holding"
-        ]
+        ],
+        "dependsOn": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.channel-cross-village",
+          "place.dunmer-north.the-black-stage"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -4939,7 +5291,15 @@
         ],
         "supplies": [
           "place.dunmer-north.stormhold"
-        ]
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.channel-cross-village",
+          "place.dunmer-north.the-black-stage"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -5069,7 +5429,17 @@
       "relations": {
         "dependsOn": [
           "place.dunmer-north.the-drowned-terrace"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.channel-cross-village",
+          "place.dunmer-north.the-black-stage"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -5197,7 +5567,16 @@
         ],
         "patrols": [
           "route.tear-road"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.riverwalk",
+          "place.dunmer-north.the-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -5329,7 +5708,16 @@
         ],
         "supplies": [
           "place.dunmer-north.the-divers-landing"
-        ]
+        ],
+        "dependsOn": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.channel-cross-village",
+          "place.dunmer-north.the-black-stage"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -5459,7 +5847,16 @@
         ],
         "rivals": [
           "place.dunmer-north.the-north-holding-pit"
-        ]
+        ],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -5587,14 +5984,27 @@
       },
       "relations": {
         "dependsOn": [
+          "place.dunmer-north.saltmarch-village",
           "place.dunmer-north.thorn"
         ],
         "patrols": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.the-north-border-post",
+          "place.dunmer-north.the-two-gate-bridge",
           "route.tear-road"
         ],
         "supplies": [
           "place.dunmer-north.thorn-paddy-terraces"
-        ]
+        ],
+        "rivals": [],
+        "tolls": [
+          "place.dunmer-north.the-two-gate-bridge"
+        ],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": "faction.thorn-field-owners",
@@ -5731,7 +6141,16 @@
         ],
         "visibleFrom": [
           "place.dunmer-north.stormhold"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -5858,7 +6277,16 @@
         ],
         "visibleFrom": [
           "place.dunmer-north.stillrise-village"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -5980,8 +6408,20 @@
           "place.dunmer-north.thorn"
         ],
         "supplies": [
-          "place.dunmer-north.branchmont"
-        ]
+          "place.dunmer-north.branchmont",
+          "place.imperial-penal-south.chainbreaker-shelter",
+          "place.pirate-freeholds.freed-worker-shelter"
+        ],
+        "dependsOn": [
+          "place.dunmer-north.thorn"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": "faction.chainbreakers",
@@ -6114,6 +6554,7 @@
       },
       "relations": {
         "supplies": [
+          "place.dunmer-north.stormhold",
           "place.dunmer-north.thorn"
         ],
         "rivals": [
@@ -6121,7 +6562,19 @@
         ],
         "travelServiceEdges": [
           "boat:north-east-river",
+          "boat:northern-river",
+          "porter:last-landing-inland",
           "walk:inland-carry"
+        ],
+        "dependsOn": [
+          "place.dunmer-north.the-north-relay"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.channel-cross-village",
+          "place.dunmer-north.the-black-stage"
         ]
       },
       "culture": "argonian",
@@ -6258,7 +6711,16 @@
         ],
         "supplies": [
           "place.dunmer-north.greylight-village"
-        ]
+        ],
+        "dependsOn": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.riverwalk",
+          "place.dunmer-north.the-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -6383,9 +6845,19 @@
       },
       "relations": {
         "dependsOn": [
-          "route.tear-road",
-          "place.dunmer-north.thorn-paddy-terraces"
-        ]
+          "place.dunmer-north.thorn-paddy-terraces",
+          "route.tear-road"
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.channel-cross-village",
+          "place.dunmer-north.the-black-stage"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -6514,7 +6986,15 @@
         ],
         "dependsOn": [
           "place.dunmer-north.thorn"
-        ]
+        ],
+        "supplies": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -6644,7 +7124,16 @@
         ],
         "rivals": [
           "place.dunmer-north.the-freed-rows"
-        ]
+        ],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": "faction.thorn-field-owners",
@@ -6775,6 +7264,15 @@
         ],
         "travelServiceEdges": [
           "courier:north"
+        ],
+        "dependsOn": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
         ]
       },
       "culture": "argonian",
@@ -6902,7 +7400,17 @@
       "relations": {
         "dependsOn": [
           "place.dunmer-north.the-crystal-prospectors"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.riverwalk",
+          "place.dunmer-north.the-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -7032,7 +7540,13 @@
         ],
         "visibleFrom": [
           "place.dunmer-north.the-pass-station"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -7152,7 +7666,17 @@
       "relations": {
         "dependsOn": [
           "place.dunmer-north.stormhold-causeway"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -7277,7 +7801,13 @@
         ],
         "reachedVia": [
           "route.shadowfen-paths"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -7408,7 +7938,16 @@
         ],
         "visibleFrom": [
           "place.dunmer-north.stormhold"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "reachedVia": [
+          "place.dunmer-north.riverwalk",
+          "place.dunmer-north.the-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -7536,10 +8075,23 @@
           "route.tear-road"
         ],
         "supplies": [
-          "place.dunmer-north.tear-road-stage"
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.the-ash-holding",
+          "place.dunmer-north.the-cold-holding",
+          "place.dunmer-north.the-veterans-ridge"
         ],
         "travelServiceEdges": [
-          "road:tear"
+          "porter:pass-tenmar",
+          "road:tear",
+          "road:tear-morrowind"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
         ]
       },
       "culture": "argonian",
@@ -7669,7 +8221,15 @@
         ],
         "reachedVia": [
           "route.tear-road"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [
+          "place.imperial-fringe.the-vellum-estate"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": []
       },
       "culture": "dunmer",
       "ownerFaction": null,
@@ -7793,12 +8353,21 @@
       },
       "relations": {
         "dependsOn": [
-          "place.dunmer-north.the-outer-silyanorn",
-          "place.dunmer-north.stormhold"
+          "place.dunmer-north.stormhold",
+          "place.dunmer-north.the-outer-silyanorn"
         ],
         "rivals": [
           "place.dunmer-north.the-whispers-dig"
-        ]
+        ],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": "faction.cyrodilic-collections",
@@ -7941,6 +8510,15 @@
         ],
         "travelServiceEdges": [
           "boat:northern-trunk"
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
         ]
       },
       "culture": "argonian",
@@ -8079,7 +8657,16 @@
         ],
         "supplies": [
           "place.dunmer-north.the-field-gate-garrison"
-        ]
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -8215,6 +8802,15 @@
         ],
         "travelServiceEdges": [
           "climb:rim-crossing"
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.riverwalk",
+          "place.dunmer-north.the-pass-station"
         ]
       },
       "culture": "argonian",
@@ -8343,6 +8939,14 @@
         ],
         "travelServiceEdges": [
           "boat:delta"
+        ],
+        "dependsOn": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.channel-cross-village",
+          "place.dunmer-north.the-black-stage"
         ]
       },
       "culture": "argonian",
@@ -8467,11 +9071,23 @@
       },
       "relations": {
         "rivals": [
-          "place.dunmer-north.hatching-pools"
+          "place.dunmer-north.hatching-pools",
+          "place.dunmer-north.stillrise-village"
         ],
         "reachedVia": [
+          "place.dunmer-north.channel-cross-village",
           "route.shadowfen-paths"
-        ]
+        ],
+        "dependsOn": [
+          "place.dunmer-north.channel-cross-village"
+        ],
+        "supplies": [],
+        "patrols": [
+          "place.dunmer-north.the-flu-cordon"
+        ],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -8600,7 +9216,17 @@
       "relations": {
         "visibleFrom": [
           "place.dunmer-north.the-shut-village"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -8721,7 +9347,16 @@
         "dependsOn": [
           "place.dunmer-north.stormhold"
         ],
-        "visibleFrom": []
+        "visibleFrom": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "reachedVia": [
+          "place.dunmer-north.channel-cross-village",
+          "place.dunmer-north.the-black-stage"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -8845,10 +9480,21 @@
         "scourSiteIds": []
       },
       "relations": {
-        "rivals": [],
+        "rivals": [
+          "place.dunmer-north.the-two-hundred-roofs"
+        ],
         "reachedVia": [
+          "place.dunmer-north.channel-cross-village",
           "route.shadowfen-paths"
-        ]
+        ],
+        "dependsOn": [
+          "place.dunmer-north.the-first-count"
+        ],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -8973,8 +9619,19 @@
           "place.dunmer-north.the-two-hundred-roofs"
         ],
         "dependsOn": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.the-veterans-ridge"
+        ],
+        "supplies": [
+          "place.dunmer-north.thorn"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
           "place.dunmer-north.tear-road-stage"
-        ]
+        ],
+        "travelServiceEdges": []
       },
       "culture": "dunmer",
       "ownerFaction": null,
@@ -9112,6 +9769,15 @@
         ],
         "travelServiceEdges": [
           "boat:delta"
+        ],
+        "dependsOn": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.channel-cross-village",
+          "place.dunmer-north.the-black-stage"
         ]
       },
       "culture": "dunmer",
@@ -9241,7 +9907,16 @@
         ],
         "rivals": [
           "place.dunmer-north.saltmarch-village"
-        ]
+        ],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -9370,11 +10045,22 @@
           "place.dunmer-north.thorn"
         ],
         "supplies": [
-          "place.dunmer-north.thorn"
+          "place.dunmer-north.thorn",
+          "place.pirate-freeholds.alten-corimont"
         ],
         "travelServiceEdges": [
           "boat:northern-trunk",
           "road:tear"
+        ],
+        "rivals": [
+          "place.imperial-fringe.bonded-shed-of-the-onkobra"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
         ]
       },
       "culture": "argonian",
@@ -9510,6 +10196,15 @@
         ],
         "travelServiceEdges": [
           "boat:delta"
+        ],
+        "dependsOn": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.channel-cross-village",
+          "place.dunmer-north.the-black-stage"
         ]
       },
       "culture": "argonian",
@@ -9634,11 +10329,20 @@
       },
       "relations": {
         "supplies": [
-          "place.dunmer-north.thorn",
-          "place.dunmer-north.the-white-pans"
+          "place.dunmer-north.the-white-pans",
+          "place.dunmer-north.thorn"
         ],
         "travelServiceEdges": [
           "boat:delta"
+        ],
+        "dependsOn": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
         ]
       },
       "culture": "argonian",
@@ -9772,9 +10476,18 @@
           "route.tear-road"
         ],
         "rivals": [
-          "place.dunmer-north.thorn",
-          "place.dunmer-north.stormhold"
-        ]
+          "place.dunmer-north.stormhold",
+          "place.dunmer-north.thorn"
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.channel-cross-village",
+          "place.dunmer-north.the-black-stage"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -9899,10 +10612,21 @@
       },
       "relations": {
         "rivals": [
-          "place.dunmer-north.the-shut-village"
+          "place.dunmer-north.the-shut-village",
+          "place.dunmer-north.the-sump-hamlet"
         ],
         "travelServiceEdges": [
           "boat:shadowfen-channels"
+        ],
+        "dependsOn": [
+          "place.dunmer-north.the-first-count"
+        ],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.riverwalk"
         ]
       },
       "culture": "argonian",
@@ -10028,11 +10752,24 @@
       },
       "relations": {
         "rivals": [
-          "place.dunmer-north.the-ash-holding"
+          "place.dunmer-north.the-ash-holding",
+          "place.dunmer-north.the-cold-holding"
         ],
         "visibleFrom": [
           "place.dunmer-north.tear-road-stage"
-        ]
+        ],
+        "dependsOn": [
+          "place.dunmer-north.the-pass-station"
+        ],
+        "supplies": [
+          "place.dunmer-north.the-field-gate-garrison"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "reachedVia": [
+          "place.dunmer-north.the-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -10167,7 +10904,16 @@
         ],
         "supplies": [
           "place.dunmer-north.greylight-village"
-        ]
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.tear-road-stage",
+          "place.dunmer-north.tenmar-wall"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -10295,7 +11041,16 @@
         ],
         "dependsOn": [
           "place.dunmer-north.the-outer-silyanorn"
-        ]
+        ],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.riverwalk",
+          "place.dunmer-north.the-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": "faction.college-of-whispers",
@@ -10420,9 +11175,22 @@
       },
       "relations": {
         "supplies": [
+          "place.dunmer-north.stormhold",
           "place.dunmer-north.tear-road-stage",
-          "place.dunmer-north.the-salt-ledge"
-        ]
+          "place.dunmer-north.the-salt-ledge",
+          "place.dunmer-north.thorn",
+          "place.pirate-freeholds.alten-corimont"
+        ],
+        "dependsOn": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.channel-cross-village",
+          "place.dunmer-north.the-black-stage"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -10547,14 +11315,25 @@
       },
       "relations": {
         "supplies": [
-          "place.dunmer-north.greylight-village"
+          "place.dunmer-north.greylight-village",
+          "place.dunmer-north.stormhold"
         ],
         "rivals": [
+          "place.dunmer-north.mazzatun",
           "place.dunmer-north.the-opened-terrace"
         ],
         "patrols": [
           "route.shadowfen-paths"
-        ]
+        ],
+        "dependsOn": [
+          "place.dunmer-north.channel-cross-village"
+        ],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.channel-cross-village"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -10696,10 +11475,13 @@
       },
       "relations": {
         "dependsOn": [
-          "place.dunmer-north.branchmont"
+          "place.dunmer-north.branchmont",
+          "place.dunmer-north.saltmarch-village"
         ],
         "supplies": [
-          "place.dunmer-north.thorn-paddy-terraces"
+          "place.dunmer-north.the-field-gate-garrison",
+          "place.dunmer-north.thorn-paddy-terraces",
+          "place.imperial-penal-south.rose-supply-town"
         ],
         "rivals": [
           "place.dunmer-north.stormhold"
@@ -10708,13 +11490,16 @@
           "route.tear-road"
         ],
         "reachedVia": [
-          "route.tear-road",
-          "route.northern-trunk"
+          "route.northern-trunk",
+          "route.tear-road"
         ],
         "travelServiceEdges": [
+          "boat:northern-trunk",
           "road:tear",
-          "boat:northern-trunk"
-        ]
+          "road:tear-morrowind"
+        ],
+        "patrols": [],
+        "visibleFrom": []
       },
       "culture": "argonian",
       "ownerFaction": "faction.thorn-field-owners",
@@ -10870,7 +11655,15 @@
         ],
         "rivals": [
           "place.dunmer-north.branchmont"
-        ]
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.channel-cross-village",
+          "place.dunmer-north.the-black-stage"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -11000,7 +11793,16 @@
         ],
         "rivals": [
           "place.dunmer-north.stormhold"
-        ]
+        ],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.channel-cross-village",
+          "place.dunmer-north.the-black-stage"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": "faction.the-owing-brokers",
@@ -11135,7 +11937,17 @@
       "relations": {
         "rivals": [
           "place.dunmer-north.riverwalk"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.dunmer-north.riverwalk",
+          "place.dunmer-north.the-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "lost-peoples",
       "ownerFaction": null,

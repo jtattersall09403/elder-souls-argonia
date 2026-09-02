@@ -63,10 +63,16 @@
       },
       "relations": {
         "dependsOn": [
+          "place.dunmer-north.crystalgate",
+          "place.dunmer-north.the-white-pans",
+          "place.pirate-freeholds.corimont-head-of-navigation",
           "place.pirate-freeholds.rim-porter-yard"
         ],
         "supplies": [
-          "place.pirate-freeholds.chasecreek"
+          "place.hist-heartland.alten-markmont",
+          "place.pirate-freeholds.chasecreek",
+          "place.pirate-freeholds.corimont-hist-less-camp",
+          "place.pirate-freeholds.corimont-tradehouse"
         ],
         "rivals": [
           "place.pirate-freeholds.rockpoint"
@@ -81,8 +87,10 @@
           "route.road.alten-corimont-stormhold"
         ],
         "travelServiceEdges": [
+          "boat.alten-corimont-helstrom",
           "boat.alten-corimont-stormhold",
-          "boat.alten-corimont-helstrom"
+          "boat:markmont-corimont",
+          "boat:northern-trunk"
         ]
       },
       "culture": "argonian",
@@ -259,7 +267,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.bone-repatriation-waystation",
@@ -370,7 +391,24 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.pirate-freeholds.alten-corimont"
+        ],
+        "supplies": [
+          "place.hist-heartland.bone-waystation-interior"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.careening-hard",
@@ -472,7 +510,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.corimont-head-of-navigation",
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.chasecreek",
@@ -526,14 +577,21 @@
       },
       "relations": {
         "dependsOn": [
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.corimont-head-of-navigation"
+        ],
+        "supplies": [
           "place.pirate-freeholds.alten-corimont"
         ],
-        "supplies": [],
-        "rivals": [],
+        "rivals": [
+          "place.pirate-freeholds.rockpoint"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ],
         "travelServiceEdges": [
           "boat.chasecreek-corimont"
         ]
@@ -608,7 +666,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.rim-porter-yard"
+        ],
         "travelServiceEdges": []
       },
       "occupants": [],
@@ -803,7 +864,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.corimont-gambling-house",
@@ -910,7 +984,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.rim-porter-yard"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.corimont-head-of-navigation",
@@ -1018,7 +1105,27 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.pirate-freeholds.alten-corimont"
+        ],
+        "supplies": [
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.rim-porter-yard"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ],
+        "travelServiceEdges": [
+          "boat:northern-trunk",
+          "porter:corimont-rim"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.corimont-hiring-yard",
@@ -1136,7 +1243,29 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.imperial-fringe.the-turned-out"
+        ],
+        "supplies": [
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.floodplain-paddy-works",
+          "place.pirate-freeholds.rim-crystal-diggings"
+        ],
+        "rivals": [
+          "place.pirate-freeholds.corimont-hist-less-camp",
+          "place.pirate-freeholds.freed-worker-shelter"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.corimont-hist-less-camp",
@@ -1250,7 +1379,26 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.dunmer-north.hissmir",
+          "place.pirate-freeholds.alten-corimont"
+        ],
+        "supplies": [
+          "place.pirate-freeholds.careening-hard"
+        ],
+        "rivals": [
+          "place.pirate-freeholds.corimont-hiring-yard"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.alten-corimont"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.corimont-tradehouse",
@@ -1359,7 +1507,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.dres-holding-pens",
@@ -1471,7 +1632,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.dunmer-frontier-holding",
@@ -1589,7 +1763,26 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.dunmer-north.the-ash-holding",
+          "place.pirate-freeholds.rim-pass-station"
+        ],
+        "supplies": [
+          "place.pirate-freeholds.alten-corimont"
+        ],
+        "rivals": [
+          "place.pirate-freeholds.veterans-holding"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.floodplain-paddy-works",
@@ -1681,7 +1874,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.corimont-head-of-navigation",
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.flu-cairn-field",
@@ -1773,7 +1979,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.rim-porter-yard"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.freed-worker-shelter",
@@ -1889,7 +2108,26 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.dunmer-north.the-freed-rows",
+          "place.pirate-freeholds.corimont-hiring-yard"
+        ],
+        "supplies": [
+          "place.pirate-freeholds.floodplain-paddy-works"
+        ],
+        "rivals": [
+          "place.pirate-freeholds.corimont-hiring-yard"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.freehold-courier-relay",
@@ -1990,7 +2228,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.freehold-market",
@@ -2091,7 +2342,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.freehold-naga-camp",
@@ -2196,7 +2460,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.rim-porter-yard"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.freehold-pest-house",
@@ -2293,7 +2570,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.freehold-smithy",
@@ -2394,7 +2684,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.gorge-portage-slipway",
@@ -2494,7 +2797,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.corimont-head-of-navigation",
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.gorge-whitewater-reach",
@@ -2593,7 +2909,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.corimont-head-of-navigation",
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.kothringi-river-ruin",
@@ -2691,7 +3020,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.rim-porter-yard"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.lake-drawdown-flat",
@@ -2784,7 +3126,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.corimont-head-of-navigation",
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.plague-cordon-line",
@@ -2870,7 +3225,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.ravine-hermit-hut",
@@ -2978,7 +3346,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.rim-porter-yard"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.reach-wreck",
@@ -3071,7 +3452,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.corimont-head-of-navigation",
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.reoccupied-fort",
@@ -3187,7 +3581,20 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.rim-porter-yard"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-border-post",
@@ -3282,7 +3689,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-courier-relay",
@@ -3375,7 +3795,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-crystal-diggings",
@@ -3474,7 +3907,27 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.pirate-freeholds.corimont-hiring-yard"
+        ],
+        "supplies": [
+          "place.dunmer-north.crystalgate",
+          "place.pirate-freeholds.alten-corimont"
+        ],
+        "rivals": [
+          "place.dunmer-north.silyanorn-diggings"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-hearth-house",
@@ -3572,7 +4025,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-keystone-chamber",
@@ -3669,7 +4135,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.rim-porter-yard"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-knapping-floor",
@@ -3761,7 +4240,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-pass-station",
@@ -3863,7 +4355,26 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.dunmer-frontier-holding",
+          "place.pirate-freeholds.veterans-holding"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": [
+          "porter:corimont-rim",
+          "road:rim-pass"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-porter-yard",
@@ -3968,7 +4479,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-second-empire-works",
@@ -4067,7 +4591,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.rim-porter-yard"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-smugglers-ledge-east",
@@ -4159,7 +4696,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.rim-porter-yard"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-smugglers-ledge-north",
@@ -4263,7 +4813,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.rim-porter-yard"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-snowline-hermitage",
@@ -4363,7 +4926,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.rim-porter-yard"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-vista-ledge",
@@ -4456,7 +5032,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.rim-porter-yard"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.river-bog-iron-bloomery",
@@ -4542,7 +5131,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.river-salvage-yard",
@@ -4642,7 +5244,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.corimont-head-of-navigation",
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.rockpoint",
@@ -4764,7 +5379,24 @@
       "importanceTier": 1,
       "workflow": "derived",
       "reconciliationNote": "Player-stronghold candidate B (2026-09-02 reconciliation): the abandoned river station of quests 20 \u00a712b. Candidate A is place.hist-heartland.xal-meeruth-station. BOTH stay flagged; the A/B choice is an owner call queued for touchpoint (1) in decision 0041's Owner Q&A. Do not resolve it in Part 3 plotting \u2014 plot both and let the loser stay a place.",
-      "strongholdCandidate": true
+      "strongholdCandidate": true,
+      "relations": {
+        "dependsOn": [
+          "place.pirate-freeholds.corimont-head-of-navigation"
+        ],
+        "supplies": [],
+        "rivals": [
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.chasecreek"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.trunk-ferry-stage",
@@ -4864,7 +5496,26 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.pirate-freeholds.alten-corimont",
+          "place.pirate-freeholds.chasecreek",
+          "place.pirate-freeholds.rockpoint"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.corimont-head-of-navigation"
+        ],
+        "travelServiceEdges": [
+          "boat:northern-trunk",
+          "ferry:trunk-crossing"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.trunk-hearth-house",
@@ -4969,7 +5620,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.trunk-road-tradehouse",
@@ -5070,7 +5734,19 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.trunk-toll-bridge",
@@ -5186,7 +5862,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.corimont-head-of-navigation",
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.upper-toll-bridge",
@@ -5288,7 +5977,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.corimont-head-of-navigation",
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.upriver-bonded-store",
@@ -5378,7 +6080,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.pirate-freeholds.veterans-holding",
@@ -5493,7 +6208,25 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.pirate-freeholds.rim-pass-station"
+        ],
+        "supplies": [
+          "place.pirate-freeholds.alten-corimont"
+        ],
+        "rivals": [
+          "place.pirate-freeholds.dunmer-frontier-holding"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station"
+        ],
+        "travelServiceEdges": []
+      }
     }
   ]
 }

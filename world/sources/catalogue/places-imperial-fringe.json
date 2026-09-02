@@ -64,7 +64,16 @@
         ],
         "patrols": [
           "route.blackwood-road"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "tolls": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": null,
@@ -184,7 +193,17 @@
       "relations": {
         "supplies": [
           "place.imperial-fringe.the-cold-forge"
-        ]
+        ],
+        "dependsOn": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -306,11 +325,21 @@
           "place.imperial-fringe.gideon"
         ],
         "rivals": [
-          "place.imperial-fringe.onkobra-ferry"
+          "place.dunmer-north.the-thorn-bond",
+          "place.imperial-fringe.onkobra-ferry",
+          "place.mercantile-coast.collections-bond"
         ],
         "supplies": [
           "place.imperial-fringe.gideon"
-        ]
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": "faction.gideon-civic-council",
@@ -434,10 +463,22 @@
       },
       "relations": {
         "supplies": [
+          "place.hist-heartland.bone-waystation-interior",
           "place.imperial-fringe.the-counted-dead"
         ],
         "travelServiceEdges": [
           "walk:bone-road"
+        ],
+        "dependsOn": [
+          "place.imperial-fringe.gideon"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
         ]
       },
       "culture": "argonian",
@@ -561,8 +602,22 @@
       },
       "relations": {
         "supplies": [
+          "place.imperial-fringe.fig-market",
           "place.imperial-fringe.hearth-house-of-the-burnt-field"
-        ]
+        ],
+        "dependsOn": [
+          "place.imperial-fringe.hearth-house-of-the-burnt-field"
+        ],
+        "rivals": [
+          "place.imperial-fringe.westfield-village"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -686,6 +741,7 @@
       },
       "relations": {
         "tolls": [
+          "place.imperial-fringe.hollow-arch-toll",
           "route.blackwood-road",
           "route.north-track"
         ],
@@ -693,8 +749,18 @@
           "place.imperial-fringe.gideon"
         ],
         "travelServiceEdges": [
+          "cart:cross-fig-market",
           "road:blackwood",
           "road:north-track"
+        ],
+        "supplies": [
+          "place.imperial-fringe.gideon"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.mile-house-of-the-eagle"
         ]
       },
       "culture": "argonian",
@@ -820,11 +886,21 @@
       },
       "relations": {
         "supplies": [
-          "place.imperial-fringe.gideon"
+          "place.imperial-fringe.gideon",
+          "place.imperial-fringe.swampmoth-town"
         ],
         "rivals": [
+          "place.imperial-fringe.the-drowned-furrow",
           "place.imperial-fringe.westfield-village"
-        ]
+        ],
+        "dependsOn": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": null,
@@ -953,8 +1029,19 @@
           "place.imperial-fringe.gideon"
         ],
         "reachedVia": [
+          "place.imperial-fringe.gideon",
           "route.gideon-north-track"
-        ]
+        ],
+        "dependsOn": [
+          "place.imperial-fringe.the-marble-field"
+        ],
+        "supplies": [],
+        "rivals": [
+          "place.imperial-fringe.gideon"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": null,
@@ -1085,8 +1172,21 @@
           "route.blackwood-road"
         ],
         "travelServiceEdges": [
-          "road:blackwood",
-          "boat:claywater"
+          "boat:claywater",
+          "boat:onkobra",
+          "road:blackwood"
+        ],
+        "supplies": [
+          "place.imperial-fringe.gideon",
+          "place.imperial-fringe.onkobra-clay-pits"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
         ]
       },
       "culture": "imperial",
@@ -1218,12 +1318,25 @@
       },
       "relations": {
         "dependsOn": [
-          "place.imperial-fringe.twyllbek-ruins",
-          "place.imperial-fringe.gideon"
+          "place.imperial-fringe.gideon",
+          "place.imperial-fringe.twyllbek-ruins"
         ],
         "rivals": [
-          "place.imperial-fringe.treasure-hunters-camp-of-the-white-hill"
-        ]
+          "place.imperial-fringe.treasure-hunters-camp-of-the-white-hill",
+          "place.mercantile-coast.collections-field-station"
+        ],
+        "supplies": [
+          "place.imperial-fringe.gideon",
+          "place.imperial-fringe.gideon-synod-outstation"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": "faction.cyrodilic-collections",
@@ -1359,12 +1472,22 @@
       },
       "relations": {
         "rivals": [
-          "place.imperial-fringe.gideon"
+          "place.imperial-fringe.gideon",
+          "place.imperial-fringe.stonewastes"
         ],
         "supplies": [
           "place.imperial-fringe.fig-market"
         ],
-        "dependsOn": []
+        "dependsOn": [
+          "place.imperial-fringe.the-old-office-house"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -1504,14 +1627,28 @@
       "relations": {
         "rivals": [
           "place.imperial-fringe.gideon",
-          "place.imperial-fringe.saddle-fair"
+          "place.imperial-fringe.saddle-fair",
+          "place.imperial-fringe.slough-point"
         ],
         "supplies": [
+          "place.dunmer-north.tenmar-wall",
           "place.imperial-fringe.gideon"
         ],
         "travelServiceEdges": [
           "boat:onkobra",
+          "cart:cross-fig-market",
           "road:north-track"
+        ],
+        "dependsOn": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.onkobra-ferry"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
         ]
       },
       "culture": "argonian",
@@ -1648,7 +1785,17 @@
       "relations": {
         "rivals": [
           "place.imperial-fringe.fort-swampmoth"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": null,
@@ -1786,7 +1933,20 @@
         ],
         "visibleFrom": [
           "place.imperial-fringe.mile-house-of-the-eagle"
-        ]
+        ],
+        "supplies": [
+          "place.imperial-fringe.swampmoth-town"
+        ],
+        "patrols": [
+          "place.imperial-fringe.hollow-arch-toll",
+          "place.imperial-fringe.the-last-post",
+          "place.imperial-fringe.the-leaning-watch"
+        ],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": "faction.swampmoth-toll-company",
@@ -1933,15 +2093,19 @@
       },
       "relations": {
         "dependsOn": [
-          "place.imperial-fringe.slough-point",
-          "place.imperial-fringe.fort-swampmoth"
+          "place.imperial-fringe.fort-swampmoth",
+          "place.imperial-fringe.slough-point"
         ],
         "supplies": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.glenbridge",
           "place.imperial-fringe.onkobra-clay-pits",
           "place.imperial-fringe.onkobra-kwama-mine"
         ],
         "rivals": [
-          "place.dunmer-north.stormhold"
+          "place.dunmer-north.stormhold",
+          "place.imperial-penal-south.blackrose",
+          "place.mercantile-coast.soulrest"
         ],
         "tolls": [
           "place.imperial-fringe.hollow-arch-toll"
@@ -1952,8 +2116,12 @@
         "travelServiceEdges": [
           "boat:onkobra",
           "road:blackwood",
+          "rootworm:helstrom-gideon",
+          "rootworm:stormhold-gideon",
           "rootworm:wintertide-only"
-        ]
+        ],
+        "patrols": [],
+        "visibleFrom": []
       },
       "culture": "imperial",
       "ownerFaction": "faction.gideon-civic-council",
@@ -2107,11 +2275,25 @@
       },
       "relations": {
         "dependsOn": [
-          "place.imperial-fringe.onkobra-clay-pits",
-          "place.imperial-fringe.gideon"
+          "place.hist-heartland.rootworm-station-helstrom",
+          "place.imperial-fringe.gideon",
+          "place.imperial-fringe.onkobra-clay-pits"
         ],
         "travelServiceEdges": [
+          "rootworm:helstrom-gideon",
+          "rootworm:stormhold-gideon",
           "rootworm:wintertide-only"
+        ],
+        "supplies": [
+          "place.imperial-fringe.gideon"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
         ]
       },
       "culture": "argonian",
@@ -2245,7 +2427,16 @@
         ],
         "dependsOn": [
           "place.imperial-fringe.gideon"
-        ]
+        ],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": "faction.synod",
@@ -2379,17 +2570,27 @@
       },
       "relations": {
         "supplies": [
-          "place.imperial-fringe.glenbridge-sermon-xanmeer"
+          "place.imperial-fringe.glenbridge-sermon-xanmeer",
+          "place.imperial-fringe.the-road-nisswo-house"
         ],
         "dependsOn": [
-          "place.imperial-fringe.glenbridge-sermon-xanmeer"
+          "place.imperial-fringe.gideon",
+          "place.imperial-fringe.glenbridge-sermon-xanmeer",
+          "place.imperial-fringe.the-sermon-road-camp"
         ],
         "reachedVia": [
+          "place.imperial-fringe.nine-arch-stage",
           "route.pilgrim-way-blackwood"
         ],
         "travelServiceEdges": [
           "road:pilgrim-way"
-        ]
+        ],
+        "rivals": [
+          "place.mercantile-coast.teeth-of-sithis"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -2532,7 +2733,16 @@
         ],
         "visibleFrom": [
           "place.imperial-fringe.glenbridge"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -2661,9 +2871,22 @@
       },
       "relations": {
         "supplies": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.gideon",
           "place.imperial-fringe.red-cart-yard",
           "route.blackwood-road"
-        ]
+        ],
+        "dependsOn": [
+          "place.imperial-fringe.westfield-village"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": null,
@@ -2786,7 +3009,17 @@
       "relations": {
         "dependsOn": [
           "place.imperial-fringe.burnt-field-village"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -2908,10 +3141,23 @@
       },
       "relations": {
         "supplies": [
+          "place.imperial-fringe.fig-market",
           "place.imperial-fringe.lower-onkobra-paddies"
         ],
         "travelServiceEdges": [
           "boat:floodplain-wet-season"
+        ],
+        "dependsOn": [
+          "place.imperial-fringe.the-drowning-gate"
+        ],
+        "rivals": [
+          "place.imperial-fringe.lowmere-raft-town"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.onkobra-ferry"
         ]
       },
       "culture": "argonian",
@@ -3044,7 +3290,15 @@
         ],
         "rivals": [
           "place.imperial-fringe.reedcutters-toll"
-        ]
+        ],
+        "supplies": [],
+        "patrols": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.fig-market",
+          "place.imperial-fringe.onkobra-ferry"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": "faction.gideon-civic-council",
@@ -3175,7 +3429,16 @@
         ],
         "supplies": [
           "place.imperial-fringe.gideon"
-        ]
+        ],
+        "dependsOn": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -3308,7 +3571,13 @@
         ],
         "travelServiceEdges": [
           "walk:causeway"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -3434,6 +3703,15 @@
         ],
         "supplies": [
           "place.imperial-fringe.gideon"
+        ],
+        "dependsOn": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
         ]
       },
       "culture": "argonian",
@@ -3558,9 +3836,19 @@
       },
       "relations": {
         "supplies": [
-          "place.imperial-fringe.gideon",
-          "place.imperial-fringe.fig-market"
-        ]
+          "place.imperial-fringe.fig-market",
+          "place.imperial-fringe.gideon"
+        ],
+        "dependsOn": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.fig-market",
+          "place.imperial-fringe.onkobra-ferry"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -3683,13 +3971,23 @@
       },
       "relations": {
         "rivals": [
-          "place.imperial-fringe.gideon"
+          "place.imperial-fringe.gideon",
+          "place.imperial-fringe.highwater-hamlet"
         ],
         "supplies": [
-          "place.imperial-fringe.fig-market"
+          "place.imperial-fringe.fig-market",
+          "place.imperial-fringe.the-lake-divers-yard"
         ],
         "travelServiceEdges": [
-          "boat:lowmere"
+          "boat:lowmere",
+          "boat:lowmere-fig-market"
+        ],
+        "dependsOn": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.onkobra-ferry"
         ]
       },
       "culture": "argonian",
@@ -3827,6 +4125,13 @@
         ],
         "travelServiceEdges": [
           "road:blackwood"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross"
         ]
       },
       "culture": "imperial",
@@ -3952,7 +4257,17 @@
       "relations": {
         "supplies": [
           "place.imperial-fringe.gideon"
-        ]
+        ],
+        "dependsOn": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -4082,7 +4397,16 @@
         ],
         "rivals": [
           "place.imperial-fringe.mile-house-of-the-eagle"
-        ]
+        ],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -4200,10 +4524,24 @@
       },
       "relations": {
         "supplies": [
+          "place.imperial-fringe.swampmoth-town",
           "route.blackwood-road"
         ],
         "dependsOn": [
-          "place.imperial-fringe.guar-holding-of-the-nine-bells"
+          "place.imperial-fringe.fort-swampmoth",
+          "place.imperial-fringe.guar-holding-of-the-nine-bells",
+          "place.imperial-fringe.red-cart-yard"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": [
+          "road:blackwood"
         ]
       },
       "culture": "argonian",
@@ -4332,7 +4670,16 @@
         ],
         "dependsOn": [
           "route.blackwood-road"
-        ]
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -4459,7 +4806,17 @@
         "supplies": [
           "place.imperial-fringe.gideon",
           "place.imperial-fringe.gideon-rootworm-terminus"
-        ]
+        ],
+        "dependsOn": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -4589,7 +4946,20 @@
           "place.imperial-fringe.bonded-shed-of-the-onkobra"
         ],
         "travelServiceEdges": [
-          "boat:onkobra-crossing"
+          "boat:onkobra",
+          "boat:onkobra-crossing",
+          "ferry:onkobra-crossing"
+        ],
+        "supplies": [
+          "place.imperial-fringe.fig-market",
+          "place.imperial-fringe.highwater-hamlet",
+          "place.imperial-fringe.lowmere-raft-town"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.fig-market"
         ]
       },
       "culture": "argonian",
@@ -4720,7 +5090,16 @@
         ],
         "dependsOn": [
           "route.blackwood-road"
-        ]
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -4848,7 +5227,17 @@
       "relations": {
         "supplies": [
           "place.imperial-fringe.gideon"
-        ]
+        ],
+        "dependsOn": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -4924,7 +5313,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
         "travelServiceEdges": []
       },
       "occupants": [],
@@ -5077,10 +5469,23 @@
           "place.imperial-fringe.gideon"
         ],
         "supplies": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.gideon",
           "route.marsh-edge-way"
         ],
         "rivals": [
-          "place.imperial-fringe.owing-eviction-camp"
+          "place.imperial-fringe.the-turned-out"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": [
+          "cart:cross-fig-market",
+          "porter:gideon-yard"
         ]
       },
       "culture": "argonian",
@@ -5218,6 +5623,15 @@
         ],
         "travelServiceEdges": [
           "courier:west"
+        ],
+        "dependsOn": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
         ]
       },
       "culture": "argonian",
@@ -5348,7 +5762,16 @@
         ],
         "supplies": [
           "place.imperial-fringe.gideon"
-        ]
+        ],
+        "dependsOn": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.fig-market",
+          "place.imperial-fringe.onkobra-ferry"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -5475,6 +5898,15 @@
         ],
         "visibleFrom": [
           "place.imperial-fringe.ashen-tower"
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
         ]
       },
       "culture": "argonian",
@@ -5603,7 +6035,16 @@
         ],
         "patrols": [
           "route.blackwood-bog-causeway"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -5739,6 +6180,14 @@
         ],
         "travelServiceEdges": [
           "road:blackwood"
+        ],
+        "dependsOn": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
         ]
       },
       "culture": "argonian",
@@ -5871,7 +6320,17 @@
       "relations": {
         "rivals": [
           "place.imperial-fringe.fig-market"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "lost-peoples",
       "ownerFaction": null,
@@ -5993,7 +6452,17 @@
       "relations": {
         "rivals": [
           "place.imperial-fringe.treasure-hunters-camp-of-the-white-hill"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "lost-peoples",
       "ownerFaction": null,
@@ -6116,6 +6585,7 @@
           "place.imperial-fringe.gideon"
         ],
         "rivals": [
+          "place.imperial-fringe.fig-market",
           "place.imperial-fringe.fort-swampmoth"
         ],
         "supplies": [
@@ -6127,6 +6597,14 @@
         "travelServiceEdges": [
           "boat:onkobra",
           "road:blackwood"
+        ],
+        "patrols": [
+          "place.imperial-fringe.slough-point-quarantine-shed"
+        ],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
         ]
       },
       "culture": "imperial",
@@ -6259,7 +6737,17 @@
       "relations": {
         "dependsOn": [
           "place.imperial-fringe.slough-point"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.fig-market",
+          "place.imperial-fringe.onkobra-ferry"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": null,
@@ -6383,8 +6871,20 @@
           "place.imperial-fringe.westfield-village"
         ],
         "supplies": [
-          "place.imperial-fringe.gideon"
-        ]
+          "place.imperial-fringe.gideon",
+          "place.imperial-fringe.swampmoth-town",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "dependsOn": [
+          "place.imperial-fringe.the-ravine-doors"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -6512,15 +7012,26 @@
       },
       "relations": {
         "rivals": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.fenmarch-village",
           "place.imperial-fringe.rockgrove"
         ],
         "patrols": [
           "route.blackwood-bog-causeway"
         ],
         "supplies": [
-          "place.imperial-fringe.glenbridge"
+          "place.imperial-fringe.glenbridge",
+          "place.imperial-fringe.low-water-fair"
         ],
-        "dependsOn": []
+        "dependsOn": [
+          "place.imperial-fringe.the-kept-terrace"
+        ],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -6659,13 +7170,27 @@
       },
       "relations": {
         "dependsOn": [
+          "place.imperial-fringe.cassian-farm",
           "place.imperial-fringe.fort-swampmoth"
         ],
         "rivals": [
           "place.imperial-fringe.cartwrights-cross"
         ],
         "supplies": [
-          "place.imperial-fringe.fort-swampmoth"
+          "place.imperial-fringe.fort-swampmoth",
+          "place.imperial-fringe.ninefold-station"
+        ],
+        "patrols": [],
+        "tolls": [
+          "place.imperial-fringe.watch-of-the-weighed-cart"
+        ],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": [
+          "road:blackwood"
         ]
       },
       "culture": "argonian",
@@ -6801,7 +7326,16 @@
         ],
         "rivals": [
           "place.imperial-fringe.gideon"
-        ]
+        ],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -6927,7 +7461,16 @@
         ],
         "rivals": [
           "place.imperial-fringe.watch-of-the-weighed-cart"
-        ]
+        ],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -7059,7 +7602,14 @@
       "relations": {
         "reachedVia": [
           "route.rim-path"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -7183,7 +7733,14 @@
       "relations": {
         "reachedVia": [
           "route.blackwood-road"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -7305,7 +7862,17 @@
       "relations": {
         "rivals": [
           "place.imperial-fringe.stonewastes"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -7426,7 +7993,16 @@
         ],
         "supplies": [
           "place.imperial-fringe.ninefold-station"
-        ]
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": null,
@@ -7553,7 +8129,17 @@
       "relations": {
         "dependsOn": [
           "place.imperial-fringe.lowmere-raft-town"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.fig-market",
+          "place.imperial-fringe.onkobra-ferry"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -7675,7 +8261,17 @@
         "scourSiteIds": []
       },
       "relations": {
-        "visibleFrom": []
+        "visibleFrom": [],
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -7799,7 +8395,16 @@
         ],
         "dependsOn": [
           "route.blackwood-road"
-        ]
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -7925,7 +8530,20 @@
       "relations": {
         "rivals": [
           "place.imperial-fringe.cassian-farm"
-        ]
+        ],
+        "dependsOn": [
+          "place.imperial-fringe.claywater-station"
+        ],
+        "supplies": [
+          "place.imperial-fringe.fig-market"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.claywater-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": null,
@@ -8044,7 +8662,17 @@
       "relations": {
         "dependsOn": [
           "place.imperial-fringe.the-drowning-gate"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -8174,7 +8802,16 @@
         ],
         "visibleFrom": [
           "place.imperial-fringe.the-embankment-that-drowned"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "reachedVia": [
+          "place.imperial-fringe.fig-market",
+          "place.imperial-fringe.onkobra-ferry"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -8302,7 +8939,12 @@
         ],
         "travelServiceEdges": [
           "boat:onkobra-upper"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -8431,7 +9073,16 @@
         ],
         "visibleFrom": [
           "place.imperial-fringe.the-drowning-gate"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": null,
@@ -8556,7 +9207,17 @@
         "rivals": [
           "place.imperial-fringe.the-vellum-estate",
           "place.imperial-fringe.westfield-village"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -8679,7 +9340,17 @@
       "relations": {
         "dependsOn": [
           "place.imperial-fringe.gideon"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": null,
@@ -8814,7 +9485,16 @@
         ],
         "supplies": [
           "place.imperial-fringe.gideon"
-        ]
+        ],
+        "dependsOn": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -8938,7 +9618,13 @@
         ],
         "reachedVia": [
           "route.blackwood-road"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -9060,7 +9746,17 @@
       "relations": {
         "rivals": [
           "place.imperial-fringe.stonefoot-terrace-village"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -9187,7 +9883,12 @@
         ],
         "travelServiceEdges": [
           "walk:rim-path"
-        ]
+        ],
+        "dependsOn": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -9315,7 +10016,17 @@
       "relations": {
         "dependsOn": [
           "place.imperial-fringe.the-fig-poachers"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -9443,7 +10154,16 @@
         ],
         "rivals": [
           "place.imperial-fringe.collections-dig"
-        ]
+        ],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -9573,7 +10293,17 @@
       "relations": {
         "supplies": [
           "place.imperial-fringe.stonefoot-terrace-village"
-        ]
+        ],
+        "dependsOn": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -9700,7 +10430,16 @@
         ],
         "supplies": [
           "place.imperial-fringe.fig-market"
-        ]
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.fig-market",
+          "place.imperial-fringe.onkobra-ferry"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -9832,7 +10571,14 @@
       "relations": {
         "reachedVia": [
           "route.upland-track"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -9966,7 +10712,16 @@
         ],
         "patrols": [
           "route.blackwood-road"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -10093,7 +10848,17 @@
       "relations": {
         "rivals": [
           "place.imperial-fringe.ashen-tower"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": null,
@@ -10218,6 +10983,15 @@
         ],
         "travelServiceEdges": [
           "climb:rim-crossing"
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
         ]
       },
       "culture": "argonian",
@@ -10341,7 +11115,17 @@
       "relations": {
         "visibleFrom": [
           "place.imperial-fringe.gideon"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": null,
@@ -10458,7 +11242,13 @@
         "visibleFrom": [],
         "reachedVia": [
           "route.blackwood-road"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": null,
@@ -10579,9 +11369,19 @@
       },
       "relations": {
         "supplies": [
-          "place.imperial-fringe.moonrack-calcinator",
-          "place.imperial-fringe.gideon"
-        ]
+          "place.imperial-fringe.gideon",
+          "place.imperial-fringe.moonrack-calcinator"
+        ],
+        "dependsOn": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -10704,7 +11504,16 @@
         "patrols": [],
         "supplies": [
           "place.imperial-fringe.highwater-hamlet"
-        ]
+        ],
+        "dependsOn": [],
+        "rivals": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -10824,8 +11633,20 @@
       },
       "relations": {
         "reachedVia": [
+          "place.imperial-fringe.lower-onkobra-paddies",
           "route.marsh-edge-way"
-        ]
+        ],
+        "dependsOn": [
+          "place.imperial-fringe.the-vellum-estate"
+        ],
+        "supplies": [
+          "place.imperial-fringe.the-turned-out"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": null,
@@ -10945,7 +11766,16 @@
         ],
         "rivals": [
           "place.imperial-fringe.gideon"
-        ]
+        ],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": "faction.the-owing-brokers",
@@ -11067,10 +11897,22 @@
       },
       "relations": {
         "reachedVia": [
+          "place.imperial-fringe.the-hollow-pass-station",
           "route.upland-track"
         ],
         "supplies": [
+          "place.imperial-fringe.stonefoot-terrace-village",
           "place.imperial-fringe.the-niben-crystal-workings"
+        ],
+        "dependsOn": [
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": [
+          "porter:ravine-pass"
         ]
       },
       "culture": "argonian",
@@ -11204,7 +12046,16 @@
         ],
         "visibleFrom": [
           "place.imperial-fringe.twyllbek-ruins"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -11324,7 +12175,17 @@
       "relations": {
         "dependsOn": [
           "place.imperial-fringe.glenbridge"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -11451,7 +12312,14 @@
       "relations": {
         "reachedVia": [
           "route.upland-track"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": null,
@@ -11570,11 +12438,22 @@
       },
       "relations": {
         "dependsOn": [
+          "place.dunmer-north.hissmir",
           "place.imperial-fringe.gideon"
         ],
         "supplies": [
           "place.imperial-fringe.red-cart-yard"
-        ]
+        ],
+        "rivals": [
+          "place.imperial-fringe.the-turned-out"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.gideon"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -11704,7 +12583,17 @@
       "relations": {
         "dependsOn": [
           "place.imperial-fringe.glenbridge"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -11825,7 +12714,17 @@
       "relations": {
         "dependsOn": [
           "place.imperial-fringe.claywater-station"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -11953,7 +12852,17 @@
       "relations": {
         "visibleFrom": [
           "place.imperial-fringe.the-kept-terrace"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -12082,7 +12991,16 @@
         ],
         "rivals": [
           "place.imperial-fringe.stonewastes"
-        ]
+        ],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -12213,7 +13131,13 @@
         ],
         "visibleFrom": [
           "place.imperial-fringe.ridge-runners-post"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -12340,7 +13264,14 @@
       "relations": {
         "reachedVia": [
           "route.upland-track"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -12458,7 +13389,17 @@
       "relations": {
         "dependsOn": [
           "place.imperial-fringe.burnt-field-village"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -12575,11 +13516,26 @@
       },
       "relations": {
         "rivals": [
+          "place.imperial-fringe.the-second-hearth",
           "place.imperial-fringe.the-vellum-estate"
         ],
         "dependsOn": [
+          "place.imperial-fringe.the-vellum-estate",
           "route.blackwood-road"
-        ]
+        ],
+        "supplies": [
+          "place.imperial-penal-south.owing-camp-basin",
+          "place.mercantile-coast.owing-eviction-camp-west",
+          "place.pirate-freeholds.corimont-hiring-yard",
+          "place.saxhleel-coast.owing-hiring-camp"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.red-cart-yard"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -12707,7 +13663,17 @@
       "relations": {
         "visibleFrom": [
           "place.imperial-fringe.the-lamp-at-the-ford"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -12832,14 +13798,26 @@
       },
       "relations": {
         "rivals": [
-          "place.imperial-fringe.red-cart-yard"
+          "place.imperial-fringe.red-cart-yard",
+          "place.imperial-fringe.the-turned-out"
         ],
         "supplies": [
+          "place.imperial-fringe.bonded-shed-of-the-onkobra",
           "place.imperial-fringe.gideon"
         ],
         "dependsOn": [
-          "place.imperial-fringe.gideon"
-        ]
+          "place.imperial-fringe.gideon",
+          "place.imperial-fringe.lower-onkobra-paddies",
+          "place.imperial-fringe.the-old-quarters"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": "faction.the-owing-brokers",
@@ -12972,7 +13950,14 @@
       "relations": {
         "reachedVia": [
           "route.rim-path"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -13099,7 +14084,16 @@
         ],
         "dependsOn": [
           "place.imperial-fringe.silverhand-cairns"
-        ]
+        ],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -13227,7 +14221,16 @@
         ],
         "rivals": [
           "place.imperial-fringe.collections-dig"
-        ]
+        ],
+        "dependsOn": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -13350,7 +14353,17 @@
       "relations": {
         "rivals": [
           "place.imperial-fringe.the-embankment-that-drowned"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": null,
@@ -13469,7 +14482,16 @@
         ],
         "dependsOn": [
           "place.imperial-fringe.gideon"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.cartwrights-cross",
+          "place.imperial-fringe.mile-house-of-the-eagle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": "faction.gideon-civic-council",
@@ -13592,11 +14614,22 @@
       },
       "relations": {
         "rivals": [
+          "place.imperial-fringe.burnt-field-village",
           "place.imperial-fringe.cassian-farm"
         ],
         "supplies": [
-          "place.imperial-fringe.gideon"
-        ]
+          "place.imperial-fringe.fig-market",
+          "place.imperial-fringe.gideon",
+          "place.imperial-fringe.guar-holding-of-the-nine-bells"
+        ],
+        "dependsOn": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.saddle-fair"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,
@@ -13723,7 +14756,13 @@
         ],
         "reachedVia": [
           "boat:low-fen"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "ownerFaction": "faction.college-of-whispers",
@@ -13853,9 +14892,19 @@
       },
       "relations": {
         "rivals": [
-          "place.imperial-fringe.stonewastes",
-          "place.imperial-fringe.rockgrove"
-        ]
+          "place.imperial-fringe.rockgrove",
+          "place.imperial-fringe.stonewastes"
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-fringe.low-water-fair",
+          "place.imperial-fringe.the-hollow-pass-station"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "ownerFaction": null,

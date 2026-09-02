@@ -50,7 +50,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.stilt-channel-edge-uxaneet",
+          "place.hist-heartland.walkway-junction-high-crossroads"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -148,14 +151,22 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
+        "dependsOn": [
+          "place.pirate-freeholds.alten-corimont"
+        ],
         "supplies": [],
-        "rivals": [],
+        "rivals": [
+          "place.hist-heartland.xal-meeruth-station"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
-        "travelServiceEdges": []
+        "reachedVia": [
+          "place.hist-heartland.xal-meeruth-station"
+        ],
+        "travelServiceEdges": [
+          "boat:markmont-corimont"
+        ]
       },
       "culture": "argonian",
       "occupants": [],
@@ -253,13 +264,24 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.hist-heartland.hist-agaceph-needle"
+        ],
+        "supplies": [
+          "place.dunmer-north.tenmar-wall",
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.root-talk-ground",
+          "place.mercantile-coast.vossa-satl-village"
+        ],
+        "rivals": [
+          "place.mercantile-coast.vossa-satl-village"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.walkway-junction-high-crossroads"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -365,7 +387,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -463,13 +488,23 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.hist-heartland.hammock-tree-island-greenmoss"
+        ],
+        "supplies": [
+          "place.dunmer-north.tenmar-wall",
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
+        "rivals": [
+          "place.hist-heartland.blackguard-hideout-raw"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -573,7 +608,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -669,13 +707,22 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.hist-heartland.officeholder-grave-singer-house"
+        ],
+        "supplies": [
+          "place.hist-heartland.root-talk-ground"
+        ],
+        "rivals": [
+          "place.hist-heartland.cut-and-carried",
+          "place.hist-heartland.sleeping-in-the-ring"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.walkway-junction-high-crossroads"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -783,7 +830,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.stilt-channel-edge-uxaneet",
+          "place.hist-heartland.walkway-junction-high-crossroads"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -883,13 +933,20 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
+        "dependsOn": [
+          "place.imperial-penal-south.blackrose-prison"
+        ],
         "supplies": [],
-        "rivals": [],
+        "rivals": [
+          "place.hist-heartland.beast-keeper-lizard-steed",
+          "place.hist-heartland.boardwalk-branching-many-ways"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.canopy-crossing-rope-basin"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -988,13 +1045,22 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
+        "dependsOn": [
+          "place.hist-heartland.hist-paatru-lowcrown"
+        ],
+        "supplies": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.necropolis-dead-tenders"
+        ],
         "rivals": [],
         "patrols": [],
-        "tolls": [],
+        "tolls": [
+          "place.hist-heartland.walkway-junction-high-crossroads"
+        ],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.walkway-junction-high-crossroads"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -1102,7 +1168,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -1204,13 +1273,26 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
+        "dependsOn": [
+          "place.dunmer-north.the-bone-stage-north",
+          "place.imperial-fringe.bone-road-waystation",
+          "place.imperial-penal-south.rose-bone-waystation",
+          "place.mercantile-coast.bone-waystation",
+          "place.naga-kur-deeps.bone-carriers-camp-deeps",
+          "place.pirate-freeholds.bone-repatriation-waystation"
+        ],
+        "supplies": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.hist-agaceph-needle",
+          "place.hist-heartland.necropolis-dead-tenders"
+        ],
         "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -1313,7 +1395,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -1417,7 +1502,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -1519,7 +1607,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -1619,13 +1710,19 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
+        "dependsOn": [
+          "place.hist-heartland.bone-waystation-interior"
+        ],
         "supplies": [],
-        "rivals": [],
+        "rivals": [
+          "place.hist-heartland.heretic-stone-restarted"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -1728,7 +1825,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.stilt-channel-edge-uxaneet",
+          "place.hist-heartland.walkway-junction-high-crossroads"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -1829,7 +1929,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.stilt-channel-edge-uxaneet",
+          "place.hist-heartland.walkway-junction-high-crossroads"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -1929,7 +2032,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -1994,7 +2100,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "occupants": [],
@@ -2140,7 +2249,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -2242,13 +2354,22 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.hist-heartland.hist-first-rain-trunk",
+          "place.hist-heartland.officeholder-tree-minder-house"
+        ],
+        "supplies": [
+          "place.hist-heartland.root-talk-ground"
+        ],
+        "rivals": [
+          "place.hist-heartland.bereaved-mnemic"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.boardwalk-branching-many-ways"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -2357,7 +2478,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -2464,7 +2588,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.stilt-channel-edge-uxaneet",
+          "place.hist-heartland.walkway-junction-high-crossroads"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -2565,7 +2692,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.stilt-channel-edge-uxaneet",
+          "place.hist-heartland.walkway-junction-high-crossroads"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -2669,7 +2799,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -2772,7 +2905,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -2874,7 +3010,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.stilt-channel-edge-uxaneet",
+          "place.hist-heartland.walkway-junction-high-crossroads"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -2979,7 +3118,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3083,7 +3225,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3182,13 +3327,21 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.hist-heartland.stilt-channel-edge-uxaneet"
+        ],
+        "supplies": [
+          "place.hist-heartland.greenspring"
+        ],
+        "rivals": [
+          "place.hist-heartland.stilt-channel-edge-two-poles"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3287,13 +3440,24 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.hist-heartland.porter-relay-poling"
+        ],
+        "supplies": [
+          "place.hist-heartland.guide-camp-gate-side",
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.pilgrim-camp-sap-road"
+        ],
+        "rivals": [
+          "place.hist-heartland.stilt-channel-edge-uxaneet"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.whitewater-reach-panther",
+          "place.hist-heartland.xal-meeruth-station"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3401,7 +3565,9 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3498,14 +3664,23 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
+        "dependsOn": [
+          "place.hist-heartland.greenspring"
+        ],
+        "supplies": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.helstrom"
+        ],
         "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
-        "travelServiceEdges": []
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter"
+        ],
+        "travelServiceEdges": [
+          "guide:basin-crossing"
+        ]
       },
       "culture": "argonian",
       "occupants": [],
@@ -3611,7 +3786,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3712,7 +3890,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3812,13 +3993,22 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
+        "dependsOn": [
+          "place.hist-heartland.walkway-junction-high-crossroads"
+        ],
+        "supplies": [
+          "place.hist-heartland.beast-keeper-lizard-steed",
+          "place.hist-heartland.flood-high-single-rise",
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.stilt-channel-edge-two-poles"
+        ],
         "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.walkway-junction-high-crossroads"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3923,7 +4113,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4024,17 +4217,35 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
+        "dependsOn": [
+          "place.hist-heartland.greenspring",
+          "place.hist-heartland.porter-relay-poling",
+          "place.hist-heartland.rootworm-station-helstrom"
+        ],
+        "supplies": [
+          "place.hist-heartland.nisswo-rest-house-interior",
+          "place.hist-heartland.refuge-station-interior",
+          "place.hist-heartland.root-talk-ground"
+        ],
         "rivals": [],
-        "patrols": [],
+        "patrols": [
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
           "escorted boat convoy from Alten Corimont",
+          "place.hist-heartland.bubble-spire-open-helstrom",
+          "place.hist-heartland.root-gallery-helstrom-underway",
+          "place.hist-heartland.stilt-channel-edge-uxaneet",
           "root transit (semi-public hub)"
         ],
-        "travelServiceEdges": []
+        "travelServiceEdges": [
+          "boat:helstrom-approach",
+          "road:tenmar-helstrom",
+          "rootworm:helstrom-gideon",
+          "rootworm:helstrom-north-shadowfen"
+        ]
       },
       "culture": "argonian",
       "occupants": [],
@@ -4153,13 +4364,23 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.hist-heartland.duskfall-unmade-site"
+        ],
+        "supplies": [
+          "place.hist-heartland.squatted-ruin-home-hollow"
+        ],
+        "rivals": [
+          "place.hist-heartland.burn-scar-village-ash",
+          "place.hist-heartland.root-talk-ground",
+          "place.hist-heartland.xanmeer-fort-defences-working"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4267,7 +4488,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4376,7 +4600,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4483,7 +4710,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4599,7 +4829,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4708,13 +4941,21 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.dunmer-north.hissmir"
+        ],
+        "supplies": [
+          "place.hist-heartland.urn-vault-blasphemers"
+        ],
+        "rivals": [
+          "place.hist-heartland.root-talk-ground"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4821,7 +5062,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4936,7 +5180,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5045,15 +5292,22 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
+        "dependsOn": [
+          "place.hist-heartland.sealed-xanmeer-living"
+        ],
         "supplies": [],
-        "rivals": [],
+        "rivals": [
+          "place.hist-heartland.treasure-hunters-live-camp",
+          "place.hist-heartland.xanmeer-fort-defences-working"
+        ],
         "patrols": [
           "place.hist-heartland.sealed-xanmeer-living"
         ],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.canopy-crossing-root-high"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5160,7 +5414,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5267,7 +5524,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5377,7 +5637,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5483,7 +5746,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5585,7 +5851,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5693,7 +5962,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5795,7 +6067,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5898,7 +6173,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5995,13 +6273,24 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.hist-heartland.boardwalk-branching-many-ways"
+        ],
+        "supplies": [
+          "place.hist-heartland.bog-blight-ground-stakes",
+          "place.hist-heartland.hammock-crown-ancestor",
+          "place.hist-heartland.officeholder-grave-singer-house",
+          "place.hist-heartland.urn-vault-blasphemers"
+        ],
+        "rivals": [
+          "place.naga-kur-deeps.necropolis-nightbound"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.boardwalk-branching-many-ways"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -6102,13 +6391,21 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.hist-heartland.root-gallery-lantern-hollow"
+        ],
+        "supplies": [
+          "place.hist-heartland.necropolis-dead-tenders"
+        ],
+        "rivals": [
+          "place.hist-heartland.nine-trunks"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.canopy-crossing-root-high"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -6209,13 +6506,22 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.hist-heartland.pilgrim-camp-hist-tsoko",
+          "place.hist-heartland.root-talk-ground"
+        ],
+        "supplies": [
+          "place.hist-heartland.helstrom"
+        ],
+        "rivals": [
+          "place.hist-heartland.greenspring"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.stilt-channel-edge-uxaneet"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -6322,7 +6628,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -6426,7 +6735,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -6532,7 +6844,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -6637,7 +6952,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -6740,7 +7058,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -6841,7 +7162,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -6944,7 +7268,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -7047,14 +7374,24 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
+        "dependsOn": [
+          "place.hist-heartland.beast-keeper-lizard-steed"
+        ],
+        "supplies": [
+          "place.hist-heartland.greenspring",
+          "place.hist-heartland.helstrom"
+        ],
         "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
-        "travelServiceEdges": []
+        "reachedVia": [
+          "place.hist-heartland.helstrom"
+        ],
+        "travelServiceEdges": [
+          "boat:helstrom-approach",
+          "porter:relay-helstrom"
+        ]
       },
       "culture": "argonian",
       "occupants": [],
@@ -7160,7 +7497,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -7267,7 +7607,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -7377,7 +7720,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -7491,7 +7837,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -7601,7 +7950,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -7711,7 +8063,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -7825,7 +8180,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -7929,13 +8287,22 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
+        "dependsOn": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.pilgrim-camp-hist-tsoko",
+          "place.hist-heartland.stone-calendar-hist-tsoko"
+        ],
+        "supplies": [
+          "place.hist-heartland.nine-trunks"
+        ],
         "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -8041,7 +8408,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -8145,7 +8515,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -8243,14 +8616,26 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
+        "dependsOn": [
+          "place.hist-heartland.root-gallery-helstrom-underway"
+        ],
+        "supplies": [
+          "place.hist-heartland.bubble-spire-open-helstrom",
+          "place.hist-heartland.helstrom"
+        ],
         "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
-        "travelServiceEdges": []
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
+        "travelServiceEdges": [
+          "rootworm:helstrom-east-estuary",
+          "rootworm:helstrom-gideon",
+          "rootworm:helstrom-north-shadowfen"
+        ]
       },
       "culture": "argonian",
       "occupants": [],
@@ -8357,7 +8742,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -8471,7 +8859,10 @@
         "visibleFrom": [
           "place.hist-heartland.harmed-hist-tapped"
         ],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -8568,13 +8959,22 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.hist-heartland.dream-wallow-sap-pool",
+          "place.hist-heartland.hist-agaceph-needle"
+        ],
+        "supplies": [
+          "place.hist-heartland.nisswo-rest-house-interior"
+        ],
+        "rivals": [
+          "place.hist-heartland.dream-wallow-starblossom"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.pilgrim-camp-sap-road"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -8681,7 +9081,10 @@
         ],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -8794,7 +9197,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -8897,7 +9303,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -8996,13 +9405,21 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.dunmer-north.hissmir"
+        ],
+        "supplies": [
+          "place.hist-heartland.helstrom"
+        ],
+        "rivals": [
+          "place.hist-heartland.bereaved-mnemic"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -9110,7 +9527,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -9217,7 +9637,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -9317,13 +9740,21 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.hist-heartland.hammock-tree-island-greenmoss"
+        ],
+        "supplies": [
+          "place.hist-heartland.stilt-channel-edge-uxaneet"
+        ],
+        "rivals": [
+          "place.hist-heartland.flood-high-single-rise"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.stilt-channel-edge-uxaneet"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -9425,14 +9856,25 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.hist-heartland.porter-relay-poling"
+        ],
+        "supplies": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.xal-meeruth-station"
+        ],
+        "rivals": [
+          "place.hist-heartland.greenspring"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
-        "travelServiceEdges": []
+        "reachedVia": [
+          "place.hist-heartland.walkway-junction-high-crossroads"
+        ],
+        "travelServiceEdges": [
+          "boat:helstrom-approach"
+        ]
       },
       "culture": "argonian",
       "occupants": [],
@@ -9538,7 +9980,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -9643,7 +10088,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.stilt-channel-edge-uxaneet",
+          "place.hist-heartland.walkway-junction-high-crossroads"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -9751,7 +10199,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -9860,7 +10311,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -9966,7 +10420,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -10074,7 +10531,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -10175,13 +10635,19 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
+        "dependsOn": [
+          "place.hist-heartland.mass-grave-flu-memorial"
+        ],
         "supplies": [],
-        "rivals": [],
+        "rivals": [
+          "place.hist-heartland.waiting-vigil-village"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.burn-scar-village-ash"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -10290,7 +10756,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -10393,7 +10862,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -10497,7 +10969,10 @@
         "visibleFrom": [
           "place.hist-heartland.helstrom"
         ],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -10598,7 +11073,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -10655,13 +11133,22 @@
     {
       "aliases": [],
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.hist-heartland.greenspring"
+        ],
+        "supplies": [
+          "place.hist-heartland.refuge-station-interior"
+        ],
+        "rivals": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.umbriel-stripped-quiet"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "occupants": [],
@@ -10809,7 +11296,9 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.stilt-channel-edge-uxaneet"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -10916,7 +11405,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.stilt-channel-edge-uxaneet",
+          "place.hist-heartland.walkway-junction-high-crossroads"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -11020,7 +11512,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.stilt-channel-edge-uxaneet",
+          "place.hist-heartland.walkway-junction-high-crossroads"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -11125,7 +11620,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.stilt-channel-edge-uxaneet",
+          "place.hist-heartland.walkway-junction-high-crossroads"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -11229,7 +11727,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -11331,7 +11832,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -11435,7 +11939,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.guide-camp-far-shelter",
+          "place.hist-heartland.guide-camp-gate-side"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -11535,14 +12042,26 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.hist-heartland.greenspring"
+        ],
+        "supplies": [
+          "place.hist-heartland.helstrom"
+        ],
+        "rivals": [
+          "place.hist-heartland.alten-markmont"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
-        "travelServiceEdges": []
+        "reachedVia": [
+          "place.hist-heartland.helstrom",
+          "place.hist-heartland.porter-relay-poling"
+        ],
+        "travelServiceEdges": [
+          "boat:helstrom-approach",
+          "boat:markmont-corimont"
+        ]
       },
       "culture": "argonian",
       "occupants": [],
@@ -11647,13 +12166,22 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.hist-heartland.tended-xanmeer-clan-north"
+        ],
+        "supplies": [
+          "place.hist-heartland.helstrom"
+        ],
+        "rivals": [
+          "place.hist-heartland.heretic-stone-restarted",
+          "place.hist-heartland.insular-hereditary-watch"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.hist-heartland.porter-relay-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",

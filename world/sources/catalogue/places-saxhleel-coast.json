@@ -92,7 +92,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.archon",
@@ -152,14 +165,23 @@
       },
       "relations": {
         "dependsOn": [
-          "place.saxhleel-coast.archon-shipyard"
+          "place.saxhleel-coast.archon-shipyard",
+          "place.saxhleel-coast.estuary-salt-pans",
+          "place.saxhleel-coast.seafalls",
+          "place.saxhleel-coast.stilt-village-east"
         ],
         "supplies": [
-          "place.saxhleel-coast.portdun-mont"
+          "place.saxhleel-coast.archon-bonded-row",
+          "place.saxhleel-coast.coast-hist-less-refuge",
+          "place.saxhleel-coast.portdun-mont",
+          "place.saxhleel-coast.quay-tradehouse"
         ],
-        "rivals": [],
+        "rivals": [
+          "place.mercantile-coast.alten-meerhleel",
+          "place.mercantile-coast.lilmoth"
+        ],
         "patrols": [
-          "place.saxhleel-coast.archon-estuary-boom-tower"
+          "place.saxhleel-coast.estuary-boom-tower"
         ],
         "tolls": [
           "place.saxhleel-coast.archon-quarantine-shed"
@@ -172,7 +194,9 @@
           "route.road.archon-gideon"
         ],
         "travelServiceEdges": [
+          "boat:padomaic-coast",
           "ferry.archon-portdun-mont",
+          "rootworm:helstrom-east-estuary",
           "watertaxi.archon-lower-town"
         ]
       },
@@ -369,7 +393,26 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.saxhleel-coast.archon"
+        ],
+        "supplies": [
+          "place.saxhleel-coast.archon"
+        ],
+        "rivals": [
+          "place.mercantile-coast.collections-bond"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.archon-glowgill-byre",
@@ -481,7 +524,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.archon-harbour-hist",
@@ -604,6 +660,25 @@
         "kind": "city tree",
         "powerSlot": "power.hist.saxhleel-coast.archon-harbour-hist",
         "note": "Hero Hist 5/10. EXTRAPOLATED (hist-placement.md \u00a73): a small harbour Hist on the landward side of the city, speaking but the least consulted tree in the province \u2014 the speaker's post is a harbour-authority sinecure. Archon needs a tree for its Argonian residents' eggs and dead; the city's life does not revolve around it."
+      },
+      "relations": {
+        "dependsOn": [
+          "place.saxhleel-coast.archon"
+        ],
+        "supplies": [
+          "place.saxhleel-coast.archon",
+          "place.saxhleel-coast.coast-hist-less-refuge",
+          "place.saxhleel-coast.wall-hist-village"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
       }
     },
     {
@@ -664,7 +739,10 @@
         "visibleFrom": [
           "place.saxhleel-coast.archon"
         ],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
         "travelServiceEdges": []
       },
       "culture": "imperial",
@@ -819,7 +897,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.archon-sacked-quarter",
@@ -924,7 +1015,23 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.saxhleel-coast.archon"
+        ],
+        "supplies": [],
+        "rivals": [
+          "place.saxhleel-coast.coast-hist-less-refuge"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.archon"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.archon-shadowscale-sanctuary",
@@ -1172,7 +1279,28 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.saxhleel-coast.archon",
+          "place.saxhleel-coast.derelict-timber-concession"
+        ],
+        "supplies": [
+          "place.saxhleel-coast.archon",
+          "place.saxhleel-coast.delta-boatwright"
+        ],
+        "rivals": [
+          "place.mercantile-coast.soulrest-breaking-yard"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.archon-thalmor-post",
@@ -1268,7 +1396,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.archon-trial-ground",
@@ -1375,7 +1516,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.archon-whispers-house",
@@ -1479,7 +1633,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.banner-stack",
@@ -1579,7 +1746,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.beached-hull-hall",
@@ -1676,7 +1856,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.boardwalk-high-stage",
@@ -1772,7 +1965,25 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.saxhleel-coast.walkway-junction-east"
+        ],
+        "supplies": [
+          "place.saxhleel-coast.archon"
+        ],
+        "rivals": [
+          "place.saxhleel-coast.boardwalk-spine-north"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.boardwalk-spine-north",
@@ -1875,7 +2086,25 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.saxhleel-coast.mangrove-wall-village"
+        ],
+        "supplies": [
+          "place.saxhleel-coast.archon"
+        ],
+        "rivals": [
+          "place.saxhleel-coast.boardwalk-high-stage"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.broken-xanmeer-coast",
@@ -1971,7 +2200,20 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-guide-camp",
+          "place.saxhleel-coast.portdun-mont"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.canopy-crossing-wall",
@@ -2056,7 +2298,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.cantemir-foreign-graveyard",
@@ -2144,7 +2399,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.cantemir-headland",
@@ -2258,7 +2526,20 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-guide-camp",
+          "place.saxhleel-coast.portdun-mont"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.climbable-terrace-roof",
@@ -2344,7 +2625,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-guide-camp",
+          "place.saxhleel-coast.portdun-mont"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.coast-courier-relay",
@@ -2444,7 +2738,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.coast-guide-camp",
@@ -2540,7 +2847,19 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.portdun-mont"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.coast-hist-less-refuge",
@@ -2653,7 +2972,27 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.dunmer-north.hissmir",
+          "place.saxhleel-coast.archon"
+        ],
+        "supplies": [
+          "place.saxhleel-coast.archon-shipyard"
+        ],
+        "rivals": [
+          "place.saxhleel-coast.archon-sacked-quarter",
+          "place.saxhleel-coast.owing-hiring-camp"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.archon"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.coast-road-hearth-house",
@@ -2758,7 +3097,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.coast-road-tradehouse",
@@ -2858,7 +3210,19 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.coast-root-hollow",
@@ -2952,7 +3316,20 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-guide-camp",
+          "place.saxhleel-coast.portdun-mont"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.coast-serpent-ground",
@@ -3043,7 +3420,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-guide-camp",
+          "place.saxhleel-coast.portdun-mont"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.coast-treasure-hunters-camp",
@@ -3134,7 +3524,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-guide-camp",
+          "place.saxhleel-coast.portdun-mont"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.contested-bank",
@@ -3231,7 +3634,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.dance-barge-mooring",
@@ -3338,7 +3754,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-guide-camp",
+          "place.saxhleel-coast.portdun-mont"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.dead-air-lane",
@@ -3439,7 +3868,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.deep-bank",
@@ -3525,7 +3967,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.delta-boatwright",
@@ -3622,7 +4077,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.delta-drowning-narrows",
@@ -3716,7 +4184,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.derelict-timber-concession",
@@ -3811,7 +4292,24 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.saxhleel-coast.archon-shipyard"
+        ],
+        "rivals": [
+          "place.mercantile-coast.timber-concession"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.drake-deep",
@@ -3912,7 +4410,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.dusk-bird-colony",
@@ -4009,7 +4520,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.east-estuary-rootworm-station",
@@ -4128,7 +4652,26 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.hist-heartland.rootworm-station-helstrom"
+        ],
+        "supplies": [
+          "place.saxhleel-coast.archon"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": [
+          "rootworm:helstrom-east-estuary"
+        ]
+      }
     },
     {
       "id": "place.saxhleel-coast.estuary-boom-tower",
@@ -4233,7 +4776,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.estuary-ferry-stage",
@@ -4340,7 +4896,26 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.saxhleel-coast.archon",
+          "place.saxhleel-coast.mangrove-wall-village",
+          "place.saxhleel-coast.stilt-village-east"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": [
+          "boat:padomaic-coast",
+          "ferry:estuary-crossing"
+        ]
+      }
     },
     {
       "id": "place.saxhleel-coast.estuary-keepers-lodge",
@@ -4432,7 +5007,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.estuary-market-row",
@@ -4529,7 +5117,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.estuary-salt-pans",
@@ -4625,7 +5226,25 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.saxhleel-coast.archon",
+          "place.saxhleel-coast.estuary-market-row"
+        ],
+        "rivals": [
+          "place.mercantile-coast.topal-salt-pans"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.gap-reef",
@@ -4723,7 +5342,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.gull-stack",
@@ -4808,7 +5440,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.haj-mota-shell-yard",
@@ -4903,7 +5548,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.headland-storm-shelter",
@@ -5002,7 +5660,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.inland-fair-ground",
@@ -5101,7 +5772,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.jungle-courier-relay",
@@ -5194,7 +5878,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.jungle-ferry-stage",
@@ -5293,7 +5990,25 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.saxhleel-coast.archon",
+          "place.saxhleel-coast.wall-hist-village"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage"
+        ],
+        "travelServiceEdges": [
+          "boat:east-river",
+          "ferry:jungle-crossing"
+        ]
+      }
     },
     {
       "id": "place.saxhleel-coast.jungle-root-hollow",
@@ -5388,7 +6103,20 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-guide-camp",
+          "place.saxhleel-coast.portdun-mont"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.jungle-track-hearth-house",
@@ -5487,7 +6215,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.ladder-tower-canopy",
@@ -5578,7 +6319,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-guide-camp",
+          "place.saxhleel-coast.portdun-mont"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.lagoon-bioluminescence",
@@ -5673,7 +6427,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.lagoon-storm-shelter",
@@ -5766,7 +6533,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.lagoon-submerged-xanmeer",
@@ -5880,7 +6660,20 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.mangrove-air-pocket",
@@ -5968,7 +6761,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.mangrove-cut-village",
@@ -6072,7 +6878,24 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.saxhleel-coast.portdun-privateer-anchorage"
+        ],
+        "rivals": [
+          "place.saxhleel-coast.estuary-boom-tower",
+          "place.saxhleel-coast.mangrove-wall-village"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.mangrove-reef",
@@ -6163,7 +6986,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.mangrove-wall-village",
@@ -6253,7 +7089,26 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.saxhleel-coast.estuary-ferry-stage"
+        ],
+        "supplies": [
+          "place.saxhleel-coast.archon",
+          "place.saxhleel-coast.estuary-market-row"
+        ],
+        "rivals": [
+          "place.saxhleel-coast.mangrove-cut-village"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.mangrove-wreck",
@@ -6346,7 +7201,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.outer-reef",
@@ -6434,7 +7302,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.owing-hiring-camp",
@@ -6539,7 +7420,27 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.imperial-fringe.the-turned-out"
+        ],
+        "supplies": [
+          "place.saxhleel-coast.archon-shipyard",
+          "place.saxhleel-coast.estuary-salt-pans"
+        ],
+        "rivals": [
+          "place.saxhleel-coast.coast-hist-less-refuge"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.pearl-lots",
@@ -6646,7 +7547,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.portdun-mont",
@@ -6755,7 +7669,32 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.saxhleel-coast.archon"
+        ],
+        "supplies": [
+          "place.saxhleel-coast.archon",
+          "place.saxhleel-coast.portdun-privateer-anchorage"
+        ],
+        "rivals": [],
+        "patrols": [
+          "place.saxhleel-coast.archon-lighthouse"
+        ],
+        "tolls": [],
+        "visibleFrom": [
+          "place.saxhleel-coast.archon-lighthouse"
+        ],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": [
+          "boat:padomaic-coast",
+          "ferry:archon-portdun-mont"
+        ]
+      }
     },
     {
       "id": "place.saxhleel-coast.portdun-privateer-anchorage",
@@ -6867,7 +7806,29 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.saxhleel-coast.portdun-mont"
+        ],
+        "supplies": [
+          "place.mercantile-coast.quinrawl-anchorage"
+        ],
+        "rivals": [
+          "place.saxhleel-coast.archon",
+          "place.saxhleel-coast.estuary-boom-tower"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": [
+          "boat:padomaic-coast"
+        ]
+      }
     },
     {
       "id": "place.saxhleel-coast.quarantine-village-lagoon",
@@ -6978,7 +7939,23 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.saxhleel-coast.archon-quarantine-shed"
+        ],
+        "supplies": [],
+        "rivals": [
+          "place.saxhleel-coast.stilt-village-lagoon"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.quay-flooded-cellar",
@@ -7067,7 +8044,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.quay-tradehouse",
@@ -7175,7 +8165,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.reef-air-pocket",
@@ -7263,7 +8266,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.reef-wreck",
@@ -7358,7 +8374,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.seafalls",
@@ -7474,7 +8503,31 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.saxhleel-coast.seafalls-porter-relay",
+          "place.saxhleel-coast.seafalls-slipway"
+        ],
+        "supplies": [
+          "place.saxhleel-coast.archon",
+          "place.saxhleel-coast.seafalls-porter-relay"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [
+          "place.saxhleel-coast.estuary-boom-tower"
+        ],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": [
+          "boat:east-river",
+          "porter:seafalls-portage"
+        ]
+      }
     },
     {
       "id": "place.saxhleel-coast.seafalls-chamber",
@@ -7569,7 +8622,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.seafalls-porter-relay",
@@ -7662,7 +8728,25 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.saxhleel-coast.seafalls",
+          "place.saxhleel-coast.terrace-village-ridge"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": [
+          "porter:seafalls-portage"
+        ]
+      }
     },
     {
       "id": "place.saxhleel-coast.seafalls-reach",
@@ -7757,7 +8841,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.seafalls-slipway",
@@ -7857,7 +8954,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.sealed-xanmeer-wall",
@@ -7956,7 +9066,20 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-guide-camp",
+          "place.saxhleel-coast.portdun-mont"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.shell-beast-shallows",
@@ -8044,7 +9167,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.shell-bed-north",
@@ -8130,7 +9266,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.stilt-village-drowned-rise",
@@ -8224,7 +9373,25 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.saxhleel-coast.tide-street-village"
+        ],
+        "supplies": [
+          "place.saxhleel-coast.archon"
+        ],
+        "rivals": [
+          "place.saxhleel-coast.stilt-village-east"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.stilt-village-east",
@@ -8331,7 +9498,26 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.saxhleel-coast.deep-bank"
+        ],
+        "supplies": [
+          "place.saxhleel-coast.archon",
+          "place.saxhleel-coast.estuary-market-row"
+        ],
+        "rivals": [
+          "place.saxhleel-coast.stilt-village-drowned-rise"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.stilt-village-lagoon",
@@ -8426,7 +9612,26 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.saxhleel-coast.contested-bank"
+        ],
+        "supplies": [
+          "place.saxhleel-coast.estuary-market-row"
+        ],
+        "rivals": [
+          "place.saxhleel-coast.quarantine-village-lagoon",
+          "place.saxhleel-coast.stilt-village-east"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.tended-xanmeer-coast",
@@ -8535,7 +9740,20 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.terrace-village-ridge",
@@ -8632,7 +9850,26 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.saxhleel-coast.seafalls-porter-relay"
+        ],
+        "supplies": [
+          "place.saxhleel-coast.archon",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "rivals": [
+          "place.saxhleel-coast.wall-hist-village"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.tide-run-channel",
@@ -8721,7 +9958,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.tide-run-delta",
@@ -8830,7 +10080,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.tide-street-salvage-yard",
@@ -8927,7 +10190,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.tide-street-village",
@@ -9037,7 +10313,23 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.saxhleel-coast.tide-street-salvage-yard"
+        ],
+        "supplies": [],
+        "rivals": [
+          "place.saxhleel-coast.stilt-village-drowned-rise"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.umbriel-shore-memorial",
@@ -9140,7 +10432,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.village-tradehouse-south",
@@ -9232,7 +10537,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-road-tradehouse",
+          "place.saxhleel-coast.seafalls"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.walkway-junction-east",
@@ -9325,7 +10643,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.wall-hermit-hut",
@@ -9432,7 +10763,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-guide-camp",
+          "place.saxhleel-coast.portdun-mont"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.wall-hist-village",
@@ -9542,7 +10886,26 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "supplies": [
+          "place.saxhleel-coast.archon",
+          "place.saxhleel-coast.estuary-market-row"
+        ],
+        "rivals": [
+          "place.saxhleel-coast.terrace-village-ridge"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.wall-poacher-camp",
@@ -9635,7 +10998,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-guide-camp",
+          "place.saxhleel-coast.portdun-mont"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.wall-vista-ledge",
@@ -9729,7 +11105,20 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-guide-camp",
+          "place.saxhleel-coast.portdun-mont"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.wild-rootworm-burrow",
@@ -9815,7 +11204,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.coast-guide-camp",
+          "place.saxhleel-coast.portdun-mont"
+        ],
+        "travelServiceEdges": []
+      }
     },
     {
       "id": "place.saxhleel-coast.xanmeer-dive-shaft",
@@ -9905,7 +11307,20 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived"
+      "workflow": "derived",
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.saxhleel-coast.estuary-ferry-stage",
+          "place.saxhleel-coast.jungle-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      }
     }
   ]
 }

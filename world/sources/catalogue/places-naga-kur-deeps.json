@@ -50,7 +50,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire",
+          "place.naga-kur-deeps.portage-slipway-narrows-deeps"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -150,7 +153,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -246,13 +252,22 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.naga-kur-deeps.stilt-tidal-black-piles"
+        ],
+        "supplies": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
+        "rivals": [
+          "place.naga-kur-deeps.serpent-ground-moon-adder"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -357,7 +372,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.boardwalk-single-spine",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -454,13 +472,21 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.naga-kur-deeps.dead-water-village"
+        ],
+        "supplies": [
+          "place.naga-kur-deeps.necropolis-nightbound"
+        ],
+        "rivals": [
+          "place.naga-kur-deeps.naga-village-settled"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -568,7 +594,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire",
+          "place.naga-kur-deeps.portage-slipway-narrows-deeps"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -668,13 +697,22 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
+        "supplies": [
+          "place.naga-kur-deeps.necropolis-nightbound"
+        ],
+        "rivals": [
+          "place.naga-kur-deeps.naga-highway-camp-walkway",
+          "place.naga-kur-deeps.raft-village-lashed"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -781,7 +819,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -885,7 +926,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -982,13 +1026,19 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
+        "dependsOn": [
+          "place.naga-kur-deeps.necropolis-nightbound"
+        ],
+        "supplies": [
+          "place.hist-heartland.bone-waystation-interior"
+        ],
         "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -1090,7 +1140,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -1192,14 +1245,30 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
+        "dependsOn": [
+          "place.naga-kur-deeps.necropolis-nightbound",
+          "place.naga-kur-deeps.root-gallery-blue-flood"
+        ],
+        "supplies": [
+          "place.naga-kur-deeps.bereaved-hist-less-since",
+          "place.naga-kur-deeps.tended-xanmeer-pilgrim-deeps"
+        ],
         "rivals": [],
-        "patrols": [],
-        "tolls": [],
+        "patrols": [
+          "place.naga-kur-deeps.root-gallery-blight-warren",
+          "place.naga-kur-deeps.umbriel-stripped-undead"
+        ],
+        "tolls": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire"
+        ],
         "visibleFrom": [],
-        "reachedVia": [],
-        "travelServiceEdges": []
+        "reachedVia": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
+        "travelServiceEdges": [
+          "guide:inner-swamp-poling"
+        ]
       },
       "culture": "argonian",
       "occupants": [],
@@ -1316,7 +1385,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire",
+          "place.naga-kur-deeps.portage-slipway-narrows-deeps"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -1416,7 +1488,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire",
+          "place.naga-kur-deeps.portage-slipway-narrows-deeps"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -1514,12 +1589,19 @@
       },
       "relations": {
         "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "supplies": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire"
+        ],
+        "rivals": [
+          "place.naga-kur-deeps.naga-village-settled",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -1620,13 +1702,19 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
+        "dependsOn": [
+          "place.naga-kur-deeps.treasure-hunters-living-deeps"
+        ],
         "supplies": [],
-        "rivals": [],
+        "rivals": [
+          "place.naga-kur-deeps.drawdown-flat-refilling-deeps"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -1733,7 +1821,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire",
+          "place.naga-kur-deeps.portage-slipway-narrows-deeps"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -1831,14 +1922,27 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.mercantile-coast.lilmoth"
+        ],
+        "supplies": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling",
+          "place.naga-kur-deeps.naga-village-settled"
+        ],
+        "rivals": [
+          "place.naga-kur-deeps.portage-slipway-narrows-deeps"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
-        "travelServiceEdges": []
+        "reachedVia": [
+          "place.naga-kur-deeps.portage-slipway-narrows-deeps"
+        ],
+        "travelServiceEdges": [
+          "ferry:deeps-hire-stage",
+          "guide:inner-swamp-poling"
+        ]
       },
       "culture": "argonian",
       "occupants": [],
@@ -1942,13 +2046,22 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.naga-kur-deeps.horwalli-waterworks-deeps"
+        ],
+        "supplies": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
+        "rivals": [
+          "place.naga-kur-deeps.whitewater-logjam-reach"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.portage-slipway-narrows-deeps"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -2051,7 +2164,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire",
+          "place.naga-kur-deeps.portage-slipway-narrows-deeps"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -2148,14 +2264,23 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
+        "dependsOn": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire"
+        ],
+        "supplies": [
+          "place.naga-kur-deeps.air-pocket-station-deeps",
+          "place.naga-kur-deeps.dead-water-village"
+        ],
         "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
-        "travelServiceEdges": []
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village"
+        ],
+        "travelServiceEdges": [
+          "guide:inner-swamp-poling"
+        ]
       },
       "culture": "argonian",
       "occupants": [],
@@ -2255,7 +2380,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.boardwalk-single-spine",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -2355,11 +2483,16 @@
       "relations": {
         "dependsOn": [],
         "supplies": [],
-        "rivals": [],
+        "rivals": [
+          "place.mercantile-coast.tapped-hist-ashroot",
+          "place.naga-kur-deeps.dead-water-village"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -2467,7 +2600,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -2575,7 +2711,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire",
+          "place.naga-kur-deeps.portage-slipway-narrows-deeps"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -2676,13 +2815,20 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
+        "dependsOn": [
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
         "supplies": [],
-        "rivals": [],
+        "rivals": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire",
+          "place.naga-kur-deeps.naga-village-settled"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -2791,7 +2937,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -2897,7 +3046,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -2963,7 +3115,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire",
+          "place.naga-kur-deeps.portage-slipway-narrows-deeps"
+        ],
         "travelServiceEdges": []
       },
       "occupants": [],
@@ -3116,7 +3271,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.boardwalk-single-spine",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3218,7 +3376,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.boardwalk-single-spine",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3326,7 +3487,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.boardwalk-single-spine",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3429,7 +3593,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3533,7 +3700,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3640,7 +3810,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3746,7 +3919,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3852,7 +4028,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3955,12 +4134,23 @@
       },
       "relations": {
         "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
-        "patrols": [],
+        "supplies": [
+          "place.naga-kur-deeps.naga-highway-camp-active-south"
+        ],
+        "rivals": [
+          "place.mercantile-coast.naga-village-oliis",
+          "place.naga-kur-deeps.naga-highway-camp-active-north",
+          "place.naga-kur-deeps.naga-village-settled"
+        ],
+        "patrols": [
+          "place.naga-kur-deeps.naga-highway-camp-active-north",
+          "place.naga-kur-deeps.naga-highway-camp-active-south"
+        ],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4062,15 +4252,26 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
+        "dependsOn": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire"
+        ],
+        "supplies": [
+          "place.mercantile-coast.lilmoth",
+          "place.naga-kur-deeps.dead-water-village"
+        ],
         "rivals": [
-          "place.naga-kur-deeps.naga-highway-camp-active-north"
+          "place.naga-kur-deeps.insular-hostile-first",
+          "place.naga-kur-deeps.naga-highway-camp-active-north",
+          "place.naga-kur-deeps.naga-village-raiding"
         ],
         "patrols": [],
-        "tolls": [],
+        "tolls": [
+          "place.naga-kur-deeps.naga-highway-camp-active-north"
+        ],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4171,13 +4372,26 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.naga-kur-deeps.dead-water-village"
+        ],
+        "supplies": [
+          "place.naga-kur-deeps.bog-blight-ground-nine-stakes",
+          "place.naga-kur-deeps.bog-blight-ground-old-cordon",
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.root-gallery-blight-warren",
+          "place.naga-kur-deeps.urn-vault-sealed-deeps"
+        ],
+        "rivals": [
+          "place.hist-heartland.necropolis-dead-tenders",
+          "place.mercantile-coast.necropolis-village-murkmire"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4285,7 +4499,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4386,13 +4603,23 @@
       },
       "relations": {
         "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "supplies": [
+          "place.naga-kur-deeps.flood-high-levee-top",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
+        "rivals": [
+          "place.naga-kur-deeps.drowning-narrows-tidal-gate",
+          "place.naga-kur-deeps.stilt-tidal-black-piles"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
-        "travelServiceEdges": []
+        "reachedVia": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire"
+        ],
+        "travelServiceEdges": [
+          "portage:deeps-narrows"
+        ]
       },
       "culture": "argonian",
       "occupants": [],
@@ -4490,12 +4717,19 @@
       },
       "relations": {
         "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "supplies": [
+          "place.naga-kur-deeps.stilt-tidal-black-piles"
+        ],
+        "rivals": [
+          "place.naga-kur-deeps.boardwalk-single-spine",
+          "place.naga-kur-deeps.drifting-village-wet-mooring"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4594,13 +4828,19 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
+        "dependsOn": [
+          "place.naga-kur-deeps.naga-village-settled"
+        ],
         "supplies": [],
-        "rivals": [],
+        "rivals": [
+          "place.naga-kur-deeps.naga-village-raiding"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4703,7 +4943,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4815,7 +5058,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4925,7 +5171,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5034,7 +5283,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5140,7 +5392,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5243,7 +5498,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5349,7 +5607,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.boardwalk-single-spine",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5455,7 +5716,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.boardwalk-single-spine",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5564,7 +5828,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5664,13 +5931,24 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.naga-kur-deeps.portage-slipway-narrows-deeps"
+        ],
+        "supplies": [
+          "place.mercantile-coast.lilmoth",
+          "place.naga-kur-deeps.boardwalk-single-spine",
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.raft-village-lashed"
+        ],
+        "rivals": [
+          "place.naga-kur-deeps.drifting-village-wet-mooring"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5771,13 +6049,23 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
-        "supplies": [],
-        "rivals": [],
+        "dependsOn": [
+          "place.naga-kur-deeps.drowning-narrows-tidal-gate"
+        ],
+        "supplies": [
+          "place.naga-kur-deeps.beast-keeper-crocodile",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
+        "rivals": [
+          "place.naga-kur-deeps.portage-slipway-narrows-deeps",
+          "place.naga-kur-deeps.treasure-hunters-living-deeps"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.portage-slipway-narrows-deeps"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5884,7 +6172,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire",
+          "place.naga-kur-deeps.portage-slipway-narrows-deeps"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5991,7 +6282,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.boardwalk-single-spine",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -6097,7 +6391,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -6199,13 +6496,19 @@
         ]
       },
       "relations": {
-        "dependsOn": [],
+        "dependsOn": [
+          "place.naga-kur-deeps.necropolis-nightbound"
+        ],
         "supplies": [],
-        "rivals": [],
+        "rivals": [
+          "place.naga-kur-deeps.dead-water-village"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -6315,7 +6618,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.boardwalk-single-spine",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -6417,7 +6723,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -6521,7 +6830,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire",
+          "place.naga-kur-deeps.portage-slipway-narrows-deeps"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -6626,7 +6938,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire",
+          "place.naga-kur-deeps.portage-slipway-narrows-deeps"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -6733,7 +7048,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.dead-water-village",
+          "place.naga-kur-deeps.guide-camp-poling"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -6841,7 +7159,10 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.naga-kur-deeps.ferry-stage-guide-hire",
+          "place.naga-kur-deeps.portage-slipway-narrows-deeps"
+        ],
         "travelServiceEdges": []
       },
       "culture": "argonian",

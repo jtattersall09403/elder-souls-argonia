@@ -53,7 +53,19 @@
           "densityGradient": "Rose approach, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.bramman-head",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [],
@@ -155,7 +167,19 @@
           "densityGradient": "lake shore, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -254,7 +278,19 @@
           "densityGradient": "lake shore, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -358,7 +394,19 @@
           "densityGradient": "north-east marsh, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.bramman-head",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -463,7 +511,19 @@
           "densityGradient": "southern approach, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -565,7 +625,19 @@
           "densityGradient": "western feeder, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.bramman-head",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
@@ -667,7 +739,19 @@
           "densityGradient": "western feeder, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.bramman-head",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -764,7 +848,19 @@
           "densityGradient": "southern approach, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -866,7 +962,19 @@
           "densityGradient": "Rose approach, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [],
@@ -976,8 +1084,26 @@
           "place.imperial-penal-south.three-gate-toll"
         ],
         "reachedVia": [
-          "the three rivers",
-          "Bramman's river"
+          "Bramman's river",
+          "the three rivers"
+        ],
+        "dependsOn": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.saltrice-village",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "supplies": [
+          "place.imperial-penal-south.blackrose-prison",
+          "place.imperial-penal-south.longmont"
+        ],
+        "patrols": [
+          "place.imperial-penal-south.chainlink-watchtower",
+          "place.imperial-penal-south.manned-toll-tower"
+        ],
+        "visibleFrom": [],
+        "travelServiceEdges": [
+          "boat:three-rivers",
+          "ferry:lake-north-stage"
         ]
       },
       "culture": "mixed",
@@ -1094,7 +1220,19 @@
           "densityGradient": "lake core, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -1202,11 +1340,26 @@
       },
       "relations": {
         "dependsOn": [
+          "place.imperial-penal-south.blackrose",
           "place.imperial-penal-south.rose-supply-town"
         ],
         "rivals": [
           "place.imperial-penal-south.chainbreaker-shelter"
-        ]
+        ],
+        "supplies": [
+          "place.hist-heartland.blackguard-hideout-raw",
+          "place.imperial-penal-south.ledgered-blackguards",
+          "place.imperial-penal-south.prison-born-refuge"
+        ],
+        "patrols": [
+          "place.imperial-penal-south.chainlink-watchtower"
+        ],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "mixed",
       "occupants": [],
@@ -1321,7 +1474,19 @@
           "densityGradient": "western feeder, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -1418,7 +1583,19 @@
           "densityGradient": "eastern feeder, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [],
@@ -1515,10 +1692,25 @@
       },
       "relations": {
         "dependsOn": [
-          "place.mercantile-coast.bramman-screen"
+          "place.mercantile-coast.bramman-screen",
+          "place.mercantile-coast.screen-watch"
         ],
         "supplies": [
-          "place.imperial-penal-south.blackrose"
+          "place.imperial-penal-south.blackrose",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "rivals": [
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
+        ],
+        "travelServiceEdges": [
+          "boat:bramman-river"
         ]
       },
       "culture": "argonian",
@@ -1625,7 +1817,19 @@
           "densityGradient": "Rose approach, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -1729,7 +1933,19 @@
           "densityGradient": "western feeder, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -1827,11 +2043,25 @@
       },
       "relations": {
         "rivals": [
-          "place.imperial-penal-south.blackrose-prison"
+          "place.imperial-penal-south.blackrose-prison",
+          "place.imperial-penal-south.manned-toll-tower",
+          "place.imperial-penal-south.owing-camp-basin"
         ],
         "supplies": [
+          "place.imperial-penal-south.prison-born-refuge",
           "place.mercantile-coast.bone-waystation"
-        ]
+        ],
+        "dependsOn": [
+          "place.dunmer-north.the-freed-rows",
+          "place.imperial-penal-south.blackrose-prison"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.longmont"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "occupants": [],
@@ -1939,7 +2169,19 @@
           "densityGradient": "Rose approach, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [],
@@ -2041,7 +2283,19 @@
           "site.scour.firm-lowland.cliff-bench-068"
         ]
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.bramman-head",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -2140,7 +2394,19 @@
           "densityGradient": "lake core, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.bramman-head",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -2243,8 +2509,23 @@
       },
       "relations": {
         "dependsOn": [
-          "place.imperial-penal-south.retired-arbiter-house"
-        ]
+          "place.imperial-penal-south.retired-arbiter-house",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "supplies": [
+          "place.imperial-penal-south.blackrose",
+          "place.imperial-penal-south.rose-supply-town"
+        ],
+        "rivals": [
+          "place.imperial-penal-south.imperial-farmstead-basin"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "mixed",
       "occupants": [],
@@ -2342,7 +2623,19 @@
           "densityGradient": "lake shore, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -2443,7 +2736,19 @@
           "densityGradient": "western feeder, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -2542,7 +2847,19 @@
           "densityGradient": "western feeder, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -2641,7 +2958,19 @@
           "densityGradient": "southern approach, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [],
@@ -2736,7 +3065,22 @@
           "densityGradient": "southern approach, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.imperial-penal-south.plague-cordon"
+        ],
+        "supplies": [],
+        "rivals": [
+          "place.imperial-penal-south.longmont"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -2838,7 +3182,19 @@
           "densityGradient": "western feeder, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -2933,7 +3289,19 @@
           "densityGradient": "lake shore, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -3029,7 +3397,23 @@
           "densityGradient": "western feeder, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.imperial-penal-south.blackrose",
+          "place.imperial-penal-south.rose-supply-town"
+        ],
+        "rivals": [
+          "place.imperial-penal-south.disputed-estate-village"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [],
@@ -3124,7 +3508,19 @@
           "densityGradient": "southern approach, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [],
@@ -3224,7 +3620,19 @@
           "densityGradient": "southern approach, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.bramman-head",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [],
@@ -3325,7 +3733,19 @@
           "densityGradient": "western feeder, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.bramman-head",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "lost-peoples",
       "occupants": [],
       "notableNpcSlots": [],
@@ -3421,7 +3841,25 @@
           "densityGradient": "lake shore, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ],
+        "supplies": [
+          "place.imperial-penal-south.blackrose",
+          "place.imperial-penal-south.lake-stall-row"
+        ],
+        "rivals": [
+          "place.imperial-penal-south.longmont"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -3521,7 +3959,19 @@
           "densityGradient": "lake shore, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -3624,7 +4074,22 @@
           "densityGradient": "lake shore, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.imperial-penal-south.longmont"
+        ],
+        "supplies": [],
+        "rivals": [
+          "place.imperial-penal-south.lake-divers-yard"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.longmont"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -3727,7 +4192,25 @@
           "densityGradient": "lake shore, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.imperial-penal-south.blackrose",
+          "place.imperial-penal-south.lake-boardwalk-village",
+          "place.imperial-penal-south.longmont"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.longmont"
+        ],
+        "travelServiceEdges": [
+          "boat:blackrose-lake",
+          "ferry:lake-north-stage"
+        ]
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -3826,7 +4309,25 @@
           "densityGradient": "lake core, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.imperial-penal-south.lake-stall-row"
+        ],
+        "rivals": [
+          "place.imperial-penal-south.lake-boardwalk-village",
+          "place.imperial-penal-south.manned-toll-tower"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ],
+        "travelServiceEdges": [
+          "boat:blackrose-lake"
+        ]
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -3927,7 +4428,19 @@
           "densityGradient": "lake core, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -4030,7 +4543,19 @@
           "densityGradient": "lake core, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -4136,7 +4661,22 @@
           "densityGradient": "lake core, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.imperial-penal-south.blackrose-prison"
+        ],
+        "supplies": [],
+        "rivals": [
+          "place.imperial-penal-south.chainlink-watchtower"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.longmont"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -4242,7 +4782,17 @@
       "relations": {
         "supplies": [
           "place.imperial-penal-south.blackrose-prison"
-        ]
+        ],
+        "dependsOn": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.bramman-head",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "lost-peoples",
       "occupants": [],
@@ -4344,7 +4894,19 @@
           "densityGradient": "lake core, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.bramman-head",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -4446,8 +5008,23 @@
       },
       "relations": {
         "supplies": [
-          "place.imperial-penal-south.blackrose"
-        ]
+          "place.imperial-penal-south.blackrose",
+          "place.imperial-penal-south.lake-stall-row"
+        ],
+        "dependsOn": [],
+        "rivals": [
+          "place.imperial-penal-south.flu-quarantine-village",
+          "place.imperial-penal-south.lake-boardwalk-village"
+        ],
+        "patrols": [],
+        "tolls": [
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "occupants": [],
@@ -4548,7 +5125,19 @@
           "densityGradient": "north-east marsh, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [],
@@ -4646,7 +5235,19 @@
           "densityGradient": "north-east marsh, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.bramman-head",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -4744,7 +5345,19 @@
           "densityGradient": "north-east marsh, very thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.bramman-head",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -4850,7 +5463,19 @@
           "densityGradient": "lake core, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -4950,7 +5575,17 @@
       "relations": {
         "rivals": [
           "place.imperial-penal-south.blackrose-prison"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "mixed",
       "occupants": [],
@@ -5056,7 +5691,19 @@
           "densityGradient": "eastern feeder, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -5151,7 +5798,24 @@
           "densityGradient": "western feeder, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.imperial-fringe.the-turned-out"
+        ],
+        "supplies": [
+          "place.imperial-penal-south.disputed-estate-village"
+        ],
+        "rivals": [
+          "place.imperial-penal-south.chainbreaker-shelter"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -5251,7 +5915,19 @@
           "densityGradient": "southern approach, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [],
@@ -5347,7 +6023,24 @@
           "densityGradient": "Rose approach, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.dunmer-north.hissmir",
+          "place.imperial-penal-south.blackrose-prison",
+          "place.imperial-penal-south.chainbreaker-shelter"
+        ],
+        "supplies": [],
+        "rivals": [
+          "place.imperial-penal-south.blackrose"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.longmont"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -5451,7 +6144,17 @@
       "relations": {
         "dependsOn": [
           "place.imperial-penal-south.murkwood-verge"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "occupants": [],
@@ -5549,7 +6252,19 @@
           "densityGradient": "lake shore, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.bramman-head",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [],
@@ -5650,7 +6365,19 @@
           "densityGradient": "lake core, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [],
@@ -5749,7 +6476,19 @@
           "densityGradient": "lake shore, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [
@@ -5854,7 +6593,25 @@
           "site.scour.firm-lowland.flood-high-010"
         ]
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "supplies": [
+          "place.imperial-penal-south.blackrose",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "rivals": [
+          "place.imperial-penal-south.saltrice-village"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -5952,7 +6709,19 @@
       "relations": {
         "dependsOn": [
           "place.imperial-penal-south.blackrose-prison"
-        ]
+        ],
+        "supplies": [
+          "place.hist-heartland.bone-waystation-interior"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "occupants": [],
@@ -6059,7 +6828,17 @@
       "relations": {
         "dependsOn": [
           "place.imperial-penal-south.blackrose-prison"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "occupants": [],
@@ -6168,7 +6947,24 @@
       },
       "relations": {
         "supplies": [
+          "place.imperial-penal-south.blackrose",
           "place.imperial-penal-south.blackrose-prison"
+        ],
+        "dependsOn": [
+          "place.dunmer-north.thorn",
+          "place.imperial-penal-south.blackrose-prison",
+          "place.imperial-penal-south.imperial-farmstead-basin"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": [
+          "boat:three-rivers",
+          "road:rose-causeway"
         ]
       },
       "culture": "mixed",
@@ -6276,9 +7072,22 @@
       },
       "relations": {
         "supplies": [
+          "place.imperial-penal-south.blackrose",
           "place.imperial-penal-south.blackrose-prison",
-          "place.imperial-penal-south.blackrose"
-        ]
+          "place.imperial-penal-south.rose-supply-town",
+          "place.mercantile-coast.soulrest"
+        ],
+        "dependsOn": [],
+        "rivals": [
+          "place.imperial-penal-south.rockspring"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "mixed",
       "occupants": [],
@@ -6377,7 +7186,19 @@
           "densityGradient": "lake core, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -6476,7 +7297,30 @@
           "densityGradient": "lake core, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.imperial-penal-south.blackrose"
+        ],
+        "supplies": [
+          "place.imperial-penal-south.blackrose"
+        ],
+        "rivals": [
+          "place.imperial-penal-south.bramman-head",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "patrols": [
+          "place.imperial-penal-south.manned-toll-tower",
+          "place.imperial-penal-south.xanmeer-span-bridge"
+        ],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town"
+        ],
+        "travelServiceEdges": [
+          "boat:three-rivers"
+        ]
+      },
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [],
@@ -6579,7 +7423,19 @@
           "densityGradient": "lake shore, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.bramman-head",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -6680,7 +7536,19 @@
           "densityGradient": "western feeder, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.bramman-head",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -6785,7 +7653,26 @@
       },
       "relations": {
         "rivals": [
-          "place.imperial-penal-south.blackrose"
+          "place.imperial-penal-south.blackrose",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "dependsOn": [
+          "place.imperial-penal-south.disputed-estate-village",
+          "place.imperial-penal-south.rockspring"
+        ],
+        "supplies": [
+          "place.imperial-fringe.cartwrights-cross"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ],
+        "travelServiceEdges": [
+          "boat:western-feeder",
+          "road:blackwood"
         ]
       },
       "culture": "mixed",
@@ -6891,7 +7778,19 @@
           "densityGradient": "Rose approach, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.bramman-head",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -6990,7 +7889,19 @@
           "densityGradient": "eastern feeder, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage",
+          "place.imperial-penal-south.longmont"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -7092,7 +8003,19 @@
           "densityGradient": "western feeder, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.imperial-penal-south.bramman-head",
+          "place.imperial-penal-south.west-market-town"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [],

@@ -54,7 +54,19 @@
           "densityGradient": "offshore, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -153,10 +165,26 @@
       },
       "relations": {
         "rivals": [
-          "place.mercantile-coast.lilmoth"
+          "place.mercantile-coast.lilmoth",
+          "place.mercantile-coast.moonmarch",
+          "place.saxhleel-coast.archon"
         ],
         "dependsOn": [
+          "place.mercantile-coast.lilmoth",
           "place.mercantile-coast.teeba-enoo-court"
+        ],
+        "supplies": [
+          "place.mercantile-coast.collections-bond"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": [
+          "boat:oliis-bay"
         ]
       },
       "culture": "mixed",
@@ -268,7 +296,25 @@
           "site.scour.firm-lowland.flood-high-015"
         ]
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.ashfield-hearth"
+        ],
+        "supplies": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.soulrest"
+        ],
+        "rivals": [
+          "place.mercantile-coast.cinderhome"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [],
@@ -368,7 +414,19 @@
           "densityGradient": "coast road, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -468,8 +526,22 @@
         }
       },
       "relations": {
-        "rivals": [],
-        "dependsOn": []
+        "rivals": [
+          "place.mercantile-coast.cinderhome"
+        ],
+        "dependsOn": [
+          "place.mercantile-coast.tapped-hist-ashroot"
+        ],
+        "supplies": [
+          "place.mercantile-coast.soulrest"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "occupants": [],
@@ -570,7 +642,24 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.necropolis-village-murkmire"
+        ],
+        "supplies": [
+          "place.mercantile-coast.hist-village-keel-sakka"
+        ],
+        "rivals": [
+          "place.mercantile-coast.hist-village-hammock"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -671,7 +760,19 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -770,7 +871,23 @@
           "densityGradient": "burn country, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.necropolis-village-murkmire"
+        ],
+        "supplies": [
+          "place.hist-heartland.bone-waystation-interior"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -872,7 +989,18 @@
           "densityGradient": "coast road, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -979,7 +1107,13 @@
         ],
         "supplies": [
           "place.imperial-penal-south.bramman-head"
-        ]
+        ],
+        "dependsOn": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "occupants": [],
@@ -1086,10 +1220,25 @@
       },
       "relations": {
         "supplies": [
-          "place.mercantile-coast.lilmoth"
+          "place.mercantile-coast.insular-jungle-village",
+          "place.mercantile-coast.lilmoth",
+          "place.mercantile-coast.vossa-satl-village"
         ],
         "visibleFrom": [
           "Oliis Bay"
+        ],
+        "dependsOn": [
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": [
+          "boat:oliis-bay"
         ]
       },
       "culture": "argonian",
@@ -1191,7 +1340,19 @@
           "densityGradient": "burn country, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -1284,7 +1445,19 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -1382,7 +1555,26 @@
           "site.scour.firm-lowland.headland-020"
         ]
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.ashfield",
+          "place.mercantile-coast.long-bar-wreckers"
+        ],
+        "supplies": [
+          "place.mercantile-coast.soulrest"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": [
+          "road:coast-soulrest-lilmoth"
+        ]
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -1483,7 +1675,19 @@
           "densityGradient": "Oliis Bay corridor, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -1593,7 +1797,19 @@
           "densityGradient": "burn country, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
@@ -1697,7 +1913,25 @@
           "densityGradient": "burn country, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.smoulder-cuts"
+        ],
+        "supplies": [
+          "place.mercantile-coast.soulrest"
+        ],
+        "rivals": [
+          "place.mercantile-coast.ashfield",
+          "place.mercantile-coast.ashroot-village"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -1792,7 +2026,19 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [],
@@ -1889,7 +2135,19 @@
           "densityGradient": "coast road, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -1986,7 +2244,24 @@
           "densityGradient": "coast road, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.lilmoth",
+          "place.mercantile-coast.soulrest"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": [
+          "road:coast-soulrest-lilmoth"
+        ]
+      },
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [],
@@ -2089,7 +2364,19 @@
           "densityGradient": "coast road, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -2191,7 +2478,19 @@
           "densityGradient": "coast road, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [],
@@ -2295,7 +2594,19 @@
           "site.scour.firm-lowland.headland-019"
         ]
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [],
@@ -2394,7 +2705,27 @@
           "densityGradient": "Lilmoth apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.goldworks-concession",
+          "place.mercantile-coast.hereguard-plantation"
+        ],
+        "supplies": [
+          "place.mercantile-coast.soulrest",
+          "place.saxhleel-coast.archon-bonded-row"
+        ],
+        "rivals": [
+          "place.imperial-fringe.bonded-shed-of-the-onkobra"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [],
@@ -2504,7 +2835,19 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [],
@@ -2602,7 +2945,19 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -2699,7 +3054,19 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -2795,7 +3162,19 @@
           "densityGradient": "Murkmire interior, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -2895,7 +3274,19 @@
           "densityGradient": "Soulrest hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [],
@@ -2994,7 +3385,19 @@
           "densityGradient": "Soulrest hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -3089,7 +3492,24 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.oliis-boardwalk"
+        ],
+        "supplies": [
+          "place.mercantile-coast.crocodile-pens",
+          "place.mercantile-coast.lilmoth",
+          "place.mercantile-coast.lilmoth-beast-market"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -3191,7 +3611,19 @@
           "densityGradient": "pilgrim route, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -3291,8 +3723,25 @@
       },
       "relations": {
         "supplies": [
+          "place.mercantile-coast.collections-bond",
+          "place.mercantile-coast.head-of-tide",
+          "place.mercantile-coast.soulrest",
           "place.mercantile-coast.tunnel-rat-gallery"
-        ]
+        ],
+        "dependsOn": [
+          "place.mercantile-coast.owing-eviction-camp-west",
+          "place.mercantile-coast.tunnel-rat-gallery"
+        ],
+        "rivals": [
+          "place.mercantile-coast.clandestine-dig"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.head-of-tide"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "occupants": [],
@@ -3391,7 +3840,18 @@
           "densityGradient": "jungle belt, sparse"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -3489,7 +3949,19 @@
           "densityGradient": "Lilmoth apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -3579,7 +4051,19 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -3674,7 +4158,23 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.hist-village-keel-sakka"
+        ],
+        "supplies": [
+          "place.mercantile-coast.keel-sakka-stilts",
+          "place.mercantile-coast.necropolis-village-murkmire"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -3779,6 +4279,17 @@
         ],
         "supplies": [
           "place.mercantile-coast.soulrest"
+        ],
+        "dependsOn": [
+          "place.mercantile-coast.goldworks-concession"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "travelServiceEdges": [
+          "boat:topal-bay",
+          "porter:head-of-tide-interior"
         ]
       },
       "culture": "argonian",
@@ -3878,7 +4389,19 @@
           "densityGradient": "Lilmoth hinterland, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -3978,8 +4501,23 @@
       },
       "relations": {
         "supplies": [
+          "place.mercantile-coast.collections-bond",
           "place.mercantile-coast.lilmoth"
-        ]
+        ],
+        "dependsOn": [
+          "place.mercantile-coast.hereguard-paddies",
+          "place.mercantile-coast.owing-eviction-camp-west"
+        ],
+        "rivals": [
+          "place.mercantile-coast.mirtis-plantation"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "mixed",
       "occupants": [],
@@ -4083,7 +4621,19 @@
           "densityGradient": "coast road, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [],
@@ -4178,7 +4728,19 @@
           "densityGradient": "open sea, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -4274,7 +4836,19 @@
           "densityGradient": "Oliis Bay corridor, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -4373,7 +4947,25 @@
           "densityGradient": "Lilmoth apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.dunmer-north.hissmir",
+          "place.mercantile-coast.lilmoth"
+        ],
+        "supplies": [
+          "place.mercantile-coast.wallside-platforms"
+        ],
+        "rivals": [
+          "place.mercantile-coast.sacked-customs-suburb"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.lilmoth"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -4473,7 +5065,24 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.hist-village-keel-sakka"
+        ],
+        "supplies": [
+          "place.mercantile-coast.lilmoth"
+        ],
+        "rivals": [
+          "place.mercantile-coast.bereaved-village-murkmire"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -4574,7 +5183,27 @@
           "densityGradient": "Lilmoth hinterland, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.keel-sakka-stilts",
+          "place.mercantile-coast.tree-minder-house"
+        ],
+        "supplies": [
+          "place.mercantile-coast.hammock-village-murkmire",
+          "place.mercantile-coast.hist-village-hammock",
+          "place.mercantile-coast.lilmoth"
+        ],
+        "rivals": [
+          "place.mercantile-coast.insular-jungle-village"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -4680,7 +5309,19 @@
           "densityGradient": "coast road, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -4777,7 +5418,19 @@
           "densityGradient": "jungle belt, sparse"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -4877,7 +5530,25 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.pilgrim-xanmeer"
+        ],
+        "supplies": [
+          "place.mercantile-coast.hist-village-keel-sakka"
+        ],
+        "rivals": [
+          "place.hist-heartland.xanmeer-fort-defences-working",
+          "place.mercantile-coast.insular-jungle-village"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-head"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -4976,7 +5647,22 @@
           "densityGradient": "jungle belt, sparse"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [
+          "place.mercantile-coast.hist-village-keel-sakka",
+          "place.mercantile-coast.inhabited-meer-murkmire",
+          "place.mercantile-coast.lilmoth"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -5079,7 +5765,19 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -5179,7 +5877,19 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -5276,7 +5986,27 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "supplies": [
+          "place.mercantile-coast.keel-sakka-stilts",
+          "place.mercantile-coast.lilmoth"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": [
+          "boat:keel-sakka",
+          "porter:sakka-head-interior"
+        ]
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -5378,7 +6108,26 @@
           "densityGradient": "Lilmoth hinterland, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.keel-sakka-head"
+        ],
+        "supplies": [
+          "place.mercantile-coast.lilmoth"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": [
+          "boat:keel-sakka",
+          "road:lilmoth-north-gate"
+        ]
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -5479,7 +6228,19 @@
           "densityGradient": "Murkmire interior, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -5586,7 +6347,25 @@
           "densityGradient": "Soulrest apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.topal-salt-pans"
+        ],
+        "supplies": [
+          "place.mercantile-coast.soulrest-fair"
+        ],
+        "rivals": [
+          "place.mercantile-coast.mudfoot",
+          "place.mercantile-coast.soulrest"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.soulrest"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -5686,6 +6465,23 @@
       "relations": {
         "supplies": [
           "place.mercantile-coast.lilmoth"
+        ],
+        "dependsOn": [
+          "place.mercantile-coast.lilmoth"
+        ],
+        "rivals": [
+          "place.mercantile-coast.lilmoth-quay-tradehouse"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": [
+          "boat:oliis-bay",
+          "lighter:lilmoth-anchorage"
         ]
       },
       "culture": "argonian",
@@ -5795,11 +6591,30 @@
           "place.imperial-penal-south.blackrose"
         ],
         "supplies": [
-          "place.mercantile-coast.alten-meerhleel"
+          "place.mercantile-coast.alten-meerhleel",
+          "place.mercantile-coast.hist-less-fringe",
+          "place.mercantile-coast.lilmoth-beast-market",
+          "place.mercantile-coast.wallside-platforms"
         ],
         "reachedVia": [
           "Oliis Bay",
           "the north-gate road"
+        ],
+        "dependsOn": [
+          "place.mercantile-coast.hereguard-plantation",
+          "place.mercantile-coast.keel-sakka-stilts",
+          "place.mercantile-coast.lighter-flotilla",
+          "place.mercantile-coast.tidewrack-stilts"
+        ],
+        "patrols": [],
+        "tolls": [
+          "place.mercantile-coast.sacked-customs-suburb"
+        ],
+        "visibleFrom": [],
+        "travelServiceEdges": [
+          "boat:oliis-bay",
+          "lighter:lilmoth-anchorage",
+          "road:coast-soulrest-lilmoth"
         ]
       },
       "culture": "argonian",
@@ -5930,7 +6745,19 @@
           "densityGradient": "Lilmoth apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -6031,7 +6858,19 @@
           "densityGradient": "Lilmoth apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -6132,7 +6971,19 @@
           "densityGradient": "Lilmoth apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -6242,7 +7093,19 @@
           "densityGradient": "Lilmoth apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [],
@@ -6344,7 +7207,19 @@
           "densityGradient": "outer coast, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -6446,7 +7321,19 @@
           "densityGradient": "jungle belt, sparse"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
@@ -6552,7 +7439,19 @@
           "densityGradient": "mangrove coast, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -6649,7 +7548,19 @@
           "densityGradient": "Murkmire interior, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -6749,7 +7660,22 @@
           "densityGradient": "Soulrest hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.uprising-battlefield"
+        ],
+        "supplies": [],
+        "rivals": [
+          "place.mercantile-coast.hereguard-plantation"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [],
@@ -6848,7 +7774,27 @@
           "densityGradient": "Murkmire coast, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.mercantile-coast.pusbottom-barge",
+          "place.mercantile-coast.sugar-barge"
+        ],
+        "rivals": [
+          "place.mercantile-coast.alten-meerhleel",
+          "place.mercantile-coast.lilmoth"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": [
+          "boat:oliis-bay"
+        ]
+      },
       "culture": "khajiit",
       "occupants": [],
       "notableNpcSlots": [],
@@ -6947,7 +7893,24 @@
           "densityGradient": "Soulrest apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.mercantile-coast.soulrest",
+          "place.mercantile-coast.soulrest-fair"
+        ],
+        "rivals": [
+          "place.mercantile-coast.lagoon-rafts",
+          "place.mercantile-coast.tidewrack-stilts"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.soulrest"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -7051,7 +8014,19 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -7152,7 +8127,19 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -7250,7 +8237,25 @@
           "densityGradient": "inner channels, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "supplies": [
+          "place.mercantile-coast.lilmoth-beast-market"
+        ],
+        "rivals": [
+          "place.mercantile-coast.keel-sakka-stilts",
+          "place.mercantile-coast.naga-camp-north-road"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -7349,7 +8354,27 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "supplies": [
+          "place.mercantile-coast.bereaved-village-murkmire",
+          "place.mercantile-coast.bog-blight-ground-murkmire",
+          "place.mercantile-coast.bone-waystation",
+          "place.mercantile-coast.hammock-crown-murkmire"
+        ],
+        "rivals": [
+          "place.naga-kur-deeps.necropolis-nightbound"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -7451,7 +8476,19 @@
           "densityGradient": "Oliis Bay corridor, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -7548,7 +8585,25 @@
           "densityGradient": "Oliis Bay corridor, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "supplies": [
+          "place.mercantile-coast.gar-keepers-village",
+          "place.mercantile-coast.lilmoth"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [
+          "place.mercantile-coast.high-junction"
+        ],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -7648,7 +8703,19 @@
           "densityGradient": "Oliis Bay corridor, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -7750,7 +8817,25 @@
           "densityGradient": "Lilmoth apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.mercantile-coast.bright-throat-village",
+          "place.mercantile-coast.lilmoth",
+          "place.mercantile-coast.oliis-boardwalk"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry"
+        ],
+        "travelServiceEdges": [
+          "boat:oliis-bay",
+          "ferry:oliis-crossing"
+        ]
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -7849,7 +8934,19 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -7944,7 +9041,19 @@
           "densityGradient": "Oliis Bay corridor, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -8041,7 +9150,19 @@
           "densityGradient": "Oliis Bay corridor, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -8142,7 +9263,19 @@
           "densityGradient": "Lilmoth apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -8239,7 +9372,26 @@
           "densityGradient": "Soulrest hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.imperial-fringe.the-turned-out"
+        ],
+        "supplies": [
+          "place.mercantile-coast.goldworks-concession",
+          "place.mercantile-coast.hereguard-plantation"
+        ],
+        "rivals": [
+          "place.mercantile-coast.hist-less-fringe"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -8335,7 +9487,19 @@
           "densityGradient": "pilgrim route, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -8434,7 +9598,19 @@
           "densityGradient": "pilgrim route, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -8534,7 +9710,19 @@
           "densityGradient": "Lilmoth apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -8639,7 +9827,27 @@
           "site.scour.fringe-marsh.cove-050"
         ]
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.mercantile-coast.long-bar-wreckers",
+          "place.saxhleel-coast.portdun-privateer-anchorage"
+        ],
+        "rivals": [
+          "place.mercantile-coast.alten-meerhleel",
+          "place.mercantile-coast.cold-light"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": [
+          "boat:southern-sea"
+        ]
+      },
       "culture": "khajiit",
       "occupants": [],
       "notableNpcSlots": [],
@@ -8740,7 +9948,18 @@
       "relations": {
         "dependsOn": [
           "place.mercantile-coast.rockpark-dead-hist"
-        ]
+        ],
+        "supplies": [],
+        "rivals": [
+          "place.mercantile-coast.ashroot-village"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "occupants": [],
@@ -8838,7 +10057,19 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -8935,7 +10166,19 @@
           "densityGradient": "jungle belt, sparse"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -9034,7 +10277,23 @@
           "densityGradient": "Lilmoth apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.lilmoth"
+        ],
+        "supplies": [],
+        "rivals": [
+          "place.mercantile-coast.hist-less-fringe",
+          "place.mercantile-coast.wallside-platforms"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.lilmoth"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [],
@@ -9135,7 +10394,17 @@
       "relations": {
         "rivals": [
           "place.mercantile-coast.illicit-sap-camp"
-        ]
+        ],
+        "dependsOn": [],
+        "supplies": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "occupants": [],
@@ -9236,6 +10505,22 @@
       "relations": {
         "dependsOn": [
           "place.mercantile-coast.bramman-screen"
+        ],
+        "supplies": [
+          "place.imperial-penal-south.bramman-head",
+          "place.mercantile-coast.lilmoth"
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": [
+          "boat:bramman-river",
+          "pilot:bramman-screen"
         ]
       },
       "culture": "argonian",
@@ -9334,7 +10619,19 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -9433,7 +10730,19 @@
           "densityGradient": "burn country, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -9534,7 +10843,19 @@
           "densityGradient": "Lilmoth apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -9636,7 +10957,19 @@
           "densityGradient": "burn country, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -9733,14 +11066,35 @@
       },
       "relations": {
         "supplies": [
-          "place.mercantile-coast.chasepoint"
+          "place.mercantile-coast.ashfield",
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.lagoon-rafts",
+          "place.mercantile-coast.soulrest-breaking-yard"
         ],
         "reachedVia": [
-          "coast road",
-          "Southern Sea lanes"
+          "Southern Sea lanes",
+          "coast road"
         ],
         "rivals": [
           "place.imperial-penal-south.blackrose"
+        ],
+        "dependsOn": [
+          "place.mercantile-coast.goldworks-concession",
+          "place.mercantile-coast.head-of-tide",
+          "place.mercantile-coast.mudfoot",
+          "place.mercantile-coast.topal-salt-pans"
+        ],
+        "patrols": [
+          "place.mercantile-coast.cold-light"
+        ],
+        "tolls": [
+          "place.mercantile-coast.collections-bond"
+        ],
+        "visibleFrom": [],
+        "travelServiceEdges": [
+          "boat:southern-sea",
+          "boat:topal-bay",
+          "road:coast-soulrest-lilmoth"
         ]
       },
       "culture": "mixed",
@@ -9857,7 +11211,27 @@
           "densityGradient": "Soulrest apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.soulrest",
+          "place.mercantile-coast.timber-concession"
+        ],
+        "supplies": [
+          "place.mercantile-coast.soulrest",
+          "place.mercantile-coast.topal-careening-hard"
+        ],
+        "rivals": [
+          "place.saxhleel-coast.archon-shipyard"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [],
@@ -9955,7 +11329,19 @@
           "densityGradient": "Soulrest apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [],
@@ -10057,7 +11443,19 @@
           "densityGradient": "Soulrest hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -10159,7 +11557,19 @@
           "densityGradient": "Soulrest apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -10263,7 +11673,19 @@
           "densityGradient": "Soulrest apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [],
@@ -10363,7 +11785,19 @@
           "densityGradient": "Soulrest apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [
@@ -10464,7 +11898,19 @@
           "densityGradient": "Soulrest apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "mixed",
       "occupants": [],
       "notableNpcSlots": [],
@@ -10569,7 +12015,19 @@
           "densityGradient": "Soulrest apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [
@@ -10670,7 +12128,19 @@
           "densityGradient": "Soulrest apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [
@@ -10776,7 +12246,19 @@
           "densityGradient": "outer coast, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "altmer",
       "occupants": [],
       "notableNpcSlots": [],
@@ -10877,7 +12359,22 @@
           "densityGradient": "Umbriel track, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.slaughter-memorial"
+        ],
+        "supplies": [],
+        "rivals": [
+          "place.mercantile-coast.stripped-village-quiet"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -10977,7 +12474,22 @@
           "densityGradient": "Umbriel track, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.slaughter-memorial"
+        ],
+        "supplies": [],
+        "rivals": [
+          "place.mercantile-coast.stripped-village-north"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -11076,7 +12588,19 @@
           "densityGradient": "burn country, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -11175,7 +12699,19 @@
           "densityGradient": "Soulrest apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "khajiit",
       "occupants": [],
       "notableNpcSlots": [],
@@ -11271,7 +12807,19 @@
           "densityGradient": "offshore, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "khajiit",
       "occupants": [],
       "notableNpcSlots": [],
@@ -11367,7 +12915,19 @@
           "densityGradient": "Soulrest hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [],
@@ -11466,7 +13026,22 @@
           "densityGradient": "Soulrest hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.topal-salt-pans"
+        ],
+        "supplies": [],
+        "rivals": [
+          "place.mercantile-coast.mudfoot"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.mudfoot"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -11561,7 +13136,19 @@
           "densityGradient": "burn country, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -11660,7 +13247,19 @@
           "densityGradient": "Oliis Bay trade corridor, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -11762,7 +13361,25 @@
           "densityGradient": "pilgrim route, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.coast-nisswo-house"
+        ],
+        "supplies": [
+          "place.mercantile-coast.pilgrim-nisswo-house"
+        ],
+        "rivals": [
+          "place.imperial-fringe.glenbridge"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -11869,7 +13486,19 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
@@ -11977,7 +13606,25 @@
           "densityGradient": "Lilmoth apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.lilmoth"
+        ],
+        "supplies": [
+          "place.mercantile-coast.lilmoth",
+          "place.mercantile-coast.lilmoth-beast-market"
+        ],
+        "rivals": [
+          "place.mercantile-coast.mudfoot"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.lilmoth"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -12076,7 +13723,24 @@
           "densityGradient": "burn country, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.mercantile-coast.soulrest",
+          "place.mercantile-coast.soulrest-breaking-yard"
+        ],
+        "rivals": [
+          "place.saxhleel-coast.derelict-timber-concession"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [],
@@ -12173,7 +13837,19 @@
           "densityGradient": "Soulrest apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -12271,7 +13947,19 @@
           "densityGradient": "inshore water, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -12366,7 +14054,26 @@
           "densityGradient": "Soulrest hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.mercantile-coast.lagoon-rafts",
+          "place.mercantile-coast.mudfoot",
+          "place.mercantile-coast.soulrest",
+          "place.pirate-freeholds.alten-corimont"
+        ],
+        "rivals": [
+          "place.saxhleel-coast.estuary-salt-pans"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -12464,7 +14171,19 @@
           "densityGradient": "Lilmoth apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
@@ -12577,7 +14296,16 @@
         ],
         "supplies": [
           "place.mercantile-coast.bone-waystation"
-        ]
+        ],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "argonian",
       "occupants": [],
@@ -12678,7 +14406,19 @@
           "densityGradient": "Soulrest hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -12773,7 +14513,24 @@
           "densityGradient": "Soulrest hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.coast-road-stage"
+        ],
+        "supplies": [
+          "place.mercantile-coast.chasepoint"
+        ],
+        "rivals": [
+          "place.mercantile-coast.ashfield"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "imperial",
       "occupants": [],
       "notableNpcSlots": [],
@@ -12868,7 +14625,19 @@
           "densityGradient": "Lilmoth apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -12969,7 +14738,24 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [
+          "place.mercantile-coast.bright-throat-village",
+          "place.mercantile-coast.lilmoth",
+          "place.saxhleel-coast.archon"
+        ],
+        "rivals": [
+          "place.hist-heartland.artisan-chime-makers"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -13066,7 +14852,24 @@
           "densityGradient": "Lilmoth apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [
+          "place.mercantile-coast.lilmoth"
+        ],
+        "supplies": [
+          "place.mercantile-coast.lilmoth-quay-tradehouse"
+        ],
+        "rivals": [
+          "place.mercantile-coast.sacked-customs-suburb"
+        ],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.lilmoth"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -13163,7 +14966,19 @@
           "densityGradient": "Murkmire interior, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -13267,7 +15082,16 @@
         "rivals": [],
         "supplies": [
           "place.mercantile-coast.bone-waystation"
-        ]
+        ],
+        "dependsOn": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
       },
       "culture": "imperial",
       "occupants": [],
@@ -13378,7 +15202,19 @@
           "densityGradient": "open sea, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -13471,7 +15307,19 @@
           "densityGradient": "Umbriel track, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -13570,7 +15418,19 @@
           "densityGradient": "Soulrest hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.chasepoint",
+          "place.mercantile-coast.guide-camp-jungle"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -13664,7 +15524,19 @@
           "densityGradient": "offshore, thin"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -13762,7 +15634,19 @@
           "densityGradient": "Soulrest hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -13861,7 +15745,19 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.bramman-river-ferry",
+          "place.mercantile-coast.oliis-ferry-stage"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -13956,7 +15852,19 @@
           "densityGradient": "Lilmoth apron, dense"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
@@ -14056,7 +15964,19 @@
           "densityGradient": "Lilmoth hinterland, moderate"
         }
       },
-      "relations": {},
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.mercantile-coast.coast-road-stage",
+          "place.mercantile-coast.keel-sakka-stilts"
+        ],
+        "travelServiceEdges": []
+      },
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [
