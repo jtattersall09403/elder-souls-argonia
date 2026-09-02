@@ -536,7 +536,7 @@
         "travelServiceEdges": []
       },
       "culture": "argonian",
-      "ownerFaction": null,
+      "ownerFaction": "faction.crystalgate-cutting-houses",
       "occupants": [
         "D1 townsfolk",
         "D2 cutters and graders",
@@ -585,8 +585,12 @@
       ],
       "discovery": "road",
       "questHooks": {
-        "provisions": [],
-        "tierOwnership": null
+        "provisions": [
+          "the cutting town: a graded, traceable crystal supply the player can enter, corrupt or audit",
+          "a hereditary craft guild with a succession problem",
+          "a strong room worth robbing and a guard worth not fighting"
+        ],
+        "tierOwnership": "tier-2 shared"
       },
       "rumourPoolKey": "rumour.stormhold",
       "deedCounterKeys": [
@@ -603,14 +607,20 @@
           "grand-grader",
           "cutter"
         ],
-        "marks": []
+        "marks": [
+          "the-mis-graded-stone"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
       "workflow": "derived",
       "densityLayer": "destination",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "cutting season (every shed lit, grades called all day)",
+        "seam scare (sheds idle, the grading hall shut, the town arguing)"
+      ]
     },
     {
       "id": "place.dunmer-north.gandranen-library",
@@ -1249,7 +1259,9 @@
         "provisions": [
           "LOC",
           "NPC",
-          "FAST"
+          "FAST",
+          "the Root Stewards, who cannot refuse a comer — the remedy LW01 needs and the certificate the registry will not accept",
+          "the Trials of the Burnished Scales as a three-day ordeal with a physical route through them"
         ],
         "tierOwnership": null
       },
@@ -1258,7 +1270,9 @@
       "sockets": {
         "scene": [],
         "evidence": [],
-        "station": [],
+        "station": [
+          "root-steward"
+        ],
         "marks": []
       },
       "workflow": "derived",
@@ -1357,7 +1371,12 @@
       ],
       "densityLayer": "landmark",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "ownerFaction": "faction.root-stewards",
+      "localStateVariants": [
+        "trials running (pilgrims camped, the stewards occupied)",
+        "trials closed (the xanmeer shut, one steward on the step)"
+      ]
     },
     {
       "id": "place.dunmer-north.hixinoag",
@@ -1708,16 +1727,25 @@
       "occupants": [],
       "notableNpcSlots": [],
       "questHooks": {
-        "provisions": [],
+        "provisions": [
+          "a flooded Ayleid system beneath a canon citadel — a dive dungeon with a Barsaebic inscription at the bottom"
+        ],
         "tierOwnership": null
       },
-      "rumourPoolKey": null,
+      "rumourPoolKey": "rumour.shadowfen",
       "deedCounterKeys": [],
       "sockets": {
-        "scene": [],
-        "evidence": [],
+        "scene": [
+          "the-singing-chamber",
+          "the-flooded-stair-under-the-citadel"
+        ],
+        "evidence": [
+          "a-ten-ancestors-inscription"
+        ],
         "station": [],
-        "marks": []
+        "marks": [
+          "the-lamia-nest"
+        ]
       },
       "workflow": "derived",
       "id": "place.dunmer-north.loriasel-caverns",
@@ -1814,7 +1842,11 @@
       ],
       "densityLayer": "landmark",
       "entrance": "underwater-entry",
-      "underwaterAccess": "argonian-only-depth"
+      "underwaterAccess": "argonian-only-depth",
+      "localStateVariants": [
+        "wet season (the stair drowned, dive only)",
+        "dry season (the first two chambers walkable)"
+      ]
     },
     {
       "id": "place.dunmer-north.mazzatun",
@@ -6397,8 +6429,12 @@
       ],
       "discovery": "road",
       "questHooks": {
-        "provisions": [],
-        "tierOwnership": null
+        "provisions": [
+          "the border garrison: the physical crossing between Argonian and Dunmer claims on the saltrice ground",
+          "a pass-and-permit regime the player can use, forge or break",
+          "the Accord's security pact needs a place where it visibly succeeds or fails"
+        ],
+        "tierOwnership": "tier-2 shared"
       },
       "rumourPoolKey": "rumour.thorn",
       "deedCounterKeys": [
@@ -6406,23 +6442,32 @@
       ],
       "sockets": {
         "scene": [
-          "the-drill-square"
+          "the-gate-under-inspection",
+          "the-guardroom-after-dark"
         ],
         "evidence": [
-          "the-shell-racks"
+          "the-pass-book",
+          "the-seizure-ledger"
         ],
         "station": [
-          "levy-captain",
-          "serjeant"
+          "gate-serjeant",
+          "permit-clerk",
+          "militia-liaison"
         ],
-        "marks": []
+        "marks": [
+          "the-refused-pass"
+        ]
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
       "workflow": "derived",
       "densityLayer": "destination",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "open crossing",
+        "closed crossing (the Accord's pact failing, traffic backed up both sides)"
+      ]
     },
     {
       "id": "place.dunmer-north.the-first-count",
@@ -12028,7 +12073,10 @@
         "provisions": [
           "the disputed field titles",
           "the Dunmer frontier presence",
-          "border tolls and smuggling"
+          "border tolls and smuggling",
+          "the Ash-Reed Accord's venue: a magistracy, a Dunmer militia hall and a saltrice counting floor in one city",
+          "Vicecanon Neetra-Sei's boat — a meeting nobody can storm out of",
+          "a memorial square with two dates on it"
         ],
         "tierOwnership": "tier-0 protected"
       },
@@ -12041,7 +12089,9 @@
         "scene": [
           "the-field-edge-tree",
           "the-title-court",
-          "the-dunmer-quarter"
+          "the-dunmer-quarter",
+          "the-memorial-square",
+          "the-vicecanons-boat"
         ],
         "evidence": [
           "the-disputed-titles"
@@ -12049,7 +12099,9 @@
         "station": [
           "field-owner",
           "dunmer-factor",
-          "vicecanon"
+          "vicecanon",
+          "militia-head",
+          "field-holder"
         ],
         "marks": [
           "thorn-seal"
@@ -12061,7 +12113,11 @@
       "complexityJustification": "A major city with a walled core, an unblended Dunmer trade quarter, an outside-the-walls Hist and a working field system that must be compiled as landscape as well as settlement.",
       "densityLayer": "landmark",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "localStateVariants": [
+        "accord holding (mixed patrols, the ball court in use)",
+        "accord broken (two guarded quarters, the square empty)"
+      ]
     },
     {
       "id": "place.dunmer-north.thorn-paddy-terraces",
@@ -12141,7 +12197,7 @@
         "travelServiceEdges": []
       },
       "culture": "argonian",
-      "ownerFaction": null,
+      "ownerFaction": "faction.thorn-field-owners",
       "occupants": [
         "D1 paddy villages",
         "D2 gate-holders",
@@ -12185,7 +12241,9 @@
       ],
       "discovery": "road",
       "questHooks": {
-        "provisions": [],
+        "provisions": [
+          "TA03's saltrice ground: fields held by occupation, a counting house, a drying floor and a boundary nobody has walked in forty years"
+        ],
         "tierOwnership": null
       },
       "rumourPoolKey": "rumour.thorn",
@@ -12194,13 +12252,18 @@
       ],
       "sockets": {
         "scene": [
-          "the-third-gate"
+          "the-third-gate",
+          "the-drying-floor",
+          "the-unwalked-boundary"
         ],
         "evidence": [
-          "the-salt-crust"
+          "the-salt-crust",
+          "the-owing-ledger"
         ],
         "station": [
-          "gate-holder"
+          "gate-holder",
+          "field-holder-uxa-meen",
+          "counting-clerk"
         ],
         "marks": []
       },
@@ -12209,7 +12272,11 @@
       "workflow": "derived",
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "localStateVariants": [
+        "harvest (every hand in the fields, the floor full)",
+        "standing water (the boundary invisible, the argument academic)"
+      ]
     },
     {
       "id": "place.dunmer-north.tunnel-rat-gallery",
