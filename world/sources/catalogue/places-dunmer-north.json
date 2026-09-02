@@ -132,16 +132,16 @@
       ],
       "sockets": {
         "scene": [
-          "the-shuttered-house",
-          "the-counting-room"
+          "scene.andalen-plantation.the-shuttered-house",
+          "scene.andalen-plantation.the-counting-room"
         ],
         "evidence": [
-          "the-labour-registers",
-          "the-unrenewed-paint"
+          "evidence.andalen-plantation.the-labour-registers",
+          "evidence.andalen-plantation.the-unrenewed-paint"
         ],
         "station": [],
         "marks": [
-          "the-broken-shutter"
+          "marks.andalen-plantation.the-broken-shutter"
         ]
       },
       "complexityBudget": "standard",
@@ -284,13 +284,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-relic-chamber"
+          "scene.bogmother.the-relic-chamber"
         ],
         "evidence": [
-          "the-swept-line"
+          "evidence.bogmother.the-swept-line"
         ],
         "station": [
-          "caretaker"
+          "station.bogmother.caretaker"
         ],
         "marks": []
       },
@@ -430,14 +430,14 @@
       ],
       "sockets": {
         "scene": [
-          "the-winch-platform"
+          "scene.boom-keepers-lodge.the-winch-platform"
         ],
         "evidence": [
-          "the-unaudited-toll-box",
-          "the-eleven-year-inspection-gap"
+          "evidence.boom-keepers-lodge.the-unaudited-toll-box",
+          "evidence.boom-keepers-lodge.the-eleven-year-inspection-gap"
         ],
         "station": [
-          "boom-keeper"
+          "station.boom-keepers-lodge.boom-keeper"
         ],
         "marks": []
       },
@@ -587,17 +587,17 @@
       },
       "rumourPoolKey": "rumour.thorn",
       "deedCounterKeys": [
-        "deed.branchmont.title_settled"
+        "deed.branchmont.title-settled"
       ],
       "sockets": {
         "scene": [
-          "the-empty-house"
+          "scene.branchmont.the-empty-house"
         ],
         "evidence": [
-          "the-eleven-year-case"
+          "evidence.branchmont.the-eleven-year-case"
         ],
         "station": [
-          "village-speaker"
+          "station.branchmont.village-speaker"
         ],
         "marks": []
       },
@@ -730,14 +730,14 @@
       ],
       "sockets": {
         "scene": [
-          "surfacing-inside-the-rock"
+          "scene.breathes-underneath.surfacing-inside-the-rock"
         ],
         "evidence": [
-          "the-earlier-divers-mark"
+          "evidence.breathes-underneath.the-earlier-divers-mark"
         ],
         "station": [],
         "marks": [
-          "the-one-who-did-not-come-back"
+          "marks.breathes-underneath.the-one-who-did-not-come-back"
         ]
       },
       "complexityBudget": "simple",
@@ -871,15 +871,15 @@
       ],
       "sockets": {
         "scene": [
-          "the-cut-turf"
+          "scene.buried-blades.the-cut-turf"
         ],
         "evidence": [
-          "the-burial-record",
-          "the-four-villages-agreement"
+          "evidence.buried-blades.the-burial-record",
+          "evidence.buried-blades.the-four-villages-agreement"
         ],
         "station": [],
         "marks": [
-          "the-opened-pit"
+          "marks.buried-blades.the-opened-pit"
         ]
       },
       "complexityBudget": "trivial",
@@ -1026,13 +1026,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-platform"
+          "scene.channel-cross-village.the-platform"
         ],
         "evidence": [
-          "the-braid-map"
+          "evidence.channel-cross-village.the-braid-map"
         ],
         "station": [
-          "channel-pilot"
+          "station.channel-cross-village.channel-pilot"
         ],
         "marks": []
       },
@@ -1169,16 +1169,16 @@
       ],
       "sockets": {
         "scene": [
-          "the-hatch-above-the-leaves"
+          "scene.climbs-to-see.the-hatch-above-the-leaves"
         ],
         "evidence": [
-          "the-flood-marks-board"
+          "evidence.climbs-to-see.the-flood-marks-board"
         ],
         "station": [
-          "flood-watcher"
+          "station.climbs-to-see.flood-watcher"
         ],
         "marks": [
-          "the-storm-broken-platform"
+          "marks.climbs-to-see.the-storm-broken-platform"
         ]
       },
       "complexityBudget": "simple",
@@ -1335,17 +1335,17 @@
       ],
       "sockets": {
         "scene": [
-          "the-grading-hall"
+          "scene.crystalgate.the-grading-hall"
         ],
         "evidence": [
-          "the-grading-book"
+          "evidence.crystalgate.the-grading-book"
         ],
         "station": [
-          "grand-grader",
-          "cutter"
+          "station.crystalgate.grand-grader",
+          "station.crystalgate.cutter"
         ],
         "marks": [
-          "the-mis-graded-stone"
+          "marks.crystalgate.the-mis-graded-stone"
         ]
       },
       "complexityBudget": "standard",
@@ -1478,16 +1478,16 @@
       ],
       "sockets": {
         "scene": [
-          "the-cut-face"
+          "scene.cut-and-stack.the-cut-face"
         ],
         "evidence": [
-          "the-strip-map"
+          "evidence.cut-and-stack.the-strip-map"
         ],
         "station": [
-          "cut-master"
+          "station.cut-and-stack.cut-master"
         ],
         "marks": [
-          "the-smoking-baulk"
+          "marks.cut-and-stack.the-smoking-baulk"
         ]
       },
       "complexityBudget": "simple",
@@ -1631,16 +1631,16 @@
       ],
       "sockets": {
         "scene": [
-          "the-middle-ledge"
+          "scene.cut-in-the-wall.the-middle-ledge"
         ],
         "evidence": [
-          "the-two-inconclusive-surveys"
+          "evidence.cut-in-the-wall.the-two-inconclusive-surveys"
         ],
         "station": [
-          "room-cutter"
+          "station.cut-in-the-wall.room-cutter"
         ],
         "marks": [
-          "the-new-opening"
+          "marks.cut-in-the-wall.the-new-opening"
         ]
       },
       "complexityBudget": "standard",
@@ -1783,18 +1783,18 @@
       ],
       "sockets": {
         "scene": [
-          "the-pools-at-the-height-of-the-dry",
-          "the-allocation-reading"
+          "scene.draws-the-herds.the-pools-at-the-height-of-the-dry",
+          "scene.draws-the-herds.the-allocation-reading"
         ],
         "evidence": [
-          "the-allocation-tally",
-          "the-post-holes-of-last-years-stands"
+          "evidence.draws-the-herds.the-allocation-tally",
+          "evidence.draws-the-herds.the-post-holes-of-last-years-stands"
         ],
         "station": [
-          "allocation-keeper"
+          "station.draws-the-herds.allocation-keeper"
         ],
         "marks": [
-          "the-broken-allocation"
+          "marks.draws-the-herds.the-broken-allocation"
         ]
       },
       "complexityBudget": "simple",
@@ -1935,17 +1935,17 @@
       ],
       "sockets": {
         "scene": [
-          "the-wallow-at-night"
+          "scene.dreams-by-the-ash.the-wallow-at-night"
         ],
         "evidence": [
-          "the-token-rail",
-          "the-keepers-takings"
+          "evidence.dreams-by-the-ash.the-token-rail",
+          "evidence.dreams-by-the-ash.the-keepers-takings"
         ],
         "station": [
-          "wallow-keeper"
+          "station.dreams-by-the-ash.wallow-keeper"
         ],
         "marks": [
-          "the-dunmer-apprentice"
+          "marks.dreams-by-the-ash.the-dunmer-apprentice"
         ]
       },
       "complexityBudget": "simple",
@@ -2085,16 +2085,16 @@
       ],
       "sockets": {
         "scene": [
-          "the-lit-room-under-the-water"
+          "scene.dry-under-water.the-lit-room-under-the-water"
         ],
         "evidence": [
-          "the-tally-board"
+          "evidence.dry-under-water.the-tally-board"
         ],
         "station": [
-          "store-diver"
+          "station.dry-under-water.store-diver"
         ],
         "marks": [
-          "the-fallen-ceiling"
+          "marks.dry-under-water.the-fallen-ceiling"
         ]
       },
       "complexityBudget": "simple",
@@ -2233,18 +2233,18 @@
       ],
       "sockets": {
         "scene": [
-          "the-bank-at-first-light"
+          "scene.feeds-the-north.the-bank-at-first-light"
         ],
         "evidence": [
-          "the-notched-post",
-          "the-buyers-prices"
+          "evidence.feeds-the-north.the-notched-post",
+          "evidence.feeds-the-north.the-buyers-prices"
         ],
         "station": [
-          "rotation-keeper",
-          "market-buyer"
+          "station.feeds-the-north.rotation-keeper",
+          "station.feeds-the-north.market-buyer"
         ],
         "marks": [
-          "the-extra-boat"
+          "marks.feeds-the-north.the-extra-boat"
         ]
       },
       "complexityBudget": "trivial",
@@ -2384,14 +2384,14 @@
       ],
       "sockets": {
         "scene": [
-          "the-catalogue"
+          "scene.gandranen-library.the-catalogue"
         ],
         "evidence": [
-          "the-recent-entry"
+          "evidence.gandranen-library.the-recent-entry"
         ],
         "station": [],
         "marks": [
-          "gemin-key"
+          "marks.gandranen-library.gemin-key"
         ]
       },
       "complexityBudget": "standard",
@@ -2527,14 +2527,14 @@
       ],
       "sockets": {
         "scene": [
-          "the-lit-hall"
+          "scene.gandranen-ruins.the-lit-hall"
         ],
         "evidence": [
-          "the-guard-in-step"
+          "evidence.gandranen-ruins.the-guard-in-step"
         ],
         "station": [],
         "marks": [
-          "welkynd-shard"
+          "marks.gandranen-ruins.welkynd-shard"
         ]
       },
       "complexityBudget": "standard",
@@ -2677,17 +2677,17 @@
       ],
       "sockets": {
         "scene": [
-          "the-uxith"
+          "scene.greylight-village.the-uxith"
         ],
         "evidence": [
-          "the-four-stages"
+          "evidence.greylight-village.the-four-stages"
         ],
         "station": [
-          "naheesh",
-          "tree-minder"
+          "station.greylight-village.naheesh",
+          "station.greylight-village.tree-minder"
         ],
         "marks": [
-          "hist-mark"
+          "marks.greylight-village.hist-mark"
         ]
       },
       "complexityBudget": "standard",
@@ -2824,16 +2824,16 @@
       ],
       "sockets": {
         "scene": [
-          "under-the-wall-when-the-bell-rings"
+          "scene.hackwing-wall.under-the-wall-when-the-bell-rings"
         ],
         "evidence": [
-          "the-feeding-record"
+          "evidence.hackwing-wall.the-feeding-record"
         ],
         "station": [
-          "ledge-keeper"
+          "station.hackwing-wall.ledge-keeper"
         ],
         "marks": [
-          "the-unswept-ledge"
+          "marks.hackwing-wall.the-unswept-ledge"
         ]
       },
       "complexityBudget": "trivial",
@@ -2987,17 +2987,17 @@
       ],
       "sockets": {
         "scene": [
-          "the-pool-rim"
+          "scene.hatching-pools.the-pool-rim"
         ],
         "evidence": [
-          "counting-stones"
+          "evidence.hatching-pools.counting-stones"
         ],
         "station": [
-          "warden-mother",
-          "egg-tender"
+          "station.hatching-pools.warden-mother",
+          "station.hatching-pools.egg-tender"
         ],
         "marks": [
-          "keepers-token"
+          "marks.hatching-pools.keepers-token"
         ]
       },
       "complexityBudget": "standard",
@@ -3057,7 +3057,7 @@
         "scene": [],
         "evidence": [],
         "station": [
-          "root-steward"
+          "station.hissmir.root-steward"
         ],
         "marks": []
       },
@@ -3299,13 +3299,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-empty-mooring"
+          "scene.hixinoag.the-empty-mooring"
         ],
         "evidence": [
-          "the-hearth-rings"
+          "evidence.hixinoag.the-hearth-rings"
         ],
         "station": [
-          "mooring-caller"
+          "station.hixinoag.mooring-caller"
         ],
         "marks": []
       },
@@ -3469,19 +3469,19 @@
       ],
       "sockets": {
         "scene": [
-          "the-totem-line",
-          "the-naheesh-house"
+          "scene.hutan-tzel.the-totem-line",
+          "scene.hutan-tzel.the-naheesh-house"
         ],
         "evidence": [
-          "a-recut-post",
-          "the-refugee-tally"
+          "evidence.hutan-tzel.a-recut-post",
+          "evidence.hutan-tzel.the-refugee-tally"
         ],
         "station": [
-          "naheesh-nurwul",
-          "totem-carver"
+          "station.hutan-tzel.naheesh-nurwul",
+          "station.hutan-tzel.totem-carver"
         ],
         "marks": [
-          "the-meddled-post"
+          "marks.hutan-tzel.the-meddled-post"
         ]
       },
       "localStateVariants": [
@@ -3623,14 +3623,14 @@
       ],
       "sockets": {
         "scene": [
-          "the-branch-fork-village",
-          "the-graveyard-underfoot"
+          "scene.keeps-the-second-island.the-branch-fork-village",
+          "scene.keeps-the-second-island.the-graveyard-underfoot"
         ],
         "evidence": [
-          "the-refusal-remembered"
+          "evidence.keeps-the-second-island.the-refusal-remembered"
         ],
         "station": [
-          "island-head"
+          "station.keeps-the-second-island.island-head"
         ],
         "marks": []
       },
@@ -3772,18 +3772,18 @@
       ],
       "sockets": {
         "scene": [
-          "the-shuttered-room"
+          "scene.let-upper-floor.the-shuttered-room"
         ],
         "evidence": [
-          "the-three-year-lease",
-          "the-wax-tablets",
-          "the-good-chair"
+          "evidence.let-upper-floor.the-three-year-lease",
+          "evidence.let-upper-floor.the-wax-tablets",
+          "evidence.let-upper-floor.the-good-chair"
         ],
         "station": [
-          "the-window-watch"
+          "station.let-upper-floor.the-window-watch"
         ],
         "marks": [
-          "the-tried-door"
+          "marks.let-upper-floor.the-tried-door"
         ]
       },
       "complexityBudget": "simple",
@@ -3824,15 +3824,15 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [
-          "the-singing-chamber",
-          "the-flooded-stair-under-the-citadel"
+          "scene.loriasel-caverns.the-singing-chamber",
+          "scene.loriasel-caverns.the-flooded-stair-under-the-citadel"
         ],
         "evidence": [
-          "a-ten-ancestors-inscription"
+          "evidence.loriasel-caverns.a-ten-ancestors-inscription"
         ],
         "station": [],
         "marks": [
-          "the-lamia-nest"
+          "marks.loriasel-caverns.the-lamia-nest"
         ]
       },
       "workflow": "derived",
@@ -4071,20 +4071,20 @@
       },
       "rumourPoolKey": "rumour.shadowfen",
       "deedCounterKeys": [
-        "deed.mazzatun.conduits_cut"
+        "deed.mazzatun.conduits-cut"
       ],
       "sockets": {
         "scene": [
-          "the-conduit-room"
+          "scene.mazzatun.the-conduit-room"
         ],
         "evidence": [
-          "the-half-cut-blocks"
+          "evidence.mazzatun.the-half-cut-blocks"
         ],
         "station": [
-          "shaper"
+          "station.mazzatun.shaper"
         ],
         "marks": [
-          "xit-xaht-mark"
+          "marks.mazzatun.xit-xaht-mark"
         ]
       },
       "complexityBudget": "standard",
@@ -4214,14 +4214,14 @@
       ],
       "sockets": {
         "scene": [
-          "the-first-fork"
+          "scene.mazzatun-hist.the-first-fork"
         ],
         "evidence": [
-          "the-mnemic-egg"
+          "evidence.mazzatun-hist.the-mnemic-egg"
         ],
         "station": [],
         "marks": [
-          "hist-mark"
+          "marks.mazzatun-hist.hist-mark"
         ]
       },
       "complexityBudget": "simple",
@@ -4367,17 +4367,17 @@
       ],
       "sockets": {
         "scene": [
-          "the-house-apart"
+          "scene.murkwater.the-house-apart"
         ],
         "evidence": [
-          "the-2e582-marks"
+          "evidence.murkwater.the-2e582-marks"
         ],
         "station": [
-          "naheesh",
-          "ku-vastei"
+          "station.murkwater.naheesh",
+          "station.murkwater.ku-vastei"
         ],
         "marks": [
-          "shadowscale-token"
+          "marks.murkwater.shadowscale-token"
         ]
       },
       "complexityBudget": "standard",
@@ -4507,18 +4507,18 @@
       },
       "rumourPoolKey": "rumour.shadowfen",
       "deedCounterKeys": [
-        "deed.shadowscale.ground_ended"
+        "deed.shadowscale.ground-ended"
       ],
       "sockets": {
         "scene": [
-          "the-delivery-stone"
+          "scene.murkwater-shadowscale-ground.the-delivery-stone"
         ],
         "evidence": [
-          "the-rotted-course"
+          "evidence.murkwater-shadowscale-ground.the-rotted-course"
         ],
         "station": [],
         "marks": [
-          "shadowscale-token"
+          "marks.murkwater-shadowscale-ground.shadowscale-token"
         ]
       },
       "complexityBudget": "standard",
@@ -4654,16 +4654,16 @@
       ],
       "sockets": {
         "scene": [
-          "under-the-tree"
+          "scene.names-the-year.under-the-tree"
         ],
         "evidence": [
-          "the-registrars-notebook"
+          "evidence.names-the-year.the-registrars-notebook"
         ],
         "station": [
-          "naheesh"
+          "station.names-the-year.naheesh"
         ],
         "marks": [
-          "the-disputed-name"
+          "marks.names-the-year.the-disputed-name"
         ]
       },
       "complexityBudget": "simple",
@@ -4812,20 +4812,20 @@
       ],
       "sockets": {
         "scene": [
-          "the-gate-in-the-wet",
-          "the-empty-gate-in-the-dry"
+          "scene.nine-fords.the-gate-in-the-wet",
+          "scene.nine-fords.the-empty-gate-in-the-dry"
         ],
         "evidence": [
-          "the-toll-book",
-          "the-bridge-proposals"
+          "evidence.nine-fords.the-toll-book",
+          "evidence.nine-fords.the-bridge-proposals"
         ],
         "station": [
-          "toll-keeper",
-          "ford-runner",
-          "moneylender"
+          "station.nine-fords.toll-keeper",
+          "station.nine-fords.ford-runner",
+          "station.nine-fords.moneylender"
         ],
         "marks": [
-          "the-goods-that-went-round"
+          "marks.nine-fords.the-goods-that-went-round"
         ]
       },
       "complexityBudget": "standard",
@@ -4968,17 +4968,17 @@
       ],
       "sockets": {
         "scene": [
-          "the-unfinished-ninth"
+          "scene.nine-marks.the-unfinished-ninth"
         ],
         "evidence": [
-          "the-written-refusals",
-          "the-scholars-rubbings"
+          "evidence.nine-marks.the-written-refusals",
+          "evidence.nine-marks.the-scholars-rubbings"
         ],
         "station": [
-          "whispers-scholar"
+          "station.nine-marks.whispers-scholar"
         ],
         "marks": [
-          "the-completed-mark"
+          "marks.nine-marks.the-completed-mark"
         ]
       },
       "complexityBudget": "simple",
@@ -5122,18 +5122,18 @@
       ],
       "sockets": {
         "scene": [
-          "the-bench",
-          "the-nine-stone-lintel"
+          "scene.nine-stone-bench.the-bench",
+          "scene.nine-stone-bench.the-nine-stone-lintel"
         ],
         "evidence": [
-          "the-uncertified-notice"
+          "evidence.nine-stone-bench.the-uncertified-notice"
         ],
         "station": [
-          "independent-cutter",
-          "apprentice"
+          "station.nine-stone-bench.independent-cutter",
+          "station.nine-stone-bench.apprentice"
         ],
         "marks": [
-          "this-years-stone"
+          "marks.nine-stone-bench.this-years-stone"
         ]
       },
       "complexityBudget": "simple",
@@ -5269,13 +5269,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-full-yard"
+          "scene.one-house-high.the-full-yard"
         ],
         "evidence": [
-          "the-tally-of-nights"
+          "evidence.one-house-high.the-tally-of-nights"
         ],
         "station": [
-          "householder"
+          "station.one-house-high.householder"
         ],
         "marks": []
       },
@@ -5420,16 +5420,16 @@
       ],
       "sockets": {
         "scene": [
-          "the-open-door"
+          "scene.puts-down-the-cup.the-open-door"
         ],
         "evidence": [
-          "the-levy-board"
+          "evidence.puts-down-the-cup.the-levy-board"
         ],
         "station": [
-          "house-keeper"
+          "station.puts-down-the-cup.house-keeper"
         ],
         "marks": [
-          "the-name-sent-up"
+          "marks.puts-down-the-cup.the-name-sent-up"
         ]
       },
       "complexityBudget": "trivial",
@@ -5576,13 +5576,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-central-platform"
+          "scene.reedmoor-stilts.the-central-platform"
         ],
         "evidence": [
-          "the-pile-forest"
+          "evidence.reedmoor-stilts.the-pile-forest"
         ],
         "station": [
-          "pile-driver"
+          "station.reedmoor-stilts.pile-driver"
         ],
         "marks": []
       },
@@ -5721,17 +5721,17 @@
       ],
       "sockets": {
         "scene": [
-          "the-top-terrace"
+          "scene.rimfield.the-top-terrace"
         ],
         "evidence": [
-          "the-household-count"
+          "evidence.rimfield.the-household-count"
         ],
         "station": [
-          "grain-factor",
-          "village-elder"
+          "station.rimfield.grain-factor",
+          "station.rimfield.village-elder"
         ],
         "marks": [
-          "the-shuttered-house"
+          "marks.rimfield.the-shuttered-house"
         ]
       },
       "complexityBudget": "simple",
@@ -5882,14 +5882,14 @@
       ],
       "sockets": {
         "scene": [
-          "the-long-walk"
+          "scene.riverwalk.the-long-walk"
         ],
         "evidence": [
-          "the-plank-ages"
+          "evidence.riverwalk.the-plank-ages"
         ],
         "station": [
-          "toll-holder",
-          "stage-mistress"
+          "station.riverwalk.toll-holder",
+          "station.riverwalk.stage-mistress"
         ],
         "marks": []
       },
@@ -6024,17 +6024,17 @@
       },
       "rumourPoolKey": "rumour.thorn",
       "deedCounterKeys": [
-        "deed.saltmarch.harvest_helped"
+        "deed.saltmarch.harvest-helped"
       ],
       "sockets": {
         "scene": [
-          "the-threshing-floor"
+          "scene.saltmarch-village.the-threshing-floor"
         ],
         "evidence": [
-          "the-two-niches"
+          "evidence.saltmarch-village.the-two-niches"
         ],
         "station": [
-          "field-speaker"
+          "station.saltmarch-village.field-speaker"
         ],
         "marks": []
       },
@@ -6171,16 +6171,16 @@
       ],
       "sockets": {
         "scene": [
-          "the-one-fire"
+          "scene.seam-chasers.the-one-fire"
         ],
         "evidence": [
-          "four-claim-marks"
+          "evidence.seam-chasers.four-claim-marks"
         ],
         "station": [
-          "prospector"
+          "station.seam-chasers.prospector"
         ],
         "marks": [
-          "the-strike"
+          "marks.seam-chasers.the-strike"
         ]
       },
       "complexityBudget": "trivial",
@@ -6330,16 +6330,16 @@
       ],
       "sockets": {
         "scene": [
-          "the-unreported-room"
+          "scene.silyanorn-diggings.the-unreported-room"
         ],
         "evidence": [
-          "the-shored-relief"
+          "evidence.silyanorn-diggings.the-shored-relief"
         ],
         "station": [
-          "digging-master"
+          "station.silyanorn-diggings.digging-master"
         ],
         "marks": [
-          "welkynd-shard"
+          "marks.silyanorn-diggings.welkynd-shard"
         ]
       },
       "complexityBudget": "standard",
@@ -6472,16 +6472,16 @@
       ],
       "sockets": {
         "scene": [
-          "between-two-ponds"
+          "scene.sings-for-the-pipes.between-two-ponds"
         ],
         "evidence": [
-          "the-selection-record"
+          "evidence.sings-for-the-pipes.the-selection-record"
         ],
         "station": [
-          "frog-farmer"
+          "station.sings-for-the-pipes.frog-farmer"
         ],
         "marks": [
-          "the-drifted-pond"
+          "marks.sings-for-the-pipes.the-drifted-pond"
         ]
       },
       "complexityBudget": "trivial",
@@ -6618,13 +6618,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-made-ground"
+          "scene.sits-above-the-flood.the-made-ground"
         ],
         "evidence": [
-          "the-flood-marks-on-the-base-course"
+          "evidence.sits-above-the-flood.the-flood-marks-on-the-base-course"
         ],
         "station": [
-          "hamlet-elder"
+          "station.sits-above-the-flood.hamlet-elder"
         ],
         "marks": []
       },
@@ -6770,17 +6770,17 @@
       ],
       "sockets": {
         "scene": [
-          "the-worked-ground",
-          "the-burial-argument"
+          "scene.stands-on-the-island.the-worked-ground",
+          "scene.stands-on-the-island.the-burial-argument"
         ],
         "evidence": [
-          "the-standing-room-tally"
+          "evidence.stands-on-the-island.the-standing-room-tally"
         ],
         "station": [
-          "ground-holder"
+          "station.stands-on-the-island.ground-holder"
         ],
         "marks": [
-          "the-full-crown-terrace"
+          "marks.stands-on-the-island.the-full-crown-terrace"
         ]
       },
       "complexityBudget": "standard",
@@ -6925,21 +6925,21 @@
       },
       "rumourPoolKey": "rumour.shadowfen",
       "deedCounterKeys": [
-        "deed.stillrise.array_broken",
-        "deed.stillrise.array_kept"
+        "deed.stillrise.array-broken",
+        "deed.stillrise.array-kept"
       ],
       "sockets": {
         "scene": [
-          "the-meeting-house"
+          "scene.stillrise-village.the-meeting-house"
         ],
         "evidence": [
-          "the-array"
+          "evidence.stillrise-village.the-array"
         ],
         "station": [
-          "array-keeper"
+          "station.stillrise-village.array-keeper"
         ],
         "marks": [
-          "vile-bargain"
+          "marks.stillrise-village.vile-bargain"
         ]
       },
       "complexityBudget": "standard",
@@ -7114,25 +7114,25 @@
       "deedCounterKeys": [
         "deed.conclave.consulted",
         "deed.hist.dunmer-north.stormhold.regard",
-        "deed.stormhold.writs_served"
+        "deed.stormhold.writs-served"
       ],
       "sockets": {
         "scene": [
-          "the-falls-terrace",
-          "conclave-chamber",
-          "undercity-mouth"
+          "scene.stormhold.the-falls-terrace",
+          "scene.stormhold.conclave-chamber",
+          "scene.stormhold.undercity-mouth"
         ],
         "evidence": [
-          "vicecanons-rival-ledgers",
-          "the-flu-stone"
+          "evidence.stormhold.vicecanons-rival-ledgers",
+          "evidence.stormhold.the-flu-stone"
         ],
         "station": [
-          "vicecanon",
-          "conclave-reader",
-          "tunnel-overseer"
+          "station.stormhold.vicecanon",
+          "station.stormhold.conclave-reader",
+          "station.stormhold.tunnel-overseer"
         ],
         "marks": [
-          "stormhold-seal"
+          "marks.stormhold.stormhold-seal"
         ]
       },
       "complexityBudget": "complex",
@@ -7274,13 +7274,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-mid-point"
+          "scene.stormhold-causeway.the-mid-point"
         ],
         "evidence": [
-          "the-tilted-sections"
+          "evidence.stormhold-causeway.the-tilted-sections"
         ],
         "station": [
-          "causeway-gang"
+          "station.stormhold-causeway.causeway-gang"
         ],
         "marks": []
       },
@@ -7423,13 +7423,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-shared-well"
+          "scene.tear-road-stage.the-shared-well"
         ],
         "evidence": [
-          "the-barn-partition"
+          "evidence.tear-road-stage.the-barn-partition"
         ],
         "station": [
-          "stage-family"
+          "station.tear-road-stage.stage-family"
         ],
         "marks": []
       },
@@ -7580,20 +7580,20 @@
       ],
       "sockets": {
         "scene": [
-          "the-mid-channel-customs-house",
-          "the-transfer-quay"
+          "scene.tearmouth.the-mid-channel-customs-house",
+          "scene.tearmouth.the-transfer-quay"
         ],
         "evidence": [
-          "the-transfer-book",
-          "the-seizure-list"
+          "evidence.tearmouth.the-transfer-book",
+          "evidence.tearmouth.the-seizure-list"
         ],
         "station": [
-          "transfer-master",
-          "customs-clerk",
-          "warehouse-factor"
+          "station.tearmouth.transfer-master",
+          "station.tearmouth.customs-clerk",
+          "station.tearmouth.warehouse-factor"
         ],
         "marks": [
-          "the-cargo-that-never-landed"
+          "marks.tearmouth.the-cargo-that-never-landed"
         ]
       },
       "complexityBudget": "standard",
@@ -7737,10 +7737,10 @@
       ],
       "sockets": {
         "scene": [
-          "inside-the-ring"
+          "scene.ten-maur-wolk.inside-the-ring"
         ],
         "evidence": [
-          "the-repainted-posts"
+          "evidence.ten-maur-wolk.the-repainted-posts"
         ],
         "station": [],
         "marks": []
@@ -7882,16 +7882,16 @@
       ],
       "sockets": {
         "scene": [
-          "under-the-white-trees"
+          "scene.ten-thousand-nests.under-the-white-trees"
         ],
         "evidence": [
-          "the-guano-licence"
+          "evidence.ten-thousand-nests.the-guano-licence"
         ],
         "station": [
-          "guano-licensor"
+          "station.ten-thousand-nests.guano-licensor"
         ],
         "marks": [
-          "the-fallen-trunk"
+          "marks.ten-thousand-nests.the-fallen-trunk"
         ]
       },
       "complexityBudget": "trivial",
@@ -8049,14 +8049,14 @@
       ],
       "sockets": {
         "scene": [
-          "the-three-wedges"
+          "scene.tenmar-wall.the-three-wedges"
         ],
         "evidence": [
-          "the-pitch-allocation"
+          "evidence.tenmar-wall.the-pitch-allocation"
         ],
         "station": [
-          "market-warden",
-          "broker"
+          "station.tenmar-wall.market-warden",
+          "station.tenmar-wall.broker"
         ],
         "marks": []
       },
@@ -8195,14 +8195,14 @@
       ],
       "sockets": {
         "scene": [
-          "a-decked-gap"
+          "scene.the-ash-causeway.a-decked-gap"
         ],
         "evidence": [
-          "the-maintenance-arrangement"
+          "evidence.the-ash-causeway.the-maintenance-arrangement"
         ],
         "station": [],
         "marks": [
-          "the-let-go-section"
+          "marks.the-ash-causeway.the-let-go-section"
         ]
       },
       "complexityBudget": "simple",
@@ -8351,17 +8351,17 @@
       },
       "rumourPoolKey": "rumour.tear-road",
       "deedCounterKeys": [
-        "deed.ash-holding.dealt_with"
+        "deed.ash-holding.dealt-with"
       ],
       "sockets": {
         "scene": [
-          "the-tomb-door"
+          "scene.the-ash-holding.the-tomb-door"
         ],
         "evidence": [
-          "the-house-ledger"
+          "evidence.the-ash-holding.the-house-ledger"
         ],
         "station": [
-          "house-mother"
+          "station.the-ash-holding.house-mother"
         ],
         "marks": []
       },
@@ -8500,13 +8500,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-slipway"
+          "scene.the-black-stage.the-slipway"
         ],
         "evidence": [
-          "the-cut-last-slab"
+          "evidence.the-black-stage.the-cut-last-slab"
         ],
         "station": [
-          "ferry-family"
+          "station.the-black-stage.ferry-family"
         ],
         "marks": []
       },
@@ -8644,16 +8644,16 @@
       ],
       "sockets": {
         "scene": [
-          "the-receiving-stone"
+          "scene.the-bone-stage-north.the-receiving-stone"
         ],
         "evidence": [
-          "the-count-board"
+          "evidence.the-bone-stage-north.the-count-board"
         ],
         "station": [
-          "bone-keeper"
+          "station.the-bone-stage-north.bone-keeper"
         ],
         "marks": [
-          "xul-vaat"
+          "marks.the-bone-stage-north.xul-vaat"
         ]
       },
       "complexityBudget": "trivial",
@@ -8787,10 +8787,10 @@
       ],
       "sockets": {
         "scene": [
-          "the-inner-door"
+          "scene.the-borrowed-tomb.the-inner-door"
         ],
         "evidence": [
-          "the-evening-bowl"
+          "evidence.the-borrowed-tomb.the-evening-bowl"
         ],
         "station": [],
         "marks": []
@@ -8923,10 +8923,10 @@
       ],
       "sockets": {
         "scene": [
-          "the-back-rows"
+          "scene.the-bound-urns.the-back-rows"
         ],
         "evidence": [
-          "the-front-row-dates"
+          "evidence.the-bound-urns.the-front-row-dates"
         ],
         "station": [],
         "marks": []
@@ -9066,10 +9066,10 @@
       ],
       "sockets": {
         "scene": [
-          "the-hearth"
+          "scene.the-causeway-hearth.the-hearth"
         ],
         "evidence": [
-          "the-fuel-store"
+          "evidence.the-causeway-hearth.the-fuel-store"
         ],
         "station": [],
         "marks": []
@@ -9210,13 +9210,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-reed-half-and-the-stone-half"
+          "scene.the-causeway-lodge.the-reed-half-and-the-stone-half"
         ],
         "evidence": [
-          "the-warden-inheritance"
+          "evidence.the-causeway-lodge.the-warden-inheritance"
         ],
         "station": [
-          "road-warden"
+          "station.the-causeway-lodge.road-warden"
         ],
         "marks": []
       },
@@ -9353,10 +9353,10 @@
       ],
       "sockets": {
         "scene": [
-          "the-margin"
+          "scene.the-charge-pond.the-margin"
         ],
         "evidence": [
-          "the-dead-ring"
+          "evidence.the-charge-pond.the-dead-ring"
         ],
         "station": [],
         "marks": []
@@ -9492,13 +9492,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-bone-store"
+          "scene.the-charge-works.the-bone-store"
         ],
         "evidence": [
-          "the-organ-jars"
+          "evidence.the-charge-works.the-organ-jars"
         ],
         "station": [
-          "works-mother"
+          "station.the-charge-works.works-mother"
         ],
         "marks": []
       },
@@ -9638,10 +9638,10 @@
       ],
       "sockets": {
         "scene": [
-          "the-stripped-square"
+          "scene.the-cold-holding.the-stripped-square"
         ],
         "evidence": [
-          "the-clean-door"
+          "evidence.the-cold-holding.the-clean-door"
         ],
         "station": [],
         "marks": []
@@ -9773,16 +9773,16 @@
       ],
       "sockets": {
         "scene": [
-          "the-rows-in-the-canopy"
+          "scene.the-crown-terrace.the-rows-in-the-canopy"
         ],
         "evidence": [
-          "the-order-of-arrival"
+          "evidence.the-crown-terrace.the-order-of-arrival"
         ],
         "station": [
-          "terrace-duty"
+          "station.the-crown-terrace.terrace-duty"
         ],
         "marks": [
-          "the-full-terrace"
+          "marks.the-crown-terrace.the-full-terrace"
         ]
       },
       "complexityBudget": "simple",
@@ -9926,13 +9926,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-cook-shelter"
+          "scene.the-crystal-prospectors.the-cook-shelter"
         ],
         "evidence": [
-          "the-claim-stakes"
+          "evidence.the-crystal-prospectors.the-claim-stakes"
         ],
         "station": [
-          "prospector"
+          "station.the-crystal-prospectors.prospector"
         ],
         "marks": []
       },
@@ -10072,13 +10072,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-crossing"
+          "scene.the-delta-byre.the-crossing"
         ],
         "evidence": [
-          "the-breeding-book"
+          "evidence.the-delta-byre.the-breeding-book"
         ],
         "station": [
-          "guar-breeder"
+          "station.the-delta-byre.guar-breeder"
         ],
         "marks": []
       },
@@ -10213,16 +10213,16 @@
       ],
       "sockets": {
         "scene": [
-          "the-hoist-frame"
+          "scene.the-diggings-ladder.the-hoist-frame"
         ],
         "evidence": [
-          "the-lost-time-list"
+          "evidence.the-diggings-ladder.the-lost-time-list"
         ],
         "station": [
-          "hoist-master"
+          "station.the-diggings-ladder.hoist-master"
         ],
         "marks": [
-          "the-failed-platform"
+          "marks.the-diggings-ladder.the-failed-platform"
         ]
       },
       "complexityBudget": "simple",
@@ -10369,14 +10369,14 @@
       ],
       "sockets": {
         "scene": [
-          "the-frame"
+          "scene.the-divers-landing.the-frame"
         ],
         "evidence": [
-          "the-short-shelf"
+          "evidence.the-divers-landing.the-short-shelf"
         ],
         "station": [
-          "sorting-elder",
-          "diver"
+          "station.the-divers-landing.sorting-elder",
+          "station.the-divers-landing.diver"
         ],
         "marks": []
       },
@@ -10507,10 +10507,10 @@
       ],
       "sockets": {
         "scene": [
-          "the-far-mud"
+          "scene.the-drawdown-flats.the-far-mud"
         ],
         "evidence": [
-          "the-strandline"
+          "evidence.the-drawdown-flats.the-strandline"
         ],
         "station": [],
         "marks": []
@@ -10648,18 +10648,18 @@
       ],
       "sockets": {
         "scene": [
-          "the-yard-at-assessment"
+          "scene.the-dres-rows.the-yard-at-assessment"
         ],
         "evidence": [
-          "the-alteration-line",
-          "the-owing-assessments"
+          "evidence.the-dres-rows.the-alteration-line",
+          "evidence.the-dres-rows.the-owing-assessments"
         ],
         "station": [
-          "field-household-head",
-          "owing-assessor"
+          "station.the-dres-rows.field-household-head",
+          "station.the-dres-rows.owing-assessor"
         ],
         "marks": [
-          "the-unaltered-unit"
+          "marks.the-dres-rows.the-unaltered-unit"
         ]
       },
       "complexityBudget": "simple",
@@ -10796,14 +10796,14 @@
       },
       "rumourPoolKey": "rumour.tear-road",
       "deedCounterKeys": [
-        "deed.naga.driven_off"
+        "deed.naga.driven-off"
       ],
       "sockets": {
         "scene": [
-          "the-reed-bed"
+          "scene.the-drover-camp.the-reed-bed"
         ],
         "evidence": [
-          "the-drying-racks"
+          "evidence.the-drover-camp.the-drying-racks"
         ],
         "station": [],
         "marks": []
@@ -10944,10 +10944,10 @@
       ],
       "sockets": {
         "scene": [
-          "the-hist-chamber"
+          "scene.the-drowned-terrace.the-hist-chamber"
         ],
         "evidence": [
-          "the-lifted-fittings"
+          "evidence.the-drowned-terrace.the-lifted-fittings"
         ],
         "station": [],
         "marks": []
@@ -11080,15 +11080,15 @@
       ],
       "sockets": {
         "scene": [
-          "the-socket-chamber"
+          "scene.the-empty-socket.the-socket-chamber"
         ],
         "evidence": [
-          "the-cut-record",
-          "the-unmatched-name"
+          "evidence.the-empty-socket.the-cut-record",
+          "evidence.the-empty-socket.the-unmatched-name"
         ],
         "station": [],
         "marks": [
-          "the-refilled-socket"
+          "marks.the-empty-socket.the-refilled-socket"
         ]
       },
       "complexityBudget": "simple",
@@ -11228,14 +11228,14 @@
       "rumourPoolKey": "rumour.thorn",
       "deedCounterKeys": [
         "deed.hearth.sheltered",
-        "deed.owing.runaway_hidden"
+        "deed.owing.runaway-hidden"
       ],
       "sockets": {
         "scene": [
-          "the-hearth"
+          "scene.the-field-edge-hearth.the-hearth"
         ],
         "evidence": [
-          "the-lacquered-lintel"
+          "evidence.the-field-edge-hearth.the-lacquered-lintel"
         ],
         "station": [],
         "marks": []
@@ -11393,20 +11393,20 @@
       ],
       "sockets": {
         "scene": [
-          "the-gate-under-inspection",
-          "the-guardroom-after-dark"
+          "scene.the-field-gate-garrison.the-gate-under-inspection",
+          "scene.the-field-gate-garrison.the-guardroom-after-dark"
         ],
         "evidence": [
-          "the-pass-book",
-          "the-seizure-ledger"
+          "evidence.the-field-gate-garrison.the-pass-book",
+          "evidence.the-field-gate-garrison.the-seizure-ledger"
         ],
         "station": [
-          "gate-serjeant",
-          "permit-clerk",
-          "militia-liaison"
+          "station.the-field-gate-garrison.gate-serjeant",
+          "station.the-field-gate-garrison.permit-clerk",
+          "station.the-field-gate-garrison.militia-liaison"
         ],
         "marks": [
-          "the-refused-pass"
+          "marks.the-field-gate-garrison.the-refused-pass"
         ]
       },
       "complexityBudget": "standard",
@@ -11541,14 +11541,14 @@
       ],
       "sockets": {
         "scene": [
-          "the-terrace"
+          "scene.the-first-count.the-terrace"
         ],
         "evidence": [
-          "the-empty-middle"
+          "evidence.the-first-count.the-empty-middle"
         ],
         "station": [],
         "marks": [
-          "xul-vaat"
+          "marks.the-first-count.xul-vaat"
         ]
       },
       "complexityBudget": "simple",
@@ -11688,19 +11688,19 @@
       ],
       "sockets": {
         "scene": [
-          "the-flat-at-the-feast",
-          "the-weir-at-first-light"
+          "scene.the-fish-boon-ground.the-flat-at-the-feast",
+          "scene.the-fish-boon-ground.the-weir-at-first-light"
         ],
         "evidence": [
-          "the-fire-scar-line",
-          "the-run-counts"
+          "evidence.the-fish-boon-ground.the-fire-scar-line",
+          "evidence.the-fish-boon-ground.the-run-counts"
         ],
         "station": [
-          "root-steward",
-          "head-netter"
+          "station.the-fish-boon-ground.root-steward",
+          "station.the-fish-boon-ground.head-netter"
         ],
         "marks": [
-          "the-short-run"
+          "marks.the-fish-boon-ground.the-short-run"
         ]
       },
       "complexityBudget": "simple",
@@ -11837,10 +11837,10 @@
       ],
       "sockets": {
         "scene": [
-          "the-road-gap"
+          "scene.the-flu-cordon.the-road-gap"
         ],
         "evidence": [
-          "the-outward-faces"
+          "evidence.the-flu-cordon.the-outward-faces"
         ],
         "station": [],
         "marks": []
@@ -11980,20 +11980,20 @@
       "rumourPoolKey": "rumour.the-owing",
       "deedCounterKeys": [
         "deed.freed.sheltered",
-        "deed.owing.runaway_hidden"
+        "deed.owing.runaway-hidden"
       ],
       "sockets": {
         "scene": [
-          "the-rows"
+          "scene.the-freed-rows.the-rows"
         ],
         "evidence": [
-          "the-name-board"
+          "evidence.the-freed-rows.the-name-board"
         ],
         "station": [
-          "shelter-holder"
+          "station.the-freed-rows.shelter-holder"
         ],
         "marks": [
-          "chainbreaker-token"
+          "marks.the-freed-rows.chainbreaker-token"
         ]
       },
       "complexityBudget": "simple",
@@ -12131,13 +12131,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-rope-post"
+          "scene.the-gravel-six.the-rope-post"
         ],
         "evidence": [
-          "the-bad-year-count"
+          "evidence.the-gravel-six.the-bad-year-count"
         ],
         "station": [
-          "rope-keeper"
+          "station.the-gravel-six.rope-keeper"
         ],
         "marks": []
       },
@@ -12277,16 +12277,16 @@
       ],
       "sockets": {
         "scene": [
-          "the-water-at-the-centre"
+          "scene.the-guar-ground.the-water-at-the-centre"
         ],
         "evidence": [
-          "the-rotation-stakes"
+          "evidence.the-guar-ground.the-rotation-stakes"
         ],
         "station": [
-          "herd-master"
+          "station.the-guar-ground.herd-master"
         ],
         "marks": [
-          "the-extra-herd"
+          "marks.the-guar-ground.the-extra-herd"
         ]
       },
       "complexityBudget": "simple",
@@ -12417,14 +12417,14 @@
       ],
       "sockets": {
         "scene": [
-          "the-fork-terrace"
+          "scene.the-high-wrappings.the-fork-terrace"
         ],
         "evidence": [
-          "the-oldest-wrapping"
+          "evidence.the-high-wrappings.the-oldest-wrapping"
         ],
         "station": [],
         "marks": [
-          "the-dying-crown"
+          "marks.the-high-wrappings.the-dying-crown"
         ]
       },
       "complexityBudget": "simple",
@@ -12574,14 +12574,14 @@
       ],
       "sockets": {
         "scene": [
-          "the-sill"
+          "scene.the-last-landing.the-sill"
         ],
         "evidence": [
-          "the-rate-argument"
+          "evidence.the-last-landing.the-rate-argument"
         ],
         "station": [
-          "landing-holder",
-          "porter"
+          "station.the-last-landing.landing-holder",
+          "station.the-last-landing.porter"
         ],
         "marks": []
       },
@@ -12720,10 +12720,10 @@
       ],
       "sockets": {
         "scene": [
-          "the-ramp"
+          "scene.the-last-stone-course.the-ramp"
         ],
         "evidence": [
-          "the-dropped-block"
+          "evidence.the-last-stone-course.the-dropped-block"
         ],
         "station": [],
         "marks": []
@@ -12858,15 +12858,15 @@
       ],
       "sockets": {
         "scene": [
-          "the-three-stands"
+          "scene.the-level-line.the-three-stands"
         ],
         "evidence": [
-          "the-peg-line",
-          "the-missing-level-book"
+          "evidence.the-level-line.the-peg-line",
+          "evidence.the-level-line.the-missing-level-book"
         ],
         "station": [],
         "marks": [
-          "the-drowned-station"
+          "marks.the-level-line.the-drowned-station"
         ]
       },
       "complexityBudget": "trivial",
@@ -13004,17 +13004,17 @@
       ],
       "sockets": {
         "scene": [
-          "the-lantern-shed-at-night"
+          "scene.the-lightning-yard.the-lantern-shed-at-night"
         ],
         "evidence": [
-          "the-two-yards-prices"
+          "evidence.the-lightning-yard.the-two-yards-prices"
         ],
         "station": [
-          "lantern-master",
-          "hide-scraper"
+          "station.the-lightning-yard.lantern-master",
+          "station.the-lightning-yard.hide-scraper"
         ],
         "marks": [
-          "the-doubled-price"
+          "marks.the-lightning-yard.the-doubled-price"
         ]
       },
       "complexityBudget": "simple",
@@ -13148,13 +13148,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-boom"
+          "scene.the-monsoon-boom.the-boom"
         ],
         "evidence": [
-          "the-top-band"
+          "evidence.the-monsoon-boom.the-top-band"
         ],
         "station": [
-          "gate-holder"
+          "station.the-monsoon-boom.gate-holder"
         ],
         "marks": []
       },
@@ -13292,17 +13292,17 @@
       ],
       "sockets": {
         "scene": [
-          "the-court-at-new-moon"
+          "scene.the-moon-court.the-court-at-new-moon"
         ],
         "evidence": [
-          "the-station-schedule",
-          "the-land-purchases"
+          "evidence.the-moon-court.the-station-schedule",
+          "evidence.the-moon-court.the-land-purchases"
         ],
         "station": [
-          "court-alchemist"
+          "station.the-moon-court.court-alchemist"
         ],
         "marks": [
-          "the-new-lamp"
+          "marks.the-moon-court.the-new-lamp"
         ]
       },
       "complexityBudget": "simple",
@@ -13439,11 +13439,11 @@
       ],
       "sockets": {
         "scene": [
-          "the-roofless-nave"
+          "scene.the-ninth-chapel.the-roofless-nave"
         ],
         "evidence": [
-          "the-carved-number",
-          "the-older-footing"
+          "evidence.the-ninth-chapel.the-carved-number",
+          "evidence.the-ninth-chapel.the-older-footing"
         ],
         "station": [],
         "marks": []
@@ -13588,16 +13588,16 @@
       ],
       "sockets": {
         "scene": [
-          "the-rope-gate"
+          "scene.the-north-border-post.the-rope-gate"
         ],
         "evidence": [
-          "the-notched-stone"
+          "evidence.the-north-border-post.the-notched-stone"
         ],
         "station": [
-          "head-counter"
+          "station.the-north-border-post.head-counter"
         ],
         "marks": [
-          "owing-entry"
+          "marks.the-north-border-post.owing-entry"
         ]
       },
       "complexityBudget": "simple",
@@ -13733,15 +13733,15 @@
       ],
       "sockets": {
         "scene": [
-          "the-end-of-the-road"
+          "scene.the-north-cut.the-end-of-the-road"
         ],
         "evidence": [
-          "the-survey-pegs",
-          "the-changed-vegetation-line"
+          "evidence.the-north-cut.the-survey-pegs",
+          "evidence.the-north-cut.the-changed-vegetation-line"
         ],
         "station": [],
         "marks": [
-          "the-water-reaching-the-village"
+          "marks.the-north-cut.the-water-reaching-the-village"
         ]
       },
       "complexityBudget": "simple",
@@ -13871,18 +13871,18 @@
       },
       "rumourPoolKey": "rumour.the-owing",
       "deedCounterKeys": [
-        "deed.owing.pit_opened"
+        "deed.owing.pit-opened"
       ],
       "sockets": {
         "scene": [
-          "the-air-gap"
+          "scene.the-north-holding-pit.the-air-gap"
         ],
         "evidence": [
-          "the-mismatched-tally"
+          "evidence.the-north-holding-pit.the-mismatched-tally"
         ],
         "station": [],
         "marks": [
-          "owing-entry"
+          "marks.the-north-holding-pit.owing-entry"
         ]
       },
       "complexityBudget": "simple",
@@ -14018,18 +14018,18 @@
       },
       "rumourPoolKey": "rumour.couriers",
       "deedCounterKeys": [
-        "deed.courier.letters_carried"
+        "deed.courier.letters-carried"
       ],
       "sockets": {
         "scene": [],
         "evidence": [
-          "the-two-boxes"
+          "evidence.the-north-relay.the-two-boxes"
         ],
         "station": [
-          "relay-elder"
+          "station.the-north-relay.relay-elder"
         ],
         "marks": [
-          "courier-token"
+          "marks.the-north-relay.courier-token"
         ]
       },
       "complexityBudget": "trivial",
@@ -14162,10 +14162,10 @@
       ],
       "sockets": {
         "scene": [
-          "the-lower-chamber"
+          "scene.the-north-root-gallery.the-lower-chamber"
         ],
         "evidence": [
-          "the-prospectors-boxes"
+          "evidence.the-north-root-gallery.the-prospectors-boxes"
         ],
         "station": [],
         "marks": []
@@ -14297,10 +14297,10 @@
       ],
       "sockets": {
         "scene": [
-          "the-ledge"
+          "scene.the-north-vista.the-ledge"
         ],
         "evidence": [
-          "the-cairn-gifts"
+          "evidence.the-north-vista.the-cairn-gifts"
         ],
         "station": [],
         "marks": []
@@ -14425,18 +14425,18 @@
       },
       "rumourPoolKey": "rumour.stormhold",
       "deedCounterKeys": [
-        "deed.nisswo.rest_used"
+        "deed.nisswo.rest-used"
       ],
       "sockets": {
         "scene": [
-          "the-open-door"
+          "scene.the-northern-rest.the-open-door"
         ],
         "evidence": [
-          "the-made-bed"
+          "evidence.the-northern-rest.the-made-bed"
         ],
         "station": [],
         "marks": [
-          "turning-path-token"
+          "marks.the-northern-rest.turning-path-token"
         ]
       },
       "complexityBudget": "trivial",
@@ -14567,10 +14567,10 @@
       ],
       "sockets": {
         "scene": [
-          "the-hist-chamber"
+          "scene.the-opened-terrace.the-hist-chamber"
         ],
         "evidence": [
-          "the-washing-line"
+          "evidence.the-opened-terrace.the-washing-line"
         ],
         "station": [],
         "marks": []
@@ -14710,14 +14710,14 @@
       ],
       "sockets": {
         "scene": [
-          "the-sunken-rooms"
+          "scene.the-outer-silyanorn.the-sunken-rooms"
         ],
         "evidence": [
-          "the-unquarried-arcade"
+          "evidence.the-outer-silyanorn.the-unquarried-arcade"
         ],
         "station": [],
         "marks": [
-          "welkynd-shard"
+          "marks.the-outer-silyanorn.welkynd-shard"
         ]
       },
       "complexityBudget": "standard",
@@ -14861,13 +14861,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-saddle"
+          "scene.the-pass-station.the-saddle"
         ],
         "evidence": [
-          "the-two-coloured-poles"
+          "evidence.the-pass-station.the-two-coloured-poles"
         ],
         "station": [
-          "pass-keeper"
+          "station.the-pass-station.pass-keeper"
         ],
         "marks": []
       },
@@ -14994,18 +14994,18 @@
       },
       "rumourPoolKey": "rumour.the-owing",
       "deedCounterKeys": [
-        "deed.pen-yard.thrown_down"
+        "deed.pen-yard.thrown-down"
       ],
       "sockets": {
         "scene": [
-          "the-loading-ramp"
+          "scene.the-pen-yard.the-loading-ramp"
         ],
         "evidence": [
-          "the-two-heights"
+          "evidence.the-pen-yard.the-two-heights"
         ],
         "station": [],
         "marks": [
-          "owing-entry"
+          "marks.the-pen-yard.owing-entry"
         ]
       },
       "complexityBudget": "simple",
@@ -15148,17 +15148,17 @@
       ],
       "sockets": {
         "scene": [
-          "the-fence"
+          "scene.the-permit-dig.the-fence"
         ],
         "evidence": [
-          "the-permit-board"
+          "evidence.the-permit-dig.the-permit-board"
         ],
         "station": [
-          "alcove-keeper",
-          "city-observer"
+          "station.the-permit-dig.alcove-keeper",
+          "station.the-permit-dig.city-observer"
         ],
         "marks": [
-          "collections-token"
+          "marks.the-permit-dig.collections-token"
         ]
       },
       "complexityBudget": "simple",
@@ -15300,13 +15300,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-veranda"
+          "scene.the-pilots-rest.the-veranda"
         ],
         "evidence": [
-          "the-six-lamps"
+          "evidence.the-pilots-rest.the-six-lamps"
         ],
         "station": [
-          "tradehouse-keeper"
+          "station.the-pilots-rest.tradehouse-keeper"
         ],
         "marks": []
       },
@@ -15437,16 +15437,16 @@
       ],
       "sockets": {
         "scene": [
-          "the-step-above-the-province"
+          "scene.the-rim-hermitage.the-step-above-the-province"
         ],
         "evidence": [
-          "thirty-years-of-marks"
+          "evidence.the-rim-hermitage.thirty-years-of-marks"
         ],
         "station": [
-          "rim-nisswo"
+          "station.the-rim-hermitage.rim-nisswo"
         ],
         "marks": [
-          "the-untouched-cache"
+          "marks.the-rim-hermitage.the-untouched-cache"
         ]
       },
       "complexityBudget": "simple",
@@ -15589,14 +15589,14 @@
       ],
       "sockets": {
         "scene": [
-          "the-notch-in-weather"
+          "scene.the-rim-shelter.the-notch-in-weather"
         ],
         "evidence": [
-          "the-fuel-rule-cut-in-the-lintel"
+          "evidence.the-rim-shelter.the-fuel-rule-cut-in-the-lintel"
         ],
         "station": [],
         "marks": [
-          "the-empty-fuel-box"
+          "marks.the-rim-shelter.the-empty-fuel-box"
         ]
       },
       "complexityBudget": "trivial",
@@ -15747,13 +15747,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-common-room"
+          "scene.the-salt-and-shell.the-common-room"
         ],
         "evidence": [
-          "the-two-hearths"
+          "evidence.the-salt-and-shell.the-two-hearths"
         ],
         "station": [
-          "tradehouse-keeper"
+          "station.the-salt-and-shell.tradehouse-keeper"
         ],
         "marks": []
       },
@@ -15889,10 +15889,10 @@
       ],
       "sockets": {
         "scene": [
-          "the-cache"
+          "scene.the-salt-ledge.the-cache"
         ],
         "evidence": [
-          "the-salt-line"
+          "evidence.the-salt-ledge.the-salt-line"
         ],
         "station": [],
         "marks": []
@@ -16028,16 +16028,16 @@
       ],
       "sockets": {
         "scene": [
-          "the-bar-at-drawdown"
+          "scene.the-shell-ground.the-bar-at-drawdown"
         ],
         "evidence": [
-          "the-count-post"
+          "evidence.the-shell-ground.the-count-post"
         ],
         "station": [
-          "shell-gatherer"
+          "station.the-shell-ground.shell-gatherer"
         ],
         "marks": [
-          "the-fresh-trench"
+          "marks.the-shell-ground.the-fresh-trench"
         ]
       },
       "complexityBudget": "trivial",
@@ -16175,13 +16175,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-edge"
+          "scene.the-shoal-bank.the-edge"
         ],
         "evidence": [
-          "the-transit-marks"
+          "evidence.the-shoal-bank.the-transit-marks"
         ],
         "station": [
-          "fishing-crew"
+          "station.the-shoal-bank.fishing-crew"
         ],
         "marks": []
       },
@@ -16320,13 +16320,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-causeway-end"
+          "scene.the-shut-village.the-causeway-end"
         ],
         "evidence": [
-          "the-exchange-table"
+          "evidence.the-shut-village.the-exchange-table"
         ],
         "station": [
-          "causeway-receiver"
+          "station.the-shut-village.causeway-receiver"
         ],
         "marks": []
       },
@@ -16461,14 +16461,14 @@
       ],
       "sockets": {
         "scene": [
-          "the-climb-out"
+          "scene.the-silyanorn-crown.the-climb-out"
         ],
         "evidence": [
-          "the-crews-marks"
+          "evidence.the-silyanorn-crown.the-crews-marks"
         ],
         "station": [],
         "marks": [
-          "the-moved-hold"
+          "marks.the-silyanorn-crown.the-moved-hold"
         ]
       },
       "complexityBudget": "simple",
@@ -16600,10 +16600,10 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [
-          "the-bowl"
+          "scene.the-slumped-hamlet.the-bowl"
         ],
         "evidence": [
-          "the-uniform-lean"
+          "evidence.the-slumped-hamlet.the-uniform-lean"
         ],
         "station": [],
         "marks": []
@@ -16737,14 +16737,14 @@
       ],
       "sockets": {
         "scene": [
-          "the-view-out"
+          "scene.the-stormhold-falls-chamber.the-view-out"
         ],
         "evidence": [
-          "the-lamp-niche"
+          "evidence.the-stormhold-falls-chamber.the-lamp-niche"
         ],
         "station": [],
         "marks": [
-          "gemin-key"
+          "marks.the-stormhold-falls-chamber.gemin-key"
         ]
       },
       "complexityBudget": "simple",
@@ -16880,10 +16880,10 @@
       ],
       "sockets": {
         "scene": [
-          "the-open-doors"
+          "scene.the-stripped-village.the-open-doors"
         ],
         "evidence": [
-          "the-absent-stakes"
+          "evidence.the-stripped-village.the-absent-stakes"
         ],
         "station": [],
         "marks": []
@@ -17017,17 +17017,17 @@
       },
       "rumourPoolKey": "rumour.tear-road",
       "deedCounterKeys": [
-        "deed.sump.eaten_with"
+        "deed.sump.eaten-with"
       ],
       "sockets": {
         "scene": [
-          "the-gable-niche"
+          "scene.the-sump-hamlet.the-gable-niche"
         ],
         "evidence": [
-          "the-overgrown-path"
+          "evidence.the-sump-hamlet.the-overgrown-path"
         ],
         "station": [
-          "household-elder"
+          "station.the-sump-hamlet.household-elder"
         ],
         "marks": []
       },
@@ -17171,10 +17171,10 @@
       ],
       "sockets": {
         "scene": [
-          "the-flooded-hold"
+          "scene.the-tear-wreck.the-flooded-hold"
         ],
         "evidence": [
-          "the-restayed-mast"
+          "evidence.the-tear-wreck.the-restayed-mast"
         ],
         "station": [],
         "marks": []
@@ -17310,13 +17310,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-platform"
+          "scene.the-terrace-watch.the-platform"
         ],
         "evidence": [
-          "the-missing-ladder"
+          "evidence.the-terrace-watch.the-missing-ladder"
         ],
         "station": [
-          "rota-watcher"
+          "station.the-terrace-watch.rota-watcher"
         ],
         "marks": []
       },
@@ -17462,16 +17462,16 @@
       ],
       "sockets": {
         "scene": [
-          "the-alley"
+          "scene.the-thorn-bond.the-alley"
         ],
         "evidence": [
-          "the-second-door"
+          "evidence.the-thorn-bond.the-second-door"
         ],
         "station": [
-          "bond-clerk"
+          "station.the-thorn-bond.bond-clerk"
         ],
         "marks": [
-          "reed-writ-door"
+          "marks.the-thorn-bond.reed-writ-door"
         ]
       },
       "complexityBudget": "simple",
@@ -17602,14 +17602,14 @@
       },
       "rumourPoolKey": "rumour.thorn",
       "deedCounterKeys": [
-        "deed.eggs.quota_kept"
+        "deed.eggs.quota-kept"
       ],
       "sockets": {
         "scene": [
-          "the-dusk-lift"
+          "scene.the-thousand-birds.the-dusk-lift"
         ],
         "evidence": [
-          "the-quota-post"
+          "evidence.the-thousand-birds.the-quota-post"
         ],
         "station": [],
         "marks": []
@@ -17752,13 +17752,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-sand"
+          "scene.the-tide-fair.the-sand"
         ],
         "evidence": [
-          "the-tide-marker"
+          "evidence.the-tide-fair.the-tide-marker"
         ],
         "station": [
-          "tide-caller"
+          "station.the-tide-fair.tide-caller"
         ],
         "marks": []
       },
@@ -17900,14 +17900,14 @@
       ],
       "sockets": {
         "scene": [
-          "the-disc-on-the-rise"
+          "scene.the-turning-stone.the-disc-on-the-rise"
         ],
         "evidence": [
-          "four-villages-four-bearings"
+          "evidence.the-turning-stone.four-villages-four-bearings"
         ],
         "station": [],
         "marks": [
-          "the-new-bearing"
+          "marks.the-turning-stone.the-new-bearing"
         ]
       },
       "complexityBudget": "simple",
@@ -18050,13 +18050,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-far-gate"
+          "scene.the-two-gate-bridge.the-far-gate"
         ],
         "evidence": [
-          "the-note-box"
+          "evidence.the-two-gate-bridge.the-note-box"
         ],
         "station": [
-          "toll-holder"
+          "station.the-two-gate-bridge.toll-holder"
         ],
         "marks": []
       },
@@ -18193,10 +18193,10 @@
       ],
       "sockets": {
         "scene": [
-          "the-upper-village"
+          "scene.the-two-hundred-roofs.the-upper-village"
         ],
         "evidence": [
-          "the-thatchless-frames"
+          "evidence.the-two-hundred-roofs.the-thatchless-frames"
         ],
         "station": [],
         "marks": []
@@ -18343,16 +18343,16 @@
       ],
       "sockets": {
         "scene": [
-          "the-hall"
+          "scene.the-veterans-ridge.the-hall"
         ],
         "evidence": [
-          "the-taken-banners"
+          "evidence.the-veterans-ridge.the-taken-banners"
         ],
         "station": [
-          "hall-holder"
+          "station.the-veterans-ridge.hall-holder"
         ],
         "marks": [
-          "veterans-token"
+          "marks.the-veterans-ridge.veterans-token"
         ]
       },
       "complexityBudget": "standard",
@@ -18483,10 +18483,10 @@
       ],
       "sockets": {
         "scene": [
-          "the-bank"
+          "scene.the-wamasu-shrine.the-bank"
         ],
         "evidence": [
-          "the-scorched-shelf"
+          "evidence.the-wamasu-shrine.the-scorched-shelf"
         ],
         "station": [],
         "marks": []
@@ -18621,18 +18621,18 @@
       },
       "rumourPoolKey": "rumour.stormhold",
       "deedCounterKeys": [
-        "deed.whispers.dig_found"
+        "deed.whispers.dig-found"
       ],
       "sockets": {
         "scene": [
-          "the-cut"
+          "scene.the-whispers-dig.the-cut"
         ],
         "evidence": [
-          "the-instruction-sheet"
+          "evidence.the-whispers-dig.the-instruction-sheet"
         ],
         "station": [],
         "marks": [
-          "whispers-token"
+          "marks.the-whispers-dig.whispers-token"
         ]
       },
       "complexityBudget": "simple",
@@ -18767,13 +18767,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-grid"
+          "scene.the-white-pans.the-grid"
         ],
         "evidence": [
-          "the-pink-pans"
+          "evidence.the-white-pans.the-pink-pans"
         ],
         "station": [
-          "pan-family"
+          "station.the-white-pans.pan-family"
         ],
         "marks": []
       },
@@ -18908,15 +18908,15 @@
       ],
       "sockets": {
         "scene": [
-          "the-mouth",
-          "inside-the-working-tunnel"
+          "scene.the-wild-mouth.the-mouth",
+          "scene.the-wild-mouth.inside-the-working-tunnel"
         ],
         "evidence": [
-          "the-three-reports"
+          "evidence.the-wild-mouth.the-three-reports"
         ],
         "station": [],
         "marks": [
-          "the-cut-line-crossing"
+          "marks.the-wild-mouth.the-cut-line-crossing"
         ]
       },
       "complexityBudget": "simple",
@@ -19067,14 +19067,14 @@
       ],
       "sockets": {
         "scene": [
-          "the-terraces"
+          "scene.the-xanmeer-hold.the-terraces"
         ],
         "evidence": [
-          "the-working-gate"
+          "evidence.the-xanmeer-hold.the-working-gate"
         ],
         "station": [
-          "hold-holder",
-          "mechanism-keeper"
+          "station.the-xanmeer-hold.hold-holder",
+          "station.the-xanmeer-hold.mechanism-keeper"
         ],
         "marks": []
       },
@@ -19242,29 +19242,29 @@
       },
       "rumourPoolKey": "rumour.thorn",
       "deedCounterKeys": [
-        "deed.thorn.titles_settled",
-        "deed.thorn.smuggling_run"
+        "deed.thorn.titles-settled",
+        "deed.thorn.smuggling-run"
       ],
       "sockets": {
         "scene": [
-          "the-field-edge-tree",
-          "the-title-court",
-          "the-dunmer-quarter",
-          "the-memorial-square",
-          "the-vicecanons-boat"
+          "scene.thorn.the-field-edge-tree",
+          "scene.thorn.the-title-court",
+          "scene.thorn.the-dunmer-quarter",
+          "scene.thorn.the-memorial-square",
+          "scene.thorn.the-vicecanons-boat"
         ],
         "evidence": [
-          "the-disputed-titles"
+          "evidence.thorn.the-disputed-titles"
         ],
         "station": [
-          "field-owner",
-          "dunmer-factor",
-          "vicecanon",
-          "militia-head",
-          "field-holder"
+          "station.thorn.field-owner",
+          "station.thorn.dunmer-factor",
+          "station.thorn.vicecanon",
+          "station.thorn.militia-head",
+          "station.thorn.field-holder"
         ],
         "marks": [
-          "thorn-seal"
+          "marks.thorn.thorn-seal"
         ]
       },
       "complexityBudget": "complex",
@@ -19408,22 +19408,22 @@
       },
       "rumourPoolKey": "rumour.thorn",
       "deedCounterKeys": [
-        "deed.paddies.gate_won"
+        "deed.paddies.gate-won"
       ],
       "sockets": {
         "scene": [
-          "the-third-gate",
-          "the-drying-floor",
-          "the-unwalked-boundary"
+          "scene.thorn-paddy-terraces.the-third-gate",
+          "scene.thorn-paddy-terraces.the-drying-floor",
+          "scene.thorn-paddy-terraces.the-unwalked-boundary"
         ],
         "evidence": [
-          "the-salt-crust",
-          "the-owing-ledger"
+          "evidence.thorn-paddy-terraces.the-salt-crust",
+          "evidence.thorn-paddy-terraces.the-owing-ledger"
         ],
         "station": [
-          "gate-holder",
-          "field-holder-uxa-meen",
-          "counting-clerk"
+          "station.thorn-paddy-terraces.gate-holder",
+          "station.thorn-paddy-terraces.field-holder-uxa-meen",
+          "station.thorn-paddy-terraces.counting-clerk"
         ],
         "marks": []
       },
@@ -19563,13 +19563,13 @@
       ],
       "sockets": {
         "scene": [
-          "the-fork-above-the-arms"
+          "scene.three-ways-over-water.the-fork-above-the-arms"
         ],
         "evidence": [
-          "the-ladder-of-fixing-scars"
+          "evidence.three-ways-over-water.the-ladder-of-fixing-scars"
         ],
         "station": [
-          "junction-keeper"
+          "station.three-ways-over-water.junction-keeper"
         ],
         "marks": []
       },
@@ -19710,16 +19710,16 @@
       ],
       "sockets": {
         "scene": [
-          "the-octagon"
+          "scene.ties-four-ways.the-octagon"
         ],
         "evidence": [
-          "the-repair-scoreboard"
+          "evidence.ties-four-ways.the-repair-scoreboard"
         ],
         "station": [
-          "neutral-stallholder"
+          "station.ties-four-ways.neutral-stallholder"
         ],
         "marks": [
-          "the-springy-arm"
+          "marks.ties-four-ways.the-springy-arm"
         ]
       },
       "complexityBudget": "simple",
@@ -19856,20 +19856,20 @@
       },
       "rumourPoolKey": "rumour.the-owing",
       "deedCounterKeys": [
-        "deed.owing.gallery_freed"
+        "deed.owing.gallery-freed"
       ],
       "sockets": {
         "scene": [
-          "the-hoist-shaft"
+          "scene.tunnel-rat-gallery.the-hoist-shaft"
         ],
         "evidence": [
-          "the-flood-tally"
+          "evidence.tunnel-rat-gallery.the-flood-tally"
         ],
         "station": [
-          "hoist-overseer"
+          "station.tunnel-rat-gallery.hoist-overseer"
         ],
         "marks": [
-          "owing-entry"
+          "marks.tunnel-rat-gallery.owing-entry"
         ]
       },
       "complexityBudget": "simple",
@@ -20005,17 +20005,17 @@
       ],
       "sockets": {
         "scene": [
-          "the-line-facing-the-ground"
+          "scene.waits-for-the-promise.the-line-facing-the-ground"
         ],
         "evidence": [
-          "the-claim-roll",
-          "the-witness-names"
+          "evidence.waits-for-the-promise.the-claim-roll",
+          "evidence.waits-for-the-promise.the-witness-names"
         ],
         "station": [
-          "claimant-elder"
+          "station.waits-for-the-promise.claimant-elder"
         ],
         "marks": [
-          "the-crossed-bank"
+          "marks.waits-for-the-promise.the-crossed-bank"
         ]
       },
       "complexityBudget": "trivial",
@@ -20157,17 +20157,17 @@
       ],
       "sockets": {
         "scene": [
-          "the-stake-board",
-          "the-camp-at-the-bell"
+          "scene.waits-for-the-trial.the-stake-board",
+          "scene.waits-for-the-trial.the-camp-at-the-bell"
         ],
         "evidence": [
-          "the-order-of-arrival"
+          "evidence.waits-for-the-trial.the-order-of-arrival"
         ],
         "station": [
-          "board-keeper"
+          "station.waits-for-the-trial.board-keeper"
         ],
         "marks": [
-          "the-jumped-place"
+          "marks.waits-for-the-trial.the-jumped-place"
         ]
       },
       "complexityBudget": "trivial",
@@ -20302,14 +20302,14 @@
       ],
       "sockets": {
         "scene": [
-          "inside-the-lowest-house"
+          "scene.went-down-slowly.inside-the-lowest-house"
         ],
         "evidence": [
-          "the-stacked-floors"
+          "evidence.went-down-slowly.the-stacked-floors"
         ],
         "station": [],
         "marks": [
-          "this-decades-level"
+          "marks.went-down-slowly.this-decades-level"
         ]
       },
       "complexityBudget": "simple",
@@ -20478,20 +20478,20 @@
       ],
       "sockets": {
         "scene": [
-          "the-three-wedges",
-          "the-eastern-gate-at-dusk"
+          "scene.wolk-market.the-three-wedges",
+          "scene.wolk-market.the-eastern-gate-at-dusk"
         ],
         "evidence": [
-          "the-pitch-allocation",
-          "the-three-sets-of-weights"
+          "evidence.wolk-market.the-pitch-allocation",
+          "evidence.wolk-market.the-three-sets-of-weights"
         ],
         "station": [
-          "market-warden",
-          "charter-factor",
-          "broker"
+          "station.wolk-market.market-warden",
+          "station.wolk-market.charter-factor",
+          "station.wolk-market.broker"
         ],
         "marks": [
-          "the-repainting-hand"
+          "marks.wolk-market.the-repainting-hand"
         ]
       },
       "localStateVariants": [
@@ -20631,10 +20631,10 @@
       ],
       "sockets": {
         "scene": [
-          "the-landing"
+          "scene.zuuk.the-landing"
         ],
         "evidence": [
-          "the-cut-name"
+          "evidence.zuuk.the-cut-name"
         ],
         "station": [],
         "marks": []

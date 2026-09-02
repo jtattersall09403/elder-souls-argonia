@@ -285,7 +285,7 @@
           "place.hist-heartland.hist-agaceph-needle"
         ],
         "supplies": [
-          "place.dunmer-north.tenmar-wall",
+          "place.dunmer-north.wolk-market",
           "place.hist-heartland.helstrom",
           "place.hist-heartland.root-talk-ground",
           "place.mercantile-coast.vossa-satl-village"
@@ -529,7 +529,7 @@
           "place.hist-heartland.hammock-tree-island-greenmoss"
         ],
         "supplies": [
-          "place.dunmer-north.tenmar-wall",
+          "place.dunmer-north.wolk-market",
           "place.hist-heartland.helstrom",
           "place.hist-heartland.porter-relay-poling"
         ],
@@ -830,10 +830,10 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [
-          "mnemic_egg.mourning_floor"
+          "scene.bereaved-mnemic.mnemic-egg-mourning-floor"
         ],
         "evidence": [
-          "mnemic_egg.chamber"
+          "evidence.bereaved-mnemic.mnemic-egg-chamber"
         ],
         "station": [],
         "marks": []
@@ -851,12 +851,12 @@
       "ownerFaction": "faction.keepers-of-the-shell",
       "localStateVariants": [
         {
-          "id": "mnemic.mourning",
+          "id": "state.mnemic.mourning",
           "when": "default",
           "whatChanges": "the chamber is kept dark and the village is closed to visitors"
         },
         {
-          "id": "mnemic.opened",
+          "id": "state.mnemic.opened",
           "when": "after the severance is proved",
           "whatChanges": "the chamber is opened and the log made available"
         }
@@ -1328,12 +1328,12 @@
       },
       "rumourPoolKey": "rumour.interior.deep-basin",
       "deedCounterKeys": [
-        "deed.interior.restaked_field"
+        "deed.interior.restaked-field"
       ],
       "sockets": {
         "scene": [],
         "evidence": [
-          "grave_stake.pulled"
+          "evidence.bog-blight-ground-stakes.grave-stake-pulled"
         ],
         "station": [],
         "marks": []
@@ -1808,7 +1808,7 @@
         "scene": [],
         "evidence": [],
         "station": [
-          "spire.east_line"
+          "station.bubble-spire-open-helstrom.spire-east-line"
         ],
         "marks": []
       },
@@ -2503,10 +2503,10 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [
-          "cult.staging_ring"
+          "scene.cult-raid-camp-unbound.cult-staging-ring"
         ],
         "evidence": [
-          "cult.raid_orders"
+          "evidence.cult-raid-camp-unbound.cult-raid-orders"
         ],
         "station": [],
         "marks": []
@@ -2634,7 +2634,7 @@
       },
       "rumourPoolKey": "rumour.helstrom",
       "deedCounterKeys": [
-        "deed.cut_and_carried.cutting"
+        "deed.cut-and-carried.cutting"
       ],
       "sockets": {
         "scene": [],
@@ -3820,11 +3820,11 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [
-          "greenspring.fork_market"
+          "scene.greenspring.greenspring-fork-market"
         ],
         "evidence": [],
         "station": [
-          "greenspring.river_landing"
+          "station.greenspring.greenspring-river-landing"
         ],
         "marks": []
       },
@@ -4066,7 +4066,7 @@
         "scene": [],
         "evidence": [],
         "station": [
-          "guides.gate_side_hire"
+          "station.guide-camp-gate-side.guides-gate-side-hire"
         ],
         "marks": []
       },
@@ -4295,7 +4295,7 @@
       },
       "rumourPoolKey": "rumour.interior.hist-talk",
       "deedCounterKeys": [
-        "deed.interior.grave_robbery"
+        "deed.interior.grave-robbery"
       ],
       "sockets": {
         "scene": [],
@@ -4540,12 +4540,12 @@
       },
       "rumourPoolKey": "rumour.interior.hist-talk",
       "deedCounterKeys": [
-        "deed.interior.tapping_ended"
+        "deed.interior.tapping-ended"
       ],
       "sockets": {
         "scene": [],
         "evidence": [
-          "sap.licence_board"
+          "evidence.harmed-hist-tapped.sap-licence-board"
         ],
         "station": [],
         "marks": []
@@ -4700,8 +4700,8 @@
         "scene": [],
         "evidence": [],
         "station": [
-          "helstrom.convoy_dock",
-          "helstrom.root_hub"
+          "station.helstrom.helstrom-convoy-dock",
+          "station.helstrom.helstrom-root-hub"
         ],
         "marks": []
       },
@@ -4724,12 +4724,12 @@
       "ownerFaction": "faction.helstrom-assembly",
       "localStateVariants": [
         {
-          "id": "helstrom.assembly-open",
+          "id": "state.helstrom.assembly-open",
           "when": "the closed council has been opened to the player",
           "whatChanges": "the inner gallery is passable and the council chamber lit"
         },
         {
-          "id": "helstrom.grove-withdrawn",
+          "id": "state.helstrom.grove-withdrawn",
           "when": "the main-quest withdrawal is active",
           "whatChanges": "chime lines taken down, lamps out on the upper lanes, traffic halted"
         }
@@ -4844,10 +4844,10 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [
-          "heresy.restarted_course"
+          "scene.heretic-stone-restarted.heresy-restarted-course"
         ],
         "evidence": [
-          "heresy.masons_tally"
+          "evidence.heretic-stone-restarted.heresy-masons-tally"
         ],
         "station": [],
         "marks": []
@@ -5347,12 +5347,12 @@
       ],
       "sockets": {
         "scene": [
-          "hist.first_rain.drip_line"
+          "scene.hist-first-rain-trunk.hist-first-rain-drip-line"
         ],
         "evidence": [],
         "station": [],
         "marks": [
-          "hist.first_rain.regard"
+          "marks.hist-first-rain-trunk.hist-first-rain-regard"
         ]
       },
       "complexityBudget": "standard",
@@ -5738,7 +5738,7 @@
         "scene": [],
         "evidence": [],
         "station": [
-          "hist.sarpa.high_platform"
+          "station.hist-sarpa-highflower.hist-sarpa-high-platform"
         ],
         "marks": [
           "hist.sarpa.regard"
@@ -6111,14 +6111,14 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [
-          "lost_city.first_terrace"
+          "scene.lost-city.lost-city-first-terrace"
         ],
         "evidence": [
-          "accord.consent_records"
+          "evidence.lost-city.accord-consent-records"
         ],
         "station": [],
         "marks": [
-          "lost_city.warden_ground"
+          "marks.lost-city.lost-city-warden-ground"
         ]
       },
       "complexityBudget": "standard",
@@ -6136,12 +6136,12 @@
       "underwaterAccess": "deep-dive",
       "localStateVariants": [
         {
-          "id": "lost_city.sealed",
+          "id": "state.lost-city.sealed",
           "when": "before the Eye opens it",
           "whatChanges": "the underwater entry is closed and the terraces are unlit"
         },
         {
-          "id": "lost_city.opened",
+          "id": "state.lost-city.opened",
           "when": "after MQ29 opens it",
           "whatChanges": "entry passable, cult occupation live, sanctuary reachable"
         }
@@ -6952,7 +6952,7 @@
       "sockets": {
         "scene": [],
         "evidence": [
-          "grave_stake.readable"
+          "evidence.necropolis-dead-tenders.grave-stake-readable"
         ],
         "station": [],
         "marks": []
@@ -7076,7 +7076,7 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [
-          "nightbound.dark_lane"
+          "scene.nightbound-lightless.nightbound-dark-lane"
         ],
         "evidence": [],
         "station": [],
@@ -8027,7 +8027,7 @@
       "sockets": {
         "scene": [],
         "evidence": [
-          "sap.buyer_mark"
+          "evidence.poacher-camp-sap.sap-buyer-mark"
         ],
         "station": [],
         "marks": []
@@ -8276,7 +8276,7 @@
         "scene": [],
         "evidence": [],
         "station": [
-          "refuge.interior_shelter"
+          "station.refuge-station-interior.refuge-interior-shelter"
         ],
         "marks": []
       },
@@ -8524,10 +8524,10 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [
-          "severance.warren_floor"
+          "scene.root-gallery-cult-warren.severance-warren-floor"
         ],
         "evidence": [
-          "severance.cut_pattern"
+          "evidence.root-gallery-cult-warren.severance-cut-pattern"
         ],
         "station": [],
         "marks": []
@@ -8545,12 +8545,12 @@
       "ownerFaction": "faction.unbound-root",
       "localStateVariants": [
         {
-          "id": "warren.occupied",
+          "id": "state.warren.occupied",
           "when": "before the cult is broken",
           "whatChanges": "lit, guarded, and the cut pattern being extended"
         },
         {
-          "id": "warren.emptied",
+          "id": "state.warren.emptied",
           "when": "after",
           "whatChanges": "dark, abandoned in haste, evidence still in place"
         }
@@ -8909,7 +8909,7 @@
         "scene": [],
         "evidence": [],
         "station": [
-          "underway.helstrom_mouth"
+          "station.root-gallery-helstrom-underway.underway-helstrom-mouth"
         ],
         "marks": []
       },
@@ -9158,12 +9158,12 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [
-          "root_talk.convocation",
-          "many_root.council_grove"
+          "scene.root-talk-ground.root-talk-convocation",
+          "scene.root-talk-ground.many-root-council-grove"
         ],
         "evidence": [],
         "station": [
-          "root_talk.speaking-floor"
+          "station.root-talk-ground.root-talk-speaking-floor"
         ],
         "marks": []
       },
@@ -9181,12 +9181,12 @@
       "ownerFaction": "faction.many-root-conclave",
       "localStateVariants": [
         {
-          "id": "root_talk.in-session",
+          "id": "state.root-talk.in-session",
           "when": "during Hist-Tsoko or a called convocation",
           "whatChanges": "the ring is full, the floor is lit, and travel to it is busy"
         },
         {
-          "id": "root_talk.empty",
+          "id": "state.root-talk.empty",
           "when": "out of season",
           "whatChanges": "an empty worn floor and one chime frame"
         }
@@ -9536,10 +9536,10 @@
         "scene": [],
         "evidence": [],
         "station": [
-          "rootworm.helstrom"
+          "station.rootworm-station-helstrom.rootworm-helstrom"
         ],
         "marks": [
-          "rootworm.helstrom_head"
+          "marks.rootworm-station-helstrom.rootworm-helstrom-head"
         ]
       },
       "complexityBudget": "simple",
@@ -9655,14 +9655,14 @@
       },
       "rumourPoolKey": "rumour.interior.deep-basin",
       "deedCounterKeys": [
-        "deed.interior.bleeding_house"
+        "deed.interior.bleeding-house"
       ],
       "sockets": {
         "scene": [
-          "sap_facility.channel_floor"
+          "scene.sap-collection-facility-daedric.sap-facility-channel-floor"
         ],
         "evidence": [
-          "sap_facility.extraction_ledger"
+          "evidence.sap-collection-facility-daedric.sap-facility-extraction-ledger"
         ],
         "station": [],
         "marks": []
@@ -10028,10 +10028,10 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [
-          "sealed_meer.hist_chamber"
+          "scene.sealed-xanmeer-living.sealed-meer-hist-chamber"
         ],
         "evidence": [
-          "sealed_meer.chamber_seal"
+          "evidence.sealed-xanmeer-living.sealed-meer-chamber-seal"
         ],
         "station": [],
         "marks": []
@@ -10057,12 +10057,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [
         {
-          "id": "xal_ussep.sealed",
+          "id": "state.xal-ussep.sealed",
           "when": "default",
           "whatChanges": "the stair-throat is shut and the hum is only felt outside"
         },
         {
-          "id": "xal_ussep.opened",
+          "id": "state.xal-ussep.opened",
           "when": "after the chamber is opened",
           "whatChanges": "the living tree is reachable and the interior lit by its sap-glow"
         }
@@ -11020,11 +11020,11 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [
-          "tsoko_stones.reading"
+          "scene.stone-calendar-hist-tsoko.tsoko-stones-reading"
         ],
         "evidence": [],
         "station": [
-          "tsoko_stones.jekka_wass_post"
+          "station.stone-calendar-hist-tsoko.tsoko-stones-jekka-wass-post"
         ],
         "marks": []
       },
@@ -11505,7 +11505,7 @@
       "sockets": {
         "scene": [],
         "evidence": [
-          "expedition.final_notes"
+          "evidence.treasure-hunters-dead-camp.expedition-final-notes"
         ],
         "station": [],
         "marks": []
@@ -11748,7 +11748,7 @@
       "sockets": {
         "scene": [],
         "evidence": [
-          "umbriel.track_edge"
+          "evidence.umbriel-stripped-quiet.umbriel-track-edge"
         ],
         "station": [],
         "marks": []
@@ -11862,7 +11862,7 @@
       "sockets": {
         "scene": [],
         "evidence": [
-          "umpholo.mission_register"
+          "evidence.umpholo-mission.umpholo-mission-register"
         ],
         "station": [],
         "marks": []
@@ -13261,29 +13261,29 @@
       },
       "rumourPoolKey": "rumour.interior.deep-basin",
       "deedCounterKeys": [
-        "deed.interior.made_ground_read"
+        "deed.interior.made-ground-read"
       ],
       "sockets": {
         "scene": [
-          "warden.making_basin"
+          "scene.xal-krona-making-ground.warden-making-basin"
         ],
         "evidence": [
-          "accord.making_record",
-          "warden.failed_makings"
+          "evidence.xal-krona-making-ground.accord-making-record",
+          "evidence.xal-krona-making-ground.warden-failed-makings"
         ],
         "station": [],
         "marks": [
-          "warden.stood_down"
+          "marks.xal-krona-making-ground.warden-stood-down"
         ]
       },
       "localStateVariants": [
         {
-          "id": "made_ground.unread",
+          "id": "state.made-ground.unread",
           "when": "default",
           "whatChanges": "the records in the basin are unread and the Lost City boss is a fight"
         },
         {
-          "id": "made_ground.read",
+          "id": "state.made-ground.read",
           "when": "after the making record is understood",
           "whatChanges": "the stand-down route at the Lost City is enabled and the basin's adds stay dormant"
         }
@@ -13416,10 +13416,10 @@
         "scene": [],
         "evidence": [],
         "station": [
-          "meeruth.road_head"
+          "station.xal-meeruth-station.meeruth-road-head"
         ],
         "marks": [
-          "stronghold.site"
+          "marks.xal-meeruth-station.stronghold-site"
         ]
       },
       "complexityBudget": "simple",
@@ -13439,12 +13439,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [
         {
-          "id": "meeruth.derelict",
+          "id": "state.meeruth.derelict",
           "when": "default",
           "whatChanges": "roofless, unlit, and the road head silted"
         },
         {
-          "id": "meeruth.claimed",
+          "id": "state.meeruth.claimed",
           "when": "if taken as the player stronghold",
           "whatChanges": "re-roofed, lit, and the road head cleared"
         }
@@ -13563,10 +13563,10 @@
         "scene": [],
         "evidence": [],
         "station": [
-          "xal_thuun.gate_watch"
+          "station.xanmeer-fort-defences-working.xal-thuun-gate-watch"
         ],
         "marks": [
-          "xal_thuun.terrace_hold"
+          "marks.xanmeer-fort-defences-working.xal-thuun-terrace-hold"
         ]
       },
       "complexityBudget": "standard",

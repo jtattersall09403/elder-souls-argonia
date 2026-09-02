@@ -576,7 +576,7 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [
-          "since_the_tree.stump_ground"
+          "scene.bereaved-hist-less-since.since-the-tree-stump-ground"
         ],
         "evidence": [],
         "station": [],
@@ -1431,15 +1431,15 @@
       },
       "rumourPoolKey": "rumour.naga-kur",
       "deedCounterKeys": [
-        "deed.naga_kur.regard"
+        "deed.naga-kur.regard"
       ],
       "sockets": {
         "scene": [
-          "dead_water.blue_crown"
+          "scene.dead-water-village.dead-water-blue-crown"
         ],
         "evidence": [],
         "station": [
-          "dead_water.death_hunt_muster"
+          "station.dead-water-village.dead-water-death-hunt-muster"
         ],
         "marks": []
       },
@@ -1462,12 +1462,12 @@
       "ownerFaction": "faction.naga-kur",
       "localStateVariants": [
         {
-          "id": "dead_water.hunt-out",
+          "id": "state.dead-water.hunt-out",
           "when": "while a Death Hunt is running",
           "whatChanges": "the village is half-empty and the muster ground struck"
         },
         {
-          "id": "dead_water.hunt-home",
+          "id": "state.dead-water.hunt-home",
           "when": "otherwise",
           "whatChanges": "full village, drums answering, the landing crowded"
         }
@@ -1587,26 +1587,26 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [
-          "deepmire.memorial_ground"
+          "scene.deepmire-refuge.deepmire-memorial-ground"
         ],
         "evidence": [
-          "deepmire.founding_testimony"
+          "evidence.deepmire-refuge.deepmire-founding-testimony"
         ],
         "station": [
-          "deepmire.caretakers_camp"
+          "station.deepmire-refuge.deepmire-caretakers-camp"
         ],
         "marks": [
-          "deepmire.sheltered_here"
+          "marks.deepmire-refuge.deepmire-sheltered-here"
         ]
       },
       "localStateVariants": [
         {
-          "id": "deepmire.kept",
+          "id": "state.deepmire.kept",
           "when": "default",
           "whatChanges": "shelters sound, stores turned, caretakers in residence"
         },
         {
-          "id": "deepmire.in-use",
+          "id": "state.deepmire.in-use",
           "when": "during a sheltering crisis",
           "whatChanges": "the shelters are full, the stores broken open and the memorial line moved aside"
         }
@@ -2333,7 +2333,7 @@
         "scene": [],
         "evidence": [],
         "station": [
-          "deeps.hire_stage"
+          "station.ferry-stage-guide-hire.deeps-hire-stage"
         ],
         "marks": []
       },
@@ -2930,14 +2930,14 @@
       },
       "rumourPoolKey": "rumour.deeps.bone-country",
       "deedCounterKeys": [
-        "deed.deeps.held_tree"
+        "deed.deeps.held-tree"
       ],
       "sockets": {
         "scene": [
-          "held_tree.scaffold_base"
+          "scene.harmed-hist-enslaved.held-tree-scaffold-base"
         ],
         "evidence": [
-          "held_tree.crew_contract"
+          "evidence.harmed-hist-enslaved.held-tree-crew-contract"
         ],
         "station": [],
         "marks": []
@@ -2954,12 +2954,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [
         {
-          "id": "held_tree.scaffolded",
+          "id": "state.held-tree.scaffolded",
           "when": "default",
           "whatChanges": "scaffold standing, crew present, hum stuttering"
         },
         {
-          "id": "held_tree.freed",
+          "id": "state.held-tree.freed",
           "when": "after the crew is driven off",
           "whatChanges": "scaffold down, drums resumed, blue light steadying"
         }
@@ -3187,10 +3187,10 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [
-          "horwalli.channel_head"
+          "scene.horwalli-waterworks-deeps.horwalli-channel-head"
         ],
         "evidence": [
-          "horwalli.cut_marks"
+          "evidence.horwalli-waterworks-deeps.horwalli-cut-marks"
         ],
         "station": [],
         "marks": []
@@ -3608,10 +3608,10 @@
         "scene": [],
         "evidence": [],
         "station": [
-          "nine_ribs.cutters_stage"
+          "station.leviathan-bone-field.nine-ribs-cutters-stage"
         ],
         "marks": [
-          "nine_ribs.bone_taken"
+          "marks.leviathan-bone-field.nine-ribs-bone-taken"
         ]
       },
       "workflow": "derived",
@@ -4635,7 +4635,7 @@
       "sockets": {
         "scene": [],
         "evidence": [
-          "walkway.share_ledger"
+          "evidence.naga-highway-camp-walkway.walkway-share-ledger"
         ],
         "station": [],
         "marks": []
@@ -4902,7 +4902,7 @@
         "scene": [],
         "evidence": [],
         "station": [
-          "long_water.hold_gate"
+          "station.naga-village-settled.long-water-hold-gate"
         ],
         "marks": []
       },
@@ -5034,7 +5034,7 @@
       "sockets": {
         "scene": [],
         "evidence": [
-          "grave_stake.setters_ledger"
+          "evidence.necropolis-nightbound.grave-stake-setters-ledger"
         ],
         "station": [],
         "marks": []
@@ -5638,16 +5638,16 @@
       },
       "rumourPoolKey": "rumour.deeps.bone-country",
       "deedCounterKeys": [
-        "deed.deeps.warren_cleared"
+        "deed.deeps.warren-cleared"
       ],
       "sockets": {
         "scene": [
-          "warren.blight_floor"
+          "scene.root-gallery-blight-warren.warren-blight-floor"
         ],
         "evidence": [],
         "station": [],
         "marks": [
-          "warren.cleared"
+          "marks.root-gallery-blight-warren.warren-cleared"
         ]
       },
       "complexityBudget": "standard",
@@ -6019,24 +6019,24 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [
-          "root_whisper.speaking_hours"
+          "scene.root-whisper-village.root-whisper-speaking-hours"
         ],
         "evidence": [
-          "root_whisper.remnant_account"
+          "evidence.root-whisper-village.root-whisper-remnant-account"
         ],
         "station": [],
         "marks": [
-          "hist.root_whisper.regard"
+          "marks.root-whisper-village.hist-root-whisper-regard"
         ]
       },
       "localStateVariants": [
         {
-          "id": "root_whisper.speaking",
+          "id": "state.root-whisper.speaking",
           "when": "during the tree's two speaking hours",
           "whatChanges": "the whole village is present and silent; outsiders are asked to wait outside the ring"
         },
         {
-          "id": "root_whisper.working",
+          "id": "state.root-whisper.working",
           "when": "the rest of the day",
           "whatChanges": "normal village life, and the tree-minder will talk"
         }
@@ -6507,10 +6507,10 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [
-          "teeth_of_sithis.count_floor"
+          "scene.sithis-temple-mass-sacrifice.teeth-of-sithis-count-floor"
         ],
         "evidence": [
-          "teeth_of_sithis.the_count"
+          "evidence.sithis-temple-mass-sacrifice.teeth-of-sithis-the-count"
         ],
         "station": [],
         "marks": []
@@ -7497,14 +7497,14 @@
       },
       "rumourPoolKey": "rumour.deeps.bone-country",
       "deedCounterKeys": [
-        "deed.naga_kur.village_cleared"
+        "deed.naga-kur.village-cleared"
       ],
       "sockets": {
         "scene": [
-          "still_walking.containment_ring"
+          "scene.umbriel-stripped-undead.still-walking-containment-ring"
         ],
         "evidence": [
-          "umbriel.containment_ring_log"
+          "evidence.umbriel-stripped-undead.umbriel-containment-ring-log"
         ],
         "station": [],
         "marks": []
@@ -7522,12 +7522,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [
         {
-          "id": "still_walking.contained",
+          "id": "state.still-walking.contained",
           "when": "default",
           "whatChanges": "the ring is maintained and the village is quiet by day"
         },
         {
-          "id": "still_walking.breached",
+          "id": "state.still-walking.breached",
           "when": "if the ring is broken",
           "whatChanges": "the walkers range beyond the pikes and the nearest camps strike"
         }
@@ -8097,10 +8097,10 @@
       "deedCounterKeys": [],
       "sockets": {
         "scene": [
-          "withdrawn_tree.silent_ground"
+          "scene.wild-hist-rogue-deeps.withdrawn-tree-silent-ground"
         ],
         "evidence": [
-          "hist.withdrawal_signature"
+          "evidence.wild-hist-rogue-deeps.hist-withdrawal-signature"
         ],
         "station": [],
         "marks": []
