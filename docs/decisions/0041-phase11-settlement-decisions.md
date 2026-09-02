@@ -810,6 +810,8 @@ as load-bearing. Record the outcome here either way.
    criterion (00-core) — evaluate for wreck/reef/sunken-structure/treasure
    assets for the catalogue's drowned/underwater families, and note any
    quest-design ideas for the quest plan even where no assets are taken.
+   Plus SSE **174995** — mesh fixes for Depths of Skyrim: if Depths is
+   sourced, take the fixed meshes (and credit both mods).
 3. **Gideon anchor.** Its approved position sits on steep ground (14 %
    buildable in 400 m) — expect a nudge proposal within `toleranceUV` at
    Part 6.
