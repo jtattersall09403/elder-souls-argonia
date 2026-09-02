@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "note": "The province place taxonomy (Phase 11 Part 1, decision 0041). class -> family -> type -> variants. DERIVED from world/sources/catalogue/type-recipes.json, which is the source of truth for every type's siting grammar, five-slot recipe, culture, era, danger band, asset plan and expected count; worldgen/test_type_recipes.py fails if the two drift. Enumerated across the 0041 breadth-rule axes (economy/trade, faction/institution, ecology/habitat, era layer, traversal mode, danger tier, social function, condition state, season, scale) and crossed. Adding entries is cheap; renaming is a migration.",
+  "note": "The province place taxonomy (Phase 11 Part 1, decision 0041). class -> family -> type -> variants. DERIVED from world/sources/catalogue/type-recipes.json, which is the source of truth for every type's siting grammar, five-slot recipe, culture, era, season, danger band, asset plan and expected count; worldgen/test_type_recipes.py fails if the two drift. Never hand-edit this file. Enumerated across the 0041 breadth-rule axes (economy/trade, faction/institution, ecology/habitat, era layer, traversal mode, danger tier, social function, condition state, season, scale) and crossed. Adding entries is cheap; renaming is a migration.",
   "classes": {
     "settlement": {
       "dry-village": {
@@ -11,6 +11,10 @@
         "flood-high-hamlet": [
           "single-rise",
           "levee-top"
+        ],
+        "gorge-wall-dwelling": [
+          "cut",
+          "built-out"
         ],
         "grassland-field-village": [
           "saltrice",
@@ -87,6 +91,14 @@
           "disputed",
           "derelict"
         ],
+        "garrison-town": [
+          "levy-held",
+          "imperial-shell"
+        ],
+        "inland-market-town": [
+          "crossroads",
+          "river-junction"
+        ],
         "plantation-quarters": [
           "occupied",
           "abandoned"
@@ -95,6 +107,11 @@
           "deep-water",
           "lighterage"
         ],
+        "shrine-town": [
+          "hist",
+          "sithis",
+          "foreign"
+        ],
         "toll-road-town": [
           "imperial-era",
           "argonian-held"
@@ -102,6 +119,10 @@
         "trade-landing": [
           "seasonal",
           "permanent"
+        ],
+        "works-town": [
+          "extraction",
+          "processing"
         ]
       },
       "outcast-settlement": {
@@ -290,6 +311,11 @@
           "wreck",
           "drowned-village"
         ],
+        "shipyard": [
+          "building",
+          "dry-dock",
+          "breaking"
+        ],
         "slug-shaping-house": [],
         "wamasu-works": [
           "lantern",
@@ -398,6 +424,10 @@
         "smugglers-lay-by": [
           "mangrove",
           "coastal"
+        ],
+        "smugglers-ledge": [
+          "cached",
+          "staffed"
         ]
       },
       "labour": {
@@ -519,6 +549,10 @@
           "toll",
           "free",
           "guide-hire"
+        ],
+        "head-of-navigation": [
+          "seasonal",
+          "permanent"
         ],
         "mooring-cluster": [
           "flotilla",
@@ -690,6 +724,10 @@
           "war-memorial",
           "flood-disturbed"
         ],
+        "hammock-crown-terrace": [
+          "ancestor",
+          "clan-founder"
+        ],
         "mass-grave-memorial": [
           "umbriel",
           "burn",
@@ -746,6 +784,11 @@
         "placation-court": [
           "teeba-enoo",
           "teeba-hatsei"
+        ],
+        "tradehouse": [
+          "road",
+          "quay",
+          "village"
         ],
         "vice-den": [
           "gambling",
@@ -836,6 +879,26 @@
           "recitation"
         ],
         "unbuilt-museum-site": []
+      },
+      "magic": {
+        "enchanters-bench": [
+          "crystal",
+          "charged-bone",
+          "soul-gem"
+        ],
+        "sign-readers-ground": [
+          "charm-maker",
+          "sign-reader",
+          "weather-caller"
+        ],
+        "synod-outstation": [
+          "licensed",
+          "overstaying"
+        ],
+        "whispers-house": [
+          "deniable",
+          "abandoned-in-haste"
+        ]
       },
       "quarter": {
         "foreign-quarter": [
@@ -1145,6 +1208,10 @@
           "town-threshold"
         ],
         "death-hopper-pool": [],
+        "dry-season-herd-ground": [
+          "concentration",
+          "calving"
+        ],
         "hackwing-roost": [
           "wild",
           "mewed"
@@ -1200,6 +1267,10 @@
       "hazard-ground": {
         "black-mud-trap": [],
         "collapsing-pinnacle": [],
+        "drawdown-flat": [
+          "exposed",
+          "refilling"
+        ],
         "drowning-narrows": [
           "tidal",
           "current"
@@ -1228,6 +1299,11 @@
           "living",
           "wrecking",
           "harvest"
+        ],
+        "sea-stack": [
+          "seabird",
+          "nesting",
+          "occupied"
         ]
       },
       "root-system": {
@@ -1274,6 +1350,10 @@
           "grave-singer",
           "retired-arbiter",
           "chime-maker"
+        ],
+        "snowline-hermitage": [
+          "ascetic",
+          "exiled-order"
         ],
         "squatted-ruin-home": []
       },

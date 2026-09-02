@@ -12,7 +12,10 @@
    "argonian",
    "imperial",
    "dunmer",
-   "khajiit"
+   "khajiit",
+   "altmer",
+   "nord",
+   "lost-peoples"
   ],
   "dangerTiers": [
    "D0",
@@ -30,9 +33,16 @@
    "knahaten-flu",
    "second-empire",
    "imperial",
+   "oblivion-crisis",
    "morrowind-invasion",
    "post-umbriel",
    "current"
+  ],
+  "season": [
+   "all",
+   "wet",
+   "dry",
+   "varies"
   ],
   "statuses": [
    "active",
@@ -41,7 +51,9 @@
    "seasonal",
    "drowned",
    "contested",
-   "under-construction"
+   "under-construction",
+   "reoccupied",
+   "rebuilt"
   ],
   "complexityBudget": [
    "trivial",
@@ -68,7 +80,9 @@
   "variants": "dressing/state deltas, never a different siting grammar",
   "slots": "the five-slot POI recipe (docs/research/openworld-place-distribution-and-siting.md 3.1) as this type's deltas: cue, population, props, rewardFree + rewardGated, satellite (200-400 m). Cues must be tall, close, lit or AUDIBLE - the scour found no long sightlines below the mountain rim.",
   "siting": "meso-rung siting grammar (module 40 28b). landformClasses are terrain-scour classes plus the pseudo-classes any-firm-ground / any-shallow-marsh / any-channel-bank, and are RANKED PREFERENCES, not requirements - enclosed-clearing (6 province-wide) and sinkhole (11) are genuinely scarce and must be budgeted. regionClasses are worldgen regions.REGION_CLASSES names.",
-  "cultures": "which people's place this is. The two-culture KIT rule still binds (material-culture dossier): argonian and imperial kits never blend; dunmer places build from the dunmer-telvanni family, khajiit from the imperial/market families.",
+  "magnitude": "SETTLEMENT SCALE ONLY (M1-M5). null means 'not a settlement', not 'unset' - a reef and a grave field have no magnitude by definition. Do not treat this as a universal size axis.",
+  "cultures": "whose place this is. The two-culture KIT rule still binds (material-culture dossier): argonian and imperial kits never blend. dunmer places build from dunmer-telvanni; khajiit, altmer and nord from the imperial/market families; lost-peoples marks the five vanished cultures whose ruins are nobody's inheritance.",
+  "season": "all = present year-round; wet/dry = exists or is reachable in one half of the cycle; varies = state changes seasonally (see statuses)",
   "assetPlan": "inventory family ids. The withdrawn darkwater pool must never appear.",
   "assetGaps": "permanent no-Nexus-answer gaps. grave-stakes = build staked-dead fields from cairns, totems and stockade pikes; working-props = distinguish works sites by LAYOUT and dressing, never bespoke machinery.",
   "complexityBudget": "complex needs complexityJustification (Morrowind-level placement ceiling)",
@@ -120,6 +134,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -187,6 +202,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "abandoned",
@@ -205,10 +221,80 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    7,
-    8
+    6,
+    7
    ],
    "lore": "region grammar: seasonal floodplain"
+  },
+  {
+   "type": "gorge-wall-dwelling",
+   "class": "settlement",
+   "family": "dry-village",
+   "recordScope": "poi",
+   "variants": [
+    "cut",
+    "built-out"
+   ],
+   "summary": "Dwellings cut and built into a river gorge's wall, above the flood and below the rim, reached by stair and rope \u2014 a form only a deep river corridor can produce.",
+   "slots": {
+    "cue": "door openings in a rock face, in a line, at one height",
+    "population": "4-12; elevated member above on the rim",
+    "props": "a hauling system doing the work a street would, doors at one level because that is the level that does not flood, the river always audible",
+    "rewardFree": "the hauling system is a traversal aid once you understand it",
+    "rewardGated": "the upper cuts, reached by climbing",
+    "satellite": "a landing on the gorge floor 200-400 m below"
+   },
+   "siting": {
+    "landformClasses": [
+     "gorge",
+     "ravine",
+     "cliff-bench",
+     "waterfall"
+    ],
+    "waterRelation": "above a deep navigable river",
+    "regionClasses": [
+     "deep river corridor",
+     "upland hills"
+    ],
+    "neighbourRelation": "commands a stretch of river; the corridor's signature settlement"
+   },
+   "magnitude": "M2",
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "season": "all",
+   "statuses": [
+    "active",
+    "abandoned"
+   ],
+   "assetPlan": [
+    "passerelles-walkway",
+    "stockade-scaffold",
+    "vanilla-shackkit",
+    "bamboo-hut",
+    "argonian-lights",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "climb",
+    "walk",
+    "boat",
+    "swim"
+   ],
+   "complexityBudget": "standard",
+   "countBand": [
+    3,
+    4
+   ],
+   "lore": "region grammar: deep river corridor; scour: gorge (60) and ravine (90) candidates concentrate on the corridor and the rim"
   },
   {
    "type": "grassland-field-village",
@@ -255,6 +341,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "contested"
@@ -323,6 +410,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -391,6 +479,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -462,6 +551,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -537,6 +627,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "abandoned",
     "contested"
@@ -558,7 +649,7 @@
    "complexityBudget": "simple",
    "countBand": [
     2,
-    4
+    3
    ],
    "lore": "build-out register: player ownership needs a place shape reserved now, or it is a refactor later (0041 forward-compatibility block)"
   },
@@ -614,6 +705,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned",
@@ -688,10 +780,12 @@
     "imperial",
     "post-umbriel"
    ],
+   "season": "all",
    "statuses": [
-    "ruined",
+    "active",
     "drowned",
-    "active"
+    "reoccupied",
+    "ruined"
    ],
    "assetPlan": [
     "vanilla-farmhouse",
@@ -759,6 +853,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -828,6 +923,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned",
@@ -846,7 +942,7 @@
    "complexityBudget": "simple",
    "countBand": [
     4,
-    6
+    5
    ],
    "lore": "Lore:Black Marsh (Imperial houses on the same soil sank)"
   },
@@ -896,9 +992,11 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
+    "abandoned",
     "active",
-    "abandoned"
+    "reoccupied"
    ],
    "assetPlan": [
     "vanilla-farmhouse",
@@ -967,6 +1065,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "contested"
    ],
@@ -1040,6 +1139,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "contested"
    ],
@@ -1112,6 +1212,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -1181,6 +1282,7 @@
     "current",
     "merethic"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -1254,8 +1356,10 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
-    "active"
+    "active",
+    "rebuilt"
    ],
    "assetPlan": [
     "vanilla-shackkit",
@@ -1330,6 +1434,7 @@
     "post-umbriel",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -1404,8 +1509,10 @@
     "post-umbriel",
     "current"
    ],
+   "season": "all",
    "statuses": [
-    "active"
+    "active",
+    "rebuilt"
    ],
    "assetPlan": [
     "vanilla-shackkit",
@@ -1481,6 +1588,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -1555,6 +1663,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -1630,6 +1739,7 @@
     "morrowind-invasion",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "contested"
@@ -1702,6 +1812,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "contested",
@@ -1724,9 +1835,162 @@
    "complexityBudget": "standard",
    "countBand": [
     3,
-    4
+    3
    ],
    "lore": "Lore:Archein; labour-and-bondage dossier (the Owing)"
+  },
+  {
+   "type": "garrison-town",
+   "class": "settlement",
+   "family": "mixed-settlement",
+   "recordScope": "poi",
+   "variants": [
+    "levy-held",
+    "imperial-shell"
+   ],
+   "summary": "A town grown up against a fort's wall, whose whole economy is feeding, arming and entertaining a garrison that may no longer exist.",
+   "slots": {
+    "cue": "a curtain wall with a town pressed against the outside of it",
+    "population": "20-60; elevated member on the wall",
+    "props": "a victualling trade, a muster yard, drinking houses in a proportion no other town has, the fort gate open or bricked",
+    "rewardFree": "the victualling accounts, which say how large the garrison actually is",
+    "rewardGated": "the fort itself",
+    "satellite": "a drill ground or a battlefield 200-400 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "ridge-end",
+     "ford",
+     "land-bridge",
+     "flood-high",
+     "saddle"
+    ],
+    "waterRelation": "at a crossing or a road",
+    "regionClasses": [
+     "firm lowland",
+     "upland hills",
+     "fringe marsh",
+     "tropical jungle",
+     "border mountains"
+    ],
+    "neighbourRelation": "always paired with a fort, occupied or not"
+   },
+   "magnitude": "M4",
+   "cultures": [
+    "argonian",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D1",
+    "D2"
+   ],
+   "eraLayers": [
+    "imperial",
+    "current"
+   ],
+   "season": "all",
+   "statuses": [
+    "active",
+    "contested"
+   ],
+   "assetPlan": [
+    "bmv-fort",
+    "vanilla-farmhouse",
+    "mud-mother-grove",
+    "market-tents",
+    "landmark-civic",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social",
+    "combat"
+   ],
+   "complexityBudget": "standard",
+   "countBand": [
+    2,
+    3
+   ],
+   "lore": "morrowind-content-density.md (the M4 rung); Lore:Fort Swampmoth; argonia-4e201-state (shellback city levies)"
+  },
+  {
+   "type": "inland-market-town",
+   "class": "settlement",
+   "family": "mixed-settlement",
+   "recordScope": "poi",
+   "variants": [
+    "crossroads",
+    "river-junction"
+   ],
+   "summary": "The ordinary market town \u2014 a crossroads or a river junction where four districts' goods meet, big enough to have quarters and small enough to walk across.",
+   "slots": {
+    "cue": "converging routes and a stall frame skyline",
+    "population": "20-60; elevated member on a market platform",
+    "props": "four districts' produce in one place, a weigh house, quarters that are visibly different from each other, a fair ground outside the wall line",
+    "rewardFree": "the market's price board and its rumours",
+    "rewardGated": "the bonded store or the council's chamber",
+    "satellite": "a fair ground or a beast market 200-400 m outside"
+   },
+   "siting": {
+    "landformClasses": [
+     "confluence",
+     "ford",
+     "land-bridge",
+     "any-firm-ground",
+     "flood-high"
+    ],
+    "waterRelation": "a junction of navigable waters, or a road crossing",
+    "regionClasses": [
+     "firm lowland",
+     "fringe marsh",
+     "seasonal floodplain",
+     "interior swamp",
+     "upland hills",
+     "deep river corridor"
+    ],
+    "neighbourRelation": "the hinge of a district; several villages depend on it"
+   },
+   "magnitude": "M4",
+   "cultures": [
+    "argonian",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D0",
+    "D1",
+    "D2"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "season": "all",
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "mud-mother-grove",
+    "bamboo-hut",
+    "vanilla-farmhouse",
+    "market-tents",
+    "landmark-civic",
+    "docks-piers",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social",
+    "fastTransit"
+   ],
+   "complexityBudget": "standard",
+   "countBand": [
+    3,
+    4
+   ],
+   "lore": "morrowind-content-density.md (Suran, Balmora: the M4 rung carries Morrowind's texture)"
   },
   {
    "type": "plantation-quarters",
@@ -1771,6 +2035,7 @@
    "eraLayers": [
     "imperial"
    ],
+   "season": "all",
    "statuses": [
     "abandoned",
     "active",
@@ -1841,6 +2106,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -1864,6 +2130,81 @@
     2
    ],
    "lore": "Lore:Black Marsh (minor ports); Lore:East Empire Company"
+  },
+  {
+   "type": "shrine-town",
+   "class": "settlement",
+   "family": "mixed-settlement",
+   "recordScope": "poi",
+   "variants": [
+    "hist",
+    "sithis",
+    "foreign"
+   ],
+   "summary": "A town that exists because a sacred site is here and people come to it: lodging, offerings, guides, relic-sellers, and an economy entirely downstream of belief.",
+   "slots": {
+    "cue": "a settlement far larger than its farmland can explain",
+    "population": "20-60; elevated member on a lodging roof",
+    "props": "lodging for many times the resident population, offering-sellers, a guide guild, relic stalls of varying honesty",
+    "rewardFree": "the guide board and the pilgrim traffic's rumours",
+    "rewardGated": "access to the site itself, which the town controls",
+    "satellite": "the sacred site 300-400 m off that the town serves"
+   },
+   "siting": {
+    "landformClasses": [
+     "flood-high",
+     "enclosed-clearing",
+     "any-firm-ground",
+     "island",
+     "ford"
+    ],
+    "waterRelation": "a landing for pilgrims",
+    "regionClasses": [
+     "interior swamp",
+     "fringe marsh",
+     "rootland deep marsh",
+     "firm lowland",
+     "raised hammock",
+     "upland hills"
+    ],
+    "neighbourRelation": "always paired with a hero Hist, a Sithis temple or a trial ground"
+   },
+   "magnitude": "M4",
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D1",
+    "D2"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "season": "all",
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "mud-mother-grove",
+    "bamboo-hut",
+    "market-tents",
+    "totems-ritual",
+    "argonian-props",
+    "landmark-civic",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social"
+   ],
+   "complexityBudget": "standard",
+   "countBand": [
+    2,
+    3
+   ],
+   "lore": "morrowind-content-density.md (the M4 rung is where Morrowind's texture lives); Lore:Hissmir"
   },
   {
    "type": "toll-road-town",
@@ -1912,6 +2253,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -1983,6 +2325,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -2005,6 +2348,84 @@
     20
    ],
    "lore": "Lore:Black Marsh (barter economy); demographics module 92"
+  },
+  {
+   "type": "works-town",
+   "class": "settlement",
+   "family": "mixed-settlement",
+   "recordScope": "poi",
+   "variants": [
+    "extraction",
+    "processing"
+   ],
+   "summary": "A town that exists because of one industry, laid out around it, and visibly finished if that industry ever stops.",
+   "slots": {
+    "cue": "the works itself dominating a settlement built to serve it",
+    "population": "20-60; elevated member on the works' structure",
+    "props": "housing in ranks by seniority, a company or clan store, spoil and waste shaping the street plan, a boom-year building nobody could afford now",
+    "rewardFree": "the store's stock and the works' output",
+    "rewardGated": "the works' own strongroom or its best seam",
+    "satellite": "the extraction site 200-400 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "ravine",
+     "cliff-bench",
+     "any-firm-ground",
+     "flood-high",
+     "any-channel-bank"
+    ],
+    "waterRelation": "at its resource and its haul route",
+    "regionClasses": [
+     "upland hills",
+     "fringe marsh",
+     "firm lowland",
+     "tropical jungle",
+     "coastal lagoon & salt marsh",
+     "border mountains"
+    ],
+    "neighbourRelation": "paired with a diggings, salt pans, clay pit or fishery"
+   },
+   "magnitude": "M4",
+   "cultures": [
+    "argonian",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D1",
+    "D2"
+   ],
+   "eraLayers": [
+    "imperial",
+    "current"
+   ],
+   "season": "all",
+   "statuses": [
+    "active",
+    "abandoned"
+   ],
+   "assetPlan": [
+    "mud-mother-grove",
+    "vanilla-farmhouse",
+    "stockade-scaffold",
+    "fences-wattle",
+    "landmark-civic",
+    "clutter"
+   ],
+   "assetGaps": [
+    "working-props"
+   ],
+   "traversal": [
+    "walk",
+    "boat",
+    "social"
+   ],
+   "complexityBudget": "standard",
+   "countBand": [
+    2,
+    3
+   ],
+   "lore": "morrowind-content-density.md (Gnisis, Caldera); Lore:Stormhold (crystals); Lore:Gideon (red clay)"
   },
   {
    "type": "freed-worker-shelter",
@@ -2049,6 +2470,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -2119,6 +2541,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -2191,6 +2614,7 @@
     "morrowind-invasion",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -2260,6 +2684,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -2327,6 +2752,7 @@
     "post-umbriel",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -2395,6 +2821,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -2467,6 +2894,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -2535,6 +2963,7 @@
     "post-umbriel",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -2603,6 +3032,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -2671,6 +3101,7 @@
     "merethic",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -2744,6 +3175,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -2768,8 +3200,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    15,
-    16
+    13,
+    14
    ],
    "lore": "Lore:Hist; Lore:Argonian; settlement-register M3 band"
   },
@@ -2819,6 +3251,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "contested"
@@ -2890,6 +3323,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -2911,7 +3345,7 @@
    "complexityBudget": "standard",
    "countBand": [
     2,
-    4
+    3
    ],
    "lore": "Lore:Naga (a people of Black Marsh; the tribeless are the brigands, not the whole nation)"
   },
@@ -2960,6 +3394,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -3030,6 +3465,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -3100,6 +3536,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -3165,6 +3602,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -3233,6 +3671,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -3254,8 +3693,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    5,
-    7
+    4,
+    6
    ],
    "lore": "Lore:Murkmire (platforms ascending from ground to hover above water)"
   },
@@ -3305,6 +3744,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -3372,7 +3812,9 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
+    "rebuilt",
     "seasonal"
    ],
    "assetPlan": [
@@ -3441,6 +3883,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -3509,6 +3952,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -3578,6 +4022,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -3651,6 +4096,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned",
@@ -3673,8 +4119,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    11,
-    13
+    10,
+    11
    ],
    "lore": "Lore:Murkmire; material-culture (Murkmire reed-and-stilt kit)"
   },
@@ -3728,6 +4174,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -3795,6 +4242,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -3863,6 +4311,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -3933,6 +4382,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -3953,7 +4403,7 @@
    "complexityBudget": "simple",
    "countBand": [
     4,
-    6
+    5
    ],
    "lore": "acceptance rule: Argonian physiology materially changes underwater play \u2014 the economy must reflect it"
   },
@@ -4002,6 +4452,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -4072,6 +4523,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -4140,6 +4592,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -4209,6 +4662,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -4280,6 +4734,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -4351,6 +4806,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -4420,6 +4876,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -4487,6 +4944,7 @@
     "lost-peoples",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -4553,6 +5011,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -4621,6 +5080,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -4641,9 +5101,85 @@
    "complexityBudget": "trivial",
    "countBand": [
     4,
-    6
+    5
    ],
    "lore": "Lore:Lilmoth (the drowned quarter, salvaged for 150 years)"
+  },
+  {
+   "type": "shipyard",
+   "class": "works",
+   "family": "craft",
+   "recordScope": "poi",
+   "variants": [
+    "building",
+    "dry-dock",
+    "breaking"
+   ],
+   "summary": "Where seagoing hulls are built, docked and broken up \u2014 the yard the free port, the deep-water wharf and the pirate anchorage all presuppose and none of them contained.",
+   "slots": {
+    "cue": "a hull on the stocks, larger than any building on the shore",
+    "population": "6-20; elevated member on the hull's staging",
+    "props": "a slipway, a hull frame at an early stage, another being broken for its timber, imported fastenings in a locked store",
+    "rewardFree": "timber, fastenings and a build register naming every hull on this coast",
+    "rewardGated": "the fastenings store \u2014 metal, and therefore treasure here",
+    "satellite": "a careening hard or a bonded warehouse 200-400 m along the shore"
+   },
+   "siting": {
+    "landformClasses": [
+     "natural-harbour",
+     "cove",
+     "river-mouth",
+     "headland"
+    ],
+    "waterRelation": "a deep shelving launch",
+    "regionClasses": [
+     "coastal lagoon & salt marsh",
+     "tidal delta",
+     "ocean",
+     "deep river corridor"
+    ],
+    "neighbourRelation": "one per major port; the whole coast's hulls come from a handful of these"
+   },
+   "magnitude": "M2",
+   "cultures": [
+    "imperial",
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D0",
+    "D1",
+    "D2"
+   ],
+   "eraLayers": [
+    "imperial",
+    "current"
+   ],
+   "season": "all",
+   "statuses": [
+    "active",
+    "abandoned"
+   ],
+   "assetPlan": [
+    "docks-piers",
+    "boats-keeled",
+    "stockade-scaffold",
+    "vanilla-farmhouse",
+    "clutter"
+   ],
+   "assetGaps": [
+    "working-props"
+   ],
+   "traversal": [
+    "walk",
+    "boat",
+    "climb"
+   ],
+   "complexityBudget": "standard",
+   "countBand": [
+    2,
+    3
+   ],
+   "lore": "Lore:Sea Transportation; Lore:All Flags Navy; foreign-powers dossier (the coast's hulls are foreign-built)"
   },
   {
    "type": "slug-shaping-house",
@@ -4686,6 +5222,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -4751,6 +5288,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -4820,6 +5358,7 @@
     "lost-peoples",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -4889,6 +5428,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -4957,6 +5497,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -5023,6 +5564,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -5089,6 +5631,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned",
@@ -5108,7 +5651,7 @@
    "complexityBudget": "simple",
    "countBand": [
     3,
-    4
+    3
    ],
    "lore": "Lore:Saltrice; Lore:House Dres; Lore:Hereguard Plantation"
   },
@@ -5156,6 +5699,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "contested"
@@ -5219,6 +5763,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -5286,6 +5831,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -5354,6 +5900,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -5427,6 +5974,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -5497,6 +6045,7 @@
    "eraLayers": [
     "imperial"
    ],
+   "season": "all",
    "statuses": [
     "ruined",
     "abandoned"
@@ -5567,6 +6116,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -5636,6 +6186,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -5707,6 +6258,7 @@
     "merethic",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -5775,6 +6327,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -5844,6 +6397,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned",
@@ -5910,6 +6464,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -5979,6 +6534,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -6049,6 +6605,7 @@
     "post-umbriel",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -6121,6 +6678,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -6190,6 +6748,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -6257,6 +6816,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -6328,6 +6888,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -6350,6 +6911,74 @@
     14
    ],
    "lore": "Lore:Thorn (guards turn a blind eye); Lore:Topal Bay"
+  },
+  {
+   "type": "smugglers-ledge",
+   "class": "works",
+   "family": "illicit",
+   "recordScope": "poi",
+   "variants": [
+    "cached",
+    "staffed"
+   ],
+   "summary": "A rim ledge on the wrong side of the border where goods wait out of sight of both customs regimes, reached by a path that is not a path.",
+   "slots": {
+    "cue": "nothing from below; from above, a worn traverse line across a face",
+    "population": "0-4; elevated member on the traverse above the cache",
+    "props": "goods stacked against the rock under a rock-coloured cover, a rope left rigged, marks showing which side each consignment is going",
+    "rewardFree": "the rigged rope, and whatever is stacked",
+    "rewardGated": "the cache under the ledge, needing the traverse",
+    "satellite": "a border post 300-400 m off, looking the other way"
+   },
+   "siting": {
+    "landformClasses": [
+     "cliff-bench",
+     "saddle",
+     "gorge",
+     "ridge-end"
+    ],
+    "waterRelation": "none; this is the dry route",
+    "regionClasses": [
+     "border mountains",
+     "upland hills"
+    ],
+    "neighbourRelation": "beside a pass, out of sight of its post"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3",
+    "D4"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "season": "all",
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "stockade-scaffold",
+    "market-tents",
+    "clutter",
+    "signage-blank"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "climb",
+    "walk",
+    "stealth"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    3,
+    4
+   ],
+   "lore": "region grammar: border mountains; Lore:Blackwood Road (the legal crossings are few, so the illegal ones are the rim)"
   },
   {
    "type": "hiring-office",
@@ -6397,6 +7026,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -6467,6 +7097,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined"
@@ -6536,6 +7167,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -6604,6 +7236,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined"
@@ -6675,6 +7308,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "abandoned",
@@ -6746,6 +7380,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -6819,6 +7454,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -6839,8 +7475,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    9,
-    12
+    8,
+    10
    ],
    "lore": "module 92 (three currency tiers: septims, barter, obligation); Lore:Argonian (barter economy); Lore:Lizard-Steed"
   },
@@ -6892,6 +7528,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -6961,6 +7598,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -7031,6 +7669,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -7102,6 +7741,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -7170,6 +7810,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -7232,6 +7873,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -7290,8 +7932,9 @@
    },
    "magnitude": "M1",
    "cultures": [
+    "argonian",
     "imperial",
-    "argonian"
+    "nord"
    ],
    "dangerTiers": [
     "D0",
@@ -7302,9 +7945,11 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
-    "active",
     "abandoned",
+    "active",
+    "reoccupied",
     "ruined"
    ],
    "assetPlan": [
@@ -7324,7 +7969,7 @@
    "complexityBudget": "simple",
    "countBand": [
     4,
-    7
+    6
    ],
    "lore": "guilds-and-orders dossier (the EEC is gone; its wharves and bonded stores are not)"
   },
@@ -7376,6 +8021,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -7396,7 +8042,7 @@
    "complexityBudget": "trivial",
    "countBand": [
     4,
-    7
+    6
    ],
    "lore": "Lore:Black Marsh (Imperial roads made freight slower); Lore:Sea Transportation"
   },
@@ -7451,6 +8097,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined",
@@ -7523,6 +8170,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -7592,6 +8240,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -7662,6 +8311,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -7682,7 +8332,7 @@
    "complexityBudget": "simple",
    "countBand": [
     4,
-    6
+    5
    ],
    "lore": "module 50 (tides are calendared world state); the thinnest traversal gate in the taxonomy was fast transit"
   },
@@ -7738,6 +8388,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined",
@@ -7760,8 +8411,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    7,
-    8
+    6,
+    7
    ],
    "lore": "labour-and-bondage dossier (every crossing has an owner); Lore:Keel-Sakka (the Tum-Taleel's bridge)"
   },
@@ -7813,6 +8464,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined",
@@ -7884,6 +8536,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined"
@@ -7902,7 +8555,7 @@
    "complexityBudget": "trivial",
    "countBand": [
     3,
-    4
+    3
    ],
    "lore": "traversal: no canon tree-way network; treat arboreal routes as local, not a system"
   },
@@ -7948,6 +8601,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined"
@@ -8018,6 +8672,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined"
@@ -8039,7 +8694,7 @@
    "complexityBudget": "simple",
    "countBand": [
     4,
-    5
+    4
    ],
    "lore": "asset inventory (the passerelles walkway kit: curving, climbing, branching); Lore:Murkmire"
   },
@@ -8092,6 +8747,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -8113,10 +8769,84 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    6,
-    7
+    5,
+    6
    ],
    "lore": "Lore:Black Marsh (outsiders arrive by ferry behind an Argonian guide)"
+  },
+  {
+   "type": "head-of-navigation",
+   "class": "transit",
+   "family": "landing",
+   "recordScope": "poi",
+   "variants": [
+    "seasonal",
+    "permanent"
+   ],
+   "summary": "The furthest point upriver a loaded boat can reach \u2014 an economic terminus, not merely an obstacle, and the reason a whole district's goods stop here and walk.",
+   "slots": {
+    "cue": "a dense landing with many more boats than the settlement behind it justifies",
+    "population": "6-15; elevated member on the transfer stage",
+    "props": "a transfer stage, porters' frames, a board giving this season's navigable limit which is not last season's, cargo waiting in both directions",
+    "rewardFree": "the navigable-limit board, which is a river map",
+    "rewardGated": "the transfer store",
+    "satellite": "a porter relay yard 200-400 m along the land route"
+   },
+   "siting": {
+    "landformClasses": [
+     "water-narrows",
+     "waterfall",
+     "confluence",
+     "any-channel-bank",
+     "ford"
+    ],
+    "waterRelation": "where navigable water ends",
+    "regionClasses": [
+     "deep river corridor",
+     "upland hills",
+     "tropical jungle"
+    ],
+    "neighbourRelation": "the hinge between a boat lane and a land route; a mandatory node"
+   },
+   "magnitude": "M2",
+   "cultures": [
+    "argonian",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D1",
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "season": "all",
+   "statuses": [
+    "active",
+    "seasonal"
+   ],
+   "assetPlan": [
+    "docks-piers",
+    "market-tents",
+    "stockade-scaffold",
+    "boats-raft-canoe",
+    "clutter",
+    "signage-blank"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "boat",
+    "walk",
+    "fastTransit",
+    "social"
+   ],
+   "complexityBudget": "standard",
+   "countBand": [
+    3,
+    4
+   ],
+   "lore": "region grammar: deep river corridor; Lore:Sea Transportation (small-draft craft are the province's freight)"
   },
   {
    "type": "mooring-cluster",
@@ -8164,6 +8894,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -8229,6 +8960,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -8301,6 +9033,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -8361,8 +9094,9 @@
    },
    "magnitude": "M1",
    "cultures": [
+    "argonian",
     "imperial",
-    "argonian"
+    "nord"
    ],
    "dangerTiers": [
     "D0",
@@ -8373,6 +9107,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined"
@@ -8441,6 +9176,7 @@
     "imperial",
     "current"
    ],
+   "season": "wet",
    "statuses": [
     "seasonal"
    ],
@@ -8508,6 +9244,7 @@
     "imperial",
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal",
@@ -8529,7 +9266,7 @@
    "complexityBudget": "simple",
    "countBand": [
     3,
-    4
+    3
    ],
    "lore": "scour: a quarter of the interesting ground is on the rim, and it is the only ground with range; region grammar: border mountains"
   },
@@ -8580,6 +9317,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -8600,7 +9338,7 @@
    "complexityBudget": "trivial",
    "countBand": [
     4,
-    5
+    4
    ],
    "lore": "Lore:Blackwood Road; openworld research (waystation is deliberately safe)"
   },
@@ -8655,6 +9393,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -8727,6 +9466,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -8796,6 +9536,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined"
@@ -8864,6 +9605,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -8930,6 +9672,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -8996,6 +9739,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined"
@@ -9069,6 +9813,7 @@
     "merethic",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -9141,6 +9886,7 @@
     "post-umbriel",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "drowned"
    ],
@@ -9205,6 +9951,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -9274,9 +10021,11 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
+    "abandoned",
     "active",
-    "abandoned"
+    "reoccupied"
    ],
    "assetPlan": [
     "vanilla-farmhouse",
@@ -9342,6 +10091,7 @@
    "eraLayers": [
     "imperial"
    ],
+   "season": "all",
    "statuses": [
     "ruined",
     "abandoned"
@@ -9415,6 +10165,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "ruined",
     "active"
@@ -9483,6 +10234,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined"
@@ -9550,6 +10302,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "contested"
@@ -9617,6 +10370,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "drowned"
    ],
@@ -9687,6 +10441,7 @@
     "post-umbriel",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined"
@@ -9754,6 +10509,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -9827,6 +10583,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined"
@@ -9896,6 +10653,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -9964,6 +10722,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -10028,6 +10787,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -10096,6 +10856,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "seasonal"
    ],
@@ -10163,6 +10924,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -10231,6 +10993,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -10303,6 +11066,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "seasonal"
    ],
@@ -10365,6 +11129,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -10435,6 +11200,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "abandoned",
     "active"
@@ -10505,6 +11271,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -10575,6 +11342,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -10637,6 +11405,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -10705,6 +11474,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -10775,6 +11545,7 @@
     "merethic",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined"
@@ -10841,6 +11612,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -10901,7 +11673,7 @@
    },
    "magnitude": null,
    "cultures": [
-    "imperial"
+    "lost-peoples"
    ],
    "dangerTiers": [
     "D2",
@@ -10910,6 +11682,7 @@
    "eraLayers": [
     "lost-peoples"
    ],
+   "season": "all",
    "statuses": [
     "abandoned"
    ],
@@ -10974,6 +11747,7 @@
    "eraLayers": [
     "imperial"
    ],
+   "season": "all",
    "statuses": [
     "abandoned",
     "active"
@@ -11039,6 +11813,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -11114,6 +11889,7 @@
     "post-umbriel",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -11137,6 +11913,74 @@
     40
    ],
    "lore": "\u00a712b (grave-stakes are a province-wide interactable); Lore:Argonian (xul-vaat, bog blight)"
+  },
+  {
+   "type": "hammock-crown-terrace",
+   "class": "sacred",
+   "family": "the-dead",
+   "recordScope": "poi",
+   "variants": [
+    "ancestor",
+    "clan-founder"
+   ],
+   "summary": "On a tree-island the ground is precious and the crown is dry, so the dead go up: a terraced ancestor platform on the highest point of a hammock, which only this region can host.",
+   "slots": {
+    "cue": "cut terraces stepping up a wooded dome, visible as a shape change in the island's profile",
+    "population": "0-2 tenders; elevated member on the crown",
+    "props": "terrace platforms by generation, the founding clan at the top, offerings carried up, no staking because the ground below floods",
+    "rewardFree": "the generational order, which is a clan history read as architecture",
+    "rewardGated": "the founder's terrace at the crown",
+    "satellite": "the hammock village 200-400 m below"
+   },
+   "siting": {
+    "landformClasses": [
+     "island",
+     "flood-high",
+     "enclosed-clearing"
+    ],
+    "waterRelation": "above the flood on a tree-island",
+    "regionClasses": [
+     "raised hammock"
+    ],
+    "neighbourRelation": "one per inhabited hammock; the region's signature sacred form"
+   },
+   "magnitude": null,
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "season": "all",
+   "statuses": [
+    "active",
+    "abandoned"
+   ],
+   "assetPlan": [
+    "totems-ritual",
+    "stockade-scaffold",
+    "passerelles-walkway",
+    "argonian-props",
+    "clutter"
+   ],
+   "assetGaps": [
+    "grave-stakes"
+   ],
+   "traversal": [
+    "walk",
+    "climb",
+    "boat"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    4,
+    5
+   ],
+   "lore": "region grammar: raised hammock; Lore:Argonian (staking needs soft ground the hammock crown does not have)"
   },
   {
    "type": "mass-grave-memorial",
@@ -11189,6 +12033,7 @@
     "imperial",
     "post-umbriel"
    ],
+   "season": "all",
    "statuses": [
     "abandoned"
    ],
@@ -11254,6 +12099,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -11323,6 +12169,7 @@
     "current",
     "merethic"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined"
@@ -11389,6 +12236,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -11463,6 +12311,7 @@
    "eraLayers": [
     "post-umbriel"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -11523,6 +12372,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -11590,6 +12440,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -11659,6 +12510,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -11733,6 +12585,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -11801,6 +12654,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -11869,6 +12723,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "seasonal"
    ],
@@ -11938,6 +12793,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -12008,6 +12864,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -12078,6 +12935,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -12100,6 +12958,86 @@
     1
    ],
    "lore": "\u00a712b Alten Meerhleel (tribes placated with a Teeba-Enoo court)"
+  },
+  {
+   "type": "tradehouse",
+   "class": "civic",
+   "family": "festivity",
+   "recordScope": "poi",
+   "variants": [
+    "road",
+    "quay",
+    "village"
+   ],
+   "summary": "Paid lodging: a bed, a meal, a fire and a room full of people who know things \u2014 the commercial rest-and-rumour hub the province otherwise lacks.",
+   "slots": {
+    "cue": "a lit, busy doorway and a stable or a mooring, on a route, at any hour",
+    "population": "6-20; elevated member absent",
+    "props": "a room rate, a guest book naming travellers and where they were going, contracts pinned to a board, three languages in one room",
+    "rewardFree": "the guest book and the board \u2014 this is the province's densest quest-hook node",
+    "rewardGated": "a private room and what is said in it",
+    "satellite": "a market, a ferry stage or a road stage 200-300 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-firm-ground",
+     "ford",
+     "river-mouth",
+     "confluence",
+     "saddle"
+    ],
+    "waterRelation": "on a route, with a landing",
+    "regionClasses": [
+     "firm lowland",
+     "fringe marsh",
+     "upland hills",
+     "tidal delta",
+     "seasonal floodplain",
+     "coastal lagoon & salt marsh",
+     "interior swamp"
+    ],
+    "neighbourRelation": "on every real route at day-travel spacing; in every M3+ settlement"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D0",
+    "D1",
+    "D2"
+   ],
+   "eraLayers": [
+    "imperial",
+    "current"
+   ],
+   "season": "all",
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "vanilla-farmhouse",
+    "mud-mother-grove",
+    "market-tents",
+    "argonian-lights",
+    "lights-general",
+    "clutter",
+    "signage-blank"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social",
+    "fastTransit"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    12,
+    17
+   ],
+   "lore": "Morrowind's corner club / tradehouse pattern (morrowind-content-density.md); Lore:Hissmir Fish-Eye Rye"
   },
   {
    "type": "vice-den",
@@ -12149,6 +13087,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -12171,7 +13110,7 @@
    "complexityBudget": "simple",
    "countBand": [
     4,
-    6
+    5
    ],
    "lore": "Lore:Shells and Stones; material-culture (daril); labour-and-bondage dossier (debt becomes owing)"
   },
@@ -12220,6 +13159,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -12292,6 +13232,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -12311,8 +13252,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    8,
-    10
+    7,
+    9
    ],
    "lore": "Lore:Jel (an oral language with no past or future tense); build-out: this is the letter/rumour delivery spine"
   },
@@ -12365,6 +13306,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -12431,6 +13373,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -12497,6 +13440,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "contested"
@@ -12565,6 +13509,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -12636,6 +13581,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -12706,6 +13652,7 @@
     "knahaten-flu",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -12776,6 +13723,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -12845,6 +13793,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -12864,7 +13813,7 @@
    "complexityBudget": "trivial",
    "countBand": [
     2,
-    4
+    3
    ],
    "lore": "Lore:Hist Sap; material-culture (daril); sap-touched-village is the failure case this type exists to prevent"
   },
@@ -12914,6 +13863,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -12980,6 +13930,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined"
@@ -13049,6 +14000,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -13114,6 +14066,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined"
@@ -13178,6 +14131,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -13246,6 +14200,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -13308,6 +14263,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -13378,6 +14334,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -13451,6 +14408,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined"
@@ -13525,6 +14483,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -13594,6 +14553,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -13656,6 +14616,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "abandoned"
    ],
@@ -13676,6 +14637,296 @@
     1
    ],
    "lore": "Lore:Cyrodilic Collections (hoped to build a museum in Black Marsh; \u00a712b notes it was never built)"
+  },
+  {
+   "type": "enchanters-bench",
+   "class": "civic",
+   "family": "magic",
+   "recordScope": "district",
+   "variants": [
+    "crystal",
+    "charged-bone",
+    "soul-gem"
+   ],
+   "summary": "Where a filled Stormhold crystal, a wamasu's charged bone or a soul gem is actually put into an object \u2014 the terminus of the province's whole enchanting supply chain.",
+   "slots": {
+    "cue": "a bench under cover with a rack of stock that is faintly, wrongly lit",
+    "population": "1-2; elevated member absent",
+    "props": "filled and hollow crystals kept scrupulously apart, charged bones in graded racks, a commission book, one piece that went wrong",
+    "rewardFree": "the commission book, which names who wanted what enchanted and why",
+    "rewardGated": "the finished commissions, and the hollow-crystal store nobody will touch",
+    "satellite": "a crystal diggings or a wamasu works 300-400 m off that supplies it"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-firm-ground",
+     "flood-high",
+     "cliff-bench"
+    ],
+    "waterRelation": "dry and secure",
+    "regionClasses": [
+     "upland hills",
+     "firm lowland",
+     "fringe marsh",
+     "tidal delta",
+     "coastal lagoon & salt marsh"
+    ],
+    "neighbourRelation": "downstream of an extraction chain; in an M3+ settlement"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D0",
+    "D1",
+    "D2"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "season": "all",
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "vanilla-farmhouse",
+    "mud-mother-grove",
+    "argonian-lights",
+    "lights-general",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
+    4,
+    6
+   ],
+   "lore": "Lore:Stormhold (filled crystals enchant, hollow ones hold corruption); Lore:Wamasu (bones hold a charge for years)"
+  },
+  {
+   "type": "sign-readers-ground",
+   "class": "civic",
+   "family": "magic",
+   "recordScope": "dressing",
+   "variants": [
+    "charm-maker",
+    "sign-reader",
+    "weather-caller"
+   ],
+   "summary": "Where the province's folk magic actually happens: a charm-maker's bench and a sign-reader's ground, because magic here is a literacy, not a profession.",
+   "slots": {
+    "cue": "charms hung on a frame at a threshold, and a swept ground with sign-marks cut into it",
+    "population": "1-3 and whoever has come with a problem; elevated member absent",
+    "props": "charms priced in favours, a sign board keyed to the moons, a vastei tally of what the reader has learned and from whom",
+    "rewardFree": "a working charm and a reading",
+    "rewardGated": "the reader's own tally, which is a map of who in the district knows what",
+    "satellite": "a calcinator court or a reagent pool 200-400 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-firm-ground",
+     "flood-high",
+     "enclosed-clearing",
+     "islet"
+    ],
+    "waterRelation": "minor",
+    "regionClasses": [
+     "interior swamp",
+     "fringe marsh",
+     "firm lowland",
+     "raised hammock",
+     "seasonal floodplain",
+     "rootland deep marsh",
+     "tropical jungle"
+    ],
+    "neighbourRelation": "in or beside almost any settlement \u2014 this is folk practice, not an institution"
+   },
+   "magnitude": null,
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D0",
+    "D1",
+    "D2"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "season": "all",
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "totems-ritual",
+    "argonian-props",
+    "mud-mother-grove",
+    "argonian-lights",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social"
+   ],
+   "complexityBudget": "trivial",
+   "countBand": [
+    14,
+    20
+   ],
+   "lore": "magic-practice dossier (magic as folk literacy; vastei as the progression currency) \u2014 the world-side anchor for the stats/progression workstream"
+  },
+  {
+   "type": "synod-outstation",
+   "class": "civic",
+   "family": "magic",
+   "recordScope": "poi",
+   "variants": [
+    "licensed",
+    "overstaying"
+   ],
+   "summary": "An outstation of one of the two bodies that inherited the Mages Guild's work and none of its welcome \u2014 surveying, measuring, and formally licensed by an authority nobody local recognises.",
+   "slots": {
+    "cue": "instruments on a roof platform and a licence nailed up at the door",
+    "population": "2-6 outsiders; elevated member at the instruments",
+    "props": "an Imperial licence nobody local accepts, survey instruments pointed at the sky and at the Hist, a correspondence backlog, local staff who are clearly minders",
+    "rewardFree": "the survey data, which names magical sites across the district",
+    "rewardGated": "the correspondence, and what they are really measuring",
+    "satellite": "a whispers house 300-400 m off, watching them"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-firm-ground",
+     "ridge-end",
+     "flood-high",
+     "summit"
+    ],
+    "waterRelation": "needs sky and a road",
+    "regionClasses": [
+     "firm lowland",
+     "upland hills",
+     "fringe marsh",
+     "tropical jungle"
+    ],
+    "neighbourRelation": "in or near a northern city; rival to the Whispers"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D0",
+    "D1",
+    "D2"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "season": "all",
+   "statuses": [
+    "active",
+    "contested"
+   ],
+   "assetPlan": [
+    "vanilla-farmhouse",
+    "landmark-civic",
+    "signage-blank",
+    "stockade-scaffold",
+    "clutter",
+    "lights-general"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "social"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    2,
+    3
+   ],
+   "lore": "Lore:Synod; guilds-and-orders dossier (the Mages Guild dissolved; the Synod and the College of Whispers inherited)"
+  },
+  {
+   "type": "whispers-house",
+   "class": "civic",
+   "family": "magic",
+   "recordScope": "poi",
+   "variants": [
+    "deniable",
+    "abandoned-in-haste"
+   ],
+   "summary": "The College of Whispers' method, which is not to have premises: an ordinary house doing extraordinary work, with an escape route prepared from the day they moved in.",
+   "slots": {
+    "cue": "none by design; an ordinary house whose shutters are always closed on one side",
+    "population": "1-4; elevated member absent",
+    "props": "a cover trade that makes no money, a cipher, remains and specimens catalogued like a laboratory, a bolt-hole",
+    "rewardFree": "the cover trade's goods and the bolt-hole",
+    "rewardGated": "the cipher, and the catalogue of what they have taken from the province",
+    "satellite": "a clandestine dig camp 300-400 m off that supplies them"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-firm-ground",
+     "flood-high",
+     "any-channel-bank"
+    ],
+    "waterRelation": "a quiet way out by water",
+    "regionClasses": [
+     "firm lowland",
+     "tidal delta",
+     "fringe marsh",
+     "coastal lagoon & salt marsh",
+     "interior swamp"
+    ],
+    "neighbourRelation": "inside a settlement, indistinguishable from it"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D1",
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "season": "all",
+   "statuses": [
+    "active",
+    "abandoned"
+   ],
+   "assetPlan": [
+    "vanilla-farmhouse",
+    "mud-mother-grove",
+    "clutter",
+    "lights-general",
+    "signage-blank"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "stealth",
+    "social"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    2,
+    3
+   ],
+   "lore": "Lore:College of Whispers (secretive, no public chapters); Lore:Umbriel (what they are here for)"
   },
   {
    "type": "foreign-quarter",
@@ -13727,6 +14978,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "contested"
@@ -13799,6 +15051,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -13875,6 +15128,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -13948,6 +15202,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -13967,8 +15222,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    12,
-    16
+    10,
+    14
    ],
    "lore": "Lore:Argonian (a comer cannot be refused); pacing: a hostile province needs a safety floor outside its cities"
   },
@@ -14017,6 +15272,7 @@
     "post-umbriel",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -14088,6 +15344,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -14153,6 +15410,7 @@
    "eraLayers": [
     "imperial"
    ],
+   "season": "all",
    "statuses": [
     "ruined"
    ],
@@ -14216,6 +15474,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -14284,6 +15543,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -14351,6 +15611,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -14419,6 +15680,7 @@
    "eraLayers": [
     "imperial"
    ],
+   "season": "all",
    "statuses": [
     "abandoned",
     "ruined"
@@ -14493,8 +15755,10 @@
     "post-umbriel",
     "current"
    ],
+   "season": "all",
    "statuses": [
-    "active"
+    "active",
+    "reoccupied"
    ],
    "assetPlan": [
     "bmv-fort",
@@ -14561,6 +15825,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "abandoned"
    ],
@@ -14630,6 +15895,7 @@
    "eraLayers": [
     "imperial"
    ],
+   "season": "all",
    "statuses": [
     "ruined",
     "abandoned"
@@ -14701,9 +15967,11 @@
    "eraLayers": [
     "imperial"
    ],
+   "season": "all",
    "statuses": [
-    "ruined",
-    "abandoned"
+    "abandoned",
+    "reoccupied",
+    "ruined"
    ],
    "assetPlan": [
     "bmv-fort",
@@ -14771,6 +16039,7 @@
    "eraLayers": [
     "imperial"
    ],
+   "season": "all",
    "statuses": [
     "ruined"
    ],
@@ -14836,6 +16105,7 @@
    "eraLayers": [
     "imperial"
    ],
+   "season": "all",
    "statuses": [
     "abandoned"
    ],
@@ -14904,6 +16174,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "contested",
     "active"
@@ -14971,6 +16242,7 @@
    "eraLayers": [
     "imperial"
    ],
+   "season": "all",
    "statuses": [
     "ruined"
    ],
@@ -15037,6 +16309,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -15104,6 +16377,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -15175,8 +16449,10 @@
     "merethic",
     "current"
    ],
+   "season": "all",
    "statuses": [
-    "active"
+    "active",
+    "reoccupied"
    ],
    "assetPlan": [
     "xanmeer-tileset",
@@ -15240,6 +16516,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -15308,6 +16585,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -15374,6 +16652,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -15444,6 +16723,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -15507,6 +16787,7 @@
    },
    "magnitude": "M1",
    "cultures": [
+    "altmer",
     "imperial",
     "argonian"
    ],
@@ -15518,6 +16799,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -15538,7 +16820,7 @@
    "complexityBudget": "simple",
    "countBand": [
     2,
-    4
+    3
    ],
    "lore": "foreign-powers dossier (Thalmor); argonia-4e201-state (the Veiled Reed); guilds-and-orders dossier"
   },
@@ -15590,6 +16872,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned",
@@ -15659,6 +16942,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -15730,6 +17014,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined",
@@ -15750,7 +17035,7 @@
    "complexityBudget": "simple",
    "countBand": [
     4,
-    5
+    4
    ],
    "lore": "openworld research \u00a73.2 (watchtower: the reward is the view); scour: only the rim has range"
   },
@@ -15803,6 +17088,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal",
@@ -15875,6 +17161,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "seasonal",
     "abandoned"
@@ -15942,6 +17229,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -16014,6 +17302,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -16084,6 +17373,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "seasonal",
     "active"
@@ -16102,7 +17392,7 @@
    "complexityBudget": "trivial",
    "countBand": [
     4,
-    5
+    4
    ],
    "lore": "Lore:Hissmir; sky-moons-calendar dossier"
   },
@@ -16155,6 +17445,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -16219,6 +17510,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -16284,6 +17576,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -16351,6 +17644,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -16417,6 +17711,7 @@
     "post-umbriel",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -16487,6 +17782,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -16560,6 +17856,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -16631,6 +17928,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -16651,7 +17949,7 @@
    "complexityBudget": "trivial",
    "countBand": [
     4,
-    5
+    4
    ],
    "lore": "openworld research \u00a73.1 (the satellite node that resolves the implied story)"
   },
@@ -16702,6 +18000,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -16771,6 +18070,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -16843,6 +18143,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -16863,8 +18164,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    7,
-    8
+    6,
+    7
    ],
    "lore": "Lore:Naga (the majority of native brigands and highwaymen; they leave when merchants stop coming)"
   },
@@ -16916,6 +18217,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -16990,6 +18292,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -17066,6 +18369,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -17130,6 +18434,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -17200,6 +18505,7 @@
    "eraLayers": [
     "ayleid"
    ],
+   "season": "all",
    "statuses": [
     "ruined"
    ],
@@ -17265,6 +18571,7 @@
    "eraLayers": [
     "ayleid"
    ],
+   "season": "all",
    "statuses": [
     "ruined"
    ],
@@ -17330,6 +18637,7 @@
    "eraLayers": [
     "ayleid"
    ],
+   "season": "all",
    "statuses": [
     "ruined"
    ],
@@ -17394,6 +18702,7 @@
     "ayleid",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -17461,6 +18770,7 @@
    "eraLayers": [
     "ayleid"
    ],
+   "season": "all",
    "statuses": [
     "ruined"
    ],
@@ -17528,6 +18838,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined"
@@ -17596,8 +18907,9 @@
     "D4"
    ],
    "eraLayers": [
-    "imperial"
+    "oblivion-crisis"
    ],
+   "season": "all",
    "statuses": [
     "ruined"
    ],
@@ -17662,6 +18974,7 @@
     "merethic",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "ruined",
     "active"
@@ -17730,6 +19043,7 @@
    "eraLayers": [
     "imperial"
    ],
+   "season": "all",
    "statuses": [
     "ruined"
    ],
@@ -17802,6 +19116,7 @@
     "post-umbriel",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "drowned"
    ],
@@ -17874,6 +19189,7 @@
    "eraLayers": [
     "knahaten-flu"
    ],
+   "season": "all",
    "statuses": [
     "abandoned"
    ],
@@ -17947,6 +19263,7 @@
    "eraLayers": [
     "knahaten-flu"
    ],
+   "season": "all",
    "statuses": [
     "abandoned"
    ],
@@ -17965,7 +19282,7 @@
    "complexityBudget": "trivial",
    "countBand": [
     3,
-    4
+    3
    ],
    "lore": "Lore:Knahaten Flu (2E 560-603, wiped out the Kothringi, Lilmothiit and Horwalli)"
   },
@@ -18016,8 +19333,10 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
-    "abandoned"
+    "abandoned",
+    "rebuilt"
    ],
    "assetPlan": [
     "totems-ritual",
@@ -18082,6 +19401,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "ruined",
     "abandoned"
@@ -18150,6 +19470,7 @@
    "eraLayers": [
     "post-umbriel"
    ],
+   "season": "all",
    "statuses": [
     "abandoned"
    ],
@@ -18218,6 +19539,7 @@
    "eraLayers": [
     "imperial"
    ],
+   "season": "all",
    "statuses": [
     "ruined",
     "abandoned"
@@ -18285,6 +19607,7 @@
    "eraLayers": [
     "imperial"
    ],
+   "season": "all",
    "statuses": [
     "ruined",
     "abandoned"
@@ -18350,6 +19673,7 @@
    "eraLayers": [
     "imperial"
    ],
+   "season": "all",
    "statuses": [
     "abandoned"
    ],
@@ -18418,6 +19742,7 @@
    "eraLayers": [
     "imperial"
    ],
+   "season": "all",
    "statuses": [
     "ruined"
    ],
@@ -18482,6 +19807,7 @@
    "eraLayers": [
     "imperial"
    ],
+   "season": "all",
    "statuses": [
     "ruined"
    ],
@@ -18552,6 +19878,7 @@
    "eraLayers": [
     "second-empire"
    ],
+   "season": "all",
    "statuses": [
     "ruined"
    ],
@@ -18616,6 +19943,7 @@
    "eraLayers": [
     "imperial"
    ],
+   "season": "all",
    "statuses": [
     "ruined",
     "drowned"
@@ -18674,7 +20002,7 @@
    },
    "magnitude": "M1",
    "cultures": [
-    "imperial"
+    "lost-peoples"
    ],
    "dangerTiers": [
     "D3",
@@ -18683,6 +20011,7 @@
    "eraLayers": [
     "lost-peoples"
    ],
+   "season": "all",
    "statuses": [
     "ruined"
    ],
@@ -18741,7 +20070,7 @@
    },
    "magnitude": "M1",
    "cultures": [
-    "argonian"
+    "lost-peoples"
    ],
    "dangerTiers": [
     "D2",
@@ -18751,6 +20080,7 @@
    "eraLayers": [
     "lost-peoples"
    ],
+   "season": "all",
    "statuses": [
     "ruined",
     "active"
@@ -18814,7 +20144,7 @@
    },
    "magnitude": "M1",
    "cultures": [
-    "imperial"
+    "lost-peoples"
    ],
    "dangerTiers": [
     "D2",
@@ -18825,6 +20155,7 @@
     "lost-peoples",
     "knahaten-flu"
    ],
+   "season": "all",
    "statuses": [
     "ruined",
     "abandoned"
@@ -18882,7 +20213,7 @@
    },
    "magnitude": null,
    "cultures": [
-    "argonian"
+    "lost-peoples"
    ],
    "dangerTiers": [
     "D2",
@@ -18891,6 +20222,7 @@
    "eraLayers": [
     "lost-peoples"
    ],
+   "season": "all",
    "statuses": [
     "ruined"
    ],
@@ -18947,7 +20279,7 @@
    },
    "magnitude": "M1",
    "cultures": [
-    "argonian"
+    "lost-peoples"
    ],
    "dangerTiers": [
     "D3",
@@ -18956,6 +20288,7 @@
    "eraLayers": [
     "lost-peoples"
    ],
+   "season": "all",
    "statuses": [
     "ruined"
    ],
@@ -19022,6 +20355,7 @@
    "eraLayers": [
     "lost-peoples"
    ],
+   "season": "all",
    "statuses": [
     "ruined"
    ],
@@ -19090,6 +20424,7 @@
    "eraLayers": [
     "merethic"
    ],
+   "season": "all",
    "statuses": [
     "ruined"
    ],
@@ -19109,7 +20444,7 @@
    "complexityBudget": "standard",
    "countBand": [
     4,
-    5
+    4
    ],
    "lore": "Lore:Xanmeer (~15% broken); xanmeer-mesoamerican-reference (ruins subsumed by vegetation)"
   },
@@ -19162,6 +20497,7 @@
     "duskfall",
     "merethic"
    ],
+   "season": "all",
    "statuses": [
     "ruined",
     "abandoned"
@@ -19183,7 +20519,7 @@
    "complexityBudget": "standard",
    "countBand": [
     2,
-    4
+    3
    ],
    "lore": "Lore:Duskfall; material-culture (stone as a moral error post-Duskfall) \u2014 this type is where that rule is visibly made"
   },
@@ -19233,6 +20569,7 @@
    "eraLayers": [
     "merethic"
    ],
+   "season": "all",
    "statuses": [
     "ruined"
    ],
@@ -19253,7 +20590,7 @@
    "complexityBudget": "standard",
    "countBand": [
     4,
-    5
+    4
    ],
    "lore": "Lore:Xanmeer (~25% sealed; vakka stones); Lore:Vakka Stone"
   },
@@ -19306,6 +20643,7 @@
     "merethic",
     "post-umbriel"
    ],
+   "season": "all",
    "statuses": [
     "drowned"
    ],
@@ -19379,6 +20717,7 @@
    "eraLayers": [
     "merethic"
    ],
+   "season": "all",
    "statuses": [
     "ruined",
     "active"
@@ -19399,8 +20738,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    7,
-    8
+    6,
+    7
    ],
    "lore": "Lore:Xanmeer (~40% tended by a nearby clan; entering to loot is a serious offence)"
   },
@@ -19453,6 +20792,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -19473,7 +20813,7 @@
    "complexityBudget": "trivial",
    "countBand": [
     4,
-    6
+    5
    ],
    "lore": "tone axis: beauty that is alive rather than geological; ecology-encounters-loot feed"
   },
@@ -19521,6 +20861,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -19593,6 +20934,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -19659,6 +21001,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -19680,6 +21023,73 @@
     12
    ],
    "lore": "fauna-hazards dossier (death hoppers, depth sticks)"
+  },
+  {
+   "type": "dry-season-herd-ground",
+   "class": "lair",
+   "family": "beast-lair",
+   "recordScope": "poi",
+   "variants": [
+    "concentration",
+    "calving"
+   ],
+   "summary": "When the floodplain dries, the animals concentrate on the tree-islands, and for two months a hammock holds more life than the rest of the region put together.",
+   "slots": {
+    "cue": "in the dry season, the noise and the dust; in the wet, churned ground and nothing else",
+    "population": "a herd, plus 0-6 hunters working the season; elevated member on a hunting stand",
+    "props": "trampled approach lanes converging on the island, hunters' stands built for one season a year, a cull tally agreed between villages",
+    "rewardFree": "the cull tally and the season's take",
+    "rewardGated": "the calving ground at the island's centre, which the villages protect",
+    "satellite": "a gatherers' or hunters' camp 200-400 m off, occupied only now"
+   },
+   "siting": {
+    "landformClasses": [
+     "island",
+     "flood-high",
+     "enclosed-clearing"
+    ],
+    "waterRelation": "the last water in a drying landscape",
+    "regionClasses": [
+     "raised hammock",
+     "seasonal floodplain"
+    ],
+    "neighbourRelation": "the region's ecological engine; villages time their year on it"
+   },
+   "magnitude": null,
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3",
+    "D4"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "season": "dry",
+   "statuses": [
+    "seasonal"
+   ],
+   "assetPlan": [
+    "stockade-scaffold",
+    "fences-wattle",
+    "totems-ritual",
+    "market-tents",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "combat"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    3,
+    4
+   ],
+   "lore": "region grammar: raised hammock and seasonal floodplain; ecology-encounters-loot feed (the flood cycle drives the fauna)"
   },
   {
    "type": "hackwing-roost",
@@ -19728,6 +21138,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -19796,6 +21207,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -19869,6 +21281,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -19936,6 +21349,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -20005,6 +21419,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -20071,6 +21486,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -20142,6 +21558,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -20210,6 +21627,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -20279,6 +21697,7 @@
     "merethic",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -20348,6 +21767,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -20414,6 +21834,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -20488,6 +21909,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -20558,6 +21980,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -20629,6 +22052,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -20694,6 +22118,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -20757,6 +22182,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -20776,6 +22202,73 @@
     2
    ],
    "lore": "acceptance rule: large logical surfaces climbable by default; scour: the rim carries the relief"
+  },
+  {
+   "type": "drawdown-flat",
+   "class": "lair",
+   "family": "hazard-ground",
+   "recordScope": "poi",
+   "variants": [
+    "exposed",
+    "refilling"
+   ],
+   "summary": "Lake bed that comes out of the water every dry season, exposing what has been dropped in it for centuries, and going back under before anyone finishes.",
+   "slots": {
+    "cue": "a cracked flat where there was water, with things standing up out of it",
+    "population": "0-8 scavengers working against the clock; elevated member absent",
+    "props": "objects from every century lying on the surface, a water-level post, scavengers' claim stakes, a boat left high and dry",
+    "rewardFree": "surface finds in quantity \u2014 this is the province's richest free-loot type, for two months",
+    "rewardGated": "the deepest part of the flat, exposed only in the driest years",
+    "satellite": "a lake settlement 300-400 m off whose shoreline has moved"
+   },
+   "siting": {
+    "landformClasses": [
+     "any-shallow-marsh",
+     "oxbow",
+     "islet",
+     "any-channel-bank"
+    ],
+    "waterRelation": "lake bed, exposed seasonally",
+    "regionClasses": [
+     "lake & standing water",
+     "seasonal floodplain"
+    ],
+    "neighbourRelation": "the lake region's signature seasonal event"
+   },
+   "magnitude": null,
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "season": "dry",
+   "statuses": [
+    "seasonal"
+   ],
+   "assetPlan": [
+    "submerged-ruins",
+    "submerged-blocks",
+    "docks-piers",
+    "market-tents",
+    "clutter"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "boat",
+    "swim"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    3,
+    4
+   ],
+   "lore": "region grammar: lake & standing water; module 50 (seasonal water levels are authored world state)"
   },
   {
    "type": "drowning-narrows",
@@ -20823,6 +22316,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -20887,6 +22381,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -20955,6 +22450,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -21020,6 +22516,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -21088,6 +22585,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "wet",
    "statuses": [
     "active",
     "seasonal"
@@ -21109,7 +22607,7 @@
    "complexityBudget": "simple",
    "countBand": [
     4,
-    7
+    6
    ],
    "lore": "region grammar: deep river corridor; Lore:Seafalls; the arterial class needs its own hazards"
   },
@@ -21159,6 +22657,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -21228,6 +22727,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "contested",
@@ -21249,7 +22749,7 @@
    "complexityBudget": "trivial",
    "countBand": [
     4,
-    7
+    6
    ],
    "lore": "Lore:Oliis Bay; Lore:Topal Bay; Lore:Tide-Born"
   },
@@ -21301,6 +22801,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -21319,10 +22820,78 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    6,
-    9
+    5,
+    8
    ],
    "lore": "acceptance rule: player-sailable boats and deep underwater play need destinations ON the water"
+  },
+  {
+   "type": "sea-stack",
+   "class": "lair",
+   "family": "open-water",
+   "recordScope": "poi",
+   "variants": [
+    "seabird",
+    "nesting",
+    "occupied"
+   ],
+   "summary": "A pillar of rock standing out of open sea, climbable, occupied by birds or by somebody who wanted nobody to reach them.",
+   "slots": {
+    "cue": "the stack itself \u2014 vertical, isolated and the only thing in a flat sea view",
+    "population": "0-4; elevated member is at the top, unambiguously",
+    "props": "a climbing route worn by generations of egg-takers, a platform at the top, whitened rock, a mooring ring at the base",
+    "rewardFree": "eggs, and the mooring ring's presence, which tells you people come here",
+    "rewardGated": "the top, which is a genuine sea climb off a boat",
+    "satellite": "a reef or a fishing bank 200-400 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "islet",
+     "headland",
+     "cove"
+    ],
+    "waterRelation": "rises from open water",
+    "regionClasses": [
+     "ocean",
+     "coastal lagoon & salt marsh"
+    ],
+    "neighbourRelation": "the ocean's climbable landmark; visible from the lane"
+   },
+   "magnitude": null,
+   "cultures": [
+    "argonian"
+   ],
+   "dangerTiers": [
+    "D2",
+    "D3",
+    "D4"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "season": "all",
+   "statuses": [
+    "active"
+   ],
+   "assetPlan": [
+    "stockade-scaffold",
+    "docks-piers",
+    "clutter",
+    "totems-ritual"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "boat",
+    "climb",
+    "swim",
+    "dive"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    4,
+    5
+   ],
+   "lore": "region grammar: ocean; acceptance rule: large logical surfaces climbable by default"
   },
   {
    "type": "root-hollow-gallery",
@@ -21373,6 +22942,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned",
@@ -21398,8 +22968,8 @@
    ],
    "complexityBudget": "standard",
    "countBand": [
-    10,
-    15
+    9,
+    13
    ],
    "lore": "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role"
   },
@@ -21448,6 +23018,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "ruined"
@@ -21467,7 +23038,7 @@
    "complexityBudget": "simple",
    "countBand": [
     4,
-    6
+    5
    ],
    "lore": "Lore:Rootworm (eight feet, translucent, digests very slowly)"
   },
@@ -21515,6 +23086,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -21586,6 +23158,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "varies",
    "statuses": [
     "active",
     "seasonal"
@@ -21608,7 +23181,7 @@
    "complexityBudget": "simple",
    "countBand": [
     4,
-    6
+    5
    ],
    "lore": "Lore:Wamasu (luminescent organs); Lore:Guar (Glowgill); module 55 (night is authored world state, so night-only places are legitimate)"
   },
@@ -21656,6 +23229,7 @@
     "merethic",
     "ayleid"
    ],
+   "season": "all",
    "statuses": [
     "ruined"
    ],
@@ -21723,6 +23297,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -21791,6 +23366,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -21852,6 +23428,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -21919,6 +23496,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -21935,7 +23513,7 @@
    "complexityBudget": "trivial",
    "countBand": [
     4,
-    5
+    4
    ],
    "lore": "scour finding: median site sees 18% of its 1.2 km surroundings \u2014 a view is a reward"
   },
@@ -21982,6 +23560,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -22057,6 +23636,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -22078,8 +23658,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    6,
-    7
+    5,
+    6
    ],
    "lore": "openworld research \u00a73.2 (hermit: approach cost is the gate; the reward is knowledge, not loot)"
   },
@@ -22134,6 +23714,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -22153,8 +23734,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    5,
-    6
+    4,
+    5
    ],
    "lore": "labour-and-bondage dossier (crossings have owners and therefore keepers)"
   },
@@ -22208,6 +23789,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -22227,10 +23809,78 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    6,
-    7
+    5,
+    6
    ],
    "lore": "Lore:Argonian (tree-minder, grave-singer, sap-speaker, naheesh, root-herald as offices)"
+  },
+  {
+   "type": "snowline-hermitage",
+   "class": "lone",
+   "family": "lone-dwelling",
+   "recordScope": "poi",
+   "variants": [
+    "ascetic",
+    "exiled-order"
+   ],
+   "summary": "A dwelling above the treeline on the rim, where the cold does the work the marsh does everywhere else, and where you can see for thirty kilometres.",
+   "slots": {
+    "cue": "a stone-and-turf shelter and a thread of smoke against snow \u2014 the one silhouette in the province that reads at real distance",
+    "population": "1-3; elevated member absent",
+    "props": "fuel hauled from far below, a cold-weather kit nobody in the lowlands owns, a record of the view kept as a discipline",
+    "rewardFree": "shelter, and the record of the view, which names distant places",
+    "rewardGated": "what the hermit knows, and the summit above",
+    "satellite": "a pass station or a summit marker 200-400 m off"
+   },
+   "siting": {
+    "landformClasses": [
+     "summit",
+     "saddle",
+     "cliff-bench",
+     "ridge-end"
+    ],
+    "waterRelation": "snowmelt",
+    "regionClasses": [
+     "border mountains"
+    ],
+    "neighbourRelation": "the rim's signature dwelling; deliberately alone"
+   },
+   "magnitude": "M1",
+   "cultures": [
+    "argonian",
+    "imperial"
+   ],
+   "dangerTiers": [
+    "D3",
+    "D4"
+   ],
+   "eraLayers": [
+    "current"
+   ],
+   "season": "all",
+   "statuses": [
+    "active",
+    "abandoned"
+   ],
+   "assetPlan": [
+    "stockade-scaffold",
+    "vanilla-farmhouse",
+    "landmark-civic",
+    "clutter",
+    "lights-general"
+   ],
+   "assetGaps": [],
+   "traversal": [
+    "walk",
+    "climb",
+    "social"
+   ],
+   "complexityBudget": "simple",
+   "countBand": [
+    3,
+    4
+   ],
+   "lore": "region grammar: border mountains; scour: the rim is the only ground with genuine sightlines"
   },
   {
    "type": "squatted-ruin-home",
@@ -22277,8 +23927,10 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
-    "active"
+    "active",
+    "reoccupied"
    ],
    "assetPlan": [
     "bmv-fort",
@@ -22297,7 +23949,7 @@
    "complexityBudget": "trivial",
    "countBand": [
     4,
-    5
+    4
    ],
    "lore": "module 20 \u00a711 (stage five of the foreign-infrastructure life cycle: reuse)"
   },
@@ -22352,6 +24004,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -22421,6 +24074,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -22496,6 +24150,7 @@
     "post-umbriel",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -22512,8 +24167,8 @@
    ],
    "complexityBudget": "trivial",
    "countBand": [
-    6,
-    7
+    5,
+    6
    ],
    "lore": "Lore:All Flags Navy; Lore:Battle of Argonia; Lore:Umbriel"
   },
@@ -22572,6 +24227,7 @@
     "lost-peoples",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -22592,7 +24248,7 @@
    "complexityBudget": "simple",
    "countBand": [
     4,
-    5
+    4
    ],
    "lore": "module 20 \u00a712.3b (the reward of a notable hard-to-reach landform must not be nothing); Morrowind's Landmarks category"
   },
@@ -22642,6 +24298,7 @@
     "merethic",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -22710,6 +24367,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "abandoned"
    ],
@@ -22789,6 +24447,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active",
     "abandoned"
@@ -22866,6 +24525,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "abandoned",
     "ruined"
@@ -22940,6 +24600,7 @@
    "eraLayers": [
     "current"
    ],
+   "season": "all",
    "statuses": [
     "active"
    ],
@@ -23014,6 +24675,7 @@
     "imperial",
     "current"
    ],
+   "season": "all",
    "statuses": [
     "ruined",
     "drowned",
@@ -23037,8 +24699,8 @@
    ],
    "complexityBudget": "simple",
    "countBand": [
-    6,
-    7
+    5,
+    6
    ],
    "lore": "openworld research \u00a73.2 (wreck geometry IS the level; tier by depth and lock)"
   }

@@ -24,11 +24,16 @@ RECIPES_PATH = CATALOGUE_DIR / "type-recipes.json"
 SLOT_KEYS = {"cue", "population", "props", "rewardFree", "rewardGated", "satellite"}
 SCOPES = {"poi", "district", "dressing"}
 COMPLEXITY = {"trivial", "simple", "standard", "complex"}
-CULTURES = {"argonian", "imperial", "dunmer", "khajiit"}
+CULTURES = {"argonian", "imperial", "dunmer", "khajiit", "altmer", "nord", "lost-peoples"}
 DANGER = {f"D{i}" for i in range(6)}
 ERAS = {
     "merethic", "duskfall", "ayleid", "lost-peoples", "knahaten-flu", "second-empire",
-    "imperial", "morrowind-invasion", "post-umbriel", "current",
+    "imperial", "oblivion-crisis", "morrowind-invasion", "post-umbriel", "current",
+}
+SEASONS = {"all", "wet", "dry", "varies"}
+STATUSES = {
+    "active", "ruined", "abandoned", "seasonal", "drowned", "contested",
+    "under-construction", "reoccupied", "rebuilt",
 }
 # Landform classes from the terrain scour, plus the pseudo-classes for types
 # that need ordinary ground rather than a named landform.
@@ -81,6 +86,8 @@ def test_enumerations() -> None:
         assert set(r.get("approachDanger", [])) <= DANGER, t
         assert r["eraLayers"] and set(r["eraLayers"]) <= ERAS, t
         assert r["magnitude"] in {None, "M1", "M2", "M3", "M4", "M5"}, t
+        assert r["season"] in SEASONS, t
+        assert r["statuses"] and set(r["statuses"]) <= STATUSES, t
         assert set(r["siting"]["regionClasses"]) <= region_names, (
             f"{t}: unknown region class {set(r['siting']['regionClasses']) - region_names}"
         )
