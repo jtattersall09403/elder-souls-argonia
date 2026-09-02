@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "note": "Seed skeleton only — Part 1 derives the real taxonomy from multiple independent axes (0041 breadth rule). Adding entries is cheap; renaming is a migration. Every classification in places-*.json must resolve here.",
+  "classes": {
+    "settlement": {
+      "city": { "major": [], "district-capital": [] },
+      "marsh-village": { "stilt": [], "raft": [], "hammock": [], "tree-platform": [] },
+      "dry-village": { "firm-lowland": [], "upland": [] }
+    },
+    "ruin": {
+      "xanmeer": { "intact": [], "collapsed": [], "reoccupied": [] },
+      "imperial": { "fort": [], "customs": [], "villa": [] },
+      "ayleid": { "barsaebic": [] },
+      "drowned": { "village": [], "works": [] }
+    },
+    "camp": {
+      "hostile": { "bandit": [], "pirate": [], "poacher": [], "slaver-owing": [] },
+      "civil": { "hunter": [], "pilgrim": [], "refugee": [], "prospector": [] }
+    },
+    "works": {
+      "transit": { "toll": [], "dock": [], "ferry-stage": [], "root-station": [] },
+      "extraction": { "kiln": [], "saltern": [], "fishery": [], "logging": [], "mine": [], "plantation": [] }
+    },
+    "sacred": {
+      "hist": { "hero-tree": [], "grove": [] },
+      "worship": { "shrine": [], "cult-site": [], "ancestor-site": [], "grave-stakes-field": [] }
+    },
+    "lone": {
+      "dwelling": { "hermit": [], "hunters-lodge": [] },
+      "watch": { "watchtower": [], "lighthouse": [] },
+      "remnant": { "wreck": [], "cache": [], "grave": [], "standing-curiosity": [] }
+    }
+  }
+}
