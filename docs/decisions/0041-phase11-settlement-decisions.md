@@ -812,6 +812,13 @@ as load-bearing. Record the outcome here either way.
    quest-design ideas for the quest plan even where no assets are taken.
    Plus SSE **174995** — mesh fixes for Depths of Skyrim: if Depths is
    sourced, take the fixed meshes (and credit both mods).
+   **Round 5 (owner, 2026-09-02):** second reddit thread
+   (reddit.com/r/skyrimmods/comments/17bhvze "Looking for Argonian based
+   mods") — long list, go through and consider each, but **selectivity
+   directive: don't go crazy with too many mods; take only what is
+   genuinely useful**. Weapons/equipment finds there are NOT Phase 11 —
+   record them in module 90's candidate tables for the later equipment
+   passes (10b/13/15) instead of sourcing now.
 3. **Gideon anchor.** Its approved position sits on steep ground (14 %
    buildable in 400 m) — expect a nudge proposal within `toleranceUV` at
    Part 6.
