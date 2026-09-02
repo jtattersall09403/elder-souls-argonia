@@ -105,6 +105,18 @@ WHY_KEYS = {"founding", "siteAdvantages", "occupantsMotive", "pressures", "would
 STRICT_REQUIRED = ["season", "eraLayers", "densityLayer", "entrance", "underwaterAccess"]
 
 
+def dump_json(path: Path, data: dict) -> None:
+    """The ONE way to write a catalogue file.
+
+    The eight region files were written by four agents and had drifted into two
+    different JSON encodings (`ensure_ascii` on and off), so an unrelated edit
+    re-encoded every em-dash in the file and buried the real change. Standard 4
+    (determinism) wants byte-stable output: indent 2, UTF-8 as itself, keys in
+    authored order, one trailing newline. Always write through this.
+    """
+    path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
 @dataclass
 class RegionFile:
     path: Path

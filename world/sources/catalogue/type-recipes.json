@@ -235,7 +235,7 @@
         "cut",
         "built-out"
       ],
-      "summary": "Dwellings cut and built into a river gorge's wall, above the flood and below the rim, reached by stair and rope \u2014 a form only a deep river corridor can produce.",
+      "summary": "Dwellings cut and built into a river gorge's wall, above the flood and below the rim, reached by stair and rope — a form only a deep river corridor can produce.",
       "slots": {
         "cue": "door openings in a rock face, in a line, at one height",
         "population": "4-12; elevated member above on the rim",
@@ -374,7 +374,7 @@
         "tree-island",
         "raised-ring"
       ],
-      "summary": "A village on a raised tree-island in the marsh \u2014 real ground, ringed by water, with everything the marsh villages lack and nowhere to expand.",
+      "summary": "A village on a raised tree-island in the marsh — real ground, ringed by water, with everything the marsh villages lack and nowhere to expand.",
       "slots": {
         "cue": "a dome of taller trees standing above the marsh canopy",
         "population": "settled, prosperous by local standards; elevated member on the island's high point",
@@ -445,7 +445,7 @@
       ],
       "summary": "A village on the mountain rim or upland shelf, where the marsh rules stop applying: clean water, cold nights, few people, and the province's only long views.",
       "slots": {
-        "cue": "the buildings are the silhouette \u2014 the only place in Argonia where that works at range",
+        "cue": "the buildings are the silhouette — the only place in Argonia where that works at range",
         "population": "small, hardy, self-sufficient; elevated member genuinely commands the approach",
         "props": "stone-free construction on stony ground, water channelled from a spring, winter stores",
         "rewardFree": "clean water and a vista that names distant places",
@@ -517,7 +517,7 @@
         "cue": "a beached hull sitting upright among houses, too big for the street it ends",
         "population": "port captain's men who count rather than fight; elevated member on the hull's deck",
         "props": "a nailed-up price list, unmarked crates, a foreign navy memorial nobody attends",
-        "rewardFree": "the price list itself \u2014 it names contraband, and therefore what exists",
+        "rewardFree": "the price list itself — it names contraband, and therefore what exists",
         "rewardGated": "the bonded store under the hull",
         "satellite": "an unwatched creek landing 300 m along the shore"
       },
@@ -587,7 +587,7 @@
         "disputed",
         "gifted"
       ],
-      "summary": "A holding that is standing, empty and legally unclaimed \u2014 reserved as the shape the build-out phases will hang player ownership on, and readable as an ordinary abandoned steading until then.",
+      "summary": "A holding that is standing, empty and legally unclaimed — reserved as the shape the build-out phases will hang player ownership on, and readable as an ordinary abandoned steading until then.",
       "slots": {
         "cue": "a sound roof with no smoke and no vegetation clearance for one season only",
         "population": "0; elevated member absent",
@@ -663,7 +663,7 @@
         "two-household",
         "new-build"
       ],
-      "summary": "An ordinary household outside any village boundary \u2014 a hearth, a washing place, a rain cistern and a kitchen plot. Nothing has happened here. That is the point.",
+      "summary": "An ordinary household outside any village boundary — a hearth, a washing place, a rain cistern and a kitchen plot. Nothing has happened here. That is the point.",
       "slots": {
         "cue": "cooking smoke and washing on a line, with no defensive feature at all",
         "population": "3-8; elevated member absent",
@@ -743,7 +743,7 @@
         "drowned",
         "reoccupied"
       ],
-      "summary": "The foreign district of a city that no longer has one \u2014 sacked in the secession, drowned since, or quietly reoccupied by Argonians using the buildings wrong.",
+      "summary": "The foreign district of a city that no longer has one — sacked in the secession, drowned since, or quietly reoccupied by Argonians using the buildings wrong.",
       "slots": {
         "cue": "Imperial rooflines in an Argonian skyline",
         "population": "reoccupiers or nobody; elevated member on a broken upper floor",
@@ -888,7 +888,7 @@
         "sinking",
         "abandoned"
       ],
-      "summary": "A single Imperial-built holding on soil that does not support it \u2014 half the ones you find are visibly settling into the ground.",
+      "summary": "A single Imperial-built holding on soil that does not support it — half the ones you find are visibly settling into the ground.",
       "slots": {
         "cue": "a pitched roof and a chimney, forms that exist nowhere else nearby",
         "population": "one family, or none; elevated member at an upper window",
@@ -957,7 +957,7 @@
       ],
       "summary": "An Imperial road stage at day-travel spacing, either still running as an inn or squatted by whoever needed a roof.",
       "slots": {
-        "cue": "on the road, visible from both approaches \u2014 the one type built to be seen",
+        "cue": "on the road, visible from both approaches — the one type built to be seen",
         "population": "a keeper and travellers; elevated member on the stable roof",
         "props": "a signpost with lettering, a stable for animals that cannot live here, a fire always lit",
         "rewardFree": "rest, food, and direction-giving",
@@ -1100,7 +1100,7 @@
       "variants": [],
       "summary": "The one city with real fields around it: saltrice on temperate grassland, a foreign road, disputed titles, a large Dunmer minority and guards who look away.",
       "slots": {
-        "cue": "the shock of visibility \u2014 open grassland and bunded fields where the marsh should be",
+        "cue": "the shock of visibility — open grassland and bunded fields where the marsh should be",
         "population": "field-edge levy; elevated member on a granary roof",
         "props": "field boundary stones with two owners' marks, saltrice sacks, Dunmer household goods",
         "rewardFree": "a disputed title deed left in a field shrine",
@@ -1248,10 +1248,10 @@
       "variants": [],
       "summary": "The interior capital built inside a living Hist grove, receiving and redistributing rather than ruling; Heart-Mud underfoot, a tribal guard answerable to nobody outside.",
       "slots": {
-        "cue": "the grove canopy itself breaking the skyline from the last ridge of the approach \u2014 no walls read at distance",
+        "cue": "the grove canopy itself breaking the skyline from the last ridge of the approach — no walls read at distance",
         "population": "large; the elevated member is a canopy-platform watcher of the city guard, not an archer on a rock",
         "props": "redistribution yards heaped with tribute goods that are not for sale; chime frames; naheesh lodging",
-        "rewardFree": "the grove approach is the reward \u2014 a vista of the only place in Argonia that looks like it was grown",
+        "rewardFree": "the grove approach is the reward — a vista of the only place in Argonia that looks like it was grown",
         "rewardGated": "the inner grove enclosure, entered only with a tribal escort or by trial",
         "satellite": "pilgrim and convocation camps 200-400 m out along each approach, occupied only in Hist-Tsoko"
       },
@@ -1318,7 +1318,7 @@
       "variants": [],
       "summary": "A city on an island at a three-river lake confluence, ruined and rebuilt in several ages, boardwalk quarters spidering off a hard core, and a Hist drowned in the lake it can still be dived to.",
       "slots": {
-        "cue": "the island core's stacked roofs on open water \u2014 one of the few genuine long sightlines in the province",
+        "cue": "the island core's stacked roofs on open water — one of the few genuine long sightlines in the province",
         "population": "boardwalk toll-keepers; elevated member on a mooring column",
         "props": "three ages of foundation visible in one street, siege-era stone reused as house footings",
         "rewardFree": "a boardwalk shortcut nobody charges for yet",
@@ -1398,7 +1398,7 @@
         "population": "wharfingers and pilots; elevated member in a pilot-house window",
         "props": "Company crates with a defunct charter mark, tide boards, children's underwater game markers",
         "rewardFree": "a pilot's chart naming three coastal places",
-        "rewardGated": "the sealed facility door \u2014 watched, never opened",
+        "rewardGated": "the sealed facility door — watched, never opened",
         "satellite": "a careening beach 300 m round the headland"
       },
       "siting": {
@@ -1553,7 +1553,7 @@
         "population": "Vicecanon's watch above the terrace stairs",
         "props": "crystal assay crates, broken Ayleid arches ringing a Hist pond, Dunmer goods in Argonian houses",
         "rewardFree": "crystal chippings and a public assay board naming what pays",
-        "rewardGated": "the Silyanorn tunnel mouth \u2014 D3 under a D0 city",
+        "rewardGated": "the Silyanorn tunnel mouth — D3 under a D0 city",
         "satellite": "a spoil-heap and a Tunnel-Rat shaft head 300 m upslope"
       },
       "siting": {
@@ -1698,7 +1698,7 @@
         "house-remnant",
         "refugee-founded"
       ],
-      "summary": "A Dunmer holding on the cold settled frontier \u2014 either a House remnant that never left, or founded by refugees who came the other way after the Red Year.",
+      "summary": "A Dunmer holding on the cold settled frontier — either a House remnant that never left, or founded by refugees who came the other way after the Red Year.",
       "slots": {
         "cue": "organic tower or plantation forms in the northern uplands",
         "population": "5-15; elevated member absent",
@@ -1924,7 +1924,7 @@
         "crossroads",
         "river-junction"
       ],
-      "summary": "The ordinary market town \u2014 a crossroads or a river junction where four districts' goods meet, big enough to have quarters and small enough to walk across.",
+      "summary": "The ordinary market town — a crossroads or a river junction where four districts' goods meet, big enough to have quarters and small enough to walk across.",
       "slots": {
         "cue": "converging routes and a stall frame skyline",
         "population": "20-60; elevated member on a market platform",
@@ -2003,7 +2003,7 @@
       ],
       "summary": "A quarters row from a plantation that never paid: either squatted by the descendants of the people who worked it, or standing empty since the third era.",
       "slots": {
-        "cue": "an identical row of low buildings \u2014 repetition as the cue, in a province with none",
+        "cue": "an identical row of low buildings — repetition as the cue, in a province with none",
         "population": "squatters, or nobody; elevated member on the great house steps",
         "props": "numbered doors, a great house sinking into the soil, apparatus for a crop nobody grows",
         "rewardFree": "tools and household goods left in place",
@@ -2292,7 +2292,7 @@
         "cue": "a landing and a roofed platform with nobody on it",
         "population": "0-3, often absent; elevated member rare",
         "props": "goods stacked under cover with owner marks, a weighing beam, tally sticks",
-        "rewardFree": "the goods are there and unattended \u2014 taking them has a social cost, not a lock",
+        "rewardFree": "the goods are there and unattended — taking them has a social cost, not a lock",
         "rewardGated": "the strongbox under the platform",
         "satellite": "the two settlements it serves, each 300-400 m off in opposite directions"
       },
@@ -2505,7 +2505,7 @@
         "urban-fringe",
         "wilderness"
       ],
-      "summary": "A settlement of Argonians with no Hist and no claim to one \u2014 hatched abroad, cut off, or born to a mixed city \u2014 arguing that they are citizens anyway.",
+      "summary": "A settlement of Argonians with no Hist and no claim to one — hatched abroad, cut off, or born to a mixed city — arguing that they are citizens anyway.",
       "slots": {
         "cue": "a village with no tree and no stake-field, which reads as wrong to anyone who knows the province",
         "population": "mixed origins; elevated member on a plain watch platform",
@@ -2648,7 +2648,7 @@
         "active",
         "lapsed"
       ],
-      "summary": "A village sealed off by its neighbours for disease \u2014 sometimes still enforced, sometimes long lapsed with nobody willing to say so.",
+      "summary": "A village sealed off by its neighbours for disease — sometimes still enforced, sometimes long lapsed with nobody willing to say so.",
       "slots": {
         "cue": "a marker line and a bell or board at the approach, before any building",
         "population": "the sick, the stubborn, or nobody; elevated member is a watcher on the outside",
@@ -2707,7 +2707,7 @@
         3
       ],
       "lore": "Lore:Knahaten Flu; fauna-hazards dossier (swamp rot, blood rot, greenspore)",
-      "countBandNote": "Band widened 1->3 (2026-09-02 reconciliation): the Knahaten Flu emptied the province, so quarantine residue is plural by canon. The three are signature-distinct \u2014 a village that shut itself and never reopened (north), an abandoned holding pen whose burial ground dwarfs it (south), and a cordon never formally lifted, repainted yearly by the people inside it (coast)."
+      "countBandNote": "Band widened 1->3 (2026-09-02 reconciliation): the Knahaten Flu emptied the province, so quarantine residue is plural by canon. The three are signature-distinct — a village that shut itself and never reopened (north), an abandoned holding pen whose burial ground dwarfs it (south), and a cordon never formally lifted, repainted yearly by the people inside it (coast)."
     },
     {
       "type": "waiting-vigil-settlement",
@@ -2721,7 +2721,7 @@
       "summary": "People who did what they were told in 4E 48 and are still waiting for the clean province they were promised, three generations on.",
       "slots": {
         "cue": "a purification ground kept immaculate beside dwellings that are not",
-        "population": "the devout and the stuck; elevated member is a watcher facing the wrong way \u2014 outward, for a sign",
+        "population": "the devout and the stuck; elevated member is a watcher facing the wrong way — outward, for a sign",
         "props": "a vigil that has been kept for 150 years, tallies of days, an argument in progress",
         "rewardFree": "the tally itself, which dates the vigil precisely",
         "rewardGated": "what the founders buried when they arrived",
@@ -2789,12 +2789,12 @@
       ],
       "summary": "A village whose whole identity is one guarded craft, hospitable to outsiders because visitors are customers and allies.",
       "slots": {
-        "cue": "the craft is audible or visible before the village is \u2014 chimes, looms clacking, kiln smoke",
+        "cue": "the craft is audible or visible before the village is — chimes, looms clacking, kiln smoke",
         "population": "artisans who talk; elevated member is a lookout with nothing to guard but secrets",
         "props": "half-finished work, apprentices' failures, a guest platform kept ready",
         "rewardFree": "a piece of the craft, given",
         "rewardGated": "the guarded workshop where the method lives",
-        "satellite": "a material source 200-400 m off \u2014 reed bed, jasper cut, clay pit"
+        "satellite": "a material source 200-400 m off — reed bed, jasper cut, clay pit"
       },
       "siting": {
         "landformClasses": [
@@ -2928,7 +2928,7 @@
         "mnemic-egg",
         "hist-less-since"
       ],
-      "summary": "A village whose Hist died. No hatchery, no Naming Day, no soul-return, no working grave rite \u2014 and a community deciding whether to leave, plant a cutting, or stop being a tribe.",
+      "summary": "A village whose Hist died. No hatchery, no Naming Day, no soul-return, no working grave rite — and a community deciding whether to leave, plant a cutting, or stop being a tribe.",
       "slots": {
         "cue": "a dead trunk still standing at the centre, kept, not cleared",
         "population": "a village doing everything by habit; elevated member watching the trunk, not the approach",
@@ -3067,7 +3067,7 @@
         "building-restarted",
         "slave-pens"
       ],
-      "summary": "A settlement that still builds in stone under a Hist that will not stop giving the order \u2014 the one place where the province's central moral error is happening now, not in the past.",
+      "summary": "A settlement that still builds in stone under a Hist that will not stop giving the order — the one place where the province's central moral error is happening now, not in the past.",
       "slots": {
         "cue": "fresh-cut stone courses rising where no Argonian should be cutting stone",
         "population": "builders and their overseers; elevated member on scaffolding",
@@ -3145,7 +3145,7 @@
         "population": "3-8 villagers; the elevated member is a watcher on the tree-minder's platform",
         "props": "chime frames, egg-log tallies, a sap-speaker's hollow, house goods that could be abandoned tomorrow",
         "rewardFree": "a food and reagent cache no one guards",
-        "rewardGated": "the Hist enclosure itself \u2014 entry is social, not mechanical",
+        "rewardGated": "the Hist enclosure itself — entry is social, not mechanical",
         "satellite": "the stake-field 200-300 m off, downwind, ringed with pahnjee racks"
       },
       "siting": {
@@ -3223,7 +3223,7 @@
         "population": "defenders who challenge; elevated member on each watch",
         "props": "generations of trophies, a defenders' hall, boundary totems at exactly the same distance on every side",
         "rewardFree": "nothing, until you are spoken to",
-        "rewardGated": "everything \u2014 the reward here is access",
+        "rewardGated": "everything — the reward here is access",
         "satellite": "a besieger's old camp 300-400 m out, still legible"
       },
       "siting": {
@@ -3289,7 +3289,7 @@
         "settled",
         "raiding"
       ],
-      "summary": "A Naga settlement \u2014 because the Naga are a people with villages, not a spawn table, and the province reads wrong if the only Naga the player meets are on a road with a weapon.",
+      "summary": "A Naga settlement — because the Naga are a people with villages, not a spawn table, and the province reads wrong if the only Naga the player meets are on a road with a weapon.",
       "slots": {
         "cue": "a village of markedly larger dwellings, built for markedly larger people",
         "population": "5-12; elevated member on a watch platform",
@@ -3434,7 +3434,7 @@
       ],
       "summary": "A village that lives entirely in the dark, pale and infertile, that continues only by taking other villages' eggs.",
       "slots": {
-        "cue": "no light and no smoke where a village clearly is \u2014 an absence as the cue",
+        "cue": "no light and no smoke where a village clearly is — an absence as the cue",
         "population": "nocturnal, avoids daylight; elevated member in deep shade",
         "props": "a nursery full of eggs whose logs are in other villages' hands",
         "rewardFree": "goods left by whoever last tried to trade here",
@@ -3577,7 +3577,7 @@
         "cue": "the tree's tap-lines and staging, dressed like a shrine",
         "population": "few, slow, strange; elevated member on the tapping stage",
         "props": "sap vessels everywhere, food barely touched, a taste for the dark",
-        "rewardFree": "raw sap \u2014 valuable, and a crime to carry",
+        "rewardFree": "raw sap — valuable, and a crime to carry",
         "rewardGated": "the deep-tap chamber inside the trunk",
         "satellite": "a wallow 200-300 m off where the visions are had"
       },
@@ -3641,7 +3641,7 @@
       "slots": {
         "cue": "the walkway line itself, curving away into vegetation",
         "population": "walkway-dwellers; elevated member on the highest stage",
-        "props": "the walkway's own repairs \u2014 the village's whole labour economy is legible in its planks",
+        "props": "the walkway's own repairs — the village's whole labour economy is legible in its planks",
         "rewardFree": "a shortcut the walkway offers",
         "rewardGated": "a locked stage or an unrepaired gap requiring a climb",
         "satellite": "a boardwalk-cutting yard 200-400 m along the spine"
@@ -3709,10 +3709,10 @@
         "agaceph-poling",
         "tide-born"
       ],
-      "summary": "A handful of berths and a shelter for one-person craft \u2014 the smallest inhabited water place, and often the only sign a channel is used.",
+      "summary": "A handful of berths and a shelter for one-person craft — the smallest inhabited water place, and often the only sign a channel is used.",
       "slots": {
         "cue": "berth notches cut into a bank, or poles standing in still water",
-        "population": "1-3; elevated member is often absent \u2014 this type may be empty",
+        "population": "1-3; elevated member is often absent — this type may be empty",
         "props": "poles, a fire ring, one shelter, drying line",
         "rewardFree": "a pole or paddle and a day's food",
         "rewardGated": "a cache under the berth boards",
@@ -3782,7 +3782,7 @@
       ],
       "summary": "The one genuinely mobile village: a jumble of huts half-sunk in mud that occupies two or three fixed mooring sites through the year and has been known to arrive at a city's gate.",
       "slots": {
-        "cue": "present or absent depending on the season \u2014 the empty mooring is as much a POI as the full one",
+        "cue": "present or absent depending on the season — the empty mooring is as much a POI as the full one",
         "population": "the same people wherever it is; elevated member on the lead platform",
         "props": "nothing built to stay; ropes, poles, mud to the doorsills",
         "rewardFree": "whatever the last mooring left behind",
@@ -3838,7 +3838,7 @@
         2
       ],
       "lore": "Lore:Hixinoag; Lore:Black Marsh (most villages do not stay put)",
-      "countBandNote": "Band widened 1->2 (2026-09-02 reconciliation), and settlement-register.md 5 G3.3 updated to match: its 'exactly one' was an EXTRAPOLATED engineering-cost recommendation, not canon \u2014 canon says MOST villages do not stay put. Two hand-authored mobile villages: canon Hixinoag on the northern caravan route, and an inner-swamp raft village whose abandoned moorings form a trail of ghost villages, which is this type's own recipe (the empty mooring is as much a POI as the full one)."
+      "countBandNote": "Band widened 1->2 (2026-09-02 reconciliation), and settlement-register.md 5 G3.3 updated to match: its 'exactly one' was an EXTRAPOLATED engineering-cost recommendation, not canon — canon says MOST villages do not stay put. Two hand-authored mobile villages: canon Hixinoag on the northern caravan route, and an inner-swamp raft village whose abandoned moorings form a trail of ghost villages, which is this type's own recipe (the empty mooring is as much a POI as the full one)."
     },
     {
       "type": "houseboat-flotilla",
@@ -3850,7 +3850,7 @@
         "lagoon",
         "estuary"
       ],
-      "summary": "A moored fleet of twin-hulled platform canoes and houseboats \u2014 a coastal tribe whose settlement is its boats.",
+      "summary": "A moored fleet of twin-hulled platform canoes and houseboats — a coastal tribe whose settlement is its boats.",
       "slots": {
         "cue": "masts, poles and hung nets over open water with no land behind them",
         "population": "boat-crews; elevated member on a platform mast",
@@ -3923,7 +3923,7 @@
       ],
       "summary": "A village cut into a mangrove wall, invisible from outside it, reached only by knowing which channel to take.",
       "slots": {
-        "cue": "a cut in an otherwise unbroken green wall \u2014 the cue is a gap, not an object",
+        "cue": "a cut in an otherwise unbroken green wall — the cue is a gap, not an object",
         "population": "few, wary; elevated member in the root canopy",
         "props": "channel markers only they can read, cut-root landings, everything low",
         "rewardFree": "a channel marker key",
@@ -3990,7 +3990,7 @@
       ],
       "summary": "A settlement with no ground at all: lashed platforms moored to piles or trees, re-tied seasonally, which can and does move.",
       "slots": {
-        "cue": "a floating mass with no shoreline relationship \u2014 it reads wrong, which is the cue",
+        "cue": "a floating mass with no shoreline relationship — it reads wrong, which is the cue",
         "population": "a crew as much as a village; elevated member on a mooring pile",
         "props": "everything lashed down; a mooring register; goods stowed for movement",
         "rewardFree": "deck cargo",
@@ -4140,7 +4140,7 @@
       ],
       "summary": "Where the catch is processed: rack lines, salt sheds, smokehouses, and live-wells for the fish that must be eaten alive because cooking makes them lethal.",
       "slots": {
-        "cue": "rack lines and smoke \u2014 the most reliable long-range cue the province has",
+        "cue": "rack lines and smoke — the most reliable long-range cue the province has",
         "population": "2-5; elevated member on the rack frame",
         "props": "racks, salt heaps, kegs of live fish with warning marks, a prize-fish weighing post",
         "rewardFree": "preserved food in quantity",
@@ -4210,7 +4210,7 @@
         "tone-selected",
         "food"
       ],
-      "summary": "Ponds of frogs bred and culled by the tone they sing, feeding the vossa-satl pipe trade \u2014 a farm you hear before you see.",
+      "summary": "Ponds of frogs bred and culled by the tone they sing, feeding the vossa-satl pipe trade — a farm you hear before you see.",
       "slots": {
         "cue": "the sound: a tuned chorus that is audibly not wild",
         "population": "1-3 keepers; elevated member on a listening stand over the ponds",
@@ -4277,7 +4277,7 @@
         "landward",
         "underwater"
       ],
-      "summary": "Beast pens for guar breeds \u2014 including a coastal strain that breathes underwater and is therefore penned below the surface.",
+      "summary": "Beast pens for guar breeds — including a coastal strain that breathes underwater and is therefore penned below the surface.",
       "slots": {
         "cue": "trampled ground and a feed store; underwater, a ring of posts with no visible purpose",
         "population": "1-3 drovers; elevated member on the feed store roof",
@@ -4351,7 +4351,7 @@
       "summary": "A worked bed on the sea floor: the province's living underwater economy, and a place whose entire working surface is below the water.",
       "slots": {
         "cue": "marker buoys and a tender boat above nothing visible",
-        "population": "2-6 divers; elevated member is a surface tender, unusually \u2014 the danger is below, not above",
+        "population": "2-6 divers; elevated member is a surface tender, unusually — the danger is below, not above",
         "props": "buoyed lot markers on the bed, grading baskets, a diver's tally of lots worked, an unopened shell somebody is saving",
         "rewardFree": "the surface catch and the lot markers",
         "rewardGated": "the deep lots, breath-gated",
@@ -4408,7 +4408,7 @@
         4,
         5
       ],
-      "lore": "acceptance rule: Argonian physiology materially changes underwater play \u2014 the economy must reflect it"
+      "lore": "acceptance rule: Argonian physiology materially changes underwater play — the economy must reflect it"
     },
     {
       "type": "predator-pen",
@@ -4425,7 +4425,7 @@
         "cue": "heavy stockade running into water, and nothing else nearby",
         "population": "1-4 handlers; elevated member on the pen walkway",
         "props": "bridling posts, feeding platforms, slime jars, skull racks",
-        "rewardFree": "hide, teeth, slime \u2014 all valuable",
+        "rewardFree": "hide, teeth, slime — all valuable",
         "rewardGated": "the pen's own contents, or the gate control",
         "satellite": "the canal or channel the animals are actually deployed in, 200-400 m off"
       },
@@ -4490,7 +4490,7 @@
         "turtle",
         "clam"
       ],
-      "summary": "A yard where armoured shells are cut down into shields, bosses, platters and bowls \u2014 the province's answer to a metalworker's shop.",
+      "summary": "A yard where armoured shells are cut down into shields, bosses, platters and bowls — the province's answer to a metalworker's shop.",
       "slots": {
         "cue": "stacked shells taller than a person",
         "population": "1-3 cutters; elevated member on the stack",
@@ -4627,7 +4627,7 @@
         "foreign",
         "heretical"
       ],
-      "summary": "A forge, in a province where metalworking is almost unheard of \u2014 either a foreigner's, or an Argonian's, in which case it is a statement.",
+      "summary": "A forge, in a province where metalworking is almost unheard of — either a foreigner's, or an Argonian's, in which case it is a statement.",
       "slots": {
         "cue": "a forge glow and hammer sound that has no business being here",
         "population": "1-2; elevated member absent",
@@ -4699,7 +4699,7 @@
         "canoe",
         "careening-hard"
       ],
-      "summary": "Where craft are built and mended \u2014 rafts and canoes at every Argonian version, keeled foreign hulls only where foreigners are.",
+      "summary": "Where craft are built and mended — rafts and canoes at every Argonian version, keeled foreign hulls only where foreigners are.",
       "slots": {
         "cue": "hulls out of the water on stocks, visible from the channel",
         "population": "2-5; elevated member on a hull's stocks",
@@ -4778,7 +4778,7 @@
         "population": "1-4 workers; elevated member on the frame rack",
         "props": "specialised bronze knives and chisels, part-worked crocodile hide, layered helms",
         "rewardFree": "finished bone tools and a hide",
-        "rewardGated": "the master's tool set \u2014 bronze, and irreplaceable",
+        "rewardGated": "the master's tool set — bronze, and irreplaceable",
         "satellite": "the butchery or hunting stand 200-400 m off"
       },
       "siting": {
@@ -4911,7 +4911,7 @@
         "bead",
         "volcanic-glass"
       ],
-      "summary": "A bead and glass workshop \u2014 the craft the Kothringi adorned their cairns with, kept alive by the people who buried them.",
+      "summary": "A bead and glass workshop — the craft the Kothringi adorned their cairns with, kept alive by the people who buried them.",
       "slots": {
         "cue": "a small furnace and a bench of glittering waste",
         "population": "1-2; elevated member absent",
@@ -4980,7 +4980,7 @@
         "kites",
         "spring-boxes"
       ],
-      "summary": "A shop making frog-pipes from jaw-harp to organ scale, fox-kites and spring-snake boxes \u2014 the province's cheerful industry, sitting in the middle of its bleakest.",
+      "summary": "A shop making frog-pipes from jaw-harp to organ scale, fox-kites and spring-snake boxes — the province's cheerful industry, sitting in the middle of its bleakest.",
       "slots": {
         "cue": "the sound of a pipe rank being tuned, or kites flying from the roof",
         "population": "1-3; elevated member on the roof flying kites",
@@ -5051,7 +5051,7 @@
         "population": "2-5; elevated member on the drying frame",
         "props": "a lot book naming which drowned street each item came from, desalting tubs, weighted belts and floats",
         "rewardFree": "the lot book, which maps a drowned village street by street",
-        "rewardGated": "the reserve \u2014 the pieces they have not sold because they know what they are",
+        "rewardGated": "the reserve — the pieces they have not sold because they know what they are",
         "satellite": "the drowned village or wreck 200-400 m off"
       },
       "siting": {
@@ -5118,13 +5118,13 @@
         "dry-dock",
         "breaking"
       ],
-      "summary": "Where seagoing hulls are built, docked and broken up \u2014 the yard the free port, the deep-water wharf and the pirate anchorage all presuppose and none of them contained.",
+      "summary": "Where seagoing hulls are built, docked and broken up — the yard the free port, the deep-water wharf and the pirate anchorage all presuppose and none of them contained.",
       "slots": {
         "cue": "a hull on the stocks, larger than any building on the shore",
         "population": "6-20; elevated member on the hull's staging",
         "props": "a slipway, a hull frame at an early stage, another being broken for its timber, imported fastenings in a locked store",
         "rewardFree": "timber, fastenings and a build register naming every hull on this coast",
-        "rewardGated": "the fastenings store \u2014 metal, and therefore treasure here",
+        "rewardGated": "the fastenings store — metal, and therefore treasure here",
         "satellite": "a careening hard or a bonded warehouse 200-400 m along the shore"
       },
       "siting": {
@@ -5190,7 +5190,7 @@
       "family": "craft",
       "recordScope": "district",
       "variants": [],
-      "summary": "A workshop where wood and stone are carved by living slugs guided with flint flashes \u2014 the province's mason's shop, and the strangest ordinary building in it.",
+      "summary": "A workshop where wood and stone are carved by living slugs guided with flint flashes — the province's mason's shop, and the strangest ordinary building in it.",
       "slots": {
         "cue": "trays of slugs and a flint-flash rig outside a shed",
         "population": "1-2 shapers; no elevated member",
@@ -5325,7 +5325,7 @@
         "open",
         "cordage"
       ],
-      "summary": "A family building where grass and fibre are woven by methods that are literally secret \u2014 and where the cordage walks that rope the province's boats also run.",
+      "summary": "A family building where grass and fibre are woven by methods that are literally secret — and where the cordage walks that rope the province's boats also run.",
       "slots": {
         "cue": "a long low building with a rope walk running out of it, longer than any other structure here",
         "population": "a family; elevated member watching the walk, not the road",
@@ -5393,7 +5393,7 @@
         "moon-oriented",
         "abandoned"
       ],
-      "summary": "A roofless alchemical court whose apparatus is repositioned by moon phase \u2014 a building whose plan only makes sense if you know the calendar.",
+      "summary": "A roofless alchemical court whose apparatus is repositioned by moon phase — a building whose plan only makes sense if you know the calendar.",
       "slots": {
         "cue": "a walled court with no roof and a stone track on its floor",
         "population": "1-2 alchemists; no elevated member",
@@ -5464,7 +5464,7 @@
         "lumberry",
         "herb"
       ],
-      "summary": "Racks and lofts where the province's smokeable, edible and alchemical harvests are dried \u2014 the smell carries further than the sight.",
+      "summary": "Racks and lofts where the province's smokeable, edible and alchemical harvests are dried — the smell carries further than the sight.",
       "slots": {
         "cue": "racks and a smell; at night, a low fire kept for heat not light",
         "population": "1-3; elevated member on the loft",
@@ -5479,7 +5479,7 @@
           "cliff-bench",
           "flood-high"
         ],
-        "waterRelation": "dry and airy \u2014 a real constraint here",
+        "waterRelation": "dry and airy — a real constraint here",
         "regionClasses": [
           "raised hammock",
           "upland hills",
@@ -5532,13 +5532,13 @@
         "village",
         "solo"
       ],
-      "summary": "Growing beds rafted on the water and towed where the light is \u2014 subsistence agriculture that solves the flood problem by joining it.",
+      "summary": "Growing beds rafted on the water and towed where the light is — subsistence agriculture that solves the flood problem by joining it.",
       "slots": {
         "cue": "green rectangles on open water",
         "population": "0-2; usually unattended",
         "props": "tow lines, plant beds, a punt, a mooring stake",
         "rewardFree": "produce and seed",
-        "rewardGated": "nothing locked \u2014 the gate is that stealing here is socially catastrophic",
+        "rewardGated": "nothing locked — the gate is that stealing here is socially catastrophic",
         "satellite": "the village it belongs to, 200-400 m off"
       },
       "siting": {
@@ -5598,7 +5598,7 @@
         "saltrice",
         "rice"
       ],
-      "summary": "Bunded flood-fed fields with sluices and a threshing floor \u2014 the only agriculture at scale the province supports, and only in two places.",
+      "summary": "Bunded flood-fed fields with sluices and a threshing floor — the only agriculture at scale the province supports, and only in two places.",
       "slots": {
         "cue": "the geometric field edge, a hard line in a province of soft ones",
         "population": "field workers; elevated member on a threshing platform",
@@ -5667,7 +5667,7 @@
         "withy",
         "thatch"
       ],
-      "summary": "A managed reed bed \u2014 the province's timber yard, quarry and roofing supplier in one, and the resource most villages actually fight over.",
+      "summary": "A managed reed bed — the province's timber yard, quarry and roofing supplier in one, and the resource most villages actually fight over.",
       "slots": {
         "cue": "cut and uncut reed in visible blocks; stacked bundles on a staging",
         "population": "2-5 cutters; elevated member on the staging",
@@ -5736,7 +5736,7 @@
         "cue": "a shaded frame of staked seedlings, each labelled with a child's name",
         "population": "1-2 growers; no elevated member",
         "props": "seedlings at every stage, finished dolls, a book of who ordered what and when they will be old enough",
-        "rewardFree": "a finished doll \u2014 highly sought after outside the province",
+        "rewardFree": "a finished doll — highly sought after outside the province",
         "rewardGated": "the grower's seed stock",
         "satellite": "the buyer's household 200-400 m off, waiting"
       },
@@ -5797,12 +5797,12 @@
         "working",
         "cold"
       ],
-      "summary": "Ore pits in the fen and a small bloomery beside them \u2014 an installation that is unremarkable anywhere else in Tamriel and faintly scandalous here.",
+      "summary": "Ore pits in the fen and a small bloomery beside them — an installation that is unremarkable anywhere else in Tamriel and faintly scandalous here.",
       "slots": {
         "cue": "a smoke column and a black slag heap in green country",
         "population": "1-4; elevated member on the charcoal stack",
         "props": "slag, blooms, charcoal, tools that mark this as foreign practice",
-        "rewardFree": "a bloom of iron \u2014 genuinely valuable in a province without metal",
+        "rewardFree": "a bloom of iron — genuinely valuable in a province without metal",
         "rewardGated": "the finished stock",
         "satellite": "the ore pits themselves 200-400 m into the fen"
       },
@@ -5938,7 +5938,7 @@
         "open-cut",
         "hollow-crystal-vault"
       ],
-      "summary": "Workings for volatile Stormhold crystals \u2014 filled ones enchant, hollow ones hold corruption, and the deepest galleries are somebody else's ruins reused as a mine.",
+      "summary": "Workings for volatile Stormhold crystals — filled ones enchant, hollow ones hold corruption, and the deepest galleries are somebody else's ruins reused as a mine.",
       "slots": {
         "cue": "a spoil heap, a headgear, and a faint glow from the shaft at night",
         "population": "3-6 diggers, some working off a sentence; elevated member on the spoil heap",
@@ -6082,7 +6082,7 @@
         "neesak",
         "niben-crystal"
       ],
-      "summary": "Small diggings and a polishing bench for the stones the province is genuinely famous for \u2014 including a green scrying stone that is not uncommon here and priceless anywhere else.",
+      "summary": "Small diggings and a polishing bench for the stones the province is genuinely famous for — including a green scrying stone that is not uncommon here and priceless anywhere else.",
       "slots": {
         "cue": "a worked face and a water-fed polishing trough",
         "population": "1-3; elevated member above the cut",
@@ -6224,14 +6224,14 @@
         "jadeflint",
         "obsidian"
       ],
-      "summary": "An open floor of struck flakes where edges are made without metal \u2014 the working answer to a province that renounced smithing.",
+      "summary": "An open floor of struck flakes where edges are made without metal — the working answer to a province that renounced smithing.",
       "slots": {
         "cue": "a glittering scatter of flakes catching light on bare ground",
         "population": "1-2 knappers, often absent; no elevated member",
         "props": "cores, blanks, hafting materials, a finished machete-blade set out",
         "rewardFree": "finished blades",
         "rewardGated": "a cache of prepared cores",
-        "satellite": "the stone source \u2014 an old lava face or gravel bar \u2014 200-400 m off"
+        "satellite": "the stone source — an old lava face or gravel bar — 200-400 m off"
       },
       "siting": {
         "landformClasses": [
@@ -6362,7 +6362,7 @@
         "burning",
         "burnt-out"
       ],
-      "summary": "Cut peat banks and stacked turves \u2014 and in the west, the same ground burning underground since the first era, venting gas and swallowing what stands on it.",
+      "summary": "Cut peat banks and stacked turves — and in the west, the same ground burning underground since the first era, venting gas and swallowing what stands on it.",
       "slots": {
         "cue": "stacked turves and cut banks; where it burns, a smoke seep and dead vegetation",
         "population": "1-4 cutters, or nobody at all where it burns; elevated member on the bank",
@@ -6433,7 +6433,7 @@
       ],
       "summary": "Evaporation pans making the province's most reliable barter commodity, laid out in a geometry that reads from a long way off across flat coast.",
       "slots": {
-        "cue": "pale rectangular pans and white heaps \u2014 one of the few high-contrast features in the coastal palette",
+        "cue": "pale rectangular pans and white heaps — one of the few high-contrast features in the coastal palette",
         "population": "2-4 rakers; elevated member on the salt heap",
         "props": "rakes, sluice boards, a salt store built like a treasury because it is one",
         "rewardFree": "loose salt",
@@ -6501,7 +6501,7 @@
         "urban",
         "field"
       ],
-      "summary": "Where xanmeer goods are bought by people who will not ask where they came from \u2014 and where a rival institution's agents come to buy them back.",
+      "summary": "Where xanmeer goods are bought by people who will not ask where they came from — and where a rival institution's agents come to buy them back.",
       "slots": {
         "cue": "a shop or shelter with more locks than its stock justifies",
         "population": "1-3; elevated member absent",
@@ -6571,7 +6571,7 @@
         "xanmeer",
         "ayleid"
       ],
-      "summary": "A foreign magical order's camp, dug in where nobody watches, after something the province would kill them for taking \u2014 most often the dead of 4E 48.",
+      "summary": "A foreign magical order's camp, dug in where nobody watches, after something the province would kill them for taking — most often the dead of 4E 48.",
       "slots": {
         "cue": "a spoil heap and a tent line where no dig has been licensed",
         "population": "3-6 outsiders and hired locals; elevated member on the spoil",
@@ -6645,7 +6645,7 @@
       ],
       "summary": "Goods stored where an inspector will not look: a channel mouth among many, a sea cave, or a warehouse floor with a second one under it.",
       "slots": {
-        "cue": "almost none \u2014 a mooring ring, a worn stone, a channel used more than it should be",
+        "cue": "almost none — a mooring ring, a worn stone, a channel used more than it should be",
         "population": "0-3, absent more often than not; elevated member is a lookout on the approach",
         "props": "crates with cut marks, a tally in code, moon sugar in transit, xanmeer antiquities",
         "rewardFree": "the outer stack",
@@ -6715,7 +6715,7 @@
         "venom-milking",
         "quill-works"
       ],
-      "summary": "Where moon-adder venom is fermented in swamp-jelly gas bladders into daril \u2014 an Argonian intoxicant that is simply fatal to anyone else.",
+      "summary": "Where moon-adder venom is fermented in swamp-jelly gas bladders into daril — an Argonian intoxicant that is simply fatal to anyone else.",
       "slots": {
         "cue": "nothing at range; up close, gas bladders hung like fruit",
         "population": "1-3, hostile to discovery; elevated member watching the approach",
@@ -6785,7 +6785,7 @@
         "licensed",
         "illicit"
       ],
-      "summary": "Lines and vessels tapping a Hist \u2014 either supervised by its tree-minder, or the single most lore-appropriate crime in the province being committed on a tree that cannot report it.",
+      "summary": "Lines and vessels tapping a Hist — either supervised by its tree-minder, or the single most lore-appropriate crime in the province being committed on a tree that cannot report it.",
       "slots": {
         "cue": "tap lines and vessels on a great tree, and a track worn to it from one direction only",
         "population": "2-5; elevated member in the tapping stage",
@@ -6992,7 +6992,7 @@
         "clean-paper",
         "captured"
       ],
-      "summary": "Where an owing is assessed, sold, extended or inherited \u2014 a small building that is the most consequential structure in rural Argonia.",
+      "summary": "Where an owing is assessed, sold, extended or inherited — a small building that is the most consequential structure in rural Argonia.",
       "slots": {
         "cue": "a queue, a board of assessments, and a building better maintained than its neighbours",
         "population": "a broker and enforcers; elevated member on the office roof",
@@ -7063,12 +7063,12 @@
         "crossing",
         "internal"
       ],
-      "summary": "The building where the owings are kept \u2014 including, in one notorious case, a criminal organisation's own internal ledger three generations deep.",
+      "summary": "The building where the owings are kept — including, in one notorious case, a criminal organisation's own internal ledger three generations deep.",
       "slots": {
         "cue": "a strongly built store with a single door and no windows",
         "population": "a keeper and guards; elevated member above the door",
         "props": "ledgers by year, inherited debts, a fire that did not quite destroy the oldest volume",
-        "rewardFree": "a loose page \u2014 evidence",
+        "rewardFree": "a loose page — evidence",
         "rewardGated": "the ledger series itself, which is a political weapon",
         "satellite": "the arbitration ground 200-400 m off where the assessments were made"
       },
@@ -7134,7 +7134,7 @@
         "levy",
         "owing"
       ],
-      "summary": "A bare enclosure where people are counted out to work or to fight \u2014 the plainest building type in the taxonomy and one of the most legible.",
+      "summary": "A bare enclosure where people are counted out to work or to fight — the plainest building type in the taxonomy and one of the most legible.",
       "slots": {
         "cue": "a swept enclosure with a post and a board, empty most days",
         "population": "0-8 depending on the day; elevated member on the counting stand",
@@ -7262,7 +7262,7 @@
         2
       ],
       "lore": "prisons dossier (Warden Varus's Tunnel Rats digging for crystals)",
-      "countBandNote": "Band widened 1->2 (2026-09-02 reconciliation): Warden Varus's Tunnel Rats are canon penal labour, and the two seams they are attested near \u2014 Silyanorn's crystal and Soulrest's gold \u2014 are far apart. One gallery is still worked under an untraceable Owing; the other is a flooded grave the bone-carriers cannot reach."
+      "countBandNote": "Band widened 1->2 (2026-09-02 reconciliation): Warden Varus's Tunnel Rats are canon penal labour, and the two seams they are attested near — Silyanorn's crystal and Soulrest's gold — are far apart. One gallery is still worked under an untraceable Owing; the other is a flooded grave the bone-carriers cannot reach."
     },
     {
       "type": "work-gang-camp",
@@ -7346,7 +7346,7 @@
         "moneychanger",
         "obligation-broker"
       ],
-      "summary": "A bench where the province's three incompatible currencies are converted into each other \u2014 septims, barter goods, and owed labour.",
+      "summary": "A bench where the province's three incompatible currencies are converted into each other — septims, barter goods, and owed labour.",
       "slots": {
         "cue": "a bench, a scale and a queue of people holding very different kinds of wealth",
         "population": "1-3; elevated member absent",
@@ -7417,7 +7417,7 @@
         "stall-row",
         "beast-market"
       ],
-      "summary": "Where things are actually bought and sold \u2014 a stall row in a town, or a periodic fair on neutral ground that appears for one month and vanishes.",
+      "summary": "Where things are actually bought and sold — a stall row in a town, or a periodic fair on neutral ground that appears for one month and vanishes.",
       "slots": {
         "cue": "stall frames, permanently standing and seasonally clothed; on a fair month, the noise",
         "population": "0-20 depending on the month; elevated member on a tally platform",
@@ -7566,7 +7566,7 @@
         "phlegmwine",
         "xanmeer-brandy"
       ],
-      "summary": "A distillery or brewery making the province's named drinks \u2014 one of them named for a town, one for a ruin, and one for a bodily fluid.",
+      "summary": "A distillery or brewery making the province's named drinks — one of them named for a town, one for a ruin, and one for a bodily fluid.",
       "slots": {
         "cue": "a mash smell and a stack of casks under a lean-to",
         "population": "1-3; elevated member on the cask stack",
@@ -7581,7 +7581,7 @@
           "spring-head",
           "flood-high"
         ],
-        "waterRelation": "clean water \u2014 a genuine constraint",
+        "waterRelation": "clean water — a genuine constraint",
         "regionClasses": [
           "firm lowland",
           "upland hills",
@@ -7636,11 +7636,11 @@
         "outsider-facing",
         "local"
       ],
-      "summary": "A place that feeds travellers \u2014 and in one city, a whole trade built on knowing what sort of swamp cuisine outsiders can actually stomach.",
+      "summary": "A place that feeds travellers — and in one city, a whole trade built on knowing what sort of swamp cuisine outsiders can actually stomach.",
       "slots": {
         "cue": "cooking smoke and a board of what is on today",
         "population": "1-4 and their customers; elevated member absent",
-        "props": "two menus, live tanks, a bench of people talking \u2014 the province's rumour node",
+        "props": "two menus, live tanks, a bench of people talking — the province's rumour node",
         "rewardFree": "food, and rumours: this type is a discovery hub for other POIs",
         "rewardGated": "the back room where the real conversation happens",
         "satellite": "a market or a landing 200-400 m off"
@@ -7713,7 +7713,7 @@
         "population": "1; no elevated member",
         "props": "bundles of depth sticks, jars of emollient, a price scratched on the post",
         "rewardFree": "the goods, cheaply",
-        "rewardGated": "the seller's knowledge \u2014 which route is passable this week",
+        "rewardGated": "the seller's knowledge — which route is passable this week",
         "satellite": "the hazard the goods are for, 200-400 m ahead"
       },
       "siting": {
@@ -7908,7 +7908,7 @@
         "reused",
         "broken-open"
       ],
-      "summary": "The East Empire Company's wharves are gone but its bonded stores are not \u2014 heavy, sealed cargo halls that outlived the charter that filled them.",
+      "summary": "The East Empire Company's wharves are gone but its bonded stores are not — heavy, sealed cargo halls that outlived the charter that filled them.",
       "slots": {
         "cue": "a cargo hall far larger and better built than anything around it",
         "population": "0-6; elevated member on a loft door",
@@ -7986,7 +7986,7 @@
         "walking",
         "poling"
       ],
-      "summary": "Where cargo changes carriers because the water stops or the road does \u2014 a yard of people whose job is walking, and the reason inland freight costs what it does.",
+      "summary": "Where cargo changes carriers because the water stops or the road does — a yard of people whose job is walking, and the reason inland freight costs what it does.",
       "slots": {
         "cue": "a yard of stacked loads with no boat and no cart anywhere",
         "population": "4-10 porters; elevated member on the load stack",
@@ -8062,10 +8062,10 @@
       ],
       "summary": "A raised way across water: flexible buoyant timber that rides the flood, or an older stone-flagged road firmer than a Breton one and older than the objection to stone.",
       "slots": {
-        "cue": "a line running dead straight across water \u2014 the least natural shape in the province",
+        "cue": "a line running dead straight across water — the least natural shape in the province",
         "population": "0-4 repairers; elevated member on a causeway-head structure",
         "props": "anchor piles, flood damage, repair sections in the wrong material, a causeway-head shrine",
-        "rewardFree": "the causeway is the reward \u2014 it is a shortcut",
+        "rewardFree": "the causeway is the reward — it is a shortcut",
         "rewardGated": "a broken section requiring a swim or climb, with something on the far part",
         "satellite": "a causeway-head shrine or toll 200-400 m along it"
       },
@@ -8137,12 +8137,12 @@
         "seasonal",
         "tidal"
       ],
-      "summary": "A marked shallow crossing with depth sticks and a keeper \u2014 passable now, impassable in four hours or four months.",
+      "summary": "A marked shallow crossing with depth sticks and a keeper — passable now, impassable in four hours or four months.",
       "slots": {
         "cue": "marker stakes in the water and a worn approach on both banks",
         "population": "0-2; elevated member absent",
         "props": "depth sticks, a tide or flood board, a shelter for waiting out the water",
-        "rewardFree": "the flood board \u2014 genuine route knowledge",
+        "rewardFree": "the flood board — genuine route knowledge",
         "rewardGated": "a cache in the shelter",
         "satellite": "the alternative crossing 200-400 m off used at the other season"
       },
@@ -8207,7 +8207,7 @@
         "falls",
         "narrows"
       ],
-      "summary": "A dragway where boats come out of the water and go back in above or below an obstacle \u2014 the province's most physical piece of infrastructure.",
+      "summary": "A dragway where boats come out of the water and go back in above or below an obstacle — the province's most physical piece of infrastructure.",
       "slots": {
         "cue": "a worn, greased timber slipway climbing out of the water beside white water",
         "population": "2-6 haulers who charge; elevated member at the top of the slip",
@@ -8283,7 +8283,7 @@
         "cue": "a marked line of stakes running into water, and a tide board at the head",
         "population": "0-6 waiting; elevated member absent",
         "props": "a tide board, a waiting shelter with a fire, stakes marking the line, a body count carved by somebody unsentimental",
-        "rewardFree": "the tide board \u2014 this type is a traversal capability once you can read it",
+        "rewardFree": "the tide board — this type is a traversal capability once you can read it",
         "rewardGated": "the far side, gated purely on the world clock",
         "satellite": "a waiting shelter and the long way round, 300-400 m off"
       },
@@ -8429,7 +8429,7 @@
         "manned",
         "ruined"
       ],
-      "summary": "A tower at a crossing built to see who is coming and to make stopping unavoidable \u2014 one of the very few silhouettes that reads at range below the rim.",
+      "summary": "A tower at a crossing built to see who is coming and to make stopping unavoidable — one of the very few silhouettes that reads at range below the rim.",
       "slots": {
         "cue": "the tower is the cue; site it where it is the tallest thing",
         "population": "2-4; elevated member at the tower head, with a real sightline",
@@ -8503,12 +8503,12 @@
         "rope",
         "root"
       ],
-      "summary": "A single high span \u2014 rope or grown root \u2014 over ground that cannot be walked, maintained by whoever needs it.",
+      "summary": "A single high span — rope or grown root — over ground that cannot be walked, maintained by whoever needs it.",
       "slots": {
         "cue": "a line across a gap, high up, easy to miss and impossible to unsee",
         "population": "0-2; elevated member on the far anchor",
         "props": "anchors, a repair kit cached at one end, a previous span in the water below",
-        "rewardFree": "the crossing itself \u2014 it saves a long detour",
+        "rewardFree": "the crossing itself — it saves a long detour",
         "rewardGated": "a climb to the anchor cache",
         "satellite": "the impassable ground it bypasses, immediately below"
       },
@@ -8569,7 +8569,7 @@
       "family": "elevated",
       "recordScope": "poi",
       "variants": [],
-      "summary": "A stack of platforms and ladders climbing from water level into the canopy \u2014 the province's vertical, and one of the few places you get a view.",
+      "summary": "A stack of platforms and ladders climbing from water level into the canopy — the province's vertical, and one of the few places you get a view.",
       "slots": {
         "cue": "the tower breaking canopy; at night, lanterns at three heights",
         "population": "1-3; elevated member genuinely above you",
@@ -8639,7 +8639,7 @@
         "high",
         "branching"
       ],
-      "summary": "Where three or four elevated walkways meet over water \u2014 a place in its own right, often with a kiosk on the platform.",
+      "summary": "Where three or four elevated walkways meet over water — a place in its own right, often with a kiosk on the platform.",
       "slots": {
         "cue": "the walkway lines converging, readable across open marsh",
         "population": "0-4; elevated member on the highest arm",
@@ -8787,7 +8787,7 @@
         "seasonal",
         "permanent"
       ],
-      "summary": "The furthest point upriver a loaded boat can reach \u2014 an economic terminus, not merely an obstacle, and the reason a whole district's goods stop here and walk.",
+      "summary": "The furthest point upriver a loaded boat can reach — an economic terminus, not merely an obstacle, and the reason a whole district's goods stop here and walk.",
       "slots": {
         "cue": "a dense landing with many more boats than the settlement behind it justifies",
         "population": "6-15; elevated member on the transfer stage",
@@ -8861,7 +8861,7 @@
         "flotilla",
         "storm"
       ],
-      "summary": "A field of piles and rings in sheltered water with no shore structure at all \u2014 where boats are kept, and where a settlement might arrive.",
+      "summary": "A field of piles and rings in sheltered water with no shore structure at all — where boats are kept, and where a settlement might arrive.",
       "slots": {
         "cue": "bare piles standing in water, obviously placed",
         "population": "0-4 on whatever is moored; elevated member on a pile top",
@@ -9213,7 +9213,7 @@
       ],
       "summary": "The rim's own infrastructure: a pass shelter above the treeline, where the province's rules stop applying and the weather kills instead of the water.",
       "slots": {
-        "cue": "the pass notch itself, and a shelter in it \u2014 and from here, genuinely long sightlines, the only ones in the province",
+        "cue": "the pass notch itself, and a shelter in it — and from here, genuinely long sightlines, the only ones in the province",
         "population": "0-4; elevated member on the pass head",
         "props": "a rockfall-damaged shelter, a snowline marker, a route book listing the days the pass was closed, a view naming distant places",
         "rewardFree": "the route book and the view, which reveals several destinations at once",
@@ -9355,12 +9355,12 @@
         "pictographic",
         "lettered"
       ],
-      "summary": "A junction marked so travellers can read it \u2014 pictographically almost everywhere, in letters only where the Empire is.",
+      "summary": "A junction marked so travellers can read it — pictographically almost everywhere, in letters only where the Empire is.",
       "slots": {
         "cue": "the marker itself: a totem, a hung object, a painted board, or a signpost",
         "population": "0; occasionally a stall",
         "props": "hung objects that name directions, a painted glyph board, a lettered signpost that is provably wrong now",
-        "rewardFree": "the marker names two or three places \u2014 this type is a discovery node",
+        "rewardFree": "the marker names two or three places — this type is a discovery node",
         "rewardGated": "a cache under or behind the marker",
         "satellite": "the place the marker points at, if it is close"
       },
@@ -9418,7 +9418,7 @@
         22,
         30
       ],
-      "lore": "asset inventory \u00a7signage (all lettering is Imperial; Argonian wayfinding must be pictographic)"
+      "lore": "asset inventory §signage (all lettering is Imperial; Argonian wayfinding must be pictographic)"
     },
     {
       "type": "waystation",
@@ -9493,7 +9493,7 @@
         16,
         22
       ],
-      "lore": "openworld research \u00a73.2 (waystation recipe); Lore:Nisswo"
+      "lore": "openworld research §3.2 (waystation recipe); Lore:Nisswo"
     },
     {
       "type": "bubble-spire-exit",
@@ -9573,7 +9573,7 @@
         "standing",
         "seasonal"
       ],
-      "summary": "A loading platform at a root tunnel where an eight-foot translucent worm swallows travellers whole and digests very slowly \u2014 which is what makes it transport rather than a lair.",
+      "summary": "A loading platform at a root tunnel where an eight-foot translucent worm swallows travellers whole and digests very slowly — which is what makes it transport rather than a lair.",
       "slots": {
         "cue": "a loading platform over a root hollow with nothing obviously beneath it",
         "population": "2-4 handlers; elevated member on the loading platform",
@@ -9632,7 +9632,7 @@
         2,
         2
       ],
-      "lore": "Lore:Rootworm (the Underground Express); \u00a712b rule: the southern terminus is wintertide-only"
+      "lore": "Lore:Rootworm (the Underground Express); §12b rule: the southern terminus is wintertide-only"
     },
     {
       "type": "air-pocket-station",
@@ -9640,7 +9640,7 @@
       "family": "submerged-way",
       "recordScope": "poi",
       "variants": [],
-      "summary": "A trapped air space inside a flooded structure or cave that somebody has furnished \u2014 a room you can only reach by swimming.",
+      "summary": "A trapped air space inside a flooded structure or cave that somebody has furnished — a room you can only reach by swimming.",
       "slots": {
         "cue": "none at all from outside; it is found by diving",
         "population": "0-3, and whoever they are, they chose this; elevated member absent",
@@ -9696,7 +9696,7 @@
         3,
         3
       ],
-      "lore": "module 20 \u00a712.3b hard-to-reach types (underwater grottoes, air pockets, flooded cellars)"
+      "lore": "module 20 §12.3b hard-to-reach types (underwater grottoes, air pockets, flooded cellars)"
     },
     {
       "type": "canal-gate",
@@ -9712,7 +9712,7 @@
         "cue": "a gate structure in water with a keeper's hut and warning marks",
         "population": "1-3 keepers; elevated member on the gate walk",
         "props": "slime jars, gate winches, eel pens, a warning board with a body count",
-        "rewardFree": "a jar of slime \u2014 a key, effectively",
+        "rewardFree": "a jar of slime — a key, effectively",
         "rewardGated": "the canal beyond, which is the shortcut",
         "satellite": "the eel pens 200-300 m off"
       },
@@ -9783,7 +9783,7 @@
         "population": "0; sometimes something that lives in it",
         "props": "a rope left by someone who did not come back, marks counting depth, air-pocket notes",
         "rewardFree": "the rope and the depth marks",
-        "rewardGated": "the bottom \u2014 a breath-gated descent",
+        "rewardGated": "the bottom — a breath-gated descent",
         "satellite": "the dry approach or the air-pocket station 200-400 m off"
       },
       "siting": {
@@ -9849,7 +9849,7 @@
         "cellar",
         "tunnel"
       ],
-      "summary": "A submerged connection between two dry places \u2014 a flooded cellar or an old tunnel that is now the short way and the wet way.",
+      "summary": "A submerged connection between two dry places — a flooded cellar or an old tunnel that is now the short way and the wet way.",
       "slots": {
         "cue": "water going into a structure and not coming out",
         "population": "0; sometimes something that hunts in it",
@@ -10128,7 +10128,7 @@
         "molag-bal",
         "clavicus"
       ],
-      "summary": "A Daedric site nobody enters, marked so that nobody does \u2014 and the markers are maintained, which tells you the reason is current.",
+      "summary": "A Daedric site nobody enters, marked so that nobody does — and the markers are maintained, which tells you the reason is current.",
       "slots": {
         "cue": "warning totems on every approach at a consistent distance, before any structure",
         "population": "0; whatever is inside is not a population",
@@ -10200,7 +10200,7 @@
       "family": "foreign-faith",
       "recordScope": "dressing",
       "variants": [],
-      "summary": "A small roadside shrine of the Divines, put up when the roads worked, still tended by whoever walks past most often \u2014 who is usually not an Imperial.",
+      "summary": "A small roadside shrine of the Divines, put up when the roads worked, still tended by whoever walks past most often — who is usually not an Imperial.",
       "slots": {
         "cue": "a shrine niche and a bench on the road, visible both ways",
         "population": "0-2; elevated member absent",
@@ -10270,7 +10270,7 @@
         "vigil-kept",
         "cutting"
       ],
-      "summary": "A Hist serving a mixed, largely non-tribal urban population \u2014 the province's political flashpoint, because nobody agrees whose it is.",
+      "summary": "A Hist serving a mixed, largely non-tribal urban population — the province's political flashpoint, because nobody agrees whose it is.",
       "slots": {
         "cue": "a tree in a built square, ringed by pillars, arches or a fence somebody keeps rebuilding",
         "population": "a vigil or a dispute; elevated member is a watcher who is there for politics not safety",
@@ -10337,7 +10337,7 @@
       "family": "hist",
       "recordScope": "poi",
       "variants": [],
-      "summary": "A Hist standing under water, still visited \u2014 the province's most striking dive destination and a working sacred site with no dry approach.",
+      "summary": "A Hist standing under water, still visited — the province's most striking dive destination and a working sacred site with no dry approach.",
       "slots": {
         "cue": "a dead crown breaking the water surface, or a shadow under it",
         "population": "divers who tend it; elevated member on a mooring platform above",
@@ -10408,7 +10408,7 @@
         "enslaved",
         "dead-mnemic-egg"
       ],
-      "summary": "A Hist being farmed, coerced, or already dead \u2014 with an amber egg where a tree's memory used to be.",
+      "summary": "A Hist being farmed, coerced, or already dead — with an amber egg where a tree's memory used to be.",
       "slots": {
         "cue": "industrial tap lines, or a dead trunk kept standing and tended like a grave",
         "population": "tappers, keepers, or mourners; elevated member on the tap stage",
@@ -10478,7 +10478,7 @@
       "variants": [],
       "summary": "One of the province's great named Hist, standing in its own grove, with the pilgrim traffic and the political weight that comes with it.",
       "slots": {
-        "cue": "a canopy-breaking crown, bioluminescent at night \u2014 the province's premier long-range landmark strategy",
+        "cue": "a canopy-breaking crown, bioluminescent at night — the province's premier long-range landmark strategy",
         "population": "tree-minder, sap-speaker, root-herald; elevated member on the tending stage",
         "props": "chime frames, offerings, a guest lodge, a tapping stage used correctly",
         "rewardFree": "a sanctioned draught of sap, and a direct answer",
@@ -10549,7 +10549,7 @@
         "pond",
         "field-edge"
       ],
-      "summary": "An ordinary village's Hist, in its enclosure, its pond or at the field edge \u2014 the single most repeated sacred structure in the province.",
+      "summary": "An ordinary village's Hist, in its enclosure, its pond or at the field edge — the single most repeated sacred structure in the province.",
       "slots": {
         "cue": "the tree's crown above the huts",
         "population": "a tree-minder; elevated member on the minder's platform",
@@ -10689,12 +10689,12 @@
         "flood-staying",
         "hunt"
       ],
-      "summary": "A shrine not to a god but to a specific animal, receiving offerings to make it stop doing something \u2014 the province's most pragmatic religion.",
+      "summary": "A shrine not to a god but to a specific animal, receiving offerings to make it stop doing something — the province's most pragmatic religion.",
       "slots": {
         "cue": "offerings heaped facing a body of water or a den, with nothing built behind them",
         "population": "0-2; elevated member absent",
         "props": "offerings that are food and hide rather than treasure, a tally of years the flood held off, the animal's own leavings nearby",
-        "rewardFree": "the offerings \u2014 taking them is exactly as unwise as it sounds",
+        "rewardFree": "the offerings — taking them is exactly as unwise as it sounds",
         "rewardGated": "the animal's den",
         "satellite": "the pond or den itself 200-400 m off"
       },
@@ -10754,7 +10754,7 @@
       "family": "rite",
       "recordScope": "district",
       "variants": [],
-      "summary": "A feast platform where bondings and gender-change celebrations are held \u2014 the province's happiest building, and one that says a lot about it.",
+      "summary": "A feast platform where bondings and gender-change celebrations are held — the province's happiest building, and one that says a lot about it.",
       "slots": {
         "cue": "a large platform with hung fabric and no walls, empty most of the year",
         "population": "0-12 depending on the calendar; elevated member absent",
@@ -10825,7 +10825,7 @@
         "root-talk",
         "tribal"
       ],
-      "summary": "Ground where an occasional great convocation is held \u2014 an occasion, not an institution, and empty in every year it is not happening.",
+      "summary": "Ground where an occasional great convocation is held — an occasion, not an institution, and empty in every year it is not happening.",
       "slots": {
         "cue": "a very large cleared ground with permanent stone or root seating and no buildings",
         "population": "0 normally, hundreds in the right month; elevated member absent",
@@ -10881,7 +10881,7 @@
         1,
         1
       ],
-      "lore": "\u00a712b owner decision Q2 (the great Root Talk is an occasion, not a council); Lore:Hist-Tsoko"
+      "lore": "§12b owner decision Q2 (the great Root Talk is an occasion, not a council); Lore:Hist-Tsoko"
     },
     {
       "type": "dream-wallow",
@@ -11098,12 +11098,12 @@
       "family": "rite",
       "recordScope": "district",
       "variants": [],
-      "summary": "Where hatchlings take the sap that sets their gloor \u2014 a small, entirely benign place with enormous consequences for anyone who has to leave it.",
+      "summary": "Where hatchlings take the sap that sets their gloor — a small, entirely benign place with enormous consequences for anyone who has to leave it.",
       "slots": {
         "cue": "a cleared, decorated ground beside a Hist with a small stone at its centre",
         "population": "0-6 depending on the day; elevated member absent",
         "props": "a naming stone with cut marks, sap vessels, teething pacifiers, kept toys",
-        "rewardFree": "a hardened-sap pacifier \u2014 worthless and enormously sentimental",
+        "rewardFree": "a hardened-sap pacifier — worthless and enormously sentimental",
         "rewardGated": "the naming register",
         "satellite": "the uxith 200 m off"
       },
@@ -11165,7 +11165,7 @@
         "closed-sanctuary",
         "black-tongue-site"
       ],
-      "summary": "Where children born under the Shadow were given up and made into something else \u2014 a tempering ground, or a sanctuary closed by order in 4E 187 and watched ever since.",
+      "summary": "Where children born under the Shadow were given up and made into something else — a tempering ground, or a sanctuary closed by order in 4E 187 and watched ever since.",
       "slots": {
         "cue": "a compound whose approach has been deliberately made unattractive, and a watcher who is not hiding well",
         "population": "0-4; elevated member is the watcher, outside",
@@ -11445,7 +11445,7 @@
         "cue": "cleared, swept ground with a single focal stone and nothing built",
         "population": "0-8 depending on whether a preacher is here; elevated member is the preacher on the stone",
         "props": "a wrap of fabric, a black stone, scratched arguments left by listeners answering each other",
-        "rewardFree": "the scratched arguments \u2014 a running theological brawl in text",
+        "rewardFree": "the scratched arguments — a running theological brawl in text",
         "rewardGated": "nothing; the type has no lock, which is the point",
         "satellite": "an art-and-destroy site 200-400 m off"
       },
@@ -11513,7 +11513,7 @@
       ],
       "summary": "An ancient temple to Sithis, still tended by the Clutch: a terraced site built for mass sacrifice in an age with priest-kings, now visited by people who read its decay as doctrine.",
       "slots": {
-        "cue": "terraced monumental massing above the canopy \u2014 the province's second landmark strategy after the great trees",
+        "cue": "terraced monumental massing above the canopy — the province's second landmark strategy after the great trees",
         "population": "a tending clutch; elevated member on a terrace",
         "props": "altars with drainage that is not for rain, a Duskfall-era interruption in the building work, current offerings on ancient stone",
         "rewardFree": "an offering left by a previous pilgrim",
@@ -11581,7 +11581,7 @@
       "family": "the-dead",
       "recordScope": "poi",
       "variants": [],
-      "summary": "A staging post on the routes along which Argonian bones are carried home from the places they died \u2014 abolition work and burial work being the same work.",
+      "summary": "A staging post on the routes along which Argonian bones are carried home from the places they died — abolition work and burial work being the same work.",
       "slots": {
         "cue": "a rack of wrapped bundles under a roof, each labelled with a village name",
         "population": "1-4 carriers; elevated member absent",
@@ -11650,7 +11650,7 @@
         "kothringi",
         "plague"
       ],
-      "summary": "Stone cairns dressed with glass beads \u2014 a burial method belonging to a people who died out in the second era, and to the plague that killed them.",
+      "summary": "Stone cairns dressed with glass beads — a burial method belonging to a people who died out in the second era, and to the plague that killed them.",
       "slots": {
         "cue": "stone heaps in country with no other stone construction",
         "population": "0; elevated member absent",
@@ -11782,7 +11782,7 @@
         "staking",
         "mortuary-harvest"
       ],
-      "summary": "The working premises of the office that stakes, tends, reads and sings the dead \u2014 and in one tribe, harvests weapons and armour from them.",
+      "summary": "The working premises of the office that stakes, tends, reads and sings the dead — and in one tribe, harvests weapons and armour from them.",
       "slots": {
         "cue": "stake blanks in racks and carving tools under a lean-to",
         "population": "1-2; elevated member absent",
@@ -11857,7 +11857,7 @@
         "cue": "a field of carved stakes at odd angles, and pahnjee racks upwind of it",
         "population": "a grave-singer, sometimes; elevated member absent",
         "props": "stakes at every age, some leaning, one down; pahnjee racks; the singer's tools",
-        "rewardFree": "reading the stakes \u2014 biographies, and therefore quest hooks",
+        "rewardFree": "reading the stakes — biographies, and therefore quest hooks",
         "rewardGated": "what a stake is holding down",
         "satellite": "the village or battlefield it serves, 200-400 m off"
       },
@@ -11916,7 +11916,7 @@
         30,
         40
       ],
-      "lore": "\u00a712b (grave-stakes are a province-wide interactable); Lore:Argonian (xul-vaat, bog blight)"
+      "lore": "§12b (grave-stakes are a province-wide interactable); Lore:Argonian (xul-vaat, bog blight)"
     },
     {
       "type": "hammock-crown-terrace",
@@ -11996,7 +11996,7 @@
         "burn",
         "flu"
       ],
-      "summary": "Ground where one of the province's three great depopulations put too many people at once, marked afterwards \u2014 and the memorials argue with each other about what happened.",
+      "summary": "Ground where one of the province's three great depopulations put too many people at once, marked afterwards — and the memorials argue with each other about what happened.",
       "slots": {
         "cue": "a marked ground with no settlement and no burial furniture of the normal kind",
         "population": "0-3 memorial-keepers; elevated member absent",
@@ -12067,12 +12067,12 @@
       "family": "the-dead",
       "recordScope": "dressing",
       "variants": [],
-      "summary": "A rack of deliberately spoiled oily meat, hung to ward off bog blights \u2014 a structure whose entire purpose is to smell revolting.",
+      "summary": "A rack of deliberately spoiled oily meat, hung to ward off bog blights — a structure whose entire purpose is to smell revolting.",
       "slots": {
         "cue": "the smell, then the rack; carrion birds circling it",
         "population": "0; elevated member is a bird",
         "props": "hung meat at stages of rot, a tally of when it was last replaced, claw marks at the base",
-        "rewardFree": "nothing anyone wants \u2014 this type rewards understanding, not looting",
+        "rewardFree": "nothing anyone wants — this type rewards understanding, not looting",
         "rewardGated": "whatever is behind it that it is protecting",
         "satellite": "the disturbed grave 200-400 m downwind that made it necessary"
       },
@@ -12135,7 +12135,7 @@
         "blasphemers",
         "sealed"
       ],
-      "summary": "Where the dead who are denied return to the Hist are bound into urns \u2014 a punishment that outlives everyone who imposed it.",
+      "summary": "Where the dead who are denied return to the Hist are bound into urns — a punishment that outlives everyone who imposed it.",
       "slots": {
         "cue": "a sealed low structure with no offerings and no path",
         "population": "0; elevated member absent",
@@ -12259,12 +12259,12 @@
         "climb"
       ],
       "complexityBudget": "standard",
-      "complexityJustification": "two authored verge sites plus a stripped-ground state, as the drifting village does \u2014 no moving geometry",
+      "complexityJustification": "two authored verge sites plus a stripped-ground state, as the drifting village does — no moving geometry",
       "countBand": [
         1,
         1
       ],
-      "lore": "Lore:Murkwood (the forest that moves); Conclave of Baal and the Vaults of Gemin (quests 20 \u00a712b)"
+      "lore": "Lore:Murkwood (the forest that moves); Conclave of Baal and the Vaults of Gemin (quests 20 §12b)"
     },
     {
       "type": "umbriel-shadow-track",
@@ -12275,7 +12275,7 @@
         "scoured",
         "overgrown"
       ],
-      "summary": "The line the flying city took across the province in 4E 48, still legible in the vegetation 150 years later \u2014 a landscape feature made of an event.",
+      "summary": "The line the flying city took across the province in 4E 48, still legible in the vegetation 150 years later — a landscape feature made of an event.",
       "slots": {
         "cue": "a band of different vegetation running dead straight for kilometres, visible from any rise",
         "population": "0-4; elevated member absent",
@@ -12348,7 +12348,7 @@
         "cue": "a small, very well maintained dry store beside a hatchery",
         "population": "1-2 keepers; elevated member absent",
         "props": "logs by decade, a star-sign concordance, entries for eggs that never hatched",
-        "rewardFree": "a log volume \u2014 identity evidence for a great many people",
+        "rewardFree": "a log volume — identity evidence for a great many people",
         "rewardGated": "the current decade",
         "satellite": "the uxith 200 m off"
       },
@@ -12407,7 +12407,7 @@
         "underwater",
         "pony-lizard"
       ],
-      "summary": "Where children play \u2014 including, in the amphibious cities, entirely underwater, with course markers a surface-dweller would never notice.",
+      "summary": "Where children play — including, in the amphibious cities, entirely underwater, with course markers a surface-dweller would never notice.",
       "slots": {
         "cue": "nothing above water at all in the underwater variant; a paddock and small tack in the other",
         "population": "0-8 children; elevated member absent",
@@ -12481,7 +12481,7 @@
         "cue": "a screened, warmed structure over still water, kept cleaner than anything else here",
         "population": "1-4 egg-tenders; elevated member absent",
         "props": "egg logs with parents, hatch date and star sign; flutes; bug paddles; an egg fading into the roots",
-        "rewardFree": "the egg log \u2014 a genealogy of the whole village",
+        "rewardFree": "the egg log — a genealogy of the whole village",
         "rewardGated": "the inner nest",
         "satellite": "the Hist 200 m off and the naming ground beside it"
       },
@@ -12548,7 +12548,7 @@
         "teeba-enoo",
         "race-water"
       ],
-      "summary": "An ordinary Argonian sports ground \u2014 a ball court or a marked race water \u2014 played in normal villages, which is what makes the diplomatic version legible as a gesture.",
+      "summary": "An ordinary Argonian sports ground — a ball court or a marked race water — played in normal villages, which is what makes the diplomatic version legible as a gesture.",
       "slots": {
         "cue": "a marked court or a lane of buoyed water, worn by use",
         "population": "0-14; elevated member on the court wall",
@@ -12622,7 +12622,7 @@
       "family": "festivity",
       "recordScope": "district",
       "variants": [],
-      "summary": "A circle where adolescents gather to argue, in a month set aside for it \u2014 formalised youth politics, and where a lot of the province's grievances first get spoken.",
+      "summary": "A circle where adolescents gather to argue, in a month set aside for it — formalised youth politics, and where a lot of the province's grievances first get spoken.",
       "slots": {
         "cue": "a worn ring of seating with no adult furniture",
         "population": "0-10; elevated member absent",
@@ -12835,7 +12835,7 @@
         "cue": "a platform with hung colours and a backing screen",
         "population": "0-6; elevated member is the performer",
         "props": "a takings tally, instrument racks, a troupe's route painted on the backing screen",
-        "rewardFree": "the route screen names a dozen settlements \u2014 the best discovery node in the taxonomy",
+        "rewardFree": "the route screen names a dozen settlements — the best discovery node in the taxonomy",
         "rewardGated": "the troupe's takings",
         "satellite": "a festival ground 200-400 m off"
       },
@@ -12902,7 +12902,7 @@
         "teeba-enoo",
         "teeba-hatsei"
       ],
-      "summary": "A ball court built by outsiders as an apology to a tribe they offended \u2014 a whole building that exists as a diplomatic gesture.",
+      "summary": "A ball court built by outsiders as an apology to a tribe they offended — a whole building that exists as a diplomatic gesture.",
       "slots": {
         "cue": "a formal court with sloped walls, geometrically alien to everything around it",
         "population": "0-10; elevated member on the court wall",
@@ -12961,7 +12961,7 @@
         1,
         1
       ],
-      "lore": "\u00a712b Alten Meerhleel (tribes placated with a Teeba-Enoo court)"
+      "lore": "§12b Alten Meerhleel (tribes placated with a Teeba-Enoo court)"
     },
     {
       "type": "tradehouse",
@@ -12973,12 +12973,12 @@
         "quay",
         "village"
       ],
-      "summary": "Paid lodging: a bed, a meal, a fire and a room full of people who know things \u2014 the commercial rest-and-rumour hub the province otherwise lacks.",
+      "summary": "Paid lodging: a bed, a meal, a fire and a room full of people who know things — the commercial rest-and-rumour hub the province otherwise lacks.",
       "slots": {
         "cue": "a lit, busy doorway and a stable or a mooring, on a route, at any hour",
         "population": "6-20; elevated member absent",
         "props": "a room rate, a guest book naming travellers and where they were going, contracts pinned to a board, three languages in one room",
-        "rewardFree": "the guest book and the board \u2014 this is the province's densest quest-hook node",
+        "rewardFree": "the guest book and the board — this is the province's densest quest-hook node",
         "rewardGated": "a private room and what is said in it",
         "satellite": "a market, a ferry stage or a road stage 200-300 m off"
       },
@@ -13053,7 +13053,7 @@
         "daril",
         "dance-barge"
       ],
-      "summary": "Somewhere to misbehave \u2014 a gambling room running Shells and Stones, a daril den, or a barge that ties up, opens, and is gone by morning.",
+      "summary": "Somewhere to misbehave — a gambling room running Shells and Stones, a daril den, or a barge that ties up, opens, and is gone by morning.",
       "slots": {
         "cue": "a lit doorway with no sign, or a barge moored where no barge should be, at an hour when nothing else is open",
         "population": "4-15; elevated member on a door watch",
@@ -13127,7 +13127,7 @@
         "merchant",
         "tribal"
       ],
-      "summary": "Where a city's real decisions are made \u2014 by merchants where trade rules, by naheesh and tree-minders where it does not.",
+      "summary": "Where a city's real decisions are made — by merchants where trade rules, by naheesh and tree-minders where it does not.",
       "slots": {
         "cue": "a hall with a well-kept approach and people arguing outside it",
         "population": "4-12; elevated member absent",
@@ -13271,12 +13271,12 @@
         "wharfinger",
         "weigh-house"
       ],
-      "summary": "The office that decides which hull comes alongside, what it weighs and what it owes \u2014 usually in a building a dead company built.",
+      "summary": "The office that decides which hull comes alongside, what it weighs and what it owes — usually in a building a dead company built.",
       "slots": {
         "cue": "a pilot flag or a weighing beam under a company mark",
         "population": "2-6; elevated member in the pilot-house",
         "props": "tide boards, pilot charts, a scale, a manifest book with gaps in it",
-        "rewardFree": "a pilot chart naming coastal places \u2014 real map knowledge",
+        "rewardFree": "a pilot chart naming coastal places — real map knowledge",
         "rewardGated": "the manifest book and its gaps",
         "satellite": "a bonded store or a lighterage anchorage 200-400 m off"
       },
@@ -13409,12 +13409,12 @@
         "state",
         "ignored"
       ],
-      "summary": "An Archwarden's working office \u2014 the successor state's actual administration, which functions in some cities and is openly ignored in others.",
+      "summary": "An Archwarden's working office — the successor state's actual administration, which functions in some cities and is openly ignored in others.",
       "slots": {
         "cue": "a state mark over a door and a stipend queue",
         "population": "2-6; elevated member absent",
         "props": "stipend rolls for frontier irregulars, customs correspondence, a legitimacy nobody local concedes",
-        "rewardFree": "the stipend roll \u2014 the province's only army list",
+        "rewardFree": "the stipend roll — the province's only army list",
         "rewardGated": "the correspondence",
         "satellite": "a border watch post or customs shed 300-400 m off"
       },
@@ -13547,7 +13547,7 @@
         "infirm",
         "blind"
       ],
-      "summary": "Where the very old and the long-term infirm are kept and cared for \u2014 a building type that every settlement needs and that almost no game world contains.",
+      "summary": "Where the very old and the long-term infirm are kept and cared for — a building type that every settlement needs and that almost no game world contains.",
       "slots": {
         "cue": "a shaded veranda with people sitting on it who are not working",
         "population": "2-8; elevated member absent",
@@ -13688,7 +13688,7 @@
         "inspection",
         "plague"
       ],
-      "summary": "A shed where people or cargo are held before being allowed on \u2014 the physical residue of a province that watched a plague kill three whole peoples.",
+      "summary": "A shed where people or cargo are held before being allowed on — the physical residue of a province that watched a plague kill three whole peoples.",
       "slots": {
         "cue": "a barrier and a shed on a quay or a road, with a bell",
         "population": "1-4 inspectors; elevated member absent",
@@ -13835,7 +13835,7 @@
         "cue": "a marked ground with two facing positions and a third between them",
         "population": "0-8; elevated member absent",
         "props": "a tally of assessments carved into a post, seating for two parties, a Nisswo's fabric wrap left as witness",
-        "rewardFree": "the assessment post, which names live grievances \u2014 a quest-hook engine",
+        "rewardFree": "the assessment post, which names live grievances — a quest-hook engine",
         "rewardGated": "the arbitrator's own record",
         "satellite": "the hiring office 200-400 m off where the awards become owings"
       },
@@ -13899,7 +13899,7 @@
         "functioning",
         "ruined"
       ],
-      "summary": "An Imperial courthouse \u2014 in one city still hearing cases and issuing paper that can actually be contested, everywhere else a shell.",
+      "summary": "An Imperial courthouse — in one city still hearing cases and issuing paper that can actually be contested, everywhere else a shell.",
       "slots": {
         "cue": "a portico, a form that exists nowhere else in the province",
         "population": "2-10; elevated member absent",
@@ -14035,7 +14035,7 @@
         "civic",
         "estate"
       ],
-      "summary": "A building full of paper in a province that mostly does not write things down \u2014 which makes it disproportionately powerful and disproportionately flammable.",
+      "summary": "A building full of paper in a province that mostly does not write things down — which makes it disproportionately powerful and disproportionately flammable.",
       "slots": {
         "cue": "a windowless store with a fire-break gap around it",
         "population": "1-4 clerks; elevated member absent",
@@ -14100,7 +14100,7 @@
       "family": "law",
       "recordScope": "district",
       "variants": [],
-      "summary": "The seat of the one indigenous urban office the province ever invented \u2014 a magistrate for cities that have too many strangers in them for tribal law to work.",
+      "summary": "The seat of the one indigenous urban office the province ever invented — a magistrate for cities that have too many strangers in them for tribal law to work.",
       "slots": {
         "cue": "a hall with a formal frontage and a queue of people with paperwork",
         "population": "3-8; elevated member absent",
@@ -14167,13 +14167,13 @@
         "craft",
         "office"
       ],
-      "summary": "Where a hereditary, secret craft is actually handed on \u2014 and therefore where an outsider might, with enormous difficulty, be let in.",
+      "summary": "Where a hereditary, secret craft is actually handed on — and therefore where an outsider might, with enormous difficulty, be let in.",
       "slots": {
         "cue": "a workshop annexe with two benches, one of them producing visibly worse work",
         "population": "1-4; elevated member absent",
         "props": "an apprentice's failures kept deliberately, a progression of pieces on a shelf, a sponsorship token",
         "rewardFree": "the failure shelf, which teaches the craft's method by accident",
-        "rewardGated": "sponsorship \u2014 a social gate, not a lock",
+        "rewardGated": "sponsorship — a social gate, not a lock",
         "satellite": "the master's own workshop 100-300 m off"
       },
       "siting": {
@@ -14233,7 +14233,7 @@
       "family": "learning",
       "recordScope": "district",
       "variants": [],
-      "summary": "The premises of a foreign institution that returns Argonian antiquities to Argonians \u2014 a foreign presence the province argues with rather than fights.",
+      "summary": "The premises of a foreign institution that returns Argonian antiquities to Argonians — a foreign presence the province argues with rather than fights.",
       "slots": {
         "cue": "a conservation workshop with crates addressed to villages, not to Cyrodiil",
         "population": "3-8; elevated member absent",
@@ -14304,7 +14304,7 @@
         "cue": "specimen frames and a drying line of things that are not food",
         "population": "1-4; elevated member absent",
         "props": "a specimen house, a licence, a field book, a creature that got out",
-        "rewardFree": "the field book, which names lairs and habitats \u2014 direct POI leads",
+        "rewardFree": "the field book, which names lairs and habitats — direct POI leads",
         "rewardGated": "the specimen store",
         "satellite": "the habitat or ruin being studied, 200-400 m off"
       },
@@ -14372,7 +14372,7 @@
         "anachronistic-ruin",
         "conclave-vault"
       ],
-      "summary": "A collection of books in a province that does not keep them \u2014 either an Ayleid ruin containing a library that should not exist, or a scholarly vault holding the only key to a moving forest.",
+      "summary": "A collection of books in a province that does not keep them — either an Ayleid ruin containing a library that should not exist, or a scholarly vault holding the only key to a moving forest.",
       "slots": {
         "cue": "a sealed or half-sealed structure with a dry interior in a wet province",
         "population": "0-4 scholars or nothing at all; elevated member absent",
@@ -14435,7 +14435,7 @@
         1,
         1
       ],
-      "lore": "Lore:Gandranen (anachronistic library); Conclave of Baal and the Vaults of Gemin (\u00a712b, Murkwood)"
+      "lore": "Lore:Gandranen (anachronistic library); Conclave of Baal and the Vaults of Gemin (§12b, Murkwood)"
     },
     {
       "type": "storytelling-ground",
@@ -14524,7 +14524,7 @@
         "cue": "a circle of worn seating around a speaker's position, and nothing written anywhere",
         "population": "1-10; elevated member absent",
         "props": "mnemonic objects instead of books, a sequence of markers, students' practice marks",
-        "rewardFree": "listening \u2014 this type gives lore and route knowledge orally",
+        "rewardFree": "listening — this type gives lore and route knowledge orally",
         "rewardGated": "the sequence a naheesh will only teach a member",
         "satellite": "a trial ground 200-400 m off"
       },
@@ -14586,12 +14586,12 @@
       "family": "learning",
       "recordScope": "district",
       "variants": [],
-      "summary": "A cleared plot, a foundation course and a subscription board for a museum of Argonian antiquities that was never built \u2014 a place defined entirely by absence.",
+      "summary": "A cleared plot, a foundation course and a subscription board for a museum of Argonian antiquities that was never built — a place defined entirely by absence.",
       "slots": {
         "cue": "a laid-out foundation with nothing on it, in a city where land is not spare",
         "population": "0-2; elevated member absent",
         "props": "a subscription board with names and pledged sums, a foundation course, a plan pinned under glass and faded",
-        "rewardFree": "the subscription board \u2014 a list of everyone who cared, and when they stopped",
+        "rewardFree": "the subscription board — a list of everyone who cared, and when they stopped",
         "rewardGated": "the crate store of exhibits with nowhere to go",
         "satellite": "the curators' chapterhouse 200-400 m off"
       },
@@ -14640,7 +14640,7 @@
         1,
         1
       ],
-      "lore": "Lore:Cyrodilic Collections (hoped to build a museum in Black Marsh; \u00a712b notes it was never built)"
+      "lore": "Lore:Cyrodilic Collections (hoped to build a museum in Black Marsh; §12b notes it was never built)"
     },
     {
       "type": "enchanters-bench",
@@ -14652,7 +14652,7 @@
         "charged-bone",
         "soul-gem"
       ],
-      "summary": "Where a filled Stormhold crystal, a wamasu's charged bone or a soul gem is actually put into an object \u2014 the terminus of the province's whole enchanting supply chain.",
+      "summary": "Where a filled Stormhold crystal, a wamasu's charged bone or a soul gem is actually put into an object — the terminus of the province's whole enchanting supply chain.",
       "slots": {
         "cue": "a bench under cover with a rack of stock that is faintly, wrongly lit",
         "population": "1-2; elevated member absent",
@@ -14750,7 +14750,7 @@
           "rootland deep marsh",
           "tropical jungle"
         ],
-        "neighbourRelation": "in or beside almost any settlement \u2014 this is folk practice, not an institution"
+        "neighbourRelation": "in or beside almost any settlement — this is folk practice, not an institution"
       },
       "magnitude": null,
       "cultures": [
@@ -14786,7 +14786,7 @@
         14,
         20
       ],
-      "lore": "magic-practice dossier (magic as folk literacy; vastei as the progression currency) \u2014 the world-side anchor for the stats/progression workstream"
+      "lore": "magic-practice dossier (magic as folk literacy; vastei as the progression currency) — the world-side anchor for the stats/progression workstream"
     },
     {
       "type": "synod-outstation",
@@ -14797,7 +14797,7 @@
         "licensed",
         "overstaying"
       ],
-      "summary": "An outstation of one of the two bodies that inherited the Mages Guild's work and none of its welcome \u2014 surveying, measuring, and formally licensed by an authority nobody local recognises.",
+      "summary": "An outstation of one of the two bodies that inherited the Mages Guild's work and none of its welcome — surveying, measuring, and formally licensed by an authority nobody local recognises.",
       "slots": {
         "cue": "instruments on a roof platform and a licence nailed up at the door",
         "population": "2-6 outsiders; elevated member at the instruments",
@@ -14942,7 +14942,7 @@
         "khajiit",
         "mixed"
       ],
-      "summary": "A living foreign district \u2014 Dunmer in the north and east, a Khajiit landing in the south \u2014 as opposed to the sacked and drowned ones the province is otherwise full of.",
+      "summary": "A living foreign district — Dunmer in the north and east, a Khajiit landing in the south — as opposed to the sacked and drowned ones the province is otherwise full of.",
       "slots": {
         "cue": "a building grammar and a shop-mark script that stop at a street line",
         "population": "8-25; elevated member absent",
@@ -15091,7 +15091,7 @@
         "marked",
         "hidden"
       ],
-      "summary": "A sealed store of food, fire and fresh water kept dry in a province that is not \u2014 the single most practical reward the wilderness offers.",
+      "summary": "A sealed store of food, fire and fresh water kept dry in a province that is not — the single most practical reward the wilderness offers.",
       "slots": {
         "cue": "a mark on a tree or a stone, or nothing at all",
         "population": "0; elevated member absent",
@@ -15154,7 +15154,7 @@
         24,
         32
       ],
-      "lore": "module 20 \u00a712.3b (refuge and fixedLoot reward types)"
+      "lore": "module 20 §12.3b (refuge and fixedLoot reward types)"
     },
     {
       "type": "hearth-house",
@@ -15168,7 +15168,7 @@
       "summary": "A house kept warm and open because the obligation not to refuse a comer is real, and because in this province a stranger turned away at dusk dies. The rural safe place.",
       "slots": {
         "cue": "a lit doorway and a fire visible from the route, deliberately, at night",
-        "population": "1-6; elevated member absent \u2014 this type has no threat",
+        "population": "1-6; elevated member absent — this type has no threat",
         "props": "a fire that is never let out, bedding for more people than live here, a guest tally going back generations, food ready for arrivals",
         "rewardFree": "rest, food, warmth and honest direction-giving",
         "rewardGated": "the household's own store, which they will open for a real need",
@@ -15240,7 +15240,7 @@
         "caretaker",
         "unmanned"
       ],
-      "summary": "A shelter maintained on ground everyone avoids, kept ready for the day the tribes need somewhere to run to \u2014 and used exactly that way once, in 4E 48.",
+      "summary": "A shelter maintained on ground everyone avoids, kept ready for the day the tribes need somewhere to run to — and used exactly that way once, in 4E 48.",
       "slots": {
         "cue": "a maintained structure on ground that has every reason to be empty",
         "population": "0-3 caretakers; elevated member on the shelter roof",
@@ -15298,7 +15298,7 @@
         1,
         1
       ],
-      "lore": "\u00a712b Deepmire, the Refuge (a D4 destination with an approach route)"
+      "lore": "§12b Deepmire, the Refuge (a D4 destination with an approach route)"
     },
     {
       "type": "storm-shelter",
@@ -15370,7 +15370,7 @@
         3,
         3
       ],
-      "lore": "climate fields (sea squalls, orographic rain); module 20 \u00a712.3b refuge reward type"
+      "lore": "climate fields (sea squalls, orographic rain); module 20 §12.3b refuge reward type"
     },
     {
       "type": "failed-drainage-works",
@@ -15443,7 +15443,7 @@
       "family": "waste",
       "recordScope": "district",
       "variants": [],
-      "summary": "A screened platform over moving water \u2014 the sanitation solution of a province where digging a hole fills it with water immediately.",
+      "summary": "A screened platform over moving water — the sanitation solution of a province where digging a hole fills it with water immediately.",
       "slots": {
         "cue": "a screened stage on the downstream side of a water settlement",
         "population": "0; elevated member absent",
@@ -15653,7 +15653,7 @@
         "cue": "a wall and a gatehouse with no road to them any more",
         "population": "0-6; elevated member on the wall",
         "props": "cell blocks with names scratched by count, a register, remains in place, a bone-carriers' working camp at the gate",
-        "rewardFree": "the register \u2014 names, sentences, home villages",
+        "rewardFree": "the register — names, sentences, home villages",
         "rewardGated": "the deep cells",
         "satellite": "a bone-repatriation waystation 200-400 m off on the route out"
       },
@@ -15709,7 +15709,7 @@
         1,
         1
       ],
-      "lore": "\u00a712b White Rose Prison (abandoned, structurally sound, full of Argonian dead)"
+      "lore": "§12b White Rose Prison (abandoned, structurally sound, full of Argonian dead)"
     },
     {
       "type": "reoccupied-prison",
@@ -15720,7 +15720,7 @@
         "criminal-held",
         "undead-below"
       ],
-      "summary": "A prison held by the descendants of its prisoners, three generations in, running their own internal ledger \u2014 and resenting being called a prison.",
+      "summary": "A prison held by the descendants of its prisoners, three generations in, running their own internal ledger — and resenting being called a prison.",
       "slots": {
         "cue": "a fortified structure with a lit, guarded gate on a road nobody uses",
         "population": "10-25; elevated member on the gate tower",
@@ -15850,7 +15850,7 @@
         1,
         2
       ],
-      "lore": "\u00a712b the Archon Shadowscale facility (closed 4E 187, standing, sealed)"
+      "lore": "§12b the Archon Shadowscale facility (closed 4E 187, standing, sealed)"
     },
     {
       "type": "slaver-apparatus",
@@ -15861,7 +15861,7 @@
         "dres-derelict",
         "archein-derelict"
       ],
-      "summary": "The physical equipment of a slave trade that ended: coffle posts, holding sheds, branding gear \u2014 derelict, and pointedly not demolished.",
+      "summary": "The physical equipment of a slave trade that ended: coffle posts, holding sheds, branding gear — derelict, and pointedly not demolished.",
       "slots": {
         "cue": "heavy fittings on a derelict site that make no sense for any current use",
         "population": "0-3; elevated member absent",
@@ -15995,7 +15995,7 @@
         2,
         3
       ],
-      "lore": "module 20 \u00a711 (the six-stage foreign-infrastructure life cycle)"
+      "lore": "module 20 §11 (the six-stage foreign-infrastructure life cycle)"
     },
     {
       "type": "battlefield-ground",
@@ -16006,7 +16006,7 @@
         "massacre",
         "pitched"
       ],
-      "summary": "Ground where an army was destroyed \u2014 in one case at the foot of a xanmeer, in another where the province's last organised army ceased to exist.",
+      "summary": "Ground where an army was destroyed — in one case at the foot of a xanmeer, in another where the province's last organised army ceased to exist.",
       "slots": {
         "cue": "vegetation that grows differently, and a memorial or two from different centuries",
         "population": "0-4; elevated member absent",
@@ -16022,7 +16022,7 @@
           "ford",
           "enclosed-clearing"
         ],
-        "waterRelation": "where an army could deploy \u2014 rare here",
+        "waterRelation": "where an army could deploy — rare here",
         "regionClasses": [
           "firm lowland",
           "seasonal floodplain",
@@ -16073,7 +16073,7 @@
       "family": "imperial-military",
       "recordScope": "poi",
       "variants": [],
-      "summary": "Weapons buried in 1E 2836, the year the Argonians abruptly stopped fighting \u2014 a deliberate act that reads as a monument once you know the date.",
+      "summary": "Weapons buried in 1E 2836, the year the Argonians abruptly stopped fighting — a deliberate act that reads as a monument once you know the date.",
       "slots": {
         "cue": "a marker that means nothing unless you know what year it is",
         "population": "0; elevated member absent",
@@ -16138,7 +16138,7 @@
         "non-imperial-held",
         "garrisoned"
       ],
-      "summary": "An Imperial fort that is held \u2014 but not by the Empire. The eagle is still over the gate, and whoever is inside has not taken it down.",
+      "summary": "An Imperial fort that is held — but not by the Empire. The eagle is still over the gate, and whoever is inside has not taken it down.",
       "slots": {
         "cue": "a curtain wall and a gate, intact, with smoke behind it",
         "population": "8-20; elevated member on the wall walk",
@@ -16210,7 +16210,7 @@
       "family": "imperial-military",
       "recordScope": "poi",
       "variants": [],
-      "summary": "Banks, ditches and battery positions left by a siege \u2014 earth that has kept its shape for centuries because nobody had a reason to level it.",
+      "summary": "Banks, ditches and battery positions left by a siege — earth that has kept its shape for centuries because nobody had a reason to level it.",
       "slots": {
         "cue": "geometric earth shapes in a landscape with none",
         "population": "0-4 scavengers; elevated member on the bank",
@@ -16277,7 +16277,7 @@
         "hereditary",
         "levied"
       ],
-      "summary": "The hall of a hereditary defending line \u2014 people whose ancestors put up the first hut here and who have watched the approaches ever since.",
+      "summary": "The hall of a hereditary defending line — people whose ancestors put up the first hut here and who have watched the approaches ever since.",
       "slots": {
         "cue": "a hall with generations of trophies visible through open sides",
         "population": "4-10; elevated member on the hall's watch platform",
@@ -16344,7 +16344,7 @@
       "family": "strength",
       "recordScope": "district",
       "variants": [],
-      "summary": "Worn ground where a levy trains for guerrilla war \u2014 the fighting style the province is famous for, practised in the terrain it is practised in.",
+      "summary": "Worn ground where a levy trains for guerrilla war — the fighting style the province is famous for, practised in the terrain it is practised in.",
       "slots": {
         "cue": "worn paths in a pattern that is obviously trained, not walked",
         "population": "0-10; elevated member on an observation stand",
@@ -16413,7 +16413,7 @@
         "walls-only",
         "defences-working"
       ],
-      "summary": "A tribe living inside an ancient stepped ruin for its walls \u2014 the strongest fortification in the province, and in some cases its ancient defences still work.",
+      "summary": "A tribe living inside an ancient stepped ruin for its walls — the strongest fortification in the province, and in some cases its ancient defences still work.",
       "slots": {
         "cue": "terraced monumental massing with smoke and washing on it",
         "population": "6-20; elevated member on a terrace",
@@ -16485,12 +16485,12 @@
       "family": "strength",
       "recordScope": "district",
       "variants": [],
-      "summary": "A store of weapons for a levy that is raised occasionally and disbanded immediately \u2014 the province has no standing army and this is what it has instead.",
+      "summary": "A store of weapons for a levy that is raised occasionally and disbanded immediately — the province has no standing army and this is what it has instead.",
       "slots": {
         "cue": "a strongly built store beside a muster yard",
         "population": "1-3; elevated member absent",
         "props": "racked bone and glass weapons, an issue roll, a very small quantity of metal treated as treasure",
-        "rewardFree": "the issue roll \u2014 the district's fighting strength on one page",
+        "rewardFree": "the issue roll — the district's fighting strength on one page",
         "rewardGated": "the arms themselves",
         "satellite": "the muster yard 100-300 m off"
       },
@@ -16552,7 +16552,7 @@
         "boundary",
         "meddled"
       ],
-      "summary": "A ring of carved totems marking a territory \u2014 and in some places the carvings attract dangerous creatures if they are interfered with, which is the defence.",
+      "summary": "A ring of carved totems marking a territory — and in some places the carvings attract dangerous creatures if they are interfered with, which is the defence.",
       "slots": {
         "cue": "the totems themselves, at a consistent radius, before anything they protect",
         "population": "0; elevated member absent",
@@ -16617,7 +16617,7 @@
       "family": "watch",
       "recordScope": "dressing",
       "variants": [],
-      "summary": "A fire platform above canopy height whose only job is to be seen at night from the next one \u2014 the province's substitute for a sightline.",
+      "summary": "A fire platform above canopy height whose only job is to be seen at night from the next one — the province's substitute for a sightline.",
       "slots": {
         "cue": "the fire itself, at night, from a long way off; by day, a bare frame",
         "population": "0-2; elevated member is the fire-keeper",
@@ -16679,7 +16679,7 @@
         8,
         12
       ],
-      "lore": "scour finding: nothing 12 m tall reads at 1.4 km \u2014 landmarks must be tall, close, or lit"
+      "lore": "scour finding: nothing 12 m tall reads at 1.4 km — landmarks must be tall, close, or lit"
     },
     {
       "type": "border-post",
@@ -16761,7 +16761,7 @@
         "veiled-reed",
         "foreign"
       ],
-      "summary": "A post nobody admits to owning, in somebody else's building, watching a road or a harbour \u2014 the Thalmor's and the successor state's shared method.",
+      "summary": "A post nobody admits to owning, in somebody else's building, watching a road or a harbour — the Thalmor's and the successor state's shared method.",
       "slots": {
         "cue": "a building with a better sightline than its apparent function needs, and no visible reason for anyone to be in it",
         "population": "1-4; elevated member at the sightline",
@@ -16837,12 +16837,12 @@
         "lit",
         "dark"
       ],
-      "summary": "A light on a headland, or the tower where one used to be \u2014 and a dark lighthouse on a wrecking coast is not an accident.",
+      "summary": "A light on a headland, or the tower where one used to be — and a dark lighthouse on a wrecking coast is not an accident.",
       "slots": {
         "cue": "the light, or its absence where a chart says there should be one",
         "population": "0-3; elevated member in the lamp room",
         "props": "a lamp, a fuel account, a wreck register, and in the dark variant a lamp that has been deliberately maintained unlit",
-        "rewardFree": "the wreck register \u2014 it names wrecks you can go and find",
+        "rewardFree": "the wreck register — it names wrecks you can go and find",
         "rewardGated": "the lamp room and its view",
         "satellite": "a wreck or a wrecker beach 300-400 m off"
       },
@@ -16977,12 +16977,12 @@
         "chain-link",
         "solitary"
       ],
-      "summary": "A tower whose entire function is to see and be seen \u2014 which in a province with no long sightlines means it must be sited on the rare ground that has them.",
+      "summary": "A tower whose entire function is to see and be seen — which in a province with no long sightlines means it must be sited on the rare ground that has them.",
       "slots": {
         "cue": "the building is the cue; it must be the tallest thing in its view",
         "population": "1-4; elevated member at the head, with a real advantage",
         "props": "a signal fire, a watch roster, a sightline sketch of what can be seen from here",
-        "rewardFree": "the sightline sketch \u2014 direct map knowledge",
+        "rewardFree": "the sightline sketch — direct map knowledge",
         "rewardGated": "the tower head, and the view, which reveals two or three destinations",
         "satellite": "the next tower in the chain, deliberately visible"
       },
@@ -17041,7 +17041,7 @@
         4,
         4
       ],
-      "lore": "openworld research \u00a73.2 (watchtower: the reward is the view); scour: only the rim has range"
+      "lore": "openworld research §3.2 (watchtower: the reward is the view); scour: only the rim has range"
     },
     {
       "type": "fishing-camp",
@@ -17052,7 +17052,7 @@
         "dawn-boat",
         "reef"
       ],
-      "summary": "A few shelters and a beached boat where small-draft craft go out at first light \u2014 the most numerous camp type in the province.",
+      "summary": "A few shelters and a beached boat where small-draft craft go out at first light — the most numerous camp type in the province.",
       "slots": {
         "cue": "smoke, drying racks and a hull on the bank",
         "population": "2-5; elevated member on the rack frame or a rock",
@@ -17273,7 +17273,7 @@
         "props": "a butchery frame, bait, a tally of kills, a journal that points somewhere else",
         "rewardFree": "hide, meat and the journal",
         "rewardGated": "a cached trophy or the hunter's own weapon",
-        "satellite": "the resolution of the journal 200-400 m off \u2014 the classic satellite node"
+        "satellite": "the resolution of the journal 200-400 m off — the classic satellite node"
       },
       "siting": {
         "landformClasses": [
@@ -17328,7 +17328,7 @@
         16,
         22
       ],
-      "lore": "openworld research \u00a73.1 (the Bear Hunter's Camp satellite pattern)"
+      "lore": "openworld research §3.1 (the Bear Hunter's Camp satellite pattern)"
     },
     {
       "type": "pilgrim-camp",
@@ -17339,7 +17339,7 @@
         "trial-bound",
         "mourning-bound"
       ],
-      "summary": "A camp where people stop on the way to a trial, a convocation or a mourning \u2014 occupied heavily in one month and empty in the rest.",
+      "summary": "A camp where people stop on the way to a trial, a convocation or a mourning — occupied heavily in one month and empty in the rest.",
       "slots": {
         "cue": "a large cleared camping ground with fire scars far out of proportion to anyone present",
         "population": "0-10 depending on the calendar; elevated member absent",
@@ -17616,7 +17616,7 @@
         "cue": "a camp with household goods in it rather than travelling gear",
         "population": "6-15; elevated member absent",
         "props": "furniture that was carried too far, a list of who is missing, a boundary the host village has marked",
-        "rewardFree": "the missing list \u2014 direct quest hooks",
+        "rewardFree": "the missing list — direct quest hooks",
         "rewardGated": "the camp's shared store, which is all they have",
         "satellite": "the place they left, 300-400 m off and visibly wrecked"
       },
@@ -17747,7 +17747,7 @@
         "antiquarian",
         "necromantic"
       ],
-      "summary": "A licensed excavation, with a permit, a grid and a conservation tent \u2014 or the same thing without the permit and with a different object.",
+      "summary": "A licensed excavation, with a permit, a grid and a conservation tent — or the same thing without the permit and with a different object.",
       "slots": {
         "cue": "a grid of string and pegs, and a spoil heap sieved rather than dumped",
         "population": "3-8; elevated member on the spoil",
@@ -17820,7 +17820,7 @@
         "imperial-era",
         "current"
       ],
-      "summary": "A surveyor's camp \u2014 either a current one, or an Imperial one abandoned mid-survey with the instruments still on their tripods.",
+      "summary": "A surveyor's camp — either a current one, or an Imperial one abandoned mid-survey with the instruments still on their tripods.",
       "slots": {
         "cue": "a tripod or a survey marker on a high point",
         "population": "0-4; elevated member at the instrument",
@@ -17881,7 +17881,7 @@
         2,
         3
       ],
-      "lore": "module 20 \u00a711 (foreign infrastructure surveyed and imposed); Lore:Black Marsh (failed Imperial works)"
+      "lore": "module 20 §11 (foreign infrastructure surveyed and imposed); Lore:Black Marsh (failed Imperial works)"
     },
     {
       "type": "treasure-hunters-camp",
@@ -17892,7 +17892,7 @@
         "living",
         "dead"
       ],
-      "summary": "A camp of people who came for a specific thing in a specific ruin \u2014 and half the time, the camp is still there and they are not.",
+      "summary": "A camp of people who came for a specific thing in a specific ruin — and half the time, the camp is still there and they are not.",
       "slots": {
         "cue": "a camp with no economic reason to be where it is",
         "population": "0-4, or nobody; elevated member on a lookout rock",
@@ -17955,7 +17955,7 @@
         4,
         4
       ],
-      "lore": "openworld research \u00a73.1 (the satellite node that resolves the implied story)"
+      "lore": "openworld research §3.1 (the satellite node that resolves the implied story)"
     },
     {
       "type": "blackguard-hideout",
@@ -18182,7 +18182,7 @@
         "outlaw",
         "half-chartered"
       ],
-      "summary": "A hidden cove with deep approach water \u2014 either genuinely outlaw, or holding two-century-old letters of marque that the state finds convenient.",
+      "summary": "A hidden cove with deep approach water — either genuinely outlaw, or holding two-century-old letters of marque that the state finds convenient.",
       "slots": {
         "cue": "a mast above a headland, or a careened hull on a beach that has no village",
         "population": "4-10; elevated member on the headland lookout",
@@ -18472,7 +18472,7 @@
         "surface",
         "sub-city"
       ],
-      "summary": "Ayleid work from the eastern exile tradition \u2014 white stone above ground, and in one case a whole city's worth of tunnels underneath a living town.",
+      "summary": "Ayleid work from the eastern exile tradition — white stone above ground, and in one case a whole city's worth of tunnels underneath a living town.",
       "slots": {
         "cue": "white stone arches and columns, a colour the province otherwise does not contain",
         "population": "0-8; elevated member on a broken arch",
@@ -18605,7 +18605,7 @@
       "family": "ayleid",
       "recordScope": "poi",
       "variants": [],
-      "summary": "A small Ayleid structure built around a single socket \u2014 a lock with the key missing, and a whole chain of places that want it.",
+      "summary": "A small Ayleid structure built around a single socket — a lock with the key missing, and a whole chain of places that want it.",
       "slots": {
         "cue": "a modest structure with a disproportionately formal frontage",
         "population": "0-4 people trying to open it; elevated member absent",
@@ -18661,7 +18661,7 @@
         2,
         2
       ],
-      "lore": "Lore:Ayleid Wells; quest-provision keystone pattern (\u00a713 typed provisions)"
+      "lore": "Lore:Ayleid Wells; quest-provision keystone pattern (§13 typed provisions)"
     },
     {
       "type": "lamia-cavern",
@@ -18741,7 +18741,7 @@
       "slots": {
         "cue": "concentric geometry visible from any rise nearby",
         "population": "0-6; elevated member on the outer ring",
-        "props": "three layers of later use on one original plan \u2014 a camp, a shrine, a stock pen \u2014 none of them the original",
+        "props": "three layers of later use on one original plan — a camp, a shrine, a stock pen — none of them the original",
         "rewardFree": "the layered evidence itself",
         "rewardGated": "the central chamber, if there is one",
         "satellite": "a scholar's field camp arguing about it, 200-400 m off"
@@ -18794,7 +18794,7 @@
         1,
         1
       ],
-      "lore": "Lore:Ayleids; module 20 \u00a711 (historical layers must stay distinguishable)"
+      "lore": "Lore:Ayleids; module 20 §11 (historical layers must stay distinguishable)"
     },
     {
       "type": "bargain-site",
@@ -18805,7 +18805,7 @@
         "soul-gem-array",
         "unfinished"
       ],
-      "summary": "Where a settlement made a deal with a Daedric prince and got exactly what it asked for \u2014 the results still standing, and still not what anyone wanted.",
+      "summary": "Where a settlement made a deal with a Daedric prince and got exactly what it asked for — the results still standing, and still not what anyone wanted.",
       "slots": {
         "cue": "an ordinary-looking site with warning totems maintained at a distance by neighbours",
         "population": "whatever the bargain produced; elevated member varies",
@@ -18942,7 +18942,7 @@
       "family": "daedric-works",
       "recordScope": "poi",
       "variants": [],
-      "summary": "A place built by a Daedric prince's servants to harvest Hist sap industrially \u2014 the worst thing that has ever been done to a tree in this province.",
+      "summary": "A place built by a Daedric prince's servants to harvest Hist sap industrially — the worst thing that has ever been done to a tree in this province.",
       "slots": {
         "cue": "industrial apparatus on a Hist, of a manufacture that is not from Tamriel",
         "population": "0-6; elevated member on the apparatus",
@@ -19426,7 +19426,7 @@
         2,
         2
       ],
-      "lore": "scour finding: sinkholes are genuinely rare (11) \u2014 spend this type sparingly; Lore:Black Marsh (the Great Burn)"
+      "lore": "scour finding: sinkholes are genuinely rare (11) — spend this type sparingly; Lore:Black Marsh (the Great Burn)"
     },
     {
       "type": "umbriel-stripped-village",
@@ -19439,7 +19439,7 @@
       ],
       "summary": "A village that was under Umbriel's shadow in 4E 48: the people were taken, the buildings were not, and some of what was taken did not stay away.",
       "slots": {
-        "cue": "a village with everything intact and no bodies at all \u2014 an absence where a massacre should be",
+        "cue": "a village with everything intact and no bodies at all — an absence where a massacre should be",
         "population": "0, or something that used to be people; elevated member absent",
         "props": "meals set out, tools laid down, not one grave-stake, a memorial put up by survivors from elsewhere",
         "rewardFree": "the households, untouched for 150 years",
@@ -19634,7 +19634,7 @@
         1,
         1
       ],
-      "lore": "Lore:Giovesse (Arena gazetteer); module 20 \u00a711 (imposed foreign infrastructure)"
+      "lore": "Lore:Giovesse (Arena gazetteer); module 20 §11 (imposed foreign infrastructure)"
     },
     {
       "type": "empty-mission",
@@ -19647,7 +19647,7 @@
         "cue": "a compound with an intact gate and no wear on the path",
         "population": "0; elevated member absent",
         "props": "an intake register with eleven names and eleven dates within five weeks, unopened supplies, a chapel used four times",
-        "rewardFree": "the register \u2014 a complete, dated tragedy in one page",
+        "rewardFree": "the register — a complete, dated tragedy in one page",
         "rewardGated": "the supply store, unopened for two centuries",
         "satellite": "eleven graves 200-300 m off"
       },
@@ -19844,7 +19844,7 @@
         "akaviri",
         "reman"
       ],
-      "summary": "Reman and Akaviri-influenced construction from a far older occupation than the one everyone talks about \u2014 the layer beneath the Imperial layer.",
+      "summary": "Reman and Akaviri-influenced construction from a far older occupation than the one everyone talks about — the layer beneath the Imperial layer.",
       "slots": {
         "cue": "masonry and roof forms that are wrong for the third era and obviously older",
         "population": "0-6; elevated member on a wall",
@@ -19978,7 +19978,7 @@
       "family": "lost-peoples",
       "recordScope": "poi",
       "variants": [],
-      "summary": "A seaboard site of a Velothi offshoot that came south and did not last \u2014 Dunmer forms in a place Dunmer never settled.",
+      "summary": "A seaboard site of a Velothi offshoot that came south and did not last — Dunmer forms in a place Dunmer never settled.",
       "slots": {
         "cue": "organic tower forms on a coast, unmistakably not local and not Imperial",
         "population": "0-4; elevated member absent",
@@ -20045,7 +20045,7 @@
       "family": "lost-peoples",
       "recordScope": "poi",
       "variants": [],
-      "summary": "Channel works, weirs and basins of a lost people who managed water at a scale nobody has since \u2014 and which still, partly, work.",
+      "summary": "Channel works, weirs and basins of a lost people who managed water at a scale nobody has since — and which still, partly, work.",
       "slots": {
         "cue": "water behaving too regularly: a straight channel, a level pool, a weir line",
         "population": "0-4 who use it without knowing what it is; elevated member absent",
@@ -20136,7 +20136,7 @@
           "cliff-bench",
           "any-firm-ground"
         ],
-        "waterRelation": "coastal and riverine \u2014 they were sea-going",
+        "waterRelation": "coastal and riverine — they were sea-going",
         "regionClasses": [
           "firm lowland",
           "coastal lagoon & salt marsh",
@@ -20190,7 +20190,7 @@
       "family": "lost-peoples",
       "recordScope": "poi",
       "variants": [],
-      "summary": "A timber layer under a later settlement, belonging to a vulpine people who vanished \u2014 visible only where something has cut down through the ground.",
+      "summary": "A timber layer under a later settlement, belonging to a vulpine people who vanished — visible only where something has cut down through the ground.",
       "slots": {
         "cue": "nothing above ground; found in a cut bank, a ravine face, or a collapsed cellar",
         "population": "0; elevated member absent",
@@ -20392,7 +20392,7 @@
       ],
       "summary": "A xanmeer that has lost its shape: terraces collapsed inward, or so completely taken by root and canopy that it reads as a hill until you are on it.",
       "slots": {
-        "cue": "in the subsumed variant there is no cue at all until you are inside it \u2014 the reveal IS the beat",
+        "cue": "in the subsumed variant there is no cue at all until you are inside it — the reveal IS the beat",
         "population": "0-6 whatever has moved in; elevated member on a collapsed terrace",
         "props": "root systems doing structural damage, a stair going into rubble, carved stone in a tree's grip",
         "rewardFree": "loose carved stone and whatever the occupants left",
@@ -20525,7 +20525,7 @@
         2,
         3
       ],
-      "lore": "Lore:Duskfall; material-culture (stone as a moral error post-Duskfall) \u2014 this type is where that rule is visibly made"
+      "lore": "Lore:Duskfall; material-culture (stone as a moral error post-Duskfall) — this type is where that rule is visibly made"
     },
     {
       "type": "sealed-xanmeer",
@@ -20542,7 +20542,7 @@
         "population": "none; the defences are the population",
         "props": "vakka stones in their settings, a door with no visible mechanism, previous attempts' remains at the threshold",
         "rewardFree": "the remains of the last people who tried",
-        "rewardGated": "the interior itself \u2014 the type's whole content",
+        "rewardGated": "the interior itself — the type's whole content",
         "satellite": "a treasure hunters' camp 200-400 m off, occupied or not"
       },
       "siting": {
@@ -20607,7 +20607,7 @@
         "fully",
         "topmost-chamber"
       ],
-      "summary": "A stepped pyramid under water \u2014 either wholly drowned, or drowned to the point that only the topmost chamber is dry and the way in is a dive.",
+      "summary": "A stepped pyramid under water — either wholly drowned, or drowned to the point that only the topmost chamber is dry and the way in is a dive.",
       "slots": {
         "cue": "a terrace corner breaking the surface, or a geometric shadow under it",
         "population": "whatever lives in a flooded ruin; elevated member absent",
@@ -20684,7 +20684,7 @@
       ],
       "summary": "The most common state of the province's stepped pyramids: nobody lives in it, but a clan keeps it clear, repairs the terraces and would kill you for entering it.",
       "slots": {
-        "cue": "terraced massing above the canopy, deliberately kept clear of vegetation \u2014 the province's premier built landmark",
+        "cue": "terraced massing above the canopy, deliberately kept clear of vegetation — the province's premier built landmark",
         "population": "2-6 tenders who live elsewhere; elevated member on a terrace",
         "props": "cut vegetation stacked at the base, repaired courses in visibly newer work, offerings on the stair, a boundary of totems",
         "rewardFree": "the exterior terraces are climbable and the summit gives a real view",
@@ -20756,9 +20756,9 @@
         "nesting-island",
         "dusk-roost"
       ],
-      "summary": "An island or a stand where an enormous number of birds nest \u2014 noise, smell, guano, egg-harvesters, and at dusk one of the few genuinely beautiful sights in the province.",
+      "summary": "An island or a stand where an enormous number of birds nest — noise, smell, guano, egg-harvesters, and at dusk one of the few genuinely beautiful sights in the province.",
       "slots": {
-        "cue": "the birds themselves at dusk, a column visible for kilometres \u2014 a living landmark in a province with no sightlines",
+        "cue": "the birds themselves at dusk, a column visible for kilometres — a living landmark in a province with no sightlines",
         "population": "0-4 egg-harvesters; elevated member on the harvesting frame",
         "props": "harvest frames and ropes, a rota limiting the take, whitened rock, a season marker",
         "rewardFree": "eggs, feathers and down",
@@ -20899,7 +20899,7 @@
         "wild",
         "town-threshold"
       ],
-      "summary": "A ravine or channel held by crocodiles \u2014 sometimes wild, sometimes at the very edge of a town whose tribe keeps them there on purpose.",
+      "summary": "A ravine or channel held by crocodiles — sometimes wild, sometimes at the very edge of a town whose tribe keeps them there on purpose.",
       "slots": {
         "cue": "a bank churned by slides, and bones on it",
         "population": "a population, not individuals; elevated member absent",
@@ -21104,7 +21104,7 @@
         "wild",
         "mewed"
       ],
-      "summary": "A cliff or canopy roost of carrion birds \u2014 wild, or kept by a village that flies them.",
+      "summary": "A cliff or canopy roost of carrion birds — wild, or kept by a village that flies them.",
       "slots": {
         "cue": "the birds themselves, circling, visible further than anything on the ground",
         "population": "a flock; elevated member is literal",
@@ -21235,7 +21235,7 @@
         2,
         2
       ],
-      "lore": "fauna-hazards dossier; module 20 \u00a716 (fixed regional danger; D5 stays D5)"
+      "lore": "fauna-hazards dossier; module 20 §16 (fixed regional danger; D5 stays D5)"
     },
     {
       "type": "leviathan-bone-field",
@@ -21248,7 +21248,7 @@
       ],
       "summary": "The skeleton of something enormous, big enough that people have hollowed a rib cage out and live in it, or big enough that whatever killed it is still nearby.",
       "slots": {
-        "cue": "the ribs themselves, arching above the vegetation \u2014 a landmark made of an animal",
+        "cue": "the ribs themselves, arching above the vegetation — a landmark made of an animal",
         "population": "0-6 living in it or working it; elevated member on the spine",
         "props": "bone cut into building material, a dwelling inside a rib cage, scavenger workings, the cause of death still legible",
         "rewardFree": "worked and unworked bone in quantity",
@@ -21317,7 +21317,7 @@
       "family": "beast-lair",
       "recordScope": "poi",
       "variants": [],
-      "summary": "Territory of a marsh giant, which the locals treat as a protected creature \u2014 killing one is an ecological offence and a religious one at the same time.",
+      "summary": "Territory of a marsh giant, which the locals treat as a protected creature — killing one is an ecological offence and a religious one at the same time.",
       "slots": {
         "cue": "a cleared path through vegetation at a height that is wrong, and a totem line before it",
         "population": "one; elevated member absent",
@@ -21386,7 +21386,7 @@
         "ruin-approach",
         "open"
       ],
-      "summary": "Ground held by something made of the marsh itself, which does not hunt so much as object to being crossed \u2014 and which is frequently found guarding a ruin nobody set it to guard.",
+      "summary": "Ground held by something made of the marsh itself, which does not hunt so much as object to being crossed — and which is frequently found guarding a ruin nobody set it to guard.",
       "slots": {
         "cue": "an approach where the vegetation has been rearranged rather than cleared",
         "population": "one; elevated member absent",
@@ -21524,7 +21524,7 @@
         "giant-snake",
         "moon-adder"
       ],
-      "summary": "Ground held by snakes at a scale that changes how you move through it \u2014 including the adder whose venom the intoxicant trade depends on.",
+      "summary": "Ground held by snakes at a scale that changes how you move through it — including the adder whose venom the intoxicant trade depends on.",
       "slots": {
         "cue": "shed skins at a size that stops you walking further",
         "population": "a nest; elevated member absent",
@@ -21663,11 +21663,11 @@
         "sealed",
         "breached"
       ],
-      "summary": "A ruin chamber occupied by something that digests what it engulfs \u2014 and whose contents are therefore an inventory of everyone who has come this way.",
+      "summary": "A ruin chamber occupied by something that digests what it engulfs — and whose contents are therefore an inventory of everyone who has come this way.",
       "slots": {
         "cue": "a doorway with a residue line at knee height and nothing beyond it",
         "population": "one, distributed; elevated member absent",
-        "props": "undigestible items suspended in the mass \u2014 coins, gems, a weapon, a boot",
+        "props": "undigestible items suspended in the mass — coins, gems, a weapon, a boot",
         "rewardFree": "what has been ejected at the threshold",
         "rewardGated": "the mass itself, which is the loot and the enemy at once",
         "satellite": "the rest of the ruin, immediately around it"
@@ -21801,7 +21801,7 @@
       "family": "beast-lair",
       "recordScope": "poi",
       "variants": [],
-      "summary": "Water where lights appear at night and lead people off the safe line \u2014 and the safe line is marked, which is why the drownings are all strangers.",
+      "summary": "Water where lights appear at night and lead people off the safe line — and the safe line is marked, which is why the drownings are all strangers.",
       "slots": {
         "cue": "the lights themselves, at night, which is the cue and the trap",
         "population": "a few; elevated member absent",
@@ -21947,7 +21947,7 @@
       ],
       "summary": "Water or ground carrying a reagent worth travelling for, findable by its sound, its light, or the fact that somebody has fenced it.",
       "slots": {
-        "cue": "sound or light \u2014 a chime, a glow \u2014 rather than a shape; audible or visible at night only",
+        "cue": "sound or light — a chime, a glow — rather than a shape; audible or visible at night only",
         "population": "0-2; elevated member absent",
         "props": "a harvester's marker, a cut count, an alchemist's commission note pinned to a stake",
         "rewardFree": "the reagent",
@@ -22017,7 +22017,7 @@
         "flint-vine",
         "fibre"
       ],
-      "summary": "A rock or root face carrying a plant worth climbing for \u2014 the province's climbing-gated reward in its simplest form.",
+      "summary": "A rock or root face carrying a plant worth climbing for — the province's climbing-gated reward in its simplest form.",
       "slots": {
         "cue": "the face itself, with the plant visibly on it and visibly out of reach",
         "population": "0-2 harvesters; elevated member is a harvester on the face",
@@ -22221,7 +22221,7 @@
         "cue": "a cracked flat where there was water, with things standing up out of it",
         "population": "0-8 scavengers working against the clock; elevated member absent",
         "props": "objects from every century lying on the surface, a water-level post, scavengers' claim stakes, a boat left high and dry",
-        "rewardFree": "surface finds in quantity \u2014 this is the province's richest free-loot type, for two months",
+        "rewardFree": "surface finds in quantity — this is the province's richest free-loot type, for two months",
         "rewardGated": "the deepest part of the flat, exposed only in the driest years",
         "satellite": "a lake settlement 300-400 m off whose shoreline has moved"
       },
@@ -22283,7 +22283,7 @@
         "tidal",
         "current"
       ],
-      "summary": "A channel pinch where the water moves faster than anyone can swim, twice a day or all the time \u2014 the province's most honest killer.",
+      "summary": "A channel pinch where the water moves faster than anyone can swim, twice a day or all the time — the province's most honest killer.",
       "slots": {
         "cue": "the water's surface, which is visibly wrong at the pinch",
         "population": "0-3 waiting for slack water; elevated member absent",
@@ -22416,7 +22416,7 @@
         "venting",
         "burning"
       ],
-      "summary": "Ground venting marsh gas, sometimes alight \u2014 the province's fire hazard in the wettest place in Tamriel.",
+      "summary": "Ground venting marsh gas, sometimes alight — the province's fire hazard in the wettest place in Tamriel.",
       "slots": {
         "cue": "flame or shimmer over water, and dead vegetation in a patch",
         "population": "0; elevated member absent",
@@ -22551,7 +22551,7 @@
         "rapids",
         "logjam"
       ],
-      "summary": "A stretch of river that cannot be run, which is why the portage exists \u2014 and where a logjam has built a temporary, unstable, entirely crossable structure out of dead trees.",
+      "summary": "A stretch of river that cannot be run, which is why the portage exists — and where a logjam has built a temporary, unstable, entirely crossable structure out of dead trees.",
       "slots": {
         "cue": "the sound, from a long way upstream, then white water",
         "population": "0-4 waiting or working the jam; elevated member on the jam",
@@ -22841,7 +22841,7 @@
       ],
       "summary": "A pillar of rock standing out of open sea, climbable, occupied by birds or by somebody who wanted nobody to reach them.",
       "slots": {
-        "cue": "the stack itself \u2014 vertical, isolated and the only thing in a flat sea view",
+        "cue": "the stack itself — vertical, isolated and the only thing in a flat sea view",
         "population": "0-4; elevated member is at the top, unambiguously",
         "props": "a climbing route worn by generations of egg-takers, a platform at the top, whitened rock, a mooring ring at the base",
         "rewardFree": "eggs, and the mooring ring's presence, which tells you people come here",
@@ -22908,7 +22908,7 @@
         "collapsed",
         "inhabited"
       ],
-      "summary": "The province's signature dungeon: a hollow gallery inside the continuous Hist root layer, walkable, swimmable and climbable \u2014 the answer to a landscape with almost no rock and therefore almost no caves.",
+      "summary": "The province's signature dungeon: a hollow gallery inside the continuous Hist root layer, walkable, swimmable and climbable — the answer to a landscape with almost no rock and therefore almost no caves.",
       "slots": {
         "cue": "a root mouth at the base of a rise, breathing warm air, with a worn approach",
         "population": "0-8 whatever has moved in; elevated member on a root shelf above the gallery floor",
@@ -22932,7 +22932,7 @@
           "tropical jungle",
           "raised hammock"
         ],
-        "neighbourRelation": "the root layer is continuous \u2014 galleries connect, and that connection is the map"
+        "neighbourRelation": "the root layer is continuous — galleries connect, and that connection is the map"
       },
       "magnitude": "M1",
       "cultures": [
@@ -22986,7 +22986,7 @@
         "occupied",
         "collapsed"
       ],
-      "summary": "An untamed rootworm's tunnel mouth \u2014 the same animal the transit network rides, without the handlers, which changes it from infrastructure into a hazard.",
+      "summary": "An untamed rootworm's tunnel mouth — the same animal the transit network rides, without the handlers, which changes it from infrastructure into a hazard.",
       "slots": {
         "cue": "a tunnel bore too regular to be natural and too large to be comfortable",
         "population": "one, and it is the tunnel; elevated member absent",
@@ -23052,7 +23052,7 @@
       "family": "curiosity",
       "recordScope": "poi",
       "variants": [],
-      "summary": "A natural chamber reachable only by diving, with air in it, and nothing in it that anyone put there \u2014 the reward is that it exists.",
+      "summary": "A natural chamber reachable only by diving, with air in it, and nothing in it that anyone put there — the reward is that it exists.",
       "slots": {
         "cue": "none; found by swimming into something",
         "population": "0-2; elevated member absent",
@@ -23110,7 +23110,7 @@
         4,
         4
       ],
-      "lore": "module 20 \u00a712.3b (underwater grottoes and air pockets as hard-to-reach types); acceptance: Argonian physiology changes underwater play"
+      "lore": "module 20 §12.3b (underwater grottoes and air pockets as hard-to-reach types); acceptance: Argonian physiology changes underwater play"
     },
     {
       "type": "bioluminescent-water",
@@ -23263,7 +23263,7 @@
       "family": "curiosity",
       "recordScope": "poi",
       "variants": [],
-      "summary": "A hollow that holds mist when nowhere else does, so that it is a different place at dawn than it is at noon \u2014 a POI whose content is the world clock.",
+      "summary": "A hollow that holds mist when nowhere else does, so that it is a different place at dawn than it is at noon — a POI whose content is the world clock.",
       "slots": {
         "cue": "a standing mist body visible from above, in one hollow and not its neighbours",
         "population": "0-3; elevated member absent",
@@ -23330,7 +23330,7 @@
       "family": "curiosity",
       "recordScope": "dressing",
       "variants": [],
-      "summary": "A maintained marker on the approach to somewhere nobody goes \u2014 and the fact that it is maintained is the whole content.",
+      "summary": "A maintained marker on the approach to somewhere nobody goes — and the fact that it is maintained is the whole content.",
       "slots": {
         "cue": "a marker, alone, facing away from the thing it is about",
         "population": "0; elevated member absent",
@@ -23418,7 +23418,7 @@
           "interior swamp",
           "tropical jungle"
         ],
-        "neighbourRelation": "rare \u2014 eleven found province-wide; every instance should be individually meaningful"
+        "neighbourRelation": "rare — eleven found province-wide; every instance should be individually meaningful"
       },
       "magnitude": null,
       "cultures": [
@@ -23454,7 +23454,7 @@
         3,
         3
       ],
-      "lore": "scour finding: only 11 sinkholes province-wide \u2014 do not design types that assume this landform is common"
+      "lore": "scour finding: only 11 sinkholes province-wide — do not design types that assume this landform is common"
     },
     {
       "type": "vista-ledge",
@@ -23519,7 +23519,7 @@
         4,
         4
       ],
-      "lore": "scour finding: median site sees 18% of its 1.2 km surroundings \u2014 a view is a reward"
+      "lore": "scour finding: median site sees 18% of its 1.2 km surroundings — a view is a reward"
     },
     {
       "type": "waterfall-chamber",
@@ -23550,7 +23550,7 @@
           "tropical jungle",
           "deep river corridor"
         ],
-        "neighbourRelation": "on a river with real relief \u2014 the rim and upland only"
+        "neighbourRelation": "on a river with real relief — the rim and upland only"
       },
       "magnitude": null,
       "cultures": [
@@ -23598,7 +23598,7 @@
         "exile",
         "mad"
       ],
-      "summary": "One dwelling, hard to reach, with no path to it \u2014 the approach cost is the gate, and the reward is knowledge or a service, not loot.",
+      "summary": "One dwelling, hard to reach, with no path to it — the approach cost is the gate, and the reward is knowledge or a service, not loot.",
       "slots": {
         "cue": "a single light or a thin smoke line, and no path at all",
         "population": "1; elevated member absent",
@@ -23665,7 +23665,7 @@
         5,
         6
       ],
-      "lore": "openworld research \u00a73.2 (hermit: approach cost is the gate; the reward is knowledge, not loot)"
+      "lore": "openworld research §3.2 (hermit: approach cost is the gate; the reward is knowledge, not loot)"
     },
     {
       "type": "keepers-lodge",
@@ -23754,7 +23754,7 @@
         "retired-arbiter",
         "chime-maker"
       ],
-      "summary": "A house standing apart from its village because the person in it holds an office that requires distance \u2014 from the dead, from the tree, or from the argument.",
+      "summary": "A house standing apart from its village because the person in it holds an office that requires distance — from the dead, from the tree, or from the argument.",
       "slots": {
         "cue": "a single well-kept dwelling at a deliberate distance from a village",
         "population": "1-3; elevated member absent",
@@ -23829,7 +23829,7 @@
       ],
       "summary": "A dwelling above the treeline on the rim, where the cold does the work the marsh does everywhere else, and where you can see for thirty kilometres.",
       "slots": {
-        "cue": "a stone-and-turf shelter and a thread of smoke against snow \u2014 the one silhouette in the province that reads at real distance",
+        "cue": "a stone-and-turf shelter and a thread of smoke against snow — the one silhouette in the province that reads at real distance",
         "population": "1-3; elevated member absent",
         "props": "fuel hauled from far below, a cold-weather kit nobody in the lowlands owns, a record of the view kept as a discipline",
         "rewardFree": "shelter, and the record of the view, which names distant places",
@@ -23955,7 +23955,7 @@
         4,
         4
       ],
-      "lore": "module 20 \u00a711 (stage five of the foreign-infrastructure life cycle: reuse)"
+      "lore": "module 20 §11 (stage five of the foreign-infrastructure life cycle: reuse)"
     },
     {
       "type": "boundary-totem",
@@ -23971,7 +23971,7 @@
         "cue": "a carved post, maintained, in a place with no other structure",
         "population": "0; elevated member absent",
         "props": "a carving that a local can read and a stranger cannot, maintenance that dates the claim, offerings at the base",
-        "rewardFree": "the carving, if you can read it \u2014 an information reward gated on knowledge, not a lock",
+        "rewardFree": "the carving, if you can read it — an information reward gated on knowledge, not a lock",
         "rewardGated": "nothing; the type is a boundary",
         "satellite": "the next totem on the line, 200-400 m along"
       },
@@ -24039,7 +24039,7 @@
         "tin",
         "seed"
       ],
-      "summary": "A frame of hung chimes, placed to be heard rather than seen \u2014 a landmark for a province where you usually cannot see anything.",
+      "summary": "A frame of hung chimes, placed to be heard rather than seen — a landmark for a province where you usually cannot see anything.",
       "slots": {
         "cue": "the sound, carried on wind, from further than any visual cue works here",
         "population": "0; elevated member absent",
@@ -24097,7 +24097,7 @@
         16,
         22
       ],
-      "lore": "material-culture (chimes as a craft); scour finding: no long sightlines \u2014 sound and light must carry wayfinding"
+      "lore": "material-culture (chimes as a craft); scour finding: no long sightlines — sound and light must carry wayfinding"
     },
     {
       "type": "memorial-stone",
@@ -24254,7 +24254,7 @@
         4,
         4
       ],
-      "lore": "module 20 \u00a712.3b (the reward of a notable hard-to-reach landform must not be nothing); Morrowind's Landmarks category"
+      "lore": "module 20 §12.3b (the reward of a notable hard-to-reach landform must not be nothing); Morrowind's Landmarks category"
     },
     {
       "type": "stone-calendar",
@@ -24262,7 +24262,7 @@
       "family": "monument",
       "recordScope": "poi",
       "variants": [],
-      "summary": "A monument that encodes the star signs and the moons \u2014 the physical form of the province's own calendar, which is not the Imperial one.",
+      "summary": "A monument that encodes the star signs and the moons — the physical form of the province's own calendar, which is not the Imperial one.",
       "slots": {
         "cue": "a formal stone arrangement on open, sky-visible ground",
         "population": "0-2; elevated member absent",
@@ -24324,7 +24324,7 @@
         2
       ],
       "lore": "Lore:Xinchei-Konu; sky-moons-calendar dossier",
-      "countBandNote": "Band widened 1->2 (2026-09-02 reconciliation): TWO canon-defensible instruments of utterly different character \u2014 Xinchei-Konu, the canon lowland monument with a hereditary jekka-wass keeper and a clean southern horizon, and the interior's Tsoko Stones, a canopy-gap ring that times the Root Talk convocation. Different regions, different signatures, no template reuse."
+      "countBandNote": "Band widened 1->2 (2026-09-02 reconciliation): TWO canon-defensible instruments of utterly different character — Xinchei-Konu, the canon lowland monument with a hereditary jekka-wass keeper and a clean southern horizon, and the interior's Tsoko Stones, a canopy-gap ring that times the Root Talk convocation. Different regions, different signatures, no template reuse."
     },
     {
       "type": "abandoned-boat",
@@ -24337,7 +24337,7 @@
         "cue": "a boat where no landing is",
         "population": "0; elevated member absent",
         "props": "a day's food untouched, a pole still shipped, a catch that rotted, no damage to the hull at all",
-        "rewardFree": "the boat \u2014 genuine traversal capability",
+        "rewardFree": "the boat — genuine traversal capability",
         "rewardGated": "what happened, which is 200-400 m away",
         "satellite": "the resolution: a lair, a body, or a camp"
       },
@@ -24394,7 +24394,7 @@
         16,
         22
       ],
-      "lore": "openworld research \u00a73.1 (the satellite node that resolves the implied story)"
+      "lore": "openworld research §3.1 (the satellite node that resolves the implied story)"
     },
     {
       "type": "cache",
@@ -24475,7 +24475,7 @@
         26,
         34
       ],
-      "lore": "openworld research \u00a73.1 (slot 4: the gated reward that rewards a capability)"
+      "lore": "openworld research §3.1 (slot 4: the gated reward that rewards a capability)"
     },
     {
       "type": "derelict-works",
@@ -24492,7 +24492,7 @@
       "slots": {
         "cue": "a frame, a bank or a pen in a place with no people",
         "population": "0-3 scavengers; elevated member absent",
-        "props": "nothing portable left; the layout alone says what this was \u2014 rack spacing, pen gates, a fire-scarred bank",
+        "props": "nothing portable left; the layout alone says what this was — rack spacing, pen gates, a fire-scarred bank",
         "rewardFree": "scavengeable material",
         "rewardGated": "a sunk or buried remnant of the stock",
         "satellite": "the settlement that ran it, 200-400 m off and also gone"
@@ -24553,7 +24553,7 @@
         16,
         22
       ],
-      "lore": "asset constraint: no bespoke industrial props exist \u2014 works sites must be distinguished by LAYOUT and dressing, not by machinery"
+      "lore": "asset constraint: no bespoke industrial props exist — works sites must be distinguished by LAYOUT and dressing, not by machinery"
     },
     {
       "type": "lone-grave-stake",
@@ -24564,13 +24564,13 @@
         "read",
         "fallen"
       ],
-      "summary": "One stake, in the middle of nowhere, with a full life carved on it \u2014 the smallest possible POI, and one of the most affecting.",
+      "summary": "One stake, in the middle of nowhere, with a full life carved on it — the smallest possible POI, and one of the most affecting.",
       "slots": {
         "cue": "a single upright in an empty view",
         "population": "0; elevated member absent",
         "props": "a xul-vaat with a whole biography on it, a small offering, and in the fallen variant, disturbed ground",
         "rewardFree": "reading it, which names a person, a place and a reason",
-        "rewardGated": "what is under it \u2014 and pulling it has consequences",
+        "rewardGated": "what is under it — and pulling it has consequences",
         "satellite": "the place the carving names, 200-400 m off"
       },
       "siting": {
@@ -24625,7 +24625,7 @@
         26,
         34
       ],
-      "lore": "\u00a712b (grave-stakes as a province-wide interactable); Lore:Argonian (xul-vaat)"
+      "lore": "§12b (grave-stakes as a province-wide interactable); Lore:Argonian (xul-vaat)"
     },
     {
       "type": "wreck",
@@ -24641,7 +24641,7 @@
       "slots": {
         "cue": "a broken mast or a hull line breaking the water or the beach",
         "population": "0-6 depending on variant; elevated member on the standing part",
-        "props": "the wreck geometry is the level \u2014 planks laid as ramps between broken halves, a partly flooded lower deck, cargo that names a route",
+        "props": "the wreck geometry is the level — planks laid as ramps between broken halves, a partly flooded lower deck, cargo that names a route",
         "rewardFree": "deck cargo and the ship's papers",
         "rewardGated": "the flooded lower deck, breath-gated and lock-gated",
         "satellite": "a salvage camp, a wrecker beach or a lighthouse 200-400 m off"
@@ -24707,7 +24707,7 @@
         5,
         6
       ],
-      "lore": "openworld research \u00a73.2 (wreck geometry IS the level; tier by depth and lock)"
+      "lore": "openworld research §3.2 (wreck geometry IS the level; tier by depth and lock)"
     }
   ]
 }

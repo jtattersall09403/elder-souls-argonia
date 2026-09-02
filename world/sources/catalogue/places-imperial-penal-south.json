@@ -25,7 +25,7 @@
       "confidence": "CANON_IMPLIED",
       "why": {
         "founding": "Versidue-Shaie was the Akaviri Potentate, and the works his people left in this basin while building the Rose are not Cyrodilic in any detail.",
-        "siteAdvantages": "On the quarry road between the Robbed City and the Rose \u2014 the logistics of a single-day construction, made permanent.",
+        "siteAdvantages": "On the quarry road between the Robbed City and the Rose — the logistics of a single-day construction, made permanent.",
         "occupantsMotive": "Nobody. Its stone-handling gear was designed for atronachs and makes no sense for people.",
         "pressures": "It is the best surviving Akaviri civil work in the province and nobody in the basin knows what it is.",
         "wouldChangeIf": "An identification would bring outside scholars and their money into a district that wants neither."
@@ -210,11 +210,11 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "No exterior at all \u2014 a cliff-foot shore with nothing to see, and a dry room hidden three metres under it.",
+        "silhouette": "No exterior at all — a cliff-foot shore with nothing to see, and a dry room hidden three metres under it.",
         "palette": "Wet limestone cream, black water, lamp gold.",
         "materials": "Natural limestone dome, one natural stone shelf used as a store, oiled hide wrappings on the goods, a single lamp; nothing built, nothing fixed.",
         "signatureFeature": "A dry limestone room reached only by swimming down and up again, with dry goods stacked on a natural shelf.",
-        "condition": "Undisturbed and in constant use \u2014 the goods change, the room never does.",
+        "condition": "Undisturbed and in constant use — the goods change, the room never does.",
         "mood": "Secret and still.",
         "approach": "Swim down along the cliff foot and up again; the first thing you know of it is your head breaking into air.",
         "senses": "A ringing dead air like the inside of a bell; drips on a long slow beat; lamp-oil; dry sacking after cold water."
@@ -775,7 +775,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A limestone sinkhole in the western hills that takes an entire stream underground and does not give it back anywhere anyone has found.",
-        "siteAdvantages": "A genuine rarity in this province \u2014 the scour found eleven sinkholes province-wide, and this is the only one in the basin.",
+        "siteAdvantages": "A genuine rarity in this province — the scour found eleven sinkholes province-wide, and this is the only one in the basin.",
         "occupantsMotive": "Nothing lives on the rim. Something lives below the first ledge.",
         "pressures": "It is almost certainly connected to the Blue Hole, and nobody has proved it.",
         "wouldChangeIf": "Proving the connection would open a route from the western hills into the lake floor."
@@ -796,7 +796,7 @@
             "sinkhole",
             "any-firm-ground"
           ],
-          "neighbourRelation": "rare \u2014 eleven found province-wide; every instance should be individually meaningful",
+          "neighbourRelation": "rare — eleven found province-wide; every instance should be individually meaningful",
           "densityGradient": "western feeder, thin"
         }
       },
@@ -1220,11 +1220,11 @@
       "vibe": {
         "silhouette": "A dark walled island core with a single spire of Lilmothiit footing carried up in Imperial courses, standing clear above a flat spread of boardwalk roofs that reaches to three gates on three rivers.",
         "palette": "Grey lake water, dark wet stone, red-brown Argonian roofs, lamp reflections.",
-        "materials": "Three courses of history in one wall: Lilmothiit foundation blocks, Imperial dressed courses on top, and Argonian roof and boardwalk carpentry over both \u2014 the stone is inherited, never quarried, and the timber is all new.",
-        "signatureFeature": "A walled stone core on a lake island \u2014 Lilmothiit foundations, Imperial courses, Argonian roofs \u2014 with the rest of the city spread over the water on boardwalks between three river gates.",
+        "materials": "Three courses of history in one wall: Lilmothiit foundation blocks, Imperial dressed courses on top, and Argonian roof and boardwalk carpentry over both — the stone is inherited, never quarried, and the timber is all new.",
+        "signatureFeature": "A walled stone core on a lake island — Lilmothiit foundations, Imperial courses, Argonian roofs — with the rest of the city spread over the water on boardwalks between three river gates.",
         "condition": "Continuously repaired for two thousand years and never once finished: fresh mortar in ancient joints, new decking on old piles, four different centuries of gate ironwork.",
         "mood": "Guarded, layered, transactional.",
-        "approach": "The core reads across open water from every river gate, lit, with its reflection under it \u2014 the province's one genuine approach vista.",
+        "approach": "The core reads across open water from every river gate, lit, with its reflection under it — the province's one genuine approach vista.",
         "senses": "Gate bells answering across open water, oars and toll-chains, wet stone and lamp oil, and the flat sound a big lake makes when a city is built on it."
       },
       "assetPlan": [
@@ -1325,11 +1325,11 @@
       ],
       "confidence": "CANON_IMPLIED",
       "why": {
-        "founding": "Blackrose's Hist stands in the lake rather than in the city, and the lake rose over it \u2014 the register's drowned tree.",
+        "founding": "Blackrose's Hist stands in the lake rather than in the city, and the lake rose over it — the register's drowned tree.",
         "siteAdvantages": "It grew on the island's old shore; three centuries of raised lake level put six metres of water over its crown.",
         "occupantsMotive": "Tenders dive to it. The city has no other tree and will not plant one, because planting one would be a judgement on this one.",
         "pressures": "An underwater Hist cannot be communed with in any of the usual ways, and the tenders have improvised a practice nobody else recognises.",
-        "wouldChangeIf": "Lowering the lake would expose it \u2014 and it is not agreed whether that would save it or kill it."
+        "wouldChangeIf": "Lowering the lake would expose it — and it is not agreed whether that would save it or kill it."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1388,7 +1388,7 @@
       "vibe": {
         "silhouette": "A green shadow the size of a village six metres down, with weighted offering lines running from a small surface platform straight into it.",
         "palette": "Green underwater light, dark bark, silver surface.",
-        "materials": "Living drowned hardwood and its intact canopy; a surface platform of lashed timber; weighted offering lines of cord, shell and tin \u2014 nothing built on the tree itself.",
+        "materials": "Living drowned hardwood and its intact canopy; a surface platform of lashed timber; weighted offering lines of cord, shell and tin — nothing built on the tree itself.",
         "signatureFeature": "A great tree standing whole and alive underwater, its canopy a green shadow six metres down, with weighted offering lines running from a boat platform on the surface.",
         "condition": "Alive and wholly submerged; the tree is undamaged, the platform above it is rebuilt every few years.",
         "mood": "Reverent and impossible.",
@@ -1549,7 +1549,7 @@
         "valueTier": "tier-4"
       },
       "vibe": {
-        "silhouette": "A blunt single-day fortress with no architectural intent at all \u2014 flat curtain, flat towers, blocks laid at whatever angle they came out of the rubble \u2014 softened by washing lines strung across the yard.",
+        "silhouette": "A blunt single-day fortress with no architectural intent at all — flat curtain, flat towers, blocks laid at whatever angle they came out of the rubble — softened by washing lines strung across the yard.",
         "palette": "Grey re-cut stone, ochre carving fragments, black stairwell, domestic colour in the yard.",
         "materials": "Reused Lilmothiit stone throughout, vulpine carving surviving at random angles in the courses; Imperial iron gate furniture; and inside the yard, three generations of purely domestic Argonian carpentry that never touches the walls.",
         "signatureFeature": "A single-day fortress of reused Lilmothiit stone, its blocks still carrying vulpine carving laid in at random angles, with washing lines strung across a parade yard and a sealed stair to the lower levels.",
@@ -1604,7 +1604,7 @@
       "complexityBudget": "complex",
       "importanceTier": 0,
       "workflow": "derived",
-      "complexityJustification": "A canon fortress-prison with three occupancies stacked in it (prison-born families, outlaws, and Umbriel's dead below) and a defended approach \u2014 the zone's largest single authored site.",
+      "complexityJustification": "A canon fortress-prison with three occupancies stacked in it (prison-born families, outlaws, and Umbriel's dead below) and a defended approach — the zone's largest single authored site.",
       "season": "all-year",
       "eraLayers": [
         "second-empire",
@@ -1647,7 +1647,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A vault for the ashes of those the basin's villages refused to stake \u2014 blasphemers, oath-breakers and, latterly, anyone who died in the Rose unclaimed.",
+        "founding": "A vault for the ashes of those the basin's villages refused to stake — blasphemers, oath-breakers and, latterly, anyone who died in the Rose unclaimed.",
         "siteAdvantages": "Cut into the limestone above the flood, deliberately far from any burial ground.",
         "occupantsMotive": "A keeper who accepts urns and refuses to discuss any of them.",
         "pressures": "The Chainbreakers argue that the prison dead here were refused for the wrong reason and want them out.",
@@ -1953,7 +1953,7 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "No silhouette \u2014 a blind lagoon head screened by mangrove, with a cut stone bank at the back of it that you cannot see until you are in the lagoon.",
+        "silhouette": "No silhouette — a blind lagoon head screened by mangrove, with a cut stone bank at the back of it that you cannot see until you are in the lagoon.",
         "palette": "Black water, green screen, old iron.",
         "materials": "Ancient cut mooring bank with thousand-year-old iron rings, fresh rope on every ring, market tents and scaffold shears struck between uses; nothing permanent above the bank.",
         "signatureFeature": "A stone-cut mooring bank in a blind lagoon, with iron rings a thousand years old and a fresh rope on every one of them.",
@@ -2366,9 +2366,9 @@
         "palette": "Patched timber, lamp gold, tag-bone white.",
         "materials": "Mud-mother plaster and patched shack-kit over a stilt frame, market canvas over the yard, a wall of hung bone-tags; every material second-hand.",
         "signatureFeature": "A rambling water-house with more doors than rooms, a work-board of paid tasks, and a wall of returned bone-tags from the Rose.",
-        "condition": "Perpetually extended and never finished \u2014 a new room whenever a new group arrives.",
+        "condition": "Perpetually extended and never finished — a new room whenever a new group arrives.",
         "mood": "Busy, defensive, decent.",
-        "approach": "Reached by water from two directions, with no sign and no landing stage \u2014 you are told which door, or you do not find it.",
+        "approach": "Reached by water from two directions, with no sign and no landing stage — you are told which door, or you do not find it.",
         "senses": "Constant arrivals; the tag wall clicking in the draught; cooking for more people than expected; lamp oil; nobody asking anybody's name."
       },
       "assetPlan": [
@@ -3504,11 +3504,11 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "A rectangular fence enclosure with a burial ground four times its size beyond it \u2014 the built thing is small and the consequence is enormous.",
+        "silhouette": "A rectangular fence enclosure with a burial ground four times its size beyond it — the built thing is small and the consequence is enormous.",
         "palette": "Grey weathered fence, sour green ground, white bone.",
         "materials": "Weathered grey fence timber with the gate furniture on the outside, a ration store built into the wall, mud-mother houses inside, no stakes over any of the graves.",
         "signatureFeature": "A fenced village-sized enclosure with the gate on the outside of the fence, a ration store built into the wall, and a burial ground four times the size of the enclosure.",
-        "condition": "Sixteen centuries weathered and never dismantled \u2014 the fence is falling and no one will pull it down.",
+        "condition": "Sixteen centuries weathered and never dismantled — the fence is falling and no one will pull it down.",
         "mood": "Administrative atrocity.",
         "approach": "The fence line is visible from the road, and the fence faces inward.",
         "senses": "Nothing living inside the fence; wind through palings; sour ground; and a burial field with no carving on it anywhere, which is the loudest thing about it."
@@ -4165,7 +4165,7 @@
       "confidence": "CANON_IMPLIED",
       "why": {
         "founding": "A Kothringi village of the people canon places in the Blackrose region, emptied by the Knahaten Flu in a single season.",
-        "siteAdvantages": "A river terrace with a landing \u2014 good ground, which is why it was never resettled by anyone superstitious.",
+        "siteAdvantages": "A river terrace with a landing — good ground, which is why it was never resettled by anyone superstitious.",
         "occupantsMotive": "Nobody. The Argonian villages nearby keep its boundary marked and do not cross it.",
         "pressures": "The Flu is the founding trauma of half the province's demography, and this is what it actually looks like on the ground.",
         "wouldChangeIf": "Proof that the ground is safe would put a village back on it within a year."
@@ -4179,7 +4179,7 @@
           "seasonal floodplain"
         ],
         "hardConstraints": [
-          "coastal and riverine \u2014 they were sea-going"
+          "coastal and riverine — they were sea-going"
         ],
         "preferences": {
           "landformClasses": [
@@ -4225,13 +4225,13 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "A terrace of pale house-forms standing to head height in a shape found nowhere else in the province \u2014 square, flat-roofed and windowless to the river.",
+        "silhouette": "A terrace of pale house-forms standing to head height in a shape found nowhere else in the province — square, flat-roofed and windowless to the river.",
         "palette": "Pale plaster, black doorway, bright river.",
         "materials": "Pale lime plaster over rubble on a Kothringi plan; storage pits still lidded; no Argonian or Imperial rebuild anywhere on the site.",
         "signatureFeature": "Silver-skinned people's houses of a form found nowhere else in the province, standing to head height, with the flu-year's stores still in the pits.",
-        "condition": "Preserved by fear rather than care \u2014 walls to head height, roofs gone, the flu-year's stores untouched in the pits.",
+        "condition": "Preserved by fear rather than care — walls to head height, roofs gone, the flu-year's stores untouched in the pits.",
         "mood": "Preserved by fear.",
-        "approach": "The best landing on this stretch of river, with a ruin above it that nobody uses \u2014 the anomaly is the cue.",
+        "approach": "The best landing on this stretch of river, with a ruin above it that nobody uses — the anomaly is the cue.",
         "senses": "River bright and loud below, the ruins silent; plaster dust; the storage pits still smell of grain."
       },
       "assetPlan": [
@@ -4536,7 +4536,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "The village Longmont replaced: the lake level rose across the fourteenth century of the Third Era and the old settlement was rebuilt a kilometre up the shore.",
-        "siteAdvantages": "It stands in five to eight metres of clear cold lake water, complete, because nobody demolished anything \u2014 they simply left.",
+        "siteAdvantages": "It stands in five to eight metres of clear cold lake water, complete, because nobody demolished anything — they simply left.",
         "occupantsMotive": "Nobody. Longmont's households still know which house down there was theirs.",
         "pressures": "Diving on your own family's drowned house is acceptable; diving on somebody else's is not, and the rule is enforced.",
         "wouldChangeIf": "A drop in lake level would expose it and force a decision about who owns what."
@@ -5103,7 +5103,7 @@
       "vibe": {
         "silhouette": "A dark mass under the boat resolving into a stepped pyramid, its top terrace six metres down and its base lost in silt.",
         "palette": "Deep green-blue, pale stone, silver fish.",
-        "materials": "Xanmeer stone throughout, upper terraces scoured clean by current, lower terraces silted; no addition of any kind \u2014 the only untouched xanmeer in the region.",
+        "materials": "Xanmeer stone throughout, upper terraces scoured clean by current, lower terraces silted; no addition of any kind — the only untouched xanmeer in the region.",
         "signatureFeature": "A stone pyramid standing whole on a lake floor, its lower terraces buried in silt and its upper terraces clean, with fish holding station in every doorway.",
         "condition": "Whole. Undisturbed and unlooted, purely because eighteen metres of cold water is a better lock than any door.",
         "mood": "Cathedral cold.",
@@ -5312,7 +5312,7 @@
       "confidence": "CANON_FIXED",
       "why": {
         "founding": "The ancient Lilmothiit city Blackrose stands on and was quarried out of: canon says the Rose was built from its rubble in a single day.",
-        "siteAdvantages": "A whole vanished city's stone lying within a day of the site that needed it \u2014 which is why the Rose exists at all.",
+        "siteAdvantages": "A whole vanished city's stone lying within a day of the site that needed it — which is why the Rose exists at all.",
         "occupantsMotive": "No inheritors: the Lilmothiit died of the Knahaten Flu. Blackrose's own foundations are its remains.",
         "pressures": "What is left is a robbed-out ground plan, and every carved block in the district can be matched back to a socket here.",
         "wouldChangeIf": "A systematic survey would reconstruct a lost people's city from the buildings it was stolen into."
@@ -5376,11 +5376,11 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "A city reduced to a floor plan \u2014 footings, robbing trenches and square sockets to the horizon, with one colonnade left standing because nobody could shift it.",
+        "silhouette": "A city reduced to a floor plan — footings, robbing trenches and square sockets to the horizon, with one colonnade left standing because nobody could shift it.",
         "palette": "Pale foundation stone, black robbing trench, green lake edge.",
         "materials": "Pale foundation stone in situ, black robbing trenches where everything above it went, one unrobbed colonnade of blocks too large to move; not one building material added since.",
         "signatureFeature": "A vulpine city reduced to its footings and its robbing trenches, with the sockets of removed blocks still square, and a single unrobbed colonnade nobody could shift.",
-        "condition": "Systematically dismantled in a single campaign and never touched again \u2014 the robbing trenches are as sharp as the day they were dug.",
+        "condition": "Systematically dismantled in a single campaign and never touched again — the robbing trenches are as sharp as the day they were dug.",
         "mood": "Erased on purpose.",
         "approach": "You are walking on the city for several minutes before you understand that the pattern in the grass is streets.",
         "senses": "Ground that rings differently underfoot where the footings run; lake wind with nothing to break it; the total absence of stone above knee height."
@@ -5638,7 +5638,7 @@
         "palette": "Pale stilt timber, silver flat, red-brown thatch.",
         "materials": "Pale stilt timber and cane decking, reed thatch, argonian lamps at fixed intervals down the whole length; one kit, repeated a thousand times.",
         "signatureFeature": "A single village street a kilometre long on stilts over a shallow flat, with a loading deck running its entire length.",
-        "condition": "Uniformly maintained \u2014 the village replaces the deck in sections on a rota and you can read the rota in the timber colour.",
+        "condition": "Uniformly maintained — the village replaces the deck in sections on a rota and you can read the rota in the timber colour.",
         "mood": "Long, busy, self-possessed.",
         "approach": "From the lake it reads as a single unbroken line on the water that takes ten minutes to pole past.",
         "senses": "Sound travelling the length of the street and arriving late; poling, freight, a bell relayed door to door; wet timber and lake weed."
@@ -5950,7 +5950,7 @@
         "siteAdvantages": "A stretch of deep marsh north-east of the lake where the tree line is wrong on every survey and no two surveys agree.",
         "occupantsMotive": "Medusas and fellrunners. Nothing that lives here is from anywhere.",
         "pressures": "The verge is where the forest is *now*; the villages within a day of it keep a tally of where it has been.",
-        "wouldChangeIf": "Its movement is off-screen lore between visits \u2014 the verge is a fixed site whose surroundings tell you it has moved."
+        "wouldChangeIf": "Its movement is off-screen lore between visits — the verge is a fixed site whose surroundings tell you it has moved."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -6758,7 +6758,7 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "A new settlement built around a carefully finished empty enclosure \u2014 the shape of a hist-village with nothing in the middle of it.",
+        "silhouette": "A new settlement built around a carefully finished empty enclosure — the shape of a hist-village with nothing in the middle of it.",
         "palette": "Raw new timber, bare earth, marsh grey.",
         "materials": "Raw new timber throughout, unweathered plaster, a properly built tree-enclosure of dressed stakes with nothing planted in it; everything correct and nothing old.",
         "signatureFeature": "A settlement with a carefully built empty tree-enclosure at its centre, waiting for a cutting nobody has agreed to give them.",
@@ -6954,7 +6954,7 @@
       "confidence": "CANON_IMPLIED",
       "why": {
         "founding": "Thrown up around the city when Blackrose rebelled against the Third Empire and raised an army; abandoned when Empress Morihatha's battlemage Welloc broke the rebellion with a spell instead of a siege.",
-        "siteAdvantages": "Sited on the dry ground commanding all three approaches \u2014 competent, complete, and never used.",
+        "siteAdvantages": "Sited on the dry ground commanding all three approaches — competent, complete, and never used.",
         "occupantsMotive": "Nobody. Grazing now, with the ditch profiles perfectly legible from any rise.",
         "pressures": "A city that remembers raising an army looks at these lines every day.",
         "wouldChangeIf": "Nothing. The earth stays. That is what makes it a monument."
@@ -7015,10 +7015,10 @@
         "palette": "Grass green, ditch shadow, grey sky.",
         "materials": "Cut turf and rammed earth only; a few stockade stumps at the gate positions; not one piece of iron in the whole system.",
         "signatureFeature": "Complete, unused siege lines with sharp unfought ditch profiles, and not one arrowhead anywhere in them.",
-        "condition": "Complete, unfought and unweathered by battle \u2014 softened only by grass, with sharp profiles surviving where a siege would have flattened them.",
+        "condition": "Complete, unfought and unweathered by battle — softened only by grass, with sharp profiles surviving where a siege would have flattened them.",
         "mood": "An anticlimax preserved in earth.",
         "approach": "You cross the ditch system before you realise you are in it; from the ground it reads as terracing.",
-        "senses": "Wind across grass; hollow footfall on the counterscarp; nothing else \u2014 no bone, no burnt ground, no smell of anything having happened."
+        "senses": "Wind across grass; hollow footfall on the counterscarp; nothing else — no bone, no burnt ground, no smell of anything having happened."
       },
       "assetPlan": [
         "stockade-scaffold",
@@ -7395,7 +7395,7 @@
         "palette": "Levee green, thatch, clear spring silver against brown flood.",
         "materials": "Mud-mother plaster over withy on the levee, reed thatch, wattle stock-fencing; the spring house is the only stone in the hamlet and it is undressed.",
         "signatureFeature": "A single-file village strung along the crest of a natural levee, with the spring house at its centre and every door facing the water.",
-        "condition": "Thrifty and sound \u2014 the levee is maintained by everyone, the houses individually and unevenly.",
+        "condition": "Thrifty and sound — the levee is maintained by everyone, the houses individually and unevenly.",
         "mood": "Linear and thrifty.",
         "approach": "In flood the levee is the only path and the hamlet is on it, so you walk the length of the village whether you meant to or not.",
         "senses": "Clean water running loudly in a landscape where all other water is silent and brown; hens; wet clay; woodsmoke going straight along the levee."
@@ -7589,7 +7589,7 @@
         "siteAdvantages": "Below the water table, sealed by a stair the prison-born families bricked up two generations ago.",
         "occupantsMotive": "The undead. The families above will confirm nothing and have never opened the stair.",
         "pressures": "The Chainbreakers' bone claims include people who died down there; the families' claim to legitimacy depends on the stair staying shut.",
-        "wouldChangeIf": "Clearing the lower levels would make the Rose a settlement and end its reputation \u2014 which is exactly what the families are frightened of."
+        "wouldChangeIf": "Clearing the lower levels would make the Rose a settlement and end its reputation — which is exactly what the families are frightened of."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7812,7 +7812,7 @@
         "palette": "Lime render, red pantile, marsh olive.",
         "materials": "Imperial lime render and red pantile on the ranges and magazine; Argonian reed lean-tos and mud-mother garden walls added behind them, never through them.",
         "signatureFeature": "An Imperial garrison town with its barrack rows converted to houses, its magazine still locked, and the prison's ration tally still chalked on the magazine door every week.",
-        "condition": "Institutional fabric maintained beyond any civilian need, domestic fabric patched \u2014 the magazine is still locked and still sound.",
+        "condition": "Institutional fabric maintained beyond any civilian need, domestic fabric patched — the magazine is still locked and still sound.",
         "mood": "Institutional afterlife.",
         "approach": "From the causeway road the barrack ranges read as a fort until you see the washing between them.",
         "senses": "The weekly chalk tally being written on the magazine door; barge traffic; drill-yard flagstones under civilian feet; render dust and marsh olive air."
@@ -8208,7 +8208,7 @@
         "palette": "Wet stone, painted tariff boards, dark converging water.",
         "materials": "Dressed stone quay and gate piers (Imperial work, Argonian-held), bridge timber, painted board; the counting house is stone and everything else is not.",
         "signatureFeature": "Three gated water channels converging on one stone counting-quay, with three separate tariff boards in three scripts and one set of accounts.",
-        "condition": "Maintained ruthlessly \u2014 the gates work, the boards are repainted, the compact's counting house is the best-kept building in the region.",
+        "condition": "Maintained ruthlessly — the gates work, the boards are repainted, the compact's counting house is the best-kept building in the region.",
         "mood": "Immovable extraction.",
         "approach": "Whichever river you come down, you see the other two arriving at the same quay and understand the arrangement immediately.",
         "senses": "Three streams of traffic arriving and one queue leaving; chain and windlass; the scratch of three sets of accounts being kept as one."
@@ -8298,7 +8298,7 @@
           "interior swamp"
         ],
         "hardConstraints": [
-          "where an army could deploy \u2014 rare here"
+          "where an army could deploy — rare here"
         ],
         "preferences": {
           "landformClasses": [
@@ -8343,11 +8343,11 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "A flat open field whose grass grows in the shape of an army \u2014 visible as a pattern, not as an object, and only from slightly above.",
+        "silhouette": "A flat open field whose grass grows in the shape of an army — visible as a pattern, not as an object, and only from slightly above.",
         "palette": "Pale grass, rusted mass, flat light.",
         "materials": "Grass, and rusted mass beneath it; no stakes, no cairn, no marker of any kind, and nothing carried away in sixteen centuries.",
         "signatureFeature": "An open field of unstaked dead where the grass grows in the shape of a formation, and nothing has been carried away.",
-        "condition": "Undisturbed and unhonoured \u2014 no burial, no salvage, no memorial; the formation is still legible in the sward.",
+        "condition": "Undisturbed and unhonoured — no burial, no salvage, no memorial; the formation is still legible in the sward.",
         "mood": "Drained.",
         "approach": "From the ridge track the pattern in the grass reads for about ten seconds before you work out what shape it is.",
         "senses": "Wind, flat light, insects; grass that changes underfoot from soft to something that is not soil; total absence of scavenger birds."
@@ -8422,7 +8422,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A vault under a ruined works, sealed by the people who found what had grown in it and left the door welded.",
-        "siteAdvantages": "A stone undercroft with one door and no other opening \u2014 which is why sealing it worked.",
+        "siteAdvantages": "A stone undercroft with one door and no other opening — which is why sealing it worked.",
         "occupantsMotive": "The voriplasm. It has been sealed long enough that the seal is now the archaeology.",
         "pressures": "The sealing party's note is still nailed to the door and is perfectly explicit.",
         "wouldChangeIf": "Opening it would release something the province has a specific and unhappy history with."
@@ -8627,8 +8627,8 @@
         "signatureFeature": "A grid of open-sided trading sheds along a river junction, each with its own scale, and not one wall or gate anywhere in the town.",
         "condition": "Cheap, new and constantly rebuilt; nothing here is meant to last longer than the arrangement that made it profitable.",
         "mood": "Cheerfully evasive.",
-        "approach": "You arrive along the river and there is no edge to the town \u2014 the sheds simply start.",
-        "senses": "Weighing all day \u2014 a hundred scales, a hundred arguments; grain dust; river; the total absence of any gate-bell."
+        "approach": "You arrive along the river and there is no edge to the town — the sheds simply start.",
+        "senses": "Weighing all day — a hundred scales, a hundred arguments; grain dust; river; the total absence of any gate-bell."
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -8945,7 +8945,7 @@
       "confidence": "CANON_IMPLIED",
       "why": {
         "founding": "A ruin in the Blackrose basin that three separate authorities have attributed to the Yespest, and that is not Yespest at all.",
-        "siteAdvantages": "On the western feeder where Kothringi, Yespest and Lilmothiit ground all overlap \u2014 which is exactly how the mistake was made.",
+        "siteAdvantages": "On the western feeder where Kothringi, Yespest and Lilmothiit ground all overlap — which is exactly how the mistake was made.",
         "occupantsMotive": "Nobody lives here. Two rival scholarly parties maintain incompatible notice-boards at the entrance.",
         "pressures": "The correct attribution is legible in the building itself to anyone who compares it with the Robbed City.",
         "wouldChangeIf": "A correct identification would embarrass an institution and change who has a claim on the site."
