@@ -93,6 +93,13 @@ ROADSIDE_STEP_M = 110.0          # roadside lattice: a candidate this often alon
 ROADSIDE_OFFSETS_M = (35.0, 90.0)
 
 DANGER_TIER = {"D0": 1, "D1": 1, "D2": 2, "D3": 3, "D4": 4, "D5": 5}
+SIGHTLINE_MAX_M = 1500.0         # a "within sight of X" claim further than this is not a sightline
+BOUND_MAX_M = 250.0              # "inside / part of / off the bank of X"
+SATELLITE_MAX_M = 450.0          # a record NAMED after a settlement (mazzatun-hist, archon-harbour-hist) sits at it
+D5_MIN_ROUTE_M = 200.0           # deep peril never sits on the road
+ROUTE_REPEAT_MIN_M = 900.0       # same type twice along the same road
+HARD_REGION_CLASSES = {"settlement", "works", "transit"}   # a village's region wish is a requirement
+PLACE_ID = re.compile(r"place\.[a-z0-9-]+\.[a-z0-9-]+")
 
 
 # --------------------------------------------------------------------------- #
@@ -137,6 +144,9 @@ class Demand:
     parents: list[str]
     hints: dict = field(default_factory=dict)
     record: dict = field(default_factory=dict)
+    sightline_to: list[str] = field(default_factory=list)   # must have line of sight to these (hard)
+    bound_to: str | None = None                              # must sit within bound_max of this (hard)
+    bound_max: float = BOUND_MAX_M
 
     @property
     def separation(self) -> float:
@@ -153,6 +163,21 @@ HINT_PATTERNS = [
     ("navigable", re.compile(r"navigable|laden hull|deep water|quay|harbour|anchorage", re.I)),
     ("above_flood", re.compile(r"above the flood|never floods|above flood|dry rise|dry knoll|above water", re.I)),
 ]
+SIGHT_PATTERN = re.compile(r"within sight of|visible from|line of sight to|overlook(?:s|ing)?|above ", re.I)
+BOUND_PATTERN = re.compile(r"inside the (?:settlement|city)|within the settlement|clearance mask|part of|off the city|"
+                           r"at the edge of|on the edge of|in the city|beside the", re.I)
+
+
+def _named_refs(text: str, zone_names: dict[str, str], own_id: str) -> list[str]:
+    """Place ids referenced in constraint prose: literal ids first, then the
+    names of records in the same zone (longest names first so 'Wolk Market'
+    beats 'Wolk')."""
+    refs = [m for m in PLACE_ID.findall(text) if m != own_id]
+    low = text.lower()
+    for name, pid in sorted(zone_names.items(), key=lambda kv: -len(kv[0])):
+        if pid != own_id and pid not in refs and len(name) >= 4 and name.lower() in low:
+            refs.append(pid)
+    return refs
 KM_PATTERN = re.compile(r"within (\d+(?:\.\d+)?) ?km", re.I)
 
 
@@ -170,8 +195,13 @@ def load_recipes() -> dict[str, dict]:
 
 def build_demand(recipes: dict[str, dict]) -> tuple[list[Demand], dict[str, catalogue.RegionFile]]:
     files = {rf.region: rf for rf in catalogue.load_region_files()}
+    settlements_by_id = {rec["id"]: rec for rf in files.values() for rec in rf.places
+                         if rec["classification"]["class"] == "settlement"
+                         and rec.get("status") not in {"cut", "deferred"}}
     demands: list[Demand] = []
     for region, rf in sorted(files.items()):
+        zone_names = {rec["name"]: rec["id"] for rec in rf.places
+                      if rec.get("name") and rec.get("status") not in {"cut", "deferred"}}
         for rec in rf.places:
             if rec.get("status") in {"cut", "deferred"}:
                 continue
@@ -192,13 +222,45 @@ def build_demand(recipes: dict[str, dict]) -> tuple[list[Demand], dict[str, cata
             hints = {name: bool(pat.search(text)) for name, pat in HINT_PATTERNS}
             km = KM_PATTERN.search(text)
             hints["within_km"] = float(km.group(1)) if km else None
+            sight: list[str] = []
+            bound: str | None = None
+            bound_by_prose = False
+            for line in list(prefs.get("hardConstraints") or []):
+                refs = _named_refs(line, zone_names, rec["id"])
+                if refs and SIGHT_PATTERN.search(line):
+                    sight += [r for r in refs if r not in sight]
+                elif BOUND_PATTERN.search(line):
+                    bound = bound or (refs[0] if refs else None)
+                    bound_by_prose = True
+            for r in rel.get("visibleFrom", []) or []:
+                if r not in sight:
+                    sight.append(r)
+            bound_max = BOUND_MAX_M
+            if bound is None:
+                # a satellite named after its settlement (mazzatun-hist, archon-harbour-hist,
+                # rootworm-station-helstrom, gideon-rootworm-terminus) belongs at it
+                own = set(rec["id"].rsplit(".", 1)[-1].split("-"))
+                for pid in list(rel.get("dependsOn", []) or []) + list(rel.get("reachedVia", []) or []):
+                    other = settlements_by_id.get(pid)
+                    if other and set(pid.rsplit(".", 1)[-1].split("-")) < own:
+                        bound, bound_max = pid, (BOUND_MAX_M if bound_by_prose else SATELLITE_MAX_M)
+                        break
+                if bound is None and bound_by_prose:
+                    # "inside the settlement" with no name: the first place it is reached through
+                    bound = (rel.get("reachedVia") or [None])[0]
             demands.append(Demand(
                 id=rec["id"], zone=region, tier=int(rec["importanceTier"]),
                 layer=rec["densityLayer"], magnitude=rec["classification"].get("magnitude"),
                 cls=rec["classification"]["class"], type=typ,
                 danger=DANGER_TIER.get(rec["dangerTier"], 3), landforms=landforms,
                 landforms_from_recipe=from_recipe, regions=regions,
-                parents=parents, hints=hints, record=rec))
+                parents=parents, hints=hints, record=rec, sightline_to=sight, bound_to=bound,
+                bound_max=bound_max))
+    live = {d.id for d in demands}
+    for d in demands:   # refs to deferred/cut records cannot bind
+        d.sightline_to = [r for r in d.sightline_to if r in live]
+        if d.bound_to not in live:
+            d.bound_to = None
     return demands, files
 
 
@@ -346,6 +408,19 @@ def roadside_ground(s: ProvinceSurvey, seed: int) -> list[Candidate]:
     return out
 
 
+def attach_water_depth(s: ProvinceSurvey, cands: list[Candidate]) -> None:
+    """Deepest published water within ~15 m of the candidate, so 'submerged'
+    can demand real depth rather than nearness to a shoreline."""
+    from scipy import ndimage
+    deep = ndimage.maximum_filter(s.water_depth_m, size=9)
+    n = s.water_depth_m.shape[0]
+    px = s.extent_m / n
+    for c in cands:
+        row = min(n - 1, max(0, int(c.z / px)))
+        col = min(n - 1, max(0, int(c.x / px)))
+        c.depth_m = max(c.depth_m, float(deep[row, col]))
+
+
 def attach_zone_distances(s: ProvinceSurvey, cands: list[Candidate]) -> None:
     """Metres from each candidate to every culture zone, so spill-over can be
     capped at ZONE_SPILL_M instead of letting a place wander across the map."""
@@ -370,8 +445,26 @@ def _band(v: float, lo: float, hi: float, fade: float) -> float:
 
 
 def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
-               relaxed: bool = False) -> tuple[float, dict[str, float]]:
+               relaxed: bool = False, survey: ProvinceSurvey | None = None,
+               relax_region: bool = False) -> tuple[float, dict[str, float]]:
     parts: dict[str, float] = {}
+    # named constraints are HARD: "within sight of X" needs a real line of sight,
+    # "inside / part of X" needs to be at X. (Plot review 2026-09-03, finding 1.)
+    for ref in d.sightline_to:
+        if ref in plotted:
+            rx, rz = plotted[ref]
+            if math.hypot(c.x - rx, c.z - rz) > SIGHTLINE_MAX_M:
+                return -9.0, {"sightline": -9.0}
+            if survey is not None and not survey.line_of_sight(c.x, c.z, rx, rz, eye_a=1.7, eye_b=8.0):
+                return -9.0, {"sightline": -9.0}
+            parts["sightline"] = 0.6
+    if d.bound_to and d.bound_to in plotted:
+        bx, bz = plotted[d.bound_to]
+        if math.hypot(c.x - bx, c.z - bz) > d.bound_max:
+            return -9.0, {"bound": -9.0}
+        parts["bound"] = 0.8
+    if d.danger >= 5 and c.route_m < D5_MIN_ROUTE_M and not d.hints.get("on_route"):
+        return -9.0, {"d5-route": -9.0}
     # zone (culture territory): hard unless relaxed, and never further than ZONE_SPILL_M outside
     if c.zone != d.zone:
         spill = c.zone_dist.get(d.zone, math.inf)
@@ -388,9 +481,14 @@ def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
         parts["landform"] = (0.4 if d.layer == "fine-tempo" else 0.15) if not relaxed else 0.4
     else:
         parts["landform"] = -0.4  # a wrong landform is worse than none: it reads as a mistake
-    # region class
+    # region class: a requirement for the built classes, a preference for the rest
     if d.regions:
-        parts["region"] = 0.6 if c.region in d.regions else -0.7
+        if c.region in d.regions:
+            parts["region"] = 0.6
+        elif d.cls in HARD_REGION_CLASSES and not relax_region:
+            return -9.0, {"region": -9.0}
+        else:
+            parts["region"] = -0.7
     # danger
     gap = abs(c.danger - d.danger)
     parts["danger"] = 0.5 - 0.35 * gap
@@ -408,7 +506,7 @@ def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
     else:  # landmark: wants to be seen, not to be on the road
         parts["route"] = 0.25 * _band(c.route_m, 150, 1400, 1500) + 0.5 * c.visibility + 0.3 * c.prominence
     if d.danger >= 4 and not d.hints.get("on_route"):
-        parts["remote"] = 0.35 * min(1.0, c.route_m / 500.0)
+        parts["remote"] = 0.6 * min(1.0, c.route_m / 500.0)
     if d.hints.get("remote"):
         parts["remote"] = parts.get("remote", 0.0) + 0.3 * min(1.0, c.route_m / 700.0)
     if d.hints.get("concealed") or d.cls in {"lair", "camp"}:
@@ -416,7 +514,9 @@ def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
     if d.hints.get("commanding"):
         parts["commanding"] = 0.4 * c.visibility + 0.2 * c.prominence
     if d.hints.get("submerged"):
-        parts["submerged"] = 0.6 if (c.depth_m > 0.8 or c.water_m <= 8.0) else -0.6
+        if c.depth_m < (0.4 if relaxed else 0.8):
+            return -9.0, {"submerged": -9.0}
+        parts["submerged"] = 0.6
     if d.hints.get("navigable"):
         parts["navigable"] = 0.4 * c.water_relation
     if d.hints.get("above_flood"):
@@ -432,8 +532,8 @@ def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
         else:
             parts["parent"] = 0.5 * _band(dmin, 150, 1600, 1800)
     # civilisation gradient: settled-band fill clusters on hinterlands, deep-band stays sparse
-    if d.tier >= 3 and d.danger <= 3:
-        parts["hinterland"] = 0.25 * _band(c.anchor_m, 0, 1800, 2500)
+    if d.tier >= 2 and d.danger <= 3:
+        parts["hinterland"] = 0.6 * _band(c.anchor_m, 0, 1200, 1800)
     # water for water-bound classes / region wishes
     if d.regions & (WATER_REGIONS | {"tidal delta", "coastal lagoon & salt marsh", "mangrove forest"}):
         parts["water"] = 0.3 * c.water_relation
@@ -441,11 +541,22 @@ def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
     return sum(parts.values()), parts
 
 
+def density_multiplier(c: Candidate) -> float:
+    """Spacing grows away from the cities and in perilous ground, so the
+    hinterlands are thick and the wilds are thin (plan: density follows the
+    civilisation gradient; plot review finding 3)."""
+    m = 1.0 + 0.8 * min(1.0, max(0.0, (c.anchor_m - 600.0) / 900.0))
+    if c.danger >= 4:
+        m += 0.4
+    return m
+
+
 def separation_ok(d: Demand, c: Candidate, plotted_d: dict[str, tuple[Demand, Candidate]],
                   factor: float = 1.0) -> tuple[bool, str | None]:
+    mult = density_multiplier(c)
     for oid, (od, oc) in plotted_d.items():
         dist = math.hypot(c.x - oc.x, c.z - oc.z)
-        related = oid in d.parents or d.id in od.parents
+        related = oid in d.parents or d.id in od.parents or oid in d.sightline_to or oid == d.bound_to
         if related:
             need = RELATED_MIN_M
         elif d.cls == "settlement" and od.cls == "settlement":
@@ -457,6 +568,9 @@ def separation_ok(d: Demand, c: Candidate, plotted_d: dict[str, tuple[Demand, Ca
             if od.type == d.type:
                 need = max(need, SAME_TYPE_LANDMARK_MIN_M if d.layer == "landmark" and od.layer == "landmark"
                            else SAME_TYPE_MIN_M)
+                if c.route_m <= 300.0 and oc.route_m <= 300.0:
+                    need = max(need, ROUTE_REPEAT_MIN_M)   # the same beat twice along one road
+            need *= mult
         if dist < need * factor:
             return False, oid
     return True, None
@@ -491,18 +605,45 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
 
     homeless: list[dict] = []
 
-    def run_tier(pool: list[Demand], relaxed: bool, sep_factor: float, min_score: float) -> list[Demand]:
-        pairs = []
-        for d in pool:
-            for c in cands:
-                if c.used_by:
-                    continue
-                sc, parts = score_pair(d, c, plotted_xy, relaxed)
-                if sc >= min_score:
-                    pairs.append((sc, d.id, c.id, parts))
-        pairs.sort(key=lambda p: (-p[0], p[1], p[2]))
-        best_by_d: dict[str, list] = {}
+    def _refs_of(rid: str) -> list[str]:
+        o = by_did.get(rid)
+        return (list(o.sightline_to) + ([o.bound_to] if o.bound_to else [])) if o else []
+
+    def run_tier(pool: list[Demand], relaxed: bool, sep_factor: float, min_score: float,
+                 relax_region: bool = False) -> list[Demand]:
+        """Best pair first. A record that names another (sightline / bound)
+        waits until the named record is on the map, so its gate can be judged:
+        rounds repeat until nothing more can be placed."""
+        pool_ids = {d.id for d in pool}
         done: set[str] = set()
+        best_by_d: dict[str, list] = {}
+        for _round in range(4):
+            pairs = []
+            for d in pool:
+                if d.id in done:
+                    continue
+                refs = list(d.sightline_to) + ([d.bound_to] if d.bound_to else [])
+                # wait for the named record — unless it names us back (a mutual
+                # sightline pair): then the first by id goes first and the second
+                # is gated against it
+                if any(r in pool_ids and r not in done and not (d.id in _refs_of(r) and d.id < r) for r in refs):
+                    continue
+                for c in cands:
+                    if c.used_by:
+                        continue
+                    sc, parts = score_pair(d, c, plotted_xy, relaxed, s, relax_region)
+                    if sc >= min_score:
+                        pairs.append((sc, d.id, c.id, parts))
+            if not pairs:
+                break
+            pairs.sort(key=lambda p: (-p[0], p[1], p[2]))
+            placed_this_round = _take(pairs, pool, done, best_by_d, relaxed, sep_factor)
+            if not placed_this_round:
+                break
+        return [d for d in pool if d.id not in done]
+
+    def _take(pairs, pool, done, best_by_d, relaxed, sep_factor) -> int:
+        placed = 0
         for sc, did, cid, parts in pairs:
             d = next(x for x in pool if x.id == did)
             c = by_id[cid]
@@ -522,28 +663,41 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
                 continue
             c.used_by = did
             done.add(did)
+            placed += 1
             plotted_xy[did] = (c.x, c.z)
             plotted_d[did] = (d, c)
             result[did] = {"candidate": c, "score": sc, "parts": parts,
                            "runners": best_by_d[did], "relaxed": relaxed}
-        return [d for d in pool if d.id not in done]
+        return placed
 
+    # a record that names another is plotted no earlier than the named record,
+    # whatever its own tier, so the sightline/bound gate can always be judged
+    by_did = {d.id: d for d in demands}
+    eff_tier = {d.id: d.tier for d in demands}
+    for _ in range(5):
+        for d in demands:
+            for ref in list(d.sightline_to) + ([d.bound_to] if d.bound_to else []):
+                if ref in eff_tier and eff_tier[ref] > eff_tier[d.id]:
+                    eff_tier[d.id] = eff_tier[ref]
     for tier in range(0, 5):
-        pool = [d for d in demands if d.tier == tier and d.id not in result]
+        pool = [d for d in demands if eff_tier[d.id] == tier and d.id not in result]
         left = run_tier(pool, relaxed=False, sep_factor=1.0, min_score=ACCEPT_SCORE)
         for d in left:
             homeless.append({"id": d.id, "tier": tier, "stage": "strict"})
 
     # 2. the homeless batch, reconsidered as a whole with honest relaxations
-    stages = [("relaxed-score", False, 1.0, RELAXED_SCORE),
-              ("neighbour-zone", True, 1.0, RELAXED_SCORE),
-              ("spacing-3/4", True, 0.75, RELAXED_SCORE),
-              ("spacing-1/2", True, 0.5, RELAXED_SCORE)]
-    for name, relaxed, factor, min_score in stages:
+    # (name, zone relaxed, spacing factor, score bar, region wish relaxed) — the
+    # region wish of a settlement is the LAST thing to give, after zone and spacing
+    stages = [("relaxed-score", False, 1.0, RELAXED_SCORE, False),
+              ("neighbour-zone", True, 1.0, RELAXED_SCORE, False),
+              ("spacing-3/4", True, 0.75, RELAXED_SCORE, False),
+              ("spacing-1/2", True, 0.5, RELAXED_SCORE, False),
+              ("region-relaxed", True, 0.75, RELAXED_SCORE, True)]
+    for name, relaxed, factor, min_score, relax_region in stages:
         pool = [d for d in demands if d.id not in result]
         if not pool:
             break
-        left = run_tier(pool, relaxed=relaxed, sep_factor=factor, min_score=min_score)
+        left = run_tier(pool, relaxed=relaxed, sep_factor=factor, min_score=min_score, relax_region=relax_region)
         placed = {d.id for d in pool} - {d.id for d in left}
         for h in homeless:
             if h["id"] in placed:
@@ -727,10 +881,44 @@ def build_report(demands: list[Demand], result: dict[str, dict], unresolved: lis
                     same_type_pairs.append({"a": ids[i], "b": ids[j], "distM": round(dist)})
 
     stages = {}
-    for r in result.values():
+    relaxed_records = []
+    for did, r in sorted(result.items()):
         st = r.get("homelessStage")
         if st:
             stages[st] = stages.get(st, 0) + 1
+            relaxed_records.append({"id": did, "stage": st, "site": r["candidate"].id})
+    live_ids = {d.id for d in demands}
+    all_ids = set()
+    deferred_ids = set()
+    for rf in catalogue.load_region_files():
+        for rec in rf.places:
+            all_ids.add(rec["id"])
+            if rec.get("status") in {"deferred", "cut"}:
+                deferred_ids.add(rec["id"])
+    dangling = []
+    for d in demands:
+        rel = d.record.get("relations", {}) or {}
+        for k in ("dependsOn", "supplies", "rivals", "patrols", "tolls", "visibleFrom", "reachedVia"):
+            for ref in rel.get(k, []) or []:
+                if ref in deferred_ids:
+                    dangling.append({"from": d.id, "field": k, "to": ref, "why": "deferred/cut"})
+                elif ref not in all_ids:
+                    dangling.append({"from": d.id, "field": k, "to": ref, "why": "unknown id"})
+    named_checks = []
+    for d in demands:
+        if d.id not in result:
+            continue
+        c = result[d.id]["candidate"]
+        for ref in d.sightline_to:
+            if ref in result:
+                rc = result[ref]["candidate"]
+                named_checks.append({"id": d.id, "kind": "sightline", "to": ref,
+                                     "distM": round(math.hypot(c.x - rc.x, c.z - rc.z)),
+                                     "lineOfSight": bool(s.line_of_sight(c.x, c.z, rc.x, rc.z, eye_a=1.7, eye_b=8.0))})
+        if d.bound_to and d.bound_to in result:
+            rc = result[d.bound_to]["candidate"]
+            named_checks.append({"id": d.id, "kind": "bound", "to": d.bound_to,
+                                 "distM": round(math.hypot(c.x - rc.x, c.z - rc.z))})
 
     landform_used = {}
     for r in result.values():
@@ -752,6 +940,9 @@ def build_report(demands: list[Demand], result: dict[str, dict], unresolved: lis
         "routeDistance": {"medianM": round(float(np.median(route_d))),
                           "fineTempoWithin300mFraction": round(float((np.asarray(fine) <= 300).mean()), 3)},
         "antiSameynessQuotaBreaches": quota_breaches,
+        "relaxedRecords": relaxed_records,
+        "namedConstraintChecks": named_checks,
+        "danglingRelations": dangling,
         "routeVisibility": route_visibility_sweep(s, plotted),
         "homeless": unresolved,
     }
@@ -786,6 +977,18 @@ def digest(rep: dict, result: dict[str, dict], demands: list[Demand]) -> str:
             L.append(f"- {b['zone']}: {b['type']} × {b['count']} ({b['share'] * 100:.0f} %)")
     else:
         L.append("- none")
+    L += ["", "## Named constraints (sightline / bound), as plotted", "",
+          "| record | kind | to | m | line of sight |", "|---|---|---|---|---|"]
+    for n in rep["namedConstraintChecks"]:
+        L.append(f"| `{n['id']}` | {n['kind']} | `{n['to']}` | {n['distM']} | {n.get('lineOfSight', '—')} |")
+    L += ["", "## Records placed from the homeless batch", "", "| record | stage | site |", "|---|---|---|"]
+    for r in rep["relaxedRecords"]:
+        L.append(f"| `{r['id']}` | {r['stage']} | {r['site']} |")
+    dang = rep["danglingRelations"]
+    L += ["", f"## Dangling relations: {len(dang)} edges point at deferred/cut/unknown records", "",
+          "(Part 4 catalogue work: promote the depended-upon record or prune the edge. First 40:)", ""]
+    for e in dang[:40]:
+        L.append(f"- `{e['from']}`.{e['field']} → `{e['to']}` ({e['why']})")
     L += ["", "## Landforms used", "",
           ", ".join(f"{k} {v}" for k, v in rep["landformUsed"].items()), "",
           "## Homeless batch (unresolved)", ""]
@@ -809,16 +1012,22 @@ def digest(rep: dict, result: dict[str, dict], demands: list[Demand]) -> str:
 # --------------------------------------------------------------------------- #
 # main
 # --------------------------------------------------------------------------- #
-def run(seed: int = DEFAULT_SEED, write: bool = True, report_only_to: Path | None = None) -> dict:
-    s = ProvinceSurvey()
+def solve(s: ProvinceSurvey, seed: int = DEFAULT_SEED):
+    """The whole solve, for `run` and for the determinism test alike."""
     recipes = load_recipes()
     demands, files = build_demand(recipes)
     scour = load_scour(s)
     free = free_ground(s, seed) + roadside_ground(s, seed)
     cands = scour + free
     attach_zone_distances(s, cands)
-    anchors = s.anchor_points_m
-    result, unresolved = assign(demands, cands, s, anchors)
+    attach_water_depth(s, cands)
+    result, unresolved = assign(demands, cands, s, s.anchor_points_m)
+    return demands, files, scour, free, result, unresolved
+
+
+def run(seed: int = DEFAULT_SEED, write: bool = True, report_only_to: Path | None = None) -> dict:
+    s = ProvinceSurvey()
+    demands, files, scour, free, result, unresolved = solve(s, seed)
     plotted = {did: (next(d for d in demands if d.id == did), r["candidate"]) for did, r in result.items()}
     apply_to_records(files, demands, result, s)
     rep = build_report(demands, result, unresolved, plotted, s, seed, len(scour), len(free))

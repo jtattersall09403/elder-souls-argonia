@@ -81,13 +81,7 @@ def test_places_stay_within_spill_distance_of_their_zone():
 def test_resolve_reproduces_the_committed_plot():
     """Determinism: a fresh solve lands every record exactly where the
     catalogue says it is. Slow (~25 s); the whole point of the seed."""
-    s = ProvinceSurvey()
-    recipes = macro_plot.load_recipes()
-    demands, _files = macro_plot.build_demand(recipes)
-    cands = macro_plot.load_scour(s) + macro_plot.free_ground(s, macro_plot.DEFAULT_SEED) \
-        + macro_plot.roadside_ground(s, macro_plot.DEFAULT_SEED)
-    macro_plot.attach_zone_distances(s, cands)
-    result, unresolved = macro_plot.assign(demands, cands, s, s.anchor_points_m)
+    _demands, _files, _scour, _free, result, unresolved = macro_plot.solve(ProvinceSurvey())
     assert not unresolved
     committed = {rec["id"]: rec["positionM"] for _z, rec in _live()}
     for did, r in result.items():

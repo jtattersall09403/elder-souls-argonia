@@ -975,6 +975,10 @@ and researched. The load-bearing rules it establishes:
 
 ### Subagents
 
+> Model policy (owner 2026-09-03): choose the subagent model on judgment
+> (Fable 5.1 / Opus 5 / Sonnet 5), always at low effort. Older lines below
+> saying "Opus subagents" are superseded on the model, not on the shape.
+
 Fan out **Opus** subagents freely and in parallel wherever it helps —
 derivation by region or family, the critique/completeness passes, research
 gap-filling, quest-side work, asset sourcing, validators. **Never Fable**
@@ -1310,6 +1314,54 @@ bake (Module 72, preferred-road cost), the road-mesh/decal compiler
 only today). Boat-lane *minor* channels (canoe routes to interior places)
 are not derived yet — the boat cost surface exists in `routes.py`; a
 Part 3c when Phase 9 boats need them.
+
+## Part 4 step 1 — agent QA of the plot (2026-09-03)
+
+Cold review by a fresh agent: [`docs/research/phase11-plot-review.md`](../research/phase11-plot-review.md)
+(eight findings, five owner decisions, eleven mechanical fixes). Mechanical
+fixes applied to `macro_plot.py` the same day and the province re-plotted
+(all 527 live records; determinism test green):
+
+- **Named constraints are hard gates.** "Within sight of X" now resolves X
+  (literal id, or a same-zone record name in the prose, or
+  `relations.visibleFrom`) and requires a real line of sight within 1.5 km;
+  "inside / part of / off the bank of X" requires ≤250 m; a record *named
+  after* a settlement it depends on (mazzatun-hist, archon-harbour-hist,
+  rootworm-station-helstrom, gideon-rootworm-terminus) sits within 450 m of
+  it. Records that name another are plotted after it, whatever their tier;
+  mutual pairs (Wolk Market ↔ Ten-Maur-Wolk, Glenbridge ↔ its sermon
+  xanmeer) go first-by-id then gated. Result: every named sightline on the
+  map is true (table in `macro-plot.md`); Wolk Market and Ten-Maur-Wolk are
+  131 m apart, Castle Giovesse 429 m from Gideon with line of sight.
+- **Density gradient is real now**: spacing is multiplied by up to ×1.8 with
+  distance from the nearest city and +0.4 in danger ≥4; the hinterland pull
+  applies to all tier ≥2 fill at weight 0.6. Median nearest-neighbour
+  distance now rises 134 m (≤400 m from a city) → 157 → 204 → 264 m
+  (1.2–2 km), i.e. ~4× sparser by area, from 1.33× before.
+- **Region wish is a requirement** for settlement / works / transit classes
+  (a preference for lairs, ruins, lone sites), and the last thing the
+  homeless batch relaxes (stage order: score bar → neighbouring zone within
+  350 m → spacing ×0.75 → ×0.5 → region). Two records needed the last stage.
+- **D5 never within 200 m of a route** (unless its own constraint puts it on
+  one); remote weight 0.35 → 0.6.
+- **Submerged means depth**: ≥0.8 m of published water within ~15 m (0.4 m
+  in the relaxed stages), not "near a shoreline".
+- **Same type twice along one road**: ≥900 m when both sit within 300 m of a
+  route.
+- The report now names every record placed from the homeless batch, lists
+  every named-constraint check, and lists the **dangling relations** (edges
+  to deferred/cut/unknown ids) for the catalogue pass below.
+
+**Left for the owner (touchpoint ②, ranked by the reviewer):** (1) should
+the province be emptier still — cut/defer 60–100 places or cluster harder;
+(2) should the Dunmer and Imperial minorities cluster into enclaves;
+(3) are boat lanes a second view of the same places or a different journey;
+(4) named sightlines are now hard — confirm that trade (ground quality vs
+story); (5) the 272 deferred records: 134 live relations point at them.
+**Left for the catalogue pass (Part 4 step 1b, not blocking ②):** re-point
+`reachedVia` at the nearest plotted node; prune or promote the dangling
+relation targets; the `sitingPrefs` wording edits the review lists (finding
+9); re-measure the route stats against the minor-route network.
 
 ## Owner Q&A (grows from Parts 2, 4 and 5)
 

@@ -475,28 +475,28 @@
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0608",
-          "score": 3.006,
+          "score": 3.606,
           "whyLost": "lost on score"
         },
         {
           "siteId": "site.free.roadside-0065",
-          "score": 3.006,
+          "score": 3.606,
           "whyLost": "lost on score"
         },
         {
           "siteId": "site.free.any-firm-ground-0211",
-          "score": 3.005,
+          "score": 3.605,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 72 m from the nearest route; its first-choice landform; won on landform, region, danger.",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 72 m from the nearest route; its first-choice landform; won on landform, region, hinterland.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 72.1,
         "distanceToWaterM": 54.8,
-        "score": 3.01
+        "score": 3.61
       }
     },
     {
@@ -1774,17 +1774,17 @@
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0210",
-          "score": 2.469,
+          "score": 3.069,
           "whyLost": "too close to place.pirate-freeholds.alten-corimont"
         },
         {
           "siteId": "site.free.roadside-0062",
-          "score": 2.468,
+          "score": 3.068,
           "whyLost": "too close to place.pirate-freeholds.alten-corimont"
         },
         {
           "siteId": "site.free.any-firm-ground-0234",
-          "score": 2.465,
+          "score": 3.065,
           "whyLost": "too close to place.pirate-freeholds.alten-corimont"
         }
       ],
@@ -1795,7 +1795,7 @@
         "dangerBand": 3,
         "distanceToRouteM": 56.5,
         "distanceToWaterM": 31.0,
-        "score": 2.109
+        "score": 2.709
       }
     },
     {
@@ -1946,28 +1946,28 @@
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0123",
-          "score": 2.398,
-          "whyLost": "too close to place.hist-heartland.maturity-trial-chukka-sei"
+          "score": 2.998,
+          "whyLost": "too close to place.hist-heartland.root-gallery-helstrom-underway"
         },
         {
           "siteId": "site.free.roadside-0572",
-          "score": 2.398,
+          "score": 2.998,
           "whyLost": "too close to place.pirate-freeholds.bone-repatriation-waystation"
         },
         {
           "siteId": "site.free.roadside-0076",
-          "score": 2.398,
+          "score": 2.998,
           "whyLost": "too close to place.hist-heartland.legendary-deep-medusa-wood"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 74 m from the nearest route; its choice #2 landform; won on landform, region, danger.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 74 m from the nearest route; its choice #2 landform; won on landform, region, hinterland.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 73.8,
         "distanceToWaterM": 54.3,
-        "score": 2.398
+        "score": 2.998
       }
     },
     {
@@ -2115,39 +2115,40 @@
       "underwaterAccess": "none",
       "name": "Andrano Hold",
       "position": {
-        "u": 0.5797,
-        "v": 0.08143
+        "u": 0.59234,
+        "v": 0.01971
       },
       "positionM": [
-        4274.4,
-        600.4
+        4367.6,
+        145.3
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.cliff-bench-078",
-          "score": 2.513,
+          "score": 3.613,
           "whyLost": "too close to place.pirate-freeholds.alten-corimont"
         },
         {
           "siteId": "site.scour.firm-lowland.cliff-bench-046",
-          "score": 2.497,
+          "score": 3.597,
           "whyLost": "too close to place.pirate-freeholds.alten-corimont"
         },
         {
           "siteId": "site.scour.firm-lowland.cliff-bench-049",
-          "score": 2.168,
+          "score": 3.268,
           "whyLost": "too close to place.pirate-freeholds.alten-corimont"
         }
       ],
-      "whySiteWon": "firm ground in border mountains (danger band 3), 371 m from the nearest route; no free 'cliff-bench' site was left in the zone, so plain ground; won on region, route.",
+      "whySiteWon": "ridge end in border mountains (danger band 3), 744 m from the nearest route; its choice #2 landform; won on landform, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "ridge-end",
         "regionClass": "border mountains",
         "dangerBand": 3,
-        "distanceToRouteM": 370.7,
-        "distanceToWaterM": 49.0,
-        "score": 1.301
-      }
+        "distanceToRouteM": 743.5,
+        "distanceToWaterM": 42.8,
+        "score": 2.558
+      },
+      "scourSiteId": "site.scour.border-mountains.ridge-end-073"
     },
     {
       "id": "place.pirate-freeholds.floodplain-paddy-works",
@@ -2387,17 +2388,17 @@
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0120",
-          "score": 3.87,
+          "score": 4.22,
           "whyLost": "too close to place.pirate-freeholds.corimont-hist-less-camp"
         },
         {
           "siteId": "site.free.roadside-0575",
-          "score": 3.869,
+          "score": 4.219,
           "whyLost": "too close to place.pirate-freeholds.corimont-hist-less-camp"
         },
         {
           "siteId": "site.free.any-firm-ground-0211",
-          "score": 3.869,
+          "score": 4.219,
           "whyLost": "too close to place.pirate-freeholds.corimont-hist-less-camp"
         }
       ],
@@ -2408,7 +2409,7 @@
         "dangerBand": 2,
         "distanceToRouteM": 56.5,
         "distanceToWaterM": 64.2,
-        "score": 3.861
+        "score": 4.211
       }
     },
     {
@@ -2811,28 +2812,28 @@
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0065",
-          "score": 2.168,
+          "score": 2.768,
           "whyLost": "too close to place.pirate-freeholds.alten-corimont"
         },
         {
           "siteId": "site.free.roadside-0604",
-          "score": 2.167,
+          "score": 2.767,
           "whyLost": "too close to place.pirate-freeholds.alten-corimont"
         },
         {
           "siteId": "site.free.roadside-0608",
-          "score": 2.161,
+          "score": 2.761,
           "whyLost": "too close to place.pirate-freeholds.corimont-hist-less-camp"
         }
       ],
-      "whySiteWon": "firm ground in upland hills (danger band 3), 224 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, route.",
+      "whySiteWon": "firm ground in upland hills (danger band 3), 224 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "upland hills",
         "dangerBand": 3,
         "distanceToRouteM": 223.8,
         "distanceToWaterM": 19.8,
-        "score": 1.82
+        "score": 2.42
       }
     },
     {
@@ -3212,28 +3213,28 @@
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0062",
-          "score": 2.519,
+          "score": 3.119,
           "whyLost": "too close to place.pirate-freeholds.alten-corimont"
         },
         {
           "siteId": "site.free.roadside-0606",
-          "score": 2.515,
+          "score": 3.115,
           "whyLost": "taken by place.pirate-freeholds.bone-repatriation-waystation"
         },
         {
           "siteId": "site.free.any-firm-ground-0210",
-          "score": 2.511,
+          "score": 3.111,
           "whyLost": "too close to place.pirate-freeholds.alten-corimont"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 158 m from the nearest route; its first-choice landform; won on landform, region, route.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 158 m from the nearest route; its first-choice landform; won on landform, region, hinterland.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 158.3,
         "distanceToWaterM": 119.8,
-        "score": 2.168
+        "score": 2.768
       }
     },
     {
@@ -4825,17 +4826,17 @@
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.cliff-bench-069",
-          "score": 3.616,
+          "score": 3.736,
           "whyLost": "too close to place.hist-heartland.duskfall-unmade-site"
         },
         {
           "siteId": "site.scour.firm-lowland.cliff-bench-049",
-          "score": 3.536,
-          "whyLost": "too close to place.hist-heartland.marsh-giant-ground-basin"
+          "score": 3.599,
+          "whyLost": "too close to place.dunmer-north.the-empty-socket"
         },
         {
           "siteId": "site.scour.firm-lowland.ravine-043",
-          "score": 3.222,
+          "score": 3.338,
           "whyLost": "lost on score"
         }
       ],
@@ -4846,7 +4847,7 @@
         "dangerBand": 3,
         "distanceToRouteM": 32.9,
         "distanceToWaterM": 29.5,
-        "score": 3.459
+        "score": 3.476
       }
     },
     {
@@ -5105,28 +5106,28 @@
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.saddle-041",
-          "score": 2.511,
+          "score": 3.111,
           "whyLost": "taken by place.pirate-freeholds.rim-smugglers-ledge-north"
         },
         {
           "siteId": "site.scour.upland-hills.summit-011",
-          "score": 2.388,
+          "score": 2.988,
           "whyLost": "too close to place.hist-heartland.legendary-deep-medusa-wood"
         },
         {
           "siteId": "site.free.any-firm-ground-0129",
-          "score": 1.664,
+          "score": 2.264,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in border mountains (danger band 3), 271 m from the nearest route; no free 'saddle' site was left in the zone, so plain ground; won on region, danger, route.",
+      "whySiteWon": "firm ground in border mountains (danger band 3), 271 m from the nearest route; no free 'saddle' site was left in the zone, so plain ground; won on region, hinterland, danger.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 271.4,
         "distanceToWaterM": 32.0,
-        "score": 1.667
+        "score": 2.267
       }
     },
     {
@@ -5631,28 +5632,28 @@
       "candidatesConsidered": [
         {
           "siteId": "site.scour.border-mountains.ridge-end-026",
-          "score": 2.89,
+          "score": 3.49,
           "whyLost": "lost on score"
         },
         {
           "siteId": "site.scour.border-mountains.ridge-end-042",
-          "score": 2.876,
+          "score": 3.476,
           "whyLost": "lost on score"
         },
         {
           "siteId": "site.free.any-firm-ground-0236",
-          "score": 2.274,
+          "score": 2.874,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "saddle in border mountains (danger band 3), 424 m from the nearest route; its choice #2 landform; won on landform, region, danger.",
+      "whySiteWon": "saddle in border mountains (danger band 3), 424 m from the nearest route; its choice #2 landform; won on landform, region, hinterland.",
       "plotFacts": {
         "landform": "saddle",
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 424.3,
         "distanceToWaterM": 28.0,
-        "score": 3.149
+        "score": 3.749
       }
     },
     {
@@ -5785,17 +5786,17 @@
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0160",
-          "score": 2.673,
+          "score": 2.828,
           "whyLost": "too close to place.pirate-freeholds.rim-smugglers-ledge-north"
         },
         {
-          "siteId": "site.scour.firm-lowland.summit-015",
-          "score": 2.434,
+          "siteId": "site.free.any-firm-ground-0129",
+          "score": 2.67,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.lake-standing-water.cliff-bench-074",
-          "score": 2.249,
+          "siteId": "site.scour.firm-lowland.summit-015",
+          "score": 2.529,
           "whyLost": "lost on score"
         }
       ],
@@ -5806,7 +5807,7 @@
         "dangerBand": 3,
         "distanceToRouteM": 329.8,
         "distanceToWaterM": 32.9,
-        "score": 2.617
+        "score": 2.782
       }
     },
     {
@@ -6868,28 +6869,28 @@
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.water-narrows-048",
-          "score": 2.461,
+          "score": 3.061,
           "whyLost": "too close to place.hist-heartland.nightbound-lightless"
         },
         {
           "siteId": "site.free.roadside-0604",
-          "score": 1.949,
+          "score": 2.549,
           "whyLost": "too close to place.pirate-freeholds.alten-corimont"
         },
         {
           "siteId": "site.free.roadside-0120",
-          "score": 1.944,
+          "score": 2.544,
           "whyLost": "too close to place.pirate-freeholds.corimont-hist-less-camp"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 37 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on region, route, water.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 37 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on region, hinterland, route.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
         "distanceToRouteM": 36.8,
         "distanceToWaterM": 7.8,
-        "score": 1.602
+        "score": 2.202
       }
     },
     {
@@ -7270,39 +7271,38 @@
       "underwaterAccess": "none",
       "name": "Blacklight Holding",
       "position": {
-        "u": 0.6035,
-        "v": 0.12679
+        "u": 0.58416,
+        "v": 0.06805
       },
       "positionM": [
-        4449.9,
-        934.9
+        4307.3,
+        501.7
       ],
-      "scourSiteId": "site.scour.border-mountains.ridge-end-042",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.upland-hills.summit-011",
-          "score": 2.516,
+          "score": 3.116,
           "whyLost": "too close to place.pirate-freeholds.alten-corimont"
         },
         {
-          "siteId": "site.scour.border-mountains.ridge-end-026",
-          "score": 2.382,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.border-mountains.ridge-end-042",
+          "score": 2.985,
+          "whyLost": "too close to place.pirate-freeholds.rim-smugglers-ledge-north"
         },
         {
-          "siteId": "site.scour.firm-lowland.cliff-bench-069",
-          "score": 2.274,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.border-mountains.ridge-end-026",
+          "score": 2.982,
+          "whyLost": "too close to place.hist-heartland.nightbound-lightless"
         }
       ],
-      "whySiteWon": "ridge end in border mountains (danger band 3), 341 m from the nearest route; its choice #2 landform; won on landform, region, danger.",
+      "whySiteWon": "firm ground in border mountains (danger band 3), 453 m from the nearest route; no free 'summit' site was left in the zone, so plain ground; won on region, hinterland, danger.",
       "plotFacts": {
-        "landform": "ridge-end",
+        "landform": "any-firm-ground",
         "regionClass": "border mountains",
         "dangerBand": 3,
-        "distanceToRouteM": 341.2,
-        "distanceToWaterM": 59.1,
-        "score": 2.385
+        "distanceToRouteM": 453.0,
+        "distanceToWaterM": 57.2,
+        "score": 2.262
       }
     }
   ]
