@@ -1174,6 +1174,65 @@ land/water/guided anchor chosen by taxonomy type; Part 3 should re-point it at
 the actual nearest node once positions exist. And the two 5-key `vibe` files
 (mercantile-coast, imperial-penal-south) still write 5 where the rest write 8.
 
+## Touchpoint ① — owner rulings (2026-09-03)
+
+The owner reviewed the catalogue summary
+(`docs/research/phase11-catalogue-summary-touchpoint1.md`). Rulings, all
+binding:
+
+1. **Catalogue size accepted, with headroom noted.** 527 live vs Skyrim's
+   ~415–426 map markers on similar land (our authored land 33.5 km² vs
+   Skyrim ~37 km²) is deliberate — we run Morrowind-style density
+   (Vvardenfell ~18/km²), which is denser than Skyrim (~11/km²). The owner
+   is content but notes **we hold headroom to cut later** if the workload
+   bites; nothing else changes now.
+2. **Deferred pool purpose confirmed**: the 272 deferred records are the
+   swap/revive pool for plotting and later packets.
+3. **Budgets: ceilings are SOFT, floors are HARD** (naga-kur-deeps at 39
+   accepted). Encoded in `test_catalogue.py`'s budget comments — a ceiling
+   breach needs a recorded exception; a floor breach always fails.
+4. **Dungeon-entrance ruling generalised province-wide** — every region's
+   dungeons are teleport-to interiors behind region-appropriate
+   entrances/exteriors, not just the marsh. Recorded in module 70 §47.
+5. **Player stronghold: keep BOTH candidates plotted**; the owner decides
+   at Part 6.
+6. **Environment tweaks approved**: naga-kur-deeps black water and a
+   committed Oliis Bay tidal amplitude are green-lit as systems-side jobs
+   (queue them before/with Part 6 exemplar work in those zones).
+7. **Load-bearing calls 1–5 provisionally accepted** — the owner reserves
+   the right to challenge any after the plot (touchpoint ②) or builds.
+8. **Communication rule (all future owner-facing summaries):** assume the
+   owner knows NOTHING of the game's content. Spell out every in-world
+   term at first mention (the Knahaten Flu, the Owing, cordons, region
+   codenames). Saved to agent memory as well.
+9. **Text-quality workstream commissioned** (decision 0043): Morrowind
+   voice/grammar/per-culture register research → binding style guide in
+   `docs/text/` + reviewer-agent process. Names and all player-visible
+   text get reviewed against it.
+10. **Reviews commissioned at this touchpoint — all three returned same day:**
+    - **D4–D5 "landmark-heavy, quest-light": KEEP** (traceable to
+      morrowind-content-density.md §5.2 → module 95's budget line, not a
+      snuck-in decision; 91 % of dangerous-band records carry quest hooks —
+      quests are *given* in safe hubs and *resolved* in dangerous land,
+      which is the Morrowind/Dark Souls pattern and correct for fixed
+      danger). One directive for Part 3: when thinning, **take
+      proportionally more out of D4–D5 than D0–D3**, or the
+      sparse-and-monumental contrast dilutes.
+    - **Asset gap check** (`docs/research/phase11-asset-gap-check.md`):
+      nothing needs buying. Dunmer/Velothi is covered by 288 BM&V pieces
+      already in the vault, but **no `settlement-dunmer-v1` kit is built
+      yet** (43 northern records point at unpackaged pieces) — a Part 6
+      prerequisite, as is **building `settlement-root-v1`** (permanent
+      kitbash: treehouse shell + root masses + passerelles + Argonian
+      props; fixes the interior's forbidden mud-kit stand-in) and
+      **facade-front tagging** on the ~25 meshes we place (no
+      facade-facing signal exists in the mined data).
+    - **Prison south: coherent.** Blackrose Prison in 4E 201 is a ruin
+      squatted by prison-born descendants, not a working gaol (owner
+      decision Q3 in `topics/prisons.md`); no record anywhere asserts a
+      live prison. Two clarifiers applied (catalogue README naming row;
+      prisons.md closes the untaken White Rose work-camp option).
+
 ## Owner Q&A (grows from Parts 2, 4 and 5)
 
 **Queued for the next owner touchpoint (batched, not blocking):**

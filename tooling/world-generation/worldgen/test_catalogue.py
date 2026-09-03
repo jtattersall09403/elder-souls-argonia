@@ -118,10 +118,13 @@ REGION_BUDGETS = {
     "pirate-freeholds": (14, 17),
     "saxhleel-coast": (18, 24),
 }
+# Owner ruling (touchpoint ①, 2026-09-03): ceilings are SOFT, floors are HARD.
+# A region may exceed its ceiling when there is a recorded reason — add it here
+# with a comment, never silently. A region below its floor always fails.
 # naga-kur-deeps sits above its ceiling by design after the verify/wrap
 # rebalance: taking it to 32 would have driven six types under-band, so it was
 # rebalanced only as far as the type guard allowed and the residue handed to
-# Part 3's homeless-batch review. Recorded, not hidden.
+# Part 3's homeless-batch review. Owner accepted 2026-09-03.
 BUDGET_EXCEPTIONS = {"naga-kur-deeps": 39}
 
 

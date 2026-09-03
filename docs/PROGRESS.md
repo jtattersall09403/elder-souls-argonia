@@ -45,10 +45,10 @@ first, then open only the master-plan sections the active phase needs.
 | 8b — water renderer and interaction | done | owner CLOSED 2026-08-28 (good-enough, **not perfect** — full water-systems re-review + polish queued in [polish-backlog.md](polish-backlog.md), Phase P). 7 rounds; full defect→fix history in decision 0025. Province W-field water surface, rivers/marsh/estuary/coast/underwater, buoyancy + Rapier water query, monotone slope rivers, shore surf, waterfall shading |
 | 8c — weather and atmosphere | done | owner CLOSED 2026-08-30 (good-enough, **not perfect** — owner will record leftovers in [polish-backlog.md](polish-backlog.md) for Phase P). 5 rounds; full defect→fix history in decision [0032](decisions/0032-phase8c-weather-implementation-shape.md). Deterministic synoptic machine + regional expression, fair-weather coverage ladder on the calendar, rain (real-time clock, PRECIP_LAYER), wind→waves, wetness, lightning; mist/fog/cap-cloud regimes with fog colour DERIVED from the real sun/sky/moon and a dome fog march (banks visible against open sky); visibility = local weather (one number renders and publishes); **GAME_TIME_SCALE = 30** in world-time. 406 tests incl. the extended envelope proof |
 | 10 — asset deep catalogue, kits, vegetation machinery (scope widened + flora ecology pulled from 13; decision 0034) | in progress | **Round 10 DELIVERED 2026-09-02, awaiting owner playtest** (record: round-10 section atop [decision 0036](decisions/0036-phase10-placement-decisions.md)). Trunk solidity rebuilt from ground truth: colliders are now capsule sets FITTED to each tree's actual wood geometry (`pipeline/trunk_solids.py` post-pass, oriented capsules, frame `pivot-yup-v3`) — multi-stem willows, sweeping palm trunks and the anvil composites all covered to ≤0.4 m; collider ring made imperative/diffed (the React rebuild churn was half the FPS drop). Every tree species now has a CORRECT far-tier card (tropical-atlas binding + `lodFlatFrom` card borrowing; palms no longer conifers) and a third LOD ring puts the dead deep-decimation tier into service — simulated triangle load at the owner's spot 4.4 M → ~1.5 M. Round 9 (for history): Canopy PASSED at round 7. Round-8 walk-through root-caused: the dominant cause was the collider BUDGET, not the shape — 96 instances within 45 m against up to 1,411 solids in a thicket, so cover ran out ~12 m out while the rebuild waited for 12 m of walking. Budget now counted in colliders (2,500) over a 20 m ring, with `coveredRadiusM` reported honestly and rebuild at 55% of it. Shape: `trunk_chain` moulds a capsule chain to the real trunk volume for EVERY tree (axis-tracking, foliage-rejecting; ≤16 shapes/species), and composite parts can be marked `solid` so the giants' buttress roots collide. Base radii still match the 50 signed-off capsules. |
-| 11 — settlement/location system, exemplar-first (0034) | in progress | Per [0041](decisions/0041-phase11-settlement-decisions.md). DONE 2026-09-02: Part 0 (dossier/scour tooling, catalogue+blueprint schemas, compiler skeleton, renderers, 5 kits + ~15 sourced mods); Parts 1–2 (349-type taxonomy+recipes; 8-region catalogue derived, reconciled, enriched w/ relations); 5-critic adversarial review (all pass-with-fixes) + 4-region repair (rebalanced to the corrected 466–596 budget, strict fields, interior root-kit ruling, Xal-Krona lair + canon gap places). **Critique round CLOSED 2026-09-02** by the verify/wrap agent (outcome table + open items in [0041](decisions/0041-phase11-settlement-decisions.md) § Critique round OUTCOME): asset-aliases.json live so assetPlan typos are impossible; four over-budget zones rebalanced; all 236 poi countBands re-derived from actuals and the band-sum test replaced by per-type + per-ZONE budget tests; strict flipped (the five fields are simply required); 1001 socket ids normalised so standard 2 is green; per-region naming register + signature asset pool in the catalogue README. **800 records: 527 live, 272 deferred, 1 cut**, inside the 467–596 envelope. Mechanical critique smells all at zero (visual twins 121→0, region-constant vibe fields 8→0, empty vibe fields 1026→0, duplicate names 14→0, socket-less tier-0/1 40→0); re-measure with `python3 -m worldgen.critique_sample`. Current task: owner touchpoint ① (catalogue summary), then Part 3 macro plot. Freeze stays gated on 10b/10c. NOTE: parallel agent owns tree-collider solidity — keep off vegetation-collider files |
+| 11 — settlement/location system, exemplar-first (0034) | in progress | Per [0041](decisions/0041-phase11-settlement-decisions.md). DONE 2026-09-02: Part 0 (dossier/scour tooling, catalogue+blueprint schemas, compiler skeleton, renderers, 5 kits + ~15 sourced mods); Parts 1–2 (349-type taxonomy+recipes; 8-region catalogue derived, reconciled, enriched w/ relations); 5-critic adversarial review (all pass-with-fixes) + 4-region repair (rebalanced to the corrected 466–596 budget, strict fields, interior root-kit ruling, Xal-Krona lair + canon gap places). **Critique round CLOSED 2026-09-02** by the verify/wrap agent (outcome table + open items in [0041](decisions/0041-phase11-settlement-decisions.md) § Critique round OUTCOME): asset-aliases.json live so assetPlan typos are impossible; four over-budget zones rebalanced; all 236 poi countBands re-derived from actuals and the band-sum test replaced by per-type + per-ZONE budget tests; strict flipped (the five fields are simply required); 1001 socket ids normalised so standard 2 is green; per-region naming register + signature asset pool in the catalogue README. **800 records: 527 live, 272 deferred, 1 cut**, inside the 467–596 envelope. Mechanical critique smells all at zero (visual twins 121→0, region-constant vibe fields 8→0, empty vibe fields 1026→0, duplicate names 14→0, socket-less tier-0/1 40→0); re-measure with `python3 -m worldgen.critique_sample`. **Touchpoint ① CLOSED 2026-09-03** — owner rulings + 3 commissioned reviews recorded in 0041 § Touchpoint ① (soft ceilings/hard floors, both strongholds plotted, dungeon ruling province-wide, D4–D5 call KEPT w/ Part 3 thinning directive, no asset purchases needed but dunmer+root kits must be BUILT before Part 6, prison-south lore coherent). Text-quality workstream commissioned (0043, docs/text/). Current task: Part 3 macro plot. Freeze stays gated on 10b/10c. NOTE: parallel agent owns tree-collider solidity — keep off vegetation-collider files |
 | 12 — dungeon/interior system, exemplar-first (0034) | todo | may interleave with 11 |
 | 9 — swimming, climbing, boats (re-slotted after the placement exemplars; 0034) | todo | player craft only — ferry/fast travel is Morrowind-style world content (Phase 11); thin swim slice may pull earlier; boats may slip |
-| C — parallel combat workstream (sandbox; feeds 10b) | round 4 delivered, awaiting owner playtest | **Round 2 delivered 2026-08-31** on the owner's 15-item feedback list (record: [0040](decisions/0040-animation-packs-and-combat-parallel-pass.md) round-2 section). First-person bow camera, bow zoom under lock-on, arrow flight model rebuilt (weathercocking + damping), per-weapon hit and parry volumes from measured mesh geometry (`combat/hitVolume`), riposte queueing, split hitbox debug switches, inventory item panel + paper doll + declarative armour hiding, poise surfaced in item stats, **contact-window measuring tool root-caused and fixed** (non-idempotent world-matrix build) with two-handed windows and per-family parry windows re-measured off it, and the parry mod's own clips on greatsword/shield plus a new battleaxe parry. Round 1 = the animation-pack split, crouch, shield block, poise, two-handed movesets. **Round 3 (same day): the execution blocker cleared** — the critical audit tool was root-caused (three modelling errors), now reproduces the hand-audited one-handed riposte to within a frame under `critical-known-answer.test.mjs`, and the greatsword and battleaxe have their own executions. Head hidden (not shrunk) in first person, camera on the eye. Still **not available: per-weapon backstabs** (no back-facing source exists in vanilla or any mod). **Round 3 (2026-09-01, four owner goals):** crouch now lowers the *navigation* capsule (shrinks upward, soles pinned — `physics/stanceCapsule`); **attack movement taken from the feet** rather than an authored lunge (`locomotion/footAnchoredMotion`, measured into each clip's `groundTrack` at build time; reversible from the debug panel); **weapon-aware enemy AI** (`ai/weaponTactics` — ranges/aggression/circling derived from the weapon, a separate intent set and real ballistic aiming for bows) with six new archetypes pickable in the sandbox; **per-weapon backstabs** assembled from each weapon's execution plus a from-behind victim stagger. Gates green; `visual:check` passes for criticals, defense, attacks, evasion, locomotion and ranged. **Round 4 (2026-09-01, the owner's playtest list):** hitbox timing root-caused twice over — the class speed factor now scales the *clip* as well as the gameplay timing (`AttackSpec.timeScale`; a dagger cut during its wind-up and a mace during its recovery), and the measuring tool now selects a clip's *fastest* contact phase rather than its longest (it had been measuring the settle on both two-handed opening swings and the one-handed second heavy). Parry catch windows re-measured across each family's raise+bash clip *pair* (`--parry` mode) — shield, greatsword and battleaxe were all catching during the raise. `criticalStyle` per weapon class: an axe backstabs by swinging its own light attack, because it has no point. Directional blocking (`guardCovers`). Archer given a body (armour coverage is by primary biped slot; boots were deleting the whole body), a working shoot/withdraw FSM — both states were emitted by the AI and never implemented — and a turn rate. Shield wardens now block (`WeaponTactics.guarding` reads the off hand). Bow no longer held string-forward (`OFF_HAND_NODE_HALF_TURN` — a fact about the node, not about shields). One owner for `mesh.visible` (`actors/meshVisibility`). Inventory sized by `window.visualViewport`; gamepad B no longer backsteps out of the menu; healing draught and lockpick have real icons from a new `clutter` pipeline set. Enemies take attack movement from their feet too. **Not delivered:** per-weapon riposte clip selection (`pipeline.audition` cannot build its candidate GLB) — polish backlog. Gates green; `visual:check` passes for criticals, defense, attacks, evasion, locomotion and ranged
+| C — parallel combat workstream (sandbox; feeds 10b) | round 5 delivered, awaiting owner playtest | **Round 2 delivered 2026-08-31** on the owner's 15-item feedback list (record: [0040](decisions/0040-animation-packs-and-combat-parallel-pass.md) round-2 section). First-person bow camera, bow zoom under lock-on, arrow flight model rebuilt (weathercocking + damping), per-weapon hit and parry volumes from measured mesh geometry (`combat/hitVolume`), riposte queueing, split hitbox debug switches, inventory item panel + paper doll + declarative armour hiding, poise surfaced in item stats, **contact-window measuring tool root-caused and fixed** (non-idempotent world-matrix build) with two-handed windows and per-family parry windows re-measured off it, and the parry mod's own clips on greatsword/shield plus a new battleaxe parry. Round 1 = the animation-pack split, crouch, shield block, poise, two-handed movesets. **Round 3 (same day): the execution blocker cleared** — the critical audit tool was root-caused (three modelling errors), now reproduces the hand-audited one-handed riposte to within a frame under `critical-known-answer.test.mjs`, and the greatsword and battleaxe have their own executions. Head hidden (not shrunk) in first person, camera on the eye. Still **not available: per-weapon backstabs** (no back-facing source exists in vanilla or any mod). **Round 3 (2026-09-01, four owner goals):** crouch now lowers the *navigation* capsule (shrinks upward, soles pinned — `physics/stanceCapsule`); **attack movement taken from the feet** rather than an authored lunge (`locomotion/footAnchoredMotion`, measured into each clip's `groundTrack` at build time; reversible from the debug panel); **weapon-aware enemy AI** (`ai/weaponTactics` — ranges/aggression/circling derived from the weapon, a separate intent set and real ballistic aiming for bows) with six new archetypes pickable in the sandbox; **per-weapon backstabs** assembled from each weapon's execution plus a from-behind victim stagger. Gates green; `visual:check` passes for criticals, defense, attacks, evasion, locomotion and ranged. **Round 4 (2026-09-01, the owner's playtest list):** hitbox timing root-caused twice over — the class speed factor now scales the *clip* as well as the gameplay timing (`AttackSpec.timeScale`; a dagger cut during its wind-up and a mace during its recovery), and the measuring tool now selects a clip's *fastest* contact phase rather than its longest (it had been measuring the settle on both two-handed opening swings and the one-handed second heavy). Parry catch windows re-measured across each family's raise+bash clip *pair* (`--parry` mode) — shield, greatsword and battleaxe were all catching during the raise. `criticalStyle` per weapon class: an axe backstabs by swinging its own light attack, because it has no point. Directional blocking (`guardCovers`). Archer given a body (armour coverage is by primary biped slot; boots were deleting the whole body), a working shoot/withdraw FSM — both states were emitted by the AI and never implemented — and a turn rate. Shield wardens now block (`WeaponTactics.guarding` reads the off hand). Bow no longer held string-forward (`OFF_HAND_NODE_HALF_TURN` — a fact about the node, not about shields). One owner for `mesh.visible` (`actors/meshVisibility`). Inventory sized by `window.visualViewport`; gamepad B no longer backsteps out of the menu; healing draught and lockpick have real icons from a new `clutter` pipeline set. Enemies take attack movement from their feet too. **Not delivered:** per-weapon riposte clip selection (`pipeline.audition` cannot build its candidate GLB) — polish backlog. **Round 5 (2026-09-03, the owner's round-4 playtest list; record: 0040 §18–23):** a critical's victim choreography now comes from the ATTACKER's weapon (battleaxe/warhammer backstab was driving the victim on the sword's paired clip — never resolved; new `greataxe-backstab` scenario proves it) + sandbox-only "Show backstab zones" debug overlay; one-outcome rule so a swing cannot both hit and be parried; archer rebuilt (arrows strike hurtboxes only, shooter excluded by hurtbox name, and the missing player arrow-damage path written — the player could never be hit at all); first-person bow = eye camera + 0.34 m aim near-clip + cheek offset (Skyrim FP rig investigated and REJECTED — a second animation set per weapon); pad B closing the inventory no longer backsteps (modal input suppression, unit-tested); foot-anchored motion now applies the lateral axis (the greatsword heavy-2 pivot) and locked-on strafe/back-walk follow real-speed cadence. Inventory UI recorded as draft-not-exemplar in game-buildout-register.md. Gates green; `visual:check` passes for criticals, defense, attacks, evasion, locomotion and ranged
 | 10b — full portable-sandbox parity in studio (was 7b; moved 2026-08-25, decision 0017) | todo | Scene orchestration extraction (§53), inventory/equipment UI, enemies/targeting, bow, navmesh; combat-space probes then validate + freeze the 11/12 exemplar packets; **incl. fixes to shared combat internals** (owner 2026-08-29: good-enough, not perfect — specifics at kickoff) |
 | S — stats, progression and character-systems **design** (parallel workstream, module 76; decision 0019) | done | **Four owner rounds, all closed** — shape ([0031](decisions/0031-workstream-s-round1-shape.md)), design + numbers ([0033](decisions/0033-workstream-s-design-and-numbers.md)), round-3 corrections ([0035](decisions/0035-workstream-s-round3-attributes-and-pace.md)), and the round-4 QA rulings ([0037](decisions/0037-workstream-s-round4-qa-rulings.md)): practice discount cut, kill-based class-weighted armour accrual, repeat-target damping removed, lockpick wear, **poise reinstated on the DS1 model**, pace target restated. Live artefacts: **module 76 §116–129** (the spec), decisions 0019/0031/0033/0035/0037, `tooling/stats-sim/` (**19 invariants, all holding**, including a Morrowind known-answer test) and one evidence packet; the workstream's five working papers are archived under `docs/research/archive/workstream-s/` and the tuning history is `tooling/stats-sim/FINDINGS.md`. Phase 10c implements it |
 | 10c — stats and progression implementation (module 76; decision 0019) | todo | Implements workstream S in `packages/game-core` incl. the semantic-authoring compiler (ladder refs → numbers; extended to loot/traps). After 10b, **before packet freeze and Phase 13** — content in 11/12 authors semantically without it (0019 4th amendment; 0034) |
@@ -90,92 +90,50 @@ first, then open only the master-plan sections the active phase needs.
   Known gaps, unchanged: only six exemplar areas have plants; the rest of
   the province is bare on purpose.
 
-- **Combat round-5/6 (workstream C): the parry ruling, and the battleaxe.**
-  In the sandbox, not the world.
-
-  **The parry hitbox is now active for the whole of the second parry
-  animation — the catch — and for nothing else**, on every weapon and shield,
-  as you ruled. It is derived from the clips rather than written down per
-  family, so it cannot drift again. **This makes parrying much more forgiving
-  than it was**: a one-handed catch goes from 0.2 s to 0.7 s and a greatsword's
-  from 0.16 s to 1.1 s. That is a big change to the feel and the main thing to
-  judge — too easy, too hard, or right, for weapon, shield and greatsword.
-
-  **The battleaxe ripostes with its own swing**, on your ruling to accept a
-  swing-specific contact rule. Its family's authored execution contains no chop
-  that actually lands — every phase of it that reaches a torso is a forward
-  drive — so its own swing is the honest stand-in, exactly as it already is for
-  its backstab. Warhammers, halberds and one-handed axes and maces get the same.
-  Worth a look at whether the axe visibly connects.
-
-  Also fixed underneath: **the victim of a paired critical now stays put.** It
-  was a physics body, so the attacker arriving at its authored distance shoved
-  it away — every riposte and backstab in the game was landing further out than
-  the distance it was measured to.
-
-  **The sword and dagger stab is still not shipped.** It was built twice and
-  passed all three of its own scenarios both times; what stops it is that
-  swapping the one-handed execution knocks the *greatsword* riposte out, for a
-  cause that is not understood yet — the greatsword's numbers and its whole
-  animation pack are byte-identical to the passing state. Rather than ship
-  something that turns a passing check red, it is reverted with every measured
-  number recorded and the one remaining diagnostic written down in
-  [polish-backlog.md](polish-backlog.md).
-
-- **Combat round-4 playtest (workstream C).** In the sandbox, not the world.
+- **Combat round-5 playtest (workstream C).** In the sandbox, not the world.
   Everything below is on your last list.
 
-  **Weapon hitboxes — the big one.** Two separate causes were found and
-  fixed, so please re-check *every* weapon, light and heavy, first and
-  chained. What should now be true everywhere: the hitbox is off during the
-  wind-up, on through the visible swing, and off again during the recovery.
-  Specifically the ones you called out: the dagger (it was cutting during its
-  wind-up), the one-handed axe and mace second heavy (cutting during their
-  recovery), and the two-handed sword and axe first light and first heavy
-  (only cutting after the swing had finished).
+  **Backstab with the battleaxe/warhammer** should now actually happen: the
+  victim was being choreographed by its own sword rather than by your axe, so
+  the whole thing fizzled. Also new: in the debug panel, tick **"Show backstab
+  zones"** — each enemy gets a ground sector showing exactly where you must
+  stand; it turns green when a light press would backstab.
 
-  **Parry volumes.** Shield, two-handed sword and two-handed axe were all
-  catching while the guard was still coming *up*. They now catch during the
-  parry itself. **This is a feel judgement and I need your call**: too easy,
-  too hard, or right, for each of the three? The battleaxe in particular
-  catches from the moment the axe is fully up, because its guard sweeps
-  across and past your body in about a tenth of a second — if that feels
-  generous, say so.
+  **Parry vs getting hit:** a single enemy swing can now do one thing only —
+  hit you, or be parried — never both. Please re-try the "parried but still
+  took damage" case. (The parry-forgiveness question from last time still
+  stands: the catch is the whole second parry animation on every weapon —
+  too easy, too hard, or right, for weapon / shield / greatsword?)
 
-  **Backstabs.** A one-handed axe or mace, and a two-handed axe or hammer,
-  now backstab by swinging their own attack instead of stabbing with a blade
-  they do not have. The two-handed sword backstab should now actually
-  register when it visibly connects.
+  **The archer** should now be a real fight: it could not hurt you at all
+  before (its arrows could die inside its own body or its bow, and even a
+  clean hit on you did nothing — that whole path was missing). Arrows now hit
+  you, hurt you through armour, can be blocked with a raised shield from the
+  front, stagger you, and stick in you. Please check it can hit you, that you
+  can block it, and that it never shoots itself again.
 
-  **Enemy picker.** The archer has a body, fires its bow, and can turn and
-  back away to keep its distance — none of that existed. The shield enemy
-  should now block as well as parry: expect it to block a light attack and
-  dodge a heavy.
+  **First-person bow view** is rebuilt: the camera sits at the eye (slightly
+  toward your draw hand, like Skyrim), and everything too close to your face
+  is clipped away, so the view is clear with the bow off to the side. I looked
+  at stills and it reads well; judge it in motion — especially raising,
+  drawing, and turning while drawn. (Using Skyrim's real first-person rig was
+  investigated and rejected: it would mean sourcing a second full animation
+  set for every weapon.)
 
-  **Blocking.** You can no longer block anything that hits you from outside
-  roughly the front 140 degrees. Try getting hit in the back while guarding.
+  **Pad B closing the inventory** no longer does a dodge step.
 
-  **Bow.** It is held the right way round now — the curve toward you, the
-  string away — in both first and third person. In first person your head
-  should be gone rather than in the way.
+  **Foot anchoring:** rotating attacks (e.g. the greatsword second heavy) now
+  take their sideways pivot from the feet too, so the body should swing round
+  the planted foot instead of the feet sliding under a fixed body. Locked-on
+  strafing and walking backwards now pace their steps to your real speed —
+  much better, but at full stick the clips still can't quite keep up (they are
+  authored slow); if it still bothers you, the honest fixes are a faster
+  animation cap (can look scurried) or a slower locked-on walk (a feel change,
+  your call).
 
-  **Inventory.** On the phone, in and out of full screen, all four edges
-  should be visible. The health potion and lockpick have proper icons. On the
-  pad, B should close the inventory and nothing else. Taking your cuirass off
-  should show the body underneath and keep showing it.
-
-  **Enemy feet.** Enemies take their swing movement from their feet now, as
-  you approved for the player.
-
-  **One thing I did not do.** You asked for a stabbing riposte on the
-  one-handed sword and the dagger, and a swinging one on the two-handed axe.
-  The mod does ship a separate execution for every weapon and they are all
-  already downloaded — but the tool for *looking* at them before choosing is
-  broken, and picking one blind would have been a guess. It is written up in
-  the polish backlog with what needs fixing first.
-
-  **Also known, not fixed:** arrows fired straight up are still a little
-  tumbly (you said leave it for polish, so it is in the backlog).
+  **Still not shipped:** the stabbing riposte on one-handed sword and dagger —
+  the greatsword-regression mystery from last round stands, in the polish
+  backlog.
 
 - **8c polish leftovers** — the owner closed 8c good-enough and will record
   the leftover items in [polish-backlog.md](polish-backlog.md) themselves

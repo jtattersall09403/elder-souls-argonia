@@ -76,6 +76,9 @@ named overflight.
   later wants a live coercive institution, the recommendation is a **separate
   state work-camp**, sited at White Rose — see below and
   [../extrapolation/settlement-register.md](../extrapolation/settlement-register.md) §6.
+  **CLOSED (Phase 11 catalogue, 2026-09-03): the option was not taken** —
+  White Rose is authored `abandoned` in `places-mercantile-coast.json`. Do
+  not re-open without an owner steer.
 
 ## White Rose Prison — CANON_EXPLICIT (thin)
 

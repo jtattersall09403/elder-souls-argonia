@@ -51,6 +51,15 @@ and traversal demand (a dive entry gates on breath, a hollow trunk on
 finding it). The catalogue's entrance choice is siting data; the interior
 family is chosen independently of it.
 
+**Owner clarification (touchpoint ①, 2026-09-03): this ruling is
+province-wide, not a marsh special case.** In *every* region, a dungeon's
+interior is a teleport-to cell behind its entrance (the Morrowind/Skyrim
+model). Dungeons can and often should have *exteriors* too — a ruin above
+the vault, a fort above the cells — where lore suits. The entrance/exterior
+vocabulary must be derived per region so it fits that region's ground and
+culture (a Dunmer plantation's cellar door, an Imperial fort's sally gate,
+a coastal wreck's hull breach — not just marsh trapdoors and root-mouths).
+
 ## 48. Interiors should be planned with exteriors
 
 Each exterior location receives an `InteriorProgram` at placement time:
