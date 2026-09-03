@@ -25,7 +25,7 @@
         "siteAdvantages": "The midpoint of a dive that cannot be made on one breath.",
         "occupantsMotive": "Nobody; maintained by the guides who use it. The guides keep it because a pocket nobody maintains is a pocket that drowns the guild's next apprentice, so the upkeep is charged into every crossing fee whether the client uses the pocket or not.",
         "pressures": "Silt is filling the pocket from below. Two guiding families disagree about who is responsible for clearing it, and each has spent a decade waiting for the other to admit the duty.",
-        "wouldChangeIf": "Its loss would close the shortcut and add two hours to every crossing. Its loss would also break the guides' price against the portage crews, who would take the traffic within a season."
+        "wouldChangeIf": "Its loss would close the shortcut and add two hours to every crossing, and would break the guides' price against the portage crews, who would take the traffic within a season."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -77,10 +77,10 @@
       },
       "vibe": {
         "silhouette": "none at all from outside; it is found by diving",
-        "palette": "black until the lamp, then blue, dredged block, undressed, grey, blue light doubled in still water",
+        "palette": "black until the lamp, then blue light doubled in still water; undressed block, grey",
         "materials": "bog-oak posts, cane walls, bone lintels; sinew and hide lashing; peat-tar in the seams; crocodile skulls on the pile heads",
         "signatureFeature": "A bell-shaped root chamber holding a bubble the size of a boat, with a pump-line rigged by the guides to top it up each season.",
-        "condition": "sound, and recently and visibly re-lashed — new work standing next to work three lifetimes old",
+        "condition": "sound, and recently and visibly re-lashed",
         "mood": "engineered relief, thirty seconds at a time",
         "approach": "Down, dark, and then a ceiling of air.",
         "senses": "the deck lifting under you as the boats pass; the drum that should answer, not answering; rot held down under cold water; no dry ground within a day"
@@ -182,7 +182,7 @@
         "primary": "traversal-puzzle",
         "secondary": [],
         "impact": "real",
-        "hook": "Half way through a dive nobody survives on one breath, there is a room full of air, and the guides charge you for it whether you use it or not.",
+        "hook": "Halfway through a dive nobody survives on one breath there is a room full of air, and the guides charge you for it whether you use it or not.",
         "reviewed": true
       },
       "interior": {
@@ -303,13 +303,13 @@
       },
       "vibe": {
         "silhouette": "a debris field that is too deliberate to be wreckage",
-        "palette": "black above, blue below, no green anywhere, blue light strong enough to read by, hide stretched grey on frames",
+        "palette": "black above, blue below, no green anywhere; hide stretched grey on the frames",
         "materials": "nothing raised — worked bone set into the ground and left; lashing of gut, which stinks and holds; grave-cairns stepped up the bank, one course a death",
         "signatureFeature": "A field of plinths holding the residue of destroyed works, each labelled with what it was and how long it lasted.",
-        "condition": "clean, ordered, and slightly too quiet for its size — sagging on one side and shored on that side only",
-        "mood": "witty, uncompromising, quietly commercial",
+        "condition": "clean, ordered, and slightly too quiet for its size",
+        "mood": "uncompromising, and quietly commercial",
         "approach": "White plinths in black water; the newest one is occupied.",
-        "senses": "the pole shuddering when it finds bone; drum-signal carrying flat across the water; tar and burnt cane; no red, and everyone raised here notices its absence elsewhere"
+        "senses": "the pole shuddering when it finds bone; drum-signal carrying flat across the water; tar and burnt cane; no red anywhere, which is the zone's own rule"
       },
       "assetPlan": [
         "totems-ritual",
@@ -410,7 +410,7 @@
           "wonder-oddity"
         ],
         "impact": "real",
-        "hook": "The Nisswo pay for beautiful things and then break them in front of you, and they will let you commission one.",
+        "hook": "The Nisswo priests pay for beautiful things and then break them in front of you, and they will let you commission one.",
         "reviewed": true
       },
       "interior": {
@@ -544,10 +544,10 @@
       },
       "vibe": {
         "silhouette": "pens, skull racks or corrals read as built structure from further off than the huts do",
-        "palette": "black water with blue light under the surface, cold blue on the underside of the piles, silt the colour of ash, frill-spines set as a fence line",
+        "palette": "black water with blue light under the surface, cold blue on the underside of the piles, silt the colour of ash",
         "materials": "bone plate lashed as cladding where the cane rots fastest; hide thongs, wet-tied and shrunk on; smoked hide, black and stiff; drum frames at the landing, one large and one small",
         "signatureFeature": "The village's perimeter IS the pen: to reach the houses you cross a bridge over stock that is deliberately kept hungry.",
-        "condition": "sagging on one side and shored on that side only — maintained just enough and no more",
+        "condition": "sagging on one side and shored on that side only",
         "mood": "matter-of-fact about a wall made of animals",
         "approach": "You smell the pens from the water and hear nothing at all.",
         "senses": "cold coming up off black water; reed hiss and, under it, the drums; dead water — flat, sweetish, wrong; no sap smell at all this deep in"
@@ -952,11 +952,11 @@
       },
       "vibe": {
         "silhouette": "a dead trunk still standing at the centre, kept, not cleared",
-        "palette": "still black with a slow blue drift in it, pale bone worked and stacked by size, blue in the roots and nowhere else",
+        "palette": "still black with a slow blue drift in it, pale bone worked and stacked by size, and no light at all in the dead trunk",
         "materials": "bog-oak salvaged black from the peat and worked wet; cane-split cord, replaced constantly; no seal at all — it is meant to leak; a stockade of pikes standing in for the old stake field",
         "signatureFeature": "The dead trunk was cut down and its stump made into the village's council table — the only tribe in the province that eats off its own Hist.",
-        "condition": "new work standing next to work three lifetimes old — sound, and recently and visibly re-lashed",
-        "mood": "blunt, self-made, allergic to pity",
+        "condition": "new work standing next to work three lifetimes old",
+        "mood": "blunt, and allergic to pity",
         "approach": "The stump table is the first thing a visitor is sat at, deliberately.",
         "senses": "mud closing over the foot at every step; smoked hide and wet bone; no echo off water this black"
       },
@@ -1440,7 +1440,7 @@
         "siteAdvantages": "Low ground beside a channel that changed course.",
         "occupantsMotive": "Blights that were not raised by anyone's fault. Because no theft raised them, the risen have no wrongdoer to blame, which in local law makes them the whole village's debt rather than one family's.",
         "pressures": "The village that owns the field cannot afford to restake it and cannot afford not to. The stake-setters price by the night and the village pays in rice, and the two rates have drifted so far apart that the work has stopped mid-field.",
-        "wouldChangeIf": "Restaking would settle it; the labour is the obstacle, not the danger. Restaking would settle it; the labour is the obstacle, not the danger, and any outsider who supplies the labour buys a permanent claim on the village."
+        "wouldChangeIf": "Restaking would settle it; the labour is the obstacle, not the danger, and any outsider who supplies the labour buys a permanent claim on the village."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1494,7 +1494,7 @@
         "palette": "still black with a slow blue drift in it, blue bioluminescence in the shallows, olive weed matted over everything",
         "materials": "no structure — a bottom of cold silt and a rim of fallen block; carved frills pushed into the bank as a warning line",
         "signatureFeature": "The stakes are still standing, upright and correct — the water simply carried the dead out from under them, which is the version nobody has a rite for.",
-        "condition": "solid where it is used daily, rotten a step off the path — maintained just enough and no more",
+        "condition": "the stakes sound, the ground under them gone",
         "mood": "a bureaucratic-theological problem with teeth",
         "approach": "An intact stake field with the ground washed out around it.",
         "senses": "the deck lifting under you as the boats pass; bone clacking on bone in the wind; smoked hide and wet bone; no echo off water this black"
@@ -1664,8 +1664,8 @@
         "founding": "A plague cordon's burial line that was never staked at all, because the buriers were foreign.",
         "siteAdvantages": "The line of an Imperial-era cordon across the zone's neck.",
         "occupantsMotive": "Whatever a century of unstaked burial produces. Nobody inherits the duty because nobody inherited the burial: the Legion dug the line, the Legion left, and the ground has been legally ownerless since.",
-        "pressures": "The route the cordon guarded is the route people still use. The route the cordon guarded is the route people still use, and each generation's accidents are blamed on the last generation's cowardice.",
-        "wouldChangeIf": "Staking the line would take a season and end a century of accidents. Staking the line would take a season and end a century of accidents — and would also settle, publicly, that the plague dead here were Argonian and not Kothringi."
+        "pressures": "The route the cordon guarded is the route people still use, and each generation's accidents are blamed on the last generation's cowardice.",
+        "wouldChangeIf": "Staking the line would take a season and end a century of accidents — and would also settle, publicly, that the plague dead here were Argonian and not Kothringi."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1717,10 +1717,10 @@
       },
       "vibe": {
         "silhouette": "a stockade of pikes half-swallowed, marking a cordon nobody enforces now",
-        "palette": "still black with a slow blue drift in it, blue bioluminescence in the shallows, bone-white stake tops, hide-brown and bone, the only two colours",
+        "palette": "still black with a slow blue drift in it, bone-white stake tops, hide-brown and bone",
         "materials": "nothing built: black water, bog-oak and bone, sorted by the drawdown; a drum frame at the landing with no drum in it",
         "signatureFeature": "Imperial burial trenches, dug straight, dug deep, and dug entirely wrong for this province — an atrocity of procedure rather than malice.",
-        "condition": "kept up, and it shows in the small repairs — well-found, and defended by being hard to reach",
+        "condition": "not kept at all, and the trench line still legible after a century",
         "mood": "the cost of foreign administration, still being paid",
         "approach": "A dead-straight depression running across the swamp for two kilometres.",
         "senses": "air that does not move at all; reed hiss and, under it, the drums; tar and burnt cane; no echo off water this black"
@@ -1889,7 +1889,7 @@
         "founding": "A seasonal camp of bone-carriers gathering the zone's distant dead for the walk inland.",
         "siteAdvantages": "Where the poling routes converge and the walking route inland begins; the last point a laden carrier can be resupplied by boat.",
         "occupantsMotive": "Carriers, in season. Carrying is a debt-work: most carriers are repaying a family's unreturned dead rather than earning, which is why the season is worked to exhaustion.",
-        "pressures": "The Umbriel-era backlog reaches this camp too, and it is visible in the stacks. The Umbriel-era backlog reaches this camp too, and it is visible in the stacks — bundles labelled for villages that no longer exist and cannot receive them.",
+        "pressures": "The Umbriel-era backlog reaches this camp too, and it is visible in the stacks — bundles labelled for villages that no longer exist and cannot receive them.",
         "wouldChangeIf": "A carriers' strike would leave a season's dead unreturned."
       },
       "sitingPrefs": {
@@ -1949,7 +1949,7 @@
         "materials": "hide over paddles set as poles, struck in an hour; sinew and hide lashing; tar and ash paid into every lap; carved frills set as boundary markers",
         "signatureFeature": "Bundles are stacked by how many seasons they have been waiting, and the oldest stack has been rewrapped so many times it is mostly wrapping.",
         "condition": "sound in season, a set of posts out of it",
-        "mood": "patient, macabre, entirely ordinary to those doing it",
+        "mood": "macabre, and entirely ordinary to those doing it",
         "approach": "The stacks, and the smell of fresh wrapping cloth.",
         "senses": "reed hiss and, under it, the drums; tar and burnt cane; nothing green in the light"
       },
@@ -2275,7 +2275,7 @@
         "siteAdvantages": "A defensible rise in the inner swamps with black water on every side and one poling approach. The single poling approach is also the tribe's toll: nothing reaches the inner swamp's eastern reaches without being counted here first.",
         "occupantsMotive": "A tribe whose whole discipline — grave rite, watch, blight-craft — is organised around the dead not staying down.",
         "pressures": "Umbriel's legacy is exactly their enemy, and they have not stopped preparing; their kin on the roads are tribeless and their reputation suffers for it.",
-        "wouldChangeIf": "If the blight pressure stopped, the tribe would have no reason for the discipline that defines it. If the blight pressure stopped, the tribe would have no reason for the discipline that defines it — and the stake-setters, the night necropolis and three subordinate villages would lose their trade with it."
+        "wouldChangeIf": "If the blight pressure stopped, the tribe would have no reason for the discipline that defines it — and the stake-setters, the night necropolis and three subordinate villages would lose their trade with it."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -2348,8 +2348,8 @@
         "palette": "black water taken right up to the pile line, olive shade, and the one blue-flowering Hist in the province lighting the whole village from above — the only strong colour in the deeps",
         "materials": "cane and bog-oak on a trained-root core that the Hist itself put there; hide walls smoked black; bone lintels cut from the tribe's own dead, which is an honour and is said so; stake-cairns stepped up the bank behind",
         "signatureFeature": "Its Hist flowers blue, not red — the one tree in the province you can identify from its light alone, and the reason the whole zone reads cold.",
-        "condition": "everything replaced at least once, exactly as doctrine says it should be — worn but sound; everything load-bearing is new",
-        "mood": "disciplined, unwelcoming, entirely competent; a village organised like a garrison and run like a family",
+        "condition": "everything replaced at least once, exactly as doctrine says it should be",
+        "mood": "a village organised like a garrison and run like a family",
         "approach": "Blue light on black water, an hour before you reach the landing; the drums answer your approach before anyone is visible.",
         "senses": "cold off black water on one side and warmth off the hide walls on the other; the deep drum that other villages answer and this one does not; smoked hide, bone-dust and cold peat; and no red anywhere, by the tree's own choosing"
       },
@@ -2642,7 +2642,7 @@
         "materials": "cane and hide shelters struck and restruck for centuries, never improved; dry-stone store huts, which the caretakers argue about and keep; pre-Duskfall xanmeer stone left entirely alone",
         "signatureFeature": "The Umbriel memorial: a line of shelters kept permanently ready, each with its stores turned and its roof sound, for a night in 4E 48 that has not come again — and a caretaker who will tell you the memorial is the readiness, not the stone.",
         "condition": "maintained to a standard nothing else in the deeps is held to, and used for perhaps a week a century",
-        "mood": "dry, high, quiet, and waiting on purpose",
+        "mood": "high, dry, and waiting on purpose",
         "approach": "A day through leviathan bone country and then a climb; there is no water route and the caretakers have never cut one.",
         "senses": "dry air and a horizon, both of them shocking after the swamp; wind instead of drums; dust and old thatch; and no insect noise at all, which the caretakers say is Sithis and the Society says is altitude"
       },
@@ -2853,9 +2853,9 @@
       "why": {
         "founding": "A natural shaft from the swamp floor into the root layer.",
         "siteAdvantages": "Where a root gallery's roof gave way under standing water, deep in the swamp and a long way from anywhere.",
-        "occupantsMotive": "Whatever uses a vertical connection between two systems. Whatever uses a vertical connection between two systems uses it in both directions, which is why the villages date their worst years by what came up it.",
-        "pressures": "Divers use it as a shortcut and it does not always let them back. Divers use it as a shortcut and it does not always let them back; the guides charge double to name it and will not enter it.",
-        "wouldChangeIf": "A collapse would seal the connection. A collapse would seal the connection and add half a day to every stake-field circuit on this side of the zone."
+        "occupantsMotive": "Whatever uses a vertical connection between two systems uses it in both directions, which is why the villages date their worst years by what came up it.",
+        "pressures": "Divers use it as a shortcut and it does not always let them back; the guides charge double to name it and will not enter it.",
+        "wouldChangeIf": "A collapse would seal the connection and add half a day to every stake-field circuit on this side of the zone."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -2907,10 +2907,10 @@
       },
       "vibe": {
         "silhouette": "a dark opening in water, often ringed by worked stone",
-        "palette": "blue bioluminescence doing the work of a lamp, hide stretched grey on frames, the blue thin here, and everyone notices",
-        "materials": "lashed cane over black bog-oak sills; lashing of gut, which stinks and holds; no seal at all — it is meant to leak; a stockade of pikes standing in for the old stake field",
+        "palette": "blue bioluminescence doing the work of a lamp, and thin at that",
+        "materials": "no work at all: black bog-oak sills fallen from the roof, silt and root; a stake line driven at the rim by the village that lost the last diver",
         "signatureFeature": "The shaft breathes with the season: silt is drawn down it as the basin falls and blown back up when the monsoon refills, and the plume is visible from the surface for a month either side.",
-        "condition": "holding, but the next bad season decides it — solid where it is used daily, rotten a step off the path",
+        "condition": "holding, but the next bad season decides it",
         "mood": "alive-seeming; the swamp inhaling",
         "approach": "A silt plume rising out of the swamp floor for no visible reason.",
         "senses": "cold coming up off black water; two drums answering, a long way apart; tar and burnt cane; the silence where birds should be"
@@ -3210,8 +3210,8 @@
         "founding": "A village on rafts that moves with the season, because in the inner swamp no ground is reliable for a decade.",
         "siteAdvantages": "Whichever mooring the year requires; the village site is a route, not a point, and the moorings are chosen for what is spawning rather than for what is safe.",
         "occupantsMotive": "People who own no land and consider that a strength.",
-        "pressures": "Every fixed village disputes their fishing and their claim to anything. Every fixed village disputes their fishing and their claim to anything, and the settled Naga have begun charging them for water they used to take freely.",
-        "wouldChangeIf": "A land grant would end the practice and probably the culture. A land grant would end the practice and probably the culture, and the tribes that want them settled want it precisely for that reason."
+        "pressures": "Every fixed village disputes their fishing and their claim to anything, and the settled Naga have begun charging them for water they used to take freely.",
+        "wouldChangeIf": "A land grant would end the practice and probably the culture, and the tribes that want them settled want it precisely for that reason."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -3271,8 +3271,8 @@
         "palette": "black water and a bone-pale bottom, cairn stones grey and stacked, cold blue on the underside of the piles, white grave-cairns stepped up the bank",
         "materials": "bone frame with hide stretched and smoked over it; vine cord traded in from the interior, hoarded; smoked hide, black and stiff; crocodile skulls on the pile heads",
         "signatureFeature": "It is not where the last traveller said it was, and its old moorings — cleared water, mooring posts, a midden — are scattered across the region as a trail of ghost villages.",
-        "condition": "sound, and recently and visibly re-lashed — clean, ordered, and slightly too quiet for its size",
-        "mood": "provisional, cheerful, impossible to pin down",
+        "condition": "sound, and recently and visibly re-lashed",
+        "mood": "cheerful, and impossible to pin down",
         "approach": "You find three empty moorings before you find the village, and the middens tell you which way it went.",
         "senses": "the pole shuddering when it finds bone; drum-signal carrying flat across the water; smoked hide and wet bone; nothing green in the light"
       },
@@ -3440,8 +3440,8 @@
         "founding": "A stilt village drowned when the channel changed and the water rose two metres in a season.",
         "siteAdvantages": "It was correctly sited for the water level of the time, which is the standing local argument against building on any firm-looking flat.",
         "occupantsMotive": "Nobody; fish, and salvage divers.",
-        "pressures": "The families who left are three villages away and still claim the goods in it. The families who left are three villages away and still claim the goods in it, and have hired divers twice rather than let the dredgers take it.",
-        "wouldChangeIf": "A drawdown would expose it and start a legal fight. A drawdown would expose it and start a legal fight that three villages have quietly agreed to hope never happens."
+        "pressures": "The families who left are three villages away and still claim the goods in it, and have hired divers twice rather than let the dredgers take it.",
+        "wouldChangeIf": "A drawdown would expose it and start a legal fight that three villages have quietly agreed to hope never happens."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -3496,8 +3496,8 @@
         "palette": "still black with a slow blue drift in it, blue light strong enough to read by, white shell grit at the landing",
         "materials": "undressed block slumped where the peat took it; lashing of gut, which stinks and holds; peat-tar in the seams; stake-cairns and totems in place of grave-stakes",
         "signatureFeature": "The houses are intact underwater with their contents in place, because the rise was slow enough to walk away from and too slow to bother carrying anything.",
-        "condition": "submerged to the ridge line, weed on everything above — under water and still holding its shape",
-        "mood": "domestic, preserved, unnervingly ordinary underwater",
+        "condition": "submerged to the ridge line, weed on everything above",
+        "mood": "a house interior, underwater, with nothing moved",
         "approach": "Roof ridges in a line just under still black water, and nothing on it moving at all.",
         "senses": "air that does not move at all; the drum that should answer, not answering; nothing green in the light"
       },
@@ -3660,7 +3660,7 @@
         "siteAdvantages": "The single outlet of the inner swamp, held between two root walls rather than rock.",
         "occupantsMotive": "None; a timing post is kept by the nearest village. The timing post is manned by whichever village most recently lost a boat, a rota that guarantees the keeper takes it seriously and never lasts.",
         "pressures": "Boats that mistime it are lost, and the village profits from salvage, so the gauge post has never been improved and the drawdown timings are memorised rather than written.",
-        "wouldChangeIf": "A cut second channel would end both the danger and the salvage income. A cut second channel would end both the danger and the salvage income, which is why the village has twice blocked the survey."
+        "wouldChangeIf": "A cut second channel would end both the danger and the salvage income, which is why the village has twice blocked the survey."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -3713,10 +3713,10 @@
       },
       "vibe": {
         "silhouette": "the water's surface, which is visibly wrong at the pinch",
-        "palette": "still black with a slow blue drift in it, cold blue on the underside of the piles, pale bone worked and stacked by size, green only on the weed, never on the light",
+        "palette": "still black with a slow blue drift in it, cold blue on the underside of the piles, green only on the weed and never on the light",
         "materials": "the place is its own material: silt, cane wrack and whatever the water has stripped; totems set facing inward, which is unusual",
         "signatureFeature": "A gauge post with the safe levels painted on it in four colours, and a salvage board beside it listing what the last mistiming produced.",
-        "condition": "hard-used, with the wear all in the same places — serviceable; nothing here is admired",
+        "condition": "hard-used, with the wear all in the same places",
         "mood": "a timed traversal puzzle with an economy attached",
         "approach": "The gauge post is visible from both approaches; the noise starts an hour before the window closes.",
         "senses": "air that does not move at all; a slow drum kept up all night for the dead; tar and burnt cane; no sap smell at all this deep in"
@@ -3869,8 +3869,8 @@
         "founding": "The stage where outsiders hire a poler, because the inner swamp cannot be navigated without one.",
         "siteAdvantages": "The last point reachable without local knowledge.",
         "occupantsMotive": "Polers, a broker, and a price list that is not the real price list. The broker is not a poler and takes a cut of every hire, which the polers resent and tolerate because he is the one who deals with foreigners.",
-        "pressures": "Unguided travellers go in anyway and their craft come back empty. Unguided travellers go in anyway and their craft come back empty, and each such loss is used to justify the next rise in the hire price.",
-        "wouldChangeIf": "A published chart would destroy the trade, which is why none exists. A published chart would destroy the trade, which is why none exists — and why the two surveyors who tried were poled home very slowly."
+        "pressures": "Unguided travellers go in anyway and their craft come back empty, and each such loss is used to justify the next rise in the hire price.",
+        "wouldChangeIf": "A published chart would destroy the trade, which is why none exists — and why the two surveyors who tried were poled home very slowly."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -3940,8 +3940,8 @@
         "palette": "still black with a slow blue drift in it, bog-oak black and wet, blue bioluminescence in the shallows",
         "materials": "cane bundles pegged into bog-oak, root only where root will grow; vine cord traded in from the interior, hoarded; peat-tar in the seams; crocodile skulls on the pile heads",
         "signatureFeature": "A wall of recovered boat-nameplates from craft that went in without a poler, hung as an advertisement.",
-        "condition": "serviceable; nothing here is admired — clean, ordered, and slightly too quiet for its size",
-        "mood": "commercial, blunt, effective",
+        "condition": "serviceable; nothing here is admired",
+        "mood": "commercial and blunt",
         "approach": "The nameplate wall is the first thing at the landing and it is very large.",
         "senses": "air that does not move at all; paddle knock and nothing else; smoked hide and wet bone; no dry ground within a day"
       },
@@ -4281,10 +4281,10 @@
       "confidence": "medium",
       "why": {
         "founding": "A xanmeer service corridor now full to the ceiling.",
-        "siteAdvantages": "It connects two parts of a ruin that are otherwise a day apart. It connects two parts of a ruin that are otherwise a day apart, and the far half is the half the looters never reached.",
-        "occupantsMotive": "Nothing. Nothing lives in it; the silt is undisturbed, which is how the divers know nobody has been through in years.",
+        "siteAdvantages": "It connects two parts of a ruin that are otherwise a day apart, and the far half is the half the looters never reached.",
+        "occupantsMotive": "Nothing lives in it; the silt is undisturbed, which is how the divers know nobody has been through in years.",
         "pressures": "It is the only connection and it is a hundred metres long.",
-        "wouldChangeIf": "A drawdown year makes it walkable and everyone waits for one. A drawdown year makes it walkable and everyone waits for one — including the tending clan, who intend to be first through and have said so."
+        "wouldChangeIf": "A drawdown year makes it walkable and everyone waits for one — including the tending clan, who intend to be first through and have said so."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -4334,13 +4334,13 @@
       },
       "vibe": {
         "silhouette": "water going into a structure and not coming out",
-        "palette": "lamp-yellow on wet bone, black beyond, cane bundles yellowing, blue glow only where the water is disturbed, black smoke standing low",
-        "materials": "bone frame still upright with everything soft gone from it; sinew and hide lashing; tar and ash paid into every lap; crocodile skulls on the pile heads",
+        "palette": "lamp-yellow on wet bone, black beyond, blue glow only where the water is disturbed",
+        "materials": "bone frame still upright with everything soft gone from it; sinew and hide lashing perished in the water",
         "signatureFeature": "A hundred metres of dead straight flooded corridor with the far end visible as a coin of light — the whole hazard is legible from the entrance.",
-        "condition": "submerged to the ridge line, weed on everything above — drowned, silted, and slowly being taken apart by current",
-        "mood": "a clean, honest, terrifying swim",
+        "condition": "drowned, silted, and slowly being taken apart by the current",
+        "mood": "a clean, honest swim that kills the unprepared",
         "approach": "One breath, a straight line, and a visible exit.",
-        "senses": "cold coming up off black water; rot held down under cold water; no red, and everyone raised here notices its absence elsewhere"
+        "senses": "cold coming up off black water; rot held down under cold water; no red anywhere"
       },
       "assetPlan": [
         "submerged-ruins",
@@ -4481,8 +4481,8 @@
         "founding": "A night camp for poling guides crossing the inner swamp.",
         "siteAdvantages": "The one rise at the midpoint of the longest crossing, high enough to sleep on and small enough to defend.",
         "occupantsMotive": "Guides and their clients, overnight only. Guides sleep between their clients and the water, a courtesy that is also a guard against clients who decide at midnight that they can find their own way.",
-        "pressures": "The rise is small and the crossings have got busier. The rise is small and the crossings have got busier, so arrival order now decides who sleeps dry, and the older guides arrive early on principle.",
-        "wouldChangeIf": "A second rise would have to be built, and building it is a project nobody owns. A second rise would have to be built, and building it is a project nobody owns — the guides are rivals, and no village claims ground this far out."
+        "pressures": "The rise is small and the crossings have got busier, so arrival order now decides who sleeps dry, and the older guides arrive early on principle.",
+        "wouldChangeIf": "A second rise would have to be built, and building it is a project nobody owns — the guides are rivals, and no village claims ground this far out."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -4546,8 +4546,8 @@
         "palette": "black water with blue light under the surface, cairn stones grey and stacked, blue glow only where the water is disturbed",
         "materials": "bone-handled everything and nothing built at all; lashing of gut, which stinks and holds; hide over the roof, weighted with cairn stone; grave-cairns stepped up the bank, one course a death",
         "signatureFeature": "A raised deck exactly big enough for four craft and their crews, with a strict arrival-order rule that guides enforce on each other.",
-        "condition": "new work standing next to work three lifetimes old — hard-used, with the wear all in the same places",
-        "mood": "crowded, orderly, relieved",
+        "condition": "hard-used, with the wear all in the same places",
+        "mood": "crowded and orderly",
         "approach": "Lamps at water level on the only high ground you have seen all day.",
         "senses": "the deck lifting under you as the boats pass; bone clacking on bone in the wind; sulphur off disturbed mud; no sap smell at all this deep in"
       },
@@ -4887,8 +4887,8 @@
         "founding": "A Hist held by a crew who feed it, tend it, and will not let its tribe near it.",
         "siteAdvantages": "A defensible rise with sixty metres of black water between the tree and the tribe that owns it, and only one landing on the crew's side.",
         "occupantsMotive": "Occupiers who claim they are protecting it and may believe it. They tap it, and what they draw is worth more than anything else in the zone, which is the part of the protection story they do not tell.",
-        "pressures": "The tribe camps within sight and has done for eleven years. The tribe camps within sight and has done for eleven years, feeding a standoff that the surrounding villages now depend on: while it holds, nobody else can claim the holding.",
-        "wouldChangeIf": "Either party breaking the standoff resolves it violently. Either party breaking the standoff resolves it violently, and the tree itself is the likeliest casualty of the resolution."
+        "pressures": "The tribe camps within sight and has done for eleven years, feeding a standoff that the surrounding villages now depend on: while it holds, nobody else can claim the holding.",
+        "wouldChangeIf": "Either party breaking the standoff resolves it violently, and the tree itself is the likeliest casualty of the resolution."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -4948,7 +4948,7 @@
         "palette": "olive gloom with the blue light gone thin and flickering in the roots, black water at the base, and new pale timber where the scaffold went up",
         "materials": "scaffold of imported keeled timber bolted into living wood — the only bolted work in the region; cane cladding where the crew sleep; hide over the tapping gear",
         "signatureFeature": "A tribe's whole village stands abandoned on one bank while the tribe lives in a camp on the other, in sight of their own tree and their own houses.",
-        "condition": "half kept, half deliberately spoiled — maintained under argument, badly",
+        "condition": "half kept, half deliberately spoiled",
         "mood": "a siege that has become a way of life",
         "approach": "Two settlements facing each other across sixty metres of water, one of them empty.",
         "senses": "a hum that catches and restarts; drums that stopped when the scaffold went up; sap gone metallic; and the silence of a tribe that has decided not to speak in front of the crew"
@@ -5304,9 +5304,9 @@
       "why": {
         "founding": "Waterworks built by a vanished people who managed this swamp instead of living with it.",
         "siteAdvantages": "The zone's natural drainage pinch, where two channels are close enough that cut stone could join them and pay for itself.",
-        "occupantsMotive": "Nobody; the works run themselves, badly. Nobody; the works run themselves, badly, and the villages downstream have built their calendars around its faults rather than its intent.",
-        "pressures": "The half-working sluices still divert water, and two modern villages flood because of a decision made by a dead civilisation. The half-working sluices still divert water, and two modern villages flood because of a decision made by a dead civilisation — which each village blames on the other's failure to clear its own channel.",
-        "wouldChangeIf": "Repairing or breaking the works would redraw the zone's hydrology. Repairing or breaking the works would redraw the zone's hydrology, making one village's rice ground and drowning another's, so any repair is a political act before it is an engineering one."
+        "occupantsMotive": "Nobody; the works run themselves, badly, and the villages downstream have built their calendars around its faults rather than its intent.",
+        "pressures": "The half-working sluices still divert water, and two modern villages flood because of a decision made by a dead civilisation — which each village blames on the other's failure to clear its own channel.",
+        "wouldChangeIf": "Repairing or breaking the works would redraw the zone's hydrology, making one village's rice ground and drowning another's, so any repair is a political act before it is an engineering one."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -5364,7 +5364,7 @@
         "palette": "black water in cut channels running straighter than water should, grey lost-peoples stonework, blue light pooling where the flow stalls",
         "materials": "dressed channel stone laid by hands nobody can name, still watertight; bog-oak baulks dropped in later by dredgers; cane staging over the deep cuts",
         "signatureFeature": "Sluices that still open and close with the season, unattended, and the villages downstream have organised their year around the schedule of a machine nobody understands.",
-        "condition": "collapsed inward, with the outline still legible — fallen and grown through, twice over",
+        "condition": "collapsed inward, with the outline still legible",
         "mood": "engineering outliving its engineers; the zone's one genuine mystery of competence",
         "approach": "Cut stone channels running dead straight through the swamp.",
         "senses": "the floor vibrating faintly where water still moves under it; water noise where the deeps have none; cold mineral peat; and no bird, insect or drum inside the cut"
@@ -5864,9 +5864,9 @@
       "confidence": "medium",
       "why": {
         "founding": "The deepest hole in the inner swamps, named in the tribes' recitation and entered by nobody.",
-        "siteAdvantages": "A drowned sinkhole in the swamp floor, far deeper than anything around it. A drowned sinkhole in the swamp floor, far deeper than anything around it — the only place in the zone where the root layer does not close overhead.",
-        "occupantsMotive": "Something the recitation names and does not describe. Something the recitation names and does not describe, and the omission is deliberate: the naming tribes hold that describing it is an invitation.",
-        "pressures": "Divers who go for the treasure at the lip do not go past it. Divers who go for the treasure at the lip do not go past it, and the lip has been picked over often enough that the good salvage now starts below the point where people stop.",
+        "siteAdvantages": "A drowned sinkhole in the swamp floor, far deeper than anything around it — the only place in the zone where the root layer does not close overhead.",
+        "occupantsMotive": "Something the recitation names and does not describe, and the omission is deliberate: the naming tribes hold that describing it is an invitation.",
+        "pressures": "Divers who go for the treasure at the lip do not go past it, and the lip has been picked over often enough that the good salvage now starts below the point where people stop.",
         "wouldChangeIf": "Nothing."
       },
       "sitingPrefs": {
@@ -5922,10 +5922,10 @@
       },
       "vibe": {
         "silhouette": "a landform every local can name and none will approach, with a maintained warning at its edge",
-        "palette": "black above, blue below, no green anywhere, dredged block, undressed, grey, blue glow only where the water is disturbed, no red anywhere, by custom and by tree",
+        "palette": "black above, blue below, no green anywhere, and a disc of true black where the hole is",
         "materials": "no work here — peat, undressed block fallen from somewhere else, and bone; carved frills pushed into the bank as a warning line",
         "signatureFeature": "The water above it is a different colour from thirty metres away — a disc of true black in olive water, visible from a boat.",
-        "condition": "well-found, and defended by being hard to reach — new work standing next to work three lifetimes old",
+        "condition": "no work here to be in any condition; the warning at the lip is renewed and nothing else is",
         "mood": "the zone's deep-water terror, honestly signposted",
         "approach": "The colour change is the whole warning, and it is unmistakable.",
         "senses": "air that does not move at all; sulphur off disturbed mud; nothing green in the light"
@@ -6174,7 +6174,7 @@
         "palette": "bone-white ribs standing out of black water for half a mile, olive weed on the lower courses, blue light collecting inside the ribcages after dark",
         "materials": "no building at all — worked bone taken from the field itself, cut by licence, and cane staging where the cutters work",
         "signatureFeature": "A house built inside the rib cage, with the ribs left uncut as its frame, so the dwelling is legibly a body.",
-        "condition": "hard-used, with the wear all in the same places — repaired in a hurry and not yet repaired properly",
+        "condition": "repaired in a hurry and not yet repaired properly",
         "mood": "matter-of-fact about something enormous",
         "approach": "The ribs read from the water long before the works does.",
         "senses": "the pole shuddering when it finds bone under the mud; bone clacking on bone in wind, across the whole field; cold peat and old marrow; and no birds, though there should be thousands"
@@ -6500,10 +6500,10 @@
       "confidence": "medium",
       "why": {
         "founding": "The trial by which the deep-swamp young take an adult name: a kill, alone, in water.",
-        "siteAdvantages": "A reach that reliably holds the right animal. A reach that reliably holds the right animal, and shallow enough at the margins that the families can watch without being able to help.",
+        "siteAdvantages": "A reach that reliably holds the right animal, and shallow enough at the margins that the families can watch without being able to help.",
         "occupantsMotive": "Trial-keepers and, in season, the candidates' families waiting at the bank.",
-        "pressures": "The animal population is down and the trial is getting harder, which some read as a judgement. The animal population is down and the trial is getting harder, which some read as a judgement, and which has already pushed two families to send their young to the coastal trials instead.",
-        "wouldChangeIf": "A failed season would force a change to a rite nobody wants to change. A failed season would force a change to a rite nobody wants to change, and the deep-swamp tribes would rather import animals than admit the reach is finished."
+        "pressures": "The animal population is down and the trial is getting harder, which some read as a judgement, and which has already pushed two families to send their young to the coastal trials instead.",
+        "wouldChangeIf": "A failed season would force a change to a rite nobody wants to change, and the deep-swamp tribes would rather import animals than admit the reach is finished."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -6561,8 +6561,8 @@
         "palette": "black water and a bone-pale bottom, hide stretched grey on frames, blue bioluminescence in the shallows",
         "materials": "nothing raised — worked bone set into the ground and left; hide thongs, wet-tied and shrunk on; totems of bone and plumage at every landing",
         "signatureFeature": "The bank is lined with the skulls of every trial kill, mounted with the taker's name — and the recent row is visibly shorter than the old one.",
-        "condition": "repaired in a hurry and not yet repaired properly — everything replaced at least once, exactly as doctrine says it should be",
-        "mood": "hard, public, and shrinking",
+        "condition": "everything replaced at least once, exactly as doctrine says it should be",
+        "mood": "hard, public, and getting harder",
         "approach": "The skull line is visible from the water for four hundred metres.",
         "senses": "drum-signal carrying flat across the water; rot held down under cold water; the silence where birds should be"
       },
@@ -6886,10 +6886,10 @@
       "confidence": "medium",
       "why": {
         "founding": "A miregaunt standing in open water with nothing behind it to guard.",
-        "siteAdvantages": "Open shallow water on no route to anywhere. Open shallow water on no route to anywhere — which is itself the evidence, because a ward implies the route existed once.",
+        "siteAdvantages": "Open shallow water on no route to anywhere — which is itself the evidence, because a ward implies the route existed once.",
         "occupantsMotive": "One miregaunt, guarding nothing anybody can find.",
-        "pressures": "Its presence implies something here worth guarding, and nobody has found it. Its presence implies something here worth guarding, and nobody has found it; the standing theory is that the ward outlived a Horwalli work now under the silt.",
-        "wouldChangeIf": "Nothing. It returns. Nothing. It returns — and it returns to the same stance and the same bearing, which is the detail scholars pay for."
+        "pressures": "Its presence implies something here worth guarding, and nobody has found it; the standing theory is that the ward outlived a Horwalli work now under the silt.",
+        "wouldChangeIf": "Nothing. It returns — and it returns to the same stance and the same bearing, which is the detail scholars pay for."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -6941,13 +6941,13 @@
       },
       "vibe": {
         "silhouette": "an approach where the vegetation has been rearranged rather than cleared",
-        "palette": "black above, blue below, no green anywhere, black mud that holds a print for a week, blue light strong enough to read by",
+        "palette": "black above, blue below, no green anywhere, black mud that holds a print for a week",
         "materials": "raw bog-oak and shell grit, and nothing anyone has lashed; carved frills pushed into the bank as a warning line",
         "signatureFeature": "There is no ruin, no cache and no reason — the thing is guarding a spot of open water, and it has been doing so for longer than the villages have existed.",
-        "condition": "worn but sound; everything load-bearing is new — kept by one person's effort, obviously",
+        "condition": "nothing built here to wear, and the ground packed hard where it walks",
         "mood": "a question the world does not answer",
         "approach": "You can see it from a very long way, standing still, in the middle of nothing.",
-        "senses": "air that does not move at all; paddle knock and nothing else; smoked hide and wet bone; no sap smell at all this deep in"
+        "senses": "air that does not move at all; paddle knock and nothing else; wet bone and cold mud; no sap smell at all this deep in"
       },
       "assetPlan": [
         "totems-ritual",
@@ -7248,9 +7248,9 @@
       "why": {
         "founding": "A tribeless Naga camp working the northern poling route.",
         "siteAdvantages": "A blind bend where craft must slow.",
-        "occupantsMotive": "Tribeless Naga who take cargo and rarely lives. Tribeless Naga who take cargo and rarely lives, on the calculation that a robbed poler comes back next season and a dead one brings his tribe.",
-        "pressures": "The settled tribes are blamed for them, which suits nobody. The settled tribes are blamed for them, which suits nobody, and the settled hold has begun paying the camp not to work its stretch — a fact that would ruin it if known.",
-        "wouldChangeIf": "A settlement between settled and tribeless would end the camp. A settlement between settled and tribeless would end the camp, and the province's toll rates would fall with it."
+        "occupantsMotive": "Tribeless Naga who take cargo and rarely lives, on the calculation that a robbed poler comes back next season and a dead one brings his tribe.",
+        "pressures": "The settled tribes are blamed for them, which suits nobody, and the settled hold has begun paying the camp not to work its stretch — a fact that would ruin it if known.",
+        "wouldChangeIf": "A settlement between settled and tribeless would end the camp, and the province's toll rates would fall with it."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7307,10 +7307,10 @@
       },
       "vibe": {
         "silhouette": "a smoke plume above a cut bank, with a chain across the channel below it",
-        "palette": "black above, blue below, no green anywhere, hide stretched grey on frames, blue in the roots and nowhere else",
+        "palette": "black above, blue below, no green anywhere, hide stretched grey on frames",
         "materials": "cane cut this week and lashed the same hour; hide thongs, wet-tied and shrunk on; smoked hide, black and stiff; grave-cairns stepped up the bank, one course a death",
         "signatureFeature": "They take cargo, not lives, and issue a scratched tally-stick receipt — an organised toll pretending to be a robbery, or the reverse.",
-        "condition": "well-found, and defended by being hard to reach — clean, ordered, and slightly too quiet for its size",
+        "condition": "well-found, and hard to reach on purpose",
         "mood": "businesslike banditry",
         "approach": "A rope across the channel at chest height on a boat.",
         "senses": "the deck lifting under you as the boats pass; drum-signal carrying flat across the water; tar and burnt cane; no echo off water this black"
@@ -7475,10 +7475,10 @@
       "confidence": "medium",
       "why": {
         "founding": "A second camp working the southern route, run by a group that has fallen out with the northern one.",
-        "siteAdvantages": "A reed narrows with two exits. A reed narrows with two exits, so a boat that flees one exit is met at the other; the crew's whole method is the geometry.",
+        "siteAdvantages": "A reed narrows with two exits, so a boat that flees one exit is met at the other; the crew's whole method is the geometry.",
         "occupantsMotive": "A crew who are worse than their northern rivals and know it.",
-        "pressures": "The two camps are raiding each other's takings. The two camps are raiding each other's takings, and the southern crew has started killing where the northern would not, which is losing them the route's silence.",
-        "wouldChangeIf": "A merger or a war would resolve it. A merger or a war would resolve it, and either outcome would double the pressure on the ferry stage that feeds both routes."
+        "pressures": "The two camps are raiding each other's takings, and the southern crew has started killing where the northern would not, which is losing them the route's silence.",
+        "wouldChangeIf": "A merger or a war would resolve it, and either outcome would double the pressure on the ferry stage that feeds both routes."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7538,7 +7538,7 @@
         "palette": "still black with a slow blue drift in it, white shell grit at the landing, cold blue on the underside of the piles",
         "materials": "bone-handled everything and nothing built at all; cane-split cord, replaced constantly; smoked hide, black and stiff; carved frills set as boundary markers",
         "signatureFeature": "They fly a tally-stick pattern copied from the northern camp, badly, to trade on a reputation they have not earned.",
-        "condition": "solid where it is used daily, rotten a step off the path — worn but sound; everything load-bearing is new",
+        "condition": "solid where it is used daily, rotten a step off the path",
         "mood": "imitative and dangerous",
         "approach": "The forged marks are visible on the gate poles.",
         "senses": "cold coming up off black water; bone clacking on bone in the wind; dead water — flat, sweetish, wrong; the silence where birds should be"
@@ -7865,8 +7865,8 @@
         "founding": "A Naga village that took up the roads openly and now lives on them.",
         "siteAdvantages": "A creek head in shallow marsh that reaches three poling routes and hides a fleet of craft, none of which can be counted from the water.",
         "occupantsMotive": "Raiders who consider it work, and their families, who consider it income.",
-        "pressures": "The settled tribes have disowned them; the province's tolls have doubled because of them. The settled tribes have disowned them; the province's tolls have doubled because of them, and the coastal brokers who buy the takings are the same brokers the settled tribes sell rice to.",
-        "wouldChangeIf": "A season of failed raids would starve or scatter them. A season of failed raids would starve or scatter them, and scattering is the outcome the settled Naga fear most — a hundred tribeless families with no village to negotiate with."
+        "pressures": "The settled tribes have disowned them; the province's tolls have doubled because of them, and the coastal brokers who buy the takings are the same brokers the settled tribes sell rice to.",
+        "wouldChangeIf": "A season of failed raids would starve or scatter them, and scattering is the outcome the settled Naga fear most — a hundred tribeless families with no village to negotiate with."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7931,11 +7931,11 @@
       },
       "vibe": {
         "silhouette": "markedly larger dwellings behind a stake fence, with the boats kept bow-out and the fence facing the water",
-        "palette": "black water and a bone-pale bottom, white shell grit at the landing, blue bioluminescence in the shallows, hide-brown and bone, the only two colours",
+        "palette": "black water and a bone-pale bottom, white shell grit at the landing, hide-brown and bone, the only two colours",
         "materials": "bone frame with hide stretched and smoked over it; lashing of gut, which stinks and holds; tar and ash paid into every lap; crocodile skulls on the pile heads",
         "signatureFeature": "The village's boat sheds hold more craft than the village has people, all of them taken, all of them repainted with the same mark.",
-        "condition": "repaired by two parties who undo each other's work — half kept, half deliberately spoiled",
-        "mood": "unapologetic, prosperous, and living on borrowed time",
+        "condition": "prosperous and badly finished: new goods in old houses",
+        "mood": "prosperous, and living on borrowed time",
         "approach": "The shed roofs come out of the reeds first, far too many of them.",
         "senses": "mud closing over the foot at every step; bone clacking on bone in the wind; rot held down under cold water; no dry ground within a day"
       },
@@ -8116,8 +8116,8 @@
         "founding": "A settled Naga tribe with a tended Hist, villages, fields and a quarrel with their own tribeless relatives.",
         "siteAdvantages": "Firm ground on the inner swamp's main poling route, with a landing deep enough for laden craft, which is the reason they can trade at all.",
         "occupantsMotive": "People who want the road trade and are undermined by kin who rob it.",
-        "pressures": "Every outsider arrives assuming they are brigands, which is exhausting and occasionally fatal. Every outsider arrives assuming they are brigands, which is exhausting and occasionally fatal, and the hold now pays the northern camp for quiet rather than fight a war it would win and could not afford.",
-        "wouldChangeIf": "A settlement with the tribeless would change how the whole southern interior travels. A settlement with the tribeless would change how the whole southern interior travels, and would cost the coastal escort trade its best market."
+        "pressures": "Every outsider arrives assuming they are brigands, which is exhausting and occasionally fatal, and the hold now pays the northern camp for quiet rather than fight a war it would win and could not afford.",
+        "wouldChangeIf": "A settlement with the tribeless would change how the whole southern interior travels, and would cost the coastal escort trade its best market."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -8187,11 +8187,11 @@
       },
       "vibe": {
         "silhouette": "markedly larger dwellings on a long dry hold, with pens, drying racks and a drum frame at the centre",
-        "palette": "still black with a slow blue drift in it, black mud that holds a print for a week, the blue thin here, and everyone notices",
+        "palette": "still black with a slow blue drift in it, black mud that holds a print for a week, the blue thin here",
         "materials": "bog-oak posts, cane walls, bone lintels; lashing of gut, which stinks and holds; smoked hide, black and stiff; totems of bone and plumage at every landing",
         "signatureFeature": "Everything is built to a larger scale — door heights, bench spans, cook pots — so a normal-sized visitor is physically a child here.",
-        "condition": "kept by one person's effort, obviously — everything replaced at least once, exactly as doctrine says it should be",
-        "mood": "hospitable and enormous; the correction to the province's Naga stereotype",
+        "condition": "everything replaced at least once, exactly as doctrine says it should be",
+        "mood": "hospitable, and built a size too large",
         "approach": "You notice the doorways before you notice the people.",
         "senses": "air that does not move at all; a slow drum kept up all night for the dead; sulphur off disturbed mud; no dry ground within a day"
       },
@@ -8391,10 +8391,10 @@
       "confidence": "medium",
       "why": {
         "founding": "A village that services the grave-stake fields of the deep swamp and works them only after dark, when the blights are readable.",
-        "siteAdvantages": "Central to nine fields, on the one rise that stays dry. Central to nine fields, on the one rise that stays dry — which also makes it the only place in the zone that can store stakes in quantity.",
+        "siteAdvantages": "Central to nine fields, on the one rise that stays dry — which also makes it the only place in the zone that can store stakes in quantity.",
         "occupantsMotive": "Stake-setters who work nights and sleep through the day.",
-        "pressures": "Since Umbriel there is more work than there are setters, and the backlog is measurable in risings. Since Umbriel there is more work than there are setters, and the backlog is measurable in risings; villages now bid against each other for a night's work and the poorest fields go unstaked.",
-        "wouldChangeIf": "Losing a generation of setters would let the fields go. Losing a generation of setters would let the fields go, and the Naga-Kur's whole grave discipline runs through this village's rota."
+        "pressures": "Since Umbriel there is more work than there are setters, and the backlog is measurable in risings; villages now bid against each other for a night's work and the poorest fields go unstaked.",
+        "wouldChangeIf": "Losing a generation of setters would let the fields go, and the Naga-Kur's whole grave discipline runs through this village's rota."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -8459,11 +8459,11 @@
       },
       "vibe": {
         "silhouette": "a village whose graves take the high ground and whose living take the wet",
-        "palette": "still black with a slow blue drift in it, cane bundles yellowing, cold blue on the underside of the piles, frill-spines set as a fence line",
+        "palette": "still black with a slow blue drift in it, cane bundles yellowing, cold blue on the underside of the piles",
         "materials": "bog-oak posts, cane walls, bone lintels; hide thongs, wet-tied and shrunk on; no seal at all — it is meant to leak; grave-cairns stepped up the bank, one course a death",
         "signatureFeature": "The village is asleep at noon and fully at work at midnight, lit blue by shielded lamps that do not carry — a settlement on inverted hours.",
-        "condition": "well-found, and defended by being hard to reach — holding, but the next bad season decides it",
-        "mood": "nocturnal, brisk, professionally unafraid",
+        "condition": "well-found, and defended by being hard to reach",
+        "mood": "nocturnal and professionally unafraid",
         "approach": "Arriving in daylight you will think it abandoned.",
         "senses": "the deck lifting under you as the boats pass; a slow drum kept up all night for the dead; tar and burnt cane; no dry ground within a day"
       },
@@ -8660,9 +8660,9 @@
       "why": {
         "founding": "Egg-poachers working the zone's nesting grounds for a coastal buyer.",
         "siteAdvantages": "Between three nesting sites, on a creek with a fast exit.",
-        "occupantsMotive": "Poachers who take clutches the villages are counting. Poachers who take clutches the villages are counting, working for a coastal buyer who sells the eggs as a delicacy and never sees the marsh.",
-        "pressures": "Taking eggs here reads as close to taking children, and the villages respond accordingly. Taking eggs here reads as close to taking children, and the villages respond accordingly; two poachers have been staked alive and the practice has not stopped.",
-        "wouldChangeIf": "One caught crew would end the trade for a season. One caught crew would end the trade for a season, and would give the villages a name to send to the coast — which is the outcome the buyer has paid to prevent."
+        "occupantsMotive": "Poachers who take clutches the villages are counting, working for a coastal buyer who sells the eggs as a delicacy and never sees the marsh.",
+        "pressures": "Taking eggs here reads as close to taking children, and the villages respond accordingly; two poachers have been staked alive and the practice has not stopped.",
+        "wouldChangeIf": "One caught crew would end the trade for a season, and would give the villages a name to send to the coast — which is the outcome the buyer has paid to prevent."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -8720,8 +8720,8 @@
         "palette": "black water with blue light under the surface, drift bone and drift wood in the same line, blue in the roots and nowhere else",
         "materials": "cane cut this week and lashed the same hour; hide thongs, wet-tied and shrunk on; smoked hide, black and stiff; stake-cairns and totems in place of grave-stakes",
         "signatureFeature": "Packed clutches in wet moss crates, labelled by species and by buyer, and one crate labelled with a species the villages do not permit to be taken at all.",
-        "condition": "hard-used, with the wear all in the same places — new work standing next to work three lifetimes old",
-        "mood": "callous, efficient, deeply resented",
+        "condition": "cut this season and not meant to last another",
+        "mood": "efficient, and deeply resented",
         "approach": "The crates are stacked in the open because they cannot be hidden and kept warm.",
         "senses": "air that does not move at all; reed hiss and, under it, the drums; peat, cold and mineral; nothing green in the light"
       },
@@ -8894,7 +8894,7 @@
         "siteAdvantages": "The shortest firm crossing of the neck between two channels, which is why the rollers have been here for two centuries.",
         "occupantsMotive": "A drag crew who charge by the hull and keep the rollers greased with fish oil they buy from the drawdown village they are competing with.",
         "pressures": "The crew and the drawdown village compete for the same traffic, and each has an interest in the other's accidents being talked about.",
-        "wouldChangeIf": "A cut channel would end both trades. A cut channel would end both trades, which is why the two rivals have twice sent a joint delegation against the survey."
+        "wouldChangeIf": "A cut channel would end both trades, which is why the two rivals have twice sent a joint delegation against the survey."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -8955,8 +8955,8 @@
         "palette": "black water and a bone-pale bottom, blue glow only where the water is disturbed, hide stretched grey on frames, black smoke standing low",
         "materials": "lashed cane over black bog-oak sills; sinew and hide lashing; smoked hide, black and stiff; crocodile skulls on the pile heads",
         "signatureFeature": "Two centuries of hulls have worn a polished groove in the bog-oak rollers, and the crew charge by how deep your keel sits in it.",
-        "condition": "kept up, and it shows in the small repairs — serviceable; nothing here is admired",
-        "mood": "muscular, cheerful, extortionate",
+        "condition": "kept up, and it shows in the small repairs",
+        "mood": "cheerful extortion, priced by the hull",
         "approach": "The groove is visible across the neck like a path.",
         "senses": "the deck lifting under you as the boats pass; bone clacking on bone in the wind; tar and burnt cane; no sap smell at all this deep in"
       },
@@ -9128,10 +9128,10 @@
       "confidence": "medium",
       "why": {
         "founding": "Households who lash their rafts together for the wet season and separate for the dry.",
-        "siteAdvantages": "A sheltered backwater with no current. A sheltered backwater with no current, and no owner — the water is too poor for a fixed village to have claimed it.",
+        "siteAdvantages": "A sheltered backwater with no current, and no owner — the water is too poor for a fixed village to have claimed it.",
         "occupantsMotive": "Families who are neighbours six months a year and strangers the other six.",
-        "pressures": "Every year the lashing order is renegotiated and every year it causes a row. Every year the lashing order is renegotiated and every year it causes a row, because the outer rafts take the weather and the inner ones take the smell.",
-        "wouldChangeIf": "A permanent lashing would make them a village and they have voted against it twice. A permanent lashing would make them a village and they have voted against it twice, chiefly because a village can be taxed and a raft cannot be found."
+        "pressures": "Every year the lashing order is renegotiated and every year it causes a row, because the outer rafts take the weather and the inner ones take the smell.",
+        "wouldChangeIf": "A permanent lashing would make them a village and they have voted against it twice, chiefly because a village can be taxed and a raft cannot be found."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -9187,8 +9187,8 @@
         "palette": "black water with blue light under the surface, cairn stones grey and stacked, cold blue on the underside of the piles",
         "materials": "bone plate lashed as cladding where the cane rots fastest; vine cord traded in from the interior, hoarded; tar and ash paid into every lap; carved frills set as boundary markers",
         "signatureFeature": "The lashing plan is kept as a knotted cord rather than a document — the village's constitution is a piece of rope.",
-        "condition": "everything replaced at least once, exactly as doctrine says it should be — tidy in the used parts, rank in the rest",
-        "mood": "seasonal, contractual, argumentative",
+        "condition": "tidy in the used parts, rank in the rest",
+        "mood": "contractual, and argued over every year",
         "approach": "In the dry season there is nothing here at all.",
         "senses": "bone clacking on bone in the wind; dead water — flat, sweetish, wrong; no sap smell at all this deep in"
       },
@@ -9349,10 +9349,10 @@
       "confidence": "medium",
       "why": {
         "founding": "A village that ran from the raiding Naga and has not gone back.",
-        "siteAdvantages": "The first defensible ground they reached. The first defensible ground they reached, which is nobody's ground, which is why no tribe has had to decide what they are.",
+        "siteAdvantages": "The first defensible ground they reached, which is nobody's ground, which is why no tribe has had to decide what they are.",
         "occupantsMotive": "People waiting to hear whether their village still stands.",
-        "pressures": "It has been two years and the camp is becoming a settlement nobody will admit to founding. It has been two years and the camp is becoming a settlement nobody will admit to founding; the children have started calling it by a name the adults refuse to use.",
-        "wouldChangeIf": "News either way ends the camp. News either way ends the camp — and the news exists: a poler has seen the village and has been paid by two different parties not to say what he saw."
+        "pressures": "It has been two years and the camp is becoming a settlement nobody will admit to founding; the children have started calling it by a name the adults refuse to use.",
+        "wouldChangeIf": "News either way ends the camp — and the news exists: a poler has seen the village and has been paid by two different parties not to say what he saw."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -9408,11 +9408,11 @@
       },
       "vibe": {
         "silhouette": "shelters pitched too close together on ground nobody would choose, with a lookout on the only rise",
-        "palette": "black water and a bone-pale bottom, hide-brown shelters crowded on the one rise, blue light thin and everybody noticing it",
+        "palette": "black water and a bone-pale bottom, hide-brown shelters crowded on the one rise, the blue light thin over the rise",
         "materials": "bone-handled everything and nothing built at all; hide thongs, wet-tied and shrunk on; tar and ash paid into every lap; crocodile skulls on the pile heads",
         "signatureFeature": "The camp is laid out in the exact plan of the village they left, house for house, in tents.",
-        "condition": "worn but sound; everything load-bearing is new — well-found, and defended by being hard to reach",
-        "mood": "suspended; grief with its coat still on",
+        "condition": "tents two years old and mended twice; nothing here was built to stand",
+        "mood": "suspended: two years of waiting to hear",
         "approach": "A tent village with a street pattern that is far too formal for a camp.",
         "senses": "cold off black water at every hour; the drum that should answer, not answering; smoke, wet hide and too many people; and no dry ground within a day"
       },
@@ -9571,10 +9571,10 @@
       "confidence": "medium",
       "why": {
         "founding": "A gallery beneath a burial ground.",
-        "siteAdvantages": "The roots reach the graves, which is the whole problem. The roots reach the graves, which is the whole problem: the gallery is fed by the burial ground it undermines.",
-        "occupantsMotive": "Bog blights, in numbers, working steadily upward. Bog blights, in numbers, working steadily upward — and, unusually, staying below by day, which is the only reason the village above still exists.",
+        "siteAdvantages": "The roots reach the graves, which is the whole problem: the gallery is fed by the burial ground it undermines.",
+        "occupantsMotive": "Bog blights, in numbers, working steadily upward — and, unusually, staying below by day, which is the only reason the village above still exists.",
         "pressures": "The village above is driving a stake ring and losing ground each year.",
-        "wouldChangeIf": "Clearing and restaking it is the zone's defining deed. Clearing and restaking it is the zone's defining deed, and the Naga-Kur would owe whoever did it a standing that no amount of trade buys."
+        "wouldChangeIf": "Clearing and restaking it is the zone's defining deed, and the Naga-Kur would owe whoever did it a standing that no amount of trade buys."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -9632,7 +9632,7 @@
         "palette": "black, with the blue only in the water, blue at the waterline, dark above it, olive weed matted over everything",
         "materials": "unworked black mud over stone, with drift bone laid along the high line; no marker at all, and the polers say that is deliberate",
         "signatureFeature": "A gallery under a pulled stake field that the risen have gone down into, following the roots back toward the village above.",
-        "condition": "kept up, and it shows in the small repairs — repaired in a hurry and not yet repaired properly",
+        "condition": "nothing maintained below, and the stake ring above it re-driven every year",
         "mood": "the zone's signature dungeon: the blight problem, underground",
         "approach": "A mouth in the middle of a stake field, with fresh stakes driven in a ring around it.",
         "senses": "the floor giving under the foot where the blight has been through it; bone clacking on bone somewhere ahead; rot held down under cold water; and no echo in a gallery that should ring"
@@ -10438,9 +10438,9 @@
       "why": {
         "founding": "A xanmeer whose vakka mechanisms have never stopped working.",
         "siteAdvantages": "A rise in black water with no approach that is not overlooked by the building.",
-        "occupantsMotive": "The defences. The defences, and nothing else: no squatters, no scavengers, no den — the one xanmeer in the zone with no living tenant at all.",
-        "pressures": "Four expeditions in fifty years, no returns; the count is kept by the nearest village. Four expeditions in fifty years, no returns; the count is kept by the nearest village, who charge to recite it and consider the recitation a public service.",
-        "wouldChangeIf": "Nothing short of the mechanisms failing. Nothing short of the mechanisms failing — and the vakka stones that drive them are worth more than the contents to every broker on the coast."
+        "occupantsMotive": "The defences, and nothing else: no squatters, no scavengers, no den — the one xanmeer in the zone with no living tenant at all.",
+        "pressures": "Four expeditions in fifty years, no returns; the count is kept by the nearest village, who charge to recite it and consider the recitation a public service.",
+        "wouldChangeIf": "Nothing short of the mechanisms failing — and the vakka stones that drive them are worth more than the contents to every broker on the coast."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -10499,10 +10499,10 @@
       },
       "vibe": {
         "silhouette": "terraced massing with an intact, unbroken frontage and no path to it",
-        "palette": "black until the lamp, then blue, dredged block, undressed, grey, blue light strong enough to read by, green only on the weed, never on the light",
-        "materials": "collapsed cane and hide, the bog-oak posts still true; vine cord traded in from the interior, hoarded; no seal at all — it is meant to leak; carved frills set as boundary markers",
+        "palette": "black until the lamp, then blue; dredged block, undressed, grey; green only on the weed",
+        "materials": "dressed pre-Duskfall block, unbroken and still tight at the joints; carved frills set as boundary markers at the landing",
         "signatureFeature": "The threshold is a debris field of exactly four expeditions' equipment, and the village keeps a board naming all four parties.",
-        "condition": "burnt, then rained on for a century — sound stone, dead wood, no roof at all",
+        "condition": "intact — the one xanmeer in the zone with its frontage unbroken",
         "mood": "a dungeon that has been advertising its lethality for fifty years",
         "approach": "The board is at the landing, before you ever see the building.",
         "senses": "cold coming up off black water; a slow drum kept up all night for the dead; rot held down under cold water; no dry ground within a day"
@@ -10569,7 +10569,7 @@
           "lore-reveal"
         ],
         "impact": "major",
-        "hook": "A xanmeer whose vakka mechanisms have never stopped, and no approach to it is out of the building's sight.",
+        "hook": "A stepped stone xanmeer whose old locking mechanisms have never stopped working, and no approach to it is out of the building's sight.",
         "reviewed": true
       },
       "interior": {
@@ -10687,8 +10687,8 @@
         "founding": "Moon adders den along a stretch of bank that catches what little moonlight the zone gets.",
         "siteAdvantages": "Open banks with a clear sky line — rare here.",
         "occupantsMotive": "Adders, and the venom-takers who work them for the daril trade. The venom-takers work at moonrise because the adders come to the open bank then; the whole trade is timed to the one thing the zone's canopy allows.",
-        "pressures": "The takers are unlicensed and the village nearby wants a cut. The takers are unlicensed and the village nearby wants a cut, and has begun burning the bank margin to drive the adders onto its own ground.",
-        "wouldChangeIf": "A licence deal would make it a works site instead of a lair. A licence deal would make it a works site instead of a lair, and would put the daril trade of three regions behind one village's gate."
+        "pressures": "The takers are unlicensed and the village nearby wants a cut, and has begun burning the bank margin to drive the adders onto its own ground.",
+        "wouldChangeIf": "A licence deal would make it a works site instead of a lair, and would put the daril trade of three regions behind one village's gate."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -10743,7 +10743,7 @@
         "palette": "black water broken white by the pole, cold blue on the underside of the piles, bone-white stake tops",
         "materials": "no work here — peat, undressed block fallen from somewhere else, and bone; carved frills pushed into the bank as a warning line; with one pole left standing in the mud",
         "signatureFeature": "The adders come out only on clear nights, so the site is empty and harmless perhaps two nights in five — a hazard with a weather forecast.",
-        "condition": "well-found, and defended by being hard to reach — everything replaced at least once, exactly as doctrine says it should be",
+        "condition": "no work here beyond a warning line, and that renewed each season",
         "mood": "conditional danger; a place that changes with the sky",
         "approach": "Bare pale banks under an open sky, which in this zone is itself strange.",
         "senses": "the deck lifting under you as the boats pass; bone clacking on bone in the wind; sulphur off disturbed mud; the silence where birds should be"
@@ -10911,8 +10911,8 @@
       "why": {
         "founding": "A collapse in the root layer, drowned, in the middle of a reed flat.",
         "siteAdvantages": "A rare hole the swamp has flooded rather than filled — one of only a handful in the province, so the thing itself is a landmark.",
-        "occupantsMotive": "Divers, occasionally. Divers, occasionally, and always the same three, who will not take passengers and will not say what they bring up.",
-        "pressures": "It goes into the root layer and nobody has mapped where it comes out. It goes into the root layer and nobody has mapped where it comes out, though a body put in here has twice surfaced two zones away.",
+        "occupantsMotive": "Divers, occasionally, and always the same three, who will not take passengers and will not say what they bring up.",
+        "pressures": "It goes into the root layer and nobody has mapped where it comes out, though a body put in here has twice surfaced two zones away.",
         "wouldChangeIf": "A dry cycle would expose the rim and make it enterable on foot."
       },
       "sitingPrefs": {
@@ -10966,13 +10966,13 @@
       },
       "vibe": {
         "silhouette": "the rim, and a change in vegetation around it",
-        "palette": "black, with the blue only in the water, olive weed matted over everything, the blue thin here, and everyone notices",
+        "palette": "black, with the blue only in the water, olive weed matted over everything",
         "materials": "no structure — a bottom of cold silt and a rim of fallen block; a drum frame at the landing with no drum in it",
         "signatureFeature": "From the surface it is a perfectly round hole in a reed flat, and the reeds stop dead at its edge as if cut.",
-        "condition": "maintained just enough and no more — kept by one person's effort, obviously",
-        "mood": "geometric, wrong, and obviously an entrance",
+        "condition": "unchanged; the rim has not moved in living memory",
+        "mood": "too round, and obviously an entrance",
         "approach": "The reeds stop dead at the rim as if cut; the hole itself is invisible until you are on it.",
-        "senses": "warmth held in the hide walls after dark; rot held down under cold water; no echo off water this black"
+        "senses": "cold coming up off black water; rot held down under cold water; no echo off water this black"
       },
       "assetPlan": [
         "stockade-scaffold",
@@ -11110,10 +11110,10 @@
       "confidence": "medium",
       "why": {
         "founding": "A Sithis temple in the deep swamp where the doctrine is practised at its least metaphorical.",
-        "siteAdvantages": "Black water on all sides and no neighbour close enough to object. Black water on all sides and no neighbour close enough to object, and one landing that can be watched from the house itself.",
+        "siteAdvantages": "Black water on all sides and no neighbour close enough to object, and one landing that can be watched from the house itself.",
         "occupantsMotive": "Nisswo who preach a sermon the coastal Nisswo will not repeat.",
-        "pressures": "The interior tribes tolerate it and do not attend; the settled Naga forbid their young to go. The interior tribes tolerate it and do not attend; the settled Naga forbid their young to go, and the forbidding has made attendance a way for the young to make a point.",
-        "wouldChangeIf": "A closure would need someone with authority nobody in the deep swamp recognises. A closure would need someone with authority nobody in the deep swamp recognises — and the coastal Nisswo who could claim that authority will not come this far in."
+        "pressures": "The interior tribes tolerate it and do not attend; the settled Naga forbid their young to go, and the forbidding has made attendance a way for the young to make a point.",
+        "wouldChangeIf": "A closure would need someone with authority nobody in the deep swamp recognises — and the coastal Nisswo who could claim that authority will not come this far in."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -11172,7 +11172,7 @@
         "materials": "dressed pre-Duskfall stone, kept swept and not repaired; bone set into the floor in courses; cane matting laid fresh over stone that is never washed",
         "signatureFeature": "The sanctuary floor drains to a single hole, and everything the temple has ever done goes down it — a religion designed for cleaning up after itself.",
         "condition": "cared for without being maintained — swept daily, mended never",
-        "mood": "articulate, hospitable, absolutely serious",
+        "mood": "hospitable, and absolutely serious",
         "approach": "The building is beautifully kept, which is the disturbing part.",
         "senses": "stone cold coming up through the feet in a country with no cold; a slow drum kept up for the dead, all night, every night; old blood and cold water; and no echo, in a hall built to have one"
       },
@@ -11281,7 +11281,7 @@
           "dungeon-delve"
         ],
         "impact": "major",
-        "hook": "The building is beautifully kept, which is the disturbing part; the sanctuary floor drains to one hole and everything the temple has done goes down it.",
+        "hook": "The building is beautifully kept and swept daily; the sanctuary floor drains to one hole, and everything the temple has done goes down it.",
         "reviewed": true
       },
       "interior": {
@@ -12492,10 +12492,10 @@
       "confidence": "medium",
       "why": {
         "founding": "A village under the Umbriel track whose dead did not lie down afterwards.",
-        "siteAdvantages": "Directly on the shadow's path, which nobody could have chosen. Directly on the shadow's path, which nobody could have chosen, and on ground that was the best rice land in the zone before it.",
+        "siteAdvantages": "Directly on the shadow's path, which nobody could have chosen, and on ground that was the best rice land in the zone before it.",
         "occupantsMotive": "The village's own dead, still in their own houses.",
         "pressures": "This is precisely the enemy the Naga-Kur's discipline was built for, and they have contained rather than cleared it.",
-        "wouldChangeIf": "Clearing it is a deed the Naga-Kur would owe the player for permanently. Clearing it is a deed the Naga-Kur would owe the player for permanently — and would free the rice ground, which four neighbouring villages have already privately divided."
+        "wouldChangeIf": "Clearing it is a deed the Naga-Kur would owe the player for permanently — and would free the rice ground, which four neighbouring villages have already privately divided."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -12556,7 +12556,7 @@
         "materials": "cane and hide left exactly as it was, perished in place; bog-oak posts sound; the containment ring of pikes newer than the village by a century and a half",
         "signatureFeature": "The Naga-Kur have staked a containment ring around the whole village rather than entering it, and the ring is maintained, dated and slowly being pushed inward.",
         "condition": "undisturbed and standing — nobody has taken so much as a pole from it in a hundred and fifty years",
-        "mood": "besieged, methodical, patient",
+        "mood": "besieged and methodical",
         "approach": "The ring is a kilometre out and you cross it before you understand what it is.",
         "senses": "cold that arrives before you do; drums, but only from the containment camp a mile off; nothing rotten, which is wrong; and no water sound at all"
       },
@@ -12909,8 +12909,8 @@
         "founding": "A sealed cistern that a subsidence cracked open twelve years ago.",
         "siteAdvantages": "Under a xanmeer floor, in ground that is still moving, so any seal put back would have to be built to shift with it.",
         "occupantsMotive": "What was sealed in it, now not sealed in it.",
-        "pressures": "It is spreading through the flooded lower halls and out into the swamp. It is spreading through the flooded lower halls and out into the swamp, and the dredgers working two channels away have started finding it in their spoil.",
-        "wouldChangeIf": "Sealing it again is possible and nobody has the nerve. Sealing it again is possible and nobody has the nerve; the tending clan has priced the work three times and each price has been higher than the last."
+        "pressures": "It is spreading through the flooded lower halls and out into the swamp, and the dredgers working two channels away have started finding it in their spoil.",
+        "wouldChangeIf": "Sealing it again is possible and nobody has the nerve; the tending clan has priced the work three times and each price has been higher than the last."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -12964,8 +12964,8 @@
         "palette": "lamp-yellow on wet bone, black beyond, blue light strong enough to read by, bog-oak black and wet",
         "materials": "the place is its own material: silt, cane wrack and whatever the water has stripped; no marker at all, and the polers say that is deliberate",
         "signatureFeature": "The crack is a hand's width and the spread from it is mapped on the wall outside by successive visitors — a growth chart of something that should not be growing.",
-        "condition": "the frame survives; everything soft has gone — sound stone, dead wood, no roof at all",
-        "mood": "documented, accelerating, ignored",
+        "condition": "the frame survives; everything soft has gone",
+        "mood": "documented, and ignored",
         "approach": "You find the growth chart scratched on the wall outside before you find the crack.",
         "senses": "the pole shuddering when it finds bone; two drums answering, a long way apart; sulphur off disturbed mud; no echo off water this black"
       },
@@ -13125,9 +13125,9 @@
       "why": {
         "founding": "An adult wamasu holds a pond on the zone's main poling route.",
         "siteAdvantages": "Deep still water a few hundred metres off the main poling line, close enough that the detour poles run past it for its whole length.",
-        "occupantsMotive": "One adult, resident for years. One adult, resident for years, and the villages have begun leaving offerings at the bank in the old Shadowfen manner rather than treat it as vermin.",
-        "pressures": "Traffic detours two hours around it and the detour is itself dangerous. Traffic detours two hours around it and the detour is itself dangerous, running past the reed narrows where the southern camp works.",
-        "wouldChangeIf": "Killing it reopens the route and the tribes disagree about whether it should be killed. Killing it reopens the route and the tribes disagree about whether it should be killed — the offering-makers hold that a wamasu on a route is a toll, not a problem."
+        "occupantsMotive": "One adult, resident for years, and the villages have begun leaving offerings at the bank in the old Shadowfen manner rather than treat it as vermin.",
+        "pressures": "Traffic detours two hours around it and the detour is itself dangerous, running past the reed narrows where the southern camp works.",
+        "wouldChangeIf": "Killing it reopens the route and the tribes disagree about whether it should be killed — the offering-makers hold that a wamasu on a route is a toll, not a problem."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -13181,13 +13181,13 @@
       },
       "vibe": {
         "silhouette": "dead standing trees with lightning scarring, and a pond with nothing living in it",
-        "palette": "still black with a slow blue drift in it, olive weed matted over everything, the blue thin here, and everyone notices, white grave-cairns stepped up the bank",
+        "palette": "still black with a slow blue drift in it, olive weed matted over everything, white grave-cairns stepped up the bank",
         "materials": "unworked black mud over stone, with drift bone laid along the high line; a drum frame at the landing with no drum in it",
         "signatureFeature": "The detour is marked with poles for its whole length, and the poles have been there so long they have grown roots.",
-        "condition": "patched so often the original work is hard to find — well-found, and defended by being hard to reach",
+        "condition": "the pole line patched so often the original work is hard to find",
         "mood": "a permanent tax on travel, in animal form",
         "approach": "The pole line tells you what is out there long before you would see it.",
-        "senses": "warmth held in the hide walls after dark; drum-signal carrying flat across the water; smoked hide and wet bone; no red, and everyone raised here notices its absence elsewhere"
+        "senses": "reed hiss and, under it, the drums; drum-signal carrying flat across the water; smoked hide and wet bone; no red anywhere"
       },
       "assetPlan": [
         "totems-ritual",
@@ -13486,10 +13486,10 @@
       "confidence": "medium",
       "why": {
         "founding": "A wild Hist that has cut itself off from the collective — the rare, catastrophic condition, visible in one place.",
-        "siteAdvantages": "Deep swamp, no tribe, no witnesses to argue about it. Deep swamp, no tribe, no witnesses to argue about it — which is also why it has been left alone long enough to be studied.",
-        "occupantsMotive": "Nothing speaks for it and nothing tends it. Nothing speaks for it and nothing tends it; the nearest tribe sends no one and will not explain the omission to outsiders.",
+        "siteAdvantages": "Deep swamp, no tribe, no witnesses to argue about it — which is also why it has been left alone long enough to be studied.",
+        "occupantsMotive": "Nothing speaks for it and nothing tends it; the nearest tribe sends no one and will not explain the omission to outsiders.",
         "pressures": "It is the physical demonstration of the main quest's premise, standing in the world before the quest names it.",
-        "wouldChangeIf": "Reconnection is possible in principle and nobody knows how. Reconnection is possible in principle and nobody knows how, and the tribes that could try are the same tribes that will not go near it."
+        "wouldChangeIf": "Reconnection is possible in principle and nobody knows how, and the tribes that could try are the same tribes that will not go near it."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -13543,7 +13543,7 @@
         "palette": "a tree so dark it reads as a hole in the canopy, black water beneath, blue light everywhere except within thirty paces of it",
         "materials": "nothing built and nothing lashed: the ground under it is bare of even a cairn, and the nearest stake line is set facing it",
         "signatureFeature": "Its flowers are dead white — neither the province's red nor the Naga-Kur's blue — which is how the tribes know at a glance that it is alone.",
-        "condition": "repaired in a hurry and not yet repaired properly — kept by strangers passing, so it is odd but never derelict",
+        "condition": "untended: the ground under it bare, and the nearest stake line facing it",
         "mood": "the isolation state, shown rather than explained",
         "approach": "White light where there should be blue.",
         "senses": "no hum at all inside its shade, and a strong one just outside; no drums allowed within earshot; nothing to smell, in a country of smells; and total quiet under it, at any hour"
@@ -13713,8 +13713,8 @@
       "why": {
         "founding": "An Imperial-era cargo barge that went down in the narrows with its load aboard.",
         "siteAdvantages": "It sank in the deep of the bend and has never shifted, so the hull is intact and the holds are still closed.",
-        "occupantsMotive": "Fish, and divers who take a little at a time. Fish, and divers who take a little at a time, on the reasoning that a wreck emptied all at once is a wreck somebody comes to look at.",
-        "pressures": "The cargo is bonded goods and a company that no longer exists still legally owns them. The cargo is bonded goods and a company that no longer exists still legally owns them, which makes selling any of it on the coast a question rather than a sale.",
+        "occupantsMotive": "Fish, and divers who take a little at a time, on the reasoning that a wreck emptied all at once is a wreck somebody comes to look at.",
+        "pressures": "The cargo is bonded goods and a company that no longer exists still legally owns them, which makes selling any of it on the coast a question rather than a sale.",
         "wouldChangeIf": "A dry cycle would expose the deck and end the slow looting."
       },
       "sitingPrefs": {
@@ -13769,8 +13769,8 @@
       },
       "vibe": {
         "silhouette": "a broken mast or a hull line breaking the water or the bank",
-        "palette": "black above, blue below, no green anywhere, white shell grit at the landing, blue in the roots and nowhere else, frill-spines set as a fence line",
-        "materials": "unworked black mud over stone, with drift bone laid along the high line; carved frills pushed into the bank as a warning line",
+        "palette": "black above, blue below, no green anywhere; white shell grit where the bank shelves",
+        "materials": "keeled timber and iron, Imperial work, silted to the gunwale; drift bone laid along the high line of the bank",
         "signatureFeature": "Her cargo seals are intact and still legible, which makes every item taken from her provably stolen from a company that has not existed for a century.",
         "condition": "submerged to the ridge line, weed on everything above",
         "mood": "a legal fiction rotting underwater",

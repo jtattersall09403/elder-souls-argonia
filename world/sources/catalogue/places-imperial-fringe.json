@@ -103,7 +103,7 @@
         "materials": "Imperial rubble tower, timber floors renewed in local wood, an iron basket nobody could make today.",
         "signatureFeature": "The code board inside: the Legion's fire signals, annotated in Jel down the margin.",
         "condition": "The lower two storeys are sound; the top floor is new timber on old corbels.",
-        "mood": "Watchful, cold, slightly bored.",
+        "mood": "Watchful, cold, bored.",
         "approach": "The ash streak down the stonework is visible before the tower reads as a tower.",
         "senses": "Wind through arrow slits; the basket ticking as it cools."
       },
@@ -189,7 +189,7 @@
           "faction-gateway"
         ],
         "impact": "real",
-        "hook": "Climb the signal tower and the whole road belt lays itself out below you, fort to fort, which is worth more than the runners charge to let you up.",
+        "hook": "Climb the signal tower and you can see the road belt fort to fort, which is worth more than the runners charge to let you up.",
         "reviewed": true
       },
       "interior": {
@@ -245,7 +245,7 @@
         "siteAdvantages": "A stagnant iron-rich seep where the ore can be lifted from the mud in cakes.",
         "occupantsMotive": "The diggers are seasonal, come from three villages, and consider the work slightly shameful.",
         "pressures": "The seep is being worked out; each season's cakes are smaller and further from the path.",
-        "wouldChangeIf": "Would be abandoned without ceremony, and the province would think better of itself for it."
+        "wouldChangeIf": "Would be abandoned without ceremony, and nobody would mark the day."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -309,10 +309,10 @@
       "vibe": {
         "silhouette": "Orange water, black spoil, a clay bloomery mound like a termite hill, and boot-boards laid over mud.",
         "palette": "Rust orange, peat black, sick yellow scum.",
-        "materials": "Clay furnace, timber boards, reed baskets — nothing permanent, nothing beautiful.",
+        "materials": "Clay furnace, timber boards, reed baskets, none of it meant to outlast the season.",
         "signatureFeature": "The orange water: the seep stains everything it touches, including the workers, to the knee.",
         "condition": "Rebuilt every season because the mound is broken open to get the bloom out.",
-        "mood": "Grim, purposeful, faintly ashamed.",
+        "mood": "Grim, purposeful, ashamed of itself.",
         "approach": "The water colour is visible through the reeds well before the workings are.",
         "senses": "Sucking mud; a hollow ring when a bloom is struck; sulphur."
       },
@@ -1528,7 +1528,7 @@
         "palette": "Terracotta, whitewash, and crop green in straight lines.",
         "materials": "Imperial farmhouse stone and pantile; the field hands' quarters are reed and mud fifty metres away.",
         "signatureFeature": "The staddle-stone barn, standing clear of the ground on stone mushrooms so nothing can climb in.",
-        "condition": "Prosperous and slightly over-repaired, the way a family that fears looking poor repairs things.",
+        "condition": "Prosperous and over-repaired, the way a family that fears looking poor repairs things.",
         "mood": "Insular, courteous, defensive.",
         "approach": "The straight field edges announce it from further than the roof does.",
         "senses": "Hens; a dog chain; somebody counting in Cyrodiilic."
@@ -1768,7 +1768,7 @@
         "materials": "Imperial ashlar and vault ribs, no timber left at all.",
         "signatureFeature": "Empress Tavia's cell, still identifiable, its door hinges still in the jamb.",
         "condition": "Roofless, root-split, structurally treacherous above the first floor.",
-        "mood": "Aggrieved and domestic — a house that was made into a prison and never forgave it.",
+        "mood": "Aggrieved and domestic: a house made into a prison.",
         "approach": "A track through fig scrub, then the ditch, then the gate arch with the ducal arms hacked flat.",
         "senses": "Wind in an empty stair; bats; the smell of wet stone dust."
       },
@@ -2041,10 +2041,10 @@
       "vibe": {
         "silhouette": "A stone well head with a tiled roof on one side of the road; reed houses on stilts over water on the other.",
         "palette": "Wet stone grey against reed gold; the two halves do not share a colour.",
-        "materials": "Imperial well masonry and pantile; Argonian stilt frames and reed — adjacent, unblended, per the two-culture kit rule.",
+        "materials": "Imperial well masonry and pantile on one side; Argonian stilt frames and reed on the other, and nothing borrowed either way.",
         "signatureFeature": "The road as the boundary: it is a village made of two villages facing each other.",
         "condition": "The stone half is cracking; the reed half was rebuilt last year.",
-        "mood": "Neighbourly, unresolved, faintly comic.",
+        "mood": "Neighbourly, unresolved, and comic to everyone but the two halves.",
         "approach": "The well roof shows first; then you realise the other side of the road is on stilts.",
         "senses": "A windlass; water poured; two languages across one street."
       },
@@ -2290,9 +2290,9 @@
         "materials": "Canvas, rope, timber shoring — an entirely temporary camp with a permanent-looking system.",
         "signatureFeature": "The find table under the tent, where every object is drawn before it is moved.",
         "condition": "Neat, disciplined, expensively supplied.",
-        "mood": "Earnest, bureaucratic, quietly resented.",
+        "mood": "Earnest, bureaucratic, resented.",
         "approach": "The tent is the only white surface in the landscape and it glows at dusk.",
-        "senses": "Trowels; a hand bell for finds; a generator of argument in three languages."
+        "senses": "Trowels; a hand bell rung for finds; argument in three languages."
       },
       "assetPlan": [
         "market-tents",
@@ -2486,11 +2486,11 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Sap does to Argonians what it does, and the fringe villages have nowhere to put someone coming off it; a former user built a house at the edge of the road network deliberately far enough from a tradehouse to make relapse a walk.",
+        "founding": "Sap ruins Argonians, and the fringe villages have nowhere to put someone coming off it. A former user built a house an hour from the nearest tradehouse, so that relapse would be a walk.",
         "siteAdvantages": "An hour's walk from the nearest place that sells anything, on good water, with a hill between it and the road so that nobody passing hears what goes on inside.",
         "occupantsMotive": "The keeper has done it herself and takes nobody's money; the house runs on what the families of those inside can bring, which is usually food and occasionally nothing.",
         "pressures": "Two sap traders on the Gideon road consider the house a commercial threat and have said so; it has no protection beyond the fact that hurting it would be unforgivable.",
-        "wouldChangeIf": "Would close the day the keeper died, and there is no second keeper — which is the thing the whole fringe worries about and nobody discusses with her."
+        "wouldChangeIf": "Would close the day the keeper died, and there is no second keeper. The fringe worries about it and nobody raises it with her."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -2568,7 +2568,7 @@
         "materials": "Ordinary village mud-and-reed, built long instead of tall so everyone inside is on one floor and can be reached quickly.",
         "signatureFeature": "The yard: swept sand, raked every morning, and the rake marks are the house's clock — a day nobody rakes is a bad day.",
         "condition": "Poor materials, immaculate upkeep.",
-        "mood": "Steady, unsentimental, quietly heroic and not remotely interested in being told so.",
+        "mood": "Steady, unsentimental, and short with anyone who calls the work brave.",
         "approach": "You smell woodsmoke before you see the chimney, and the hill hides the house until you are at the gate — which is the point.",
         "senses": "A rake on sand; someone being sick, without any fuss being made of it; strong bitter tea."
       },
@@ -2743,7 +2743,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A wallow of warm clay in a screened hollow, with a hut beside it and a keeper who supplies the herbs — one of the province's rites for people who need an answer that talking cannot produce, and the fringe's only one within reach of the Imperial road.",
+        "founding": "A wallow of warm clay in a screened hollow, with a hut beside it and a keeper who supplies the herbs. People come for an answer that talking cannot produce, and this is the only such place within reach of the Imperial road.",
         "siteAdvantages": "A warm clay seep in a hollow ringed by fig, so the place is genuinely silent and genuinely dark for eleven hours in every twenty-four.",
         "occupantsMotive": "The keeper takes no payment for the wallow and considerable payment for the herbs, and is candid about the distinction.",
         "pressures": "Nibenese visitors have started coming out from Gideon for it as a novelty, which the keeper allows and the neighbouring villages resent; two of the novelty visitors have not come out of the wallow the same as they went in.",
@@ -3086,7 +3086,7 @@
         "materials": "Mud and reed houses, an uxith of grown rather than built material, and the tree, which is not architecture.",
         "signatureFeature": "The root ring: houses set exactly at the distance the roots permit, so the village plan is drawn by the tree.",
         "condition": "Constantly rebuilt at the edges, unchanged at the centre.",
-        "mood": "Rooted, self-possessed, faintly cold towards Gideon.",
+        "mood": "Rooted, self-possessed, cold towards Gideon.",
         "approach": "The crown breaks the canopy — the west's second true landmark, and the only living one.",
         "senses": "Wind in a crown far above; the uxith; frogs; a village that goes quiet at root talk."
       },
@@ -3626,7 +3626,7 @@
         "materials": "Imperial fort masonry; the timber floors are gone and the reeds have colonised the parade.",
         "signatureFeature": "The reflection: from the causeway the fort and its double are the same size, which reads as a landmark and a warning.",
         "condition": "Walls sound, everything internal drowned or rotted.",
-        "mood": "Still, green, wrong in a way that takes a moment.",
+        "mood": "Still, green, and quieter than a fort should be.",
         "approach": "The wall shows over the reeds from a long way, and then the water in front of it does.",
         "senses": "Frogs inside the walls; wind through empty embrasures; a splash you did not make."
       },
@@ -3883,7 +3883,7 @@
         "materials": "Imperial fort masonry, timber hoardings added since, a wattle stock pen where the parade ground was.",
         "signatureFeature": "The Imperial eagle still over the gate because nobody bothered to chisel it off.",
         "condition": "Structurally sound, socially illegitimate; repaired in wood by people with no masons.",
-        "mood": "Officious, mercenary, faintly embarrassed — men playing at being a garrison.",
+        "mood": "Officious, mercenary, embarrassed: men playing at being a garrison.",
         "approach": "The road bends and the wall is simply there, higher than anything you have seen since Leyawiin.",
         "senses": "Chain and windlass; the toll bell; goats in the ditch."
       },
@@ -4172,7 +4172,7 @@
         "materials": "Cyrodiilic dressed stone and timber below the eaves, red pantile, Argonian reed and mud in every quarter the council does not photograph.",
         "signatureFeature": "The Records Court: a stone archive whose ground floor floods every monsoon, so the province's history is stored on the first floor and up a ladder.",
         "condition": "Maintained but patched with local materials — imperial masonry with wattle repairs, which nobody finds funny any more.",
-        "mood": "Bureaucratic, dry-witted, quietly humiliated; the last office in Argonia that still stamps things.",
+        "mood": "Bureaucratic, dry-witted, humiliated. The last office in Argonia that still stamps things.",
         "approach": "From the west the road climbs out of the Blackwood trees and the town simply appears in the notch, roofs first; from the east it is a wall of pale stone at the end of the marsh.",
         "senses": "Wet paper and clay dust; the courthouse bell; guar carts; frogs from the gardens pond at dusk."
       },
@@ -4452,7 +4452,7 @@
         "materials": "Daubed marks, mats, a rope rail — nothing that could not be abandoned in an hour.",
         "signatureFeature": "The tally post, red-daubed once per arrival for as long as anyone has counted.",
         "condition": "Unbuilt on purpose.",
-        "mood": "Expectant in wintertide; a bare field the rest of the year, and the bareness is the point.",
+        "mood": "Expectant in wintertide; a bare field the rest of the year.",
         "approach": "You follow red daub marks on trees away from the road until they stop at a bank.",
         "senses": "In season: the ground itself moving, and a smell like turned compost."
       },
@@ -4702,7 +4702,7 @@
         "materials": "Imported dressed stone — an offence here, and they do not know it.",
         "signatureFeature": "The roof instruments, turned to the sky in a province where the sky is usually invisible.",
         "condition": "New, exact, already streaked green with damp they did not anticipate.",
-        "mood": "Officious, foreign, faintly ridiculous, genuinely dangerous.",
+        "mood": "Officious and foreign, and the wards on the door are real.",
         "approach": "The flat roofline is wrong against every other roof for a kilometre; that is how you find it.",
         "senses": "A humming ward; brass on stone; no local voices."
       },
@@ -4957,10 +4957,10 @@
       "vibe": {
         "silhouette": "Three long grass banks with ditches between them, running in shallow zigzags across a field, and the castle's broken face beyond them.",
         "palette": "Grass over everything, one raw ochre scar where the last quarrying was, and grey ruin behind.",
-        "materials": "Earth. Nothing else — which is the point, and why it has outlasted the masonry it was dug against.",
+        "materials": "Earth, and nothing else; it has outlasted the masonry it was dug against.",
         "signatureFeature": "The battery positions: six flat pads at the exact spacing of Imperial siege engines, so the whole plan of an attack is readable by standing in one of them.",
         "condition": "Sharper than anything else here, and being eaten from the road end.",
-        "mood": "Quiet, tidy, faintly obscene once you understand what the shapes are for.",
+        "mood": "Quiet and tidy, and laid out by an army.",
         "approach": "They read as agricultural ridges until you are on them and the geometry resolves into something intentional.",
         "senses": "Wind in long grass; the hollow sound the ditches make of your own footsteps; nothing else."
       },
@@ -5479,7 +5479,7 @@
         "materials": "Xanmeer tileset ashlar; nothing has been added and nothing repaired.",
         "signatureFeature": "The reading stand on the second terrace, worn by three centuries of elbows.",
         "condition": "Failing on purpose; every fallen block left exactly where it landed and numbered.",
-        "mood": "Reverent, patient, faintly appalling.",
+        "mood": "Reverent, patient, appalling.",
         "approach": "You climb from the market past numbered rubble; the numbers get lower as you get higher.",
         "senses": "Grit falling; the reader's voice; a wet chemical smell from the doorway."
       },
@@ -5726,7 +5726,7 @@
         "signatureFeature": "The nine bells, each a different note, so the handlers know which gate opened without looking.",
         "condition": "Hard-worn, constantly mended, clean where it matters.",
         "mood": "Noisy, competent, animal-smelling.",
-        "approach": "You hear the bells long before you see a fence — the zone's audible cue.",
+        "approach": "You hear the bells long before you see a fence.",
         "senses": "Guar calling; bells; hide and dung and dry grass."
       },
       "assetPlan": [
@@ -6203,7 +6203,7 @@
         "materials": "Mud, wattle, thatch — and a hearth ring built from fire-cracked stone salvaged from the burn.",
         "signatureFeature": "The salvaged hearth: stones that were burnt in 1E 2828 and are being used to make fire again.",
         "condition": "Kept up at real cost; the thatch is thinner than it should be.",
-        "mood": "Relieved. It is the place where the bad ground stops.",
+        "mood": "Relieved: the place where the bad ground stops.",
         "approach": "Walking out of the burn, the trees begin and the roof is under them.",
         "senses": "Leaves — startling, after silence; water; wood being split."
       },
@@ -6426,7 +6426,7 @@
         "materials": "Mud, wattle and reed, packed so tightly the eaves touch — the only crowded village in the zone.",
         "signatureFeature": "The flood posts on the slope, marking each year's high water in a downward-drifting series.",
         "condition": "Dense, well kept, physically unable to expand.",
-        "mood": "Snug, slightly claustrophobic, hospitable under pressure.",
+        "mood": "Snug, crowded, hospitable under pressure.",
         "approach": "In the wet season it is a village floating on a plain of water and reads from a kilometre.",
         "senses": "Everything at close quarters; water lapping at the fourth post; a great many frogs."
       },
@@ -7294,7 +7294,7 @@
         "siteAdvantages": "Crosses the widest shallow between the Gideon hinterland and the marsh edge, where nothing can be piled.",
         "occupantsMotive": "Six villages own segments and each maintains its own, so the causeway's quality changes every two hundred metres.",
         "pressures": "One village's segment is always in dispute and therefore always the worst.",
-        "wouldChangeIf": "Would be replaced piecemeal forever — that is how it works."
+        "wouldChangeIf": "Would be replaced piecemeal forever; that is how it is maintained."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7366,8 +7366,8 @@
         "materials": "Buoyant lashed logs, reed matting, hand ropes on the disputed segment only.",
         "signatureFeature": "The segment marks: each village's totem set at its own boundary, six distinct carvings.",
         "condition": "Excellent, adequate, and one stretch that is frankly dangerous.",
-        "mood": "Long, meditative, slightly precarious.",
-        "approach": "It goes flat to the horizon; you cannot see the end from either end, which is the whole experience.",
+        "mood": "Long, slow, and never quite steady.",
+        "approach": "It goes flat to the horizon; you cannot see the end from either end.",
         "senses": "Timber flexing underfoot; water inches away; a bird colony half a kilometre off."
       },
       "assetPlan": [
@@ -8024,7 +8024,7 @@
         "materials": "Lashed buoyant timber, reed houses, walkways of plank that are untied and retied constantly.",
         "signatureFeature": "The spiral: the village's plan is a mooring order, and the order is social — the centre is the oldest household.",
         "condition": "Rebuilt continuously; no raft is more than fifteen years old.",
-        "mood": "Fluid, gossipy, hard to pin down in every sense.",
+        "mood": "Fluid, gossipy, and never moored where you left it.",
         "approach": "From the shore it is a low line of roofs on water with no land under it, which reads immediately as different.",
         "senses": "Water under everything; timber knocking; conversation that carries across the whole village."
       },
@@ -8260,7 +8260,7 @@
       "vibe": {
         "silhouette": "Six stepped terraces of pale stone walling on a green shelf, with the houses along the top step and the whole thing legible in one glance from below.",
         "palette": "Dry-stone grey, the hard yellow-green of upland grass, terracotta pantiles that exist nowhere else in the province.",
-        "materials": "Dry-stone retaining walls, Nibenese pantile roofs, and Argonian reed everywhere the tiles ran out — three centuries of make-do stacked in one silhouette.",
+        "materials": "Dry-stone retaining walls, Nibenese pantile roofs, and Argonian reed everywhere the tiles ran out.",
         "signatureFeature": "The cisterns: five Imperial-cut stone tanks under the top terrace, still watertight, and the reason there is a village here rather than a ruin.",
         "condition": "Old bones, continuously patched; nothing here has been rebuilt from scratch.",
         "mood": "Thrifty, cool-headed, a little superior about the lowland.",
@@ -8519,7 +8519,7 @@
         "materials": "Imperial farmhouse masonry with a reed-thatched cart shelter added.",
         "signatureFeature": "The milestone in the yard, still legible, still counting to a city in another province.",
         "condition": "Sound, thriftily maintained, one range shut up and used for hay.",
-        "mood": "Sleepy, hospitable, faintly official.",
+        "mood": "Sleepy, hospitable, and still official on paper.",
         "approach": "You see the yard wall from a bend a good half-kilometre out — it is the only masonry between here and the notch.",
         "senses": "Cart axles; a dog; the smell of frying river fish."
       },
@@ -8976,7 +8976,7 @@
         "materials": "Laid stone, fired clay dishes, a timber rack — precise where nothing else in the zone is.",
         "signatureFeature": "The rack itself, angled and re-angled, its post holes drilled in a visible arc of past positions.",
         "condition": "Meticulous, swept, subtly out of true.",
-        "mood": "Quiet, technical, superstitious in a way that is also empirical.",
+        "mood": "Quiet, technical, and superstitious about things it also measures.",
         "approach": "The shelf appears above the tree line and the rack breaks its skyline — a close, tall cue.",
         "senses": "Trays scraped; wind on an open shelf; a faint mineral bitterness."
       },
@@ -9212,7 +9212,7 @@
         "signatureFeature": "The flood scale painted up the third pier, repainted higher three times.",
         "condition": "The road deck is sound; everything below it is being eaten.",
         "mood": "Exposed, breezy, provisional.",
-        "approach": "The arches read from a long way across the plain — a rare true sightline in this province, and it is man-made.",
+        "approach": "The arches read from a long way across the plain, which almost nothing here does.",
         "senses": "Water sucking at the silted arches; swallows; wind across the deck."
       },
       "assetPlan": [
@@ -9778,7 +9778,7 @@
         "siteAdvantages": "A cut meander bank exposes the clay in a two-metre seam; the river takes the waste and brings the fuel.",
         "occupantsMotive": "Four potting families work it in rotation and quarrel about the rotation.",
         "pressures": "The seam is being undercut by the river it depends on; the wintertide rootworm migration marks its stop with this very clay, and the waykeepers want the bank left alone.",
-        "wouldChangeIf": "Would move fifty metres upstream, as it has three times before, which is the most Argonian thing about it."
+        "wouldChangeIf": "Would move fifty metres upstream, as it has three times before."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -10321,7 +10321,7 @@
         "materials": "Imperial plank-and-shutter construction on Argonian stilts — built by people who did not ask how the river behaves and then had to.",
         "signatureFeature": "The jar wall: an entire interior wall of specimens in river-water, labelled in two hands, one of which stopped four years ago.",
         "condition": "Sound but shabby; the repairs are all local work on an Imperial frame.",
-        "mood": "Earnest, tired, faintly fraudulent.",
+        "mood": "Earnest, tired, and not honest about its returns.",
         "approach": "The lamps show on the water long before the building does, which is how everyone finds it after dark.",
         "senses": "Preserving spirit and river mud; the tick of a drying frame; someone dictating a label aloud."
       },
@@ -10586,7 +10586,7 @@
         "materials": "Timber head-gear and Imperial cart track; everything underground is unlined rock.",
         "signatureFeature": "The queen's gallery: a domed dig you can stand up in, warm as a byre.",
         "condition": "Overworked, propped, patched with green timber.",
-        "mood": "Sour, tired, faintly proprietorial.",
+        "mood": "Sour, tired, proprietorial.",
         "approach": "The road smells of the rendering shed a full minute before the adit shows.",
         "senses": "Chitin clicking underfoot; dripping; a low continuous hum from the queen."
       },
@@ -10826,7 +10826,7 @@
         "materials": "Round mud-and-wattle walls, reed roof, a single stone hearth ring.",
         "signatureFeature": "The stocked hearth: fuel, water and dried fish, replenished by strangers for strangers.",
         "condition": "Immaculate; the rota is visible in how new the thatch is.",
-        "mood": "Silent, safe, faintly holy.",
+        "mood": "Silent, safe, and treated as holy.",
         "approach": "It sits on the skyline of the saddle, small and pale, and there is no gate and no wall.",
         "senses": "Wind in the doorway; ash; a very deep quiet."
       },
@@ -11012,7 +11012,7 @@
         "siteAdvantages": "A dry box canyon in the western hills: enclosed, quiet, and acoustically legible, which for its builders was the whole specification.",
         "occupantsMotive": "Nobody. A scholars' camp outside has been at it for two seasons and is measuring the wrong things.",
         "pressures": "Every visitor brings a lamp, and the lamp is exactly what stops the building working.",
-        "wouldChangeIf": "Anyone who put the light out and followed the ridges would find the chamber, which is the whole design of the place and cannot be brute-forced."
+        "wouldChangeIf": "Would give up its inner chamber to anyone who put the light out and followed the ridges by hand."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -11052,14 +11052,14 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "a doorway in a canyon wall with no lintel carving, no window anywhere above it, and two ridges running away into black",
-        "palette": "unrelieved dark; dry pale stone at the mouth and nothing after it",
-        "materials": "dressed stone with continuous guide-ridges at hand height, texture where a ruin would have ornament",
+        "silhouette": "A doorway in a canyon wall with no lintel carving, no window anywhere above it, and two ridges running away into the dark.",
+        "palette": "Unrelieved dark; dry pale stone at the mouth and nothing after it.",
+        "materials": "Dressed stone with continuous guide-ridges at hand height, texture where a ruin would have ornament.",
         "signatureFeature": "A navigation system that still works perfectly in total darkness, in a building that has no provision for light at all.",
-        "condition": "structurally sound and completely illegible to a lamp",
-        "mood": "a place that was never meant to be looked at",
+        "condition": "Structurally sound and completely illegible to a lamp.",
+        "mood": "Enclosed, patient, never meant to be looked at.",
         "approach": "The scholars' camp is met first, with its charts of an ornament scheme that does not exist.",
-        "senses": "chambers proportioned for echo; your own footsteps arriving back changed"
+        "senses": "Chambers proportioned for echo; your own footsteps arriving back changed."
       },
       "assetPlan": [
         "xanmeer-tileset",
@@ -11281,7 +11281,7 @@
         "materials": "Beaten earth, a timber load rack, reed shade, one lockable ledger box.",
         "signatureFeature": "The runaway board: two names, painted, with the amount still owed under each.",
         "condition": "Hard-used, swept, deliberately comfortless.",
-        "mood": "Brisk, transactional, quietly angry.",
+        "mood": "Brisk, transactional, angry under it.",
         "approach": "Cart noise stops; the road becomes a path; the yard is the hinge.",
         "senses": "Hammock ropes; a tally counted aloud; dust."
       },
@@ -11904,7 +11904,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "The rim line north out of the fringe is faster than the road and no cart can use it, so letters go that way and nothing else does.",
-        "siteAdvantages": "A saddle high enough that a runner can see the next saddle — one of the very few places in the province where that is true.",
+        "siteAdvantages": "A saddle high enough that a runner can see the next saddle, which is true of few places in the province.",
         "occupantsMotive": "Runners use it because it halves the time to the north; nobody else uses it because it is a scramble.",
         "pressures": "One bad section is washing out and the runners argue about whether to say so.",
         "wouldChangeIf": "Would be lost in a season if the runners stopped clearing it."
@@ -12401,7 +12401,7 @@
         "founding": "The Niben crystal workings made two men rich a generation ago, and every year since, someone Nibenese has arrived on the fringe convinced the seam runs east; this is the current one, with a claim mark, a sample pile and about eleven weeks of food.",
         "siteAdvantages": "A scree slope where the country rock is exposed without digging, close enough to the road that a mule can reach it and far enough that nobody watches what is dug.",
         "occupantsMotive": "Sabinus believes the seam is here. His two hired locals believe he will pay them and are correct for about another month.",
-        "pressures": "The sample pile is getting bigger and the food is getting smaller, which is the whole story of the place, and both are visible from the path.",
+        "pressures": "The sample pile is getting bigger and the food is getting smaller, and both are visible from the path.",
         "wouldChangeIf": "Will be an abandoned camp within a season either way — either because he was wrong, or because being right brings a hundred people and a licence."
       },
       "sitingPrefs": {
@@ -12726,8 +12726,8 @@
         "materials": "Market tents, hurdles, tethering lines — nothing that outlasts the week.",
         "signatureFeature": "The pitch rings: bare circles in the grass showing exactly who has traded here longest.",
         "condition": "Nothing permanent, by law and by preference.",
-        "mood": "Loud, cheerful, faintly illegal.",
-        "approach": "You come over the saddle lip and the whole fair is below you at once — the zone's best single reveal.",
+        "mood": "Loud, cheerful, illegal.",
+        "approach": "You come over the saddle lip and the whole fair is below you at once.",
         "senses": "Auction calling; guar; frying oil; three languages."
       },
       "assetPlan": [
@@ -13172,8 +13172,8 @@
         "materials": "Dry-stacked local stone; the glass beads are the only worked thing here.",
         "signatureFeature": "The opened cairns: their stones lie downslope in fans, so the hillside reads as damage from a distance.",
         "condition": "Two thirds intact, one third robbed and never reclosed.",
-        "mood": "Melancholy, exposed, faintly criminal.",
-        "approach": "One of the zone's few genuine long views — the mounds break the skyline from the valley track.",
+        "mood": "Melancholy, exposed, and worked over by thieves.",
+        "approach": "The mounds break the skyline from the valley track, which is a long view by the standards of this country.",
         "senses": "Wind over stones; glass grinding underfoot; nothing living."
       },
       "assetPlan": [
@@ -13828,7 +13828,7 @@
         "siteAdvantages": "A south-facing slope above the ravine head, with spring water at the top and stone to build the terraces from.",
         "occupantsMotive": "They stay because terraces are generational work and abandoning them wastes four lifetimes.",
         "pressures": "Using stone for the terrace walls is a compromise the lowland villages needle them about constantly.",
-        "wouldChangeIf": "Would collapse literally and socially if the spring at the top failed."
+        "wouldChangeIf": "Would collapse, terraces and village both, if the spring at the top failed."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -13905,7 +13905,7 @@
         "signatureFeature": "The water ladder: a stone channel running down the terrace ends, with a wooden gate at each level.",
         "condition": "Superbly maintained; a fallen terrace wall is a village emergency.",
         "mood": "Industrious, contained, water-obsessed.",
-        "approach": "The banding of the terraces reads from the valley floor at a kilometre — the zone's most legible settlement.",
+        "approach": "The banding of the terraces reads from the valley floor at a kilometre.",
         "senses": "Water running down the ladder; goats; stone being reset."
       },
       "assetPlan": [
@@ -14521,7 +14521,7 @@
           "faction-gateway"
         ],
         "impact": "real",
-        "hook": "The town under the fort's gate, which feeds the garrison and quietly hates it.",
+        "hook": "The town under the fort's gate: it feeds the garrison and it hates the garrison.",
         "reviewed": true
       },
       "interior": {
@@ -15141,7 +15141,7 @@
         "materials": "Clay, reed, bone, river stone — everything is made from what is on the spit.",
         "signatureFeature": "The ash end: a year of destroyed work in one heap, which is the actual monument.",
         "condition": "Nothing here is more than a year old, by doctrine and by flood.",
-        "mood": "Absorbed, unselfconscious, slightly euphoric.",
+        "mood": "Absorbed, unselfconscious, elated.",
         "approach": "You see the colour of the pieces from upstream before you can make out what they are.",
         "senses": "River on gravel; clay being worked; something being broken deliberately."
       },
@@ -15577,7 +15577,7 @@
         "siteAdvantages": "A drowned box canyon: sheer walls, forty metres of cold water, one narrow outlet.",
         "occupantsMotive": "Nothing human lives here. The rule is that you may drink from the outlet and not from the tarn.",
         "pressures": "Treasure-hunters ignore the rule roughly once a decade.",
-        "wouldChangeIf": "Would not change. That is what fixed danger means; the province will not soften it."
+        "wouldChangeIf": "Would not change. Nothing here has ever been made safer."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -15882,9 +15882,9 @@
         "silhouette": "A villa's tiled roof over a hedge, and inside its courtyard a reed house with its own little roof.",
         "palette": "Terracotta above, reed gold within, hedge green all around.",
         "materials": "Imperial masonry used as a shell; the actual dwelling inside it is entirely reed and mud.",
-        "signatureFeature": "The house inside the house — the province's material ethics as domestic architecture.",
+        "signatureFeature": "The house inside the house: a reed dwelling built in the courtyard rather than in the stone rooms.",
         "condition": "The Imperial fabric is failing; the reed house is new.",
-        "mood": "Ingenious, slightly defensive, comfortable.",
+        "mood": "Ingenious, defensive, comfortable.",
         "approach": "The hedge hides it entirely; you find it by a path through a gap.",
         "senses": "Chickens in a peristyle; rain on tiles and then on reed; two roofs at once."
       },
@@ -16357,7 +16357,7 @@
         "materials": "Nothing built. The cache is bundled hide and pitch, and the marker is a carving.",
         "signatureFeature": "The carving: a Jel word for 'enough', which is the whole history of the war in one cut.",
         "condition": "Undisturbed; the pitch has held.",
-        "mood": "Ordinary, until you know; then heavy.",
+        "mood": "Ordinary. It is a sand bank under three trees until somebody tells you.",
         "approach": "It is invisible. You arrive with directions from a story or you never arrive.",
         "senses": "Wind in three trees; sand; nothing to hear at all."
       },
@@ -16726,7 +16726,7 @@
         "siteAdvantages": "A dead-end arm with no current, where the bloom is never flushed out.",
         "occupantsMotive": "Nobody owns it; the raft village uses it to navigate at night and treats it as a shared instrument.",
         "pressures": "It is dimmer than it was, and the village argues about whether that is the spring or the lake.",
-        "wouldChangeIf": "Would be a serious loss, practically as well as aesthetically, if it failed."
+        "wouldChangeIf": "Would cost the raft village its night navigation if it failed."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -16799,7 +16799,7 @@
         "materials": "Nothing built; there is a single pole at the arm's mouth to find it by.",
         "signatureFeature": "Your own wake, glowing, marking exactly where you have been.",
         "condition": "Undiminished from a distance; measurably dimmer up close.",
-        "mood": "Silent, beautiful, slightly eerie.",
+        "mood": "Silent, beautiful, unnerving.",
         "approach": "By day the arm is unremarkable. Everything about this place is a night reveal.",
         "senses": "Almost nothing — the silence is what makes the light land."
       },
@@ -16999,7 +16999,7 @@
         "materials": "Undressed local stone, set upright — a use of stone the province permits because it names the dead.",
         "signatureFeature": "The road gap: two stones set closer together where a path crosses, with a rubbed hollow between them.",
         "condition": "Weathered, several fallen, one recently re-erected by somebody.",
-        "mood": "Sober, quiet, cumulative — the impact is in walking along it.",
+        "mood": "Sober and quiet, and it goes on for as long as you walk it.",
         "approach": "You cross it without noticing and then see the next stone, and the next.",
         "senses": "Wind; grass; your own footsteps for a long time."
       },
@@ -17215,10 +17215,10 @@
       "vibe": {
         "silhouette": "A field of thin stakes, thousands of them, each with a story cut into it, leaning at every angle.",
         "palette": "Weathered stake grey, cut-wood pale where a stake is new, black soil.",
-        "materials": "Grave-stakes and one reed shelter; the province's signature system at scale, and nothing else built.",
+        "materials": "Grave-stakes and one reed shelter, and nothing else built.",
         "signatureFeature": "The new stakes at the road edge: the field grows towards the road, so the newest are the ones you pass.",
         "condition": "Continuously maintained; the oldest stakes at the far end have rotted to stumps.",
-        "mood": "Vast, personal, unbearable in the specific.",
+        "mood": "Vast, and then very small when you read one stake.",
         "approach": "The stakes appear beside the road gradually and you are inside the field before you understand its size.",
         "senses": "Wood knocking on wood in wind — thousands of stakes at once."
       },
@@ -17391,7 +17391,7 @@
         "siteAdvantages": "The site is superb for eight months and under half a metre of water for four.",
         "occupantsMotive": "Nobody is here; the marsh took the fields and the family went back to Leyawiin without selling.",
         "pressures": "The house is sound and the neighbours will not use it, because a house whose owners may return is not theirs.",
-        "wouldChangeIf": "Would be reoccupied instantly by anyone from outside the local etiquette — which is the hook."
+        "wouldChangeIf": "Would be reoccupied instantly by anyone from outside the local etiquette."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -18372,7 +18372,7 @@
         "materials": "Rammed earth over an Imperial stone core, exposed where the gaps were cut.",
         "signatureFeature": "The asymmetry: deep water on the upstream face, dust on the downstream, along its whole length.",
         "condition": "Abandoned mid-build; the last two hundred metres are only staked out.",
-        "mood": "Bleak, instructive, quietly comic.",
+        "mood": "Bleak, instructive, and a joke the villages still tell.",
         "approach": "It reads as a horizon line from anywhere on the plain and never resolves into anything.",
         "senses": "Wind over grass; the flat slap of water on one side only."
       },
@@ -18758,7 +18758,7 @@
         "founding": "Court business generates waiting, and waiting generates a house that sells wine to people who are waiting.",
         "siteAdvantages": "Directly outside Gideon's courthouse gate, in the shade of the one old fig on the street.",
         "occupantsMotive": "The keeper sells information as readily as wine and has never been caught selling it twice.",
-        "pressures": "Advocates and fences drink in the same room by unspoken arrangement, and it holds until it doesn't.",
+        "pressures": "Advocates and fences drink in the same room by unspoken arrangement, and it holds until somebody is drunk enough that it does not.",
         "wouldChangeIf": "Would close if the courthouse ever stopped sitting — the whole trade is adjournments."
       },
       "sitingPrefs": {
@@ -19288,7 +19288,7 @@
         "signatureFeature": "The rim: a ring of small offerings, renewed, marking where people will and will not step.",
         "condition": "Unchanged in two centuries.",
         "mood": "Silent, avoided, respected rather than feared.",
-        "approach": "The colour break reads from a hundred metres and from nowhere further, in classic Argonian short-range fashion.",
+        "approach": "The colour break reads from a hundred metres and from nowhere further.",
         "senses": "Nothing — no insects at all inside the circle, which is what people notice."
       },
       "assetPlan": [
@@ -19988,7 +19988,7 @@
         "materials": "No masonry anywhere; the architecture is a tree's underside.",
         "signatureFeature": "The floor: bare drained earth under a ceiling that is visibly growing.",
         "condition": "Alive; passages that were open last year are closing.",
-        "mood": "Close, organic, faintly warm.",
+        "mood": "Close, organic, warm.",
         "approach": "You would walk over it without noticing; the mouth is behind a buttress and faces away from the path.",
         "senses": "Roots creaking; dripping; something further in that stops when you stop."
       },
@@ -20220,8 +20220,8 @@
         "materials": "Xanmeer ashlar, maintained with nothing but brooms and knives; not one stone has been added.",
         "signatureFeature": "The absence of vegetation: the only unvegetated stone surface for kilometres, and it is kept that way by hand.",
         "condition": "Immaculate outside, untouched inside.",
-        "mood": "Proud, formal, quietly warning.",
-        "approach": "It breaks the canopy — one of the province's two working long-range landmarks, and this is the western one.",
+        "mood": "Proud, formal, and warning you off.",
+        "approach": "It breaks the canopy, and only two things in the province do.",
         "senses": "Brooms on stone; wind at terrace height; the canopy below, loud with birds."
       },
       "assetPlan": [
@@ -20453,7 +20453,7 @@
         "materials": "No structure at all: a wind-break of stacked stone and thousands of years of flakes.",
         "signatureFeature": "The sitting hollows, worn into the rock by generations of knappers in the same four places.",
         "condition": "Continuously used and entirely unbuilt.",
-        "mood": "Ancient, ordinary, humbling.",
+        "mood": "Ancient and entirely ordinary.",
         "approach": "The glitter is the cue and it only reads with the sun behind you.",
         "senses": "Stone struck on stone, a very particular ringing knock; wind; nothing else."
       },
@@ -20692,8 +20692,8 @@
         "materials": "Timber racks and frames; every object on them came out of the water.",
         "signatureFeature": "The sorting frame's forbidden shelf, where Kothringi stone-work would go if anyone admitted to bringing it up.",
         "condition": "Working, wet, in permanent slow decay from the water.",
-        "mood": "Amphibious, matter-of-fact, quietly split.",
-        "approach": "The drying line is visible from the water for a good distance — a horizontal cue in a vertical province.",
+        "mood": "Amphibious, matter-of-fact, and split down the middle.",
+        "approach": "The drying line is visible from the water for a good distance.",
         "senses": "Dripping; a bell rung when a diver surfaces late; gulls that are not sea gulls."
       },
       "assetPlan": [
@@ -21132,7 +21132,7 @@
       },
       "vibe": {
         "silhouette": "A barrier pole, a bench, a reed hut, and rock walls on both sides of a road that goes on without them.",
-        "palette": "Rock grey, unpainted timber, the green of the Cyrodiil side which is visibly different green.",
+        "palette": "Rock grey, unpainted timber, and a visibly different green on the Cyrodiil side.",
         "materials": "Timber and reed, on Imperial road stone.",
         "signatureFeature": "The tongue bench, where every comer sits to be looked at — a Knahaten habit that outlived the disease.",
         "condition": "Minimal, kept, unfortified.",
@@ -21374,7 +21374,7 @@
         "materials": "Same Imperial rubble as its twin — the identical build failing differently is the point.",
         "signatureFeature": "The lean itself, and the dropped plumb line some surveyor left hanging inside a century ago.",
         "condition": "Dangerous above the second floor and obviously so.",
-        "mood": "Absurd, slightly sinister, a good climb.",
+        "mood": "Absurd, sinister, a good climb.",
         "approach": "Only readable at close range, and then unmistakable.",
         "senses": "Grit falling inside the shaft; birds; the tower creaking in wind, which it should not do."
       },
@@ -22061,7 +22061,7 @@
         "materials": "Imperial chapel masonry; the timber went for firewood within a decade.",
         "signatureFeature": "The brothers' names cut into the apse wall by the last of them, in a hand that deteriorates down the list.",
         "condition": "One wall standing, the rest a footprint in the grass, crypt flooded.",
-        "mood": "Brief, futile, oddly moving.",
+        "mood": "Brief and futile; the list on the wall is short.",
         "approach": "The path bends away from it deliberately; you have to leave the path, which is the whole discovery.",
         "senses": "Water in the crypt; fig leaves; nothing else."
       },
@@ -22756,7 +22756,7 @@
         "materials": "Cheap Imperial brick with reed roofs long gone; the overseer's end was stone.",
         "signatureFeature": "The doorway rhythm: twenty identical openings, and the twenty-first with a lintel and a step.",
         "condition": "Roofless, walls to head height, floors sound enough to walk.",
-        "mood": "Repetitive, oppressive, quietly furious.",
+        "mood": "Repetitive, oppressive, furious.",
         "approach": "You are walking a path and the path becomes a corridor of doorways without any transition.",
         "senses": "Your own footsteps between walls; wind through twenty openings at once."
       },
@@ -22988,8 +22988,8 @@
         "materials": "Imperial road-authority masonry — the only cut-stone building for ten kilometres, and unmistakably not local work.",
         "signatureFeature": "The name-book: a slate slab inside where every party scratches its name and hour, going back longer than the shelter has been maintained.",
         "condition": "Structurally sound, entirely unmaintained; the roof is the only thing anyone repairs.",
-        "mood": "Grim, functional, oddly companionable when it is full.",
-        "approach": "Invisible until the last bend, which is exactly why the road authority put it there and exactly why people die on the pass anyway.",
+        "mood": "Grim, functional, and companionable when it is full.",
+        "approach": "Invisible until the last bend, which is why the road authority put it there and why people still die short of it.",
         "senses": "Wind changing note as you get behind the rock; wet wool; a scratched slate."
       },
       "assetPlan": [
@@ -23321,7 +23321,7 @@
           "quest-anchor"
         ],
         "impact": "real",
-        "hook": "The Owing builds no prisons; it uses a roofed pit at the back of a broker's yard and calls it waiting.",
+        "hook": "The Owing — the debt that is worked off, not paid — builds no prisons; it uses a roofed pit at the back of a broker's yard and calls it waiting.",
         "reviewed": true
       },
       "interior": {
@@ -24649,7 +24649,7 @@
         "materials": "Bedrolls, awnings, a shared water point; the ground is worn bare in the same two patches every year.",
         "signatureFeature": "The gap: forty metres of unused meadow between the two camps, maintained by nobody and by everybody.",
         "condition": "Seasonal; out of season the two bare patches remain.",
-        "mood": "Devout, sociable, sectarian in a low-key way.",
+        "mood": "Devout, sociable, and sectarian about where you pitch.",
         "approach": "The fires are visible from the road at dusk and from nowhere at all in daylight.",
         "senses": "Two different chants at once; kettles; a dawn stir that starts in the dark."
       },
@@ -25592,7 +25592,7 @@
         "materials": "Dry stone and hauled peat. No reed, no mud — the two materials the province is built from are both absent.",
         "signatureFeature": "The fuel stack: everything here is about fuel, and the stack is the largest structure.",
         "condition": "Solid, tiny, immaculately dry inside.",
-        "mood": "Extreme, lucid, quietly triumphant.",
+        "mood": "Extreme, lucid, triumphant.",
         "approach": "Five hours of climbing, and then the marsh is a green floor below you — the best view in the province.",
         "senses": "Wind, constantly; peat smoke; teeth chattering, which they find funny."
       },
@@ -25822,7 +25822,7 @@
         "signatureFeature": "The mist surface: from above it is a lake of white with the canyon walls standing out of it.",
         "condition": "Unchanged; the cairns accumulate.",
         "mood": "Disorienting, quiet, patient.",
-        "approach": "From the rim above you look down on the top of the mist, which is the whole reveal.",
+        "approach": "From the rim above you look down on the top of the mist.",
         "senses": "Sound arrives from the wrong direction; dripping; your own voice returning flat."
       },
       "assetPlan": [
@@ -26333,7 +26333,7 @@
         "signatureFeature": "The ruts running to the lip and starting again on the far side.",
         "condition": "Actively enlarging.",
         "mood": "Sudden, matter-of-fact, appalling.",
-        "approach": "The lane is ordinary until it isn't — the reveal is at ten metres and there is no cue at all.",
+        "approach": "The lane is ordinary until the ground stops, at ten metres, with no cue at all.",
         "senses": "Water dripping from roots; a long delay before anything you drop lands."
       },
       "assetPlan": [
@@ -26658,7 +26658,7 @@
           "quest-anchor"
         ],
         "impact": "mild",
-        "hook": "Households put out of their own fields by a called-in Owing, camped on the verge within sight of them.",
+        "hook": "Households put out of their own fields for a debt called in, camped on the verge within sight of them.",
         "reviewed": true
       },
       "interior": {
@@ -26805,7 +26805,7 @@
         "signatureFeature": "The unlit second lamp, cleaned and filled, waiting.",
         "condition": "Improbably sound; every fixing is over-engineered because nothing can be replaced.",
         "mood": "Solitary, patient, not unfriendly.",
-        "approach": "One lamp, forty metres up a black wall — the province's cue language at its purest.",
+        "approach": "One lamp, forty metres up a black wall, and nothing else to see.",
         "senses": "Wind past the ledge; water dripping; a very quiet voice."
       },
       "assetPlan": [
@@ -27298,7 +27298,7 @@
         "materials": "Nothing built but a stacked stone shelf someone made above flood height.",
         "signatureFeature": "The light: everything inside is lit green through moving water.",
         "condition": "Scoured clean annually; whatever is left has been left recently.",
-        "mood": "Loud, cold, secret, exhilarating.",
+        "mood": "Loud, cold, and hidden.",
         "approach": "The fall is audible for four hundred metres and the chamber is invisible until the last three.",
         "senses": "Water at a volume that removes speech; dripping; your own breathing amplified."
       },
@@ -27759,9 +27759,9 @@
         "silhouette": "One square Ayleid block standing clear of a low ruin field, with a stair-scar down one face and nothing on top but sky.",
         "palette": "Barsaebic pale stone gone lichen-orange on the weather face, black scrub, and a top surface bleached white.",
         "materials": "Ayleid block-and-course work, with the collapsed internal stair now a set of holds on the outside — the ruin's failure is the route.",
-        "signatureFeature": "The scar: you climb the ghost of the stair that used to be inside, on the outside, which is a thing you understand halfway up and not before.",
+        "signatureFeature": "The scar: you climb the stair that used to be inside the block, on the outside of it.",
         "condition": "Failing at a measurable rate, and locally known to be.",
-        "mood": "Exposed, quietly thrilling, slightly illicit.",
+        "mood": "Exposed, exhilarating, and not quite permitted.",
         "approach": "The block reads as a stump from the road and as a tower from the ruin field — the scale flips on the last two hundred metres.",
         "senses": "Wind at the top and none at the bottom; grit under the hands; the road audible and invisible."
       },
@@ -28006,7 +28006,7 @@
         "materials": "Barsaebic Ayleid masonry and welkynd fittings; canvas and rope where the diggers work.",
         "signatureFeature": "The grid: string lines and numbered pegs laid over a floor that already had a grid.",
         "condition": "Half-excavated, weather-damaged where excavation exposed it.",
-        "mood": "Academic, acquisitive, quietly vandalistic.",
+        "mood": "Academic, acquisitive, destructive.",
         "approach": "The white shows through the trees from the Gideon track a good way off — one of the few real sightlines in the province.",
         "senses": "Trowels; a well's cold air; canvas snapping."
       },
@@ -28193,7 +28193,7 @@
       "why": {
         "founding": "The correction to the embankment: a line of stone culverts cut and dressed on site, then never laid.",
         "siteAdvantages": "The stone was dressed where it was quarried, next to the line it was meant to serve.",
-        "occupantsMotive": "Nobody occupies it; squatters took the dressed blocks for foundations until the tribes made stone-taking a quarrel.",
+        "occupantsMotive": "Road thieves live in the dressed culverts because a cut stone pipe is a dry room with two exits, and the tribes' quarrel over stone-taking keeps everyone else away.",
         "pressures": "Post-Duskfall, building in dead stone is a moral error here, so the blocks sit where they were left.",
         "wouldChangeIf": "Would vanish in a decade if anyone with a use for stone lived nearby."
       },
@@ -28236,7 +28236,8 @@
       "culture": "imperial",
       "ownerFaction": null,
       "occupants": [
-        "nothing"
+        "D4 road thieves living in the dressed culverts",
+        "D3 the gang's tally-keeper"
       ],
       "notableNpcSlots": [],
       "dangerTier": "D4",
@@ -28258,14 +28259,14 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "Sixty dressed stone rings lying in a line in long grass, like a sentence nobody finished.",
+        "silhouette": "Sixty dressed stone rings lying in a line in long grass, stopping in the middle of a field.",
         "palette": "Pale dressed stone against unmown green; lichen only on the top faces.",
         "materials": "Cut Imperial voussoirs and ring segments, tooling marks still crisp.",
         "signatureFeature": "The numbers: every block is chiselled with its position, and the positions run out at forty-one.",
         "condition": "Untouched, unweathered underneath, sinking slowly.",
-        "mood": "Abandoned, orderly, faintly accusing.",
+        "mood": "Abandoned, orderly, unfinished.",
         "approach": "You walk into it before you see it — the grass is as tall as the rings.",
-        "senses": "Nothing; a startling amount of nothing."
+        "senses": "Nothing at all: grass, and cut stone under it."
       },
       "assetPlan": [
         "bridges",
@@ -28492,7 +28493,7 @@
         "materials": "Imperial rubble masonry, a reed-roofed lean-to, one iron beam that is the most valuable object for a kilometre.",
         "signatureFeature": "The seizure shelf: unclaimed pots, going back decades, on a shelf under the stair.",
         "condition": "Serviceable, grubby, over-stocked with confiscations.",
-        "mood": "Officious and slightly bored.",
+        "mood": "Officious and bored.",
         "approach": "Visible from the clay pits and from the fork; the beam sticks out like a gibbet.",
         "senses": "The beam creaking; a tally being called; carts changing gear on the slope."
       },
@@ -28720,7 +28721,7 @@
         "materials": "Argonian mud-and-wattle round houses; a stilted granary; not one straight boundary anywhere.",
         "signatureFeature": "The threshing floor: a beaten clay disc bigger than any house in the village.",
         "condition": "Thriving, expanding, rebuilt on a rolling cycle so a quarter of it is always new.",
-        "mood": "Confident, communal, quietly competitive with the Imperials next door.",
+        "mood": "Confident, communal, and competitive with the Imperials next door.",
         "approach": "The fields start abruptly and the roofs are lower than the standing grain until you are close.",
         "senses": "Threshing; a work song; grain dust in the light."
       },

@@ -901,7 +901,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The register fixes a small Hist landward of the harbour — the city's own tree rather than a grove capital's, planted or tended where the salt does not reach.",
+        "founding": "A small Hist stands landward of the harbour, where the salt does not reach — the city's own tree, not a grove capital's.",
         "siteAdvantages": "The first freshwater ground behind the estuary: a low rise inside the cleared apron that the tide never covers, with jungle closing on three sides of it.",
         "occupantsMotive": "Tree-minders keep it; dockworkers touch it going out and coming in; the Dunmer quarter does not.",
         "pressures": "Salt intrusion is rising with the quay works, and the tree is smaller than it was a century ago.",
@@ -957,7 +957,7 @@
         "silhouette": "one crown breaking a low roofline — the only tall thing landward of the masts",
         "palette": "pale bark, dark wet leaf, amber where sap runs",
         "materials": "living Hist, a ring of laid stone the city insists is not stone",
-        "signatureFeature": "a Hist small enough that adults can reach its lowest branch, in a city big enough to have forgotten why that matters",
+        "signatureFeature": "a Hist small enough that an adult can reach its lowest branch, which is where the grove takes its name",
         "condition": "tended anxiously; propped on one side",
         "mood": "affectionate and worried",
         "approach": "seen from the landward gate before any building",
@@ -1700,8 +1700,8 @@
       "why": {
         "founding": "Children born under the Shadow were given up to the Dark Brotherhood here under the old compact; the compact lapsed and the sanctuary was closed by order in 4E 187.",
         "siteAdvantages": "Deliberately unremarkable ground within an hour of the city, off both boat lanes and out of sight of the river road — near enough to walk from the hatchery, far enough that nobody passes it by accident.",
-        "occupantsMotive": "Nobody lives here. A watcher is paid to sit where he can see the path, by someone who has not visited in fourteen years.",
-        "pressures": "The Cheydinhal Listener wanted it back; the harbour authority would rather it stopped existing; the birth-sign roll inside names living adults who do not know what they were promised to.",
+        "occupantsMotive": "Nobody lives here. A watcher is paid to sit where he can see the path, by someone who has not visited in 14 years.",
+        "pressures": "The Cheydinhal Listener wants it back and the harbour authority would rather it stopped existing. The birth-sign roll inside names living adults who do not know what they were promised to.",
         "wouldChangeIf": "If the roll were made public, or if the door were opened, half the Shadowscale line's premise collapses at once."
       },
       "sitingPrefs": {
@@ -1775,7 +1775,7 @@
         "materials": "xanmeer stone footings reused, mud-and-render walls, a training ground of packed earth",
         "signatureFeature": "a sealed door with a 4E 187 order of closure still nailed to it, and a watcher outside who is not hiding well",
         "condition": "structurally perfect and completely disused — the maintenance never stopped",
-        "mood": "held breath; the province's quietest hostile place",
+        "mood": "held breath; nobody raises their voice within sight of the door",
         "approach": "the path is made unpleasant on purpose — thorn, mud, a wrong-looking gap",
         "senses": "no birds; the sound of your own approach; wet stone and cold ash"
       },
@@ -3805,7 +3805,7 @@
         "founding": "Cantemiric Velothi — elven dissidents out of Morrowind — built towers on the highest ground they could hold above the eastern shore, and the marsh took the lower half back.",
         "siteAdvantages": "High, drained ground with fresh water and a neck one wall could close, chosen for the reason Velothi always chose: it faces east, toward home.",
         "occupantsMotive": "Nobody. The Dunmer families in Archon know the house mark and will not discuss it.",
-        "pressures": "Salt has eaten the render for two thousand years; the ancestor niches are empty and the reason is not recorded.",
+        "pressures": "Salt has eaten the render for 2,000 years; the ancestor niches are empty and the reason is not recorded.",
         "wouldChangeIf": "If a living House claimed descent, the Archon Dunmer quarter's standing in the city changes overnight."
       },
       "sitingPrefs": {
@@ -3862,7 +3862,7 @@
         "materials": "Velothi organic render over stone, all of it salt-rotted",
         "signatureFeature": "ancestor niches with nobody in them, and a house mark from a House that no longer exists",
         "condition": "eroded to the armature; one tower has fallen into the sea and can be dived",
-        "mood": "wrong-footed; a foreign grief on an Argonian coast",
+        "mood": "a foreign grief on an Argonian coast",
         "approach": "the shapes read as growths until you are close enough to see doors",
         "senses": "wind through hollow towers — the site hums at certain tides"
       },
@@ -5531,7 +5531,7 @@
         "materials": "buoys, nets, poles",
         "signatureFeature": "claim buoys carrying two villages' marks on the same rope",
         "condition": "worked hard, argued over",
-        "mood": "tense neighbourliness",
+        "mood": "neighbours, and one rope between them",
         "approach": "found by following boats",
         "senses": "shouted insults across water, and nothing else"
       },
@@ -6119,9 +6119,9 @@
       },
       "vibe": {
         "silhouette": "boats hull-down on the horizon and nothing else",
-        "palette": "grey on grey",
+        "palette": "grey swell, grey sky",
         "materials": "hulls, lines, nothing built",
-        "signatureFeature": "the only POI on this coast whose entire content is water and other people's boats",
+        "signatureFeature": "nothing built, nothing marked: the place is water and other crews' boats",
         "condition": "unmarked",
         "mood": "exposed, small",
         "approach": "reached by committing to a crossing",
@@ -6947,9 +6947,9 @@
         "silhouette": "at dusk, a rising column of birds visible for kilometres — a living landmark on a coast with no sightlines",
         "palette": "whitened rock, black birds, orange sky",
         "materials": "guano-cemented ground, harvest frames, rope",
-        "signatureFeature": "the column at dusk, which is the single most beautiful thing on this coast and smells appalling",
+        "signatureFeature": "the column at dusk, and the smell of the island at any hour",
         "condition": "wild, managed at the edges",
-        "mood": "awe and stench together",
+        "mood": "loud and rank",
         "approach": "the column is the cue, at one hour of the day",
         "senses": "deafening at dusk, silent at noon, ammonia throughout"
       },
@@ -7106,7 +7106,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The Pass-1 transport compile already puts a rootworm terminus on the east estuary; this record fixes it as a real place with a reason — the coast's only fast link inland, at the one point where the root layer reaches tidewater.",
+        "founding": "A rootland arm surfaces under firm ground beside the estuary landing, and the waykeepers put a terminus on it — the coast's only fast link inland.",
         "siteAdvantages": "Where a rootland arm runs out under firm ground within a short walk of the estuary landing, so a passenger can step off a boat and into the root.",
         "occupantsMotive": "Waykeepers who read the worms' movement and sell passage they cannot guarantee.",
         "pressures": "The worms are alive and seasonal; a standing station is a claim, not a timetable.",
@@ -8292,9 +8292,9 @@
         "silhouette": "broken white water and three mast stumps standing out of it",
         "palette": "surf white, coral rust, deep blue-green",
         "materials": "living reef, iron-stained wreck timber, buoyed rope",
-        "signatureFeature": "hulls impaled at three different dates in the same two hundred metres",
+        "signatureFeature": "hulls impaled at three different dates inside the same 200 metres",
         "condition": "living and lethal",
-        "mood": "navigational anxiety",
+        "mood": "water you have to read",
         "approach": "the water changes colour before you see the bar",
         "senses": "surf on coral; below, silence and cracking"
       },
@@ -8427,7 +8427,7 @@
             "registerRef": null,
             "payoff": "loot-cache",
             "valueTier": "tier-3",
-            "provenance": "a bonded cargo Archon customs wrote off eleven years ago"
+            "provenance": "a bonded cargo Archon customs wrote off 11 years ago"
           },
           {
             "slotId": "l2",
@@ -10037,7 +10037,7 @@
       },
       "vibe": {
         "silhouette": "a hut on an islet with nothing else on it",
-        "palette": "grey, grey, and one lamp",
+        "palette": "grey water, grey plank, one lamp",
         "materials": "stone footings, plank walls, a mooring ring",
         "signatureFeature": "a high-water mark chalked on the inside wall, above head height",
         "condition": "damp always",
@@ -10249,9 +10249,9 @@
         "silhouette": "one terrace corner breaking flat water, and a geometric shadow under it",
         "palette": "sun-bleached stone above, jade green below, black at the stair mouths",
         "materials": "xanmeer stone, silt, trapped air",
-        "signatureFeature": "air trapped at the chamber ceilings, breathable, six metres down and two hundred years old",
+        "signatureFeature": "air trapped at the chamber ceilings, breathable, six metres down and 200 years old",
         "condition": "structurally intact, silted",
-        "mood": "awe with a breath timer",
+        "mood": "still water, and your lungs setting the pace",
         "approach": "the corner reads as a rock until the shadow under it resolves into steps",
         "senses": "above, nothing; below, your own breath and settling silt"
       },
@@ -10438,9 +10438,9 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Somebody furnished a trapped air space inside a flooded structure, and whoever they are they chose this.",
-        "siteAdvantages": "Enclosed by water on all sides; the only approach is a dive of about twenty metres.",
-        "occupantsMotive": "One or two occupants, or their belongings.",
+        "founding": "Somebody furnished a trapped air space inside a flooded structure and keeps a lamp burning in it.",
+        "siteAdvantages": "Enclosed by water on all sides; the only approach is a dive of about 20 metres.",
+        "occupantsMotive": "One or two who dive in to it, or only their belongings.",
         "pressures": "Everything in it is too heavy to swim out with, which is deliberate.",
         "wouldChangeIf": "If the water level fell the room becomes an ordinary cellar and worthless."
       },
@@ -10574,7 +10574,7 @@
           "lore-reveal"
         ],
         "impact": "real",
-        "hook": "A dry room with a chest in it, twenty metres down and no way in but a held breath.",
+        "hook": "A dry room with a chest in it, 20 metres down and no way in but a held breath.",
         "reviewed": true
       },
       "interior": {
@@ -10862,7 +10862,7 @@
         "materials": "shell, stakes, woven baskets",
         "signatureFeature": "harvest lots marked in two villages' cutting patterns, alternating stripe by stripe",
         "condition": "worked hard",
-        "mood": "neighbourly and one argument from not",
+        "mood": "neighbourly, and one bad season from not",
         "approach": "waded to at low tide",
         "senses": "shell clatter, mud suck, mangrove crabs"
       },
@@ -11593,7 +11593,7 @@
         "siteAdvantages": "Clear water over a healthy reef in the outer mangrove channels, far enough out that nobody works it daily.",
         "occupantsMotive": "Nobody. Divers come out for a day and go home.",
         "pressures": "It is the healthiest thing on the coast and the least defended.",
-        "wouldChangeIf": "If the harvest lots moved out here, it would look like the Gap in fifteen years."
+        "wouldChangeIf": "If the harvest lots moved out here, it would look like the Gap in 15 years."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -11635,9 +11635,9 @@
         "silhouette": "nothing above water but a colour change",
         "palette": "turquoise over rust and violet",
         "materials": "living coral, sand, no built thing",
-        "signatureFeature": "the only place on this coast where the water is clear enough to see thirty metres",
+        "signatureFeature": "the only place on this coast where the water is clear enough to see 30 metres",
         "condition": "untouched",
-        "mood": "the beauty reward the province otherwise withholds",
+        "mood": "clear and quiet; the coast lets up here",
         "approach": "found by sailing off the lane",
         "senses": "above, nothing; below, a constant crackle"
       },
@@ -12479,7 +12479,7 @@
       "vibe": {
         "silhouette": "houses stacked on a shelf against a rock face, lit from the seaward side only",
         "palette": "wet black rock, salt-bleached timber, one red pilot flag",
-        "materials": "timber on stone footings, hauling gear, a two-hundred-step stair",
+        "materials": "timber on stone footings, hauling gear, a 200-step stair",
         "signatureFeature": "everything the village owns was carried up a stair, and the stair is the village's whole social order",
         "condition": "weathered hard, endlessly repaired",
         "mood": "proud, insular, watchful",
@@ -13231,7 +13231,7 @@
         "siteAdvantages": "On the quay front, one door from the mooring line.",
         "occupantsMotive": "A keeper who trades in information as her actual business.",
         "pressures": "Three languages in one room and two of them are lying.",
-        "wouldChangeIf": "If the port trade fell away this becomes a village inn and the coast loses its densest hook node."
+        "wouldChangeIf": "If the port trade fell away this becomes a village inn, and the coast loses the room where its news is traded."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -14734,7 +14734,7 @@
         "materials": "xanmeer ashlar, vakka-stone fittings, sealed screens",
         "signatureFeature": "a doorway sealed from the inside, and a roof hatch seven terraces up that the sealers evidently did not know about",
         "condition": "structurally perfect under the moss",
-        "mood": "the province's default dungeon, with a reason",
+        "mood": "shut, and kept shut on purpose",
         "approach": "a terrace climb; there is no door on this building that opens",
         "senses": "insects; and a faint, regular clicking"
       },
@@ -16294,7 +16294,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A delta flat that shortens the coast journey and is crossable only while the basin's tidal amplitude leaves it dry - in practice a short morning, and not the same morning twice.",
+        "founding": "A delta flat that shortens the coast journey and is crossable only while the basin's tidal amplitude leaves it dry — in practice a short morning, and not the same morning twice.",
         "siteAdvantages": "Firm sand under shallow water at low tide, marked by a stake line laid generations ago.",
         "occupantsMotive": "Nobody lives on it; six people are usually waiting at the head.",
         "pressures": "The tide does not negotiate, the window is never the same length twice, and the body count is carved on the waiting shelter's post.",
@@ -17026,7 +17026,7 @@
           "quest-anchor"
         ],
         "impact": "real",
-        "hook": "Four thousand eight hundred names cut into a tidal flat, and a cut in the ground you can still open.",
+        "hook": "A grave mound longer than the village that dug it, with no name on it, and a cut in the ground you can still open.",
         "reviewed": true
       },
       "interior": {
@@ -17557,7 +17557,7 @@
         "siteAdvantages": "A firm rise where the fringe marsh meets the jungle wall, with fresh water and a canopy break the Hist made itself.",
         "occupantsMotive": "A tribe who trade with Archon and have no interest in living there.",
         "pressures": "The port wants their timber and their labour; the village supplies exactly as much as it chooses.",
-        "wouldChangeIf": "If the Hist stopped speaking, the village disperses and Archon gains a hundred Hist-less households."
+        "wouldChangeIf": "If the Hist stopped speaking, the village disperses and Archon gains 100 Hist-less households."
       },
       "sitingPrefs": {
         "regionClasses": [

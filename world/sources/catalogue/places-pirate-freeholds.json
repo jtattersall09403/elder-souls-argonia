@@ -27,7 +27,7 @@
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
-        "founding": "A river port ESE of the Hatching Pools that grew into a small town by being institutionally neutral about cargo: it sits on the northern trunk between Stormhold and Thorn, on water deep enough for a laden hull and far enough from any customs regime that both of them use it.",
+        "founding": "A river port ESE of the Hatching Pools, grown into a town by being neutral about cargo. It sits on the northern trunk between Stormhold and Thorn, on water deep enough for a laden hull and far enough from either customs regime that both of them use it.",
         "siteAdvantages": "The last reach of navigable river below the northern rim, with an oxbow that makes a natural basin, firm banks for warehousing and a rim road behind it that crosses to Morrowind without passing a post.",
         "occupantsMotive": "A captain of the port whose only law is a nailed-up price list, freeholder crews with no tribe and no tree, Dunmer factors from the Morrowind trade and Nord hands off the northern hulls.",
         "pressures": "There is no Hist here — the register is explicit — so nothing binds anyone to anything except the list; Stormhold's vicecanons would like the trade and cannot reach it; Rockpoint downriver still resents losing.",
@@ -125,9 +125,9 @@
         "silhouette": "a beached hull sitting upright among the houses, too big for the street it ends, and warehouse gables behind it",
         "palette": "weathered grey timber everywhere, tar black, and cargo colours that do not belong together — Dunmer lacquer, Nord paint, Imperial red",
         "materials": "the town is built out of other people's cargo: crate timber, ship planking, salvaged spars, with mud render only where nothing else was to hand",
-        "signatureFeature": "a price list nailed up in public that names contraband by grade, and is therefore the most complete economic document in the province",
-        "condition": "prosperous, ramshackle, entirely unplanned",
-        "mood": "transactional, unbothered, dangerous only if you are slow",
+        "signatureFeature": "a price list nailed up in public that names contraband by grade, with a separate rate for each grade",
+        "condition": "prosperous and ramshackle, never planned",
+        "mood": "transactional; dangerous only if you are slow",
         "approach": "the hull's shape resolves out of the roofline from upriver, long before you can read the town",
         "senses": "hulls working against the bank, four languages, tar, wet rope, cooking from three cuisines at once"
       },
@@ -473,7 +473,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Argonians who die away from a Hist can still return if their bones are brought to the dirt — and this zone has no Hist at all, so every death here starts a journey south.",
+        "founding": "Argonians who die away from a Hist can still go back if their bones are carried to the dirt. This zone has no Hist at all, so every death here starts a journey south.",
         "siteAdvantages": "On the trunk route at the point where the southbound road and the river both leave the freeholds.",
         "occupantsMotive": "Bone-carriers who take the dead of a town that cannot bury them, for a fee they are ashamed of.",
         "pressures": "The house is always full, because the freeholds produce more Hist-less dead than any comparable ground.",
@@ -527,9 +527,9 @@
         "materials": "timber racks, wrapping cloth, carrying frames",
         "signatureFeature": "racks of wrapped bundles labelled with destinations two weeks' travel south",
         "condition": "orderly, full, quiet",
-        "mood": "the zone's one act of tenderness",
+        "mood": "careful; nobody raises their voice",
         "approach": "you smell the resin used for wrapping before you reach it",
-        "senses": "cloth; and a great deal of silence"
+        "senses": "cloth, cut cord, and no talking"
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -748,7 +748,7 @@
         "materials": "hull timber, steaming pit, paint pots",
         "signatureFeature": "a stack of planed-off nameboards under a bench, kept because someone thinks they might be needed again",
         "condition": "working, filthy",
-        "mood": "cheerfully criminal craft",
+        "mood": "cheerful, and nobody asks whose hull it is",
         "approach": "the laid-over hull reads as a building until it moves",
         "senses": "scraping; hot pitch; hammering that stops when strangers arrive"
       },
@@ -896,7 +896,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The free port sells to everyone and therefore protects no one, so the crews that will not keep to the price list anchor a reach away and take what the list would have made them pay for.",
+        "founding": "The free port sells to everyone and so protects no one. The crews that will not keep to the price list anchor a reach away and take what the list would have charged them for.",
         "siteAdvantages": "A blind reach with a cut bank, out of sight of the port and above the last mooring anybody legal uses.",
         "occupantsMotive": "A Salt-Teeth crew working the reach between the port and the head of navigation, keeping their prizes in the bank until they can be sold as salvage.",
         "pressures": "The port halls will tolerate them exactly as long as the price list is not undercut in public.",
@@ -957,7 +957,7 @@
         "materials": "beached hulls, a plank stage, an undercut in the bank shored with cargo timber",
         "signatureFeature": "a stack of bonded crates with four different ports' seals on them, all cut",
         "condition": "temporary by design, used for years",
-        "mood": "working, not theatrical",
+        "mood": "businesslike; nobody is showing off",
         "approach": "you hear the stage working against the hulls before you see anything",
         "senses": "rope, tar, and somebody counting out loud"
       },
@@ -1170,10 +1170,10 @@
       ],
       "confidence": "ARENA_NAME_EXTRAPOLATED",
       "why": {
-        "founding": "A fishing hamlet on the one rise the creek does not reach, which found that a boat can wait out of the channel here while the free port is being watched, and has lived off that ever since.",
+        "founding": "A fishing hamlet on the one rise the creek does not reach. A boat can wait out of the channel here while the free port is being watched, and the hamlet has lived off that ever since.",
         "siteAdvantages": "A rise of firm ground well above the water, with a creek behind it deep enough to lie a hull in and shallow enough that nobody follows.",
         "occupantsMotive": "Fisher households who are also, on about four nights a month, a lay-by with a fee.",
-        "pressures": "The lay-by trade is worth more than the fish, everyone under sixteen already knows it, and the port road runs close enough that being discreet is work.",
+        "pressures": "The lay-by trade is worth more than the fish, everyone under 16 already knows it, and the port road runs close enough that being discreet is work.",
         "wouldChangeIf": "If the free port's list ever covered waiting time, Chasecreek loses its niche and becomes a fishing hamlet again."
       },
       "sitingPrefs": {
@@ -1779,7 +1779,7 @@
         "materials": "ship spars, lashed plank, a ladder of salvaged batten",
         "signatureFeature": "a stage at the crosstrees with three notches cut in the rail, one for each thing worth watching",
         "condition": "sound enough, rebuilt badly, rebuilt again",
-        "mood": "the first quiet the player gets",
+        "mood": "quiet, with the port's noise under it",
         "approach": "the ladder starts behind the hull-hall, out of the weather",
         "senses": "wind in slack rigging; the port's noise arriving from below"
       },
@@ -2350,7 +2350,7 @@
         "materials": "salvaged canvas and crate timber; one proper building",
         "signatureFeature": "an office with a ledger in it that is the only writing anybody in this zone treats as binding",
         "condition": "permanent, in a form that pretends to be temporary",
-        "mood": "suppressed fury",
+        "mood": "quiet, and nobody looks up",
         "approach": "the road out of town runs straight through it",
         "senses": "a ledger being read aloud; no reply"
       },
@@ -2551,7 +2551,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The register is explicit that the free port has no Hist, and that is not an omission — it is the reason the freeholds exist. Everyone here is Hist-less by choice or by accident, and the camp on the town's edge is where that is admitted out loud.",
+        "founding": "The free port has no Hist, and that is the reason the freeholds exist. Everyone here is Hist-less by choice or by accident, and the camp on the town's edge is where that is said out loud.",
         "siteAdvantages": "The town's landward fringe, on ground the port does not administer.",
         "occupantsMotive": "Argonians with no tree to return to, plus outsiders who find that easier to be around.",
         "pressures": "The tribal villages upriver will not visit; Hissmir's reconnection rite is a two-week journey and a hard conversation.",
@@ -2609,9 +2609,9 @@
         "materials": "mud render, crate timber, no ritual totems at all",
         "signatureFeature": "a planting circle dug, edged and kept swept for sixty years, with nothing in it",
         "condition": "solid, plain, permanent",
-        "mood": "defiant and unresolved",
+        "mood": "stubborn; the subject comes up every day",
         "approach": "the gap in the middle is visible before anything else",
-        "senses": "no chimes; the province's characteristic sound simply missing"
+        "senses": "no chimes anywhere, and everyone notices"
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -2829,7 +2829,7 @@
         "materials": "cut bank shored with ship planking, a brick floor under the silt",
         "signatureFeature": "a bond seal still nailed to the door frame, cut through with a knife",
         "condition": "flooded, occupied, not defended",
-        "mood": "small and survivable, which is the point",
+        "mood": "small, damp, and nobody's idea of a fight",
         "approach": "the bank steps down to it; you can look in before you go in",
         "senses": "water slapping brick; three people arguing about nothing"
       },
@@ -3296,9 +3296,9 @@
         "materials": "Dunmer-cut stone, iron rings, a ramp graded for people",
         "signatureFeature": "a loading ramp graded and railed for people rather than cargo, with the count-marks still cut into the gatepost and a stair at the bottom of it going down into the holding cells",
         "condition": "sound; deliberately not repaired and deliberately not demolished",
-        "mood": "the zone's one unfunny place",
+        "mood": "nobody talks on this ground",
         "approach": "the trunk road passes it and nobody looks",
-        "senses": "nothing lives here — literally, not even birds"
+        "senses": "no birds and no frogs, on a bank that should have both"
       },
       "assetPlan": [
         "bmv-fort",
@@ -3552,7 +3552,7 @@
         "materials": "Velothi render and stone, imported roof tile, a wall",
         "signatureFeature": "an ancestor hall maintained for three hundred years by people who have never seen Morrowind",
         "condition": "solid, wealthy, closed",
-        "mood": "proud, defensive, well aware of what is on the riverbank",
+        "mood": "proud and closed, and aware of what stands on the riverbank",
         "approach": "the roof shapes read wrong from a long way off",
         "senses": "a different language; a bell rather than a chime"
       },
@@ -3929,7 +3929,7 @@
         "materials": "field stone, nothing worked, no markers",
         "signatureFeature": "hundreds of cairns and exactly one with a date cut into it",
         "condition": "re-stacked by strangers for six hundred years",
-        "mood": "enormous, quiet scale",
+        "mood": "quiet, and larger than it looked from below",
         "approach": "the slope reads as scree until the pattern resolves",
         "senses": "wind; stones being replaced by someone ahead of you"
       },
@@ -4021,7 +4021,7 @@
           "lore-reveal"
         ],
         "impact": "mild",
-        "hook": "Five hundred and sixty stakes in one field, and one cairn that was opened from the inside.",
+        "hook": "A slope of plague cairns, 560 of them, and one opened from the inside.",
         "reviewed": true
       },
       "interior": {
@@ -4474,7 +4474,7 @@
         "materials": "timber frames, bought canvas, four provinces' goods",
         "signatureFeature": "a weights post carrying four sets of weights, three of which disagree",
         "condition": "structure permanent, contents wildly variable",
-        "mood": "loud, cosmopolitan, sharp",
+        "mood": "loud, and sharp about prices",
         "approach": "the board is the first thing you can read from the water",
         "senses": "four languages haggling in three currencies"
       },
@@ -4622,7 +4622,7 @@
       "why": {
         "founding": "A Naga band works the trunk road where it runs closest to the marsh, because the freeholds' cargo is worth taking and nobody polices the road.",
         "siteAdvantages": "Cover within a spear's throw of the road at a point where it cannot be left.",
-        "occupantsMotive": "Eight or so, mobile, who move camp after every taking.",
+        "occupantsMotive": "Eight or so, who strike camp after every taking.",
         "pressures": "The free port pays escorts rather than fight them, which is cheaper and everyone knows it.",
         "wouldChangeIf": "If the reoccupied fort extended its patrols, the band moves to the river and takes boats instead."
       },
@@ -4675,13 +4675,13 @@
       },
       "vibe": {
         "silhouette": "nothing at all from the road; from the trees uphill, a cleared circle with no fire in it",
-        "palette": "dull hide, wet bone, dark green - no smoke, no colour, nothing that carries",
+        "palette": "dull hide, wet bone, dark green — no smoke, no colour, nothing that carries",
         "materials": "hide shelters struck and re-pitched daily, bone-and-flint gear, taken cargo still in other people's crates",
         "signatureFeature": "taken cargo sorted by where on the road it was taken from, in labelled heaps",
         "condition": "recently made, ready to move",
-        "mood": "predatory and organised",
+        "mood": "patient; they take and they move",
         "approach": "you are watched from cover for some minutes before anything happens",
-        "senses": "no chimes, no dogs, no smoke: silence held on purpose, and then everything at once"
+        "senses": "no dogs, no smoke, and then everything at once"
       },
       "assetPlan": [
         "tents-hide",
@@ -4886,7 +4886,7 @@
         "materials": "lime-washed timber, reed screens, a boiling hearth",
         "signatureFeature": "a lime-washed board recording what worked, kept for four hundred years and never once organised",
         "condition": "clean, plain, hard-used",
-        "mood": "competence without ceremony",
+        "mood": "brisk; nobody prays over you",
         "approach": "it stands alone downwind and you can smell the lime",
         "senses": "boiling water; low voices; wind through open sides"
       },
@@ -5094,14 +5094,14 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "a stone chimney — a shape that appears nowhere else in this landscape",
+        "silhouette": "a stone chimney standing over reed and plank roofs",
         "palette": "soot black, ember orange, grey stone",
         "materials": "stone forge, ship iron, charcoal",
         "signatureFeature": "a rack of ship fastenings sorted by the hull they came off, and the hulls are named",
         "condition": "hot, sound, incongruous",
-        "mood": "foreign competence, resented and needed",
+        "mood": "resented, and used by everybody",
         "approach": "the chimney smoke is the only vertical smoke in the town",
-        "senses": "hammer on iron — the rarest sound in the province"
+        "senses": "hammer on iron, charcoal, hot scale"
       },
       "assetPlan": [
         "vanilla-farmhouse",
@@ -5904,9 +5904,9 @@
         "materials": "stone footings and post holes — a people who built differently from Argonians",
         "signatureFeature": "a village-shaped clearing on the best ground for kilometres, with a two-hundred-year-old tree growing in the middle of the square",
         "condition": "reduced to footings, undisturbed",
-        "mood": "the plague, still legible as an absence",
+        "mood": "empty, on ground that should not be",
         "approach": "you notice the good ground before you notice why it is empty",
-        "senses": "river; nothing else; the crews go quiet passing it"
+        "senses": "river noise, and crews going quiet as they pass"
       },
       "assetPlan": [
         "landmark-civic",
@@ -6282,7 +6282,7 @@
         "materials": "barge deck, plank partitions, chain and basket dredging gear",
         "signatureFeature": "the roll itself, a board of names in a locked case, read out at the top of every shift",
         "condition": "working, crowded, kept just short of unsafe",
-        "mood": "orderly in a way that is worse than disorder",
+        "mood": "orderly; every hour of it is counted",
         "approach": "you arrive on it; the first thing you see is the shore you are not on",
         "senses": "chain over a drum; a name read out, then a number"
       },
@@ -6399,7 +6399,7 @@
           "stealth-challenge"
         ],
         "impact": "province-changing",
-        "hook": "Where the game starts: a dredging barge, a ledger with your months on it, and a night that ends with the deck on fire.",
+        "hook": "A dredging barge moored off the port, with your months written on a board in a locked case and read out at the top of every shift.",
         "reviewed": true
       },
       "interior": {
@@ -6578,7 +6578,7 @@
         "materials": "mud render, cut reed, plank walkways over the wet ground",
         "signatureFeature": "the hatching shed, kept warmer and cleaner than anything else in the camp",
         "condition": "poor, cared for, permanent in all but name",
-        "mood": "domestic, and about to stop being",
+        "mood": "domestic; the ledger is a walk away",
         "approach": "the walkway from the water runs straight past the shed door",
         "senses": "cooking, wet reed, and from the long shed a low continuous sound you cannot place until it stops"
       },
@@ -6682,7 +6682,7 @@
           "lore-reveal"
         ],
         "impact": "province-changing",
-        "hook": "The gang's families live here, and the shed at the back holds the eggs that die on the first night of the game.",
+        "hook": "The gang's families live on this bank, and the warm shed at the back of the camp holds the clutch they will not leave.",
         "reviewed": true
       },
       "interior": {
@@ -7160,7 +7160,7 @@
         "materials": "hull timber, silt, trapped cargo",
         "signatureFeature": "cargo still lashed in the hold under a metre of silt, in water too dark to work",
         "condition": "silted, intact",
-        "mood": "the reward for breath",
+        "mood": "dark, and worth the dive",
         "approach": "found by diving where the salvagers will not",
         "senses": "current noise above; nothing below"
       },
@@ -7379,7 +7379,7 @@
         "materials": "Imperial ashlar with freehold timber additions bolted through the parapets",
         "signatureFeature": "an Imperial eagle still over the gate because nobody bothered to chisel it off, under a banner nobody can identify",
         "condition": "sound, crudely extended",
-        "mood": "borrowed authority, entirely effective",
+        "mood": "borrowed authority, and it works",
         "approach": "the walls are the only such shape in the zone and read from far off",
         "senses": "a gate being worked; drilling that is not quite drill"
       },
@@ -8282,8 +8282,8 @@
         "materials": "Ayleid ashlar, crystal sockets, cut channels",
         "signatureFeature": "empty keystone sockets cut so precisely that dust does not settle in them",
         "condition": "intact, inert",
-        "mood": "cold intelligence, switched off",
-        "approach": "found by scrambling where there is no reason to",
+        "mood": "cold, and switched off",
+        "approach": "reached by scrambling a ravine wall nobody has business on",
         "senses": "a low resonance you feel rather than hear"
       },
       "assetPlan": [
@@ -8377,7 +8377,7 @@
           "hidden-secret"
         ],
         "impact": "real",
-        "hook": "Nine sockets cut for keystones nobody has ever found, and whatever moved in once the cutting stopped.",
+        "hook": "Nine sockets cut for keystones nobody has found, in a chamber the river has never reached.",
         "reviewed": true
       },
       "interior": {
@@ -8646,7 +8646,7 @@
         "materials": "dry stone, a heavy timber roof weighted with rocks",
         "signatureFeature": "a season board that closes the pass, and a keeper who is paid by the people who profit when it does",
         "condition": "sound, cold, permanently smoky",
-        "mood": "dutiful corruption",
+        "mood": "dutiful, and paid twice",
         "approach": "the notch is the only legible feature on the rim skyline",
         "senses": "wind; a fire that never quite warms the room"
       },
@@ -9381,7 +9381,7 @@
         "materials": "rock, rope, rock-coloured canvas",
         "signatureFeature": "consignments stacked under covers dyed to the exact colour of the rock, with chalk marks saying which way each is going",
         "condition": "in constant use, invisible",
-        "mood": "professional and unromantic",
+        "mood": "workmanlike; nobody stops to talk",
         "approach": "you are on the traverse before you know there is one",
         "senses": "wind; rope on rock; nothing human"
       },
@@ -9586,14 +9586,14 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "a stone cell against a face, with snow on it — an image that exists nowhere else in this province",
+        "silhouette": "a stone cell against a rock face, with snow on its roof",
         "palette": "white, rock grey, one dark doorway",
         "materials": "dry stone, a turf roof, a single ritual fitting",
-        "signatureFeature": "snow, in Argonia, on an inhabited roof",
+        "signatureFeature": "snow lying on an inhabited roof, in Argonia",
         "condition": "spare and perfectly maintained",
-        "mood": "austerity as an argument",
+        "mood": "spare; the cold is the point",
         "approach": "a full day's climb with no encouragement",
-        "senses": "wind; and, extraordinarily, silence"
+        "senses": "wind, then nothing"
       },
       "assetPlan": [
         "bmv-fort",
@@ -10279,10 +10279,10 @@
       "vibe": {
         "silhouette": "a stone landing and a warehouse shell with no roof, standing alone on a bend",
         "palette": "grey stone, black burnt timber ends, brown river, green taking it back",
-        "materials": "cut stone footings — expensive, foreign, and the reason it is still standing at all",
+        "materials": "cut stone footings, bought in and shipped up, which is why it is still standing",
         "signatureFeature": "a landing built for hulls that cannot get to it, with the mooring rings still bright from a rope nobody has tied in eighty years",
         "condition": "structurally sound, roofless, empty",
-        "mood": "opportunity dressed as failure",
+        "mood": "empty, and worth having",
         "approach": "you see the landing from the water and assume the town is behind it, and it is not",
         "senses": "river; wind through an unroofed shell; no voices at all"
       },
@@ -10998,7 +10998,7 @@
         "materials": "planked timber on driven piles, a rope barrier",
         "signatureFeature": "a tariff board that prices people, goods and obligation in three separate columns",
         "condition": "repaired continuously, never rebuilt",
-        "mood": "routine extraction",
+        "mood": "routine; the rate is quoted before you ask",
         "approach": "the barrier is visible from a long way along a straight road",
         "senses": "planks under feet; a bored voice quoting a rate"
       },
@@ -11520,7 +11520,7 @@
         "materials": "heavy timber stockade, mud render, taken Dunmer gear used as fittings",
         "signatureFeature": "Dunmer armour pieces reused as door furniture, throughout, without comment",
         "condition": "hard, well maintained",
-        "mood": "unresolved and dangerous",
+        "mood": "watchful, and short with strangers",
         "approach": "the stockade breaks the slope above the road long before you reach it",
         "senses": "drill in the mornings; long silences otherwise"
       },

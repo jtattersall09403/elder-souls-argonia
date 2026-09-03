@@ -132,6 +132,15 @@ Engineering standard 4 (one keyed text catalogue,
 | Tricolons in system text ("the lost, the drowned, the forgotten") | one noun | the single loudest AI tell |
 | "Perhaps… perhaps not." / trailing ellipses for mood | end the sentence | |
 | "It is said that…" as an opener | say it, or attribute it to someone | |
+| "…, which is the point / the problem / the whole story" as a sentence-final gloss | cut the clause; the fact already said it | the writer explaining its own image (Phase 11 catalogue review 2026-09-03: dozens per region) |
+| `faintly / quietly / slightly / genuinely` + adjective as a mood formula | one plain adjective, or what happens | the hedge is the model reaching for nuance; at scale every place gets the same beat (46 in one region) |
+| Adjective or abstract-noun tricolons in label fields ("callous, efficient, deeply resented"; "Contested reverence") | two beats, or one concrete fact | the tricolon rule applies to fragments; the third term is the reader's reaction |
+| Design or pipeline voice inside world prose ("the reveal IS the beat", "per the two-culture kit rule", "the province's default dungeon", "band 5", "POI", "Owner decision Q2") | describe the place; put the decision in a decision record or a typed field | authorial rationale is not fiction |
+| Game/session references in in-world prose ("where the game starts", "the first quiet the player gets") | describe the place, not the playthrough | |
+| Sentence restated with an appended clause ("The seal leaks. The seal leaks, and the Waykeepers…") | write the long sentence once | a Phase 11 writer artefact, ~400 instances province-wide |
+| Two stock phrases welded with an em dash ("worn but sound — everything load-bearing is new") | one clause | the dash doing the work a choice should do; often contradictory |
+| Modern idiom no one in the world could hold ("unionised", "brute-forced", "ordinary until it isn't", "infrastructure", "leverage") | the plain word for the thing | |
+| "X — the only such thing in the province" flourish after a concrete image | end at the image; uniqueness goes in a fact field | |
 
 ## 46. Dialogue model
 

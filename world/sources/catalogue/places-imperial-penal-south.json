@@ -25,7 +25,7 @@
       "confidence": "CANON_IMPLIED",
       "why": {
         "founding": "Versidue-Shaie was the Akaviri Potentate, and the works his people left in this basin while building the Rose are not Cyrodilic in any detail.",
-        "siteAdvantages": "On the quarry road between the Robbed City and the Rose — the logistics of a single-day construction, made permanent.",
+        "siteAdvantages": "On the quarry road between the Robbed City and the Rose, where the stone for a single day's building was handled.",
         "occupantsMotive": "Nobody. Its stone-handling gear was designed for atronachs and makes no sense for people.",
         "pressures": "It is the best surviving Akaviri civil work in the province and nobody in the basin knows what it is.",
         "wouldChangeIf": "An identification would bring outside scholars and their money into a district that wants neither."
@@ -136,7 +136,7 @@
           "lore-reveal"
         ],
         "impact": "real",
-        "hook": "Lifting sockets sized for something inhumanly strong, and Akaviri tool-marks on every dressed face.",
+        "hook": "Nobody in the basin can tell you who built this, and the working notes inside say how the Rose went up in a day.",
         "reviewed": true
       },
       "interior": {
@@ -836,7 +836,7 @@
           "lore-reveal"
         ],
         "impact": "mild",
-        "hook": "A kept fire built against a plague cordon stone, using the marker as one wall.",
+        "hook": "There is a kept fire halfway along eight kilometres of empty road, and the wall it is built against is a plague cordon stone.",
         "reviewed": true
       },
       "interior": {
@@ -1099,7 +1099,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A collapse in the western feeder country that takes an entire stream underground and does not give it back anywhere anyone has found.",
-        "siteAdvantages": "A genuine rarity in this province — a hole the marsh has not filled in, and the only one in the basin.",
+        "siteAdvantages": "The only hole in the basin the marsh has not filled in.",
         "occupantsMotive": "Nothing lives on the rim. Something lives below the first ledge.",
         "pressures": "It is almost certainly connected to the Blue Hole, and nobody has proved it.",
         "wouldChangeIf": "Proving the connection would open a route from the western hills into the lake floor."
@@ -1625,8 +1625,8 @@
       "why": {
         "founding": "Built by the Lilmothiit in a lake where three rivers converge; rebuilt by the Empire after 1E 2837 and held since by whoever holds the island core.",
         "siteAdvantages": "The hinge of the south: Murkwood's water from the north-east, Oliis Bay from the south, eastern Blackwood from the west, and Bramman's concealed river out to Topal Bay. The lake is a wide fringe marsh with a hard island in it, and the island is the city.",
-        "occupantsMotive": "Toll and transit revenue, and whatever comes out of the Rose. Many have entered its walls; the city keeps the ones who do not leave.",
-        "pressures": "It remembers raising an army against the Third Empire and remembers a battlemage breaking it with a single spell; it distrusts magic and outsiders in that order.",
+        "occupantsMotive": "Toll and transit revenue, and whatever comes out of the Rose. The city keeps whoever does not leave.",
+        "pressures": "It raised an army against the Third Empire and watched a battlemage break it with one spell. It distrusts magic first and outsiders second.",
         "wouldChangeIf": "Whoever took the island core would take the whole southern route network with it, which is why the core has changed hands four times."
       },
       "sitingPrefs": {
@@ -1711,7 +1711,7 @@
         "materials": "Three courses of history in one wall: Lilmothiit foundation blocks, Imperial dressed courses on top, and Argonian roof and boardwalk carpentry over both — the stone is inherited, never quarried, and the timber is all new.",
         "signatureFeature": "A walled stone core on a lake island — Lilmothiit foundations, Imperial courses, Argonian roofs — with the rest of the city spread over the water on boardwalks between three river gates.",
         "condition": "Continuously repaired for two thousand years and never once finished: fresh mortar in ancient joints, new decking on old piles, four different centuries of gate ironwork.",
-        "mood": "Guarded, layered, transactional.",
+        "mood": "Guarded, and charging for it.",
         "approach": "The core reads across open water from every river gate, lit, with its reflection under it — the province's one genuine approach vista.",
         "senses": "Gate bells answering across open water, oars and toll-chains, wet stone and lamp oil, and the flat sound a big lake makes when a city is built on it."
       },
@@ -2102,7 +2102,7 @@
           "faction-gateway"
         ],
         "impact": "real",
-        "hook": "Blackrose's Hist is alive, whole and six metres under the lake, and its tenders have invented a practice nobody else recognises.",
+        "hook": "The city's tree is alive six metres under the lake, and the tenders go down to it on weighted lines.",
         "reviewed": true
       },
       "interior": {
@@ -2584,7 +2584,7 @@
           "combat-challenge"
         ],
         "impact": "real",
-        "hook": "A rock-cut vault of urns, each cut with the one word that explains why the village refused it.",
+        "hook": "Every urn in there carries the one word that got it refused, and lately it is the same word on all the new ones.",
         "reviewed": true
       },
       "interior": {
@@ -3527,7 +3527,7 @@
         "materials": "Mud-mother plaster and patched shack-kit over a stilt frame, market canvas over the yard, a wall of hung bone-tags; every material second-hand.",
         "signatureFeature": "A rambling water-house with more doors than rooms, a work-board of paid tasks, and a wall of returned bone-tags from the Rose.",
         "condition": "Perpetually extended and never finished — a new room whenever a new group arrives.",
-        "mood": "Busy, defensive, decent.",
+        "mood": "Decent people, watching the door.",
         "approach": "Reached by water from two directions, with no sign and no landing stage — you are told which door, or you do not find it.",
         "senses": "Constant arrivals; the tag wall clicking in the draught; cooking for more people than expected; lamp oil; nobody asking anybody's name."
       },
@@ -3653,7 +3653,7 @@
           "quest-anchor"
         ],
         "impact": "real",
-        "hook": "No sign, more doors than rooms, and a wall of bone-tags returned from the Rose.",
+        "hook": "You are told which door, or you do not find it; whoever gets inside is fed and put on the work-board.",
         "reviewed": true
       },
       "interior": {
@@ -4228,7 +4228,7 @@
             "registerRef": null,
             "payoff": "evidence",
             "valueTier": "tier-3",
-            "provenance": "the distraint book, which is the case against them"
+            "provenance": "the distraint book, in the collectors' own hand"
           }
         ]
       },
@@ -4836,7 +4836,7 @@
             "registerRef": null,
             "payoff": "lore-fragment",
             "valueTier": "tier-2",
-            "provenance": "from under the stakes, which is the argument"
+            "provenance": "taken from under the grave-stakes"
           }
         ]
       }
@@ -5600,7 +5600,7 @@
             "registerRef": null,
             "payoff": "lore-fragment",
             "valueTier": "tier-2",
-            "provenance": "three peoples' goods mixed, which was the point"
+            "provenance": "three peoples' goods mixed, in the order they were buried"
           }
         ]
       },
@@ -5734,7 +5734,7 @@
         "condition": "Sixteen centuries weathered and never dismantled — the fence is falling and no one will pull it down.",
         "mood": "Administrative atrocity.",
         "approach": "The fence line is visible from the road, and the fence faces inward.",
-        "senses": "Nothing living inside the fence; wind through palings; sour ground; and a burial field with no carving on it anywhere, which is the loudest thing about it."
+        "senses": "Nothing living inside the fence; wind through palings; sour ground; a burial field with no carving on it anywhere."
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -5837,7 +5837,7 @@
           "quest-anchor"
         ],
         "impact": "major",
-        "hook": "The fence faces inward, the gate furniture is on the outside, and the burial ground is four times the size of the village.",
+        "hook": "The ration ledgers are still in the store, and Blackrose has never once discussed them.",
         "reviewed": true
       },
       "interior": {
@@ -6644,7 +6644,7 @@
           "combat-challenge"
         ],
         "impact": "real",
-        "hook": "Roof on, gate off, and three different parties' fire-scars in the same courtyard.",
+        "hook": "The Empire left the armoury behind, and whoever is strongest on the road sleeps in the fort this season.",
         "reviewed": true
       },
       "interior": {
@@ -6819,7 +6819,7 @@
         "signatureFeature": "Silver-skinned people's houses of a form found nowhere else in the province, standing to head height, with the flu-year's stores still in the pits.",
         "condition": "Preserved by fear rather than care — walls to head height, roofs gone, the flu-year's stores untouched in the pits.",
         "mood": "Preserved by fear.",
-        "approach": "The best landing on this stretch of river, with a ruin above it that nobody uses — the anomaly is the cue.",
+        "approach": "The best landing on this stretch of river, with a ruin above it that nobody uses.",
         "senses": "River bright and loud below, the ruins silent; plaster dust; the storage pits still smell of grain."
       },
       "assetPlan": [
@@ -6906,7 +6906,7 @@
           "wonder-oddity"
         ],
         "impact": "real",
-        "hook": "The silver-skinned people's houses, standing to head height, with the flu-year's stores still lidded in the pits.",
+        "hook": "The flu-year's grain is still lidded in the pits, because the villages nearby keep the boundary marked and will not cross it.",
         "reviewed": true
       },
       "interior": {
@@ -7394,7 +7394,7 @@
             "registerRef": null,
             "payoff": "map-knowledge",
             "valueTier": "tier-2",
-            "provenance": "the sinkings chart, which is a treasure map kept as bookkeeping"
+            "provenance": "the sinkings chart, kept as bookkeeping"
           }
         ]
       },
@@ -7575,7 +7575,7 @@
           "traversal-puzzle"
         ],
         "impact": "real",
-        "hook": "Longmont's older self standing upright under the lake, its street legible and its grave-stakes still in rows.",
+        "hook": "Longmont will tell you which house down there was theirs; diving on anybody else's is not allowed.",
         "reviewed": true
       },
       "interior": {
@@ -8375,7 +8375,7 @@
           "unique-item"
         ],
         "impact": "major",
-        "hook": "A stone pyramid standing whole on a lake floor, unlooted because eighteen metres of cold water is a better lock than a door.",
+        "hook": "The divers who work the sunk xanmeer count it a different trade from lake salvage, and nothing has been taken off it yet.",
         "reviewed": true
       },
       "interior": {
@@ -8865,7 +8865,7 @@
           "wonder-oddity"
         ],
         "impact": "real",
-        "hook": "A vulpine city robbed down to its footings, with every stolen block still matchable to the socket it came out of.",
+        "hook": "Any carved block in the district can be walked back to the socket here that it was lifted out of.",
         "reviewed": true
       },
       "interior": {
@@ -9160,10 +9160,10 @@
       "vibe": {
         "silhouette": "One horizontal line a kilometre long, the same height from end to end, with a continuous loading deck under it and no vertical accent anywhere.",
         "palette": "Pale stilt timber, silver flat, red-brown thatch.",
-        "materials": "Pale stilt timber and cane decking, reed thatch, argonian lamps at fixed intervals down the whole length; one kit, repeated a thousand times.",
+        "materials": "Pale stilt timber and cane decking, reed thatch, Argonian lamps at fixed intervals down the whole length; one kit, repeated a thousand times.",
         "signatureFeature": "A single village street a kilometre long on stilts over a shallow flat, with a loading deck running its entire length.",
         "condition": "Uniformly maintained — the village replaces the deck in sections on a rota and you can read the rota in the timber colour.",
-        "mood": "Long, busy, self-possessed.",
+        "mood": "Long and self-possessed.",
         "approach": "From the lake it reads as a single unbroken line on the water that takes ten minutes to pole past.",
         "senses": "Sound travelling the length of the street and arriving late; poling, freight, a bell relayed door to door; wet timber and lake weed."
       },
@@ -9579,7 +9579,7 @@
       "why": {
         "founding": "A marsh giant's range on the north-east marsh, marked by two centuries of the same paths being walked.",
         "siteAdvantages": "A wide shallow marsh with reed stands and no human settlement, on the Murkwood side of the lake.",
-        "occupantsMotive": "The animal. Its paths are the only firm walking in eight square kilometres, which is a very tempting trap.",
+        "occupantsMotive": "The animal. Its paths are the only firm walking in eight square kilometres, and they are its own.",
         "pressures": "The paths are also the fastest route toward the Murkwood verge, and guides use them anyway.",
         "wouldChangeIf": "Nothing will move it; it has been here longer than the city."
       },
@@ -9782,7 +9782,7 @@
         "founding": "The forest that ever moves, last located north-east of Blackrose; findable only via the Conclave of Baal at Stormhold reading the Elder Scrolls with an ancient tablet.",
         "siteAdvantages": "A stretch of deep marsh north-east of the lake where the tree line is wrong on every survey and no two surveys agree. The danger is not in the ground, which is ordinary: it arrived with the forest and it leaves with it.",
         "occupantsMotive": "Medusas and fellrunners. Nothing that lives here is from anywhere.",
-        "pressures": "The verge is where the forest is *now*; the villages within a day of it keep a tally of where it has been.",
+        "pressures": "The verge is where the forest stands now. The villages within a day of it keep a tally of where it has stood before.",
         "wouldChangeIf": "Its movement is off-screen lore between visits — the verge is a fixed site whose surroundings tell you it has moved."
       },
       "sitingPrefs": {
@@ -9941,7 +9941,7 @@
           "hidden-secret"
         ],
         "impact": "province-changing",
-        "hook": "A wall of forest standing across open marsh with no transition, and a field of drowned stumps a kilometre behind it where it used to stand.",
+        "hook": "The villages keep a tally of where the moving forest has stood; this is where it stands this year.",
         "reviewed": true
       },
       "interior": {
@@ -10217,7 +10217,7 @@
       "why": {
         "founding": "Someone is digging toward the Rose's lower levels from outside, and they are not looking for the living.",
         "siteAdvantages": "Four hundred metres from the Rose's foundations, on a spoil-hidden rise in the marsh, on the alignment of the flooded tunnel.",
-        "occupantsMotive": "They know exactly what Umbriel left down there and want it, which is a much worse motive than looting.",
+        "occupantsMotive": "They know exactly what Umbriel left in the lower levels, and they are digging for it and not for grave goods.",
         "pressures": "The Rose's families have not noticed. The Chainbreakers have, and have not decided what to do.",
         "wouldChangeIf": "Breaking into the lower levels from outside would release what the bricked stair contains."
       },
@@ -11496,7 +11496,7 @@
           "vista-landmark"
         ],
         "impact": "mild",
-        "hook": "Complete siege lines with sharp unfought ditch profiles, and not one arrowhead anywhere in them.",
+        "hook": "The siege lines were dug for a battle that never happened, and a gate stockade's pay chest was never issued.",
         "reviewed": true
       },
       "interior": {
@@ -12269,7 +12269,7 @@
         "siteAdvantages": "Below the water table, sealed by a stair the prison-born families bricked up two generations ago.",
         "occupantsMotive": "The undead, behind a bricked stair that nobody has opened. The families above will confirm nothing, and while the brick holds there is nothing here to fight.",
         "pressures": "The Chainbreakers' bone claims include people who died down there; the families' claim to legitimacy depends on the stair staying shut.",
-        "wouldChangeIf": "Clearing the lower levels would make the Rose a settlement and end its reputation — which is exactly what the families are frightened of."
+        "wouldChangeIf": "Clearing the lower levels would make the Rose a settlement and end its reputation; the families would rather it stayed bricked."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -12609,7 +12609,7 @@
         "materials": "Imperial pit stone with iron floor-grates and original numbering cut into every lintel; the crew's additions are all timber and rope and none of them are needed.",
         "signatureFeature": "Six numbered stone pits in a ditched enclosure, the Empire's numbering still legible, and every lock replaced within the last year.",
         "condition": "The stonework is sound and twelve centuries old; the locks are new.",
-        "mood": "Still in use, which is the problem.",
+        "mood": "Still in use.",
         "approach": "Open causeway ground with a ditch line across it, and no cover for the last two hundred metres.",
         "senses": "Iron on stone; water standing in the ditch; a fire going in a pit that was not dug for warmth."
       },
@@ -13440,7 +13440,7 @@
             "registerRef": null,
             "payoff": "evidence",
             "valueTier": "tier-3",
-            "provenance": "days, not years, written down as days"
+            "provenance": "the pit book, with every stay recorded in days"
           }
         ]
       },
@@ -13581,7 +13581,7 @@
         "signatureFeature": "Three gated water channels converging on one stone counting-quay, with three separate tariff boards in three scripts and one set of accounts.",
         "condition": "Maintained ruthlessly — the gates work, the boards are repainted, the compact's counting house is the best-kept building in the region.",
         "mood": "Immovable extraction.",
-        "approach": "Whichever river you come down, you see the other two arriving at the same quay and understand the arrangement immediately.",
+        "approach": "Whichever river you come down, the other two arrive at the same quay.",
         "senses": "Three streams of traffic arriving and one queue leaving; chain and windlass; the scratch of three sets of accounts being kept as one."
       },
       "assetPlan": [
@@ -13776,8 +13776,8 @@
       "confidence": "CANON_IMPLIED",
       "why": {
         "founding": "Where Welloc's vampiric cloud displaced the rebels' strength and skill to their opponents, and the Blackrose army stopped being an army in about a minute.",
-        "siteAdvantages": "The open ground north of the city where the rebel army formed up, chosen by them, which is the part nobody has forgiven.",
-        "occupantsMotive": "Nobody. Grave-singers refuse to work it: they say the dead here are not diminished but *emptied*, which is a different problem.",
+        "siteAdvantages": "The open ground north of the city where the rebel army formed up. They chose it themselves, and Blackrose has not forgiven them for that either.",
+        "occupantsMotive": "Nobody. Grave-singers refuse to work it: they say the dead here were emptied, and they have no rite for that.",
         "pressures": "Blackrose's distrust of battlemages is a policy, not a prejudice, and this field is the reason.",
         "wouldChangeIf": "A grave-singer willing to stake this field would end a two-century-old civic wound."
       },
@@ -13948,7 +13948,7 @@
           "faction-gateway"
         ],
         "impact": "real",
-        "hook": "A field of unstaked dead where the grass still grows in the shape of a formation and nothing has been carried away.",
+        "hook": "Nobody has taken a blade off this field in sixteen centuries, and no grave-singer will stake it.",
         "reviewed": true
       },
       "interior": {
@@ -14127,7 +14127,7 @@
           "unique-item"
         ],
         "impact": "major",
-        "hook": "A stone door with iron welded across it and a nailed board still legible after two hundred years.",
+        "hook": "The party that sealed the door nailed a board to it saying what is inside, and the board is still legible.",
         "reviewed": true
       },
       "interior": {
@@ -14519,7 +14519,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A fen on the Rose approach where lights move at night in exactly the pattern of a lit causeway.",
-        "siteAdvantages": "Directly beside the floating road, which is the whole problem.",
+        "siteAdvantages": "Directly beside the floating road, on the fen side.",
         "occupantsMotive": "Whatever makes the lights. It has been doing it for as long as the road has been there.",
         "pressures": "People walking to the Rose at night have followed them off the road; Vaunting posts a lamp-keeper in the bad months.",
         "wouldChangeIf": "A properly lit causeway would end the deaths and cost Vaunting money it does not have."
@@ -14626,7 +14626,7 @@
           "navigation-aid"
         ],
         "impact": "real",
-        "hook": "Lights across the fen at night, spaced exactly like the causeway's lamps, moving very slowly.",
+        "hook": "Count the lamps before you follow them off the causeway at night; some of them move.",
         "reviewed": true
       },
       "interior": {

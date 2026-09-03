@@ -11,7 +11,7 @@ will reference for the life of the game.
   Never delete or rename a committed ID — a cut place sets
   `status: "cut"` and stays. Validators enforce uniqueness province-wide.
 - **Per-region files**: `places-<region>.json`, each
-  `{ "schemaVersion": 1, "region": "<region>", "seed": "...", "places": [...] }`.
+  `{ "schemaVersion": 2, "region": "<region>", "seed": "...", "places": [...] }`.
   Deterministically ordered by ID; regeneration must reproduce byte-identical
   files (standard 6).
 - **Taxonomy** lives in `taxonomy.json` (class → family → type → variant);

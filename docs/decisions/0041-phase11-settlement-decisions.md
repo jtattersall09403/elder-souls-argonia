@@ -1409,6 +1409,26 @@ relation targets; the `sitingPrefs` wording edits the review lists (finding
 | Dungeons | [research](../research/place-purpose-hostility-and-dungeon-balance.md): 197 of 527 strictly dungeon-like (37 %) vs Morrowind ~60–74 %; target **240–280** by converting low-value repetitive places and adding underwater entrances (≤25 % wet-majority interiors); `interior` block records kind/family/size/wet fraction/entrances |
 | Underwater set dressing | homed: POI families in world 60, assets in 90 §76; the gap is submerged vegetation/groundcover — a submerged depth band added to module 65's tiers (Phase 15 deliverable) |
 
+**Outcome (end of round, 2026-09-03):** 566 live / 247 deferred / 1 cut
+(was 527 / 272 / 1; the penal south grew 21 → 44 and the start freehold
+17 → 31 because both were thin for a major city; dunmer-north and the
+fringe shed repetitive fill). Every live record's four v2 blocks reviewed
+by its region agent, then all prose reviewed by a separate text-review
+agent per region (0043 process). Enterable interiors 223 (39 %, was 37 %;
+35 wet-majority, 33 underwater entrances); hostile-baseline 85 (was 68),
+225 typed stance flips; 93 travel stations forming connected coast, lake,
+river and interior graphs; 49 registry routes (10 roads, 6 lanes solved;
+the rest named-but-unsolved tracks/channels for Part 3c/6). Semantic
+audit 832 → 519 findings (high 54 → 21; the remainder are position-
+dependent lows and the pinned capital). Plot: 566/566, swap pass moves
+~140 sites, every city hinterland covers all five core purposes, no
+rest-cadence gaps. Region budgets in `test_catalogue.py` re-based; count
+bands re-derived (`worldgen.rederive_count_bands`). **Open:** a faction
+registry does not exist yet — region agents introduced ~40 `faction.*`
+ids in `hostility.owner`; the build-out's faction system must register
+them (game-buildout-register). Vibe sheets re-rendered
+(`tooling/asset-pipeline/pipeline/vibe_sheet.py`, now committed).
+
 **Schema**: places files are `schemaVersion: 2` (migration
 `worldgen.migrate_catalogue_v2`; new blocks required at `derived`); route
 registry `worldgen.route_registry` with ids stamped on `routes.json` /
