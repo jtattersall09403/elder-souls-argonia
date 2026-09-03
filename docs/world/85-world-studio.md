@@ -74,19 +74,25 @@ Example:
 - draw-call and triangle density;
 - source confidence and provenance.
 
-### 68a. The plotted place catalogue (delivered — Phase 11 Part 0 item 5)
+### 68a. The plotted place catalogue (delivered — Phase 11 Part 0 item 5; Part 4 medium)
 
-The 2D map view carries a **place-catalogue layer**: `?cat=1` (or the "place
-catalogue" tick beside the layer list) plots every
-`world/sources/catalogue/places-<region>.json` record as a dot — size and
-colour by importance tier, dimmed while `workflow: derived`, dashed when
-`status: cut` — filterable by tier, taxonomy class, region and workflow, with
-a hover/click detail panel showing the whole record, its `why` and its
-`whySiteWon`. Places without a `position` are counted, not plotted. An
-optional underlay plots `world/sources/sites/candidate-sites.json` (the
-terrain scour) as small landform-coloured marks, so a review reads **demand
-against supply**. Zero committed region files is a legal state: a dev fixture
-stands in and the panel says so. Code: `apps/world-studio/src/catalogue/`.
+The 2D map view carries a **"Places (Phase 11 plot)"** layer: `?cat=1` (or the
+tick beside the layer list). It reads `apps/world-studio/public/province/places.json`,
+written by `python3 -m worldgen.export_places` (from `tooling/world-generation`)
+as a projection of every *sited* `world/sources/catalogue/places-<region>.json`
+record — re-run it after any catalogue change (`test_export_places` fails when
+it is stale). One dot per place: **colour = region zone** (the
+`society.CULTURES` palette, embedded in the export so studio and Python
+pictures agree), **size = importance tier** (0 largest), **dashed pale outline
+= ruined / abandoned / drowned**. Filters: region, tier, class, danger tier,
+density layer, text search on name/id. Hover shows name · type · tier; click
+opens the record with its five `why` fields and `whySiteWon` prominent and a
+**Fly here** button (the map's click-to-spawn). Everything round-trips through
+the URL: `pr`, `pt`, `pc`, `pd`, `pl` (comma lists), `pq` (search), `place`
+(selected id — implies the layer on), `tracks=1` (the thin "Minor tracks"
+layer from `routes-minor.json`, tolerated absent), `sites=1` (terrain-scour
+candidate-sites underlay). Types: `PlottedPlacesBundle` / `MinorTracksBundle`
+in `packages/contracts`. Code: `apps/world-studio/src/places/`.
 
 ## 69. Agent-readable probes
 

@@ -82,6 +82,81 @@ export interface SuggestedConnection {
 }
 
 // ---------------------------------------------------------------------------
+// Plotted places and minor tracks (Phase 11 plot; decision 0041 Part 0 item 5)
+// ---------------------------------------------------------------------------
+// The review projection of world/sources/catalogue written by
+// `worldgen.export_places` to apps/world-studio/public/province/places.json.
+// The game's map/fast-travel/journal will read the same bundle shape, so it
+// lives here rather than in the studio. Tiers/danger/density vocabularies are
+// owned by tooling/world-generation/worldgen/catalogue.py.
+
+export interface PlottedPlaceWhy {
+  founding: string | null;
+  siteAdvantages: string | null;
+  occupantsMotive: string | null;
+  pressures: string | null;
+  wouldChangeIf: string | null;
+}
+
+export interface PlottedPlace {
+  /** Stable catalogue id: `place.<region>.<name>` (standard 2). */
+  id: string;
+  name: string;
+  /** Region zone = catalogue file = society culture zone (e.g. `dunmer-north`). */
+  region: string;
+  class: string | null;
+  family: string | null;
+  type: string | null;
+  magnitude: string | null;
+  /** 0 = canon major … 4 = density fill. */
+  importanceTier: number;
+  /** `D0`…`D5`. */
+  dangerTier: string | null;
+  densityLayer: string | null;
+  status: string;
+  workflow: string;
+  culture: string | null;
+  /** Fraction of the province extent, u west→east, v north→south (as SettlementAnchor). */
+  position: { u: number; v: number };
+  /** Source-grid metres (unscaled), [x east, y south]. */
+  positionM: [number, number] | null;
+  plotFacts: Record<string, unknown> | null;
+  whySiteWon: string | null;
+  why: PlottedPlaceWhy;
+  hardConstraints: string[];
+  reachedVia: string[];
+  discovery: string | null;
+  valueTier: string | null;
+}
+
+export interface PlottedPlacesBundle {
+  schemaVersion: 1;
+  source: string;
+  /** Region zone → CSS hex, copied from society.CULTURES so pictures agree. */
+  zoneColours: Record<string, string>;
+  unsitedCount: number;
+  places: PlottedPlace[];
+}
+
+export type MinorTrackKind = "track" | "footpath" | "boardwalk" | "causeway";
+
+/** A local track between places; `px` are [col,row] on the 1345-px hydrology
+ * grid exactly like routes.json. */
+export interface MinorTrack {
+  id: string;
+  kind: MinorTrackKind;
+  from: string;
+  to: string;
+  lengthKm: number;
+  px: [number, number][];
+}
+
+export interface MinorTracksBundle {
+  schemaVersion: 1;
+  tracks: MinorTrack[];
+}
+
+// ---------------------------------------------------------------------------
 // Environment and water queries (master plan §38, §61)
 // ---------------------------------------------------------------------------
 

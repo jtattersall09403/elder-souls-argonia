@@ -44,6 +44,7 @@ python3 -m pytest -q   # tests over the algorithmic cores
 
 # 8. Phase 11: site survey (reads only committed repo rasters -- no vault)
 python3 -m worldgen.terrain_scour                        # province candidate sites
+python3 -m worldgen.export_places                        # studio places.json (re-run after catalogue edits)
 python3 -m worldgen.site_dossier --anchor gideon --radius 500
 
 # 9. Phase 11: blueprint map (review artefact; seconds, PNG in output/)

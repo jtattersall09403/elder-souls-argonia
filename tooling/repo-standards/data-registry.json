@@ -14,6 +14,16 @@
       "enforced": true
     },
     {
+      "path": "apps/world-studio/public/province/places.json",
+      "enforced": true,
+      "_": "Plotted place catalogue for the studio map (worldgen.export_places); a projection of world/sources/catalogue, so NOT in id-registry (its IDs would duplicate the catalogue's)."
+    },
+    {
+      "path": "apps/world-studio/public/province/routes-minor.json",
+      "enforced": true,
+      "_": "Minor route network (worldgen.compile_minor_routes), derived from the plot; px frame of routes.json."
+    },
+    {
       "path": "world/sources/flora/palettes.json",
       "enforced": false,
       "owner": "Phase 10 (vegetation) \u2014 version when the palette schema next changes"

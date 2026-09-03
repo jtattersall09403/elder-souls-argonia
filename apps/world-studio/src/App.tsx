@@ -2,7 +2,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { SettlementAnchor, SuggestedConnection } from "@elder-souls/contracts";
 import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json";
 import { Fly3D } from "./Fly3D";
-import { CataloguePlot } from "./catalogue/CataloguePlot";
+import { PlacesLayer } from "./places/PlacesLayer";
+import { encodePlacesUrl, parsePlacesUrl, type PlacesUrlState } from "./places/placesData";
 import { CharacterMode } from "./character/CharacterMode";
 import { colour } from "./terrainColor";
 import { TimePanel } from "./sky/TimePanel";
@@ -115,7 +116,10 @@ export function App() {
   const [showLanes, setShowLanes] = useState(urlParams.get("lanes") !== "0");
   // Phase 11 place catalogue plotted over the map (?cat=1) — the owner's
   // Part 4 review medium (decision 0041 Part 0 item 5).
-  const [showCatalogue, setShowCatalogue] = useState(urlParams.get("cat") === "1");
+  const [showCatalogue, setShowCatalogue] = useState(urlParams.get("cat") === "1" || urlParams.has("place"));
+  // The layer's own filters/selection (pr, pt, pc, pd, pl, pq, place, tracks, sites)
+  // — the layer owns the state, App owns the query string.
+  const [placesUrl, setPlacesUrl] = useState<PlacesUrlState>(() => parsePlacesUrl(urlParams));
   // World-time changes (scrub/date/rate/preset) bump this so the URL effect
   // reserialises; the clock itself lives in sky/timeState.
   const [timeVersion, setTimeVersion] = useState(0);
@@ -177,10 +181,13 @@ export function App() {
       const lat = getLatitudeOverrideDeg();
       if (lat !== null) q.set("lat", String(lat));
     }
-    if (showCatalogue) q.set("cat", "1");
+    if (showCatalogue) {
+      q.set("cat", "1");
+      for (const [k, v] of Object.entries(encodePlacesUrl(placesUrl))) q.set(k, v);
+    }
     const qs = q.toString();
     window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
-  }, [view, camMode, spawnKm, exaggeration, flySpeed, matSet, wetSeason, tintStrength, showLanes, showCatalogue, timeVersion]);
+  }, [view, camMode, spawnKm, exaggeration, flySpeed, matSet, wetSeason, tintStrength, showLanes, showCatalogue, placesUrl, timeVersion]);
   const overlaysRef = useRef<Record<string, HTMLImageElement>>({});
   const decodedPxRef = useRef<Record<string, Uint8ClampedArray>>({});
   const [layers, setLayers] = useState<Record<string, boolean>>({
@@ -463,6 +470,14 @@ export function App() {
     enterFly((x * meta.metresPerPixel) / 1000, (y * meta.metresPerPixel) / 1000);
   }
 
+  /** Place dots are province fractions (u east, v south); the spawn is km. */
+  const flyToFraction = useCallback((u: number, v: number) => {
+    if (!meta) return;
+    const kmAcross = (meta.imageWidth * meta.metresPerPixel) / 1000;
+    enterFly(u * kmAcross, v * kmAcross);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [meta]);
+
   const extentKm = meta ? ((meta.imageWidth * meta.metresPerPixel) / 1000).toFixed(1) : "…";
 
   const characterOverlay = view === "character" ? (
@@ -606,7 +621,7 @@ export function App() {
         <label style={{ cursor: "pointer", borderLeft: "1px solid #3a4655", paddingLeft: 12 }}>
           <input type="checkbox" checked={showCatalogue}
             onChange={(e) => setShowCatalogue(e.target.checked)} />{" "}
-          place catalogue
+          Places (Phase 11 plot)
         </label>
       </div>
       <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
@@ -653,7 +668,10 @@ export function App() {
             {tip.text}
           </div>
         )}
-        {showCatalogue && <CataloguePlot />}
+        {showCatalogue && (
+          <PlacesLayer baseUrl={import.meta.env.BASE_URL} initial={placesUrl}
+            onUrlState={setPlacesUrl} onFly={flyToFraction} />
+        )}
       </div>
       <p style={{ maxWidth: 720, opacity: 0.8, margin: 0 }}>
         Terrain: Tamriel Worldspaces Argonia heightfield (coarse macro prior — not final terrain).
