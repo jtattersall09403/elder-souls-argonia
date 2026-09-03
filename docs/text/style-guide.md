@@ -11,7 +11,7 @@ name. Where we deliberately *depart* from Morrowind, it says so and why.
 
 ## 1. House rules
 
-### 1.1 Spelling — **British** (provisional; owner confirmation pending)
+### 1.1 Spelling — **British** (owner ruling 2026-09-03)
 
 Morrowind's own text is **American**: across ~50 UESP dialogue and book pages,
 *armor* 75 / *armour* 0, *honor* 30 / *honour* 0, *learned* 12 / *learnt* 0,
