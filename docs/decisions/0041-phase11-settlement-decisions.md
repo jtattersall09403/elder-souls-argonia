@@ -1233,6 +1233,55 @@ binding:
       live prison. Two clarifiers applied (catalogue README naming row;
       prisons.md closes the untaken White Rose work-camp option).
 
+## Part 3 delivery record (2026-09-03)
+
+`worldgen.macro_plot` plots all **527 live records** (0 homeless unresolved;
+report `world/sources/sites/macro-plot.md`). Shape of the solve, and the
+calls made while tuning it:
+
+- **Supply** = the 1,172 scour sites + a seeded lattice of plain ground
+  (~140 m pitch, classified firm / shallow marsh / channel bank off the
+  rasters) + a **roadside strand** every 110 m along every road and boat
+  lane. The strand was added when the plain lattice left only 45 % of
+  fine-tempo places within 300 m of a route; with it, **73 %** (Morrowind's
+  "something every 200–300 m of road").
+- **Demand** = each record's `sitingPrefs.landformClasses` / `regionClasses`;
+  four region files (hist-heartland, naga-kur-deeps, imperial-penal-south,
+  mercantile-coast — 227 records) never got landform wishes at derivation, so
+  theirs come from the type recipe and the record's `whySiteWon` says so.
+  Free-text hard constraints are read for eight hints (submerged, on-route,
+  concealed, commanding, remote, inside-parent, navigable, above-flood) and a
+  "within N km" radius; everything else in that prose is Part 6 material.
+- **Order**: the nine owner-approved anchors are pinned exactly; then tiers
+  0→4, best-scoring pair first within a tier; then the homeless batch is
+  re-tried in four honest stages (lower score bar → neighbouring zone within
+  350 m of its own → spacing ×0.75 → ×0.5). Final plot: 9 records placed at
+  the lower bar, 5 in a neighbouring zone, none needed tighter spacing.
+- **Spacing is sized to the zones as the culture raster draws them**
+  (0.8–9 km² of land each; the prison south holds 21 places on 0.94 km²), so
+  the first draft's 650–1,100 m settlement separations were unachievable and
+  210 records fell through to the tightest stage. Now M5 800 / M4 450 /
+  M3 300 / M2 220 / M1 150 m, layers 200/160/110 m, same-type ≥300 m
+  (≥700 m for landmarks); and **a settlement's separation binds only against
+  other settlements** — a city's hinterland is full of shrines and camps at
+  their own small spacing, which is what real hinterlands look like.
+- **Density follows the civilisation gradient** as the plan asked: tier 3–4
+  fill in danger ≤3 is pulled toward anchors and routes; danger ≥4 records
+  are rewarded for distance from routes; mountains take 6 places/km² against
+  13–19 elsewhere. Only 11 records sit more than 1 km from a route.
+- **Route-visibility sweep** (static two-visible check, 450 m radius,
+  destination+landmark layers): 6 % of route samples see nothing, 48 % see
+  four or more. The "crowded" figure is a property of the radius on flat
+  marsh more than of the plot; Part 4's QA should judge it against real
+  canopy occlusion (the sweep uses the smoothed heightfield only) before
+  thinning anything.
+- **Not done here, deliberately**: re-pointing `reachedVia` at the nearest
+  plotted node (Part 4 QA, now that positions exist); `visibleFrom` claims;
+  the World Studio plotted-map layer (Part 4's owner medium — the interim
+  picture is a PIL render in `output/macro-plot/plot.png`, regenerate from
+  the report); and per-record pinning (`macro-plot-overrides.json` is read
+  but no override exists yet).
+
 ## Owner Q&A (grows from Parts 2, 4 and 5)
 
 **Queued for the next owner touchpoint (batched, not blocking):**

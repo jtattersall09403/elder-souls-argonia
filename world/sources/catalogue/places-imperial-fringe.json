@@ -137,10 +137,45 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.10448,
+        "v": 0.61093
+      },
+      "positionM": [
+        770.4,
+        4504.7
+      ],
+      "scourSiteId": "site.scour.border-mountains.summit-017",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0218",
+          "score": 3.269,
+          "whyLost": "too close to place.imperial-fringe.onkobra-kwama-mine"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0641",
+          "score": 3.267,
+          "whyLost": "too close to place.imperial-fringe.gideon-rootworm-terminus"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0549",
+          "score": 3.267,
+          "whyLost": "too close to place.imperial-fringe.twyllbek-ruins"
+        }
+      ],
+      "whySiteWon": "summit in border mountains (danger band 3), 779 m from the nearest route; its first-choice landform; won on landform, region, parent.",
+      "plotFacts": {
+        "landform": "summit",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 778.7,
+        "distanceToWaterM": 33.4,
+        "score": 2.505
+      }
     },
     {
       "id": "place.imperial-fringe.bog-iron-workings",
@@ -268,10 +303,45 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.05019,
+        "v": 0.54623
+      },
+      "positionM": [
+        370.1,
+        4027.6
+      ],
+      "scourSiteId": "site.scour.border-mountains.spring-head-021",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0298",
+          "score": 3.269,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.scour.seasonal-floodplain.spring-head-036",
+          "score": 3.262,
+          "whyLost": "too close to place.imperial-fringe.giovesse-lines"
+        },
+        {
+          "siteId": "site.free.roadside-0393",
+          "score": 3.258,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "spring head in border mountains (danger band 3), 867 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, parent.",
+      "plotFacts": {
+        "landform": "spring-head",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 867.2,
+        "distanceToWaterM": 0.0,
+        "score": 0.979
+      }
     },
     {
       "id": "place.imperial-fringe.bonded-shed-of-the-onkobra",
@@ -416,10 +486,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.26802,
+        "v": 0.3
+      },
+      "positionM": [
+        1976.2,
+        2212.0
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.757,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0173",
+          "score": 3.439,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0388",
+          "score": 3.438,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 66 m from the nearest route; at the water's edge; its choice #4 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 65.8,
+        "distanceToWaterM": 12.3,
+        "score": 1.933
+      }
     },
     {
       "id": "place.imperial-fringe.bone-road-waystation",
@@ -555,10 +659,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.21678,
+        "v": 0.58193
+      },
+      "positionM": [
+        1598.4,
+        4290.9
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0175",
+          "score": 3.867,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0171",
+          "score": 3.867,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.roadside-0387",
+          "score": 3.864,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 384 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, route.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 383.9,
+        "distanceToWaterM": 12.3,
+        "score": 2.688
+      }
     },
     {
       "id": "place.imperial-fringe.burnt-field-village",
@@ -697,10 +835,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.25545,
+        "v": 0.32015
+      },
+      "positionM": [
+        1883.6,
+        2360.7
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0231",
+          "score": 3.129,
+          "whyLost": "too close to place.imperial-fringe.the-back-kiln"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0496",
+          "score": 3.129,
+          "whyLost": "too close to place.imperial-fringe.low-water-fair"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0582",
+          "score": 3.129,
+          "whyLost": "too close to place.imperial-fringe.the-back-kiln"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 164 m from the nearest route; its choice #3 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 164.3,
+        "distanceToWaterM": 125.0,
+        "score": 2.777
+      }
     },
     {
       "id": "place.imperial-fringe.cartwrights-cross",
@@ -847,10 +1019,45 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "destination",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.18035,
+        "v": 0.57449
+      },
+      "positionM": [
+        1329.8,
+        4236.0
+      ],
+      "scourSiteId": "site.scour.upland-hills.ford-018",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.isthmus-041",
+          "score": 2.276,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 2.114,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.upland-hills.land-bridge-028",
+          "score": 2.055,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "ford in upland hills (danger band 3), 656 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, parent.",
+      "plotFacts": {
+        "landform": "ford",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 655.6,
+        "distanceToWaterM": 0.0,
+        "score": 2.307
+      }
     },
     {
       "id": "place.imperial-fringe.cassian-farm",
@@ -984,10 +1191,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.16621,
+        "v": 0.61391
+      },
+      "positionM": [
+        1225.6,
+        4526.6
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 4.16,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0223",
+          "score": 3.817,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0298",
+          "score": 3.814,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 479 m from the nearest route; its first-choice landform; won on landform, parent, above_flood.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 478.8,
+        "distanceToWaterM": 78.5,
+        "score": 1.309
+      }
     },
     {
       "id": "place.imperial-fringe.castle-giovesse",
@@ -1134,10 +1375,45 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "landmark",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.15059,
+        "v": 0.23464
+      },
+      "positionM": [
+        1110.4,
+        1730.1
+      ],
+      "scourSiteId": "site.scour.upland-hills.summit-016",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.summit-025",
+          "score": 3.88,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.upland-hills.summit-010",
+          "score": 3.813,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ridge-end-076",
+          "score": 3.386,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "summit in upland hills (danger band 3), 989 m from the nearest route; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "summit",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 989.0,
+        "distanceToWaterM": 56.5,
+        "score": 3.889
+      }
     },
     {
       "id": "place.imperial-fringe.claywater-station",
@@ -1282,10 +1558,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.21673,
+        "v": 0.66694
+      },
+      "positionM": [
+        1598.1,
+        4917.7
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.561,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0391",
+          "score": 3.217,
+          "whyLost": "taken by place.imperial-fringe.the-art-and-ash-place"
+        },
+        {
+          "siteId": "site.free.roadside-0176",
+          "score": 3.217,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 82 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 81.5,
+        "distanceToWaterM": 17.3,
+        "score": 1.711
+      }
     },
     {
       "id": "place.imperial-fringe.collections-dig",
@@ -1441,10 +1751,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "trapdoor",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.2681,
+        "v": 0.52095
+      },
+      "positionM": [
+        1976.8,
+        3841.2
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-channel-bank-0579",
+          "score": 3.363,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0550",
+          "score": 3.359,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0578",
+          "score": 3.356,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 85 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on route, region, parent.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 85.1,
+        "distanceToWaterM": 32.0,
+        "score": 2.673
+      }
     },
     {
       "id": "place.imperial-fringe.comes-back-slowly",
@@ -1591,14 +1935,48 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
       "localStateVariants": [
         "a good week (yard raked, house quiet)",
         "a bad week (yard unraked, doors barred from inside)"
-      ]
+      ],
+      "position": {
+        "u": 0.23389,
+        "v": 0.50384
+      },
+      "positionM": [
+        1724.6,
+        3715.1
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.112,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0224",
+          "score": 2.777,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0175",
+          "score": 2.777,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 324 m from the nearest route; its choice #3 landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 323.6,
+        "distanceToWaterM": 108.0,
+        "score": 1.035
+      }
     },
     {
       "id": "place.imperial-fringe.dreams-in-mud",
@@ -1742,14 +2120,49 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
       "localStateVariants": [
         "empty (fence open, hut shuttered)",
         "in use (fence closed, keeper sitting the night out)"
-      ]
+      ],
+      "position": {
+        "u": 0.22943,
+        "v": 0.28372
+      },
+      "positionM": [
+        1691.7,
+        2092.0
+      ],
+      "scourSiteId": "site.scour.upland-hills.oxbow-000",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.spring-head-033",
+          "score": 1.694,
+          "whyLost": "too close to place.imperial-fringe.hangs-above-the-water"
+        },
+        {
+          "siteId": "site.scour.seasonal-floodplain.spring-head-036",
+          "score": 1.694,
+          "whyLost": "too close to place.imperial-fringe.giovesse-lines"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.sinkhole-006",
+          "score": 1.583,
+          "whyLost": "too close to place.imperial-fringe.glenbridge"
+        }
+      ],
+      "whySiteWon": "oxbow in upland hills (danger band 3), 365 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, route, danger.",
+      "plotFacts": {
+        "landform": "oxbow",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 364.6,
+        "distanceToWaterM": 0.0,
+        "score": 1.418
+      }
     },
     {
       "id": "place.imperial-fringe.fenmarch-village",
@@ -1900,10 +2313,44 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "destination",
       "entrance": "root-mouth",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.23612,
+        "v": 0.52838
+      },
+      "positionM": [
+        1741.0,
+        3896.0
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0224",
+          "score": 2.276,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0550",
+          "score": 2.276,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0578",
+          "score": 2.275,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 300 m from the nearest route; its choice #3 landform; won on landform, region, route.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 300.0,
+        "distanceToWaterM": 54.0,
+        "score": 1.58
+      }
     },
     {
       "id": "place.imperial-fringe.fig-market",
@@ -2074,14 +2521,48 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "destination",
       "entrance": "gate",
       "underwaterAccess": "none",
       "localStateVariants": [
         "market open (full board, three buyers)",
         "glut (the board blanked, sheds overflowing, tempers short)"
-      ]
+      ],
+      "position": {
+        "u": 0.2919,
+        "v": 0.34991
+      },
+      "positionM": [
+        2152.4,
+        2580.1
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 2.817,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.confluence-011",
+          "score": 2.716,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0173",
+          "score": 2.468,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 39 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, route.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 38.8,
+        "distanceToWaterM": 19.8,
+        "score": 2.102
+      }
     },
     {
       "id": "place.imperial-fringe.fort-greenditch",
@@ -2215,10 +2696,44 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.24504,
+        "v": 0.35659
+      },
+      "positionM": [
+        1806.8,
+        2629.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0646",
+          "score": 2.77,
+          "whyLost": "taken by place.imperial-fringe.the-second-hearth"
+        },
+        {
+          "siteId": "site.free.roadside-0379",
+          "score": 2.77,
+          "whyLost": "taken by place.imperial-fringe.keepers-lodge-of-the-lower-onkobra"
+        },
+        {
+          "siteId": "site.free.roadside-0179",
+          "score": 2.769,
+          "whyLost": "too close to place.imperial-fringe.the-kept-terrace"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 129 m from the nearest route; no free 'ridge-end' site was left in the zone, so plain ground; won on route, region, danger.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 129.4,
+        "distanceToWaterM": 102.4,
+        "score": 2.756
+      }
     },
     {
       "id": "place.imperial-fringe.fort-swampmoth",
@@ -2383,10 +2898,44 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "landmark",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.1413,
+        "v": 0.43625
+      },
+      "positionM": [
+        1041.9,
+        3216.7
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0173",
+          "score": 1.969,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0177",
+          "score": 1.969,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0390",
+          "score": 1.969,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 33 m from the nearest route; at the water's edge; no free 'ridge-end' site was left in the zone, so plain ground; won on route, region, danger.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 32.9,
+        "distanceToWaterM": 11.0,
+        "score": 1.966
+      }
     },
     {
       "id": "place.imperial-fringe.gideon",
@@ -2572,7 +3121,7 @@
       },
       "complexityBudget": "complex",
       "importanceTier": 0,
-      "workflow": "derived",
+      "workflow": "plotted",
       "complexityJustification": "A major city: districts, a walled records core, a foreign quarter and a seasonal root terminus. Placement complexity stays Morrowind-level — kit assemblies on a graded saddle — but the district count justifies the budget.",
       "heroHist": {
         "id": "hist.imperial-fringe.gideon",
@@ -2582,7 +3131,25 @@
       },
       "densityLayer": "landmark",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.18,
+        "v": 0.42
+      },
+      "positionM": [
+        1327.2,
+        3096.9
+      ],
+      "candidatesConsidered": [],
+      "whySiteWon": "Owner-approved settlement anchor 'gideon' (world/sources/anchors, Phase 2 gate); position kept exactly.",
+      "plotFacts": {
+        "landform": "anchor",
+        "regionClass": "firm lowland",
+        "dangerBand": 1,
+        "distanceToRouteM": 0.0,
+        "distanceToWaterM": 0.0,
+        "score": null
+      }
     },
     {
       "id": "place.imperial-fringe.gideon-rootworm-terminus",
@@ -2733,10 +3300,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "landmark",
       "entrance": "burrow",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.19596,
+        "v": 0.44732
+      },
+      "positionM": [
+        1444.9,
+        3298.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0174",
+          "score": 2.493,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0224",
+          "score": 2.491,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0171",
+          "score": 2.486,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 233 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, danger.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 232.7,
+        "distanceToWaterM": 11.0,
+        "score": 2.507
+      }
     },
     {
       "id": "place.imperial-fringe.gideon-synod-outstation",
@@ -2878,10 +3479,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.28148,
+        "v": 0.31792
+      },
+      "positionM": [
+        2075.5,
+        2344.2
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.825,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0174",
+          "score": 3.52,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.roadside-0170",
+          "score": 3.519,
+          "whyLost": "too close to place.imperial-fringe.onkobra-kwama-mine"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 5 m from the nearest route; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 5.5,
+        "distanceToWaterM": 55.1,
+        "score": 3.169
+      }
     },
     {
       "id": "place.imperial-fringe.giovesse-lines",
@@ -3025,14 +3660,48 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
       "localStateVariants": [
         "wet season (ditches full, banks green)",
         "dry season (a herd in the cuts and the profile bare)"
-      ]
+      ],
+      "position": {
+        "u": 0.10188,
+        "v": 0.42656
+      },
+      "positionM": [
+        751.2,
+        3145.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0379",
+          "score": 3.914,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0181",
+          "score": 3.913,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0180",
+          "score": 3.909,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 64 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 64.2,
+        "distanceToWaterM": 12.3,
+        "score": 3.915
+      }
     },
     {
       "id": "place.imperial-fringe.glenbridge",
@@ -3192,10 +3861,44 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "landmark",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.16765,
+        "v": 0.42106
+      },
+      "positionM": [
+        1236.1,
+        3104.7
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 2.573,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0642",
+          "score": 2.273,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0172",
+          "score": 2.267,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 1), 25 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, danger.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 1,
+        "distanceToRouteM": 24.5,
+        "distanceToWaterM": 21.9,
+        "score": 2.588
+      }
     },
     {
       "id": "place.imperial-fringe.glenbridge-sermon-xanmeer",
@@ -3342,10 +4045,45 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "landmark",
       "entrance": "stair-throat",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.29264,
+        "v": 0.59605
+      },
+      "positionM": [
+        2157.8,
+        4395.0
+      ],
+      "scourSiteId": "site.scour.firm-lowland.flood-high-004",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.summit-016",
+          "score": 1.786,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.border-mountains.summit-017",
+          "score": 1.784,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.upland-hills.summit-025",
+          "score": 1.782,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "flood high in firm lowland (danger band 4), 176 m from the nearest route; its choice #3 landform; won on landform, region, route.",
+      "plotFacts": {
+        "landform": "flood-high",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 175.8,
+        "distanceToWaterM": 73.8,
+        "score": 2.269
+      }
     },
     {
       "id": "place.imperial-fringe.guar-holding-of-the-nine-bells",
@@ -3483,10 +4221,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.13126,
+        "v": 0.65332
+      },
+      "positionM": [
+        967.8,
+        4817.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.853,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0169",
+          "score": 3.52,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0549",
+          "score": 3.52,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 441 m from the nearest route; its first-choice landform; won on landform, region, parent.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 441.4,
+        "distanceToWaterM": 49.7,
+        "score": 2.456
+      }
     },
     {
       "id": "place.imperial-fringe.hangs-above-the-water",
@@ -3634,14 +4406,49 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "destination",
       "entrance": "door",
       "underwaterAccess": "surface-swim",
       "localStateVariants": [
         "ladders down (day)",
         "ladders up (night, and you are staying on the water)"
-      ]
+      ],
+      "position": {
+        "u": 0.04797,
+        "v": 0.39006
+      },
+      "positionM": [
+        353.7,
+        2876.1
+      ],
+      "scourSiteId": "site.scour.upland-hills.gorge-056",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.gorge-026",
+          "score": 2.525,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.upland-hills.gorge-024",
+          "score": 2.524,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ravine-018",
+          "score": 2.418,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "gorge in upland hills (danger band 3), 128 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger.",
+      "plotFacts": {
+        "landform": "gorge",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 127.9,
+        "distanceToWaterM": 5.5,
+        "score": 2.531
+      }
     },
     {
       "id": "place.imperial-fringe.hearth-house-of-the-burnt-field",
@@ -3773,10 +4580,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.25545,
+        "v": 0.33057
+      },
+      "positionM": [
+        1883.6,
+        2437.4
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.86,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0219",
+          "score": 3.519,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.roadside-0387",
+          "score": 3.517,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 201 m from the nearest route; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 200.8,
+        "distanceToWaterM": 77.5,
+        "score": 1.987
+      }
     },
     {
       "id": "place.imperial-fringe.highwater-hamlet",
@@ -3914,10 +4755,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.2733,
+        "v": 0.60573
+      },
+      "positionM": [
+        2015.2,
+        4466.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.oxbow-003",
+          "score": 3.723,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.confluence-011",
+          "score": 3.594,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0550",
+          "score": 3.267,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 61 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on route, region, parent.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 60.6,
+        "distanceToWaterM": 101.1,
+        "score": 2.566
+      }
     },
     {
       "id": "place.imperial-fringe.hollow-arch-toll",
@@ -4061,10 +4936,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.21678,
+        "v": 0.62432
+      },
+      "positionM": [
+        1598.4,
+        4603.4
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.523,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.ravine-032",
+          "score": 3.448,
+          "whyLost": "taken by place.imperial-fringe.the-quiet-pit"
+        },
+        {
+          "siteId": "site.free.roadside-0386",
+          "score": 3.215,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 272 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on route, region, parent.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 271.9,
+        "distanceToWaterM": 23.3,
+        "score": 1.64
+      }
     },
     {
       "id": "place.imperial-fringe.keepers-lodge-of-the-lower-onkobra",
@@ -4204,10 +5113,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.29138,
+        "v": 0.38034
+      },
+      "positionM": [
+        2148.5,
+        2804.4
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-channel-bank-0579",
+          "score": 3.563,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0386",
+          "score": 3.562,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0388",
+          "score": 3.554,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 64 m from the nearest route; at the water's edge; no free 'ford' site was left in the zone, so plain ground; won on route, region, parent.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 64.2,
+        "distanceToWaterM": 5.5,
+        "score": 3.192
+      }
     },
     {
       "id": "place.imperial-fringe.ladder-to-the-light",
@@ -4352,14 +5295,48 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
       "localStateVariants": [
         "manned (bell, lamp, lanes called)",
         "unmanned (the top platform occupied by something else)"
-      ]
+      ],
+      "position": {
+        "u": 0.10672,
+        "v": 0.39452
+      },
+      "positionM": [
+        786.9,
+        2909.0
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0180",
+          "score": 1.753,
+          "whyLost": "taken by place.imperial-fringe.low-water-fair"
+        },
+        {
+          "siteId": "site.free.roadside-0306",
+          "score": 1.752,
+          "whyLost": "too close to place.imperial-fringe.silver-mouth"
+        },
+        {
+          "siteId": "site.free.roadside-0305",
+          "score": 1.751,
+          "whyLost": "taken by place.imperial-fringe.silver-mouth"
+        }
+      ],
+      "whySiteWon": "firm ground in border mountains (danger band 3), 298 m from the nearest route; no free 'islet' site was left in the zone, so plain ground; won on route, danger, landform.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 298.3,
+        "distanceToWaterM": 62.5,
+        "score": 1.552
+      }
     },
     {
       "id": "place.imperial-fringe.long-causeway",
@@ -4494,10 +5471,45 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "position": {
+        "u": 0.29115,
+        "v": 0.53284
+      },
+      "positionM": [
+        2146.8,
+        3928.9
+      ],
+      "scourSiteId": "site.scour.lake-standing-water.isthmus-005",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.lake-standing-water.water-narrows-021",
+          "score": 3.255,
+          "whyLost": "too close to place.imperial-fringe.glenbridge"
+        },
+        {
+          "siteId": "site.free.roadside-0298",
+          "score": 3.055,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0393",
+          "score": 3.044,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "isthmus in lake & standing water (danger band 5), 77 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "isthmus",
+        "regionClass": "lake & standing water",
+        "dangerBand": 5,
+        "distanceToRouteM": 76.8,
+        "distanceToWaterM": 0.0,
+        "score": 2.54
+      }
     },
     {
       "id": "place.imperial-fringe.low-water-fair",
@@ -4635,10 +5647,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.25693,
+        "v": 0.36179
+      },
+      "positionM": [
+        1894.5,
+        2667.7
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0298",
+          "score": 4.164,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0393",
+          "score": 4.151,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0744",
+          "score": 3.458,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in seasonal floodplain (danger band 3), 39 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "seasonal floodplain",
+        "dangerBand": 3,
+        "distanceToRouteM": 38.8,
+        "distanceToWaterM": 12.3,
+        "score": 3.788
+      }
     },
     {
       "id": "place.imperial-fringe.lower-onkobra-paddies",
@@ -4770,10 +5816,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "position": {
+        "u": 0.04945,
+        "v": 0.48153
+      },
+      "positionM": [
+        364.7,
+        3550.6
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.866,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0390",
+          "score": 3.519,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.roadside-0298",
+          "score": 3.518,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "firm ground in border mountains (danger band 3), 403 m from the nearest route; its first-choice landform; won on landform, parent, route.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 403.3,
+        "distanceToWaterM": 47.2,
+        "score": 1.316
+      }
     },
     {
       "id": "place.imperial-fringe.lowmere-raft-town",
@@ -4920,10 +6000,45 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "position": {
+        "u": 0.04351,
+        "v": 0.16026
+      },
+      "positionM": [
+        320.8,
+        1181.7
+      ],
+      "scourSiteId": "site.scour.lake-standing-water.water-narrows-047",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.lake-standing-water.water-narrows-021",
+          "score": 3.255,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.oxbow-003",
+          "score": 2.3,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.sinkhole-006",
+          "score": 2.192,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "water narrows in lake & standing water (danger band 5), 1787 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region.",
+      "plotFacts": {
+        "landform": "water-narrows",
+        "regionClass": "lake & standing water",
+        "dangerBand": 5,
+        "distanceToRouteM": 1786.6,
+        "distanceToWaterM": 0.0,
+        "score": 1.15
+      }
     },
     {
       "id": "place.imperial-fringe.marcians-terrace",
@@ -5072,14 +6187,49 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "destination",
       "entrance": "door",
       "underwaterAccess": "none",
       "localStateVariants": [
         "wet season (cisterns full, terraces green)",
         "dry season (cisterns rationed, a guard on them)"
-      ]
+      ],
+      "position": {
+        "u": 0.02342,
+        "v": 0.48747
+      },
+      "positionM": [
+        172.7,
+        3594.4
+      ],
+      "scourSiteId": "site.scour.border-mountains.saddle-042",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.border-mountains.saddle-033",
+          "score": 2.346,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.border-mountains.saddle-053",
+          "score": 2.341,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.border-mountains.saddle-065",
+          "score": 2.336,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "saddle in border mountains (danger band 3), 498 m from the nearest route; its choice #2 landform; won on landform, region, route.",
+      "plotFacts": {
+        "landform": "saddle",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 498.0,
+        "distanceToWaterM": 139.8,
+        "score": 2.35
+      }
     },
     {
       "id": "place.imperial-fringe.mile-house-of-the-eagle",
@@ -5219,10 +6369,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.24393,
+        "v": 0.40264
+      },
+      "positionM": [
+        1798.6,
+        2968.8
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.87,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0607",
+          "score": 3.519,
+          "whyLost": "too close to place.imperial-fringe.glenbridge"
+        },
+        {
+          "siteId": "site.free.roadside-0394",
+          "score": 3.517,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 12 m from the nearest route; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 12.3,
+        "distanceToWaterM": 56.5,
+        "score": 3.517
+      }
     },
     {
       "id": "place.imperial-fringe.moonmarch-ground",
@@ -5369,14 +6553,48 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
       "localStateVariants": [
         "out of season (post-holes and a stone)",
         "Moonmarch (an awning town, three drums, a bell)"
-      ]
+      ],
+      "position": {
+        "u": 0.23314,
+        "v": 0.55739
+      },
+      "positionM": [
+        1719.1,
+        4109.9
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.63,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0177",
+          "score": 3.277,
+          "whyLost": "taken by place.imperial-fringe.mile-house-of-the-eagle"
+        },
+        {
+          "siteId": "site.free.roadside-0390",
+          "score": 3.277,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 283 m from the nearest route; its choice #3 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 283.1,
+        "distanceToWaterM": 43.9,
+        "score": 1.685
+      }
     },
     {
       "id": "place.imperial-fringe.moonrack-calcinator",
@@ -5513,10 +6731,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.19484,
+        "v": 0.39236
+      },
+      "positionM": [
+        1436.7,
+        2893.0
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0640",
+          "score": 3.749,
+          "whyLost": "too close to place.imperial-fringe.onkobra-clay-pits"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0548",
+          "score": 3.749,
+          "whyLost": "too close to place.imperial-fringe.onkobra-kwama-mine"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0550",
+          "score": 3.748,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 2), 87 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 2,
+        "distanceToRouteM": 86.7,
+        "distanceToWaterM": 11.0,
+        "score": 3.734
+      }
     },
     {
       "id": "place.imperial-fringe.nine-arch-stage",
@@ -5651,10 +6903,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.25763,
+        "v": 0.45573
+      },
+      "positionM": [
+        1899.7,
+        3360.4
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0173",
+          "score": 3.867,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0390",
+          "score": 3.867,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.roadside-0177",
+          "score": 3.867,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 93 m from the nearest route; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 93.2,
+        "distanceToWaterM": 38.8,
+        "score": 3.516
+      }
     },
     {
       "id": "place.imperial-fringe.ninefold-station",
@@ -5795,10 +7081,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.04053,
+        "v": 0.59383
+      },
+      "positionM": [
+        298.9,
+        4378.6
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0549",
+          "score": 3.87,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0173",
+          "score": 3.869,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0641",
+          "score": 3.869,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 1224 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, parent.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 1223.7,
+        "distanceToWaterM": 11.0,
+        "score": 2.519
+      }
     },
     {
       "id": "place.imperial-fringe.ninth-milestone-house",
@@ -5934,10 +7254,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.14613,
+        "v": 0.55516
+      },
+      "positionM": [
+        1077.5,
+        4093.4
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.56,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0219",
+          "score": 3.219,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.roadside-0387",
+          "score": 3.217,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 832 m from the nearest route; its first-choice landform; won on landform, region, parent.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 832.1,
+        "distanceToWaterM": 46.9,
+        "score": 2.168
+      }
     },
     {
       "id": "place.imperial-fringe.onkobra-clay-pits",
@@ -6074,10 +7428,45 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "destination",
       "entrance": "door",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "position": {
+        "u": 0.16398,
+        "v": 0.44138
+      },
+      "positionM": [
+        1209.1,
+        3254.5
+      ],
+      "scourSiteId": "site.scour.seasonal-floodplain.ravine-064",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.ravine-032",
+          "score": 2.157,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.roadside-0386",
+          "score": 2.035,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-channel-bank-0579",
+          "score": 2.031,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "ravine in seasonal floodplain (danger band 2), 47 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, route.",
+      "plotFacts": {
+        "landform": "ravine",
+        "regionClass": "seasonal floodplain",
+        "dangerBand": 2,
+        "distanceToRouteM": 46.9,
+        "distanceToWaterM": 5.5,
+        "score": 2.155
+      }
     },
     {
       "id": "place.imperial-fringe.onkobra-ferry",
@@ -6222,10 +7611,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "position": {
+        "u": 0.2179,
+        "v": 0.41974
+      },
+      "positionM": [
+        1606.7,
+        3095.0
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.922,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0386",
+          "score": 3.848,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.any-channel-bank-0579",
+          "score": 3.844,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 88 m from the nearest route; no free 'water-narrows' site was left in the zone, so plain ground; won on route, region, parent.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 87.7,
+        "distanceToWaterM": 28.0,
+        "score": 3.546
+      }
     },
     {
       "id": "place.imperial-fringe.onkobra-field-station",
@@ -6378,14 +7801,48 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "surface-swim",
       "localStateVariants": [
         "licence current",
         "licence lapsed (shutters closed, jars going cloudy)"
-      ]
+      ],
+      "position": {
+        "u": 0.2324,
+        "v": 0.42055
+      },
+      "positionM": [
+        1713.6,
+        3100.9
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0393",
+          "score": 2.241,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0640",
+          "score": 2.237,
+          "whyLost": "too close to place.imperial-fringe.onkobra-clay-pits"
+        },
+        {
+          "siteId": "site.free.roadside-0298",
+          "score": 2.234,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 128 m from the nearest route; its choice #2 landform; won on route, landform.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 127.5,
+        "distanceToWaterM": 62.5,
+        "score": 1.833
+      }
     },
     {
       "id": "place.imperial-fringe.onkobra-kwama-mine",
@@ -6524,10 +7981,45 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "destination",
       "entrance": "cave-mouth",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.1796,
+        "v": 0.37742
+      },
+      "positionM": [
+        1324.3,
+        2782.9
+      ],
+      "scourSiteId": "site.scour.upland-hills.ravine-024",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.ravine-032",
+          "score": 2.504,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ravine-003",
+          "score": 2.167,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ravine-046",
+          "score": 2.166,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "ravine in upland hills (danger band 2), 213 m from the nearest route; its first-choice landform; won on landform, region, danger.",
+      "plotFacts": {
+        "landform": "ravine",
+        "regionClass": "upland hills",
+        "dangerBand": 2,
+        "distanceToRouteM": 213.3,
+        "distanceToWaterM": 62.5,
+        "score": 2.509
+      }
     },
     {
       "id": "place.imperial-fringe.open-door-at-the-saddle",
@@ -6663,10 +8155,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.02789,
+        "v": 0.57524
+      },
+      "positionM": [
+        205.6,
+        4241.5
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.57,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0173",
+          "score": 3.217,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0177",
+          "score": 3.217,
+          "whyLost": "taken by place.imperial-fringe.mile-house-of-the-eagle"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 1111 m from the nearest route; its first-choice landform; won on landform, region, parent.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 1110.9,
+        "distanceToWaterM": 87.7,
+        "score": 2.17
+      }
     },
     {
       "aliases": [],
@@ -6710,7 +8236,7 @@
           "marks.orma-tactile-ruin.the-mark-you-cannot-read"
         ]
       },
-      "workflow": "derived",
+      "workflow": "plotted",
       "id": "place.imperial-fringe.orma-tactile-ruin",
       "name": "Hand-Read Halls",
       "classification": {
@@ -6805,7 +8331,42 @@
       "localStateVariants": [
         "unlit (as the Orma left it)",
         "lit by a scholars' camp (and legible in the wrong way)"
-      ]
+      ],
+      "position": {
+        "u": 0.08738,
+        "v": 0.28297
+      },
+      "positionM": [
+        644.3,
+        2086.5
+      ],
+      "scourSiteId": "site.scour.border-mountains.box-canyon-039",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.border-mountains.box-canyon-034",
+          "score": 2.74,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.upland-hills.box-canyon-028",
+          "score": 2.728,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.border-mountains.box-canyon-045",
+          "score": 2.725,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "box canyon in border mountains (danger band 3), 967 m from the nearest route; its first-choice landform; won on landform, remote, region.",
+      "plotFacts": {
+        "landform": "box-canyon",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 967.4,
+        "distanceToWaterM": 34.7,
+        "score": 2.752
+      }
     },
     {
       "id": "place.imperial-fringe.red-cart-yard",
@@ -6957,10 +8518,45 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.2495,
+        "v": 0.48674
+      },
+      "positionM": [
+        1839.7,
+        3589.0
+      ],
+      "scourSiteId": "site.scour.firm-lowland.waterfall-031",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.waterfall-041",
+          "score": 3.826,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.waterfall-048",
+          "score": 3.503,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.waterfall-039",
+          "score": 3.501,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "waterfall in firm lowland (danger band 4), 189 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "waterfall",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 189.1,
+        "distanceToWaterM": 0.0,
+        "score": 2.002
+      }
     },
     {
       "id": "place.imperial-fringe.red-daub-relay",
@@ -7098,10 +8694,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.29933,
+        "v": 0.56259
+      },
+      "positionM": [
+        2207.1,
+        4148.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0223",
+          "score": 3.866,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0390",
+          "score": 3.864,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.roadside-0173",
+          "score": 3.864,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 5), 137 m from the nearest route; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 5,
+        "distanceToRouteM": 137.2,
+        "distanceToWaterM": 73.6,
+        "score": 2.813
+      }
     },
     {
       "id": "place.imperial-fringe.reedcutters-toll",
@@ -7237,10 +8867,45 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.04425,
+        "v": 0.33949
+      },
+      "positionM": [
+        326.3,
+        2503.2
+      ],
+      "scourSiteId": "site.scour.border-mountains.ravine-056",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0393",
+          "score": 3.263,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0298",
+          "score": 3.254,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0576",
+          "score": 2.564,
+          "whyLost": "too close to place.imperial-fringe.hangs-above-the-water"
+        }
+      ],
+      "whySiteWon": "ravine in border mountains (danger band 3), 479 m from the nearest route; its choice #3 landform; won on landform, parent.",
+      "plotFacts": {
+        "landform": "ravine",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 479.0,
+        "distanceToWaterM": 28.0,
+        "score": 1.135
+      }
     },
     {
       "id": "place.imperial-fringe.ridge-runners-post",
@@ -7377,10 +9042,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.15506,
+        "v": 0.63324
+      },
+      "positionM": [
+        1143.3,
+        4669.2
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0304",
+          "score": 3.865,
+          "whyLost": "too close to place.imperial-fringe.silver-mouth"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0523",
+          "score": 3.865,
+          "whyLost": "too close to place.imperial-fringe.twyllbek-ruins"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0609",
+          "score": 3.858,
+          "whyLost": "too close to place.imperial-fringe.onkobra-ferry"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 394 m from the nearest route; its first-choice landform; won on landform, region, danger.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 393.9,
+        "distanceToWaterM": 97.2,
+        "score": 3.341
+      }
     },
     {
       "id": "place.imperial-fringe.rockgrove",
@@ -7525,10 +9224,45 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "landmark",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.00632,
+        "v": 0.58119
+      },
+      "positionM": [
+        46.6,
+        4285.4
+      ],
+      "scourSiteId": "site.scour.upland-hills.ridge-end-025",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.ridge-end-055",
+          "score": 2.615,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ridge-end-060",
+          "score": 2.571,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-004",
+          "score": 2.561,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "ridge end in upland hills (danger band 3), 1190 m from the nearest route; its choice #2 landform; won on landform, region, route.",
+      "plotFacts": {
+        "landform": "ridge-end",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 1190.0,
+        "distanceToWaterM": 150.6,
+        "score": 2.696
+      }
     },
     {
       "id": "place.imperial-fringe.sabinus-claim",
@@ -7672,14 +9406,49 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
       "localStateVariants": [
         "worked (hammer, three men)",
         "walked away from (tents standing, pile abandoned, stake still legible)"
-      ]
+      ],
+      "position": {
+        "u": 0.20042,
+        "v": 0.33874
+      },
+      "positionM": [
+        1477.8,
+        2497.7
+      ],
+      "scourSiteId": "site.scour.upland-hills.ravine-040",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.gorge-051",
+          "score": 3.975,
+          "whyLost": "too close to place.imperial-fringe.the-cold-lights"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ravine-058",
+          "score": 3.803,
+          "whyLost": "too close to place.imperial-fringe.fort-swampmoth"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ravine-029",
+          "score": 3.781,
+          "whyLost": "too close to place.imperial-fringe.giovesse-lines"
+        }
+      ],
+      "whySiteWon": "ravine in upland hills (danger band 3), 437 m from the nearest route; its first-choice landform; won on landform, region, parent.",
+      "plotFacts": {
+        "landform": "ravine",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 437.1,
+        "distanceToWaterM": 143.0,
+        "score": 3.024
+      }
     },
     {
       "id": "place.imperial-fringe.saddle-fair",
@@ -7824,10 +9593,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.26898,
+        "v": 0.47561
+      },
+      "positionM": [
+        1983.3,
+        3506.9
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.864,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0671",
+          "score": 3.519,
+          "whyLost": "taken by place.imperial-fringe.the-cold-forge"
+        },
+        {
+          "siteId": "site.free.roadside-0391",
+          "score": 3.519,
+          "whyLost": "taken by place.imperial-fringe.the-art-and-ash-place"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 37 m from the nearest route; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 36.8,
+        "distanceToWaterM": 88.4,
+        "score": 3.17
+      }
     },
     {
       "id": "place.imperial-fringe.silver-mouth",
@@ -7964,10 +9767,44 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "cave-mouth",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.11591,
+        "v": 0.44047
+      },
+      "positionM": [
+        854.6,
+        3247.8
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0379",
+          "score": 3.571,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0638",
+          "score": 3.563,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0645",
+          "score": 3.546,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 22 m from the nearest route; at the water's edge; its choice #5 landform; won on route, region, landform.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 21.9,
+        "distanceToWaterM": 7.8,
+        "score": 3.571
+      }
     },
     {
       "id": "place.imperial-fringe.silverhand-cairns",
@@ -8094,10 +9931,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.22496,
+        "v": 0.35659
+      },
+      "positionM": [
+        1658.8,
+        2629.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0607",
+          "score": 3.008,
+          "whyLost": "too close to place.imperial-fringe.glenbridge"
+        },
+        {
+          "siteId": "site.free.roadside-0299",
+          "score": 3.006,
+          "whyLost": "too close to place.imperial-fringe.glenbridge"
+        },
+        {
+          "siteId": "site.free.roadside-0223",
+          "score": 3.006,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 258 m from the nearest route; its choice #4 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 257.8,
+        "distanceToWaterM": 201.3,
+        "score": 2.657
+      }
     },
     {
       "id": "place.imperial-fringe.slough-point",
@@ -8255,10 +10126,45 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "landmark",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.23389,
+        "v": 0.39749
+      },
+      "positionM": [
+        1724.6,
+        2930.9
+      ],
+      "scourSiteId": "site.scour.firm-lowland.water-narrows-020",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 2.346,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0217",
+          "score": 2.339,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.seasonal-floodplain.river-mouth-007",
+          "score": 2.25,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "water narrows in firm lowland (danger band 2), 6 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, parent.",
+      "plotFacts": {
+        "landform": "water-narrows",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 5.5,
+        "distanceToWaterM": 11.0,
+        "score": 2.536
+      }
     },
     {
       "id": "place.imperial-fringe.slough-point-quarantine-shed",
@@ -8389,10 +10295,45 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.09556,
+        "v": 0.31495
+      },
+      "positionM": [
+        704.6,
+        2322.3
+      ],
+      "scourSiteId": "site.scour.border-mountains.land-bridge-023",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.262,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0390",
+          "score": 2.914,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.roadside-0169",
+          "score": 2.906,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "land bridge in border mountains (danger band 3), 784 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, parent; placed from the homeless batch at stage 'relaxed-score'.",
+      "plotFacts": {
+        "landform": "land-bridge",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 783.5,
+        "distanceToWaterM": 0.0,
+        "score": 0.492
+      }
     },
     {
       "id": "place.imperial-fringe.stonefoot-terrace-village",
@@ -8532,10 +10473,45 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.06061,
+        "v": 0.35213
+      },
+      "positionM": [
+        446.9,
+        2596.4
+      ],
+      "scourSiteId": "site.scour.border-mountains.spring-head-020",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.spring-head-033",
+          "score": 3.117,
+          "whyLost": "too close to place.imperial-fringe.hangs-above-the-water"
+        },
+        {
+          "siteId": "site.scour.border-mountains.ridge-end-017",
+          "score": 3.006,
+          "whyLost": "taken by place.imperial-fringe.the-knapping-floor-of-the-high-scree"
+        },
+        {
+          "siteId": "site.scour.border-mountains.ridge-end-069",
+          "score": 2.998,
+          "whyLost": "taken by place.imperial-fringe.the-ledge-of-tallies"
+        }
+      ],
+      "whySiteWon": "spring head in border mountains (danger band 3), 421 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, danger.",
+      "plotFacts": {
+        "landform": "spring-head",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 420.6,
+        "distanceToWaterM": 0.0,
+        "score": 2.498
+      }
     },
     {
       "id": "place.imperial-fringe.stonewastes",
@@ -8695,10 +10671,45 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "landmark",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.19,
+        "v": 0.2733
+      },
+      "positionM": [
+        1401.0,
+        2015.2
+      ],
+      "scourSiteId": "site.scour.upland-hills.land-bridge-000",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.isthmus-041",
+          "score": 2.206,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-004",
+          "score": 1.935,
+          "whyLost": "taken by place.imperial-fringe.glenbridge-sermon-xanmeer"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.isthmus-027",
+          "score": 1.86,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "land bridge in upland hills (danger band 3), 658 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, route.",
+      "plotFacts": {
+        "landform": "land-bridge",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 658.0,
+        "distanceToWaterM": 5.5,
+        "score": 1.691
+      }
     },
     {
       "id": "place.imperial-fringe.swampmoth-town",
@@ -8860,14 +10871,48 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "destination",
       "entrance": "gate",
       "underwaterAccess": "none",
       "localStateVariants": [
         "garrison at strength",
         "garrison drawn down (half the billets empty, the town's trade with it)"
-      ]
+      ],
+      "position": {
+        "u": 0.1796,
+        "v": 0.59308
+      },
+      "positionM": [
+        1324.3,
+        4373.1
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.ridge-end-022",
+          "score": 2.308,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ridge-end-052",
+          "score": 2.303,
+          "whyLost": "too close to place.imperial-fringe.castle-giovesse"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ridge-end-076",
+          "score": 2.302,
+          "whyLost": "taken by place.imperial-fringe.twyllbek-ruins"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 607 m from the nearest route; no free 'ridge-end' site was left in the zone, so plain ground; won on region, parent, route.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 606.8,
+        "distanceToWaterM": 27.4,
+        "score": 1.467
+      }
     },
     {
       "id": "place.imperial-fringe.the-abandoned-survey",
@@ -9009,10 +11054,45 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.13646,
+        "v": 0.37667
+      },
+      "positionM": [
+        1006.2,
+        2777.4
+      ],
+      "scourSiteId": "site.scour.border-mountains.ridge-end-033",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.saddle-074",
+          "score": 3.497,
+          "whyLost": "too close to place.hist-heartland.blackguard-hideout-raw"
+        },
+        {
+          "siteId": "site.scour.border-mountains.saddle-053",
+          "score": 3.479,
+          "whyLost": "too close to place.imperial-fringe.the-snowline-cell"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.cliff-bench-073",
+          "score": 3.401,
+          "whyLost": "too close to place.hist-heartland.wamasu-pond-nest"
+        }
+      ],
+      "whySiteWon": "ridge end in border mountains (danger band 3), 419 m from the nearest route; its choice #2 landform; won on landform, region, danger.",
+      "plotFacts": {
+        "landform": "ridge-end",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 418.9,
+        "distanceToWaterM": 62.5,
+        "score": 3.238
+      }
     },
     {
       "id": "place.imperial-fringe.the-art-and-ash-place",
@@ -9149,10 +11229,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.19484,
+        "v": 0.40931
+      },
+      "positionM": [
+        1436.7,
+        3018.0
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0172",
+          "score": 3.627,
+          "whyLost": "too close to place.imperial-fringe.the-quiet-pit"
+        },
+        {
+          "siteId": "site.free.roadside-0176",
+          "score": 3.627,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0223",
+          "score": 3.627,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 33 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 32.9,
+        "distanceToWaterM": 19.8,
+        "score": 3.627
+      }
     },
     {
       "id": "place.imperial-fringe.the-back-kiln",
@@ -9296,14 +11410,48 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "cellar-door",
       "underwaterAccess": "none",
       "localStateVariants": [
         "kiln cold (open for business)",
         "kiln fired (the den closed, the room genuinely being used)"
-      ]
+      ],
+      "position": {
+        "u": 0.27628,
+        "v": 0.42055
+      },
+      "positionM": [
+        2037.1,
+        3100.9
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0224",
+          "score": 3.867,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0175",
+          "score": 3.867,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0171",
+          "score": 3.866,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 32 m from the nearest route; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 32.0,
+        "distanceToWaterM": 52.0,
+        "score": 3.52
+      }
     },
     {
       "id": "place.imperial-fringe.the-black-tarn",
@@ -9436,10 +11584,45 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "destination",
       "entrance": "underwater-entry",
-      "underwaterAccess": "deep-dive"
+      "underwaterAccess": "deep-dive",
+      "position": {
+        "u": 0.01078,
+        "v": 0.31271
+      },
+      "positionM": [
+        79.5,
+        2305.8
+      ],
+      "scourSiteId": "site.scour.lake-standing-water.box-canyon-026",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.lake-standing-water.box-canyon-004",
+          "score": 3.433,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.box-canyon-001",
+          "score": 3.42,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.box-canyon-032",
+          "score": 3.403,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "box canyon in lake & standing water (danger band 5), 659 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger.",
+      "plotFacts": {
+        "landform": "box-canyon",
+        "regionClass": "lake & standing water",
+        "dangerBand": 5,
+        "distanceToRouteM": 658.8,
+        "distanceToWaterM": 0.0,
+        "score": 3.45
+      }
     },
     {
       "id": "place.imperial-fringe.the-borrowed-house",
@@ -9570,10 +11753,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.21381,
+        "v": 0.31346
+      },
+      "positionM": [
+        1576.5,
+        2311.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0172",
+          "score": 3.127,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0607",
+          "score": 3.127,
+          "whyLost": "too close to place.imperial-fringe.glenbridge"
+        },
+        {
+          "siteId": "site.free.roadside-0176",
+          "score": 3.127,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 456 m from the nearest route; its choice #3 landform; won on landform, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 455.7,
+        "distanceToWaterM": 32.0,
+        "score": 2.011
+      }
     },
     {
       "id": "place.imperial-fringe.the-buried-spears",
@@ -9701,10 +11918,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "grave-cut",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.17283,
+        "v": 0.40188
+      },
+      "positionM": [
+        1274.3,
+        2963.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0391",
+          "score": 3.31,
+          "whyLost": "taken by place.imperial-fringe.the-art-and-ash-place"
+        },
+        {
+          "siteId": "site.free.roadside-0176",
+          "score": 3.31,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0172",
+          "score": 3.31,
+          "whyLost": "too close to place.imperial-fringe.the-quiet-pit"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 2), 93 m from the nearest route; its choice #4 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 2,
+        "distanceToRouteM": 93.1,
+        "distanceToWaterM": 36.8,
+        "score": 3.301
+      }
     },
     {
       "id": "place.imperial-fringe.the-cold-forge",
@@ -9840,10 +12091,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.17811,
+        "v": 0.46071
+      },
+      "positionM": [
+        1313.3,
+        3397.0
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0388",
+          "score": 3.867,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0394",
+          "score": 3.866,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0173",
+          "score": 3.866,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 2), 217 m from the nearest route; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 2,
+        "distanceToRouteM": 217.3,
+        "distanceToWaterM": 45.2,
+        "score": 3.858
+      }
     },
     {
       "id": "place.imperial-fringe.the-cold-lights",
@@ -9978,10 +12263,45 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "position": {
+        "u": 0.1558,
+        "v": 0.40791
+      },
+      "positionM": [
+        1148.8,
+        3007.7
+      ],
+      "scourSiteId": "site.scour.lake-standing-water.box-canyon-033",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.lake-standing-water.sinkhole-006",
+          "score": 3.738,
+          "whyLost": "too close to place.imperial-fringe.onkobra-clay-pits"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.oxbow-003",
+          "score": 2.801,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.water-narrows-021",
+          "score": 2.703,
+          "whyLost": "too close to place.imperial-fringe.glenbridge"
+        }
+      ],
+      "whySiteWon": "box canyon in lake & standing water (danger band 2), 156 m from the nearest route; at the water's edge; won on route, region, danger.",
+      "plotFacts": {
+        "landform": "box-canyon",
+        "regionClass": "lake & standing water",
+        "dangerBand": 2,
+        "distanceToRouteM": 155.9,
+        "distanceToWaterM": 0.0,
+        "score": 2.7
+      }
     },
     {
       "id": "place.imperial-fringe.the-cordon-stones",
@@ -10109,10 +12429,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.24281,
+        "v": 0.2562
+      },
+      "positionM": [
+        1790.4,
+        1889.1
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0577",
+          "score": 3.869,
+          "whyLost": "too close to place.imperial-fringe.glenbridge"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0606",
+          "score": 3.866,
+          "whyLost": "too close to place.imperial-fringe.fort-swampmoth"
+        },
+        {
+          "siteId": "site.free.roadside-0173",
+          "score": 3.865,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 295 m from the nearest route; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 294.5,
+        "distanceToWaterM": 34.7,
+        "score": 3.378
+      }
     },
     {
       "id": "place.imperial-fringe.the-counted-dead",
@@ -10253,10 +12607,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.25984,
+        "v": 0.4236
+      },
+      "positionM": [
+        1915.9,
+        3123.4
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0223",
+          "score": 3.326,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0176",
+          "score": 3.326,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0391",
+          "score": 3.325,
+          "whyLost": "taken by place.imperial-fringe.the-art-and-ash-place"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 77 m from the nearest route; its choice #3 landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 77.0,
+        "distanceToWaterM": 27.4,
+        "score": 2.966
+      }
     },
     {
       "id": "place.imperial-fringe.the-drowned-furrow",
@@ -10388,10 +12776,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "position": {
+        "u": 0.04797,
+        "v": 0.42576
+      },
+      "positionM": [
+        353.7,
+        3139.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0176",
+          "score": 3.367,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0391",
+          "score": 3.367,
+          "whyLost": "taken by place.imperial-fringe.the-art-and-ash-place"
+        },
+        {
+          "siteId": "site.free.roadside-0223",
+          "score": 3.367,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "firm ground in seasonal floodplain (danger band 4), 12 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "seasonal floodplain",
+        "dangerBand": 4,
+        "distanceToRouteM": 12.3,
+        "distanceToWaterM": 15.5,
+        "score": 2.668
+      }
     },
     {
       "id": "place.imperial-fringe.the-drowned-mule",
@@ -10530,10 +12952,45 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.02342,
+        "v": 0.62357
+      },
+      "positionM": [
+        172.7,
+        4597.9
+      ],
+      "scourSiteId": "site.scour.seasonal-floodplain.river-mouth-007",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0223",
+          "score": 3.869,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0298",
+          "score": 3.862,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0175",
+          "score": 3.859,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "river mouth in seasonal floodplain (danger band 3), 1261 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, parent.",
+      "plotFacts": {
+        "landform": "river-mouth",
+        "regionClass": "seasonal floodplain",
+        "dangerBand": 3,
+        "distanceToRouteM": 1260.8,
+        "distanceToWaterM": 0.0,
+        "score": 2.258
+      }
     },
     {
       "id": "place.imperial-fringe.the-drowning-gate",
@@ -10667,10 +13124,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "position": {
+        "u": 0.21046,
+        "v": 0.40856
+      },
+      "positionM": [
+        1551.8,
+        3012.6
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0169",
+          "score": 2.529,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0298",
+          "score": 2.527,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0393",
+          "score": 2.527,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 17 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, danger.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 17.3,
+        "distanceToWaterM": 16.5,
+        "score": 2.513
+      }
     },
     {
       "id": "place.imperial-fringe.the-eight-steps",
@@ -10805,10 +13296,45 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "position": {
+        "u": 0.09481,
+        "v": 0.40865
+      },
+      "positionM": [
+        699.1,
+        3013.2
+      ],
+      "scourSiteId": "site.scour.upland-hills.waterfall-011",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.waterfall-004",
+          "score": 3.87,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.upland-hills.gorge-024",
+          "score": 3.733,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ravine-058",
+          "score": 3.623,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "waterfall in upland hills (danger band 3), 181 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "waterfall",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 181.0,
+        "distanceToWaterM": 0.0,
+        "score": 3.908
+      }
     },
     {
       "id": "place.imperial-fringe.the-embankment-that-drowned",
@@ -10941,10 +13467,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "position": {
+        "u": 0.21977,
+        "v": 0.4042
+      },
+      "positionM": [
+        1620.5,
+        2980.4
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0169",
+          "score": 3.27,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0175",
+          "score": 3.269,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0386",
+          "score": 3.268,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 17 m from the nearest route; at the water's edge; no free 'ford' site was left in the zone, so plain ground; won on route, region, danger.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 17.3,
+        "distanceToWaterM": 5.5,
+        "score": 3.23
+      }
     },
     {
       "id": "place.imperial-fringe.the-empty-steading",
@@ -11083,10 +13643,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.27553,
+        "v": 0.56036
+      },
+      "positionM": [
+        2031.6,
+        4131.8
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0176",
+          "score": 3.747,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0391",
+          "score": 3.747,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0223",
+          "score": 3.747,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 25 m from the nearest route; its choice #2 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 24.5,
+        "distanceToWaterM": 27.4,
+        "score": 3.05
+      }
     },
     {
       "id": "place.imperial-fringe.the-fig-and-ledger",
@@ -11224,10 +13818,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.09185,
+        "v": 0.43766
+      },
+      "positionM": [
+        677.3,
+        3227.1
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.827,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0387",
+          "score": 3.519,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0225",
+          "score": 3.518,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 33 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 33.4,
+        "distanceToWaterM": 24.5,
+        "score": 3.163
+      }
     },
     {
       "id": "place.imperial-fringe.the-fig-poachers",
@@ -11365,10 +13993,45 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.15134,
+        "v": 0.48971
+      },
+      "positionM": [
+        1115.9,
+        3610.9
+      ],
+      "scourSiteId": "site.scour.upland-hills.ravine-071",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.ravine-058",
+          "score": 3.531,
+          "whyLost": "too close to place.imperial-fringe.fort-swampmoth"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ravine-029",
+          "score": 3.503,
+          "whyLost": "too close to place.imperial-fringe.giovesse-lines"
+        },
+        {
+          "siteId": "site.scour.upland-hills.box-canyon-041",
+          "score": 3.445,
+          "whyLost": "too close to place.imperial-fringe.fort-swampmoth"
+        }
+      ],
+      "whySiteWon": "ravine in upland hills (danger band 3), 351 m from the nearest route; its choice #2 landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "ravine",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 350.9,
+        "distanceToWaterM": 57.2,
+        "score": 3.23
+      }
     },
     {
       "id": "place.imperial-fringe.the-glass-scar",
@@ -11496,10 +14159,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.27032,
+        "v": 0.35212
+      },
+      "positionM": [
+        1993.2,
+        2596.4
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0237",
+          "score": 3.009,
+          "whyLost": "taken by place.imperial-fringe.saddle-fair"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0612",
+          "score": 3.008,
+          "whyLost": "taken by place.imperial-fringe.the-back-kiln"
+        },
+        {
+          "siteId": "site.free.roadside-0233",
+          "score": 3.008,
+          "whyLost": "too close to place.imperial-fringe.nine-arch-stage"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 35 m from the nearest route; at the water's edge; its choice #4 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 35.1,
+        "distanceToWaterM": 16.5,
+        "score": 3.008
+      }
     },
     {
       "id": "place.imperial-fringe.the-hackwing-scarp",
@@ -11629,10 +14326,45 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.01524,
+        "v": 0.36478
+      },
+      "positionM": [
+        112.4,
+        2689.7
+      ],
+      "scourSiteId": "site.scour.border-mountains.ridge-end-012",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.gorge-024",
+          "score": 3.529,
+          "whyLost": "too close to place.imperial-fringe.silver-mouth"
+        },
+        {
+          "siteId": "site.scour.border-mountains.ridge-end-069",
+          "score": 3.303,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.upland-hills.gorge-051",
+          "score": 3.246,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "ridge end in border mountains (danger band 3), 274 m from the nearest route; its choice #3 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "ridge-end",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 274.2,
+        "distanceToWaterM": 36.8,
+        "score": 3.386
+      }
     },
     {
       "id": "place.imperial-fringe.the-hollow-pass-station",
@@ -11769,10 +14501,45 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.22868,
+        "v": 0.45178
+      },
+      "positionM": [
+        1686.2,
+        3331.2
+      ],
+      "scourSiteId": "site.scour.upland-hills.summit-025",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.border-mountains.ridge-end-069",
+          "score": 3.01,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.border-mountains.ridge-end-048",
+          "score": 3.004,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.border-mountains.ridge-end-017",
+          "score": 2.997,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "summit in upland hills (danger band 3), 298 m from the nearest route; its choice #2 landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "summit",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 298.4,
+        "distanceToWaterM": 73.6,
+        "score": 3.097
+      }
     },
     {
       "id": "place.imperial-fringe.the-hollow-under-the-figs",
@@ -11910,10 +14677,45 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "hollow-trunk",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.25396,
+        "v": 0.27999
+      },
+      "positionM": [
+        1872.6,
+        2064.5
+      ],
+      "scourSiteId": "site.scour.firm-lowland.ravine-061",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.ravine-032",
+          "score": 3.017,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0645",
+          "score": 2.993,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0582",
+          "score": 2.992,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "ravine in firm lowland (danger band 4), 186 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "ravine",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 186.5,
+        "distanceToWaterM": 22.6,
+        "score": 3.08
+      }
     },
     {
       "id": "place.imperial-fringe.the-kept-terrace",
@@ -12054,10 +14856,44 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "destination",
       "entrance": "stair-throat",
-      "underwaterAccess": "surface-swim"
+      "underwaterAccess": "surface-swim",
+      "position": {
+        "u": 0.23686,
+        "v": 0.37593
+      },
+      "positionM": [
+        1746.5,
+        2771.9
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0222",
+          "score": 1.968,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.roadside-0390",
+          "score": 1.968,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0578",
+          "score": 1.966,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 106 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on region, route, above_flood.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 106.5,
+        "distanceToWaterM": 59.3,
+        "score": 1.62
+      }
     },
     {
       "id": "place.imperial-fringe.the-knapping-floor-of-the-high-scree",
@@ -12190,10 +15026,45 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.09408,
+        "v": 0.47261
+      },
+      "positionM": [
+        693.7,
+        3484.8
+      ],
+      "scourSiteId": "site.scour.border-mountains.ridge-end-017",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.border-mountains.ridge-end-048",
+          "score": 3.739,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.border-mountains.ridge-end-069",
+          "score": 3.734,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.border-mountains.ridge-end-012",
+          "score": 3.592,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "ridge end in border mountains (danger band 3), 251 m from the nearest route; its choice #2 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "ridge-end",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 251.2,
+        "distanceToWaterM": 101.1,
+        "score": 3.742
+      }
     },
     {
       "id": "place.imperial-fringe.the-lake-divers-yard",
@@ -12338,10 +15209,45 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "position": {
+        "u": 0.23983,
+        "v": 0.63399
+      },
+      "positionM": [
+        1768.4,
+        4674.7
+      ],
+      "scourSiteId": "site.scour.lake-standing-water.islet-023",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0386",
+          "score": 3.267,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.any-channel-bank-0579",
+          "score": 3.262,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.water-narrows-021",
+          "score": 3.034,
+          "whyLost": "too close to place.imperial-fringe.glenbridge"
+        }
+      ],
+      "whySiteWon": "islet in lake & standing water (danger band 5), 110 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "islet",
+        "regionClass": "lake & standing water",
+        "dangerBand": 5,
+        "distanceToRouteM": 109.7,
+        "distanceToWaterM": 0.0,
+        "score": 2.958
+      }
     },
     {
       "id": "place.imperial-fringe.the-lamp-at-the-ford",
@@ -12477,10 +15383,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.21976,
+        "v": 0.25917
+      },
+      "positionM": [
+        1620.4,
+        1911.0
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0640",
+          "score": 3.657,
+          "whyLost": "too close to place.imperial-fringe.onkobra-clay-pits"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0641",
+          "score": 3.649,
+          "whyLost": "too close to place.imperial-fringe.gideon-rootworm-terminus"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0577",
+          "score": 3.643,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 450 m from the nearest route; its first-choice landform; won on landform, region, route.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 449.6,
+        "distanceToWaterM": 49.4,
+        "score": 2.533
+      }
     },
     {
       "id": "place.imperial-fringe.the-last-post",
@@ -12621,10 +15561,45 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.12828,
+        "v": 0.47112
+      },
+      "positionM": [
+        945.9,
+        3473.8
+      ],
+      "scourSiteId": "site.scour.border-mountains.ridge-end-048",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0172",
+          "score": 3.268,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.roadside-0299",
+          "score": 3.268,
+          "whyLost": "too close to place.imperial-fringe.glenbridge"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0606",
+          "score": 3.267,
+          "whyLost": "too close to place.imperial-fringe.glenbridge"
+        }
+      ],
+      "whySiteWon": "ridge end in border mountains (danger band 3), 203 m from the nearest route; its choice #4 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "ridge-end",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 203.0,
+        "distanceToWaterM": 93.7,
+        "score": 3.149
+      }
     },
     {
       "id": "place.imperial-fringe.the-leaning-watch",
@@ -12755,10 +15730,45 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.15209,
+        "v": 0.31718
+      },
+      "positionM": [
+        1121.4,
+        2338.7
+      ],
+      "scourSiteId": "site.scour.upland-hills.summit-010",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0219",
+          "score": 3.269,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0606",
+          "score": 3.269,
+          "whyLost": "too close to place.imperial-fringe.glenbridge"
+        },
+        {
+          "siteId": "site.free.roadside-0301",
+          "score": 3.268,
+          "whyLost": "too close to place.imperial-fringe.onkobra-clay-pits"
+        }
+      ],
+      "whySiteWon": "summit in upland hills (danger band 3), 701 m from the nearest route; its first-choice landform; won on landform, region, parent.",
+      "plotFacts": {
+        "landform": "summit",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 700.6,
+        "distanceToWaterM": 105.5,
+        "score": 2.511
+      }
     },
     {
       "id": "place.imperial-fringe.the-ledge-of-tallies",
@@ -12898,10 +15908,45 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "cellar-door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.12679,
+        "v": 0.41088
+      },
+      "positionM": [
+        934.9,
+        3029.6
+      ],
+      "scourSiteId": "site.scour.border-mountains.ridge-end-069",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.gorge-024",
+          "score": 3.116,
+          "whyLost": "too close to place.imperial-fringe.silver-mouth"
+        },
+        {
+          "siteId": "site.scour.border-mountains.ridge-end-048",
+          "score": 3.004,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.border-mountains.ridge-end-017",
+          "score": 2.995,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "ridge end in border mountains (danger band 3), 217 m from the nearest route; its choice #4 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "ridge-end",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 216.9,
+        "distanceToWaterM": 27.4,
+        "score": 3.008
+      }
     },
     {
       "id": "place.imperial-fringe.the-marble-field",
@@ -13026,10 +16071,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "grave-cut",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.18704,
+        "v": 0.6325
+      },
+      "positionM": [
+        1379.1,
+        4663.7
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.708,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0219",
+          "score": 3.4,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.roadside-0301",
+          "score": 3.399,
+          "whyLost": "too close to place.imperial-fringe.onkobra-clay-pits"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 313 m from the nearest route; its choice #2 landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 312.8,
+        "distanceToWaterM": 50.6,
+        "score": 2.846
+      }
     },
     {
       "id": "place.imperial-fringe.the-month-chapel",
@@ -13154,10 +16233,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.26363,
+        "v": 0.44063
+      },
+      "positionM": [
+        1943.9,
+        3249.0
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0308",
+          "score": 3.248,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0228",
+          "score": 3.247,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0496",
+          "score": 3.247,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 31 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 31.0,
+        "distanceToWaterM": 17.3,
+        "score": 3.25
+      }
     },
     {
       "id": "place.imperial-fringe.the-niben-crystal-workings",
@@ -13293,10 +16406,45 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "cave-mouth",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.00632,
+        "v": 0.39973
+      },
+      "positionM": [
+        46.6,
+        2947.4
+      ],
+      "scourSiteId": "site.scour.firm-lowland.cliff-bench-048",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.cliff-bench-073",
+          "score": 3.683,
+          "whyLost": "too close to place.hist-heartland.wamasu-pond-nest"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.cliff-bench-042",
+          "score": 3.663,
+          "whyLost": "too close to place.imperial-fringe.hangs-above-the-water"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ravine-058",
+          "score": 3.658,
+          "whyLost": "too close to place.imperial-fringe.fort-swampmoth"
+        }
+      ],
+      "whySiteWon": "cliff bench in firm lowland (danger band 4), 39 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "cliff-bench",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 38.8,
+        "distanceToWaterM": 7.8,
+        "score": 3.631
+      }
     },
     {
       "id": "place.imperial-fringe.the-old-office-house",
@@ -13432,10 +16580,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.18704,
+        "v": 0.65035
+      },
+      "positionM": [
+        1379.1,
+        4795.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.seasonal-floodplain.cliff-bench-043",
+          "score": 3.617,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.roadside-0219",
+          "score": 3.388,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0578",
+          "score": 3.388,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 181 m from the nearest route; its choice #5 landform; won on route, region, landform.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 181.3,
+        "distanceToWaterM": 57.2,
+        "score": 2.689
+      }
     },
     {
       "id": "place.imperial-fringe.the-old-quarters",
@@ -13560,10 +16742,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.08515,
+        "v": 0.56557
+      },
+      "positionM": [
+        627.9,
+        4170.2
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0169",
+          "score": 3.867,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0175",
+          "score": 3.866,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0171",
+          "score": 3.866,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "firm ground in border mountains (danger band 3), 914 m from the nearest route; at the water's edge; its first-choice landform; won on landform, parent.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 913.7,
+        "distanceToWaterM": 17.3,
+        "score": 1.22
+      }
     },
     {
       "id": "place.imperial-fringe.the-pass-shelter",
@@ -13707,14 +16923,48 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
       "localStateVariants": [
         "empty and cold",
         "storm-full (three parties, one fire, no door)"
-      ]
+      ],
+      "position": {
+        "u": 0.10672,
+        "v": 0.49864
+      },
+      "positionM": [
+        786.9,
+        3676.7
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0638",
+          "score": 3.54,
+          "whyLost": "too close to place.imperial-fringe.silver-mouth"
+        },
+        {
+          "siteId": "site.free.roadside-0304",
+          "score": 3.54,
+          "whyLost": "too close to place.imperial-fringe.silver-mouth"
+        },
+        {
+          "siteId": "site.free.roadside-0306",
+          "score": 3.534,
+          "whyLost": "too close to place.imperial-fringe.silver-mouth"
+        }
+      ],
+      "whySiteWon": "firm ground in border mountains (danger band 3), 399 m from the nearest route; no free 'headland' site was left in the zone, so plain ground; won on region, danger, parent.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 398.6,
+        "distanceToWaterM": 33.4,
+        "score": 2.985
+      }
     },
     {
       "id": "place.imperial-fringe.the-quiet-pit",
@@ -13848,10 +17098,45 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "trapdoor",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.21381,
+        "v": 0.39006
+      },
+      "positionM": [
+        1576.5,
+        2876.1
+      ],
+      "scourSiteId": "site.scour.firm-lowland.ravine-032",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0223",
+          "score": 3.629,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0176",
+          "score": 3.629,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0391",
+          "score": 3.629,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "ravine in firm lowland (danger band 2), 58 m from the nearest route; its choice #2 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "ravine",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 58.3,
+        "distanceToWaterM": 101.1,
+        "score": 3.748
+      }
     },
     {
       "id": "place.imperial-fringe.the-ravine-doors",
@@ -13993,10 +17278,44 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.2495,
+        "v": 0.23984
+      },
+      "positionM": [
+        1839.7,
+        1768.4
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.gorge-024",
+          "score": 3.572,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ravine-029",
+          "score": 3.459,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ravine-058",
+          "score": 3.448,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 326 m from the nearest route; no free 'gorge' site was left in the zone, so plain ground; won on route, region, danger.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 326.1,
+        "distanceToWaterM": 50.6,
+        "score": 2.76
+      }
     },
     {
       "id": "place.imperial-fringe.the-ring-of-nine-wells",
@@ -14133,10 +17452,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "well-shaft",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.29933,
+        "v": 0.40419
+      },
+      "positionM": [
+        2207.1,
+        2980.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0497",
+          "score": 3.509,
+          "whyLost": "too close to place.imperial-fringe.low-water-fair"
+        },
+        {
+          "siteId": "site.free.roadside-0232",
+          "score": 3.509,
+          "whyLost": "too close to place.imperial-fringe.the-back-kiln"
+        },
+        {
+          "siteId": "site.free.roadside-0236",
+          "score": 3.508,
+          "whyLost": "taken by place.imperial-fringe.nine-arch-stage"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 66 m from the nearest route; its choice #4 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 66.3,
+        "distanceToWaterM": 28.0,
+        "score": 3.508
+      }
     },
     {
       "id": "place.imperial-fringe.the-road-nisswo-house",
@@ -14268,10 +17621,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.09779,
+        "v": 0.36626
+      },
+      "positionM": [
+        721.1,
+        2700.6
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.852,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0578",
+          "score": 3.52,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.roadside-0219",
+          "score": 3.518,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        }
+      ],
+      "whySiteWon": "firm ground in border mountains (danger band 3), 474 m from the nearest route; its first-choice landform; won on landform, parent.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 473.5,
+        "distanceToWaterM": 42.8,
+        "score": 1.048
+      }
     },
     {
       "id": "place.imperial-fringe.the-second-empire-locks",
@@ -14403,10 +17790,44 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "cellar-door",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "position": {
+        "u": 0.2324,
+        "v": 0.47186
+      },
+      "positionM": [
+        1713.6,
+        3479.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0305",
+          "score": 3.061,
+          "whyLost": "taken by place.imperial-fringe.silver-mouth"
+        },
+        {
+          "siteId": "site.free.roadside-0379",
+          "score": 3.058,
+          "whyLost": "taken by place.imperial-fringe.keepers-lodge-of-the-lower-onkobra"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0638",
+          "score": 3.047,
+          "whyLost": "too close to place.imperial-fringe.silver-mouth"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 272 m from the nearest route; no free 'ridge-end' site was left in the zone, so plain ground; won on route, region, danger.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 272.2,
+        "distanceToWaterM": 87.7,
+        "score": 2.916
+      }
     },
     {
       "id": "place.imperial-fringe.the-second-hearth",
@@ -14548,10 +17969,44 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "hollow-trunk",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.27776,
+        "v": 0.45253
+      },
+      "positionM": [
+        2048.1,
+        3336.7
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.838,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0388",
+          "score": 3.517,
+          "whyLost": "too close to place.imperial-fringe.glenbridge"
+        },
+        {
+          "siteId": "site.free.roadside-0177",
+          "score": 3.516,
+          "whyLost": "taken by place.imperial-fringe.mile-house-of-the-eagle"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 55 m from the nearest route; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 54.8,
+        "distanceToWaterM": 60.3,
+        "score": 3.168
+      }
     },
     {
       "id": "place.imperial-fringe.the-sermon-road-camp",
@@ -14683,10 +18138,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.22348,
+        "v": 0.29115
+      },
+      "positionM": [
+        1647.8,
+        2146.8
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0578",
+          "score": 3.599,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0550",
+          "score": 3.596,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0169",
+          "score": 3.579,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 397 m from the nearest route; its choice #4 landform; won on landform, parent, route.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 397.2,
+        "distanceToWaterM": 52.0,
+        "score": 1.431
+      }
     },
     {
       "id": "place.imperial-fringe.the-shaking-house",
@@ -14819,10 +18308,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.25888,
+        "v": 0.40207
+      },
+      "positionM": [
+        1908.8,
+        2964.7
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0388",
+          "score": 3.626,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0222",
+          "score": 3.626,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.roadside-0390",
+          "score": 3.625,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 35 m from the nearest route; its choice #3 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 34.7,
+        "distanceToWaterM": 42.8,
+        "score": 3.277
+      }
     },
     {
       "id": "place.imperial-fringe.the-shut-door",
@@ -14960,10 +18483,45 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "destination",
       "entrance": "stair-throat",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.06804,
+        "v": 0.66001
+      },
+      "positionM": [
+        501.7,
+        4866.6
+      ],
+      "scourSiteId": "site.scour.lake-standing-water.box-canyon-010",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.lake-standing-water.box-canyon-026",
+          "score": 2.066,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.box-canyon-004",
+          "score": 2.053,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.box-canyon-001",
+          "score": 2.043,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "box canyon in lake & standing water (danger band 4), 874 m from the nearest route; at the water's edge; its choice #5 landform; won on region, landform, danger.",
+      "plotFacts": {
+        "landform": "box-canyon",
+        "regionClass": "lake & standing water",
+        "dangerBand": 4,
+        "distanceToRouteM": 873.6,
+        "distanceToWaterM": 0.0,
+        "score": 2.401
+      }
     },
     {
       "id": "place.imperial-fringe.the-silent-halls",
@@ -15104,10 +18662,45 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "landmark",
       "entrance": "stair-throat",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "position": {
+        "u": 0.06731,
+        "v": 0.41683
+      },
+      "positionM": [
+        496.3,
+        3073.5
+      ],
+      "scourSiteId": "site.scour.firm-lowland.ravine-072",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0875",
+          "score": 2.432,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-004",
+          "score": 2.159,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0316",
+          "score": 2.156,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "ravine in firm lowland (danger band 4), 44 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, submerged.",
+      "plotFacts": {
+        "landform": "ravine",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 43.9,
+        "distanceToWaterM": 7.8,
+        "score": 2.72
+      }
     },
     {
       "id": "place.imperial-fringe.the-snowline-cell",
@@ -15242,10 +18835,45 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.07696,
+        "v": 0.48822
+      },
+      "positionM": [
+        567.5,
+        3599.9
+      ],
+      "scourSiteId": "site.scour.border-mountains.summit-000",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.border-mountains.ridge-end-069",
+          "score": 3.006,
+          "whyLost": "taken by place.imperial-fringe.the-ledge-of-tallies"
+        },
+        {
+          "siteId": "site.scour.border-mountains.ridge-end-048",
+          "score": 3.001,
+          "whyLost": "taken by place.imperial-fringe.the-last-post"
+        },
+        {
+          "siteId": "site.scour.border-mountains.ridge-end-017",
+          "score": 2.998,
+          "whyLost": "taken by place.imperial-fringe.the-knapping-floor-of-the-high-scree"
+        }
+      ],
+      "whySiteWon": "summit in border mountains (danger band 3), 403 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger.",
+      "plotFacts": {
+        "landform": "summit",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 403.3,
+        "distanceToWaterM": 15.5,
+        "score": 2.803
+      }
     },
     {
       "id": "place.imperial-fringe.the-standing-mist",
@@ -15375,10 +19003,45 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.14762,
+        "v": 0.45253
+      },
+      "positionM": [
+        1088.5,
+        3336.7
+      ],
+      "scourSiteId": "site.scour.upland-hills.box-canyon-041",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.ravine-058",
+          "score": 2.998,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ravine-029",
+          "score": 2.997,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.upland-hills.gorge-024",
+          "score": 2.876,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "box canyon in upland hills (danger band 3), 77 m from the nearest route; its choice #2 landform; won on route, landform, region.",
+      "plotFacts": {
+        "landform": "box-canyon",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 77.0,
+        "distanceToWaterM": 82.4,
+        "score": 3.236
+      }
     },
     {
       "id": "place.imperial-fringe.the-stone-talkers-watch",
@@ -15545,10 +19208,45 @@
       ],
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "landmark",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.05318,
+        "v": 0.63845
+      },
+      "positionM": [
+        392.1,
+        4707.6
+      ],
+      "scourSiteId": "site.scour.upland-hills.ridge-end-055",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.spring-head-035",
+          "score": 2.355,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.scour.upland-hills.spring-head-031",
+          "score": 2.263,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ridge-end-076",
+          "score": 2.25,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "ridge end in upland hills (danger band 3), 1018 m from the nearest route; its choice #2 landform; won on landform, region, route.",
+      "plotFacts": {
+        "landform": "ridge-end",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 1018.0,
+        "distanceToWaterM": 49.0,
+        "score": 2.07
+      }
     },
     {
       "id": "place.imperial-fringe.the-sunk-lane",
@@ -15677,10 +19375,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "sinkhole-lip",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "position": {
+        "u": 0.30751,
+        "v": 0.48897
+      },
+      "positionM": [
+        2267.4,
+        3605.4
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0373",
+          "score": 2.69,
+          "whyLost": "too close to place.imperial-fringe.the-ravine-doors"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0471",
+          "score": 2.667,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0946",
+          "score": 2.662,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 225 m from the nearest route; at the water's edge; no free 'sinkhole' site was left in the zone, so plain ground; won on route, region, danger.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 224.8,
+        "distanceToWaterM": 19.8,
+        "score": 2.671
+      }
     },
     {
       "id": "place.imperial-fringe.the-turned-out",
@@ -15820,10 +19552,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.25768,
+        "v": 0.50012
+      },
+      "positionM": [
+        1900.0,
+        3687.7
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.929,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0578",
+          "score": 3.615,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0550",
+          "score": 3.61,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "firm ground in seasonal floodplain (danger band 4), 148 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "seasonal floodplain",
+        "dangerBand": 4,
+        "distanceToRouteM": 148.1,
+        "distanceToWaterM": 11.0,
+        "score": 2.103
+      }
     },
     {
       "id": "place.imperial-fringe.the-two-lamps-hermitage",
@@ -15960,10 +19726,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.07995,
+        "v": 0.3856
+      },
+      "positionM": [
+        589.5,
+        2843.2
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.box-canyon-041",
+          "score": 3.194,
+          "whyLost": "taken by place.imperial-fringe.the-standing-mist"
+        },
+        {
+          "siteId": "site.scour.upland-hills.summit-025",
+          "score": 3.038,
+          "whyLost": "taken by place.imperial-fringe.the-hollow-pass-station"
+        },
+        {
+          "siteId": "site.free.roadside-0304",
+          "score": 2.767,
+          "whyLost": "too close to place.imperial-fringe.silver-mouth"
+        }
+      ],
+      "whySiteWon": "firm ground in border mountains (danger band 3), 290 m from the nearest route; no free 'cliff-bench' site was left in the zone, so plain ground; won on route, region, danger.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 289.6,
+        "distanceToWaterM": 42.8,
+        "score": 2.64
+      }
     },
     {
       "id": "place.imperial-fringe.the-vellum-estate",
@@ -16114,10 +19914,44 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "gate",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.18555,
+        "v": 0.48525
+      },
+      "positionM": [
+        1368.1,
+        3578.0
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.465,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0224",
+          "score": 3.16,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0175",
+          "score": 3.159,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 395 m from the nearest route; its choice #4 landform; won on landform, parent, route.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 395.4,
+        "distanceToWaterM": 45.2,
+        "score": 0.978
+      }
     },
     {
       "id": "place.imperial-fringe.the-white-throat",
@@ -16246,10 +20080,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "cave-mouth",
-      "underwaterAccess": "shallow-dive"
+      "underwaterAccess": "shallow-dive",
+      "position": {
+        "u": 0.0502,
+        "v": 0.36998
+      },
+      "positionM": [
+        370.1,
+        2728.1
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.waterfall-011",
+          "score": 3.412,
+          "whyLost": "taken by place.imperial-fringe.the-eight-steps"
+        },
+        {
+          "siteId": "site.scour.upland-hills.waterfall-004",
+          "score": 3.392,
+          "whyLost": "too close to place.imperial-fringe.hangs-above-the-water"
+        },
+        {
+          "siteId": "site.free.roadside-0305",
+          "score": 3.355,
+          "whyLost": "taken by place.imperial-fringe.silver-mouth"
+        }
+      ],
+      "whySiteWon": "firm ground in border mountains (danger band 3), 271 m from the nearest route; no free 'waterfall' site was left in the zone, so plain ground; won on route, region, danger.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 270.5,
+        "distanceToWaterM": 27.4,
+        "score": 3.293
+      }
     },
     {
       "id": "place.imperial-fringe.treasure-hunters-camp-of-the-white-hill",
@@ -16386,10 +20254,44 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.23463,
+        "v": 0.44212
+      },
+      "positionM": [
+        1730.1,
+        3260.0
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.ravine-058",
+          "score": 3.418,
+          "whyLost": "too close to place.imperial-fringe.fort-swampmoth"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ravine-029",
+          "score": 3.397,
+          "whyLost": "too close to place.imperial-fringe.giovesse-lines"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.cliff-bench-048",
+          "score": 3.282,
+          "whyLost": "taken by place.imperial-fringe.the-niben-crystal-workings"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 238 m from the nearest route; no free 'cliff-bench' site was left in the zone, so plain ground; won on route, region, danger.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 238.1,
+        "distanceToWaterM": 82.4,
+        "score": 2.874
+      }
     },
     {
       "id": "place.imperial-fringe.twyllbek-crown",
@@ -16532,14 +20434,48 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
       "localStateVariants": [
         "route intact",
         "a course gone (the old route dead-ends; find the new one)"
-      ]
+      ],
+      "position": {
+        "u": 0.28,
+        "v": 0.33651
+      },
+      "positionM": [
+        2064.5,
+        2481.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.border-mountains.ridge-end-017",
+          "score": 2.449,
+          "whyLost": "taken by place.imperial-fringe.the-knapping-floor-of-the-high-scree"
+        },
+        {
+          "siteId": "site.scour.border-mountains.ridge-end-069",
+          "score": 2.436,
+          "whyLost": "taken by place.imperial-fringe.the-ledge-of-tallies"
+        },
+        {
+          "siteId": "site.scour.border-mountains.ridge-end-048",
+          "score": 2.43,
+          "whyLost": "taken by place.imperial-fringe.the-last-post"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 82 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on route, danger, parent.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 82.4,
+        "distanceToWaterM": 56.5,
+        "score": 1.952
+      }
     },
     {
       "id": "place.imperial-fringe.twyllbek-ruins",
@@ -16680,10 +20616,45 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "destination",
       "entrance": "stair-throat",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.19967,
+        "v": 0.36552
+      },
+      "positionM": [
+        1472.3,
+        2695.2
+      ],
+      "scourSiteId": "site.scour.upland-hills.ridge-end-076",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.ridge-end-052",
+          "score": 2.506,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ridge-end-022",
+          "score": 2.5,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.upland-hills.ridge-end-060",
+          "score": 2.475,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "ridge end in upland hills (danger band 3), 266 m from the nearest route; its first-choice landform; won on landform, region, danger.",
+      "plotFacts": {
+        "landform": "ridge-end",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 266.2,
+        "distanceToWaterM": 136.2,
+        "score": 2.51
+      }
     },
     {
       "id": "place.imperial-fringe.unfinished-culvert-line",
@@ -16806,10 +20777,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.01518,
+        "v": 0.41423
+      },
+      "positionM": [
+        111.9,
+        3054.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0390",
+          "score": 3.267,
+          "whyLost": "too close to place.imperial-fringe.the-quiet-pit"
+        },
+        {
+          "siteId": "site.free.roadside-0173",
+          "score": 3.267,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.roadside-0298",
+          "score": 3.266,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 79 m from the nearest route; at the water's edge; no free 'ford' site was left in the zone, so plain ground; won on route, region, parent.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 78.5,
+        "distanceToWaterM": 7.8,
+        "score": 2.57
+      }
     },
     {
       "id": "place.imperial-fringe.watch-of-the-weighed-cart",
@@ -16942,10 +20947,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.14465,
+        "v": 0.67786
+      },
+      "positionM": [
+        1066.5,
+        4998.2
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 3.229,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.isthmus-041",
+          "score": 3.159,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0219",
+          "score": 2.92,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 297 m from the nearest route; no free 'water-narrows' site was left in the zone, so plain ground; won on route, region, parent.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 296.6,
+        "distanceToWaterM": 50.6,
+        "score": 2.423
+      }
     },
     {
       "id": "place.imperial-fringe.westfield-village",
@@ -17087,10 +21126,44 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "destination",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.14613,
+        "v": 0.65407
+      },
+      "positionM": [
+        1077.5,
+        4822.8
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0216",
+          "score": 2.503,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0394",
+          "score": 2.168,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        },
+        {
+          "siteId": "site.free.roadside-0390",
+          "score": 2.168,
+          "whyLost": "too close to place.imperial-fringe.gideon"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 344 m from the nearest route; its first-choice landform; won on landform, region, route.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 343.7,
+        "distanceToWaterM": 73.6,
+        "score": 1.815
+      }
     },
     {
       "id": "place.imperial-fringe.whispers-house-of-the-low-fen",
@@ -17227,10 +21300,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "fine-tempo",
       "entrance": "door",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.29636,
+        "v": 0.46517
+      },
+      "positionM": [
+        2185.2,
+        3429.9
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0219",
+          "score": 3.368,
+          "whyLost": "too close to place.imperial-fringe.the-drowning-gate"
+        },
+        {
+          "siteId": "site.free.roadside-0387",
+          "score": 3.367,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        },
+        {
+          "siteId": "site.free.roadside-0221",
+          "score": 3.366,
+          "whyLost": "too close to place.imperial-fringe.slough-point"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 174 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 174.3,
+        "distanceToWaterM": 16.5,
+        "score": 2.665
+      }
     },
     {
       "id": "place.imperial-fringe.xi-tsei-massacre-ground",
@@ -17364,10 +21471,44 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "densityLayer": "destination",
       "entrance": "none",
-      "underwaterAccess": "none"
+      "underwaterAccess": "none",
+      "position": {
+        "u": 0.2701,
+        "v": 0.37885
+      },
+      "positionM": [
+        1991.6,
+        2793.5
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0337",
+          "score": 2.399,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0837",
+          "score": 2.399,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1004",
+          "score": 2.399,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 78 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, danger.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 77.9,
+        "distanceToWaterM": 12.3,
+        "score": 2.4
+      }
     }
   ]
 }

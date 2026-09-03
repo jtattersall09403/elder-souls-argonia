@@ -35,6 +35,16 @@ Workflow status ladder: `derived → plotted → authored → frozen` — each r
 adds required fields (see the validator). A dot without a plotted `why` is a
 validation failure, per 0041 Part 3.
 
+**Plotted fields (Part 3, written by `worldgen.macro_plot` — never by hand):**
+`position {u,v}` (fractions of the province extent, u east, v south),
+`positionM [x,z]` (metres, same frame), `scourSiteId` (when a terrain-scour
+site won), `candidatesConsidered` (the runners-up and why each lost),
+`whySiteWon` (one generated sentence: landform, region, danger band, route
+distance, the scoring terms that carried it, and whether it came from the
+homeless batch), `plotFacts` (the land under the dot). Positions are
+approximate; Part 6's compiler sites the footprint on real terrain. To move a
+place, change its `sitingPrefs` or a scoring weight and re-run the plot.
+
 ## `rewardProfile.valueTier` — the one scale (0041 enrichment, 2026-09-02)
 
 Neither [quests 85](../../../docs/quests/85-condition-vocabulary.md) nor

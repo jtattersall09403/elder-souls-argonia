@@ -1,0 +1,1868 @@
+{
+  "schemaVersion": 1,
+  "kind": "macro-plot",
+  "seed": 1103,
+  "generatedBy": "worldgen.macro_plot (Phase 11 Part 3, decision 0041)",
+  "supply": {
+    "scourSites": 1172,
+    "freeGroundSites": 2014
+  },
+  "demand": {
+    "live": 527,
+    "plotted": 527,
+    "homelessUnresolved": 0,
+    "placedFromHomelessBatch": {
+      "relaxed-score": 9,
+      "neighbour-zone": 5
+    }
+  },
+  "byZone": {
+    "dunmer-north": {
+      "live": 138,
+      "plotted": 138,
+      "homeless": 0,
+      "fromRecipe": 0,
+      "byLandform": {
+        "any-firm-ground": 69,
+        "cliff-bench": 13,
+        "ridge-end": 11,
+        "ravine": 8,
+        "saddle": 4,
+        "any-shallow-marsh": 3,
+        "box-canyon": 3,
+        "gorge": 3,
+        "island": 3,
+        "islet": 3,
+        "summit": 3,
+        "waterfall": 3,
+        "anchor": 2,
+        "land-bridge": 2,
+        "river-mouth": 2,
+        "headland": 1,
+        "isthmus": 1,
+        "oxbow": 1,
+        "sinkhole": 1,
+        "spring-head": 1,
+        "water-narrows": 1
+      },
+      "byLayer": {
+        "fine-tempo": 91,
+        "landmark": 15,
+        "destination": 32
+      },
+      "typeShare": {
+        "flood-high-hamlet": 3,
+        "hist-village": 3,
+        "air-pocket-grotto": 2,
+        "bird-colony": 2,
+        "causeway": 2,
+        "dry-season-herd-ground": 2
+      }
+    },
+    "hist-heartland": {
+      "live": 111,
+      "plotted": 111,
+      "homeless": 0,
+      "fromRecipe": 111,
+      "byLandform": {
+        "any-firm-ground": 30,
+        "any-shallow-marsh": 24,
+        "cliff-bench": 8,
+        "flood-high": 7,
+        "box-canyon": 5,
+        "island": 4,
+        "sinkhole": 4,
+        "enclosed-clearing": 3,
+        "gorge": 3,
+        "oxbow": 3,
+        "ravine": 3,
+        "spring-head": 3,
+        "summit": 3,
+        "water-narrows": 3,
+        "islet": 2,
+        "waterfall": 2,
+        "anchor": 1,
+        "headland": 1,
+        "land-bridge": 1,
+        "ridge-end": 1
+      },
+      "byLayer": {
+        "destination": 44,
+        "fine-tempo": 43,
+        "landmark": 24
+      },
+      "typeShare": {
+        "root-hollow-gallery": 6,
+        "hero-hist-grove": 4,
+        "hist-village": 4,
+        "bubble-spire-exit": 2,
+        "canopy-crossing": 2,
+        "dream-wallow": 2
+      }
+    },
+    "imperial-fringe": {
+      "live": 121,
+      "plotted": 121,
+      "homeless": 0,
+      "fromRecipe": 0,
+      "byLandform": {
+        "any-firm-ground": 77,
+        "ravine": 8,
+        "ridge-end": 8,
+        "box-canyon": 5,
+        "summit": 5,
+        "land-bridge": 2,
+        "spring-head": 2,
+        "water-narrows": 2,
+        "waterfall": 2,
+        "anchor": 1,
+        "cliff-bench": 1,
+        "flood-high": 1,
+        "ford": 1,
+        "gorge": 1,
+        "islet": 1,
+        "isthmus": 1,
+        "oxbow": 1,
+        "river-mouth": 1,
+        "saddle": 1
+      },
+      "byLayer": {
+        "fine-tempo": 94,
+        "destination": 15,
+        "landmark": 12
+      },
+      "typeShare": {
+        "tradehouse": 4,
+        "imperial-farmstead": 3,
+        "courier-relay": 2,
+        "failed-roadworks": 2,
+        "gorge-wall-dwelling": 2,
+        "hearth-house": 2
+      }
+    },
+    "imperial-penal-south": {
+      "live": 21,
+      "plotted": 21,
+      "homeless": 0,
+      "fromRecipe": 21,
+      "byLandform": {
+        "any-firm-ground": 10,
+        "islet": 3,
+        "ford": 2,
+        "anchor": 1,
+        "any-shallow-marsh": 1,
+        "cove": 1,
+        "flood-high": 1,
+        "isthmus": 1,
+        "water-narrows": 1
+      },
+      "byLayer": {
+        "landmark": 10,
+        "destination": 9,
+        "fine-tempo": 2
+      },
+      "typeShare": {
+        "battlefield-ground": 1,
+        "drawdown-flat": 1,
+        "drowned-hist": 1,
+        "flood-high-hamlet": 1,
+        "flooded-passage": 1,
+        "freed-worker-shelter": 1
+      }
+    },
+    "mercantile-coast": {
+      "live": 56,
+      "plotted": 56,
+      "homeless": 0,
+      "fromRecipe": 56,
+      "byLandform": {
+        "any-firm-ground": 22,
+        "any-shallow-marsh": 8,
+        "flood-high": 7,
+        "cove": 5,
+        "islet": 3,
+        "water-narrows": 3,
+        "anchor": 2,
+        "river-mouth": 2,
+        "summit": 2,
+        "ford": 1,
+        "isthmus": 1
+      },
+      "byLayer": {
+        "landmark": 8,
+        "destination": 32,
+        "fine-tempo": 16
+      },
+      "typeShare": {
+        "hist-village": 2,
+        "stilt-village": 2,
+        "tide-timed-run": 2,
+        "air-pocket-grotto": 1,
+        "art-and-destroy-site": 1,
+        "bereaved-village": 1
+      }
+    },
+    "naga-kur-deeps": {
+      "live": 39,
+      "plotted": 39,
+      "homeless": 0,
+      "fromRecipe": 39,
+      "byLandform": {
+        "any-shallow-marsh": 17,
+        "flood-high": 8,
+        "cove": 4,
+        "water-narrows": 3,
+        "enclosed-clearing": 2,
+        "cliff-bench": 1,
+        "confluence": 1,
+        "ford": 1,
+        "island": 1,
+        "islet": 1
+      },
+      "byLayer": {
+        "destination": 20,
+        "landmark": 12,
+        "fine-tempo": 7
+      },
+      "typeShare": {
+        "bog-blight-ground": 2,
+        "hist-village": 2,
+        "naga-village": 2,
+        "air-pocket-station": 1,
+        "art-and-destroy-site": 1,
+        "beast-keeper-village": 1
+      }
+    },
+    "pirate-freeholds": {
+      "live": 17,
+      "plotted": 17,
+      "homeless": 0,
+      "fromRecipe": 0,
+      "byLandform": {
+        "any-firm-ground": 13,
+        "anchor": 1,
+        "cliff-bench": 1,
+        "ridge-end": 1,
+        "saddle": 1
+      },
+      "byLayer": {
+        "landmark": 2,
+        "destination": 12,
+        "fine-tempo": 3
+      },
+      "typeShare": {
+        "anomalous-smithy": 1,
+        "bone-repatriation-waystation": 1,
+        "cairn-field": 1,
+        "claimable-steading": 1,
+        "dunmer-frontier-holding": 1,
+        "flood-high-hamlet": 1
+      }
+    },
+    "saxhleel-coast": {
+      "live": 24,
+      "plotted": 24,
+      "homeless": 0,
+      "fromRecipe": 0,
+      "byLandform": {
+        "any-shallow-marsh": 8,
+        "any-firm-ground": 6,
+        "islet": 2,
+        "water-narrows": 2,
+        "anchor": 1,
+        "cove": 1,
+        "flood-high": 1,
+        "island": 1,
+        "land-bridge": 1,
+        "river-mouth": 1
+      },
+      "byLayer": {
+        "landmark": 5,
+        "destination": 9,
+        "fine-tempo": 10
+      },
+      "typeShare": {
+        "reef": 3,
+        "fishing-bank": 2,
+        "air-pocket-grotto": 1,
+        "bird-colony": 1,
+        "cantemiric-velothi-site": 1,
+        "cliff-shelf-village": 1
+      }
+    }
+  },
+  "landformUsed": {
+    "any-firm-ground": 227,
+    "any-shallow-marsh": 61,
+    "flood-high": 25,
+    "cliff-bench": 24,
+    "ridge-end": 21,
+    "ravine": 19,
+    "islet": 15,
+    "water-narrows": 15,
+    "box-canyon": 13,
+    "summit": 13,
+    "cove": 11,
+    "anchor": 9,
+    "island": 9,
+    "gorge": 7,
+    "waterfall": 7,
+    "land-bridge": 6,
+    "river-mouth": 6,
+    "saddle": 6,
+    "spring-head": 6,
+    "enclosed-clearing": 5,
+    "ford": 5,
+    "oxbow": 5,
+    "sinkhole": 5,
+    "isthmus": 4,
+    "headland": 2,
+    "confluence": 1
+  },
+  "spacing": {
+    "nearestNeighbourP5M": 95,
+    "nearestNeighbourMedianM": 165,
+    "nearestNeighbourP95M": 296,
+    "sameTypeWithinSightPairs": []
+  },
+  "routeDistance": {
+    "medianM": 194,
+    "fineTempoWithin300mFraction": 0.726
+  },
+  "antiSameynessQuotaBreaches": [],
+  "routeVisibility": {
+    "routeSamples": 357,
+    "stepM": 150.0,
+    "radiusM": 450.0,
+    "visibleMean": 3.32,
+    "deadFraction": 0.062,
+    "crowdedFraction": 0.479,
+    "deadSamples": [
+      {
+        "route": "road:gideon-soulrest",
+        "worldM": [
+          1985,
+          3307
+        ]
+      },
+      {
+        "route": "road:gideon-soulrest",
+        "worldM": [
+          1996,
+          3455
+        ]
+      },
+      {
+        "route": "road:archon-gideon",
+        "worldM": [
+          2649,
+          3005
+        ]
+      },
+      {
+        "route": "road:archon-gideon",
+        "worldM": [
+          2500,
+          2999
+        ]
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          2967,
+          3575
+        ]
+      },
+      {
+        "route": "road:thorn-tear-road",
+        "worldM": [
+          6482,
+          258
+        ]
+      },
+      {
+        "route": "boat:soulrest-lilmoth",
+        "worldM": [
+          477,
+          6931
+        ]
+      },
+      {
+        "route": "boat:soulrest-lilmoth",
+        "worldM": [
+          587,
+          7041
+        ]
+      },
+      {
+        "route": "boat:soulrest-lilmoth",
+        "worldM": [
+          724,
+          7079
+        ]
+      },
+      {
+        "route": "boat:soulrest-lilmoth",
+        "worldM": [
+          1316,
+          7118
+        ]
+      },
+      {
+        "route": "boat:soulrest-lilmoth",
+        "worldM": [
+          1470,
+          7118
+        ]
+      },
+      {
+        "route": "boat:soulrest-lilmoth",
+        "worldM": [
+          2237,
+          7118
+        ]
+      },
+      {
+        "route": "boat:soulrest-lilmoth",
+        "worldM": [
+          2391,
+          7118
+        ]
+      },
+      {
+        "route": "boat:soulrest-lilmoth",
+        "worldM": [
+          2544,
+          7118
+        ]
+      },
+      {
+        "route": "boat:soulrest-lilmoth",
+        "worldM": [
+          2698,
+          7118
+        ]
+      },
+      {
+        "route": "boat:lilmoth-archon",
+        "worldM": [
+          3904,
+          6432
+        ]
+      },
+      {
+        "route": "boat:lilmoth-archon",
+        "worldM": [
+          4277,
+          6213
+        ]
+      },
+      {
+        "route": "boat:lilmoth-archon",
+        "worldM": [
+          4387,
+          6103
+        ]
+      },
+      {
+        "route": "boat:archon-thorn",
+        "worldM": [
+          5719,
+          3032
+        ]
+      },
+      {
+        "route": "boat:archon-thorn",
+        "worldM": [
+          5719,
+          2879
+        ]
+      },
+      {
+        "route": "boat:archon-thorn",
+        "worldM": [
+          5719,
+          2725
+        ]
+      },
+      {
+        "route": "boat:alten-corimont-helstrom",
+        "worldM": [
+          4294,
+          1991
+        ]
+      }
+    ],
+    "crowdedSamples": [
+      {
+        "route": "road:soulrest-blackrose",
+        "worldM": [
+          515,
+          6734
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:soulrest-blackrose",
+        "worldM": [
+          664,
+          6778
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:soulrest-blackrose",
+        "worldM": [
+          812,
+          6761
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:soulrest-blackrose",
+        "worldM": [
+          960,
+          6739
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:soulrest-blackrose",
+        "worldM": [
+          1256,
+          6745
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:soulrest-blackrose",
+        "worldM": [
+          1404,
+          6728
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:soulrest-blackrose",
+        "worldM": [
+          1535,
+          6657
+        ],
+        "visible": 6
+      },
+      {
+        "route": "road:soulrest-blackrose",
+        "worldM": [
+          1683,
+          6679
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:soulrest-blackrose",
+        "worldM": [
+          1810,
+          6564
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:soulrest-blackrose",
+        "worldM": [
+          1936,
+          6498
+        ],
+        "visible": 7
+      },
+      {
+        "route": "road:soulrest-blackrose",
+        "worldM": [
+          2084,
+          6432
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:blackrose-lilmoth",
+        "worldM": [
+          2462,
+          6328
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:blackrose-lilmoth",
+        "worldM": [
+          2610,
+          6284
+        ],
+        "visible": 7
+      },
+      {
+        "route": "road:blackrose-lilmoth",
+        "worldM": [
+          2758,
+          6306
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:blackrose-lilmoth",
+        "worldM": [
+          2906,
+          6279
+        ],
+        "visible": 7
+      },
+      {
+        "route": "road:blackrose-lilmoth",
+        "worldM": [
+          3021,
+          6366
+        ],
+        "visible": 6
+      },
+      {
+        "route": "road:blackrose-lilmoth",
+        "worldM": [
+          3153,
+          6438
+        ],
+        "visible": 6
+      },
+      {
+        "route": "road:blackrose-lilmoth",
+        "worldM": [
+          3279,
+          6536
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:blackrose-lilmoth",
+        "worldM": [
+          3427,
+          6558
+        ],
+        "visible": 6
+      },
+      {
+        "route": "road:blackrose-lilmoth",
+        "worldM": [
+          3559,
+          6514
+        ],
+        "visible": 6
+      },
+      {
+        "route": "road:alten-corimont-stormhold",
+        "worldM": [
+          3833,
+          1141
+        ],
+        "visible": 6
+      },
+      {
+        "route": "road:alten-corimont-stormhold",
+        "worldM": [
+          3855,
+          1283
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:alten-corimont-stormhold",
+        "worldM": [
+          4129,
+          1173
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:alten-corimont-stormhold",
+        "worldM": [
+          4036,
+          1053
+        ],
+        "visible": 6
+      },
+      {
+        "route": "road:alten-corimont-stormhold",
+        "worldM": [
+          3948,
+          779
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:alten-corimont-stormhold",
+        "worldM": [
+          3833,
+          664
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:alten-corimont-stormhold",
+        "worldM": [
+          3729,
+          554
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:alten-corimont-stormhold",
+        "worldM": [
+          3614,
+          450
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:alten-corimont-stormhold",
+        "worldM": [
+          3328,
+          417
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:alten-corimont-stormhold",
+        "worldM": [
+          3186,
+          450
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:alten-corimont-stormhold",
+        "worldM": [
+          3082,
+          537
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:alten-corimont-stormhold",
+        "worldM": [
+          2950,
+          636
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:alten-corimont-stormhold",
+        "worldM": [
+          2829,
+          729
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:alten-corimont-stormhold",
+        "worldM": [
+          2681,
+          740
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          2654,
+          735
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          2802,
+          729
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          2928,
+          647
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          3054,
+          559
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          3159,
+          466
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          3307,
+          433
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          3603,
+          461
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          3718,
+          543
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          3822,
+          658
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          3992,
+          899
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          4014,
+          1042
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          4129,
+          1152
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          4222,
+          1256
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          4316,
+          1376
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          4524,
+          1590
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          4645,
+          1689
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          5341,
+          1815
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          5473,
+          1766
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          5566,
+          1651
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          5802,
+          1557
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          5933,
+          1459
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          6065,
+          1404
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          6103,
+          1261
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          6246,
+          729
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:stormhold-thorn",
+        "worldM": [
+          6191,
+          587
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:gideon-stormhold",
+        "worldM": [
+          1327,
+          3093
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:gideon-stormhold",
+        "worldM": [
+          1415,
+          2989
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:gideon-stormhold",
+        "worldM": [
+          1563,
+          2978
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:gideon-stormhold",
+        "worldM": [
+          1689,
+          2884
+        ],
+        "visible": 6
+      },
+      {
+        "route": "road:gideon-stormhold",
+        "worldM": [
+          1831,
+          2879
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:gideon-stormhold",
+        "worldM": [
+          1892,
+          2736
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:gideon-stormhold",
+        "worldM": [
+          2001,
+          2638
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:gideon-stormhold",
+        "worldM": [
+          2237,
+          1804
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:gideon-stormhold",
+        "worldM": [
+          2204,
+          1672
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:gideon-stormhold",
+        "worldM": [
+          2237,
+          1530
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:gideon-stormhold",
+        "worldM": [
+          2281,
+          1261
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:gideon-stormhold",
+        "worldM": [
+          2594,
+          866
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:gideon-stormhold",
+        "worldM": [
+          2632,
+          735
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:gideon-soulrest",
+        "worldM": [
+          1327,
+          3093
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:gideon-soulrest",
+        "worldM": [
+          1415,
+          2989
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:gideon-soulrest",
+        "worldM": [
+          1557,
+          2999
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:gideon-soulrest",
+        "worldM": [
+          1667,
+          2939
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:gideon-soulrest",
+        "worldM": [
+          1810,
+          2967
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:gideon-soulrest",
+        "worldM": [
+          1327,
+          5248
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:gideon-soulrest",
+        "worldM": [
+          1278,
+          5374
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:gideon-soulrest",
+        "worldM": [
+          1267,
+          5538
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:gideon-soulrest",
+        "worldM": [
+          1152,
+          5637
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:gideon-soulrest",
+        "worldM": [
+          1003,
+          5686
+        ],
+        "visible": 6
+      },
+      {
+        "route": "road:gideon-soulrest",
+        "worldM": [
+          872,
+          5780
+        ],
+        "visible": 9
+      },
+      {
+        "route": "road:gideon-soulrest",
+        "worldM": [
+          779,
+          5895
+        ],
+        "visible": 7
+      },
+      {
+        "route": "road:gideon-soulrest",
+        "worldM": [
+          614,
+          6158
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:gideon-soulrest",
+        "worldM": [
+          570,
+          6306
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:gideon-soulrest",
+        "worldM": [
+          494,
+          6438
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:gideon-soulrest",
+        "worldM": [
+          461,
+          6586
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:gideon-blackwood-road",
+        "worldM": [
+          1327,
+          3093
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:gideon-blackwood-road",
+        "worldM": [
+          1217,
+          3191
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:archon-gideon",
+        "worldM": [
+          5160,
+          4645
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:archon-gideon",
+        "worldM": [
+          5050,
+          4529
+        ],
+        "visible": 6
+      },
+      {
+        "route": "road:archon-gideon",
+        "worldM": [
+          4968,
+          4398
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:archon-gideon",
+        "worldM": [
+          4897,
+          4266
+        ],
+        "visible": 6
+      },
+      {
+        "route": "road:archon-gideon",
+        "worldM": [
+          4847,
+          4135
+        ],
+        "visible": 6
+      },
+      {
+        "route": "road:archon-gideon",
+        "worldM": [
+          4897,
+          4008
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:archon-gideon",
+        "worldM": [
+          4858,
+          3882
+        ],
+        "visible": 7
+      },
+      {
+        "route": "road:archon-gideon",
+        "worldM": [
+          4749,
+          3767
+        ],
+        "visible": 8
+      },
+      {
+        "route": "road:archon-gideon",
+        "worldM": [
+          4634,
+          3685
+        ],
+        "visible": 8
+      },
+      {
+        "route": "road:archon-gideon",
+        "worldM": [
+          4507,
+          3603
+        ],
+        "visible": 8
+      },
+      {
+        "route": "road:archon-gideon",
+        "worldM": [
+          4420,
+          3482
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:archon-gideon",
+        "worldM": [
+          3586,
+          3153
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:archon-gideon",
+        "worldM": [
+          3455,
+          3071
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:archon-gideon",
+        "worldM": [
+          1941,
+          2857
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:archon-gideon",
+        "worldM": [
+          1651,
+          2901
+        ],
+        "visible": 6
+      },
+      {
+        "route": "road:archon-gideon",
+        "worldM": [
+          1519,
+          2983
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:archon-gideon",
+        "worldM": [
+          1371,
+          3005
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          3466,
+          2802
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          3449,
+          2945
+        ],
+        "visible": 6
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          3509,
+          3076
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          3460,
+          3224
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          2802,
+          4529
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          2879,
+          4650
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          2978,
+          4760
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          3082,
+          4875
+        ],
+        "visible": 7
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          3191,
+          4990
+        ],
+        "visible": 7
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          3164,
+          5105
+        ],
+        "visible": 7
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          3104,
+          5253
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          3131,
+          5401
+        ],
+        "visible": 7
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          3230,
+          5533
+        ],
+        "visible": 9
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          3301,
+          5664
+        ],
+        "visible": 9
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          3235,
+          5796
+        ],
+        "visible": 7
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          3191,
+          5944
+        ],
+        "visible": 7
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          3126,
+          6065
+        ],
+        "visible": 8
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          3005,
+          6185
+        ],
+        "visible": 7
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          2873,
+          6268
+        ],
+        "visible": 7
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          2725,
+          6301
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:helstrom-blackrose",
+        "worldM": [
+          2577,
+          6284
+        ],
+        "visible": 6
+      },
+      {
+        "route": "road:thorn-tear-road",
+        "worldM": [
+          6191,
+          587
+        ],
+        "visible": 5
+      },
+      {
+        "route": "road:thorn-tear-road",
+        "worldM": [
+          6279,
+          691
+        ],
+        "visible": 5
+      },
+      {
+        "route": "boat:soulrest-lilmoth",
+        "worldM": [
+          3202,
+          6849
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:soulrest-lilmoth",
+        "worldM": [
+          3339,
+          6805
+        ],
+        "visible": 5
+      },
+      {
+        "route": "boat:soulrest-lilmoth",
+        "worldM": [
+          3466,
+          6739
+        ],
+        "visible": 6
+      },
+      {
+        "route": "boat:soulrest-lilmoth",
+        "worldM": [
+          3586,
+          6662
+        ],
+        "visible": 5
+      },
+      {
+        "route": "boat:lilmoth-archon",
+        "worldM": [
+          5155,
+          4880
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:lilmoth-archon",
+        "worldM": [
+          5171,
+          4732
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:archon-thorn",
+        "worldM": [
+          5160,
+          4645
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:archon-thorn",
+        "worldM": [
+          5374,
+          4425
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:archon-thorn",
+        "worldM": [
+          5643,
+          3767
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:archon-thorn",
+        "worldM": [
+          6471,
+          1645
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:archon-thorn",
+        "worldM": [
+          6142,
+          647
+        ],
+        "visible": 6
+      },
+      {
+        "route": "boat:stormhold-alten-corimont",
+        "worldM": [
+          2654,
+          735
+        ],
+        "visible": 5
+      },
+      {
+        "route": "boat:stormhold-alten-corimont",
+        "worldM": [
+          2890,
+          773
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:stormhold-alten-corimont",
+        "worldM": [
+          3005,
+          680
+        ],
+        "visible": 5
+      },
+      {
+        "route": "boat:stormhold-alten-corimont",
+        "worldM": [
+          3120,
+          598
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:stormhold-alten-corimont",
+        "worldM": [
+          3180,
+          483
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:stormhold-alten-corimont",
+        "worldM": [
+          3553,
+          439
+        ],
+        "visible": 5
+      },
+      {
+        "route": "boat:stormhold-alten-corimont",
+        "worldM": [
+          3674,
+          515
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:stormhold-alten-corimont",
+        "worldM": [
+          3784,
+          625
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:stormhold-alten-corimont",
+        "worldM": [
+          3976,
+          855
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:stormhold-alten-corimont",
+        "worldM": [
+          4019,
+          987
+        ],
+        "visible": 6
+      },
+      {
+        "route": "boat:stormhold-alten-corimont",
+        "worldM": [
+          3976,
+          1086
+        ],
+        "visible": 5
+      },
+      {
+        "route": "boat:blackrose-lilmoth",
+        "worldM": [
+          2500,
+          6251
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:blackrose-lilmoth",
+        "worldM": [
+          2627,
+          6191
+        ],
+        "visible": 6
+      },
+      {
+        "route": "boat:blackrose-lilmoth",
+        "worldM": [
+          2747,
+          6109
+        ],
+        "visible": 6
+      },
+      {
+        "route": "boat:blackrose-lilmoth",
+        "worldM": [
+          2901,
+          6109
+        ],
+        "visible": 9
+      },
+      {
+        "route": "boat:blackrose-lilmoth",
+        "worldM": [
+          3049,
+          6087
+        ],
+        "visible": 8
+      },
+      {
+        "route": "boat:blackrose-lilmoth",
+        "worldM": [
+          3169,
+          6004
+        ],
+        "visible": 9
+      },
+      {
+        "route": "boat:blackrose-lilmoth",
+        "worldM": [
+          3323,
+          6004
+        ],
+        "visible": 5
+      },
+      {
+        "route": "boat:blackrose-lilmoth",
+        "worldM": [
+          3477,
+          6004
+        ],
+        "visible": 6
+      },
+      {
+        "route": "boat:blackrose-lilmoth",
+        "worldM": [
+          3630,
+          6004
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:alten-corimont-helstrom",
+        "worldM": [
+          3833,
+          1141
+        ],
+        "visible": 6
+      },
+      {
+        "route": "boat:alten-corimont-helstrom",
+        "worldM": [
+          4074,
+          1047
+        ],
+        "visible": 5
+      },
+      {
+        "route": "boat:alten-corimont-helstrom",
+        "worldM": [
+          4184,
+          1157
+        ],
+        "visible": 5
+      },
+      {
+        "route": "boat:alten-corimont-helstrom",
+        "worldM": [
+          4294,
+          1261
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:alten-corimont-helstrom",
+        "worldM": [
+          4376,
+          1371
+        ],
+        "visible": 5
+      },
+      {
+        "route": "boat:alten-corimont-helstrom",
+        "worldM": [
+          4486,
+          1481
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:alten-corimont-helstrom",
+        "worldM": [
+          4595,
+          1590
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:alten-corimont-helstrom",
+        "worldM": [
+          4699,
+          1700
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:alten-corimont-helstrom",
+        "worldM": [
+          3723,
+          2506
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:alten-corimont-helstrom",
+        "worldM": [
+          3608,
+          2594
+        ],
+        "visible": 4
+      }
+    ]
+  },
+  "homeless": []
+}

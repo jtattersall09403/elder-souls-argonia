@@ -104,7 +104,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -112,7 +112,42 @@
       "densityLayer": "destination",
       "entrance": "underwater-entry",
       "underwaterAccess": "argonian-only-depth",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.6801,
+        "v": 0.30379
+      },
+      "positionM": [
+        5014.7,
+        2240.0
+      ],
+      "scourSiteId": "site.scour.lake-standing-water.sinkhole-007",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.lake-standing-water.cove-003",
+          "score": 3.538,
+          "whyLost": "too close to place.hist-heartland.alten-markmont"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.sinkhole-009",
+          "score": 3.527,
+          "whyLost": "too close to place.hist-heartland.rootworm-station-helstrom"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.cove-019",
+          "score": 3.448,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "sinkhole in lake & standing water (danger band 4), 274 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, submerged; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "sinkhole",
+        "regionClass": "lake & standing water",
+        "dangerBand": 4,
+        "distanceToRouteM": 274.4,
+        "distanceToWaterM": 0.0,
+        "score": 3.524
+      }
     },
     {
       "id": "place.hist-heartland.alten-markmont",
@@ -227,7 +262,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "imperial",
@@ -236,7 +271,41 @@
       "densityLayer": "destination",
       "entrance": "gate",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.63994,
+        "v": 0.32908
+      },
+      "positionM": [
+        4718.6,
+        2426.5
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0463",
+          "score": 3.771,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0379",
+          "score": 3.763,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0380",
+          "score": 3.759,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 4), 499 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 4,
+        "distanceToRouteM": 499.4,
+        "distanceToWaterM": 11.0,
+        "score": 3.79
+      }
     },
     {
       "id": "place.hist-heartland.artisan-chime-makers",
@@ -356,7 +425,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -364,7 +433,41 @@
       "densityLayer": "destination",
       "entrance": "door",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.63622,
+        "v": 0.44286
+      },
+      "positionM": [
+        4691.2,
+        3265.4
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0568",
+          "score": 2.779,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0597",
+          "score": 2.778,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0570",
+          "score": 2.778,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 337 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 337.4,
+        "distanceToWaterM": 5.5,
+        "score": 2.78
+      }
     },
     {
       "id": "place.hist-heartland.barsaebic-sub-city",
@@ -471,7 +574,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "ayleid",
@@ -480,7 +583,42 @@
       "densityLayer": "destination",
       "entrance": "cellar-door",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.62282,
+        "v": 0.18035
+      },
+      "positionM": [
+        4592.4,
+        1329.8
+      ],
+      "scourSiteId": "site.scour.upland-hills.ridge-end-049",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-011",
+          "score": 2.942,
+          "whyLost": "taken by place.hist-heartland.rootworm-burrow-live"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.cliff-bench-057",
+          "score": 2.849,
+          "whyLost": "too close to place.pirate-freeholds.rockpoint"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-021",
+          "score": 2.61,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "ridge end in upland hills (danger band 3), 182 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, parent; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "ridge-end",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 182.3,
+        "distanceToWaterM": 5.5,
+        "score": 2.782
+      }
     },
     {
       "id": "place.hist-heartland.beast-keeper-lizard-steed",
@@ -597,7 +735,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -605,7 +743,41 @@
       "densityLayer": "destination",
       "entrance": "gate",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.70762,
+        "v": 0.26364
+      },
+      "positionM": [
+        5217.6,
+        1944.0
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0279",
+          "score": 2.568,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0826",
+          "score": 2.564,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0667",
+          "score": 2.563,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 31 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 31.0,
+        "distanceToWaterM": 0.0,
+        "score": 2.569
+      }
     },
     {
       "id": "place.hist-heartland.beast-offering-flood-staying",
@@ -712,7 +884,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "varies",
       "eraLayers": [
         "current"
@@ -720,7 +892,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.67183,
+        "v": 0.53471
+      },
+      "positionM": [
+        4953.7,
+        3942.7
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0328",
+          "score": 3.948,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0826",
+          "score": 3.947,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0139",
+          "score": 3.915,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 38 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 38.4,
+        "distanceToWaterM": 0.0,
+        "score": 3.954
+      }
     },
     {
       "id": "place.hist-heartland.bereaved-mnemic",
@@ -840,7 +1046,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -860,7 +1066,42 @@
           "when": "after the severance is proved",
           "whatChanges": "the chamber is opened and the log made available"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.73959,
+        "v": 0.50384
+      },
+      "positionM": [
+        5453.4,
+        3715.1
+      ],
+      "scourSiteId": "site.scour.fringe-marsh.flood-high-036",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.fringe-marsh.flood-high-039",
+          "score": 2.552,
+          "whyLost": "taken by place.hist-heartland.greenspring"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0465",
+          "score": 2.247,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1107",
+          "score": 2.247,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "flood high in fringe marsh (danger band 3), 186 m from the nearest route; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "flood-high",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 186.5,
+        "distanceToWaterM": 76.8,
+        "score": 2.533
+      }
     },
     {
       "id": "place.hist-heartland.bioluminescent-glowfen",
@@ -971,7 +1212,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -979,7 +1220,41 @@
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "shallow-dive",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.41311,
+        "v": 0.08887
+      },
+      "positionM": [
+        3046.1,
+        655.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0637",
+          "score": 2.945,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0417",
+          "score": 2.943,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0098",
+          "score": 2.913,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 3), 5 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 5.5,
+        "distanceToWaterM": 0.0,
+        "score": 2.947
+      }
     },
     {
       "id": "place.hist-heartland.blackguard-hideout-raw",
@@ -1093,7 +1368,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -1101,7 +1376,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.25025,
+        "v": 0.58267
+      },
+      "positionM": [
+        1845.2,
+        4296.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.interior-swamp.cove-042",
+          "score": 3.753,
+          "whyLost": "too close to place.dunmer-north.the-xanmeer-hold"
+        },
+        {
+          "siteId": "site.scour.interior-swamp.cove-011",
+          "score": 3.661,
+          "whyLost": "too close to place.hist-heartland.heretic-stone-restarted"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0913",
+          "score": 3.385,
+          "whyLost": "too close to place.hist-heartland.wamasu-pond-nest"
+        }
+      ],
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 149 m from the nearest route; no free 'cove' site was left in the zone, so plain ground; won on route, region, parent; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 149.2,
+        "distanceToWaterM": 32.9,
+        "score": 3.304
+      }
     },
     {
       "id": "place.hist-heartland.boardwalk-branching-many-ways",
@@ -1220,7 +1529,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -1228,7 +1537,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "gate",
       "underwaterAccess": "surface-swim",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.58871,
+        "v": 0.20228
+      },
+      "positionM": [
+        4340.8,
+        1491.5
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0105",
+          "score": 4.149,
+          "whyLost": "too close to place.dunmer-north.stormhold"
+        },
+        {
+          "siteId": "site.free.roadside-0084",
+          "score": 4.136,
+          "whyLost": "too close to place.dunmer-north.stormhold"
+        },
+        {
+          "siteId": "site.free.roadside-0086",
+          "score": 4.127,
+          "whyLost": "too close to place.dunmer-north.stormhold"
+        }
+      ],
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 4), 38 m from the nearest route; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 4,
+        "distanceToRouteM": 38.4,
+        "distanceToWaterM": 34.7,
+        "score": 3.645
+      }
     },
     {
       "id": "place.hist-heartland.bog-blight-ground-stakes",
@@ -1340,7 +1683,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "wet-peak",
       "eraLayers": [
         "current"
@@ -1348,7 +1691,41 @@
       "densityLayer": "destination",
       "entrance": "grave-cut",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.46666,
+        "v": 0.1558
+      },
+      "positionM": [
+        3440.9,
+        1148.8
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0016",
+          "score": 3.784,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0183",
+          "score": 3.748,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0049",
+          "score": 3.718,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 4), 368 m from the nearest route; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 4,
+        "distanceToRouteM": 368.1,
+        "distanceToWaterM": 38.8,
+        "score": 3.819
+      }
     },
     {
       "id": "place.hist-heartland.bone-waystation-interior",
@@ -1466,7 +1843,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "varies",
       "eraLayers": [
         "current"
@@ -1474,7 +1851,41 @@
       "densityLayer": "destination",
       "entrance": "door",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.63473,
+        "v": 0.27851
+      },
+      "positionM": [
+        4680.2,
+        2053.6
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-1160",
+          "score": 2.519,
+          "whyLost": "too close to place.hist-heartland.greenspring"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0416",
+          "score": 2.518,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0443",
+          "score": 2.518,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 177 m from the nearest route; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 176.6,
+        "distanceToWaterM": 71.5,
+        "score": 2.519
+      }
     },
     {
       "id": "place.hist-heartland.broken-xanmeer-subsumed",
@@ -1582,7 +1993,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "merethic",
@@ -1591,7 +2002,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "hollow-trunk",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.64142,
+        "v": 0.48376
+      },
+      "positionM": [
+        4729.5,
+        3567.0
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0049",
+          "score": 3.165,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0414",
+          "score": 3.118,
+          "whyLost": "taken by place.hist-heartland.standing-curiosity-unexplained"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0071",
+          "score": 3.108,
+          "whyLost": "too close to place.hist-heartland.treasure-hunters-live-camp"
+        }
+      ],
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 135 m from the nearest route; at the water's edge; no free 'flood-high' site was left in the zone, so plain ground; won on route, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "interior swamp",
+        "dangerBand": 4,
+        "distanceToRouteM": 134.9,
+        "distanceToWaterM": 7.8,
+        "score": 2.832
+      }
     },
     {
       "id": "place.hist-heartland.bubble-spire-collapsed",
@@ -1696,7 +2141,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "merethic",
@@ -1705,7 +2150,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "hollow-trunk",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.40345,
+        "v": 0.5269
+      },
+      "positionM": [
+        2974.8,
+        3885.1
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0814",
+          "score": 3.265,
+          "whyLost": "taken by place.hist-heartland.pilgrim-camp-sap-road"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0759",
+          "score": 3.228,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0848",
+          "score": 3.179,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 184 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on route, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 183.9,
+        "distanceToWaterM": 81.0,
+        "score": 3.258
+      }
     },
     {
       "id": "place.hist-heartland.bubble-spire-open-helstrom",
@@ -1814,7 +2293,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -1823,7 +2302,41 @@
       "entrance": "hollow-trunk",
       "underwaterAccess": "none",
       "ownerFaction": "faction.rootworm-waykeepers",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.57449,
+        "v": 0.49194
+      },
+      "positionM": [
+        4236.0,
+        3627.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0563",
+          "score": 1.962,
+          "whyLost": "taken by place.hist-heartland.platform-ladder-tower-watch"
+        },
+        {
+          "siteId": "site.free.roadside-0103",
+          "score": 1.957,
+          "whyLost": "too close to place.hist-heartland.bioluminescent-glowfen"
+        },
+        {
+          "siteId": "site.free.roadside-0562",
+          "score": 1.957,
+          "whyLost": "too close to place.hist-heartland.daril-fermentary-interior"
+        }
+      ],
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 229 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on region, route, above_flood; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 229.1,
+        "distanceToWaterM": 32.0,
+        "score": 1.887
+      }
     },
     {
       "id": "place.hist-heartland.burn-scar-village-ash",
@@ -1931,7 +2444,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "knahaten-flu",
@@ -1940,7 +2453,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.52392,
+        "v": 0.27851
+      },
+      "positionM": [
+        3863.1,
+        2053.6
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0729",
+          "score": 3.549,
+          "whyLost": "too close to place.hist-heartland.bubble-spire-open-helstrom"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0630",
+          "score": 3.54,
+          "whyLost": "too close to place.hist-heartland.artisan-chime-makers"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0690",
+          "score": 3.526,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 266 m from the nearest route; its choice #3 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 266.2,
+        "distanceToWaterM": 44.2,
+        "score": 3.53
+      }
     },
     {
       "id": "place.hist-heartland.canopy-crossing-root-high",
@@ -2045,7 +2592,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -2053,7 +2600,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.42577,
+        "v": 0.07326
+      },
+      "positionM": [
+        3139.4,
+        540.2
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.ravine-015",
+          "score": 3.359,
+          "whyLost": "too close to place.hist-heartland.daril-fermentary-interior"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.gorge-049",
+          "score": 2.892,
+          "whyLost": "too close to place.hist-heartland.daril-fermentary-interior"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.gorge-016",
+          "score": 2.89,
+          "whyLost": "taken by place.hist-heartland.mist-locked-hollow-basin"
+        }
+      ],
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 3), 33 m from the nearest route; no free 'ravine' site was left in the zone, so plain ground; won on route, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 32.9,
+        "distanceToWaterM": 38.4,
+        "score": 2.768
+      }
     },
     {
       "id": "place.hist-heartland.canopy-crossing-rope-basin",
@@ -2157,7 +2738,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "dry",
       "eraLayers": [
         "current"
@@ -2165,7 +2746,42 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.40716,
+        "v": 0.58862
+      },
+      "positionM": [
+        3002.2,
+        4340.2
+      ],
+      "scourSiteId": "site.scour.tropical-jungle.water-narrows-000",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.gorge-016",
+          "score": 3.103,
+          "whyLost": "taken by place.hist-heartland.mist-locked-hollow-basin"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.gorge-049",
+          "score": 3.094,
+          "whyLost": "too close to place.hist-heartland.daril-fermentary-interior"
+        },
+        {
+          "siteId": "site.scour.interior-swamp.gorge-018",
+          "score": 3.086,
+          "whyLost": "too close to place.hist-heartland.serpent-ground-giant-snake"
+        }
+      ],
+      "whySiteWon": "water narrows in tropical jungle (danger band 4), 247 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "water-narrows",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 246.8,
+        "distanceToWaterM": 5.5,
+        "score": 3.043
+      }
     },
     {
       "id": "place.hist-heartland.climbable-ruin-roof-terrace",
@@ -2271,7 +2887,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "merethic",
@@ -2280,7 +2896,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "stair-throat",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.48413,
+        "v": 0.06424
+      },
+      "positionM": [
+        3569.8,
+        473.7
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0049",
+          "score": 3.16,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0414",
+          "score": 3.113,
+          "whyLost": "taken by place.hist-heartland.standing-curiosity-unexplained"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0071",
+          "score": 3.103,
+          "whyLost": "too close to place.hist-heartland.treasure-hunters-live-camp"
+        }
+      ],
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 4), 11 m from the nearest route; at the water's edge; no free 'flood-high' site was left in the zone, so plain ground; won on route, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 4,
+        "distanceToRouteM": 11.0,
+        "distanceToWaterM": 16.5,
+        "score": 3.019
+      }
     },
     {
       "aliases": [],
@@ -2311,7 +2961,7 @@
         "station": [],
         "marks": []
       },
-      "workflow": "derived",
+      "workflow": "plotted",
       "id": "place.hist-heartland.collapsing-pinnacle-interior",
       "name": "The Ripple Spire",
       "classification": {
@@ -2396,7 +3046,42 @@
       "densityLayer": "destination",
       "entrance": "stair-throat",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.47261,
+        "v": 0.07399
+      },
+      "positionM": [
+        3484.8,
+        545.6
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.cliff-bench-041",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-004",
+          "score": 3.475,
+          "whyLost": "too close to place.dunmer-north.stillrise-village"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-007",
+          "score": 3.405,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.gorge-007",
+          "score": 3.291,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        }
+      ],
+      "whySiteWon": "cliff bench in rootland deep marsh (danger band 4), 82 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "cliff-bench",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 4,
+        "distanceToRouteM": 82.4,
+        "distanceToWaterM": 11.0,
+        "score": 3.285
+      }
     },
     {
       "id": "place.hist-heartland.cult-raid-camp-unbound",
@@ -2513,7 +3198,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -2522,7 +3207,42 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "ownerFaction": "faction.unbound-root",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.57673,
+        "v": 0.38783
+      },
+      "positionM": [
+        4252.5,
+        2859.7
+      ],
+      "scourSiteId": "site.scour.firm-lowland.enclosed-clearing-004",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.box-canyon-007",
+          "score": 2.713,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-031",
+          "score": 2.624,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-011",
+          "score": 2.622,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "enclosed clearing in firm lowland (danger band 4), 324 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "enclosed-clearing",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 324.3,
+        "distanceToWaterM": 7.8,
+        "score": 3.004
+      }
     },
     {
       "id": "place.hist-heartland.cut-and-carried",
@@ -2644,7 +3364,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -2652,7 +3372,41 @@
       "densityLayer": "destination",
       "entrance": "door",
       "underwaterAccess": "surface-swim",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.71505,
+        "v": 0.31049
+      },
+      "positionM": [
+        5272.4,
+        2289.4
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.fringe-marsh.enclosed-clearing-003",
+          "score": 2.883,
+          "whyLost": "taken by place.hist-heartland.pilgrim-camp-hist-tsoko"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0696",
+          "score": 2.779,
+          "whyLost": "too close to place.hist-heartland.rootworm-station-helstrom"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0634",
+          "score": 2.778,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 365 m from the nearest route; its choice #3 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 364.6,
+        "distanceToWaterM": 63.9,
+        "score": 2.778
+      }
     },
     {
       "id": "place.hist-heartland.daril-fermentary-interior",
@@ -2762,7 +3516,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "singularClaim": "countBand [1,1]: needs isolation plus warmth plus live stock — the deep interior is the only ground that supplies all three",
       "season": "dry",
       "eraLayers": [
@@ -2771,7 +3525,42 @@
       "densityLayer": "destination",
       "entrance": "trapdoor",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.42947,
+        "v": 0.04871
+      },
+      "positionM": [
+        3166.7,
+        359.2
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.box-canyon-054",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.gorge-007",
+          "score": 3.769,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.box-canyon-007",
+          "score": 3.766,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.box-canyon-037",
+          "score": 3.563,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "box canyon in rootland deep marsh (danger band 4), 91 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "box-canyon",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 4,
+        "distanceToRouteM": 90.8,
+        "distanceToWaterM": 17.3,
+        "score": 3.59
+      }
     },
     {
       "id": "place.hist-heartland.dive-shaft-xanmeer-well",
@@ -2878,7 +3667,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -2886,7 +3675,42 @@
       "densityLayer": "destination",
       "entrance": "well-shaft",
       "underwaterAccess": "deep-dive",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.4845,
+        "v": 0.53062
+      },
+      "positionM": [
+        3572.5,
+        3912.5
+      ],
+      "scourSiteId": "site.scour.lake-standing-water.sinkhole-008",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.lake-standing-water.sinkhole-007",
+          "score": 3.184,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.sinkhole-009",
+          "score": 3.166,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.cove-056",
+          "score": 2.919,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "sinkhole in lake & standing water (danger band 5), 585 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, submerged; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "sinkhole",
+        "regionClass": "lake & standing water",
+        "dangerBand": 5,
+        "distanceToRouteM": 584.9,
+        "distanceToWaterM": 0.0,
+        "score": 3.683
+      }
     },
     {
       "id": "place.hist-heartland.drawdown-flat-exposed",
@@ -2991,7 +3815,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "dry-peak",
       "eraLayers": [
         "current"
@@ -2999,7 +3823,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.60498,
+        "v": 0.19298
+      },
+      "positionM": [
+        4460.8,
+        1423.0
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.lake-standing-water.islet-040",
+          "score": 2.789,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0612",
+          "score": 2.771,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0678",
+          "score": 2.675,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in seasonal floodplain (danger band 4), 23 m from the nearest route; at the water's edge; no free 'any-shallow-marsh' site was left in the zone, so plain ground; won on route, region, landform; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "seasonal floodplain",
+        "dangerBand": 4,
+        "distanceToRouteM": 23.3,
+        "distanceToWaterM": 5.5,
+        "score": 2.814
+      }
     },
     {
       "id": "place.hist-heartland.dream-wallow-sap-pool",
@@ -3107,7 +3965,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "varies",
       "eraLayers": [
         "current"
@@ -3115,7 +3973,42 @@
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.59308,
+        "v": 0.54029
+      },
+      "positionM": [
+        4373.1,
+        3983.8
+      ],
+      "scourSiteId": "site.scour.tropical-jungle.oxbow-004",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.tropical-jungle.spring-head-039",
+          "score": 2.309,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.tropical-jungle.spring-head-047",
+          "score": 2.184,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.oxbow-005",
+          "score": 2.076,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "oxbow in tropical jungle (danger band 4), 362 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, parent; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "oxbow",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 362.1,
+        "distanceToWaterM": 0.0,
+        "score": 2.421
+      }
     },
     {
       "id": "place.hist-heartland.dream-wallow-starblossom",
@@ -3222,7 +4115,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "varies",
       "eraLayers": [
         "current"
@@ -3230,7 +4123,42 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.34916,
+        "v": 0.3841
+      },
+      "positionM": [
+        2574.5,
+        2832.2
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.oxbow-006",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0554",
+          "score": 3.103,
+          "whyLost": "taken by place.hist-heartland.walkway-junction-high-crossroads"
+        },
+        {
+          "siteId": "site.free.roadside-0559",
+          "score": 3.073,
+          "whyLost": "too close to place.hist-heartland.bioluminescent-glowfen"
+        },
+        {
+          "siteId": "site.free.roadside-0086",
+          "score": 3.072,
+          "whyLost": "too close to place.hist-heartland.platform-ladder-tower-watch"
+        }
+      ],
+      "whySiteWon": "oxbow in rootland deep marsh (danger band 5), 165 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "oxbow",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 164.9,
+        "distanceToWaterM": 0.0,
+        "score": 2.923
+      }
     },
     {
       "id": "place.hist-heartland.drowning-narrows-current",
@@ -3335,7 +4263,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "wet-peak",
       "eraLayers": [
         "current"
@@ -3343,7 +4271,42 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.73661,
+        "v": 0.28148
+      },
+      "positionM": [
+        5431.4,
+        2075.5
+      ],
+      "scourSiteId": "site.scour.tidal-delta.water-narrows-013",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.coastal-lagoon-salt-marsh.isthmus-059",
+          "score": 3.046,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.coastal-lagoon-salt-marsh.river-mouth-006",
+          "score": 2.77,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0637",
+          "score": 2.731,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "water narrows in tidal delta (danger band 3), 272 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "water-narrows",
+        "regionClass": "tidal delta",
+        "dangerBand": 3,
+        "distanceToRouteM": 272.2,
+        "distanceToWaterM": 0.0,
+        "score": 3.447
+      }
     },
     {
       "id": "place.hist-heartland.duskfall-unmade-site",
@@ -3454,7 +4417,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "merethic",
@@ -3464,7 +4427,41 @@
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.49789,
+        "v": 0.12903
+      },
+      "positionM": [
+        3671.2,
+        951.4
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0486",
+          "score": 2.495,
+          "whyLost": "taken by place.hist-heartland.alten-markmont"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0463",
+          "score": 2.465,
+          "whyLost": "too close to place.hist-heartland.alten-markmont"
+        },
+        {
+          "siteId": "site.scour.fringe-marsh.enclosed-clearing-003",
+          "score": 2.448,
+          "whyLost": "taken by place.hist-heartland.pilgrim-camp-hist-tsoko"
+        }
+      ],
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 4), 244 m from the nearest route; at the water's edge; no free 'flood-high' site was left in the zone, so plain ground; won on region, danger, parent; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 4,
+        "distanceToRouteM": 244.3,
+        "distanceToWaterM": 21.9,
+        "score": 2.335
+      }
     },
     {
       "id": "place.hist-heartland.fenlord-tomb-deep",
@@ -3571,7 +4568,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "ayleid",
@@ -3580,7 +4577,42 @@
       "densityLayer": "destination",
       "entrance": "grave-cut",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.50235,
+        "v": 0.29487
+      },
+      "positionM": [
+        3704.1,
+        2174.2
+      ],
+      "scourSiteId": "site.scour.firm-lowland.flood-high-021",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-025",
+          "score": 2.749,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-013",
+          "score": 2.72,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-024",
+          "score": 2.677,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "flood high in firm lowland (danger band 5), 271 m from the nearest route; its choice #4 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "flood-high",
+        "regionClass": "firm lowland",
+        "dangerBand": 5,
+        "distanceToRouteM": 271.4,
+        "distanceToWaterM": 38.8,
+        "score": 2.836
+      }
     },
     {
       "id": "place.hist-heartland.flood-high-single-rise",
@@ -3692,7 +4724,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "wet-peak",
       "eraLayers": [
         "current"
@@ -3700,7 +4732,42 @@
       "densityLayer": "fine-tempo",
       "entrance": "gate",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.74033,
+        "v": 0.45105
+      },
+      "positionM": [
+        5458.8,
+        3325.8
+      ],
+      "scourSiteId": "site.scour.firm-lowland.flood-high-019",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.confluence-019",
+          "score": 3.123,
+          "whyLost": "too close to place.hist-heartland.heretic-stone-restarted"
+        },
+        {
+          "siteId": "site.free.roadside-0328",
+          "score": 2.77,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0692",
+          "score": 2.77,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "flood high in firm lowland (danger band 2), 234 m from the nearest route; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "flood-high",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 234.3,
+        "distanceToWaterM": 44.2,
+        "score": 3.012
+      }
     },
     {
       "id": "place.hist-heartland.greenspring",
@@ -3830,7 +4897,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -3838,7 +4905,42 @@
       "densityLayer": "landmark",
       "entrance": "door",
       "underwaterAccess": "surface-swim",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.11044,
+        "v": 0.76784
+      },
+      "positionM": [
+        814.3,
+        5661.7
+      ],
+      "scourSiteId": "site.scour.fringe-marsh.flood-high-039",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.fringe-marsh.flood-high-036",
+          "score": 2.525,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.fringe-marsh.enclosed-clearing-003",
+          "score": 2.378,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0466",
+          "score": 2.13,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "flood high in fringe marsh (danger band 3), 128 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "flood-high",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 127.9,
+        "distanceToWaterM": 21.9,
+        "score": 2.564
+      }
     },
     {
       "id": "place.hist-heartland.guide-camp-far-shelter",
@@ -3945,7 +5047,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "wet",
       "eraLayers": [
         "current"
@@ -3953,7 +5055,42 @@
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.41088,
+        "v": 0.21976
+      },
+      "positionM": [
+        3029.6,
+        1620.4
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.islet-001",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.islet-037",
+          "score": 3.784,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-054",
+          "score": 3.697,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.islet-028",
+          "score": 3.605,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "islet in rootland deep marsh (danger band 5), 722 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "islet",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 722.4,
+        "distanceToWaterM": 11.0,
+        "score": 3.933
+      }
     },
     {
       "id": "place.hist-heartland.guide-camp-gate-side",
@@ -4072,7 +5209,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "wet",
       "eraLayers": [
         "current"
@@ -4081,7 +5218,42 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "ownerFaction": "faction.league-of-open-water",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.48153,
+        "v": 0.17514
+      },
+      "positionM": [
+        3550.6,
+        1291.4
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.islet-024",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.interior-swamp.islet-009",
+          "score": 3.036,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.islet-001",
+          "score": 3.018,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-004",
+          "score": 2.993,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "islet in rootland deep marsh (danger band 4), 283 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "islet",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 4,
+        "distanceToRouteM": 283.1,
+        "distanceToWaterM": 12.3,
+        "score": 3.297
+      }
     },
     {
       "id": "place.hist-heartland.hackwing-roost-wild",
@@ -4189,7 +5361,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "dry",
       "eraLayers": [
         "current"
@@ -4197,7 +5369,42 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.64142,
+        "v": 0.16398
+      },
+      "positionM": [
+        4729.5,
+        1209.1
+      ],
+      "scourSiteId": "site.scour.upland-hills.gorge-002",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0291",
+          "score": 3.557,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0325",
+          "score": 3.521,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0637",
+          "score": 3.48,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "gorge in upland hills (danger band 3), 364 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, route; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "gorge",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 364.5,
+        "distanceToWaterM": 5.5,
+        "score": 3.911
+      }
     },
     {
       "id": "place.hist-heartland.hammock-crown-ancestor",
@@ -4305,7 +5512,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -4313,7 +5520,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.61027,
+        "v": 0.46435
+      },
+      "positionM": [
+        4499.8,
+        3423.9
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0413",
+          "score": 2.269,
+          "whyLost": "too close to place.hist-heartland.bone-waystation-interior"
+        },
+        {
+          "siteId": "site.free.roadside-0611",
+          "score": 2.267,
+          "whyLost": "too close to place.hist-heartland.boardwalk-branching-many-ways"
+        },
+        {
+          "siteId": "site.free.roadside-0615",
+          "score": 2.266,
+          "whyLost": "too close to place.hist-heartland.heretic-stone-restarted"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 91 m from the nearest route; at the water's edge; no free 'island' site was left in the zone, so plain ground; won on route, danger, parent; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 91.3,
+        "distanceToWaterM": 24.5,
+        "score": 2.266
+      }
     },
     {
       "id": "place.hist-heartland.hammock-tree-island-greenmoss",
@@ -4429,7 +5670,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "wet",
       "eraLayers": [
         "current"
@@ -4437,7 +5678,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.72695,
+        "v": 0.26289
+      },
+      "positionM": [
+        5360.1,
+        1938.4
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-1160",
+          "score": 3.069,
+          "whyLost": "too close to place.hist-heartland.greenspring"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0416",
+          "score": 3.069,
+          "whyLost": "too close to place.hist-heartland.drowning-narrows-current"
+        },
+        {
+          "siteId": "site.free.roadside-0532",
+          "score": 3.067,
+          "whyLost": "too close to place.dunmer-north.riverwalk"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 120 m from the nearest route; at the water's edge; no free 'island' site was left in the zone, so plain ground; won on route, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 119.8,
+        "distanceToWaterM": 19.8,
+        "score": 3.066
+      }
     },
     {
       "id": "place.hist-heartland.harmed-hist-tapped",
@@ -4552,7 +5827,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -4560,7 +5835,41 @@
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.54549,
+        "v": 0.50533
+      },
+      "positionM": [
+        4022.2,
+        3726.1
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0486",
+          "score": 3.121,
+          "whyLost": "taken by place.hist-heartland.alten-markmont"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0463",
+          "score": 3.062,
+          "whyLost": "too close to place.hist-heartland.alten-markmont"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0789",
+          "score": 2.826,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 450 m from the nearest route; its choice #3 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 449.8,
+        "distanceToWaterM": 33.4,
+        "score": 2.835
+      }
     },
     {
       "id": "place.hist-heartland.helstrom",
@@ -4707,7 +6016,7 @@
       },
       "complexityBudget": "complex",
       "importanceTier": 0,
-      "workflow": "derived",
+      "workflow": "plotted",
       "complexityJustification": "M5 district authoring; still Morrowind-level placement, no scripting beyond doors and state variants",
       "authoredDangerProperty": {
         "interior": "D0",
@@ -4733,7 +6042,25 @@
           "when": "the main-quest withdrawal is active",
           "whatChanges": "chime lines taken down, lamps out on the upper lanes, traffic halted"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.47,
+        "v": 0.38
+      },
+      "positionM": [
+        3465.5,
+        2801.9
+      ],
+      "candidatesConsidered": [],
+      "whySiteWon": "Owner-approved settlement anchor 'helstrom' (world/sources/anchors, Phase 2 gate); position kept exactly.",
+      "plotFacts": {
+        "landform": "anchor",
+        "regionClass": "lake & standing water",
+        "dangerBand": 5,
+        "distanceToRouteM": 0.0,
+        "distanceToWaterM": 0.0,
+        "score": null
+      }
     },
     {
       "id": "place.hist-heartland.heretic-stone-restarted",
@@ -4854,7 +6181,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "singularClaim": "countBand [1,1]: the taboo can only be broken where the abandoned stone already stands — the Duskfall horizon runs through the interior",
       "season": "all-year",
       "eraLayers": [
@@ -4864,7 +6191,42 @@
       "densityLayer": "landmark",
       "entrance": "gate",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.6377,
+        "v": 0.22497
+      },
+      "positionM": [
+        4702.1,
+        1658.8
+      ],
+      "scourSiteId": "site.scour.interior-swamp.cliff-bench-015",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.ridge-end-049",
+          "score": 2.323,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.interior-swamp.cliff-bench-003",
+          "score": 2.299,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.interior-swamp.cliff-bench-011",
+          "score": 2.15,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "cliff bench in interior swamp (danger band 4), 27 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "cliff-bench",
+        "regionClass": "interior swamp",
+        "dangerBand": 4,
+        "distanceToRouteM": 27.4,
+        "distanceToWaterM": 12.3,
+        "score": 2.347
+      }
     },
     {
       "id": "place.hist-heartland.hermit-hut-exile-warden",
@@ -4978,7 +6340,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -4986,7 +6348,42 @@
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "surface-swim",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.36775,
+        "v": 0.05019
+      },
+      "positionM": [
+        2711.6,
+        370.1
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.cliff-bench-004",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-007",
+          "score": 4.125,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-000",
+          "score": 3.912,
+          "whyLost": "taken by place.hist-heartland.treasure-hunters-live-camp"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-008",
+          "score": 3.848,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "cliff bench in rootland deep marsh (danger band 4), 343 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "cliff-bench",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 4,
+        "distanceToRouteM": 342.6,
+        "distanceToWaterM": 7.8,
+        "score": 3.901
+      }
     },
     {
       "id": "place.hist-heartland.hermit-hut-mad-basin",
@@ -5100,7 +6497,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -5108,7 +6505,42 @@
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "surface-swim",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.58119,
+        "v": 0.25695
+      },
+      "positionM": [
+        4285.4,
+        1894.6
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.cliff-bench-072",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-060",
+          "score": 4.087,
+          "whyLost": "too close to place.hist-heartland.voriplasm-chamber-sealed"
+        },
+        {
+          "siteId": "site.scour.interior-swamp.cliff-bench-011",
+          "score": 4.018,
+          "whyLost": "too close to place.hist-heartland.barsaebic-sub-city"
+        },
+        {
+          "siteId": "site.scour.interior-swamp.box-canyon-038",
+          "score": 3.787,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "cliff bench in rootland deep marsh (danger band 5), 72 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "cliff-bench",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 71.5,
+        "distanceToWaterM": 11.0,
+        "score": 3.919
+      }
     },
     {
       "id": "place.hist-heartland.hist-agaceph-needle",
@@ -5224,7 +6656,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "heroHist": {
         "id": "hist.hist-heartland.hist-agaceph-needle",
         "powerSlot": "power.hist.hist-heartland.hist-agaceph-needle",
@@ -5238,7 +6670,42 @@
       "densityLayer": "landmark",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.55367,
+        "v": 0.55367
+      },
+      "positionM": [
+        4082.5,
+        4082.5
+      ],
+      "scourSiteId": "site.scour.tropical-jungle.spring-head-043",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.tropical-jungle.spring-head-040",
+          "score": 3.07,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.tropical-jungle.spring-head-039",
+          "score": 3.058,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.tropical-jungle.spring-head-047",
+          "score": 2.939,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "spring head in tropical jungle (danger band 4), 625 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "spring-head",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 624.6,
+        "distanceToWaterM": 0.0,
+        "score": 3.124
+      }
     },
     {
       "id": "place.hist-heartland.hist-first-rain-trunk",
@@ -5357,7 +6824,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "heroHist": {
         "id": "hist.hist-heartland.hist-first-rain-trunk",
         "kind": "grove, reserve",
@@ -5371,7 +6838,42 @@
       "densityLayer": "landmark",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.51723,
+        "v": 0.3841
+      },
+      "positionM": [
+        3813.8,
+        2832.2
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.island-034",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.tropical-jungle.spring-head-043",
+          "score": 3.109,
+          "whyLost": "taken by place.hist-heartland.hist-agaceph-needle"
+        },
+        {
+          "siteId": "site.scour.tropical-jungle.spring-head-040",
+          "score": 3.075,
+          "whyLost": "taken by place.hist-heartland.hist-sarpa-highflower"
+        },
+        {
+          "siteId": "site.scour.tropical-jungle.spring-head-039",
+          "score": 3.062,
+          "whyLost": "too close to place.hist-heartland.hist-sarpa-highflower"
+        }
+      ],
+      "whySiteWon": "island in rootland deep marsh (danger band 5), 311 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, parent; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "island",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 311.1,
+        "distanceToWaterM": 7.8,
+        "score": 2.55
+      }
     },
     {
       "id": "place.hist-heartland.hist-less-refuge-wild",
@@ -5489,7 +6991,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -5497,7 +6999,41 @@
       "densityLayer": "destination",
       "entrance": "door",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.96641,
+        "v": 0.17885
+      },
+      "positionM": [
+        7125.8,
+        1318.8
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0486",
+          "score": 3.326,
+          "whyLost": "taken by place.hist-heartland.alten-markmont"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0463",
+          "score": 3.3,
+          "whyLost": "too close to place.hist-heartland.alten-markmont"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0512",
+          "score": 3.152,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 609 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, parent; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 608.7,
+        "distanceToWaterM": 17.3,
+        "score": 3.291
+      }
     },
     {
       "id": "place.hist-heartland.hist-paatru-lowcrown",
@@ -5614,7 +7150,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "heroHist": {
         "id": "hist.hist-heartland.hist-paatru-lowcrown",
         "powerSlot": "power.hist.hist-heartland.hist-paatru-lowcrown",
@@ -5628,7 +7164,42 @@
       "densityLayer": "landmark",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.309,
+        "v": 0.23612
+      },
+      "positionM": [
+        2278.4,
+        1741.0
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.spring-head-041",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.tropical-jungle.spring-head-043",
+          "score": 3.123,
+          "whyLost": "taken by place.hist-heartland.hist-agaceph-needle"
+        },
+        {
+          "siteId": "site.scour.tropical-jungle.spring-head-040",
+          "score": 3.072,
+          "whyLost": "taken by place.hist-heartland.hist-sarpa-highflower"
+        },
+        {
+          "siteId": "site.scour.tropical-jungle.spring-head-039",
+          "score": 3.056,
+          "whyLost": "too close to place.hist-heartland.hist-sarpa-highflower"
+        }
+      ],
+      "whySiteWon": "spring head in rootland deep marsh (danger band 4), 11 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "spring-head",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 4,
+        "distanceToRouteM": 11.0,
+        "distanceToWaterM": 0.0,
+        "score": 2.782
+      }
     },
     {
       "id": "place.hist-heartland.hist-sarpa-highflower",
@@ -5746,7 +7317,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "heroHist": {
         "id": "hist.hist-heartland.hist-sarpa-highflower",
         "powerSlot": "power.hist.hist-heartland.hist-sarpa-highflower",
@@ -5760,7 +7331,42 @@
       "densityLayer": "landmark",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.46591,
+        "v": 0.60424
+      },
+      "positionM": [
+        3435.4,
+        4455.4
+      ],
+      "scourSiteId": "site.scour.tropical-jungle.spring-head-040",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.tropical-jungle.spring-head-043",
+          "score": 3.112,
+          "whyLost": "taken by place.hist-heartland.hist-agaceph-needle"
+        },
+        {
+          "siteId": "site.scour.tropical-jungle.spring-head-039",
+          "score": 3.066,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.tropical-jungle.spring-head-047",
+          "score": 2.928,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "spring head in tropical jungle (danger band 4), 537 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "spring-head",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 537.4,
+        "distanceToWaterM": 0.0,
+        "score": 3.081
+      }
     },
     {
       "id": "place.hist-heartland.insular-hereditary-watch",
@@ -5877,7 +7483,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -5885,7 +7491,42 @@
       "densityLayer": "destination",
       "entrance": "gate",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.42575,
+        "v": 0.59308
+      },
+      "positionM": [
+        3139.3,
+        4373.1
+      ],
+      "scourSiteId": "site.scour.tropical-jungle.land-bridge-040",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.isthmus-038",
+          "score": 2.957,
+          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
+        },
+        {
+          "siteId": "site.scour.tropical-jungle.land-bridge-032",
+          "score": 2.946,
+          "whyLost": "too close to place.hist-heartland.hist-sarpa-highflower"
+        },
+        {
+          "siteId": "site.scour.tropical-jungle.isthmus-030",
+          "score": 2.92,
+          "whyLost": "too close to place.hist-heartland.root-talk-ground"
+        }
+      ],
+      "whySiteWon": "land bridge in tropical jungle (danger band 4), 369 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "land-bridge",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 369.4,
+        "distanceToWaterM": 12.3,
+        "score": 2.823
+      }
     },
     {
       "id": "place.hist-heartland.legendary-deep-medusa-wood",
@@ -5995,7 +7636,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -6003,7 +7644,42 @@
       "densityLayer": "destination",
       "entrance": "cave-mouth",
       "underwaterAccess": "deep-dive",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.48822,
+        "v": 0.10151
+      },
+      "positionM": [
+        3599.9,
+        748.5
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.box-canyon-024",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.interior-swamp.box-canyon-038",
+          "score": 3.687,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.gorge-011",
+          "score": 3.602,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.sinkhole-008",
+          "score": 3.538,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "box canyon in rootland deep marsh (danger band 5), 217 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "box-canyon",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 217.1,
+        "distanceToWaterM": 11.0,
+        "score": 3.727
+      }
     },
     {
       "id": "place.hist-heartland.lost-city",
@@ -6123,7 +7799,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 0,
-      "workflow": "derived",
+      "workflow": "plotted",
       "reconciliation": "sited in the deep basin beyond Helstrom; confirm no neighbouring agent claims the same ground",
       "season": "all-year",
       "eraLayers": [
@@ -6145,7 +7821,42 @@
           "when": "after MQ29 opens it",
           "whatChanges": "entry passable, cult occupation live, sanctuary reachable"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.42204,
+        "v": 0.41683
+      },
+      "positionM": [
+        3111.9,
+        3073.5
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.enclosed-clearing-000",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.island-034",
+          "score": 2.506,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.tropical-jungle.summit-019",
+          "score": 2.444,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.island-033",
+          "score": 2.355,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "enclosed clearing in rootland deep marsh (danger band 5), 88 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "enclosed-clearing",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 87.9,
+        "distanceToWaterM": 12.3,
+        "score": 2.562
+      }
     },
     {
       "id": "place.hist-heartland.marsh-giant-ground-basin",
@@ -6251,7 +7962,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -6259,7 +7970,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "burrow",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.50979,
+        "v": 0.14093
+      },
+      "positionM": [
+        3759.0,
+        1039.1
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0049",
+          "score": 3.808,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0071",
+          "score": 3.751,
+          "whyLost": "too close to place.hist-heartland.treasure-hunters-live-camp"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0128",
+          "score": 3.692,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 4), 120 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 4,
+        "distanceToRouteM": 120.3,
+        "distanceToWaterM": 23.3,
+        "score": 3.737
+      }
     },
     {
       "id": "place.hist-heartland.mass-grave-flu-memorial",
@@ -6366,7 +8111,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "varies",
       "eraLayers": [
         "knahaten-flu",
@@ -6375,7 +8120,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.64812,
+        "v": 0.25768
+      },
+      "positionM": [
+        4778.9,
+        1900.0
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0615",
+          "score": 3.903,
+          "whyLost": "too close to place.hist-heartland.heretic-stone-restarted"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0343",
+          "score": 3.9,
+          "whyLost": "too close to place.hist-heartland.hist-paatru-lowcrown"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0321",
+          "score": 3.897,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 5 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 5.5,
+        "distanceToWaterM": 21.9,
+        "score": 3.899
+      }
     },
     {
       "id": "place.hist-heartland.maturity-trial-chukka-sei",
@@ -6486,7 +8265,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "varies",
       "eraLayers": [
         "current"
@@ -6494,7 +8273,42 @@
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.58267,
+        "v": 0.18108
+      },
+      "positionM": [
+        4296.3,
+        1335.2
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.ravine-070",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.tropical-jungle.water-narrows-031",
+          "score": 2.856,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.ravine-082",
+          "score": 2.828,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.box-canyon-007",
+          "score": 2.824,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "ravine in rootland deep marsh (danger band 4), 27 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "ravine",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 4,
+        "distanceToRouteM": 27.4,
+        "distanceToWaterM": 12.3,
+        "score": 2.995
+      }
     },
     {
       "id": "place.hist-heartland.memorial-stone-personal-guide",
@@ -6600,7 +8414,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -6608,7 +8422,42 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.59829,
+        "v": 0.32908
+      },
+      "positionM": [
+        4411.5,
+        2426.5
+      ],
+      "scourSiteId": "site.scour.firm-lowland.headland-012",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.summit-035",
+          "score": 3.727,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.summit-042",
+          "score": 3.677,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.headland-006",
+          "score": 3.597,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "headland in firm lowland (danger band 4), 264 m from the nearest route; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "headland",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 263.8,
+        "distanceToWaterM": 38.8,
+        "score": 4.16
+      }
     },
     {
       "id": "place.hist-heartland.miregaunt-ward-approach",
@@ -6715,7 +8564,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -6723,7 +8572,41 @@
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.44509,
+        "v": 0.27851
+      },
+      "positionM": [
+        3281.9,
+        2053.6
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0317",
+          "score": 3.525,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0256",
+          "score": 3.523,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0381",
+          "score": 3.52,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 540 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 540.1,
+        "distanceToWaterM": 7.8,
+        "score": 3.527
+      }
     },
     {
       "id": "place.hist-heartland.mist-locked-hollow-basin",
@@ -6829,7 +8712,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "dry",
       "eraLayers": [
         "current"
@@ -6837,7 +8720,42 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.50607,
+        "v": 0.04276
+      },
+      "positionM": [
+        3731.5,
+        315.3
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.gorge-016",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.box-canyon-037",
+          "score": 3.547,
+          "whyLost": "too close to place.hist-heartland.nightbound-lightless"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.box-canyon-007",
+          "score": 3.492,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.scour.interior-swamp.box-canyon-038",
+          "score": 3.261,
+          "whyLost": "taken by place.hist-heartland.poacher-camp-sap"
+        }
+      ],
+      "whySiteWon": "gorge in rootland deep marsh (danger band 4), 173 m from the nearest route; at the water's edge; its choice #5 landform; won on route, region, landform; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "gorge",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 4,
+        "distanceToRouteM": 173.4,
+        "distanceToWaterM": 7.8,
+        "score": 3.249
+      }
     },
     {
       "id": "place.hist-heartland.necropolis-dead-tenders",
@@ -6959,7 +8877,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -6967,7 +8885,41 @@
       "densityLayer": "destination",
       "entrance": "grave-cut",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.79312,
+        "v": 0.30899
+      },
+      "positionM": [
+        5848.1,
+        2278.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0796",
+          "score": 2.52,
+          "whyLost": "too close to place.saxhleel-coast.archon"
+        },
+        {
+          "siteId": "site.free.roadside-0526",
+          "score": 2.516,
+          "whyLost": "too close to place.hist-heartland.bereaved-mnemic"
+        },
+        {
+          "siteId": "site.free.roadside-0563",
+          "score": 2.515,
+          "whyLost": "taken by place.hist-heartland.platform-ladder-tower-watch"
+        }
+      ],
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 35 m from the nearest route; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 34.7,
+        "distanceToWaterM": 34.7,
+        "score": 2.494
+      }
     },
     {
       "id": "place.hist-heartland.nightbound-lightless",
@@ -7084,7 +9036,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "singularClaim": "countBand [1,1]: the closed interior canopy is the only ground where lightlessness is survivable and necessary",
       "season": "all-year",
       "eraLayers": [
@@ -7093,7 +9045,42 @@
       "densityLayer": "landmark",
       "entrance": "gate",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.52912,
+        "v": 0.08516
+      },
+      "positionM": [
+        3901.5,
+        627.9
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.gorge-042",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.gorge-007",
+          "score": 2.672,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.gorge-016",
+          "score": 2.542,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.gorge-049",
+          "score": 2.504,
+          "whyLost": "too close to place.dunmer-north.stormhold"
+        }
+      ],
+      "whySiteWon": "gorge in rootland deep marsh (danger band 4), 74 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "gorge",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 4,
+        "distanceToRouteM": 73.8,
+        "distanceToWaterM": 15.5,
+        "score": 2.474
+      }
     },
     {
       "id": "place.hist-heartland.nine-trunks",
@@ -7214,7 +9201,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -7222,7 +9209,41 @@
       "densityLayer": "destination",
       "entrance": "gate",
       "underwaterAccess": "surface-swim",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.66968,
+        "v": 0.48971
+      },
+      "positionM": [
+        4937.9,
+        3610.9
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.fringe-marsh.enclosed-clearing-003",
+          "score": 2.895,
+          "whyLost": "taken by place.hist-heartland.pilgrim-camp-hist-tsoko"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0542",
+          "score": 2.778,
+          "whyLost": "too close to place.hist-heartland.stone-calendar-hist-tsoko"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0489",
+          "score": 2.776,
+          "whyLost": "too close to place.hist-heartland.cut-and-carried"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 241 m from the nearest route; its choice #3 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 240.8,
+        "distanceToWaterM": 66.3,
+        "score": 2.776
+      }
     },
     {
       "id": "place.hist-heartland.nisswo-rest-house-interior",
@@ -7329,7 +9350,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -7337,7 +9358,41 @@
       "densityLayer": "destination",
       "entrance": "door",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.29919,
+        "v": 0.25771
+      },
+      "positionM": [
+        2206.1,
+        1900.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0343",
+          "score": 3.315,
+          "whyLost": "too close to place.hist-heartland.hist-paatru-lowcrown"
+        },
+        {
+          "siteId": "site.free.roadside-0185",
+          "score": 3.313,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0498",
+          "score": 3.312,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 32 m from the nearest route; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 32.0,
+        "distanceToWaterM": 54.8,
+        "score": 3.314
+      }
     },
     {
       "id": "place.hist-heartland.officeholder-grave-singer-house",
@@ -7447,7 +9502,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -7455,7 +9510,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.6653,
+        "v": 0.51566
+      },
+      "positionM": [
+        4905.6,
+        3802.2
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-029",
+          "score": 3.439,
+          "whyLost": "too close to place.hist-heartland.bioluminescent-glowfen"
+        },
+        {
+          "siteId": "site.scour.fringe-marsh.islet-016",
+          "score": 3.433,
+          "whyLost": "too close to place.hist-heartland.beast-offering-flood-staying"
+        },
+        {
+          "siteId": "site.scour.fringe-marsh.cliff-bench-020",
+          "score": 3.413,
+          "whyLost": "too close to place.hist-heartland.officeholder-tree-minder-house"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 85 m from the nearest route; its choice #5 landform; won on route, region, landform; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 85.3,
+        "distanceToWaterM": 27.4,
+        "score": 3.332
+      }
     },
     {
       "id": "place.hist-heartland.officeholder-tree-minder-house",
@@ -7566,7 +9655,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -7574,7 +9663,42 @@
       "densityLayer": "destination",
       "entrance": "door",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.71951,
+        "v": 0.24207
+      },
+      "positionM": [
+        5305.3,
+        1784.9
+      ],
+      "scourSiteId": "site.scour.fringe-marsh.cliff-bench-038",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.fringe-marsh.enclosed-clearing-003",
+          "score": 2.812,
+          "whyLost": "taken by place.hist-heartland.pilgrim-camp-hist-tsoko"
+        },
+        {
+          "siteId": "site.scour.fringe-marsh.cliff-bench-020",
+          "score": 2.57,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-029",
+          "score": 2.567,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "cliff bench in fringe marsh (danger band 3), 39 m from the nearest route; its choice #3 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "cliff-bench",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 38.8,
+        "distanceToWaterM": 35.1,
+        "score": 2.63
+      }
     },
     {
       "id": "place.hist-heartland.pilgrim-camp-hist-tsoko",
@@ -7682,7 +9806,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "varies",
       "eraLayers": [
         "current"
@@ -7690,7 +9814,42 @@
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.71355,
+        "v": 0.43989
+      },
+      "positionM": [
+        5261.4,
+        3243.5
+      ],
+      "scourSiteId": "site.scour.fringe-marsh.enclosed-clearing-003",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0488",
+          "score": 2.761,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0515",
+          "score": 2.753,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0542",
+          "score": 2.75,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "enclosed clearing in fringe marsh (danger band 3), 447 m from the nearest route; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "enclosed-clearing",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 447.4,
+        "distanceToWaterM": 38.8,
+        "score": 3.217
+      }
     },
     {
       "id": "place.hist-heartland.pilgrim-camp-sap-road",
@@ -7798,7 +9957,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "varies",
       "eraLayers": [
         "current"
@@ -7806,7 +9965,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.41163,
+        "v": 0.54623
+      },
+      "positionM": [
+        3035.1,
+        4027.6
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0759",
+          "score": 3.68,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0848",
+          "score": 3.665,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0783",
+          "score": 3.663,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 241 m from the nearest route; its choice #4 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 241.3,
+        "distanceToWaterM": 29.5,
+        "score": 3.708
+      }
     },
     {
       "id": "place.hist-heartland.platform-ladder-tower-watch",
@@ -7913,7 +10106,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -7921,7 +10114,41 @@
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.44323,
+        "v": 0.06724
+      },
+      "positionM": [
+        3268.2,
+        495.8
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0084",
+          "score": 3.044,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0125",
+          "score": 3.043,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0562",
+          "score": 3.038,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 3), 60 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 60.3,
+        "distanceToWaterM": 12.3,
+        "score": 3.061
+      }
     },
     {
       "id": "place.hist-heartland.poacher-camp-sap",
@@ -8034,7 +10261,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "dry",
       "eraLayers": [
         "current"
@@ -8042,7 +10269,42 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.6444,
+        "v": 0.20488
+      },
+      "positionM": [
+        4751.5,
+        1510.7
+      ],
+      "scourSiteId": "site.scour.interior-swamp.box-canyon-038",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.box-canyon-037",
+          "score": 3.927,
+          "whyLost": "too close to place.hist-heartland.nightbound-lightless"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.box-canyon-007",
+          "score": 3.9,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-007",
+          "score": 3.872,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        }
+      ],
+      "whySiteWon": "box canyon in interior swamp (danger band 5), 167 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "box-canyon",
+        "regionClass": "interior swamp",
+        "dangerBand": 5,
+        "distanceToRouteM": 167.1,
+        "distanceToWaterM": 7.8,
+        "score": 3.678
+      }
     },
     {
       "id": "place.hist-heartland.porter-relay-poling",
@@ -8161,7 +10423,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -8169,7 +10431,42 @@
       "densityLayer": "fine-tempo",
       "entrance": "trapdoor",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.61465,
+        "v": 0.51426
+      },
+      "positionM": [
+        4532.1,
+        3791.9
+      ],
+      "scourSiteId": "site.scour.tropical-jungle.water-narrows-022",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.water-narrows-030",
+          "score": 3.993,
+          "whyLost": "too close to place.hist-heartland.sap-touched-miredancer"
+        },
+        {
+          "siteId": "site.scour.tropical-jungle.water-narrows-000",
+          "score": 3.613,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.upland-hills.waterfall-002",
+          "score": 3.604,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "water narrows in tropical jungle (danger band 4), 120 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "water-narrows",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 119.8,
+        "distanceToWaterM": 0.0,
+        "score": 3.644
+      }
     },
     {
       "id": "place.hist-heartland.refuge-station-interior",
@@ -8282,7 +10579,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "singularClaim": "countBand [1,1]: one province-wide refuge of last resort; sited in the interior it serves",
       "reconciliation": "canon associates 'the Refuge' with Deepmire — confirm zone ownership before Part 3",
       "season": "all-year",
@@ -8294,7 +10591,42 @@
       "entrance": "door",
       "underwaterAccess": "none",
       "ownerFaction": "faction.rootworm-waykeepers",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.43022,
+        "v": 0.17439
+      },
+      "positionM": [
+        3172.2,
+        1285.9
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.cliff-bench-064",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-054",
+          "score": 2.903,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-004",
+          "score": 2.803,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.interior-swamp.cliff-bench-015",
+          "score": 2.708,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "cliff bench in rootland deep marsh (danger band 5), 581 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, remote; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "cliff-bench",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 581.3,
+        "distanceToWaterM": 16.5,
+        "score": 2.988
+      }
     },
     {
       "id": "place.hist-heartland.root-gallery-collapsed-nine",
@@ -8407,7 +10739,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -8415,7 +10747,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "sinkhole-lip",
       "underwaterAccess": "shallow-dive",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.56036,
+        "v": 0.17514
+      },
+      "positionM": [
+        4131.8,
+        1291.4
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0049",
+          "score": 3.448,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0071",
+          "score": 3.391,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0209",
+          "score": 3.377,
+          "whyLost": "taken by place.hist-heartland.marsh-giant-ground-basin"
+        }
+      ],
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 4), 16 m from the nearest route; at the water's edge; no free 'flood-high' site was left in the zone, so plain ground; won on route, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 4,
+        "distanceToRouteM": 15.5,
+        "distanceToWaterM": 5.5,
+        "score": 3.308
+      }
     },
     {
       "id": "place.hist-heartland.root-gallery-cult-warren",
@@ -8534,7 +10900,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -8554,7 +10920,42 @@
           "when": "after",
           "whatChanges": "dark, abandoned in haste, evidence still in place"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.50384,
+        "v": 0.02417
+      },
+      "positionM": [
+        3715.1,
+        178.2
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.sinkhole-001",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.tropical-jungle.sinkhole-010",
+          "score": 2.676,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0854",
+          "score": 2.52,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0958",
+          "score": 2.519,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "sinkhole in rootland deep marsh (danger band 4), 287 m from the nearest route; its choice #2 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "sinkhole",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 4,
+        "distanceToRouteM": 287.3,
+        "distanceToWaterM": 74.6,
+        "score": 2.811
+      }
     },
     {
       "id": "place.hist-heartland.root-gallery-deep-throat",
@@ -8667,7 +11068,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -8675,7 +11076,42 @@
       "densityLayer": "destination",
       "entrance": "stair-throat",
       "underwaterAccess": "shallow-dive",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.62135,
+        "v": 0.20934
+      },
+      "positionM": [
+        4581.5,
+        1543.6
+      ],
+      "scourSiteId": "site.scour.interior-swamp.ravine-068",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.ravine-082",
+          "score": 3.28,
+          "whyLost": "taken by place.hist-heartland.voriplasm-chamber-sealed"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0317",
+          "score": 2.799,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0256",
+          "score": 2.798,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "ravine in interior swamp (danger band 5), 24 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "ravine",
+        "regionClass": "interior swamp",
+        "dangerBand": 5,
+        "distanceToRouteM": 24.5,
+        "distanceToWaterM": 7.8,
+        "score": 3.072
+      }
     },
     {
       "id": "place.hist-heartland.root-gallery-drowned-stair",
@@ -8788,7 +11224,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -8796,7 +11232,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.4529,
+        "v": 0.04357
+      },
+      "positionM": [
+        3339.5,
+        321.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0049",
+          "score": 3.438,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0071",
+          "score": 3.381,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0209",
+          "score": 3.367,
+          "whyLost": "taken by place.hist-heartland.marsh-giant-ground-basin"
+        }
+      ],
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 4), 66 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on route, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 4,
+        "distanceToRouteM": 65.8,
+        "distanceToWaterM": 59.1,
+        "score": 3.13
+      }
     },
     {
       "id": "place.hist-heartland.root-gallery-helstrom-underway",
@@ -8915,7 +11385,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -8924,7 +11394,42 @@
       "entrance": "gate",
       "underwaterAccess": "shallow-dive",
       "ownerFaction": "faction.rootworm-waykeepers",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.41832,
+        "v": 0.64737
+      },
+      "positionM": [
+        3084.5,
+        4773.4
+      ],
+      "scourSiteId": "site.scour.tropical-jungle.sinkhole-010",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.ravine-015",
+          "score": 2.504,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.sinkhole-001",
+          "score": 2.275,
+          "whyLost": "taken by place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.ravine-070",
+          "score": 2.114,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "sinkhole in tropical jungle (danger band 4), 74 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, concealment; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "sinkhole",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 73.6,
+        "distanceToWaterM": 7.8,
+        "score": 2.27
+      }
     },
     {
       "id": "place.hist-heartland.root-gallery-lantern-hollow",
@@ -9037,7 +11542,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -9045,7 +11550,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "hollow-trunk",
       "underwaterAccess": "shallow-dive",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.40419,
+        "v": 0.56706
+      },
+      "positionM": [
+        2980.3,
+        4181.2
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0049",
+          "score": 3.436,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0071",
+          "score": 3.374,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0209",
+          "score": 3.37,
+          "whyLost": "taken by place.hist-heartland.marsh-giant-ground-basin"
+        }
+      ],
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 193 m from the nearest route; its choice #5 landform; won on route, region, landform; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 192.6,
+        "distanceToWaterM": 54.3,
+        "score": 3.285
+      }
     },
     {
       "id": "place.hist-heartland.root-talk-ground",
@@ -9169,7 +11708,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "singularClaim": "countBand [1,1]: canon fixes the convocation at Helstrom",
       "season": "varies",
       "eraLayers": [
@@ -9190,7 +11729,41 @@
           "when": "out of season",
           "whatChanges": "an empty worn floor and one chime frame"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.60573,
+        "v": 0.51946
+      },
+      "positionM": [
+        4466.3,
+        3830.2
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0820",
+          "score": 2.28,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0892",
+          "score": 2.279,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0886",
+          "score": 2.278,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 183 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, parent; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 182.5,
+        "distanceToWaterM": 0.0,
+        "score": 2.28
+      }
     },
     {
       "id": "place.hist-heartland.rootworm-burrow-dead",
@@ -9297,7 +11870,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -9305,7 +11878,42 @@
       "densityLayer": "fine-tempo",
       "entrance": "burrow",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.52615,
+        "v": 0.35287
+      },
+      "positionM": [
+        3879.6,
+        2601.9
+      ],
+      "scourSiteId": "site.scour.firm-lowland.flood-high-025",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-024",
+          "score": 3.507,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-013",
+          "score": 3.473,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0049",
+          "score": 3.433,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "flood high in firm lowland (danger band 5), 147 m from the nearest route; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "flood-high",
+        "regionClass": "firm lowland",
+        "dangerBand": 5,
+        "distanceToRouteM": 147.3,
+        "distanceToWaterM": 61.3,
+        "score": 3.582
+      }
     },
     {
       "id": "place.hist-heartland.rootworm-burrow-live",
@@ -9411,7 +12019,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -9419,7 +12027,42 @@
       "densityLayer": "destination",
       "entrance": "burrow",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.57152,
+        "v": 0.33949
+      },
+      "positionM": [
+        4214.1,
+        2503.2
+      ],
+      "scourSiteId": "site.scour.firm-lowland.flood-high-011",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-021",
+          "score": 3.073,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-025",
+          "score": 2.99,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-024",
+          "score": 2.915,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "flood high in firm lowland (danger band 4), 241 m from the nearest route; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "flood-high",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 240.9,
+        "distanceToWaterM": 49.0,
+        "score": 3.412
+      }
     },
     {
       "id": "place.hist-heartland.rootworm-station-helstrom",
@@ -9544,7 +12187,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "reconciliation": "replaces placeholder station 'helstrom' in the compiled root-transit graph",
       "season": "all-year",
       "eraLayers": [
@@ -9554,7 +12197,42 @@
       "entrance": "burrow",
       "underwaterAccess": "none",
       "ownerFaction": "faction.rootworm-waykeepers",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.66225,
+        "v": 0.46369
+      },
+      "positionM": [
+        4883.1,
+        3419.0
+      ],
+      "scourSiteId": "site.scour.firm-lowland.flood-high-009",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-011",
+          "score": 2.725,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-019",
+          "score": 2.6,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-031",
+          "score": 2.579,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "flood high in firm lowland (danger band 3), 343 m from the nearest route; its first-choice landform; won on landform, region, route; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "flood-high",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 343.4,
+        "distanceToWaterM": 41.8,
+        "score": 3.115
+      }
     },
     {
       "id": "place.hist-heartland.sap-collection-facility-daedric",
@@ -9669,7 +12347,7 @@
       },
       "complexityBudget": "complex",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "complexityJustification": "a signature D5 site; geometry, dressing and one occupant stratum only",
       "singularClaim": "countBand [1,1]: an enslaved-Hist facility only makes sense inside the Hist forest",
       "season": "all-year",
@@ -9681,7 +12359,42 @@
       "densityLayer": "landmark",
       "entrance": "stair-throat",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.36924,
+        "v": 0.17142
+      },
+      "positionM": [
+        2722.6,
+        1264.0
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.box-canyon-012",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.island-034",
+          "score": 2.523,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.box-canyon-024",
+          "score": 2.5,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.interior-swamp.box-canyon-038",
+          "score": 2.49,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "box canyon in rootland deep marsh (danger band 5), 358 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "box-canyon",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 357.6,
+        "distanceToWaterM": 5.5,
+        "score": 2.667
+      }
     },
     {
       "id": "place.hist-heartland.sap-tapping-licensed",
@@ -9794,7 +12507,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "dry",
       "eraLayers": [
         "current"
@@ -9802,7 +12515,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "door",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.42427,
+        "v": 0.61614
+      },
+      "positionM": [
+        3128.3,
+        4543.1
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0814",
+          "score": 3.38,
+          "whyLost": "taken by place.hist-heartland.pilgrim-camp-sap-road"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0988",
+          "score": 3.366,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0759",
+          "score": 3.363,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 237 m from the nearest route; its choice #3 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 236.6,
+        "distanceToWaterM": 62.5,
+        "score": 3.377
+      }
     },
     {
       "id": "place.hist-heartland.sap-touched-miredancer",
@@ -9915,7 +12662,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "singularClaim": "countBand [1,1]: requires a hero Hist's overflow — only the heartland has one to spare",
       "season": "wet",
       "eraLayers": [
@@ -9924,7 +12671,41 @@
       "densityLayer": "destination",
       "entrance": "door",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.60656,
+        "v": 0.48637
+      },
+      "positionM": [
+        4472.5,
+        3586.2
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0694",
+          "score": 2.34,
+          "whyLost": "too close to place.hist-heartland.artisan-chime-makers"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0732",
+          "score": 2.248,
+          "whyLost": "too close to place.hist-heartland.nine-trunks"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0693",
+          "score": 2.209,
+          "whyLost": "too close to place.hist-heartland.artisan-chime-makers"
+        }
+      ],
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 35 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on region, danger, parent; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "interior swamp",
+        "dangerBand": 4,
+        "distanceToRouteM": 35.1,
+        "distanceToWaterM": 43.9,
+        "score": 2.183
+      }
     },
     {
       "id": "place.hist-heartland.sealed-xanmeer-living",
@@ -10038,7 +12819,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "heroHist": {
         "id": "hist.hist-heartland.sealed-xanmeer-living",
         "powerSlot": "power.hist.hist-heartland.sealed-xanmeer-living",
@@ -10066,7 +12847,42 @@
           "when": "after the chamber is opened",
           "whatChanges": "the living tree is reachable and the interior lit by its sap-glow"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.49789,
+        "v": 0.34916
+      },
+      "positionM": [
+        3671.2,
+        2574.5
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.island-039",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.island-034",
+          "score": 2.525,
+          "whyLost": "taken by place.hist-heartland.hist-first-rain-trunk"
+        },
+        {
+          "siteId": "site.scour.tropical-jungle.summit-019",
+          "score": 2.441,
+          "whyLost": "taken by place.hist-heartland.xanmeer-fort-defences-working"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.island-033",
+          "score": 2.351,
+          "whyLost": "too close to place.hist-heartland.lost-city"
+        }
+      ],
+      "whySiteWon": "island in rootland deep marsh (danger band 5), 23 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "island",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 22.6,
+        "distanceToWaterM": 5.5,
+        "score": 2.262
+      }
     },
     {
       "id": "place.hist-heartland.serpent-ground-giant-snake",
@@ -10172,7 +12988,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -10180,7 +12996,42 @@
       "densityLayer": "fine-tempo",
       "entrance": "burrow",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.85783,
+        "v": 0.0212
+      },
+      "positionM": [
+        6325.2,
+        156.3
+      ],
+      "scourSiteId": "site.scour.interior-swamp.box-canyon-021",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.box-canyon-007",
+          "score": 3.82,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.box-canyon-037",
+          "score": 3.809,
+          "whyLost": "too close to place.hist-heartland.nightbound-lightless"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-007",
+          "score": 3.767,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        }
+      ],
+      "whySiteWon": "box canyon in interior swamp (danger band 4), 116 m from the nearest route; its choice #2 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "box-canyon",
+        "regionClass": "interior swamp",
+        "dangerBand": 4,
+        "distanceToRouteM": 115.7,
+        "distanceToWaterM": 83.0,
+        "score": 3.529
+      }
     },
     {
       "id": "place.hist-heartland.sinkhole-mouth-basin",
@@ -10288,7 +13139,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -10296,7 +13147,41 @@
       "densityLayer": "destination",
       "entrance": "sinkhole-lip",
       "underwaterAccess": "deep-dive",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.38634,
+        "v": 0.27181
+      },
+      "positionM": [
+        2848.7,
+        2004.2
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0430",
+          "score": 2.509,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0428",
+          "score": 2.508,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0400",
+          "score": 2.507,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 5), 621 m from the nearest route; no free 'sinkhole' site was left in the zone, so plain ground; won on region, danger, parent; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 5,
+        "distanceToRouteM": 621.4,
+        "distanceToWaterM": 27.4,
+        "score": 2.519
+      }
     },
     {
       "id": "place.hist-heartland.sleeping-in-the-ring",
@@ -10416,7 +13301,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -10424,7 +13309,41 @@
       "densityLayer": "destination",
       "entrance": "hollow-trunk",
       "underwaterAccess": "surface-swim",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.90617,
+        "v": 0.21976
+      },
+      "positionM": [
+        6681.7,
+        1620.4
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0330",
+          "score": 2.773,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0297",
+          "score": 2.77,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0151",
+          "score": 2.77,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 205 m from the nearest route; its choice #3 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 204.7,
+        "distanceToWaterM": 33.4,
+        "score": 2.777
+      }
     },
     {
       "id": "place.hist-heartland.squatted-ruin-home-hollow",
@@ -10534,7 +13453,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -10542,7 +13461,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "cellar-door",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.59309,
+        "v": 0.45921
+      },
+      "positionM": [
+        4373.2,
+        3386.0
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0413",
+          "score": 3.63,
+          "whyLost": "too close to place.hist-heartland.bone-waystation-interior"
+        },
+        {
+          "siteId": "site.free.roadside-0185",
+          "score": 3.626,
+          "whyLost": "too close to place.imperial-fringe.fig-market"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0498",
+          "score": 3.623,
+          "whyLost": "too close to place.imperial-fringe.fig-market"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 33 m from the nearest route; its choice #3 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 33.4,
+        "distanceToWaterM": 89.3,
+        "score": 3.618
+      }
     },
     {
       "id": "place.hist-heartland.standing-curiosity-unexplained",
@@ -10652,7 +13605,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "merethic",
@@ -10661,7 +13614,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "shallow-dive",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.66894,
+        "v": 0.28297
+      },
+      "positionM": [
+        4932.4,
+        2086.5
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.islet-044",
+          "score": 3.62,
+          "whyLost": "too close to place.hist-heartland.nightbound-lightless"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-007",
+          "score": 3.536,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0049",
+          "score": 3.442,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        }
+      ],
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 151 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on route, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "interior swamp",
+        "dangerBand": 4,
+        "distanceToRouteM": 150.6,
+        "distanceToWaterM": 38.8,
+        "score": 3.386
+      }
     },
     {
       "id": "place.hist-heartland.stilt-channel-edge-two-poles",
@@ -10780,7 +13767,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -10788,7 +13775,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "gate",
       "underwaterAccess": "surface-swim",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.77305,
+        "v": 0.42501
+      },
+      "positionM": [
+        5700.1,
+        3133.8
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0417",
+          "score": 3.421,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0131",
+          "score": 3.314,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0618",
+          "score": 3.309,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 23 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "mangrove forest",
+        "dangerBand": 3,
+        "distanceToRouteM": 22.6,
+        "distanceToWaterM": 16.5,
+        "score": 3.648
+      }
     },
     {
       "id": "place.hist-heartland.stilt-channel-edge-uxaneet",
@@ -10910,7 +13931,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -10918,7 +13939,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "gate",
       "underwaterAccess": "surface-swim",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.64068,
+        "v": 0.51128
+      },
+      "positionM": [
+        4724.1,
+        3769.9
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0637",
+          "score": 3.644,
+          "whyLost": "taken by place.hist-heartland.stilt-channel-edge-two-poles"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0417",
+          "score": 3.424,
+          "whyLost": "too close to place.dunmer-north.hutan-tzel"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0732",
+          "score": 3.311,
+          "whyLost": "too close to place.hist-heartland.sap-touched-miredancer"
+        }
+      ],
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 20 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "interior swamp",
+        "dangerBand": 4,
+        "distanceToRouteM": 19.8,
+        "distanceToWaterM": 5.5,
+        "score": 3.296
+      }
     },
     {
       "id": "place.hist-heartland.stone-calendar-hist-tsoko",
@@ -11030,7 +14085,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "singularClaim": "countBand [1,1]: the convocation calendar is a single province-wide institution and it belongs at its convocation",
       "season": "all-year",
       "eraLayers": [
@@ -11040,7 +14095,42 @@
       "densityLayer": "landmark",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.68307,
+        "v": 0.39303
+      },
+      "positionM": [
+        5036.6,
+        2898.0
+      ],
+      "scourSiteId": "site.scour.firm-lowland.summit-033",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.summit-027",
+          "score": 3.416,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.summit-040",
+          "score": 3.385,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.summit-050",
+          "score": 3.361,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "summit in firm lowland (danger band 3), 685 m from the nearest route; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "summit",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 685.4,
+        "distanceToWaterM": 77.5,
+        "score": 3.51
+      }
     },
     {
       "id": "place.hist-heartland.submerged-xanmeer-topmost",
@@ -11150,7 +14240,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "merethic",
@@ -11159,7 +14249,42 @@
       "densityLayer": "destination",
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.51798,
+        "v": 0.41311
+      },
+      "positionM": [
+        3819.3,
+        3046.1
+      ],
+      "scourSiteId": "site.scour.lake-standing-water.island-032",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.lake-standing-water.sinkhole-008",
+          "score": 3.441,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.deep-river-corridor.oxbow-013",
+          "score": 3.236,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.deep-river-corridor.oxbow-001",
+          "score": 3.038,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "island in lake & standing water (danger band 5), 152 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, submerged; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "island",
+        "regionClass": "lake & standing water",
+        "dangerBand": 5,
+        "distanceToRouteM": 151.7,
+        "distanceToWaterM": 0.0,
+        "score": 3.448
+      }
     },
     {
       "id": "place.hist-heartland.tended-xanmeer-clan-north",
@@ -11271,7 +14396,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "reconciliation": "canon sites Xal Irasotl near Hutan-Tzel/Rockguard — confirm which agent owns that village",
       "season": "all-year",
       "eraLayers": [
@@ -11282,7 +14407,42 @@
       "densityLayer": "destination",
       "entrance": "stair-throat",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.62878,
+        "v": 0.54103
+      },
+      "positionM": [
+        4636.3,
+        3989.3
+      ],
+      "scourSiteId": "site.scour.fringe-marsh.summit-048",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0757",
+          "score": 2.128,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0730",
+          "score": 2.082,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0515",
+          "score": 2.061,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "summit in fringe marsh (danger band 3), 209 m from the nearest route; its choice #2 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "summit",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 208.8,
+        "distanceToWaterM": 39.9,
+        "score": 2.911
+      }
     },
     {
       "id": "place.hist-heartland.tended-xanmeer-pilgrim-way",
@@ -11391,7 +14551,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "merethic",
@@ -11401,7 +14561,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "stair-throat",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.87279,
+        "v": 0.22013
+      },
+      "positionM": [
+        6435.6,
+        1623.1
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0783",
+          "score": 3.131,
+          "whyLost": "taken by place.hist-heartland.bubble-spire-collapsed"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0759",
+          "score": 3.08,
+          "whyLost": "too close to place.hist-heartland.bubble-spire-open-helstrom"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0364",
+          "score": 3.07,
+          "whyLost": "too close to place.dunmer-north.hutan-tzel"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 38 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on route, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 38.4,
+        "distanceToWaterM": 57.2,
+        "score": 3.066
+      }
     },
     {
       "id": "place.hist-heartland.treasure-hunters-dead-camp",
@@ -11512,7 +14706,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "dry",
       "eraLayers": [
         "current"
@@ -11520,7 +14714,42 @@
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "shallow-dive",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.40568,
+        "v": 0.18629
+      },
+      "positionM": [
+        2991.3,
+        1373.6
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.cliff-bench-054",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.interior-swamp.cliff-bench-011",
+          "score": 3.801,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-060",
+          "score": 3.737,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-072",
+          "score": 3.599,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "cliff bench in rootland deep marsh (danger band 5), 572 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "cliff-bench",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 572.5,
+        "distanceToWaterM": 16.5,
+        "score": 3.921
+      }
     },
     {
       "id": "place.hist-heartland.treasure-hunters-live-camp",
@@ -11631,7 +14860,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "dry",
       "eraLayers": [
         "current"
@@ -11639,7 +14868,42 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "shallow-dive",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.5031,
+        "v": 0.05764
+      },
+      "positionM": [
+        3709.6,
+        425.0
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.cliff-bench-000",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-007",
+          "score": 4.343,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-008",
+          "score": 4.118,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-004",
+          "score": 4.105,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "cliff bench in rootland deep marsh (danger band 4), 78 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "cliff-bench",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 4,
+        "distanceToRouteM": 77.5,
+        "distanceToWaterM": 19.8,
+        "score": 4.173
+      }
     },
     {
       "id": "place.hist-heartland.umbriel-stripped-quiet",
@@ -11755,7 +15019,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "post-umbriel",
@@ -11764,7 +15028,41 @@
       "densityLayer": "destination",
       "entrance": "door",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.42278,
+        "v": 0.25248
+      },
+      "positionM": [
+        3117.4,
+        1861.7
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0486",
+          "score": 3.023,
+          "whyLost": "taken by place.hist-heartland.alten-markmont"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0347",
+          "score": 3.016,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0379",
+          "score": 3.01,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 776 m from the nearest route; its choice #2 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 776.2,
+        "distanceToWaterM": 27.4,
+        "score": 3.019
+      }
     },
     {
       "id": "place.hist-heartland.umpholo-mission",
@@ -11869,7 +15167,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "singularClaim": "countBand [1,1]: Umpholo is the canon interior mission and the type's only instance",
       "season": "all-year",
       "eraLayers": [
@@ -11879,7 +15177,41 @@
       "densityLayer": "landmark",
       "entrance": "door",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.52541,
+        "v": 0.52913
+      },
+      "positionM": [
+        3874.1,
+        3901.5
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0857",
+          "score": 2.479,
+          "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0853",
+          "score": 2.479,
+          "whyLost": "too close to place.hist-heartland.xanmeer-fort-defences-working"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0888",
+          "score": 2.477,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 664 m from the nearest route; its choice #3 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 663.9,
+        "distanceToWaterM": 47.2,
+        "score": 2.477
+      }
     },
     {
       "id": "place.hist-heartland.urn-vault-blasphemers",
@@ -11985,7 +15317,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -11993,7 +15325,41 @@
       "densityLayer": "destination",
       "entrance": "grave-cut",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.48153,
+        "v": 0.58342
+      },
+      "positionM": [
+        3550.6,
+        4301.8
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0281",
+          "score": 3.01,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0789",
+          "score": 3.009,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0403",
+          "score": 3.007,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 717 m from the nearest route; its choice #4 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 716.5,
+        "distanceToWaterM": 61.3,
+        "score": 3.01
+      }
     },
     {
       "id": "place.hist-heartland.vista-ledge-canopy-break",
@@ -12098,7 +15464,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -12106,7 +15472,41 @@
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.4622,
+        "v": 0.5388
+      },
+      "positionM": [
+        3408.0,
+        3972.8
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0821",
+          "score": 2.811,
+          "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0819",
+          "score": 2.804,
+          "whyLost": "too close to place.hist-heartland.umpholo-mission"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0857",
+          "score": 2.795,
+          "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
+        }
+      ],
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 539 m from the nearest route; at the water's edge; no free 'summit' site was left in the zone, so plain ground; won on region, danger, parent; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 538.9,
+        "distanceToWaterM": 11.0,
+        "score": 2.793
+      }
     },
     {
       "id": "place.hist-heartland.voriplasm-chamber-sealed",
@@ -12212,7 +15612,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -12220,7 +15620,42 @@
       "densityLayer": "destination",
       "entrance": "well-shaft",
       "underwaterAccess": "shallow-dive",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.58267,
+        "v": 0.2324
+      },
+      "positionM": [
+        4296.3,
+        1713.6
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.ravine-082",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-054",
+          "score": 3.478,
+          "whyLost": "taken by place.hist-heartland.treasure-hunters-dead-camp"
+        },
+        {
+          "siteId": "site.scour.interior-swamp.cliff-bench-011",
+          "score": 3.325,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.cliff-bench-060",
+          "score": 3.287,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "ravine in rootland deep marsh (danger band 5), 228 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "ravine",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 228.3,
+        "distanceToWaterM": 7.8,
+        "score": 3.402
+      }
     },
     {
       "aliases": [],
@@ -12259,7 +15694,7 @@
         "station": [],
         "marks": []
       },
-      "workflow": "derived",
+      "workflow": "plotted",
       "id": "place.hist-heartland.waiting-vigil-village",
       "name": "Still-Waiting",
       "classification": {
@@ -12349,7 +15784,41 @@
       "entrance": "gate",
       "underwaterAccess": "none",
       "ownerFaction": "faction.an-xileel",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.09259,
+        "v": 0.73587
+      },
+      "positionM": [
+        682.7,
+        5425.9
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-1134",
+          "score": 2.744,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1161",
+          "score": 2.742,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1160",
+          "score": 2.737,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 384 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 384.4,
+        "distanceToWaterM": 24.5,
+        "score": 2.779
+      }
     },
     {
       "id": "place.hist-heartland.walkway-junction-high-crossroads",
@@ -12456,7 +15925,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -12464,7 +15933,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.40418,
+        "v": 0.08886
+      },
+      "positionM": [
+        2980.2,
+        655.2
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0105",
+          "score": 3.649,
+          "whyLost": "too close to place.hist-heartland.daril-fermentary-interior"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0637",
+          "score": 3.645,
+          "whyLost": "taken by place.hist-heartland.stilt-channel-edge-two-poles"
+        },
+        {
+          "siteId": "site.free.roadside-0084",
+          "score": 3.636,
+          "whyLost": "too close to place.hist-heartland.daril-fermentary-interior"
+        }
+      ],
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 3), 33 m from the nearest route; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 33.4,
+        "distanceToWaterM": 38.8,
+        "score": 3.622
+      }
     },
     {
       "id": "place.hist-heartland.wamasu-pond-nest",
@@ -12574,7 +16077,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "wet",
       "eraLayers": [
         "current"
@@ -12582,7 +16085,42 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.23983,
+        "v": 0.59978
+      },
+      "positionM": [
+        1768.4,
+        4422.5
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.oxbow-017",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.rootland-deep-marsh.oxbow-006",
+          "score": 3.789,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.oxbow-005",
+          "score": 3.742,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0458",
+          "score": 3.735,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "oxbow in rootland deep marsh (danger band 5), 187 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "oxbow",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 186.8,
+        "distanceToWaterM": 0.0,
+        "score": 3.875
+      }
     },
     {
       "id": "place.hist-heartland.waterfall-chamber-root-fall",
@@ -12689,7 +16227,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -12697,7 +16235,42 @@
       "densityLayer": "fine-tempo",
       "entrance": "cave-mouth",
       "underwaterAccess": "shallow-dive",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.44806,
+        "v": 0.62729
+      },
+      "positionM": [
+        3303.8,
+        4625.3
+      ],
+      "scourSiteId": "site.scour.tropical-jungle.waterfall-051",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.waterfall-002",
+          "score": 3.105,
+          "whyLost": "too close to place.hist-heartland.hackwing-roost-wild"
+        },
+        {
+          "siteId": "site.scour.upland-hills.gorge-002",
+          "score": 3.07,
+          "whyLost": "taken by place.hist-heartland.hackwing-roost-wild"
+        },
+        {
+          "siteId": "site.scour.tropical-jungle.waterfall-052",
+          "score": 2.981,
+          "whyLost": "taken by place.hist-heartland.whitewater-reach-panther"
+        }
+      ],
+      "whySiteWon": "waterfall in tropical jungle (danger band 4), 330 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "waterfall",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 330.2,
+        "distanceToWaterM": 0.0,
+        "score": 2.968
+      }
     },
     {
       "id": "place.hist-heartland.whitewater-reach-panther",
@@ -12805,7 +16378,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "wet-peak",
       "eraLayers": [
         "current"
@@ -12813,7 +16386,42 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.57821,
+        "v": 0.51945
+      },
+      "positionM": [
+        4263.4,
+        3830.2
+      ],
+      "scourSiteId": "site.scour.tropical-jungle.waterfall-052",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.upland-hills.waterfall-002",
+          "score": 3.42,
+          "whyLost": "too close to place.hist-heartland.hackwing-roost-wild"
+        },
+        {
+          "siteId": "site.scour.upland-hills.gorge-002",
+          "score": 3.408,
+          "whyLost": "taken by place.hist-heartland.hackwing-roost-wild"
+        },
+        {
+          "siteId": "site.scour.tropical-jungle.water-narrows-000",
+          "score": 3.228,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "waterfall in tropical jungle (danger band 4), 326 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "waterfall",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 325.5,
+        "distanceToWaterM": 0.0,
+        "score": 3.312
+      }
     },
     {
       "id": "place.hist-heartland.wild-hist-mad-one",
@@ -12918,7 +16526,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -12926,7 +16534,42 @@
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.48971,
+        "v": 0.40791
+      },
+      "positionM": [
+        3610.9,
+        3007.7
+      ],
+      "scourSiteId": "site.scour.rootland-deep-marsh.island-033",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0349",
+          "score": 2.817,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0315",
+          "score": 2.814,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0348",
+          "score": 2.81,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "island in rootland deep marsh (danger band 5), 113 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "island",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 112.9,
+        "distanceToWaterM": 5.5,
+        "score": 2.87
+      }
     },
     {
       "id": "place.hist-heartland.wild-hist-sleeper",
@@ -13032,7 +16675,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -13040,7 +16683,41 @@
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "none",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.4027,
+        "v": 0.24058
+      },
+      "positionM": [
+        2969.3,
+        1773.9
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0231",
+          "score": 2.578,
+          "whyLost": "taken by place.hist-heartland.bog-blight-ground-stakes"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0016",
+          "score": 2.552,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.island-033",
+          "score": 2.509,
+          "whyLost": "taken by place.hist-heartland.wild-hist-mad-one"
+        }
+      ],
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 691 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on remote, region, parent; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 691.1,
+        "distanceToWaterM": 51.7,
+        "score": 2.458
+      }
     },
     {
       "id": "place.hist-heartland.wisp-lure-basin",
@@ -13148,7 +16825,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -13156,7 +16833,41 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "surface-swim",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.4622,
+        "v": 0.36403
+      },
+      "positionM": [
+        3408.0,
+        2684.2
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0505",
+          "score": 3.897,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0424",
+          "score": 3.892,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0590",
+          "score": 3.89,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 20 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 19.8,
+        "distanceToWaterM": 0.0,
+        "score": 3.899
+      }
     },
     {
       "id": "place.hist-heartland.xal-krona-making-ground",
@@ -13299,7 +17010,41 @@
       "underwaterAccess": "surface-swim",
       "complexityBudget": "standard",
       "importanceTier": 0,
-      "workflow": "derived"
+      "workflow": "plotted",
+      "position": {
+        "u": 0.56259,
+        "v": 0.36403
+      },
+      "positionM": [
+        4148.3,
+        2684.2
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0261",
+          "score": 2.735,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.interior-swamp.box-canyon-038",
+          "score": 2.717,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0510",
+          "score": 2.703,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in interior swamp (danger band 5), 396 m from the nearest route; its choice #3 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "interior swamp",
+        "dangerBand": 5,
+        "distanceToRouteM": 395.6,
+        "distanceToWaterM": 44.2,
+        "score": 2.75
+      }
     },
     {
       "id": "place.hist-heartland.xal-meeruth-station",
@@ -13424,7 +17169,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "strongholdCandidate": true,
       "reconciliation": "PLAYER-STRONGHOLD CANDIDATE — one site province-wide; reconcile against neighbouring agents' xanmeer candidates before Part 3",
       "reconciliationNote": "Player-stronghold candidate A (2026-09-02 reconciliation): the interior river station. Candidate B is place.pirate-freeholds.rockpoint. BOTH stay flagged; the A/B choice is an owner call queued for touchpoint (1) in decision 0041's Owner Q&A.",
@@ -13448,7 +17193,41 @@
           "when": "if taken as the player stronghold",
           "whatChanges": "re-roofed, lit, and the road head cleared"
         }
-      ]
+      ],
+      "position": {
+        "u": 0.38646,
+        "v": 0.5333
+      },
+      "positionM": [
+        2849.5,
+        3932.3
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0346",
+          "score": 3.317,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0352",
+          "score": 3.316,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0691",
+          "score": 3.314,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 63 m from the nearest route; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 62.5,
+        "distanceToWaterM": 69.8,
+        "score": 3.317
+      }
     },
     {
       "id": "place.hist-heartland.xanmeer-fort-defences-working",
@@ -13571,7 +17350,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 1,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "merethic",
@@ -13581,7 +17360,42 @@
       "entrance": "gate",
       "underwaterAccess": "none",
       "ownerFaction": "faction.an-xileel",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "position": {
+        "u": 0.50013,
+        "v": 0.56855
+      },
+      "positionM": [
+        3687.7,
+        4192.2
+      ],
+      "scourSiteId": "site.scour.tropical-jungle.summit-019",
+      "candidatesConsidered": [
+        {
+          "siteId": "site.scour.fringe-marsh.summit-048",
+          "score": 2.334,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.fringe-marsh.flood-high-036",
+          "score": 2.304,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.fringe-marsh.flood-high-039",
+          "score": 2.3,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "summit in tropical jungle (danger band 4), 879 m from the nearest route; its choice #2 landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "summit",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 879.1,
+        "distanceToWaterM": 105.3,
+        "score": 3.024
+      }
     }
   ]
 }
