@@ -445,3 +445,83 @@ prerequisite.
 It is pre-existing rather than introduced here — it measures 2.096 on the
 commit this round branched from — and this round's HEAVY_2 re-measure improved
 it. Left alone rather than folded into an unrelated round.
+
+# Round 5 (2026-09-03) — the owner's round-4 playtest list
+
+## 18. A critical's choreography belongs to the ATTACKER's weapon
+
+The two-handed axe/hammer backstab "never happened" because the victim's half
+of every critical was resolved from **the victim's own weapon** — a sword-armed
+enemy played the sword's 3.17 s paired backstab whatever the player swung, so a
+battleaxe's ~1 s swing never reached the sword pair's outcome moment: no
+reaction, no recovery, and the abandon path then dressed the victim in the
+*player's* combat idle (a sword enemy standing in GREATAXE_IDLE). The attacker's
+pair and attack are now pinned on the victim runtime for the duration
+(`criticalByPair`/`criticalByAttack`), proven by the new `greataxe-backstab`
+scenario. A sandbox-only **"Show backstab zones"** debug switch draws each
+enemy's initiation sector from the same exported constants the rule tests
+(`BACKSTAB_MIN/MAX_DISTANCE`, `BACKSTAB_FACING_DOT`) — green when a press
+would backstab.
+
+## 19. A swing has one outcome
+
+A blade that reached the torso a frame before it reached the parry volume both
+dealt its damage *and* then announced a successful parry. Both directions now
+gate the parry on the swing not having already hit (`!attackHit`).
+
+## 20. Arrows strike hurtboxes, and only hurtboxes
+
+Three archer defects, one cause each: (a) the self-exclusion compared the
+*capsule* name while strikes resolve against *hurtbox* names, so every shot
+could die in the archer's own hurtbox on the spawn frame and count as a hit on
+itself; (b) weapon/parry sensor volumes could take arrows out of the air, which
+froze shafts "in" the archer's own bow; (c) `handleArrowHit` simply had no
+player branch — the player could never be hit. Arrows now strike only
+`*-hurtbox` sensors, the shooter is excluded by hurtbox name, and the player
+takes arrow damage through the same guard/armour/poise/i-frame rules as melee.
+
+## 21. First person is a near plane, not a rig
+
+The aimed camera was on the eye and the head was hidden, but the view was still
+a wall of meat: the aim lean bows the shoulders into the eye point, and
+hair/crest meshes are partly neck-weighted so the strict head-mesh hide cannot
+claim them. The fix is the standard hybrid answer — while fully aimed the near
+clip rises to 0.34 m and the eye sits 0.28 m forward and 0.14 m toward the
+string-hand side, so the skull's neighbourhood is clipped away while the bow
+arm stays. **A Skyrim first-person rig was investigated and rejected**: it is a
+second, separately-authored animation set for every weapon action — a
+permanent doubling of the sourcing burden for one view.
+
+## 22. A modal swallows its buttons until they are released
+
+Closing the inventory with pad B fired a *backstep*: dodge triggers on release,
+and the release edge arrived after the game resumed. `clearHeld` cannot fix a
+gamepad (the pad re-reports the button every poll), so the input controller now
+suppresses any action held while a modal is up until the device physically
+releases it (`InputController.suppressHeld`, unit-tested).
+
+## 23. Locked strafes follow real speed; the spinning-attack slide is a clip
+## problem, established by measurement
+
+Locked-on strafe/back-walk dropped their flat 1.4× playback for the same
+cadence-follows-speed rule as every other stride; residual scrub remains at
+full stick because the strafe clips are authored at ~0.8 m/s against a 3.0 m/s
+locked walk and the cadence band caps at 1.8× — if that still reads badly the
+choices are a wider band or a slower locked walk, which is the owner's call
+(speed is calibrated feel).
+
+The greatsword-second-heavy foot slide was attacked head on and the honest
+answer is recorded rather than a fudge shipped. The measured ground track's
+lateral component *was* applied (it is the real displacement that keeps a
+planted sole world-fixed when a clip's turn is baked into its bones and the
+capsule cannot rotate) — and the probe suite immediately showed why it had
+been excluded: a pivoting clip carries metres of it (one-handed HEAVY −1.8 m,
+greatsword heavy-2 +3.1 m), and applying it slides the attacker sideways off
+its target — `offense-outcomes` and `enemy-heavy-attack` whiffed outright. On
+a spinning clip, honest feet and a tracking attack are irreconcilable: the
+fix is a *different source clip* (a non-pivoting heavy), which is a sourcing
+job in the polish backlog, not a runtime rule.
+
+Also recorded this round: the inventory UI is a working draft, not a finalised
+exemplar (owner 2026-09-03) — noted on the HUD & UI row of
+[game-buildout-register.md](../game-buildout-register.md).

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { analogueMoveSpeed, cameraRelativeDirection, PLAYER_SPRINT_SPEED, PLAYER_WALK_SPEED, resolveAttackDirection, SWITCH_GAMEPAD } from "./input";
+import { analogueMoveSpeed, cameraRelativeDirection, InputController, PLAYER_SPRINT_SPEED, PLAYER_WALK_SPEED, resolveAttackDirection, SWITCH_GAMEPAD } from "./input";
 
 describe("movement translation", () => {
   it("maps stick forward away from a camera behind the player", () => {
@@ -29,6 +29,27 @@ describe("movement translation", () => {
     const direction = resolveAttackDirection({ x: 0.1, y: 0 }, Math.PI / 2, { x: 1, z: 0 });
     expect(direction.x).toBeCloseTo(0);
     expect(direction.z).toBeCloseTo(-1);
+  });
+});
+
+describe("modal suppression", () => {
+  // The regression: dodge fires on *release*, so the B press that closed the
+  // inventory produced a backstep one frame after the game resumed.
+  it("swallows the release edge of a button pressed behind a modal", () => {
+    const controller = new InputController();
+    controller.setVirtual("dodge", true);
+    controller.update();
+    controller.suppressHeld(); // modal frame: press happened behind the screen
+    expect(controller.held("dodge")).toBe(false);
+    controller.update(); // game resumed, button still physically down
+    expect(controller.held("dodge")).toBe(false);
+    expect(controller.pressed("dodge")).toBe(false);
+    controller.setVirtual("dodge", false);
+    controller.update(); // physical release
+    expect(controller.released("dodge")).toBe(false);
+    controller.setVirtual("dodge", true);
+    controller.update(); // a fresh press works again
+    expect(controller.pressed("dodge")).toBe(true);
   });
 });
 

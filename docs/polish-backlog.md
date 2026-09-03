@@ -137,3 +137,16 @@ cosmetic/feel work lives — do not park polish items in decision docs.
 - **Poise numbers are provisional** (module 76 §121.3 says so explicitly).
   `poisePerArmourRating` is the one most likely to move; the debug panel's
   Poise switch and the HUD bar exist to make the comparison cheap.
+- **Pivoting attack clips slide their feet, and only new clips fix it**
+  (2026-09-03, round 5, 0040 §23). Foot-anchored motion can only apply travel
+  the capsule can follow; a clip whose swing *spins the body* (one-handed
+  HEAVY, greatsword HEAVY_2) carries metres of measured lateral displacement,
+  and applying it slides the attacker off its target (proved by
+  offense-outcomes / enemy-heavy-attack whiffing). The cure is sourcing
+  non-pivoting variants of those specific swings — a mod-scene sourcing job,
+  never a runtime rule or new art.
+- **Locked-on strafe/back-walk still scrub slightly at full stick** (round 5).
+  Cadence now follows real speed but the strafe clips are authored ~0.8 m/s
+  against a 3.0 m/s locked walk and the band caps at 1.8×. Options: widen
+  `CADENCE_MULTIPLIER_BAND` for locked locomotion, slow the locked walk (feel
+  change — owner call), or source faster strafe clips.

@@ -72,6 +72,8 @@ export class InputController {
   /** Accumulated wheel/trackpad scroll since the last update, in notches. */
   private wheel = 0;
   private attached = false;
+  /** Actions swallowed by a modal screen; see suppressHeld(). */
+  private suppressed = new Set<InputAction>();
 
   attach() {
     if (this.attached) return () => undefined;
@@ -137,6 +139,24 @@ export class InputController {
     this.touchMove = { x: 0, y: 0 };
     this.touchCamera = { x: 0, y: 0 };
     this.wheel = 0;
+  }
+
+  /**
+   * Swallow everything currently held until it is physically released.
+   *
+   * Called every frame a modal screen is up. `clearHeld` is not enough for a
+   * gamepad: the pad re-reports a held button every poll, so the B press that
+   * closed the inventory produced a *release* edge one frame after the game
+   * resumed — and dodge fires on release, so closing the menu backstepped.
+   * A suppressed action reports neither held, pressed nor released until the
+   * device has actually let go of it once.
+   */
+  suppressHeld() {
+    for (const [action, held] of this.current) {
+      if (!held) continue;
+      this.suppressed.add(action);
+      this.current.set(action, false);
+    }
   }
 
   /** Scroll accumulated since the last call; positive is toward the player. */
@@ -207,6 +227,12 @@ export class InputController {
     const rightStickX = pad ? deadZone(pad.axes[2] ?? 0) : 0;
     this.current.set("targetLeft", active("targetLeft") || this.keys.has("Comma") || rightStickX < -0.55);
     this.current.set("targetRight", active("targetRight") || this.keys.has("Period") || rightStickX > 0.55);
+
+    // A suppressed action stays invisible until the device lets go of it once.
+    for (const action of this.suppressed) {
+      if (this.current.get(action)) this.current.set(action, false);
+      else this.suppressed.delete(action);
+    }
   }
 
   held(action: InputAction) {

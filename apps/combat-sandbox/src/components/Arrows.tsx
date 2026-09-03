@@ -20,7 +20,7 @@ import {
   impactObliquity,
 } from "@elder-souls/game-core/combat/arrowFlight";
 import { useArrowStore, type LiveArrow } from "@elder-souls/game-core/combat/arrowStore";
-import { isActorCapsuleName } from "@elder-souls/game-core/combat/stuckArrows";
+import { isActorCapsuleName, isActorHurtboxName } from "@elder-souls/game-core/combat/stuckArrows";
 import type { ArrowDefinition } from "@elder-souls/game-core/equipment/arrows";
 
 /**
@@ -242,9 +242,14 @@ function Arrow({ live, onHit }: { live: LiveArrow; onHit: (hit: ArrowHit) => voi
       canSleep={false}
       name="arrow"
       onIntersectionEnter={({ other }) => {
+        // Only a body's hurtbox takes an arrow out of the air. Weapon hitboxes
+        // and parry volumes are sensors too, and striking those had arrows
+        // dying against the archer's own bow volume on the spawn frame.
+        const name = other.rigidBodyObject?.name ?? null;
+        if (!isActorHurtboxName(name)) return;
         const centre = other.rigidBody?.translation();
         strike(
-          other.rigidBodyObject?.name ?? null,
+          name,
           contactPoint(),
           new THREE.Vector3(centre?.x ?? 0, centre?.y ?? 0, centre?.z ?? 0),
         );

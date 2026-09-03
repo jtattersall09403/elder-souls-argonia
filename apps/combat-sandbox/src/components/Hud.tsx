@@ -320,6 +320,14 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
           />
           Show weapon &amp; parry volumes
         </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={state.showBackstabZones}
+            onChange={(event) => state.patch({ showBackstabZones: event.target.checked })}
+          />
+          Show backstab zones
+        </label>
         <label className="enemy-picker">
           Enemy:
           <select

@@ -122,6 +122,16 @@ const ONE = new THREE.Vector3(1, 1, 1);
  * one line, here, rather than a magic string in every scene: an actor capsule
  * is named for the actor, and every combat *sensor* carries a suffix.
  */
+/**
+ * A skeletal (or capsule) hurtbox — the only sensors an arrow may strike.
+ * Weapon hitboxes and parry volumes are sensors too, and an arrow that
+ * "hit" the archer's own bow volume the frame it spawned was the reported
+ * shaft frozen in mid-air in front of the archer.
+ */
+export function isActorHurtboxName(name: string | null | undefined): boolean {
+  return Boolean(name?.endsWith("-hurtbox"));
+}
+
 export function isActorCapsuleName(name: string | undefined): boolean {
   if (!name) return false;
   if (name.endsWith("-hurtbox") || name.endsWith("-weapon") || name.includes("parry-shield")) {

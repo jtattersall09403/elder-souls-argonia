@@ -184,6 +184,11 @@ export type GameSnapshot = {
    */
   showWeaponHitboxes: boolean;
   /**
+   * Draw each enemy's backstab zone on the ground: the rear sector the player
+   * must stand in for a light press to open a backstab. Sandbox debug only.
+   */
+  showBackstabZones: boolean;
+  /**
    * Take a committed action's movement from its own feet rather than from the
    * attack's authored `lunge` speed (`locomotion/footAnchoredMotion`).
    *

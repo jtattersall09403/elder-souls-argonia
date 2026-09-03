@@ -275,18 +275,25 @@ export function isParryActive(elapsed: number, profile?: ParryProfile) {
   return elapsed >= start && elapsed <= start + duration;
 }
 
+// Exported so the sandbox's debug zone indicator draws exactly the rule that
+// initiation tests, rather than a second copy that can drift.
+export const BACKSTAB_MIN_DISTANCE = 0.25;
+export const BACKSTAB_MAX_DISTANCE = STRAIGHT_SWORD.attacks.backstab.range;
+/** Cosine of the angle off the victim's rear axis still counted as "behind". */
+export const BACKSTAB_FACING_DOT = -0.6;
+
 export function isBackstabPosition(
   enemyForward: { x: number; z: number },
   enemyToPlayer: { x: number; z: number },
   distance: number,
-  range = STRAIGHT_SWORD.attacks.backstab.range,
+  range = BACKSTAB_MAX_DISTANCE,
 ) {
-  if (distance < 0.25 || distance > range) return false;
+  if (distance < BACKSTAB_MIN_DISTANCE || distance > range) return false;
   const forwardLength = Math.hypot(enemyForward.x, enemyForward.z);
   const playerLength = Math.hypot(enemyToPlayer.x, enemyToPlayer.z);
   if (forwardLength < 0.001 || playerLength < 0.001) return false;
   const facingDot = (enemyForward.x * enemyToPlayer.x + enemyForward.z * enemyToPlayer.z) / (forwardLength * playerLength);
-  return facingDot <= -0.6;
+  return facingDot <= BACKSTAB_FACING_DOT;
 }
 
 export { STRAIGHT_SWORD };

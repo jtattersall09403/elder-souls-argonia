@@ -48,7 +48,8 @@
     "riposte-lethal",
     "riposte-queued",
     "greatsword-riposte",
-    "greataxe-riposte"
+    "greataxe-riposte",
+    "greataxe-backstab"
   ],
   "utility": [
     "equip-cycle",

@@ -2398,7 +2398,7 @@
     "groundingLimits": {
       "maxGroundCorrectionMeters": 0.1,
       "maxBlendedGroundCorrectionMeters": 0.22,
-      "note": "A two-handed swing drops its stance further than a one-handed one \u2014 the whole reason it reads as heavy \u2014 so the blend between the carriage and the swing carries a larger, and real, height difference than the sword chain's. Measured from this passing run; the penetration gate is unchanged. The correction *rate* is allowed the same headroom for the same reason: the stance drop is larger and the swing that causes it is not slower in proportion, so the solve has to cover more ground in a comparable time.",
+      "note": "A two-handed swing drops its stance further than a one-handed one — the whole reason it reads as heavy — so the blend between the carriage and the swing carries a larger, and real, height difference than the sword chain's. Measured from this passing run; the penetration gate is unchanged. The correction *rate* is allowed the same headroom for the same reason: the stance drop is larger and the swing that causes it is not slower in proportion, so the solve has to cover more ground in a comparable time.",
       "maxGroundCorrectionSpeedMetersPerSecond": 4.6
     }
   },
@@ -2544,7 +2544,7 @@
     "groundingLimits": {
       "maxGroundCorrectionMeters": 0.1,
       "maxBlendedGroundCorrectionMeters": 0.22,
-      "note": "A two-handed swing drops its stance further than a one-handed one \u2014 the whole reason it reads as heavy \u2014 so the blend between the carriage and the swing carries a larger, and real, height difference than the sword chain's. Measured from this passing run; the penetration gate is unchanged. The correction *rate* is allowed the same headroom for the same reason: the stance drop is larger and the swing that causes it is not slower in proportion, so the solve has to cover more ground in a comparable time.",
+      "note": "A two-handed swing drops its stance further than a one-handed one — the whole reason it reads as heavy — so the blend between the carriage and the swing carries a larger, and real, height difference than the sword chain's. Measured from this passing run; the penetration gate is unchanged. The correction *rate* is allowed the same headroom for the same reason: the stance drop is larger and the swing that causes it is not slower in proportion, so the solve has to cover more ground in a comparable time.",
       "maxGroundCorrectionSpeedMetersPerSecond": 4.6
     }
   },
@@ -2900,6 +2900,59 @@
       "maxStartClipTimeSeconds": 0.21,
       "minEndClipTimeSeconds": 1.95,
       "maxClipStepSeconds": 0.15
+    }
+  },
+  "greataxe-backstab": {
+    "playerActions": [
+      "backstab"
+    ],
+    "playerAnimations": [
+      "GREATAXE_IDLE",
+      "GREATAXE_LIGHT_1"
+    ],
+    "enemyActions": [
+      "critical",
+      "criticalRecovery",
+      "recover"
+    ],
+    "enemyAnimations": [
+      "BACKSTABBED_FORWARD",
+      "SWORD_IDLE"
+    ],
+    "enemyHealthLessThan": 150,
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "backstab",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "critical",
+        "criticalRecovery",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "GREATAXE_IDLE",
+        "GREATAXE_LIGHT_1",
+        "GREATAXE_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "BACKSTABBED_FORWARD",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "GREATAXE_LIGHT_1"
+      ],
+      "enemy": [
+        "BACKSTABBED_FORWARD"
+      ]
     }
   }
 }

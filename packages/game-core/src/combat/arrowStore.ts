@@ -17,7 +17,7 @@ export type LiveArrow = {
   origin: readonly [number, number, number];
   /** Metres per second, already resolved from draw and bow. */
   velocity: readonly [number, number, number];
-  /** Rigid-body name of whoever loosed it, so it cannot hit its own archer. */
+  /** HURTBOX name of whoever loosed it, so it cannot hit its own archer. */
   shooter: string;
 };
 

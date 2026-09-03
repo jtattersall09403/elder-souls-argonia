@@ -46,6 +46,7 @@ export const VISUAL_SCENARIO_IDS = [
   "greataxe-parry",
   "greatsword-riposte",
   "greataxe-riposte",
+  "greataxe-backstab",
   "greataxe-chain",
   "poise-break",
 ] as const;
@@ -896,6 +897,17 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
       { from: 2.3, to: 2.39, actions: ["light"] },
     ],
     enemyCues: [{ at: 0.25, intent: "lightCombo", attack: "light1", comboRemaining: 0 }],
+  },
+  "greataxe-backstab": {
+    id: "greataxe-backstab",
+    label: "Battleaxe backstab — its own swing from behind, and the victim's reaction",
+    warmup: 0.5,
+    duration: 7.9,
+    // Same rear staging as the sword's `backstab` scene; only the weapon
+    // differs, because a swinging class backstabs with its own opening light.
+    player: { position: [0, Y, -1.15], yaw: 0, weaponId: "steel-battleaxe" },
+    enemy: FACING_ENEMY,
+    cues: [{ from: 0.55, to: 0.64, actions: ["light"] }],
   },
   "greataxe-parry": {
     id: "greataxe-parry",
