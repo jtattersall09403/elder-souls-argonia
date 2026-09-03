@@ -98,6 +98,13 @@ nouns. Archaism carried by *vocabulary and idiom* — not by inverted or twisted
 syntax. When a line feels portentous, cut it in half; what remains is usually
 the line.
 
+**All three stages below are now built** (decision
+[0043](../decisions/0043-text-quality-workstream.md), 2026-09-03): the research
+pass is done, the rulebook is [docs/text/](../text/README.md), and the reviewer's
+brief is [docs/text/review-process.md](../text/review-process.md). Writers read
+that shelf; **this section keeps the banned-constructions table below**, which is
+the single place new rows are added.
+
 Three stages, and this is a *requirement on writing*, not a cleanup afterwards:
 
 1. **A voice research pass** derives the rulebook from the actual corpus
