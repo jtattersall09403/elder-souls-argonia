@@ -95,7 +95,9 @@ def build_bundle(catalogue_dir: Path = catalogue.CATALOGUE_DIR) -> dict:
     unsited = 0
     for rf in catalogue.load_region_files(catalogue_dir):
         for rec in rf.places:
-            if rec.get("position"):
+            # only LIVE plotted records reach the map: a deferred record may
+            # still carry a stale position from an earlier plot
+            if rec.get("position") and rec.get("status") not in ("deferred", "cut"):
                 places.append(project_record(rec, rf.region))
             else:
                 unsited += 1

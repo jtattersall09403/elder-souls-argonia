@@ -905,6 +905,12 @@ def apply_to_records(files: dict[str, catalogue.RegionFile], demands: list[Deman
         for rec in rf.places:
             r = result.get(rec["id"])
             if not r:
+                if rec.get("status") in ("deferred", "cut"):
+                    # a record deferred after an earlier plot must not keep a stale dot
+                    for k in ("position", "positionM", "scourSiteId", "candidatesConsidered", "whySiteWon", "plotFacts"):
+                        rec.pop(k, None)
+                    if rec.get("workflow") == "plotted":
+                        rec["workflow"] = "derived"
                 continue
             d = by_d[rec["id"]]
             c: Candidate = r["candidate"]

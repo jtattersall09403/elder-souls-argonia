@@ -1,0 +1,125 @@
+{
+  "_doc": "Spec for the Phase 11 owner-facing vibe sheets. Frames are 512px studio renders produced by `python3 -m pipeline.render_sheet --kit <kit> --assets <ids> --out output/sheets/vibe/_frames/<kit>`; this file only composes them into montages. `standIn: true` prints the caption in amber. Rebuild everything with `python3 -m pipeline.vibe_sheet`.",
+  "frameDir": "output/sheets/vibe/_frames",
+  "outDir": "output/sheets/vibe",
+  "sheets": [
+    {
+      "id": "helstrom",
+      "title": "Helstrom  ·  hist-heartland  ·  hist-grove-capital",
+      "subtitle": "A city grown, not built: a Hist grove trained over centuries into stair, gallery and gate, lit amber from inside.",
+      "frames": [
+        {"f": "settlement-stilt-v1/histtree__skyfall_sleeping_tree_overhaul_ancient_sleeping_tree.png", "c": "hist-tree (Hist tree, landmark)"},
+        {"f": "settlement-stilt-v1/bmv__architecture_citebosmer_passerelles_troncons_passl256h64i01.png", "c": "passerelles-walkway (raised lane)"},
+        {"f": "settlement-stilt-v1/bmv__architecture_citebosmer_passerelles_kiosque_kiosk01.png", "c": "passerelles-walkway (gallery kiosk)"},
+        {"f": "settlement-mud-v1/mudmother__gv_meshes_argoniannest_mudhut01.png", "c": "mud-mother-grove (dwelling) STAND-IN for grown-root houses", "standIn": true},
+        {"f": "settlement-mud-v1/mudmother__gv_meshes_argoniannest_argonianlanterns02.png", "c": "argonian-lights"},
+        {"f": "settlement-mud-v1/mudmother__gv_meshes_argoniannest_argoniantotem01.png", "c": "totems-ritual"}
+      ]
+    },
+    {
+      "id": "the-emptying-house",
+      "title": "The Emptying House  ·  naga-kur-deeps  ·  sithis-temple",
+      "subtitle": "Bone-white stepped stone above black water, swept daily and never repaired; the disturbing part is how well kept it is.",
+      "frames": [
+        {"f": "ruin-monumental-v1/htbm__here_there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_1mjyaztecbuilding1.png", "c": "pyramid-statics (stepped temple)"},
+        {"f": "ruin-monumental-v1/htbm__here_there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_wallstraight.png", "c": "xanmeer-tileset (dressed wall)"},
+        {"f": "ruin-monumental-v1/htbm__here_there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_serpentsigilstatue.png", "c": "xanmeer ornament (serpent sigil)"},
+        {"f": "ruin-monumental-v1/htbm__here_there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_skullstack01.png", "c": "totems-ritual (bone courses)"},
+        {"f": "settlement-mud-v1/mudmother__gv_meshes_argoniannest_sithisshrine.png", "c": "argonian-props (Sithis shrine)"},
+        {"f": "settlement-mud-v1/mudmother__gv_meshes_argoniannest_argonianbonechime01.png", "c": "argonian-props (bone chime)"}
+      ]
+    },
+    {
+      "id": "archon",
+      "title": "Archon  ·  saxhleel-coast  ·  legal-harbour-city",
+      "subtitle": "An old Imperial stone quay with Argonian reed-and-stilt houses standing on top of it: two cultures stacked, never blended.",
+      "frames": [
+        {"f": "settlement-imperial-v1/vanilla__architecture_docks_dockstrsol01.png", "c": "docks-piers (stone-piled quay, tropicalised)"},
+        {"f": "settlement-imperial-v1/vanilla__architecture_docks_dockcolstr01.png", "c": "docks-piers (mooring columns, tropicalised)"},
+        {"f": "settlement-stilt-v1/bmv__architecture_stilthouse_stilthouseext.png", "c": "bmv-stilthouse (Argonian house on the quay)"},
+        {"f": "settlement-stilt-v1/vanilla__architecture_shackkit_shackwalll01.png", "c": "vanilla-shackkit (patched reed wall)"},
+        {"f": "settlement-stilt-v1/htbm__here_there_be_monsters_-_curse_of_cipactli_architecture_villages_kothringi_stilthouseplatform.png", "c": "kothringi platform (stilt deck over the quay)"},
+        {"f": "settlement-imperial-v1/sbot__bstamriel_dungeons_ships_cyrodiilicships_shipcyrodiiliccityferry01.png", "c": "boats-keeled (Imperial ferry)"}
+      ]
+    },
+    {
+      "id": "lilmoth",
+      "title": "Lilmoth  ·  mercantile-coast  ·  rebuilt-stilt-city",
+      "subtitle": "Stilt towers and platform decks in three tiers over flat black water, built on top of drowned Imperial villas.",
+      "frames": [
+        {"f": "settlement-stilt-v1/htbm__here_there_be_monsters_-_curse_of_cipactli_architecture_villages_kothringi_stilthouseplatform.png", "c": "bmv-stilthouse / platform-deck"},
+        {"f": "settlement-stilt-v1/htbm__here_there_be_monsters_-_curse_of_cipactli_architecture_villages_argonian_bamboohut01.png", "c": "vanilla-shackkit (reed dwelling)"},
+        {"f": "settlement-stilt-v1/htbm__here_there_be_monsters_-_curse_of_cipactli_architecture_villages_kothringi_tamu_wooddock01.png", "c": "docks-piers (timber dock)"},
+        {"f": "settlement-stilt-v1/bmv__architecture_citebosmer_passerelles_troncons_passesc128h64d01.png", "c": "passerelles-walkway (stair between tiers)"},
+        {"f": "settlement-stilt-v1/mudmother__gv_meshes_argoniannest_fishracksmall.png", "c": "fishing-props"},
+        {"f": "underwater-v1/sirenroot__creationclub__shared_dungeons_ayleidruins_evgruinsset_arblockfreebrokena.png", "c": "submerged-ruins (drowned masonry) STAND-IN: Ayleid block for Imperial villa", "standIn": true}
+      ]
+    },
+    {
+      "id": "alten-corimont",
+      "title": "Alten Corimont  ·  pirate-freeholds  ·  neutral-free-port",
+      "subtitle": "A town built out of other people's cargo: crate timber, ship planking and a beached hull among the houses.",
+      "frames": [
+        {"f": "settlement-imperial-v1/vanilla__architecture_farmhouse_farmhouse02.png", "c": "warehouse gable — tropicalised farmhouse frame (weathered damp timber, not Nordic thatch)"},
+        {"f": "settlement-imperial-v1/sbot__bstamriel_dungeons_ships_cyrodiilicships_shipcyrodiilicriverferry01.png", "c": "boats-keeled (river hull)"},
+        {"f": "settlement-imperial-v1/rowboats__dungeons_ship_shiprowboat01.png", "c": "boats-keeled (rowboat)"},
+        {"f": "settlement-imperial-v1/vanilla__architecture_docks_dockstr4way01.png", "c": "docks-piers (tropicalised)"},
+        {"f": "settlement-stilt-v1/vanilla__architecture_shackkit_shackbrokewall01.png", "c": "vanilla-shackkit (salvage wall, destroyed shell)"},
+        {"f": "settlement-stilt-v1/vanilla__architecture_shackkit_shackframelend01.png", "c": "stockade-scaffold (frame, tropicalised planking)"}
+      ]
+    },
+    {
+      "id": "blackrose-prison",
+      "title": "Blackrose Prison  ·  imperial-penal-south  ·  reoccupied-prison",
+      "subtitle": "A blunt fortress of reused carved stone with washing lines across its yard; domestic on top, wrong beneath.",
+      "frames": [
+        {"f": "ruin-monumental-v1/ayleidkit__igsresources_dungeons_ayleidruins_exterior_arringouterwall03.png", "c": "bmv-fort STAND-IN: curtain wall (Ayleid ring wall)", "standIn": true},
+        {"f": "ruin-monumental-v1/ayleidkit__igsresources_dungeons_ayleidruins_exterior_artower01.png", "c": "bmv-fort STAND-IN: flat tower", "standIn": true},
+        {"f": "ruin-monumental-v1/ayleidkit__igsresources_dungeons_ayleidruins_exterior_arstatuewall01.png", "c": "reused carved stone (vulpine carving analogue)"},
+        {"f": "settlement-imperial-v1/vanilla__architecture_farmhouse_farmhouse01walkway.png", "c": "vanilla-farmhouse (yard carpentry)"},
+        {"f": "settlement-mud-v1/mudmother__gv_meshes_argoniannest_argonianfence01.png", "c": "fences (domestic yard)"},
+        {"f": "settlement-mud-v1/mudmother__gv_meshes_argoniannest_argoniancandle01.png", "c": "lights-general"}
+      ]
+    },
+    {
+      "id": "gideon",
+      "title": "Gideon  ·  imperial-fringe  ·  frontier-records-city",
+      "subtitle": "Morrowind-Imperial fort masonry and Hlaalu townhouses on the Cyrodiil border, patched with marsh wattle.",
+      "frames": [
+        {"f": "imperial-keep/mwkeep__tesak1243_mwimperialarchitecture_architecture_keep_exterior_mwimparchkeep01.png", "c": "imperial-keep (courthouse keep block)"},
+        {"f": "imperial-keep/mwkeep__tesak1243_mwimperialarchitecture_architecture_keep_exterior_mwimparchguardtower02.png", "c": "imperial-keep (records/guard tower)"},
+        {"f": "imperial-keep/mwkeep__tesak1243_mwimperialarchitecture_architecture_keep_exterior_walls_mwimparchwallgate01.png", "c": "imperial-keep (curtain wall with gate)"},
+        {"f": "hlaalu-domestic/hlaalu__hlaaluarchitecture_custom_housebase01.png", "c": "hlaalu-domestic (townhouse)"},
+        {"f": "hlaalu-domestic/hlaalu__hlaaluarchitecture_custom_tower01.png", "c": "hlaalu-domestic (tower house)"},
+        {"f": "settlement-mud-v1/mudmother__gv_meshes_argoniannest_argonianfence02.png", "c": "fences-wattle (marsh repairs)"}
+      ]
+    },
+    {
+      "id": "thorn",
+      "title": "Thorn  ·  dunmer-north  ·  field-margin-city",
+      "subtitle": "A low walled city in a sea of pale saltrice, with one grey Hist crown deliberately left outside the wall.",
+      "frames": [
+        {"f": "settlement-mud-v1/mudmother__gv_meshes_argoniannest_mudhut01.png", "c": "mud-mother-grove (Argonian quarter)"},
+        {"f": "settlement-mud-v1/mudmother__gv_meshes_argoniannest_thatchroofing.png", "c": "mud-mother-grove (thatch)"},
+        {"f": "settlement-mud-v1/mudmother__gv_meshes_argoniannest_histtree.png", "c": "hist tree (grey Hist outside the wall)"},
+        {"f": "settlement-mud-v1/mudmother__gv_meshes_argoniannest_snakefence01.png", "c": "fences-wattle (field margin)"},
+        {"f": "hlaalu-domestic/hlaalu__hlaaluarchitecture_custom_tower01.png", "c": "dunmer quarter STAND-IN: Hlaalu tower house shown; the Velothi kit is NOT built", "standIn": true},
+        {"f": "settlement-mud-v1/mudmother__gv_meshes_argoniannest_argoniantent01.png", "c": "market-tents"}
+      ]
+    }
+  ],
+  "contrast": {
+    "id": "00-contrast",
+    "title": "Province contrast: one signature piece per region (1.8 m red bar = a person)",
+    "frames": [
+      {"f": "settlement-stilt-v1/histtree__skyfall_sleeping_tree_overhaul_ancient_sleeping_tree.png", "c": "hist-heartland", "c2": "Helstrom (hist-grove-capital)"},
+      {"f": "ruin-monumental-v1/htbm__here_there_be_monsters_-_curse_of_cipactli_architecture_ruins_xanmeer_1mjyaztecbuilding1.png", "c": "naga-kur-deeps", "c2": "The Emptying House (sithis-temple)"},
+      {"f": "settlement-imperial-v1/vanilla__architecture_docks_dockstrsol01.png", "c": "saxhleel-coast", "c2": "Archon (legal-harbour-city)"},
+      {"f": "settlement-stilt-v1/htbm__here_there_be_monsters_-_curse_of_cipactli_architecture_villages_kothringi_stilthouseplatform.png", "c": "mercantile-coast", "c2": "Lilmoth (rebuilt-stilt-city)"},
+      {"f": "settlement-imperial-v1/vanilla__architecture_farmhouse_farmhouse02.png", "c": "pirate-freeholds", "c2": "Alten Corimont (neutral-free-port)"},
+      {"f": "ruin-monumental-v1/ayleidkit__igsresources_dungeons_ayleidruins_exterior_arringouterwall03.png", "c": "imperial-penal-south", "c2": "Blackrose Prison (reoccupied-prison)"},
+      {"f": "imperial-keep/mwkeep__tesak1243_mwimperialarchitecture_architecture_keep_exterior_mwimparchkeep01.png", "c": "imperial-fringe", "c2": "Gideon (frontier-records-city)"},
+      {"f": "settlement-mud-v1/mudmother__gv_meshes_argoniannest_mudhut01.png", "c": "dunmer-north", "c2": "Thorn (field-margin-city)"}
+    ]
+  }
+}

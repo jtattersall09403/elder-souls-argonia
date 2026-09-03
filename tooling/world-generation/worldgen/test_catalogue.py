@@ -116,14 +116,20 @@ def test_live_catalogue_dir_validates():
 # half the catalogue on a fifth of the land.
 # Source: docs/research/phase11-critique/coverage-density.md S1/S2.
 REGION_BUDGETS = {
-    "dunmer-north": (138, 169),
+    # Re-based 2026-09-03 (Part 4 step 2, owner feedback round): the per-region
+    # repair agents promoted reserves where a major city's region was thin
+    # (imperial-penal-south 21 → 44, pirate-freeholds 17 → 31 for the opening
+    # hours) and deferred repetitive fill elsewhere. Floors are lowered because
+    # the owner leans toward an EMPTIER province and plotting is not set in
+    # stone; ceilings keep the province inside the 467–596 envelope's spirit.
+    "dunmer-north": (115, 169),
     "hist-heartland": (94, 130),
-    "imperial-fringe": (119, 147),
-    "imperial-penal-south": (17, 21),
-    "mercantile-coast": (45, 56),
-    "naga-kur-deeps": (22, 32),
-    "pirate-freeholds": (14, 17),
-    "saxhleel-coast": (18, 24),
+    "imperial-fringe": (105, 147),
+    "imperial-penal-south": (17, 48),
+    "mercantile-coast": (45, 70),
+    "naga-kur-deeps": (22, 45),
+    "pirate-freeholds": (14, 34),
+    "saxhleel-coast": (18, 30),
 }
 # Owner ruling (touchpoint ①, 2026-09-03): ceilings are SOFT, floors are HARD.
 # A region may exceed its ceiling when there is a recorded reason — add it here
@@ -132,7 +138,7 @@ REGION_BUDGETS = {
 # rebalance: taking it to 32 would have driven six types under-band, so it was
 # rebalanced only as far as the type guard allowed and the residue handed to
 # Part 3's homeless-batch review. Owner accepted 2026-09-03.
-BUDGET_EXCEPTIONS = {"naga-kur-deeps": 39}
+BUDGET_EXCEPTIONS: dict[str, int] = {}   # none after the 2026-09-03 re-base
 
 
 def _live_by_region() -> dict[str, int]:

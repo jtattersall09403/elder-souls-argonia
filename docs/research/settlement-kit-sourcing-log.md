@@ -262,5 +262,10 @@ built GLBs.
 
 - Red Cyrodiil pantile roofs (audit §4) — treat as a texture problem; Rally's
   City Roofs / Better Towns Textures not yet evaluated.
-- The record-level alias swaps (audit D1, change-list items 4–7) and the
-  re-render of the eight vibe sheets from the overlaid kits.
+- The record-level alias swaps (audit D1, change-list items 4–7).
+- **Done 2026-09-03:** the vibe sheets were re-rendered from the overlaid kits
+  (Gideon rebuilt on `imperial-keep` + `hlaalu-domestic`; Archon's farmhouse
+  dropped; Alten Corimont tropicalised). The montage step is now a committed
+  tool — `tooling/asset-pipeline/pipeline/vibe_sheet.py` with the frame/caption
+  spec in `pipeline/config/vibe-sheets.json` — so the sheets are reproducible
+  rather than one-off.

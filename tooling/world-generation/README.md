@@ -47,6 +47,15 @@ python3 -m worldgen.terrain_scour                        # province candidate si
 python3 -m worldgen.export_places                        # studio places.json (re-run after catalogue edits)
 python3 -m worldgen.site_dossier --anchor gideon --radius 500
 
+# 8b. Phase 11 Part 3/4: the plot and its checks (order matters; each re-run after catalogue edits)
+python3 -m worldgen.catalogue --check                    # schema v2 + cross-record + route-id validation
+python3 -m worldgen.route_registry --check               # roads/lanes registry vs routes.json/waterways.json
+python3 -m worldgen.macro_plot                           # positions for every live record (+ owner-feedback checks in the report)
+python3 -m worldgen.compile_minor_routes                 # tracks/footpaths/boardwalks from the plot
+python3 -m worldgen.audit_place_semantics                # prose-vs-ground contradictions (report only)
+python3 -m worldgen.anchor_nudge                         # scores alternative city pins inside their tolerance circles (report only)
+# one-shot, already applied: python3 -m worldgen.migrate_catalogue_v2
+
 # 9. Phase 11: blueprint map (review artefact; seconds, PNG in output/)
 python3 -m worldgen.render_blueprint \
     --blueprint world/sources/blueprints/<place-id>.json

@@ -30,10 +30,15 @@ ROADS_PATH = PROVINCE / "routes.json"
 LANES_PATH = PROVINCE / "waterways.json"
 
 SCHEMA_VERSION = 1
-MODES = {"road", "boat"}
+MODES = {"road", "boat", "track"}   # track = named minor land route (geometry from compile_minor_routes)
 CLASSES = {"trunk", "road", "lane", "channel", "track", "footpath", "boardwalk", "causeway"}
 CONFIDENCES = {"CANON_NAMED", "CANON_DERIVED", "LORE_IMPLIED", "AGENT_INVENTED"}
-PREFIX = {"road": "route.road.", "boat": "route.boat."}
+PREFIX = {"road": "route.road.", "boat": "route.boat.", "track": "route.track."}
+# Minor named routes carry the `route.track.*` prefix whatever mode they are
+# travelled by (README, decision 0041 Part 4 step 2): the prefix records that
+# they are outside the Phase 4 anchor-to-anchor network and have no geometry
+# until worldgen.compile_minor_routes solves them.
+MINOR_CLASSES = {"track", "footpath", "boardwalk", "channel"}  # "minor boat corridor" per the registry note: a named channel is a route.track.* too
 
 
 def load(path: Path = REGISTRY_PATH) -> list[dict]:
@@ -76,7 +81,7 @@ def resolve(ref: str, aliases: dict[str, str] | None = None) -> str | None:
 def _geometry_pairs() -> dict[str, set[tuple[str, str]]]:
     roads = json.loads(ROADS_PATH.read_text())["routes"] if ROADS_PATH.exists() else []
     lanes = json.loads(LANES_PATH.read_text())["lanes"] if LANES_PATH.exists() else []
-    return {"road": {(r["from"], r["to"]) for r in roads}, "boat": {(l["from"], l["to"]) for l in lanes}}
+    return {"road": {(r["from"], r["to"]) for r in roads}, "boat": {(l["from"], l["to"]) for l in lanes}, "track": set()}
 
 
 def validate(routes: list[dict] | None = None) -> list[str]:
@@ -94,8 +99,13 @@ def validate(routes: list[dict] | None = None) -> list[str]:
         if mode not in MODES:
             errors.append(f"{rid}: mode must be one of {sorted(MODES)}")
             continue
-        if not rid.startswith(PREFIX[mode]):
-            errors.append(f"{rid}: id must start with {PREFIX[mode]}")
+        # route.track.* is any named minor route whatever its mode (the region
+        # agents' convention); major routes carry the mode prefix
+        allowed = (PREFIX[mode], "route.track.")
+        if not rid.startswith(allowed):
+            errors.append(f"{rid}: id must start with one of {list(allowed)}")
+        if rid.startswith("route.track.") and r.get("solved", True):
+            errors.append(f"{rid}: a route.track.* entry has no geometry yet — set solved:false")
         if r.get("class") not in CLASSES:
             errors.append(f"{rid}: class must be one of {sorted(CLASSES)}")
         if r.get("confidence") not in CONFIDENCES:

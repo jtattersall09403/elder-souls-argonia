@@ -153,7 +153,7 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        2,
+        0,
         3
       ],
       "lore": "Lore:Bright-Throat Village (cliffs over Oliis Bay)"
@@ -221,7 +221,7 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        5,
+        6,
         9
       ],
       "lore": "region grammar: seasonal floodplain"
@@ -292,7 +292,7 @@
       "complexityBudget": "standard",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "region grammar: deep river corridor; scour: gorge (60) and ravine (90) candidates concentrate on the corridor and the rim"
     },
@@ -360,8 +360,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        2,
-        4
+        3,
+        6
       ],
       "lore": "Lore:Thorn; Lore:Saltrice; Lore:House Dres"
     },
@@ -430,7 +430,7 @@
       "complexityBudget": "standard",
       "countBand": [
         3,
-        5
+        6
       ],
       "lore": "region grammar: raised hammock; Lore:Black Marsh"
     },
@@ -499,7 +499,7 @@
       "complexityBudget": "simple",
       "countBand": [
         3,
-        5
+        6
       ],
       "lore": "region grammar: upland hills / border mountains; scour finding: a quarter of interesting ground is on the rim"
     },
@@ -572,8 +572,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Alten Corimont; Lore:All Flags Navy"
     },
@@ -648,8 +648,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "build-out register: player ownership needs a place shape reserved now, or it is a refactor later (0041 forward-compatibility block)"
     },
@@ -873,8 +873,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Alten Markmont (Arena gazetteer); Lore:East Empire Company"
     },
@@ -942,7 +942,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Black Marsh (Imperial houses on the same soil sank)"
     },
@@ -1015,7 +1015,7 @@
       "complexityBudget": "simple",
       "countBand": [
         3,
-        5
+        6
       ],
       "lore": "Lore:Blackwood Road; openworld research (waystation recipe)"
     },
@@ -1087,8 +1087,8 @@
       "complexityBudget": "complex",
       "complexityJustification": "M5, three-way contested ownership expressed spatially",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Soulrest; Lore:Red Bramman; Lore:Topal Bay"
     },
@@ -1161,8 +1161,8 @@
       "complexityBudget": "complex",
       "complexityJustification": "M5 with an authored agricultural hinterland",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Thorn; Lore:House Dres; Lore:Saltrice"
     },
@@ -1235,8 +1235,8 @@
       "complexityBudget": "complex",
       "complexityJustification": "M5, two-culture city with a seasonal transit node",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Gideon; Lore:Rootworm; Lore:Twyllbek; Lore:Cyrodilic Collections"
     },
@@ -1305,8 +1305,8 @@
       "complexityBudget": "complex",
       "complexityJustification": "M5 district authoring; still Morrowind-level placement, no scripting beyond doors and state variants",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Helstrom; Lore:Middle Argonia; PGE3/Argonia (survivors of the Battle of Argonia retreat to Helstrom)"
     },
@@ -1381,8 +1381,8 @@
       "complexityBudget": "complex",
       "complexityJustification": "M5 island core plus water districts",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Blackrose; Lore:Lilmothiit; Lore:Blackrose Prison"
     },
@@ -1458,8 +1458,8 @@
       "complexityBudget": "complex",
       "complexityJustification": "M5 port with underwater civic space",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Archon; Lore:East Empire Company; Lore:Shadowscales"
     },
@@ -1536,8 +1536,8 @@
       "complexityBudget": "complex",
       "complexityJustification": "M5 with a submerged district; geometry and one water-level state",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Lilmoth; Lore:Umbriel; Lore:Ripper Eel; Lore:Pusbottom"
     },
@@ -1612,8 +1612,8 @@
       "complexityBudget": "complex",
       "complexityJustification": "M5 with a vertical undercity; geometry only",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Stormhold; Lore:Silyanorn; Lore:Knahaten Flu (began here)"
     },
@@ -1684,8 +1684,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Slough Point; Lore:Blackwood Road"
     },
@@ -1760,7 +1760,7 @@
       "complexityBudget": "standard",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:House Dres; Lore:Tear; Lore:Red Year (4E 5); foreign-powers dossier (the cold settled frontier)"
     },
@@ -1835,7 +1835,7 @@
       "complexityBudget": "standard",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Archein; labour-and-bondage dossier (the Owing)"
     },
@@ -1911,7 +1911,7 @@
       "complexityBudget": "standard",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "morrowind-content-density.md (the M4 rung); Lore:Fort Swampmoth; argonia-4e201-state (shellback city levies)"
     },
@@ -1988,7 +1988,7 @@
       "complexityBudget": "standard",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "morrowind-content-density.md (Suran, Balmora: the M4 rung carries Morrowind's texture)"
     },
@@ -2054,8 +2054,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Black Marsh (no cash-crop economy is possible); Lore:Archein; Lore:Hereguard Plantation"
     },
@@ -2126,8 +2126,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Black Marsh (minor ports); Lore:East Empire Company"
     },
@@ -2201,8 +2201,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "morrowind-content-density.md (the M4 rung is where Morrowind's texture lives); Lore:Hissmir"
     },
@@ -2274,7 +2274,7 @@
       "complexityBudget": "standard",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Black Marsh (toll-towns); the Owing (labour-and-bondage dossier)"
     },
@@ -2422,8 +2422,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "morrowind-content-density.md (Gnisis, Caldera); Lore:Stormhold (crystals); Lore:Gideon (red clay)"
     },
@@ -2491,8 +2491,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "labour-and-bondage dossier; Blackrose Chainbreakers (quest plan)"
     },
@@ -2563,7 +2563,7 @@
       "complexityBudget": "standard",
       "countBand": [
         4,
-        6
+        7
       ],
       "lore": "Lore:Lukiul; League of Open Water (quest plan); Lore:Hist"
     },
@@ -2634,8 +2634,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Accession War; Lore:Argonian Invasion of Morrowind (4E 5-6); Lore:Tear"
     },
@@ -2703,8 +2703,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Knahaten Flu; fauna-hazards dossier (swamp rot, blood rot, greenspore)",
       "countBandNote": "Band widened 1->3 (2026-09-02 reconciliation): the Knahaten Flu emptied the province, so quarantine residue is plural by canon. The three are signature-distinct — a village that shut itself and never reopened (north), an abandoned holding pen whose burial ground dwarfs it (south), and a cordon never formally lifted, repainted yearly by the people inside it (coast)."
@@ -2771,8 +2771,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:An-Xileel; Lore:Umbriel; argonia-4e201-state (the Wild Ones)"
     },
@@ -2842,8 +2842,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Bright-Throat Village; Lore:Argonian (jewellery, guarded weaving secrets)"
     },
@@ -2914,8 +2914,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Dead-Water (crocodiles); Lore:Lizard-Steed; Lore:Riverbacks (osheeja gar)"
     },
@@ -2986,7 +2986,7 @@
       "complexityBudget": "standard",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Hist (a settlement without a Hist is always political)"
     },
@@ -3053,8 +3053,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Hatching Pools; Lore:Argonian (egg-tenders, Keepers of the Shell)"
     },
@@ -3121,8 +3121,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Mazzatun; Lore:Xit-Xaht; Lore:Duskfall",
       "countBandNote": "Band widened 1->2 (2026-09-02 reconciliation): the causes are different, not duplicated. Mazzatun builds because a sap-enslaved Hist will not stop giving the order; the interior's Restarted Work builds because a naheesh argued publicly that the Duskfall renunciation was a mistake. One is a tragedy, one is a heresy, and the province needs both for the taboo to read as contested rather than insane."
@@ -3202,7 +3202,7 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        12,
+        13,
         16
       ],
       "lore": "Lore:Hist; Lore:Argonian; settlement-register M3 band"
@@ -3276,7 +3276,7 @@
       "complexityBudget": "standard",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Stonewastes (Four Winds); Lore:Lut-Eileel"
     },
@@ -3347,7 +3347,7 @@
       "complexityBudget": "standard",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Naga (a people of Black Marsh; the tribeless are the brigands, not the whole nation)"
     },
@@ -3419,7 +3419,7 @@
       "complexityBudget": "standard",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Veeskhleel (the tribe associated with the dead); Lore:Argonian (grave-singers, xul-vaat)"
     },
@@ -3486,8 +3486,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Veeskhleel; Lore:Blight Bog"
     },
@@ -3558,8 +3558,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Hissmir; Lore:Trials of the Burnished Scales; Lore:Mages Guild (dissolved 4E)"
     },
@@ -3622,8 +3622,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Hist Sap; Miredancers (settlement-register)"
     },
@@ -3695,8 +3695,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        2,
-        4
+        3,
+        6
       ],
       "lore": "Lore:Murkmire (platforms ascending from ground to hover above water)"
     },
@@ -3834,8 +3834,8 @@
       "complexityBudget": "standard",
       "complexityJustification": "two authored mooring locations plus an empty-footprint state, not a moving object",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Hixinoag; Lore:Black Marsh (most villages do not stay put)",
       "countBandNote": "Band widened 1->2 (2026-09-02 reconciliation), and settlement-register.md 5 G3.3 updated to match: its 'exactly one' was an EXTRAPOLATED engineering-cost recommendation, not canon — canon says MOST villages do not stay put. Two hand-authored mobile villages: canon Hixinoag on the northern caravan route, and an inner-swamp raft village whose abandoned moorings form a trail of ghost villages, which is this type's own recipe (the empty mooring is as much a POI as the full one)."
@@ -3907,8 +3907,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Salt-Cured; Online:Tide-Born Boat; Online:Kothringi Tidal Canoe"
     },
@@ -3975,7 +3975,7 @@
       "complexityBudget": "standard",
       "countBand": [
         1,
-        2
+        4
       ],
       "lore": "Lore:Murkmire (the ten-mile mangrove wall); Lore:Red Bramman"
     },
@@ -4046,8 +4046,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Argonian Houseboat; Lore:Alten Meerhleel"
     },
@@ -4122,7 +4122,7 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        5,
+        6,
         9
       ],
       "lore": "Lore:Murkmire; material-culture (Murkmire reed-and-stilt kit)"
@@ -4263,8 +4263,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Argonian (vossa-satl; frogs selected by tone); Lore:Panther River"
     },
@@ -4333,8 +4333,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Guar (Glowgill breathes underwater); Lore:Archon"
     },
@@ -4406,7 +4406,7 @@
       "complexityBudget": "simple",
       "countBand": [
         0,
-        1
+        3
       ],
       "lore": "acceptance rule: Argonian physiology materially changes underwater play — the economy must reflect it"
     },
@@ -4476,7 +4476,7 @@
       "complexityBudget": "simple",
       "countBand": [
         0,
-        1
+        2
       ],
       "lore": "Lore:Ripper Eel; Lore:Dead-Water; Lore:Riverbacks"
     },
@@ -4545,7 +4545,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         0,
-        1
+        2
       ],
       "lore": "Lore:Haj Mota; material-culture (shell shields and platters)"
     },
@@ -4684,8 +4684,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "material-culture (metal use almost unheard of post-Duskfall)"
     },
@@ -4758,7 +4758,7 @@
       "complexityBudget": "simple",
       "countBand": [
         0,
-        1
+        3
       ],
       "lore": "Lore:Sea Transportation; material-culture (Argonians crew foreign hulls, build small craft)"
     },
@@ -5103,8 +5103,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        4
+        3,
+        6
       ],
       "lore": "Lore:Lilmoth (the drowned quarter, salvaged for 150 years)"
     },
@@ -5179,8 +5179,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Sea Transportation; Lore:All Flags Navy; foreign-powers dossier (the coast's hulls are foreign-built)"
     },
@@ -5310,8 +5310,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Wamasu (hide, luminescent organs, charge-holding bones, Hist-sap insulated prods)"
     },
@@ -5449,8 +5449,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "magic-practice dossier (moon phases dictate calcinator positioning); Lore:Sky-Moons"
     },
@@ -5653,8 +5653,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Saltrice; Lore:House Dres; Lore:Hereguard Plantation"
     },
@@ -5853,8 +5853,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Black Marsh (bog iron); material-culture (metal use almost unheard of post-Duskfall)"
     },
@@ -5923,8 +5923,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Gideon (Onkobra red clay pottery); Lore:Onkobra River"
     },
@@ -5996,8 +5996,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Stormhold (crystals); Lore:Silyanorn; prisons dossier (Warden Varus's Tunnel Rats)"
     },
@@ -6068,7 +6068,7 @@
       "complexityBudget": "simple",
       "countBand": [
         0,
-        1
+        2
       ],
       "lore": "Lore:Soulrest (gold and timber exports halted 3E 427 by tribal uprisings)"
     },
@@ -6138,8 +6138,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Jasper; Lore:Murkmire (neesak of scrying); Lore:Blackwood (niben-crystal)"
     },
@@ -6278,8 +6278,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Argonian (jadeflint, obverdian, volcanic glass skinning shards)"
     },
@@ -6347,8 +6347,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Onkobra Kwama Mine; Lore:Kwama"
     },
@@ -6417,8 +6417,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Black Marsh (the Great Burn, 1E 2828, Legate Elissia Mallicius)"
     },
@@ -6487,8 +6487,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "material-culture (salt as barter commodity); region grammar: coastal lagoon & salt marsh"
     },
@@ -6628,8 +6628,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:College of Whispers; Lore:Umbriel; Lore:Synod"
     },
@@ -6771,8 +6771,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "material-culture (daril); Lore:Argonian"
     },
@@ -6840,8 +6840,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Hist Sap (bloodlust hallucinogen to non-Argonians)"
     },
@@ -6979,7 +6979,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "region grammar: border mountains; Lore:Blackwood Road (the legal crossings are few, so the illegal ones are the rim)"
     },
@@ -7259,7 +7259,7 @@
       "complexityBudget": "simple",
       "countBand": [
         1,
-        2
+        4
       ],
       "lore": "prisons dossier (Warden Varus's Tunnel Rats digging for crystals)",
       "countBandNote": "Band widened 1->2 (2026-09-02 reconciliation): Warden Varus's Tunnel Rats are canon penal labour, and the two seams they are attested near — Silyanorn's crystal and Soulrest's gold — are far apart. One gallery is still worked under an untraceable Owing; the other is a flooded grave the bone-carriers cannot reach."
@@ -7480,7 +7480,7 @@
       "complexityBudget": "simple",
       "countBand": [
         3,
-        5
+        6
       ],
       "lore": "module 92 (three currency tiers: septims, barter, obligation); Lore:Argonian (barter economy); Lore:Lizard-Steed"
     },
@@ -7973,7 +7973,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        3
+        5
       ],
       "lore": "guilds-and-orders dossier (the EEC is gone; its wharves and bonded stores are not)"
     },
@@ -8045,8 +8045,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Black Marsh (Imperial roads made freight slower); Lore:Sea Transportation"
     },
@@ -8124,7 +8124,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Bogmother (the stone causeway from Stormhold); material-culture (buoyant timber causeways)"
     },
@@ -8264,8 +8264,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Seafalls (Arena gazetteer); Lore:Sea Transportation"
     },
@@ -8335,7 +8335,7 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
+        1,
         4
       ],
       "lore": "module 50 (tides are calendared world state); the thinnest traversal gate in the taxonomy was fast transit"
@@ -8415,7 +8415,7 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        4,
+        3,
         6
       ],
       "lore": "labour-and-bondage dossier (every crossing has an owner); Lore:Keel-Sakka (the Tum-Taleel's bridge)"
@@ -8490,7 +8490,7 @@
       "complexityBudget": "simple",
       "countBand": [
         1,
-        2
+        4
       ],
       "lore": "Lore:Black Marsh (toll-towns); openworld research (watchtower recipe: the reward is the view)"
     },
@@ -8558,8 +8558,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "traversal: no canon tree-way network; treat arboreal routes as local, not a system"
     },
@@ -8624,8 +8624,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        4,
-        6
+        5,
+        8
       ],
       "lore": "Lore:Murkmire (platforms ascending high into the air); scour finding: no long sightlines below the rim"
     },
@@ -8698,7 +8698,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "asset inventory (the passerelles walkway kit: curving, climbing, branching); Lore:Murkmire"
     },
@@ -8773,8 +8773,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        3,
-        5
+        5,
+        8
       ],
       "lore": "Lore:Black Marsh (outsiders arrive by ferry behind an Argonian guide)"
     },
@@ -8848,7 +8848,7 @@
       "complexityBudget": "standard",
       "countBand": [
         3,
-        5
+        6
       ],
       "lore": "region grammar: deep river corridor; Lore:Sea Transportation (small-draft craft are the province's freight)"
     },
@@ -9197,8 +9197,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Blackwood Road (closes in monsoon)"
     },
@@ -9270,7 +9270,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "scour: a quarter of the interesting ground is on the rim, and it is the only ground with range; region grammar: border mountains"
     },
@@ -9341,8 +9341,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        4
+        3,
+        6
       ],
       "lore": "Lore:Blackwood Road; openworld research (waystation is deliberately safe)"
     },
@@ -9559,7 +9559,7 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
+        0,
         3
       ],
       "lore": "Lore:Rootworm; hist-placement dossier"
@@ -9630,7 +9630,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Rootworm (the Underground Express); §12b rule: the southern terminus is wintertide-only"
     },
@@ -9693,8 +9693,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "module 20 §12.3b hard-to-reach types (underwater grottoes, air pockets, flooded cellars)"
     },
@@ -9836,7 +9836,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        3
+        5
       ],
       "lore": "acceptance rule: underwater POIs throughout appropriate regions; Lore:Lakemire Xanmeer"
     },
@@ -9908,8 +9908,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        4
+        3,
+        6
       ],
       "lore": "Lore:Lilmoth (drowned quarter); acceptance rule: swimming creates access progression"
     },
@@ -10113,8 +10113,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Umpholo (the Maran mission died of swamp rot in a month)"
     },
@@ -10189,8 +10189,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Ten-Maur-Wolk; Lore:Haj Uxith (Molag Bal); Lore:Stillrise Village (Clavicus Vile)"
     },
@@ -10393,8 +10393,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Blackrose (the drowned tree in the lake)"
     },
@@ -10466,7 +10466,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Hist Sap; Lore:Mazzatun (an enslaved Hist); hist-and-sap dossier (mnemic egg)"
     },
@@ -10534,7 +10534,7 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        4,
+        5,
         8
       ],
       "lore": "Lore:Hist; hist-placement dossier (the ten hero Hist)"
@@ -10676,7 +10676,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Hist (the eight Hist states); Lore:Lilmoth (the rogue Hist of 4E 48)"
     },
@@ -10743,8 +10743,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Wamasu (Haynekhtnamet of Shadowfen received offerings to stop seasonal flooding)"
     },
@@ -10878,8 +10878,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "§12b owner decision Q2 (the great Root Talk is an occasion, not a council); Lore:Hist-Tsoko"
     },
@@ -10946,7 +10946,7 @@
       "complexityBudget": "simple",
       "countBand": [
         3,
-        5
+        6
       ],
       "lore": "Lore:Bright-Throat; Lore:Naga-Kur (starblossom, red paint, the kaju kill)"
     },
@@ -11017,8 +11017,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Argonian (Chukka-Sei, raj-nassa); Lore:Hissmir (Trials of the Burnished Scales); Lore:Naga-Kur"
     },
@@ -11228,7 +11228,7 @@
       "complexityBudget": "standard",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "sithis-nisswo-shadowscales dossier; Lore:Shadowscales (children born under the Shadow); Lore:Kota-Vimleel (the Black-Tongues); the Archon sanctuary closed 4E 187"
     },
@@ -11293,7 +11293,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Nisswo (art made then destroyed); Lore:Sithis (Raj-Sithis the Changer)"
     },
@@ -11427,7 +11427,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Nisswo (welcome in almost every village)"
     },
@@ -11571,7 +11571,7 @@
       "complexityBudget": "standard",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Teeth of Sithis; Lore:Xul-Thuxis; Lore:Glenbridge; Lore:Duskfall"
     },
@@ -11637,7 +11637,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         3,
-        5
+        6
       ],
       "lore": "Lore:Argonian (bones brought to the dirt redeem a death away from the Hist); White Rose Prison"
     },
@@ -11701,8 +11701,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Kothringi (cairn burial, glass beads); Lore:Knahaten Flu"
     },
@@ -11768,8 +11768,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Argonian (no Arkay's Blessing); Lore:Black Marsh (corpses rot too fast for necromancy)"
     },
@@ -11982,7 +11982,7 @@
       "complexityBudget": "simple",
       "countBand": [
         3,
-        5
+        6
       ],
       "lore": "region grammar: raised hammock; Lore:Argonian (staking needs soft ground the hammock crown does not have)"
     },
@@ -12056,8 +12056,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        4,
-        6
+        5,
+        8
       ],
       "lore": "Lore:Umbriel; Lore:Knahaten Flu; Lore:Black Marsh (the Great Burn); Lore:Deepmire (the province's Umbriel memorial)"
     },
@@ -12192,7 +12192,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        3
+        5
       ],
       "lore": "Lore:Argonian (blasphemers bound to an urn and denied return)"
     },
@@ -12261,8 +12261,8 @@
       "complexityBudget": "standard",
       "complexityJustification": "two authored verge sites plus a stripped-ground state, as the drifting village does — no moving geometry",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Murkwood (the forest that moves); Conclave of Baal and the Vaults of Gemin (quests 20 §12b)"
     },
@@ -12747,7 +12747,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "sky-moons-calendar dossier (the calendar as a festival schedule)"
     },
@@ -12958,8 +12958,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "§12b Alten Meerhleel (tribes placated with a Teeba-Enoo court)"
     },
@@ -13038,8 +13038,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        7,
-        11
+        6,
+        9
       ],
       "lore": "Morrowind's corner club / tradehouse pattern (morrowind-content-density.md); Lore:Hissmir Fish-Eye Rye"
     },
@@ -13113,8 +13113,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Shells and Stones; material-culture (daril); labour-and-bondage dossier (debt becomes owing)"
     },
@@ -13257,7 +13257,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Jel (an oral language with no past or future tense); build-out: this is the letter/rumour delivery spine"
     },
@@ -13675,7 +13675,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         1,
-        2
+        4
       ],
       "lore": "fauna-hazards dossier (swamp rot, blood rot, greenspore); Lore:Knahaten Flu"
     },
@@ -13747,8 +13747,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Knahaten Flu; Lore:Slough Point (census and excise)"
     },
@@ -13816,8 +13816,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Hist Sap; material-culture (daril); sap-touched-village is the failure case this type exists to prevent"
     },
@@ -14358,8 +14358,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Miregaunts of the Marsh (Black Marsh Exploration Society, Kratius Gray)"
     },
@@ -14432,8 +14432,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Gandranen (anachronistic library); Conclave of Baal and the Vaults of Gemin (§12b, Murkwood)"
     },
@@ -14855,8 +14855,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Synod; guilds-and-orders dossier (the Mages Guild dissolved; the Synod and the College of Whispers inherited)"
     },
@@ -14927,8 +14927,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:College of Whispers (secretive, no public chapters); Lore:Umbriel (what they are here for)"
     },
@@ -15226,8 +15226,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        3,
-        5
+        4,
+        7
       ],
       "lore": "Lore:Argonian (a comer cannot be refused); pacing: a hostile province needs a safety floor outside its cities"
     },
@@ -15295,8 +15295,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "§12b Deepmire, the Refuge (a D4 destination with an approach route)"
     },
@@ -15368,7 +15368,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "climate fields (sea squalls, orographic rain); module 20 §12.3b refuge reward type"
     },
@@ -15634,8 +15634,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        3,
+        6
       ],
       "lore": "Lore:Argonian (no gaols); labour-and-bondage dossier (the Owing's drift)"
     },
@@ -15706,8 +15706,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "§12b White Rose Prison (abandoned, structurally sound, full of Argonian dead)"
     },
@@ -15781,8 +15781,8 @@
       "complexityBudget": "complex",
       "complexityJustification": "multi-level site with two occupant strata; geometry and doors only",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Blackrose Prison (raised in a day by Pelladil Direnni; the Blackguards' heirs)"
     },
@@ -15918,8 +15918,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:House Dres; Lore:Archein; labour-and-bondage dossier (slavery ended; only the apparatus remains)"
     },
@@ -15992,8 +15992,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        2,
+        5
       ],
       "lore": "module 20 §11 (the six-stage foreign-infrastructure life cycle)"
     },
@@ -16062,8 +16062,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Battle of Argonia (1E 2811); Lore:Xi-Tsei Massacre (1E 2820)"
     },
@@ -16124,8 +16124,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Blackwater War (1E 2836: Argonians stop fighting and bury their weapons)"
     },
@@ -16199,8 +16199,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Fort Swampmoth (held, but not by the Empire); Lore:Oblivion Crisis (legions rumoured recalled)"
     },
@@ -16263,8 +16263,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Blackrose (Welloc's siege earthworks)"
     },
@@ -16475,7 +16475,7 @@
       "complexityBudget": "standard",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Xanmeer (~20% inhabited; inhabited for their walls and still-working ancient defences)"
     },
@@ -16746,8 +16746,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "argonia-4e201-state (occasional patrols; every 4E 201 data point is about withdrawal)"
     },
@@ -16823,8 +16823,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "foreign-powers dossier (Thalmor); argonia-4e201-state (the Veiled Reed); guilds-and-orders dossier"
     },
@@ -16897,8 +16897,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Sea Transportation; wrecker tradition (foreign-powers dossier)"
     },
@@ -17039,7 +17039,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "openworld research §3.2 (watchtower: the reward is the view); scour: only the rim has range"
     },
@@ -17253,7 +17253,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Black Marsh (guides choose when to move and refuse to stop where you want)"
     },
@@ -17396,7 +17396,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         3,
-        5
+        6
       ],
       "lore": "Lore:Hissmir; sky-moons-calendar dossier"
     },
@@ -17468,8 +17468,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        4
+        0,
+        3
       ],
       "lore": "Lore:Stormhold (crystals); Lore:Jasper"
     },
@@ -17534,8 +17534,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Argonian (bones brought to the dirt); Blackrose Chainbreakers (quest plan)"
     },
@@ -17598,7 +17598,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         1,
-        2
+        4
       ],
       "lore": "labour-and-bondage dossier (owings extendable, transferable, heritable in fact)"
     },
@@ -17667,8 +17667,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "module 92 demographics; fauna-hazards dossier (seasonal flooding)"
     },
@@ -17733,8 +17733,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "argonia-4e201-state (the Wild Ones as a constituency)"
     },
@@ -17807,7 +17807,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        3
+        5
       ],
       "lore": "Lore:Cyrodilic Collections; Lore:College of Whispers"
     },
@@ -17878,7 +17878,7 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
+        0,
         3
       ],
       "lore": "module 20 §11 (foreign infrastructure surveyed and imposed); Lore:Black Marsh (failed Imperial works)"
@@ -17953,7 +17953,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "openworld research §3.1 (the satellite node that resolves the implied story)"
     },
@@ -18024,8 +18024,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        6,
+        9
       ],
       "lore": "Lore:Blackrose Prison (the Blackguards' heirs, prison-descended three generations)"
     },
@@ -18095,8 +18095,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Sul-Xan (jade death masks, green raider tattoos, soul-snares; Xi-Tsei, Rockgrove, the Silent Halls)"
     },
@@ -18168,8 +18168,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        3
+        3,
+        6
       ],
       "lore": "Lore:Naga (the majority of native brigands and highwaymen; they leave when merchants stop coming)"
     },
@@ -18242,8 +18242,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        2,
+        5
       ],
       "lore": "Lore:Pirates of Topal Bay; Lore:Lucinia Falco (letters of marque, 1E 2833)"
     },
@@ -18318,7 +18318,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Hist Sap; Lore:Marsh Giant (killing one is an ecological and religious offence)"
     },
@@ -18459,7 +18459,7 @@
       "complexityBudget": "simple",
       "countBand": [
         1,
-        2
+        4
       ],
       "lore": "foreign-powers dossier (a coast with trade implies wreckers); Lore:Sea Transportation"
     },
@@ -18529,7 +18529,7 @@
       "complexityBudget": "standard",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Barsaebic Ayleids; Lore:Silyanorn; Lore:Twyllbek Ruins"
     },
@@ -18594,8 +18594,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Ayleids; Lore:Barsaebic Ayleids"
     },
@@ -18658,8 +18658,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Ayleid Wells; quest-provision keystone pattern (§13 typed provisions)"
     },
@@ -18726,8 +18726,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Lamia; Lore:Loriasel"
     },
@@ -18791,8 +18791,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Ayleids; module 20 §11 (historical layers must stay distinguishable)"
     },
@@ -18863,8 +18863,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Stillrise Village (Clavicus Vile's bargain); Lore:Ten-Maur-Wolk"
     },
@@ -18931,8 +18931,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Oblivion Crisis (the Argonians invaded Oblivion through the gates); Lore:Black Marsh"
     },
@@ -19001,8 +19001,8 @@
       "complexityBudget": "complex",
       "complexityJustification": "a signature D5 site; geometry, dressing and one occupant stratum only",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Haj Uxith (Molag Bal's sap harvest); Lore:Hist Sap"
     },
@@ -19065,8 +19065,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Black Marsh (Legate Elissia Mallicius set the marsh alight, 1E 2828; parts still burn)"
     },
@@ -19141,8 +19141,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        2,
+        5
       ],
       "lore": "Lore:Lilmoth (the drowned quarter); acceptance rule: underwater POIs throughout appropriate regions"
     },
@@ -19214,7 +19214,7 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        2,
+        1,
         4
       ],
       "lore": "Lore:Knahaten Flu (2E 560-603; the Argonians alone were immune)"
@@ -19286,7 +19286,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         2,
-        3
+        5
       ],
       "lore": "Lore:Knahaten Flu (2E 560-603, wiped out the Kothringi, Lilmothiit and Horwalli)"
     },
@@ -19423,7 +19423,7 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
+        0,
         3
       ],
       "lore": "scour finding: sinkholes are genuinely rare (11) — spend this type sparingly; Lore:Black Marsh (the Great Burn)"
@@ -19495,7 +19495,7 @@
       "complexityBudget": "standard",
       "countBand": [
         3,
-        5
+        6
       ],
       "lore": "Lore:Umbriel (4E 48; the dead rose and walked); argonia-4e201-state"
     },
@@ -19563,8 +19563,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Hereguard Plantation; Lore:Archein; Lore:Black Marsh (no cash-crop economy is possible)"
     },
@@ -19631,8 +19631,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Giovesse (Arena gazetteer); module 20 §11 (imposed foreign infrastructure)"
     },
@@ -19694,8 +19694,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Umpholo (the mission died of swamp rot within a month)"
     },
@@ -19765,7 +19765,7 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        3,
+        2,
         5
       ],
       "lore": "Lore:Black Marsh (Imperial roads, bridges and drainage made freight slower)"
@@ -19830,8 +19830,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Accession War; foreign-powers dossier"
     },
@@ -19902,7 +19902,7 @@
       "complexityBudget": "standard",
       "countBand": [
         1,
-        2
+        4
       ],
       "lore": "Lore:Blackrose Prison (Second Empire, raised in a day by Pelladil Direnni); Lore:Reman Empire; Lore:Akaviri"
     },
@@ -20034,8 +20034,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Cantemiric Velothi (lost people of the Black Marsh seaboard)"
     },
@@ -20105,8 +20105,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Horwalli (a lost people of Black Marsh); module 50 (hydrology first)"
     },
@@ -20179,8 +20179,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        2,
-        4
+        3,
+        6
       ],
       "lore": "Lore:Kothringi (silver-skinned, wiped out by the Knahaten Flu 2E 560); Lore:Knahaten Flu"
     },
@@ -20244,8 +20244,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Lilmothiit (vulpine, vanished after the Knahaten Flu; Lilmoth named for them)"
     },
@@ -20311,8 +20311,8 @@
       "complexityBudget": "standard",
       "complexityJustification": "a darkness-navigation space; geometry and light placement only, no scripting",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Orma (a blind people of Black Marsh); lost-peoples dossier"
     },
@@ -20377,7 +20377,7 @@
       "complexityBudget": "simple",
       "countBand": [
         0,
-        1
+        2
       ],
       "lore": "Lore:Yespest (a lost people of Black Marsh); lore golden rule: the province argues with itself about its own history"
     },
@@ -20448,7 +20448,7 @@
       "complexityBudget": "standard",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Xanmeer (~15% broken); xanmeer-mesoamerican-reference (ruins subsumed by vegetation)"
     },
@@ -20522,8 +20522,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Duskfall; material-culture (stone as a moral error post-Duskfall) — this type is where that rule is visibly made"
     },
@@ -20593,8 +20593,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        3,
-        5
+        4,
+        7
       ],
       "lore": "Lore:Xanmeer (~25% sealed; vakka stones); Lore:Vakka Stone"
     },
@@ -20669,7 +20669,7 @@
       "complexityBudget": "standard",
       "countBand": [
         4,
-        6
+        7
       ],
       "lore": "Lore:Lakemire Xanmeer; Lore:Ixtaxh Xanmeer (re-drowned but for the topmost chamber)"
     },
@@ -20743,7 +20743,7 @@
       "complexityBudget": "standard",
       "countBand": [
         4,
-        6
+        7
       ],
       "lore": "Lore:Xanmeer (~40% tended by a nearby clan; entering to loot is a serious offence)"
     },
@@ -20817,7 +20817,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         3,
-        5
+        6
       ],
       "lore": "tone axis: beauty that is alive rather than geological; ecology-encounters-loot feed"
     },
@@ -20886,7 +20886,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Argonian (pulling a grave-stake raises a bog blight); fauna-hazards dossier (pahnjees)"
     },
@@ -21090,8 +21090,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "region grammar: raised hammock and seasonal floodplain; ecology-encounters-loot feed (the flood cycle drives the fauna)"
     },
@@ -21161,7 +21161,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "fauna-hazards dossier (hackwing); ecology-encounters-loot feed"
     },
@@ -21233,7 +21233,7 @@
       "complexityBudget": "standard",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "fauna-hazards dossier; module 20 §16 (fixed regional danger; D5 stays D5)"
     },
@@ -21306,8 +21306,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:Argonian (bone as a primary structural material); fauna-hazards dossier"
     },
@@ -21373,7 +21373,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         2,
-        3
+        5
       ],
       "lore": "Lore:Marsh Giant (killing one is an ecological and religious offence)"
     },
@@ -21441,8 +21441,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Miregaunt; Lore:Miregaunts of the Marsh (Kratius Gray, Black Marsh Exploration Society)"
     },
@@ -21511,7 +21511,7 @@
       "complexityBudget": "simple",
       "countBand": [
         0,
-        1
+        3
       ],
       "lore": "fauna-hazards dossier; acceptance rule: deep underwater play"
     },
@@ -21580,7 +21580,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         1,
-        2
+        4
       ],
       "lore": "fauna-hazards dossier (moon-adder); material-culture (snake hide, daril)"
     },
@@ -21649,8 +21649,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Haj Mota; material-culture (shell shields)"
     },
@@ -21720,7 +21720,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         2,
-        3
+        5
       ],
       "lore": "Lore:Voriplasm; ecology-encounters-loot feed (loot has provenance)"
     },
@@ -21791,7 +21791,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Wamasu; Lore:Haynekhtnamet (received offerings to stay the flooding)"
     },
@@ -21859,7 +21859,7 @@
       "complexityBudget": "simple",
       "countBand": [
         1,
-        2
+        4
       ],
       "lore": "fauna-hazards dossier; module 55 (night light as a first-class world state)"
     },
@@ -22202,8 +22202,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "acceptance rule: large logical surfaces climbable by default; scour: the rim carries the relief"
     },
@@ -22270,7 +22270,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "region grammar: lake & standing water; module 50 (seasonal water levels are authored world state)"
     },
@@ -22338,8 +22338,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "module 50 (tides and water levels as world state); Lore:Sea Transportation"
     },
@@ -22610,8 +22610,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "region grammar: deep river corridor; Lore:Seafalls; the arterial class needs its own hazards"
     },
@@ -22682,7 +22682,7 @@
       "complexityBudget": "simple",
       "countBand": [
         0,
-        1
+        2
       ],
       "lore": "Lore:Pirates of Topal Bay; Lore:Sea Transportation; the ocean class needs D5 destinations"
     },
@@ -22752,7 +22752,7 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        3,
+        2,
         5
       ],
       "lore": "Lore:Oliis Bay; Lore:Topal Bay; Lore:Tide-Born"
@@ -22824,8 +22824,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        4
+        3,
+        6
       ],
       "lore": "acceptance rule: player-sailable boats and deep underwater play need destinations ON the water"
     },
@@ -22893,7 +22893,7 @@
       "complexityBudget": "simple",
       "countBand": [
         0,
-        1
+        2
       ],
       "lore": "region grammar: ocean; acceptance rule: large logical surfaces climbable by default"
     },
@@ -22972,7 +22972,7 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        8,
+        9,
         12
       ],
       "lore": "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role"
@@ -23042,7 +23042,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Rootworm (eight feet, translucent, digests very slowly)"
     },
@@ -23107,7 +23107,7 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        3,
+        2,
         5
       ],
       "lore": "module 20 §12.3b (underwater grottoes and air pockets as hard-to-reach types); acceptance: Argonian physiology changes underwater play"
@@ -23185,7 +23185,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Wamasu (luminescent organs); Lore:Guar (Glowgill); module 55 (night is authored world state, so night-only places are legitimate)"
     },
@@ -23253,7 +23253,7 @@
       "complexityBudget": "simple",
       "countBand": [
         3,
-        5
+        6
       ],
       "lore": "acceptance rule: large logical surfaces climbable by default; xanmeer-mesoamerican-reference"
     },
@@ -23319,8 +23319,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "module 55 (time/light/weather as first-class world state; mist is a climate field per region class)"
     },
@@ -23451,8 +23451,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        4
+        3,
+        6
       ],
       "lore": "scour finding: only 11 sinkholes province-wide — do not design types that assume this landform is common"
     },
@@ -23516,8 +23516,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "scour finding: median site sees 18% of its 1.2 km surroundings — a view is a reward"
     },
@@ -23584,7 +23584,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "scour: 60 waterfall candidates (capped), concentrated on the rim; openworld research (concealment as a gate)"
     },
@@ -23663,7 +23663,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "openworld research §3.2 (hermit: approach cost is the gate; the reward is knowledge, not loot)"
     },
@@ -23738,8 +23738,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        3,
-        5
+        1,
+        4
       ],
       "lore": "labour-and-bondage dossier (crossings have owners and therefore keepers)"
     },
@@ -23814,7 +23814,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "Lore:Argonian (tree-minder, grave-singer, sap-speaker, naheesh, root-herald as offices)"
     },
@@ -23882,7 +23882,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "region grammar: border mountains; scour: the rim is the only ground with genuine sightlines"
     },
@@ -23953,7 +23953,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "module 20 §11 (stage five of the foreign-infrastructure life cycle: reuse)"
     },
@@ -24171,8 +24171,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        1,
-        2
+        0,
+        3
       ],
       "lore": "Lore:All Flags Navy; Lore:Battle of Argonia; Lore:Umbriel"
     },
@@ -24252,7 +24252,7 @@
       "complexityBudget": "simple",
       "countBand": [
         2,
-        4
+        5
       ],
       "lore": "module 20 §12.3b (the reward of a notable hard-to-reach landform must not be nothing); Morrowind's Landmarks category"
     },
@@ -24320,8 +24320,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Xinchei-Konu; sky-moons-calendar dossier",
       "countBandNote": "Band widened 1->2 (2026-09-02 reconciliation): TWO canon-defensible instruments of utterly different character — Xinchei-Konu, the canon lowland monument with a hereditary jekka-wass keeper and a clean southern horizon, and the interior's Tsoko Stones, a canopy-gap ring that times the Root Talk convocation. Different regions, different signatures, no template reuse."
@@ -24704,10 +24704,71 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        3
+        3,
+        6
       ],
       "lore": "openworld research §3.2 (wreck geometry IS the level; tier by depth and lock)"
+    },
+    {
+      "type": "fallen-flier",
+      "class": "lone",
+      "family": "curiosity",
+      "recordScope": "poi",
+      "variants": [
+        "mage"
+      ],
+      "summary": "A body that arrived from the sky, far from any road, with the scrolls that put it there and a letter that explains nothing it meant to. The Tarhiel homage (cast roster §58, owner-requested 2026-08-25).",
+      "slots": {
+        "cue": "none; a body in an obscure corner, found by wandering",
+        "population": "0; one corpse",
+        "props": "a fallen body, scattered scrolls, a letter, the wrong shoes for the marsh",
+        "rewardFree": "the jump scrolls (module 76 §102 early-power easter egg) and the letter",
+        "rewardGated": "none",
+        "satellite": "none — province-unique"
+      },
+      "siting": {
+        "landformClasses": [
+          "any-firm-ground",
+          "any-shallow-marsh",
+          "flood-high"
+        ],
+        "waterRelation": "none",
+        "regionClasses": [
+          "interior swamp",
+          "rootland deep marsh",
+          "tropical jungle",
+          "fringe marsh"
+        ],
+        "neighbourRelation": "remote; deliberately far from every route"
+      },
+      "magnitude": null,
+      "cultures": [
+        "argonian"
+      ],
+      "dangerTiers": [
+        "D3",
+        "D4"
+      ],
+      "eraLayers": [
+        "current"
+      ],
+      "season": "all",
+      "statuses": [
+        "active"
+      ],
+      "assetPlan": [
+        "clutter"
+      ],
+      "assetGaps": [],
+      "traversal": [
+        "walk"
+      ],
+      "complexityBudget": "trivial",
+      "countBand": [
+        0,
+        3
+      ],
+      "lore": "uesp:Morrowind:Tarhiel (the Icarian Flight scrolls near Seyda Neen, 3E 427); docs/quests/36-cast-roster.md §58"
     }
   ],
   "countBandNote": "countBand for every recordScope='poi' type was RE-DERIVED on 2026-09-02 (verify/wrap agent, critique round) from the ACTUAL live record count in places-*.json — live meaning status not 'deferred' and not 'cut'. The original bands were a pre-derivation forecast summing to 637-739 poi records against a province envelope the coverage critique has since corrected to 467-596 (docs/research/phase11-critique/coverage-density.md S1/S2), so they no longer described anything real. Slack rule: n=0 -> [0,1] (type enumerated but unspent, available to Part 3); n=1 -> [1,2] and n=2 -> [2,3] so genuine singulars stay singular; 3<=n<=5 -> n+/-1; n>5 -> n+/-2. Independent per-type slack sums to a far wider envelope than the province total, which is why the province check now lives where it belongs — on the catalogue's live record count, not on the sum of these bands (test_catalogue.py). The band is a Part 3 maintenance envelope: a type drifting outside it is a signal to re-derive, not a licence to force-fit."

@@ -702,7 +702,10 @@ def check_region(ctx: Ctx, rec: dict) -> list[Finding]:
 
     text = identity_text(rec)
     for word, ok_regions in VIBE_TERRAIN_WORDS.items():
-        if word in text and got not in ok_regions:
+        # whole-word match only: substring matching read 'surface-swim' as
+        # 'surf' and 'seasonal' as 'the sea', which produced a dozen false
+        # 'prose says surf' findings across the coastal region files.
+        if re.search(rf"\b{re.escape(word)}\b", text) and got not in ok_regions:
             out.append(Finding(rid, region, "region", "low",
                                f"identity prose says '{word}'",
                                f"landed in '{got}'", "rewrite"))
