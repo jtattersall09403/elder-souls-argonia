@@ -78,6 +78,10 @@ export interface PlacesLayerProps {
 
 export function PlacesLayer({ baseUrl, initial, onUrlState, onFly }: PlacesLayerProps) {
   const [bundle, setBundle] = useState<PlottedPlacesBundle | null>(null);
+  // Owner 2026-09-03: the panels hid the map. Both fold to a one-line header
+  // and sit at the bottom corners, leaving the centre clear.
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [detailOpen, setDetailOpen] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [tracks, setTracks] = useState<MinorTracksBundle | null | "missing">(null);
   const [sites, setSites] = useState<CandidateSiteSet | null>(null);
@@ -176,16 +180,23 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly }: PlacesLayer
       )}
 
       {/* ---- filter panel ------------------------------------------------ */}
-      <div style={{ ...PANEL, position: "absolute", top: 8, left: 8, zIndex: 3, maxWidth: 330, display: "flex", flexDirection: "column", gap: 5 }}>
+      <div style={{ ...PANEL, position: "absolute", bottom: 8, left: 8, zIndex: 3, maxWidth: 330, maxHeight: "60%", overflowY: "auto", display: "flex", flexDirection: "column", gap: 5 }}>
         <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-          <strong>Places (Phase 11 plot)</strong>
+          <button onClick={() => setFilterOpen(!filterOpen)} title={filterOpen ? "collapse" : "expand"}
+            style={{ cursor: "pointer", background: "none", border: "none", color: "#e6ecf5", font: "600 12px system-ui", padding: 0 }}>
+            {filterOpen ? "▾" : "▸"} Places (Phase 11 plot)
+          </button>
+          {!filterOpen && bundle && <span style={{ opacity: 0.7 }}>{visible.length}/{places.length}</span>}
+          {filterOpen && <>
           <label style={{ cursor: "pointer" }}>
             <input type="checkbox" checked={showTracks} onChange={(e) => setShowTracks(e.target.checked)} /> minor tracks
           </label>
           <label style={{ cursor: "pointer" }}>
             <input type="checkbox" checked={showSites} onChange={(e) => setShowSites(e.target.checked)} /> candidate sites
           </label>
+          </>}
         </div>
+        {filterOpen && <>
         <div style={{ opacity: 0.8 }}>
           {loadError ? `places.json failed: ${loadError} (run python3 -m worldgen.export_places)` : bundle
             ? `${visible.length} shown of ${places.length} plotted · ${bundle.unsitedCount} unsited (not exported)`
@@ -210,15 +221,20 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly }: PlacesLayer
           </div>
         )}
         <div style={{ opacity: 0.6 }}>dot size = importance (T0 largest) · colour = region zone · dashed = ruined/abandoned/drowned</div>
+        </>}
       </div>
 
       {/* ---- detail panel ------------------------------------------------ */}
       {selected && (
-        <div style={{ ...PANEL, position: "absolute", top: 8, right: 8, zIndex: 3, width: 340, maxHeight: "90%", overflowY: "auto" }}>
+        <div style={{ ...PANEL, position: "absolute", bottom: 8, right: 8, zIndex: 3, width: 340, maxHeight: detailOpen ? "70%" : undefined, overflowY: "auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", gap: 8, alignItems: "baseline" }}>
-            <strong style={{ font: "600 14px system-ui" }}>{selected.name}</strong>
+            <button onClick={() => setDetailOpen(!detailOpen)} title={detailOpen ? "collapse" : "expand"}
+              style={{ cursor: "pointer", background: "none", border: "none", color: "#e6ecf5", font: "600 14px system-ui", padding: 0, textAlign: "left" }}>
+              {detailOpen ? "▾" : "▸"} {selected.name}
+            </button>
             <button onClick={() => setSelectedId(null)} style={{ cursor: "pointer", background: "none", border: "none", color: "#8b96a3" }}>✕</button>
           </div>
+          {detailOpen && <>
           <div style={{ opacity: 0.7, wordBreak: "break-all" }}>{selected.id}</div>
           <div style={{ marginTop: 4 }}>
             <span style={{ display: "inline-block", width: 10, height: 10, borderRadius: 10, background: zoneColour(bundle, selected.region), marginRight: 5 }} />
@@ -254,6 +270,7 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly }: PlacesLayer
             <Field k="positionM" v={selected.positionM} />
             <Field k="plotFacts" v={selected.plotFacts} />
           </div>
+          </>}
         </div>
       )}
     </>
