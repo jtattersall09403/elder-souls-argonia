@@ -26,7 +26,7 @@
     {
       "path": "world/sources/flora/palettes.json",
       "enforced": false,
-      "owner": "Phase 10 (vegetation) \u2014 version when the palette schema next changes"
+      "owner": "Phase 10 (vegetation) — version when the palette schema next changes"
     },
     {
       "path": "packages/game-core/src/anim/generated/rig-skyrim-humanoid.animations.json",
@@ -37,6 +37,11 @@
       "path": "packages/game-core/src/validation/visualScenarioExpectations.json",
       "enforced": false,
       "owner": "Phase 10b"
+    },
+    {
+      "path": "world/sources/routes/registry.json",
+      "enforced": true,
+      "_": "Route registry (worldgen.route_registry): stable ids/names for roads, boat lanes and named tracks; routes.json/waterways.json carry the same ids (stamped by compile_society)."
     }
   ]
 }

@@ -127,6 +127,11 @@ export interface PlottedPlace {
   reachedVia: string[];
   discovery: string | null;
   valueTier: string | null;
+  /** Catalogue v2 (2026-09-03): "primary (impact) + secondary…", the one-sentence hook, hostility baseline, interior summary. */
+  purpose: string | null;
+  hook: string | null;
+  stance: string | null;
+  interior: string | null;
 }
 
 export interface PlottedPlacesBundle {

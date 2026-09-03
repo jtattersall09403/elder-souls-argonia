@@ -18,8 +18,8 @@
   ],
   "groundControl": "ground-control.png",
   "portages": {
-    "canoeChannels": 8,
-    "portages": 5
+    "canoeChannels": 7,
+    "portages": 9
   },
   "note": "whole province, true metres (x1 at geometry time, 0015); mild conditioning (0005); chunks via worldgen.compile_chunks"
 }

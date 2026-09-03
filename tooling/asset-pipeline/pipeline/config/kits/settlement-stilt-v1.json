@@ -1,6 +1,6 @@
 {
  "id": "settlement-stilt-v1",
- "description": "Murkmire reed/stilt building culture — the BM&V passerelles walkway system (curving, climbing, branching), stilt house shells, the vanilla plank/thatch shack kit with its broken variants, waterside work props and poled rafts. Only plank_ferry_swamp_01/03 and rowboat_ferry_swamp_01 carry real hull geometry in the Skyrim Ferries pool; swamp_02/04/05/06 are editor markers and are excluded. Second sourcing pass adds the Skyfall Hist tree, Hist flowers, cairns/rune circle as grave-stake stand-ins, a real dugout canoe and a poled ferry raft. Round 5 adds Here There Be Monsters' Black Marsh village set: two bamboo hut forms with a door, the wicker furniture family, and the Kothringi stilt platform and Tamu wood dock/plank family (with broken variants) — the first purpose-built Black Marsh dwelling forms we own beyond a single shell.",
+ "description": "Murkmire reed/stilt building culture \u2014 the BM&V passerelles walkway system (curving, climbing, branching), stilt house shells, the vanilla plank/thatch shack kit with its broken variants, waterside work props and poled rafts. Only plank_ferry_swamp_01/03 and rowboat_ferry_swamp_01 carry real hull geometry in the Skyrim Ferries pool; swamp_02/04/05/06 are editor markers and are excluded. Second sourcing pass adds the Skyfall Hist tree, Hist flowers, cairns/rune circle as grave-stake stand-ins, a real dugout canoe and a poled ferry raft. Round 5 adds Here There Be Monsters' Black Marsh village set: two bamboo hut forms with a door, the wicker furniture family, and the Kothringi stilt platform and Tamu wood dock/plank family (with broken variants) \u2014 the first purpose-built Black Marsh dwelling forms we own beyond a single shell. TROPICALISED: `textureOverlayPools: [\"tropical\"]` puts Tropical Skyrim's retextures (vanilla filenames, architecture-TEXTURE-only \u2014 it ships no architecture meshes) ahead of the vanilla texture fallback, so the vanilla-backed pieces read hot and wet instead of Nordic grey. A pool's own textures still win, so the sourced-mod pieces keep their authored look. Drop the key to rebuild the un-overlaid variant.",
  "culture": "argonian-stilt",
  "output": "tooling/asset-pipeline/output/kits/settlement-stilt-v1.glb",
  "lodRatios": [
@@ -8,6 +8,15 @@
   0.12
  ],
  "textureMaxSize": 512,
+ "textureOverlayPools": [
+  "tropical"
+ ],
+ "textureAliases": {
+  "textures/clutter/stockade/stockadeplanks01.dds": "textures/architecture/farmhouse/woodwall01.dds",
+  "textures/clutter/stockade/stockadeplanks01_n.dds": "textures/architecture/farmhouse/woodwall01_n.dds",
+  "textures/clutter/stockade/stockadewood01.dds": "textures/architecture/farmhouse/woodpost02.dds",
+  "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds"
+ },
  "assets": [
   {
    "asset": "bmv:architecture/stilthouse/stilthouseext"

@@ -255,6 +255,29 @@ POOLS: tuple[Pool, ...] = (
         directory="{vault}/skyrim-source/mod-sources/here-there-be-monsters-cipactli-35933/extracted",
         plugins=[],
     ),
+    # The Gideon/Blackrose civic-and-military language (Phase 11 vibe-sheet
+    # audit §4): Morrowind-Imperial masonry, not Nordic thatch or BM&V's
+    # medieval-European castle. Modder's resource, credit required.
+    Pool(
+        id="mwkeep",
+        label="Morrowind Imperial Keep Set (Remodeled)",
+        source="https://www.nexusmods.com/skyrimspecialedition/mods/133090",
+        credit="Morrowind Imperial Keep Set (Remodeled) (Nexus SSE 133090, Tesak1243)",
+        directory="{vault}/skyrim-source/mod-sources/morrowind-imperial-keep-133090/extracted",
+        plugins=[],
+    ),
+    # The domestic tier under the same masonry — built ON 133090 and
+    # retextured. v2.0 bundles several other credited modder resources
+    # (Tamriel Rebuilt-style walls, Oaristys props), like BM&V does.
+    Pool(
+        id="hlaalu",
+        label="Morrowind Hlaalu Architecture",
+        source="https://www.nexusmods.com/skyrimspecialedition/mods/157997",
+        credit="Morrowind Hlaalu Architecture (Nexus SSE 157997, Angelio; uploaded by "
+               "Kai4304), bundling many credited modder resources",
+        directory="{vault}/skyrim-source/mod-sources/morrowind-hlaalu-157997/extracted",
+        plugins=[],
+    ),
 )
 
 

@@ -159,6 +159,9 @@ def main() -> None:
     Image.fromarray(culture_img).save(PREVIEW_DIR / "soc-cultures.png")
 
     (PREVIEW_DIR / "routes.json").write_text(json.dumps({"routes": routes_out}))
+    # stamp the registry ids/names onto both geometry files (worldgen.route_registry)
+    from .route_registry import attach as _attach_route_ids
+    _attach_route_ids()
     meta = {
         "dangerLegend": {str(b): {"name": name, "rgb": list(rgb)} for b, (name, rgb) in DANGER_BANDS.items()},
         "cultureLegend": {name: {"name": name, "rgb": list(spec["colour"])} for name, spec in CULTURES.items()},

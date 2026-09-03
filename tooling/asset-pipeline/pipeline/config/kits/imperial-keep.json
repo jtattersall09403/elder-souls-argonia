@@ -1,0 +1,277 @@
+{
+ "id": "imperial-keep",
+ "description": "Morrowind-Imperial civic and military kit \u2014 curtain walls with gate, corner and destroyed variants, wall stairs, big and small towers in base/shaft/top modules, two keep blocks, guard towers, foundations, plaza, low stone yard walls, ledges and their steps, river bridges and stone docks, stables, and the well/flagpole/pedestal civic clutter, plus rubble condition variants. This is the Gideon/imperial-fringe language the Phase 11 vibe-sheet audit asked for (\u00a74): masonry and a squat courthouse tower, NOT the Nordic thatch farmhouse the catalogue had been leaning on, and NOT BM&V's medieval-European castle (which stays with the penal south so the two Imperial regions read differently). Interior hall/room modules and the animated doors are deliberately left out: this kit is the exterior silhouette set. NOT tropicalised \u2014 the set is Morrowind slate-and-stone and reads correctly hot-dry as well as hot-wet; the vine/damp pass belongs to scatter, not to a texture overlay.",
+ "culture": "imperial",
+ "output": "tooling/asset-pipeline/output/kits/imperial-keep.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "assets": [
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed02"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01destroyed01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorout01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallent01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01destroyed01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwalltower01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs02"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs03"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallstairs04"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbg01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgbase01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop02"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersm01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmbase01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmtop01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep02"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchentrance01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchentrance02"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01destroyed01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower02"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation02"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfreeplat01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchplaza01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchpool01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparcharrowslit01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparcharrowslit02"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01tall"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01rubble"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight02"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight02tall"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraightshort01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraightshort02"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallcor01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallcor02"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost02"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost03"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost04"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledge01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledge02"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgecorin01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgecorout01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgemid01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgemid02"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairs01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsl01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsmid01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/ledges/mwimparchledgestairsr01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/bridges/mwimparchbridge01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/bridges/mwimparchbridge02"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock02"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatfront01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatmid01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorin01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdockplatcorout01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstablestraight01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendr01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchwell01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchflagpole01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchpedestal01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchpedestal02"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchplanter01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchmooring01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchsewer01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/clutter/mwimparchaltar01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile02"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile03"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece02"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece03"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchfloorchunk01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchfloorchunk02"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorsingle01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorload01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/doors/mwimparchdoorjail01"
+  }
+ ]
+}

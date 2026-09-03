@@ -185,3 +185,82 @@ per the owner's Phase-11 scope rule.
   layouts silently export every material untextured, because Blender resolves a
   NIF's texture paths relative to the folder above `meshes/` — this cost a full
   rebuild to find and is now written into the pipeline README.
+
+---
+
+# Entry 2 — Phase 11 Part 4: the Imperial civic tier (Gideon) and tropicalisation
+
+**Delivered 2026-09-03**, against the findings in
+[phase11-vibe-sheet-asset-audit.md](phase11-vibe-sheet-asset-audit.md) §4 (S1,
+S2) and §5 (T1, T2). Answers the owner's note that Gideon, Archon and Alten
+Corimont all read as the same Nordic thatch village.
+
+## What was downloaded
+
+| Mod | Nexus | Version | Archive sha256 | Pool | Verdict |
+|---|---|---|---|---|---|
+| Morrowind Imperial Keep Set (Remodeled) (Tesak1243) | SSE 133090 | 1.0 | `d22974919cdd3d6cea25f2b0b0851f2cb636a7569b7c3d1f8ae7b34c8584b9c0` | `mwkeep` | **164 meshes, all architecture.** A complete Morrowind-Imperial fort language: curtain walls with gate/corner/destroyed variants, wall stairs, big+small stackable towers (base/shaft/top), two keep blocks, guard towers, foundations, plaza, low stone yard walls, ledges and steps, river bridges and stone docks, stables, civic clutter, rubble variants, plus interior hall/room/spiral-stair modules and 8 animated doors |
+| Morrowind Hlaalu Architecture (Angelio, uploaded by Kai4304) | SSE 157997 | v2.0 | `c32811d704f25d33fe421e20d1258a965232c6fafc530a2f99d95c1f74c8cad7` | `hlaalu` | **127 meshes.** Premade and modular Hlaalu houses, a base/middle/top tower stack, yard/street walls with broken variants, steps, awnings, fences, stone blocks, small bridges, dockside cranes and lamp posts. Bundles other credited resources (Tamriel-Rebuilt-style walls, Oaristys props) and a `MorrowindImperialFort/` folder that duplicates 133090 |
+
+Permissions checked via `/v1/games/skyrimspecialedition/mods/{id}.json`: both
+`published` + `available`, both category 82 (modder's resources), credit
+required, no clause forbidding use in a public non-commercial work. Archives
+live in the vault at `mod-sources/morrowind-imperial-keep-133090/` and
+`mod-sources/morrowind-hlaalu-157997/`; both ship a `Data/` wrapper, flattened
+at unpack time so `meshes/` and `textures/` are siblings (the failure mode
+recorded in entry 1).
+
+## Kits built
+
+| Kit | Pieces | GLB | Notes |
+|---|---|---|---|
+| `imperial-keep` | **88** of 164 | 20.6 MB | Exterior silhouette set only — interior hall/room modules and the animated doors are left in the pool for a later interiors pass. 0 textures missing, 0 conversion failures |
+| `hlaalu-domestic` | **68** of 127 | 21.1 MB | The `Ruins/`, `Winterhold/`, `Seaview/`, `Sheogorad Ressource/` and `Redoran/` folders are Nordic or interior filler and are excluded. 0 textures missing, 0 conversion failures |
+
+Neither kit is tropicalised: the sets are Morrowind slate-and-ashlar, which
+reads correctly in a hot climate, and the damp/vine pass belongs to scatter.
+
+New inventory families `arch.imperial.morrowind-keep` and
+`arch.imperial.hlaalu-domestic`; new catalogue aliases `imperial-keep` and
+`hlaalu-domestic`. **Applying them to records is a separate job** — the
+catalogue's imperial-fringe records still name `vanilla-farmhouse` (audit
+proposal D1 / change-list item 7).
+
+## Tropicalisation — the mechanism (audit T1/T2)
+
+Tropical Skyrim ships **no architecture meshes**; its tropicalisation of the
+farmhouse/dock/bridge/city sets is textures under **vanilla filenames**. So the
+fix is a build-config key, not a parallel kit family:
+
+- **`textureOverlayPools: ["tropical"]`** (new, `pipeline/build_kit.py`) inserts
+  the overlay pool's own texture directory **ahead of the vanilla fallback** in
+  every pool's search order. A pool's *own* textures still win, so a sourced mod
+  keeps its authored look and only the pieces that would have fallen back on
+  vanilla art get tropicalised; for the `vanilla` pool itself that is the whole
+  kit. Deterministic, zero catalogue edits, and removing the key rebuilds the
+  un-overlaid kit byte-for-byte.
+- **`textureAliases`** (existing key) re-points the shack kit's four
+  `clutter/stockade` plank/wood diffuse+normal files — which Tropical does not
+  cover, and which 422 alias uses depend on — at Tropical's farmhouse
+  `woodwall01`/`woodpost02`. Re-pointing an existing texture, not new art.
+
+Applied to and rebuilt: **`settlement-imperial-v1`** (farmhouse + Solitude dock
+family) and **`settlement-stilt-v1`** (vanilla shack kit). `settlement-mud-v1`
+was **not** overlaid — it contains no vanilla-pool assets, so the key would be a
+no-op. There is no `bridges` kit yet; the vanilla bridge meshes are aliased in
+the catalogue but not yet in any kit, so tropicalising them is deferred to
+whichever kit first carries them.
+
+**Mountain variant:** no `vanilla-farmhouse-mountain` alias was added. Only 42
+live records sit in `border mountains`, nothing in the pipeline consumes a
+second kit id, and the un-tropicalised look is simply the **same kit built
+without `textureOverlayPools`** — i.e. it is a build variant, not an asset
+family. Add the alias only when a compiler actually needs to select between two
+built GLBs.
+
+## Still open from the audit
+
+- Red Cyrodiil pantile roofs (audit §4) — treat as a texture problem; Rally's
+  City Roofs / Better Towns Textures not yet evaluated.
+- The record-level alias swaps (audit D1, change-list items 4–7) and the
+  re-render of the eight vibe sheets from the overlaid kits.

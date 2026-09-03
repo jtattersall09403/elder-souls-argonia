@@ -49,6 +49,34 @@ rest become required as `workflow` advances):
   importance      *importanceTier (0 = canon major … 4 = density fill)
   workflow        *workflow (derived|plotted|authored|frozen)
 
+  --- schemaVersion 2 (Part 4 step 2, owner feedback 2026-09-03; research:
+      docs/research/place-purpose-hostility-and-dungeon-balance.md) ---
+  player purpose  *playerPurpose {primary, secondary[], impact, hook} — WHY the
+                  player's experience is changed by going here (PURPOSES),
+                  impact ∈ mild|real|major|province-changing; hook = one
+                  plain sentence a player could say ("the only smith south of
+                  the lake, if you can pay in favours")
+  hostility       *hostility {baseline, owner?, flips[], clearable, respawn} —
+                  who starts the fight (STANCES); flips are ordered
+                  {to, when, scope?} with `when` in the quests-85 condition
+                  vocabulary; orthogonal to dangerTier (how lethal)
+  interior        *interior {kind, family?, sizeBand?, wetFraction?,
+                  entranceCount?, exteriorShell?, programRef?} — the Phase 12
+                  placeholder; kind none ⇒ the rest absent
+  contents        *contents {creatures[], npcs[], loot[]} — ≤ 4 slots each,
+                  {slotId, role, registerRef (null until Phase 13), danger?,
+                  count?, ...}; a consistency record, not an encounter table
+  reward          rewardProfile.kinds now draws only from REWARD_KINDS (20)
+  travel          travelStation? {modes[], destinations[]} — a Morrowind-style
+                  pay-and-go node (boat/ferry/rootworm/guide); destinations are
+                  place ids that also carry a travelStation
+  reserve         relationsReserved? — edges pruned because their target is
+                  deferred/cut; same shape as relations; restored if the target
+                  is promoted (owner ruling 2026-09-03)
+  route ids       relations.patrols/tolls and travelServiceEdges reference
+                  world/sources/routes/registry.json ids (route.road.*,
+                  route.boat.*, route.track.*)
+
 Determinism: files sorted by id; the loader rejects unsorted or duplicate
 IDs. Permanence: `--check` compares against git HEAD and fails if any
 previously committed id is missing (cut places must remain with
@@ -69,7 +97,8 @@ import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 1            # taxonomy.json / asset-aliases.json
+PLACES_SCHEMA_VERSION = 2     # places-<region>.json (v2: playerPurpose, hostility, interior, contents)
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 CATALOGUE_DIR = REPO_ROOT / "world" / "sources" / "catalogue"
@@ -91,6 +120,37 @@ WORKFLOW = ("derived", "plotted", "authored", "frozen")
 MAGNITUDES = {None, "M1", "M2", "M3", "M4", "M5"}
 SOCKET_KINDS = ("scene", "evidence", "station", "marks")
 
+# --- schemaVersion 2 vocabularies (typed, per engineering standard 9) ---
+PURPOSES = {"service-hub", "safe-rest", "combat-challenge", "stealth-challenge", "dungeon-delve",
+            "traversal-puzzle", "vista-landmark", "navigation-aid", "lore-reveal", "faction-gateway",
+            "quest-anchor", "unique-item", "resource-source", "social-drama", "wonder-oddity",
+            "hidden-secret"}
+IMPACTS = ("mild", "real", "major", "province-changing")
+STANCES = {"hostile", "guarded", "wary", "neutral", "friendly", "sanctuary"}
+RESPAWN = {"none", "slow", "seasonal", "faction-refills"}
+FLIP_SCOPES = {"place", "occupantGroup", "namedRole"}
+INTERIOR_KINDS = {"none", "building", "delve", "dungeon", "complex", "warren"}
+INTERIOR_FAMILIES = {"xanmeer-complex", "root-cavern", "flooded-cave", "smuggler-den",
+                     "kothringi-lilmothiit-site", "ayleid-nedic-ruin", "imperial-fort",
+                     "abandoned-plantation", "hist-sanctum", "sinkhole-ruin", "dwelling",
+                     "civic-hall", "shipwreck", "burrow-warren"}
+SIZE_BANDS = {"S0", "S1", "S2", "S3", "S4"}
+DUNGEON_KINDS = {"delve", "dungeon", "complex", "warren"}
+REWARD_KINDS = {"trade-access", "services", "rest-shelter", "training", "unique-item", "gear",
+                "loot-cache", "materials", "resource-node", "enchanting-access", "lore-fragment",
+                "map-knowledge", "route-unlock", "quest-hook", "evidence", "rumour", "faction-access",
+                "power-boon", "named-foe", "claim"}
+COUNT_BANDS = {"single", "pair", "few", "band", "swarm"}
+CREATURE_ROLES = {"apex-ambusher", "pack-hunter", "territorial-grazer", "scavenger", "swarm",
+                  "guardian-boss", "something-old", "hazard-fauna", "domestic"}
+NPC_ROLES = {"named-keeper", "lieutenant", "rank-and-file", "captive", "merchant", "hermit",
+             "quest-giver", "priest", "official", "crew", "family", "patrol", "trainer", "boss"}
+LOOT_ROLES = {"hidden-cache", "grave-goods", "strongroom", "workshop-stock", "shrine-offerings",
+              "wreck-cargo", "personal-effects", "ledger-or-document", "unique-item", "provisions"}
+TRAVEL_MODES = {"boat", "ferry", "rootworm", "guide", "lighter", "pilot", "cart", "porter"}
+CONTENT_SLOT_LIMIT = 4
+DANGER_TIERS = ("D0", "D1", "D2", "D3", "D4", "D5")
+
 # Fields required at each workflow rung (cumulative).
 REQUIRED_AT = {
     "derived": [
@@ -102,6 +162,10 @@ REQUIRED_AT = {
         # and how you get in; they were strict-mode-only while the back-fill
         # was in flight and are now simply required.
         "season", "eraLayers", "densityLayer", "entrance", "underwaterAccess",
+        # schemaVersion 2 (2026-09-03): the four blocks the owner asked for —
+        # what the place is FOR, who starts the fight, what is inside, and
+        # what you find there. Migrated with heuristics, then reviewed per region.
+        "playerPurpose", "hostility", "interior", "contents",
     ],
     "plotted": ["position", "whySiteWon", "candidatesConsidered"],
     "authored": ["vibe", "assetPlan", "occupants", "rewardProfile", "relations"],
@@ -155,8 +219,8 @@ def load_region_files(catalogue_dir: Path = CATALOGUE_DIR) -> list[RegionFile]:
     out = []
     for path in sorted(catalogue_dir.glob("places-*.json")):
         data = json.loads(path.read_text())
-        if data.get("schemaVersion") != SCHEMA_VERSION:
-            raise ValueError(f"{path}: schemaVersion must be {SCHEMA_VERSION}")
+        if data.get("schemaVersion") != PLACES_SCHEMA_VERSION:
+            raise ValueError(f"{path}: schemaVersion must be {PLACES_SCHEMA_VERSION}")
         region = path.stem.removeprefix("places-")
         if data.get("region") != region:
             raise ValueError(f"{path}: region field must be '{region}'")
@@ -224,6 +288,110 @@ def validate_record(rec: dict, region: str, classes: dict, errors: list[str]) ->
             path = src.split()[0].split("#")[0].rstrip(":,;")
             if not (REPO_ROOT / path).exists():
                 _fail(errors, rid, f"broken citation path: {path}")
+    _validate_v2_blocks(rec, rid, errors)
+
+
+def _validate_v2_blocks(rec: dict, rid: str, errors: list[str]) -> None:
+    """schemaVersion 2: playerPurpose, hostility, interior, contents,
+    rewardProfile.kinds, travelStation. Each check is one line the region
+    reviewers can read as a rule."""
+    pp = rec.get("playerPurpose")
+    if pp is not None:
+        if pp.get("primary") not in PURPOSES:
+            _fail(errors, rid, f"playerPurpose.primary must be one of {sorted(PURPOSES)}")
+        sec = pp.get("secondary", [])
+        if not isinstance(sec, list) or any(x not in PURPOSES for x in sec) or pp.get("primary") in sec:
+            _fail(errors, rid, "playerPurpose.secondary must be a list of PURPOSES not containing primary")
+        if pp.get("impact") not in IMPACTS:
+            _fail(errors, rid, f"playerPurpose.impact must be one of {IMPACTS}")
+        if not (pp.get("hook") or "").strip():
+            _fail(errors, rid, "playerPurpose.hook must be one plain sentence")
+        vt = (rec.get("rewardProfile") or {}).get("valueTier")
+        if vt and pp.get("impact") in IMPACTS:
+            # roughly monotone: tier-1 never 'major'+, tier-4/5 never 'mild'
+            rank = IMPACTS.index(pp["impact"])
+            tier = int(vt.split("-")[1]) if vt.startswith("tier-") else None
+            if tier == 1 and rank >= 2:
+                _fail(errors, rid, "playerPurpose.impact major+ contradicts rewardProfile.valueTier tier-1")
+            if tier in (4, 5) and rank == 0:
+                _fail(errors, rid, "playerPurpose.impact mild contradicts rewardProfile.valueTier tier-4/5")
+    h = rec.get("hostility")
+    if h is not None:
+        if h.get("baseline") not in STANCES:
+            _fail(errors, rid, f"hostility.baseline must be one of {sorted(STANCES)}")
+        if h.get("respawn") not in RESPAWN:
+            _fail(errors, rid, f"hostility.respawn must be one of {sorted(RESPAWN)}")
+        if not isinstance(h.get("clearable"), bool):
+            _fail(errors, rid, "hostility.clearable must be a bool")
+        for i, fl in enumerate(h.get("flips", []) or []):
+            if fl.get("to") not in STANCES or not isinstance(fl.get("when"), dict) or not fl["when"]:
+                _fail(errors, rid, f"hostility.flips[{i}] needs to∈STANCES and a non-empty quests-85 `when` object")
+            if fl.get("scope", "place") not in FLIP_SCOPES:
+                _fail(errors, rid, f"hostility.flips[{i}].scope must be one of {sorted(FLIP_SCOPES)}")
+        dt = rec.get("dangerTier")
+        if h.get("baseline") == "hostile" and dt in ("D0", "D1"):
+            _fail(errors, rid, "hostility hostile at D0/D1 — raise dangerTier or soften the stance")
+        if h.get("baseline") == "sanctuary" and dt in ("D4", "D5") and not h.get("environmentalDanger"):
+            _fail(errors, rid, "sanctuary at D4/D5 needs hostility.environmentalDanger: true (the danger is not people)")
+    it = rec.get("interior")
+    if it is not None:
+        kind = it.get("kind")
+        if kind not in INTERIOR_KINDS:
+            _fail(errors, rid, f"interior.kind must be one of {sorted(INTERIOR_KINDS)}")
+        elif kind != "none":
+            if it.get("family") not in INTERIOR_FAMILIES:
+                _fail(errors, rid, f"interior.family must be one of {sorted(INTERIOR_FAMILIES)}")
+            if it.get("sizeBand") not in SIZE_BANDS:
+                _fail(errors, rid, "interior.sizeBand must be S0–S4")
+            wf = it.get("wetFraction")
+            if not isinstance(wf, (int, float)) or not 0 <= wf <= 1:
+                _fail(errors, rid, "interior.wetFraction must be 0–1")
+            if not isinstance(it.get("entranceCount"), int) or it["entranceCount"] < 1:
+                _fail(errors, rid, "interior.entranceCount must be ≥ 1")
+            if rec.get("entrance") == "none":
+                _fail(errors, rid, "interior present but entrance is 'none' — how do you get in?")
+        elif rec.get("entrance") not in ("none", "gate", None) and rec.get("classification", {}).get("class") in ("lair", "ruin"):
+            _fail(errors, rid, "a lair/ruin with an entrance must describe its interior (kind ≠ none)")
+    ct = rec.get("contents")
+    if ct is not None:
+        for key, roles in (("creatures", CREATURE_ROLES), ("npcs", NPC_ROLES), ("loot", LOOT_ROLES)):
+            slots = ct.get(key)
+            if not isinstance(slots, list):
+                _fail(errors, rid, f"contents.{key} must be a list")
+                continue
+            if len(slots) > CONTENT_SLOT_LIMIT:
+                _fail(errors, rid, f"contents.{key} has more than {CONTENT_SLOT_LIMIT} slots — a consistency record, not an encounter table")
+            seen_slots: set[str] = set()
+            for sl in slots:
+                sid = sl.get("slotId", "")
+                if not sid or sid in seen_slots:
+                    _fail(errors, rid, f"contents.{key} slotId missing or duplicate: {sid!r}")
+                seen_slots.add(sid)
+                if sl.get("role") not in roles:
+                    _fail(errors, rid, f"contents.{key} role {sl.get('role')!r} not in the seeded role list")
+                if "registerRef" not in sl:
+                    _fail(errors, rid, f"contents.{key}[{sid}] needs registerRef (null until Phase 13)")
+                if sl.get("count", "single") not in COUNT_BANDS:
+                    _fail(errors, rid, f"contents.{key}[{sid}].count must be one of {sorted(COUNT_BANDS)}")
+                d = sl.get("danger")
+                if d is not None and (d not in DANGER_TIERS or DANGER_TIERS.index(d) > DANGER_TIERS.index(rec.get("dangerTier", "D5"))):
+                    _fail(errors, rid, f"contents.{key}[{sid}].danger exceeds the place's dangerTier")
+                if key == "loot" and sl.get("payoff") is not None and sl["payoff"] not in REWARD_KINDS:
+                    _fail(errors, rid, f"contents.loot[{sid}].payoff must be one of REWARD_KINDS")
+    rp = rec.get("rewardProfile")
+    if rp is not None:
+        bad = [k for k in rp.get("kinds", []) if k not in REWARD_KINDS]
+        if bad:
+            _fail(errors, rid, f"rewardProfile.kinds {bad} not in REWARD_KINDS (20 typed values)")
+    ts = rec.get("travelStation")
+    if ts is not None:
+        if not isinstance(ts.get("modes"), list) or not ts["modes"] or any(m not in TRAVEL_MODES for m in ts["modes"]):
+            _fail(errors, rid, f"travelStation.modes must be a non-empty list from {sorted(TRAVEL_MODES)}")
+        if not isinstance(ts.get("destinations"), list):
+            _fail(errors, rid, "travelStation.destinations must be a list of place ids")
+    rr = rec.get("relationsReserved")
+    if rr is not None and not isinstance(rr, dict):
+        _fail(errors, rid, "relationsReserved must be an object shaped like relations")
 
 
 def committed_ids(catalogue_dir: Path = CATALOGUE_DIR) -> set[str]:
@@ -279,11 +447,45 @@ def validate_catalogue(catalogue_dir: Path = CATALOGUE_DIR, check_permanence: bo
                 for slug in rec.get("assetPlan", []) or []:
                     if isinstance(slug, str) and slug not in aliases:
                         errors.append(f"{rid}: assetPlan slug '{slug}' not in asset-aliases.json")
+    _validate_cross_record(catalogue_dir, errors)
     if check_permanence:
         missing = committed_ids(catalogue_dir) - seen
         for rid in sorted(missing):
             errors.append(f"{rid}: committed id has DISAPPEARED — cut places keep their record with status 'cut'")
     return errors
+
+
+def _validate_cross_record(catalogue_dir: Path, errors: list[str]) -> None:
+    """Edges must point at LIVE records (deferred/cut targets go to
+    relationsReserved — owner ruling 2026-09-03); travel stations must point at
+    other travel stations; route refs must resolve in the route registry."""
+    try:
+        from .route_registry import alias_map, resolve
+        aliases = alias_map()
+    except Exception:  # registry missing on a partial checkout
+        aliases = None
+    recs = {r["id"]: r for rf in load_region_files(catalogue_dir) for r in rf.places}
+    live = {rid for rid, r in recs.items() if r.get("status") not in ("deferred", "cut")}
+    for rid, rec in recs.items():
+        if rid not in live:
+            continue
+        rel = rec.get("relations") or {}
+        for key in ("dependsOn", "supplies", "rivals", "patrols", "visibleFrom", "reachedVia", "tolls"):
+            for v in rel.get(key, []) or []:
+                if isinstance(v, str) and v.startswith("place.") and v not in live:
+                    errors.append(f"{rid}: relations.{key} → {v} is not a live record (park it in relationsReserved)")
+                if isinstance(v, str) and v.startswith("route.") and aliases is not None and resolve(v, aliases) is None:
+                    errors.append(f"{rid}: relations.{key} → {v} not in world/sources/routes/registry.json")
+        for e in rel.get("travelServiceEdges", []) or []:
+            if isinstance(e, str) and ":route." in e and aliases is not None and resolve(e.split(":", 1)[1], aliases) is None:
+                errors.append(f"{rid}: travelServiceEdges {e!r} names an unregistered route")
+        ts = rec.get("travelStation")
+        if ts:
+            for d in ts.get("destinations", []):
+                if d not in live:
+                    errors.append(f"{rid}: travelStation destination {d} is not a live record")
+                elif not recs[d].get("travelStation"):
+                    errors.append(f"{rid}: travelStation destination {d} has no travelStation of its own")
 
 
 def main() -> int:

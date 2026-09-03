@@ -85,6 +85,41 @@ reward-pass call, not a rename. `"tier-2 hub"` collapsed to `tier-2`.
 - Cross-region links are the point — the derivation agents could not see each
   other. Only reference IDs that exist; the validator and `npm test` check.
 
+## schemaVersion 2 — purpose, stance, interior, contents (2026-09-03)
+
+Owner feedback at touchpoint ② (decision 0041 Part 4 step 2): the records said
+*why a place exists* but not *why the player should go*, who starts a fight
+there, what is inside, or what you find. Four typed blocks were added to every
+record (vocabularies in `catalogue.py`; design and the reference-game research
+in [docs/research/place-purpose-hostility-and-dungeon-balance.md](../../../docs/research/place-purpose-hostility-and-dungeon-balance.md)):
+
+| block | what it answers | key fields |
+|---|---|---|
+| `playerPurpose` | why going here changes the player's experience | `primary` (16 purposes), `secondary[]`, `impact` mild/real/major/province-changing, `hook` (one plain sentence), `reviewed` |
+| `hostility` | who starts it | `baseline` hostile/guarded/wary/neutral/friendly/sanctuary, `owner`, `flips[]` ({to, when} in the quests-85 vocabulary), `clearable`, `respawn` |
+| `interior` | the Phase 12 placeholder | `kind` none/building/delve/dungeon/complex/warren, `family` (module 70 §47), `sizeBand` S0–S4, `wetFraction`, `entranceCount`, `exteriorShell`, `programRef` |
+| `contents` | what you find (Phase 13 placeholder) | ≤4 `creatures` / `npcs` / `loot` slots, each `{slotId, role, registerRef: null, …}` |
+
+`rewardProfile.kinds` is now the 20-value `REWARD_KINDS` list (was ~130
+free-text labels). `dangerTier` (how lethal) and `hostility.baseline` (who
+starts it) are orthogonal — a D4 leviathan pool is `neutral`; a D1 toll gate is
+`guarded`. The migration (`worldgen.migrate_catalogue_v2`) filled every block
+heuristically and set `playerPurpose.reviewed: false`; the per-region review
+pass flips it as it corrects each record.
+
+**Routes and travel.** Route references (`relations.patrols`/`tolls`,
+`travelServiceEdges`) must resolve in the **route registry**
+`world/sources/routes/registry.json` (`worldgen.route_registry`; ids
+`route.road.*`, `route.boat.*`, `route.track.*`; legacy spellings are aliases).
+A record that sells passage carries `travelStation {modes[], destinations[]}` —
+the Morrowind-style pay-and-go network; destinations must be live records that
+are stations themselves.
+
+**Reserved edges.** Any relation whose target is deferred or cut lives in
+`relationsReserved` (same shape as `relations`), never in `relations` — the
+validator fails on a live edge to a non-live record. Promote the target and
+move the edge back.
+
 ## Per-region naming register and signature asset pool
 
 The variety critique's finding was that a reader could not tell one region's

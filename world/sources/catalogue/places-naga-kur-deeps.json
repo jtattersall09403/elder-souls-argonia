@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "region": "naga-kur-deeps",
   "seed": "phase11-part1-naga-kur-deeps-1",
   "places": [
@@ -68,8 +68,8 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "passage",
-          "rest"
+          "route-unlock",
+          "rest-shelter"
         ],
         "valueTier": "tier-2"
       },
@@ -125,7 +125,7 @@
       "candidatesConsidered": [
         {
           "siteId": "site.scour.lake-standing-water.cove-018",
-          "score": 4.026,
+          "score": 4.002,
           "whyLost": "lost on score"
         },
         {
@@ -134,8 +134,8 @@
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1165",
-          "score": 3.305,
+          "siteId": "site.free.any-shallow-marsh-1201",
+          "score": 3.315,
           "whyLost": "lost on score"
         }
       ],
@@ -147,6 +147,34 @@
         "distanceToRouteM": 218.3,
         "distanceToWaterM": 0.0,
         "score": 4.027
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "traversal-puzzle",
+        "secondary": [],
+        "impact": "real",
+        "hook": "The midpoint of a dive that cannot be made on one breath",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "flooded-cave",
+        "sizeBand": "S2",
+        "wetFraction": 0.8,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
       }
     },
     {
@@ -216,8 +244,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "unique item (contested)"
+          "lore-fragment",
+          "unique-item"
         ],
         "valueTier": "tier-2"
       },
@@ -262,38 +290,85 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.12234,
-        "v": 0.86676
+        "u": 0.2733,
+        "v": 0.81916
       },
       "positionM": [
-        902.0,
-        6391.0
+        2015.2,
+        6040.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.interior-swamp.cliff-bench-045",
-          "score": 2.944,
-          "whyLost": "taken by place.naga-kur-deeps.naga-highway-camp-active-north"
+          "siteId": "site.scour.interior-swamp.islet-020",
+          "score": 2.906,
+          "whyLost": "too close to place.naga-kur-deeps.bereaved-hist-less-since"
         },
         {
-          "siteId": "site.scour.interior-swamp.islet-020",
+          "siteId": "site.scour.interior-swamp.islet-030",
           "score": 2.906,
           "whyLost": "taken by place.naga-kur-deeps.guide-camp-poling"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1243",
-          "score": 2.765,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.interior-swamp.cliff-bench-045",
+          "score": 2.861,
+          "whyLost": "too close to place.naga-kur-deeps.horwalli-waterworks-deeps"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 336 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on region, hinterland, danger; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 395 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on region, hinterland, danger; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 3,
-        "distanceToRouteM": 336.1,
-        "distanceToWaterM": 71.5,
-        "score": 2.769
+        "distanceToRouteM": 394.9,
+        "distanceToWaterM": 16.5,
+        "score": 2.758
+      },
+      "hostility": {
+        "baseline": "guarded",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "faction-gateway",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "A clearing with a landing, so patrons can attend and leave",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "root-cavern",
+        "sizeBand": "S2",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "unique-item",
+            "registerRef": null,
+            "payoff": "unique-item",
+            "valueTier": "tier-2",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -339,16 +414,11 @@
         ]
       },
       "relations": {
-        "dependsOn": [
-          "place.naga-kur-deeps.stilt-tidal-black-piles"
-        ],
+        "dependsOn": [],
         "supplies": [
-          "place.naga-kur-deeps.dead-water-village",
-          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+          "place.naga-kur-deeps.dead-water-village"
         ],
-        "rivals": [
-          "place.naga-kur-deeps.serpent-ground-moon-adder"
-        ],
+        "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
@@ -372,9 +442,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "hide",
-          "trade",
-          "combat"
+          "materials",
+          "trade-access"
         ],
         "valueTier": "tier-2"
       },
@@ -421,38 +490,82 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.18183,
-        "v": 0.72695
+        "u": 0.35436,
+        "v": 0.8028
       },
       "positionM": [
-        1340.7,
-        5360.1
+        2612.9,
+        5919.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0282",
-          "score": 3.669,
-          "whyLost": "too close to place.hist-heartland.greenspring"
+          "siteId": "site.free.any-shallow-marsh-1207",
+          "score": 3.974,
+          "whyLost": "too close to place.imperial-penal-south.blackrose"
         },
         {
-          "siteId": "site.free.roadside-0591",
-          "score": 3.667,
-          "whyLost": "too close to place.mercantile-coast.lilmoth"
+          "siteId": "site.free.any-shallow-marsh-1208",
+          "score": 3.965,
+          "whyLost": "too close to place.imperial-penal-south.blackrose"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1219",
-          "score": 3.666,
+          "siteId": "site.free.any-shallow-marsh-1232",
+          "score": 3.94,
           "whyLost": "too close to place.imperial-penal-south.blackrose"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 68 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 214 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, hinterland; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.legendary-deep-feather-serpent (+1.24).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 67.8,
-        "distanceToWaterM": 23.3,
-        "score": 3.213
+        "distanceToRouteM": 213.6,
+        "distanceToWaterM": 7.8,
+        "score": 3.608
+      },
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "A creek that can be gated at both ends to make the pens",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "dependsOn": [
+          "place.naga-kur-deeps.stilt-tidal-black-piles"
+        ],
+        "supplies": [
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
+        "rivals": [
+          "place.naga-kur-deeps.serpent-ground-moon-adder"
+        ]
       }
     },
     {
@@ -504,10 +617,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.naga-kur-deeps.boardwalk-single-spine",
-          "place.naga-kur-deeps.stilt-shallow-reed-stand"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -522,8 +632,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "reagents"
+          "lore-fragment",
+          "materials"
         ],
         "valueTier": "tier-1"
       },
@@ -567,7 +677,52 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Thin rite-dressing beside the Kaju maturity ground, which carries the same hunt material better.",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "hostility": {
+        "baseline": "sanctuary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "lore-reveal",
+        "secondary": [],
+        "impact": "mild",
+        "hook": "At the head of the reach every hunt starts from",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-1",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.naga-kur-deeps.boardwalk-single-spine",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.bereaved-hist-less-since",
@@ -645,9 +800,9 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "faction access",
-          "knowledge",
-          "quest hook"
+          "faction-access",
+          "lore-fragment",
+          "quest-hook"
         ],
         "valueTier": "tier-2"
       },
@@ -697,39 +852,72 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.36254,
-        "v": 0.61168
+        "u": 0.36701,
+        "v": 0.75521
       },
       "positionM": [
-        2673.2,
-        4510.2
+        2706.1,
+        5568.5
       ],
-      "scourSiteId": "site.scour.rootland-deep-marsh.oxbow-015",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.interior-swamp.flood-high-038",
-          "score": 2.573,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.scour.interior-swamp.flood-high-028",
+          "score": 2.569,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
+        },
+        {
+          "siteId": "site.scour.interior-swamp.flood-high-029",
+          "score": 2.565,
+          "whyLost": "taken by place.naga-kur-deeps.deepmire-refuge"
         },
         {
           "siteId": "site.scour.interior-swamp.flood-high-017",
           "score": 2.301,
-          "whyLost": "too close to place.naga-kur-deeps.horwalli-waterworks-deeps"
-        },
-        {
-          "siteId": "site.scour.interior-swamp.flood-high-028",
-          "score": 2.269,
-          "whyLost": "taken by place.naga-kur-deeps.harmed-hist-enslaved"
+          "whyLost": "taken by place.naga-kur-deeps.umbriel-stripped-undead"
         }
       ],
-      "whySiteWon": "oxbow in rootland deep marsh (danger band 5), 66 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, route; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in seasonal floodplain (danger band 4), 449 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, ring; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "oxbow",
-        "regionClass": "rootland deep marsh",
-        "dangerBand": 5,
-        "distanceToRouteM": 65.8,
-        "distanceToWaterM": 0.0,
-        "score": 1.514
+        "landform": "any-firm-ground",
+        "regionClass": "seasonal floodplain",
+        "dangerBand": 4,
+        "distanceToRouteM": 449.3,
+        "distanceToWaterM": 21.9,
+        "score": 2.194
+      },
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [
+          "quest-anchor",
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "Their ground is good and their reason for staying is that leaving would be a second death",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -803,8 +991,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "reagents",
-          "spectacle"
+          "materials",
+          "lore-fragment"
         ],
         "valueTier": "tier-1"
       },
@@ -850,7 +1038,40 @@
       "entrance": "none",
       "underwaterAccess": "shallow-dive",
       "deferredWhy": "Second bioluminescent-water record in a 2.5 km² zone; the Under-Pool adds nothing the blue-flood gallery does not.",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "wonder-oddity",
+        "secondary": [
+          "hidden-secret"
+        ],
+        "impact": "mild",
+        "hook": "A closed chamber where the bloom cannot be washed out",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.boardwalk-single-spine",
@@ -895,14 +1116,11 @@
         ]
       },
       "relations": {
-        "dependsOn": [
-          "place.naga-kur-deeps.stilt-shallow-reed-stand"
-        ],
+        "dependsOn": [],
         "supplies": [
           "place.naga-kur-deeps.necropolis-nightbound"
         ],
         "rivals": [
-          "place.naga-kur-deeps.naga-highway-camp-walkway",
           "place.naga-kur-deeps.raft-village-lashed"
         ],
         "patrols": [],
@@ -930,7 +1148,7 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "supplies",
+          "rest-shelter",
           "rumour"
         ],
         "valueTier": "tier-1"
@@ -978,7 +1196,43 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [],
+        "impact": "mild",
+        "hook": "One firm alignment across two kilometres of mire",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "dwelling",
+        "sizeBand": "S1",
+        "wetFraction": 0.2,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "dependsOn": [
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
+        "rivals": [
+          "place.naga-kur-deeps.naga-highway-camp-walkway"
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.bog-blight-ground-nine-stakes",
@@ -1049,9 +1303,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "combat",
-          "deed",
-          "loot"
+          "faction-access",
+          "loot-cache"
         ],
         "valueTier": "tier-2"
       },
@@ -1096,38 +1349,75 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.14836,
-        "v": 0.84965
+        "u": 0.3261,
+        "v": 0.60126
       },
       "positionM": [
-        1094.0,
-        6264.9
+        2404.5,
+        4433.4
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1168",
-          "score": 4.181,
-          "whyLost": "too close to place.imperial-penal-south.lake-submerged-xanmeer"
+          "siteId": "site.free.any-shallow-marsh-1054",
+          "score": 3.836,
+          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1167",
-          "score": 4.025,
-          "whyLost": "too close to place.naga-kur-deeps.deepmire-refuge"
+          "siteId": "site.free.any-shallow-marsh-1055",
+          "score": 3.834,
+          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1194",
-          "score": 4.017,
-          "whyLost": "too close to place.imperial-penal-south.lake-submerged-xanmeer"
+          "siteId": "site.free.any-shallow-marsh-1029",
+          "score": 3.825,
+          "whyLost": "too close to place.hist-heartland.cult-raid-camp-unbound"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 445 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, remote; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 335 m from the nearest route; its first-choice landform; won on landform, region, parent; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
-        "dangerBand": 4,
-        "distanceToRouteM": 444.7,
-        "distanceToWaterM": 15.5,
-        "score": 3.936
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 334.7,
+        "distanceToWaterM": 45.2,
+        "score": 3.589
+      },
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "combat-challenge",
+        "secondary": [],
+        "impact": "real",
+        "hook": "Low ground beside a channel that changed course",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "root-cavern",
+        "sizeBand": "S2",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -1198,9 +1488,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "combat",
-          "deed",
-          "documents"
+          "faction-access",
+          "lore-fragment"
         ],
         "valueTier": "tier-2"
       },
@@ -1245,38 +1534,71 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.31644,
-        "v": 0.79313
+        "u": 0.25843,
+        "v": 0.64217
       },
       "positionM": [
-        2333.2,
-        5848.2
+        1905.5,
+        4735.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1168",
-          "score": 4.183,
-          "whyLost": "too close to place.imperial-penal-south.lake-submerged-xanmeer"
+          "siteId": "site.free.any-shallow-marsh-1055",
+          "score": 3.846,
+          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1169",
-          "score": 4.024,
-          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
+          "siteId": "site.free.any-shallow-marsh-1054",
+          "score": 3.843,
+          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1170",
-          "score": 4.016,
-          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
+          "siteId": "site.free.any-shallow-marsh-1079",
+          "score": 3.829,
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 427 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, remote; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 31 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.drowning-narrows-tidal-gate (+0.28).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
-        "dangerBand": 4,
-        "distanceToRouteM": 426.7,
-        "distanceToWaterM": 5.5,
-        "score": 3.921
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 31.0,
+        "distanceToWaterM": 0.0,
+        "score": 3.27
+      },
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "combat-challenge",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "The line of an Imperial-era cordon across the zone's neck",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -1351,8 +1673,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "quest hook",
-          "knowledge"
+          "quest-hook",
+          "lore-fragment"
         ],
         "valueTier": "tier-1"
       },
@@ -1396,38 +1718,71 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.10374,
-        "v": 0.8504
+        "u": 0.11862,
+        "v": 0.79313
       },
       "positionM": [
-        765.0,
-        6270.4
+        874.6,
+        5848.2
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.scour.interior-swamp.ford-024",
-          "score": 3.763,
-          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+          "score": 4.063,
+          "whyLost": "too close to place.naga-kur-deeps.dead-water-village"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1234",
-          "score": 3.425,
-          "whyLost": "too close to place.mercantile-coast.pilgrim-xanmeer"
+          "siteId": "site.scour.interior-swamp.flood-high-028",
+          "score": 3.805,
+          "whyLost": "too close to place.naga-kur-deeps.naga-village-settled"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1186",
-          "score": 3.424,
-          "whyLost": "too close to place.hist-heartland.greenspring"
+          "siteId": "site.free.any-shallow-marsh-1151",
+          "score": 3.722,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 170 m from the nearest route; no free 'any-firm-ground' site was left in the zone, so plain ground; won on region, hinterland, danger; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 47 m from the nearest route; no free 'any-firm-ground' site was left in the zone, so plain ground; won on route, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 3,
-        "distanceToRouteM": 170.1,
-        "distanceToWaterM": 32.9,
-        "score": 3.166
+        "distanceToRouteM": 46.5,
+        "distanceToWaterM": 27.4,
+        "score": 3.723
+      },
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "mild",
+        "hook": "Where the poling routes converge before the walking route begins",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -1498,8 +1853,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "loot",
-          "shelter"
+          "loot-cache",
+          "rest-shelter"
         ],
         "valueTier": "tier-1"
       },
@@ -1546,7 +1901,46 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "deferredFromStatus": "ruined",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "dungeon-delve",
+        "secondary": [
+          "vista-landmark"
+        ],
+        "impact": "mild",
+        "hook": "Soft ground took one corner and the rest followed",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "xanmeer-complex",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.dead-water-village",
@@ -1596,12 +1990,10 @@
       },
       "relations": {
         "dependsOn": [
-          "place.naga-kur-deeps.necropolis-nightbound",
-          "place.naga-kur-deeps.root-gallery-blue-flood"
+          "place.naga-kur-deeps.necropolis-nightbound"
         ],
         "supplies": [
-          "place.naga-kur-deeps.bereaved-hist-less-since",
-          "place.naga-kur-deeps.tended-xanmeer-pilgrim-deeps"
+          "place.naga-kur-deeps.bereaved-hist-less-since"
         ],
         "rivals": [],
         "patrols": [
@@ -1637,10 +2029,10 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "faction access",
-          "blight-craft",
-          "unique goods",
-          "knowledge"
+          "faction-access",
+          "materials",
+          "trade-access",
+          "lore-fragment"
         ],
         "valueTier": "tier-3"
       },
@@ -1713,38 +2105,94 @@
         }
       ],
       "position": {
-        "u": 0.18778,
-        "v": 0.77454
+        "u": 0.573,
+        "v": 0.63845
       },
       "positionM": [
-        1384.6,
-        5711.1
+        4225.1,
+        4707.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.interior-swamp.flood-high-038",
-          "score": 2.574,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.scour.interior-swamp.flood-high-028",
+          "score": 2.567,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
+        },
+        {
+          "siteId": "site.scour.interior-swamp.flood-high-029",
+          "score": 2.566,
+          "whyLost": "taken by place.naga-kur-deeps.deepmire-refuge"
         },
         {
           "siteId": "site.scour.interior-swamp.flood-high-017",
           "score": 2.302,
-          "whyLost": "too close to place.naga-kur-deeps.horwalli-waterworks-deeps"
-        },
-        {
-          "siteId": "site.scour.interior-swamp.flood-high-028",
-          "score": 2.267,
-          "whyLost": "taken by place.naga-kur-deeps.harmed-hist-enslaved"
+          "whyLost": "taken by place.naga-kur-deeps.umbriel-stripped-undead"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 206 m from the nearest route; at the water's edge; no free 'flood-high' site was left in the zone, so plain ground; won on region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 774 m from the nearest route; its choice #3 landform; won on landform, region, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.naga-village-raiding (+1.09).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 205.8,
-        "distanceToWaterM": 11.0,
-        "score": 1.164
+        "distanceToRouteM": 774.0,
+        "distanceToWaterM": 36.8,
+        "score": 2.229
+      },
+      "hostility": {
+        "baseline": "wary",
+        "owner": "faction.naga-kur",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [
+          "lore-reveal",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "A defensible rise in the inner swamps with black water on every side and one poling approach",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "dependsOn": [
+          "place.naga-kur-deeps.root-gallery-blue-flood"
+        ],
+        "supplies": [
+          "place.naga-kur-deeps.tended-xanmeer-pilgrim-deeps"
+        ]
+      },
+      "travelStation": {
+        "modes": [
+          "guide"
+        ],
+        "destinations": []
       }
     },
     {
@@ -1820,10 +2268,9 @@
       "effortToReach": 5,
       "rewardProfile": {
         "kinds": [
-          "lore",
-          "quest hook",
-          "rest",
-          "document"
+          "lore-fragment",
+          "quest-hook",
+          "rest-shelter"
         ],
         "valueTier": "tier-4"
       },
@@ -1909,18 +2356,18 @@
       "scourSiteId": "site.scour.interior-swamp.flood-high-029",
       "candidatesConsidered": [
         {
+          "siteId": "site.scour.interior-swamp.flood-high-028",
+          "score": 3.262,
+          "whyLost": "lost on score"
+        },
+        {
           "siteId": "site.scour.interior-swamp.flood-high-017",
           "score": 3.122,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.interior-swamp.flood-high-028",
-          "score": 2.962,
-          "whyLost": "lost on score"
-        },
-        {
           "siteId": "site.scour.interior-swamp.flood-high-038",
-          "score": 2.843,
+          "score": 3.043,
           "whyLost": "lost on score"
         }
       ],
@@ -1931,7 +2378,47 @@
         "dangerBand": 4,
         "distanceToRouteM": 568.0,
         "distanceToWaterM": 55.9,
-        "score": 3.525
+        "score": 3.825
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": "faction.deepmire-caretakers",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [
+          "quest-anchor",
+          "lore-reveal"
+        ],
+        "impact": "major",
+        "hook": "High, dry, defensible ground in a province that has almost none, with one approach that can be walked and no approach that can be poled",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "root-cavern",
+        "sizeBand": "S3",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-4",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -2003,8 +2490,8 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "passage",
-          "loot"
+          "route-unlock",
+          "loot-cache"
         ],
         "valueTier": "tier-2"
       },
@@ -2049,39 +2536,76 @@
       "underwaterAccess": "argonian-only-depth",
       "localStateVariants": [],
       "position": {
-        "u": 0.35287,
-        "v": 0.67117
+        "u": 0.17589,
+        "v": 0.86229
       },
       "positionM": [
-        2601.9,
-        4948.9
+        1296.9,
+        6358.1
       ],
-      "scourSiteId": "site.scour.lake-standing-water.land-bridge-043",
+      "scourSiteId": "site.scour.lake-standing-water.cove-008",
       "candidatesConsidered": [
         {
+          "siteId": "site.free.any-shallow-marsh-1161",
+          "score": 3.662,
+          "whyLost": "too close to place.naga-kur-deeps.naga-village-settled"
+        },
+        {
+          "siteId": "site.scour.interior-swamp.islet-020",
+          "score": 3.587,
+          "whyLost": "too close to place.naga-kur-deeps.bereaved-hist-less-since"
+        },
+        {
           "siteId": "site.scour.lake-standing-water.cove-018",
-          "score": 3.31,
-          "whyLost": "too close to place.saxhleel-coast.gap-reef"
-        },
-        {
-          "siteId": "site.scour.lake-standing-water.cove-024",
-          "score": 3.306,
-          "whyLost": "taken by place.naga-kur-deeps.air-pocket-station-deeps"
-        },
-        {
-          "siteId": "site.scour.lake-standing-water.land-bridge-034",
-          "score": 3.048,
-          "whyLost": "too close to place.naga-kur-deeps.wild-hist-rogue-deeps"
+          "score": 3.505,
+          "whyLost": "too close to place.saxhleel-coast.wall-hist-village"
         }
       ],
-      "whySiteWon": "land bridge in lake & standing water (danger band 5), 386 m from the nearest route; at the water's edge; won on region, submerged, danger; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "cove in lake & standing water (danger band 3), 380 m from the nearest route; at the water's edge; its choice #5 landform; won on region, submerged, landform; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "land-bridge",
+        "landform": "cove",
         "regionClass": "lake & standing water",
-        "dangerBand": 5,
-        "distanceToRouteM": 386.2,
+        "dangerBand": 3,
+        "distanceToRouteM": 380.2,
         "distanceToWaterM": 0.0,
-        "score": 2.895
+        "score": 2.753
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "traversal-puzzle",
+        "secondary": [],
+        "impact": "real",
+        "hook": "Where a root gallery's roof gave way under water",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "flooded-cave",
+        "sizeBand": "S2",
+        "wetFraction": 0.8,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -2149,7 +2673,7 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "salvage"
+          "loot-cache"
         ],
         "valueTier": "tier-1"
       },
@@ -2195,7 +2719,40 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "deferredFromStatus": "seasonal",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "traversal-puzzle",
+        "secondary": [
+          "hidden-secret"
+        ],
+        "impact": "mild",
+        "hook": "A wide shallow with a narrow outlet",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.drifting-village-wet-mooring",
@@ -2245,8 +2802,7 @@
           "place.naga-kur-deeps.ferry-stage-guide-hire"
         ],
         "rivals": [
-          "place.naga-kur-deeps.naga-village-settled",
-          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+          "place.naga-kur-deeps.naga-village-settled"
         ],
         "patrols": [],
         "tolls": [],
@@ -2270,9 +2826,9 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "trade",
+          "trade-access",
           "rumour",
-          "unique service"
+          "services"
         ],
         "valueTier": "tier-2"
       },
@@ -2320,38 +2876,67 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.26958,
-        "v": 0.77008
+        "u": 0.58565,
+        "v": 0.7671
       },
       "positionM": [
-        1987.8,
-        5678.2
+        4318.3,
+        5656.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1243",
-          "score": 3.378,
+          "siteId": "site.free.any-shallow-marsh-1232",
+          "score": 3.677,
           "whyLost": "too close to place.imperial-penal-south.blackrose"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1246",
-          "score": 3.372,
-          "whyLost": "too close to place.mercantile-coast.lilmoth"
+          "siteId": "site.free.any-shallow-marsh-1207",
+          "score": 3.67,
+          "whyLost": "too close to place.imperial-penal-south.blackrose"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1219",
-          "score": 3.37,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.any-shallow-marsh-1269",
+          "score": 3.664,
+          "whyLost": "too close to place.mercantile-coast.soulrest"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 728 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, hinterland; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 361 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, hinterland; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
-        "dangerBand": 4,
-        "distanceToRouteM": 727.5,
-        "distanceToWaterM": 0.0,
-        "score": 3.026
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 360.8,
+        "distanceToWaterM": 17.3,
+        "score": 3.18
+      },
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "Whichever mooring the year requires; the village site is a route, not a point",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "rivals": [
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ]
       }
     },
     {
@@ -2398,13 +2983,9 @@
         ]
       },
       "relations": {
-        "dependsOn": [
-          "place.naga-kur-deeps.treasure-hunters-living-deeps"
-        ],
+        "dependsOn": [],
         "supplies": [],
-        "rivals": [
-          "place.naga-kur-deeps.drawdown-flat-refilling-deeps"
-        ],
+        "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
@@ -2427,9 +3008,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "salvage",
-          "treasure",
-          "quest hook"
+          "loot-cache",
+          "quest-hook"
         ],
         "valueTier": "tier-2"
       },
@@ -2477,40 +3057,86 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.25546,
-        "v": 0.86156
+        "u": 0.43654,
+        "v": 0.85256
       },
       "positionM": [
-        1883.6,
-        6352.7
+        3218.8,
+        6286.4
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0284",
-          "score": 5.01,
-          "whyLost": "too close to place.mercantile-coast.pilgrim-xanmeer"
+          "siteId": "site.free.roadside-0431",
+          "score": 4.208,
+          "whyLost": "too close to place.naga-kur-deeps.naga-highway-camp-active-north"
         },
         {
-          "siteId": "site.free.roadside-0451",
-          "score": 4.768,
-          "whyLost": "too close to place.naga-kur-deeps.root-whisper-village"
+          "siteId": "site.free.roadside-0257",
+          "score": 4.114,
+          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
         },
         {
-          "siteId": "site.free.roadside-0458",
-          "score": 4.762,
-          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+          "siteId": "site.free.any-shallow-marsh-1127",
+          "score": 4.113,
+          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
         }
       ],
-      "whySiteWon": "cove in lake & standing water (danger band 3), 153 m from the nearest route; at the water's edge; its choice #4 landform; won on route, landform, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 93 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, submerged; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "cove",
-        "regionClass": "lake & standing water",
+        "landform": "any-shallow-marsh",
+        "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 152.8,
+        "distanceToRouteM": 93.2,
         "distanceToWaterM": 0.0,
-        "score": 4.136
+        "score": 2.523
       },
-      "scourSiteId": "site.scour.lake-standing-water.cove-017"
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "lore-reveal",
+        "secondary": [
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "It was correctly sited for the water level of the time",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "abandoned-plantation",
+        "sizeBand": "S1",
+        "wetFraction": 0.4,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "dependsOn": [
+          "place.naga-kur-deeps.treasure-hunters-living-deeps"
+        ],
+        "rivals": [
+          "place.naga-kur-deeps.drawdown-flat-refilling-deeps"
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.drowning-narrows-tidal-gate",
@@ -2580,8 +3206,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "salvage",
-          "traversal challenge"
+          "loot-cache",
+          "route-unlock"
         ],
         "valueTier": "tier-2"
       },
@@ -2626,14 +3252,13 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "position": {
-        "u": 0.46369,
-        "v": 0.83776
+        "u": 0.19298,
+        "v": 0.74703
       },
       "positionM": [
-        3419.0,
-        6177.2
+        1423.0,
+        5508.2
       ],
-      "scourSiteId": "site.scour.interior-swamp.isthmus-007",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.rootland-deep-marsh.water-narrows-042",
@@ -2641,24 +3266,55 @@
           "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         },
         {
-          "siteId": "site.scour.interior-swamp.isthmus-032",
-          "score": 2.397,
+          "siteId": "site.scour.interior-swamp.water-narrows-005",
+          "score": 2.35,
           "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
         },
         {
-          "siteId": "site.scour.rootland-deep-marsh.water-narrows-041",
-          "score": 2.388,
+          "siteId": "site.scour.rootland-deep-marsh.isthmus-055",
+          "score": 2.154,
           "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         }
       ],
-      "whySiteWon": "isthmus in interior swamp (danger band 3), 170 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, parent, route; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 4), 143 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on danger, parent, landform; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.bog-blight-ground-old-cordon (+0.28).",
       "plotFacts": {
-        "landform": "isthmus",
-        "regionClass": "interior swamp",
-        "dangerBand": 3,
-        "distanceToRouteM": 170.1,
-        "distanceToWaterM": 0.0,
-        "score": 1.821
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 4,
+        "distanceToRouteM": 142.6,
+        "distanceToWaterM": 17.3,
+        "score": 1.835
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "traversal-puzzle",
+        "secondary": [],
+        "impact": "real",
+        "hook": "The single outlet of the inner swamp",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -2744,8 +3400,7 @@
       "effortToReach": 1,
       "rewardProfile": {
         "kinds": [
-          "transport",
-          "guides",
+          "services",
           "rumour"
         ],
         "valueTier": "tier-2"
@@ -2798,38 +3453,70 @@
       "ownerFaction": "faction.league-of-open-water",
       "localStateVariants": [],
       "position": {
-        "u": 0.31829,
-        "v": 0.84674
+        "u": 0.30602,
+        "v": 0.84817
       },
       "positionM": [
-        2346.9,
-        6243.5
+        2256.5,
+        6254.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.interior-swamp.water-narrows-016",
-          "score": 2.53,
-          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+          "siteId": "site.free.any-shallow-marsh-1277",
+          "score": 2.492,
+          "whyLost": "too close to place.imperial-penal-south.blackrose"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1288",
-          "score": 2.293,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1235",
+          "score": 2.479,
+          "whyLost": "too close to place.mercantile-coast.slaughter-memorial"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1261",
-          "score": 2.275,
+          "siteId": "site.scour.interior-swamp.island-011",
+          "score": 1.999,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 2), 93 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on region, danger, parent; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 2), 113 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on region, danger, parent; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 2,
-        "distanceToRouteM": 93.2,
-        "distanceToWaterM": 0.0,
-        "score": 2.294
+        "distanceToRouteM": 112.5,
+        "distanceToWaterM": 23.3,
+        "score": 2.478
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": "faction.league-of-open-water",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "navigation-aid",
+        "secondary": [
+          "quest-anchor",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "The last point reachable without local knowledge",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "travelStation": {
+        "modes": [
+          "ferry",
+          "guide"
+        ],
+        "destinations": []
       }
     },
     {
@@ -2879,12 +3566,9 @@
           "place.naga-kur-deeps.horwalli-waterworks-deeps"
         ],
         "supplies": [
-          "place.naga-kur-deeps.dead-water-village",
-          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+          "place.naga-kur-deeps.dead-water-village"
         ],
-        "rivals": [
-          "place.naga-kur-deeps.whitewater-logjam-reach"
-        ],
+        "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
@@ -2907,8 +3591,7 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "food",
-          "shelter"
+          "rest-shelter"
         ],
         "valueTier": "tier-1"
       },
@@ -2953,7 +3636,37 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "friendly",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [],
+        "impact": "mild",
+        "hook": "The only linear dry ground in the zone",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "supplies": [
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
+        "rivals": [
+          "place.naga-kur-deeps.whitewater-logjam-reach"
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.flooded-passage-tunnel-deeps",
@@ -3024,8 +3737,8 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "passage",
-          "loot"
+          "route-unlock",
+          "loot-cache"
         ],
         "valueTier": "tier-2"
       },
@@ -3079,19 +3792,19 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1165",
-          "score": 4.752,
+          "siteId": "site.free.any-shallow-marsh-1201",
+          "score": 4.749,
+          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
+        },
+        {
+          "siteId": "site.free.roadside-0254",
+          "score": 4.548,
           "whyLost": "too close to place.imperial-penal-south.rose-flooded-passage"
         },
         {
-          "siteId": "site.free.roadside-0454",
-          "score": 4.613,
-          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
-        },
-        {
-          "siteId": "site.free.roadside-0452",
-          "score": 4.613,
-          "whyLost": "too close to place.naga-kur-deeps.air-pocket-station-deeps"
+          "siteId": "site.free.any-shallow-marsh-1208",
+          "score": 4.105,
+          "whyLost": "too close to place.naga-kur-deeps.sinkhole-mouth-deeps"
         }
       ],
       "whySiteWon": "land bridge in lake & standing water (danger band 5), 516 m from the nearest route; at the water's edge; won on region, remote, submerged; landform wishes taken from the type recipe (record had none).",
@@ -3103,7 +3816,47 @@
         "distanceToWaterM": 0.0,
         "score": 2.298
       },
-      "scourSiteId": "site.scour.lake-standing-water.land-bridge-034"
+      "scourSiteId": "site.scour.lake-standing-water.land-bridge-034",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "traversal-puzzle",
+        "secondary": [
+          "vista-landmark",
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "It connects two parts of a ruin that are otherwise a day apart",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "flooded-cave",
+        "sizeBand": "S1",
+        "wetFraction": 0.6,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.guide-camp-poling",
@@ -3181,8 +3934,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "shelter",
-          "guides",
+          "rest-shelter",
+          "services",
           "rumour"
         ],
         "valueTier": "tier-1"
@@ -3228,39 +3981,69 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.36032,
-        "v": 0.77826
+        "u": 0.4845,
+        "v": 0.80503
       },
       "positionM": [
-        2656.8,
-        5738.5
+        3572.5,
+        5935.9
       ],
-      "scourSiteId": "site.scour.interior-swamp.islet-020",
+      "scourSiteId": "site.scour.interior-swamp.islet-030",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.rootland-deep-marsh.islet-015",
-          "score": 3.587,
+          "siteId": "site.scour.interior-swamp.islet-020",
+          "score": 4.222,
+          "whyLost": "too close to place.naga-kur-deeps.bereaved-hist-less-since"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1157",
+          "score": 3.631,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.interior-swamp.islet-030",
-          "score": 3.57,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.interior-swamp.flood-high-017",
-          "score": 3.537,
+          "siteId": "site.scour.interior-swamp.flood-high-028",
+          "score": 3.603,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "islet in interior swamp (danger band 4), 372 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "islet in interior swamp (danger band 4), 72 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "islet",
         "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 372.3,
+        "distanceToRouteM": 71.5,
         "distanceToWaterM": 0.0,
-        "score": 3.922
+        "score": 3.87
+      },
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "mild",
+        "hook": "The one rise at the midpoint of the longest crossing",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "travelStation": {
+        "modes": [
+          "guide"
+        ],
+        "destinations": []
       }
     },
     {
@@ -3309,10 +4092,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.naga-kur-deeps.boardwalk-single-spine",
-          "place.naga-kur-deeps.stilt-shallow-reed-stand"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3330,8 +4110,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "quest hook"
+          "lore-fragment",
+          "quest-hook"
         ],
         "valueTier": "tier-2"
       },
@@ -3377,7 +4157,61 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "dungeon-delve",
+        "secondary": [
+          "lore-reveal",
+          "vista-landmark"
+        ],
+        "impact": "real",
+        "hook": "The highest crown within a day's poling",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "sinkhole-ruin",
+        "sizeBand": "S2",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "grave-goods",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.naga-kur-deeps.boardwalk-single-spine",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.harmed-hist-enslaved",
@@ -3425,7 +4259,6 @@
         "dependsOn": [],
         "supplies": [],
         "rivals": [
-          "place.mercantile-coast.tapped-hist-ashroot",
           "place.naga-kur-deeps.dead-water-village"
         ],
         "patrols": [],
@@ -3452,9 +4285,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "faction consequence",
-          "combat",
-          "quest hook"
+          "faction-access",
+          "quest-hook"
         ],
         "valueTier": "tier-3"
       },
@@ -3517,14 +4349,14 @@
         }
       ],
       "position": {
-        "u": 0.43468,
-        "v": 0.78644
+        "u": 0.32313,
+        "v": 0.73439
       },
       "positionM": [
-        3205.1,
-        5798.8
+        2382.6,
+        5415.0
       ],
-      "scourSiteId": "site.scour.interior-swamp.flood-high-028",
+      "scourSiteId": "site.scour.rootland-deep-marsh.flood-high-037",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.interior-swamp.flood-high-029",
@@ -3542,14 +4374,43 @@
           "whyLost": "taken by place.naga-kur-deeps.root-gallery-blight-warren"
         }
       ],
-      "whySiteWon": "flood high in interior swamp (danger band 4), 27 m from the nearest route; its choice #2 landform; won on landform, region, route; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "flood high in rootland deep marsh (danger band 5), 719 m from the nearest route; its choice #2 landform; won on landform, region, remote; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "flood-high",
-        "regionClass": "interior swamp",
-        "dangerBand": 4,
-        "distanceToRouteM": 27.4,
-        "distanceToWaterM": 51.7,
-        "score": 2.55
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 718.9,
+        "distanceToWaterM": 38.8,
+        "score": 2.727
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "lore-reveal",
+        "secondary": [
+          "vista-landmark"
+        ],
+        "impact": "real",
+        "hook": "A defensible island the crew took and fortified",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "rivals": [
+          "place.mercantile-coast.tapped-hist-ashroot"
+        ]
       }
     },
     {
@@ -3623,8 +4484,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "quest hook"
+          "lore-fragment",
+          "quest-hook"
         ],
         "valueTier": "tier-1"
       },
@@ -3670,7 +4531,47 @@
       "entrance": "door",
       "underwaterAccess": "surface-swim",
       "deferredWhy": "Over-band type (hermit-hut 9/6) and the least motivated of the province's exiles.",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "lore-reveal",
+          "vista-landmark"
+        ],
+        "impact": "mild",
+        "hook": "Deliberately within sight of the village landing",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "dwelling",
+        "sizeBand": "S1",
+        "wetFraction": 0.2,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.horwalli-waterworks-deeps",
@@ -3742,9 +4643,9 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "quest hook",
-          "treasure"
+          "lore-fragment",
+          "quest-hook",
+          "loot-cache"
         ],
         "valueTier": "tier-3"
       },
@@ -3796,40 +4697,87 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.18108,
-        "v": 0.81619
+        "u": 0.17952,
+        "v": 0.69951
       },
       "positionM": [
-        1335.2,
-        6018.2
+        1323.7,
+        5157.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1167",
-          "score": 2.418,
+          "siteId": "site.free.any-shallow-marsh-1099",
+          "score": 2.017,
+          "whyLost": "too close to place.mercantile-coast.rockpark"
+        },
+        {
+          "siteId": "site.free.roadside-0253",
+          "score": 1.875,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1194",
-          "score": 2.414,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1170",
-          "score": 2.408,
+          "siteId": "site.free.any-shallow-marsh-1101",
+          "score": 1.851,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "confluence in interior swamp (danger band 4), 420 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, remote; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 71 m from the nearest route; at the water's edge; no free 'confluence' site was left in the zone, so plain ground; won on region, danger, water; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "confluence",
+        "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 419.8,
+        "distanceToRouteM": 71.5,
         "distanceToWaterM": 0.0,
-        "score": 3.247
+        "score": 1.887
       },
-      "scourSiteId": "site.scour.interior-swamp.confluence-020"
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "wonder-oddity",
+        "secondary": [
+          "lore-reveal",
+          "vista-landmark"
+        ],
+        "impact": "real",
+        "hook": "The zone's natural drainage pinch — the one place engineering would pay",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "flooded-cave",
+        "sizeBand": "S3",
+        "wetFraction": 0.4,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.insular-hostile-first",
@@ -3874,9 +4822,7 @@
         ]
       },
       "relations": {
-        "dependsOn": [
-          "place.naga-kur-deeps.stilt-shallow-reed-stand"
-        ],
+        "dependsOn": [],
         "supplies": [],
         "rivals": [
           "place.naga-kur-deeps.ferry-stage-guide-hire",
@@ -3906,8 +4852,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "faction access",
-          "trade"
+          "faction-access",
+          "trade-access"
         ],
         "valueTier": "tier-2"
       },
@@ -3954,7 +4900,37 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [
+          "vista-landmark",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "An island with two approaches, both watched",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "dependsOn": [
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.kothringi-ruin-village-deeps",
@@ -4027,9 +5003,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "loot",
-          "documents",
-          "knowledge"
+          "loot-cache",
+          "lore-fragment"
         ],
         "valueTier": "tier-2"
       },
@@ -4077,7 +5052,55 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "deferredFromStatus": "ruined",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "wonder-oddity",
+        "secondary": [
+          "lore-reveal",
+          "vista-landmark"
+        ],
+        "impact": "real",
+        "hook": "Good ground, which is why the emptiness is conspicuous",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "root-cavern",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.legendary-deep-feather-serpent",
@@ -4150,8 +5173,7 @@
       "effortToReach": 5,
       "rewardProfile": {
         "kinds": [
-          "unique encounter",
-          "treasure"
+          "loot-cache"
         ],
         "valueTier": "tier-3"
       },
@@ -4197,38 +5219,77 @@
       "underwaterAccess": "deep-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.33577,
-        "v": 0.76487
+        "u": 0.50012,
+        "v": 0.78049
       },
       "positionM": [
-        2475.8,
-        5639.8
+        3687.7,
+        5755.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1065",
-          "score": 3.349,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "siteId": "site.free.any-firm-ground-1007",
+          "score": 2.88,
+          "whyLost": "too close to place.saxhleel-coast.lagoon-submerged-xanmeer"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1066",
-          "score": 3.339,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "siteId": "site.free.any-firm-ground-1088",
+          "score": 2.83,
+          "whyLost": "too close to place.mercantile-coast.teeth-of-sithis"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1040",
-          "score": 3.33,
-          "whyLost": "too close to place.hist-heartland.cult-raid-camp-unbound"
+          "siteId": "site.free.any-firm-ground-1037",
+          "score": 2.825,
+          "whyLost": "too close to place.saxhleel-coast.lagoon-submerged-xanmeer"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 525 m from the nearest route; at the water's edge; no free 'box-canyon' site was left in the zone, so plain ground; won on region, remote, parent; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 252 m from the nearest route; at the water's edge; no free 'box-canyon' site was left in the zone, so plain ground; won on region, parent, landform; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.beast-keeper-crocodile (+1.24).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 524.8,
-        "distanceToWaterM": 0.0,
-        "score": 2.825
+        "distanceToRouteM": 252.2,
+        "distanceToWaterM": 5.5,
+        "score": 1.861
+      },
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "combat-challenge",
+        "secondary": [
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "A drowned sinkhole in the swamp floor, far deeper than anything around it",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "flooded-cave",
+        "sizeBand": "S2",
+        "wetFraction": 0.6,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -4327,8 +5388,8 @@
       "rewardProfile": {
         "kinds": [
           "materials",
-          "loot",
-          "knowledge"
+          "loot-cache",
+          "lore-fragment"
         ],
         "valueTier": "tier-2"
       },
@@ -4363,38 +5424,89 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "position": {
-        "u": 0.29561,
-        "v": 0.80131
+        "u": 0.22348,
+        "v": 0.68084
       },
       "positionM": [
-        2179.7,
-        5908.5
+        1647.8,
+        5020.2
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.scour.lake-standing-water.cove-024",
-          "score": 3.629,
+          "score": 2.729,
           "whyLost": "taken by place.naga-kur-deeps.air-pocket-station-deeps"
         },
         {
           "siteId": "site.scour.lake-standing-water.cove-018",
-          "score": 3.445,
-          "whyLost": "too close to place.saxhleel-coast.gap-reef"
+          "score": 2.52,
+          "whyLost": "too close to place.saxhleel-coast.wall-hist-village"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1219",
-          "score": 2.719,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1128",
+          "score": 2.497,
+          "whyLost": "taken by place.naga-kur-deeps.bog-blight-ground-old-cordon"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 454 m from the nearest route; at the water's edge; its first-choice landform; won on landform, hinterland, danger; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 25 m from the nearest route; its first-choice landform; won on landform, parent, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
-        "dangerBand": 3,
-        "distanceToRouteM": 454.4,
-        "distanceToWaterM": 0.0,
-        "score": 2.72
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 24.5,
+        "distanceToWaterM": 41.8,
+        "score": 2.022
+      },
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "combat-challenge",
+        "secondary": [
+          "quest-anchor",
+          "lore-reveal",
+          "vista-landmark"
+        ],
+        "impact": "real",
+        "hook": "Beached in shallow water at a channel bend, so the carcass could be worked from boats and the ribs stayed standing while the rest went",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          },
+          {
+            "slotId": "l3",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -4447,10 +5559,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.naga-kur-deeps.boardwalk-single-spine",
-          "place.naga-kur-deeps.stilt-shallow-reed-stand"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4465,8 +5574,7 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "documents"
+          "lore-fragment"
         ],
         "valueTier": "tier-1"
       },
@@ -4511,7 +5619,60 @@
       "entrance": "grave-cut",
       "underwaterAccess": "none",
       "deferredWhy": "Over-band type (mass-grave-memorial 8/4 province-wide) and the weakest of the three deeps burial sites.",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "dungeon-delve",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "mild",
+        "hook": "Downwind of everything, on ground nobody farms",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "sinkhole-ruin",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-1",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "grave-goods",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.naga-kur-deeps.boardwalk-single-spine",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.maturity-trial-kaju-kill",
@@ -4562,10 +5723,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.naga-kur-deeps.boardwalk-single-spine",
-          "place.naga-kur-deeps.stilt-shallow-reed-stand"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4584,9 +5742,9 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "reputation",
-          "trophy",
-          "quest hook"
+          "faction-access",
+          "unique-item",
+          "quest-hook"
         ],
         "valueTier": "tier-2"
       },
@@ -4632,12 +5790,12 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "position": {
-        "u": 0.45922,
-        "v": 0.80429
+        "u": 0.31644,
+        "v": 0.79313
       },
       "positionM": [
-        3386.1,
-        5930.4
+        2333.2,
+        5848.2
       ],
       "candidatesConsidered": [
         {
@@ -4646,24 +5804,61 @@
           "whyLost": "too close to place.naga-kur-deeps.deepmire-refuge"
         },
         {
-          "siteId": "site.scour.interior-swamp.island-007",
-          "score": 2.754,
-          "whyLost": "too close to place.imperial-penal-south.lake-submerged-xanmeer"
+          "siteId": "site.scour.rootland-deep-marsh.water-narrows-042",
+          "score": 2.272,
+          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         },
         {
-          "siteId": "site.scour.rootland-deep-marsh.water-narrows-041",
-          "score": 2.28,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "siteId": "site.free.any-shallow-marsh-1159",
+          "score": 2.27,
+          "whyLost": "too close to place.naga-kur-deeps.bereaved-hist-less-since"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 77 m from the nearest route; at the water's edge; no free 'ravine' site was left in the zone, so plain ground; won on region, danger, route; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 427 m from the nearest route; at the water's edge; no free 'ravine' site was left in the zone, so plain ground; won on region, remote, danger; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.sinkhole-mouth-deeps (+0.50).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 77.0,
-        "distanceToWaterM": 0.0,
-        "score": 1.758
+        "distanceToRouteM": 426.7,
+        "distanceToWaterM": 5.5,
+        "score": 2.416
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "lore-reveal",
+        "secondary": [],
+        "impact": "real",
+        "hook": "A reach that reliably holds the right animal",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "unique-item",
+            "registerRef": null,
+            "payoff": "unique-item",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.naga-kur-deeps.boardwalk-single-spine",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ]
       }
     },
     {
@@ -4717,10 +5912,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.naga-kur-deeps.boardwalk-single-spine",
-          "place.naga-kur-deeps.stilt-shallow-reed-stand"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4736,8 +5928,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "quest hook"
+          "lore-fragment",
+          "quest-hook"
         ],
         "valueTier": "tier-1"
       },
@@ -4781,7 +5973,44 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Low-value duplicate of the deeps' memorial vocabulary; the Burn Ground and the grave-cairn lines already carry it.",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "lore-reveal",
+        "secondary": [],
+        "impact": "mild",
+        "hook": "At the landing the raiders came up",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.naga-kur-deeps.boardwalk-single-spine",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.miregaunt-ward-open",
@@ -4852,8 +6081,7 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "boss",
-          "relic with provenance"
+          "unique-item"
         ],
         "valueTier": "tier-3"
       },
@@ -4898,38 +6126,72 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.40865,
-        "v": 0.75669
+        "u": 0.3908,
+        "v": 0.71728
       },
       "positionM": [
-        3013.2,
-        5579.5
+        2881.6,
+        5288.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1065",
-          "score": 3.779,
+          "siteId": "site.free.any-shallow-marsh-1079",
+          "score": 3.778,
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1055",
+          "score": 3.777,
           "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1115",
-          "score": 3.775,
-          "whyLost": "too close to place.naga-kur-deeps.wild-hist-rogue-deeps"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1066",
-          "score": 3.768,
+          "siteId": "site.free.any-shallow-marsh-1054",
+          "score": 3.774,
           "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 5), 206 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 214 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
+        "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 205.5,
+        "distanceToRouteM": 213.9,
         "distanceToWaterM": 0.0,
-        "score": 3.226
+        "score": 3.419
+      },
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "combat-challenge",
+        "secondary": [
+          "unique-item",
+          "vista-landmark"
+        ],
+        "impact": "real",
+        "hook": "Open shallow water on no route to anywhere",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "unique-item",
+            "registerRef": null,
+            "payoff": "unique-item",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -5002,8 +6264,7 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "cache",
-          "loot"
+          "loot-cache"
         ],
         "valueTier": "tier-2"
       },
@@ -5049,7 +6310,40 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "deferredFromStatus": "abandoned",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "combat-challenge",
+        "secondary": [
+          "vista-landmark"
+        ],
+        "impact": "real",
+        "hook": "On a channel that no longer goes anywhere",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.naga-highway-camp-active-north",
@@ -5122,9 +6416,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "combat",
-          "loot",
-          "social"
+          "loot-cache",
+          "services"
         ],
         "valueTier": "tier-2"
       },
@@ -5172,39 +6465,72 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.18035,
-        "v": 0.67489
+        "u": 0.42872,
+        "v": 0.80875
       },
       "positionM": [
-        1329.8,
-        4976.3
+        3161.2,
+        5963.3
       ],
-      "scourSiteId": "site.scour.interior-swamp.cliff-bench-045",
+      "scourSiteId": "site.scour.interior-swamp.water-narrows-016",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.interior-swamp.water-narrows-016",
-          "score": 3.62,
-          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+          "siteId": "site.scour.interior-swamp.water-narrows-005",
+          "score": 3.439,
+          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
         },
         {
-          "siteId": "site.scour.interior-swamp.water-narrows-005",
-          "score": 3.589,
-          "whyLost": "too close to place.hist-heartland.greenspring"
+          "siteId": "site.scour.interior-swamp.cliff-bench-045",
+          "score": 3.189,
+          "whyLost": "too close to place.naga-kur-deeps.horwalli-waterworks-deeps"
         },
         {
           "siteId": "site.scour.interior-swamp.ford-024",
-          "score": 3.567,
-          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+          "score": 2.739,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "cliff bench in interior swamp (danger band 4), 49 m from the nearest route; at the water's edge; its choice #5 landform; won on route, region, landform; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "water narrows in interior swamp (danger band 4), 33 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "cliff-bench",
+        "landform": "water-narrows",
         "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 49.0,
-        "distanceToWaterM": 7.8,
-        "score": 3.272
+        "distanceToRouteM": 32.9,
+        "distanceToWaterM": 5.5,
+        "score": 2.774
+      },
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "combat-challenge",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "A blind bend where craft must slow",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -5276,8 +6602,7 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "combat",
-          "loot"
+          "loot-cache"
         ],
         "valueTier": "tier-1"
       },
@@ -5323,7 +6648,38 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "combat-challenge",
+        "secondary": [],
+        "impact": "mild",
+        "hook": "A reed narrows with two exits",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.naga-highway-camp-walkway",
@@ -5395,8 +6751,7 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "combat",
-          "loot",
+          "loot-cache",
           "evidence"
         ],
         "valueTier": "tier-2"
@@ -5445,7 +6800,46 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "combat-challenge",
+        "secondary": [],
+        "impact": "real",
+        "hook": "Beneath a long walkway with no line of sight from either end",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "evidence",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.naga-village-raiding",
@@ -5491,17 +6885,14 @@
       },
       "relations": {
         "dependsOn": [],
-        "supplies": [
-          "place.naga-kur-deeps.naga-highway-camp-active-south"
-        ],
+        "supplies": [],
         "rivals": [
           "place.mercantile-coast.naga-village-oliis",
           "place.naga-kur-deeps.naga-highway-camp-active-north",
           "place.naga-kur-deeps.naga-village-settled"
         ],
         "patrols": [
-          "place.naga-kur-deeps.naga-highway-camp-active-north",
-          "place.naga-kur-deeps.naga-highway-camp-active-south"
+          "place.naga-kur-deeps.naga-highway-camp-active-north"
         ],
         "tolls": [],
         "visibleFrom": [],
@@ -5527,9 +6918,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "combat",
-          "loot",
-          "bounty"
+          "loot-cache",
+          "faction-access"
         ],
         "valueTier": "tier-2"
       },
@@ -5576,38 +6966,77 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.24512,
-        "v": 0.66604
+        "u": 0.43022,
+        "v": 0.7381
       },
       "positionM": [
-        1807.4,
-        4911.1
+        3172.2,
+        5442.4
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.interior-swamp.flood-high-038",
-          "score": 3.108,
-          "whyLost": "taken by place.naga-kur-deeps.refugee-camp-raid"
-        },
-        {
-          "siteId": "site.scour.interior-swamp.island-010",
-          "score": 2.87,
+          "siteId": "site.free.any-shallow-marsh-1232",
+          "score": 3.319,
           "whyLost": "too close to place.imperial-penal-south.blackrose"
         },
         {
-          "siteId": "site.scour.interior-swamp.flood-high-017",
-          "score": 2.75,
-          "whyLost": "too close to place.naga-kur-deeps.horwalli-waterworks-deeps"
+          "siteId": "site.free.any-shallow-marsh-1207",
+          "score": 3.313,
+          "whyLost": "too close to place.imperial-penal-south.blackrose"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1208",
+          "score": 3.305,
+          "whyLost": "too close to place.imperial-penal-south.blackrose"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 88 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on region, hinterland, route; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 4), 12 m from the nearest route; at the water's edge; no free 'flood-high' site was left in the zone, so plain ground; won on region, hinterland, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.dead-water-village (+1.09).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
-        "dangerBand": 5,
-        "distanceToRouteM": 88.4,
-        "distanceToWaterM": 32.9,
-        "score": 1.422
+        "dangerBand": 4,
+        "distanceToRouteM": 12.3,
+        "distanceToWaterM": 15.5,
+        "score": 2.938
+      },
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [],
+        "impact": "real",
+        "hook": "A creek head that reaches three routes and hides a fleet of poling craft",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "strongroom",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "supplies": [
+          "place.naga-kur-deeps.naga-highway-camp-active-south"
+        ],
+        "patrols": [
+          "place.naga-kur-deeps.naga-highway-camp-active-south"
+        ]
       }
     },
     {
@@ -5662,7 +7091,6 @@
           "place.naga-kur-deeps.dead-water-village"
         ],
         "rivals": [
-          "place.naga-kur-deeps.insular-hostile-first",
           "place.naga-kur-deeps.naga-highway-camp-active-north",
           "place.naga-kur-deeps.naga-village-raiding"
         ],
@@ -5694,9 +7122,9 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "trade",
-          "faction access",
-          "quest hook"
+          "trade-access",
+          "faction-access",
+          "quest-hook"
         ],
         "valueTier": "tier-2"
       },
@@ -5746,38 +7174,67 @@
       "ownerFaction": "faction.naga-kur",
       "localStateVariants": [],
       "position": {
-        "u": 0.14465,
-        "v": 0.79983
+        "u": 0.26289,
+        "v": 0.83924
       },
       "positionM": [
-        1066.5,
-        5897.5
+        1938.4,
+        6188.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.interior-swamp.flood-high-038",
-          "score": 2.587,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
-        },
-        {
-          "siteId": "site.scour.interior-swamp.flood-high-017",
-          "score": 2.29,
-          "whyLost": "too close to place.naga-kur-deeps.horwalli-waterworks-deeps"
-        },
-        {
           "siteId": "site.scour.interior-swamp.flood-high-028",
-          "score": 2.28,
-          "whyLost": "taken by place.naga-kur-deeps.harmed-hist-enslaved"
+          "score": 2.58,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
+        },
+        {
+          "siteId": "site.scour.interior-swamp.flood-high-029",
+          "score": 2.573,
+          "whyLost": "taken by place.naga-kur-deeps.deepmire-refuge"
+        },
+        {
+          "siteId": "site.scour.interior-swamp.island-010",
+          "score": 2.543,
+          "whyLost": "too close to place.imperial-penal-south.blackrose"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 207 m from the nearest route; at the water's edge; no free 'flood-high' site was left in the zone, so plain ground; won on region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 280 m from the nearest route; at the water's edge; no free 'flood-high' site was left in the zone, so plain ground; won on region, danger, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.voriplasm-chamber-breached (+1.42).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
-        "dangerBand": 4,
-        "distanceToRouteM": 206.7,
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 280.3,
         "distanceToWaterM": 0.0,
-        "score": 1.165
+        "score": 2.141
+      },
+      "hostility": {
+        "baseline": "wary",
+        "owner": "faction.naga-kur",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "Firm ground on the inner swamp's main poling route",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "rivals": [
+          "place.naga-kur-deeps.insular-hostile-first"
+        ]
       }
     },
     {
@@ -5830,8 +7287,7 @@
           "place.naga-kur-deeps.bog-blight-ground-nine-stakes",
           "place.naga-kur-deeps.bog-blight-ground-old-cordon",
           "place.naga-kur-deeps.dead-water-village",
-          "place.naga-kur-deeps.root-gallery-blight-warren",
-          "place.naga-kur-deeps.urn-vault-sealed-deeps"
+          "place.naga-kur-deeps.root-gallery-blight-warren"
         ],
         "rivals": [
           "place.hist-heartland.necropolis-dead-tenders",
@@ -5862,8 +7318,8 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "knowledge",
-          "reagents"
+          "lore-fragment",
+          "materials"
         ],
         "valueTier": "tier-2"
       },
@@ -5912,38 +7368,91 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.15394,
-        "v": 0.75976
+        "u": 0.16026,
+        "v": 0.81024
       },
       "positionM": [
-        1135.1,
-        5602.1
+        1181.7,
+        5974.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1242",
-          "score": 3.618,
+          "siteId": "site.free.any-shallow-marsh-1207",
+          "score": 3.919,
           "whyLost": "too close to place.imperial-penal-south.blackrose"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1280",
-          "score": 3.613,
-          "whyLost": "too close to place.mercantile-coast.soulrest"
+          "siteId": "site.free.any-shallow-marsh-1232",
+          "score": 3.913,
+          "whyLost": "too close to place.imperial-penal-south.blackrose"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1243",
-          "score": 3.611,
+          "siteId": "site.free.any-shallow-marsh-1208",
+          "score": 3.908,
           "whyLost": "too close to place.imperial-penal-south.blackrose"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 38 m from the nearest route; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 319 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 38.4,
-        "distanceToWaterM": 41.8,
-        "score": 3.207
+        "distanceToRouteM": 319.0,
+        "distanceToWaterM": 0.0,
+        "score": 3.432
+      },
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [
+          "lore-reveal",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "Central to nine fields, on the one rise that stays dry",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "root-cavern",
+        "sizeBand": "S2",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "supplies": [
+          "place.naga-kur-deeps.urn-vault-sealed-deeps"
+        ]
       }
     },
     {
@@ -6017,8 +7526,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "bounty",
-          "goods",
+          "faction-access",
+          "trade-access",
           "evidence"
         ],
         "valueTier": "tier-2"
@@ -6065,38 +7574,71 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.11044,
-        "v": 0.79983
+        "u": 0.1268,
+        "v": 0.82437
       },
       "positionM": [
-        814.3,
-        5897.5
+        934.9,
+        6078.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1234",
-          "score": 4.012,
+          "siteId": "site.free.any-shallow-marsh-1232",
+          "score": 2.899,
+          "whyLost": "too close to place.naga-kur-deeps.refugee-camp-raid"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1200",
+          "score": 2.894,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1246",
-          "score": 3.999,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1186",
-          "score": 3.997,
+          "siteId": "site.free.any-shallow-marsh-1175",
+          "score": 2.892,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 33 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on route, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 216 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on route, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 3,
-        "distanceToRouteM": 32.9,
-        "distanceToWaterM": 5.5,
-        "score": 4.014
+        "distanceToRouteM": 216.0,
+        "distanceToWaterM": 23.3,
+        "score": 2.899
+      },
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "combat-challenge",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "Between three nesting sites, on a creek with a fast exit",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "evidence",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -6143,13 +7685,9 @@
       },
       "relations": {
         "dependsOn": [],
-        "supplies": [
-          "place.naga-kur-deeps.flood-high-levee-top",
-          "place.naga-kur-deeps.stilt-shallow-reed-stand"
-        ],
+        "supplies": [],
         "rivals": [
-          "place.naga-kur-deeps.drowning-narrows-tidal-gate",
-          "place.naga-kur-deeps.stilt-tidal-black-piles"
+          "place.naga-kur-deeps.drowning-narrows-tidal-gate"
         ],
         "patrols": [],
         "tolls": [],
@@ -6176,7 +7714,7 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "transport",
+          "services",
           "rumour"
         ],
         "valueTier": "tier-1"
@@ -6223,38 +7761,71 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "position": {
-        "u": 0.63919,
-        "v": 0.70017
+        "u": 0.50533,
+        "v": 0.75744
       },
       "positionM": [
-        4713.1,
-        5162.7
+        3726.1,
+        5585.0
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.scour.tropical-jungle.water-narrows-000",
-          "score": 3.723,
-          "whyLost": "too close to place.hist-heartland.root-talk-ground"
+          "score": 3.711,
+          "whyLost": "too close to place.hist-heartland.daril-fermentary-interior"
         },
         {
           "siteId": "site.scour.tropical-jungle.water-narrows-054",
-          "score": 3.656,
-          "whyLost": "too close to place.hist-heartland.umpholo-mission"
+          "score": 3.636,
+          "whyLost": "too close to place.mercantile-coast.insular-jungle-village"
         },
         {
-          "siteId": "site.free.any-firm-ground-1121",
-          "score": 3.614,
-          "whyLost": "too close to place.naga-kur-deeps.root-whisper-village"
+          "siteId": "site.free.any-firm-ground-1058",
+          "score": 3.632,
+          "whyLost": "too close to place.naga-kur-deeps.dead-water-village"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 252 m from the nearest route; at the water's edge; no free 'waterfall' site was left in the zone, so plain ground; won on route, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 422 m from the nearest route; at the water's edge; no free 'waterfall' site was left in the zone, so plain ground; won on region, hinterland, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 251.6,
+        "distanceToRouteM": 422.3,
         "distanceToWaterM": 0.0,
-        "score": 3.127
+        "score": 2.97
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "navigation-aid",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "mild",
+        "hook": "The shortest crossing of the neck between two channels",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "supplies": [
+          "place.naga-kur-deeps.flood-high-levee-top",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
+        "rivals": [
+          "place.naga-kur-deeps.stilt-tidal-black-piles"
+        ]
       }
     },
     {
@@ -6301,11 +7872,8 @@
       },
       "relations": {
         "dependsOn": [],
-        "supplies": [
-          "place.naga-kur-deeps.stilt-tidal-black-piles"
-        ],
+        "supplies": [],
         "rivals": [
-          "place.naga-kur-deeps.boardwalk-single-spine",
           "place.naga-kur-deeps.drifting-village-wet-mooring"
         ],
         "patrols": [],
@@ -6331,7 +7899,7 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "trade",
+          "trade-access",
           "rumour"
         ],
         "valueTier": "tier-1"
@@ -6379,40 +7947,71 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "position": {
-        "u": 0.15134,
-        "v": 0.72918
+        "u": 0.44295,
+        "v": 0.76822
       },
       "positionM": [
-        1115.9,
-        5376.6
+        3266.1,
+        5664.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1288",
-          "score": 4.263,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.scour.interior-swamp.cove-012",
+          "score": 4.272,
+          "whyLost": "too close to place.mercantile-coast.lilmoth"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1261",
-          "score": 4.227,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.any-shallow-marsh-1269",
+          "score": 4.145,
+          "whyLost": "too close to place.mercantile-coast.soulrest"
         },
         {
-          "siteId": "site.scour.interior-swamp.cove-009",
-          "score": 3.976,
-          "whyLost": "too close to place.hist-heartland.greenspring"
+          "siteId": "site.free.any-shallow-marsh-1292",
+          "score": 4.121,
+          "whyLost": "too close to place.mercantile-coast.soulrest"
         }
       ],
-      "whySiteWon": "cove in interior swamp (danger band 4), 150 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, region; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 38 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, region; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "cove",
+        "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 149.7,
+        "distanceToRouteM": 38.4,
         "distanceToWaterM": 0.0,
-        "score": 3.505
+        "score": 2.679
       },
-      "scourSiteId": "site.scour.interior-swamp.cove-046"
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "mild",
+        "hook": "A sheltered backwater with no current",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "supplies": [
+          "place.naga-kur-deeps.stilt-tidal-black-piles"
+        ],
+        "rivals": [
+          "place.naga-kur-deeps.boardwalk-single-spine"
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.refugee-camp-raid",
@@ -6487,8 +8086,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "quest hook",
-          "trade"
+          "quest-hook",
+          "trade-access"
         ],
         "valueTier": "tier-1"
       },
@@ -6533,39 +8132,63 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.30379,
-        "v": 0.82659
+        "u": 0.29933,
+        "v": 0.81619
       },
       "positionM": [
-        2240.0,
-        6094.9
+        2207.1,
+        6018.2
       ],
-      "scourSiteId": "site.scour.interior-swamp.flood-high-038",
+      "scourSiteId": "site.scour.interior-swamp.island-010",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.interior-swamp.island-010",
-          "score": 3.621,
+          "siteId": "site.scour.interior-swamp.flood-high-028",
+          "score": 3.745,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.interior-swamp.flood-high-017",
-          "score": 3.504,
+          "siteId": "site.scour.interior-swamp.island-006",
+          "score": 3.62,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.interior-swamp.island-011",
-          "score": 3.328,
+          "siteId": "site.free.any-shallow-marsh-1207",
+          "score": 3.173,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "flood high in interior swamp (danger band 3), 259 m from the nearest route; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "island in interior swamp (danger band 3), 342 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "flood-high",
+        "landform": "island",
         "regionClass": "interior swamp",
         "dangerBand": 3,
-        "distanceToRouteM": 258.7,
-        "distanceToWaterM": 31.0,
-        "score": 3.808
+        "distanceToRouteM": 342.1,
+        "distanceToWaterM": 0.0,
+        "score": 3.921
+      },
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "mild",
+        "hook": "The first defensible ground they reached",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
       }
     },
     {
@@ -6639,9 +8262,9 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "passage",
-          "loot",
-          "reagents"
+          "route-unlock",
+          "loot-cache",
+          "materials"
         ],
         "valueTier": "tier-2"
       },
@@ -6705,18 +8328,18 @@
       "scourSiteId": "site.scour.rootland-deep-marsh.flood-high-026",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.rootland-deep-marsh.flood-high-037",
-          "score": 3.352,
+          "siteId": "site.free.any-shallow-marsh-1054",
+          "score": 2.398,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.rootland-deep-marsh.flood-high-023",
-          "score": 3.346,
+          "siteId": "site.free.any-shallow-marsh-1079",
+          "score": 2.394,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.interior-swamp.flood-high-029",
-          "score": 3.051,
+          "siteId": "site.free.any-shallow-marsh-1055",
+          "score": 2.392,
           "whyLost": "lost on score"
         }
       ],
@@ -6728,6 +8351,53 @@
         "distanceToRouteM": 544.5,
         "distanceToWaterM": 19.8,
         "score": 3.353
+      },
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "dungeon-delve",
+        "secondary": [
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "The roots reach the graves, which is the whole problem",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "root-cavern",
+        "sizeBand": "S3",
+        "wetFraction": 0.4,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -6801,9 +8471,9 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "passage",
-          "loot",
-          "reagents"
+          "route-unlock",
+          "loot-cache",
+          "materials"
         ],
         "valueTier": "tier-2"
       },
@@ -6851,7 +8521,54 @@
       "underwaterAccess": "deep-dive",
       "localStateVariants": [],
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "dungeon-delve",
+        "secondary": [
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "It connects the village to three of its stake-fields without crossing open water",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "root-cavern",
+        "sizeBand": "S1",
+        "wetFraction": 0.6,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.root-gallery-drowned-lanes",
@@ -6924,9 +8641,9 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "passage",
-          "loot",
-          "reagents"
+          "route-unlock",
+          "loot-cache",
+          "materials"
         ],
         "valueTier": "tier-2"
       },
@@ -6974,7 +8691,54 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "dungeon-delve",
+        "secondary": [
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "It is the fast route across the zone for anyone who can dive",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "root-cavern",
+        "sizeBand": "S1",
+        "wetFraction": 0.2,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.root-whisper-village",
@@ -7050,9 +8814,9 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "lore",
-          "faction access",
-          "quest hook"
+          "lore-fragment",
+          "faction-access",
+          "quest-hook"
         ],
         "valueTier": "tier-4"
       },
@@ -7134,17 +8898,17 @@
       "candidatesConsidered": [
         {
           "siteId": "site.scour.interior-swamp.flood-high-029",
-          "score": 3.422,
+          "score": 3.722,
           "whyLost": "taken by place.naga-kur-deeps.deepmire-refuge"
+        },
+        {
+          "siteId": "site.scour.interior-swamp.flood-high-028",
+          "score": 3.164,
+          "whyLost": "lost on score"
         },
         {
           "siteId": "site.scour.interior-swamp.flood-high-017",
           "score": 3.011,
-          "whyLost": "too close to place.naga-kur-deeps.horwalli-waterworks-deeps"
-        },
-        {
-          "siteId": "site.scour.interior-swamp.flood-high-028",
-          "score": 2.864,
           "whyLost": "lost on score"
         }
       ],
@@ -7155,7 +8919,47 @@
         "dangerBand": 4,
         "distanceToRouteM": 272.2,
         "distanceToWaterM": 0.0,
-        "score": 2.93
+        "score": 3.23
+      },
+      "hostility": {
+        "baseline": "wary",
+        "owner": "faction.cyrodilic-collections",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [
+          "quest-anchor",
+          "lore-reveal"
+        ],
+        "impact": "major",
+        "hook": "East Deepmire ground the tribe never technically left, held between two pre-Duskfall xanmeers that mark it from a distance and keep the approach to one line",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "root-cavern",
+        "sizeBand": "S3",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-4",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -7225,8 +9029,7 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "dungeon",
-          "treasure"
+          "loot-cache"
         ],
         "valueTier": "tier-3"
       },
@@ -7275,7 +9078,46 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "deferredFromStatus": "ruined",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "dungeon-delve",
+        "secondary": [
+          "vista-landmark"
+        ],
+        "impact": "real",
+        "hook": "A rise in black water with no approach that is not overlooked by the building",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "xanmeer-complex",
+        "sizeBand": "S2",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.serpent-ground-moon-adder",
@@ -7346,8 +9188,7 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "reagents",
-          "combat"
+          "materials"
         ],
         "valueTier": "tier-2"
       },
@@ -7390,7 +9231,46 @@
       "entrance": "burrow",
       "underwaterAccess": "none",
       "deferredWhy": "Adder venom (daril) is already sited at the fermentary and the Kaju ground; the bank itself is dressing.",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "combat-challenge",
+        "secondary": [
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "Open banks with a clear sky line — rare here",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "warren",
+        "family": "burrow-warren",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.sinkhole-mouth-deeps",
@@ -7462,8 +9342,8 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "dungeon entrance",
-          "treasure"
+          "route-unlock",
+          "loot-cache"
         ],
         "valueTier": "tier-3"
       },
@@ -7508,38 +9388,77 @@
       "underwaterAccess": "deep-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.2733,
-        "v": 0.81916
+        "u": 0.33577,
+        "v": 0.76487
       },
       "positionM": [
-        2015.2,
-        6040.1
+        2475.8,
+        5639.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1171",
-          "score": 2.715,
-          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
+          "siteId": "site.free.any-shallow-marsh-1160",
+          "score": 2.722,
+          "whyLost": "too close to place.naga-kur-deeps.bereaved-hist-less-since"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1197",
-          "score": 2.563,
-          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
+          "siteId": "site.free.any-shallow-marsh-1186",
+          "score": 2.555,
+          "whyLost": "too close to place.naga-kur-deeps.bereaved-hist-less-since"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1140",
-          "score": 2.547,
-          "whyLost": "too close to place.naga-kur-deeps.sithis-temple-mass-sacrifice"
+          "siteId": "site.free.any-shallow-marsh-1131",
+          "score": 2.529,
+          "whyLost": "too close to place.naga-kur-deeps.bereaved-hist-less-since"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 395 m from the nearest route; at the water's edge; no free 'sinkhole' site was left in the zone, so plain ground; won on region, parent, remote; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 525 m from the nearest route; at the water's edge; no free 'sinkhole' site was left in the zone, so plain ground; won on region, remote, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.maturity-trial-kaju-kill (+0.50).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
-        "dangerBand": 3,
-        "distanceToRouteM": 394.9,
-        "distanceToWaterM": 16.5,
-        "score": 1.928
+        "dangerBand": 4,
+        "distanceToRouteM": 524.8,
+        "distanceToWaterM": 0.0,
+        "score": 2.667
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "wonder-oddity",
+        "secondary": [
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "A rare karst collapse the swamp has flooded rather than filled",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "flooded-cave",
+        "sizeBand": "S2",
+        "wetFraction": 0.6,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -7590,10 +9509,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.naga-kur-deeps.boardwalk-single-spine",
-          "place.naga-kur-deeps.stilt-shallow-reed-stand"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -7611,9 +9527,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "faction access",
-          "knowledge",
-          "combat"
+          "faction-access",
+          "lore-fragment"
         ],
         "valueTier": "tier-3"
       },
@@ -7698,6 +9613,51 @@
         "distanceToRouteM": 490.6,
         "distanceToWaterM": 49.4,
         "score": 2.952
+      },
+      "hostility": {
+        "baseline": "guarded",
+        "owner": "faction.nisswo",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "faction-gateway",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "Black water on all sides and no neighbour close enough to object",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "root-cavern",
+        "sizeBand": "S3",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.naga-kur-deeps.boardwalk-single-spine",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ]
       }
     },
     {
@@ -7749,10 +9709,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.naga-kur-deeps.boardwalk-single-spine",
-          "place.naga-kur-deeps.stilt-shallow-reed-stand"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -7770,7 +9727,7 @@
       "rewardProfile": {
         "kinds": [
           "rumour",
-          "trade"
+          "trade-access"
         ],
         "valueTier": "tier-1"
       },
@@ -7815,7 +9772,44 @@
       "entrance": "cellar-door",
       "underwaterAccess": "none",
       "deferredWhy": "Tier-4 dressing; the same beat reads better as a dressing row inside the Pale Village.",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "hidden-secret",
+          "service-hub"
+        ],
+        "impact": "mild",
+        "hook": "A dry stone box in a zone with almost no dry stone",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "root-cavern",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.naga-kur-deeps.boardwalk-single-spine",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.standing-curiosity-mechanism-deeps",
@@ -7890,8 +9884,7 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "curiosity",
-          "knowledge"
+          "lore-fragment"
         ],
         "valueTier": "tier-2"
       },
@@ -7938,7 +9931,40 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [],
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "lore-reveal",
+        "secondary": [
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "Bedded in the swamp floor at the Horwalli works' outfall — probably not a coincidence",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.stilt-shallow-reed-stand",
@@ -7989,7 +10015,6 @@
         ],
         "supplies": [
           "place.mercantile-coast.lilmoth",
-          "place.naga-kur-deeps.boardwalk-single-spine",
           "place.naga-kur-deeps.dead-water-village",
           "place.naga-kur-deeps.raft-village-lashed"
         ],
@@ -8021,7 +10046,7 @@
       "rewardProfile": {
         "kinds": [
           "materials",
-          "trade"
+          "trade-access"
         ],
         "valueTier": "tier-1"
       },
@@ -8069,7 +10094,52 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [
+          "vista-landmark",
+          "service-hub"
+        ],
+        "impact": "mild",
+        "hook": "The largest withy stand in the zone",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "dwelling",
+        "sizeBand": "S1",
+        "wetFraction": 0.2,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "supplies": [
+          "place.naga-kur-deeps.boardwalk-single-spine"
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.stilt-tidal-black-piles",
@@ -8119,12 +10189,10 @@
           "place.naga-kur-deeps.drowning-narrows-tidal-gate"
         ],
         "supplies": [
-          "place.naga-kur-deeps.beast-keeper-crocodile",
-          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+          "place.naga-kur-deeps.beast-keeper-crocodile"
         ],
         "rivals": [
-          "place.naga-kur-deeps.portage-slipway-narrows-deeps",
-          "place.naga-kur-deeps.treasure-hunters-living-deeps"
+          "place.naga-kur-deeps.portage-slipway-narrows-deeps"
         ],
         "patrols": [],
         "tolls": [],
@@ -8150,8 +10218,7 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "fish",
-          "supplies"
+          "rest-shelter"
         ],
         "valueTier": "tier-1"
       },
@@ -8199,7 +10266,43 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [],
+        "impact": "mild",
+        "hook": "Twice-daily water movement flushes the channel — the only clean water for kilometres",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "root-cavern",
+        "sizeBand": "S1",
+        "wetFraction": 0.2,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "supplies": [
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ],
+        "rivals": [
+          "place.naga-kur-deeps.treasure-hunters-living-deeps"
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.submerged-xanmeer-fully",
@@ -8271,8 +10374,7 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "dungeon",
-          "treasure"
+          "loot-cache"
         ],
         "valueTier": "tier-3"
       },
@@ -8320,7 +10422,46 @@
       "underwaterAccess": "argonian-only-depth",
       "localStateVariants": [],
       "deferredFromStatus": "drowned",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "dungeon-delve",
+        "secondary": [
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "It sank level, so the whole structure is preserved and enterable",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "xanmeer-complex",
+        "sizeBand": "S2",
+        "wetFraction": 0.8,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.tended-xanmeer-pilgrim-deeps",
@@ -8372,10 +10513,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.naga-kur-deeps.boardwalk-single-spine",
-          "place.naga-kur-deeps.stilt-shallow-reed-stand"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -8391,8 +10529,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "rest"
+          "lore-fragment",
+          "rest-shelter"
         ],
         "valueTier": "tier-1"
       },
@@ -8441,7 +10579,52 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "deferredFromStatus": "ruined",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "dungeon-delve",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "mild",
+        "hook": "On the pilgrim water route, at the last mooring",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "xanmeer-complex",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.naga-kur-deeps.boardwalk-single-spine",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.treasure-hunters-living-deeps",
@@ -8515,9 +10698,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "trade",
-          "treasure",
-          "rivalry"
+          "trade-access",
+          "loot-cache"
         ],
         "valueTier": "tier-2"
       },
@@ -8562,7 +10744,41 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [],
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "vista-landmark",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "Between two drowned villages and a submerged xanmeer",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "strongroom",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.umbriel-stripped-undead",
@@ -8638,9 +10854,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "combat",
-          "deed",
-          "loot"
+          "faction-access",
+          "loot-cache"
         ],
         "valueTier": "tier-3"
       },
@@ -8705,39 +10920,79 @@
         }
       ],
       "position": {
-        "u": 0.36701,
-        "v": 0.75521
+        "u": 0.16249,
+        "v": 0.78421
       },
       "positionM": [
-        2706.1,
-        5568.5
+        1198.1,
+        5782.4
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.interior-swamp.flood-high-029",
-          "score": 3.416,
-          "whyLost": "taken by place.naga-kur-deeps.deepmire-refuge"
-        },
-        {
-          "siteId": "site.scour.interior-swamp.flood-high-017",
-          "score": 3.016,
+          "siteId": "site.free.any-shallow-marsh-1099",
+          "score": 2.026,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.interior-swamp.island-007",
-          "score": 2.966,
+          "siteId": "site.free.roadside-0251",
+          "score": 1.884,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0253",
+          "score": 1.875,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in seasonal floodplain (danger band 4), 449 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, remote; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "flood high in interior swamp (danger band 4), 151 m from the nearest route; its first-choice landform; won on landform, region, route; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "seasonal floodplain",
+        "landform": "flood-high",
+        "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 449.3,
-        "distanceToWaterM": 21.9,
-        "score": 3.054
-      }
+        "distanceToRouteM": 150.9,
+        "distanceToWaterM": 69.4,
+        "score": 3.016
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "lore-reveal",
+        "secondary": [
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "Directly on the shadow's path, which nobody could have chosen",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "abandoned-plantation",
+        "sizeBand": "S3",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "scourSiteId": "site.scour.interior-swamp.flood-high-017"
     },
     {
       "id": "place.naga-kur-deeps.urn-vault-sealed-deeps",
@@ -8788,10 +11043,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.naga-kur-deeps.boardwalk-single-spine",
-          "place.naga-kur-deeps.stilt-shallow-reed-stand"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -8806,8 +11058,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "documents",
-          "quest hook"
+          "lore-fragment",
+          "quest-hook"
         ],
         "valueTier": "tier-2"
       },
@@ -8851,7 +11103,60 @@
       "entrance": "grave-cut",
       "underwaterAccess": "none",
       "deferredWhy": "Duplicates the Staking Village's burial function at destination scale in an over-budget zone.",
-      "localStateVariants": []
+      "localStateVariants": [],
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "dungeon-delve",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "The only reliably dry chamber for kilometres, which is why it was used",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "sinkhole-ruin",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "grave-goods",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.naga-kur-deeps.boardwalk-single-spine",
+          "place.naga-kur-deeps.stilt-shallow-reed-stand"
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.voriplasm-chamber-breached",
@@ -8921,8 +11226,7 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "combat",
-          "treasure"
+          "loot-cache"
         ],
         "valueTier": "tier-3"
       },
@@ -8967,38 +11271,78 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.35213,
-        "v": 0.79388
+        "u": 0.40419,
+        "v": 0.77603
       },
       "positionM": [
-        2596.4,
-        5853.7
+        2980.3,
+        5722.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1065",
-          "score": 3.049,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "siteId": "site.free.any-firm-ground-1007",
+          "score": 2.616,
+          "whyLost": "too close to place.saxhleel-coast.lagoon-submerged-xanmeer"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1115",
-          "score": 3.044,
-          "whyLost": "too close to place.naga-kur-deeps.wild-hist-rogue-deeps"
+          "siteId": "site.free.any-shallow-marsh-0799",
+          "score": 2.589,
+          "whyLost": "too close to place.hist-heartland.hist-sarpa-highflower"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1066",
-          "score": 3.039,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "siteId": "site.free.any-firm-ground-1037",
+          "score": 2.581,
+          "whyLost": "too close to place.saxhleel-coast.lagoon-submerged-xanmeer"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 280 m from the nearest route; at the water's edge; no free 'sinkhole' site was left in the zone, so plain ground; won on region, parent, route; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 255 m from the nearest route; at the water's edge; no free 'sinkhole' site was left in the zone, so plain ground; won on region, parent, landform; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.naga-village-settled (+1.42).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 279.6,
+        "distanceToRouteM": 255.1,
         "distanceToWaterM": 0.0,
-        "score": 2.259
+        "score": 1.569
+      },
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "combat-challenge",
+        "secondary": [
+          "hidden-secret",
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "Under a xanmeer floor, in ground that is still moving",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "root-cavern",
+        "sizeBand": "S2",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -9071,9 +11415,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "combat",
-          "reagents",
-          "route"
+          "materials",
+          "services"
         ],
         "valueTier": "tier-3"
       },
@@ -9118,38 +11461,77 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "position": {
-        "u": 0.3908,
-        "v": 0.71728
+        "u": 0.35064,
+        "v": 0.65332
       },
       "positionM": [
-        2881.6,
-        5288.9
+        2585.5,
+        4817.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1066",
-          "score": 4.079,
+          "siteId": "site.free.any-shallow-marsh-1055",
+          "score": 4.067,
           "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1065",
-          "score": 4.069,
+          "siteId": "site.free.any-shallow-marsh-1054",
+          "score": 4.063,
           "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1089",
-          "score": 4.065,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "siteId": "site.free.any-shallow-marsh-1079",
+          "score": 4.048,
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 214 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 309 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 213.9,
-        "distanceToWaterM": 0.0,
-        "score": 3.736
+        "distanceToRouteM": 308.7,
+        "distanceToWaterM": 12.3,
+        "score": 3.833
+      },
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "combat-challenge",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "Deep still water directly on the route — the worst possible place for it",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "root-cavern",
+        "sizeBand": "S2",
+        "wetFraction": 0.2,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -9221,9 +11603,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "shortcut",
-          "salvage",
-          "combat"
+          "route-unlock",
+          "loot-cache"
         ],
         "valueTier": "tier-2"
       },
@@ -9269,7 +11650,38 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "traversal-puzzle",
+        "secondary": [],
+        "impact": "real",
+        "hook": "Where the channel narrows and every flood adds to the pile",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.naga-kur-deeps.wild-hist-rogue-deeps",
@@ -9340,9 +11752,9 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "reagents",
-          "quest evidence"
+          "lore-fragment",
+          "materials",
+          "evidence"
         ],
         "valueTier": "tier-3"
       },
@@ -9391,14 +11803,14 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.32313,
-        "v": 0.73439
+        "u": 0.28891,
+        "v": 0.77604
       },
       "positionM": [
-        2382.6,
-        5415.0
+        2130.3,
+        5722.1
       ],
-      "scourSiteId": "site.scour.rootland-deep-marsh.flood-high-037",
+      "scourSiteId": "site.scour.interior-swamp.island-007",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.interior-swamp.flood-high-029",
@@ -9406,24 +11818,63 @@
           "whyLost": "taken by place.naga-kur-deeps.deepmire-refuge"
         },
         {
-          "siteId": "site.scour.interior-swamp.island-007",
-          "score": 3.13,
-          "whyLost": "too close to place.imperial-penal-south.lake-submerged-xanmeer"
-        },
-        {
           "siteId": "site.scour.interior-swamp.island-006",
           "score": 3.091,
-          "whyLost": "too close to place.naga-kur-deeps.deepmire-refuge"
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.flood-high-037",
+          "score": 3.033,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "flood high in rootland deep marsh (danger band 5), 719 m from the nearest route; its choice #2 landform; won on remote, landform, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "island in interior swamp (danger band 4), 639 m from the nearest route; at the water's edge; its choice #3 landform; won on remote, landform, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "flood-high",
-        "regionClass": "rootland deep marsh",
-        "dangerBand": 5,
-        "distanceToRouteM": 718.9,
-        "distanceToWaterM": 38.8,
-        "score": 3.033
+        "landform": "island",
+        "regionClass": "interior swamp",
+        "dangerBand": 4,
+        "distanceToRouteM": 639.4,
+        "distanceToWaterM": 0.0,
+        "score": 3.13
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "lore-reveal",
+        "secondary": [],
+        "impact": "real",
+        "hook": "Deep swamp, no tribe, no witnesses to argue about it",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -9498,9 +11949,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "salvage",
-          "treasure",
-          "documents"
+          "loot-cache",
+          "lore-fragment"
         ],
         "valueTier": "tier-2"
       },
@@ -9548,23 +11998,23 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.11192,
-        "v": 0.88461
+        "u": 0.13905,
+        "v": 0.76669
       },
       "positionM": [
-        825.3,
-        6522.6
+        1025.3,
+        5653.2
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.scour.lake-standing-water.cove-018",
-          "score": 3.482,
-          "whyLost": "too close to place.saxhleel-coast.gap-reef"
+          "score": 3.458,
+          "whyLost": "too close to place.saxhleel-coast.wall-hist-village"
         },
         {
           "siteId": "site.scour.interior-swamp.cove-012",
           "score": 3.148,
-          "whyLost": "too close to place.naga-kur-deeps.drowning-narrows-tidal-gate"
+          "whyLost": "too close to place.mercantile-coast.slaughter-memorial"
         },
         {
           "siteId": "site.scour.interior-swamp.cove-009",
@@ -9572,14 +12022,62 @@
           "whyLost": "too close to place.hist-heartland.greenspring"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 230 m from the nearest route; no free 'cove' site was left in the zone, so plain ground; won on route, hinterland, danger; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 33 m from the nearest route; no free 'cove' site was left in the zone, so plain ground; won on route, hinterland, danger; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 3,
-        "distanceToRouteM": 230.4,
-        "distanceToWaterM": 73.8,
-        "score": 2.529
+        "distanceToRouteM": 32.9,
+        "distanceToWaterM": 51.7,
+        "score": 2.554
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "wonder-oddity",
+        "secondary": [
+          "lore-reveal",
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "It sank in the deep of the bend and has never shifted",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "flooded-cave",
+        "sizeBand": "S1",
+        "wetFraction": 0.4,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
       }
     }
   ]

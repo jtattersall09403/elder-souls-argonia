@@ -1,0 +1,127 @@
+{"id":"hlaalu:hlaaluarchitecture/custom/baseentrance00","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/baseentrance00.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/baseentrance01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/baseentrance01.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/basetower00","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/basetower00.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/basetower01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/basetower01.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/dome","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/dome.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/entrance00","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/entrance00.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/house01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/house01.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/house01base","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/house01base.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/housebase00","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/housebase00.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/housebase01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/housebase01.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/housetall01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/housetall01.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/largewindow00","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/largewindow00.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/middletower00","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/middletower00.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/middletower01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/middletower01.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/roof","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/roof.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/toptower00","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/toptower00.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/toptower01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/toptower01.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/tower00","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/tower00.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/tower01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/tower01.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/tower02","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/tower02.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/tower03","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/tower03.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/tower04","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/tower04.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/tower05","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/tower05.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/tower06","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/tower06.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/tower07","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/tower07.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/custom/tower08","pool":"hlaalu","path":"meshes/hlaaluarchitecture/custom/tower08.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/miniwall","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/miniwall.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall001","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/misc walls/stonewall001.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall002","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/misc walls/stonewall002.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall003","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/misc walls/stonewall003.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallcorner001","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/misc walls/stonewallcorner001.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallcurve001","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/misc walls/stonewallcurve001.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallendpillar001","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/misc walls/stonewallendpillar001.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallgatearc001","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/misc walls/stonewallgatearc001.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/multi_barrels00","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/multi_barrels00.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/multi_crate00","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/multi_crate00.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/skavenclaystairs","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/skavenclaystairs.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/stairs01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/stairs01.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trgmlcwall","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trgmlcwall.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trgmlcwall90a","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trgmlcwall90a.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokena","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trgmlcwallbrokena.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokenb","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trgmlcwallbrokenb.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokenc","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trgmlcwallbrokenc.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallend","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trgmlcwallend.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallentera","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trgmlcwallentera.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallenterb","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trgmlcwallenterb.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trcrane02base","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trcrane02base.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trgmcover1","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trgmcover1.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trgmcover2","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trgmcover2.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trgmcoverstairs","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trgmcoverstairs.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trgmfence","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trgmfence.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trgmfenceend","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trgmfenceend.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trgmfencepost","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trgmfencepost.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trgmstairs01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trgmstairs01.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trgmstoneblock01.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock02","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trgmstoneblock02.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock03","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trgmstoneblock03.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trgmbridge01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trgmbridge01.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/trgmbridge02","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/trgmbridge02.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/tradehome","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/tradehome.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/hammerfell/treesphit","pool":"hlaalu","path":"meshes/hlaaluarchitecture/hammerfell/treesphit.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchdock01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchdock01.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchdock02","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchdock02.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchdockplatcorin01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchdockplatcorin01.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchdockplatcorout01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchdockplatcorout01.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchdockplatfront01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchdockplatfront01.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchdockplatfront02","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchdockplatfront02.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchdockplatfront03","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchdockplatfront03.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchdockplatfrontshort01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchdockplatfrontshort01.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchdockplatmid01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchdockplatmid01.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchdockplatmid02","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchdockplatmid02.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchentrance01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchentrance01.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchentrance02","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchentrance02.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchledge01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchledge01.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchledge01short","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchledge01short.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchledgecorin01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchledgecorin01.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchledgecorout01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchledgecorout01.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchledgemid01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchledgemid01.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchledgemid02","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchledgemid02.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchledgestairs01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchledgestairs01.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchledgestairsl01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchledgestairsl01.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchledgestairsmid01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchledgestairsmid01.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchledgestairsr01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchledgestairsr01.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchpool01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchpool01.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchstonewallcor01tall","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchstonewallcor01tall.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchstonewallcor02tall","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchstonewallcor02tall.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchstonewallpost02","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchstonewallpost02.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchstonewallstraight01tall","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchstonewallstraight01tall.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchstonewallstraight01tallrubble","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchstonewallstraight01tallrubble.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchstonewallstraight02","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchstonewallstraight02.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchstonewallstraight02tall","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchstonewallstraight02tall.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchtowerbg01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchtowerbg01.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/morrowindimperialfort/mwimparchtowerbgbase01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/morrowindimperialfort/mwimparchtowerbgbase01.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"hlaalu:hlaaluarchitecture/objects/chest02","pool":"hlaalu","path":"meshes/hlaaluarchitecture/objects/chest02.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/objects/crane01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/objects/crane01.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/objects/crane02","pool":"hlaalu","path":"meshes/hlaaluarchitecture/objects/crane02.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/objects/crane03","pool":"hlaalu","path":"meshes/hlaaluarchitecture/objects/crane03.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/objects/trlanternpost0arm","pool":"hlaalu","path":"meshes/hlaaluarchitecture/objects/trlanternpost0arm.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/objects/trlanternpost1arm","pool":"hlaalu","path":"meshes/hlaaluarchitecture/objects/trlanternpost1arm.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/objects/trlanternpost2arm","pool":"hlaalu","path":"meshes/hlaaluarchitecture/objects/trlanternpost2arm.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/objects/trlanternpost4arm","pool":"hlaalu","path":"meshes/hlaaluarchitecture/objects/trlanternpost4arm.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/objects/trlanternpostarm","pool":"hlaalu","path":"meshes/hlaaluarchitecture/objects/trlanternpostarm.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/objects/trlanternpostbase","pool":"hlaalu","path":"meshes/hlaaluarchitecture/objects/trlanternpostbase.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/objects/dbstainglassframe01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/objects/dbstainglassframe01.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/objects/sbigplanter02t","pool":"hlaalu","path":"meshes/hlaaluarchitecture/objects/sbigplanter02t.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/objects/winterholdsymbol01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/objects/winterholdsymbol01.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/objects/wrtempleplanter_ind","pool":"hlaalu","path":"meshes/hlaaluarchitecture/objects/wrtempleplanter_ind.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/redoran/redoranwalldivider","pool":"hlaalu","path":"meshes/hlaaluarchitecture/redoran/redoranwalldivider.nif","category":"misc","confidence":0.2,"cultures":["dunmer"]}
+{"id":"hlaalu:hlaaluarchitecture/ruins/whruinedcitywall01tgc","pool":"hlaalu","path":"meshes/hlaaluarchitecture/ruins/whruinedcitywall01tgc.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/ruins/whruins01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/ruins/whruins01.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/ruins/whruins02","pool":"hlaalu","path":"meshes/hlaaluarchitecture/ruins/whruins02.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/ruins/whruins03","pool":"hlaalu","path":"meshes/hlaaluarchitecture/ruins/whruins03.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/seaview/window02","pool":"hlaalu","path":"meshes/hlaaluarchitecture/seaview/window02.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/sheogorad ressource/2way","pool":"hlaalu","path":"meshes/hlaaluarchitecture/sheogorad ressource/2way.nif","category":"architecture","confidence":0.8,"cultures":["nordic"]}
+{"id":"hlaalu:hlaaluarchitecture/sheogorad ressource/3way","pool":"hlaalu","path":"meshes/hlaaluarchitecture/sheogorad ressource/3way.nif","category":"architecture","confidence":0.8,"cultures":["nordic"]}
+{"id":"hlaalu:hlaaluarchitecture/sheogorad ressource/4way","pool":"hlaalu","path":"meshes/hlaaluarchitecture/sheogorad ressource/4way.nif","category":"architecture","confidence":0.8,"cultures":["nordic"]}
+{"id":"hlaalu:hlaaluarchitecture/sheogorad ressource/doorjamarched","pool":"hlaalu","path":"meshes/hlaaluarchitecture/sheogorad ressource/doorjamarched.nif","category":"architecture","confidence":0.8,"cultures":["nordic"]}
+{"id":"hlaalu:hlaaluarchitecture/sheogorad ressource/endcap","pool":"hlaalu","path":"meshes/hlaaluarchitecture/sheogorad ressource/endcap.nif","category":"architecture","confidence":0.8,"cultures":["nordic"]}
+{"id":"hlaalu:hlaaluarchitecture/sheogorad ressource/rmcentre","pool":"hlaalu","path":"meshes/hlaaluarchitecture/sheogorad ressource/rmcentre.nif","category":"architecture","confidence":0.8,"cultures":["nordic"]}
+{"id":"hlaalu:hlaaluarchitecture/sheogorad ressource/rmcorner","pool":"hlaalu","path":"meshes/hlaaluarchitecture/sheogorad ressource/rmcorner.nif","category":"architecture","confidence":0.8,"cultures":["nordic"]}
+{"id":"hlaalu:hlaaluarchitecture/sheogorad ressource/rmentry","pool":"hlaalu","path":"meshes/hlaaluarchitecture/sheogorad ressource/rmentry.nif","category":"architecture","confidence":0.8,"cultures":["nordic"]}
+{"id":"hlaalu:hlaaluarchitecture/sheogorad ressource/rmwall","pool":"hlaalu","path":"meshes/hlaaluarchitecture/sheogorad ressource/rmwall.nif","category":"architecture","confidence":0.8,"cultures":["nordic"]}
+{"id":"hlaalu:hlaaluarchitecture/sheogorad ressource/stairs","pool":"hlaalu","path":"meshes/hlaaluarchitecture/sheogorad ressource/stairs.nif","category":"architecture","confidence":0.8,"cultures":["nordic"]}
+{"id":"hlaalu:hlaaluarchitecture/winterhold/whcitygate02tgc","pool":"hlaalu","path":"meshes/hlaaluarchitecture/winterhold/whcitygate02tgc.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/winterhold/whcitytower01","pool":"hlaalu","path":"meshes/hlaaluarchitecture/winterhold/whcitytower01.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/winterhold/whwallchunkwindows01tgc","pool":"hlaalu","path":"meshes/hlaaluarchitecture/winterhold/whwallchunkwindows01tgc.nif","category":"misc","confidence":0.2}
+{"id":"hlaalu:hlaaluarchitecture/winterhold/whwallchunkwindows02ruinedtgc","pool":"hlaalu","path":"meshes/hlaaluarchitecture/winterhold/whwallchunkwindows02ruinedtgc.nif","category":"misc","confidence":0.2}

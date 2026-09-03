@@ -266,6 +266,8 @@ def pool_sources(pool: str, vault: Path) -> PoolSources:
         "depths": "depths-of-skyrim-26913",
         "sirenroot": "sirenroot-70917",
         "htbm": "here-there-be-monsters-cipactli-35933",
+        "mwkeep": "morrowind-imperial-keep-133090",
+        "hlaalu": "morrowind-hlaalu-157997",
     }
     if pool in dir_pools:
         root = vault / "skyrim-source/mod-sources" / dir_pools[pool] / "extracted"
@@ -282,8 +284,11 @@ def pool_sources(pool: str, vault: Path) -> PoolSources:
         # ship and it does not. Declaring the sibling pool here is the same
         # trick BM&V uses with Tropical Skyrim above, and it is the difference
         # between a textured ruin block and a grey slab. Both pools are credited.
+        # Hlaalu Architecture is built ON the Imperial Keep set and reuses its
+        # `tesak1243/mwimperialarchitecture` texture paths without shipping
+        # them, so the keep pool is its sibling.
         siblings = {"sirenroot": ("ayleidkit", "ayleidcc"), "ayleidcc": ("ayleidkit",),
-                    "depths": ("sbot",)}
+                    "depths": ("sbot",), "hlaalu": ("mwkeep",)}
         extra = [
             DirSource(vault / "skyrim-source/mod-sources" / dir_pools[s] / "extracted")
             for s in siblings.get(pool, ())
@@ -332,6 +337,28 @@ def assemble(kit: dict, vault: Path) -> tuple[Path, list[dict], dict]:
     }
     index = registry_index(pools)
     sources = {pool: pool_sources(pool, vault) for pool in pools}
+    # Kit config `textureOverlayPools`: a *retexture* pool whose files sit at
+    # the SAME relative paths as the pool being overlaid (Phase 11 vibe-sheet
+    # audit, proposal T1). Tropical Skyrim ships no architecture meshes at
+    # all — its tropicalisation of the farmhouse/dock/bridge sets is purely
+    # textures under vanilla filenames — so a whole parallel kit family would
+    # be waste. Inserting its texture sources AHEAD of every pool's own
+    # sources makes the same kit build tropical, deterministically, with zero
+    # catalogue edits; drop the key and the un-overlaid kit builds again.
+    for overlay in kit.get("textureOverlayPools") or []:
+        # Only the overlay pool's OWN texture directory, not its vanilla
+        # fallback (which every pool already has at the end of its list).
+        overlay_textures = pool_sources(overlay, vault).textures[:1]
+        for pool, ps in sources.items():
+            if pool == overlay:
+                continue
+            # A pool's OWN textures still win — the overlay only outranks the
+            # vanilla fallback, which every `pool_sources` branch puts last.
+            # So a sourced mod keeps its authored look and only the pieces
+            # that fall back on vanilla art get tropicalised; for the vanilla
+            # pool itself that is the whole kit.
+            cut = 0 if pool == "vanilla" else max(len(ps.textures) - 1, 0)
+            ps.textures = [*ps.textures[:cut], *overlay_textures, *ps.textures[cut:]]
 
     rows = []
     for entry in entries:

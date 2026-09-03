@@ -68,7 +68,26 @@ def project_record(rec: dict, region: str) -> dict:
         "reachedVia": list(rel.get("reachedVia") or []),
         "discovery": rec.get("discovery"),
         "valueTier": reward.get("valueTier"),
+        # schemaVersion 2 (owner feedback round): purpose, stance, interior in one line each
+        "purpose": _purpose_line(rec.get("playerPurpose")),
+        "hook": (rec.get("playerPurpose") or {}).get("hook"),
+        "stance": (rec.get("hostility") or {}).get("baseline"),
+        "interior": _interior_line(rec.get("interior")),
     }
+
+
+def _purpose_line(pp: dict | None) -> str | None:
+    if not pp:
+        return None
+    sec = ", ".join(pp.get("secondary") or [])
+    return f"{pp.get('primary')} ({pp.get('impact')})" + (f" + {sec}" if sec else "")
+
+
+def _interior_line(it: dict | None) -> str | None:
+    if not it or it.get("kind") in (None, "none"):
+        return None
+    wet = it.get("wetFraction")
+    return f"{it.get('kind')} · {it.get('family')} · {it.get('sizeBand')}" + (f" · wet {wet:.0%}" if isinstance(wet, (int, float)) else "")
 
 
 def build_bundle(catalogue_dir: Path = catalogue.CATALOGUE_DIR) -> dict:

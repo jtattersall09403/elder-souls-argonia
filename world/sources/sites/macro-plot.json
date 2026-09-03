@@ -5,18 +5,17 @@
   "generatedBy": "worldgen.macro_plot (Phase 11 Part 3, decision 0041)",
   "supply": {
     "scourSites": 1172,
-    "freeGroundSites": 2014
+    "freeGroundSites": 2001
   },
   "demand": {
     "live": 527,
     "plotted": 527,
     "homelessUnresolved": 0,
     "placedFromHomelessBatch": {
-      "relaxed-score": 3,
-      "spacing-3/4": 33,
-      "spacing-1/2": 9,
-      "neighbour-zone": 11,
-      "region-relaxed": 2
+      "spacing-3/4": 38,
+      "spacing-1/2": 19,
+      "neighbour-zone": 43,
+      "region-relaxed": 1
     }
   },
   "byZone": {
@@ -26,25 +25,28 @@
       "homeless": 0,
       "fromRecipe": 0,
       "byLandform": {
-        "any-firm-ground": 62,
-        "cliff-bench": 12,
-        "ridge-end": 11,
-        "any-shallow-marsh": 8,
+        "any-firm-ground": 65,
+        "ridge-end": 14,
+        "cliff-bench": 10,
         "ravine": 8,
         "gorge": 6,
-        "saddle": 6,
-        "summit": 5,
+        "any-shallow-marsh": 5,
+        "saddle": 5,
         "box-canyon": 4,
+        "island": 4,
+        "summit": 3,
         "anchor": 2,
-        "cove": 2,
-        "island": 2,
-        "islet": 2,
-        "isthmus": 2,
-        "waterfall": 2,
+        "spring-head": 2,
+        "any-channel-bank": 1,
+        "cove": 1,
         "headland": 1,
-        "river-mouth": 1,
+        "islet": 1,
+        "isthmus": 1,
+        "land-bridge": 1,
+        "oxbow": 1,
         "sinkhole": 1,
-        "spring-head": 1
+        "water-narrows": 1,
+        "waterfall": 1
       },
       "byLayer": {
         "fine-tempo": 91,
@@ -66,25 +68,27 @@
       "homeless": 0,
       "fromRecipe": 111,
       "byLandform": {
-        "any-shallow-marsh": 31,
-        "any-firm-ground": 30,
-        "flood-high": 7,
-        "cliff-bench": 6,
-        "water-narrows": 6,
-        "summit": 5,
-        "box-canyon": 3,
-        "enclosed-clearing": 3,
+        "any-firm-ground": 39,
+        "any-shallow-marsh": 30,
+        "flood-high": 6,
+        "cliff-bench": 4,
+        "summit": 4,
         "gorge": 3,
         "islet": 3,
+        "spring-head": 3,
+        "cove": 2,
         "island": 2,
-        "isthmus": 2,
         "oxbow": 2,
-        "spring-head": 2,
+        "water-narrows": 2,
+        "waterfall": 2,
         "anchor": 1,
-        "cove": 1,
-        "ford": 1,
+        "box-canyon": 1,
+        "enclosed-clearing": 1,
+        "isthmus": 1,
+        "land-bridge": 1,
         "ravine": 1,
         "ridge-end": 1,
+        "river-mouth": 1,
         "sinkhole": 1
       },
       "byLayer": {
@@ -107,25 +111,23 @@
       "homeless": 0,
       "fromRecipe": 0,
       "byLandform": {
-        "any-firm-ground": 79,
-        "ridge-end": 11,
-        "ravine": 5,
-        "box-canyon": 4,
+        "any-firm-ground": 75,
+        "ridge-end": 10,
+        "ravine": 6,
+        "gorge": 4,
+        "waterfall": 4,
+        "box-canyon": 3,
+        "saddle": 3,
+        "spring-head": 3,
         "summit": 3,
-        "gorge": 2,
-        "saddle": 2,
-        "spring-head": 2,
+        "any-shallow-marsh": 2,
         "water-narrows": 2,
-        "waterfall": 2,
         "anchor": 1,
-        "any-shallow-marsh": 1,
         "cliff-bench": 1,
-        "confluence": 1,
-        "flood-high": 1,
-        "isthmus": 1,
         "land-bridge": 1,
         "oxbow": 1,
-        "river-mouth": 1
+        "river-mouth": 1,
+        "sinkhole": 1
       },
       "byLayer": {
         "fine-tempo": 94,
@@ -147,16 +149,15 @@
       "homeless": 0,
       "fromRecipe": 21,
       "byLandform": {
-        "any-firm-ground": 8,
+        "any-firm-ground": 7,
+        "flood-high": 3,
         "islet": 3,
+        "cove": 2,
         "ford": 2,
-        "island": 2,
         "anchor": 1,
         "any-shallow-marsh": 1,
-        "cove": 1,
-        "flood-high": 1,
-        "land-bridge": 1,
-        "water-narrows": 1
+        "island": 1,
+        "land-bridge": 1
       },
       "byLayer": {
         "landmark": 10,
@@ -179,16 +180,16 @@
       "fromRecipe": 56,
       "byLandform": {
         "any-firm-ground": 24,
-        "any-shallow-marsh": 10,
-        "flood-high": 6,
-        "cove": 4,
-        "islet": 3,
+        "any-shallow-marsh": 12,
+        "flood-high": 4,
+        "islet": 4,
         "anchor": 2,
+        "ford": 2,
+        "land-bridge": 2,
         "river-mouth": 2,
         "summit": 2,
-        "ford": 1,
-        "headland": 1,
-        "isthmus": 1
+        "cove": 1,
+        "natural-harbour": 1
       },
       "byLayer": {
         "landmark": 8,
@@ -210,17 +211,15 @@
       "homeless": 0,
       "fromRecipe": 39,
       "byLandform": {
-        "any-shallow-marsh": 20,
-        "flood-high": 6,
-        "cove": 3,
-        "any-firm-ground": 2,
-        "land-bridge": 2,
-        "cliff-bench": 1,
-        "confluence": 1,
+        "any-shallow-marsh": 23,
+        "flood-high": 5,
+        "any-firm-ground": 3,
+        "cove": 2,
+        "island": 2,
         "enclosed-clearing": 1,
         "islet": 1,
-        "isthmus": 1,
-        "oxbow": 1
+        "land-bridge": 1,
+        "water-narrows": 1
       },
       "byLayer": {
         "destination": 20,
@@ -242,11 +241,12 @@
       "homeless": 0,
       "fromRecipe": 0,
       "byLandform": {
-        "any-firm-ground": 13,
+        "any-firm-ground": 11,
+        "ridge-end": 2,
         "anchor": 1,
         "cliff-bench": 1,
-        "ridge-end": 1,
-        "saddle": 1
+        "saddle": 1,
+        "summit": 1
       },
       "byLayer": {
         "landmark": 2,
@@ -268,15 +268,14 @@
       "homeless": 0,
       "fromRecipe": 0,
       "byLandform": {
-        "any-firm-ground": 7,
-        "any-shallow-marsh": 6,
-        "cove": 3,
-        "islet": 2,
-        "river-mouth": 2,
+        "any-firm-ground": 8,
+        "any-shallow-marsh": 8,
+        "cove": 2,
+        "water-narrows": 2,
         "anchor": 1,
         "flood-high": 1,
-        "land-bridge": 1,
-        "water-narrows": 1
+        "islet": 1,
+        "river-mouth": 1
       },
       "byLayer": {
         "landmark": 5,
@@ -294,150 +293,181 @@
     }
   },
   "landformUsed": {
-    "any-firm-ground": 225,
-    "any-shallow-marsh": 77,
-    "ridge-end": 24,
-    "flood-high": 22,
-    "cliff-bench": 21,
-    "summit": 15,
-    "cove": 14,
-    "islet": 14,
-    "ravine": 14,
-    "box-canyon": 11,
-    "gorge": 11,
-    "water-narrows": 10,
+    "any-firm-ground": 232,
+    "any-shallow-marsh": 81,
+    "ridge-end": 27,
+    "flood-high": 19,
+    "cliff-bench": 16,
+    "ravine": 15,
+    "gorge": 13,
+    "islet": 13,
+    "summit": 13,
+    "cove": 10,
     "anchor": 9,
+    "island": 9,
     "saddle": 9,
-    "isthmus": 7,
-    "island": 6,
-    "river-mouth": 6,
-    "land-bridge": 5,
-    "spring-head": 5,
-    "enclosed-clearing": 4,
+    "box-canyon": 8,
+    "spring-head": 8,
+    "water-narrows": 8,
+    "land-bridge": 7,
+    "waterfall": 7,
+    "river-mouth": 5,
     "ford": 4,
     "oxbow": 4,
-    "waterfall": 4,
-    "confluence": 2,
-    "headland": 2,
-    "sinkhole": 2
+    "sinkhole": 3,
+    "enclosed-clearing": 2,
+    "isthmus": 2,
+    "any-channel-bank": 1,
+    "headland": 1,
+    "natural-harbour": 1
   },
   "spacing": {
-    "nearestNeighbourP5M": 91,
-    "nearestNeighbourMedianM": 175,
-    "nearestNeighbourP95M": 323,
+    "nearestNeighbourP5M": 87,
+    "nearestNeighbourMedianM": 187,
+    "nearestNeighbourP95M": 305,
     "sameTypeWithinSightPairs": [
       {
-        "a": "place.dunmer-north.one-house-high",
-        "b": "place.dunmer-north.the-gravel-six",
-        "distM": 225
+        "a": "place.dunmer-north.climbs-to-see",
+        "b": "place.dunmer-north.the-diggings-ladder",
+        "distM": 270
       },
       {
-        "a": "place.hist-heartland.stilt-channel-edge-two-poles",
-        "b": "place.hist-heartland.stilt-channel-edge-uxaneet",
-        "distM": 99
+        "a": "place.dunmer-north.the-charge-works",
+        "b": "place.dunmer-north.the-lightning-yard",
+        "distM": 183
+      },
+      {
+        "a": "place.mercantile-coast.ashroot-village",
+        "b": "place.naga-kur-deeps.dead-water-village",
+        "distM": 230
+      },
+      {
+        "a": "place.mercantile-coast.hist-village-keel-sakka",
+        "b": "place.saxhleel-coast.wall-hist-village",
+        "distM": 298
       }
     ]
   },
   "routeDistance": {
-    "medianM": 208,
-    "fineTempoWithin300mFraction": 0.662
+    "medianM": 225,
+    "fineTempoWithin300mFraction": 0.654
   },
   "antiSameynessQuotaBreaches": [],
   "relaxedRecords": [
     {
       "id": "place.dunmer-north.channel-cross-village",
-      "stage": "relaxed-score",
-      "site": "site.scour.lake-standing-water.cliff-bench-025"
+      "stage": "spacing-3/4",
+      "site": "site.scour.lake-standing-water.saddle-059"
     },
     {
-      "id": "place.dunmer-north.climbs-to-see",
+      "id": "place.dunmer-north.draws-the-herds",
       "stage": "spacing-3/4",
-      "site": "site.free.any-shallow-marsh-0256"
+      "site": "site.free.any-firm-ground-0217"
+    },
+    {
+      "id": "place.dunmer-north.greylight-village",
+      "stage": "spacing-1/2",
+      "site": "site.free.roadside-0133"
     },
     {
       "id": "place.dunmer-north.hatching-pools",
-      "stage": "spacing-1/2",
-      "site": "site.free.any-shallow-marsh-0176"
+      "stage": "spacing-3/4",
+      "site": "site.free.roadside-0549"
     },
     {
       "id": "place.dunmer-north.keeps-the-second-island",
       "stage": "spacing-1/2",
-      "site": "site.free.any-firm-ground-0127"
+      "site": "site.free.any-firm-ground-0177"
     },
     {
       "id": "place.dunmer-north.murkwater",
       "stage": "spacing-1/2",
-      "site": "site.free.roadside-0556"
+      "site": "site.free.roadside-0540"
     },
     {
       "id": "place.dunmer-north.murkwater-shadowscale-ground",
       "stage": "spacing-1/2",
-      "site": "site.scour.lake-standing-water.ravine-089"
+      "site": "site.free.any-firm-ground-0046"
+    },
+    {
+      "id": "place.dunmer-north.names-the-year",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-firm-ground-0093"
     },
     {
       "id": "place.dunmer-north.one-house-high",
       "stage": "spacing-3/4",
-      "site": "site.free.any-firm-ground-0253"
+      "site": "site.free.any-firm-ground-0247"
+    },
+    {
+      "id": "place.dunmer-north.reedmoor-stilts",
+      "stage": "spacing-3/4",
+      "site": "site.scour.mangrove-forest.island-021"
+    },
+    {
+      "id": "place.dunmer-north.riverwalk",
+      "stage": "spacing-1/2",
+      "site": "site.free.any-shallow-marsh-0225"
+    },
+    {
+      "id": "place.dunmer-north.saltmarch-village",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-firm-ground-0058"
     },
     {
       "id": "place.dunmer-north.sings-for-the-pipes",
       "stage": "neighbour-zone",
-      "site": "site.free.any-firm-ground-0364"
+      "site": "site.scour.seasonal-floodplain.saddle-052"
     },
     {
       "id": "place.dunmer-north.sits-above-the-flood",
       "stage": "spacing-3/4",
-      "site": "site.free.any-firm-ground-0280"
+      "site": "site.free.roadside-0564"
     },
     {
       "id": "place.dunmer-north.stands-on-the-island",
       "stage": "spacing-1/2",
-      "site": "site.free.roadside-0150"
-    },
-    {
-      "id": "place.dunmer-north.tearmouth",
-      "stage": "spacing-3/4",
-      "site": "site.free.any-firm-ground-0157"
+      "site": "site.free.roadside-0071"
     },
     {
       "id": "place.dunmer-north.the-diggings-ladder",
       "stage": "spacing-3/4",
-      "site": "site.free.any-shallow-marsh-0317"
+      "site": "site.scour.mangrove-forest.island-023"
     },
     {
-      "id": "place.dunmer-north.the-dres-rows",
+      "id": "place.dunmer-north.the-divers-landing",
       "stage": "spacing-3/4",
-      "site": "site.free.any-firm-ground-0111"
+      "site": "site.scour.lake-standing-water.saddle-009"
+    },
+    {
+      "id": "place.dunmer-north.the-field-gate-garrison",
+      "stage": "neighbour-zone",
+      "site": "site.scour.border-mountains.ridge-end-056"
     },
     {
       "id": "place.dunmer-north.the-gravel-six",
       "stage": "spacing-3/4",
-      "site": "site.free.any-firm-ground-0278"
+      "site": "site.free.any-firm-ground-0303"
     },
     {
-      "id": "place.dunmer-north.the-veterans-ridge",
-      "stage": "spacing-3/4",
-      "site": "site.scour.border-mountains.summit-013"
+      "id": "place.dunmer-north.the-shut-village",
+      "stage": "neighbour-zone",
+      "site": "site.free.roadside-0188"
     },
     {
-      "id": "place.dunmer-north.the-whispers-dig",
-      "stage": "spacing-3/4",
-      "site": "site.scour.fringe-marsh.cliff-bench-076"
+      "id": "place.dunmer-north.the-thorn-bond",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-firm-ground-0132"
     },
     {
       "id": "place.dunmer-north.the-white-pans",
-      "stage": "neighbour-zone",
+      "stage": "spacing-3/4",
       "site": "site.scour.ocean.cove-068"
     },
     {
       "id": "place.dunmer-north.three-ways-over-water",
       "stage": "spacing-3/4",
-      "site": "site.free.any-shallow-marsh-0417"
-    },
-    {
-      "id": "place.dunmer-north.ties-four-ways",
-      "stage": "neighbour-zone",
-      "site": "site.scour.mangrove-forest.cove-045"
+      "site": "site.free.roadside-0059"
     },
     {
       "id": "place.dunmer-north.wolk-market",
@@ -445,194 +475,389 @@
       "site": "site.scour.firm-lowland.saddle-016"
     },
     {
+      "id": "place.hist-heartland.blackguard-hideout-raw",
+      "stage": "neighbour-zone",
+      "site": "site.scour.rootland-deep-marsh.island-033"
+    },
+    {
+      "id": "place.hist-heartland.boardwalk-branching-many-ways",
+      "stage": "neighbour-zone",
+      "site": "site.free.roadside-0390"
+    },
+    {
+      "id": "place.hist-heartland.broken-xanmeer-subsumed",
+      "stage": "neighbour-zone",
+      "site": "site.free.roadside-0409"
+    },
+    {
+      "id": "place.hist-heartland.hammock-tree-island-greenmoss",
+      "stage": "spacing-3/4",
+      "site": "site.free.any-firm-ground-0345"
+    },
+    {
+      "id": "place.hist-heartland.legendary-deep-medusa-wood",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-shallow-marsh-0273"
+    },
+    {
+      "id": "place.hist-heartland.miregaunt-ward-approach",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-shallow-marsh-0470"
+    },
+    {
+      "id": "place.hist-heartland.poacher-camp-sap",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-shallow-marsh-0400"
+    },
+    {
+      "id": "place.hist-heartland.root-gallery-collapsed-nine",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-shallow-marsh-0524"
+    },
+    {
+      "id": "place.hist-heartland.root-gallery-drowned-stair",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-firm-ground-0806"
+    },
+    {
+      "id": "place.hist-heartland.root-gallery-lantern-hollow",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-shallow-marsh-0444"
+    },
+    {
+      "id": "place.hist-heartland.rootworm-station-helstrom",
+      "stage": "neighbour-zone",
+      "site": "site.scour.firm-lowland.flood-high-024"
+    },
+    {
+      "id": "place.hist-heartland.sap-tapping-licensed",
+      "stage": "spacing-1/2",
+      "site": "site.free.any-shallow-marsh-0684"
+    },
+    {
+      "id": "place.hist-heartland.stilt-channel-edge-uxaneet",
+      "stage": "neighbour-zone",
+      "site": "site.scour.interior-swamp.cove-011"
+    },
+    {
       "id": "place.imperial-fringe.bog-iron-workings",
       "stage": "spacing-3/4",
-      "site": "site.scour.seasonal-floodplain.river-mouth-007"
+      "site": "site.free.any-firm-ground-0728"
     },
     {
       "id": "place.imperial-fringe.bonded-shed-of-the-onkobra",
       "stage": "spacing-3/4",
-      "site": "site.free.any-firm-ground-1082"
+      "site": "site.free.roadside-0374"
+    },
+    {
+      "id": "place.imperial-fringe.cartwrights-cross",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-firm-ground-0791"
     },
     {
       "id": "place.imperial-fringe.cassian-farm",
-      "stage": "neighbour-zone",
-      "site": "site.free.any-firm-ground-1109"
+      "stage": "spacing-1/2",
+      "site": "site.free.roadside-0249"
     },
     {
       "id": "place.imperial-fringe.claywater-station",
-      "stage": "spacing-3/4",
-      "site": "site.free.roadside-0382"
+      "stage": "spacing-1/2",
+      "site": "site.free.any-firm-ground-0368"
+    },
+    {
+      "id": "place.imperial-fringe.comes-back-slowly",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-firm-ground-0696"
+    },
+    {
+      "id": "place.imperial-fringe.fig-market",
+      "stage": "spacing-1/2",
+      "site": "site.free.any-firm-ground-1044"
+    },
+    {
+      "id": "place.imperial-fringe.glenbridge",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-firm-ground-0894"
+    },
+    {
+      "id": "place.imperial-fringe.glenbridge-sermon-xanmeer",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-firm-ground-0858"
+    },
+    {
+      "id": "place.imperial-fringe.guar-holding-of-the-nine-bells",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-firm-ground-0793"
     },
     {
       "id": "place.imperial-fringe.hearth-house-of-the-burnt-field",
       "stage": "spacing-3/4",
-      "site": "site.scour.upland-hills.waterfall-006"
+      "site": "site.free.any-firm-ground-0700"
     },
     {
       "id": "place.imperial-fringe.highwater-hamlet",
       "stage": "spacing-3/4",
-      "site": "site.free.any-firm-ground-0614"
+      "site": "site.free.roadside-0237"
     },
     {
       "id": "place.imperial-fringe.ladder-to-the-light",
       "stage": "spacing-3/4",
-      "site": "site.free.roadside-0253"
-    },
-    {
-      "id": "place.imperial-fringe.long-causeway",
-      "stage": "spacing-1/2",
-      "site": "site.scour.lake-standing-water.isthmus-005"
+      "site": "site.free.any-shallow-marsh-0415"
     },
     {
       "id": "place.imperial-fringe.lower-onkobra-paddies",
       "stage": "spacing-3/4",
-      "site": "site.free.roadside-0200"
+      "site": "site.free.any-firm-ground-0490"
+    },
+    {
+      "id": "place.imperial-fringe.lowmere-raft-town",
+      "stage": "spacing-1/2",
+      "site": "site.free.roadside-0256"
+    },
+    {
+      "id": "place.imperial-fringe.moonmarch-ground",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-firm-ground-0538"
+    },
+    {
+      "id": "place.imperial-fringe.nine-arch-stage",
+      "stage": "spacing-3/4",
+      "site": "site.free.roadside-0219"
+    },
+    {
+      "id": "place.imperial-fringe.ninth-milestone-house",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-firm-ground-0385"
+    },
+    {
+      "id": "place.imperial-fringe.open-door-at-the-saddle",
+      "stage": "neighbour-zone",
+      "site": "site.free.roadside-0287"
     },
     {
       "id": "place.imperial-fringe.red-cart-yard",
-      "stage": "spacing-3/4",
-      "site": "site.free.roadside-0171"
+      "stage": "spacing-1/2",
+      "site": "site.scour.firm-lowland.waterfall-041"
     },
     {
       "id": "place.imperial-fringe.reedcutters-toll",
       "stage": "spacing-1/2",
-      "site": "site.free.roadside-0180"
+      "site": "site.free.roadside-0292"
+    },
+    {
+      "id": "place.imperial-fringe.saddle-fair",
+      "stage": "neighbour-zone",
+      "site": "site.scour.upland-hills.ravine-024"
     },
     {
       "id": "place.imperial-fringe.slough-point-quarantine-shed",
+      "stage": "neighbour-zone",
+      "site": "site.free.roadside-0208"
+    },
+    {
+      "id": "place.imperial-fringe.swampmoth-town",
       "stage": "spacing-3/4",
-      "site": "site.free.roadside-0230"
+      "site": "site.scour.upland-hills.land-bridge-000"
+    },
+    {
+      "id": "place.imperial-fringe.the-drowned-furrow",
+      "stage": "spacing-3/4",
+      "site": "site.scour.firm-lowland.gorge-031"
     },
     {
       "id": "place.imperial-fringe.the-drowning-gate",
-      "stage": "spacing-3/4",
-      "site": "site.free.roadside-0241"
+      "stage": "neighbour-zone",
+      "site": "site.free.any-firm-ground-1071"
     },
     {
       "id": "place.imperial-fringe.the-embankment-that-drowned",
+      "stage": "neighbour-zone",
+      "site": "site.scour.border-mountains.ridge-end-040"
+    },
+    {
+      "id": "place.imperial-fringe.the-empty-steading",
       "stage": "spacing-3/4",
-      "site": "site.free.any-firm-ground-0716"
+      "site": "site.free.any-firm-ground-0638"
+    },
+    {
+      "id": "place.imperial-fringe.the-lake-divers-yard",
+      "stage": "spacing-1/2",
+      "site": "site.scour.lake-standing-water.box-canyon-010"
     },
     {
       "id": "place.imperial-fringe.the-old-quarters",
       "stage": "spacing-3/4",
-      "site": "site.free.roadside-0312"
+      "site": "site.free.any-firm-ground-0520"
     },
     {
       "id": "place.imperial-fringe.the-second-hearth",
-      "stage": "spacing-3/4",
-      "site": "site.free.any-firm-ground-1085"
-    },
-    {
-      "id": "place.imperial-fringe.the-turned-out",
-      "stage": "relaxed-score",
-      "site": "site.free.any-firm-ground-0798"
+      "stage": "spacing-1/2",
+      "site": "site.free.any-firm-ground-0546"
     },
     {
       "id": "place.imperial-fringe.the-vellum-estate",
+      "stage": "spacing-1/2",
+      "site": "site.free.any-firm-ground-0488"
+    },
+    {
+      "id": "place.imperial-fringe.watch-of-the-weighed-cart",
       "stage": "spacing-3/4",
-      "site": "site.free.any-firm-ground-0528"
+      "site": "site.free.any-firm-ground-0662"
+    },
+    {
+      "id": "place.imperial-fringe.westfield-village",
+      "stage": "spacing-3/4",
+      "site": "site.free.roadside-0289"
     },
     {
       "id": "place.imperial-penal-south.bramman-head",
       "stage": "region-relaxed",
-      "site": "site.scour.fringe-marsh.water-narrows-007"
+      "site": "site.scour.deep-river-corridor.land-bridge-036"
     },
     {
-      "id": "place.imperial-penal-south.murkwood-verge",
-      "stage": "relaxed-score",
-      "site": "site.free.any-firm-ground-1331"
+      "id": "place.imperial-penal-south.lake-submerged-xanmeer",
+      "stage": "neighbour-zone",
+      "site": "site.scour.lake-standing-water.islet-033"
+    },
+    {
+      "id": "place.imperial-penal-south.lilmothiit-quarry",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-firm-ground-1339"
     },
     {
       "id": "place.imperial-penal-south.rockspring",
-      "stage": "spacing-3/4",
-      "site": "site.free.any-shallow-marsh-1324"
+      "stage": "spacing-1/2",
+      "site": "site.scour.firm-lowland.flood-high-010"
     },
     {
       "id": "place.imperial-penal-south.west-market-town",
-      "stage": "spacing-1/2",
-      "site": "site.free.roadside-0583"
+      "stage": "spacing-3/4",
+      "site": "site.free.any-firm-ground-1255"
     },
     {
-      "id": "place.mercantile-coast.ashfield",
+      "id": "place.mercantile-coast.ashroot-village",
       "stage": "spacing-3/4",
-      "site": "site.free.roadside-0511"
+      "site": "site.free.any-firm-ground-0982"
     },
     {
       "id": "place.mercantile-coast.bereaved-village-murkmire",
       "stage": "spacing-3/4",
-      "site": "site.free.roadside-0459"
+      "site": "site.free.any-firm-ground-1300"
     },
     {
       "id": "place.mercantile-coast.hammock-village-murkmire",
       "stage": "spacing-3/4",
-      "site": "site.free.any-firm-ground-1311"
+      "site": "site.free.any-firm-ground-1340"
     },
     {
       "id": "place.mercantile-coast.head-of-tide",
-      "stage": "neighbour-zone",
-      "site": "site.free.any-firm-ground-1051"
-    },
-    {
-      "id": "place.mercantile-coast.high-junction",
-      "stage": "neighbour-zone",
-      "site": "site.free.any-shallow-marsh-1326"
-    },
-    {
-      "id": "place.mercantile-coast.mudfoot",
       "stage": "spacing-3/4",
-      "site": "site.free.any-shallow-marsh-1279"
+      "site": "site.free.any-firm-ground-0990"
+    },
+    {
+      "id": "place.mercantile-coast.hereguard-plantation",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-firm-ground-1355"
+    },
+    {
+      "id": "place.mercantile-coast.hist-village-keel-sakka",
+      "stage": "spacing-3/4",
+      "site": "site.free.any-firm-ground-1090"
+    },
+    {
+      "id": "place.mercantile-coast.keel-sakka-stilts",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-shallow-marsh-1170"
     },
     {
       "id": "place.mercantile-coast.naga-village-oliis",
-      "stage": "neighbour-zone",
-      "site": "site.free.any-firm-ground-1019"
+      "stage": "spacing-3/4",
+      "site": "site.free.any-firm-ground-1173"
     },
     {
       "id": "place.mercantile-coast.necropolis-village-murkmire",
       "stage": "spacing-3/4",
-      "site": "site.free.roadside-0588"
+      "site": "site.free.roadside-0499"
     },
     {
       "id": "place.mercantile-coast.oliis-boardwalk",
       "stage": "spacing-3/4",
-      "site": "site.free.any-shallow-marsh-1255"
+      "site": "site.free.any-shallow-marsh-1315"
     },
     {
-      "id": "place.mercantile-coast.oliis-tide-run",
+      "id": "place.mercantile-coast.screen-watch",
+      "stage": "spacing-1/2",
+      "site": "site.free.roadside-0035"
+    },
+    {
+      "id": "place.mercantile-coast.stripped-village-north",
       "stage": "neighbour-zone",
-      "site": "site.free.any-shallow-marsh-1368"
+      "site": "site.free.roadside-0500"
     },
     {
-      "id": "place.mercantile-coast.soulrest-breaking-yard",
-      "stage": "region-relaxed",
-      "site": "site.free.roadside-0002"
+      "id": "place.mercantile-coast.topal-salt-pans",
+      "stage": "neighbour-zone",
+      "site": "site.scour.ocean.natural-harbour-006"
+    },
+    {
+      "id": "place.naga-kur-deeps.beast-keeper-crocodile",
+      "stage": "spacing-3/4",
+      "site": "site.free.any-shallow-marsh-1209"
+    },
+    {
+      "id": "place.naga-kur-deeps.dive-shaft-natural-deeps",
+      "stage": "spacing-3/4",
+      "site": "site.scour.lake-standing-water.cove-008"
     },
     {
       "id": "place.naga-kur-deeps.drifting-village-wet-mooring",
       "stage": "spacing-3/4",
-      "site": "site.free.any-shallow-marsh-1167"
+      "site": "site.free.any-shallow-marsh-1168"
     },
     {
       "id": "place.naga-kur-deeps.drowned-village-lake-deeps",
       "stage": "neighbour-zone",
-      "site": "site.scour.lake-standing-water.cove-017"
+      "site": "site.free.roadside-0041"
+    },
+    {
+      "id": "place.naga-kur-deeps.legendary-deep-feather-serpent",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-shallow-marsh-1191"
+    },
+    {
+      "id": "place.naga-kur-deeps.naga-village-raiding",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-shallow-marsh-1108"
     },
     {
       "id": "place.naga-kur-deeps.portage-slipway-narrows-deeps",
       "stage": "neighbour-zone",
-      "site": "site.free.any-firm-ground-1079"
+      "site": "site.free.any-firm-ground-1137"
     },
     {
       "id": "place.naga-kur-deeps.raft-village-lashed",
       "stage": "spacing-3/4",
-      "site": "site.scour.interior-swamp.cove-046"
+      "site": "site.free.roadside-0425"
     },
     {
-      "id": "place.pirate-freeholds.dunmer-frontier-holding",
+      "id": "place.naga-kur-deeps.voriplasm-chamber-breached",
       "stage": "neighbour-zone",
-      "site": "site.scour.border-mountains.ridge-end-073"
+      "site": "site.free.any-shallow-marsh-1162"
+    },
+    {
+      "id": "place.pirate-freeholds.freehold-market",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-firm-ground-0281"
+    },
+    {
+      "id": "place.pirate-freeholds.rim-keystone-chamber",
+      "stage": "neighbour-zone",
+      "site": "site.free.any-firm-ground-0230"
+    },
+    {
+      "id": "place.pirate-freeholds.rim-snowline-hermitage",
+      "stage": "neighbour-zone",
+      "site": "site.scour.border-mountains.summit-005"
     }
   ],
   "namedConstraintChecks": [
@@ -640,13 +865,13 @@
       "id": "place.dunmer-north.mazzatun-hist",
       "kind": "bound",
       "to": "place.dunmer-north.mazzatun",
-      "distM": 204
+      "distM": 330
     },
     {
       "id": "place.dunmer-north.murkwater-shadowscale-ground",
       "kind": "bound",
       "to": "place.dunmer-north.murkwater",
-      "distM": 317
+      "distM": 1007
     },
     {
       "id": "place.dunmer-north.stormhold-causeway",
@@ -665,43 +890,43 @@
       "id": "place.dunmer-north.the-first-count",
       "kind": "sightline",
       "to": "place.dunmer-north.stormhold",
-      "distM": 216,
+      "distM": 431,
       "lineOfSight": true
     },
     {
       "id": "place.dunmer-north.the-flu-cordon",
       "kind": "sightline",
       "to": "place.dunmer-north.stillrise-village",
-      "distM": 496,
+      "distM": 280,
       "lineOfSight": true
     },
     {
       "id": "place.dunmer-north.the-north-vista",
       "kind": "sightline",
       "to": "place.dunmer-north.the-pass-station",
-      "distM": 574,
+      "distM": 938,
       "lineOfSight": true
     },
     {
       "id": "place.dunmer-north.the-outer-silyanorn",
       "kind": "sightline",
       "to": "place.dunmer-north.stormhold",
-      "distM": 795,
+      "distM": 1034,
       "lineOfSight": true
     },
     {
       "id": "place.dunmer-north.the-silyanorn-crown",
       "kind": "sightline",
       "to": "place.dunmer-north.the-outer-silyanorn",
-      "distM": 529,
+      "distM": 693,
       "lineOfSight": true
     },
     {
       "id": "place.dunmer-north.the-slumped-hamlet",
       "kind": "sightline",
       "to": "place.dunmer-north.the-shut-village",
-      "distM": 116,
-      "lineOfSight": true
+      "distM": 3214,
+      "lineOfSight": false
     },
     {
       "id": "place.dunmer-north.the-stormhold-falls-chamber",
@@ -713,20 +938,20 @@
       "id": "place.dunmer-north.the-thorn-bond",
       "kind": "bound",
       "to": "place.dunmer-north.thorn",
-      "distM": 397
+      "distM": 143
     },
     {
       "id": "place.dunmer-north.the-veterans-ridge",
       "kind": "sightline",
       "to": "place.dunmer-north.tear-road-stage",
-      "distM": 637,
+      "distM": 1246,
       "lineOfSight": true
     },
     {
       "id": "place.dunmer-north.thorn-paddy-terraces",
       "kind": "bound",
       "to": "place.dunmer-north.thorn",
-      "distM": 169
+      "distM": 230
     },
     {
       "id": "place.dunmer-north.wolk-market",
@@ -745,7 +970,7 @@
       "id": "place.hist-heartland.sap-tapping-licensed",
       "kind": "sightline",
       "to": "place.hist-heartland.harmed-hist-tapped",
-      "distM": 236,
+      "distM": 760,
       "lineOfSight": true
     },
     {
@@ -759,7 +984,7 @@
       "id": "place.imperial-fringe.ashen-tower",
       "kind": "sightline",
       "to": "place.imperial-fringe.fort-swampmoth",
-      "distM": 1468,
+      "distM": 653,
       "lineOfSight": true
     },
     {
@@ -773,7 +998,7 @@
       "id": "place.imperial-fringe.fort-swampmoth",
       "kind": "sightline",
       "to": "place.imperial-fringe.mile-house-of-the-eagle",
-      "distM": 839,
+      "distM": 922,
       "lineOfSight": true
     },
     {
@@ -786,66 +1011,66 @@
       "id": "place.imperial-fringe.gideon-synod-outstation",
       "kind": "bound",
       "to": "place.imperial-fringe.gideon",
-      "distM": 289
+      "distM": 276
     },
     {
       "id": "place.imperial-fringe.giovesse-lines",
       "kind": "sightline",
       "to": "place.imperial-fringe.castle-giovesse",
-      "distM": 701,
+      "distM": 619,
       "lineOfSight": true
     },
     {
       "id": "place.imperial-fringe.glenbridge",
       "kind": "sightline",
       "to": "place.imperial-fringe.glenbridge-sermon-xanmeer",
-      "distM": 400,
+      "distM": 133,
       "lineOfSight": true
     },
     {
       "id": "place.imperial-fringe.glenbridge-sermon-xanmeer",
       "kind": "sightline",
       "to": "place.imperial-fringe.glenbridge",
-      "distM": 400,
+      "distM": 133,
       "lineOfSight": true
     },
     {
       "id": "place.imperial-fringe.glenbridge-sermon-xanmeer",
       "kind": "bound",
       "to": "place.imperial-fringe.glenbridge",
-      "distM": 400
+      "distM": 133
     },
     {
       "id": "place.imperial-fringe.hearth-house-of-the-burnt-field",
       "kind": "bound",
       "to": "place.imperial-fringe.cartwrights-cross",
-      "distM": 113
+      "distM": 406
     },
     {
       "id": "place.imperial-fringe.ridge-runners-post",
       "kind": "sightline",
       "to": "place.imperial-fringe.ashen-tower",
-      "distM": 161,
+      "distM": 920,
       "lineOfSight": true
     },
     {
       "id": "place.imperial-fringe.slough-point-quarantine-shed",
       "kind": "bound",
       "to": "place.imperial-fringe.slough-point",
-      "distM": 271
+      "distM": 73
     },
     {
       "id": "place.imperial-fringe.the-drowning-gate",
       "kind": "sightline",
       "to": "place.imperial-fringe.the-embankment-that-drowned",
-      "distM": 269,
+      "distM": 1453,
       "lineOfSight": true
     },
     {
       "id": "place.imperial-fringe.the-embankment-that-drowned",
       "kind": "sightline",
       "to": "place.imperial-fringe.the-drowning-gate",
-      "distM": 269,
+      "distM": 1453,
       "lineOfSight": true
     },
     {
@@ -859,21 +1084,21 @@
       "id": "place.imperial-fringe.the-ring-of-nine-wells",
       "kind": "sightline",
       "to": "place.imperial-fringe.twyllbek-ruins",
-      "distM": 285,
+      "distM": 575,
       "lineOfSight": true
     },
     {
       "id": "place.imperial-fringe.the-shut-door",
       "kind": "sightline",
       "to": "place.imperial-fringe.the-kept-terrace",
-      "distM": 672,
+      "distM": 1002,
       "lineOfSight": true
     },
     {
       "id": "place.imperial-fringe.the-snowline-cell",
       "kind": "sightline",
       "to": "place.imperial-fringe.ridge-runners-post",
-      "distM": 743,
+      "distM": 1270,
       "lineOfSight": true
     },
     {
@@ -887,14 +1112,14 @@
       "id": "place.imperial-fringe.the-two-lamps-hermitage",
       "kind": "sightline",
       "to": "place.imperial-fringe.the-lamp-at-the-ford",
-      "distM": 99,
+      "distM": 1158,
       "lineOfSight": true
     },
     {
       "id": "place.imperial-fringe.twyllbek-crown",
       "kind": "sightline",
       "to": "place.imperial-fringe.twyllbek-ruins",
-      "distM": 633,
+      "distM": 333,
       "lineOfSight": true
     },
     {
@@ -907,7 +1132,7 @@
       "id": "place.mercantile-coast.soulrest-breaking-yard",
       "kind": "bound",
       "to": "place.mercantile-coast.soulrest",
-      "distM": 88
+      "distM": 224
     },
     {
       "id": "place.saxhleel-coast.archon-harbour-hist",
@@ -932,14 +1157,8 @@
     {
       "from": "place.dunmer-north.hatching-pools",
       "field": "patrols",
-      "to": "route.shadowfen-paths",
+      "to": "route.road.alten-corimont-stormhold",
       "why": "unknown id"
-    },
-    {
-      "from": "place.dunmer-north.hissmir",
-      "field": "supplies",
-      "to": "place.saxhleel-coast.coast-hist-less-refuge",
-      "why": "deferred/cut"
     },
     {
       "from": "place.dunmer-north.hixinoag",
@@ -950,7 +1169,7 @@
     {
       "from": "place.dunmer-north.riverwalk",
       "field": "tolls",
-      "to": "route.northern-trunk",
+      "to": "route.road.stormhold-thorn",
       "why": "unknown id"
     },
     {
@@ -962,7 +1181,7 @@
     {
       "from": "place.dunmer-north.stormhold",
       "field": "tolls",
-      "to": "route.northern-river",
+      "to": "route.boat.stormhold-alten-corimont",
       "why": "unknown id"
     },
     {
@@ -1010,20 +1229,14 @@
     {
       "from": "place.dunmer-north.the-drover-camp",
       "field": "patrols",
-      "to": "route.tear-road",
+      "to": "route.road.thorn-tear-road",
       "why": "unknown id"
     },
     {
       "from": "place.dunmer-north.the-field-gate-garrison",
       "field": "patrols",
-      "to": "route.tear-road",
+      "to": "route.road.thorn-tear-road",
       "why": "unknown id"
-    },
-    {
-      "from": "place.dunmer-north.the-freed-rows",
-      "field": "supplies",
-      "to": "place.pirate-freeholds.freed-worker-shelter",
-      "why": "deferred/cut"
     },
     {
       "from": "place.dunmer-north.the-monsoon-boom",
@@ -1034,7 +1247,7 @@
     {
       "from": "place.dunmer-north.the-north-border-post",
       "field": "patrols",
-      "to": "route.tear-road",
+      "to": "route.road.thorn-tear-road",
       "why": "unknown id"
     },
     {
@@ -1082,19 +1295,19 @@
     {
       "from": "place.dunmer-north.the-two-gate-bridge",
       "field": "tolls",
-      "to": "route.tear-road",
+      "to": "route.road.thorn-tear-road",
       "why": "unknown id"
     },
     {
       "from": "place.dunmer-north.the-xanmeer-hold",
       "field": "patrols",
-      "to": "route.shadowfen-paths",
+      "to": "route.road.alten-corimont-stormhold",
       "why": "unknown id"
     },
     {
       "from": "place.dunmer-north.thorn",
       "field": "tolls",
-      "to": "route.tear-road",
+      "to": "route.road.thorn-tear-road",
       "why": "unknown id"
     },
     {
@@ -1108,30 +1321,6 @@
       "field": "reachedVia",
       "to": "route.tear-road",
       "why": "unknown id"
-    },
-    {
-      "from": "place.hist-heartland.artisan-chime-makers",
-      "field": "supplies",
-      "to": "place.mercantile-coast.vossa-satl-village",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.hist-heartland.artisan-chime-makers",
-      "field": "rivals",
-      "to": "place.mercantile-coast.vossa-satl-village",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.hist-heartland.bone-waystation-interior",
-      "field": "dependsOn",
-      "to": "place.imperial-penal-south.rose-bone-waystation",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.hist-heartland.bone-waystation-interior",
-      "field": "dependsOn",
-      "to": "place.mercantile-coast.bone-waystation",
-      "why": "deferred/cut"
     },
     {
       "from": "place.hist-heartland.helstrom",
@@ -1148,25 +1337,19 @@
     {
       "from": "place.imperial-fringe.ashen-tower",
       "field": "patrols",
-      "to": "route.blackwood-road",
-      "why": "unknown id"
-    },
-    {
-      "from": "place.imperial-fringe.bonded-shed-of-the-onkobra",
-      "field": "rivals",
-      "to": "place.mercantile-coast.collections-bond",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-fringe.cartwrights-cross",
-      "field": "tolls",
-      "to": "route.blackwood-road",
+      "to": "route.road.gideon-blackwood-road",
       "why": "unknown id"
     },
     {
       "from": "place.imperial-fringe.cartwrights-cross",
       "field": "tolls",
-      "to": "route.north-track",
+      "to": "route.road.gideon-blackwood-road",
+      "why": "unknown id"
+    },
+    {
+      "from": "place.imperial-fringe.cartwrights-cross",
+      "field": "tolls",
+      "to": "route.road.gideon-stormhold",
       "why": "unknown id"
     },
     {
@@ -1182,12 +1365,6 @@
       "why": "unknown id"
     },
     {
-      "from": "place.imperial-fringe.collections-dig",
-      "field": "rivals",
-      "to": "place.mercantile-coast.collections-field-station",
-      "why": "deferred/cut"
-    },
-    {
       "from": "place.imperial-fringe.fort-swampmoth",
       "field": "dependsOn",
       "to": "route.blackwood-road",
@@ -1196,7 +1373,7 @@
     {
       "from": "place.imperial-fringe.fort-swampmoth",
       "field": "tolls",
-      "to": "route.blackwood-road",
+      "to": "route.road.gideon-blackwood-road",
       "why": "unknown id"
     },
     {
@@ -1220,7 +1397,7 @@
     {
       "from": "place.imperial-fringe.hollow-arch-toll",
       "field": "tolls",
-      "to": "route.blackwood-road",
+      "to": "route.road.gideon-blackwood-road",
       "why": "unknown id"
     },
     {
@@ -1268,19 +1445,19 @@
     {
       "from": "place.imperial-fringe.rockgrove",
       "field": "patrols",
-      "to": "route.blackwood-bog-causeway",
+      "to": "route.road.gideon-soulrest",
       "why": "unknown id"
     },
     {
       "from": "place.imperial-fringe.slough-point",
       "field": "tolls",
-      "to": "route.blackwood-road",
+      "to": "route.road.gideon-blackwood-road",
       "why": "unknown id"
     },
     {
       "from": "place.imperial-fringe.stonewastes",
       "field": "patrols",
-      "to": "route.blackwood-bog-causeway",
+      "to": "route.road.gideon-soulrest",
       "why": "unknown id"
     },
     {
@@ -1334,7 +1511,7 @@
     {
       "from": "place.imperial-fringe.the-last-post",
       "field": "patrols",
-      "to": "route.blackwood-road",
+      "to": "route.road.gideon-blackwood-road",
       "why": "unknown id"
     },
     {
@@ -1380,30 +1557,6 @@
       "why": "unknown id"
     },
     {
-      "from": "place.imperial-fringe.the-turned-out",
-      "field": "supplies",
-      "to": "place.imperial-penal-south.owing-camp-basin",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-fringe.the-turned-out",
-      "field": "supplies",
-      "to": "place.mercantile-coast.owing-eviction-camp-west",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-fringe.the-turned-out",
-      "field": "supplies",
-      "to": "place.pirate-freeholds.corimont-hiring-yard",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-fringe.the-turned-out",
-      "field": "supplies",
-      "to": "place.saxhleel-coast.owing-hiring-camp",
-      "why": "deferred/cut"
-    },
-    {
       "from": "place.imperial-fringe.the-white-throat",
       "field": "reachedVia",
       "to": "route.rim-path",
@@ -1414,24 +1567,6 @@
       "field": "reachedVia",
       "to": "boat:low-fen",
       "why": "unknown id"
-    },
-    {
-      "from": "place.imperial-penal-south.blackrose",
-      "field": "dependsOn",
-      "to": "place.imperial-penal-south.saltrice-village",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.blackrose",
-      "field": "patrols",
-      "to": "place.imperial-penal-south.chainlink-watchtower",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.blackrose",
-      "field": "patrols",
-      "to": "place.imperial-penal-south.manned-toll-tower",
-      "why": "deferred/cut"
     },
     {
       "from": "place.imperial-penal-south.blackrose",
@@ -1446,196 +1581,10 @@
       "why": "unknown id"
     },
     {
-      "from": "place.imperial-penal-south.blackrose-drowned-hist",
-      "field": "reachedVia",
-      "to": "place.imperial-penal-south.lake-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.blackrose-prison",
-      "field": "supplies",
-      "to": "place.imperial-penal-south.ledgered-blackguards",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.blackrose-prison",
-      "field": "patrols",
-      "to": "place.imperial-penal-south.chainlink-watchtower",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.bramman-head",
-      "field": "reachedVia",
-      "to": "place.imperial-penal-south.lake-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.chainbreaker-shelter",
-      "field": "supplies",
-      "to": "place.mercantile-coast.bone-waystation",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.chainbreaker-shelter",
-      "field": "rivals",
-      "to": "place.imperial-penal-south.manned-toll-tower",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.chainbreaker-shelter",
-      "field": "rivals",
-      "to": "place.imperial-penal-south.owing-camp-basin",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.drawdown-flat",
-      "field": "reachedVia",
-      "to": "place.imperial-penal-south.lake-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.feeder-portage",
-      "field": "reachedVia",
-      "to": "place.imperial-penal-south.lake-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.flu-quarantine-village",
-      "field": "dependsOn",
-      "to": "place.imperial-penal-south.plague-cordon",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.flu-quarantine-village",
-      "field": "reachedVia",
-      "to": "place.imperial-penal-south.lake-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.lake-submerged-xanmeer",
-      "field": "reachedVia",
-      "to": "place.imperial-penal-south.lake-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.longmont",
-      "field": "supplies",
-      "to": "place.imperial-penal-south.lake-stall-row",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.longmont",
-      "field": "rivals",
-      "to": "place.imperial-penal-south.lake-boardwalk-village",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.longmont",
-      "field": "reachedVia",
-      "to": "place.imperial-penal-south.lake-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.rockspring",
-      "field": "rivals",
-      "to": "place.imperial-penal-south.saltrice-village",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.rose-flooded-passage",
-      "field": "reachedVia",
-      "to": "place.imperial-penal-south.lake-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.rose-supply-town",
-      "field": "dependsOn",
-      "to": "place.imperial-penal-south.imperial-farmstead-basin",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.three-gate-toll",
-      "field": "patrols",
-      "to": "place.imperial-penal-south.manned-toll-tower",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.three-gate-toll",
-      "field": "patrols",
-      "to": "place.imperial-penal-south.xanmeer-span-bridge",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.imperial-penal-south.west-market-town",
-      "field": "dependsOn",
-      "to": "place.imperial-penal-south.disputed-estate-village",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.alten-meerhleel",
-      "field": "supplies",
-      "to": "place.mercantile-coast.collections-bond",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.alten-meerhleel",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.coast-road-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.ashfield",
-      "field": "dependsOn",
-      "to": "place.mercantile-coast.ashfield-hearth",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.ashfield",
-      "field": "rivals",
-      "to": "place.mercantile-coast.cinderhome",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.ashfield",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.coast-road-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.ashroot-village",
-      "field": "dependsOn",
-      "to": "place.mercantile-coast.tapped-hist-ashroot",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.ashroot-village",
-      "field": "rivals",
-      "to": "place.mercantile-coast.cinderhome",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.ashroot-village",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.coast-road-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.bereaved-village-murkmire",
-      "field": "rivals",
-      "to": "place.mercantile-coast.hist-village-hammock",
-      "why": "deferred/cut"
-    },
-    {
       "from": "place.mercantile-coast.bramman-screen",
       "field": "reachedVia",
       "to": "Topal Bay",
       "why": "unknown id"
-    },
-    {
-      "from": "place.mercantile-coast.bright-throat-village",
-      "field": "supplies",
-      "to": "place.mercantile-coast.vossa-satl-village",
-      "why": "deferred/cut"
     },
     {
       "from": "place.mercantile-coast.bright-throat-village",
@@ -1644,166 +1593,10 @@
       "why": "unknown id"
     },
     {
-      "from": "place.mercantile-coast.bright-throat-village",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.coast-road-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.chasepoint",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.coast-road-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.coast-toll-bridge",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.bramman-river-ferry",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.cold-light",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.bramman-river-ferry",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.glowfen-murkmire",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.bramman-river-ferry",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.hammock-crown-murkmire",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.coast-road-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.head-of-tide",
-      "field": "dependsOn",
-      "to": "place.mercantile-coast.goldworks-concession",
-      "why": "deferred/cut"
-    },
-    {
       "from": "place.mercantile-coast.head-of-tide",
       "field": "reachedVia",
       "to": "the Soulrest river",
       "why": "unknown id"
-    },
-    {
-      "from": "place.mercantile-coast.hereguard-plantation",
-      "field": "dependsOn",
-      "to": "place.mercantile-coast.hereguard-paddies",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.hereguard-plantation",
-      "field": "dependsOn",
-      "to": "place.mercantile-coast.owing-eviction-camp-west",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.hereguard-plantation",
-      "field": "supplies",
-      "to": "place.mercantile-coast.collections-bond",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.hereguard-plantation",
-      "field": "rivals",
-      "to": "place.mercantile-coast.mirtis-plantation",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.high-junction",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.bramman-river-ferry",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.hist-less-fringe",
-      "field": "supplies",
-      "to": "place.mercantile-coast.wallside-platforms",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.hist-village-keel-sakka",
-      "field": "dependsOn",
-      "to": "place.mercantile-coast.tree-minder-house",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.hist-village-keel-sakka",
-      "field": "supplies",
-      "to": "place.mercantile-coast.hist-village-hammock",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.inhabited-meer-murkmire",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.keel-sakka-head",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.insular-jungle-village",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.guide-camp-jungle",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.ixtaxh-xanmeer",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.bramman-river-ferry",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.keel-sakka-stilts",
-      "field": "dependsOn",
-      "to": "place.mercantile-coast.keel-sakka-head",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.keel-sakka-stilts",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.bramman-river-ferry",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.keshu-grove",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.coast-road-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.lighter-flotilla",
-      "field": "rivals",
-      "to": "place.mercantile-coast.lilmoth-quay-tradehouse",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.lighter-flotilla",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.bramman-river-ferry",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.lilmoth",
-      "field": "dependsOn",
-      "to": "place.mercantile-coast.tidewrack-stilts",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.lilmoth",
-      "field": "supplies",
-      "to": "place.mercantile-coast.lilmoth-beast-market",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.lilmoth",
-      "field": "supplies",
-      "to": "place.mercantile-coast.wallside-platforms",
-      "why": "deferred/cut"
     },
     {
       "from": "place.mercantile-coast.lilmoth",
@@ -1818,180 +1611,6 @@
       "why": "unknown id"
     },
     {
-      "from": "place.mercantile-coast.lilmoth-divers-yard",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.bramman-river-ferry",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.long-bar-wreckers",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.bramman-river-ferry",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.moonmarch",
-      "field": "supplies",
-      "to": "place.mercantile-coast.pusbottom-barge",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.moonmarch",
-      "field": "supplies",
-      "to": "place.mercantile-coast.sugar-barge",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.moonmarch",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.coast-road-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.mudfoot",
-      "field": "supplies",
-      "to": "place.mercantile-coast.soulrest-fair",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.mudfoot",
-      "field": "rivals",
-      "to": "place.mercantile-coast.lagoon-rafts",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.mudfoot",
-      "field": "rivals",
-      "to": "place.mercantile-coast.tidewrack-stilts",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.naga-village-oliis",
-      "field": "supplies",
-      "to": "place.mercantile-coast.lilmoth-beast-market",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.naga-village-oliis",
-      "field": "rivals",
-      "to": "place.mercantile-coast.naga-camp-north-road",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.necropolis-village-murkmire",
-      "field": "supplies",
-      "to": "place.mercantile-coast.bog-blight-ground-murkmire",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.necropolis-village-murkmire",
-      "field": "supplies",
-      "to": "place.mercantile-coast.bone-waystation",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.oliis-air-station",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.bramman-river-ferry",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.oliis-boardwalk",
-      "field": "supplies",
-      "to": "place.mercantile-coast.gar-keepers-village",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.oliis-ferry-stage",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.bramman-river-ferry",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.oliis-tide-run",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.bramman-river-ferry",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.pilgrim-xanmeer",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.coast-road-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.quinrawl-anchorage",
-      "field": "supplies",
-      "to": "place.saxhleel-coast.portdun-privateer-anchorage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.quinrawl-anchorage",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.bramman-river-ferry",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.rockpark",
-      "field": "dependsOn",
-      "to": "place.mercantile-coast.rockpark-dead-hist",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.rockpark",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.coast-road-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.root-gallery-murkmire",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.guide-camp-jungle",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.sacked-customs-suburb",
-      "field": "rivals",
-      "to": "place.mercantile-coast.wallside-platforms",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.screen-watch",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.bramman-river-ferry",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.sealed-meer-murkmire",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.guide-camp-jungle",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.slaughter-memorial",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.coast-road-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.soulrest",
-      "field": "dependsOn",
-      "to": "place.mercantile-coast.goldworks-concession",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.soulrest",
-      "field": "supplies",
-      "to": "place.mercantile-coast.lagoon-rafts",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.soulrest",
-      "field": "tolls",
-      "to": "place.mercantile-coast.collections-bond",
-      "why": "deferred/cut"
-    },
-    {
       "from": "place.mercantile-coast.soulrest",
       "field": "reachedVia",
       "to": "Southern Sea lanes",
@@ -2002,282 +1621,6 @@
       "field": "reachedVia",
       "to": "coast road",
       "why": "unknown id"
-    },
-    {
-      "from": "place.mercantile-coast.soulrest-breaking-yard",
-      "field": "dependsOn",
-      "to": "place.mercantile-coast.timber-concession",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.soulrest-breaking-yard",
-      "field": "supplies",
-      "to": "place.mercantile-coast.topal-careening-hard",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.soulrest-breaking-yard",
-      "field": "rivals",
-      "to": "place.saxhleel-coast.archon-shipyard",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.soulrest-breaking-yard",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.bramman-river-ferry",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.soulrest-quay-tradehouse",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.coast-road-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.stripped-village-north",
-      "field": "rivals",
-      "to": "place.mercantile-coast.stripped-village-quiet",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.stripped-village-north",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.coast-road-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.sunken-causeway",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.bramman-river-ferry",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.teeba-enoo-court",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.coast-road-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.teeth-of-sithis",
-      "field": "dependsOn",
-      "to": "place.mercantile-coast.coast-nisswo-house",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.teeth-of-sithis",
-      "field": "supplies",
-      "to": "place.mercantile-coast.pilgrim-nisswo-house",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.teeth-of-sithis",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.coast-road-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.tempering-ground",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.coast-road-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.topal-salt-pans",
-      "field": "supplies",
-      "to": "place.mercantile-coast.lagoon-rafts",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.topal-salt-pans",
-      "field": "rivals",
-      "to": "place.saxhleel-coast.estuary-salt-pans",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.topal-salt-pans",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.bramman-river-ferry",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.villa-cellars",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.bramman-river-ferry",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.white-rose-prison",
-      "field": "supplies",
-      "to": "place.mercantile-coast.bone-waystation",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.white-rose-prison",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.guide-camp-jungle",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.wraxu-frieze",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.guide-camp-jungle",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.wraxu-stacks",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.bramman-river-ferry",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.mercantile-coast.xinchei-konu",
-      "field": "reachedVia",
-      "to": "place.mercantile-coast.coast-road-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.beast-keeper-crocodile",
-      "field": "dependsOn",
-      "to": "place.naga-kur-deeps.stilt-tidal-black-piles",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.beast-keeper-crocodile",
-      "field": "supplies",
-      "to": "place.naga-kur-deeps.stilt-shallow-reed-stand",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.beast-keeper-crocodile",
-      "field": "rivals",
-      "to": "place.naga-kur-deeps.serpent-ground-moon-adder",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.dead-water-village",
-      "field": "dependsOn",
-      "to": "place.naga-kur-deeps.root-gallery-blue-flood",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.dead-water-village",
-      "field": "supplies",
-      "to": "place.naga-kur-deeps.tended-xanmeer-pilgrim-deeps",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.drifting-village-wet-mooring",
-      "field": "rivals",
-      "to": "place.naga-kur-deeps.stilt-shallow-reed-stand",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.drowned-village-lake-deeps",
-      "field": "dependsOn",
-      "to": "place.naga-kur-deeps.treasure-hunters-living-deeps",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.drowned-village-lake-deeps",
-      "field": "rivals",
-      "to": "place.naga-kur-deeps.drawdown-flat-refilling-deeps",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.harmed-hist-enslaved",
-      "field": "rivals",
-      "to": "place.mercantile-coast.tapped-hist-ashroot",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.maturity-trial-kaju-kill",
-      "field": "reachedVia",
-      "to": "place.naga-kur-deeps.boardwalk-single-spine",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.maturity-trial-kaju-kill",
-      "field": "reachedVia",
-      "to": "place.naga-kur-deeps.stilt-shallow-reed-stand",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.naga-village-raiding",
-      "field": "supplies",
-      "to": "place.naga-kur-deeps.naga-highway-camp-active-south",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.naga-village-raiding",
-      "field": "patrols",
-      "to": "place.naga-kur-deeps.naga-highway-camp-active-south",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.naga-village-settled",
-      "field": "rivals",
-      "to": "place.naga-kur-deeps.insular-hostile-first",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.necropolis-nightbound",
-      "field": "supplies",
-      "to": "place.naga-kur-deeps.urn-vault-sealed-deeps",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.portage-slipway-narrows-deeps",
-      "field": "supplies",
-      "to": "place.naga-kur-deeps.flood-high-levee-top",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.portage-slipway-narrows-deeps",
-      "field": "supplies",
-      "to": "place.naga-kur-deeps.stilt-shallow-reed-stand",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.portage-slipway-narrows-deeps",
-      "field": "rivals",
-      "to": "place.naga-kur-deeps.stilt-tidal-black-piles",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.raft-village-lashed",
-      "field": "supplies",
-      "to": "place.naga-kur-deeps.stilt-tidal-black-piles",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.raft-village-lashed",
-      "field": "rivals",
-      "to": "place.naga-kur-deeps.boardwalk-single-spine",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.sithis-temple-mass-sacrifice",
-      "field": "reachedVia",
-      "to": "place.naga-kur-deeps.boardwalk-single-spine",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.naga-kur-deeps.sithis-temple-mass-sacrifice",
-      "field": "reachedVia",
-      "to": "place.naga-kur-deeps.stilt-shallow-reed-stand",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.pirate-freeholds.alten-corimont",
-      "field": "dependsOn",
-      "to": "place.pirate-freeholds.corimont-head-of-navigation",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.pirate-freeholds.alten-corimont",
-      "field": "dependsOn",
-      "to": "place.pirate-freeholds.rim-porter-yard",
-      "why": "deferred/cut"
     },
     {
       "from": "place.pirate-freeholds.alten-corimont",
@@ -2292,162 +1635,6 @@
       "why": "unknown id"
     },
     {
-      "from": "place.pirate-freeholds.bone-repatriation-waystation",
-      "field": "reachedVia",
-      "to": "place.pirate-freeholds.trunk-road-tradehouse",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.pirate-freeholds.chasecreek",
-      "field": "dependsOn",
-      "to": "place.pirate-freeholds.corimont-head-of-navigation",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.pirate-freeholds.chasecreek",
-      "field": "reachedVia",
-      "to": "place.pirate-freeholds.trunk-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.pirate-freeholds.corimont-hist-less-camp",
-      "field": "supplies",
-      "to": "place.pirate-freeholds.careening-hard",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.pirate-freeholds.corimont-hist-less-camp",
-      "field": "rivals",
-      "to": "place.pirate-freeholds.corimont-hiring-yard",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.pirate-freeholds.corimont-tradehouse",
-      "field": "reachedVia",
-      "to": "place.pirate-freeholds.trunk-road-tradehouse",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.pirate-freeholds.dres-holding-pens",
-      "field": "reachedVia",
-      "to": "place.pirate-freeholds.trunk-road-tradehouse",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.pirate-freeholds.flu-cairn-field",
-      "field": "reachedVia",
-      "to": "place.pirate-freeholds.rim-porter-yard",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.pirate-freeholds.freehold-market",
-      "field": "reachedVia",
-      "to": "place.pirate-freeholds.trunk-road-tradehouse",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.pirate-freeholds.freehold-smithy",
-      "field": "reachedVia",
-      "to": "place.pirate-freeholds.trunk-road-tradehouse",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.pirate-freeholds.rim-keystone-chamber",
-      "field": "reachedVia",
-      "to": "place.pirate-freeholds.rim-porter-yard",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.pirate-freeholds.rim-pass-station",
-      "field": "reachedVia",
-      "to": "place.pirate-freeholds.trunk-road-tradehouse",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.pirate-freeholds.rim-smugglers-ledge-north",
-      "field": "reachedVia",
-      "to": "place.pirate-freeholds.rim-porter-yard",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.pirate-freeholds.rim-snowline-hermitage",
-      "field": "reachedVia",
-      "to": "place.pirate-freeholds.rim-porter-yard",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.pirate-freeholds.rockpoint",
-      "field": "dependsOn",
-      "to": "place.pirate-freeholds.corimont-head-of-navigation",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.pirate-freeholds.rockpoint",
-      "field": "reachedVia",
-      "to": "place.pirate-freeholds.trunk-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.pirate-freeholds.trunk-toll-bridge",
-      "field": "reachedVia",
-      "to": "place.pirate-freeholds.corimont-head-of-navigation",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.pirate-freeholds.trunk-toll-bridge",
-      "field": "reachedVia",
-      "to": "place.pirate-freeholds.trunk-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.archon",
-      "field": "dependsOn",
-      "to": "place.saxhleel-coast.archon-shipyard",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.archon",
-      "field": "dependsOn",
-      "to": "place.saxhleel-coast.estuary-salt-pans",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.archon",
-      "field": "dependsOn",
-      "to": "place.saxhleel-coast.stilt-village-east",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.archon",
-      "field": "supplies",
-      "to": "place.saxhleel-coast.archon-bonded-row",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.archon",
-      "field": "supplies",
-      "to": "place.saxhleel-coast.coast-hist-less-refuge",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.archon",
-      "field": "patrols",
-      "to": "place.saxhleel-coast.estuary-boom-tower",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.archon",
-      "field": "tolls",
-      "to": "place.saxhleel-coast.archon-quarantine-shed",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.archon",
-      "field": "visibleFrom",
-      "to": "place.saxhleel-coast.archon-lighthouse",
-      "why": "deferred/cut"
-    },
-    {
       "from": "place.saxhleel-coast.archon",
       "field": "reachedVia",
       "to": "route.boat.archon-lilmoth",
@@ -2458,347 +1645,28 @@
       "field": "reachedVia",
       "to": "route.road.archon-gideon",
       "why": "unknown id"
-    },
-    {
-      "from": "place.saxhleel-coast.archon-harbour-hist",
-      "field": "supplies",
-      "to": "place.saxhleel-coast.coast-hist-less-refuge",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.archon-harbour-hist",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.coast-road-tradehouse",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.archon-shadowscale-sanctuary",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.archon-trial-ground",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.cantemir-headland",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.coast-guide-camp",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.contested-bank",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.estuary-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.contested-bank",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.jungle-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.deep-bank",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.estuary-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.deep-bank",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.jungle-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.dusk-bird-colony",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.estuary-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.dusk-bird-colony",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.jungle-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.east-estuary-rootworm-station",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.coast-road-tradehouse",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.estuary-keepers-lodge",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.coast-road-tradehouse",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.gap-reef",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.estuary-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.gap-reef",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.jungle-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.lagoon-storm-shelter",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.estuary-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.lagoon-storm-shelter",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.jungle-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.lagoon-submerged-xanmeer",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.estuary-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.lagoon-submerged-xanmeer",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.jungle-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.mangrove-air-pocket",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.estuary-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.mangrove-air-pocket",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.jungle-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.mangrove-reef",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.estuary-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.mangrove-reef",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.jungle-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.outer-reef",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.estuary-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.outer-reef",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.jungle-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.portdun-mont",
-      "field": "supplies",
-      "to": "place.saxhleel-coast.portdun-privateer-anchorage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.portdun-mont",
-      "field": "patrols",
-      "to": "place.saxhleel-coast.archon-lighthouse",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.portdun-mont",
-      "field": "visibleFrom",
-      "to": "place.saxhleel-coast.archon-lighthouse",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.portdun-mont",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.coast-road-tradehouse",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.quay-tradehouse",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.coast-road-tradehouse",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.seafalls",
-      "field": "dependsOn",
-      "to": "place.saxhleel-coast.seafalls-porter-relay",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.seafalls",
-      "field": "dependsOn",
-      "to": "place.saxhleel-coast.seafalls-slipway",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.seafalls",
-      "field": "supplies",
-      "to": "place.saxhleel-coast.seafalls-porter-relay",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.seafalls",
-      "field": "tolls",
-      "to": "place.saxhleel-coast.estuary-boom-tower",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.seafalls",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.estuary-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.seafalls",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.jungle-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.sealed-xanmeer-wall",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.coast-guide-camp",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.shell-beast-shallows",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.estuary-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.shell-beast-shallows",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.jungle-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.terrace-village-ridge",
-      "field": "dependsOn",
-      "to": "place.saxhleel-coast.seafalls-porter-relay",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.tide-run-delta",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.estuary-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.tide-run-delta",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.jungle-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.umbriel-shore-memorial",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.coast-road-tradehouse",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.wall-hist-village",
-      "field": "dependsOn",
-      "to": "place.saxhleel-coast.jungle-ferry-stage",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.wall-hist-village",
-      "field": "supplies",
-      "to": "place.saxhleel-coast.estuary-market-row",
-      "why": "deferred/cut"
-    },
-    {
-      "from": "place.saxhleel-coast.wall-hist-village",
-      "field": "reachedVia",
-      "to": "place.saxhleel-coast.jungle-ferry-stage",
-      "why": "deferred/cut"
     }
   ],
   "routeVisibility": {
-    "routeSamples": 357,
+    "routeSamples": 364,
     "stepM": 150.0,
     "radiusM": 450.0,
-    "visibleMean": 3.63,
-    "deadFraction": 0.073,
-    "crowdedFraction": 0.496,
+    "visibleMean": 3.09,
+    "deadFraction": 0.052,
+    "crowdedFraction": 0.341,
     "deadSamples": [
       {
-        "route": "road:gideon-soulrest",
+        "route": "road:stormhold-thorn",
         "worldM": [
-          2067,
-          3899
+          4820,
+          1914
         ]
       },
       {
-        "route": "road:gideon-soulrest",
+        "route": "road:gideon-stormhold",
         "worldM": [
-          2062,
-          4157
-        ]
-      },
-      {
-        "route": "road:gideon-blackwood-road",
-        "worldM": [
-          949,
-          3274
-        ]
-      },
-      {
-        "route": "road:gideon-blackwood-road",
-        "worldM": [
-          828,
-          3246
-        ]
-      },
-      {
-        "route": "road:gideon-blackwood-road",
-        "worldM": [
-          696,
-          3197
-        ]
-      },
-      {
-        "route": "road:gideon-blackwood-road",
-        "worldM": [
-          554,
-          3169
-        ]
-      },
-      {
-        "route": "road:archon-gideon",
-        "worldM": [
-          4332,
-          3361
-        ]
-      },
-      {
-        "route": "road:archon-gideon",
-        "worldM": [
-          4261,
-          3213
-        ]
-      },
-      {
-        "route": "road:archon-gideon",
-        "worldM": [
-          4118,
-          3197
+          2144,
+          2407
         ]
       },
       {
@@ -2809,59 +1677,73 @@
         ]
       },
       {
-        "route": "road:thorn-tear-road",
-        "worldM": [
-          6482,
-          258
-        ]
-      },
-      {
         "route": "boat:soulrest-lilmoth",
         "worldM": [
-          724,
-          7079
-        ]
-      },
-      {
-        "route": "boat:soulrest-lilmoth",
-        "worldM": [
-          1470,
+          1256,
           7118
         ]
       },
       {
         "route": "boat:soulrest-lilmoth",
         "worldM": [
-          2237,
+          1409,
           7118
         ]
       },
       {
         "route": "boat:soulrest-lilmoth",
         "worldM": [
-          2391,
+          1563,
           7118
         ]
       },
       {
         "route": "boat:soulrest-lilmoth",
         "worldM": [
-          2544,
+          2177,
           7118
         ]
       },
       {
         "route": "boat:soulrest-lilmoth",
         "worldM": [
-          2698,
+          2330,
           7118
+        ]
+      },
+      {
+        "route": "boat:soulrest-lilmoth",
+        "worldM": [
+          2484,
+          7118
+        ]
+      },
+      {
+        "route": "boat:soulrest-lilmoth",
+        "worldM": [
+          2638,
+          7118
+        ]
+      },
+      {
+        "route": "boat:lilmoth-archon",
+        "worldM": [
+          3943,
+          6547
         ]
       },
       {
         "route": "boat:archon-thorn",
         "worldM": [
-          5719,
-          3032
+          5484,
+          4316
+        ]
+      },
+      {
+        "route": "boat:archon-thorn",
+        "worldM": [
+          5593,
+          4206
         ]
       },
       {
@@ -2874,8 +1756,15 @@
       {
         "route": "boat:archon-thorn",
         "worldM": [
-          5719,
-          2725
+          6284,
+          1875
+        ]
+      },
+      {
+        "route": "boat:archon-thorn",
+        "worldM": [
+          6394,
+          1766
         ]
       },
       {
@@ -2888,36 +1777,15 @@
       {
         "route": "boat:alten-corimont-helstrom",
         "worldM": [
-          4557,
-          1892
+          4069,
+          2243
         ]
       },
       {
         "route": "boat:alten-corimont-helstrom",
         "worldM": [
-          4420,
-          1930
-        ]
-      },
-      {
-        "route": "boat:alten-corimont-helstrom",
-        "worldM": [
-          4294,
-          1991
-        ]
-      },
-      {
-        "route": "boat:alten-corimont-helstrom",
-        "worldM": [
-          4288,
-          2139
-        ]
-      },
-      {
-        "route": "boat:alten-corimont-helstrom",
-        "worldM": [
-          4200,
-          2248
+          3948,
+          2330
         ]
       }
     ],
@@ -2925,16 +1793,8 @@
       {
         "route": "road:soulrest-blackrose",
         "worldM": [
-          367,
-          6706
-        ],
-        "visible": 4
-      },
-      {
-        "route": "road:soulrest-blackrose",
-        "worldM": [
           515,
-          6734
+          6531
         ],
         "visible": 4
       },
@@ -2942,87 +1802,71 @@
         "route": "road:soulrest-blackrose",
         "worldM": [
           664,
-          6778
+          6558
         ],
         "visible": 4
       },
       {
         "route": "road:soulrest-blackrose",
         "worldM": [
-          812,
-          6761
+          910,
+          6712
         ],
         "visible": 6
       },
       {
         "route": "road:soulrest-blackrose",
         "worldM": [
-          960,
+          1206,
+          6750
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:soulrest-blackrose",
+        "worldM": [
+          1371,
           6739
         ],
-        "visible": 4
+        "visible": 6
       },
       {
         "route": "road:soulrest-blackrose",
         "worldM": [
-          1256,
-          6745
-        ],
-        "visible": 4
-      },
-      {
-        "route": "road:soulrest-blackrose",
-        "worldM": [
-          1404,
-          6728
-        ],
-        "visible": 5
-      },
-      {
-        "route": "road:soulrest-blackrose",
-        "worldM": [
-          1535,
-          6657
-        ],
-        "visible": 7
-      },
-      {
-        "route": "road:soulrest-blackrose",
-        "worldM": [
-          1683,
+          1502,
           6679
         ],
-        "visible": 5
-      },
-      {
-        "route": "road:soulrest-blackrose",
-        "worldM": [
-          1810,
-          6564
-        ],
         "visible": 7
       },
       {
         "route": "road:soulrest-blackrose",
         "worldM": [
-          1936,
-          6498
+          1651,
+          6662
+        ],
+        "visible": 6
+      },
+      {
+        "route": "road:soulrest-blackrose",
+        "worldM": [
+          1777,
+          6591
+        ],
+        "visible": 10
+      },
+      {
+        "route": "road:soulrest-blackrose",
+        "worldM": [
+          1903,
+          6514
         ],
         "visible": 8
       },
       {
         "route": "road:soulrest-blackrose",
         "worldM": [
-          2084,
-          6432
-        ],
-        "visible": 7
-      },
-      {
-        "route": "road:soulrest-blackrose",
-        "worldM": [
-          2248,
-          6421
+          2347,
+          6410
         ],
         "visible": 5
       },
@@ -3032,7 +1876,7 @@
           2358,
           6416
         ],
-        "visible": 6
+        "visible": 5
       },
       {
         "route": "road:blackrose-lilmoth",
@@ -3040,7 +1884,7 @@
           2462,
           6328
         ],
-        "visible": 7
+        "visible": 9
       },
       {
         "route": "road:blackrose-lilmoth",
@@ -3048,7 +1892,7 @@
           2610,
           6284
         ],
-        "visible": 10
+        "visible": 8
       },
       {
         "route": "road:blackrose-lilmoth",
@@ -3056,63 +1900,47 @@
           2758,
           6306
         ],
-        "visible": 7
+        "visible": 6
       },
       {
         "route": "road:blackrose-lilmoth",
         "worldM": [
           2906,
-          6279
+          6262
         ],
-        "visible": 8
+        "visible": 5
       },
       {
         "route": "road:blackrose-lilmoth",
         "worldM": [
-          3021,
-          6366
-        ],
-        "visible": 9
-      },
-      {
-        "route": "road:blackrose-lilmoth",
-        "worldM": [
-          3153,
-          6438
-        ],
-        "visible": 9
-      },
-      {
-        "route": "road:blackrose-lilmoth",
-        "worldM": [
-          3279,
-          6536
-        ],
-        "visible": 8
-      },
-      {
-        "route": "road:blackrose-lilmoth",
-        "worldM": [
-          3427,
-          6558
-        ],
-        "visible": 7
-      },
-      {
-        "route": "road:blackrose-lilmoth",
-        "worldM": [
-          3559,
-          6514
+          3038,
+          6196
         ],
         "visible": 6
       },
       {
         "route": "road:blackrose-lilmoth",
         "worldM": [
-          3707,
-          6498
+          3186,
+          6196
         ],
-        "visible": 4
+        "visible": 6
+      },
+      {
+        "route": "road:blackrose-lilmoth",
+        "worldM": [
+          3334,
+          6185
+        ],
+        "visible": 6
+      },
+      {
+        "route": "road:blackrose-lilmoth",
+        "worldM": [
+          3416,
+          6301
+        ],
+        "visible": 6
       },
       {
         "route": "road:alten-corimont-stormhold",
@@ -3128,47 +1956,7 @@
           3855,
           1283
         ],
-        "visible": 6
-      },
-      {
-        "route": "road:alten-corimont-stormhold",
-        "worldM": [
-          3981,
-          1332
-        ],
         "visible": 4
-      },
-      {
-        "route": "road:alten-corimont-stormhold",
-        "worldM": [
-          4036,
-          1053
-        ],
-        "visible": 5
-      },
-      {
-        "route": "road:alten-corimont-stormhold",
-        "worldM": [
-          3948,
-          779
-        ],
-        "visible": 4
-      },
-      {
-        "route": "road:alten-corimont-stormhold",
-        "worldM": [
-          3833,
-          664
-        ],
-        "visible": 5
-      },
-      {
-        "route": "road:alten-corimont-stormhold",
-        "worldM": [
-          3729,
-          554
-        ],
-        "visible": 5
       },
       {
         "route": "road:alten-corimont-stormhold",
@@ -3177,14 +1965,6 @@
           450
         ],
         "visible": 5
-      },
-      {
-        "route": "road:alten-corimont-stormhold",
-        "worldM": [
-          3466,
-          461
-        ],
-        "visible": 4
       },
       {
         "route": "road:alten-corimont-stormhold",
@@ -3200,7 +1980,7 @@
           3186,
           450
         ],
-        "visible": 8
+        "visible": 7
       },
       {
         "route": "road:alten-corimont-stormhold",
@@ -3208,7 +1988,7 @@
           3082,
           537
         ],
-        "visible": 8
+        "visible": 7
       },
       {
         "route": "road:alten-corimont-stormhold",
@@ -3216,7 +1996,7 @@
           2950,
           636
         ],
-        "visible": 6
+        "visible": 5
       },
       {
         "route": "road:alten-corimont-stormhold",
@@ -3224,7 +2004,7 @@
           2829,
           729
         ],
-        "visible": 6
+        "visible": 7
       },
       {
         "route": "road:alten-corimont-stormhold",
@@ -3248,7 +2028,7 @@
           2802,
           729
         ],
-        "visible": 6
+        "visible": 7
       },
       {
         "route": "road:stormhold-thorn",
@@ -3256,7 +2036,7 @@
           2928,
           647
         ],
-        "visible": 6
+        "visible": 5
       },
       {
         "route": "road:stormhold-thorn",
@@ -3264,7 +2044,7 @@
           3054,
           559
         ],
-        "visible": 7
+        "visible": 6
       },
       {
         "route": "road:stormhold-thorn",
@@ -3272,21 +2052,13 @@
           3159,
           466
         ],
-        "visible": 9
+        "visible": 8
       },
       {
         "route": "road:stormhold-thorn",
         "worldM": [
           3307,
           433
-        ],
-        "visible": 5
-      },
-      {
-        "route": "road:stormhold-thorn",
-        "worldM": [
-          3438,
-          450
         ],
         "visible": 4
       },
@@ -3304,93 +2076,37 @@
           3718,
           543
         ],
-        "visible": 5
+        "visible": 4
       },
       {
         "route": "road:stormhold-thorn",
         "worldM": [
-          3822,
-          658
-        ],
-        "visible": 5
-      },
-      {
-        "route": "road:stormhold-thorn",
-        "worldM": [
-          3992,
-          899
+          5220,
+          1886
         ],
         "visible": 4
       },
       {
         "route": "road:stormhold-thorn",
         "worldM": [
-          4014,
-          1042
+          5341,
+          1815
         ],
         "visible": 4
       },
       {
         "route": "road:stormhold-thorn",
         "worldM": [
-          4129,
-          1152
+          5473,
+          1766
         ],
         "visible": 4
       },
       {
         "route": "road:stormhold-thorn",
         "worldM": [
-          4222,
-          1256
-        ],
-        "visible": 4
-      },
-      {
-        "route": "road:stormhold-thorn",
-        "worldM": [
-          4316,
-          1376
-        ],
-        "visible": 4
-      },
-      {
-        "route": "road:stormhold-thorn",
-        "worldM": [
-          6065,
-          1404
-        ],
-        "visible": 5
-      },
-      {
-        "route": "road:stormhold-thorn",
-        "worldM": [
-          6103,
-          1261
-        ],
-        "visible": 6
-      },
-      {
-        "route": "road:stormhold-thorn",
-        "worldM": [
-          6196,
-          1152
-        ],
-        "visible": 4
-      },
-      {
-        "route": "road:stormhold-thorn",
-        "worldM": [
-          6246,
-          1014
-        ],
-        "visible": 5
-      },
-      {
-        "route": "road:stormhold-thorn",
-        "worldM": [
-          6273,
-          872
+          5566,
+          1651
         ],
         "visible": 4
       },
@@ -3400,55 +2116,7 @@
           6246,
           729
         ],
-        "visible": 6
-      },
-      {
-        "route": "road:stormhold-thorn",
-        "worldM": [
-          6191,
-          587
-        ],
         "visible": 4
-      },
-      {
-        "route": "road:gideon-stormhold",
-        "worldM": [
-          1327,
-          3093
-        ],
-        "visible": 7
-      },
-      {
-        "route": "road:gideon-stormhold",
-        "worldM": [
-          1415,
-          2989
-        ],
-        "visible": 5
-      },
-      {
-        "route": "road:gideon-stormhold",
-        "worldM": [
-          1563,
-          2978
-        ],
-        "visible": 6
-      },
-      {
-        "route": "road:gideon-stormhold",
-        "worldM": [
-          1689,
-          2884
-        ],
-        "visible": 6
-      },
-      {
-        "route": "road:gideon-stormhold",
-        "worldM": [
-          1831,
-          2879
-        ],
-        "visible": 5
       },
       {
         "route": "road:gideon-stormhold",
@@ -3461,26 +2129,10 @@
       {
         "route": "road:gideon-stormhold",
         "worldM": [
-          2128,
-          2555
-        ],
-        "visible": 4
-      },
-      {
-        "route": "road:gideon-stormhold",
-        "worldM": [
           2237,
           1804
         ],
-        "visible": 4
-      },
-      {
-        "route": "road:gideon-stormhold",
-        "worldM": [
-          2330,
-          1409
-        ],
-        "visible": 4
+        "visible": 5
       },
       {
         "route": "road:gideon-stormhold",
@@ -3488,13 +2140,29 @@
           2281,
           1261
         ],
-        "visible": 6
+        "visible": 5
       },
       {
         "route": "road:gideon-stormhold",
         "worldM": [
           2309,
           1130
+        ],
+        "visible": 4
+      },
+      {
+        "route": "road:gideon-stormhold",
+        "worldM": [
+          2435,
+          1058
+        ],
+        "visible": 6
+      },
+      {
+        "route": "road:gideon-stormhold",
+        "worldM": [
+          2473,
+          921
         ],
         "visible": 4
       },
@@ -3512,47 +2180,7 @@
           2632,
           735
         ],
-        "visible": 6
-      },
-      {
-        "route": "road:gideon-soulrest",
-        "worldM": [
-          1327,
-          3093
-        ],
-        "visible": 7
-      },
-      {
-        "route": "road:gideon-soulrest",
-        "worldM": [
-          1415,
-          2989
-        ],
         "visible": 5
-      },
-      {
-        "route": "road:gideon-soulrest",
-        "worldM": [
-          1557,
-          2999
-        ],
-        "visible": 6
-      },
-      {
-        "route": "road:gideon-soulrest",
-        "worldM": [
-          1667,
-          2939
-        ],
-        "visible": 5
-      },
-      {
-        "route": "road:gideon-soulrest",
-        "worldM": [
-          1810,
-          2967
-        ],
-        "visible": 4
       },
       {
         "route": "road:gideon-soulrest",
@@ -3565,8 +2193,8 @@
       {
         "route": "road:gideon-soulrest",
         "worldM": [
-          1278,
-          5374
+          1267,
+          5538
         ],
         "visible": 4
       },
@@ -3576,7 +2204,7 @@
           1152,
           5637
         ],
-        "visible": 6
+        "visible": 4
       },
       {
         "route": "road:gideon-soulrest",
@@ -3584,7 +2212,7 @@
           1003,
           5686
         ],
-        "visible": 5
+        "visible": 4
       },
       {
         "route": "road:gideon-soulrest",
@@ -3592,7 +2220,7 @@
           872,
           5780
         ],
-        "visible": 7
+        "visible": 6
       },
       {
         "route": "road:gideon-soulrest",
@@ -3608,7 +2236,7 @@
           702,
           6026
         ],
-        "visible": 6
+        "visible": 4
       },
       {
         "route": "road:gideon-soulrest",
@@ -3616,7 +2244,7 @@
           614,
           6158
         ],
-        "visible": 5
+        "visible": 7
       },
       {
         "route": "road:gideon-soulrest",
@@ -3629,34 +2257,10 @@
       {
         "route": "road:gideon-soulrest",
         "worldM": [
-          494,
+          499,
           6438
         ],
-        "visible": 7
-      },
-      {
-        "route": "road:gideon-soulrest",
-        "worldM": [
-          461,
-          6586
-        ],
-        "visible": 4
-      },
-      {
-        "route": "road:gideon-soulrest",
-        "worldM": [
-          367,
-          6706
-        ],
-        "visible": 4
-      },
-      {
-        "route": "road:gideon-blackwood-road",
-        "worldM": [
-          1327,
-          3093
-        ],
-        "visible": 7
+        "visible": 5
       },
       {
         "route": "road:archon-gideon",
@@ -3688,7 +2292,7 @@
           4897,
           4266
         ],
-        "visible": 6
+        "visible": 5
       },
       {
         "route": "road:archon-gideon",
@@ -3696,7 +2300,7 @@
           4847,
           4135
         ],
-        "visible": 6
+        "visible": 5
       },
       {
         "route": "road:archon-gideon",
@@ -3728,13 +2332,21 @@
           4634,
           3685
         ],
+        "visible": 5
+      },
+      {
+        "route": "road:archon-gideon",
+        "worldM": [
+          4507,
+          3603
+        ],
         "visible": 4
       },
       {
         "route": "road:archon-gideon",
         "worldM": [
-          3455,
-          3071
+          2226,
+          2901
         ],
         "visible": 4
       },
@@ -3747,90 +2359,10 @@
         "visible": 4
       },
       {
-        "route": "road:archon-gideon",
-        "worldM": [
-          1793,
-          2912
-        ],
-        "visible": 4
-      },
-      {
-        "route": "road:archon-gideon",
-        "worldM": [
-          1651,
-          2901
-        ],
-        "visible": 6
-      },
-      {
-        "route": "road:archon-gideon",
-        "worldM": [
-          1519,
-          2983
-        ],
-        "visible": 5
-      },
-      {
-        "route": "road:archon-gideon",
-        "worldM": [
-          1371,
-          3005
-        ],
-        "visible": 6
-      },
-      {
-        "route": "road:helstrom-blackrose",
-        "worldM": [
-          3466,
-          2802
-        ],
-        "visible": 6
-      },
-      {
         "route": "road:helstrom-blackrose",
         "worldM": [
           3449,
           2945
-        ],
-        "visible": 5
-      },
-      {
-        "route": "road:helstrom-blackrose",
-        "worldM": [
-          3509,
-          3076
-        ],
-        "visible": 4
-      },
-      {
-        "route": "road:helstrom-blackrose",
-        "worldM": [
-          2786,
-          4113
-        ],
-        "visible": 4
-      },
-      {
-        "route": "road:helstrom-blackrose",
-        "worldM": [
-          2753,
-          4261
-        ],
-        "visible": 4
-      },
-      {
-        "route": "road:helstrom-blackrose",
-        "worldM": [
-          2879,
-          4650
-        ],
-        "visible": 4
-      },
-      {
-        "route": "road:helstrom-blackrose",
-        "worldM": [
-          3104,
-          5253
         ],
         "visible": 4
       },
@@ -3848,7 +2380,7 @@
           3230,
           5533
         ],
-        "visible": 7
+        "visible": 6
       },
       {
         "route": "road:helstrom-blackrose",
@@ -3864,7 +2396,7 @@
           3235,
           5796
         ],
-        "visible": 8
+        "visible": 6
       },
       {
         "route": "road:helstrom-blackrose",
@@ -3872,7 +2404,7 @@
           3191,
           5944
         ],
-        "visible": 8
+        "visible": 6
       },
       {
         "route": "road:helstrom-blackrose",
@@ -3880,7 +2412,7 @@
           3126,
           6065
         ],
-        "visible": 10
+        "visible": 6
       },
       {
         "route": "road:helstrom-blackrose",
@@ -3888,7 +2420,7 @@
           3005,
           6185
         ],
-        "visible": 9
+        "visible": 6
       },
       {
         "route": "road:helstrom-blackrose",
@@ -3896,7 +2428,7 @@
           2873,
           6268
         ],
-        "visible": 8
+        "visible": 6
       },
       {
         "route": "road:helstrom-blackrose",
@@ -3915,10 +2447,10 @@
         "visible": 9
       },
       {
-        "route": "road:thorn-tear-road",
+        "route": "road:helstrom-blackrose",
         "worldM": [
-          6191,
-          587
+          2446,
+          6339
         ],
         "visible": 4
       },
@@ -3928,20 +2460,36 @@
           6279,
           691
         ],
-        "visible": 6
+        "visible": 4
       },
       {
         "route": "boat:soulrest-lilmoth",
         "worldM": [
-          367,
-          6706
+          515,
+          6531
         ],
         "visible": 4
       },
       {
         "route": "boat:soulrest-lilmoth",
         "worldM": [
-          3202,
+          400,
+          6597
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:soulrest-lilmoth",
+        "worldM": [
+          291,
+          6646
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:soulrest-lilmoth",
+        "worldM": [
+          3137,
           6849
         ],
         "visible": 4
@@ -3949,64 +2497,72 @@
       {
         "route": "boat:soulrest-lilmoth",
         "worldM": [
-          3339,
-          6805
-        ],
-        "visible": 5
-      },
-      {
-        "route": "boat:soulrest-lilmoth",
-        "worldM": [
-          3466,
-          6739
-        ],
-        "visible": 6
-      },
-      {
-        "route": "boat:soulrest-lilmoth",
-        "worldM": [
-          3586,
-          6662
-        ],
-        "visible": 5
-      },
-      {
-        "route": "boat:soulrest-lilmoth",
-        "worldM": [
-          3712,
-          6591
+          3279,
+          6821
         ],
         "visible": 4
       },
       {
         "route": "boat:soulrest-lilmoth",
         "worldM": [
-          3773,
-          6465
+          3389,
+          6712
+        ],
+        "visible": 5
+      },
+      {
+        "route": "boat:soulrest-lilmoth",
+        "worldM": [
+          3488,
+          6597
         ],
         "visible": 4
       },
       {
         "route": "boat:lilmoth-archon",
         "worldM": [
-          3756,
-          6416
+          3504,
+          6580
         ],
         "visible": 4
+      },
+      {
+        "route": "boat:lilmoth-archon",
+        "worldM": [
+          4957,
+          5264
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:lilmoth-archon",
+        "worldM": [
+          5039,
+          5144
+        ],
+        "visible": 4
+      },
+      {
+        "route": "boat:lilmoth-archon",
+        "worldM": [
+          5138,
+          5034
+        ],
+        "visible": 5
       },
       {
         "route": "boat:lilmoth-archon",
         "worldM": [
           5155,
-          4880
+          4886
         ],
-        "visible": 5
+        "visible": 6
       },
       {
         "route": "boat:lilmoth-archon",
         "worldM": [
           5171,
-          4732
+          4738
         ],
         "visible": 5
       },
@@ -4019,36 +2575,12 @@
         "visible": 5
       },
       {
-        "route": "boat:archon-thorn",
-        "worldM": [
-          6471,
-          1645
-        ],
-        "visible": 4
-      },
-      {
-        "route": "boat:archon-thorn",
-        "worldM": [
-          6142,
-          647
-        ],
-        "visible": 6
-      },
-      {
         "route": "boat:stormhold-alten-corimont",
         "worldM": [
           2654,
           735
         ],
         "visible": 6
-      },
-      {
-        "route": "boat:stormhold-alten-corimont",
-        "worldM": [
-          2764,
-          828
-        ],
-        "visible": 5
       },
       {
         "route": "boat:stormhold-alten-corimont",
@@ -4072,7 +2604,7 @@
           3120,
           598
         ],
-        "visible": 7
+        "visible": 5
       },
       {
         "route": "boat:stormhold-alten-corimont",
@@ -4080,7 +2612,7 @@
           3180,
           483
         ],
-        "visible": 7
+        "visible": 6
       },
       {
         "route": "boat:stormhold-alten-corimont",
@@ -4088,7 +2620,7 @@
           3274,
           400
         ],
-        "visible": 5
+        "visible": 4
       },
       {
         "route": "boat:stormhold-alten-corimont",
@@ -4104,47 +2636,7 @@
           3674,
           515
         ],
-        "visible": 5
-      },
-      {
-        "route": "boat:stormhold-alten-corimont",
-        "worldM": [
-          3784,
-          625
-        ],
         "visible": 4
-      },
-      {
-        "route": "boat:stormhold-alten-corimont",
-        "worldM": [
-          3888,
-          735
-        ],
-        "visible": 4
-      },
-      {
-        "route": "boat:stormhold-alten-corimont",
-        "worldM": [
-          3976,
-          855
-        ],
-        "visible": 4
-      },
-      {
-        "route": "boat:stormhold-alten-corimont",
-        "worldM": [
-          4019,
-          987
-        ],
-        "visible": 5
-      },
-      {
-        "route": "boat:stormhold-alten-corimont",
-        "worldM": [
-          3976,
-          1086
-        ],
-        "visible": 5
       },
       {
         "route": "boat:blackrose-lilmoth",
@@ -4152,7 +2644,15 @@
           2358,
           6416
         ],
-        "visible": 6
+        "visible": 5
+      },
+      {
+        "route": "boat:blackrose-lilmoth",
+        "worldM": [
+          2380,
+          6333
+        ],
+        "visible": 4
       },
       {
         "route": "boat:blackrose-lilmoth",
@@ -4160,7 +2660,7 @@
           2500,
           6251
         ],
-        "visible": 9
+        "visible": 8
       },
       {
         "route": "boat:blackrose-lilmoth",
@@ -4168,7 +2668,7 @@
           2627,
           6191
         ],
-        "visible": 8
+        "visible": 7
       },
       {
         "route": "boat:blackrose-lilmoth",
@@ -4176,7 +2676,7 @@
           2747,
           6109
         ],
-        "visible": 8
+        "visible": 6
       },
       {
         "route": "boat:blackrose-lilmoth",
@@ -4184,7 +2684,7 @@
           2901,
           6109
         ],
-        "visible": 10
+        "visible": 8
       },
       {
         "route": "boat:blackrose-lilmoth",
@@ -4192,7 +2692,7 @@
           3049,
           6087
         ],
-        "visible": 10
+        "visible": 6
       },
       {
         "route": "boat:blackrose-lilmoth",
@@ -4200,7 +2700,7 @@
           3169,
           6004
         ],
-        "visible": 9
+        "visible": 8
       },
       {
         "route": "boat:blackrose-lilmoth",
@@ -4208,7 +2708,7 @@
           3323,
           6004
         ],
-        "visible": 7
+        "visible": 8
       },
       {
         "route": "boat:blackrose-lilmoth",
@@ -4216,7 +2716,7 @@
           3477,
           6004
         ],
-        "visible": 9
+        "visible": 8
       },
       {
         "route": "boat:blackrose-lilmoth",
@@ -4224,7 +2724,7 @@
           3630,
           6004
         ],
-        "visible": 9
+        "visible": 7
       },
       {
         "route": "boat:blackrose-lilmoth",
@@ -4232,7 +2732,7 @@
           3784,
           6004
         ],
-        "visible": 5
+        "visible": 6
       },
       {
         "route": "boat:blackrose-lilmoth",
@@ -4240,7 +2740,7 @@
           3915,
           6059
         ],
-        "visible": 6
+        "visible": 8
       },
       {
         "route": "boat:blackrose-lilmoth",
@@ -4248,7 +2748,7 @@
           4008,
           6169
         ],
-        "visible": 5
+        "visible": 6
       },
       {
         "route": "boat:blackrose-lilmoth",
@@ -4256,13 +2756,13 @@
           4008,
           6312
         ],
-        "visible": 6
+        "visible": 5
       },
       {
         "route": "boat:blackrose-lilmoth",
         "worldM": [
-          3756,
-          6416
+          3509,
+          6586
         ],
         "visible": 4
       },
@@ -4277,68 +2777,625 @@
       {
         "route": "boat:alten-corimont-helstrom",
         "worldM": [
-          4074,
-          1047
-        ],
-        "visible": 5
-      },
-      {
-        "route": "boat:alten-corimont-helstrom",
-        "worldM": [
           4184,
           1157
         ],
         "visible": 4
-      },
-      {
-        "route": "boat:alten-corimont-helstrom",
-        "worldM": [
-          4376,
-          1371
-        ],
-        "visible": 4
-      },
-      {
-        "route": "boat:alten-corimont-helstrom",
-        "worldM": [
-          3723,
-          2506
-        ],
-        "visible": 5
-      },
-      {
-        "route": "boat:alten-corimont-helstrom",
-        "worldM": [
-          3608,
-          2594
-        ],
-        "visible": 5
-      },
-      {
-        "route": "boat:alten-corimont-helstrom",
-        "worldM": [
-          3477,
-          2572
-        ],
-        "visible": 4
-      },
-      {
-        "route": "boat:alten-corimont-helstrom",
-        "worldM": [
-          3394,
-          2665
-        ],
-        "visible": 5
-      },
-      {
-        "route": "boat:alten-corimont-helstrom",
-        "worldM": [
-          3394,
-          2780
-        ],
-        "visible": 5
       }
     ]
   },
-  "homeless": []
+  "homeless": [],
+  "feedbackChecks": {
+    "restCadenceGaps": [
+      {
+        "id": "place.dunmer-north.the-wild-mouth",
+        "danger": 4,
+        "nearestRestM": 1409
+      }
+    ],
+    "cities": {
+      "stormhold": {
+        "purposesWithin2km": {
+          "combat-challenge": 10,
+          "dungeon-delve": 19,
+          "faction-gateway": 3,
+          "lore-reveal": 14,
+          "navigation-aid": 5,
+          "resource-source": 4,
+          "safe-rest": 21,
+          "service-hub": 14,
+          "social-drama": 20,
+          "stealth-challenge": 3,
+          "traversal-puzzle": 6,
+          "vista-landmark": 1,
+          "wonder-oddity": 9
+        },
+        "purposeCount": 13,
+        "missingCorePurposes": [],
+        "hostileWithin2km": 16,
+        "rings": {
+          "edge": {
+            "settlement": 2,
+            "transit": 3,
+            "martial": 2,
+            "civic": 4,
+            "sacred": 1
+          },
+          "hinterland": {
+            "camp": 4,
+            "civic": 1,
+            "settlement": 15,
+            "sacred": 8,
+            "ruin": 4,
+            "lair": 4,
+            "works": 7,
+            "transit": 4,
+            "martial": 1,
+            "lone": 8
+          },
+          "rural": {
+            "settlement": 23,
+            "lair": 15,
+            "ruin": 14,
+            "sacred": 13,
+            "camp": 9,
+            "works": 7,
+            "civic": 4,
+            "martial": 6,
+            "transit": 6,
+            "lone": 10
+          }
+        }
+      },
+      "thorn": {
+        "purposesWithin2km": {
+          "combat-challenge": 7,
+          "dungeon-delve": 12,
+          "faction-gateway": 2,
+          "lore-reveal": 8,
+          "navigation-aid": 6,
+          "resource-source": 6,
+          "safe-rest": 13,
+          "service-hub": 10,
+          "social-drama": 13,
+          "stealth-challenge": 3,
+          "traversal-puzzle": 6,
+          "vista-landmark": 2,
+          "wonder-oddity": 8
+        },
+        "purposeCount": 13,
+        "missingCorePurposes": [],
+        "hostileWithin2km": 11,
+        "rings": {
+          "edge": {
+            "settlement": 1,
+            "works": 3,
+            "transit": 2,
+            "sacred": 1
+          },
+          "hinterland": {
+            "civic": 6,
+            "sacred": 4,
+            "settlement": 15,
+            "works": 7,
+            "ruin": 5,
+            "transit": 7,
+            "martial": 4,
+            "lone": 6,
+            "camp": 3,
+            "lair": 1
+          },
+          "rural": {
+            "settlement": 14,
+            "ruin": 10,
+            "camp": 3,
+            "sacred": 4,
+            "transit": 5,
+            "lair": 10,
+            "lone": 3,
+            "civic": 1,
+            "works": 2
+          }
+        }
+      },
+      "gideon": {
+        "purposesWithin2km": {
+          "combat-challenge": 12,
+          "dungeon-delve": 19,
+          "faction-gateway": 12,
+          "lore-reveal": 10,
+          "navigation-aid": 9,
+          "resource-source": 9,
+          "safe-rest": 18,
+          "service-hub": 21,
+          "social-drama": 23,
+          "stealth-challenge": 2,
+          "traversal-puzzle": 4,
+          "vista-landmark": 3,
+          "wonder-oddity": 15
+        },
+        "purposeCount": 13,
+        "missingCorePurposes": [],
+        "hostileWithin2km": 20,
+        "rings": {
+          "edge": {
+            "settlement": 1,
+            "transit": 5,
+            "works": 4,
+            "martial": 2,
+            "civic": 3,
+            "sacred": 1
+          },
+          "hinterland": {
+            "ruin": 3,
+            "settlement": 18,
+            "sacred": 9,
+            "works": 8,
+            "martial": 7,
+            "lone": 10,
+            "camp": 6,
+            "civic": 12,
+            "transit": 5
+          },
+          "rural": {
+            "settlement": 16,
+            "camp": 10,
+            "lair": 26,
+            "ruin": 20,
+            "sacred": 11,
+            "martial": 1,
+            "works": 4,
+            "transit": 6,
+            "lone": 9,
+            "civic": 2
+          }
+        }
+      },
+      "helstrom": {
+        "purposesWithin2km": {
+          "combat-challenge": 15,
+          "dungeon-delve": 27,
+          "faction-gateway": 7,
+          "lore-reveal": 19,
+          "navigation-aid": 2,
+          "resource-source": 6,
+          "safe-rest": 22,
+          "service-hub": 15,
+          "social-drama": 22,
+          "stealth-challenge": 4,
+          "traversal-puzzle": 6,
+          "wonder-oddity": 12
+        },
+        "purposeCount": 12,
+        "missingCorePurposes": [],
+        "hostileWithin2km": 24,
+        "rings": {
+          "edge": {
+            "settlement": 1,
+            "sacred": 1,
+            "transit": 1,
+            "camp": 1
+          },
+          "hinterland": {
+            "lair": 4,
+            "settlement": 10,
+            "sacred": 8,
+            "ruin": 1,
+            "camp": 3,
+            "lone": 5,
+            "transit": 1
+          },
+          "rural": {
+            "settlement": 45,
+            "ruin": 30,
+            "sacred": 25,
+            "camp": 10,
+            "civic": 16,
+            "lone": 22,
+            "transit": 20,
+            "martial": 12,
+            "lair": 29,
+            "works": 21
+          }
+        }
+      },
+      "archon": {
+        "purposesWithin2km": {
+          "combat-challenge": 11,
+          "dungeon-delve": 11,
+          "faction-gateway": 3,
+          "lore-reveal": 10,
+          "navigation-aid": 4,
+          "resource-source": 1,
+          "safe-rest": 18,
+          "service-hub": 2,
+          "social-drama": 6,
+          "stealth-challenge": 2,
+          "traversal-puzzle": 4,
+          "wonder-oddity": 4
+        },
+        "purposeCount": 12,
+        "missingCorePurposes": [],
+        "hostileWithin2km": 14,
+        "rings": {
+          "edge": {
+            "settlement": 1,
+            "transit": 2,
+            "sacred": 1
+          },
+          "hinterland": {
+            "sacred": 3,
+            "settlement": 9,
+            "martial": 1,
+            "ruin": 1,
+            "civic": 2,
+            "lone": 4,
+            "transit": 2,
+            "lair": 5
+          },
+          "rural": {
+            "settlement": 17,
+            "lair": 13,
+            "ruin": 13,
+            "lone": 4,
+            "sacred": 11,
+            "martial": 1,
+            "transit": 6,
+            "camp": 4,
+            "civic": 1,
+            "works": 3
+          }
+        }
+      },
+      "blackrose": {
+        "purposesWithin2km": {
+          "combat-challenge": 12,
+          "dungeon-delve": 9,
+          "faction-gateway": 6,
+          "lore-reveal": 9,
+          "navigation-aid": 8,
+          "resource-source": 1,
+          "safe-rest": 23,
+          "service-hub": 10,
+          "social-drama": 8,
+          "stealth-challenge": 2,
+          "traversal-puzzle": 8,
+          "vista-landmark": 1,
+          "wonder-oddity": 11
+        },
+        "purposeCount": 13,
+        "missingCorePurposes": [],
+        "hostileWithin2km": 15,
+        "rings": {
+          "edge": {
+            "settlement": 1,
+            "martial": 3,
+            "transit": 1,
+            "ruin": 1
+          },
+          "hinterland": {
+            "civic": 1,
+            "settlement": 19,
+            "sacred": 8,
+            "transit": 7,
+            "camp": 2,
+            "martial": 1,
+            "lone": 2,
+            "lair": 3,
+            "ruin": 4,
+            "works": 1
+          },
+          "rural": {
+            "settlement": 23,
+            "lair": 12,
+            "ruin": 17,
+            "camp": 8,
+            "martial": 2,
+            "sacred": 5,
+            "lone": 5,
+            "transit": 8,
+            "works": 4,
+            "civic": 2
+          }
+        }
+      },
+      "lilmoth": {
+        "purposesWithin2km": {
+          "combat-challenge": 8,
+          "dungeon-delve": 7,
+          "faction-gateway": 4,
+          "lore-reveal": 8,
+          "navigation-aid": 8,
+          "safe-rest": 23,
+          "service-hub": 7,
+          "social-drama": 6,
+          "stealth-challenge": 2,
+          "traversal-puzzle": 6,
+          "vista-landmark": 1,
+          "wonder-oddity": 7
+        },
+        "purposeCount": 12,
+        "missingCorePurposes": [
+          "resource-source"
+        ],
+        "hostileWithin2km": 10,
+        "rings": {
+          "edge": {
+            "settlement": 1,
+            "sacred": 1,
+            "civic": 1,
+            "martial": 1,
+            "transit": 2
+          },
+          "hinterland": {
+            "settlement": 16,
+            "sacred": 2,
+            "transit": 4,
+            "camp": 2,
+            "martial": 1,
+            "lair": 3,
+            "lone": 1,
+            "ruin": 5
+          },
+          "rural": {
+            "settlement": 21,
+            "martial": 3,
+            "ruin": 8,
+            "civic": 2,
+            "sacred": 11,
+            "lair": 15,
+            "transit": 9,
+            "camp": 3,
+            "lone": 3,
+            "works": 2
+          }
+        }
+      },
+      "soulrest": {
+        "purposesWithin2km": {
+          "combat-challenge": 6,
+          "dungeon-delve": 6,
+          "faction-gateway": 4,
+          "lore-reveal": 7,
+          "navigation-aid": 6,
+          "resource-source": 1,
+          "safe-rest": 12,
+          "service-hub": 10,
+          "social-drama": 7,
+          "stealth-challenge": 1,
+          "traversal-puzzle": 4,
+          "wonder-oddity": 6
+        },
+        "purposeCount": 12,
+        "missingCorePurposes": [],
+        "hostileWithin2km": 7,
+        "rings": {
+          "edge": {
+            "settlement": 1,
+            "works": 1,
+            "sacred": 1,
+            "transit": 1
+          },
+          "hinterland": {
+            "settlement": 11,
+            "ruin": 3,
+            "sacred": 3,
+            "lone": 3,
+            "martial": 1,
+            "transit": 2,
+            "works": 2,
+            "camp": 4,
+            "civic": 1
+          },
+          "rural": {
+            "settlement": 18,
+            "martial": 3,
+            "civic": 2,
+            "lair": 9,
+            "ruin": 10,
+            "sacred": 6,
+            "camp": 4,
+            "transit": 7,
+            "lone": 2,
+            "works": 1
+          }
+        }
+      },
+      "alten-corimont": {
+        "purposesWithin2km": {
+          "combat-challenge": 15,
+          "dungeon-delve": 22,
+          "faction-gateway": 3,
+          "lore-reveal": 16,
+          "navigation-aid": 5,
+          "resource-source": 3,
+          "safe-rest": 24,
+          "service-hub": 16,
+          "social-drama": 23,
+          "stealth-challenge": 3,
+          "traversal-puzzle": 8,
+          "vista-landmark": 1,
+          "wonder-oddity": 11
+        },
+        "purposeCount": 13,
+        "missingCorePurposes": [],
+        "hostileWithin2km": 22,
+        "rings": {
+          "edge": {
+            "settlement": 1,
+            "sacred": 1,
+            "civic": 1,
+            "martial": 1,
+            "transit": 2
+          },
+          "hinterland": {
+            "camp": 6,
+            "civic": 3,
+            "settlement": 22,
+            "ruin": 6,
+            "lair": 3,
+            "transit": 6,
+            "sacred": 9,
+            "works": 7,
+            "lone": 8,
+            "martial": 1
+          },
+          "rural": {
+            "settlement": 26,
+            "lair": 19,
+            "lone": 15,
+            "sacred": 15,
+            "ruin": 18,
+            "works": 9,
+            "camp": 7,
+            "transit": 9,
+            "martial": 5,
+            "civic": 4
+          }
+        }
+      }
+    },
+    "stances": {
+      "friendly": 77,
+      "wary": 97,
+      "hostile": 68,
+      "guarded": 51,
+      "neutral": 209,
+      "sanctuary": 25
+    },
+    "swapped": [
+      "place.dunmer-north.breathes-underneath",
+      "place.dunmer-north.buried-blades",
+      "place.dunmer-north.cut-and-stack",
+      "place.dunmer-north.dreams-by-the-ash",
+      "place.dunmer-north.gandranen-library",
+      "place.dunmer-north.greylight-village",
+      "place.dunmer-north.hackwing-wall",
+      "place.dunmer-north.hatching-pools",
+      "place.dunmer-north.hissmir",
+      "place.dunmer-north.hixinoag",
+      "place.dunmer-north.murkwater",
+      "place.dunmer-north.names-the-year",
+      "place.dunmer-north.reedmoor-stilts",
+      "place.dunmer-north.stands-on-the-island",
+      "place.dunmer-north.the-borrowed-tomb",
+      "place.dunmer-north.the-causeway-lodge",
+      "place.dunmer-north.the-charge-pond",
+      "place.dunmer-north.the-diggings-ladder",
+      "place.dunmer-north.the-drawdown-flats",
+      "place.dunmer-north.the-drover-camp",
+      "place.dunmer-north.the-gravel-six",
+      "place.dunmer-north.the-guar-ground",
+      "place.dunmer-north.the-high-wrappings",
+      "place.dunmer-north.the-last-stone-course",
+      "place.dunmer-north.the-monsoon-boom",
+      "place.dunmer-north.the-ninth-chapel",
+      "place.dunmer-north.the-opened-terrace",
+      "place.dunmer-north.the-shut-village",
+      "place.dunmer-north.the-sump-hamlet",
+      "place.dunmer-north.the-tear-wreck",
+      "place.dunmer-north.the-tide-fair",
+      "place.dunmer-north.the-turning-stone",
+      "place.dunmer-north.the-whispers-dig",
+      "place.dunmer-north.ties-four-ways",
+      "place.dunmer-north.waits-for-the-promise",
+      "place.hist-heartland.air-pocket-station-basin",
+      "place.hist-heartland.barsaebic-sub-city",
+      "place.hist-heartland.burn-scar-village-ash",
+      "place.hist-heartland.drawdown-flat-exposed",
+      "place.hist-heartland.duskfall-unmade-site",
+      "place.hist-heartland.fenlord-tomb-deep",
+      "place.hist-heartland.root-gallery-deep-throat",
+      "place.hist-heartland.root-gallery-drowned-stair",
+      "place.hist-heartland.root-gallery-lantern-hollow",
+      "place.hist-heartland.rootworm-burrow-dead",
+      "place.hist-heartland.sap-collection-facility-daedric",
+      "place.hist-heartland.sealed-xanmeer-living",
+      "place.hist-heartland.submerged-xanmeer-topmost",
+      "place.hist-heartland.tended-xanmeer-clan-north",
+      "place.hist-heartland.tended-xanmeer-pilgrim-way",
+      "place.hist-heartland.umbriel-stripped-quiet",
+      "place.hist-heartland.urn-vault-blasphemers",
+      "place.hist-heartland.voriplasm-chamber-sealed",
+      "place.hist-heartland.wamasu-pond-nest",
+      "place.imperial-fringe.bog-iron-workings",
+      "place.imperial-fringe.bonded-shed-of-the-onkobra",
+      "place.imperial-fringe.bone-road-waystation",
+      "place.imperial-fringe.burnt-field-village",
+      "place.imperial-fringe.cartwrights-cross",
+      "place.imperial-fringe.comes-back-slowly",
+      "place.imperial-fringe.dreams-in-mud",
+      "place.imperial-fringe.guar-holding-of-the-nine-bells",
+      "place.imperial-fringe.hollow-arch-toll",
+      "place.imperial-fringe.keepers-lodge-of-the-lower-onkobra",
+      "place.imperial-fringe.moonmarch-ground",
+      "place.imperial-fringe.ninth-milestone-house",
+      "place.imperial-fringe.onkobra-field-station",
+      "place.imperial-fringe.onkobra-kwama-mine",
+      "place.imperial-fringe.open-door-at-the-saddle",
+      "place.imperial-fringe.saddle-fair",
+      "place.imperial-fringe.stonewastes",
+      "place.imperial-fringe.swampmoth-town",
+      "place.imperial-fringe.the-borrowed-house",
+      "place.imperial-fringe.the-cold-forge",
+      "place.imperial-fringe.the-cold-lights",
+      "place.imperial-fringe.the-counted-dead",
+      "place.imperial-fringe.the-drowned-furrow",
+      "place.imperial-fringe.the-drowned-mule",
+      "place.imperial-fringe.the-fig-and-ledger",
+      "place.imperial-fringe.the-fig-poachers",
+      "place.imperial-fringe.the-kept-terrace",
+      "place.imperial-fringe.the-leaning-watch",
+      "place.imperial-fringe.the-ravine-doors",
+      "place.imperial-fringe.the-road-nisswo-house",
+      "place.imperial-fringe.the-sermon-road-camp",
+      "place.imperial-fringe.the-shaking-house",
+      "place.imperial-fringe.the-turned-out",
+      "place.imperial-fringe.the-vellum-estate",
+      "place.imperial-fringe.xi-tsei-massacre-ground",
+      "place.imperial-penal-south.blackrose-drowned-hist",
+      "place.imperial-penal-south.bramman-head",
+      "place.imperial-penal-south.feeder-portage",
+      "place.imperial-penal-south.kothringi-ruin-basin",
+      "place.imperial-penal-south.lake-submerged-xanmeer",
+      "place.imperial-penal-south.lilmothiit-quarry",
+      "place.imperial-penal-south.longmont",
+      "place.imperial-penal-south.vampiric-cloud-ground",
+      "place.mercantile-coast.bereaved-village-murkmire",
+      "place.mercantile-coast.bright-throat-village",
+      "place.mercantile-coast.hereguard-plantation",
+      "place.mercantile-coast.hist-village-keel-sakka",
+      "place.mercantile-coast.keshu-grove",
+      "place.mercantile-coast.long-bar-wreckers",
+      "place.mercantile-coast.oliis-tide-run",
+      "place.mercantile-coast.quinrawl-anchorage",
+      "place.mercantile-coast.rockpark",
+      "place.mercantile-coast.root-gallery-murkmire",
+      "place.mercantile-coast.screen-watch",
+      "place.mercantile-coast.stripped-village-north",
+      "place.mercantile-coast.teeba-enoo-court",
+      "place.mercantile-coast.wraxu-stacks",
+      "place.naga-kur-deeps.beast-keeper-crocodile",
+      "place.naga-kur-deeps.bog-blight-ground-old-cordon",
+      "place.naga-kur-deeps.dead-water-village",
+      "place.naga-kur-deeps.drowning-narrows-tidal-gate",
+      "place.naga-kur-deeps.legendary-deep-feather-serpent",
+      "place.naga-kur-deeps.maturity-trial-kaju-kill",
+      "place.naga-kur-deeps.naga-village-raiding",
+      "place.naga-kur-deeps.naga-village-settled",
+      "place.naga-kur-deeps.sinkhole-mouth-deeps",
+      "place.naga-kur-deeps.voriplasm-chamber-breached",
+      "place.pirate-freeholds.dunmer-frontier-holding",
+      "place.pirate-freeholds.freehold-smithy",
+      "place.pirate-freeholds.rim-keystone-chamber",
+      "place.pirate-freeholds.veterans-holding",
+      "place.saxhleel-coast.cantemir-headland",
+      "place.saxhleel-coast.deep-bank",
+      "place.saxhleel-coast.dusk-bird-colony",
+      "place.saxhleel-coast.estuary-keepers-lodge",
+      "place.saxhleel-coast.lagoon-storm-shelter",
+      "place.saxhleel-coast.mangrove-reef",
+      "place.saxhleel-coast.terrace-village-ridge"
+    ]
+  }
 }

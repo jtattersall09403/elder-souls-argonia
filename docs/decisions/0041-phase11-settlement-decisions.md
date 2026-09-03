@@ -1363,6 +1363,57 @@ story); (5) the 272 deferred records: 134 live relations point at them.
 relation targets; the `sitingPrefs` wording edits the review lists (finding
 9); re-measure the route stats against the minor-route network.
 
+## Part 4 step 2 — owner feedback round (2026-09-03)
+
+**Owner rulings on the five ranked decisions:**
+
+1. *Emptier province?* — decide after the consistency fixes; cutting can happen
+   at any later stage. **Plotting is not set in stone**: places may be cut or
+   moved at meso/micro when they don't work on the ground.
+2. *Minority enclaves* — lore says enclave, and the plot already is one
+   ([research](../research/minority-enclaves-lore.md)): 22/24 Imperial records
+   sit within 1.7 km of Gideon, 5/6 Dunmer at Thorn/Stormhold. Two Gideon
+   estate records to pull back toward Gideon; four scattered outliers keep
+   their stated personal reasons.
+3. *Boat lanes* — a **real route network**, like the roads: named lanes and
+   channels with stable ids (`world/sources/routes/registry.json`), places
+   along them that make sense as a water-connected network, and a
+   Morrowind-style pay-and-go **boat station network** (`travelStation` on
+   records). No scripted moving boats; static moored boats where they make
+   sense; a boat or floating settlement may relocate between set positions by
+   date/season. The waterways should feel like a core part of the province's
+   identity and of many places' identities.
+4. *Named sightlines hard* — keep, with judgment: if a sightline pushes a
+   place onto much worse ground, change the sightline record or swap the
+   place instead.
+5. *272 deferred targets* — **prune the links, keep them in reserve**:
+   `relationsReserved` on the record (validator forbids live edges to non-live
+   targets).
+
+**Owner feedback items and what was done** (all this date unless noted):
+
+| item | done |
+|---|---|
+| Text review of all place prose | region text-review agents (0043 process) after the semantic repair — see the wrap note below |
+| Islands | [research](../research/offshore-islands-feasibility.md): use the 59 existing offshore landmasses (three canon-named) now; 2–4 authored lagoon islets feasible in the Part 6 window; no barrier chains or big offshore island (no shelf, 2.9 km to the world edge) |
+| Tropical vanilla assets; farmhouse in three regions; Imperial fort mod for Gideon | [audit](../research/phase11-vibe-sheet-asset-audit.md): Tropical Skyrim is a texture replacer, applied as an overlay to farmhouse/docks/bridges kits; `vanilla-farmhouse` was in 163 records across all eight regions (not intentional) — region pass rebalances; **Morrowind Imperial Keep Set (SSE 133090)** + **Hlaalu Architecture (SSE 157997)** sourced as `imperial-keep` / `hlaalu-domestic` kits for Gideon; `bmv-fort` stays Blackrose's |
+| Opening hours | [research](../research/opening-hours-and-start-area.md): ring principles A/B/C around Alten Corimont, enforced in the plot as a gate (`OPENING_*`); the start barge/camp records, a first trivial dungeon and a vantage are added by the pirate-freeholds region pass |
+| Location semantics (Trunk Span, Chasecreek) | `worldgen.audit_place_semantics` → `world/sources/sites/semantic-audit.md` (832 findings over 399 places; both owner cases caught); region passes resolve each as move / rewrite / swap / cut |
+| Collections near cities; distance to city | plot now has **city rings** (edge ≤350 m: wards/docks/works/shrines only; hinterland ≤1.2 km: no hostile or D4 lairs, farms/works/villages rewarded), a **hard danger gate** (lived-in classes ±1 band, others ±2), **hostile clustering** (≤3 unrelated in 800 m), **purpose repetition** along a road, and a **swap-improvement pass** after the greedy solve (the anti-greedy step); the report lists each city's hinterland purpose coverage and ring mix |
+| Major cities may shift | `worldgen.anchor_nudge` scans every tolerance circle: **Soulrest** (pin was half in the sea) and **Lilmoth** nudged 234 / 153 m onto firm ground; Stormhold, Thorn and Gideon have no flatter ground in their circles (steep everywhere — a Part 6 terracing job, not an anchor job); Archon/Helstrom/AC gain nothing. Rebuild chain re-run (society → refine → chunks → web → water → landcover) |
+| Minor roads painted + vegetation cleared | recorded as consumers in Part 3b; painting the minor network into the land cover and the scatter's route-clearing corridor are Phase 14/15 work — added to [polish-backlog](../polish-backlog.md) as a must-do before rollout |
+| Hostile places; conditional hostility | `hostility` block (baseline stance + typed flips in the quests-85 vocabulary, incl. new `placeCleared` / `placeStanceIs`); region passes raise hostile-baseline places toward the research target |
+| What you find there | `contents` block (creature / NPC / loot slots, `registerRef: null` until Phase 13) |
+| Point to the player | `playerPurpose` block (16 purposes, impact band, one-sentence hook) + typed `rewardProfile.kinds`; used by the plot (repetition, rings, reports) |
+| Falling mage easter egg | added by the hist-heartland region pass as a lone curiosity far from any road (cast roster §58) |
+| Dungeons | [research](../research/place-purpose-hostility-and-dungeon-balance.md): 197 of 527 strictly dungeon-like (37 %) vs Morrowind ~60–74 %; target **240–280** by converting low-value repetitive places and adding underwater entrances (≤25 % wet-majority interiors); `interior` block records kind/family/size/wet fraction/entrances |
+| Underwater set dressing | homed: POI families in world 60, assets in 90 §76; the gap is submerged vegetation/groundcover — a submerged depth band added to module 65's tiers (Phase 15 deliverable) |
+
+**Schema**: places files are `schemaVersion: 2` (migration
+`worldgen.migrate_catalogue_v2`; new blocks required at `derived`); route
+registry `worldgen.route_registry` with ids stamped on `routes.json` /
+`waterways.json` by `compile_society`.
+
 ## Owner Q&A (grows from Parts 2, 4 and 5)
 
 **Queued for the next owner touchpoint (batched, not blocking):**

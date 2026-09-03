@@ -41,6 +41,13 @@ def _record(**over):
         "densityLayer": "fine-tempo",
         "entrance": "none",
         "underwaterAccess": "none",
+        # schemaVersion 2 (2026-09-03): purpose, stance, interior, contents.
+        "playerPurpose": {"primary": "combat-challenge", "secondary": ["hidden-secret"], "impact": "real",
+                          "hook": "A toll gang on the reed channel, and their strongbox"},
+        "hostility": {"baseline": "hostile", "owner": None, "flips": [], "clearable": True, "respawn": "slow"},
+        "interior": {"kind": "none"},
+        "contents": {"creatures": [], "npcs": [{"slotId": "n1", "role": "rank-and-file", "registerRef": None, "count": "few"}],
+                     "loot": [{"slotId": "l1", "role": "strongroom", "registerRef": None, "payoff": "loot-cache"}]},
     }
     rec.update(over)
     return rec
@@ -48,7 +55,7 @@ def _record(**over):
 
 def _region_file(dirpath, places):
     _write(dirpath, "places-testreg.json",
-           {"schemaVersion": 1, "region": "testreg", "seed": "s1", "places": places})
+           {"schemaVersion": 2, "region": "testreg", "seed": "s1", "places": places})
 
 
 def test_valid_catalogue_passes(tmp_path):
@@ -90,7 +97,7 @@ def test_wrong_id_prefix_and_bad_sockets_fail(tmp_path):
     _taxonomy(tmp_path)
     rec = _record(id="place.otherreg.x", sockets={"scene": []})
     _write(tmp_path, "places-testreg.json",
-           {"schemaVersion": 1, "region": "testreg", "seed": "s1", "places": [rec]})
+           {"schemaVersion": 2, "region": "testreg", "seed": "s1", "places": [rec]})
     errs = catalogue.validate_catalogue(tmp_path, check_permanence=False)
     assert any("place.testreg.<slug>" in e for e in errs)
     assert any("sockets" in e for e in errs)

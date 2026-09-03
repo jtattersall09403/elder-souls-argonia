@@ -264,6 +264,10 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly }: PlacesLayer
             <Field k="workflow" v={selected.workflow} />
             <Field k="discovery" v={selected.discovery} />
             <Field k="valueTier" v={selected.valueTier} />
+            <Field k="purpose" v={selected.purpose} />
+            <Field k="hook" v={selected.hook} />
+            <Field k="stance" v={selected.stance} />
+            <Field k="interior" v={selected.interior} />
             <Field k="hardConstraints" v={selected.hardConstraints} />
             <Field k="reachedVia" v={selected.reachedVia} />
             <Field k="position" v={`u ${selected.position.u.toFixed(4)}, v ${selected.position.v.toFixed(4)}`} />

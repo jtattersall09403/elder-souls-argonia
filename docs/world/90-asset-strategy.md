@@ -163,6 +163,36 @@ riverbottom/rivermud/mossy-rocks/mountain slabs → `build_ground_materials`
 and architecture/clutter — sweep this archive FIRST when filling tropical
 gaps before hunting new mods.
 
+**Architecture is texture-only (Phase 11 audit).** Tropical ships **no
+architecture meshes at all** — its farmhouse/riften/solitude/whiterun/roads
+retextures sit under vanilla filenames. So tropicalising a settlement kit is a
+**build-config key, not a parallel kit family**: a kit declares
+`textureOverlayPools: ["tropical"]` and `pipeline/build_kit.py` inserts the
+overlay pool's texture directory ahead of the **vanilla fallback** in every
+pool's search order. A pool's own textures still win, so sourced mods keep
+their authored look; only vanilla-backed pieces change. Live on
+`settlement-imperial-v1` and `settlement-stilt-v1`; the un-tropicalised
+"mountain" look is the same kit built **without** the key, not a second asset
+family. Files Tropical does not cover (`clutter/stockade`) are handled with the
+existing `textureAliases` key. See
+[settlement-kit-sourcing-log.md](../research/settlement-kit-sourcing-log.md)
+entry 2.
+
+### 74.1a-bis Morrowind-Imperial architecture — the Gideon civic language
+
+Sourced Phase 11 Part 4 after the vibe-sheet audit found the catalogue using
+the **Nordic vanilla farmhouse** as its de-facto "Imperial building" in all
+eight regions. **Morrowind Imperial Keep Set (Remodeled)** (SSE 133090,
+Tesak1243, pool `mwkeep`, kit `imperial-keep`, 88 exterior pieces) is the
+civic/military tier — curtain walls, gate, stackable towers, keep blocks,
+ledges, bridges, docks, stables, rubble variants. **Morrowind Hlaalu
+Architecture** (SSE 157997, Angelio, pool `hlaalu`, kit `hlaalu-domestic`, 68
+pieces) is the domestic tier, built on 133090 and retextured. BM&V's
+`arch.imperial.fort-wall` stays with the **penal south**, so the two Imperial
+regions no longer share one silhouette. Red Cyrodiil pantile roofs remain an
+open gap — treat as a **texture** problem (Rally's City Roofs SSE 20896,
+Better Towns Textures classic 46121) before sourcing a new tileset.
+
 ### 74.1b Black Marsh & Valenwood (ModDB) — VERY HIGH priority source
 
 [Black Marsh & Valenwood](https://www.moddb.com/mods/black-marsh-valenwood)

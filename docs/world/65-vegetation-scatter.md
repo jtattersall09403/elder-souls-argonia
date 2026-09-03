@@ -66,6 +66,13 @@ default).
   interdigitate well below the 468 m chunk, so there is no such thing as "the
   chunk's palette": layers carry their own region gate and the region raster
   decides at each candidate position.
+- **A submerged depth band is a scatter tier of its own** (owner feedback
+  2026-09-03): coastal and channel beds from the waterline to ~12 m carry
+  their own layers (kelp/eelgrass analogues, coral-like growths from the
+  sourced underwater pools, sunken debris, shell beds), gated by water class,
+  depth and turbidity rather than the land region raster. Wrecks and sunken
+  structures are catalogue *places*, never scatter. Phase 15 deliverable,
+  after Phase 13's ecology output; assets from module 90 §76.
 - **Collision is tiered**: T1 hero assets get compiled colliders; T2 trees get
   trunk capsules only; T3 groundcover is visual-only. Scatter placements land
   in the same bundle files the streaming contract already reserves

@@ -1,6 +1,6 @@
 {
  "id": "settlement-imperial-v1",
- "description": "Imperial / foreign stone-timber fringe — farmhouse shells, the Solitude dock family and keeled small craft. The foreign layer of the province: west/north-west fringe, Topal ports and road corridors only. Second sourcing pass adds the two Cyrodiilic flat-bottomed ferries and rowboat from Ships and Boats of Tamriel — the foreign river traffic of the Topal ports.",
+ "description": "Imperial / foreign stone-timber fringe \u2014 farmhouse shells, the Solitude dock family and keeled small craft. The foreign layer of the province: west/north-west fringe, Topal ports and road corridors only. Second sourcing pass adds the two Cyrodiilic flat-bottomed ferries and rowboat from Ships and Boats of Tamriel \u2014 the foreign river traffic of the Topal ports. TROPICALISED: `textureOverlayPools: [\"tropical\"]` puts Tropical Skyrim's retextures (vanilla filenames, architecture-TEXTURE-only \u2014 it ships no architecture meshes) ahead of the vanilla texture fallback, so the vanilla-backed pieces read hot and wet instead of Nordic grey. A pool's own textures still win, so the sourced-mod pieces keep their authored look. Drop the key to rebuild the un-overlaid variant.",
  "culture": "imperial",
  "output": "tooling/asset-pipeline/output/kits/settlement-imperial-v1.glb",
  "lodRatios": [
@@ -8,6 +8,9 @@
   0.12
  ],
  "textureMaxSize": 512,
+ "textureOverlayPools": [
+  "tropical"
+ ],
  "assets": [
   {
    "asset": "vanilla:architecture/farmhouse/farmhouse01"

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "catalogue.asset-aliases",
-  "purpose": "Maps every assetPlan slug used in the place catalogue to a family id in world/sources/placement/settlement-asset-inventory.json. Feasibility critique F4/F5: free-text assetPlan let a typo (azure-tree) survive undetected. worldgen.catalogue --check enforces that every assetPlan slug resolves here. Adding a slug means first proving an inventory family can express it — never invent a slug for an asset we lack.",
+  "purpose": "Maps every assetPlan slug used in the place catalogue to a family id in world/sources/placement/settlement-asset-inventory.json. Feasibility critique F4/F5: free-text assetPlan let a typo (azure-tree) survive undetected. worldgen.catalogue --check enforces that every assetPlan slug resolves here. Adding a slug means first proving an inventory family can express it \u2014 never invent a slug for an asset we lack.",
   "source": "world/sources/placement/settlement-asset-inventory.json",
   "aliases": {
     "argonian-lights": "light.argonian.mud-mother-grove",
@@ -26,6 +26,8 @@
     "guar-pens": "arch.neutral.fence-and-enclosure",
     "hist-tree": "landmark.argonian.hist-tree",
     "hist-variants": "landmark.argonian.hist-tree-skyfall",
+    "hlaalu-domestic": "arch.imperial.hlaalu-domestic",
+    "imperial-keep": "arch.imperial.morrowind-keep",
     "landmark-civic": "landmark.mixed.standing-features",
     "lights-general": "light.neutral.fixtures",
     "market-tents": "arch.neutral.market-and-camp",

@@ -364,6 +364,35 @@
    "withLodVariant": 33,
    "withDimensions": 0,
    "observedPlaced": 0
+  },
+  "mwkeep": {
+   "label": "Morrowind Imperial Keep Set (Remodeled)",
+   "source": "https://www.nexusmods.com/skyrimspecialedition/mods/133090",
+   "credit": "Morrowind Imperial Keep Set (Remodeled) (Nexus SSE 133090, Tesak1243)",
+   "meshesSeen": 164,
+   "registered": 164,
+   "skippedNonContent": {},
+   "categories": {
+    "architecture": 164
+   },
+   "withLodVariant": 0,
+   "withDimensions": 0,
+   "observedPlaced": 0
+  },
+  "hlaalu": {
+   "label": "Morrowind Hlaalu Architecture",
+   "source": "https://www.nexusmods.com/skyrimspecialedition/mods/157997",
+   "credit": "Morrowind Hlaalu Architecture (Nexus SSE 157997, Angelio; uploaded by Kai4304), bundling many credited modder resources",
+   "meshesSeen": 127,
+   "registered": 127,
+   "skippedNonContent": {},
+   "categories": {
+    "misc": 117,
+    "architecture": 10
+   },
+   "withLodVariant": 0,
+   "withDimensions": 0,
+   "observedPlaced": 0
   }
  }
 }

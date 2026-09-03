@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "region": "imperial-penal-south",
   "seed": "imperial-penal-south-1109",
   "places": [
@@ -80,9 +80,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "loot",
-          "exploration"
+          "lore-fragment",
+          "loot-cache"
         ],
         "valueTier": "tier-3"
       },
@@ -124,7 +123,55 @@
       "entrance": "stair-throat",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-2 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "ruined"
+      "deferredFromStatus": "ruined",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "wonder-oddity",
+        "secondary": [
+          "lore-reveal",
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "On the quarry road between the Robbed City and the Rose — the logistics of a single-day construction, made permanent",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "root-cavern",
+        "sizeBand": "S2",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.basin-air-grotto",
@@ -186,7 +233,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage",
           "place.imperial-penal-south.longmont"
         ],
         "travelServiceEdges": []
@@ -203,9 +249,9 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "exploration",
-          "shelter",
-          "loot"
+          "lore-fragment",
+          "rest-shelter",
+          "loot-cache"
         ],
         "valueTier": "tier-2"
       },
@@ -253,7 +299,51 @@
       "entrance": "underwater-entry",
       "underwaterAccess": "argonian-only-depth",
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "wonder-oddity",
+        "secondary": [
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "Three metres under the shore cliff, opening into a dry chamber the size of a room",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "flooded-cave",
+        "sizeBand": "S1",
+        "wetFraction": 0.8,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.basin-courier-relay",
@@ -333,7 +423,7 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "knowledge"
+          "lore-fragment"
         ],
         "valueTier": "tier-1"
       },
@@ -375,7 +465,41 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'courier-relay' runs 10 province-wide against a countBand of 7-9, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "guarded",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "faction-gateway",
+        "secondary": [
+          "lore-reveal",
+          "service-hub"
+        ],
+        "impact": "mild",
+        "hook": "At the junction of the causeway road and the lake shore, with fresh runners always waiting",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.basin-curiosity",
@@ -456,8 +580,7 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "exploration"
+          "lore-fragment"
         ],
         "valueTier": "tier-2"
       },
@@ -502,7 +625,40 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "lore-reveal",
+        "secondary": [
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "On a firm ridge under the marsh that only becomes apparent when you walk the line",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.basin-hearth-house",
@@ -582,7 +738,7 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "shelter",
+          "rest-shelter",
           "services"
         ],
         "valueTier": "tier-1"
@@ -624,7 +780,31 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-4 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "sanctuary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "mild",
+        "hook": "At the midpoint of an eight-kilometre stretch with no settlement",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      }
     },
     {
       "id": "place.imperial-penal-south.basin-hermit",
@@ -708,7 +888,7 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
+          "lore-fragment",
           "services"
         ],
         "valueTier": "tier-2"
@@ -752,7 +932,48 @@
       "entrance": "door",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'hermit-hut' runs 9 province-wide against a countBand of 5-6, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "lore-reveal",
+          "hidden-secret",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "A dry ledge above a sinkhole with a spring within reach and no approach that is not deliberate",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "dwelling",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.basin-sinkhole",
@@ -828,8 +1049,7 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "exploration",
-          "conflict"
+          "lore-fragment"
         ],
         "valueTier": "tier-3"
       },
@@ -868,7 +1088,35 @@
       "entrance": "sinkhole-lip",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'sinkhole-mouth' runs 4 province-wide against a countBand of 3-3, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "wonder-oddity",
+        "secondary": [],
+        "impact": "real",
+        "hook": "A genuine rarity in this province — the scour found eleven sinkholes province-wide, and this is the only one in the basin",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "sinkhole-ruin",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      }
     },
     {
       "id": "place.imperial-penal-south.basin-squat",
@@ -945,8 +1193,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "shelter",
-          "knowledge"
+          "rest-shelter",
+          "lore-fragment"
         ],
         "valueTier": "tier-1"
       },
@@ -987,7 +1235,40 @@
       "entrance": "gate",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'squatted-ruin-home' runs 5 province-wide against a countBand of 4-4, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "mild",
+        "hook": "The one part of the fort that is dry, defensible and small enough to heat",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.basin-tradehouse",
@@ -1068,7 +1349,7 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "knowledge"
+          "lore-fragment"
         ],
         "valueTier": "tier-2"
       },
@@ -1113,7 +1394,47 @@
       "entrance": "door",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "friendly",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "lore-reveal",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "Halfway along the road, on firm ground, with a landing behind it",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "civic-hall",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.blackrose",
@@ -1175,20 +1496,16 @@
         ],
         "dependsOn": [
           "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.saltrice-village",
           "place.imperial-penal-south.three-gate-toll"
         ],
         "supplies": [
           "place.imperial-penal-south.blackrose-prison",
           "place.imperial-penal-south.longmont"
         ],
-        "patrols": [
-          "place.imperial-penal-south.chainlink-watchtower",
-          "place.imperial-penal-south.manned-toll-tower"
-        ],
+        "patrols": [],
         "visibleFrom": [],
         "travelServiceEdges": [
-          "boat:three-rivers",
+          "boat:route.boat.gideon-onkobra",
           "ferry:lake-north-stage"
         ]
       },
@@ -1213,9 +1530,9 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "trade",
-          "knowledge",
-          "faction"
+          "trade-access",
+          "lore-fragment",
+          "faction-access"
         ],
         "valueTier": "tier-4"
       },
@@ -1321,6 +1638,68 @@
         "distanceToRouteM": 0.0,
         "distanceToWaterM": 0.0,
         "score": null
+      },
+      "hostility": {
+        "baseline": "friendly",
+        "owner": "faction.blackrose-island-council",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "service-hub",
+        "secondary": [
+          "quest-anchor",
+          "lore-reveal"
+        ],
+        "impact": "major",
+        "hook": "The hinge of the south: Murkwood's water from the north-east, Oliis Bay from the south, eastern Blackwood from the west, and Bramman's concealed river out to Topal Bay",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": null,
+            "count": "few",
+            "named": false,
+            "note": "a resident An-Xileel delegation nobody will house"
+          }
+        ],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-4",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "dependsOn": [
+          "place.imperial-penal-south.saltrice-village"
+        ],
+        "patrols": [
+          "place.imperial-penal-south.chainlink-watchtower",
+          "place.imperial-penal-south.manned-toll-tower"
+        ]
+      },
+      "travelStation": {
+        "modes": [
+          "boat",
+          "ferry"
+        ],
+        "destinations": [
+          "place.imperial-fringe.gideon"
+        ]
       }
     },
     {
@@ -1381,7 +1760,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage",
           "place.imperial-penal-south.longmont"
         ],
         "travelServiceEdges": []
@@ -1400,8 +1778,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "faction"
+          "lore-fragment",
+          "faction-access"
         ],
         "valueTier": "tier-3"
       },
@@ -1467,19 +1845,19 @@
         }
       ],
       "position": {
-        "u": 0.3328,
-        "v": 0.82362
+        "u": 0.20266,
+        "v": 0.86824
       },
       "positionM": [
-        2453.9,
-        6073.0
+        1494.3,
+        6402.0
       ],
-      "scourSiteId": "site.scour.lake-standing-water.islet-033",
+      "scourSiteId": "site.scour.lake-standing-water.islet-038",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.lake-standing-water.islet-026",
           "score": 2.869,
-          "whyLost": "taken by place.imperial-penal-south.lake-submerged-xanmeer"
+          "whyLost": "too close to place.naga-kur-deeps.wild-hist-rogue-deeps"
         },
         {
           "siteId": "site.scour.lake-standing-water.islet-038",
@@ -1487,19 +1865,57 @@
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.fringe-marsh.island-008",
-          "score": 1.974,
+          "siteId": "site.scour.fringe-marsh.island-002",
+          "score": 2.163,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "islet in lake & standing water (danger band 3), 172 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, submerged; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "islet in lake & standing water (danger band 3), 256 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, submerged; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.lake-submerged-xanmeer (+0.90).",
       "plotFacts": {
         "landform": "islet",
         "regionClass": "lake & standing water",
         "dangerBand": 3,
-        "distanceToRouteM": 172.1,
+        "distanceToRouteM": 256.0,
         "distanceToWaterM": 0.0,
-        "score": 2.864
+        "score": 3.344
+      },
+      "hostility": {
+        "baseline": "sanctuary",
+        "owner": "faction.blackrose-tree-speakers",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "lore-reveal",
+        "secondary": [
+          "quest-anchor"
+        ],
+        "impact": "real",
+        "hook": "It grew on the island's old shore; three centuries of raised lake level put six metres of water over its crown",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ]
       }
     },
     {
@@ -1565,12 +1981,9 @@
         ],
         "supplies": [
           "place.hist-heartland.blackguard-hideout-raw",
-          "place.imperial-penal-south.ledgered-blackguards",
           "place.imperial-penal-south.prison-born-refuge"
         ],
-        "patrols": [
-          "place.imperial-penal-south.chainlink-watchtower"
-        ],
+        "patrols": [],
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
@@ -1596,10 +2009,9 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "conflict",
-          "loot",
-          "faction",
-          "knowledge"
+          "loot-cache",
+          "faction-access",
+          "lore-fragment"
         ],
         "valueTier": "tier-4"
       },
@@ -1692,18 +2104,18 @@
       "scourSiteId": "site.scour.firm-lowland.flood-high-000",
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1244",
-          "score": 2.686,
+          "siteId": "site.free.any-shallow-marsh-1233",
+          "score": 2.682,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0576",
+          "score": 2.498,
           "whyLost": "lost on score"
         },
         {
           "siteId": "site.scour.fringe-marsh.island-013",
           "score": 2.453,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.fringe-marsh.land-bridge-030",
-          "score": 2.43,
           "whyLost": "lost on score"
         }
       ],
@@ -1715,6 +2127,56 @@
         "distanceToRouteM": 139.8,
         "distanceToWaterM": 5.5,
         "score": 2.777
+      },
+      "hostility": {
+        "baseline": "guarded",
+        "owner": "faction.rose-born-families",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "stealth-challenge",
+        "secondary": [
+          "quest-anchor",
+          "lore-reveal"
+        ],
+        "impact": "major",
+        "hook": "Marsh on every side and one causeway: the Imperial siting rule for this province, executed perfectly",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "strongroom",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-4",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-4",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "supplies": [
+          "place.imperial-penal-south.ledgered-blackguards"
+        ],
+        "patrols": [
+          "place.imperial-penal-south.chainlink-watchtower"
+        ]
       }
     },
     {
@@ -1789,9 +2251,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "loot",
-          "knowledge",
-          "conflict"
+          "loot-cache",
+          "lore-fragment"
         ],
         "valueTier": "tier-3"
       },
@@ -1833,7 +2294,62 @@
       "entrance": "grave-cut",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'urn-vault' runs 4 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "dungeon-delve",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "Cut into the limestone above the flood, deliberately far from any burial ground",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "sinkhole-ruin",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          },
+          {
+            "slotId": "l3",
+            "role": "grave-goods",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.bog-iron-bloomery",
@@ -1907,7 +2423,7 @@
       "rewardProfile": {
         "kinds": [
           "materials",
-          "knowledge"
+          "lore-fragment"
         ],
         "valueTier": "tier-2"
       },
@@ -1947,7 +2463,54 @@
       "entrance": "door",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'bog-iron-bloomery' runs 3 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "abandoned"
+      "deferredFromStatus": "abandoned",
+      "hostility": {
+        "baseline": "guarded",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "resource-source",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "Beside the ore beds with water for the bellows and, once, woodland for the charcoal",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "dwelling",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.bramman-head",
@@ -2013,11 +2576,10 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage",
           "place.imperial-penal-south.longmont"
         ],
         "travelServiceEdges": [
-          "boat:bramman-river"
+          "boat:route.boat.soulrest-blackrose"
         ]
       },
       "culture": "argonian",
@@ -2036,9 +2598,9 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "access",
-          "trade",
-          "knowledge"
+          "route-unlock",
+          "trade-access",
+          "lore-fragment"
         ],
         "valueTier": "tier-3"
       },
@@ -2104,39 +2666,88 @@
         }
       ],
       "position": {
-        "u": 0.28743,
-        "v": 0.87494
+        "u": 0.23537,
+        "v": 0.80354
       },
       "positionM": [
-        2119.4,
-        6451.4
+        1735.5,
+        5924.9
       ],
-      "scourSiteId": "site.scour.fringe-marsh.water-narrows-007",
+      "scourSiteId": "site.scour.deep-river-corridor.land-bridge-036",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.fringe-marsh.water-narrows-052",
           "score": 2.248,
-          "whyLost": "too close to place.naga-kur-deeps.sinkhole-mouth-deeps"
+          "whyLost": "too close to place.naga-kur-deeps.art-and-destroy-site-deeps"
         },
         {
           "siteId": "site.scour.fringe-marsh.water-narrows-019",
           "score": 2.243,
-          "whyLost": "too close to place.imperial-penal-south.rockspring"
+          "whyLost": "too close to place.mercantile-coast.chasepoint"
         },
         {
-          "siteId": "site.scour.deep-river-corridor.isthmus-044",
-          "score": 2.146,
-          "whyLost": "too close to place.imperial-penal-south.flu-quarantine-village"
+          "siteId": "site.free.roadside-0024",
+          "score": 1.817,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "water narrows in fringe marsh (danger band 2), 23 m from the nearest route; at the water's edge; its first-choice landform; won on landform, parent, route; placed from the homeless batch at stage 'region-relaxed'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "land bridge in deep river corridor (danger band 3), 604 m from the nearest route; at the water's edge; won on region, danger, parent; placed from the homeless batch at stage 'region-relaxed'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.feeder-portage (+0.95).",
       "plotFacts": {
-        "landform": "water-narrows",
-        "regionClass": "fringe marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 22.6,
+        "landform": "land-bridge",
+        "regionClass": "deep river corridor",
+        "dangerBand": 3,
+        "distanceToRouteM": 604.4,
         "distanceToWaterM": 0.0,
-        "score": 1.95
+        "score": 2.152
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": "faction.night-reed-chapter",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "navigation-aid",
+        "secondary": [
+          "quest-anchor",
+          "lore-reveal",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "A screened lagoon head with just enough depth for a laden hull, and a bank firm enough to tranship on",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ]
+      },
+      "travelStation": {
+        "modes": [
+          "boat"
+        ],
+        "destinations": [
+          "place.imperial-penal-south.blackrose",
+          "place.mercantile-coast.soulrest"
+        ]
       }
     },
     {
@@ -2195,7 +2806,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage",
           "place.imperial-penal-south.longmont"
         ],
         "travelServiceEdges": []
@@ -2212,8 +2822,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "access",
-          "knowledge"
+          "route-unlock",
+          "lore-fragment"
         ],
         "valueTier": "tier-2"
       },
@@ -2270,7 +2880,46 @@
           "id": "state.buoyant-causeway.dry",
           "description": "Dry season: the deck sits low on the mud, the ramps are flat and two sections are grounded."
         }
-      ]
+      ],
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "navigation-aid",
+        "secondary": [
+          "quest-anchor",
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "Deep soft marsh with a stable water level: the one place where a floating road works better than a built one",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.cave-pool-glow",
@@ -2332,7 +2981,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage",
           "place.imperial-penal-south.longmont"
         ],
         "travelServiceEdges": []
@@ -2349,7 +2997,7 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "exploration",
+          "lore-fragment",
           "materials"
         ],
         "valueTier": "tier-2"
@@ -2391,7 +3039,51 @@
       "entrance": "cave-mouth",
       "underwaterAccess": "shallow-dive",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'bioluminescent-water' runs 6 province-wide against a countBand of 4-5, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "wonder-oddity",
+        "secondary": [
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "A cave mouth at the foot of the western hills with a permanently full clear pool",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "flooded-cave",
+        "sizeBand": "S1",
+        "wetFraction": 0.4,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.chainbreaker-shelter",
@@ -2443,13 +3135,10 @@
       },
       "relations": {
         "rivals": [
-          "place.imperial-penal-south.blackrose-prison",
-          "place.imperial-penal-south.manned-toll-tower",
-          "place.imperial-penal-south.owing-camp-basin"
+          "place.imperial-penal-south.blackrose-prison"
         ],
         "supplies": [
-          "place.imperial-penal-south.prison-born-refuge",
-          "place.mercantile-coast.bone-waystation"
+          "place.imperial-penal-south.prison-born-refuge"
         ],
         "dependsOn": [
           "place.dunmer-north.the-freed-rows",
@@ -2481,8 +3170,8 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "faction",
-          "knowledge"
+          "faction-access",
+          "lore-fragment"
         ],
         "valueTier": "tier-3"
       },
@@ -2558,19 +3247,19 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0032",
-          "score": 3.02,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.roadside-0026",
+          "score": 3.318,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1310",
-          "score": 3.019,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.any-firm-ground-1339",
+          "score": 3.315,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1259",
-          "score": 3.018,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.any-firm-ground-1335",
+          "score": 3.314,
+          "whyLost": "lost on score"
         }
       ],
       "whySiteWon": "firm ground in firm lowland (danger band 2), 93 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
@@ -2580,7 +3269,57 @@
         "dangerBand": 2,
         "distanceToRouteM": 93.2,
         "distanceToWaterM": 5.5,
-        "score": 3.013
+        "score": 3.318
+      },
+      "hostility": {
+        "baseline": "wary",
+        "owner": "faction.chainbreakers",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "quest-anchor",
+          "lore-reveal",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "Outside the toll line, on water, with two exits and no fixed sign",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "dwelling",
+        "sizeBand": "S2",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "supplies": [
+          "place.mercantile-coast.bone-waystation"
+        ],
+        "rivals": [
+          "place.imperial-penal-south.manned-toll-tower",
+          "place.imperial-penal-south.owing-camp-basin"
+        ]
       }
     },
     {
@@ -2658,9 +3397,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "climb",
-          "access"
+          "lore-fragment",
+          "route-unlock"
         ],
         "valueTier": "tier-1"
       },
@@ -2701,7 +3439,46 @@
       "entrance": "door",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "guarded",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "vista-landmark",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "mild",
+        "hook": "Sited on the only three rises with mutual sightlines across four kilometres of flat marsh",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "civic-hall",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.cliff-vista-basin",
@@ -2779,9 +3556,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "exploration",
-          "climb"
+          "lore-fragment",
+          "route-unlock"
         ],
         "valueTier": "tier-1"
       },
@@ -2821,7 +3597,40 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'vista-ledge' runs 5 province-wide against a countBand of 4-4, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "wonder-oddity",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "mild",
+        "hook": "The only ground above the basin with a clear line over the whole of it",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.daril-den",
@@ -2900,8 +3709,7 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "knowledge",
-          "conflict"
+          "lore-fragment"
         ],
         "valueTier": "tier-2"
       },
@@ -2942,7 +3750,47 @@
       "entrance": "cellar-door",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'vice-den' runs 6 province-wide against a countBand of 4-5, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "friendly",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "lore-reveal",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "On the water's edge under a boardwalk, entered from below at low water",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "root-cavern",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.disputed-estate-village",
@@ -2994,16 +3842,13 @@
       },
       "relations": {
         "dependsOn": [
-          "place.imperial-penal-south.retired-arbiter-house",
           "place.imperial-penal-south.west-market-town"
         ],
         "supplies": [
           "place.imperial-penal-south.blackrose",
           "place.imperial-penal-south.rose-supply-town"
         ],
-        "rivals": [
-          "place.imperial-penal-south.imperial-farmstead-basin"
-        ],
+        "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
@@ -3026,8 +3871,7 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "faction",
-          "conflict"
+          "faction-access"
         ],
         "valueTier": "tier-2"
       },
@@ -3069,7 +3913,43 @@
       "entrance": "door",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'estate-village' runs 4 province-wide against a countBand of 3-3, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "friendly",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "service-hub",
+        "secondary": [],
+        "impact": "real",
+        "hook": "Good drained ground on the western feeder with a landing and a mill",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "dwelling",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "dependsOn": [
+          "place.imperial-penal-south.retired-arbiter-house"
+        ],
+        "rivals": [
+          "place.imperial-penal-south.imperial-farmstead-basin"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.drawdown-flat",
@@ -3127,7 +4007,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage",
           "place.imperial-penal-south.longmont"
         ],
         "travelServiceEdges": []
@@ -3146,9 +4025,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "loot",
-          "knowledge",
-          "exploration"
+          "loot-cache",
+          "lore-fragment"
         ],
         "valueTier": "tier-3"
       },
@@ -3226,18 +4104,18 @@
       "scourSiteId": "site.scour.lake-standing-water.islet-036",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.lake-standing-water.islet-038",
-          "score": 4.167,
-          "whyLost": "too close to place.imperial-penal-south.longmont"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1326",
-          "score": 3.459,
+          "siteId": "site.free.any-shallow-marsh-1315",
+          "score": 3.449,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1307",
-          "score": 3.323,
+          "siteId": "site.free.any-shallow-marsh-1253",
+          "score": 3.317,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1296",
+          "score": 3.31,
           "whyLost": "lost on score"
         }
       ],
@@ -3249,6 +4127,53 @@
         "distanceToRouteM": 159.1,
         "distanceToWaterM": 0.0,
         "score": 3.734
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": "faction.unclaimed",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "traversal-puzzle",
+        "secondary": [
+          "quest-anchor",
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "A wide flat arm barely a metre deep, with an outlet that drops below its sill in the dry",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ]
       }
     },
     {
@@ -3308,7 +4233,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage",
           "place.imperial-penal-south.longmont"
         ],
         "travelServiceEdges": []
@@ -3327,7 +4251,7 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "access",
+          "route-unlock",
           "services"
         ],
         "valueTier": "tier-2"
@@ -3378,12 +4302,12 @@
       "underwaterAccess": "surface-swim",
       "ownerFaction": "faction.drag-windlass-crew",
       "position": {
-        "u": 0.23537,
-        "v": 0.80354
+        "u": 0.27776,
+        "v": 0.91807
       },
       "positionM": [
-        1735.5,
-        5924.9
+        2048.1,
+        6769.4
       ],
       "candidatesConsidered": [
         {
@@ -3392,16 +4316,44 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "land bridge in deep river corridor (danger band 3), 604 m from the nearest route; at the water's edge; won on region, hinterland, danger; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 276 m from the nearest route; at the water's edge; no free 'waterfall' site was left in the zone, so plain ground; won on route, hinterland, danger; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.bramman-head (+0.95).",
       "plotFacts": {
-        "landform": "land-bridge",
-        "regionClass": "deep river corridor",
+        "landform": "any-shallow-marsh",
+        "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 604.4,
+        "distanceToRouteM": 275.5,
         "distanceToWaterM": 0.0,
-        "score": 2.341
+        "score": 2.956
       },
-      "scourSiteId": "site.scour.deep-river-corridor.land-bridge-036"
+      "hostility": {
+        "baseline": "neutral",
+        "owner": "faction.drag-windlass-crew",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "navigation-aid",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "A low saddle beside the narrows where a greased timber slipway can be laid on a workable gradient",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.feeder-whitewater",
@@ -3459,7 +4411,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage",
           "place.imperial-penal-south.longmont"
         ],
         "travelServiceEdges": []
@@ -3477,8 +4428,7 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "access",
-          "hazard"
+          "route-unlock"
         ],
         "valueTier": "tier-1"
       },
@@ -3518,7 +4468,34 @@
       "entrance": "none",
       "underwaterAccess": "surface-swim",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-4 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "traversal-puzzle",
+        "secondary": [],
+        "impact": "mild",
+        "hook": "A confined rock reach with six clean drops in three hundred metres",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.flu-mass-grave",
@@ -3594,8 +4571,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "faction"
+          "lore-fragment",
+          "faction-access"
         ],
         "valueTier": "tier-2"
       },
@@ -3637,7 +4614,54 @@
       "entrance": "grave-cut",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'mass-grave-memorial' runs 8 province-wide against a countBand of 4-4, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "dungeon-delve",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "A gravel terrace above the flood, the only ground in the basin that would take that many graves",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "sinkhole-ruin",
+        "sizeBand": "S2",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "grave-goods",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.flu-quarantine-village",
@@ -3689,9 +4713,7 @@
         }
       },
       "relations": {
-        "dependsOn": [
-          "place.imperial-penal-south.plague-cordon"
-        ],
+        "dependsOn": [],
         "supplies": [],
         "rivals": [
           "place.imperial-penal-south.longmont"
@@ -3699,9 +4721,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -3716,9 +4736,9 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "loot",
-          "faction"
+          "lore-fragment",
+          "loot-cache",
+          "faction-access"
         ],
         "valueTier": "tier-3"
       },
@@ -3784,17 +4804,17 @@
       "candidatesConsidered": [
         {
           "siteId": "site.scour.fringe-marsh.island-012",
-          "score": 2.907,
+          "score": 3.207,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1217",
-          "score": 2.779,
+          "siteId": "site.free.any-firm-ground-1206",
+          "score": 3.072,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1240",
-          "score": 2.756,
+          "siteId": "site.free.any-firm-ground-1229",
+          "score": 3.059,
           "whyLost": "lost on score"
         }
       ],
@@ -3805,9 +4825,65 @@
         "dangerBand": 3,
         "distanceToRouteM": 546.0,
         "distanceToWaterM": 0.0,
-        "score": 2.967
+        "score": 3.267
       },
-      "scourSiteId": "site.scour.fringe-marsh.island-005"
+      "scourSiteId": "site.scour.fringe-marsh.island-005",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": "faction.unclaimed",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "quest-anchor",
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "On the southern approach at the last narrows before the lake, where a cordon could actually be held",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "dwelling",
+        "sizeBand": "S2",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "dependsOn": [
+          "place.imperial-penal-south.plague-cordon"
+        ],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.frog-pond-farm-basin",
@@ -3864,7 +4940,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage",
           "place.imperial-penal-south.longmont"
         ],
         "travelServiceEdges": []
@@ -3881,9 +4956,9 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "food",
-          "trade",
-          "knowledge"
+          "rest-shelter",
+          "trade-access",
+          "lore-fragment"
         ],
         "valueTier": "tier-2"
       },
@@ -3922,7 +4997,46 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "resource-source",
+        "secondary": [
+          "lore-reveal",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "A terrace of warm shallow ponds fed by a spring seep, each tuned to a different stock",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.gar-pens-basin",
@@ -3979,7 +5093,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage",
           "place.imperial-penal-south.longmont"
         ],
         "travelServiceEdges": []
@@ -3997,9 +5110,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "food",
-          "materials",
-          "conflict"
+          "rest-shelter",
+          "materials"
         ],
         "valueTier": "tier-2"
       },
@@ -4039,7 +5151,43 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-4 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "resource-source",
+        "secondary": [],
+        "impact": "real",
+        "hook": "A gateable inlet with reliable flow-through and a hard bank to work from",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.imperial-farmstead-basin",
@@ -4092,9 +5240,7 @@
           "place.imperial-penal-south.blackrose",
           "place.imperial-penal-south.rose-supply-town"
         ],
-        "rivals": [
-          "place.imperial-penal-south.disputed-estate-village"
-        ],
+        "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
@@ -4114,7 +5260,7 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "food",
+          "rest-shelter",
           "services"
         ],
         "valueTier": "tier-2"
@@ -4155,7 +5301,40 @@
       "entrance": "door",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-4 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "guarded",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "service-hub",
+        "secondary": [],
+        "impact": "real",
+        "hook": "The best drained firm ground in the basin, above the flood and beside the road",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "dwelling",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "rivals": [
+          "place.imperial-penal-south.disputed-estate-village"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.imperial-survey-camp",
@@ -4231,8 +5410,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "loot"
+          "lore-fragment",
+          "loot-cache"
         ],
         "valueTier": "tier-2"
       },
@@ -4274,7 +5453,48 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-4 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "abandoned"
+      "deferredFromStatus": "abandoned",
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "On the saddle the canal would have crossed, which is still the only viable line",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "strongroom",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.intact-fort",
@@ -4353,9 +5573,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "loot",
-          "conflict",
-          "shelter"
+          "loot-cache",
+          "rest-shelter"
         ],
         "valueTier": "tier-3"
       },
@@ -4395,7 +5614,38 @@
       "entrance": "gate",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'abandoned-fort' runs 4 province-wide against a countBand of 2-3, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "abandoned"
+      "deferredFromStatus": "abandoned",
+      "hostility": {
+        "baseline": "guarded",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "faction-gateway",
+        "secondary": [],
+        "impact": "real",
+        "hook": "Commands the narrows and the road at the one point where both pass together",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "strongroom",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.kothringi-ruin-basin",
@@ -4473,8 +5723,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "loot",
-          "knowledge"
+          "loot-cache",
+          "lore-fragment"
         ],
         "valueTier": "tier-3"
       },
@@ -4525,38 +5775,86 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.unclaimed",
       "position": {
-        "u": 0.36626,
-        "v": 0.92625
+        "u": 0.29822,
+        "v": 0.8838
       },
       "positionM": [
-        2700.6,
-        6829.7
+        2198.9,
+        6516.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.firm-lowland.flood-high-018",
-          "score": 3.197,
-          "whyLost": "too close to place.naga-kur-deeps.dead-water-village"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1217",
-          "score": 2.92,
+          "siteId": "site.free.any-firm-ground-1206",
+          "score": 2.018,
           "whyLost": "too close to place.naga-kur-deeps.deepmire-refuge"
         },
         {
           "siteId": "site.scour.firm-lowland.flood-high-010",
-          "score": 2.825,
+          "score": 1.925,
           "whyLost": "too close to place.imperial-penal-south.flu-quarantine-village"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1336",
+          "score": 1.649,
+          "whyLost": "too close to place.imperial-penal-south.prison-born-refuge"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 285 m from the nearest route; its choice #5 landform; won on region, hinterland, landform; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 88 m from the nearest route; its choice #5 landform; won on region, hinterland, landform; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.vampiric-cloud-ground (+0.49).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 285.1,
-        "distanceToWaterM": 65.8,
-        "score": 2.518
+        "distanceToRouteM": 87.7,
+        "distanceToWaterM": 46.5,
+        "score": 2.242
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": "faction.unclaimed",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "wonder-oddity",
+        "secondary": [
+          "lore-reveal",
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "A river terrace with a landing — good ground, which is why it was never resettled by anyone superstitious",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "root-cavern",
+        "sizeBand": "S2",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -4606,12 +5904,9 @@
         }
       },
       "relations": {
-        "dependsOn": [
-          "place.imperial-penal-south.lake-ferry-stage"
-        ],
+        "dependsOn": [],
         "supplies": [
-          "place.imperial-penal-south.blackrose",
-          "place.imperial-penal-south.lake-stall-row"
+          "place.imperial-penal-south.blackrose"
         ],
         "rivals": [
           "place.imperial-penal-south.longmont"
@@ -4619,9 +5914,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -4638,8 +5931,7 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "shelter",
-          "food"
+          "rest-shelter"
         ],
         "valueTier": "tier-2"
       },
@@ -4680,7 +5972,42 @@
       "entrance": "none",
       "underwaterAccess": "surface-swim",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'boardwalk-village' runs 7 province-wide against a countBand of 4-6, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "A shallow shelf that runs eight hundred metres out from the shore before it drops",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "dependsOn": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ],
+        "supplies": [
+          "place.imperial-penal-south.lake-stall-row"
+        ],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.lake-divers-yard",
@@ -4738,7 +6065,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage",
           "place.imperial-penal-south.longmont"
         ],
         "travelServiceEdges": []
@@ -4756,8 +6082,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "loot",
-          "trade",
+          "loot-cache",
+          "trade-access",
           "services"
         ],
         "valueTier": "tier-2"
@@ -4800,7 +6126,43 @@
       "entrance": "none",
       "underwaterAccess": "deep-dive",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'salvage-divers-yard' runs 7 province-wide against a countBand of 4-5, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "friendly",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "service-hub",
+        "secondary": [],
+        "impact": "real",
+        "hook": "On the shore nearest the deep hole where the wrecks concentrate, with a crane frame and a drying floor",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "strongroom",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.lake-drowned-village",
@@ -4858,9 +6220,7 @@
           "place.imperial-penal-south.longmont"
         ],
         "supplies": [],
-        "rivals": [
-          "place.imperial-penal-south.lake-divers-yard"
-        ],
+        "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
@@ -4881,9 +6241,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "loot",
-          "knowledge",
-          "exploration"
+          "loot-cache",
+          "lore-fragment"
         ],
         "valueTier": "tier-3"
       },
@@ -4931,7 +6290,60 @@
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'drowned-village' runs 4 province-wide against a countBand of 3-3, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "drowned"
+      "deferredFromStatus": "drowned",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "lore-reveal",
+        "secondary": [
+          "quest-anchor",
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "It stands in five to eight metres of clear cold lake water, complete, because nobody demolished anything — they simply left",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "abandoned-plantation",
+        "sizeBand": "S2",
+        "wetFraction": 0.4,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "rivals": [
+          "place.imperial-penal-south.lake-divers-yard"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.lake-ferry-stage",
@@ -4985,7 +6397,6 @@
         "dependsOn": [],
         "supplies": [
           "place.imperial-penal-south.blackrose",
-          "place.imperial-penal-south.lake-boardwalk-village",
           "place.imperial-penal-south.longmont"
         ],
         "rivals": [],
@@ -5012,7 +6423,7 @@
       "effortToReach": 1,
       "rewardProfile": {
         "kinds": [
-          "access",
+          "route-unlock",
           "services"
         ],
         "valueTier": "tier-1"
@@ -5056,7 +6467,43 @@
       "entrance": "none",
       "underwaterAccess": "surface-swim",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'ferry-stage' runs 9 province-wide against a countBand of 5-6, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "navigation-aid",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "mild",
+        "hook": "A short crossing between two headlands where the lake narrows to nine hundred metres",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "supplies": [
+          "place.imperial-penal-south.lake-boardwalk-village"
+        ]
+      },
+      "travelStation": {
+        "modes": [
+          "boat",
+          "ferry"
+        ],
+        "destinations": []
+      }
     },
     {
       "id": "place.imperial-penal-south.lake-raft-village",
@@ -5108,19 +6555,12 @@
       },
       "relations": {
         "dependsOn": [],
-        "supplies": [
-          "place.imperial-penal-south.lake-stall-row"
-        ],
-        "rivals": [
-          "place.imperial-penal-south.lake-boardwalk-village",
-          "place.imperial-penal-south.manned-toll-tower"
-        ],
+        "supplies": [],
+        "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": [
           "boat:blackrose-lake"
         ]
@@ -5137,8 +6577,7 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "shelter",
-          "food",
+          "rest-shelter",
           "services"
         ],
         "valueTier": "tier-2"
@@ -5180,7 +6619,49 @@
       "entrance": "none",
       "underwaterAccess": "surface-swim",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'raft-village' runs 4 province-wide against a countBand of 2-3, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "Deep still water with good anchorage and no shoreline claim of any kind attached to it",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "supplies": [
+          "place.imperial-penal-south.lake-stall-row"
+        ],
+        "rivals": [
+          "place.imperial-penal-south.lake-boardwalk-village",
+          "place.imperial-penal-south.manned-toll-tower"
+        ],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ]
+      },
+      "travelStation": {
+        "modes": [
+          "boat"
+        ],
+        "destinations": []
+      }
     },
     {
       "id": "place.imperial-penal-south.lake-stall-row",
@@ -5258,7 +6739,7 @@
       "effortToReach": 1,
       "rewardProfile": {
         "kinds": [
-          "trade",
+          "trade-access",
           "services"
         ],
         "valueTier": "tier-2"
@@ -5302,7 +6783,29 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "friendly",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "service-hub",
+        "secondary": [],
+        "impact": "real",
+        "hook": "A sheltered arm of the lake where boats can raft up ten deep without fouling the channel",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      }
     },
     {
       "id": "place.imperial-penal-south.lake-submerged-xanmeer",
@@ -5365,7 +6868,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage",
           "place.imperial-penal-south.longmont"
         ],
         "travelServiceEdges": []
@@ -5382,9 +6884,8 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "loot",
-          "exploration",
-          "knowledge"
+          "loot-cache",
+          "lore-fragment"
         ],
         "valueTier": "tier-4"
       },
@@ -5450,39 +6951,93 @@
         }
       ],
       "position": {
-        "u": 0.29487,
-        "v": 0.77157
+        "u": 0.3328,
+        "v": 0.82362
       },
       "positionM": [
-        2174.2,
-        5689.2
+        2453.9,
+        6073.0
       ],
-      "scourSiteId": "site.scour.lake-standing-water.islet-026",
+      "scourSiteId": "site.scour.lake-standing-water.islet-033",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.lake-standing-water.cove-066",
-          "score": 3.431,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.interior-swamp.island-006",
+          "score": 3.208,
+          "whyLost": "too close to place.naga-kur-deeps.deepmire-refuge"
         },
         {
-          "siteId": "site.scour.coastal-lagoon-salt-marsh.island-004",
-          "score": 3.275,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.lake-standing-water.islet-021",
+          "score": 3.066,
+          "whyLost": "too close to place.naga-kur-deeps.deepmire-refuge"
         },
         {
-          "siteId": "site.scour.lake-standing-water.islet-038",
-          "score": 3.156,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.lake-standing-water.islet-026",
+          "score": 3.064,
+          "whyLost": "too close to place.naga-kur-deeps.wild-hist-rogue-deeps"
         }
       ],
-      "whySiteWon": "islet in lake & standing water (danger band 3), 642 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, remote; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "islet in lake & standing water (danger band 3), 172 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, submerged; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.blackrose-drowned-hist (+0.90).",
       "plotFacts": {
         "landform": "islet",
         "regionClass": "lake & standing water",
         "dangerBand": 3,
-        "distanceToRouteM": 642.3,
+        "distanceToRouteM": 172.1,
         "distanceToWaterM": 0.0,
-        "score": 3.464
+        "score": 2.675
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "dungeon-delve",
+        "secondary": [
+          "quest-anchor",
+          "lore-reveal",
+          "hidden-secret"
+        ],
+        "impact": "major",
+        "hook": "Eighteen metres down in cold clear water, with its terraces stepping up to within six metres of the surface",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "complex",
+        "family": "xanmeer-complex",
+        "sizeBand": "S3",
+        "wetFraction": 0.6,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-4",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-4",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ]
       }
     },
     {
@@ -5539,9 +7094,7 @@
           "place.imperial-penal-south.blackrose-prison"
         ],
         "supplies": [],
-        "rivals": [
-          "place.imperial-penal-south.chainlink-watchtower"
-        ],
+        "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
@@ -5564,10 +7117,9 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "conflict",
-          "trade",
-          "faction",
-          "knowledge"
+          "trade-access",
+          "faction-access",
+          "lore-fragment"
         ],
         "valueTier": "tier-3"
       },
@@ -5609,7 +7161,52 @@
       "entrance": "cellar-door",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'blackguard-hideout' runs 3 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "combat-challenge",
+        "secondary": [
+          "lore-reveal",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "An unremarkable water-house on a back channel with three exits and a clear view of the toll quay",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "root-cavern",
+        "sizeBand": "S2",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "rivals": [
+          "place.imperial-penal-south.chainlink-watchtower"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.lilmothiit-quarry",
@@ -5692,9 +7289,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "loot",
-          "exploration"
+          "lore-fragment",
+          "loot-cache"
         ],
         "valueTier": "tier-3"
       },
@@ -5745,38 +7341,86 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.unclaimed",
       "position": {
-        "u": 0.35139,
-        "v": 0.90543
+        "u": 0.36626,
+        "v": 0.92625
       },
       "positionM": [
-        2591.0,
-        6676.2
+        2700.6,
+        6829.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.firm-lowland.cliff-bench-065",
-          "score": 1.949,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.any-firm-ground-1025",
+          "score": 1.393,
+          "whyLost": "too close to place.naga-kur-deeps.leviathan-bone-field"
         },
         {
-          "siteId": "site.free.any-firm-ground-1217",
-          "score": 1.805,
+          "siteId": "site.free.any-firm-ground-0998",
+          "score": 1.167,
+          "whyLost": "too close to place.hist-heartland.cult-raid-camp-unbound"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1206",
+          "score": 1.163,
           "whyLost": "too close to place.naga-kur-deeps.deepmire-refuge"
-        },
-        {
-          "siteId": "site.scour.firm-lowland.cliff-bench-068",
-          "score": 1.702,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 348 m from the nearest route; no free 'ravine' site was left in the zone, so plain ground; won on region, water; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 285 m from the nearest route; no free 'ravine' site was left in the zone, so plain ground; won on region, parent, landform; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.kothringi-ruin-basin (+1.50).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 348.3,
-        "distanceToWaterM": 44.2,
-        "score": 1.409
+        "distanceToRouteM": 285.1,
+        "distanceToWaterM": 65.8,
+        "score": 1.241
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": "faction.unclaimed",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "wonder-oddity",
+        "secondary": [
+          "lore-reveal",
+          "vista-landmark"
+        ],
+        "impact": "real",
+        "hook": "A whole vanished city's stone lying within a day of the site that needed it — which is why the Rose exists at all",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "root-cavern",
+        "sizeBand": "S3",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -5856,8 +7500,7 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "loot",
-          "conflict",
+          "loot-cache",
           "services"
         ],
         "valueTier": "tier-3"
@@ -5897,7 +7540,40 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'treasure-hunters-camp' runs 6 province-wide against a countBand of 4-4, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "The nearest shore to the Lake Meer, with a boat, a drying rack and a line of sight to their own moored buoy",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "strongroom",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.longmont",
@@ -5951,22 +7627,18 @@
       },
       "relations": {
         "supplies": [
-          "place.imperial-penal-south.blackrose",
-          "place.imperial-penal-south.lake-stall-row"
+          "place.imperial-penal-south.blackrose"
         ],
         "dependsOn": [],
         "rivals": [
-          "place.imperial-penal-south.flu-quarantine-village",
-          "place.imperial-penal-south.lake-boardwalk-village"
+          "place.imperial-penal-south.flu-quarantine-village"
         ],
         "patrols": [],
         "tolls": [
           "place.imperial-penal-south.three-gate-toll"
         ],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "culture": "argonian",
@@ -5985,8 +7657,8 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "food",
-          "trade"
+          "rest-shelter",
+          "trade-access"
         ],
         "valueTier": "tier-2"
       },
@@ -6044,40 +7716,75 @@
         }
       ],
       "position": {
-        "u": 0.2086,
-        "v": 0.86304
+        "u": 0.21306,
+        "v": 0.88758
       },
       "positionM": [
-        1538.1,
-        6363.6
+        1571.0,
+        6544.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1285",
-          "score": 2.652,
+          "siteId": "site.free.any-shallow-marsh-1274",
+          "score": 2.943,
           "whyLost": "too close to place.imperial-penal-south.blackrose"
         },
         {
-          "siteId": "site.free.roadside-0022",
-          "score": 2.638,
+          "siteId": "site.free.any-shallow-marsh-1315",
+          "score": 2.909,
           "whyLost": "too close to place.imperial-penal-south.blackrose"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1326",
-          "score": 2.616,
+          "siteId": "site.scour.tidal-delta.river-mouth-000",
+          "score": 2.422,
           "whyLost": "too close to place.imperial-penal-south.blackrose"
         }
       ],
-      "whySiteWon": "island in coastal lagoon & salt marsh (danger band 3), 291 m from the nearest route; at the water's edge; won on region, route; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "cove in lake & standing water (danger band 3), 110 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, route; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.lake-submerged-xanmeer (+1.08).",
       "plotFacts": {
-        "landform": "island",
-        "regionClass": "coastal lagoon & salt marsh",
+        "landform": "cove",
+        "regionClass": "lake & standing water",
         "dangerBand": 3,
-        "distanceToRouteM": 290.6,
-        "distanceToWaterM": 5.5,
-        "score": 0.934
+        "distanceToRouteM": 109.7,
+        "distanceToWaterM": 0.0,
+        "score": 2.295
       },
-      "scourSiteId": "site.scour.coastal-lagoon-salt-marsh.island-004"
+      "scourSiteId": "site.scour.lake-standing-water.cove-052",
+      "hostility": {
+        "baseline": "wary",
+        "owner": "faction.longmont-freight-households",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "A long shallow flat on the lake's south-west shore, poleable all year and outside the city's wall line",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "supplies": [
+          "place.imperial-penal-south.lake-stall-row"
+        ],
+        "rivals": [
+          "place.imperial-penal-south.lake-boardwalk-village"
+        ],
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.manned-toll-tower",
@@ -6152,8 +7859,7 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "access",
-          "conflict"
+          "route-unlock"
         ],
         "valueTier": "tier-2"
       },
@@ -6196,7 +7902,35 @@
       "entrance": "door",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "navigation-aid",
+        "secondary": [],
+        "impact": "real",
+        "hook": "On a rock spur the channel must pass within thirty metres of",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "dwelling",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      }
     },
     {
       "id": "place.imperial-penal-south.marsh-giant-ground-basin",
@@ -6272,7 +8006,6 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "conflict",
           "materials"
         ],
         "valueTier": "tier-4"
@@ -6312,7 +8045,38 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "combat-challenge",
+        "secondary": [],
+        "impact": "major",
+        "hook": "A wide shallow marsh with reed stands and no human settlement, on the Murkwood side of the lake",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-4",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.murkwood-verge",
@@ -6393,9 +8157,8 @@
       "effortToReach": 5,
       "rewardProfile": {
         "kinds": [
-          "exploration",
-          "loot",
-          "knowledge"
+          "lore-fragment",
+          "loot-cache"
         ],
         "valueTier": "tier-5"
       },
@@ -6462,39 +8225,78 @@
         }
       ],
       "position": {
-        "u": 0.37444,
-        "v": 0.90022
+        "u": 0.20339,
+        "v": 0.79462
       },
       "positionM": [
-        2761.0,
-        6637.8
+        1499.7,
+        5859.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.firm-lowland.flood-high-018",
-          "score": 1.005,
-          "whyLost": "too close to place.naga-kur-deeps.dead-water-village"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1114",
-          "score": 0.994,
-          "whyLost": "too close to place.naga-kur-deeps.sithis-temple-mass-sacrifice"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1240",
-          "score": 0.71,
-          "whyLost": "too close to place.imperial-penal-south.flu-quarantine-village"
+          "siteId": "site.free.any-firm-ground-1103",
+          "score": 1.004,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 334 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, remote; placed from the homeless batch at stage 'relaxed-score'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "flood high in firm lowland (danger band 3), 392 m from the nearest route; its choice #2 landform; won on landform, route, remote; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
+        "landform": "flood-high",
+        "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 334.5,
-        "distanceToWaterM": 17.3,
-        "score": 0.516
-      }
+        "distanceToRouteM": 391.8,
+        "distanceToWaterM": 27.4,
+        "score": 1.005
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": "faction.an-xileel",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "wonder-oddity",
+        "secondary": [
+          "quest-anchor",
+          "lore-reveal"
+        ],
+        "impact": "province-changing",
+        "hook": "A stretch of deep marsh north-east of the lake where the tree line is wrong on every survey and no two surveys agree",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "root-cavern",
+        "sizeBand": "S3",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-5",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-5",
+            "provenance": null
+          }
+        ]
+      },
+      "scourSiteId": "site.scour.firm-lowland.flood-high-018"
     },
     {
       "id": "place.imperial-penal-south.natural-dive-shaft",
@@ -6554,7 +8356,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage",
           "place.imperial-penal-south.longmont"
         ],
         "travelServiceEdges": []
@@ -6571,8 +8372,8 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "exploration",
-          "loot"
+          "lore-fragment",
+          "loot-cache"
         ],
         "valueTier": "tier-3"
       },
@@ -6612,7 +8413,49 @@
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'dive-shaft' runs 5 province-wide against a countBand of 4-4, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "traversal-puzzle",
+        "secondary": [],
+        "impact": "real",
+        "hook": "A vertical hole nine metres wide in an otherwise flat lake bottom, with a cold current coming out of it",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "flooded-cave",
+        "sizeBand": "S1",
+        "wetFraction": 0.6,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.necromantic-dig",
@@ -6692,9 +8535,8 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "conflict",
-          "loot",
-          "knowledge"
+          "loot-cache",
+          "lore-fragment"
         ],
         "valueTier": "tier-4"
       },
@@ -6741,7 +8583,55 @@
       "entrance": "burrow",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-2 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "quest-anchor",
+          "lore-reveal"
+        ],
+        "impact": "major",
+        "hook": "Four hundred metres from the Rose's foundations, on a spoil-hidden rise in the marsh, on the alignment of the flooded tunnel",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "warren",
+        "family": "burrow-warren",
+        "sizeBand": "S2",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "strongroom",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-4",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-4",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.onkobra-clay-kiln",
@@ -6817,7 +8707,7 @@
       "rewardProfile": {
         "kinds": [
           "materials",
-          "trade"
+          "trade-access"
         ],
         "valueTier": "tier-2"
       },
@@ -6856,7 +8746,40 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "guarded",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "resource-source",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "A clay bank at a river bend, with the fuel coming down the river and the product going out on it",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.owing-camp-basin",
@@ -6909,9 +8832,7 @@
         "dependsOn": [
           "place.imperial-fringe.the-turned-out"
         ],
-        "supplies": [
-          "place.imperial-penal-south.disputed-estate-village"
-        ],
+        "supplies": [],
         "rivals": [
           "place.imperial-penal-south.chainbreaker-shelter"
         ],
@@ -6936,8 +8857,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "faction",
-          "knowledge"
+          "faction-access",
+          "lore-fragment"
         ],
         "valueTier": "tier-2"
       },
@@ -6977,7 +8898,45 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'owing-eviction-camp' runs 5 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "On the estate boundary, in sight of their fields and within reach of Threewater's market",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "supplies": [
+          "place.imperial-penal-south.disputed-estate-village"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.plague-cordon",
@@ -7054,7 +9013,7 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "knowledge"
+          "lore-fragment"
         ],
         "valueTier": "tier-1"
       },
@@ -7096,7 +9055,40 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'plague-cordon-line' runs 4 province-wide against a countBand of 3-3, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "ruined"
+      "deferredFromStatus": "ruined",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "lore-reveal",
+        "secondary": [
+          "hidden-secret"
+        ],
+        "impact": "mild",
+        "hook": "It follows the narrows, which is the only line a cordon could hold in this basin",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.prison-born-refuge",
@@ -7178,8 +9170,8 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "knowledge",
-          "faction"
+          "lore-fragment",
+          "faction-access"
         ],
         "valueTier": "tier-2"
       },
@@ -7240,38 +9232,72 @@
         }
       ],
       "position": {
-        "u": 0.21604,
-        "v": 0.94187
+        "u": 0.23389,
+        "v": 0.94038
       },
       "positionM": [
-        1593.0,
-        6944.9
+        1724.6,
+        6933.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1331",
-          "score": 3.9,
+          "siteId": "site.free.any-firm-ground-1206",
+          "score": 4.201,
           "whyLost": "too close to place.imperial-penal-south.blackrose"
         },
         {
-          "siteId": "site.free.any-firm-ground-1217",
-          "score": 3.899,
+          "siteId": "site.free.any-firm-ground-1320",
+          "score": 4.194,
           "whyLost": "too close to place.imperial-penal-south.blackrose"
         },
         {
-          "siteId": "site.free.any-firm-ground-1240",
-          "score": 3.893,
-          "whyLost": "too close to place.imperial-penal-south.flu-quarantine-village"
+          "siteId": "site.free.any-firm-ground-1338",
+          "score": 4.172,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 170 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 181 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 170.0,
-        "distanceToWaterM": 22.6,
-        "score": 3.89
+        "distanceToRouteM": 181.0,
+        "distanceToWaterM": 12.3,
+        "score": 4.192
+      },
+      "hostility": {
+        "baseline": "wary",
+        "owner": "faction.rose-born-families",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "lore-reveal",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "An island in the marsh two hours off the causeway: defensible, unclaimed, and nobody else wants it",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -7351,8 +9377,8 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "knowledge",
-          "faction"
+          "lore-fragment",
+          "faction-access"
         ],
         "valueTier": "tier-2"
       },
@@ -7391,7 +9417,41 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "lore-reveal",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "At the north stage, which is as far as their boats could carry them in one journey",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.rebellion-earthworks",
@@ -7465,8 +9525,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "loot"
+          "lore-fragment",
+          "loot-cache"
         ],
         "valueTier": "tier-2"
       },
@@ -7514,38 +9574,79 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.unclaimed",
       "position": {
-        "u": 0.25025,
-        "v": 0.92774
+        "u": 0.27397,
+        "v": 0.8637
       },
       "positionM": [
-        1845.2,
-        6840.7
+        2020.1,
+        6368.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.firm-lowland.flood-high-010",
-          "score": 3.302,
-          "whyLost": "too close to place.imperial-penal-south.flu-quarantine-village"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1329",
-          "score": 3.163,
+          "siteId": "site.free.any-firm-ground-1317",
+          "score": 3.362,
           "whyLost": "too close to place.imperial-penal-south.blackrose-prison"
         },
         {
-          "siteId": "site.free.any-firm-ground-1328",
-          "score": 3.15,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1318",
+          "score": 3.359,
+          "whyLost": "too close to place.imperial-penal-south.blackrose-prison"
+        },
+        {
+          "siteId": "site.free.roadside-0574",
+          "score": 3.335,
+          "whyLost": "too close to place.naga-kur-deeps.ferry-stage-guide-hire"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 218 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 85 m from the nearest route; its choice #3 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 217.7,
-        "distanceToWaterM": 21.9,
-        "score": 3.155
+        "distanceToRouteM": 85.3,
+        "distanceToWaterM": 44.2,
+        "score": 3.329
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": "faction.unclaimed",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "faction-gateway",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "Sited on the dry ground commanding all three approaches — competent, complete, and never used",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -7625,7 +9726,7 @@
       "effortToReach": 1,
       "rewardProfile": {
         "kinds": [
-          "knowledge"
+          "lore-fragment"
         ],
         "valueTier": "tier-1"
       },
@@ -7668,7 +9769,38 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "lore-reveal",
+        "secondary": [],
+        "impact": "mild",
+        "hook": "At the west gate, where every arriving trader reads it",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.retired-arbiter-house",
@@ -7749,8 +9881,8 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "knowledge",
-          "faction"
+          "lore-fragment",
+          "faction-access"
         ],
         "valueTier": "tier-2"
       },
@@ -7792,7 +9924,47 @@
       "entrance": "door",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "lore-reveal",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "On the lake shore between the city gate and Longmont, reachable by both without either conceding anything",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "dwelling",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.rockspring",
@@ -7853,9 +10025,7 @@
           "place.imperial-penal-south.blackrose",
           "place.imperial-penal-south.west-market-town"
         ],
-        "rivals": [
-          "place.imperial-penal-south.saltrice-village"
-        ],
+        "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
@@ -7878,9 +10048,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "shelter",
-          "services",
-          "food"
+          "rest-shelter",
+          "services"
         ],
         "valueTier": "tier-1"
       },
@@ -7933,39 +10102,69 @@
         }
       ],
       "position": {
-        "u": 0.20563,
-        "v": 0.9032
+        "u": 0.21827,
+        "v": 0.83925
       },
       "positionM": [
-        1516.2,
-        6659.7
+        1609.4,
+        6188.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.firm-lowland.flood-high-010",
-          "score": 3.119,
-          "whyLost": "too close to place.imperial-penal-south.flu-quarantine-village"
+          "siteId": "site.free.any-firm-ground-1246",
+          "score": 3.31,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.fringe-marsh.flood-high-035",
-          "score": 3.102,
-          "whyLost": "too close to place.imperial-penal-south.three-gate-toll"
+          "siteId": "site.free.roadside-0034",
+          "score": 3.303,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.fringe-marsh.flood-high-014",
-          "score": 3.09,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.roadside-0436",
+          "score": 3.291,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 2), 12 m from the nearest route; at the water's edge; no free 'flood-high' site was left in the zone, so plain ground; won on region, hinterland, danger; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "flood high in firm lowland (danger band 2), 411 m from the nearest route; its first-choice landform; won on landform, region, hinterland; placed from the homeless batch at stage 'spacing-1/2'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "fringe marsh",
+        "landform": "flood-high",
+        "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 12.3,
-        "distanceToWaterM": 0.0,
-        "score": 2.503
-      }
+        "distanceToRouteM": 411.3,
+        "distanceToWaterM": 66.0,
+        "score": 3.919
+      },
+      "hostility": {
+        "baseline": "friendly",
+        "owner": "faction.rockspring-levee-households",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "mild",
+        "hook": "A levee crest a metre above every recorded flood, with a rock spring that runs clean when the whole basin is brown",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "rivals": [
+          "place.imperial-penal-south.saltrice-village"
+        ]
+      },
+      "scourSiteId": "site.scour.firm-lowland.flood-high-010"
     },
     {
       "id": "place.imperial-penal-south.rose-bone-waystation",
@@ -8044,8 +10243,8 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "faction",
-          "knowledge"
+          "faction-access",
+          "lore-fragment"
         ],
         "valueTier": "tier-2"
       },
@@ -8088,7 +10287,55 @@
       "entrance": "door",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'bone-repatriation-waystation' runs 6 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "dungeon-delve",
+        "secondary": [
+          "lore-reveal",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "On the causeway, at the point where the Rose's people will hand a body over and the villages' people will accept one",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "civic-hall",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "grave-goods",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.rose-flooded-passage",
@@ -8152,7 +10399,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage",
           "place.imperial-penal-south.longmont"
         ],
         "travelServiceEdges": []
@@ -8169,9 +10415,8 @@
       "effortToReach": 5,
       "rewardProfile": {
         "kinds": [
-          "loot",
-          "conflict",
-          "knowledge"
+          "loot-cache",
+          "lore-fragment"
         ],
         "valueTier": "tier-5"
       },
@@ -8247,18 +10492,13 @@
       "scourSiteId": "site.scour.lake-standing-water.cove-066",
       "candidatesConsidered": [
         {
+          "siteId": "site.scour.firm-lowland.headland-032",
+          "score": 2.693,
+          "whyLost": "lost on score"
+        },
+        {
           "siteId": "site.scour.lake-standing-water.isthmus-033",
           "score": 2.683,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.lake-standing-water.cove-005",
-          "score": 2.405,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.lake-standing-water.islet-026",
-          "score": 2.336,
           "whyLost": "lost on score"
         }
       ],
@@ -8270,6 +10510,59 @@
         "distanceToRouteM": 491.1,
         "distanceToWaterM": 0.0,
         "score": 2.697
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": "faction.unclaimed",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "traversal-puzzle",
+        "secondary": [
+          "quest-anchor",
+          "lore-reveal"
+        ],
+        "impact": "province-changing",
+        "hook": "Below the water table, sealed by a stair the prison-born families bricked up two generations ago",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "flooded-cave",
+        "sizeBand": "S3",
+        "wetFraction": 0.6,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-5",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-5",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ]
       }
     },
     {
@@ -8330,8 +10623,7 @@
         ],
         "dependsOn": [
           "place.dunmer-north.thorn",
-          "place.imperial-penal-south.blackrose-prison",
-          "place.imperial-penal-south.imperial-farmstead-basin"
+          "place.imperial-penal-south.blackrose-prison"
         ],
         "rivals": [],
         "patrols": [],
@@ -8341,7 +10633,7 @@
           "place.imperial-penal-south.three-gate-toll"
         ],
         "travelServiceEdges": [
-          "boat:three-rivers",
+          "boat:route.boat.gideon-onkobra",
           "road:rose-causeway"
         ]
       },
@@ -8364,9 +10656,8 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "trade",
-          "faction",
-          "conflict"
+          "trade-access",
+          "faction-access"
         ],
         "valueTier": "tier-3"
       },
@@ -8441,17 +10732,17 @@
       "candidatesConsidered": [
         {
           "siteId": "site.scour.fringe-marsh.ford-047",
-          "score": 3.122,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.fringe-marsh.flood-high-014",
-          "score": 2.955,
+          "score": 3.422,
           "whyLost": "lost on score"
         },
         {
           "siteId": "site.scour.fringe-marsh.flood-high-035",
-          "score": 2.95,
+          "score": 3.25,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1253",
+          "score": 2.768,
           "whyLost": "lost on score"
         }
       ],
@@ -8462,7 +10753,42 @@
         "dangerBand": 2,
         "distanceToRouteM": 60.6,
         "distanceToWaterM": 0.0,
-        "score": 3.189
+        "score": 3.489
+      },
+      "hostility": {
+        "baseline": "friendly",
+        "owner": "faction.imperial-legion-remnant",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "service-hub",
+        "secondary": [],
+        "impact": "real",
+        "hook": "On the causeway road at the last firm ground before the marsh, with a barge landing and a walled magazine",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "dependsOn": [
+          "place.imperial-penal-south.imperial-farmstead-basin"
+        ]
+      },
+      "travelStation": {
+        "modes": [
+          "boat"
+        ],
+        "destinations": [
+          "place.imperial-fringe.gideon"
+        ]
       }
     },
     {
@@ -8542,8 +10868,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "food",
-          "trade",
+          "rest-shelter",
+          "trade-access",
           "services"
         ],
         "valueTier": "tier-2"
@@ -8585,7 +10911,31 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'grassland-field-village' runs 4 province-wide against a countBand of 2-3, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "friendly",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "A shallow annual flood over firm ground: the exact condition saltrice needs and almost nothing else tolerates",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      }
     },
     {
       "id": "place.imperial-penal-south.scandal-holding-pit",
@@ -8661,9 +11011,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "faction",
-          "conflict"
+          "lore-fragment",
+          "faction-access"
         ],
         "valueTier": "tier-3"
       },
@@ -8704,7 +11053,46 @@
       "entrance": "trapdoor",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance: type 'holding-pit' runs 3 province-wide against a countBand of 2-2, so the surplus is paid out of the over-band types first.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "guarded",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "stealth-challenge",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "Beneath the counting quay, dry, private, and eleven steps from where the debt is recorded",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "imperial-fort",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.three-gate-toll",
@@ -8766,17 +11154,14 @@
           "place.imperial-penal-south.bramman-head",
           "place.imperial-penal-south.west-market-town"
         ],
-        "patrols": [
-          "place.imperial-penal-south.manned-toll-tower",
-          "place.imperial-penal-south.xanmeer-span-bridge"
-        ],
+        "patrols": [],
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
           "place.imperial-penal-south.rose-supply-town"
         ],
         "travelServiceEdges": [
-          "boat:three-rivers"
+          "boat:route.boat.gideon-onkobra"
         ]
       },
       "culture": "mixed",
@@ -8795,9 +11180,9 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "access",
-          "trade",
-          "faction"
+          "route-unlock",
+          "trade-access",
+          "faction-access"
         ],
         "valueTier": "tier-3"
       },
@@ -8871,17 +11256,17 @@
       "candidatesConsidered": [
         {
           "siteId": "site.scour.fringe-marsh.ford-030",
-          "score": 2.967,
+          "score": 3.267,
           "whyLost": "taken by place.imperial-penal-south.rose-supply-town"
         },
         {
-          "siteId": "site.scour.fringe-marsh.water-narrows-007",
-          "score": 2.718,
+          "siteId": "site.free.roadside-0025",
+          "score": 2.416,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.fringe-marsh.ford-020",
-          "score": 2.515,
+          "siteId": "site.free.roadside-0020",
+          "score": 2.415,
           "whyLost": "lost on score"
         }
       ],
@@ -8892,7 +11277,43 @@
         "dangerBand": 2,
         "distanceToRouteM": 105.9,
         "distanceToWaterM": 5.5,
-        "score": 2.878
+        "score": 3.178
+      },
+      "hostility": {
+        "baseline": "friendly",
+        "owner": "faction.three-gate-compact",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "service-hub",
+        "secondary": [],
+        "impact": "real",
+        "hook": "The confluence: no cargo reaches the lake from any direction without passing this point",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "patrols": [
+          "place.imperial-penal-south.manned-toll-tower",
+          "place.imperial-penal-south.xanmeer-span-bridge"
+        ]
+      },
+      "travelStation": {
+        "modes": [
+          "boat"
+        ],
+        "destinations": [
+          "place.imperial-fringe.gideon"
+        ]
       }
     },
     {
@@ -8969,9 +11390,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "loot",
-          "conflict"
+          "lore-fragment",
+          "loot-cache"
         ],
         "valueTier": "tier-3"
       },
@@ -9033,38 +11453,86 @@
         }
       ],
       "position": {
-        "u": 0.28706,
-        "v": 0.88454
+        "u": 0.35139,
+        "v": 0.90543
       },
       "positionM": [
-        2116.6,
-        6522.2
+        2591.0,
+        6676.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.firm-lowland.flood-high-018",
-          "score": 3.104,
-          "whyLost": "too close to place.imperial-penal-south.flu-quarantine-village"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1217",
-          "score": 2.993,
+          "siteId": "site.free.any-firm-ground-1206",
+          "score": 2.996,
           "whyLost": "too close to place.naga-kur-deeps.deepmire-refuge"
         },
         {
-          "siteId": "site.scour.firm-lowland.flood-high-010",
-          "score": 2.754,
-          "whyLost": "too close to place.imperial-penal-south.flu-quarantine-village"
+          "siteId": "site.free.roadside-0574",
+          "score": 2.849,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1317",
+          "score": 2.843,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 84 m from the nearest route; its choice #2 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 348 m from the nearest route; its choice #2 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.kothringi-ruin-basin (+0.49).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 83.7,
+        "distanceToRouteM": 348.3,
         "distanceToWaterM": 44.2,
-        "score": 2.639
+        "score": 3.336
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": "faction.unclaimed",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "faction-gateway",
+        "secondary": [
+          "quest-anchor",
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "The open ground north of the city where the rebel army formed up, chosen by them, which is the part nobody has forgiven",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "imperial-fort",
+        "sizeBand": "S2",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
       }
     },
     {
@@ -9142,9 +11610,8 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "loot",
-          "conflict",
-          "knowledge"
+          "loot-cache",
+          "lore-fragment"
         ],
         "valueTier": "tier-4"
       },
@@ -9187,7 +11654,55 @@
       "entrance": "stair-throat",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-3 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "combat-challenge",
+        "secondary": [
+          "lore-reveal",
+          "hidden-secret"
+        ],
+        "impact": "major",
+        "hook": "A stone undercroft with one door and no other opening — which is why sealing it worked",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "root-cavern",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-4",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-4",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.west-market-town",
@@ -9246,7 +11761,6 @@
           "place.imperial-penal-south.three-gate-toll"
         ],
         "dependsOn": [
-          "place.imperial-penal-south.disputed-estate-village",
           "place.imperial-penal-south.rockspring"
         ],
         "supplies": [
@@ -9260,7 +11774,7 @@
           "place.imperial-penal-south.three-gate-toll"
         ],
         "travelServiceEdges": [
-          "boat:western-feeder",
+          "boat:route.boat.gideon-onkobra",
           "road:blackwood"
         ]
       },
@@ -9281,9 +11795,9 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "trade",
+          "trade-access",
           "services",
-          "knowledge"
+          "lore-fragment"
         ],
         "valueTier": "tier-3"
       },
@@ -9347,38 +11861,84 @@
         }
       ],
       "position": {
-        "u": 0.36738,
-        "v": 0.84141
+        "u": 0.40196,
+        "v": 0.83924
       },
       "positionM": [
-        2708.9,
-        6204.1
+        2963.8,
+        6188.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0578",
-          "score": 3.628,
+          "siteId": "site.free.roadside-0026",
+          "score": 3.555,
           "whyLost": "too close to place.imperial-penal-south.blackrose"
         },
         {
-          "siteId": "site.free.roadside-0035",
-          "score": 3.615,
+          "siteId": "site.free.roadside-0022",
+          "score": 3.555,
           "whyLost": "too close to place.imperial-penal-south.blackrose"
         },
         {
-          "siteId": "site.free.roadside-0467",
-          "score": 3.611,
+          "siteId": "site.free.any-firm-ground-1280",
+          "score": 3.507,
           "whyLost": "too close to place.imperial-penal-south.blackrose"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 66 m from the nearest route; at the water's edge; its choice #4 landform; won on route, landform, region; placed from the homeless batch at stage 'spacing-1/2'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 23 m from the nearest route; at the water's edge; its choice #4 landform; won on route, landform, region; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
+        "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 66.0,
-        "distanceToWaterM": 5.5,
-        "score": 3.261
+        "distanceToRouteM": 22.6,
+        "distanceToWaterM": 22.6,
+        "score": 3.159
+      },
+      "hostility": {
+        "baseline": "friendly",
+        "owner": "faction.marsh-charter",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "service-hub",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "A river junction with firm banks on three sides and enough water for laden hulls in every season but the driest",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "dependsOn": [
+          "place.imperial-penal-south.disputed-estate-village"
+        ]
+      },
+      "travelStation": {
+        "modes": [
+          "boat"
+        ],
+        "destinations": [
+          "place.imperial-fringe.gideon"
+        ]
       }
     },
     {
@@ -9456,8 +12016,7 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "conflict",
-          "loot"
+          "loot-cache"
         ],
         "valueTier": "tier-2"
       },
@@ -9497,7 +12056,38 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-4 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "combat-challenge",
+        "secondary": [],
+        "impact": "real",
+        "hook": "Directly beside the floating road, which is the whole problem",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.xanmeer-span-bridge",
@@ -9556,7 +12146,6 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.imperial-penal-south.lake-ferry-stage",
           "place.imperial-penal-south.longmont"
         ],
         "travelServiceEdges": []
@@ -9575,8 +12164,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "access",
-          "knowledge"
+          "route-unlock",
+          "lore-fragment"
         ],
         "valueTier": "tier-2"
       },
@@ -9622,7 +12211,45 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-2 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "active"
+      "deferredFromStatus": "active",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "navigation-aid",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "The only crossing of the eastern feeder that does not require a boat within eight kilometres",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.lake-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.imperial-penal-south.yespest-site",
@@ -9698,8 +12325,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "knowledge",
-          "loot"
+          "lore-fragment",
+          "loot-cache"
         ],
         "valueTier": "tier-3"
       },
@@ -9741,7 +12368,49 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredWhy": "Parked in the imperial-penal-south over-density rebalance (70 records against a 17-21 budget): tier-2 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "ruined"
+      "deferredFromStatus": "ruined",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "wonder-oddity",
+        "secondary": [
+          "lore-reveal",
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "On the western feeder where Kothringi, Yespest and Lilmothiit ground all overlap — which is exactly how the mistake was made",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      }
     }
   ]
 }

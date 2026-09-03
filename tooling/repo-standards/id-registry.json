@@ -3,55 +3,61 @@
   "sources": [
     {
       "path": "world/sources/sites/candidate-sites.json",
-      "what": "Phase 11 Part 0 terrain scour \u2014 candidate landform sites (worldgen.terrain_scour)"
+      "what": "Phase 11 Part 0 terrain scour — candidate landform sites (worldgen.terrain_scour)"
     },
     {
       "path": "world/sources/catalogue/places-dunmer-north.json",
-      "what": "Phase 11 Part 2 place catalogue \u2014 dunmer-north region records (worldgen.catalogue)",
+      "what": "Phase 11 Part 2 place catalogue — dunmer-north region records (worldgen.catalogue)",
       "idKey": "id",
       "collectionKey": "places"
     },
     {
       "path": "world/sources/catalogue/places-hist-heartland.json",
-      "what": "Phase 11 Part 2 place catalogue \u2014 hist-heartland region records (worldgen.catalogue)",
+      "what": "Phase 11 Part 2 place catalogue — hist-heartland region records (worldgen.catalogue)",
       "idKey": "id",
       "collectionKey": "places"
     },
     {
       "path": "world/sources/catalogue/places-imperial-fringe.json",
-      "what": "Phase 11 Part 2 place catalogue \u2014 imperial-fringe region records (worldgen.catalogue)",
+      "what": "Phase 11 Part 2 place catalogue — imperial-fringe region records (worldgen.catalogue)",
       "idKey": "id",
       "collectionKey": "places"
     },
     {
       "path": "world/sources/catalogue/places-imperial-penal-south.json",
-      "what": "Phase 11 Part 2 place catalogue \u2014 imperial-penal-south region records (worldgen.catalogue)",
+      "what": "Phase 11 Part 2 place catalogue — imperial-penal-south region records (worldgen.catalogue)",
       "idKey": "id",
       "collectionKey": "places"
     },
     {
       "path": "world/sources/catalogue/places-mercantile-coast.json",
-      "what": "Phase 11 Part 2 place catalogue \u2014 mercantile-coast region records (worldgen.catalogue)",
+      "what": "Phase 11 Part 2 place catalogue — mercantile-coast region records (worldgen.catalogue)",
       "idKey": "id",
       "collectionKey": "places"
     },
     {
       "path": "world/sources/catalogue/places-naga-kur-deeps.json",
-      "what": "Phase 11 Part 2 place catalogue \u2014 naga-kur-deeps region records (worldgen.catalogue)",
+      "what": "Phase 11 Part 2 place catalogue — naga-kur-deeps region records (worldgen.catalogue)",
       "idKey": "id",
       "collectionKey": "places"
     },
     {
       "path": "world/sources/catalogue/places-pirate-freeholds.json",
-      "what": "Phase 11 Part 2 place catalogue \u2014 pirate-freeholds region records (worldgen.catalogue)",
+      "what": "Phase 11 Part 2 place catalogue — pirate-freeholds region records (worldgen.catalogue)",
       "idKey": "id",
       "collectionKey": "places"
     },
     {
       "path": "world/sources/catalogue/places-saxhleel-coast.json",
-      "what": "Phase 11 Part 2 place catalogue \u2014 saxhleel-coast region records (worldgen.catalogue)",
+      "what": "Phase 11 Part 2 place catalogue — saxhleel-coast region records (worldgen.catalogue)",
       "idKey": "id",
       "collectionKey": "places"
+    },
+    {
+      "path": "world/sources/routes/registry.json",
+      "what": "Phase 11 Part 4 route registry — route.road.* / route.boat.* / route.track.* (worldgen.route_registry)",
+      "idKey": "id",
+      "collectionKey": "routes"
     }
   ],
   "retired": []

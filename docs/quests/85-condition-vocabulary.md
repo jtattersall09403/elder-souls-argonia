@@ -102,6 +102,8 @@ game and prose conditions habitually forget it.
 | `seasonIs` | `enum` | seasonal content |
 | `weatherIs` | `enum` | 8c's published local weather |
 | `tideState` | `enum{low,high}` | **flavour only** — tide gating is CUT (0042 §2) |
+| `placeCleared` | place `id` | the catalogue's `hostility.clearable` state (Phase 11 v2, 2026-09-03) |
+| `placeStanceIs` | place `id`, `enum{hostile,guarded,wary,neutral,friendly,sanctuary}` | the place's current stance after any `hostility.flips` (same vocabulary as the catalogue's `hostility.baseline`) |
 
 ### A7. NPC and actor state
 

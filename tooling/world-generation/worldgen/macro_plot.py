@@ -99,6 +99,39 @@ SATELLITE_MAX_M = 450.0          # a record NAMED after a settlement (mazzatun-h
 D5_MIN_ROUTE_M = 200.0           # deep peril never sits on the road
 ROUTE_REPEAT_MIN_M = 900.0       # same type twice along the same road
 HARD_REGION_CLASSES = {"settlement", "works", "transit"}   # a village's region wish is a requirement
+
+# --- owner feedback round (Part 4 step 2, 2026-09-03) ---------------------
+# Danger is a HARD fit now: a quiet village never sits in deep peril (the
+# semantic audit found six D2 villages in band 5). Lived-in classes tolerate a
+# one-band gap, everything else two (three once the homeless stages relax).
+LIVED_IN_CLASSES = {"settlement", "civic", "works", "transit"}
+DANGER_GAP_LIVED = 1
+DANGER_GAP_OTHER = 2
+# City hinterland rings: what a *collection* around a city should read like —
+# city edge (wards, docks, gates, the city's own shrines) → hinterland (farms,
+# works, villages, civil camps) → rural (villages, shrines, the first ruins)
+# → wilds. A bandit camp 400 m from a city gate is a mistake, not a challenge.
+RING_EDGE_M = 350.0
+RING_HINTERLAND_M = 1200.0
+EDGE_OK_CLASSES = {"civic", "works", "transit", "martial", "sacred"}
+HINTERLAND_HOSTILE_PENALTY = 0.9
+# The opening ring around the start (Alten Corimont; docs/research/opening-hours-and-start-area.md):
+# ring A 0–250 m danger ≤2, ring B 250–600 m danger ≤3 except the ONE telegraphed hostile quadrant.
+OPENING_ANCHOR = "alten-corimont"
+OPENING_RING_A_M, OPENING_RING_B_M = 250.0, 600.0
+OPENING_ALLOW = {"place.pirate-freeholds.the-wading-ground"}
+# Hostile places: ≤ 3 unrelated hostile-baseline places within 800 m (a bandit
+# territory with one owner is fine; three unrelated warbands in a valley is not).
+HOSTILE_CLUSTER_M = 800.0
+HOSTILE_CLUSTER_MAX = 3
+# Purpose repetition: the same primary purpose twice along one road within this
+# distance is wallpaper (research §5.3 rule 1, approximated pairwise).
+PURPOSE_REPEAT_ROUTE_M = 500.0
+PURPOSE_REPEAT_ANY_M = 200.0
+# Swap pass: after the greedy solve, try exchanging sites between pairs of
+# records to lift the worst fits (the anti-greedy step the owner asked about).
+SWAP_CANDIDATES = 24
+SWAP_MIN_GAIN = 0.25
 PLACE_ID = re.compile(r"place\.[a-z0-9-]+\.[a-z0-9-]+")
 
 
@@ -124,6 +157,7 @@ class Candidate:
     concealment: float     # 0..1
     water_relation: float  # 0..1
     anchor_m: float
+    anchor_id: str | None = None                            # nearest anchor (for the ring rules)
     used_by: str | None = None
     zone_dist: dict = field(default_factory=dict)   # metres to each culture zone (filled by attach_zone_distances)
 
@@ -147,6 +181,9 @@ class Demand:
     sightline_to: list[str] = field(default_factory=list)   # must have line of sight to these (hard)
     bound_to: str | None = None                              # must sit within bound_max of this (hard)
     bound_max: float = BOUND_MAX_M
+    purpose: str = "wonder-oddity"                           # playerPurpose.primary (v2)
+    stance: str = "neutral"                                  # hostility.baseline (v2)
+    owner: str | None = None                                 # hostility.owner (v2)
 
     @property
     def separation(self) -> float:
@@ -255,7 +292,10 @@ def build_demand(recipes: dict[str, dict]) -> tuple[list[Demand], dict[str, cata
                 danger=DANGER_TIER.get(rec["dangerTier"], 3), landforms=landforms,
                 landforms_from_recipe=from_recipe, regions=regions,
                 parents=parents, hints=hints, record=rec, sightline_to=sight, bound_to=bound,
-                bound_max=bound_max))
+                bound_max=bound_max,
+                purpose=(rec.get("playerPurpose") or {}).get("primary", "wonder-oddity"),
+                stance=(rec.get("hostility") or {}).get("baseline", "neutral"),
+                owner=(rec.get("hostility") or {}).get("owner")))
     live = {d.id for d in demands}
     for d in demands:   # refs to deferred/cut records cannot bind
         d.sightline_to = [r for r in d.sightline_to if r in live]
@@ -339,7 +379,8 @@ def free_ground(s: ProvinceSurvey, seed: int, spacing_m: float = FREE_SPACING_M)
                 prominence=0.0, visibility=0.0,
                 concealment=min(1.0, 0.3 + 0.5 * (rname in {"tropical jungle", "rootland deep marsh", "mangrove forest"})),
                 water_relation=max(0.0, 1.0 - wm / 300.0),
-                anchor_m=min(math.hypot(x - ax, z - az) for ax, az in anchors.values())))
+                anchor_m=min(math.hypot(x - ax, z - az) for ax, az in anchors.values()),
+                anchor_id=min(anchors, key=lambda k: math.hypot(x - anchors[k][0], z - anchors[k][1]))))
     return out
 
 
@@ -404,7 +445,8 @@ def roadside_ground(s: ProvinceSurvey, seed: int) -> list[Candidate]:
                     route_m=float(s.dist_to_route_m[row, col]), water_m=wm, depth_m=0.0,
                     slope=float(s.slope_grid[row, col]), prominence=0.0, visibility=0.0,
                     concealment=0.2, water_relation=max(0.0, 1.0 - wm / 300.0),
-                    anchor_m=min(math.hypot(x - ax, z - az) for ax, az in anchors.values())))
+                    anchor_m=min(math.hypot(x - ax, z - az) for ax, az in anchors.values()),
+                    anchor_id=min(anchors, key=lambda k: math.hypot(x - anchors[k][0], z - anchors[k][1]))))
     return out
 
 
@@ -419,6 +461,13 @@ def attach_water_depth(s: ProvinceSurvey, cands: list[Candidate]) -> None:
         row = min(n - 1, max(0, int(c.z / px)))
         col = min(n - 1, max(0, int(c.x / px)))
         c.depth_m = max(c.depth_m, float(deep[row, col]))
+
+
+def attach_anchor_ids(s: ProvinceSurvey, cands: list[Candidate]) -> None:
+    anchors = s.anchor_points_m
+    for c in cands:
+        if c.anchor_id is None:
+            c.anchor_id = min(anchors, key=lambda k: math.hypot(c.x - anchors[k][0], c.z - anchors[k][1]))
 
 
 def attach_zone_distances(s: ProvinceSurvey, cands: list[Candidate]) -> None:
@@ -444,9 +493,33 @@ def _band(v: float, lo: float, hi: float, fade: float) -> float:
     return 1.0
 
 
+def ring_fit(d: Demand, c: Candidate, relaxed: bool) -> float | None:
+    """None = forbidden here; otherwise a score term. Rings are measured from
+    the nearest anchor city (the start freehold counts as a city)."""
+    if d.tier == 0 or d.bound_to or d.hints.get("inside_parent"):
+        return 0.0
+    if c.anchor_m <= RING_EDGE_M:
+        # the city edge: the city's own wards, docks, gates, works and shrines
+        if d.cls in EDGE_OK_CLASSES or d.cls == "settlement" and d.magnitude in (None, "M1"):
+            return 0.2
+        return None if not relaxed else -0.8
+    if c.anchor_m <= RING_HINTERLAND_M:
+        # hinterland: farms, works, villages, civil camps, shrines; hostile
+        # places and deep-peril lairs only if they hide (concealed) and even
+        # then it costs
+        if d.stance == "hostile" or (d.cls in {"lair", "ruin"} and d.danger >= 3):
+            if d.danger >= 4 and not relaxed:
+                return None
+            return -HINTERLAND_HOSTILE_PENALTY + (0.3 if d.hints.get("concealed") else 0.0)
+        if d.cls in {"works", "settlement", "civic", "camp"} and d.stance != "hostile":
+            return 0.3
+        return 0.0
+    return 0.0
+
+
 def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
                relaxed: bool = False, survey: ProvinceSurvey | None = None,
-               relax_region: bool = False) -> tuple[float, dict[str, float]]:
+               relax_region: bool = False, plotted_meta: dict[str, "Demand"] | None = None) -> tuple[float, dict[str, float]]:
     parts: dict[str, float] = {}
     # named constraints are HARD: "within sight of X" needs a real line of sight,
     # "inside / part of X" needs to be at X. (Plot review 2026-09-03, finding 1.)
@@ -489,9 +562,46 @@ def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
             return -9.0, {"region": -9.0}
         else:
             parts["region"] = -0.7
-    # danger
+    # danger: hard beyond the class's tolerated gap (owner feedback: no quiet
+    # villages in deep peril), soft inside it
     gap = abs(c.danger - d.danger)
+    allowed = (DANGER_GAP_LIVED if d.cls in LIVED_IN_CLASSES else DANGER_GAP_OTHER) + (1 if relaxed else 0)
+    if gap > allowed and not (d.tier == 0):
+        return -9.0, {"danger": -9.0}
     parts["danger"] = 0.5 - 0.35 * gap
+    # city rings: what belongs at a city's edge, in its hinterland, and not
+    ring_gate = ring_fit(d, c, relaxed)
+    if ring_gate is None:
+        return -9.0, {"ring": -9.0}
+    if ring_gate:
+        parts["ring"] = ring_gate
+    # opening ring around the start
+    if c.anchor_id == OPENING_ANCHOR and d.id not in OPENING_ALLOW and not d.bound_to:
+        if c.anchor_m <= OPENING_RING_A_M and d.danger >= 3:
+            return -9.0, {"opening": -9.0}
+        if c.anchor_m <= OPENING_RING_B_M and d.danger >= 4:
+            return -9.0, {"opening": -9.0}
+    # hostile clustering and purpose repetition against what is already plotted
+    if plotted_meta is not None:
+        hostile_near = 0
+        for oid, (ox, oz) in plotted.items():
+            om = plotted_meta.get(oid)
+            if om is None:
+                continue
+            dist = math.hypot(c.x - ox, c.z - oz)
+            if d.stance == "hostile" and om.stance == "hostile" and dist <= HOSTILE_CLUSTER_M \
+                    and (d.owner is None or d.owner != om.owner):
+                hostile_near += 1
+            if om.purpose == d.purpose and oid != d.bound_to and oid not in d.parents:
+                if dist <= PURPOSE_REPEAT_ANY_M:
+                    parts["purpose"] = parts.get("purpose", 0.0) - 0.5
+                if dist <= PURPOSE_REPEAT_ROUTE_M and c.route_m <= 300.0 and d.layer != "landmark":
+                    # both on the road, same beat: -9 unless relaxed
+                    if not relaxed:
+                        return -9.0, {"purpose": -9.0}
+                    parts["purpose"] = parts.get("purpose", 0.0) - 0.4
+        if hostile_near >= HOSTILE_CLUSTER_MAX:
+            return -9.0, {"hostile-cluster": -9.0}
     if d.danger >= 4 and c.danger <= 2:
         parts["danger"] -= 0.8
     if d.danger <= 1 and c.danger >= 4:
@@ -628,10 +738,11 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
                 # is gated against it
                 if any(r in pool_ids and r not in done and not (d.id in _refs_of(r) and d.id < r) for r in refs):
                     continue
+                meta = {oid: od for oid, (od, _oc) in plotted_d.items()}
                 for c in cands:
                     if c.used_by:
                         continue
-                    sc, parts = score_pair(d, c, plotted_xy, relaxed, s, relax_region)
+                    sc, parts = score_pair(d, c, plotted_xy, relaxed, s, relax_region, meta)
                     if sc >= min_score:
                         pairs.append((sc, d.id, c.id, parts))
             if not pairs:
@@ -709,6 +820,54 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
     return result, unresolved
 
 
+def plotted_meta_of(result: dict[str, dict]) -> dict[str, Demand]:
+    return {rid: r["demand"] for rid, r in result.items() if "demand" in r}
+
+
+def swap_pass(demands: list[Demand], result: dict[str, dict], meta: dict[str, Demand],
+              s: ProvinceSurvey) -> int:
+    """Anti-greedy improvement: for the worst-fitting quarter of plotted
+    records, try exchanging sites with nearby records of the same zone; keep a
+    swap when both gates still pass and the summed score rises by
+    SWAP_MIN_GAIN. Deterministic (ordered by score then id), bounded by
+    SWAP_CANDIDATES partners per record, one sweep."""
+    by_d = {d.id: d for d in demands}
+    for rid, r in result.items():
+        r.setdefault("demand", by_d[rid])
+    movable = [rid for rid, r in result.items() if r.get("score") is not None and by_d[rid].tier > 0
+               and not by_d[rid].bound_to and not by_d[rid].sightline_to]
+    movable.sort(key=lambda rid: (result[rid]["score"], rid))
+    worst = movable[: max(1, len(movable) // 4)]
+    xy = {rid: (r["candidate"].x, r["candidate"].z) for rid, r in result.items()}
+    swaps = 0
+    for a in worst:
+        da, ca = by_d[a], result[a]["candidate"]
+        partners = sorted((b for b in movable if b != a and by_d[b].zone == da.zone
+                           and not by_d[b].sightline_to and not by_d[b].bound_to),
+                          key=lambda b: (math.hypot(xy[b][0] - xy[a][0], xy[b][1] - xy[a][1]), b))[:SWAP_CANDIDATES]
+        best = None
+        for b in partners:
+            db, cb = by_d[b], result[b]["candidate"]
+            others = {k: v for k, v in xy.items() if k not in (a, b)}
+            meta_o = {k: v for k, v in meta.items() if k not in (a, b)}
+            sa, pa = score_pair(da, cb, others, True, s, True, meta_o)
+            sb, pb = score_pair(db, ca, others, True, s, True, meta_o)
+            if sa < RELAXED_SCORE or sb < RELAXED_SCORE:
+                continue
+            gain = (sa + sb) - (result[a]["score"] + result[b]["score"])
+            if gain >= SWAP_MIN_GAIN and (best is None or gain > best[0]):
+                best = (gain, b, sa, pa, sb, pb)
+        if best:
+            gain, b, sa, pa, sb, pb = best
+            ca, cb = result[a]["candidate"], result[b]["candidate"]
+            ca.used_by, cb.used_by = b, a
+            result[a].update({"candidate": cb, "score": sa, "parts": pa, "swapped": f"with {b} (+{gain:.2f})"})
+            result[b].update({"candidate": ca, "score": sb, "parts": pb, "swapped": f"with {a} (+{gain:.2f})"})
+            xy[a], xy[b] = (cb.x, cb.z), (ca.x, ca.z)
+            swaps += 1
+    return swaps
+
+
 # --------------------------------------------------------------------------- #
 # why text and record update
 # --------------------------------------------------------------------------- #
@@ -759,6 +918,8 @@ def apply_to_records(files: dict[str, catalogue.RegionFile], demands: list[Deman
             rec["candidatesConsidered"] = [
                 {"siteId": cid, "score": round(sc, 3), "whyLost": why} for cid, sc, why in r["runners"]]
             rec["whySiteWon"] = r["why"] if "why" in r else why_text(d, c, r["parts"], r.get("homelessStage"))
+            if r.get("swapped"):
+                rec["whySiteWon"] = rec["whySiteWon"][:-1] + f"; site exchanged in the swap pass {r['swapped']}."
             rec["plotFacts"] = {
                 "landform": c.landform, "regionClass": c.region, "dangerBand": c.danger,
                 "distanceToRouteM": round(c.route_m, 1), "distanceToWaterM": round(c.water_m, 1),
@@ -948,6 +1109,52 @@ def build_report(demands: list[Demand], result: dict[str, dict], unresolved: lis
     }
 
 
+REST_STANCES = {"friendly", "sanctuary"}
+REST_PURPOSES = {"safe-rest", "service-hub"}
+
+
+def feedback_checks(demands: list[Demand], result: dict[str, dict], s: ProvinceSurvey) -> dict:
+    """Owner-feedback round checks that are REPORTED, not gated (they need
+    new records, which is the region review pass's job): rest cadence near
+    delves, each city's hinterland purpose coverage, hostile counts and the
+    ring mix around every city."""
+    by_d = {d.id: d for d in demands}
+    xy = {rid: (r["candidate"].x, r["candidate"].z) for rid, r in result.items()}
+    rests = [rid for rid in xy if by_d[rid].stance in REST_STANCES or by_d[rid].purpose in REST_PURPOSES]
+    gaps = []
+    for rid, (x, z) in xy.items():
+        d = by_d[rid]
+        if d.purpose in {"dungeon-delve", "combat-challenge"} and d.danger >= 3:
+            need = 1200.0 if d.danger >= 4 else 600.0
+            near = min((math.hypot(x - xy[o][0], z - xy[o][1]) for o in rests if o != rid), default=1e9)
+            if near > need:
+                gaps.append({"id": rid, "danger": d.danger, "nearestRestM": round(near)})
+    anchors = s.anchor_points_m
+    cities = {}
+    for aid, (ax, az) in anchors.items():
+        purposes = {}
+        rings = {"edge": {}, "hinterland": {}, "rural": {}}
+        hostile = 0
+        for rid, (x, z) in xy.items():
+            dist = math.hypot(x - ax, z - az)
+            d = by_d[rid]
+            if dist <= 2000.0:
+                purposes[d.purpose] = purposes.get(d.purpose, 0) + 1
+                if d.stance == "hostile":
+                    hostile += 1
+            ring = "edge" if dist <= RING_EDGE_M else "hinterland" if dist <= RING_HINTERLAND_M else "rural" if dist <= 2500.0 else None
+            if ring:
+                rings[ring][d.cls] = rings[ring].get(d.cls, 0) + 1
+        missing = sorted({"dungeon-delve", "combat-challenge", "lore-reveal", "safe-rest", "resource-source"} - set(purposes))
+        cities[aid] = {"purposesWithin2km": dict(sorted(purposes.items())), "purposeCount": len(purposes),
+                       "missingCorePurposes": missing, "hostileWithin2km": hostile, "rings": rings}
+    stances = {}
+    for rid in xy:
+        stances[by_d[rid].stance] = stances.get(by_d[rid].stance, 0) + 1
+    swapped = sorted(rid for rid, r in result.items() if r.get("swapped"))
+    return {"restCadenceGaps": gaps, "cities": cities, "stances": stances, "swapped": swapped}
+
+
 def digest(rep: dict, result: dict[str, dict], demands: list[Demand]) -> str:
     L = ["# Macro plot — coverage report (Phase 11 Part 3)", "",
          f"Seed {rep['seed']}. Supply: {rep['supply']['scourSites']} scour sites + "
@@ -1006,6 +1213,18 @@ def digest(rep: dict, result: dict[str, dict], demands: list[Demand]) -> str:
         c = result[did]["candidate"]
         why = result[did].get("why") or why_text(d, c, result[did]["parts"], result[did].get("homelessStage"))
         L.append(f"| `{did}` | {c.id} | {c.landform} | {c.region} | {why} |")
+    fc = rep.get("feedbackChecks")
+    if fc:
+        L += ["", "## Owner-feedback checks (Part 4 step 2)", "",
+              f"- stances: {fc['stances']}",
+              f"- swap pass exchanged {len(fc['swapped'])} sites",
+              f"- delves/combat places (D3+) with no friendly/sanctuary rest within 600 m (1200 m in D4–D5): {len(fc['restCadenceGaps'])}",
+              "", "| city | purposes in 2 km | missing core purposes | hostile in 2 km | edge / hinterland / rural counts |", "|---|---|---|---|---|"]
+        for aid, c in fc["cities"].items():
+            rings = " / ".join(str(sum(c["rings"][k].values())) for k in ("edge", "hinterland", "rural"))
+            L.append(f"| {aid} | {c['purposeCount']} | {', '.join(c['missingCorePurposes']) or '—'} | {c['hostileWithin2km']} | {rings} |")
+        if fc["restCadenceGaps"]:
+            L += ["", "Rest-cadence gaps (add a rest or soften): " + ", ".join(f"`{g['id']}` ({g['nearestRestM']} m)" for g in fc["restCadenceGaps"][:40])]
     return "\n".join(L) + "\n"
 
 
@@ -1021,7 +1240,9 @@ def solve(s: ProvinceSurvey, seed: int = DEFAULT_SEED):
     cands = scour + free
     attach_zone_distances(s, cands)
     attach_water_depth(s, cands)
+    attach_anchor_ids(s, cands)
     result, unresolved = assign(demands, cands, s, s.anchor_points_m)
+    swap_pass(demands, result, plotted_meta_of(result), s)
     return demands, files, scour, free, result, unresolved
 
 
@@ -1031,9 +1252,10 @@ def run(seed: int = DEFAULT_SEED, write: bool = True, report_only_to: Path | Non
     plotted = {did: (next(d for d in demands if d.id == did), r["candidate"]) for did, r in result.items()}
     apply_to_records(files, demands, result, s)
     rep = build_report(demands, result, unresolved, plotted, s, seed, len(scour), len(free))
+    rep["feedbackChecks"] = feedback_checks(demands, result, s)
     if write:
         for rf in files.values():
-            catalogue.dump_json(rf.path, {"schemaVersion": catalogue.SCHEMA_VERSION, "region": rf.region,
+            catalogue.dump_json(rf.path, {"schemaVersion": catalogue.PLACES_SCHEMA_VERSION, "region": rf.region,
                                           "seed": rf.seed, "places": rf.places})
     if write or report_only_to is not None:
         rj, rm = (REPORT_JSON, REPORT_MD) if write else (report_only_to / "macro-plot.json", report_only_to / "macro-plot.md")

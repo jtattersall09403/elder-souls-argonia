@@ -1,0 +1,217 @@
+{
+ "id": "hlaalu-domestic",
+ "description": "The domestic tier under the Imperial keep masonry (Phase 11 vibe-sheet audit \u00a74, source S2): premade and modular Hlaalu houses, a base/middle/top tower stack, yard and street walls with broken variants, steps, awnings, fences, stone blocks, small bridges, dockside cranes and lamp posts. Built ON the Imperial Keep set (SSE 133090) and retextured, so it shares that pool's texture paths \u2014 the keep pool is declared as its texture sibling in build_kit. Ruins/Winterhold/Seaview/Sheogorad/Redoran folders in the mod are Nordic or interior filler and are excluded. NOT tropicalised, for the same reason as imperial-keep.",
+ "culture": "imperial",
+ "output": "tooling/asset-pipeline/output/kits/hlaalu-domestic.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "assets": [
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/house01"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/house01base"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/housebase00"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/housebase01"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/housetall01"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/entrance00"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/baseentrance00"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/baseentrance01"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/largewindow00"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/roof"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/dome"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/basetower00"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/basetower01"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/middletower00"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/middletower01"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/toptower00"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/toptower01"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/tower00"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/tower01"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/tower02"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/tower03"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/tower04"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/tower05"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/tower06"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/tower07"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/custom/tower08"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/miniwall"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall001"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall002"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall003"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallcorner001"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallcurve001"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallendpillar001"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallgatearc001"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwall"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwall90a"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokena"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokenb"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallbrokenc"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallend"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallentera"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallenterb"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/stairs01"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmstairs01"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/skavenclaystairs"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmcover1"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmcover2"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmcoverstairs"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmfence"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmfenceend"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmfencepost"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock01"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock02"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmstoneblock03"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge01"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge02"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/tradehome"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/multi_barrels00"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/multi_crate00"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trcrane02base"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/objects/crane01"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/objects/crane02"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/objects/crane03"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/objects/trlanternpostbase"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/objects/trlanternpost1arm"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/objects/trlanternpost2arm"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/objects/trlanternpost4arm"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/objects/sbigplanter02t"
+  }
+ ]
+}

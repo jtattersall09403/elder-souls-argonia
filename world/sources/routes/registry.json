@@ -1,0 +1,363 @@
+{
+  "schemaVersion": 1,
+  "_": "The route registry (Phase 11 Part 4 step 2, decision 0041). Stable IDs and names for every route the world graph can reference: `route.road.<slug>` and `route.boat.<slug>` for the Phase 4 anchor-to-anchor network (geometry in apps/world-studio/public/province/routes.json and waterways.json, matched by from/to), `route.track.<slug>` for named minor routes (geometry derived by worldgen.compile_minor_routes when a plotted place chain exists; `solved: false` until then). Names are what people in the world call the route (see world/sources/catalogue/README.md naming registers). `class` is the semantic weight: trunk (all-weather, patrolled somewhere), road, lane (main boat corridor), channel (minor boat corridor), track/footpath/boardwalk (minor land). Validated by `python3 -m worldgen.route_registry --check`.",
+  "routes": [
+    {
+      "id": "route.road.gideon-blackwood-road",
+      "name": "the Blackwood Road",
+      "mode": "road",
+      "class": "trunk",
+      "from": "gideon",
+      "to": "blackwood-road",
+      "aliases": [
+        "route.blackwood-road",
+        "route.pilgrim-way-blackwood"
+      ],
+      "confidence": "CANON_NAMED",
+      "sources": [
+        "uesp:Lore:Blackwood Road",
+        "uesp:Lore:Gideon"
+      ],
+      "notes": "The canon exit road to Leyawiin; playable edge closed (00-core acceptance rules)."
+    },
+    {
+      "id": "route.road.thorn-tear-road",
+      "name": "the Tear road",
+      "mode": "road",
+      "class": "trunk",
+      "from": "thorn",
+      "to": "tear-road",
+      "aliases": [
+        "route.tear-road"
+      ],
+      "confidence": "CANON_DERIVED",
+      "sources": [
+        "uesp:Lore:Thorn",
+        "uesp:Lore:Tear"
+      ],
+      "notes": "Canon exit toward Tear in Morrowind; playable edge closed."
+    },
+    {
+      "id": "route.road.stormhold-thorn",
+      "name": "the Border road",
+      "mode": "road",
+      "class": "trunk",
+      "from": "stormhold",
+      "to": "thorn",
+      "aliases": [
+        "route.northern-trunk",
+        "route.northern-caravan"
+      ],
+      "confidence": "AGENT_INVENTED",
+      "sources": [
+        "uesp:Lore:Stormhold",
+        "uesp:Lore:Thorn"
+      ],
+      "notes": "The two Morrowind-facing cities' trunk; dunmer-north English-compound register."
+    },
+    {
+      "id": "route.road.alten-corimont-stormhold",
+      "name": "the Corimont road",
+      "mode": "road",
+      "class": "road",
+      "from": "alten-corimont",
+      "to": "stormhold",
+      "aliases": [
+        "route.road.alten-corimont-stormhold",
+        "route.shadowfen-paths"
+      ],
+      "confidence": "AGENT_INVENTED",
+      "sources": [
+        "uesp:Lore:Alten Corimont"
+      ],
+      "notes": "The offshoot from the Border road down to the freehold; the opening hours' only road out (docs/research/opening-hours-and-start-area.md)."
+    },
+    {
+      "id": "route.road.gideon-stormhold",
+      "name": "the Rim road",
+      "mode": "road",
+      "class": "road",
+      "from": "gideon",
+      "to": "stormhold",
+      "aliases": [
+        "route.rim-path",
+        "route.upland-track",
+        "route.gideon-north-track",
+        "route.north-track"
+      ],
+      "confidence": "AGENT_INVENTED",
+      "sources": [
+        "world/sources/lore/regions/blackwood-and-gloommire.md"
+      ],
+      "notes": "Skirts the western upland rim between the two frontier cities."
+    },
+    {
+      "id": "route.road.gideon-soulrest",
+      "name": "the Bog causeway",
+      "mode": "road",
+      "class": "road",
+      "from": "gideon",
+      "to": "soulrest",
+      "aliases": [
+        "route.blackwood-bog-causeway",
+        "route.marsh-edge-way"
+      ],
+      "confidence": "AGENT_INVENTED",
+      "sources": [
+        "uesp:Lore:Gideon",
+        "uesp:Lore:Soulrest"
+      ],
+      "notes": "Flood-damaged legs are bridged or ferried, never absent (acceptance rule)."
+    },
+    {
+      "id": "route.road.archon-gideon",
+      "name": "the Long road",
+      "mode": "road",
+      "class": "road",
+      "from": "archon",
+      "to": "gideon",
+      "aliases": [
+        "route.road.archon-gideon"
+      ],
+      "confidence": "AGENT_INVENTED",
+      "sources": [
+        "uesp:Lore:Archon"
+      ],
+      "notes": "The interior crossing; the province's longest single leg."
+    },
+    {
+      "id": "route.road.helstrom-blackrose",
+      "name": "the Bogmother causeway",
+      "mode": "road",
+      "class": "road",
+      "from": "helstrom",
+      "to": "blackrose",
+      "aliases": [
+        "route.bogmother-causeway"
+      ],
+      "confidence": "AGENT_INVENTED",
+      "sources": [
+        "uesp:Lore:Helstrom",
+        "uesp:Lore:Blackrose"
+      ],
+      "notes": "Named for the Bogmother shrine the catalogue places on it."
+    },
+    {
+      "id": "route.road.soulrest-blackrose",
+      "name": "the Lake road",
+      "mode": "road",
+      "class": "road",
+      "from": "soulrest",
+      "to": "blackrose",
+      "aliases": [],
+      "confidence": "AGENT_INVENTED",
+      "sources": [
+        "uesp:Lore:Blackrose"
+      ],
+      "notes": ""
+    },
+    {
+      "id": "route.road.blackrose-lilmoth",
+      "name": "the Prison road",
+      "mode": "road",
+      "class": "road",
+      "from": "blackrose",
+      "to": "lilmoth",
+      "aliases": [],
+      "confidence": "AGENT_INVENTED",
+      "sources": [
+        "uesp:Lore:Blackrose",
+        "uesp:Lore:Lilmoth"
+      ],
+      "notes": "Imperial-penal-south administrative register: the road the cordons used."
+    },
+    {
+      "id": "route.boat.soulrest-lilmoth",
+      "name": "the Southern Sea run",
+      "mode": "boat",
+      "class": "lane",
+      "from": "soulrest",
+      "to": "lilmoth",
+      "aliases": [
+        "boat:southern-sea",
+        "boat:topal-bay",
+        "boat:padomaic-coast"
+      ],
+      "confidence": "CANON_DERIVED",
+      "sources": [
+        "uesp:Lore:Southern Sea",
+        "uesp:Lore:Topal Bay"
+      ],
+      "notes": "Coastal sail between the two Southern Sea cities; Khajiit pirates keep a low profile here (waters.md)."
+    },
+    {
+      "id": "route.boat.lilmoth-archon",
+      "name": "the Oliis coast",
+      "mode": "boat",
+      "class": "lane",
+      "from": "lilmoth",
+      "to": "archon",
+      "aliases": [
+        "route.boat.archon-lilmoth",
+        "boat:oliis-bay"
+      ],
+      "confidence": "CANON_DERIVED",
+      "sources": [
+        "uesp:Lore:Oliis Bay",
+        "uesp:Lore:Lilmoth"
+      ],
+      "notes": "Out of Oliis Bay (Jel: Tikmak) and up the Padomaic shore."
+    },
+    {
+      "id": "route.boat.archon-thorn",
+      "name": "the Padomaic run",
+      "mode": "boat",
+      "class": "lane",
+      "from": "archon",
+      "to": "thorn",
+      "aliases": [
+        "boat:tearmouth-thorn",
+        "boat:east-river",
+        "boat:north-east-river"
+      ],
+      "confidence": "CANON_DERIVED",
+      "sources": [
+        "uesp:Lore:Padomaic Ocean",
+        "uesp:Lore:Archon"
+      ],
+      "notes": "The Archon-coast pirate ground (waters.md §5)."
+    },
+    {
+      "id": "route.boat.stormhold-alten-corimont",
+      "name": "the Shadowfen channels",
+      "mode": "boat",
+      "class": "lane",
+      "from": "stormhold",
+      "to": "alten-corimont",
+      "aliases": [
+        "route.boat.stormhold-alten-corimont",
+        "boat.alten-corimont-stormhold",
+        "boat:shadowfen-channels",
+        "boat:northern-river",
+        "boat:channel-cross-stormhold",
+        "route.northern-river"
+      ],
+      "confidence": "CANON_DERIVED",
+      "sources": [
+        "uesp:Lore:Shadowfen",
+        "uesp:Lore:Alten Corimont"
+      ],
+      "notes": "Stormhold's river network down to the freehold."
+    },
+    {
+      "id": "route.boat.blackrose-lilmoth",
+      "name": "the Oliis river",
+      "mode": "boat",
+      "class": "lane",
+      "from": "blackrose",
+      "to": "lilmoth",
+      "aliases": [
+        "boat:lowmere",
+        "boat:lowmere-fig-market"
+      ],
+      "confidence": "CANON_DERIVED",
+      "sources": [
+        "uesp:Lore:Blackrose",
+        "uesp:Lore:Oliis Bay"
+      ],
+      "notes": "Blackrose's south-flowing river toward Oliis Bay (waters.md: the three-river confluence)."
+    },
+    {
+      "id": "route.boat.alten-corimont-helstrom",
+      "name": "the Onkobra reach",
+      "mode": "boat",
+      "class": "lane",
+      "from": "alten-corimont",
+      "to": "helstrom",
+      "aliases": [
+        "boat.alten-corimont-helstrom",
+        "boat:helstrom-approach",
+        "boat:onkobra",
+        "boat:onkobra-upper",
+        "boat:onkobra-crossing"
+      ],
+      "confidence": "CANON_DERIVED",
+      "sources": [
+        "uesp:Lore:Onkobra River",
+        "docs/quests/30-main-quest.md#MQ05"
+      ],
+      "notes": "The guarded channel of the MQ05 escorted convoy; the Shadowfen reach of the Onkobra south of Alten Corimont."
+    },
+    {
+      "id": "route.boat.soulrest-blackrose",
+      "name": "Bramman's river",
+      "mode": "boat",
+      "class": "lane",
+      "from": "soulrest",
+      "to": "blackrose",
+      "aliases": [
+        "boat:bramman-river"
+      ],
+      "confidence": "CANON_NAMED",
+      "sources": [
+        "uesp:Lore:Soulrest",
+        "uesp:Lore:Red Bramman"
+      ],
+      "solved": false,
+      "notes": "Canon navigable interior route (the Imperial Navy sailed it in 1E 1033); Phase 4's lane solver did not keep it — a Part 3c boat-lane candidate when the water graph is re-solved."
+    },
+    {
+      "id": "route.boat.gideon-onkobra",
+      "name": "the Onkobra white water",
+      "mode": "boat",
+      "class": "channel",
+      "from": "gideon",
+      "to": "helstrom",
+      "aliases": [
+        "boat:western-feeder",
+        "boat:three-rivers"
+      ],
+      "confidence": "CANON_DERIVED",
+      "sources": [
+        "uesp:Lore:Onkobra River"
+      ],
+      "solved": false,
+      "notes": "Canon west-to-east river from near Topal Bay through Gideon; canoe channel, not a lane."
+    },
+    {
+      "id": "route.boat.lilmoth-keel-sakka",
+      "name": "the Keel-Sakka",
+      "mode": "boat",
+      "class": "channel",
+      "from": "lilmoth",
+      "to": "murkmire-interior",
+      "aliases": [
+        "boat:keel-sakka"
+      ],
+      "confidence": "CANON_NAMED",
+      "sources": [
+        "uesp:Lore:Keel-Sakka River"
+      ],
+      "solved": false,
+      "notes": "Inland from Lilmoth; the Tum-Taleel bridge toll (waters.md)."
+    },
+    {
+      "id": "route.boat.archon-estuary",
+      "name": "the Archon estuary",
+      "mode": "boat",
+      "class": "channel",
+      "from": "archon",
+      "to": "helstrom",
+      "aliases": [
+        "boat:delta",
+        "boat:panther-basin"
+      ],
+      "confidence": "CANON_DERIVED",
+      "sources": [
+        "uesp:Lore:Archon"
+      ],
+      "solved": false,
+      "notes": "The estuary that feeds the provincial centre; root-transit station root-east-estuary sits on it."
+    }
+  ]
+}

@@ -1947,6 +1947,88 @@
       "useFor": [
         "the graded/thinned/wild fringe rings around every settlement"
       ]
+    },
+    {
+      "id": "arch.imperial.morrowind-keep",
+      "label": "Morrowind-Imperial keep, curtain wall, towers, gate and civic masonry (Imperial Keep Set Remodeled)",
+      "class": "building",
+      "culture": "imperial",
+      "status": "have",
+      "pool": "mwkeep",
+      "vaultPaths": [
+        "meshes/tesak1243/mwimperialarchitecture/architecture/keep/"
+      ],
+      "pieceCount": 164,
+      "pieces": [
+        "mwimparchwall01 + corin/corout/ent/gate/tower with destroyed variants - a full curtain-wall run with a gate",
+        "mwimparchwallstairs01-04 - steps up onto the wall walk",
+        "mwimparchtowerbg01/sm01 with base and top modules - big and small stackable towers",
+        "mwimparchkeep01/02, mwimparchguardtower01/02 (+destroyed) - the keep blocks and the squat courthouse tower",
+        "mwimparchstonewall* - low stone yard/street walls with posts, corners and rubble variants",
+        "mwimparchledge* - ledges, mid pieces and their stairs",
+        "mwimparchbridge01/02, mwimparchdock01/02 + platform pieces - river frontage",
+        "mwimparchstable*, mwimparchwell01, flagpole, pedestals, planter, mooring, sewer, altar - stables and civic clutter",
+        "mwimparchrubble*/floorchunk* - robbed-stone condition variants",
+        "interior bghall/smhall/smroom/tower modules and 8 animated doors (present in the pool, NOT in the exterior kit)"
+      ],
+      "moduleM": null,
+      "palette": [
+        "Morrowind imperial grey slate",
+        "cut ashlar",
+        "weathered plaster",
+        "dark timber"
+      ],
+      "materials": [
+        "ashlar stone",
+        "slate",
+        "plaster",
+        "timber",
+        "iron"
+      ],
+      "conditionVariants": [
+        "intact",
+        "destroyed (wall/gate/corner/guardtower)",
+        "rubble"
+      ],
+      "gapFlag": "CLOSES the Gideon/imperial-fringe gap found by the Phase 11 vibe-sheet audit (docs/research/phase11-vibe-sheet-asset-audit.md \u00a74): the catalogue had been using the Nordic vanilla farmhouse as its 'Imperial-ish building', and arch.imperial.fort-wall is medieval-European castle. This is the Morrowind-Imperial language a Black Marsh/Morrowind border province should read as. Kit: imperial-keep (88 exterior pieces)."
+    },
+    {
+      "id": "arch.imperial.hlaalu-domestic",
+      "label": "Hlaalu domestic tier - houses, tower stacks, street walls, quay cranes (Morrowind Hlaalu Architecture)",
+      "class": "building",
+      "culture": "imperial",
+      "status": "have",
+      "pool": "hlaalu",
+      "vaultPaths": [
+        "meshes/hlaaluarchitecture/"
+      ],
+      "pieceCount": 127,
+      "pieces": [
+        "house01(+base), housebase00/01, housetall01, entrance00, baseentrance00/01, largewindow00, roof, dome - premade and modular Hlaalu houses",
+        "basetower/middletower/toptower + tower00-08 - a stackable tower family",
+        "stonewall001-003, corner, curve, endpillar, gatearc, TRGmLCWall* (+3 broken) - yard and street walls",
+        "stairs01, TrGMStairs01, SkavenClayStairs, TrGMCover1/2, TrGMFence*, TrGMStoneBlock01-03, TrGmBridge01/02, TradeHome",
+        "Crane01-03, TRlanternpost0/1/2/4arm - dockside cranes and lamp posts",
+        "Ruins/Winterhold/Seaview/Sheogorad/Redoran folders are Nordic or interior filler and are EXCLUDED from the kit"
+      ],
+      "moduleM": null,
+      "palette": [
+        "ochre plaster",
+        "grey ashlar",
+        "dark timber",
+        "green copper"
+      ],
+      "materials": [
+        "plaster",
+        "stone",
+        "timber",
+        "copper"
+      ],
+      "conditionVariants": [
+        "intact",
+        "broken (3 wall variants)"
+      ],
+      "gapFlag": "The domestic tier under arch.imperial.morrowind-keep - built ON SSE 133090 and retextured, so it shares that pool's texture paths (declared as a texture sibling in build_kit). Kit: hlaalu-domestic (68 pieces)."
     }
   ],
   "gaps": [

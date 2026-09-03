@@ -51,6 +51,8 @@ POOL_CREDIT_MARKERS = {
     "depths": "Depths of Skyrim",
     "sirenroot": "SIRENROOT",
     "htbm": "Here There Be Monsters",
+    "mwkeep": "Morrowind Imperial Keep Set",
+    "hlaalu": "Morrowind Hlaalu Architecture",
 }
 
 

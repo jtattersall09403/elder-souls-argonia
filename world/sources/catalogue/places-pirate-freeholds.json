@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "region": "pirate-freeholds",
   "seed": "phase11-pirate-freeholds-1109",
   "places": [
@@ -64,9 +64,7 @@
       "relations": {
         "dependsOn": [
           "place.dunmer-north.crystalgate",
-          "place.dunmer-north.the-white-pans",
-          "place.pirate-freeholds.corimont-head-of-navigation",
-          "place.pirate-freeholds.rim-porter-yard"
+          "place.dunmer-north.the-white-pans"
         ],
         "supplies": [
           "place.hist-heartland.alten-markmont",
@@ -87,10 +85,10 @@
           "route.road.alten-corimont-stormhold"
         ],
         "travelServiceEdges": [
-          "boat.alten-corimont-helstrom",
-          "boat.alten-corimont-stormhold",
           "boat:markmont-corimont",
-          "boat:northern-trunk"
+          "boat:northern-trunk",
+          "boat:route.boat.alten-corimont-helstrom",
+          "boat:route.boat.stormhold-alten-corimont"
         ]
       },
       "culture": "argonian",
@@ -118,11 +116,11 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "trade",
+          "trade-access",
           "services",
-          "information",
-          "quest-hooks",
-          "fast-transit"
+          "rumour",
+          "quest-hook",
+          "route-unlock"
         ],
         "valueTier": "tier-3"
       },
@@ -214,6 +212,82 @@
         "distanceToRouteM": 0.0,
         "distanceToWaterM": 0.0,
         "score": null
+      },
+      "hostility": {
+        "baseline": "wary",
+        "owner": "faction.corimont-free-port-halls",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "service-hub",
+        "secondary": [
+          "quest-anchor"
+        ],
+        "impact": "major",
+        "hook": "The last reach of navigable river below the northern rim, with an oxbow that makes a natural basin, firm banks for warehousing and a rim road behind it that crosses to Morrowind without passing a post",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "crew",
+            "registerRef": null,
+            "danger": "D1",
+            "count": "few",
+            "named": false,
+            "note": "D2 freeholder crews"
+          },
+          {
+            "slotId": "n2",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D1",
+            "count": "few",
+            "named": false,
+            "note": "D1 warehouse hands"
+          },
+          {
+            "slotId": "n3",
+            "role": "merchant",
+            "registerRef": null,
+            "danger": null,
+            "count": "few",
+            "named": false,
+            "note": "Dunmer factors (22% zone share)"
+          },
+          {
+            "slotId": "n4",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": null,
+            "count": "few",
+            "named": false,
+            "note": "Nord ship hands"
+          }
+        ],
+        "loot": []
+      },
+      "relationsReserved": {
+        "dependsOn": [
+          "place.pirate-freeholds.corimont-head-of-navigation",
+          "place.pirate-freeholds.rim-porter-yard"
+        ]
+      },
+      "travelStation": {
+        "modes": [
+          "boat"
+        ],
+        "destinations": [
+          "place.dunmer-north.stormhold",
+          "place.hist-heartland.helstrom"
+        ]
       }
     },
     {
@@ -269,8 +343,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "information",
-          "rest"
+          "rumour",
+          "rest-shelter"
         ],
         "valueTier": "tier-1"
       },
@@ -309,8 +383,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station",
-          "place.pirate-freeholds.trunk-road-tradehouse"
+          "place.pirate-freeholds.rim-pass-station"
         ],
         "travelServiceEdges": []
       },
@@ -323,7 +396,34 @@
       "underwaterAccess": "none",
       "name": "Rim Road Racks",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'bone-carriers-camp' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'bone-carriers-camp' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [],
+        "impact": "mild",
+        "hook": "Firm dry ground on the southbound road, a day's walk from the house",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.bone-repatriation-waystation",
@@ -388,8 +488,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "quest-hooks",
-          "information",
+          "quest-hook",
+          "rumour",
           "services"
         ],
         "valueTier": "tier-2"
@@ -447,8 +547,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station",
-          "place.pirate-freeholds.trunk-road-tradehouse"
+          "place.pirate-freeholds.rim-pass-station"
         ],
         "travelServiceEdges": []
       },
@@ -475,17 +574,17 @@
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0608",
-          "score": 3.606,
+          "score": 3.806,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0065",
-          "score": 3.606,
+          "siteId": "site.free.any-firm-ground-0205",
+          "score": 3.803,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0211",
-          "score": 3.605,
+          "siteId": "site.free.roadside-0050",
+          "score": 3.802,
           "whyLost": "lost on score"
         }
       ],
@@ -495,8 +594,57 @@
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 72.1,
-        "distanceToWaterM": 54.8,
-        "score": 3.61
+        "distanceToWaterM": 39.5,
+        "score": 3.81
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": "faction.bone-carriers",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "dungeon-delve",
+        "secondary": [
+          "quest-anchor",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "On the trunk route at the point where the southbound road and the river both leave the freeholds",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D1",
+            "count": "few",
+            "named": false,
+            "note": "D1 bone-carriers"
+          }
+        ],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "grave-goods",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
       }
     },
     {
@@ -560,9 +708,9 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "travel",
-          "trade",
-          "information"
+          "route-unlock",
+          "trade-access",
+          "rumour"
         ],
         "valueTier": "tier-2"
       },
@@ -607,10 +755,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.pirate-freeholds.corimont-head-of-navigation",
-          "place.pirate-freeholds.trunk-ferry-stage"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "season": "all-year",
@@ -621,7 +766,45 @@
       "entrance": "gate",
       "underwaterAccess": "surface-swim",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'boatwright-yard' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'boatwright-yard' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "friendly",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "service-hub",
+        "secondary": [],
+        "impact": "real",
+        "hook": "A firm shelving bank inside the basin, with a hard bottom that will take a hull's weight at low water",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "few",
+            "named": false,
+            "note": "2-5 D2 boatwrights"
+          }
+        ],
+        "loot": []
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.corimont-head-of-navigation",
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.chasecreek",
@@ -675,8 +858,7 @@
       },
       "relations": {
         "dependsOn": [
-          "place.pirate-freeholds.alten-corimont",
-          "place.pirate-freeholds.corimont-head-of-navigation"
+          "place.pirate-freeholds.alten-corimont"
         ],
         "supplies": [
           "place.pirate-freeholds.alten-corimont"
@@ -687,9 +869,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.pirate-freeholds.trunk-ferry-stage"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": [
           "boat.chasecreek-corimont"
         ]
@@ -711,11 +891,11 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "rest",
+          "rest-shelter",
           "services",
-          "information",
-          "quest-hooks",
-          "trade"
+          "rumour",
+          "quest-hook",
+          "trade-access"
         ],
         "valueTier": "tier-2"
       },
@@ -766,38 +946,89 @@
         "flood (the gate shut, one expensive object per household carried upstairs)"
       ],
       "position": {
-        "u": 0.50682,
-        "v": 0.16101
+        "u": 0.48004,
+        "v": 0.1268
       },
       "positionM": [
-        3737.0,
-        1187.2
+        3539.6,
+        934.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0211",
-          "score": 2.559,
-          "whyLost": "too close to place.pirate-freeholds.corimont-hist-less-camp"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0210",
-          "score": 2.546,
+          "siteId": "site.free.any-firm-ground-0281",
+          "score": 2.512,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0185",
-          "score": 2.544,
+          "siteId": "site.free.any-firm-ground-0276",
+          "score": 2.51,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0277",
+          "score": 2.509,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 73 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on region, danger, parent.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 354 m from the nearest route; at the water's edge; no free 'flood-high' site was left in the zone, so plain ground; won on region, parent, route.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 73.2,
-        "distanceToWaterM": 29.5,
-        "score": 2.55
+        "dangerBand": 3,
+        "distanceToRouteM": 354.4,
+        "distanceToWaterM": 21.9,
+        "score": 2.518
+      },
+      "hostility": {
+        "baseline": "friendly",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "A single flood-high rise with a creek deep enough to hide a hull and shallow enough that nobody follows",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "family",
+            "registerRef": null,
+            "danger": "D1",
+            "count": "few",
+            "named": false,
+            "note": "D1 fisher households"
+          },
+          {
+            "slotId": "n2",
+            "role": "named-keeper",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "single",
+            "named": true,
+            "note": "D2 lay-by keeper"
+          }
+        ],
+        "loot": []
+      },
+      "relationsReserved": {
+        "dependsOn": [
+          "place.pirate-freeholds.corimont-head-of-navigation"
+        ],
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ]
       }
     },
     {
@@ -810,8 +1041,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.alten-corimont",
-          "place.pirate-freeholds.rim-porter-yard"
+          "place.pirate-freeholds.alten-corimont"
         ],
         "travelServiceEdges": []
       },
@@ -879,9 +1109,9 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "loot",
-          "vista",
-          "traversal"
+          "loot-cache",
+          "lore-fragment",
+          "route-unlock"
         ],
         "valueTier": "tier-2"
       },
@@ -911,7 +1141,43 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'collapsing-pinnacle' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'collapsing-pinnacle' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "traversal-puzzle",
+        "secondary": [],
+        "impact": "real",
+        "hook": "It shortcuts a day off the rim crossing for anyone willing to climb it, and it is visible from most of the high ground on this side",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.rim-porter-yard"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.corimont-bonded-store",
@@ -977,8 +1243,8 @@
       "rewardProfile": {
         "kinds": [
           "loot-cache",
-          "trade",
-          "information"
+          "trade-access",
+          "rumour"
         ],
         "valueTier": "tier-3"
       },
@@ -1025,8 +1291,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station",
-          "place.pirate-freeholds.trunk-road-tradehouse"
+          "place.pirate-freeholds.rim-pass-station"
         ],
         "travelServiceEdges": []
       },
@@ -1039,7 +1304,61 @@
       "entrance": "door",
       "underwaterAccess": "none",
       "deferredFromStatus": "abandoned",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'bonded-warehouse' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'bonded-warehouse' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "guarded",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "resource-source",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "The only cargo-bearing stone building in the zone, on the basin's firm bank",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "dwelling",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "named-keeper",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "single",
+            "named": true,
+            "note": "D2 port captain's men"
+          }
+        ],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "strongroom",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.corimont-gambling-house",
@@ -1104,8 +1423,8 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "information",
-          "quest-hooks",
+          "rumour",
+          "quest-hook",
           "loot-cache"
         ],
         "valueTier": "tier-3"
@@ -1155,8 +1474,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.alten-corimont",
-          "place.pirate-freeholds.rim-porter-yard"
+          "place.pirate-freeholds.alten-corimont"
         ],
         "travelServiceEdges": []
       },
@@ -1168,7 +1486,61 @@
       "entrance": "door",
       "underwaterAccess": "none",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'vice-den' is over its province count band (5 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'vice-den' is over its province count band (5 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "friendly",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "In the free port's densest street, one door from the hull hall",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "civic-hall",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "crew",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "few",
+            "named": false,
+            "note": "4-15 D2 house crew and players"
+          }
+        ],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "strongroom",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.rim-porter-yard"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.corimont-head-of-navigation",
@@ -1235,10 +1607,10 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "travel",
+          "route-unlock",
           "services",
-          "trade",
-          "information"
+          "trade-access",
+          "rumour"
         ],
         "valueTier": "tier-2"
       },
@@ -1282,16 +1654,13 @@
           "place.pirate-freeholds.alten-corimont"
         ],
         "supplies": [
-          "place.pirate-freeholds.alten-corimont",
-          "place.pirate-freeholds.rim-porter-yard"
+          "place.pirate-freeholds.alten-corimont"
         ],
         "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.pirate-freeholds.trunk-ferry-stage"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": [
           "boat:northern-trunk",
           "porter:corimont-rim"
@@ -1305,7 +1674,56 @@
       "entrance": "gate",
       "underwaterAccess": "surface-swim",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'head-of-navigation' is over its province count band (4 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'head-of-navigation' is over its province count band (4 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "navigation-aid",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "A confluence at -6.5 m relative depth where three channels meet and the deep water ends",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "crew",
+            "registerRef": null,
+            "danger": "D1",
+            "count": "few",
+            "named": false,
+            "note": "D1 transfer crews"
+          }
+        ],
+        "loot": []
+      },
+      "relationsReserved": {
+        "supplies": [
+          "place.pirate-freeholds.rim-porter-yard"
+        ],
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ]
+      },
+      "travelStation": {
+        "modes": [
+          "boat",
+          "porter"
+        ],
+        "destinations": []
+      }
     },
     {
       "id": "place.pirate-freeholds.corimont-hiring-yard",
@@ -1374,8 +1792,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "quest-hooks",
-          "information",
+          "quest-hook",
+          "rumour",
           "services"
         ],
         "valueTier": "tier-2"
@@ -1429,20 +1847,16 @@
           "place.imperial-fringe.the-turned-out"
         ],
         "supplies": [
-          "place.pirate-freeholds.alten-corimont",
-          "place.pirate-freeholds.floodplain-paddy-works",
-          "place.pirate-freeholds.rim-crystal-diggings"
+          "place.pirate-freeholds.alten-corimont"
         ],
         "rivals": [
-          "place.pirate-freeholds.corimont-hist-less-camp",
-          "place.pirate-freeholds.freed-worker-shelter"
+          "place.pirate-freeholds.corimont-hist-less-camp"
         ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station",
-          "place.pirate-freeholds.trunk-road-tradehouse"
+          "place.pirate-freeholds.rim-pass-station"
         ],
         "travelServiceEdges": []
       },
@@ -1454,7 +1868,72 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'owing-eviction-camp' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'owing-eviction-camp' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "quest-anchor",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "A hard standing beside the porter yard, on the only road out of the free port",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "family",
+            "registerRef": null,
+            "danger": "D1",
+            "count": "few",
+            "named": false,
+            "note": "D1 owed households"
+          },
+          {
+            "slotId": "n2",
+            "role": "merchant",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "few",
+            "named": false,
+            "note": "D2 broker's clerk"
+          },
+          {
+            "slotId": "n3",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "few",
+            "named": false,
+            "note": "D3 gang overseer"
+          }
+        ],
+        "loot": []
+      },
+      "relationsReserved": {
+        "supplies": [
+          "place.pirate-freeholds.floodplain-paddy-works",
+          "place.pirate-freeholds.rim-crystal-diggings"
+        ],
+        "rivals": [
+          "place.pirate-freeholds.freed-worker-shelter"
+        ],
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.corimont-hist-less-camp",
@@ -1524,9 +2003,9 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "quest-hooks",
-          "unique-knowledge",
-          "rest"
+          "quest-hook",
+          "lore-fragment",
+          "rest-shelter"
         ],
         "valueTier": "tier-3"
       },
@@ -1574,12 +2053,8 @@
           "place.dunmer-north.hissmir",
           "place.pirate-freeholds.alten-corimont"
         ],
-        "supplies": [
-          "place.pirate-freeholds.careening-hard"
-        ],
-        "rivals": [
-          "place.pirate-freeholds.corimont-hiring-yard"
-        ],
+        "supplies": [],
+        "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
@@ -1600,38 +2075,91 @@
         "planted (something is in the circle, and half the camp will not look at it)"
       ],
       "position": {
-        "u": 0.5492,
-        "v": 0.15507
+        "u": 0.46963,
+        "v": 0.19447
       },
       "positionM": [
-        4049.5,
-        1143.4
+        3462.8,
+        1433.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0185",
-          "score": 3.288,
+          "siteId": "site.free.roadside-0062",
+          "score": 3.244,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0120",
-          "score": 3.282,
+          "siteId": "site.free.roadside-0103",
+          "score": 3.236,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0121",
-          "score": 3.282,
+          "siteId": "site.free.any-firm-ground-0178",
+          "score": 3.236,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 39 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 412 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, parent.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 38.8,
-        "distanceToWaterM": 19.8,
-        "score": 3.29
+        "dangerBand": 3,
+        "distanceToRouteM": 412.0,
+        "distanceToWaterM": 15.5,
+        "score": 3.245
+      },
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "quest-anchor",
+          "lore-reveal",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "The town's landward fringe, on ground the port does not administer",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "family",
+            "registerRef": null,
+            "danger": "D1",
+            "count": "few",
+            "named": false,
+            "note": "D1 Hist-less households"
+          }
+        ],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "supplies": [
+          "place.pirate-freeholds.careening-hard"
+        ],
+        "rivals": [
+          "place.pirate-freeholds.corimont-hiring-yard"
+        ]
       }
     },
     {
@@ -1698,9 +2226,9 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "rest",
-          "information",
-          "quest-hooks",
+          "rest-shelter",
+          "rumour",
+          "quest-hook",
           "services"
         ],
         "valueTier": "tier-2"
@@ -1750,8 +2278,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station",
-          "place.pirate-freeholds.trunk-road-tradehouse"
+          "place.pirate-freeholds.rim-pass-station"
         ],
         "travelServiceEdges": []
       },
@@ -1764,38 +2291,83 @@
       "entrance": "door",
       "underwaterAccess": "none",
       "position": {
-        "u": 0.55077,
-        "v": 0.11705
+        "u": 0.54838,
+        "v": 0.15514
       },
       "positionM": [
-        4061.1,
-        863.1
+        4043.5,
+        1143.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0210",
-          "score": 3.069,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
+          "siteId": "site.free.roadside-0566",
+          "score": 3.268,
+          "whyLost": "too close to place.pirate-freeholds.bone-repatriation-waystation"
         },
         {
-          "siteId": "site.free.roadside-0062",
-          "score": 3.068,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
+          "siteId": "site.free.roadside-0607",
+          "score": 3.266,
+          "whyLost": "too close to place.pirate-freeholds.bone-repatriation-waystation"
         },
         {
-          "siteId": "site.free.any-firm-ground-0234",
-          "score": 3.065,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
+          "siteId": "site.free.roadside-0057",
+          "score": 3.265,
+          "whyLost": "too close to place.pirate-freeholds.bone-repatriation-waystation"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 56 m from the nearest route; its first-choice landform; won on landform, route, region.",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 43 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 56.5,
-        "distanceToWaterM": 31.0,
-        "score": 2.709
+        "dangerBand": 2,
+        "distanceToRouteM": 42.8,
+        "distanceToWaterM": 17.3,
+        "score": 3.257
+      },
+      "hostility": {
+        "baseline": "friendly",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "On the basin front, one door from the hull hall and two from the gambling house",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "civic-hall",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D1",
+            "count": "few",
+            "named": false,
+            "note": "6-20 mixed D1-D3"
+          }
+        ],
+        "loot": []
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
       }
     },
     {
@@ -1860,8 +2432,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "unique-knowledge",
-          "quest-hooks",
+          "lore-fragment",
+          "quest-hook",
           "loot-cache"
         ],
         "valueTier": "tier-3"
@@ -1917,8 +2489,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station",
-          "place.pirate-freeholds.trunk-road-tradehouse"
+          "place.pirate-freeholds.rim-pass-station"
         ],
         "travelServiceEdges": []
       },
@@ -1936,38 +2507,85 @@
         "in use again (the ramp regraded, the rails sound, and nobody in Corimont saying so)"
       ],
       "position": {
-        "u": 0.52012,
-        "v": 0.10754
+        "u": 0.50905,
+        "v": 0.1967
       },
       "positionM": [
-        3835.1,
-        792.9
+        3753.5,
+        1450.4
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0123",
-          "score": 2.998,
-          "whyLost": "too close to place.hist-heartland.root-gallery-helstrom-underway"
+          "siteId": "site.free.any-firm-ground-0279",
+          "score": 3.193,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0572",
-          "score": 2.998,
-          "whyLost": "too close to place.pirate-freeholds.bone-repatriation-waystation"
+          "siteId": "site.free.roadside-0563",
+          "score": 3.191,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0076",
-          "score": 2.998,
-          "whyLost": "too close to place.hist-heartland.legendary-deep-medusa-wood"
+          "siteId": "site.free.any-firm-ground-0280",
+          "score": 3.187,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 74 m from the nearest route; its choice #2 landform; won on landform, region, hinterland.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 183 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, hinterland.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 73.8,
-        "distanceToWaterM": 54.3,
-        "score": 2.998
+        "distanceToRouteM": 183.3,
+        "distanceToWaterM": 16.5,
+        "score": 3.197
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": "faction.dres-remnant",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "stealth-challenge",
+        "secondary": [
+          "quest-anchor",
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "A river landing with hard standing, sited for loading rather than living",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
       }
     },
     {
@@ -2039,10 +2657,10 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "trade",
+          "trade-access",
           "services",
-          "quest-hooks",
-          "unique-knowledge"
+          "quest-hook",
+          "lore-fragment"
         ],
         "valueTier": "tier-3"
       },
@@ -2115,40 +2733,98 @@
       "underwaterAccess": "none",
       "name": "Andrano Hold",
       "position": {
-        "u": 0.59234,
-        "v": 0.01971
+        "u": 0.6035,
+        "v": 0.12679
       },
       "positionM": [
-        4367.6,
-        145.3
+        4449.9,
+        934.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.firm-lowland.cliff-bench-078",
-          "score": 3.613,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
+          "siteId": "site.scour.border-mountains.ridge-end-042",
+          "score": 2.937,
+          "whyLost": "taken by place.pirate-freeholds.veterans-holding"
         },
         {
-          "siteId": "site.scour.firm-lowland.cliff-bench-046",
-          "score": 3.597,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
+          "siteId": "site.scour.border-mountains.ridge-end-026",
+          "score": 2.931,
+          "whyLost": "too close to place.pirate-freeholds.rockpoint"
         },
         {
-          "siteId": "site.scour.firm-lowland.cliff-bench-049",
-          "score": 3.268,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
+          "siteId": "site.scour.border-mountains.saddle-041",
+          "score": 2.826,
+          "whyLost": "taken by place.pirate-freeholds.rim-pass-station"
         }
       ],
-      "whySiteWon": "ridge end in border mountains (danger band 3), 744 m from the nearest route; its choice #2 landform; won on landform, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "ridge end in border mountains (danger band 3), 341 m from the nearest route; its choice #2 landform; won on landform, region, hinterland; site exchanged in the swap pass with place.pirate-freeholds.veterans-holding (+1.25).",
       "plotFacts": {
         "landform": "ridge-end",
         "regionClass": "border mountains",
         "dangerBand": 3,
-        "distanceToRouteM": 743.5,
-        "distanceToWaterM": 42.8,
-        "score": 2.558
+        "distanceToRouteM": 341.2,
+        "distanceToWaterM": 59.1,
+        "score": 3.437
       },
-      "scourSiteId": "site.scour.border-mountains.ridge-end-073"
+      "scourSiteId": "site.scour.border-mountains.ridge-end-042",
+      "hostility": {
+        "baseline": "friendly",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "service-hub",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "A defensible upland shelf on the pass road, with its own water and a walled core",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "root-cavern",
+        "sizeBand": "S2",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "family",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "few",
+            "named": false,
+            "note": "D2 Dunmer households"
+          },
+          {
+            "slotId": "n2",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "few",
+            "named": false,
+            "note": "D3 house guard"
+          }
+        ],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.floodplain-paddy-works",
@@ -2206,9 +2882,9 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "trade",
-          "harvest",
-          "information"
+          "trade-access",
+          "materials",
+          "rumour"
         ],
         "valueTier": "tier-1"
       },
@@ -2247,10 +2923,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.pirate-freeholds.corimont-head-of-navigation",
-          "place.pirate-freeholds.trunk-ferry-stage"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "season": "wet",
@@ -2262,7 +2935,46 @@
       "underwaterAccess": "surface-swim",
       "name": "Thin Levee",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'paddy-works' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'paddy-works' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "resource-source",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "mild",
+        "hook": "Bunded flats on the floodplain where the river's annual rise can be let in and held",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.corimont-head-of-navigation",
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.flu-cairn-field",
@@ -2320,8 +3032,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "information",
-          "exploration"
+          "rumour",
+          "lore-fragment"
         ],
         "valueTier": "tier-1"
       },
@@ -2362,8 +3074,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.alten-corimont",
-          "place.pirate-freeholds.rim-porter-yard"
+          "place.pirate-freeholds.alten-corimont"
         ],
         "travelServiceEdges": []
       },
@@ -2378,38 +3089,82 @@
       "underwaterAccess": "none",
       "name": "Five-Sixty Field",
       "position": {
-        "u": 0.52936,
-        "v": 0.16913
+        "u": 0.58415,
+        "v": 0.19225
       },
       "positionM": [
-        3903.2,
-        1247.1
+        4307.2,
+        1417.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0120",
-          "score": 4.22,
-          "whyLost": "too close to place.pirate-freeholds.corimont-hist-less-camp"
+          "siteId": "site.free.any-firm-ground-0203",
+          "score": 3.862,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0575",
-          "score": 4.219,
-          "whyLost": "too close to place.pirate-freeholds.corimont-hist-less-camp"
+          "siteId": "site.free.any-firm-ground-0281",
+          "score": 3.853,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0211",
-          "score": 4.219,
-          "whyLost": "too close to place.pirate-freeholds.corimont-hist-less-camp"
+          "siteId": "site.free.any-firm-ground-0277",
+          "score": 3.68,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 56 m from the nearest route; its first-choice landform; won on landform, route, region.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 33 m from the nearest route; its first-choice landform; won on landform, route, region.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 56.5,
-        "distanceToWaterM": 64.2,
-        "score": 4.211
+        "dangerBand": 3,
+        "distanceToRouteM": 33.4,
+        "distanceToWaterM": 38.4,
+        "score": 3.867
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "dungeon-delve",
+        "secondary": [
+          "lore-reveal"
+        ],
+        "impact": "mild",
+        "hook": "Firm dry ground above the village, with loose stone to hand",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "sinkhole-ruin",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "grave-goods",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.rim-porter-yard"
+        ]
       }
     },
     {
@@ -2477,10 +3232,10 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "rest",
+          "rest-shelter",
           "services",
-          "quest-hooks",
-          "information"
+          "quest-hook",
+          "rumour"
         ],
         "valueTier": "tier-2"
       },
@@ -2528,21 +3283,14 @@
       "workflow": "derived",
       "relations": {
         "dependsOn": [
-          "place.dunmer-north.the-freed-rows",
-          "place.pirate-freeholds.corimont-hiring-yard"
+          "place.dunmer-north.the-freed-rows"
         ],
-        "supplies": [
-          "place.pirate-freeholds.floodplain-paddy-works"
-        ],
-        "rivals": [
-          "place.pirate-freeholds.corimont-hiring-yard"
-        ],
+        "supplies": [],
+        "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.pirate-freeholds.trunk-ferry-stage"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "season": "all-year",
@@ -2554,7 +3302,56 @@
       "underwaterAccess": "none",
       "name": "Walk-Out",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'freed-worker-shelter' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'freed-worker-shelter' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "quest-anchor",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "Ground upstream that no syndicate has claimed, defensible enough to discourage a broker's men",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "family",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "few",
+            "named": false,
+            "note": "D2 ex-owed households"
+          }
+        ],
+        "loot": []
+      },
+      "relationsReserved": {
+        "dependsOn": [
+          "place.pirate-freeholds.corimont-hiring-yard"
+        ],
+        "supplies": [
+          "place.pirate-freeholds.floodplain-paddy-works"
+        ],
+        "rivals": [
+          "place.pirate-freeholds.corimont-hiring-yard"
+        ],
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.freehold-courier-relay",
@@ -2616,9 +3413,9 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "information",
-          "travel-knowledge",
-          "quest-hooks"
+          "rumour",
+          "lore-fragment",
+          "quest-hook"
         ],
         "valueTier": "tier-1"
       },
@@ -2663,8 +3460,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station",
-          "place.pirate-freeholds.trunk-road-tradehouse"
+          "place.pirate-freeholds.rim-pass-station"
         ],
         "travelServiceEdges": []
       },
@@ -2677,7 +3473,50 @@
       "underwaterAccess": "none",
       "name": "Last Stage",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'courier-relay' is over its province count band (9 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'courier-relay' is over its province count band (9 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "guarded",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "faction-gateway",
+        "secondary": [],
+        "impact": "mild",
+        "hook": "On the trunk at a runner's stage from its neighbours, with a bench and a landing",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "civic-hall",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "few",
+            "named": false,
+            "note": "1-4 D2 runners"
+          }
+        ],
+        "loot": []
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.freehold-market",
@@ -2737,8 +3576,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "trade",
-          "information",
+          "trade-access",
+          "rumour",
           "services"
         ],
         "valueTier": "tier-2"
@@ -2787,8 +3626,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station",
-          "place.pirate-freeholds.trunk-road-tradehouse"
+          "place.pirate-freeholds.rim-pass-station"
         ],
         "travelServiceEdges": []
       },
@@ -2802,38 +3640,65 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.marsh-charter",
       "position": {
-        "u": 0.61019,
-        "v": 0.15431
+        "u": 0.55739,
+        "v": 0.20488
       },
       "positionM": [
-        4499.2,
-        1137.8
+        4109.9,
+        1510.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0065",
-          "score": 2.768,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
-        },
-        {
-          "siteId": "site.free.roadside-0604",
-          "score": 2.767,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
-        },
-        {
-          "siteId": "site.free.roadside-0608",
-          "score": 2.761,
+          "siteId": "site.free.any-firm-ground-0277",
+          "score": 3.219,
           "whyLost": "too close to place.pirate-freeholds.corimont-hist-less-camp"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0203",
+          "score": 3.113,
+          "whyLost": "too close to place.pirate-freeholds.chasecreek"
+        },
+        {
+          "siteId": "site.free.roadside-0103",
+          "score": 2.793,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in upland hills (danger band 3), 224 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 158 m from the nearest route; its first-choice landform; won on landform, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "upland hills",
+        "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 223.8,
-        "distanceToWaterM": 19.8,
-        "score": 2.42
+        "distanceToRouteM": 158.3,
+        "distanceToWaterM": 117.7,
+        "score": 2.81
+      },
+      "hostility": {
+        "baseline": "friendly",
+        "owner": "faction.marsh-charter",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "service-hub",
+        "secondary": [],
+        "impact": "real",
+        "hook": "Level ground below the list board, one street from the basin",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
       }
     },
     {
@@ -2902,9 +3767,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "encounter",
           "loot-cache",
-          "quest-hooks"
+          "quest-hook"
         ],
         "valueTier": "tier-3"
       },
@@ -2946,8 +3810,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.alten-corimont",
-          "place.pirate-freeholds.rim-porter-yard"
+          "place.pirate-freeholds.alten-corimont"
         ],
         "travelServiceEdges": []
       },
@@ -2960,7 +3823,62 @@
       "underwaterAccess": "none",
       "name": "Nine Mile",
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "combat-challenge",
+        "secondary": [],
+        "impact": "real",
+        "hook": "Cover within a spear's throw of the road at a point where it cannot be left",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D3",
+            "count": "few",
+            "named": false,
+            "note": "6-10 D3 Naga raiders"
+          },
+          {
+            "slotId": "n2",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D4",
+            "count": "few",
+            "named": false,
+            "note": "one D4 leader"
+          }
+        ],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.rim-porter-yard"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.freehold-pest-house",
@@ -3019,8 +3937,8 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "information",
-          "reagents"
+          "rumour",
+          "materials"
         ],
         "valueTier": "tier-2"
       },
@@ -3065,8 +3983,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station",
-          "place.pirate-freeholds.trunk-road-tradehouse"
+          "place.pirate-freeholds.rim-pass-station"
         ],
         "travelServiceEdges": []
       },
@@ -3080,7 +3997,59 @@
       "underwaterAccess": "none",
       "name": "Bellet's",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'pest-house' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'pest-house' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "sanctuary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "service-hub",
+        "secondary": [],
+        "impact": "real",
+        "hook": "Downwind and downstream of the free port, on its own ground",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "civic-hall",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D1",
+            "count": "few",
+            "named": false,
+            "note": "1-3 D1 keepers"
+          }
+        ],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.freehold-smithy",
@@ -3143,10 +4112,10 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "equipment",
+          "gear",
           "services",
-          "crafting",
-          "trade"
+          "materials",
+          "trade-access"
         ],
         "valueTier": "tier-3"
       },
@@ -3190,8 +4159,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station",
-          "place.pirate-freeholds.trunk-road-tradehouse"
+          "place.pirate-freeholds.rim-pass-station"
         ],
         "travelServiceEdges": []
       },
@@ -3203,38 +4171,86 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "position": {
-        "u": 0.55739,
+        "u": 0.44658,
         "v": 0.20488
       },
       "positionM": [
-        4109.9,
+        3292.9,
         1510.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0062",
-          "score": 3.119,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
+          "siteId": "site.free.any-firm-ground-0277",
+          "score": 3.058,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0606",
-          "score": 3.115,
-          "whyLost": "taken by place.pirate-freeholds.bone-repatriation-waystation"
+          "siteId": "site.free.roadside-0103",
+          "score": 3.054,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0210",
-          "score": 3.111,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
+          "siteId": "site.free.roadside-0064",
+          "score": 3.051,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 158 m from the nearest route; its first-choice landform; won on landform, region, hinterland.",
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 598 m from the nearest route; its first-choice landform; won on landform, region, hinterland; site exchanged in the swap pass with place.pirate-freeholds.rim-keystone-chamber (+0.47).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 158.3,
-        "distanceToWaterM": 119.8,
+        "dangerBand": 4,
+        "distanceToRouteM": 598.4,
+        "distanceToWaterM": 54.8,
         "score": 2.768
+      },
+      "hostility": {
+        "baseline": "friendly",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "service-hub",
+        "secondary": [
+          "vista-landmark"
+        ],
+        "impact": "real",
+        "hook": "Beside the careening hard, on the only ground in the zone with a permanent forge",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "few",
+            "named": false,
+            "note": "1-2 D2 smiths"
+          }
+        ],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
       }
     },
     {
@@ -3299,7 +4315,7 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "travel",
+          "route-unlock",
           "services",
           "loot-cache"
         ],
@@ -3343,10 +4359,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.pirate-freeholds.corimont-head-of-navigation",
-          "place.pirate-freeholds.trunk-ferry-stage"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "season": "all-year",
@@ -3357,7 +4370,56 @@
       "entrance": "none",
       "underwaterAccess": "surface-swim",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'portage-slipway' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'portage-slipway' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "navigation-aid",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "The one bank with a gradient a hauling gang can work, immediately below the narrows",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "few",
+            "named": false,
+            "note": "2-6 D2 haulers"
+          }
+        ],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.corimont-head-of-navigation",
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.gorge-whitewater-reach",
@@ -3420,9 +4482,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "shortcut",
-          "loot-cache",
-          "climb-route"
+          "route-unlock",
+          "loot-cache"
         ],
         "valueTier": "tier-2"
       },
@@ -3464,10 +4525,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.pirate-freeholds.corimont-head-of-navigation",
-          "place.pirate-freeholds.trunk-ferry-stage"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "season": "wet-peak",
@@ -3478,7 +4536,44 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "traversal-puzzle",
+        "secondary": [],
+        "impact": "real",
+        "hook": "A gorge pinch in firm lowland where every flood's timber collects against the same rock",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.corimont-head-of-navigation",
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.kothringi-river-ruin",
@@ -3540,9 +4635,9 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "information",
+          "rumour",
           "loot-cache",
-          "exploration"
+          "lore-fragment"
         ],
         "valueTier": "tier-2"
       },
@@ -3584,8 +4679,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.alten-corimont",
-          "place.pirate-freeholds.rim-porter-yard"
+          "place.pirate-freeholds.alten-corimont"
         ],
         "travelServiceEdges": []
       },
@@ -3601,7 +4695,51 @@
       "underwaterAccess": "none",
       "name": "Slack Bend",
       "deferredFromStatus": "ruined",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'kothringi-ruin' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'kothringi-ruin' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "wonder-oddity",
+        "secondary": [
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "A firm bend site with a landing — the same reasons a village would be built there today",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "root-cavern",
+        "sizeBand": "S2",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.rim-porter-yard"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.lake-drawdown-flat",
@@ -3660,8 +4798,8 @@
       "rewardProfile": {
         "kinds": [
           "loot-cache",
-          "exploration",
-          "seasonal-access"
+          "lore-fragment",
+          "route-unlock"
         ],
         "valueTier": "tier-3"
       },
@@ -3702,10 +4840,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.pirate-freeholds.corimont-head-of-navigation",
-          "place.pirate-freeholds.trunk-ferry-stage"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "season": "dry-peak",
@@ -3716,7 +4851,44 @@
       "entrance": "none",
       "underwaterAccess": "surface-swim",
       "deferredFromStatus": "seasonal",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'drawdown-flat' is over its province count band (4 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'drawdown-flat' is over its province count band (4 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "traversal-puzzle",
+        "secondary": [],
+        "impact": "real",
+        "hook": "A shallow lake shelf with a very large seasonal range",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.corimont-head-of-navigation",
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.plague-cordon-line",
@@ -3770,7 +4942,7 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "information"
+          "rumour"
         ],
         "valueTier": "tier-1"
       },
@@ -3810,8 +4982,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station",
-          "place.pirate-freeholds.trunk-road-tradehouse"
+          "place.pirate-freeholds.rim-pass-station"
         ],
         "travelServiceEdges": []
       },
@@ -3824,7 +4995,34 @@
       "underwaterAccess": "none",
       "name": "Ossic Line",
       "deferredFromStatus": "abandoned",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'plague-cordon-line' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'plague-cordon-line' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "lore-reveal",
+        "secondary": [],
+        "impact": "mild",
+        "hook": "Along the natural boundary of a ridge and a stream, the easiest line to hold",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.ravine-hermit-hut",
@@ -3893,8 +5091,8 @@
       "effortToReach": 5,
       "rewardProfile": {
         "kinds": [
-          "unique-knowledge",
-          "quest-hooks",
+          "lore-fragment",
+          "quest-hook",
           "services"
         ],
         "valueTier": "tier-3"
@@ -3940,8 +5138,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.alten-corimont",
-          "place.pirate-freeholds.rim-porter-yard"
+          "place.pirate-freeholds.alten-corimont"
         ],
         "travelServiceEdges": []
       },
@@ -3954,7 +5151,63 @@
       "underwaterAccess": "none",
       "name": "Tallyman's",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'hermit-hut' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'hermit-hut' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "lore-reveal",
+          "hidden-secret",
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "Deliberately awkward: a box canyon with a spring and one climb in",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "root-cavern",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "hermit",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "single",
+            "named": false,
+            "note": "1 D2 hermit"
+          }
+        ],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.rim-porter-yard"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.reach-wreck",
@@ -4014,8 +5267,8 @@
       "rewardProfile": {
         "kinds": [
           "loot-cache",
-          "exploration",
-          "named-item"
+          "lore-fragment",
+          "unique-item"
         ],
         "valueTier": "tier-3"
       },
@@ -4054,10 +5307,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.pirate-freeholds.corimont-head-of-navigation",
-          "place.pirate-freeholds.trunk-ferry-stage"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "season": "all-year",
@@ -4069,7 +5319,61 @@
       "underwaterAccess": "deep-dive",
       "name": "Sixty Tun Salt",
       "deferredFromStatus": "ruined",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'wreck' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'wreck' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "wonder-oddity",
+        "secondary": [
+          "unique-item",
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "It lies in the confluence hole at -6.5 m, out of the current but under a lot of water",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "flooded-cave",
+        "sizeBand": "S1",
+        "wetFraction": 0.6,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "unique-item",
+            "registerRef": null,
+            "payoff": "unique-item",
+            "valueTier": "tier-3",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.corimont-head-of-navigation",
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.reoccupied-fort",
@@ -4137,9 +5441,9 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "quest-hooks",
+          "quest-hook",
           "loot-cache",
-          "information"
+          "rumour"
         ],
         "valueTier": "tier-3"
       },
@@ -4193,8 +5497,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.alten-corimont",
-          "place.pirate-freeholds.rim-porter-yard"
+          "place.pirate-freeholds.alten-corimont"
         ],
         "travelServiceEdges": []
       },
@@ -4210,7 +5513,55 @@
       "underwaterAccess": "none",
       "name": "Gorrey's Fort",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'abandoned-fort' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'abandoned-fort' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "guarded",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "faction-gateway",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "It commands the trunk where the road cannot go around it — which is why the Legion built there",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D3",
+            "count": "few",
+            "named": false,
+            "note": "D3 toll-takers and a hired garrison"
+          }
+        ],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "strongroom",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.rim-porter-yard"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-border-post",
@@ -4271,8 +5622,8 @@
       "rewardProfile": {
         "kinds": [
           "loot-cache",
-          "information",
-          "exploration"
+          "rumour",
+          "lore-fragment"
         ],
         "valueTier": "tier-2"
       },
@@ -4313,8 +5664,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station",
-          "place.pirate-freeholds.trunk-road-tradehouse"
+          "place.pirate-freeholds.rim-pass-station"
         ],
         "travelServiceEdges": []
       },
@@ -4330,7 +5680,43 @@
       "underwaterAccess": "none",
       "name": "Fourth Cohort Post",
       "deferredFromStatus": "abandoned",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'border-post' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'border-post' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "guarded",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "vista-landmark",
+        "secondary": [],
+        "impact": "real",
+        "hook": "On the pass road below the saddle, sited to see the approach it no longer watches",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "strongroom",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-courier-relay",
@@ -4390,9 +5776,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "information",
-          "vista",
-          "travel-knowledge"
+          "rumour",
+          "lore-fragment"
         ],
         "valueTier": "tier-1"
       },
@@ -4431,8 +5816,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station",
-          "place.pirate-freeholds.trunk-road-tradehouse"
+          "place.pirate-freeholds.rim-pass-station"
         ],
         "travelServiceEdges": []
       },
@@ -4445,7 +5829,34 @@
       "underwaterAccess": "none",
       "name": "Chime Ridge",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'courier-relay' is over its province count band (9 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'courier-relay' is over its province count band (9 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "guarded",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "faction-gateway",
+        "secondary": [],
+        "impact": "mild",
+        "hook": "A ridge end at 215 m with a clear line down to the porter yard",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-crystal-diggings",
@@ -4510,9 +5921,8 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "harvest",
-          "trade",
-          "crafting"
+          "materials",
+          "trade-access"
         ],
         "valueTier": "tier-2"
       },
@@ -4545,9 +5955,7 @@
       "importanceTier": 3,
       "workflow": "derived",
       "relations": {
-        "dependsOn": [
-          "place.pirate-freeholds.corimont-hiring-yard"
-        ],
+        "dependsOn": [],
         "supplies": [
           "place.dunmer-north.crystalgate",
           "place.pirate-freeholds.alten-corimont"
@@ -4559,8 +5967,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station",
-          "place.pirate-freeholds.trunk-road-tradehouse"
+          "place.pirate-freeholds.rim-pass-station"
         ],
         "travelServiceEdges": []
       },
@@ -4574,7 +5981,64 @@
       "name": "Green Seam",
       "reconciliationNote": "Retyped 2026-09-02 (Phase 11 repair, coverage critique S3): crystal-diggings sat at its band floor while prospectors-camp was under (1/3-3). The record is a spoil heap, a lookout and washing water on the rim - a prospectors' camp working a seam, not an established works.",
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "An open cut on an upland spur where the seam breaks the surface",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "root-cavern",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "few",
+            "named": false,
+            "note": "D2 unlicensed gangs"
+          }
+        ],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "dependsOn": [
+          "place.pirate-freeholds.corimont-hiring-yard"
+        ],
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-hearth-house",
@@ -4634,10 +6098,8 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "rest",
-          "food",
-          "safety",
-          "information"
+          "rest-shelter",
+          "rumour"
         ],
         "valueTier": "tier-1"
       },
@@ -4680,8 +6142,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station",
-          "place.pirate-freeholds.trunk-road-tradehouse"
+          "place.pirate-freeholds.rim-pass-station"
         ],
         "travelServiceEdges": []
       },
@@ -4694,7 +6155,40 @@
       "underwaterAccess": "none",
       "name": "Under Snowline",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'hearth-house' is over its province count band (14 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'hearth-house' is over its province count band (14 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "sanctuary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [],
+        "impact": "mild",
+        "hook": "The highest ground on the pass road that still has fuel within reach",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "civic-hall",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-keystone-chamber",
@@ -4755,8 +6249,8 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "named-item",
-          "unique-knowledge",
+          "unique-item",
+          "lore-fragment",
           "loot-cache"
         ],
         "valueTier": "tier-3"
@@ -4799,8 +6293,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.alten-corimont",
-          "place.pirate-freeholds.rim-porter-yard"
+          "place.pirate-freeholds.alten-corimont"
         ],
         "travelServiceEdges": []
       },
@@ -4815,39 +6308,100 @@
       "underwaterAccess": "none",
       "name": "Nine Sockets",
       "position": {
-        "u": 0.54996,
-        "v": 0.18853
+        "u": 0.61019,
+        "v": 0.15431
       },
       "positionM": [
-        4055.1,
-        1390.1
+        4499.2,
+        1137.8
       ],
-      "scourSiteId": "site.scour.firm-lowland.cliff-bench-062",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.firm-lowland.cliff-bench-069",
-          "score": 3.736,
-          "whyLost": "too close to place.hist-heartland.duskfall-unmade-site"
+          "siteId": "site.free.any-firm-ground-0347",
+          "score": 2.157,
+          "whyLost": "too close to place.hist-heartland.treasure-hunters-dead-camp"
         },
         {
-          "siteId": "site.scour.firm-lowland.cliff-bench-049",
-          "score": 3.599,
-          "whyLost": "too close to place.dunmer-north.the-empty-socket"
+          "siteId": "site.free.any-firm-ground-0376",
+          "score": 2.085,
+          "whyLost": "too close to place.hist-heartland.poacher-camp-sap"
         },
         {
-          "siteId": "site.scour.firm-lowland.ravine-043",
-          "score": 3.338,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0063",
+          "score": 1.78,
+          "whyLost": "too close to place.dunmer-north.the-delta-byre"
         }
       ],
-      "whySiteWon": "cliff bench in firm lowland (danger band 3), 33 m from the nearest route; its choice #2 landform; won on route, landform, region.",
+      "whySiteWon": "firm ground in upland hills (danger band 3), 224 m from the nearest route; at the water's edge; no free 'ravine' site was left in the zone, so plain ground; won on route, region, parent; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.pirate-freeholds.freehold-smithy (+0.47).",
       "plotFacts": {
-        "landform": "cliff-bench",
-        "regionClass": "firm lowland",
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
         "dangerBand": 3,
-        "distanceToRouteM": 32.9,
-        "distanceToWaterM": 29.5,
-        "score": 3.476
+        "distanceToRouteM": 223.8,
+        "distanceToWaterM": 19.8,
+        "score": 2.328
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "dungeon-delve",
+        "secondary": [
+          "unique-item",
+          "lore-reveal",
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "A dry chamber in the ravine wall, above the flood and below the snow",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "ayleid-nedic-ruin",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "unique-item",
+            "registerRef": null,
+            "payoff": "unique-item",
+            "valueTier": "tier-3",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          },
+          {
+            "slotId": "l3",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.rim-porter-yard"
+        ]
       }
     },
     {
@@ -4906,9 +6460,9 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "crafting",
-          "equipment",
-          "information"
+          "materials",
+          "gear",
+          "rumour"
         ],
         "valueTier": "tier-1"
       },
@@ -4948,8 +6502,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station",
-          "place.pirate-freeholds.trunk-road-tradehouse"
+          "place.pirate-freeholds.rim-pass-station"
         ],
         "travelServiceEdges": []
       },
@@ -4962,7 +6515,43 @@
       "underwaterAccess": "none",
       "name": "Grey Chert Floor",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'knapping-floor' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'knapping-floor' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "guarded",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "resource-source",
+        "secondary": [],
+        "impact": "mild",
+        "hook": "A dry bench beside the seam, with wind to clear the dust",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-pass-station",
@@ -5024,10 +6613,9 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "rest",
-          "safety",
-          "travel",
-          "information"
+          "rest-shelter",
+          "route-unlock",
+          "rumour"
         ],
         "valueTier": "tier-2"
       },
@@ -5076,9 +6664,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.pirate-freeholds.trunk-road-tradehouse"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": [
           "porter:corimont-rim",
           "road:rim-pass"
@@ -5096,39 +6682,89 @@
         "pass shut (the board closed, and a queue of people who will pay to be wrong about that)"
       ],
       "position": {
-        "u": 0.58342,
-        "v": 0.1201
+        "u": 0.59978,
+        "v": 0.10672
       },
       "positionM": [
-        4301.8,
-        885.6
+        4422.5,
+        786.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.border-mountains.saddle-041",
-          "score": 3.111,
-          "whyLost": "taken by place.pirate-freeholds.rim-smugglers-ledge-north"
-        },
-        {
           "siteId": "site.scour.upland-hills.summit-011",
           "score": 2.988,
-          "whyLost": "too close to place.hist-heartland.legendary-deep-medusa-wood"
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0129",
-          "score": 2.264,
+          "siteId": "site.free.any-firm-ground-0230",
+          "score": 2.267,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0154",
+          "score": 2.261,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in border mountains (danger band 3), 271 m from the nearest route; no free 'saddle' site was left in the zone, so plain ground; won on region, hinterland, danger.",
+      "whySiteWon": "saddle in border mountains (danger band 3), 424 m from the nearest route; its first-choice landform; won on landform, region, hinterland.",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "saddle",
         "regionClass": "border mountains",
         "dangerBand": 3,
-        "distanceToRouteM": 271.4,
-        "distanceToWaterM": 32.0,
-        "score": 2.267
-      }
+        "distanceToRouteM": 424.3,
+        "distanceToWaterM": 28.0,
+        "score": 3.111
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "navigation-aid",
+        "secondary": [],
+        "impact": "real",
+        "hook": "The saddle at 226 m: the lowest crossing of the wall for many kilometres",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "dwelling",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "few",
+            "named": false,
+            "note": "1-3 D2 keepers"
+          }
+        ],
+        "loot": []
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
+      },
+      "travelStation": {
+        "modes": [
+          "porter"
+        ],
+        "destinations": []
+      },
+      "scourSiteId": "site.scour.border-mountains.saddle-041"
     },
     {
       "id": "place.pirate-freeholds.rim-porter-yard",
@@ -5194,8 +6830,8 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "information",
-          "trade"
+          "rumour",
+          "trade-access"
         ],
         "valueTier": "tier-2"
       },
@@ -5241,8 +6877,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station",
-          "place.pirate-freeholds.trunk-road-tradehouse"
+          "place.pirate-freeholds.rim-pass-station"
         ],
         "travelServiceEdges": []
       },
@@ -5255,7 +6890,55 @@
       "underwaterAccess": "none",
       "name": "Half-Load Yard",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'porter-relay-yard' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'porter-relay-yard' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "guarded",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "resource-source",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "The last firm ground on the river before the climb begins, with a landing and a long shed",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D1",
+            "count": "few",
+            "named": false,
+            "note": "D1 porter gangs"
+          },
+          {
+            "slotId": "n2",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "few",
+            "named": false,
+            "note": "D2 gang speaker"
+          }
+        ],
+        "loot": []
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-second-empire-works",
@@ -5317,9 +7000,9 @@
       "rewardProfile": {
         "kinds": [
           "loot-cache",
-          "exploration",
-          "information",
-          "shelter"
+          "lore-fragment",
+          "rumour",
+          "rest-shelter"
         ],
         "valueTier": "tier-2"
       },
@@ -5362,8 +7045,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.alten-corimont",
-          "place.pirate-freeholds.rim-porter-yard"
+          "place.pirate-freeholds.alten-corimont"
         ],
         "travelServiceEdges": []
       },
@@ -5380,7 +7062,51 @@
       "name": "Reman Cut",
       "reconciliationNote": "Retyped 2026-09-02 (Phase 11 repair, coverage critique S3): failed-roadworks was under band (2/4-4) and its recipe is 'defeated by water'. This record IS that: a Reman road cutting that stops in mid-air above a cistern, on the wettest approach to the rim.",
       "deferredFromStatus": "ruined",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it."
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "wonder-oddity",
+        "secondary": [
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "The saddle route the modern pass road still roughly follows, one contour higher",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "root-cavern",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.rim-porter-yard"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-smugglers-ledge-east",
@@ -5440,8 +7166,8 @@
       "rewardProfile": {
         "kinds": [
           "loot-cache",
-          "vista",
-          "climb-route"
+          "lore-fragment",
+          "route-unlock"
         ],
         "valueTier": "tier-2"
       },
@@ -5480,8 +7206,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.alten-corimont",
-          "place.pirate-freeholds.rim-porter-yard"
+          "place.pirate-freeholds.alten-corimont"
         ],
         "travelServiceEdges": []
       },
@@ -5494,7 +7219,49 @@
       "underwaterAccess": "none",
       "name": "Dead Consignment",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'smugglers-ledge' is over its province count band (4 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'smugglers-ledge' is over its province count band (4 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "hostile",
+        "owner": null,
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "stealth-challenge",
+        "secondary": [],
+        "impact": "real",
+        "hook": "A ridge-end shelf at 268 m with ground falling away on three sides",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "smuggler-den",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.rim-porter-yard"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-smugglers-ledge-north",
@@ -5561,9 +7328,9 @@
       "rewardProfile": {
         "kinds": [
           "loot-cache",
-          "trade",
-          "climb-route",
-          "information"
+          "trade-access",
+          "route-unlock",
+          "rumour"
         ],
         "valueTier": "tier-3"
       },
@@ -5607,8 +7374,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.alten-corimont",
-          "place.pirate-freeholds.rim-porter-yard"
+          "place.pirate-freeholds.alten-corimont"
         ],
         "travelServiceEdges": []
       },
@@ -5621,39 +7387,93 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.salt-teeth",
       "position": {
-        "u": 0.59978,
-        "v": 0.10672
+        "u": 0.544,
+        "v": 0.06953
       },
       "positionM": [
-        4422.5,
-        786.9
+        4011.2,
+        512.7
       ],
-      "scourSiteId": "site.scour.border-mountains.saddle-041",
+      "scourSiteId": "site.scour.border-mountains.ridge-end-026",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.border-mountains.ridge-end-026",
-          "score": 3.49,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.border-mountains.saddle-041",
+          "score": 3.149,
+          "whyLost": "too close to place.pirate-freeholds.veterans-holding"
         },
         {
           "siteId": "site.scour.border-mountains.ridge-end-042",
-          "score": 3.476,
+          "score": 2.876,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0236",
-          "score": 2.874,
+          "siteId": "site.free.any-firm-ground-0126",
+          "score": 2.274,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "saddle in border mountains (danger band 3), 424 m from the nearest route; its choice #2 landform; won on landform, region, hinterland.",
+      "whySiteWon": "ridge end in border mountains (danger band 3), 233 m from the nearest route; its choice #3 landform; won on landform, region, hinterland.",
       "plotFacts": {
-        "landform": "saddle",
+        "landform": "ridge-end",
         "regionClass": "border mountains",
         "dangerBand": 3,
-        "distanceToRouteM": 424.3,
-        "distanceToWaterM": 28.0,
-        "score": 3.749
+        "distanceToRouteM": 232.8,
+        "distanceToWaterM": 65.8,
+        "score": 2.89
+      },
+      "hostility": {
+        "baseline": "hostile",
+        "owner": "faction.salt-teeth",
+        "flips": [],
+        "clearable": true,
+        "respawn": "slow"
+      },
+      "playerPurpose": {
+        "primary": "stealth-challenge",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "A cliff bench two-thirds of the way up the border wall, out of sight from below and from the pass, with a traverse line rather than a path",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "smuggler-den",
+        "sizeBand": "S2",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D3",
+            "count": "few",
+            "named": false,
+            "note": "0-4 D3 carriers"
+          }
+        ],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.rim-porter-yard"
+        ]
       }
     },
     {
@@ -5716,10 +7536,9 @@
       "effortToReach": 5,
       "rewardProfile": {
         "kinds": [
-          "unique-knowledge",
-          "vista",
-          "rest",
-          "named-item"
+          "lore-fragment",
+          "rest-shelter",
+          "unique-item"
         ],
         "valueTier": "tier-3"
       },
@@ -5762,8 +7581,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.alten-corimont",
-          "place.pirate-freeholds.rim-porter-yard"
+          "place.pirate-freeholds.alten-corimont"
         ],
         "travelServiceEdges": []
       },
@@ -5776,39 +7594,104 @@
       "underwaterAccess": "none",
       "name": "Exile's Roof",
       "position": {
-        "u": 0.5559,
-        "v": 0.06284
+        "u": 0.61911,
+        "v": 0.08813
       },
       "positionM": [
-        4098.9,
-        463.4
+        4565.0,
+        649.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0160",
-          "score": 2.828,
-          "whyLost": "too close to place.pirate-freeholds.rim-smugglers-ledge-north"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0129",
-          "score": 2.67,
+          "siteId": "site.scour.border-mountains.saddle-020",
+          "score": 2.459,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.firm-lowland.summit-015",
-          "score": 2.529,
+          "siteId": "site.free.any-firm-ground-0098",
+          "score": 2.29,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.border-mountains.saddle-036",
+          "score": 2.273,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in border mountains (danger band 3), 330 m from the nearest route; no free 'summit' site was left in the zone, so plain ground; won on route, region, parent.",
+      "whySiteWon": "summit in border mountains (danger band 3), 604 m from the nearest route; its first-choice landform; won on landform, region, remote; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "summit",
         "regionClass": "border mountains",
         "dangerBand": 3,
-        "distanceToRouteM": 329.8,
-        "distanceToWaterM": 32.9,
-        "score": 2.782
-      }
+        "distanceToRouteM": 604.1,
+        "distanceToWaterM": 81.5,
+        "score": 2.512
+      },
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "unique-item",
+          "lore-reveal",
+          "hidden-secret"
+        ],
+        "impact": "real",
+        "hook": "Above the snowline on the border wall, with a spring that does not freeze",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "delve",
+        "family": "root-cavern",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": false,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "few",
+            "named": false,
+            "note": "1-2 D2 ascetics"
+          }
+        ],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "unique-item",
+            "registerRef": null,
+            "payoff": "unique-item",
+            "valueTier": "tier-3",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.rim-porter-yard"
+        ]
+      },
+      "scourSiteId": "site.scour.border-mountains.summit-005"
     },
     {
       "id": "place.pirate-freeholds.rim-vista-ledge",
@@ -5866,8 +7749,7 @@
       "effortToReach": 4,
       "rewardProfile": {
         "kinds": [
-          "vista",
-          "navigation-knowledge",
+          "lore-fragment",
           "loot-cache"
         ],
         "valueTier": "tier-2"
@@ -5909,8 +7791,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.alten-corimont",
-          "place.pirate-freeholds.rim-porter-yard"
+          "place.pirate-freeholds.alten-corimont"
         ],
         "travelServiceEdges": []
       },
@@ -5924,7 +7805,45 @@
       "underwaterAccess": "none",
       "name": "Cyrod Ledge",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'vista-ledge' is over its province count band (4 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'vista-ledge' is over its province count band (4 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "wonder-oddity",
+        "secondary": [
+          "vista-landmark"
+        ],
+        "impact": "real",
+        "hook": "A ridge end at 268 m with the ground falling away and no canopy",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.rim-porter-yard"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.river-bog-iron-bloomery",
@@ -5977,9 +7896,9 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "crafting",
+          "materials",
           "loot-cache",
-          "information"
+          "rumour"
         ],
         "valueTier": "tier-1"
       },
@@ -6018,8 +7937,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station",
-          "place.pirate-freeholds.trunk-road-tradehouse"
+          "place.pirate-freeholds.rim-pass-station"
         ],
         "travelServiceEdges": []
       },
@@ -6032,7 +7950,51 @@
       "underwaterAccess": "none",
       "name": "Rust Bog",
       "deferredFromStatus": "abandoned",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'bog-iron-bloomery' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'bog-iron-bloomery' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "guarded",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "resource-source",
+        "secondary": [],
+        "impact": "mild",
+        "hook": "Beside the ore bog with a charcoal supply and water for the bellows",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "strongroom",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-1",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "workshop-stock",
+            "registerRef": null,
+            "payoff": "materials",
+            "valueTier": "tier-1",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.river-salvage-yard",
@@ -6093,8 +8055,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "trade",
-          "information",
+          "trade-access",
+          "rumour",
           "loot-cache"
         ],
         "valueTier": "tier-2"
@@ -6139,10 +8101,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.pirate-freeholds.corimont-head-of-navigation",
-          "place.pirate-freeholds.trunk-ferry-stage"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "season": "all-year",
@@ -6154,7 +8113,54 @@
       "underwaterAccess": "deep-dive",
       "name": "Grinder Yard",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'salvage-divers-yard' is over its province count band (5 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'salvage-divers-yard' is over its province count band (5 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "friendly",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "service-hub",
+        "secondary": [],
+        "impact": "real",
+        "hook": "On the bank below the bar, where anything lost upstream eventually grounds",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "crew",
+            "registerRef": null,
+            "danger": "D1",
+            "count": "few",
+            "named": false,
+            "note": "2-5 D1 divers"
+          }
+        ],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "strongroom",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.corimont-head-of-navigation",
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.rockpoint",
@@ -6221,10 +8227,9 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "claimable-ground",
           "loot-cache",
-          "quest-hooks",
-          "unique-knowledge"
+          "quest-hook",
+          "lore-fragment"
         ],
         "valueTier": "tier-3"
       },
@@ -6278,9 +8283,7 @@
       "reconciliationNote": "Player-stronghold candidate B (2026-09-02 reconciliation): the abandoned river station of quests 20 §12b. Candidate A is place.hist-heartland.xal-meeruth-station. BOTH stay flagged; the A/B choice is an owner call queued for touchpoint (1) in decision 0041's Owner Q&A. Do not resolve it in Part 3 plotting — plot both and let the loser stay a place.",
       "strongholdCandidate": true,
       "relations": {
-        "dependsOn": [
-          "place.pirate-freeholds.corimont-head-of-navigation"
-        ],
+        "dependsOn": [],
         "supplies": [],
         "rivals": [
           "place.pirate-freeholds.alten-corimont",
@@ -6289,9 +8292,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.pirate-freeholds.trunk-ferry-stage"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "season": "all-year",
@@ -6308,39 +8309,96 @@
         "claimed (the landing dredged and somebody's mark on the gate)"
       ],
       "position": {
-        "u": 0.46963,
-        "v": 0.19447
+        "u": 0.52466,
+        "v": 0.08516
       },
       "positionM": [
-        3462.8,
-        1433.9
+        3868.6,
+        627.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.firm-lowland.cliff-bench-069",
-          "score": 2.478,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
+          "siteId": "site.free.any-firm-ground-0230",
+          "score": 1.816,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.firm-lowland.cliff-bench-049",
-          "score": 2.467,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
+          "siteId": "site.free.any-firm-ground-0178",
+          "score": 1.813,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.firm-lowland.cliff-bench-062",
-          "score": 2.463,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
+          "siteId": "site.free.any-firm-ground-0154",
+          "score": 1.812,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 412 m from the nearest route; at the water's edge; no free 'cliff-bench' site was left in the zone, so plain ground; won on region, danger.",
+      "whySiteWon": "cliff bench in seasonal floodplain (danger band 3), 52 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger.",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
+        "landform": "cliff-bench",
+        "regionClass": "seasonal floodplain",
         "dangerBand": 3,
-        "distanceToRouteM": 412.0,
-        "distanceToWaterM": 15.5,
-        "score": 1.515
-      }
+        "distanceToRouteM": 51.7,
+        "distanceToWaterM": 5.5,
+        "score": 2.733
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": "faction.unclaimed",
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "wonder-oddity",
+        "secondary": [
+          "quest-anchor",
+          "lore-reveal"
+        ],
+        "impact": "real",
+        "hook": "A stone-footed landing, a warehouse shell and a defensible bank, all standing, on ground nobody now claims",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "dwelling",
+        "sizeBand": "S2",
+        "wetFraction": 0.2,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-3",
+            "provenance": null
+          },
+          {
+            "slotId": "l2",
+            "role": "ledger-or-document",
+            "registerRef": null,
+            "payoff": "lore-fragment",
+            "valueTier": "tier-3",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "dependsOn": [
+          "place.pirate-freeholds.corimont-head-of-navigation"
+        ],
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ]
+      },
+      "scourSiteId": "site.scour.seasonal-floodplain.cliff-bench-002"
     },
     {
       "id": "place.pirate-freeholds.trunk-ferry-stage",
@@ -6401,9 +8459,9 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "travel",
-          "information",
-          "quest-hooks"
+          "route-unlock",
+          "rumour",
+          "quest-hook"
         ],
         "valueTier": "tier-1"
       },
@@ -6451,9 +8509,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.pirate-freeholds.corimont-head-of-navigation"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": [
           "boat:northern-trunk",
           "ferry:trunk-crossing"
@@ -6468,7 +8524,41 @@
       "underwaterAccess": "surface-swim",
       "name": "Chasecreek-To-Slack-Bend",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'ferry-stage' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'ferry-stage' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "navigation-aid",
+        "secondary": [],
+        "impact": "mild",
+        "hook": "A channel too wide to bridge cheaply and too calm to be dangerous",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.corimont-head-of-navigation"
+        ]
+      },
+      "travelStation": {
+        "modes": [
+          "boat",
+          "ferry"
+        ],
+        "destinations": []
+      }
     },
     {
       "id": "place.pirate-freeholds.trunk-hearth-house",
@@ -6532,10 +8622,8 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "rest",
-          "food",
-          "information",
-          "safety"
+          "rest-shelter",
+          "rumour"
         ],
         "valueTier": "tier-1"
       },
@@ -6581,8 +8669,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station",
-          "place.pirate-freeholds.trunk-road-tradehouse"
+          "place.pirate-freeholds.rim-pass-station"
         ],
         "travelServiceEdges": []
       },
@@ -6595,7 +8682,50 @@
       "underwaterAccess": "none",
       "name": "Ottus Fire",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'hearth-house' is over its province count band (14 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'hearth-house' is over its province count band (14 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "sanctuary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "safe-rest",
+        "secondary": [],
+        "impact": "mild",
+        "hook": "On the trunk at a day's travel from the next fire, on ground that never floods",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "civic-hall",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "family",
+            "registerRef": null,
+            "danger": "D0",
+            "count": "few",
+            "named": false,
+            "note": "1-6 D0 household"
+          }
+        ],
+        "loot": []
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.trunk-road-tradehouse",
@@ -6655,10 +8785,10 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "rest",
-          "information",
-          "quest-hooks",
-          "trade"
+          "rest-shelter",
+          "rumour",
+          "quest-hook",
+          "trade-access"
         ],
         "valueTier": "tier-2"
       },
@@ -6717,7 +8847,37 @@
       "underwaterAccess": "none",
       "name": "Mile Twelve",
       "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'tradehouse' is over its province count band (17 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'tradehouse' is over its province count band (17 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "friendly",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "A ford with firm ground, a landing and space for beasts",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "civic-hall",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      }
     },
     {
       "id": "place.pirate-freeholds.trunk-toll-bridge",
@@ -6784,9 +8944,9 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "travel",
-          "information",
-          "quest-hooks"
+          "route-unlock",
+          "rumour",
+          "quest-hook"
         ],
         "valueTier": "tier-1"
       },
@@ -6841,10 +9001,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.pirate-freeholds.corimont-head-of-navigation",
-          "place.pirate-freeholds.trunk-ferry-stage"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "season": "all-year",
@@ -6859,38 +9016,78 @@
         "free (the board painted out and the span deliberately unrepaired, which is its own toll)"
       ],
       "position": {
-        "u": 0.53472,
-        "v": 0.18522
+        "u": 0.48004,
+        "v": 0.16249
       },
       "positionM": [
-        3942.8,
-        1365.7
+        3539.6,
+        1198.1
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.water-narrows-048",
           "score": 3.061,
-          "whyLost": "too close to place.hist-heartland.nightbound-lightless"
+          "whyLost": "too close to place.pirate-freeholds.rockpoint"
         },
         {
-          "siteId": "site.free.roadside-0604",
-          "score": 2.549,
+          "siteId": "site.free.any-firm-ground-0228",
+          "score": 2.748,
           "whyLost": "too close to place.pirate-freeholds.alten-corimont"
         },
         {
-          "siteId": "site.free.roadside-0120",
-          "score": 2.544,
-          "whyLost": "too close to place.pirate-freeholds.corimont-hist-less-camp"
+          "siteId": "site.free.roadside-0570",
+          "score": 2.743,
+          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 37 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on region, hinterland, route.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 270 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on region, hinterland, route.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 36.8,
-        "distanceToWaterM": 7.8,
-        "score": 2.202
+        "distanceToRouteM": 270.1,
+        "distanceToWaterM": 21.9,
+        "score": 2.387
+      },
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "navigation-aid",
+        "secondary": [
+          "quest-anchor"
+        ],
+        "impact": "real",
+        "hook": "A water narrows with hard banks, on the Stormhold-to-Thorn line",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D1",
+            "count": "few",
+            "named": false,
+            "note": "1-4 D1 toll-takers"
+          }
+        ],
+        "loot": []
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.corimont-head-of-navigation",
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ]
       }
     },
     {
@@ -6952,9 +9149,9 @@
       "effortToReach": 3,
       "rewardProfile": {
         "kinds": [
-          "travel",
-          "quest-hooks",
-          "information"
+          "route-unlock",
+          "quest-hook",
+          "rumour"
         ],
         "valueTier": "tier-2"
       },
@@ -7000,10 +9197,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.pirate-freeholds.corimont-head-of-navigation",
-          "place.pirate-freeholds.trunk-ferry-stage"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "season": "all-year",
@@ -7016,7 +9210,35 @@
       "underwaterAccess": "none",
       "name": "Vellick Span",
       "deferredFromStatus": "contested",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'toll-bridge' is over its province count band (7 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'toll-bridge' is over its province count band (7 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "neutral",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "navigation-aid",
+        "secondary": [],
+        "impact": "real",
+        "hook": "The only stone crossing in the zone, at a ravine pinch",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "none"
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": []
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.corimont-head-of-navigation",
+          "place.pirate-freeholds.trunk-ferry-stage"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.upriver-bonded-store",
@@ -7072,8 +9294,8 @@
       "rewardProfile": {
         "kinds": [
           "loot-cache",
-          "rest",
-          "information"
+          "rest-shelter",
+          "rumour"
         ],
         "valueTier": "tier-2"
       },
@@ -7114,8 +9336,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station",
-          "place.pirate-freeholds.trunk-road-tradehouse"
+          "place.pirate-freeholds.rim-pass-station"
         ],
         "travelServiceEdges": []
       },
@@ -7129,7 +9350,49 @@
       "underwaterAccess": "none",
       "name": "Last Lawful Load",
       "deferredFromStatus": "abandoned",
-      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'bonded-warehouse' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it."
+      "deferredWhy": "Coverage critique S1/S2/S3: pirate-freeholds carried 53 records on 0.78 km2 against a corrected budget of 14-17, the most over-budget zone in the province. Deferred as surplus - 'bonded-warehouse' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
+      "hostility": {
+        "baseline": "guarded",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "resource-source",
+        "secondary": [],
+        "impact": "real",
+        "hook": "On the old wharf above the transfer stages",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "building",
+        "family": "dwelling",
+        "sizeBand": "S1",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "strongroom",
+            "registerRef": null,
+            "payoff": "loot-cache",
+            "valueTier": "tier-2",
+            "provenance": null
+          }
+        ]
+      },
+      "relationsReserved": {
+        "reachedVia": [
+          "place.pirate-freeholds.trunk-road-tradehouse"
+        ]
+      }
     },
     {
       "id": "place.pirate-freeholds.veterans-holding",
@@ -7200,9 +9463,9 @@
       "rewardProfile": {
         "kinds": [
           "services",
-          "equipment",
-          "quest-hooks",
-          "information"
+          "gear",
+          "quest-hook",
+          "rumour"
         ],
         "valueTier": "tier-3"
       },
@@ -7271,38 +9534,87 @@
       "underwaterAccess": "none",
       "name": "Blacklight Holding",
       "position": {
-        "u": 0.58416,
-        "v": 0.06805
+        "u": 0.5797,
+        "v": 0.08143
       },
       "positionM": [
-        4307.3,
-        501.7
+        4274.4,
+        600.4
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.scour.upland-hills.summit-011",
-          "score": 3.116,
+          "score": 3.416,
           "whyLost": "too close to place.pirate-freeholds.alten-corimont"
         },
         {
-          "siteId": "site.scour.border-mountains.ridge-end-042",
-          "score": 2.985,
-          "whyLost": "too close to place.pirate-freeholds.rim-smugglers-ledge-north"
+          "siteId": "site.scour.border-mountains.ridge-end-026",
+          "score": 3.282,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.border-mountains.ridge-end-026",
-          "score": 2.982,
-          "whyLost": "too close to place.hist-heartland.nightbound-lightless"
+          "siteId": "site.scour.firm-lowland.summit-015",
+          "score": 3.059,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in border mountains (danger band 3), 453 m from the nearest route; no free 'summit' site was left in the zone, so plain ground; won on region, hinterland, danger.",
+      "whySiteWon": "firm ground in border mountains (danger band 3), 371 m from the nearest route; no free 'summit' site was left in the zone, so plain ground; won on region, hinterland, danger; site exchanged in the swap pass with place.pirate-freeholds.dunmer-frontier-holding (+1.25).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "border mountains",
         "dangerBand": 3,
-        "distanceToRouteM": 453.0,
-        "distanceToWaterM": 57.2,
-        "score": 2.262
+        "distanceToRouteM": 370.7,
+        "distanceToWaterM": 49.0,
+        "score": 3.313
+      },
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "social-drama",
+        "secondary": [
+          "service-hub"
+        ],
+        "impact": "real",
+        "hook": "High firm ground with a view of the pass, chosen for the sightline rather than the soil",
+        "reviewed": false
+      },
+      "interior": {
+        "kind": "dungeon",
+        "family": "root-cavern",
+        "sizeBand": "S2",
+        "wetFraction": 0.0,
+        "entranceCount": 1,
+        "exteriorShell": true,
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D3",
+            "count": "few",
+            "named": false,
+            "note": "D3 veterans"
+          },
+          {
+            "slotId": "n2",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "few",
+            "named": false,
+            "note": "D2 second generation"
+          }
+        ],
+        "loot": []
       }
     }
   ]

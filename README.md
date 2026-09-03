@@ -102,7 +102,12 @@ asset registry.
   giant-tree pieces (`anvil_palm_trunk`, `anvilgianttrunk`, the
   `anvil_palm foliage` crowns and `anvil_root01` buttress flare) are the
   jungle roof — assembled into two composite trees by the kit builder. The
-  geometry and textures are Soolie's; only the arrangement is ours.
+  geometry and textures are Soolie's; only the arrangement is ours. **Phase 11:** it is
+  also our architecture **texture overlay** — Tropical ships no architecture
+  meshes, but retextures the vanilla farmhouse/dock/bridge/city sets under
+  vanilla filenames, so kits declare `textureOverlayPools: ["tropical"]` and
+  the vanilla-backed settlement pieces build hot-and-wet instead of Nordic
+  grey (`settlement-imperial-v1`, `settlement-stilt-v1`).
 - **Project Rainforest SE** (Nexus SSE mod 20636, sa547; credits incl.
   LorSakyamuni's TW3 Landscape Resource and Vurt's SFO) — tropical ground
   textures in the terrain material library (owner-approved 2026-08-23).
@@ -149,6 +154,27 @@ asset registry.
   family, and the xanmeer ruin ornament (mesoamerican pyramids, feathered
   serpent and serpent-sigil statues, goddess statue, gargoyle, runic stone,
   totems). Its creature content is **not** ingested — that is a Phase 13 job.
+- **Morrowind Imperial Keep Set (Remodeled)** (Nexus SSE mod 133090,
+  Tesak1243, v1.0; modder's resource, use with credit) — the Morrowind-Imperial
+  civic and military language behind the `imperial-keep` kit (88 exterior
+  pieces of the 164 shipped): curtain walls with gate/corner/destroyed
+  variants and wall stairs, big and small stackable towers, two keep blocks,
+  guard towers, foundations, plaza, low stone yard walls, ledges and steps,
+  river bridges and stone docks, stables, and the well/flagpole/pedestal civic
+  clutter plus rubble condition variants. Sourced Phase 11 to stop Gideon and
+  the imperial fringe reading as Nordic thatch. Archive
+  `Morrowind Imperial Keep Set-133090-1-0-1730675084.rar`, sha256
+  `d22974919cdd3d6cea25f2b0b0851f2cb636a7569b7c3d1f8ae7b34c8584b9c0`.
+- **Morrowind Hlaalu Architecture** (Nexus SSE mod 157997, Angelio, uploaded
+  by Kai4304, v2.0; modder's resource, use with credit; itself bundling many
+  credited modder resources — see its page) — the domestic tier under that
+  masonry, behind the `hlaalu-domestic` kit (68 of 127 pieces): premade and
+  modular Hlaalu houses, a base/middle/top tower stack, yard and street walls
+  with broken variants, steps, awnings, fences, stone blocks, small bridges,
+  dockside cranes and lamp posts. Built on 133090 and retextured, so it reads
+  as the same town. Archive
+  `Morrowind Hlaalu Architecture-157997-v2-0-1759663700.7z`, sha256
+  `c32811d704f25d33fe421e20d1258a965232c6fafc530a2f99d95c1f74c8cad7`.
 - **Ayleid Ruins Building Kit -Resources-** (Nexus classic Skyrim mod 90667,
   Imperial Society) — the 85-piece exterior monumental-stone subset (blocks,
   quad blocks, stairs, statue walls, bridges, towers, columns) behind the
