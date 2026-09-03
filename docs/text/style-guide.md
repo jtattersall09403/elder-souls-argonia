@@ -28,7 +28,7 @@ every doc in this repo is already British. *Armour, colour, defence, realise,
 grey, practise* (verb) / *practice* (noun), *-t* past forms where natural
 (*learnt*, *spelt*).
 
-**This is the one rule the owner should confirm** (decision 0043 §Open). It is
+**Confirmed by the owner 2026-09-03** (decision 0043 §Open). It remains
 also the cheapest to reverse: the text catalogue is one keyed table.
 
 ### 1.2 Punctuation
