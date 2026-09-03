@@ -1282,6 +1282,35 @@ calls made while tuning it:
   the report); and per-record pinning (`macro-plot-overrides.json` is read
   but no override exists yet).
 
+## Part 3b — minor routes (owner question, 2026-09-03)
+
+The owner asked where minor roads and paths fit: the studio showed only the
+handful of major roads. The plan had a gap — Phase 4 built the anchor-to-
+anchor road/lane graph and Part 6 blueprints lay each settlement's own
+streets, but nothing between them, and that middle layer (village track,
+shrine footpath, reed boardwalk) is most of what a Morrowind player walks.
+**Decision:** it is a derived layer of the macro plot, compiled by
+`worldgen.compile_minor_routes` the moment positions exist and re-derived on
+every re-plot: least-cost paths (same cost logic as the road compiler, on the
+published rasters) from every plotted settlement and every road-discovered
+place to the nearest road or landing, in three batches (M3+ settlements,
+then M1–M2, then places) so small paths chain onto bigger ones; classed
+track / footpath / boardwalk / causeway from the ground crossed. Hidden
+places (lairs, camps, rumour/document/none discovery) get no path — that is
+their design. Places whose cheapest land path exceeds 2.6 km are listed as
+unconnected (boat-, guide- or root-served) rather than forced. First run:
+186 paths, 65.6 km (46 tracks, 112 footpaths, 28 boardwalks), 46 places
+already on a road, 2 unconnected. Data
+`apps/world-studio/public/province/routes-minor.json` (same px frame as
+`routes.json`), digest `world/sources/sites/minor-routes.md`. **Consumers to
+wire later:** Part 6's settlement compiler (streets join the arriving
+track), vegetation clearing (a track is a thinned corridor), the navmesh
+bake (Module 72, preferred-road cost), the road-mesh/decal compiler
+(Phase 14 streaming), and Part 4's route-visibility sweep (major routes
+only today). Boat-lane *minor* channels (canoe routes to interior places)
+are not derived yet — the boat cost surface exists in `routes.py`; a
+Part 3c when Phase 9 boats need them.
+
 ## Owner Q&A (grows from Parts 2, 4 and 5)
 
 **Queued for the next owner touchpoint (batched, not blocking):**
