@@ -5,6 +5,8 @@ import { Fly3D } from "./Fly3D";
 import { PlacesLayer } from "./places/PlacesLayer";
 import { encodePlacesUrl, parsePlacesUrl, type PlacesUrlState } from "./places/placesData";
 import { RoutesLayer } from "./routes/RoutesLayer";
+import { Minimap } from "./character/Minimap";
+import { loadMinimapOverlay, type MinimapOverlay } from "./character/minimapOverlay";
 import { encodeRoutesUrl, parseRoutesUrl, type RoutesUrlState } from "./routes/routesData";
 import { CharacterMode } from "./character/CharacterMode";
 import { colour } from "./terrainColor";
@@ -99,6 +101,9 @@ export function App() {
   const [flySpeed, setFlySpeed] = useState(Number(urlParams.get("spd")) || 60);
   const [flyPos, setFlyPos] = useState("");
   const flyKmRef = useRef<{ x: number; z: number }>({ x: 10.4, z: 8.4 });
+  // Fly-mode minimap pose (owner 2026-09-04: same minimap as walk mode).
+  const [flyPose, setFlyPose] = useState<{ x: number; z: number; heading: number } | null>(null);
+  const [minimapOverlay, setMinimapOverlay] = useState<MinimapOverlay | null>(null);
   // Ground-material set (?mats=): A/B palette comparison + instant revert.
   const [matSet, setMatSet] = useState<string>(urlParams.get("mats") || "");
   const [matSets, setMatSets] = useState<Record<string, { label: string }>>({});
@@ -135,6 +140,14 @@ export function App() {
         setPlaceNames(Object.fromEntries((b.places ?? []).map((p) => [p.id, p.name]))))
       .catch(() => {});
   }, [showCatalogue, placeNames]);
+  // The minimap's places + route network: loaded once, the first time a 3D
+  // view opens (the 2D map draws these through its own layers).
+  useEffect(() => {
+    if (view === "map" || minimapOverlay) return;
+    let alive = true;
+    loadMinimapOverlay(import.meta.env.BASE_URL).then((o) => { if (alive) setMinimapOverlay(o); }).catch(() => {});
+    return () => { alive = false; };
+  }, [view, minimapOverlay]);
   // World-time changes (scrub/date/rate/preset) bump this so the URL effect
   // reserialises; the clock itself lives in sky/timeState.
   const [timeVersion, setTimeVersion] = useState(0);
@@ -330,6 +343,8 @@ export function App() {
                         "danger", "cultures", "wetlands", "rivers", "waterways",
                         "routes", "rootways", "mist"]) {
       const img = overlaysRef.current[name];
+      // routes/waterways are drawn as clickable vector lines under ?cat=1
+      if (showCatalogue && (name === "routes" || name === "waterways")) continue;
       if (layers[name] && img) ctx.drawImage(img, 0, 0);
     }
 
@@ -370,7 +385,7 @@ export function App() {
       ctx.fillStyle = major ? "#ffe9b8" : "#d5e0ff";
       ctx.fillText(a.name, x + 8, y + 4);
     }
-  }, [meta, seaLevel, conditioning, layers, overlaysReady]);
+  }, [meta, seaLevel, conditioning, layers, overlaysReady, showCatalogue]);
 
   // per-pixel water-body classes for the hover tooltip (Phase 8b)
   const waterClassRef = useRef<{ data: Uint8ClampedArray; size: number; mpp: number; names: string[] } | null>(null);
@@ -509,6 +524,7 @@ export function App() {
       lookupRegion={lookupRegionAt}
       mapCanvas={canvasRef.current}
       mapMeta={meta}
+      minimapOverlay={minimapOverlay}
       onPositionKm={(x, z) => setSpawnKm({ x, z })}
       onExit={() => setView("map")}
       onFlyHere={(x, z) => enterFly(x, z)}
@@ -530,6 +546,7 @@ export function App() {
         tintStrength={tintStrength} showLanes={showLanes} flySpeed={flySpeed}
         onPosition={(x, z, alt, headingDeg) => {
           flyKmRef.current = { x, z };
+          setFlyPose({ x, z, heading: headingDeg });
           const pts = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
           const pt = pts[Math.round(headingDeg / 45) % 8];
           setFlyPos(`${x.toFixed(2)} km E · ${z.toFixed(2)} km S · alt ${Math.round(alt)} m · ${pt} ${Math.round(headingDeg)}°`);
@@ -582,6 +599,10 @@ export function App() {
         </label>
         <span style={{ opacity: 0.85 }}>{flyPos}</span>
       </div>
+      {!hudHidden && flyPose && canvasRef.current && (
+        <Minimap mapCanvas={canvasRef.current} meta={meta} xKm={flyPose.x} zKm={flyPose.z}
+          headingDeg={flyPose.heading} bottomPx={12} overlay={minimapOverlay} />
+      )}
       <div style={{
         position: "absolute", bottom: 10, left: "50%", transform: "translateX(-50%)",
         background: "rgba(10,14,20,0.75)", padding: "6px 12px", borderRadius: 8,
@@ -627,13 +648,20 @@ export function App() {
       </div>
       <div style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
         <span>Layers:</span>
-        {(["rivers", "wetlands", "routes", "waterways", "rootways", "danger", "cultures", "regions", "mist", "flood", "soil", "watersheds", "salinity"] as const).map((name) => (
-          <label key={name} style={{ cursor: "pointer" }}>
-            <input type="checkbox" checked={layers[name]}
-              onChange={(e) => setLayers({ ...layers, [name]: e.target.checked })} />{" "}
-            {name}
-          </label>
-        ))}
+        {(["rivers", "wetlands", "routes", "waterways", "rootways", "danger", "cultures", "regions", "mist", "flood", "soil", "watersheds", "salinity"] as const).map((name) => {
+          // Under the places layer the painted route/waterway rasters are
+          // replaced by the clickable vector lines (same geometry, drawn
+          // once) — the owner saw both and read them as duplicated roads.
+          const replaced = showCatalogue && (name === "routes" || name === "waterways");
+          return (
+            <label key={name} style={{ cursor: replaced ? "default" : "pointer", opacity: replaced ? 0.45 : 1 }}
+              title={replaced ? "drawn as clickable lines by the places layer" : undefined}>
+              <input type="checkbox" checked={layers[name] && !replaced} disabled={replaced}
+                onChange={(e) => setLayers({ ...layers, [name]: e.target.checked })} />{" "}
+              {name}
+            </label>
+          );
+        })}
         <label style={{ cursor: "pointer", borderLeft: "1px solid #3a4655", paddingLeft: 12 }}>
           <input type="checkbox" checked={showCatalogue}
             onChange={(e) => setShowCatalogue(e.target.checked)} />{" "}

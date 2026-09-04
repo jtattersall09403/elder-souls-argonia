@@ -25,7 +25,10 @@ rest become required as `workflow` advances):
                   geography-derived|density-fill), *sources [..], *confidence
   why             *why {founding, siteAdvantages, occupantsMotive, pressures,
                   wouldChangeIf} — short form at derivation
-  siting          *sitingPrefs {regionClasses, hardConstraints, preferences};
+  siting          *sitingPrefs {regionClasses, hardConstraints, preferences,
+                  landformClasses?, boundTo? {place, maxM}, sightlineTo? [ids]}
+                  — boundTo/sightlineTo are TYPED siting (2026-09-04): the plot
+                  honours them directly; prose in hardConstraints is a fallback;
                   plotted+: position {u,v}, candidatesConsidered,
                   whySiteWon, scourSiteId?
   relations       relations {dependsOn, supplies, rivals, patrols, tolls,
@@ -83,6 +86,14 @@ rest become required as `workflow` advances):
                   the sources put it elsewhere or say nothing. Design rationale
                   belongs here or in `sources`, never in `why.*` prose
                   (quests 60 §45e.1 bans provenance voice in world text)
+  terrain asks    terrainRequests? [{kind, radiusM?, note}] — ground the record's
+                  identity needs and the plot could not find (a sinkhole for a
+                  "round hole of black water", a dry rise, a narrows). Part 6's
+                  meso compiler carves/raises it; until then the semantic audit
+                  treats the request as satisfied. Owner ruling 2026-09-04: the
+                  fix for "claims a sinkhole, sits on plain ground" may be to
+                  MAKE the sinkhole, not always to rewrite the prose. kind ∈
+                  TERRAIN_REQUEST_KINDS
   reserve         relationsReserved? — edges pruned because their target is
                   deferred/cut; same shape as relations; restored if the target
                   is promoted (owner ruling 2026-09-03)
@@ -185,6 +196,10 @@ REQUIRED_AT = {
     "frozen": [],  # freeze is gated by 10b/10c checklists, not extra fields
 }
 WHY_KEYS = {"founding", "siteAdvantages", "occupantsMotive", "pressures", "wouldChangeIf"}
+TERRAIN_REQUEST_KINDS = {
+    "sinkhole", "dry-rise", "knoll", "terrace", "levee", "narrows", "islet", "cut",
+    "pool", "cave-mouth", "cliff-bench", "ford", "gorge", "spring", "hollow",
+}
 
 
 def dump_json(path: Path, data: dict) -> None:
@@ -308,6 +323,11 @@ def _validate_v2_blocks(rec: dict, rid: str, errors: list[str]) -> None:
     """schemaVersion 2: playerPurpose, hostility, interior, contents,
     rewardProfile.kinds, travelStation. Each check is one line the region
     reviewers can read as a rule."""
+    for i, tr in enumerate(rec.get("terrainRequests") or []):
+        if not isinstance(tr, dict) or tr.get("kind") not in TERRAIN_REQUEST_KINDS:
+            _fail(errors, rid, f"terrainRequests[{i}].kind must be one of {sorted(TERRAIN_REQUEST_KINDS)}")
+        elif not isinstance(tr.get("note"), str) or not tr["note"].strip():
+            _fail(errors, rid, f"terrainRequests[{i}].note must say what the ground must do for the place")
     pp = rec.get("playerPurpose")
     if pp is not None:
         if pp.get("primary") not in PURPOSES:

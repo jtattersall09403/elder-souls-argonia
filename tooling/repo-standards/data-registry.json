@@ -57,6 +57,11 @@
       "path": "world/sources/registries",
       "enforced": true,
       "_": "World registries (worldgen.registries): factions, quests, creatures, npcs, items, deeds, rumour pools. One framework, one schemaVersion; see the directory README and decision 0044."
+    },
+    {
+      "path": "world/sources/quests",
+      "enforced": true,
+      "_": "Quest data (worldgen.quests): lines plus one packet file per group and per catalogue region. world/sources/registries/quests.json is now a GENERATED projection of this directory (worldgen.quests --sync), so the quest ids are registered here in id-registry.json and not there."
     }
   ]
 }

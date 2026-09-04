@@ -191,6 +191,7 @@ class Demand:
     sightline_to: list[str] = field(default_factory=list)   # must have line of sight to these (hard)
     bound_to: str | None = None                              # must sit within bound_max of this (hard)
     bound_max: float = BOUND_MAX_M
+    near_point: tuple[float, float, float] | None = None       # (x, z, maxM): typed `sitingPrefs.nearPoint`
     purpose: str = "wonder-oddity"                           # playerPurpose.primary (v2)
     stance: str = "neutral"                                  # hostility.baseline (v2)
     owner: str | None = None                                 # hostility.owner (v2)
@@ -283,6 +284,25 @@ def build_demand(recipes: dict[str, dict]) -> tuple[list[Demand], dict[str, cata
                 if r not in sight:
                     sight.append(r)
             bound_max = BOUND_MAX_M
+            # Typed siting (2026-09-04): `sitingPrefs.boundTo {place, maxM}` and
+            # `sitingPrefs.sightlineTo [ids]` are honoured without any prose
+            # pattern — the quest map's "reached THROUGH the Lost City" had been
+            # sitting in `preferences` where nothing read it.
+            typed_bound = prefs.get("boundTo")
+            if isinstance(typed_bound, dict) and typed_bound.get("place"):
+                bound = typed_bound["place"]
+                bound_max = float(typed_bound.get("maxM") or BOUND_MAX_M)
+                bound_by_prose = True
+            for r in prefs.get("sightlineTo") or []:
+                if r not in sight and r != rec["id"]:
+                    sight.append(r)
+            # `sitingPrefs.nearPoint {x, z, maxM}` (metres): a hard radius around a
+            # world point — how the hostility-frequency report's route gaps are
+            # filled without hand-writing a position (positions stay plot-owned).
+            np_ = prefs.get("nearPoint")
+            near_point = None
+            if isinstance(np_, dict) and "x" in np_ and "z" in np_:
+                near_point = (float(np_["x"]), float(np_["z"]), float(np_.get("maxM") or 400.0))
             if bound is None:
                 # a satellite named after its settlement (mazzatun-hist, archon-harbour-hist,
                 # rootworm-station-helstrom, gideon-rootworm-terminus) belongs at it
@@ -302,7 +322,7 @@ def build_demand(recipes: dict[str, dict]) -> tuple[list[Demand], dict[str, cata
                 danger=DANGER_TIER.get(rec["dangerTier"], 3), landforms=landforms,
                 landforms_from_recipe=from_recipe, regions=regions,
                 parents=parents, hints=hints, record=rec, sightline_to=sight, bound_to=bound,
-                bound_max=bound_max,
+                bound_max=bound_max, near_point=near_point,
                 purpose=(rec.get("playerPurpose") or {}).get("primary", "wonder-oddity"),
                 stance=(rec.get("hostility") or {}).get("baseline", "neutral"),
                 owner=(rec.get("hostility") or {}).get("owner")))
@@ -546,6 +566,11 @@ def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
         if math.hypot(c.x - bx, c.z - bz) > d.bound_max:
             return -9.0, {"bound": -9.0}
         parts["bound"] = 0.8
+    if d.near_point is not None:
+        px_, pz_, pmax = d.near_point
+        if math.hypot(c.x - px_, c.z - pz_) > pmax:
+            return -9.0, {"nearPoint": -9.0}
+        parts["nearPoint"] = 0.8
     if d.danger >= 5 and c.route_m < D5_MIN_ROUTE_M and not d.hints.get("on_route"):
         return -9.0, {"d5-route": -9.0}
     # zone (culture territory): hard unless relaxed, and never further than ZONE_SPILL_M outside

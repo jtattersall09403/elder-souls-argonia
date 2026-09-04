@@ -170,6 +170,21 @@ tell, not any single instance** — these are checks, not a lint.
 | One-sentence paragraph dropped for punch | fold it into the paragraph above | |
 | Uniform sentence length through a paragraph | let one sentence be four words | human rhythm is uneven. Flat sentences carry the interesting ones |
 | Constructions with a comma followed by 'and' | Avoid. Phrase differently. | British English convention. e.g. don't write constructions like e.g. "this name is important, and nobody will tell you why", or "the answer is wrong, and it changes the picture in an interesting way" |
+| "has never once …", "not once …" | "has not …" or state what did happen | the emphatic negative absolute; a tell in its own right (owner 2026-09-04) |
+| "the one thing / the one place / the one stretch of road that …" | name the thing plainly; put uniqueness in a fact field if it matters | uniqueness flourish; 20 in one pass of the catalogue |
+| "the only …" more than once in a record, or as a closer | say what it is; keep *the only* for a plain fact ("the only smith south of the lake") | overused to manufacture importance; density is the tell — the linter counts it per 1,000 words |
+| "nobody ever …", "no one will say / explain …", "will not explain it", "has not been discussed" as a beat | a fact, or a person who does say | the withheld-secret beat; fine once, a tic at scale |
+| **The flat and-pair**: a clause, *and*, then a second clause that turns the first into a wry shrug ("Trial-keepers set the route each year and will not explain it"; "The trial kills someone every few years and the tribes have decided that is correct") | split into two sentences, or drop the second clause, or make the second clause a plain fact that does not comment on the first | the second clause is the writer's *judgement* delivered deadpan; one per region is wit, one per record is a voice (owner 2026-09-04; style guide §2.6 has the diagnosis) |
+
+**Mechanical floor (2026-09-04):** `python3 -m worldgen.lint_prose` (from
+`tooling/world-generation`) catches every phrase-level row above it can express
+as a pattern — comma-and, never-once, the-one-thing, nobody-ever, the-very,
+it-is-said, self-gloss, negative parallelism, register vocabulary, ellipses,
+provenance voice, hedged-adverb formulas — and counts the density of *the
+only*, *never*, the flat and-pair and the withheld-secret beat. It runs over
+the place catalogue in `npm test` (`--strict`) and over any markdown you pass
+with `--md`. It is a floor, not the review: the shape tests in
+[docs/text/review-process.md](../text/review-process.md) §3 still run by eye.
 
 ## 46. Dialogue model
 

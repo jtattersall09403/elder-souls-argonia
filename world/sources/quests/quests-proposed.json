@@ -1,0 +1,513 @@
+{
+  "schemaVersion": 1,
+  "packet": "quests-proposed",
+  "seed": "quests-quests-proposed-v1",
+  "budgetExceptions": {
+    "quest.line.proposed": {
+      "WONDER": "The eighteen proposals are weighted on purpose to WONDER and HAUNTING, the two standing coverage gaps, so WONDER sits at four of eighteen."
+    }
+  },
+  "quests": [
+    {
+      "id": "quest.proposed.pp01",
+      "code": "PP01",
+      "title": "The Stage That Stopped Calling",
+      "line": "quest.line.proposed",
+      "group": "proposed",
+      "tier": 3,
+      "status": "proposed",
+      "shapes": [
+        "MISSING",
+        "NEGOTIATION"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.imperial-penal-south.lake-ferry-stage",
+        "place.naga-kur-deeps.drifting-village-wet-mooring",
+        "place.naga-kur-deeps.ferry-stage-guide-hire"
+      ],
+      "premise": "A scheduled boat service stopped calling at one landing without notice; the crews will not say who decided it",
+      "costTier": null,
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ]
+    },
+    {
+      "id": "quest.proposed.pp02",
+      "code": "PP02",
+      "title": "Buying the Reed Gate",
+      "line": "quest.line.proposed",
+      "group": "proposed",
+      "tier": 3,
+      "status": "proposed",
+      "shapes": [
+        "NEGOTIATION",
+        "BONDAGE"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.naga-kur-deeps.naga-highway-camp-active-south",
+        "place.naga-kur-deeps.naga-village-raiding",
+        "place.pirate-freeholds.freehold-naga-camp"
+      ],
+      "premise": "A raiding camp will sell a season's safe passage; the price is a person",
+      "costTier": null,
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ]
+    },
+    {
+      "id": "quest.proposed.pp03",
+      "code": "PP03",
+      "title": "The Interrupted Flight",
+      "line": "quest.line.proposed",
+      "group": "proposed",
+      "tier": 3,
+      "status": "proposed",
+      "shapes": [
+        "WONDER",
+        "MISSING"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.hist-heartland.falling-mage-impact",
+        "place.hist-heartland.vista-ledge-canopy-break"
+      ],
+      "premise": "A man fell out of the sky, his scrolls outlived him; none of them says where he was going",
+      "costTier": null,
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ]
+    },
+    {
+      "id": "quest.proposed.pp04",
+      "code": "PP04",
+      "title": "Provably Stolen",
+      "line": "quest.line.proposed",
+      "group": "proposed",
+      "tier": 3,
+      "status": "proposed",
+      "shapes": [
+        "THEFT",
+        "RECKONING"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.imperial-penal-south.lake-divers-yard",
+        "place.naga-kur-deeps.wreck-submerged-barge"
+      ],
+      "premise": "The wreck's cargo seals are intact and legible, so anything lifted off her traces back to whoever holds it",
+      "costTier": null,
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ]
+    },
+    {
+      "id": "quest.proposed.pp05",
+      "code": "PP05",
+      "title": "Cordon Two, Under-Stores",
+      "line": "quest.line.proposed",
+      "group": "proposed",
+      "tier": 3,
+      "status": "proposed",
+      "shapes": [
+        "SUCCESSION",
+        "BONDAGE"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.rose-supply-town",
+      "anchorPlaces": [
+        "place.imperial-penal-south.chainbreaker-shelter",
+        "place.imperial-penal-south.cordon-cellars",
+        "place.imperial-penal-south.rose-supply-town"
+      ],
+      "premise": "Everything the Owing seized in the south is racked, tagged and dated in one cellar; most of the owners are dead",
+      "costTier": null,
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ]
+    },
+    {
+      "id": "quest.proposed.pp06",
+      "code": "PP06",
+      "title": "The Line Nobody Walked",
+      "line": "quest.line.proposed",
+      "group": "proposed",
+      "tier": 3,
+      "status": "proposed",
+      "shapes": [
+        "HAUNTING",
+        "DISPUTE"
+      ],
+      "region": "dunmer-north",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.dunmer-north.andalen-plantation",
+        "place.dunmer-north.the-pen-yard",
+        "place.dunmer-north.waits-for-the-promise"
+      ],
+      "premise": "A camp has sat on a Dres boundary for forty years waiting for someone who came back wrong; no grave-singer will go out to it",
+      "costTier": null,
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ]
+    },
+    {
+      "id": "quest.proposed.pp07",
+      "code": "PP07",
+      "title": "The Watch Runs Out",
+      "line": "quest.line.proposed",
+      "group": "proposed",
+      "tier": 3,
+      "status": "proposed",
+      "shapes": [
+        "SUCCESSION",
+        "RITE"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.insular-hereditary-watch",
+      "anchorPlaces": [
+        "place.hist-heartland.insular-hereditary-watch",
+        "place.mercantile-coast.insular-jungle-village"
+      ],
+      "premise": "A village whose entire history is a guard roster has no one left to put on it; it declines to say what it guards",
+      "costTier": null,
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ]
+    },
+    {
+      "id": "quest.proposed.pp08",
+      "code": "PP08",
+      "title": "Sixteen Doors",
+      "line": "quest.line.proposed",
+      "group": "proposed",
+      "tier": 3,
+      "status": "proposed",
+      "shapes": [
+        "HAUNTING",
+        "RECKONING"
+      ],
+      "region": "dunmer-north",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.dunmer-north.the-stripped-village",
+        "place.hist-heartland.umbriel-stripped-quiet",
+        "place.mercantile-coast.stripped-village-north",
+        "place.naga-kur-deeps.umbriel-stripped-undead"
+      ],
+      "premise": "Umbriel emptied four villages in a night, one of them has begun refilling; somebody is maintaining the containment ring",
+      "costTier": null,
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ]
+    },
+    {
+      "id": "quest.proposed.pp09",
+      "code": "PP09",
+      "title": "Who Stocks the Breath",
+      "line": "quest.line.proposed",
+      "group": "proposed",
+      "tier": 3,
+      "status": "proposed",
+      "shapes": [
+        "MISSING",
+        "RITE"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.hist-heartland.air-pocket-station-basin",
+        "place.mercantile-coast.oliis-air-station",
+        "place.naga-kur-deeps.air-pocket-station-deeps",
+        "place.saxhleel-coast.mangrove-air-pocket"
+      ],
+      "premise": "Five air-pocket stations on five dives were stocked by one person for thirty years; this season they were not",
+      "costTier": null,
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ]
+    },
+    {
+      "id": "quest.proposed.pp10",
+      "code": "PP10",
+      "title": "Six Weeks of Floor",
+      "line": "quest.line.proposed",
+      "group": "proposed",
+      "tier": 3,
+      "status": "proposed",
+      "shapes": [
+        "MURDER",
+        "WONDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.dunmer-north.the-drawdown-flats",
+        "place.hist-heartland.drawdown-flat-exposed",
+        "place.imperial-penal-south.drawdown-flat"
+      ],
+      "premise": "The lake pulls back for six weeks a year; this year the bed has a body on it that everyone had agreed was a drowning",
+      "costTier": null,
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ]
+    },
+    {
+      "id": "quest.proposed.pp11",
+      "code": "PP11",
+      "title": "The Oldest Bundle",
+      "line": "quest.line.proposed",
+      "group": "proposed",
+      "tier": 3,
+      "status": "proposed",
+      "shapes": [
+        "RITE",
+        "SUCCESSION"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.hist-heartland.bone-waystation-interior",
+        "place.imperial-fringe.bone-road-waystation",
+        "place.naga-kur-deeps.bone-carriers-camp-deeps",
+        "place.pirate-freeholds.bone-repatriation-waystation"
+      ],
+      "premise": "The bundle at the bottom of the rack has been rewrapped four times; no carrier will take it the last stage home",
+      "costTier": null,
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ]
+    },
+    {
+      "id": "quest.proposed.pp12",
+      "code": "PP12",
+      "title": "Nine Stakes Standing",
+      "line": "quest.line.proposed",
+      "group": "proposed",
+      "tier": 3,
+      "status": "proposed",
+      "shapes": [
+        "RECKONING",
+        "HAUNTING"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.necropolis-dead-tenders",
+      "anchorPlaces": [
+        "place.hist-heartland.bog-blight-ground-stakes",
+        "place.hist-heartland.necropolis-dead-tenders",
+        "place.naga-kur-deeps.bog-blight-ground-nine-stakes"
+      ],
+      "premise": "Somebody is pulling grave-stakes on purpose, in a pattern; the pattern is the point",
+      "costTier": null,
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ]
+    },
+    {
+      "id": "quest.proposed.pp13",
+      "code": "PP13",
+      "title": "Two Gates, One Receipt",
+      "line": "quest.line.proposed",
+      "group": "proposed",
+      "tier": 3,
+      "status": "proposed",
+      "shapes": [
+        "FRAUD",
+        "DISPUTE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.nine-fords",
+      "anchorPlaces": [
+        "place.dunmer-north.nine-fords",
+        "place.dunmer-north.the-two-gate-bridge"
+      ],
+      "premise": "One gatehouse on a two-toll bridge has been issuing the other's receipts for nine years",
+      "costTier": null,
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ]
+    },
+    {
+      "id": "quest.proposed.pp14",
+      "code": "PP14",
+      "title": "The Court Under No Light",
+      "line": "quest.line.proposed",
+      "group": "proposed",
+      "tier": 3,
+      "status": "proposed",
+      "shapes": [
+        "WONDER",
+        "NEGOTIATION"
+      ],
+      "region": "dunmer-north",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.dunmer-north.the-moon-court",
+        "place.imperial-fringe.moonrack-calcinator"
+      ],
+      "premise": "Two calcinator courts are laid out to a sky with nothing in it; the work done in them can be done nowhere else",
+      "costTier": null,
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ]
+    },
+    {
+      "id": "quest.proposed.pp15",
+      "code": "PP15",
+      "title": "The Keeper of the Turning",
+      "line": "quest.line.proposed",
+      "group": "proposed",
+      "tier": 3,
+      "status": "proposed",
+      "shapes": [
+        "WONDER",
+        "SUCCESSION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.mercantile-coast.wraxu-frieze",
+        "place.mercantile-coast.xinchei-konu"
+      ],
+      "premise": "The province's working sky-calendar has one hereditary keeper, no successor, plus a recorded power over the weather",
+      "costTier": null,
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ]
+    },
+    {
+      "id": "quest.proposed.pp16",
+      "code": "PP16",
+      "title": "The Cut That Still Opens",
+      "line": "quest.line.proposed",
+      "group": "proposed",
+      "tier": 3,
+      "status": "proposed",
+      "shapes": [
+        "WONDER",
+        "DISPUTE"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": "place.naga-kur-deeps.naga-village-settled",
+      "anchorPlaces": [
+        "place.naga-kur-deeps.horwalli-waterworks-deeps",
+        "place.naga-kur-deeps.naga-village-settled"
+      ],
+      "premise": "Sluices nobody attends still open and close on the season; four villages have built their year on a machine with no owner",
+      "costTier": null,
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ]
+    },
+    {
+      "id": "quest.proposed.pp17",
+      "code": "PP17",
+      "title": "Still Billing for the Road",
+      "line": "quest.line.proposed",
+      "group": "proposed",
+      "tier": 3,
+      "status": "proposed",
+      "shapes": [
+        "FRAUD",
+        "RECKONING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.dunmer-north.the-north-cut",
+        "place.imperial-fringe.the-embankment-that-drowned",
+        "place.imperial-fringe.the-second-empire-locks",
+        "place.imperial-fringe.unfinished-culvert-line"
+      ],
+      "premise": "An Imperial roadworks stopped mid-formation centuries ago; something is still drawing against its account",
+      "costTier": null,
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ]
+    },
+    {
+      "id": "quest.proposed.pp18",
+      "code": "PP18",
+      "title": "Who Was Fed",
+      "line": "quest.line.proposed",
+      "group": "proposed",
+      "tier": 3,
+      "status": "proposed",
+      "shapes": [
+        "RECKONING",
+        "CONTAMINATION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.flu-quarantine-village",
+      "anchorPlaces": [
+        "place.imperial-penal-south.flu-mass-grave",
+        "place.imperial-penal-south.flu-quarantine-village",
+        "place.imperial-penal-south.plague-cordon"
+      ],
+      "premise": "The Flu cordon's ration ledgers are still in the store, they show who was fed and who was not; Blackrose has left them undiscussed",
+      "costTier": null,
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ]
+    }
+  ]
+}

@@ -5,7 +5,7 @@
   "entries": [
     {
       "id": "quest.bc.bc01",
-      "name": "Chainbreakers BC01",
+      "name": "Four Months for a Boat",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -22,7 +22,7 @@
     },
     {
       "id": "quest.bc.bc02",
-      "name": "Chainbreakers BC02",
+      "name": "Names Scratched Out",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -39,7 +39,7 @@
     },
     {
       "id": "quest.bc.bc03",
-      "name": "Chainbreakers BC03",
+      "name": "The Broker's Mercy",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -56,7 +56,7 @@
     },
     {
       "id": "quest.bc.bc04",
-      "name": "Chainbreakers BC04",
+      "name": "Riot Without a Banner",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -73,7 +73,7 @@
     },
     {
       "id": "quest.bc.bc05",
-      "name": "Chainbreakers BC05",
+      "name": "Bones to the Dirt",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -90,7 +90,7 @@
     },
     {
       "id": "quest.bc.bc06",
-      "name": "Chainbreakers BC06",
+      "name": "What the Rose Becomes",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -118,7 +118,8 @@
       "code": "DQ01",
       "tier": "daedric",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.daedric",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -134,7 +135,8 @@
       "code": "DQ02",
       "tier": "daedric",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.daedric",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -150,7 +152,8 @@
       "code": "DQ03",
       "tier": "daedric",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.daedric",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -166,7 +169,8 @@
       "code": "DQ04",
       "tier": "daedric",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.daedric",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -182,7 +186,8 @@
       "code": "DQ05",
       "tier": "daedric",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.daedric",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -198,7 +203,8 @@
       "code": "DQ06",
       "tier": "daedric",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.daedric",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -214,7 +220,8 @@
       "code": "DQ07",
       "tier": "daedric",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.daedric",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -230,12 +237,13 @@
       "code": "DQ08",
       "tier": "daedric",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.daedric",
+      "faction": null,
       "questStatus": "live"
     },
     {
       "id": "quest.fg.fg01",
-      "name": "Marsh Charter FG01",
+      "name": "A Contract in Mud",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -252,7 +260,7 @@
     },
     {
       "id": "quest.fg.fg02",
-      "name": "Marsh Charter FG02",
+      "name": "The Missing Patrol",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -269,7 +277,7 @@
     },
     {
       "id": "quest.fg.fg03",
-      "name": "Marsh Charter FG03",
+      "name": "Wamasu Season",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -286,7 +294,7 @@
     },
     {
       "id": "quest.fg.fg04",
-      "name": "Marsh Charter FG04",
+      "name": "The Beast in the Ledger",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -303,7 +311,7 @@
     },
     {
       "id": "quest.fg.fg05",
-      "name": "Marsh Charter FG05",
+      "name": "A Fort Paid Twice",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -320,7 +328,7 @@
     },
     {
       "id": "quest.fg.fg06",
-      "name": "Marsh Charter FG06",
+      "name": "Mercy for a Monster",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -337,7 +345,7 @@
     },
     {
       "id": "quest.fg.fg07",
-      "name": "Marsh Charter FG07",
+      "name": "The Price of Protection",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -354,7 +362,7 @@
     },
     {
       "id": "quest.fg.fg08",
-      "name": "Marsh Charter FG08",
+      "name": "Charter War",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -371,7 +379,7 @@
     },
     {
       "id": "quest.fg.fg09",
-      "name": "Marsh Charter FG09",
+      "name": "The Contract No One Signed",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -388,7 +396,7 @@
     },
     {
       "id": "quest.fg.fg10",
-      "name": "Marsh Charter FG10",
+      "name": "No Master of Arms",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -418,6 +426,18 @@
       "depth": "standard"
     },
     {
+      "id": "quest.line.daedric",
+      "name": "Daedric and oddity quests line",
+      "kind": "questline",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md"
+      ],
+      "notes": "One quest per Prince plus the unexplained; the province's WONDER seam.",
+      "faction": null,
+      "milestone": 1
+    },
+    {
       "id": "quest.line.league-of-open-water",
       "name": "League of Open Water line",
       "kind": "questline",
@@ -430,6 +450,18 @@
       "faction": "faction.league-of-open-water",
       "milestone": 1,
       "depth": "standard"
+    },
+    {
+      "id": "quest.line.local",
+      "name": "Local quests line",
+      "kind": "questline",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md"
+      ],
+      "notes": "The region-by-region minor side quests; region agents write these into world/sources/quests/local-<region>.json.",
+      "faction": null,
+      "milestone": 1
     },
     {
       "id": "quest.line.main",
@@ -500,6 +532,18 @@
       "faction": "faction.nisswo",
       "milestone": 1,
       "depth": "deep"
+    },
+    {
+      "id": "quest.line.proposed",
+      "name": "Proposed from the plotted province line",
+      "kind": "questline",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md"
+      ],
+      "notes": "Not authored. Proposals raised by the 2026-09-04 quest/world co-design pass; an author picking one up re-runs the collision test.",
+      "faction": null,
+      "milestone": 1
     },
     {
       "id": "quest.line.reed-sail",
@@ -598,7 +642,8 @@
       "code": "LQ01",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -614,7 +659,8 @@
       "code": "LQ02",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -630,7 +676,8 @@
       "code": "LQ03",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -646,7 +693,8 @@
       "code": "LQ04",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -662,7 +710,8 @@
       "code": "LQ05",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -678,7 +727,8 @@
       "code": "LQ06",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -694,7 +744,8 @@
       "code": "LQ07",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -710,7 +761,8 @@
       "code": "LQ08",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -726,7 +778,8 @@
       "code": "LQ09",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -742,7 +795,8 @@
       "code": "LQ10",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -758,7 +812,8 @@
       "code": "LQ11",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -774,7 +829,8 @@
       "code": "LQ12",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -790,7 +846,8 @@
       "code": "LQ13",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -806,7 +863,8 @@
       "code": "LQ14",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -822,7 +880,8 @@
       "code": "LQ15",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -838,7 +897,8 @@
       "code": "LQ16",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -854,7 +914,8 @@
       "code": "LQ17",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -870,7 +931,8 @@
       "code": "LQ18",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -886,7 +948,8 @@
       "code": "LQ19",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -902,7 +965,8 @@
       "code": "LQ20",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -918,7 +982,8 @@
       "code": "LQ21",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -934,7 +999,8 @@
       "code": "LQ22",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -950,7 +1016,8 @@
       "code": "LQ23",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -966,7 +1033,8 @@
       "code": "LQ24",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -982,7 +1050,8 @@
       "code": "LQ25",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -998,7 +1067,8 @@
       "code": "LQ26",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1014,7 +1084,8 @@
       "code": "LQ27",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1030,7 +1101,8 @@
       "code": "LQ28",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1046,7 +1118,8 @@
       "code": "LQ29",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1062,7 +1135,8 @@
       "code": "LQ30",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1078,7 +1152,8 @@
       "code": "LQ31",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1093,7 +1168,8 @@
       "code": "MQ11",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1108,7 +1184,8 @@
       "code": "MQ12",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1123,12 +1200,13 @@
       "code": "MQ19",
       "tier": "local",
       "milestone": 1,
-      "line": null,
+      "line": "quest.line.local",
+      "faction": null,
       "questStatus": "live"
     },
     {
       "id": "quest.lw.lw01",
-      "name": "League of Open Water LW01",
+      "name": "Citizen of No Hist",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1145,7 +1223,7 @@
     },
     {
       "id": "quest.lw.lw02",
-      "name": "League of Open Water LW02",
+      "name": "The House Register",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1162,7 +1240,7 @@
     },
     {
       "id": "quest.lw.lw03",
-      "name": "League of Open Water LW03",
+      "name": "Bread and Salt",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1179,7 +1257,7 @@
     },
     {
       "id": "quest.lw.lw04",
-      "name": "League of Open Water LW04",
+      "name": "The Murdered Delegate",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1196,7 +1274,7 @@
     },
     {
       "id": "quest.lw.lw05",
-      "name": "League of Open Water LW05",
+      "name": "Trial by Water",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1213,7 +1291,7 @@
     },
     {
       "id": "quest.lw.lw06",
-      "name": "League of Open Water LW06",
+      "name": "The Empty Ward",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1230,7 +1308,7 @@
     },
     {
       "id": "quest.lw.lw07",
-      "name": "League of Open Water LW07",
+      "name": "A Vote Bought Twice",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1247,7 +1325,7 @@
     },
     {
       "id": "quest.lw.lw08",
-      "name": "League of Open Water LW08",
+      "name": "The Public Canal",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1264,7 +1342,7 @@
     },
     {
       "id": "quest.lw.lw09",
-      "name": "League of Open Water LW09",
+      "name": "The Open Water Charter",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1281,7 +1359,7 @@
     },
     {
       "id": "quest.lw.lw10",
-      "name": "League of Open Water LW10",
+      "name": "Who Counts as Argonian?",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1310,6 +1388,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1326,6 +1405,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1342,6 +1422,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1358,6 +1439,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1374,6 +1456,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1390,6 +1473,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1406,6 +1490,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1422,6 +1507,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1438,6 +1524,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1454,6 +1541,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1470,6 +1558,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1486,6 +1575,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1502,6 +1592,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1518,6 +1609,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1534,6 +1626,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1550,6 +1643,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1566,6 +1660,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1582,6 +1677,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1598,6 +1694,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1614,6 +1711,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1630,6 +1728,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1646,6 +1745,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1662,6 +1762,7 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
@@ -1678,11 +1779,12 @@
       "tier": "main",
       "milestone": 1,
       "line": "quest.line.main",
+      "faction": null,
       "questStatus": "live"
     },
     {
       "id": "quest.mr.mr01",
-      "name": "Many-Root MR01",
+      "name": "The Sick Root",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1699,7 +1801,7 @@
     },
     {
       "id": "quest.mr.mr02",
-      "name": "Many-Root MR02",
+      "name": "Eggs Above the Flood",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1716,7 +1818,7 @@
     },
     {
       "id": "quest.mr.mr03",
-      "name": "Many-Root MR03",
+      "name": "The Borrowed Tree",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1733,7 +1835,7 @@
     },
     {
       "id": "quest.mr.mr04",
-      "name": "Many-Root MR04",
+      "name": "Sap for Sale",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1750,7 +1852,7 @@
     },
     {
       "id": "quest.mr.mr05",
-      "name": "Many-Root MR05",
+      "name": "The Silent Clutch",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1767,7 +1869,7 @@
     },
     {
       "id": "quest.mr.mr06",
-      "name": "Many-Root MR06",
+      "name": "Root Against Road",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1784,7 +1886,7 @@
     },
     {
       "id": "quest.mr.mr07",
-      "name": "Many-Root MR07",
+      "name": "The Tree That Chose Another",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1801,7 +1903,7 @@
     },
     {
       "id": "quest.mr.mr08",
-      "name": "Many-Root MR08",
+      "name": "Council of Many Roots",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1818,7 +1920,7 @@
     },
     {
       "id": "quest.mr.mr09",
-      "name": "Many-Root MR09",
+      "name": "The Price of Guidance",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1835,7 +1937,7 @@
     },
     {
       "id": "quest.mr.mr10",
-      "name": "Many-Root MR10",
+      "name": "No Tree Owns the Marsh",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1852,7 +1954,7 @@
     },
     {
       "id": "quest.ni.ni01",
-      "name": "Nisswo NI01",
+      "name": "Ashes in Water",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1869,7 +1971,7 @@
     },
     {
       "id": "quest.ni.ni02",
-      "name": "Nisswo NI02",
+      "name": "A Sermon with No Words",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1886,7 +1988,7 @@
     },
     {
       "id": "quest.ni.ni03",
-      "name": "Nisswo NI03",
+      "name": "The Name Returned",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1903,7 +2005,7 @@
     },
     {
       "id": "quest.ni.ni04",
-      "name": "Nisswo NI04",
+      "name": "The Sleepless Mourner",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1920,7 +2022,7 @@
     },
     {
       "id": "quest.ni.ni05",
-      "name": "Nisswo NI05",
+      "name": "Teeth of Sithis",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1937,7 +2039,7 @@
     },
     {
       "id": "quest.ni.ni06",
-      "name": "Nisswo NI06",
+      "name": "A Change Refused",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1954,7 +2056,7 @@
     },
     {
       "id": "quest.ni.ni07",
-      "name": "Nisswo NI07",
+      "name": "The False Nisswo",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1971,7 +2073,7 @@
     },
     {
       "id": "quest.ni.ni08",
-      "name": "Nisswo NI08",
+      "name": "The Shape of Mercy",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -1988,7 +2090,7 @@
     },
     {
       "id": "quest.ni.ni09",
-      "name": "Nisswo NI09",
+      "name": "Every Ending Is a Door",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2005,7 +2107,7 @@
     },
     {
       "id": "quest.ni.ni10",
-      "name": "Nisswo NI10",
+      "name": "The Turning Path",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2021,8 +2123,314 @@
       "questStatus": "live"
     },
     {
+      "id": "quest.proposed.pp01",
+      "name": "The Stage That Stopped Calling",
+      "kind": "proposed-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ],
+      "notes": "A scheduled boat service quietly stopped calling at one landing, and the crews will not say who decided it",
+      "code": "PP01",
+      "tier": "proposed",
+      "milestone": 2,
+      "line": "quest.line.proposed",
+      "faction": null,
+      "questStatus": "proposed"
+    },
+    {
+      "id": "quest.proposed.pp02",
+      "name": "Buying the Reed Gate",
+      "kind": "proposed-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ],
+      "notes": "A raiding camp will sell a season's safe passage, and the price is a person",
+      "code": "PP02",
+      "tier": "proposed",
+      "milestone": 2,
+      "line": "quest.line.proposed",
+      "faction": null,
+      "questStatus": "proposed"
+    },
+    {
+      "id": "quest.proposed.pp03",
+      "name": "The Interrupted Flight",
+      "kind": "proposed-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ],
+      "notes": "A man fell out of the sky, his scrolls outlived him, and none of them says where he was going",
+      "code": "PP03",
+      "tier": "proposed",
+      "milestone": 2,
+      "line": "quest.line.proposed",
+      "faction": null,
+      "questStatus": "proposed"
+    },
+    {
+      "id": "quest.proposed.pp04",
+      "name": "Provably Stolen",
+      "kind": "proposed-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ],
+      "notes": "The wreck's cargo seals are intact and legible, so anything lifted off her traces back to whoever holds it",
+      "code": "PP04",
+      "tier": "proposed",
+      "milestone": 2,
+      "line": "quest.line.proposed",
+      "faction": null,
+      "questStatus": "proposed"
+    },
+    {
+      "id": "quest.proposed.pp05",
+      "name": "Cordon Two, Under-Stores",
+      "kind": "proposed-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ],
+      "notes": "Everything the Owing seized in the south is racked, tagged and dated in one cellar, and most of the owners are dead",
+      "code": "PP05",
+      "tier": "proposed",
+      "milestone": 2,
+      "line": "quest.line.proposed",
+      "faction": null,
+      "questStatus": "proposed"
+    },
+    {
+      "id": "quest.proposed.pp06",
+      "name": "The Line Nobody Walked",
+      "kind": "proposed-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ],
+      "notes": "A camp has sat on a Dres boundary for forty years waiting for someone who came back wrong, and no grave-singer will go out to it",
+      "code": "PP06",
+      "tier": "proposed",
+      "milestone": 2,
+      "line": "quest.line.proposed",
+      "faction": null,
+      "questStatus": "proposed"
+    },
+    {
+      "id": "quest.proposed.pp07",
+      "name": "The Watch Runs Out",
+      "kind": "proposed-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ],
+      "notes": "A village whose entire history is a guard roster has no one left to put on it, and will not say what it guards",
+      "code": "PP07",
+      "tier": "proposed",
+      "milestone": 2,
+      "line": "quest.line.proposed",
+      "faction": null,
+      "questStatus": "proposed"
+    },
+    {
+      "id": "quest.proposed.pp08",
+      "name": "Sixteen Doors",
+      "kind": "proposed-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ],
+      "notes": "Umbriel emptied four villages in a night, one of them has begun refilling, and somebody is maintaining the containment ring",
+      "code": "PP08",
+      "tier": "proposed",
+      "milestone": 2,
+      "line": "quest.line.proposed",
+      "faction": null,
+      "questStatus": "proposed"
+    },
+    {
+      "id": "quest.proposed.pp09",
+      "name": "Who Stocks the Breath",
+      "kind": "proposed-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ],
+      "notes": "Five air-pocket stations on five dives were stocked by one person for thirty years, and this season they were not",
+      "code": "PP09",
+      "tier": "proposed",
+      "milestone": 2,
+      "line": "quest.line.proposed",
+      "faction": null,
+      "questStatus": "proposed"
+    },
+    {
+      "id": "quest.proposed.pp10",
+      "name": "Six Weeks of Floor",
+      "kind": "proposed-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ],
+      "notes": "The lake pulls back for six weeks a year, and this year the bed has a body on it that everyone had agreed was a drowning",
+      "code": "PP10",
+      "tier": "proposed",
+      "milestone": 2,
+      "line": "quest.line.proposed",
+      "faction": null,
+      "questStatus": "proposed"
+    },
+    {
+      "id": "quest.proposed.pp11",
+      "name": "The Oldest Bundle",
+      "kind": "proposed-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ],
+      "notes": "The bundle at the bottom of the rack has been rewrapped four times, and no carrier will take it the last stage home",
+      "code": "PP11",
+      "tier": "proposed",
+      "milestone": 2,
+      "line": "quest.line.proposed",
+      "faction": null,
+      "questStatus": "proposed"
+    },
+    {
+      "id": "quest.proposed.pp12",
+      "name": "Nine Stakes Standing",
+      "kind": "proposed-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ],
+      "notes": "Somebody is pulling grave-stakes on purpose, in a pattern, and the pattern is the point",
+      "code": "PP12",
+      "tier": "proposed",
+      "milestone": 2,
+      "line": "quest.line.proposed",
+      "faction": null,
+      "questStatus": "proposed"
+    },
+    {
+      "id": "quest.proposed.pp13",
+      "name": "Two Gates, One Receipt",
+      "kind": "proposed-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ],
+      "notes": "One gatehouse on a two-toll bridge has been issuing the other's receipts for nine years",
+      "code": "PP13",
+      "tier": "proposed",
+      "milestone": 2,
+      "line": "quest.line.proposed",
+      "faction": null,
+      "questStatus": "proposed"
+    },
+    {
+      "id": "quest.proposed.pp14",
+      "name": "The Court Under No Light",
+      "kind": "proposed-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ],
+      "notes": "Two calcinator courts are laid out to a sky with nothing in it, and the work done in them can be done nowhere else",
+      "code": "PP14",
+      "tier": "proposed",
+      "milestone": 2,
+      "line": "quest.line.proposed",
+      "faction": null,
+      "questStatus": "proposed"
+    },
+    {
+      "id": "quest.proposed.pp15",
+      "name": "The Keeper of the Turning",
+      "kind": "proposed-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ],
+      "notes": "The province's working ancient calendar has one hereditary keeper, no successor, and canon says it can turn the weather",
+      "code": "PP15",
+      "tier": "proposed",
+      "milestone": 2,
+      "line": "quest.line.proposed",
+      "faction": null,
+      "questStatus": "proposed"
+    },
+    {
+      "id": "quest.proposed.pp16",
+      "name": "The Cut That Still Opens",
+      "kind": "proposed-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ],
+      "notes": "Sluices nobody attends still open and close on the season, and four villages have built their year on a machine with no owner",
+      "code": "PP16",
+      "tier": "proposed",
+      "milestone": 2,
+      "line": "quest.line.proposed",
+      "faction": null,
+      "questStatus": "proposed"
+    },
+    {
+      "id": "quest.proposed.pp17",
+      "name": "Still Billing for the Road",
+      "kind": "proposed-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ],
+      "notes": "An Imperial roadworks stopped mid-formation centuries ago, and something is still drawing against its account",
+      "code": "PP17",
+      "tier": "proposed",
+      "milestone": 2,
+      "line": "quest.line.proposed",
+      "faction": null,
+      "questStatus": "proposed"
+    },
+    {
+      "id": "quest.proposed.pp18",
+      "name": "Who Was Fed",
+      "kind": "proposed-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md §47e",
+        "docs/decisions/0041-phase11-settlement-decisions.md"
+      ],
+      "notes": "The Flu cordon's ration ledgers are still in the store, they show who was fed and who was not, and Blackrose has left them undiscussed",
+      "code": "PP18",
+      "tier": "proposed",
+      "milestone": 2,
+      "line": "quest.line.proposed",
+      "faction": null,
+      "questStatus": "proposed"
+    },
+    {
       "id": "quest.rs.rs01",
-      "name": "Reed-Sail RS01",
+      "name": "Earn Your Pole",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2039,7 +2447,7 @@
     },
     {
       "id": "quest.rs.rs02",
-      "name": "Reed-Sail RS02",
+      "name": "Ferry in the Dark",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2056,7 +2464,7 @@
     },
     {
       "id": "quest.rs.rs03",
-      "name": "Reed-Sail RS03",
+      "name": "Cargo with a Pulse",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2073,7 +2481,7 @@
     },
     {
       "id": "quest.rs.rs04",
-      "name": "Reed-Sail RS04",
+      "name": "The Drowned Toll",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2090,7 +2498,7 @@
     },
     {
       "id": "quest.rs.rs05",
-      "name": "Reed-Sail RS05",
+      "name": "Pirates of Topal",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2107,7 +2515,7 @@
     },
     {
       "id": "quest.rs.rs06",
-      "name": "Reed-Sail RS06",
+      "name": "Broken Pilots",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2124,7 +2532,7 @@
     },
     {
       "id": "quest.rs.rs07",
-      "name": "Reed-Sail RS07",
+      "name": "Storm at Archon",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2141,7 +2549,7 @@
     },
     {
       "id": "quest.rs.rs08",
-      "name": "Reed-Sail RS08",
+      "name": "A Chain Across the River",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2158,7 +2566,7 @@
     },
     {
       "id": "quest.rs.rs09",
-      "name": "Reed-Sail RS09",
+      "name": "Compact or Cartel",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2175,7 +2583,7 @@
     },
     {
       "id": "quest.rs.rs10",
-      "name": "Reed-Sail RS10",
+      "name": "Open Channels",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2192,7 +2600,7 @@
     },
     {
       "id": "quest.rw.rw01",
-      "name": "Rootworm Waykeepers RW01",
+      "name": "The Worm That Refused",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2209,7 +2617,7 @@
     },
     {
       "id": "quest.rw.rw02",
-      "name": "Rootworm Waykeepers RW02",
+      "name": "Passenger Without a Name",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2226,7 +2634,7 @@
     },
     {
       "id": "quest.rw.rw03",
-      "name": "Rootworm Waykeepers RW03",
+      "name": "The Shortcut Sold",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2243,7 +2651,7 @@
     },
     {
       "id": "quest.rw.rw04",
-      "name": "Rootworm Waykeepers RW04",
+      "name": "A Mouth Too Narrow",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2260,7 +2668,7 @@
     },
     {
       "id": "quest.rw.rw05",
-      "name": "Rootworm Waykeepers RW05",
+      "name": "The Waykeepers' Oath",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2277,7 +2685,7 @@
     },
     {
       "id": "quest.sa.sa01",
-      "name": "Sunken Archive SA01",
+      "name": "A Book That Breathes Water",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2294,7 +2702,7 @@
     },
     {
       "id": "quest.sa.sa02",
-      "name": "Sunken Archive SA02",
+      "name": "Borrowed Memory",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2311,7 +2719,7 @@
     },
     {
       "id": "quest.sa.sa03",
-      "name": "Sunken Archive SA03",
+      "name": "The Weight of a Name",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2328,7 +2736,7 @@
     },
     {
       "id": "quest.sa.sa04",
-      "name": "Sunken Archive SA04",
+      "name": "The College at the Door",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2345,7 +2753,7 @@
     },
     {
       "id": "quest.sa.sa05",
-      "name": "Sunken Archive SA05",
+      "name": "Synod in the Cellar",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2362,7 +2770,7 @@
     },
     {
       "id": "quest.sa.sa06",
-      "name": "Sunken Archive SA06",
+      "name": "A Dead Scholar's Method",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2379,7 +2787,7 @@
     },
     {
       "id": "quest.sa.sa07",
-      "name": "Sunken Archive SA07",
+      "name": "A Ruin with Two Owners",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2396,7 +2804,7 @@
     },
     {
       "id": "quest.sa.sa08",
-      "name": "Sunken Archive SA08",
+      "name": "The Experiment That Escaped",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2413,7 +2821,7 @@
     },
     {
       "id": "quest.sa.sa09",
-      "name": "Sunken Archive SA09",
+      "name": "Three Charters",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2430,7 +2838,7 @@
     },
     {
       "id": "quest.sa.sa10",
-      "name": "Sunken Archive SA10",
+      "name": "What We Publish",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2447,7 +2855,7 @@
     },
     {
       "id": "quest.ss.ss01",
-      "name": "Shadowscales SS01",
+      "name": "Last of the Scale",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2464,7 +2872,7 @@
     },
     {
       "id": "quest.ss.ss02",
-      "name": "Shadowscales SS02",
+      "name": "Writ Without a King",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2481,7 +2889,7 @@
     },
     {
       "id": "quest.ss.ss03",
-      "name": "Shadowscales SS03",
+      "name": "The Empty Cradle",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2498,7 +2906,7 @@
     },
     {
       "id": "quest.ss.ss04",
-      "name": "Shadowscales SS04",
+      "name": "Born Under Shadow",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2515,7 +2923,7 @@
     },
     {
       "id": "quest.ss.ss05",
-      "name": "Shadowscales SS05",
+      "name": "A Brother from Falkreath",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2532,7 +2940,7 @@
     },
     {
       "id": "quest.ss.ss06",
-      "name": "Shadowscales SS06",
+      "name": "The Honest Target",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2549,7 +2957,7 @@
     },
     {
       "id": "quest.ss.ss07",
-      "name": "Shadowscales SS07",
+      "name": "Two Knives, One Name",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2566,7 +2974,7 @@
     },
     {
       "id": "quest.ss.ss08",
-      "name": "Shadowscales SS08",
+      "name": "The State's Hand",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2583,7 +2991,7 @@
     },
     {
       "id": "quest.ss.ss09",
-      "name": "Shadowscales SS09",
+      "name": "No Listener in Black Marsh",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2600,7 +3008,7 @@
     },
     {
       "id": "quest.ss.ss10",
-      "name": "Shadowscales SS10",
+      "name": "Shadow at Dawn",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2685,7 +3093,7 @@
     },
     {
       "id": "quest.ta.ta01",
-      "name": "Thorn Ash-Reed TA01",
+      "name": "The Memorial with Two Dates",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2702,7 +3110,7 @@
     },
     {
       "id": "quest.ta.ta02",
-      "name": "Thorn Ash-Reed TA02",
+      "name": "A Body on the Ferry",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2719,7 +3127,7 @@
     },
     {
       "id": "quest.ta.ta03",
-      "name": "Thorn Ash-Reed TA03",
+      "name": "Whoever Was Standing In Them",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2736,7 +3144,7 @@
     },
     {
       "id": "quest.ta.ta04",
-      "name": "Thorn Ash-Reed TA04",
+      "name": "The Retaliation List",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2753,7 +3161,7 @@
     },
     {
       "id": "quest.ta.ta05",
-      "name": "Thorn Ash-Reed TA05",
+      "name": "Ash-Reed Accord",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2770,7 +3178,7 @@
     },
     {
       "id": "quest.tg.tg01",
-      "name": "Night-Reed TG01",
+      "name": "A Dry Hand in a Wet City",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2787,7 +3195,7 @@
     },
     {
       "id": "quest.tg.tg02",
-      "name": "Night-Reed TG02",
+      "name": "The Drowned Lockbox",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2804,7 +3212,7 @@
     },
     {
       "id": "quest.tg.tg03",
-      "name": "Night-Reed TG03",
+      "name": "Honest Customs",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2821,7 +3229,7 @@
     },
     {
       "id": "quest.tg.tg04",
-      "name": "Night-Reed TG04",
+      "name": "The House That Floats",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2838,7 +3246,7 @@
     },
     {
       "id": "quest.tg.tg05",
-      "name": "Night-Reed TG05",
+      "name": "A Fence in Every Port",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2855,7 +3263,7 @@
     },
     {
       "id": "quest.tg.tg06",
-      "name": "Night-Reed TG06",
+      "name": "The Rootworm Robbery",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2872,7 +3280,7 @@
     },
     {
       "id": "quest.tg.tg07",
-      "name": "Night-Reed TG07",
+      "name": "The Informer's Cut",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2889,7 +3297,7 @@
     },
     {
       "id": "quest.tg.tg08",
-      "name": "Night-Reed TG08",
+      "name": "The Vault Beneath Pusbottom",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2906,7 +3314,7 @@
     },
     {
       "id": "quest.tg.tg09",
-      "name": "Night-Reed TG09",
+      "name": "Tools of the Grand Heist",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2923,7 +3331,7 @@
     },
     {
       "id": "quest.tg.tg10",
-      "name": "Night-Reed TG10",
+      "name": "The Palace Below the Tide",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2940,7 +3348,7 @@
     },
     {
       "id": "quest.tg.tg11",
-      "name": "Night-Reed TG11",
+      "name": "Who Owns the Night?",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2957,7 +3365,7 @@
     },
     {
       "id": "quest.uw.uw01",
-      "name": "Umbriel Witness UW01",
+      "name": "A Voice Recorded Twice",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2974,7 +3382,7 @@
     },
     {
       "id": "quest.uw.uw02",
-      "name": "Umbriel Witness UW02",
+      "name": "The Sleeping Hist Fragment",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -2991,7 +3399,7 @@
     },
     {
       "id": "quest.uw.uw03",
-      "name": "Umbriel Witness UW03",
+      "name": "Pusbottom's Missing House",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -3008,7 +3416,7 @@
     },
     {
       "id": "quest.uw.uw04",
-      "name": "Umbriel Witness UW04",
+      "name": "The Refuge",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -3025,7 +3433,7 @@
     },
     {
       "id": "quest.uw.uw05",
-      "name": "Umbriel Witness UW05",
+      "name": "The Public Record",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [

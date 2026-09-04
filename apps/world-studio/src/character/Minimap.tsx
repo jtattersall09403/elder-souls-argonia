@@ -6,6 +6,7 @@ import {
   worldToMapPx,
   type MapMeta,
 } from "@elder-souls/game-core/hud/minimap";
+import { drawMinimapOverlay, type MinimapOverlay } from "./minimapOverlay";
 
 /** Minimap panel size (CSS px) and zoomed-view span (world metres). */
 const VIEW_PX = 180;
@@ -19,7 +20,7 @@ const DOWNSCALE_PX = 1024;
  * north-up, centred on the player with a heading wedge. Click/tap toggles a
  * full-province view so the owner can see where they are overall.
  */
-export function Minimap({ mapCanvas, meta, xKm, zKm, headingDeg, bottomPx }: {
+export function Minimap({ mapCanvas, meta, xKm, zKm, headingDeg, bottomPx, overlay, leftPx = 12 }: {
   /** The studio's painted province-map canvas (stays mounted in every view). */
   mapCanvas: HTMLCanvasElement | null;
   meta: MapMeta;
@@ -28,6 +29,9 @@ export function Minimap({ mapCanvas, meta, xKm, zKm, headingDeg, bottomPx }: {
   headingDeg: number;
   /** Lifts the panel clear of the touch joystick when needed. */
   bottomPx: number;
+  /** Plotted places + route network, drawn over the crop (owner 2026-09-04). */
+  overlay?: MinimapOverlay | null;
+  leftPx?: number;
 }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [zoomed, setZoomed] = useState(true);
@@ -57,16 +61,27 @@ export function Minimap({ mapCanvas, meta, xKm, zKm, headingDeg, bottomPx }: {
     const zM = zKm * 1000;
     ctx.clearRect(0, 0, VIEW_PX, VIEW_PX);
     let dot: { x: number; y: number };
+    // Map-raster pixel (full-res meta) → minimap canvas, for the overlay.
+    let toView: (px: number, py: number) => { x: number; y: number };
+    let metresPerViewPx: number;
+    const fullToSmall = DOWNSCALE_PX / meta.imageWidth;
     if (zoomed) {
       const crop = cropRectFor(xM, zM, ZOOM_SPAN_M, smallMeta);
       ctx.imageSmoothingEnabled = true;
       ctx.drawImage(small, crop.x, crop.y, crop.size, crop.size, 0, 0, VIEW_PX, VIEW_PX);
       dot = positionInCrop(xM, zM, crop, smallMeta, VIEW_PX);
+      const k = VIEW_PX / crop.size;
+      toView = (px, py) => ({ x: (px * fullToSmall - crop.x) * k, y: (py * fullToSmall - crop.y) * k });
+      metresPerViewPx = (crop.size * smallMeta.metresPerPixel) / VIEW_PX;
     } else {
       ctx.drawImage(small, 0, 0, VIEW_PX, VIEW_PX);
       const { px, py } = worldToMapPx(xM, zM, smallMeta);
       dot = { x: (px / DOWNSCALE_PX) * VIEW_PX, y: (py / DOWNSCALE_PX) * VIEW_PX };
+      const k = VIEW_PX / meta.imageWidth;
+      toView = (qx, qy) => ({ x: qx * k, y: qy * k });
+      metresPerViewPx = (meta.imageWidth * meta.metresPerPixel) / VIEW_PX;
     }
+    if (overlay) drawMinimapOverlay(ctx, overlay, meta, toView, VIEW_PX, metresPerViewPx);
     // Player: heading wedge behind a centred dot.
     const wedge = headingWedge(dot.x, dot.y, headingDeg, zoomed ? 11 : 8);
     ctx.beginPath();
@@ -90,7 +105,7 @@ export function Minimap({ mapCanvas, meta, xKm, zKm, headingDeg, bottomPx }: {
     ctx.fillText("N", VIEW_PX / 2 + 1, 13);
     ctx.fillStyle = "#e6ecf5";
     ctx.fillText("N", VIEW_PX / 2, 12);
-  }, [small, smallMeta, xKm, zKm, headingDeg, zoomed]);
+  }, [small, smallMeta, meta, xKm, zKm, headingDeg, zoomed, overlay]);
 
   if (!small) return null;
   return (
@@ -101,7 +116,7 @@ export function Minimap({ mapCanvas, meta, xKm, zKm, headingDeg, bottomPx }: {
       onClick={() => setZoomed((z) => !z)}
       title={zoomed ? "~1.5 km around you — click for the whole province" : "Whole province — click to zoom back in"}
       style={{
-        position: "absolute", left: 12, bottom: bottomPx,
+        position: "absolute", left: leftPx, bottom: bottomPx,
         width: VIEW_PX, height: VIEW_PX, borderRadius: 8, cursor: "pointer",
         border: "1px solid rgba(230,236,245,0.35)", background: "rgba(10,14,20,0.8)",
       }}

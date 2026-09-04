@@ -98,7 +98,7 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
   return (
     <>
       <svg viewBox={`0 0 ${VB} ${VB}`} preserveAspectRatio="none"
-        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 1 }}>
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 1, pointerEvents: "none" }}>
         {lines.map((l) => {
           const st = ROUTE_STYLE[l.mode];
           const pts = l.px.map(([c, r]) => `${(c / HYDRO_GRID_PX) * VB},${(r / HYDRO_GRID_PX) * VB}`).join(" ");
@@ -106,8 +106,10 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
           return (
             <g key={l.key} style={{ cursor: "pointer" }}
               onClick={(e) => { e.stopPropagation(); onSelectedKey(on ? null : l.key); }}>
-              {/* fat invisible hit line: thin routes are hard to hit exactly */}
-              <polyline points={pts} fill="none" stroke="transparent" strokeWidth={7} vectorEffect="non-scaling-stroke" />
+              {/* fat invisible hit line: thin routes are hard to hit exactly;
+                  pointerEvents "stroke" so a transparent stroke still hits */}
+              <polyline points={pts} fill="none" stroke="transparent" strokeWidth={9} vectorEffect="non-scaling-stroke"
+                style={{ pointerEvents: "stroke" }} />
               <polyline points={pts} fill="none" stroke={on ? "#ffffff" : st.stroke}
                 strokeWidth={on ? st.width + 1.6 : st.width} strokeDasharray={st.dash}
                 opacity={on ? 1 : 0.85} vectorEffect="non-scaling-stroke" />

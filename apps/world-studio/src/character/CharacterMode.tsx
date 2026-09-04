@@ -34,6 +34,7 @@ import { Vegetation } from "../vegetation/Vegetation";
 import { Groundcover } from "../vegetation/Groundcover";
 import { headingOf } from "../compass";
 import { Minimap } from "./Minimap";
+import type { MinimapOverlay } from "./minimapOverlay";
 import { parseQuality, QUALITY_PRESETS, type QualitySettings } from "@elder-souls/game-core/core/quality";
 import type { MapMeta } from "@elder-souls/game-core/hud/minimap";
 
@@ -65,7 +66,7 @@ export interface CharacterHudState {
   grounded: boolean;
 }
 
-export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength, exaggeration, onExaggeration, lookupRegion, mapCanvas, mapMeta, onPositionKm, onExit, onFlyHere }: {
+export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength, exaggeration, onExaggeration, lookupRegion, mapCanvas, mapMeta, minimapOverlay, onPositionKm, onExit, onFlyHere }: {
   spawnKm: { x: number; z: number };
   raceId?: string;
   profileId?: string;
@@ -81,6 +82,8 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   /** The studio's province-map canvas + raster meta for the minimap. */
   mapCanvas?: HTMLCanvasElement | null;
   mapMeta?: MapMeta | null;
+  /** Places + route network for the minimap (App loads it once). */
+  minimapOverlay?: MinimapOverlay | null;
   onPositionKm: (xKm: number, zKm: number) => void;
   onExit: () => void;
   onFlyHere: (xKm: number, zKm: number) => void;
@@ -483,6 +486,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
           zKm={hud.zKm}
           headingDeg={hud.headingDeg}
           bottomPx={touch ? 210 : 12}
+          overlay={minimapOverlay}
         />
       )}
       {touch && <TouchControls />}

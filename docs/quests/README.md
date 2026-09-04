@@ -12,9 +12,9 @@ until then this plan's job is to tell the world build what to provide.
 | **Placing, moving or cutting a place; or authoring a quest that needs one** | [25-quest-place-map.md](25-quest-place-map.md) — the provision → catalogue-place table, the questline → anchor-places view, and the four standing rules that keep the two halves in sync. Read it before you touch `world/sources/catalogue/places-*.json` or write a brief. |
 | **Any world-generation agent** (terrain, settlements, POIs, dungeons, routes, danger, ecology) | [20-world-provisions.md](20-world-provisions.md) — handoff contract, provision tags, danger tiers (incl. the D↔danger-band mapping), location packet, consequence budget, exit gate. Then the quest tables for whatever region/city you're building: [30-main-quest.md](30-main-quest.md), [40-factions.md](40-factions.md), [50-side-quests.md](50-side-quests.md) each carry per-quest **World-generation provision** columns — those are requirements. |
 | Anyone needing the story/design picture | [00-overview.md](00-overview.md) — summary, content targets, frozen decisions, design rules (cost tiers, dramatic register, wonder budget, **cast rules, delivery tiers, the boredom test**), acceptance criteria. |
-| **Authoring any new quest** | [55-quest-index.md](55-quest-index.md) — **mandatory before writing a brief**: one line per existing quest, the shape taxonomy, the novelty/collision rule, per-region shape budgets, and the current coverage gaps. Update it in the same change. |
+| **Authoring any new quest** | [index/README.md](index/README.md) — **mandatory before writing a brief**: the shape taxonomy, the novelty/collision rule and the per-packet shape budget (§47a–c). Then [index/coverage.md](index/coverage.md), the generated commissioning brief (shape gaps, per-region budget, the settlement demand ladder). The rows themselves are DATA in [world/sources/quests/](../../world/sources/quests/README.md): add yours to `local-<region>.json`, then run `python3 -m worldgen.quests --check --sync` and `python3 -m worldgen.export_quest_index`. |
 | **Writing any named NPC** — main quest, faction, local, texture | [35-cast.md](35-cast.md) — **the rules, mandatory before naming anybody** (~5k tokens): depth tiers, the six character rules (Morrowind desk model, UESP-mined), the canon naming system, the texture kit, validation. Then [36-cast-roster.md](36-cast-roster.md) — **lookup-only**: the principal cast, per-faction desks, shared places, oddities — consult only the lines/places your brief touches. |
-| **Authoring one local/texture quest brief** | The minimal chain: [55-quest-index.md](55-quest-index.md) in full; [00-overview.md](00-overview.md) §1 + §4; [35-cast.md](35-cast.md) rules; [70-assets.md](70-assets.md) §51; [20-world-provisions.md](20-world-provisions.md) §11–12 tags. |
+| **Authoring one local/texture quest brief** | The minimal chain: [index/README.md](index/README.md) + [index/coverage.md](index/coverage.md) + your region's `index/local-<region>.md`; [00-overview.md](00-overview.md) §1 + §4; [35-cast.md](35-cast.md) rules; [70-assets.md](70-assets.md) §51; [20-world-provisions.md](20-world-provisions.md) §11–12 tags. |
 | Political/cultural framing for places or NPCs | [10-political-frame.md](10-political-frame.md) (+ the lore dossiers, per the CLAUDE.md lore rule). |
 | Writing, dialogue, lore-confidence layers | [60-writing-and-lore.md](60-writing-and-lore.md) — **incl. §45e, the TES-voice rules and the banned-constructions list, binding on every line written.** Strings live in `packages/text-catalogue`, never as literals (engineering standard 4). |
 | **Gating anything on world state** — a stage requirement, a dialogue line's availability, a faction check, a reward | [85-condition-vocabulary.md](85-condition-vocabulary.md) — the only language conditions and actions may be written in. Need a predicate that isn't there? Add it there, then use it. Never prose. |
@@ -75,9 +75,10 @@ until then this plan's job is to tell the world build what to provide.
   tracks** of five tiers each (30 §24b) — cult power with corprus-style
   trade-offs, Reed access and informants, the tribes' welcome and safe routes,
   and the Eye-and-crown; stack tiers 1–3, lock 4–5; one phased stronghold
-  re-skinned by allegiance. And [55-quest-index.md](55-quest-index.md) is
+  re-skinned by allegiance. And [index/README.md](index/README.md) is
   **mandatory reading before authoring any quest** — shape taxonomy, novelty
-  rule, coverage gaps.
+  rule — with the coverage gaps generated into
+  [index/coverage.md](index/coverage.md).
 
 - The **quest ↔ place co-design pass** ran on 2026-09-04 (decision
   [0041](../decisions/0041-phase11-settlement-decisions.md) § Part 4 step 2):
@@ -85,4 +86,4 @@ until then this plan's job is to tell the world build what to provide.
   ([25-quest-place-map.md](25-quest-place-map.md)), four records were added and
   eight promoted to close gaps, fifteen places were re-sited for quest value,
   and eighteen *proposed* rows written from what the plotted province offers
-  ([55-quest-index.md](55-quest-index.md) §47e).
+  ([index/proposed.md](index/proposed.md), PP01–PP18).

@@ -338,7 +338,11 @@ def _first_claim(rec: dict, pattern: re.Pattern) -> tuple[str, str] | None:
 GENERIC_ROAD = re.compile(
     r"\bon (?:the|a) (?:road|route|highway|lane|way)\b|\broadside\b|\bat a crossing\b|"
     r"\bcrossroad|\bjunction\b|\bthe ford\b|\ba ford\b|\bfords the\b|\bbridge\b|"
-    r"\bcauseway\b|\btoll\b|\btrunk (?:road|route|line)\b|\bwayhouse\b",
+    r"\bcauseway\b|\btoll\b|\btrunk (?:road|route|line)\b|\bwayhouse\b|"
+    # owner case 2026-09-04 (Ninefold): "the one stretch of road wide enough for
+    # a gate" 400 m from any route — road-surface phrasing counts as a road claim
+    r"\bstretch of (?:the )?road\b|\bmetalled road\b|\bpaved road\b|\broad'?s? (?:stone )?surface\b|"
+    r"\b(?:beside|along|astride|straddl\w+) the road\b|\broad wide enough\b",
     re.I)
 TRUNK_WORD = re.compile(r"\btrunk (?:road|route|line)\b", re.I)
 ROUTE_EDGE_ID = re.compile(r"^(?:boat|ferry|road|track|caravan)[.:]([a-z0-9-]+)", re.I)
@@ -468,6 +472,13 @@ def check_landform(ctx: Ctx, rec: dict) -> list[Finding]:
     wanted = m.group(1) if m else (prefs[0] if prefs and got not in prefs else None)
     if not wanted:
         return []
+    # A recorded terrain request for that landform is the resolution (Part 6
+    # carves it): report it as low/ok-explain rather than as a contradiction.
+    asked = {t.get("kind") for t in rec.get("terrainRequests") or [] if isinstance(t, dict)}
+    if wanted in asked or (wanted == "flood-high" and {"dry-rise", "knoll"} & asked):
+        return [Finding(rec["id"], ctx.region_of[rec["id"]], "landform", "low",
+                        clip(f"terrainRequests asks for '{wanted}'"),
+                        "the plot found none; the meso compiler will make it (Part 6)", "ok-explain")]
     words = LANDFORM_WORDS.get(wanted)
     if not words:
         return []

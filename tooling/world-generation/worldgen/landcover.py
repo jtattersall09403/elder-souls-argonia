@@ -371,6 +371,15 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
         id1[m1] = i
         w1[m1] = b[m1]
     blend = w1 / np.maximum(w0 + w1, 1e-6)
+    # Routes stay crisp: the blur above lets the surrounding material outvote
+    # a two-texel track (owner 2026-09-04: minor roads invisible in 3D). On
+    # route texels the painted surface wins outright, with a thin blend so
+    # the edge is not a hard seam.
+    route = np.isin(mat, (BC_ROAD, TRACK, PATH))
+    swap = route & (id0 != mat)
+    id1[swap] = id0[swap]
+    id0[route] = mat[route].astype(np.uint8)
+    blend[route] = np.minimum(blend[route], 0.25)
     macro = _noise(shape, 40, rng).clip(-2, 2) / 4 + 0.5
     control = np.stack([
         id0, id1,

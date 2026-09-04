@@ -1,0 +1,2566 @@
+{
+  "schemaVersion": 1,
+  "packet": "quests-factions",
+  "seed": "quests-quests-factions-v1",
+  "quests": [
+    {
+      "id": "quest.bc.bc01",
+      "code": "BC01",
+      "title": "Four Months for a Boat",
+      "line": "quest.line.chainbreakers",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "BONDAGE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.the-dres-rows",
+      "anchorPlaces": [
+        "place.dunmer-north.the-dres-rows",
+        "place.pirate-freeholds.corimont-hiring-yard"
+      ],
+      "premise": "An Owing assessed at four nushmeekos has run eleven years; the arithmetic is correct at every step",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.bc.bc02",
+      "code": "BC02",
+      "title": "Names Scratched Out",
+      "line": "quest.line.chainbreakers",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "MISSING",
+        "FRAUD"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Burnt registers and estate ledgers are the same class of document; reading them finds people still held",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.bc.bc03",
+      "code": "BC03",
+      "title": "The Broker's Mercy",
+      "line": "quest.line.chainbreakers",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "RECKONING",
+        "BONDAGE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.the-freed-rows",
+      "anchorPlaces": [
+        "place.dunmer-north.the-freed-rows",
+        "place.imperial-penal-south.chainbreaker-shelter"
+      ],
+      "premise": "A man who forgave debts for thirty years built the brokerage that now indentures two dock crews",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.bc.bc04",
+      "code": "BC04",
+      "title": "Riot Without a Banner",
+      "line": "quest.line.chainbreakers",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "BONDAGE"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.imperial-penal-south.rose-outworks"
+      ],
+      "premise": "An uprising inside the Rose is being prepared by factions with incompatible aims",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.bc.bc05",
+      "code": "BC05",
+      "title": "Bones to the Dirt",
+      "line": "quest.line.chainbreakers",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "RITE",
+        "RECKONING"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.imperial-penal-south.rose-bone-waystation",
+        "place.mercantile-coast.white-rose-prison"
+      ],
+      "premise": "White Rose Prison is full of Argonian dead who died mid-Owing, far from their Hist",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.bc.bc06",
+      "code": "BC06",
+      "title": "What the Rose Becomes",
+      "line": "quest.line.chainbreakers",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "NEGOTIATION",
+        "SUCCESSION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Four ends for the Rose, of which the interesting ones are about assessment itself",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.fg.fg01",
+      "code": "FG01",
+      "title": "A Contract in Mud",
+      "line": "quest.line.marsh-charter",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "FRAUD",
+        "PREDATOR"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.westfield-village",
+      "anchorPlaces": [
+        "place.imperial-fringe.westfield-village"
+      ],
+      "premise": "A settlement-defence contract turns out to have understated the danger while overcharging residents",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.fg.fg02",
+      "code": "FG02",
+      "title": "The Missing Patrol",
+      "line": "quest.line.marsh-charter",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "MISSING",
+        "RECKONING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.imperial-fringe.keepers-lodge-of-the-lower-onkobra"
+      ],
+      "premise": "A patrol vanished after refusing an unsafe order, so the tracks read as negligence",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.fg.fg03",
+      "code": "FG03",
+      "title": "Wamasu Season",
+      "line": "quest.line.marsh-charter",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "PREDATOR",
+        "DISPUTE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A juvenile Wamasu threatens farms because hunters killed its prey then took its eggs",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.fg.fg04",
+      "code": "FG04",
+      "title": "The Beast in the Ledger",
+      "line": "quest.line.marsh-charter",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "FRAUD",
+        "PREDATOR"
+      ],
+      "region": "imperial-fringe",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Several villages were billed for the same slain creature",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.fg.fg05",
+      "code": "FG05",
+      "title": "A Fort Paid Twice",
+      "line": "quest.line.marsh-charter",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "NEGOTIATION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.swampmoth-town",
+      "anchorPlaces": [
+        "place.imperial-fringe.fort-swampmoth",
+        "place.imperial-fringe.swampmoth-town"
+      ],
+      "premise": "Two communities financed one fort restoration, so the commander plans to abandon the poorer",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.fg.fg06",
+      "code": "FG06",
+      "title": "Mercy for a Monster",
+      "line": "quest.line.marsh-charter",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "CONTAMINATION",
+        "DISPUTE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "An Argonian transformed by disease keeps reason intermittently, so cure, containment and execution are all argued",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.fg.fg07",
+      "code": "FG07",
+      "title": "The Price of Protection",
+      "line": "quest.line.marsh-charter",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "PREDATOR",
+        "FRAUD"
+      ],
+      "region": "imperial-fringe",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.imperial-fringe.the-broke-column"
+      ],
+      "premise": "Local officers encourage bandits to keep villages dependent on charter contracts",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.fg.fg08",
+      "code": "FG08",
+      "title": "Charter War",
+      "line": "quest.line.marsh-charter",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "NEGOTIATION",
+        "DISPUTE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.stonewastes",
+      "anchorPlaces": [
+        "place.imperial-fringe.stonewastes"
+      ],
+      "premise": "Reformers, mercenary captains and the Four Winds compete over what the Charter is for",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.fg.fg09",
+      "code": "FG09",
+      "title": "The Contract No One Signed",
+      "line": "quest.line.marsh-charter",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "FRAUD"
+      ],
+      "region": "imperial-fringe",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "An extermination order targets a marsh community that requested nothing, because the client wants its water",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.fg.fg10",
+      "code": "FG10",
+      "title": "No Master of Arms",
+      "line": "quest.line.marsh-charter",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "SUCCESSION",
+        "NEGOTIATION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "The charter resolves as public service, mercenary company, auxiliary or broken cartel",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.lw.lw01",
+      "code": "LW01",
+      "title": "Citizen of No Hist",
+      "line": "quest.line.league-of-open-water",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "BONDAGE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.hissmir",
+      "anchorPlaces": [
+        "place.dunmer-north.hissmir"
+      ],
+      "premise": "A resident is refused civic registration because no local Hist claims them",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.lw.lw02",
+      "code": "LW02",
+      "title": "The House Register",
+      "line": "quest.line.league-of-open-water",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "SUCCESSION",
+        "DISPUTE"
+      ],
+      "region": "saxhleel-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A property census regularises ownership while erasing informal occupants and communal rights",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.lw.lw03",
+      "code": "LW03",
+      "title": "Bread and Salt",
+      "line": "quest.line.league-of-open-water",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "FRAUD",
+        "DISPUTE"
+      ],
+      "region": "saxhleel-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Shortages are blamed on outsiders while merchants warehouse the supply",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.lw.lw04",
+      "code": "LW04",
+      "title": "The Murdered Delegate",
+      "line": "quest.line.league-of-open-water",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "MURDER",
+        "FRAUD"
+      ],
+      "region": "saxhleel-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A delegate's killing looks ethnic; the victim was exposing League financiers",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.lw.lw05",
+      "code": "LW05",
+      "title": "Trial by Water",
+      "line": "quest.line.league-of-open-water",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "RITE",
+        "DISPUTE"
+      ],
+      "region": "saxhleel-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A traditional ordeal is demanded in a mixed city court",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.lw.lw06",
+      "code": "LW06",
+      "title": "The Empty Ward",
+      "line": "quest.line.league-of-open-water",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "SUCCESSION"
+      ],
+      "region": "saxhleel-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A district evacuated for disease stays legally occupied by absent owners while refugees move in",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.lw.lw07",
+      "code": "LW07",
+      "title": "A Vote Bought Twice",
+      "line": "quest.line.league-of-open-water",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "FRAUD",
+        "NEGOTIATION"
+      ],
+      "region": "saxhleel-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Two blocs bribe the same electors using different definitions of corruption",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.lw.lw08",
+      "code": "LW08",
+      "title": "The Public Canal",
+      "line": "quest.line.league-of-open-water",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "NEGOTIATION",
+        "RITE"
+      ],
+      "region": "saxhleel-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A canal improves sanitation and trade, cuts a sacred route; displaces households",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.lw.lw09",
+      "code": "LW09",
+      "title": "The Open Water Charter",
+      "line": "quest.line.league-of-open-water",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "NEGOTIATION",
+        "DISPUTE"
+      ],
+      "region": "saxhleel-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Reformers, merchants and civic officers negotiate a new charter against prior cases",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.lw.lw10",
+      "code": "LW10",
+      "title": "Who Counts as Argonian?",
+      "line": "quest.line.league-of-open-water",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "SUCCESSION",
+        "RECKONING"
+      ],
+      "region": "saxhleel-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A plural civic movement, a merchant oligarchy, a municipal service, or collapse",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.mr.mr01",
+      "code": "MR01",
+      "title": "The Sick Root",
+      "line": "quest.line.many-root",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "CONTAMINATION",
+        "EXPEDITION"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.greenspring",
+      "anchorPlaces": [
+        "place.hist-heartland.greenspring",
+        "place.hist-heartland.root-gallery-drowned-stair"
+      ],
+      "premise": "A Hist is dying and the village blames upstream salt, so the diagnosis is a dive",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.mr.mr02",
+      "code": "MR02",
+      "title": "Eggs Above the Flood",
+      "line": "quest.line.many-root",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "EXPEDITION",
+        "RITE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.hatching-pools",
+      "anchorPlaces": [
+        "place.dunmer-north.hatching-pools"
+      ],
+      "premise": "The nursery floods tonight, so a threatened clutch goes out by boat in the dark",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.mr.mr03",
+      "code": "MR03",
+      "title": "The Borrowed Tree",
+      "line": "quest.line.many-root",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "SUCCESSION",
+        "DISPUTE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.twyllbek-ruins"
+      ],
+      "premise": "Gideon's Hist is a planted cutting of disputed provenance, claimed by a Gloommire tribe",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.mr.mr04",
+      "code": "MR04",
+      "title": "Sap for Sale",
+      "line": "quest.line.many-root",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "BONDAGE",
+        "FRAUD"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.hist-heartland.harmed-hist-tapped",
+        "place.hist-heartland.poacher-camp-sap",
+        "place.hist-heartland.sap-tapping-licensed"
+      ],
+      "premise": "A legal medicinal sap trade hides coercive night harvesting by Owing-held crews",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.mr.mr05",
+      "code": "MR05",
+      "title": "The Silent Clutch",
+      "line": "quest.line.many-root",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "HAUNTING",
+        "RECKONING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.bereaved-village-murkmire",
+      "anchorPlaces": [
+        "place.mercantile-coast.bereaved-village-murkmire"
+      ],
+      "premise": "Adults of one clutch share a silence sold to them as a curable curse",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.mr.mr06",
+      "code": "MR06",
+      "title": "Root Against Road",
+      "line": "quest.line.many-root",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "RITE"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.hist-heartland.walkway-junction-high-crossroads"
+      ],
+      "premise": "A causeway cuts living roots and burial ground, then a span fails while the parties argue",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.mr.mr07",
+      "code": "MR07",
+      "title": "The Tree That Chose Another",
+      "line": "quest.line.many-root",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "SUCCESSION",
+        "WONDER"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.hist-heartland.officeholder-tree-minder-house"
+      ],
+      "premise": "A Hist speaks more clearly to a channel-digger than to its appointed Tree-Minder",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.mr.mr08",
+      "code": "MR08",
+      "title": "Council of Many Roots",
+      "line": "quest.line.many-root",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "NEGOTIATION",
+        "PREDATOR"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.root-talk-ground"
+      ],
+      "premise": "The Conclave's great council cannot convene, because each delegation is stuck for a different reason",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.mr.mr09",
+      "code": "MR09",
+      "title": "The Price of Guidance",
+      "line": "quest.line.many-root",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "RECKONING",
+        "CONTAMINATION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.imperial-penal-south.lake-drowned-village"
+      ],
+      "premise": "A Tree-Minder hid a flood warning, saved some people; moved the boundary stakes first",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.mr.mr10",
+      "code": "MR10",
+      "title": "No Tree Owns the Marsh",
+      "line": "quest.line.many-root",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "NEGOTIATION"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Mid-ratification, a chartered crew is taking a cutting under paper the mid-game reform issued",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ni.ni01",
+      "code": "NI01",
+      "title": "Ashes in Water",
+      "line": "quest.line.nisswo",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "RITE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.necropolis-village-murkmire",
+      "anchorPlaces": [
+        "place.mercantile-coast.necropolis-village-murkmire"
+      ],
+      "premise": "Two families dispute the correct funeral for someone who lived outside their birth community",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ni.ni02",
+      "code": "NI02",
+      "title": "A Sermon with No Words",
+      "line": "quest.line.nisswo",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "WONDER",
+        "RITE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A silent Nisswo explains nothing, so the day must be copied before it is understood",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ni.ni03",
+      "code": "NI03",
+      "title": "The Name Returned",
+      "line": "quest.line.nisswo",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "FRAUD",
+        "SUCCESSION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A dead person's name is claiming property, so the spiritual dispute hides a practical fraud",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ni.ni04",
+      "code": "NI04",
+      "title": "The Sleepless Mourner",
+      "line": "quest.line.nisswo",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "HAUNTING",
+        "RITE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A mourner's dreams read as grief, as haunting, or as a healer's manipulation",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ni.ni05",
+      "code": "NI05",
+      "title": "Teeth of Sithis",
+      "line": "quest.line.nisswo",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "RITE",
+        "RECKONING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.mercantile-coast.teeth-of-sithis"
+      ],
+      "premise": "A splinter sect wants the province's largest Sithis temple returned to blood",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ni.ni06",
+      "code": "NI06",
+      "title": "A Change Refused",
+      "line": "quest.line.nisswo",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "SUCCESSION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A settlement leader uses tradition to keep a widow, an apprentice or an incomer out of a role",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ni.ni07",
+      "code": "NI07",
+      "title": "The False Nisswo",
+      "line": "quest.line.nisswo",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "FRAUD",
+        "NEGOTIATION"
+      ],
+      "region": "dunmer-north",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.dunmer-north.the-northern-rest",
+        "place.hist-heartland.pilgrim-camp-sap-road"
+      ],
+      "premise": "An admired travelling priest fabricates revelations, having also mediated a real peace",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ni.ni08",
+      "code": "NI08",
+      "title": "The Shape of Mercy",
+      "line": "quest.line.nisswo",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "RECKONING",
+        "RITE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A condemned murderer asks for a ritual death while victims demand testimony",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ni.ni09",
+      "code": "NI09",
+      "title": "Every Ending Is a Door",
+      "line": "quest.line.nisswo",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "NEGOTIATION",
+        "DISPUTE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Rival schools argue whether the order should stay dispersed or build a teaching house",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ni.ni10",
+      "code": "NI10",
+      "title": "The Turning Path",
+      "line": "quest.line.nisswo",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "SUCCESSION",
+        "NEGOTIATION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A plural network, a formal school, an itinerant tradition or a dissolved order",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.rs.rs01",
+      "code": "RS01",
+      "title": "Earn Your Pole",
+      "line": "quest.line.reed-sail",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "EXPEDITION",
+        "NEGOTIATION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.mercantile-coast.oliis-ferry-stage"
+      ],
+      "premise": "Qualify on a working ferry route against current, passengers and a staged obstruction",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.rs.rs02",
+      "code": "RS02",
+      "title": "Ferry in the Dark",
+      "line": "quest.line.reed-sail",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "SMUGGLING",
+        "MISSING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A night ferry carries someone hunted by law and by criminals alike",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.rs.rs03",
+      "code": "RS03",
+      "title": "Cargo with a Pulse",
+      "line": "quest.line.reed-sail",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "SMUGGLING",
+        "CONTAMINATION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A sealed crate holds a living creature trafficked for alchemy",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.rs.rs04",
+      "code": "RS04",
+      "title": "The Drowned Toll",
+      "line": "quest.line.reed-sail",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "FRAUD",
+        "NEGOTIATION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.three-gate-toll",
+      "anchorPlaces": [
+        "place.imperial-penal-south.three-gate-toll"
+      ],
+      "premise": "An official toll sinks financially while guards and pilots run a private tariff",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.rs.rs05",
+      "code": "RS05",
+      "title": "Pirates of Topal",
+      "line": "quest.line.reed-sail",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "THEFT",
+        "NEGOTIATION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.mercantile-coast.quinrawl-anchorage",
+        "place.pirate-freeholds.channel-pirate-anchorage"
+      ],
+      "premise": "A pirate crew is half former ferry workers displaced by a monopoly",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.rs.rs06",
+      "code": "RS06",
+      "title": "Broken Pilots",
+      "line": "quest.line.reed-sail",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "WONDER"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.screen-watch",
+      "anchorPlaces": [
+        "place.mercantile-coast.screen-watch"
+      ],
+      "premise": "Veteran pilots give wrong directions on purpose, resisting a map registry",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.rs.rs07",
+      "code": "RS07",
+      "title": "Storm at Archon",
+      "line": "quest.line.reed-sail",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "EXPEDITION",
+        "DISPUTE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A storm traps ships outside Archon, so limited rescue capacity must be allocated",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.rs.rs08",
+      "code": "RS08",
+      "title": "A Chain Across the River",
+      "line": "quest.line.reed-sail",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "NEGOTIATION",
+        "DISPUTE"
+      ],
+      "region": "dunmer-north",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.dunmer-north.boom-keepers-lodge"
+      ],
+      "premise": "A merchant coalition proposes a physical chain and a monopoly checkpoint",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.rs.rs09",
+      "code": "RS09",
+      "title": "Compact or Cartel",
+      "line": "quest.line.reed-sail",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "RECKONING",
+        "SUCCESSION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Violence forces an internal election, so method decides which votes stay legitimate",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.rs.rs10",
+      "code": "RS10",
+      "title": "Open Channels",
+      "line": "quest.line.reed-sail",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "SUCCESSION",
+        "NEGOTIATION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Worker compact, merchant cartel, pirate confederation or regulated public ferry",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.rw.rw01",
+      "code": "RW01",
+      "title": "The Worm That Refused",
+      "line": "quest.line.rootworm-waykeepers",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "WONDER",
+        "DISPUTE"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A rootworm refuses a familiar route; the cause is read from behaviourless evidence",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.rw.rw02",
+      "code": "RW02",
+      "title": "Passenger Without a Name",
+      "line": "quest.line.rootworm-waykeepers",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "NEGOTIATION",
+        "MISSING"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A wanted traveller seeks transit under an obsolete sanctuary custom",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.rw.rw03",
+      "code": "RW03",
+      "title": "The Shortcut Sold",
+      "line": "quest.line.rootworm-waykeepers",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "SMUGGLING",
+        "RECKONING"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.hist-heartland.bubble-spire-collapsed"
+      ],
+      "premise": "A Waykeeper sells a sacred route to smugglers to fund repairs the state refused",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.rw.rw04",
+      "code": "RW04",
+      "title": "A Mouth Too Narrow",
+      "line": "quest.line.rootworm-waykeepers",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "RITE"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.hist-heartland.root-gallery-collapsed-nine"
+      ],
+      "premise": "A route reopens only by cutting living roots or abandoning a dependent settlement",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.rw.rw05",
+      "code": "RW05",
+      "title": "The Waykeepers' Oath",
+      "line": "quest.line.rootworm-waykeepers",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "SUCCESSION",
+        "NEGOTIATION"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Open public service, restricted sacred order, state transport bureau or dispersed keepers",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.sa.sa01",
+      "code": "SA01",
+      "title": "A Book That Breathes Water",
+      "line": "quest.line.sunken-archive",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "EXPEDITION",
+        "DISPUTE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.mercantile-coast.xhon-mehl-shrine"
+      ],
+      "premise": "Recover a waterproofed text from an inhabited submerged ruin whose owners are present",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.sa.sa02",
+      "code": "SA02",
+      "title": "Borrowed Memory",
+      "line": "quest.line.sunken-archive",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "BONDAGE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A scholar uses volunteered Hist-memory fragments, then cannot prove consent survived translation",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.sa.sa03",
+      "code": "SA03",
+      "title": "The Weight of a Name",
+      "line": "quest.line.sunken-archive",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "SUCCESSION",
+        "DISPUTE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.imperial-penal-south.murkwood-verge"
+      ],
+      "premise": "An untranslated tablet makes a modern family the heirs of an ancient office",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.sa.sa04",
+      "code": "SA04",
+      "title": "The College at the Door",
+      "line": "quest.line.sunken-archive",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "NEGOTIATION",
+        "FRAUD"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "College envoys offer independence from Imperial bureaucracy while hiding a binding experiment",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.sa.sa05",
+      "code": "SA05",
+      "title": "Synod in the Cellar",
+      "line": "quest.line.sunken-archive",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "NEGOTIATION",
+        "THEFT"
+      ],
+      "region": "imperial-fringe",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon-synod-outstation"
+      ],
+      "premise": "The Synod offers funding and instruments; demands exclusive custody of every discovery",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.sa.sa06",
+      "code": "SA06",
+      "title": "A Dead Scholar's Method",
+      "line": "quest.line.sunken-archive",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "MURDER",
+        "RECKONING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A murdered researcher's notes rebuild from field sites; the killer was shielding a community",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.sa.sa07",
+      "code": "SA07",
+      "title": "A Ruin with Two Owners",
+      "line": "quest.line.sunken-archive",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "RITE"
+      ],
+      "region": "dunmer-north",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.dunmer-north.the-outer-silyanorn",
+        "place.dunmer-north.the-permit-dig",
+        "place.dunmer-north.the-whispers-dig"
+      ],
+      "premise": "An excavated Xanmeer is a sacred site and a settlement's quarry at the same time",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.sa.sa08",
+      "code": "SA08",
+      "title": "The Experiment That Escaped",
+      "line": "quest.line.sunken-archive",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "CONTAMINATION",
+        "EXPEDITION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A construct loose in the waterways is read from its wake at fixed breach points",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.sa.sa09",
+      "code": "SA09",
+      "title": "Three Charters",
+      "line": "quest.line.sunken-archive",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "SUCCESSION",
+        "NEGOTIATION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Synod, College and independent scholars offer incompatible institutional futures",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.sa.sa10",
+      "code": "SA10",
+      "title": "What We Publish",
+      "line": "quest.line.sunken-archive",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "RECKONING",
+        "DISPUTE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A discovery can delegitimise land claims or expose sacred information, so publication is the choice",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ss.ss01",
+      "code": "SS01",
+      "title": "Last of the Scale",
+      "line": "quest.line.shadowscales",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "SUCCESSION",
+        "MISSING"
+      ],
+      "region": "saxhleel-coast",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.saxhleel-coast.archon-shadowscale-sanctuary"
+      ],
+      "premise": "A dying contract-killer claims to be the last trained Shadowscale, then asks for the list of surviving initiates",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ss.ss02",
+      "code": "SS02",
+      "title": "Writ Without a King",
+      "line": "quest.line.shadowscales",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "RECKONING",
+        "NEGOTIATION"
+      ],
+      "region": "saxhleel-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "The first test is a writ whose issuing authority no longer exists, if it ever did",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ss.ss03",
+      "code": "SS03",
+      "title": "The Empty Cradle",
+      "line": "quest.line.shadowscales",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "BONDAGE",
+        "MISSING"
+      ],
+      "region": "dunmer-north",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.dunmer-north.murkwater-shadowscale-ground"
+      ],
+      "premise": "A ruined hatchery's records show children redirected into state service; one survivor denies consenting",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ss.ss04",
+      "code": "SS04",
+      "title": "Born Under Shadow",
+      "line": "quest.line.shadowscales",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "SUCCESSION"
+      ],
+      "region": "saxhleel-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Rival revivalists claim an adult born under the Shadow, whose birth sign settles nothing",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ss.ss05",
+      "code": "SS05",
+      "title": "A Brother from Falkreath",
+      "line": "quest.line.shadowscales",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "NEGOTIATION",
+        "FRAUD"
+      ],
+      "region": "saxhleel-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A Dark Brotherhood emissary offers legitimacy in exchange for absorption",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ss.ss06",
+      "code": "SS06",
+      "title": "The Honest Target",
+      "line": "quest.line.shadowscales",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "FRAUD",
+        "MURDER"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon"
+      ],
+      "premise": "A contract names a corrupt magistrate, but the patron is erasing a conviction",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ss.ss07",
+      "code": "SS07",
+      "title": "Two Knives, One Name",
+      "line": "quest.line.shadowscales",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "MURDER",
+        "RECKONING"
+      ],
+      "region": "saxhleel-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Two assassins share one Shadowscale title, so authenticity and innocence come apart",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ss.ss08",
+      "code": "SS08",
+      "title": "The State's Hand",
+      "line": "quest.line.shadowscales",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "NEGOTIATION",
+        "DISPUTE"
+      ],
+      "region": "saxhleel-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "The Veiled Reed offers a charter: protection and resources for state-directed contracts",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ss.ss09",
+      "code": "SS09",
+      "title": "No Listener in Black Marsh",
+      "line": "quest.line.shadowscales",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "RITE",
+        "FRAUD"
+      ],
+      "region": "saxhleel-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A rite meant to reach the Night Mother yields ambiguous evidence over a staged deception",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ss.ss10",
+      "code": "SS10",
+      "title": "Shadow at Dawn",
+      "line": "quest.line.shadowscales",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "SUCCESSION",
+        "NEGOTIATION"
+      ],
+      "region": "saxhleel-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "The surviving claimants force a final choice about what the order becomes",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ta.ta01",
+      "code": "TA01",
+      "title": "The Memorial with Two Dates",
+      "line": "quest.line.thorn-ash-reed",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "RECKONING",
+        "DISPUTE"
+      ],
+      "region": "dunmer-north",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Two communities commemorate different atrocities at one site",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ta.ta02",
+      "code": "TA02",
+      "title": "A Body on the Ferry",
+      "line": "quest.line.thorn-ash-reed",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "MURDER",
+        "SMUGGLING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A killing looks political; the victim was moving Owing-held labourers as freight",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ta.ta03",
+      "code": "TA03",
+      "title": "Whoever Was Standing In Them",
+      "line": "quest.line.thorn-ash-reed",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "SUCCESSION",
+        "BONDAGE"
+      ],
+      "region": "dunmer-north",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.dunmer-north.andalen-plantation",
+        "place.dunmer-north.waits-for-the-promise"
+      ],
+      "premise": "The saltrice fields carry no titles, only occupation; the holder works them under Owings",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ta.ta04",
+      "code": "TA04",
+      "title": "The Retaliation List",
+      "line": "quest.line.thorn-ash-reed",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "BONDAGE",
+        "RECKONING"
+      ],
+      "region": "dunmer-north",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Both militias keep lists of civilians to seize if fighting starts",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.ta.ta05",
+      "code": "TA05",
+      "title": "Ash-Reed Accord",
+      "line": "quest.line.thorn-ash-reed",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "NEGOTIATION",
+        "SUCCESSION"
+      ],
+      "region": "dunmer-north",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Truth commission, security pact, closed separation or factional victory",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.tg.tg01",
+      "code": "TG01",
+      "title": "A Dry Hand in a Wet City",
+      "line": "quest.line.night-reed",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "THEFT",
+        "NEGOTIATION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.mercantile-coast.soulrest-quay-tradehouse"
+      ],
+      "premise": "Recover stolen property without harming the thief who took it from another thief",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.tg.tg02",
+      "code": "TG02",
+      "title": "The Drowned Lockbox",
+      "line": "quest.line.night-reed",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "THEFT"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.mercantile-coast.villa-cellars"
+      ],
+      "premise": "Three clients claim a lockbox in a sunken counting house, so the contents expose all three",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.tg.tg03",
+      "code": "TG03",
+      "title": "Honest Customs",
+      "line": "quest.line.night-reed",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "SMUGGLING",
+        "FRAUD",
+        "BONDAGE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.slough-point",
+      "anchorPlaces": [
+        "place.imperial-fringe.bonded-shed-of-the-onkobra",
+        "place.imperial-fringe.slough-point"
+      ],
+      "premise": "Customs officers run an illegal tariff while a smuggler uses the scandal to move captives",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.tg.tg04",
+      "code": "TG04",
+      "title": "The House That Floats",
+      "line": "quest.line.night-reed",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "EXPEDITION",
+        "THEFT"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lighter-flotilla",
+      "anchorPlaces": [
+        "place.mercantile-coast.lighter-flotilla"
+      ],
+      "premise": "A wealthy home moves between moorings, so the burglary becomes navigation and timing",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.tg.tg05",
+      "code": "TG05",
+      "title": "A Fence in Every Port",
+      "line": "quest.line.night-reed",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "NEGOTIATION",
+        "FRAUD"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Three candidate fences compete; reliability matters more than any quota",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.tg.tg06",
+      "code": "TG06",
+      "title": "The Rootworm Robbery",
+      "line": "quest.line.night-reed",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "SMUGGLING",
+        "THEFT"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.hist-heartland.rootworm-station-helstrom"
+      ],
+      "premise": "A sealed state packet is intercepted somewhere along a rootworm transit",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.tg.tg07",
+      "code": "TG07",
+      "title": "The Informer's Cut",
+      "line": "quest.line.night-reed",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "FRAUD",
+        "RECKONING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Someone is selling guild routes; every beat points at a climber who is innocent",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.tg.tg08",
+      "code": "TG08",
+      "title": "The Vault Beneath Pusbottom",
+      "line": "quest.line.night-reed",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "EXPEDITION",
+        "THEFT"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.villa-cellars"
+      ],
+      "premise": "A flooded municipal vault teaches route planning before the grand heist",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.tg.tg09",
+      "code": "TG09",
+      "title": "Tools of the Grand Heist",
+      "line": "quest.line.night-reed",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "NEGOTIATION",
+        "EXPEDITION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Two preparations of four are chosen, each opening an optional route",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.tg.tg10",
+      "code": "TG10",
+      "title": "The Palace Below the Tide",
+      "line": "quest.line.night-reed",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "THEFT",
+        "EXPEDITION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth"
+      ],
+      "premise": "The Crown Ledger heist crosses reception rooms, roofs, service canals and a guarded archive",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.tg.tg11",
+      "code": "TG11",
+      "title": "Who Owns the Night?",
+      "line": "quest.line.night-reed",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "RECKONING",
+        "FRAUD"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "The ledger proves patrons, merchants and officials jointly engineered housing seizures",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.uw.uw01",
+      "code": "UW01",
+      "title": "A Voice Recorded Twice",
+      "line": "quest.line.umbriel-witness",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "FRAUD",
+        "RECKONING"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Two witness texts contradict because one was edited after its author died",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.uw.uw02",
+      "code": "UW02",
+      "title": "The Sleeping Hist Fragment",
+      "line": "quest.line.umbriel-witness",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "CONTAMINATION"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A recovered sap sample is treated as evidence, as relic and as hazard at once",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.uw.uw03",
+      "code": "UW03",
+      "title": "Pusbottom's Missing House",
+      "line": "quest.line.umbriel-witness",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "MISSING",
+        "RECKONING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.mercantile-coast.sunkfoot"
+      ],
+      "premise": "A vanished household was left off every official casualty list",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.uw.uw04",
+      "code": "UW04",
+      "title": "The Refuge",
+      "line": "quest.line.umbriel-witness",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "EXPEDITION",
+        "HAUNTING"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.naga-kur-deeps.deepmire-refuge"
+      ],
+      "premise": "The province's real Umbriel memorial is a cursed plateau the locals avoid",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.uw.uw05",
+      "code": "UW05",
+      "title": "The Public Record",
+      "line": "quest.line.umbriel-witness",
+      "group": "faction",
+      "tier": 2,
+      "status": "live",
+      "shapes": [
+        "RECKONING",
+        "NEGOTIATION"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Full archive, protected testimony, official narrative or sealed evidence",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    }
+  ]
+}

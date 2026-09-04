@@ -1,0 +1,1202 @@
+{
+  "schemaVersion": 1,
+  "packet": "quests-standalone",
+  "seed": "quests-quests-standalone-v1",
+  "budgetExceptions": {
+    "quest.line.daedric": {
+      "WONDER": "By design: the Daedric and oddity packet IS the province's WONDER seam, and eight quests are too few for a percentage to mean much."
+    },
+    "quest.line.local": {
+      "DISPUTE": "Inherited from the 2026-08-28 hand-written index: seven of the thirty-four standalone rows open on two parties with a real claim. Region agents writing new local rows must pick other shapes until DISPUTE falls back inside the band."
+    }
+  },
+  "quests": [
+    {
+      "id": "quest.daedric.dq01",
+      "code": "DQ01",
+      "title": "The Flu That Prays",
+      "line": "quest.line.daedric",
+      "group": "daedric",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "CONTAMINATION",
+        "RITE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.the-shut-village",
+      "anchorPlaces": [
+        "place.dunmer-north.the-shut-village"
+      ],
+      "premise": "A remote community venerates the Knahaten Flu as a cleansing; a Peryite cultist wants it literal",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.daedric.dq02",
+      "code": "DQ02",
+      "title": "What the Water Keeps",
+      "line": "quest.line.daedric",
+      "group": "daedric",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "WONDER",
+        "NEGOTIATION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.imperial-penal-south.lake-submerged-xanmeer"
+      ],
+      "premise": "A drowned library offers any answer at all in exchange for a memory worth keeping",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.daedric.dq03",
+      "code": "DQ03",
+      "title": "The Hunt Below the Hunt",
+      "line": "quest.line.daedric",
+      "group": "daedric",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "PREDATOR",
+        "RECKONING"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.hist-heartland.marsh-giant-ground-basin"
+      ],
+      "premise": "Hunters after a great marsh beast are themselves marked as prey",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.daedric.dq04",
+      "code": "DQ04",
+      "title": "The Door That Bargains",
+      "line": "quest.line.daedric",
+      "group": "daedric",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "WONDER",
+        "FRAUD"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.mercantile-coast.mirtis-plantation"
+      ],
+      "premise": "A sealed plantation door grants wishes to anyone who feeds it deeds of ownership",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.daedric.dq05",
+      "code": "DQ05",
+      "title": "A Shadow With No Star",
+      "line": "quest.line.daedric",
+      "group": "daedric",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "MISSING",
+        "WONDER"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.nightbound-lightless",
+      "anchorPlaces": [
+        "place.hist-heartland.nightbound-lightless"
+      ],
+      "premise": "A cowl erases its wearer from memory; the village has forgotten who is using it",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.daedric.dq06",
+      "code": "DQ06",
+      "title": "The Feast of the Patient",
+      "line": "quest.line.daedric",
+      "group": "daedric",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "WONDER",
+        "RITE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.imperial-fringe.the-drowned-mule"
+      ],
+      "premise": "A hospitable route inn keeps meat that the route cannot account for",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.daedric.dq07",
+      "code": "DQ07",
+      "title": "The Lover Who Stayed Wet",
+      "line": "quest.line.daedric",
+      "group": "daedric",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "HAUNTING",
+        "RITE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.necropolis-village-murkmire",
+      "anchorPlaces": [
+        "place.mercantile-coast.necropolis-village-murkmire"
+      ],
+      "premise": "A beloved funerary practice technically produces undead; Meridia's agent wants it destroyed",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.daedric.dq08",
+      "code": "DQ08",
+      "title": "The Mask of the First Speaker",
+      "line": "quest.line.daedric",
+      "group": "daedric",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "WONDER",
+        "NEGOTIATION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.imperial-fringe.orma-tactile-ruin"
+      ],
+      "premise": "A mask hears what every person in a room privately wants, then substitutes those wants for its wearer's",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq01",
+      "code": "LQ01",
+      "title": "The Causeway That Sinks",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "FRAUD"
+      ],
+      "region": "dunmer-north",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.dunmer-north.bogmother",
+        "place.dunmer-north.stormhold-causeway"
+      ],
+      "premise": "A causeway fails because officials diverted the maintenance money while locals took the stone",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq02",
+      "code": "LQ02",
+      "title": "One Boat, Two Funerals",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "RITE",
+        "DISPUTE"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.alten-corimont",
+      "anchorPlaces": [
+        "place.pirate-freeholds.alten-corimont",
+        "place.pirate-freeholds.bone-repatriation-waystation"
+      ],
+      "premise": "Two families need the one ceremonial boat on the same tide; their dead were enemies",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq03",
+      "code": "LQ03",
+      "title": "The Crocodile Bell",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "FRAUD",
+        "PREDATOR"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.reedmoor-stilts",
+      "anchorPlaces": [
+        "place.dunmer-north.reedmoor-stilts"
+      ],
+      "premise": "A warning bell rings nightly although no crocodile appears",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq04",
+      "code": "LQ04",
+      "title": "The Prisoner Who Stayed",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "BONDAGE",
+        "SUCCESSION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.rose-supply-town",
+      "anchorPlaces": [
+        "place.imperial-penal-south.prison-born-refuge",
+        "place.imperial-penal-south.rose-supply-town"
+      ],
+      "premise": "A prison-born resident of the Rose refuses to leave the place that raised him",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq05",
+      "code": "LQ05",
+      "title": "Dinner Outside the Walls",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "PREDATOR",
+        "NEGOTIATION"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.hist-heartland.guide-camp-gate-side"
+      ],
+      "premise": "A Helstrom host dines outsiders beyond the gate to prove the danger is exaggerated",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq06",
+      "code": "LQ06",
+      "title": "The City Map That Lies",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "FRAUD"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom"
+      ],
+      "premise": "A tourist map omits poor districts, sacred closures and dangerous exits",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq07",
+      "code": "LQ07",
+      "title": "A Rootworm's Fare",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "NEGOTIATION"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.hist-heartland.rootworm-station-helstrom"
+      ],
+      "premise": "A passenger cannot pay the fare; carries knowledge the Waykeepers want",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq08",
+      "code": "LQ08",
+      "title": "The House with Three Floors of Water",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "DISPUTE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth"
+      ],
+      "premise": "Three families hold three levels of one sinking building, plus an underwater cellar",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq09",
+      "code": "LQ09",
+      "title": "The Pusbottom Insurance Society",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "FRAUD"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.mercantile-coast.pusbottom-barge"
+      ],
+      "premise": "Residents stage small floods against a mutual fund whose founders deny genuine claims",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq10",
+      "code": "LQ10",
+      "title": "The Khajiit Flotilla",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "THEFT"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.moonmarch",
+      "anchorPlaces": [
+        "place.mercantile-coast.moonmarch"
+      ],
+      "premise": "A flotilla is blamed for cargo lost from locked holds, taken by trained animals",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq11",
+      "code": "LQ11",
+      "title": "The Honest Pirate",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "BONDAGE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.mercantile-coast.quinrawl-anchorage"
+      ],
+      "premise": "A pirate returns stolen goods, then refuses to return captives who asked to leave",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq12",
+      "code": "LQ12",
+      "title": "Wamasu Eggs for Sale",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "PREDATOR",
+        "FRAUD"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.soulrest"
+      ],
+      "premise": "A merchant sells supposedly sterile Wamasu eggs, one of which is viable",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq13",
+      "code": "LQ13",
+      "title": "The Estate's Old Door",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "RECKONING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.imperial-fringe.the-borrowed-house"
+      ],
+      "premise": "A sealed estate cellar used during slavery may hold crimes, resistance records or title",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq14",
+      "code": "LQ14",
+      "title": "A Shrine for Two Empires",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "RITE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.imperial-fringe.the-month-chapel"
+      ],
+      "premise": "An Imperial shrine shares foundations with an older Argonian sacred place",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq15",
+      "code": "LQ15",
+      "title": "The Bandits Who Count Boats",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "SMUGGLING",
+        "PREDATOR"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.cartwrights-cross",
+      "anchorPlaces": [
+        "place.imperial-fringe.cartwrights-cross",
+        "place.imperial-fringe.the-broke-column"
+      ],
+      "premise": "Bandits work the trunk road's Gideon leg because a toll office publishes its schedules",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq16",
+      "code": "LQ16",
+      "title": "The Drowned Testament",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "SUCCESSION",
+        "DISPUTE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A will lies in a submerged chapel; the heirs argue whether the water was intended",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq17",
+      "code": "LQ17",
+      "title": "The Lighthouse Without a Keeper",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "MISSING",
+        "SMUGGLING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Ships report a false light; the missing keeper was helping refugees evade customs",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq18",
+      "code": "LQ18",
+      "title": "A Marriage of Two Shores",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "SUCCESSION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "An Argonian and Dunmer marriage becomes a proxy dispute over burial, property and children",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq19",
+      "code": "LQ19",
+      "title": "The Memorial That Moves",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "RECKONING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A border memorial is repeatedly relocated, each site hiding a different history",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq20",
+      "code": "LQ20",
+      "title": "The Physician's Family Book",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "RECKONING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.the-veterans-ridge",
+      "anchorPlaces": [
+        "place.dunmer-north.the-veterans-ridge"
+      ],
+      "premise": "A physician's treatment notes also record slave ancestry",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq21",
+      "code": "LQ21",
+      "title": "The Spear in the Reedbed",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "MURDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.saltmarch-village",
+      "anchorPlaces": [
+        "place.dunmer-north.saltmarch-village"
+      ],
+      "premise": "A culturally important spear lies beside a corpse, proving murder, inheritance or martyrdom",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq22",
+      "code": "LQ22",
+      "title": "The Scholar Who Chose the Marsh",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "MISSING",
+        "EXPEDITION"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.hist-heartland.hermit-hut-mad-basin",
+        "place.hist-heartland.treasure-hunters-live-camp"
+      ],
+      "premise": "A missing scholar is alive, refusing rescue because her route knowledge would open a protected site",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq23",
+      "code": "LQ23",
+      "title": "The Underwater Door",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "SMUGGLING",
+        "BONDAGE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.mercantile-coast.oliis-air-station"
+      ],
+      "premise": "A cave mouth visible only underwater serves smugglers and people fleeing debt bondage alike",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq24",
+      "code": "LQ24",
+      "title": "The Healer's Mosquito",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "CONTAMINATION",
+        "FRAUD"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.mudfoot",
+      "anchorPlaces": [
+        "place.mercantile-coast.mudfoot"
+      ],
+      "premise": "A healer sells protection from an insect disease she is spreading herself; her medicine works",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq25",
+      "code": "LQ25",
+      "title": "The River Monster's Rent",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "PREDATOR",
+        "FRAUD"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.west-market-town",
+      "anchorPlaces": [
+        "place.imperial-penal-south.west-market-town"
+      ],
+      "premise": "A real predator moves into the waterfront where merchants had been staging monster scares",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq26",
+      "code": "LQ26",
+      "title": "The Tree That Heard a Stranger",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "WONDER",
+        "DISPUTE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.greylight-village",
+      "anchorPlaces": [
+        "place.dunmer-north.greylight-village"
+      ],
+      "premise": "A Hist appears to answer a foreign visitor, who may be truthful, manipulated or observant",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq27",
+      "code": "LQ27",
+      "title": "A Grave Below the Root",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "RECKONING",
+        "HAUNTING"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.hist-heartland.mass-grave-flu-memorial"
+      ],
+      "premise": "Roots open a mass grave that several communities claim, with victims from opposing sides",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq28",
+      "code": "LQ28",
+      "title": "The Last Dry Room",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "DISPUTE",
+        "CONTAMINATION"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.pirate-freeholds.trunk-road-tradehouse"
+      ],
+      "premise": "Travellers fight over the one dry room in a storm, carrying disease, stolen medicine and a warrant",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq29",
+      "code": "LQ29",
+      "title": "A Wreck with Living Cargo",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "SMUGGLING",
+        "DISPUTE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.chasepoint",
+      "anchorPlaces": [
+        "place.mercantile-coast.chasepoint",
+        "place.mercantile-coast.long-bar-wreckers"
+      ],
+      "premise": "A wreck holds trafficked animals, contraband relics and surviving pirates",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq30",
+      "code": "LQ30",
+      "title": "The Gates of Helstrom",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "MISSING",
+        "RITE"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.hist-heartland.vista-ledge-canopy-break"
+      ],
+      "premise": "A young resident walked into the basin alone four hours ago; the gate guards will not follow",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.lq31",
+      "code": "LQ31",
+      "title": "The Bonding Feast",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "MURDER",
+        "RITE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.bright-throat-village",
+      "anchorPlaces": [
+        "place.mercantile-coast.bright-throat-village"
+      ],
+      "premise": "A closed-circle killing at a bonding feast, with every guest still in the house",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.mq11",
+      "code": "MQ11",
+      "title": "The Surveyor's Lie",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "FRAUD",
+        "BONDAGE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.the-vellum-estate",
+      "anchorPlaces": [
+        "place.imperial-fringe.the-abandoned-survey",
+        "place.imperial-fringe.the-vellum-estate"
+      ],
+      "premise": "An Imperial survey's neat roads deliberately omit a forbidden marsh corridor",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.mq12",
+      "code": "MQ12",
+      "title": "Ash Written in Water",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "RECKONING",
+        "DISPUTE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-dres-rows",
+        "place.dunmer-north.the-pen-yard",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A Dunmer family's slave-road journal renders a Lost City route-name phonetically",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.local.mq19",
+      "code": "MQ19",
+      "title": "The Child of Two Hist",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "live",
+      "shapes": [
+        "SUCCESSION",
+        "MISSING"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.cut-and-carried",
+      "anchorPlaces": [
+        "place.hist-heartland.cut-and-carried",
+        "place.hist-heartland.hist-less-refuge-wild",
+        "place.hist-heartland.nine-trunks"
+      ],
+      "premise": "Two communities claim responsibility for one person, who has an opinion of their own",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.st.st01",
+      "code": "ST01",
+      "title": "A Flag with No Ship",
+      "line": "quest.line.reed-sail",
+      "group": "faction",
+      "tier": 2,
+      "status": "concept",
+      "shapes": [
+        "THEFT",
+        "FRAUD"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "The crew whose flag was stolen is the crew already crossed at Topal",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.st.st02",
+      "code": "ST02",
+      "title": "The Honest Prize",
+      "line": "quest.line.reed-sail",
+      "group": "faction",
+      "tier": 2,
+      "status": "concept",
+      "shapes": [
+        "DISPUTE",
+        "THEFT"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "A prize taken cleanly still has owners, passengers and a cargo nobody will claim",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.st.st03",
+      "code": "ST03",
+      "title": "Mutiny at Low Tide",
+      "line": "quest.line.reed-sail",
+      "group": "faction",
+      "tier": 2,
+      "status": "concept",
+      "shapes": [
+        "SUCCESSION",
+        "RECKONING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": null,
+      "anchorPlaces": [],
+      "premise": "Who leads the crew into the Compact's election is settled on a mud bank at low tide",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    },
+    {
+      "id": "quest.st.st04",
+      "code": "ST04",
+      "title": "Black Sails at Soulrest",
+      "line": "quest.line.reed-sail",
+      "group": "faction",
+      "tier": 2,
+      "status": "concept",
+      "shapes": [
+        "NEGOTIATION",
+        "SMUGGLING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.soulrest"
+      ],
+      "premise": "A pirate confederation opens talks with Soulrest; needs somebody neither side trusts",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ]
+    }
+  ]
+}

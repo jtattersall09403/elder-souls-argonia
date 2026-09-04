@@ -62,7 +62,10 @@ export async function loadWaterways(baseUrl: string): Promise<RouteGeometry[]> {
 
 /** Minor channels are produced by a separate workstream; absence is normal. */
 export async function loadMinorWaterways(baseUrl: string): Promise<MinorTrack[]> {
-  const d = await getJson<MinorTracksBundle>(`${baseUrl}province/waterways-minor.json`);
+  // worldgen.compile_minor_waterways writes its paths under `channels` (the
+  // land bundle uses `tracks`); accept either so a rename never blanks the layer.
+  const d = await getJson<MinorTracksBundle & { channels?: MinorTrack[] }>(`${baseUrl}province/waterways-minor.json`);
+  if (Array.isArray(d?.channels)) return d.channels;
   return Array.isArray(d?.tracks) ? d.tracks : [];
 }
 

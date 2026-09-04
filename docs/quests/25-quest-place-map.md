@@ -215,7 +215,8 @@ built. They take effect at the **next** `python3 -m worldgen.macro_plot` run.
 ## 20f. The rule, from now on
 
 1. **Every new quest names its places by catalogue id** in its brief and in its
-   [55-quest-index.md](55-quest-index.md) row. "A village in Shadowfen" is not
+   `anchorPlaces` (and `settlement`) in
+   [world/sources/quests/](../../world/sources/quests/README.md). "A village in Shadowfen" is not
    a place; `place.dunmer-north.hutan-tzel` is.
 2. **Every quest-required place carries the quest id back** — set
    `questHooks.tierOwnership` to `"<qid> · tier-N"` in the same change. A place
@@ -226,9 +227,13 @@ built. They take effect at the **next** `python3 -m worldgen.macro_plot` run.
    same pass that finds it.
 4. **Never hand-write positions.** Site a place by editing `sitingPrefs` and
    re-running `python3 -m worldgen.macro_plot`.
-5. **The validator will cross-check.** When
-   `world/sources/registries/quests.json` lands, every `tierOwnership` quest id
-   and every `quest.provision.<qid>-anchor` must resolve there, and every
-   provision id declared in 30/40/50 must appear on at least one live record —
-   the same shape as the existing `test_live_registries_cover_every_catalogue_reference`.
-   Until then this document is the check.
+5. **The validator cross-checks, and it is live.**
+   `python3 -m worldgen.quests --check` (from `tooling/world-generation`, run in
+   `npm test` by `worldgen/test_quests.py`) asserts that every quest row's
+   `anchorPlaces` and `settlement` resolve to **live** catalogue records, that
+   every `registries/quests.json` entry has a data row and the reverse, and that
+   the §47c shape budget holds. `--sync` then writes `questHooks.tierOwnership`
+   back onto those records from the data (`"<CODE> · tier-N"`, lowest tier
+   first), keeping and reporting any ownership string it cannot explain —
+   **stop hand-editing `tierOwnership`**. Still owed to this document: every
+   provision id declared in 30/40/50 appearing on at least one live record.

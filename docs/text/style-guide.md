@@ -259,6 +259,55 @@ The five tests a reviewer runs against these (read aloud; the Morrowind test;
 the flourish count; the and/but test; delete-the-last-clause) are in
 [review-process.md §3](review-process.md).
 
+### 2.6 The flat and-pair — diagnosis (owner finding 2026-09-04)
+
+The owner's three examples, all from one place's panel:
+
+> Trial-keepers set the route each year **and will not explain it.**
+> What makes the route a trial lives in the water **and is never removed.**
+> The trial kills someone every few years **and the tribes have decided that is correct.**
+
+The shape: a plain factual clause, *and*, then a second clause that does not
+add a fact but delivers the writer's *attitude* to the first — a deadpan shrug,
+a wry turn, a quiet horror. Grammatically it is coordination; rhetorically it is
+a punchline. Morrowind does this perhaps once a book (*"The Sixth House was not
+dead, but only sleeping"* is the nearest, and it uses *but*). Model prose does it
+once a sentence, because it is the cheapest way to make a flat fact feel
+written. Three in one record is not wit, it is a voice, and every place gets it.
+
+What it is not: two real facts joined by *and* ("The ferry runs at dawn and the
+toll is two drakes"). That is fine. The test is **does the second clause
+contain a new noun?** If it contains only a verb of refusal, absence or
+judgement (*will not explain, is never removed, have decided that is correct,
+nobody tends, has not been renewed*), it is the flat and-pair.
+
+The fix is one of three, chosen by what the sentence is for:
+
+1. **Cut the second clause.** "Trial-keepers set the route each year." The
+   refusal to explain was the writer's flourish; the reader assumes it.
+2. **Make it a sentence of its own with a person in it.** "The keepers set the
+   route each year. Ask one why and she will tell you to swim it."
+3. **Turn it into a fact.** "The trial kills someone every few years. The last
+   was a Bright-Throat boy, in the dry season two years ago."
+
+Frequency rule: at most **one** flat and-pair per record, and never in the
+`hook`. The linter counts them as `and-closer` (a heuristic, so it over-reports;
+that is deliberate — read every hit).
+
+### 2.7 Seed from real Morrowind text (owner proposal 2026-09-04)
+
+Before writing or rewriting a place, find the nearest Morrowind analogue and read
+its actual text first — a cave, tomb, stronghold, Ashlander camp, Velothi tower,
+Imperial fort, Dwemer ruin, egg mine, shipwreck, a town's local rumours. Use the
+vault extract (`mod-sources/lore/uesp_morrowind_blackmarsh_extract.jsonl.xz`)
+or the UESP API; the page's own "Description" paragraph and one or two dialogue
+topics are enough. Then write ours. The point is not to copy a sentence; it is
+that the model's register drifts toward its own defaults over a long file, and
+two paragraphs of the real thing pull it back. The region text passes of
+2026-09-04 did this per place *type*, keeping a short seed table
+(type → UESP page → the two lines used) in the region's report so the next
+writer can reuse it.
+
 ---
 
 ## 3. The six surfaces
@@ -324,6 +373,11 @@ voice rules deliberately stop.
 ---
 
 ## 4. Before you commit
+
+0. **Run the linter** — `python3 -m worldgen.lint_prose --strict` over the
+   catalogue, or `--no-catalogue --md <your file>` for a doc. Zero hard hits is
+   the floor; the density table is what to read next.
+
 
 1. Every string is in `packages/text-catalogue`, keyed, with `surface`,
    `speaker` and a `note` saying who is talking to whom and why.

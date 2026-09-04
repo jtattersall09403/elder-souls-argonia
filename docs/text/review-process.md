@@ -44,6 +44,11 @@ passes.
 
 In order — stop-the-line failures first.
 
+0. **The linter first.** `python3 -m worldgen.lint_prose` (catalogue) or
+   `--no-catalogue --md <file>`; fix every hard hit before reading anything,
+   and use the soft-candidate list (`and-closer`, `and-for-but`, `the-only`,
+   `will-not-say`) as the reading order for step 2. A review that starts with
+   the eye repeats what the regex already knows.
 1. **AI voice — phrases.** The banned-constructions table (style guide §2 and
    quests 60 §45e.1). Tricolons in system text, "the very", stranded
    prepositions reaching for weight, trailing ellipses for mood, "It is said

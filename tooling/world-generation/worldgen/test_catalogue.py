@@ -129,7 +129,7 @@ REGION_BUDGETS = {
     "mercantile-coast": (45, 70),
     "naga-kur-deeps": (22, 45),
     "pirate-freeholds": (14, 34),
-    "saxhleel-coast": (18, 30),
+    "saxhleel-coast": (18, 38),   # raised 2026-09-04: six quest-required records promoted back (soft ceiling, owner touchpoint ①)
 }
 # Owner ruling (touchpoint ①, 2026-09-03): ceilings are SOFT, floors are HARD.
 # A region may exceed its ceiling when there is a recorded reason — add it here

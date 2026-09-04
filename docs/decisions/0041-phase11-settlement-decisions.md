@@ -781,6 +781,16 @@ feature, and its **specific asset selection** against the catalogue's asset
 plan and vibe. Record every choice with its why; the owner steers here
 (Round A of the hands-on loop).
 
+**Geometry, never labels (owner ruling 2026-09-04, binding on Parts 6–8).**
+Every siting and composition decision from here on is taken against the
+actual asset geometry: the measured footprint, the silhouette, the full 3D
+volume including every detail, and the snap/combination rules the piece's
+author built in. A description ("a stilt house", "a quay arch") is a search
+key, not evidence. Concretely: the meso compiler reads bounds/footprints from
+the pipeline's mesh measurements, the blueprint renderer shows the pieces at
+true scale before a choice is recorded, and a kit's own combination rules are
+data the compiler enforces, not prose a reviewer remembers.
+
 ### Part 7 — MICRO, per exemplar: blueprint, build, iterate with the owner
 
 The steered visual loop, on one exemplar at a time. Each round = focused

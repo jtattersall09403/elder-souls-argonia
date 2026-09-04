@@ -64,14 +64,8 @@
       "what": "world registries — every group the world names (worldgen.registries)",
       "idKey": "id",
       "collectionKey": "entries",
-      "idShape": "flat"
-    },
-    {
-      "path": "world/sources/registries/quests.json",
-      "what": "world registries — quest and questline ids (worldgen.registries)",
-      "idKey": "id",
-      "collectionKey": "entries",
-      "idShape": "flat"
+      "idShape": "flat",
+      "_": "registries/quests.json is deliberately NOT here: it is a generated projection of world/sources/quests (worldgen.quests --sync) and its ids would duplicate them."
     },
     {
       "path": "world/sources/registries/creatures.json",
@@ -107,6 +101,85 @@
       "idKey": "id",
       "collectionKey": "entries",
       "idShape": "flat"
+    },
+    {
+      "path": "world/sources/quests/lines.json",
+      "what": "quest data — every questline id (worldgen.quests)",
+      "idKey": "id",
+      "collectionKey": "lines",
+      "idShape": "flat"
+    },
+    {
+      "path": "world/sources/quests/quests-main.json",
+      "what": "quest data — quests-main packet (worldgen.quests)",
+      "idKey": "id",
+      "collectionKey": "quests"
+    },
+    {
+      "path": "world/sources/quests/quests-factions.json",
+      "what": "quest data — quests-factions packet (worldgen.quests)",
+      "idKey": "id",
+      "collectionKey": "quests"
+    },
+    {
+      "path": "world/sources/quests/quests-standalone.json",
+      "what": "quest data — quests-standalone packet (worldgen.quests)",
+      "idKey": "id",
+      "collectionKey": "quests"
+    },
+    {
+      "path": "world/sources/quests/quests-proposed.json",
+      "what": "quest data — quests-proposed packet (worldgen.quests)",
+      "idKey": "id",
+      "collectionKey": "quests"
+    },
+    {
+      "path": "world/sources/quests/local-dunmer-north.json",
+      "what": "quest data — local-dunmer-north packet (worldgen.quests)",
+      "idKey": "id",
+      "collectionKey": "quests"
+    },
+    {
+      "path": "world/sources/quests/local-hist-heartland.json",
+      "what": "quest data — local-hist-heartland packet (worldgen.quests)",
+      "idKey": "id",
+      "collectionKey": "quests"
+    },
+    {
+      "path": "world/sources/quests/local-imperial-fringe.json",
+      "what": "quest data — local-imperial-fringe packet (worldgen.quests)",
+      "idKey": "id",
+      "collectionKey": "quests"
+    },
+    {
+      "path": "world/sources/quests/local-imperial-penal-south.json",
+      "what": "quest data — local-imperial-penal-south packet (worldgen.quests)",
+      "idKey": "id",
+      "collectionKey": "quests"
+    },
+    {
+      "path": "world/sources/quests/local-mercantile-coast.json",
+      "what": "quest data — local-mercantile-coast packet (worldgen.quests)",
+      "idKey": "id",
+      "collectionKey": "quests"
+    },
+    {
+      "path": "world/sources/quests/local-naga-kur-deeps.json",
+      "what": "quest data — local-naga-kur-deeps packet (worldgen.quests)",
+      "idKey": "id",
+      "collectionKey": "quests"
+    },
+    {
+      "path": "world/sources/quests/local-pirate-freeholds.json",
+      "what": "quest data — local-pirate-freeholds packet (worldgen.quests)",
+      "idKey": "id",
+      "collectionKey": "quests"
+    },
+    {
+      "path": "world/sources/quests/local-saxhleel-coast.json",
+      "what": "quest data — local-saxhleel-coast packet (worldgen.quests)",
+      "idKey": "id",
+      "collectionKey": "quests"
     }
   ],
   "retired": []

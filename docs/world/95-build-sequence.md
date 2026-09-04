@@ -385,6 +385,13 @@ gap table in **module 90 §74.3**, which already names researched candidates:
 Micro-laboratories (§85.3) already reserve swimming transitions, climb contact
 and boat control — prove each there before touching the province.
 
+**The swim slice also builds the underwater set dressing** (owner 2026-09-04):
+the submerged scatter band of module 65 (kelp/eelgrass analogues, shell beds,
+sunken debris), the wreck and submerged-ruin statics of module 60/90 §76, and
+one wreck *place* from the catalogue, all on the underwater exemplar the swim
+gate is judged on. Documented homes are not deliverables; this is the phase
+that ships them.
+
 Phase 9 may split into sub-milestones (suggested order: swim → boats → climb,
 easiest-sourced first) per the PROGRESS protocol, and a thin swim slice may be
 pulled earlier whenever convenient. Climbing carries the animation-sourcing

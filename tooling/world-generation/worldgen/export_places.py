@@ -19,10 +19,25 @@ is ``PlottedPlacesBundle`` in ``packages/contracts``.
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 from . import catalogue
 from .society import CULTURES
+
+QUESTS_REGISTRY = catalogue.REPO_ROOT / "world" / "sources" / "registries" / "quests.json"
+LINES_PATH = catalogue.REPO_ROOT / "world" / "sources" / "quests" / "lines.json"
+QUEST_CODE = re.compile(r"\b([A-Z]{2})(\d{2})\b")
+LINE_CODE = re.compile(r"\b([A-Z]{2})-line\b")
+ANCHOR_PROVISION = re.compile(r"^quest\.provision\.([a-z]{2})(\d{2})-anchor$")
+# registry `kind` → the studio's quest grouping (owner 2026-09-04: main / each
+# faction / other questlines / minor side quests). `world/sources/quests/lines.json`
+# carries an explicit `group` per line when it exists and wins over this map.
+KIND_GROUP = {"main-quest": "main", "faction-quest": "faction", "daedric-quest": "other",
+              "local-quest": "minor", "proposed-quest": "minor"}
+# Settlement magnitude → rough count of enterable structures (world-plan rule:
+# 100 % of settlement structures enterable; docs/research/morrowind-content-density.md §4).
+MAGNITUDE_STRUCTURES = {"M1": "1–3", "M2": "3–8", "M3": "8–20", "M4": "20–60", "M5": "60+"}
 
 SCHEMA_VERSION = 2
 OUT_PATH = catalogue.REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "places.json"
@@ -103,7 +118,91 @@ def _travel_station(rec: dict, names: dict[str, str]) -> dict | None:
     }
 
 
-def project_record(rec: dict, region: str, names: dict[str, str]) -> dict:
+def load_quest_lookup() -> dict[str, dict]:
+    """Quest code (MQ29, LQ07 …) → {title, line, lineName, group, tier} from the
+    registry, plus per-line rows keyed by code prefix ("BC" → the Chainbreakers
+    line) so `BC-line · tier-2` ownership strings resolve too. Empty when the
+    registry is absent (the export still works; the studio just has no quest filter)."""
+    out: dict[str, dict] = {}
+    if not QUESTS_REGISTRY.exists():
+        return out
+    reg = json.loads(QUESTS_REGISTRY.read_text(encoding="utf-8"))
+    lines = {}
+    if LINES_PATH.exists():
+        lines = {ln["id"]: ln for ln in json.loads(LINES_PATH.read_text(encoding="utf-8")).get("lines", [])}
+    line_names = {e["id"]: e.get("name") for e in reg.get("entries", []) if e.get("kind") == "questline"}
+    for e in reg.get("entries", []):
+        code = e.get("code")
+        if not code:
+            continue
+        line = e.get("line")
+        ln = lines.get(line) or {}
+        group = ln.get("group") or KIND_GROUP.get(e.get("kind"), "minor")
+        if group == "line":
+            group = "other"
+        tier = e.get("tier")
+        out[code] = {
+            "code": code,
+            "title": e.get("title") or e.get("name") or code,
+            "line": line,
+            "lineName": ln.get("name") or line_names.get(line) or (line or "").split(".")[-1],
+            "group": group,
+            "tier": tier if isinstance(tier, int) else ({"main": 0, "faction": 2}.get(group, 3)),
+        }
+        prefix = code[:2]
+        out.setdefault(prefix + "-line", {**out[code], "code": prefix + "-line", "title": None})
+    return out
+
+
+def _quest_links(rec: dict, quests: dict[str, dict]) -> list[dict]:
+    """Every quest this place is tied to, from `questHooks.tierOwnership` codes
+    and `quest.provision.<qid>-anchor` ids; one row per quest, deterministic."""
+    q = rec.get("questHooks") or {}
+    seen: dict[str, dict] = {}
+    text = q.get("tierOwnership") or ""
+    for m in QUEST_CODE.finditer(text):
+        seen.setdefault(m.group(0), {"role": "owner"})
+    for m in LINE_CODE.finditer(text):
+        seen.setdefault(m.group(0), {"role": "line"})
+    for pid in q.get("provisions") or []:
+        m = ANCHOR_PROVISION.match(pid)
+        if m:
+            seen.setdefault((m.group(1) + m.group(2)).upper(), {"role": "anchor"})
+    links = []
+    for code in sorted(seen):
+        info = quests.get(code)
+        if not info and code.endswith("-line"):
+            continue
+        links.append({
+            "code": code,
+            "title": (info or {}).get("title"),
+            "line": (info or {}).get("line"),
+            "lineName": (info or {}).get("lineName") or code[:2],
+            "group": (info or {}).get("group") or ("main" if code.startswith("MQ") else "minor"),
+            "tier": (info or {}).get("tier"),
+            "role": seen[code]["role"],
+        })
+    return links
+
+
+def _interior_scope(rec: dict) -> str | None:
+    """One line that says how many interiors the place really has, so a
+    settlement's single `interior` block (its principal interior) is not read as
+    "one door in the whole town" (owner 2026-09-04)."""
+    cls = rec.get("classification") or {}
+    it = rec.get("interior") or {}
+    kind = it.get("kind")
+    if cls.get("class") == "settlement":
+        n = MAGNITUDE_STRUCTURES.get(cls.get("magnitude") or "", "several")
+        return f"settlement: about {n} structures, every one enterable; the block below is the principal interior"
+    if kind in (None, "none"):
+        return None
+    n = it.get("entranceCount") or 1
+    return "one interior" + (f" with {n} entrances" if n > 1 else "")
+
+
+def project_record(rec: dict, region: str, names: dict[str, str], quests: dict[str, dict] | None = None) -> dict:
+    quests = quests if quests is not None else {}
     cls = rec.get("classification") or {}
     why = rec.get("why") or {}
     prefs = rec.get("sitingPrefs") or {}
@@ -161,6 +260,8 @@ def project_record(rec: dict, region: str, names: dict[str, str]) -> dict:
         "travelStation": _travel_station(rec, names),
         "questProvisions": list((rec.get("questHooks") or {}).get("provisions") or []),
         "tierOwnership": (rec.get("questHooks") or {}).get("tierOwnership"),
+        "questLinks": _quest_links(rec, quests),
+        "interiorScope": _interior_scope(rec),
     }
 
 
@@ -183,6 +284,7 @@ def build_bundle(catalogue_dir: Path = catalogue.CATALOGUE_DIR) -> dict:
     # id → name for every record (sited or not), so travel-station destinations
     # can be shown by name even when the far end is not on the map.
     names = {rec["id"]: (rec.get("name") or rec["id"]) for rf in region_files for rec in rf.places}
+    quests = load_quest_lookup()
     places = []
     unsited = 0
     for rf in region_files:
@@ -190,7 +292,7 @@ def build_bundle(catalogue_dir: Path = catalogue.CATALOGUE_DIR) -> dict:
             # only LIVE plotted records reach the map: a deferred record may
             # still carry a stale position from an earlier plot
             if rec.get("position") and rec.get("status") not in ("deferred", "cut"):
-                places.append(project_record(rec, rf.region, names))
+                places.append(project_record(rec, rf.region, names, quests))
             else:
                 unsited += 1
     places.sort(key=lambda p: p["id"])
@@ -199,8 +301,26 @@ def build_bundle(catalogue_dir: Path = catalogue.CATALOGUE_DIR) -> dict:
         "source": "world/sources/catalogue/places-*.json via worldgen.export_places",
         "zoneColours": zone_colours(),
         "unsitedCount": unsited,
+        "questGroups": _quest_groups(places),
         "places": places,
     }
+
+
+def _quest_groups(places: list[dict]) -> list[dict]:
+    """The filter chips: one row per (group, line) that any exported place links
+    to — main, each faction line, other lines, minor — with a place count."""
+    rows: dict[tuple[str, str], dict] = {}
+    for p in places:
+        for l in p["questLinks"]:
+            key = (l["group"], l["lineName"] if l["group"] == "faction" else l["group"])
+            row = rows.setdefault(key, {"group": l["group"], "label": key[1], "line": l["line"] if l["group"] == "faction" else None, "places": 0, "_ids": set()})
+            row["_ids"].add(p["id"])
+    out = []
+    order = {"main": 0, "faction": 1, "other": 2, "minor": 3}
+    for key in sorted(rows, key=lambda k: (order.get(k[0], 9), k[1])):
+        r = rows[key]
+        out.append({"group": r["group"], "label": r["label"], "line": r["line"], "places": len(r["_ids"])})
+    return out
 
 
 def render(bundle: dict) -> str:

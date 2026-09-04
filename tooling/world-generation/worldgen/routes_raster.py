@@ -37,10 +37,13 @@ PROVINCE = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
 MINOR_TRACK, MINOR_PATH = 1, 2
 
 # Painted surface width, metres. Boardwalks paint nothing.
+# Owner 2026-09-04: at ~1.8 m texels a 1.2 m footpath was under one texel and
+# the control-map blur erased it — the minor roads were "not painted or too
+# faint" in 3D. Paint at least two texels; the clearance corridors are unchanged.
 PAINT_WIDTH_M = {
-    "track": 2.5,
-    "causeway": 2.5,
-    "footpath": 1.2,
+    "track": 3.6,
+    "causeway": 3.6,
+    "footpath": 2.4,
     "boardwalk": 0.0,
 }
 # Which land-cover class each painted minor kind gets.

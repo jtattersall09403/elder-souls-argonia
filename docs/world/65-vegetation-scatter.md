@@ -71,8 +71,12 @@ default).
   their own layers (kelp/eelgrass analogues, coral-like growths from the
   sourced underwater pools, sunken debris, shell beds), gated by water class,
   depth and turbidity rather than the land region raster. Wrecks and sunken
-  structures are catalogue *places*, never scatter. Phase 15 deliverable,
-  after Phase 13's ecology output; assets from module 90 §76.
+  structures are catalogue *places*, never scatter. **Built in Phase 9's swim
+  slice** (owner 2026-09-04: "is there a point when this gets *built*, not just
+  documented?" — yes: the underwater exemplar that proves swimming is where the
+  submerged band, the sunken-debris statics and the first wreck place are laid,
+  because swimming through bare sand proves nothing). Species mix is then
+  re-tuned from Phase 13's ecology; assets from module 90 §76.
 - **Every route is a corridor** (Phase 11): `worldgen/routes_raster.py` is the
   one source for both the ground paint and the clearance — major roads,
   tracks, footpaths and boardwalks stamp a trunk-clear mask (14/8/4/3 m) and a

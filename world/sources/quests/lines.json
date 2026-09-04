@@ -1,0 +1,291 @@
+{
+  "schemaVersion": 1,
+  "packet": "lines",
+  "seed": "quest-lines-v1",
+  "lines": [
+    {
+      "id": "quest.line.chainbreakers",
+      "code": "BC",
+      "name": "Chainbreakers",
+      "group": "faction",
+      "faction": "faction.chainbreakers",
+      "tier": 2,
+      "homeRegion": "imperial-penal-south",
+      "targetCount": {
+        "min": 6,
+        "max": 10
+      },
+      "notes": "The Owing, audited then burned.",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.line.daedric",
+      "code": "DQ",
+      "name": "Daedric and oddity quests",
+      "group": "daedric",
+      "faction": null,
+      "tier": 3,
+      "homeRegion": null,
+      "targetCount": {
+        "min": 8,
+        "max": 16
+      },
+      "notes": "One quest per Prince plus the unexplained; the province's WONDER seam.",
+      "sources": [
+        "docs/quests/55-quest-index.md"
+      ]
+    },
+    {
+      "id": "quest.line.league-of-open-water",
+      "code": "LW",
+      "name": "League of Open Water",
+      "group": "faction",
+      "faction": "faction.league-of-open-water",
+      "tier": 2,
+      "homeRegion": "saxhleel-coast",
+      "targetCount": {
+        "min": 10,
+        "max": 16
+      },
+      "notes": "Citizenship and property in the mixed cities.",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.line.local",
+      "code": "LQ",
+      "name": "Local quests",
+      "group": "local",
+      "faction": null,
+      "tier": 3,
+      "homeRegion": null,
+      "targetCount": {
+        "min": 280,
+        "max": 380
+      },
+      "notes": "The region-by-region minor side quests; region agents write these into world/sources/quests/local-<region>.json.",
+      "sources": [
+        "docs/quests/55-quest-index.md"
+      ]
+    },
+    {
+      "id": "quest.line.main",
+      "code": "MQ",
+      "name": "The Eye and the Root",
+      "group": "main",
+      "faction": "faction.veiled-reed",
+      "tier": 0,
+      "homeRegion": "hist-heartland",
+      "targetCount": {
+        "min": 24,
+        "max": 32
+      },
+      "notes": "The main quest spine (merged numbering, decision 0026).",
+      "sources": [
+        "docs/quests/55-quest-index.md"
+      ]
+    },
+    {
+      "id": "quest.line.many-root",
+      "code": "MR",
+      "name": "Many-Root",
+      "group": "faction",
+      "faction": "faction.many-root-conclave",
+      "tier": 2,
+      "homeRegion": "hist-heartland",
+      "targetCount": {
+        "min": 10,
+        "max": 16
+      },
+      "notes": "Consent, ecology and stewardship: discovered in danger, decided in council.",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.line.marsh-charter",
+      "code": "FG",
+      "name": "Marsh Charter",
+      "group": "faction",
+      "faction": "faction.marsh-charter",
+      "tier": 2,
+      "homeRegion": "imperial-fringe",
+      "targetCount": {
+        "min": 10,
+        "max": 16
+      },
+      "notes": "Native tradition against a foreign chartered defence.",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.line.night-reed",
+      "code": "TG",
+      "name": "Night-Reed",
+      "group": "faction",
+      "faction": "faction.night-reed-chapter",
+      "tier": 2,
+      "homeRegion": "mercantile-coast",
+      "targetCount": {
+        "min": 10,
+        "max": 16
+      },
+      "notes": "Thieving, fencing and route work that escalates to the Tidal Palace heist.",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.line.nisswo",
+      "code": "NI",
+      "name": "Nisswo",
+      "group": "faction",
+      "faction": "faction.nisswo",
+      "tier": 2,
+      "homeRegion": "mercantile-coast",
+      "targetCount": {
+        "min": 10,
+        "max": 16
+      },
+      "notes": "Plural belief set against dogma.",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.line.proposed",
+      "code": "PP",
+      "name": "Proposed from the plotted province",
+      "group": "proposed",
+      "faction": null,
+      "tier": 3,
+      "homeRegion": null,
+      "targetCount": {
+        "min": 0,
+        "max": 18
+      },
+      "notes": "Not authored. Proposals raised by the 2026-09-04 quest/world co-design pass; an author picking one up re-runs the collision test.",
+      "sources": [
+        "docs/quests/55-quest-index.md"
+      ]
+    },
+    {
+      "id": "quest.line.reed-sail",
+      "code": "RS",
+      "name": "Reed-Sail",
+      "group": "faction",
+      "faction": "faction.reed-sail-compact",
+      "tier": 2,
+      "homeRegion": "mercantile-coast",
+      "targetCount": {
+        "min": 10,
+        "max": 18
+      },
+      "notes": "Routes, labour and monopoly; the Salt-Teeth pirate branch (ST) sits inside this line.",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.line.rootworm-waykeepers",
+      "code": "RW",
+      "name": "Rootworm Waykeepers",
+      "group": "faction",
+      "faction": "faction.rootworm-waykeepers",
+      "tier": 2,
+      "homeRegion": "hist-heartland",
+      "targetCount": {
+        "min": 5,
+        "max": 10
+      },
+      "notes": "Sacred routes and access; the worm stays off screen.",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.line.shadowscales",
+      "code": "SS",
+      "name": "Shadowscales",
+      "group": "faction",
+      "faction": "faction.shadowscales",
+      "tier": 2,
+      "homeRegion": "saxhleel-coast",
+      "targetCount": {
+        "min": 10,
+        "max": 16
+      },
+      "notes": "An order with three bidders and no issuing authority.",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.line.sunken-archive",
+      "code": "SA",
+      "name": "Sunken Archive",
+      "group": "faction",
+      "faction": "faction.sunken-archive",
+      "tier": 2,
+      "homeRegion": "mercantile-coast",
+      "targetCount": {
+        "min": 10,
+        "max": 16
+      },
+      "notes": "Ownership of knowledge, argued over by foreign institutions.",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.line.thorn-ash-reed",
+      "code": "TA",
+      "name": "Thorn Ash-Reed",
+      "group": "faction",
+      "faction": "faction.thorn-ash-reed-accord",
+      "tier": 2,
+      "homeRegion": "dunmer-north",
+      "targetCount": {
+        "min": 5,
+        "max": 10
+      },
+      "notes": "Border memory and saltrice title.",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    },
+    {
+      "id": "quest.line.umbriel-witness",
+      "code": "UW",
+      "name": "Umbriel Witness",
+      "group": "faction",
+      "faction": "faction.umbriel-witness-society",
+      "tier": 2,
+      "homeRegion": "naga-kur-deeps",
+      "targetCount": {
+        "min": 5,
+        "max": 10
+      },
+      "notes": "Inherited catastrophe, argued over.",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ]
+    }
+  ]
+}

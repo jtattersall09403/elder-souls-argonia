@@ -16,13 +16,14 @@
 import type {
   MinorTracksBundle,
   PlottedPlace,
+  PlottedPlaceQuestLink,
   PlottedPlacesBundle,
 } from "@elder-souls/contracts";
 
 export type {
   PlottedPlace, PlottedPlacesBundle, MinorTrack, MinorTracksBundle,
   PlottedPlaceContents, PlottedPlaceInterior, PlottedPlacePurpose, PlottedPlaceStance,
-  PlottedPlaceTravelStation,
+  PlottedPlaceTravelStation, PlottedPlaceQuestLink, PlottedQuestGroup,
 } from "@elder-souls/contracts";
 
 /** Pixel side of the hydrology grid that routes.json / routes-minor.json index. */
@@ -131,6 +132,9 @@ export interface PlacesFilter {
   dungeonLike: boolean;
   /** Only places with an underwater entrance or dive access. */
   underwater: boolean;
+  /** Quest grouping keys (owner 2026-09-04): `main`, `faction:<line id>`, `other`,
+   * `minor`, plus `any` (linked to some quest) and `none` (linked to no quest). */
+  quests: Set<string>;
   search: string;
 }
 
@@ -144,13 +148,13 @@ export interface PlacesUrlState {
 export const EMPTY_FILTER: PlacesFilter = {
   regions: new Set(), tiers: new Set(), classes: new Set(), dangers: new Set(), densities: new Set(),
   stances: new Set(), interiorKinds: new Set(), interiorFamilies: new Set(),
-  purposes: new Set(), impacts: new Set(), dungeonLike: false, underwater: false, search: "",
+  purposes: new Set(), impacts: new Set(), dungeonLike: false, underwater: false, quests: new Set(), search: "",
 };
 
 /** Query keys owned by this layer (the `cat=1` toggle itself is App's). */
 export const PLACES_URL_KEYS = [
   "pr", "pt", "pc", "pd", "pl", "pq", "place", "tracks", "sites",
-  "ps", "pk", "pf", "pp", "pi", "pdg", "puw",
+  "ps", "pk", "pf", "pp", "pi", "pdg", "puw", "pqs",
 ] as const;
 
 function setOf(v: string | null): Set<string> {
@@ -172,6 +176,7 @@ export function parsePlacesUrl(q: URLSearchParams): PlacesUrlState {
       impacts: setOf(q.get("pi")),
       dungeonLike: q.get("pdg") === "1",
       underwater: q.get("puw") === "1",
+      quests: setOf(q.get("pqs")),
       search: q.get("pq") ?? "",
     },
     selectedId: q.get("place"),
@@ -198,6 +203,7 @@ export function encodePlacesUrl(s: PlacesUrlState): Record<string, string> {
   list("pi", s.filter.impacts);
   if (s.filter.dungeonLike) out.pdg = "1";
   if (s.filter.underwater) out.puw = "1";
+  list("pqs", s.filter.quests);
   if (s.filter.search) out.pq = s.filter.search;
   if (s.selectedId) out.place = s.selectedId;
   if (s.showTracks) out.tracks = "1";
@@ -219,11 +225,26 @@ export function matchesFilter(p: PlottedPlace, f: PlacesFilter): boolean {
   if (f.impacts.size && !f.impacts.has(p.purposeDetail?.impact ?? "?")) return false;
   if (f.dungeonLike && !DUNGEON_KINDS.has(p.interiorDetail?.kind ?? "")) return false;
   if (f.underwater && !isUnderwaterEntry(p)) return false;
+  if (f.quests.size && !matchesQuestFilter(p, f.quests)) return false;
   if (f.search) {
     const q = f.search.toLowerCase();
     if (!p.name.toLowerCase().includes(q) && !p.id.toLowerCase().includes(q)) return false;
   }
   return true;
+}
+
+/** The quest-grouping key of one link (what the `pqs` chips toggle). */
+export function questGroupKey(l: PlottedPlaceQuestLink): string {
+  return l.group === "faction" ? `faction:${l.line ?? l.lineName}` : String(l.group);
+}
+
+/** OR across the selected keys: a place shows if any of its links is in a
+ * selected group, or `any` / `none` is selected and applies. */
+export function matchesQuestFilter(p: PlottedPlace, keys: Set<string>): boolean {
+  const links = p.questLinks ?? [];
+  if (keys.has("any") && links.length) return true;
+  if (keys.has("none") && !links.length) return true;
+  return links.some((l) => keys.has(questGroupKey(l)));
 }
 
 export function toggleIn(set: Set<string>, key: string): Set<string> {

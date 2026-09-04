@@ -1,0 +1,637 @@
+{
+  "schemaVersion": 1,
+  "packet": "quests-main",
+  "seed": "quests-quests-main-v1",
+  "quests": [
+    {
+      "id": "quest.main.mq01",
+      "code": "MQ01",
+      "title": "No Name on the Work Roll",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "BONDAGE",
+        "RITE"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.upriver-hist-village",
+      "anchorPlaces": [
+        "place.pirate-freeholds.opening-work-barge",
+        "place.pirate-freeholds.opening-work-camp",
+        "place.pirate-freeholds.upriver-hist-village"
+      ],
+      "premise": "An Owing-gang processing runs into the cult's attack while a Hist withdraws over a dead egg clutch",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq03",
+      "code": "MQ03",
+      "title": "A Dead Prisoner's Use",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "RECKONING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-last-landing"
+      ],
+      "premise": "Survivors reconstruct the attack, so the destroyed work roll buys a stranger a place among them",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq04",
+      "code": "MQ04",
+      "title": "The Tree That Turned Its Face",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "CONTAMINATION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.hatching-pools",
+      "anchorPlaces": [
+        "place.dunmer-north.hatching-pools",
+        "place.dunmer-north.hutan-tzel"
+      ],
+      "premise": "A Hist withdraws from its village while disease, sabotage and grief overlap",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq05",
+      "code": "MQ05",
+      "title": "Helstrom Behind the Thorns",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "NEGOTIATION"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.bubble-spire-open-helstrom",
+        "place.hist-heartland.helstrom",
+        "place.pirate-freeholds.alten-corimont"
+      ],
+      "premise": "Arrival at the safe interior capital, past an empty throne",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq06",
+      "code": "MQ06",
+      "title": "The Jewel Nobody Has Seen",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "MISSING"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom"
+      ],
+      "premise": "Six incompatible accounts of the Eye, held by unwilling custodians",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq07",
+      "code": "MQ07",
+      "title": "The First False Eye",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "FRAUD"
+      ],
+      "region": "dunmer-north",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.dunmer-north.the-standing-bid"
+      ],
+      "premise": "A counterfeit Eye at auction hides a real cipher",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq08",
+      "code": "MQ08",
+      "title": "The Unbound Root",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "MISSING"
+      ],
+      "region": "dunmer-north",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.dunmer-north.the-quiet-landing"
+      ],
+      "premise": "The counterfeit's trail reaches a cult safehouse",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq09",
+      "code": "MQ09",
+      "title": "The Map Beneath the Prison",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "THEFT"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose-prison",
+        "place.imperial-penal-south.drowned-gallery",
+        "place.imperial-penal-south.rose-flooded-passage"
+      ],
+      "premise": "Confiscation ledgers held by the Rose's prison-born heirs",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq10",
+      "code": "MQ10",
+      "title": "The Auction of Drowned Things",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "DISPUTE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.alessian-hull",
+        "place.mercantile-coast.soulrest",
+        "place.mercantile-coast.soulrest-breaking-yard",
+        "place.mercantile-coast.soulrest-divers-yard"
+      ],
+      "premise": "Four credible claims on a salvage lot containing the lens-frame",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq13",
+      "code": "MQ13",
+      "title": "Pusbottom Remembers",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "THEFT"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.lilmoth-divers-yard",
+        "place.mercantile-coast.pusbottom-barge"
+      ],
+      "premise": "A register rubbing already cut out and sold onward",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq14",
+      "code": "MQ14",
+      "title": "The City of Two Shores",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "DISPUTE"
+      ],
+      "region": "saxhleel-coast",
+      "settlement": "place.saxhleel-coast.portdun-mont",
+      "anchorPlaces": [
+        "place.saxhleel-coast.archon-lighthouse",
+        "place.saxhleel-coast.portdun-mont"
+      ],
+      "premise": "A lighthouse map and a smuggler's route disagree about the same water",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq15",
+      "code": "MQ15",
+      "title": "The Eye Opens Once",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "MISSING"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom",
+        "place.imperial-fringe.fenmarch-village",
+        "place.mercantile-coast.ashroot-village",
+        "place.naga-kur-deeps.wild-hist-rogue-deeps"
+      ],
+      "premise": "Triangulation of the Eye, plus word of a second Hist withdrawal",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq16",
+      "code": "MQ16",
+      "title": "A Key Without a Lock",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "EXPEDITION"
+      ],
+      "region": "saxhleel-coast",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.saxhleel-coast.lagoon-submerged-xanmeer"
+      ],
+      "premise": "The Eye recovered from a submerged observatory",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq18",
+      "code": "MQ18",
+      "title": "A Sermon Against Roots",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "RITE"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.the-cut-circle"
+      ],
+      "premise": "Infiltration of a sermon house under cover; the Collector unmasked",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq20",
+      "code": "MQ20",
+      "title": "Dreams for Sale",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "RECKONING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon"
+      ],
+      "premise": "Sap-dream testimony used to classify dissenters, until the handler falls",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq21",
+      "code": "MQ21",
+      "title": "The Black Sap House",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "CONTAMINATION"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.hist-heartland.sap-collection-facility-daedric"
+      ],
+      "premise": "A cult lab forcing a Mnemic Egg out of volunteers",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq22",
+      "code": "MQ22",
+      "title": "The Second Report",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "FRAUD"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.dunmer-north.the-quiet-landing",
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.the-cut-circle"
+      ],
+      "premise": "Two incompatible reports, one of them acted on while you watch",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq23",
+      "code": "MQ23",
+      "title": "Marks Only the Eye Can See",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "EXPEDITION",
+        "MISSING"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.hist-heartland.guide-camp-gate-side",
+        "place.hist-heartland.root-gallery-helstrom-underway",
+        "place.hist-heartland.rootworm-station-helstrom"
+      ],
+      "premise": "An Eye-revealed route walked under a Shadowscale manhunt",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq25",
+      "code": "MQ25",
+      "title": "Council Behind Closed Gates",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "NEGOTIATION"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom"
+      ],
+      "premise": "The council hearing, attacked mid-session",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq26",
+      "code": "MQ26",
+      "title": "The Root of Accord",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "RECKONING"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom"
+      ],
+      "premise": "The hidden archive; the Accord's conversion",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq27",
+      "code": "MQ27",
+      "title": "The Road No Map Keeps",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "EXPEDITION"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.hist-heartland.guide-camp-far-shelter",
+        "place.hist-heartland.guide-camp-gate-side",
+        "place.hist-heartland.refuge-station-interior"
+      ],
+      "premise": "Bargain for an expedition, then cross D5 country",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq29",
+      "code": "MQ29",
+      "title": "The City Beneath the First Rain",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "EXPEDITION"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.hist-heartland.lost-city",
+        "place.hist-heartland.xal-krona-making-ground"
+      ],
+      "premise": "The Lost City; the Last Warden who holds it",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq31",
+      "code": "MQ31",
+      "title": "The Door That Was Promised",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "RITE"
+      ],
+      "region": "hist-heartland",
+      "settlement": null,
+      "anchorPlaces": [
+        "place.hist-heartland.lost-city"
+      ],
+      "premise": "The confrontation at the sanctuary door; the choice",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    },
+    {
+      "id": "quest.main.mq32",
+      "code": "MQ32",
+      "title": "Names Written in Sap",
+      "line": "quest.line.main",
+      "group": "main",
+      "tier": 0,
+      "status": "live",
+      "shapes": [
+        "RECKONING"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom",
+        "place.imperial-fringe.gideon",
+        "place.mercantile-coast.lilmoth",
+        "place.pirate-freeholds.opening-work-camp"
+      ],
+      "premise": "A modular epilogue read back through the places that changed",
+      "costTier": null,
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ]
+    }
+  ]
+}

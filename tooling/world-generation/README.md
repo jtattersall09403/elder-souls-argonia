@@ -55,6 +55,10 @@ python3 -m worldgen.compile_minor_routes                 # tracks/footpaths/boar
 python3 -m worldgen.compile_minor_waterways --registry   # Part 3c: canoe channels/rivers/ferry crossings (--registry solves registry entries)
 python3 -m worldgen.audit_place_semantics                # prose-vs-ground contradictions (report only)
 python3 -m worldgen.anchor_nudge                         # scores alternative city pins inside their tolerance circles (report only)
+python3 -m worldgen.hostility_frequency                  # fights per km² / per km of route by danger band + gap points (report only)
+python3 -m worldgen.lint_prose [--strict] [--md <files>] # mechanical AI-tell lint over catalogue prose (npm test gate: zero hard hits)
+python3 -m worldgen.quests --check | --sync              # quest data (world/sources/quests) ↔ registry ↔ place tierOwnership
+python3 -m worldgen.export_quest_index                   # regenerates docs/quests/index/*.md from the quest data
 # one-shot, already applied: python3 -m worldgen.migrate_catalogue_v2
 
 # 9. Phase 11: blueprint map (review artefact; seconds, PNG in output/)

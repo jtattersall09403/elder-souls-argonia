@@ -147,6 +147,36 @@ export interface PlottedPlace {
   questProvisions: string[];
   /** Quest tier claim, e.g. `tier-0 protected` (docs/quests/20 §Tier-0). */
   tierOwnership: string | null;
+  /** Every quest tied to the place, resolved against world/sources/registries/quests.json
+   * (owner 2026-09-04: the map filters by main / each faction / other lines / minor). */
+  questLinks: PlottedPlaceQuestLink[];
+  /** One line on how many interiors the place really has (a settlement's
+   * `interiorDetail` is its principal interior, not its only one). */
+  interiorScope: string | null;
+}
+
+export type QuestGroup = "main" | "faction" | "other" | "minor";
+
+export interface PlottedPlaceQuestLink {
+  /** Quest code (`MQ29`) or line code (`BC-line`). */
+  code: string;
+  title: string | null;
+  /** `quest.line.<slug>` registry id. */
+  line: string | null;
+  lineName: string;
+  group: QuestGroup | string;
+  /** Tier that owns the place through this quest (docs/quests/40 §30b). */
+  tier: number | null;
+  /** `owner` (tierOwnership), `line` (a whole line's claim) or `anchor` (a `-anchor` provision). */
+  role: "owner" | "line" | "anchor";
+}
+
+/** A filter chip: one per (group, faction line) any exported place links to. */
+export interface PlottedQuestGroup {
+  group: QuestGroup | string;
+  label: string;
+  line: string | null;
+  places: number;
 }
 
 /** The six hostility baselines of catalogue schema v2. */
@@ -196,6 +226,7 @@ export interface PlottedPlacesBundle {
   /** Region zone → CSS hex, copied from society.CULTURES so pictures agree. */
   zoneColours: Record<string, string>;
   unsitedCount: number;
+  questGroups: PlottedQuestGroup[];
   places: PlottedPlace[];
 }
 

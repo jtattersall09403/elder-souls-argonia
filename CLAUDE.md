@@ -66,7 +66,10 @@ The overall goal at this point is to build the province-scale world, in a way th
   compatible (a stilt house "standing on" a stone quay arch). Assemble only
   pieces authored to fit each other, in the ways and with the snap/placement
   rules their authors intended; a composition that needs a piece nobody made is
-  a sourcing gap, and it is shown as a gap, never faked.
+  a sourcing gap, and it is shown as a gap, never faked. **Placement decisions
+  are made on the actual geometry** (owner ruling 2026-09-04): footprints,
+  silhouettes, full 3D volumes with all their detail, and the authored
+  snap/combination rules — never on a piece's label or description.
 - **Game played from github pages.** The game will be built from github actions and played in the browser at github pages. So the code must work for that context. e.g. make sure animation files that are needed in the game are included.
 - **Controller-independent.** Combat/input/lock-on/animation depend on
   `PlayerMovementController`, not ecctrl directly (ecctrl is behind `EcctrlAdapter`). This is so we can easily change the controller later if we need to

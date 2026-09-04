@@ -25,7 +25,7 @@ import {
   DEAD_STATUSES, dotRadius, isUnderwaterEntry, landformColour,
   loadCandidateSites, loadPlaces, matchesFilter, toggleIn, zoneColour,
   type CandidateSiteSet, type PlacesFilter, type PlacesUrlState,
-  type PlottedPlace, type PlottedPlacesBundle,
+  type PlottedPlace, type PlottedPlacesBundle, type PlottedQuestGroup,
 } from "./placesData";
 
 const VB = 1000;
@@ -58,6 +58,30 @@ function ChipRow({ label, keys, active, colourOf, onToggle }: {
       {keys.map((k) => (
         <Chip key={k} label={k} colour={colourOf?.(k)} on={active.size === 0 || active.has(k)} onClick={() => onToggle(k)} />
       ))}
+    </div>
+  );
+}
+
+/** Quest grouping chips (owner 2026-09-04): main quest, one chip per faction
+ * line, other questlines, minor side quests, plus "any quest" / "no quest".
+ * Unlike the other axes these are OFF by default (nothing selected = no quest
+ * filter) because most of the province links to no quest at all. */
+function QuestChips({ groups, active, onToggle }: { groups: PlottedQuestGroup[]; active: Set<string>; onToggle: (k: string) => void }) {
+  if (!groups.length) return null;
+  const chip = (key: string, label: string, colour?: string) => (
+    <Chip key={key} label={label} colour={colour} on={active.has(key)} onClick={() => onToggle(key)} />
+  );
+  const keyOf = (g: PlottedQuestGroup) => g.group === "faction" ? `faction:${g.line ?? g.label}` : g.group;
+  const labelOf = (g: PlottedQuestGroup) => {
+    const base = g.group === "main" ? "main quest" : g.group === "other" ? "other questlines" : g.group === "minor" ? "minor side quests" : g.label.replace(/ line$/, "");
+    return `${base} (${g.places})`;
+  };
+  return (
+    <div style={{ display: "flex", gap: 4, flexWrap: "wrap", alignItems: "center" }}>
+      <span style={{ opacity: 0.7, minWidth: 44 }}>quests</span>
+      {chip("any", "any quest", "#ffd166")}
+      {chip("none", "no quest")}
+      {groups.map((g) => chip(keyOf(g), labelOf(g), g.group === "main" ? "#ffd166" : g.group === "faction" ? "#ffb3a0" : undefined))}
     </div>
   );
 }
@@ -101,7 +125,12 @@ function Lines({ label, items }: { label: string; items: string[] }) {
 
 /** The schema-v2 blocks: purpose, hook, stance + flips, interior, contents,
  * travel station and the quest linkage the quest layer will hold us to. */
-function PlaceV2({ p }: { p: PlottedPlace }) {
+const GROUP_LABEL: Record<string, string> = { main: "main quest", other: "other questline", minor: "minor side quest", faction: "faction line" };
+const ROLE_LABEL: Record<string, string> = {
+  owner: "owns this place", line: "the whole line claims it", anchor: "the quest is built here",
+};
+
+function PlaceV2({ p, onSelect, known }: { p: PlottedPlace; onSelect: (id: string) => void; known: (id: string) => boolean }) {
   const purpose = p.purposeDetail;
   const stance = p.stanceDetail;
   const it = p.interiorDetail;
@@ -126,7 +155,8 @@ function PlaceV2({ p }: { p: PlottedPlace }) {
         </Section>
       )}
       {(it || p.entrance || (p.underwaterAccess && p.underwaterAccess !== "none")) && (
-        <Section title="interior" colour="#9fe0c8">
+        <Section title={p.interiorScope?.startsWith("settlement") ? "interiors" : "interior"} colour="#9fe0c8">
+          {p.interiorScope && <div style={{ opacity: 0.8, marginTop: 2 }}>{p.interiorScope}</div>}
           {it && <Field k="kind" v={`${it.kind ?? "?"} · ${it.family ?? "?"} · ${it.sizeBand ?? "?"}`} />}
           {it && typeof it.wetFraction === "number" && <Field k="wet" v={`${Math.round(it.wetFraction * 100)}%`} />}
           {it && <Field k="entrances" v={it.entranceCount} />}
@@ -146,13 +176,36 @@ function PlaceV2({ p }: { p: PlottedPlace }) {
       {ts && (
         <Section title="travel station" colour="#5fd6e8">
           <Field k="modes" v={ts.modes} />
-          <Lines label="destinations" items={ts.destinations.map((d) => d.name)} />
+          <div style={{ marginTop: 3 }}>
+            <span style={{ opacity: 0.65 }}>destinations (click to open)</span>
+            {ts.destinations.map((d) => (
+              <div key={d.id} style={{ paddingLeft: 8 }}>
+                · {known(d.id) ? (
+                  <button onClick={() => onSelect(d.id)} style={{ cursor: "pointer", background: "none", border: "none", color: "#9ec5ff", font: "12px system-ui", padding: 0, textDecoration: "underline" }}>{d.name}</button>
+                ) : <span title={d.id}>{d.name} <span style={{ opacity: 0.6 }}>(not on the map — {d.id.split(".").slice(1).join(".")})</span></span>}
+              </div>
+            ))}
+          </div>
         </Section>
       )}
-      {(p.questProvisions.length > 0 || p.tierOwnership) && (
-        <Section title="quest linkage" colour="#ffd166">
-          <Field k="tier ownership" v={p.tierOwnership} />
-          <Lines label="provisions (docs/quests/20)" items={p.questProvisions} />
+      {(p.questLinks.length > 0 || p.questProvisions.length > 0 || p.tierOwnership) && (
+        <Section title="quests" colour="#ffd166">
+          {p.questLinks.map((l) => (
+            <div key={l.code} style={{ marginTop: 3, wordBreak: "break-word" }}>
+              <strong>{l.code}</strong>{l.title ? ` ${l.title}` : ""}
+              <div style={{ opacity: 0.75, paddingLeft: 8 }}>
+                {l.group === "faction" ? l.lineName : GROUP_LABEL[l.group] ?? l.group}
+                {l.tier !== null ? ` · tier ${l.tier}` : ""} · {ROLE_LABEL[l.role] ?? l.role}
+              </div>
+            </div>
+          ))}
+          {p.questLinks.length === 0 && <div style={{ opacity: 0.75 }}>no quest names this place yet</div>}
+          {p.tierOwnership && (
+            <div style={{ marginTop: 4, opacity: 0.65 }}>
+              tier rule: the lowest tier listed may rewrite this place; anything below it may only read it (quests 40 §30b). Raw claim: {p.tierOwnership}
+            </div>
+          )}
+          <Lines label="provisions the quest plan asked for (quests 20/25)" items={p.questProvisions} />
         </Section>
       )}
     </>
@@ -226,8 +279,11 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly, controls }: P
 
   return (
     <>
+      {/* pointerEvents none on the root: an <svg> box otherwise swallows every
+          click meant for the RoutesLayer lines underneath (owner: "road details
+          not coming up"); the dots opt back in. */}
       <svg viewBox={`0 0 ${VB} ${VB}`} preserveAspectRatio="none"
-        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 1 }}>
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", zIndex: 2, pointerEvents: "none" }}>
         {showSites && sites?.sites.map((s) => (
           <rect key={s.id} x={s.uv[0] * VB - 1.6} y={s.uv[1] * VB - 1.6} width={3.2} height={3.2} opacity={0.7}
             fill={landformColour(landformIndex.get(s.landform) ?? 0, sites.landformClasses.length)}>
@@ -250,7 +306,7 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly, controls }: P
               stroke={isSel ? "#ffffff" : dead ? "#f3f0e6" : "rgba(0,0,0,0.7)"}
               strokeWidth={isSel ? 3 : dead ? 1.6 : 1}
               strokeDasharray={dead ? "2.5 2" : undefined}
-              style={{ cursor: "pointer" }}
+              style={{ cursor: "pointer", pointerEvents: "auto" }}
               onPointerEnter={() => setHovered(p)} onPointerLeave={() => setHovered(null)}
               onClick={(e) => { e.stopPropagation(); setSelectedId(p.id); }} />
             </g>
@@ -301,6 +357,7 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly, controls }: P
         <ChipRow label="stance" keys={axes.stances} active={filter.stances} onToggle={(k) => setAxis("stances", k)} />
         <ChipRow label="purpose" keys={axes.purposes} active={filter.purposes} onToggle={(k) => setAxis("purposes", k)} />
         <ChipRow label="impact" keys={axes.impacts} active={filter.impacts} onToggle={(k) => setAxis("impacts", k)} />
+        <QuestChips groups={bundle?.questGroups ?? []} active={filter.quests} onToggle={(k) => setAxis("quests", k)} />
         <ChipRow label="interior" keys={axes.interiorKinds} active={filter.interiorKinds} onToggle={(k) => setAxis("interiorKinds", k)} />
         <ChipRow label="family" keys={axes.interiorFamilies} active={filter.interiorFamilies} onToggle={(k) => setAxis("interiorFamilies", k)} />
         <div style={{ display: "flex", gap: 4, flexWrap: "wrap", alignItems: "center" }}>
@@ -354,7 +411,7 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly, controls }: P
               <div>{selected.whySiteWon}</div>
             </div>
           )}
-          <PlaceV2 p={selected} />
+          <PlaceV2 p={selected} onSelect={setSelectedId} known={(id) => byId.has(id)} />
           <div style={{ marginTop: 8 }}>
             <div style={{ color: "#9ec5ff", fontWeight: 600 }}>record</div>
             <Field k="culture" v={selected.culture} />
